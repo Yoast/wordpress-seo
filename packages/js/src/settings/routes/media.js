@@ -1,18 +1,9 @@
 import { Transition } from "@headlessui/react";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, SelectField, ToggleField } from "@yoast/ui-library";
-import classNames from "classnames";
+import { Alert, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import {
-	FieldsetLayout,
-	FormikFlippedToggleField,
-	FormikMediaSelectField,
-	FormikReplacementVariableEditorField,
-	FormikValueChangeField,
-	FormLayout,
-	OpenGraphDisabledAlert,
-} from "../components";
+import { FieldsetLayout, FormikFlippedToggleField, FormikReplacementVariableEditorField, FormikValueChangeField, FormLayout } from "../components";
 import { useSelectSettings } from "../store";
 
 /**
@@ -45,13 +36,12 @@ const Media = () => {
 	), [] );
 
 	const { values } = useFormikContext();
-	const { opengraph } = values.wpseo_social;
 	const { "disable-attachment": disableAttachment } = values.wpseo_titles;
 
 	return (
 		<FormLayout title={ label }>
 			<fieldset className="yst-space-y-8">
-				<Alert variant="info">{ __( "We recommend that you enable the setting below.", "wordpress-seo" ) }</Alert>
+				{ ! disableAttachment && <Alert variant="info">{ __( "We recommend that you enable the setting below.", "wordpress-seo" ) }</Alert> }
 				<FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"
@@ -111,49 +101,6 @@ const Media = () => {
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
-						title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-							<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-							<Badge variant="upsell">Premium</Badge>
-						</div> }
-						description={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-							__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
-							label,
-							singularLabel
-						) }
-					>
-						<OpenGraphDisabledAlert isEnabled={ opengraph } />
-						<FormikMediaSelectField
-							id={ `wpseo_titles-social-image-${ name }` }
-							label={ __( "Social image", "wordpress-seo" ) }
-							previewLabel={ recommendedSize }
-							mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
-							mediaIdName={ `wpseo_titles.social-image-id-${ name }` }
-							disabled={ ! opengraph }
-						/>
-						<FormikReplacementVariableEditorField
-							type="title"
-							name={ `wpseo_titles.social-title-${ name }` }
-							fieldId={ `input-wpseo_titles-social-title-${ name }` }
-							label={ __( "Social title", "wordpress-seo" ) }
-							replacementVariables={ replacementVariables }
-							recommendedReplacementVariables={ recommendedReplacementVariables }
-							className={ classNames( ! opengraph && "yst-opacity-50" ) }
-							isDisabled={ ! opengraph }
-						/>
-						<FormikReplacementVariableEditorField
-							type="description"
-							name={ `wpseo_titles.social-description-${ name }` }
-							fieldId={ `input-wpseo_titles-social-description-${ name }` }
-							label={ __( "Social description", "wordpress-seo" ) }
-							replacementVariables={ replacementVariables }
-							recommendedReplacementVariables={ recommendedReplacementVariables }
-							className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
-							isDisabled={ ! opengraph }
-						/>
-					</FieldsetLayout>
-					<hr className="yst-my-8" />
-					<FieldsetLayout
 						title={ __( "Schema", "wordpress-seo" ) }
 						description={ sprintf(
 							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
@@ -177,6 +124,28 @@ const Media = () => {
 							id={ `input-wpseo_titles-schema-article-type-${ name }` }
 							label={ __( "Article type", "wordpress-seo" ) }
 							options={ articleTypes }
+						/>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ __( "Additional settings", "wordpress-seo" ) }
+					>
+						<FormikValueChangeField
+							as={ ToggleField }
+							type="checkbox"
+							name={ `wpseo_titles.display-metabox-pt-${ name }` }
+							data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
+							label={ sprintf(
+								/* translators: %1$s expands to Yoast SEO. %2$s expands to the taxonomy plural, e.g. Categories. */
+								__( "Enable %1$s for %2$s", "wordpress-seo" ),
+								"Yoast SEO",
+								label
+							) }
+							description={ sprintf(
+								/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
+								__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s.", "wordpress-seo" ),
+								label
+							) }
 						/>
 					</FieldsetLayout>
 				</Transition>
