@@ -51,10 +51,7 @@ const Formats = () => {
 
 	return (
 		<FormLayout
-			title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-				<span>{ label }</span>
-				<Badge variant="plain">{ name }</Badge>
-			</div> }
+			title={ <div className="yst-flex yst-items-center yst-gap-1.5">{ label }</div> }
 		>
 			<fieldset className="yst-space-y-8">
 				<FormikFlippedToggleField
