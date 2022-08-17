@@ -122,6 +122,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_cleanup_emoji'                     => false,
 		'search_cleanup_patterns'                  => false,
 		'search_character_limit'                   => 50,
+		'deny_wp_json_crawling'                    => false,
 	];
 
 	/**
@@ -464,6 +465,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'search_cleanup'
 				 *  'search_cleanup_emoji'
 				 *  'search_cleanup_patterns'
+				 *  'deny_wp_json_crawling'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */

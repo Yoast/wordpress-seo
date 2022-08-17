@@ -69,19 +69,24 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 
 		$user_agents = \array_unique( \array_merge( \array_keys( $registered_disallow_directives ), \array_keys( $registered_allow_directives ) ) );
 		$output_str  = self::YOAST_OUTPUT_BEFORE_COMMENT;
-		foreach ( $user_agents as $user_agent ) {
-			$output_str .= self::USER_AGENT_FIELD . ': ' . $user_agent . "\n";
-			if ( \array_key_exists( $user_agent, $registered_disallow_directives ) ) {
-				foreach ( $registered_disallow_directives[ $user_agent ] as $disallow_directive ) {
-					$output_str .= self::DISALLOW_DIRECTIVE . ': ' . $disallow_directive . "\n";
+		if ( count( $user_agents ) > 0 ) {
+			foreach ( $user_agents as $user_agent ) {
+				$output_str .= self::USER_AGENT_FIELD . ': ' . $user_agent . "\n";
+				if ( \array_key_exists( $user_agent, $registered_disallow_directives ) ) {
+					foreach ( $registered_disallow_directives[ $user_agent ] as $disallow_directive ) {
+						$output_str .= self::DISALLOW_DIRECTIVE . ': ' . $disallow_directive . "\n";
+					}
 				}
-			}
-			if ( \array_key_exists( $user_agent, $registered_allow_directives ) ) {
-				foreach ( $registered_allow_directives[ $user_agent ] as $allow_directive ) {
-					$output_str .= self::ALLOW_DIRECTIVE . ': ' . $allow_directive . "\n";
+				if ( \array_key_exists( $user_agent, $registered_allow_directives ) ) {
+					foreach ( $registered_allow_directives[ $user_agent ] as $allow_directive ) {
+						$output_str .= self::ALLOW_DIRECTIVE . ': ' . $allow_directive . "\n";
+					}
 				}
+				$output_str .= "\n";
 			}
-			$output_str .= "\n";
+		}
+		else {
+			$output_str .= "User-agent: *\nDisallow:\n\n";
 		}
 
 		foreach ( $registered_sitemaps as $sitemap ) {
