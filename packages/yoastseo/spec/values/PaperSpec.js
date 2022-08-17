@@ -115,6 +115,15 @@ describe( "Paper", function() {
 			expect( paper.hasCustomData() ).toBe( true );
 			expect( paper.getCustomData() ).toEqual( { hasGlobalIdentifier: false, hasVariants: true, doAllVariantsHaveIdentifier: true } );
 		} );
+
+		it( "returns the text title", function() {
+			const attributes = {
+				textTitle: "A text title",
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.hasTextTitle() ).toBe( true );
+			expect( paper.getTextTitle() ).toEqual( "A text title" );
+		} );
 	} );
 
 	describe( "hasPermalink", function() {
