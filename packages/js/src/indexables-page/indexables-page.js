@@ -71,7 +71,7 @@ function IndexablesPage( { setupInfo } ) {
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 
-	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" );
+	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
 
 	const [ indexablesLists, setIndexablesLists ] = useState(
 		{
@@ -325,7 +325,7 @@ function IndexablesPage( { setupInfo } ) {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
-	const middleComponents = [
+	const singleColumn = [
 		<IndexablesScoreCard
 			key="lowest-readability-scores"
 			title={ __( "Lowest readability scores", "wordpress-seo" ) }
@@ -359,6 +359,8 @@ function IndexablesPage( { setupInfo } ) {
 		/>,
 	];
 
+	const doubleColumn = [ ...singleColumn ].reverse();
+
 	return setupInfo && <div
 		className="yst-max-w-full yst-mt-6"
 	>
@@ -390,7 +392,7 @@ function IndexablesPage( { setupInfo } ) {
 				feature={ __( "SEO analysis", "wordpress-seo" ) }
 				metric={ __( "SEO score", "wordpress-seo" ) }
 			/>
-			{ isSingleColumn ? middleComponents : middleComponents.reverse() }
+			{ isSingleColumn ? singleColumn : doubleColumn }
 			<IndexablesLinksCard
 				key="highest-link-count"
 				title={ __( "Highest number of incoming links", "wordpress-seo" ) }
