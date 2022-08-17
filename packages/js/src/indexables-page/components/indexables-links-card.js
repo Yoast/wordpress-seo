@@ -51,6 +51,7 @@ function IndexablesLinksCard( {
 	isDisabled,
 	feature,
 	metric,
+	className,
 } ) {
 	const [ isLoading, setIsLoading ] = useState( ! isDisabled );
 	const [ oldListLength, setOldListLength ] = useState( indexablesLists[ listKey ]?.length );
@@ -74,7 +75,7 @@ function IndexablesLinksCard( {
 				? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
 				: title
 		}
-		className="yst-mb-6 last:yst-mb-0"
+		className={ className }
 	>
 		<div className="yst-mb-3 yst-text-justify yst-pr-6">
 			{ ! isLoading && intro }
@@ -154,6 +155,7 @@ IndexablesLinksCard.propTypes = {
 	isDisabled: PropTypes.bool,
 	feature: PropTypes.string,
 	metric: PropTypes.string,
+	className: PropTypes.string,
 };
 
 IndexablesLinksCard.defaultProps = {
@@ -165,6 +167,7 @@ IndexablesLinksCard.defaultProps = {
 	isDisabled: false,
 	feature: "",
 	metric: "",
+	className: "",
 };
 
 export default IndexablesLinksCard;
