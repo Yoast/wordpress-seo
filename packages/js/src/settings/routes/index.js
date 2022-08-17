@@ -1,4 +1,5 @@
 export { default as PostType } from "./templates/post-type";
+export { default as Taxonomy } from "./templates/taxonomy";
 export { default as AuthorArchives } from "./author-archives";
 export { default as Breadcrumbs } from "./breadcrumbs";
 export { default as CrawlSettings } from "./crawl-optimization";

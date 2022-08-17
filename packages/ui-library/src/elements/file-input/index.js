@@ -41,12 +41,12 @@ const FileInput = ( {
 		if ( ! isEmpty( event.dataTransfer.items ) ) {
 			setIsDragOver( true );
 		}
-	}, [] );
+	}, [ setIsDragOver ] );
 
 	const handleDragLeave = useCallback( ( event ) => {
 		event.preventDefault();
 		setIsDragOver( false );
-	}, [] );
+	}, [ setIsDragOver ] );
 
 	const handleDragOver = useCallback( ( event ) => {
 		event.preventDefault();

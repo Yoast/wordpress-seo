@@ -4,18 +4,29 @@ import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
-import { forEach, get, isObject, isArray } from "lodash";
+import { forEach, get, isObject, isArray, chunk, includes, reduce, filter } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
-// Import { validationSchema } from "./helpers/validation";
-import registerStore, { STORE_NAME } from "./store";
+import { createValidationSchema } from "./helpers";
+import registerStore from "./store";
+import { STORE_NAME } from "./constants";
 
 /**
- * Retrieves the initial settings.
- * @returns {Object} The settings.
+ * @param {Object} settings The settings.
+ * @returns {void}
  */
-const getInitialValues = () => get( window, "wpseoScriptData.settings", {} );
+const preloadMedia = async( settings ) => {
+	const titleSettings = get( settings, "wpseo_titles", {} );
+	const mediaIds = filter( [
+		get( settings, "wpseo_social.og_default_image_id", 0 ),
+		get( settings, "wpseo_social.og_frontpage_image_id", 0 ),
+		...reduce( titleSettings, ( acc, value, key ) => includes( key, "social-image-id" ) ? [ ...acc, value ] : acc, [] ),
+	], Boolean );
+	const mediaIdsChunks = chunk( mediaIds, 100 );
+	const { fetchMedia } = dispatch( STORE_NAME );
+	forEach( mediaIdsChunks, fetchMedia );
+};
 
 /**
  * Handles the form submit.
@@ -54,6 +65,7 @@ const handleSubmit = async( values ) => {
 		} );
 
 		addNotification( {
+			id: "submit-success",
 			variant: "success",
 			title: __( "Great! Your settings were saved successfully.", "wordpress-seo" ),
 		} );
@@ -61,6 +73,7 @@ const handleSubmit = async( values ) => {
 		return true;
 	} catch ( error ) {
 		addNotification( {
+			id: "submit-error",
 			variant: "error",
 			title: __( "Oops! Something went wrong while saving.", "wordpress-seo" ),
 		} );
@@ -76,20 +89,25 @@ domReady( () => {
 		return;
 	}
 
+	// Prevent Styled Components' styles by adding the stylesheet to a div that is in the shadow DOM.
+	const shadowHost = document.createElement( "div" );
+	const shadowRoot = shadowHost.attachShadow( { mode: "open" } );
+	document.body.appendChild( shadowHost );
+
+	const settings = get( window, "wpseoScriptData.settings", {} );
+
 	registerStore();
+	preloadMedia( settings );
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
-	// Prevent Styled Components' styles by adding the stylesheet to a div that is not on the page.
-	const styleDummy = document.createElement( "div" );
-
 	render(
 		<Root context={ { isRtl } }>
-			<StyleSheetManager target={ styleDummy }>
+			<StyleSheetManager target={ shadowRoot }>
 				<HashRouter>
 					<Formik
-						initialValues={ getInitialValues() }
-						// ValidationSchema={ validationSchema }
+						initialValues={ settings }
+						validationSchema={ createValidationSchema( settings ) }
 						onSubmit={ handleSubmit }
 					>
 						<App />
