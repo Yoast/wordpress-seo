@@ -170,7 +170,17 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 							<span className=" yst-flex yst-grow">
 								<IndexableTitleLink showType={ false } indexable={ link } />
 							</span>
-							<Button className="yst-items-end" as="a" href={ "/wp-admin/post.php?action=edit&post=" + link.object_id } target="_blank" rel="noopener noreferrer" variant="secondary">Edit</Button>
+							<Button
+								className="yst-items-end"
+								type="button"
+								as="a"
+								href={ "/wp-admin/post.php?action=edit&post=" + link.object_id }
+								target="_blank"
+								rel="noopener noreferrer"
+								variant="secondary"
+							>
+								Edit
+							</Button>
 						</li>;
 					}
 					)
