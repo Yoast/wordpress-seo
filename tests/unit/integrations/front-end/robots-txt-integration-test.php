@@ -6,7 +6,9 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Robots_Txt_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Robots_Txt_Integration;
+use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -27,6 +29,20 @@ class Robots_Txt_Integration_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * Holds the robots txt helper.
+	 *
+	 * @var Mockery\MockInterface|Robots_Txt_Helper
+	 */
+	protected $robots_txt_helper;
+
+	/**
+	 * Holds the robots txt presenter.
+	 *
+	 * @var Mockery\MockInterface|Robots_Txt_Presenter
+	 */
+	protected $robots_txt_presenter;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Robots_Txt_Integration
@@ -40,8 +56,10 @@ class Robots_Txt_Integration_Test extends TestCase {
 		parent::set_up();
 		$this->stubEscapeFunctions();
 
-		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->instance       = new Robots_Txt_Integration( $this->options_helper );
+		$this->options_helper       = Mockery::mock( Options_Helper::class );
+		$this->robots_txt_helper    = Mockery::mock( Robots_Txt_Helper::class );
+		$this->robots_txt_presenter = Mockery::mock( Robots_Txt_Presenter::class );
+		$this->instance             = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper, $this->robots_txt_presenter );
 	}
 
 	/**
@@ -54,6 +72,14 @@ class Robots_Txt_Integration_Test extends TestCase {
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			Robots_Txt_Helper::class,
+			$this->getPropertyValue( $this->instance, 'robots_txt_helper' )
+		);
+		$this->assertInstanceOf(
+			Robots_Txt_Presenter::class,
+			$this->getPropertyValue( $this->instance, 'robots_txt_presenter' )
 		);
 	}
 
@@ -112,6 +138,16 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->with( 'enable_xml_sitemap', false )
 			->andReturnTrue();
 
+		$this->robots_txt_helper
+			->expects( 'add_sitemap' )
+			->once()
+			->andReturn();
+
+		$this->robots_txt_presenter
+			->expects( 'present' )
+			->once()
+			->andReturn( '[Yoast-robots-txt-rules]' );
+
 		$this->assertEquals(
 			$expected,
 			$this->instance->filter_robots( $sitemap, '1' )
@@ -157,6 +193,12 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'https' );
 
+		$this->robots_txt_helper
+			->expects( 'add_sitemap' )
+			->with( 'https://example.com/sitemap_index.xml' )
+			->once()
+			->andReturn();
+
 		Monkey\Functions\when( 'is_multisite' )->justReturn( true );
 		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( ! $multisite['is_subdirectory'] );
 		Monkey\Functions\when( 'get_current_network_id' )->justReturn( 1 );
@@ -177,7 +219,16 @@ class Robots_Txt_Integration_Test extends TestCase {
 				->times( 1 )
 				->with( $blog_id, 'sitemap_index.xml' )
 				->andReturn( $site . 'sitemap_index.xml' );
+			if ( $multisite['is_subdirectory'] && ! in_array( false, $multisite['sites'], true ) ) {
+				$this->robots_txt_helper
+					->expects( 'add_sitemap' )
+					->with( $site . 'sitemap_index.xml' )
+					->andReturn();
+			}
 		}
+		$this->robots_txt_presenter
+			->expects( 'present' )
+			->andReturn( '[Yoast-robots-txt-rules]' );
 
 		$this->assertEquals(
 			$expected,
@@ -219,6 +270,12 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->with( 'enable_xml_sitemap', false )
 			->andReturnTrue();
 
+		$this->robots_txt_helper
+			->expects( 'add_sitemap' )
+			->with( 'https://example.com/sitemap_index.xml' )
+			->twice()
+			->andReturn();
+
 		Monkey\Functions\when( 'is_multisite' )->justReturn( true );
 		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( false );
 		Monkey\Functions\when( 'get_current_network_id' )->justReturn( 1 );
@@ -241,8 +298,12 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->with( 2, 'active_plugins', [] )
 			->andReturn( [] );
 
+		$this->robots_txt_presenter
+			->expects( 'present' )
+			->andReturn( '[Yoast-robots-txt-rules]' );
+
 		$this->assertEquals(
-			"Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n",
+			"Input\n[Yoast-robots-txt-rules]\n",
 			$this->instance->filter_robots( 'Input', '1' )
 		);
 	}
@@ -281,6 +342,18 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->with( 'enable_xml_sitemap', false )
 			->andReturnTrue();
 
+		$this->robots_txt_helper
+			->expects( 'add_sitemap' )
+			->with( 'https://example.com/sitemap_index.xml' )
+			->twice()
+			->andReturn();
+
+		$this->robots_txt_helper
+			->expects( 'add_sitemap' )
+			->with( 'https://example.com/site2/sitemap_index.xml' )
+			->once()
+			->andReturn();
+
 		Monkey\Functions\when( 'is_multisite' )->justReturn( true );
 		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( false );
 		Monkey\Functions\when( 'get_current_network_id' )->justReturn( 1 );
@@ -296,8 +369,12 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->with( 2, 'sitemap_index.xml' )
 			->andReturn( 'https://example.com/site2/sitemap_index.xml' );
 
+		$this->robots_txt_presenter
+			->expects( 'present' )
+			->andReturn( '[Yoast-robots-txt-rules]' );
+
 		$this->assertEquals(
-			"Input\n\nSitemap: https://example.com/sitemap_index.xml\n\nSitemap: https://example.com/site2/sitemap_index.xml\n",
+			"Input\n[Yoast-robots-txt-rules]\n",
 			$this->instance->filter_robots( 'Input', '1' )
 		);
 	}
@@ -316,7 +393,12 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->assertEquals( 'Input', $this->instance->filter_robots( 'Input', '1' ) );
+		$this->robots_txt_presenter
+			->expects( 'present' )
+			->once()
+			->andReturn( '' );
+
+		$this->assertEquals( "Input\n", $this->instance->filter_robots( 'Input', '1' ) );
 	}
 
 	/**
@@ -335,25 +417,13 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 */
 	public function sitemap_provider() {
 		return [
-			'Default output is filtered' => [
-				'sitemap'  => "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n",
-				'expected' => "User-agent: *\nDisallow:\n\nSitemap: https://example.com/sitemap_index.xml\n",
-			],
 			'Without any sitemap' => [
 				'sitemap'  => "Input\n",
-				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n",
+				'expected' => "Input\n\n[Yoast-robots-txt-rules]\n",
 			],
 			'With another sitemap' => [
 				'sitemap'  => "Input\n\nSitemap: https://example.com/other_sitemap.xml\n",
-				'expected' => "Input\n\nSitemap: https://example.com/other_sitemap.xml\n\nSitemap: https://example.com/sitemap_index.xml\n",
-			],
-			'With our sitemap (do not add our sitemap twice)' => [
-				'sitemap'  => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n",
-				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n",
-			],
-			'With another and our sitemap (do not add our sitemap twice)' => [
-				'sitemap'  => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n\nSitemap: https://example.com/other_sitemap.xml\n",
-				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n\nSitemap: https://example.com/other_sitemap.xml\n",
+				'expected' => "Input\n\nSitemap: https://example.com/other_sitemap.xml\n\n[Yoast-robots-txt-rules]\n",
 			],
 		];
 	}
@@ -373,7 +443,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 						1 => 'https://example.com/',
 					],
 				],
-				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n",
+				'expected' => "Input\n\n[Yoast-robots-txt-rules]\n",
 			],
 			'Multisite subdirectory' => [
 				'data'     => [
@@ -384,18 +454,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 						2 => 'https://example.com/test/',
 					],
 				],
-				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\nSitemap: https://example.com/test/sitemap_index.xml\n",
-			],
-			'Multisite subdirectory exclude duplicates' => [
-				'data'     => [
-					'is_subdirectory' => true,
-					'sitemap'         => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n",
-					'sites'           => [
-						1 => 'https://example.com/',
-						2 => 'https://example.com/test/',
-					],
-				],
-				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\nSitemap: https://example.com/test/sitemap_index.xml\n",
+				'expected' => "Input\n\n[Yoast-robots-txt-rules]\n",
 			],
 			'Multisite subdirectory with only 1 active' => [
 				'data'     => [
@@ -406,7 +465,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 						2 => false,
 					],
 				],
-				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n",
+				'expected' => "Input\n\n[Yoast-robots-txt-rules]\n",
 			],
 		];
 	}

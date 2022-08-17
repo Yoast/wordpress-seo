@@ -93,7 +93,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 		 */
 		do_action( 'Yoast\WP\SEO\register_robots_rules', $this->robots_txt_helper );
 
-		return $robots_txt . "\n" . $this->robots_txt_presenter->present();
+		return $robots_txt . "\n" . $this->robots_txt_presenter->present() . "\n";
 	}
 
 	/**
