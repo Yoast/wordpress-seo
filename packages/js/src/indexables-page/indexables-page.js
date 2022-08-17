@@ -8,7 +8,7 @@ import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexablesScoreCard from "./components/indexables-score-card";
 import IndexablesLinksCard from "./components/indexables-links-card";
-import { SEOScoreAssessment, ReadabilityScoreAssessment, LeastLinkedAssessment, MostLinkedeAssessment } from "./components/assessment-functions";
+import { SEOScoreAssessment, ReadabilityScoreAssessment, LeastLinkedAssessment, MostLinkedeAssessment } from "./assessment-functions";
 
 const leastLinkedIntro = addLinkToString(
 	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
