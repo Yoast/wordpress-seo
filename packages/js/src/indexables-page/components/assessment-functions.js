@@ -5,7 +5,7 @@
  *
  * @returns {string} The bullet color.
  */
- function SEOScoreAssessment( indexable ) {
+function SEOScoreAssessment( indexable ) {
 	const SEOScoreThresholds = { medium: 40, good: 70 };
 
 	return indexable.primary_focus_keyword_score > SEOScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
