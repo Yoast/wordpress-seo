@@ -33,6 +33,7 @@ function LandingPage() {
 				const parsedResponse = await response.json;
 				setSetupInfo( parsedResponse );
 			} catch ( error ) {
+				/* eslint-disable-next-line no-warning-comments */
 				// @TODO: Throw an error notification.
 				console.error( error.message );
 				return false;
