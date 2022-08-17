@@ -8,9 +8,7 @@ import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexablesScoreCard from "./components/indexables-score-card";
 import IndexablesLinksCard from "./components/indexables-links-card";
-
-const SEOScoreThresholds = { medium: 40, good: 70 };
-const readabilityScoreThresholds = { medium: 59, good: 89 };
+import { SEOScoreAssessment, ReadabilityScoreAssessment, LeastLinkedAssessment, MostLinkedeAssessment } from "./assessment-functions";
 
 const leastLinkedIntro = addLinkToString(
 	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
@@ -329,11 +327,10 @@ function IndexablesPage( { setupInfo } ) {
 		key="lowest-seo-scores"
 		title={ __( "Lowest SEO scores", "wordpress-seo" ) }
 		setIgnoredIndexable={ setIgnoredIndexable }
-		scoreThresholds={ SEOScoreThresholds }
 		indexablesLists={ indexablesLists }
-		scoreKey={ "primary_focus_keyword_score" }
 		listKey={ "least_seo_score" }
 		listSize={ listSize }
+		assessmentFunction={ SEOScoreAssessment }
 		isDisabled={ ! setupInfo.enabledFeatures.isSeoScoreEnabled }
 		feature={ __( "SEO analysis", "wordpress-seo" ) }
 		metric={ __( "SEO score", "wordpress-seo" ) }
@@ -343,11 +340,10 @@ function IndexablesPage( { setupInfo } ) {
 		key="lowest-readability-scores"
 		title={ __( "Lowest readability scores", "wordpress-seo" ) }
 		setIgnoredIndexable={ setIgnoredIndexable }
-		scoreThresholds={ readabilityScoreThresholds }
 		indexablesLists={ indexablesLists }
-		scoreKey={ "readability_score" }
 		listKey={ "least_readability" }
 		listSize={ listSize }
+		assessmentFunction={ ReadabilityScoreAssessment }
 		isDisabled={ ! setupInfo.enabledFeatures.isReadabilityEnabled }
 		feature={ __( "Readability analysis", "wordpress-seo" ) }
 		metric={ __( "Readability score", "wordpress-seo" ) }
@@ -364,6 +360,7 @@ function IndexablesPage( { setupInfo } ) {
 		listKey={ "least_linked" }
 		listSize={ listSize }
 		handleLink={ handleLink }
+		assessmentFunction={ LeastLinkedAssessment }
 		isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
 		feature={ __( "Text link counter", "wordpress-seo" ) }
 		metric={ __( "number of links", "wordpress-seo" ) }
@@ -380,6 +377,7 @@ function IndexablesPage( { setupInfo } ) {
 		listKey={ "most_linked" }
 		listSize={ listSize }
 		handleLink={ handleLink }
+		assessmentFunction={ MostLinkedeAssessment }
 		isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
 		feature={ __( "Text link counter", "wordpress-seo" ) }
 		metric={ __( "number of links", "wordpress-seo" ) }

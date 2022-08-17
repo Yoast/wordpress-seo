@@ -36,11 +36,10 @@ IndexableScore.propTypes = {
 function IndexablesScoreCard( {
 	title,
 	setIgnoredIndexable,
-	scoreThresholds,
 	indexablesLists,
-	scoreKey,
 	listSize,
 	listKey,
+	assessmentFunction,
 	isDisabled,
 	feature,
 	metric,
@@ -98,7 +97,6 @@ function IndexablesScoreCard( {
 							? []
 							: indexablesLists[ listKey ].slice( 0, listSize ).map(
 								( indexable, position ) => {
-									const score = parseInt( indexable[ scoreKey ], 10 );
 									return <IndexablesTable.Row
 										key={ `indexable-${ indexable.id }-row` }
 										type={ listKey }
@@ -107,7 +105,7 @@ function IndexablesScoreCard( {
 										position={ position }
 									>
 										<IndexableScore
-											colorClass={ score > scoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500" }
+											colorClass={ assessmentFunction( indexable ) }
 										/>
 										<IndexableTitleLink indexable={ indexable } />
 										<div>
@@ -129,12 +127,11 @@ function IndexablesScoreCard( {
 
 IndexablesScoreCard.propTypes = {
 	title: PropTypes.oneOfType( [ PropTypes.node, PropTypes.string ] ).isRequired,
-	scoreKey: PropTypes.string.isRequired,
 	listSize: PropTypes.number.isRequired,
 	listKey: PropTypes.string.isRequired,
 	setIgnoredIndexable: PropTypes.func,
-	scoreThresholds: PropTypes.shape( { medium: PropTypes.number.isRequired } ),
 	indexablesLists: PropTypes.object,
+	assessmentFunction: PropTypes.func.isRequired,
 	isDisabled: PropTypes.bool,
 	feature: PropTypes.string,
 	metric: PropTypes.string,

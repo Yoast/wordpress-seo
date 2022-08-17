@@ -47,6 +47,7 @@ function IndexablesLinksCard( {
 	listSize,
 	listKey,
 	handleLink,
+	assessmentFunction,
 	isDisabled,
 	feature,
 	metric,
@@ -113,8 +114,7 @@ function IndexablesLinksCard( {
 									addToIgnoreList={ setIgnoredIndexable }
 									position={ position }
 								>
-									{ /* @TODO: needs to be calculated */ }
-									<IndexableScore colorClass={ parseInt( indexable.is_cornerstone, 10 ) ? "yst-bg-emerald-500" : "yst-bg-red-500" } />
+									<IndexableScore colorClass={ assessmentFunction( indexable ) } />
 									<IndexableLinkCount count={ parseInt( indexable[ countKey ], 10 ) } />
 									<IndexableTitleLink indexable={ indexable } />
 									<div key={ `least-linked-modal-button-${ indexable.id }` }  className="yst-shrink-0">
@@ -148,9 +148,9 @@ IndexablesLinksCard.propTypes = {
 	listSize: PropTypes.number.isRequired,
 	listKey: PropTypes.string.isRequired,
 	setIgnoredIndexable: PropTypes.func,
-	scoreThresholds: PropTypes.shape( { medium: PropTypes.number.isRequired } ),
 	indexablesLists: PropTypes.object,
 	handleLink: PropTypes.func,
+	assessmentFunction: PropTypes.func.isRequired,
 	isDisabled: PropTypes.bool,
 	feature: PropTypes.string,
 	metric: PropTypes.string,
