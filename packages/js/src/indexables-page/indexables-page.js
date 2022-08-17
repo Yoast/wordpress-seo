@@ -1,14 +1,57 @@
 /* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
+import { LinkIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback } from "@wordpress/element";
-import { Button, Modal, useMediaQuery } from "@yoast/ui-library";
+import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
+import { makeOutboundLink } from "@yoast/helpers";
 import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexablesScoreCard from "./components/indexables-score-card";
 import IndexablesLinksCard from "./components/indexables-links-card";
+import IndexableTitleLink from "./components/indexable-title-link";
+import IndexablesPageCard from "./components/indexables-card";
+import IndexablesTable from "./components/indexables-table";
 import { SEOScoreAssessment, ReadabilityScoreAssessment, LeastLinkedAssessment, MostLinkedeAssessment } from "./assessment-functions";
+
+const Link = makeOutboundLink();
+
+/**
+ * A score representation.
+ *
+ * @param {string} colorClass The color of the bullet.
+ *
+ * @returns {WPElement} A div with a styled score representation.
+ */
+export function IndexableScore( { colorClass } ) {
+	return <div className="yst-flex yst-items-center">
+		<span className={ "yst-rounded-full yst-w-3 yst-h-3 " + colorClass } />
+	</div>;
+}
+
+IndexableScore.propTypes = {
+	colorClass: PropTypes.string.isRequired,
+};
+
+
+/**
+ * A link count representation.
+ *
+ * @param {int} count The number of links.
+ *
+ * @returns {WPElement} A div with a styled link count representation.
+ */
+export function IndexableLinkCount( { count } ) {
+	return 	<div className="yst-min-w-[36px] yst-shrink-0 yst-flex yst-items-center yst-gap-1.5">
+		<LinkIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />
+		{ count }
+	</div>;
+}
+
+IndexableLinkCount.propTypes = {
+	count: PropTypes.number.isRequired,
+};
 
 const leastLinkedIntro = addLinkToString(
 	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
@@ -70,6 +113,7 @@ function IndexablesPage( { setupInfo } ) {
 	const minimumIndexablesInBuffer = listSize * 2;
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
+	const [ loadedCards, setLoadedCards ] = useState( [] );
 
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
 
@@ -102,8 +146,12 @@ function IndexablesPage( { setupInfo } ) {
 	 *
 	 * @returns {boolean} True if the request was successful.
 	 */
-	const fetchList = async( listName ) => {
+	const fetchList = async( listName, isAdditionalFetch = false ) => {
 		try {
+			if ( isAdditionalFetch ) {
+				setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== listName ) );
+			}
+
 			const response = await apiFetch( {
 				path: `yoast/v1/${ listName }`,
 				method: "GET",
@@ -124,6 +172,8 @@ function IndexablesPage( { setupInfo } ) {
 					[ listName ]: parsedResponse.list.length,
 				};
 			} );
+
+			setLoadedCards( prevState => [ ...prevState, listName ] );
 			return true;
 		} catch ( e ) {
 			// URL() constructor throws a TypeError exception if url is malformed.
@@ -168,7 +218,7 @@ function IndexablesPage( { setupInfo } ) {
 		}
 
 		return ( indexablesList.length < minimumIndexablesInBuffer  && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer )
-			? fetchList( listName )
+			? fetchList( listName, true )
 			: maybeRemoveIgnored( listName );
 	};
 
@@ -380,20 +430,62 @@ function IndexablesPage( { setupInfo } ) {
 			id="indexables-table-columns"
 			className="yst-max-w-7xl yst-flex yst-flex-col 2xl:yst-block 2xl:yst-columns-2 yst-gap-6"
 		>
-			<IndexablesScoreCard
-				key="lowest-seo-scores"
-				title={ __( "Lowest SEO scores", "wordpress-seo" ) }
-				setIgnoredIndexable={ setIgnoredIndexable }
-				indexablesLists={ indexablesLists }
-				scoreKey={ "primary_focus_keyword_score" }
-				listKey={ "least_seo_score" }
-				listSize={ listSize }
+			<IndexablesPageCard
+				title={
+					( loadedCards.includes( "least_seo_score" ) || ! setupInfo.enabledFeatures.isSeoScoreEnabled )
+						? __( "Lowest SEO scores", "wordpress-seo" )
+						: <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
+				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
-				assessmentFunction={ SEOScoreAssessment }
-				isDisabled={ ! setupInfo.enabledFeatures.isSeoScoreEnabled }
-				feature={ __( "SEO analysis", "wordpress-seo" ) }
-				metric={ __( "SEO score", "wordpress-seo" ) }
-			/>
+			>
+				<IndexablesTable isLoading={ ! loadedCards.includes( "least_seo_score" ) }>
+					{
+						/* eslint-disable max-len, no-nested-ternary */
+						! setupInfo.enabledFeatures.isSeoScoreEnabled && <Alert type={ "info" }>
+							{
+								addLinkToString(
+									// translators: %1$s and %2$s are the opening and closing anchor tags.
+									sprintf(
+										__(
+											"You've disabled the 'SEO analysis' feature. " +
+											"Enable this feature on the %1$sFeatures tab%2$s if you want us to calculate the SEO score of your content",
+											"wordpress-seo"
+										),
+										"<a>",
+										"</a>"
+									), "/wp-admin/admin.php?page=wpseo_dashboard#top#features"
+
+								)
+								/* eslint-enable max-len, no-nested-ternary */
+							}
+						</Alert>
+					}
+					{ loadedCards.includes( "least_seo_score" ) && indexablesLists.least_seo_score.slice( 0, listSize ).map(
+						( indexable, position ) => {
+							return <IndexablesTable.Row
+								key={ `indexable-${ indexable.id }-row` }
+								type={ "least_seo_score" }
+								indexable={ indexable }
+								addToIgnoreList={ setIgnoredIndexable }
+								position={ position }
+							>
+								<IndexableScore
+									colorClass={ SEOScoreAssessment( indexable ) }
+								/>
+								<IndexableTitleLink indexable={ indexable } />
+								<div>
+									<Link
+										href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+										className="yst-button yst-button--secondary yst-text-gray-700"
+									>
+										{ __( "Improve", "wordpress-seo" ) }
+									</Link>
+								</div>
+							</IndexablesTable.Row>;
+						}
+					) }
+				</IndexablesTable>
+			</IndexablesPageCard>
 			{ isSingleColumn ? singleColumn : doubleColumn }
 			<IndexablesLinksCard
 				key="highest-link-count"

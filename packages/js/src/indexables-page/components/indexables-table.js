@@ -102,10 +102,10 @@ IndexableRow.propTypes = {
 
  * @returns {WPElement} A table with the indexables.
  */
-function IndexablesTable( { children } ) {
+function IndexablesTable( { isLoading, children } ) {
 	return (
 		<ul className="yst-divide-y yst-divide-gray-200">
-			{ ( children && children.length === 0 ) &&
+			{ ( isLoading ) &&
 				<PlaceholderRows columnCount={ 4 } listSize={ 5 } />
 			}
 			{ children }
@@ -114,7 +114,13 @@ function IndexablesTable( { children } ) {
 }
 
 IndexablesTable.propTypes = {
+	isLoading: PropTypes.bool,
 	children: PropTypes.node,
+};
+
+IndexablesTable.defaultProps = {
+	isLoading: false,
+	children: null,
 };
 
 IndexablesTable.Row = IndexableRow;
