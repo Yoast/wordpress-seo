@@ -5,6 +5,7 @@
  * @package WPSEO\Admin\Formatter
  */
 
+use Yoast\WP\SEO\Conditionals\Third_Party\Polylang_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Config\SEMrush_Client;
@@ -313,8 +314,10 @@ class WPSEO_Metabox_Formatter {
 	 * @return bool Whether a multilingual plugin is currently active.
 	 */
 	private function multilingual_plugin_active() {
-		$wpml_active = YoastSEO()->classes->get( WPML_Conditional::class )->is_met();
-		return $wpml_active;
+		$wpml_active     = YoastSEO()->classes->get( WPML_Conditional::class )->is_met();
+		$polylang_active = YoastSEO()->classes->get( Polylang_Conditional::class )->is_met();
+
+		return $wpml_active || $polylang_active;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
