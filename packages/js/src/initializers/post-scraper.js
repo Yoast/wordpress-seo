@@ -491,18 +491,20 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
-		window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
-			registerPlugin: app.registerPlugin,
-			registerModification: app.registerModification,
-			pluginReady: app.pluginReady,
-			pluginReloaded: app.pluginReloaded,
-		} );
 
 		if ( isBlockEditor() ) {
 			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
 			reusableBlocksPlugin.register();
 		}
-
+		// Only process shortcodes (for analysis) in the post text for editors other than the block editor.
+		if ( ! isBlockEditor() ) {
+			window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
+				registerPlugin: app.registerPlugin,
+				registerModification: app.registerModification,
+				pluginReady: app.pluginReady,
+				pluginReloaded: app.pluginReloaded,
+			} );
+		}
 		if ( wpseoScriptData.metabox.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );
 			markdownPlugin.register();
