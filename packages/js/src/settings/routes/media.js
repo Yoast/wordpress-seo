@@ -58,7 +58,7 @@ const Media = () => {
 					enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
 					enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 					enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leave="yst-transition yst-absolute yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
+					leave="yst-transition yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
 					leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
 					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 				>
