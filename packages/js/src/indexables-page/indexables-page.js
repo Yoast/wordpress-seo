@@ -334,6 +334,9 @@ function IndexablesPage( { setupInfo } ) {
 		scoreKey={ "primary_focus_keyword_score" }
 		listKey={ "least_seo_score" }
 		listSize={ listSize }
+		isDisabled={ ! setupInfo.enabledFeatures.isSeoScoreEnabled }
+		feature={ __( "SEO analysis", "wordpress-seo" ) }
+		metric={ __( "SEO score", "wordpress-seo" ) }
 	/>;
 
 	const readabilityScoresCard = <IndexablesScoreCard
@@ -345,6 +348,9 @@ function IndexablesPage( { setupInfo } ) {
 		scoreKey={ "readability_score" }
 		listKey={ "least_readability" }
 		listSize={ listSize }
+		isDisabled={ ! setupInfo.enabledFeatures.isReadabilityEnabled }
+		feature={ __( "Readability analysis", "wordpress-seo" ) }
+		metric={ __( "Readability score", "wordpress-seo" ) }
 	/>;
 
 	const leastLinksCard = <IndexablesLinksCard
@@ -358,6 +364,9 @@ function IndexablesPage( { setupInfo } ) {
 		listKey={ "least_linked" }
 		listSize={ listSize }
 		handleLink={ handleLink }
+		isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
+		feature={ __( "Text link counter", "wordpress-seo" ) }
+		metric={ __( "number of links", "wordpress-seo" ) }
 	/>;
 
 	const mostLinksCard = <IndexablesLinksCard
@@ -371,6 +380,9 @@ function IndexablesPage( { setupInfo } ) {
 		listKey={ "most_linked" }
 		listSize={ listSize }
 		handleLink={ handleLink }
+		isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
+		feature={ __( "Text link counter", "wordpress-seo" ) }
+		metric={ __( "number of links", "wordpress-seo" ) }
 	/>;
 
 	const orderedCards = [ seoScoresCard, leastLinksCard, readabilityScoresCard, mostLinksCard ];
