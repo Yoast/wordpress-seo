@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback } from "@wordpress/element";
-import { Button, Modal } from "@yoast/ui-library";
+import { Button, Modal, useMediaQuery } from "@yoast/ui-library";
 import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexablesScoreCard from "./components/indexables-score-card";
@@ -71,6 +71,7 @@ function IndexablesPage( { setupInfo } ) {
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 
+	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" );
 	const [ indexablesLists, setIndexablesLists ] = useState(
 		{
 			least_readability: null,
