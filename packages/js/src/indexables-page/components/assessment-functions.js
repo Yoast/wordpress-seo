@@ -8,7 +8,7 @@
  function SEOScoreAssessment( indexable ) {
 	const SEOScoreThresholds = { medium: 40, good: 70 };
 
-	return indexable.primary_focus_keyword_score > SEOScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
+	return parseInt( indexable.primary_focus_keyword_score, 10 ) > SEOScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
 }
 
 /**
@@ -21,7 +21,7 @@
 function ReadabilityScoreAssessment( indexable ) {
 	const readabilityScoreThresholds = { medium: 59, good: 89 };
 
-	return indexable.readability_score > readabilityScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
+	return parseInt( indexable.readability_score, 10 ) > readabilityScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
 }
 
 /**
@@ -34,11 +34,13 @@ function ReadabilityScoreAssessment( indexable ) {
 function LeastLinkedAssessment( indexable ) {
 	const leastLinkedThresholds = { medium: 1, good: 2 };
 
-	if ( indexable.incoming_link_count >= leastLinkedThresholds.good ) {
+	const linkCount = parseInt( indexable.incoming_link_count, 10 );
+
+	if ( linkCount >= leastLinkedThresholds.good ) {
 		return  "yst-bg-emerald-500";
 	}
 
-	if ( indexable.incoming_link_count === leastLinkedThresholds.medium ) {
+	if ( linkCount === leastLinkedThresholds.medium ) {
 		return "yst-bg-amber-500";
 	}
 
