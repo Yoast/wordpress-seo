@@ -62,6 +62,7 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } 
 				setIsHandlingIgnore( false );
 				return true;
 			}
+			/* eslint-disable no-warning-comments */
 			// @TODO: Throw an error notification.
 			console.error( "Ignoring post has failed." );
 			return false;
