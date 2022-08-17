@@ -238,6 +238,12 @@ export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 			...acc,
 			...createTaxonomySearchIndex( taxonomy ),
 		} ), {} ),
+		"social-image-id-tax-post_format": {
+			route: "/formats",
+			routeLabel: taxonomies.post_format.label,
+			fieldId: "wpseo_titles-social-image-tax-post_format",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
 	},
 	wpseo_social: {
 		og_default_image_id: {

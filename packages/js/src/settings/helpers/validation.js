@@ -40,6 +40,7 @@ export const createValidationSchema = settings => {
 				...acc,
 				[ key ]: number().isMediaTypeImage(),
 			} : acc, {} ),
+			"social-image-id-tax-post_format": number().isMediaTypeImage(),
 		} ),
 	} );
 };
