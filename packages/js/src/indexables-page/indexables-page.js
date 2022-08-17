@@ -72,6 +72,7 @@ function IndexablesPage( { setupInfo } ) {
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" );
+
 	const [ indexablesLists, setIndexablesLists ] = useState(
 		{
 			least_readability: null,
@@ -324,67 +325,39 @@ function IndexablesPage( { setupInfo } ) {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
-	const seoScoresCard = <IndexablesScoreCard
-		key="lowest-seo-scores"
-		title={ __( "Lowest SEO scores", "wordpress-seo" ) }
-		setIgnoredIndexable={ setIgnoredIndexable }
-		indexablesLists={ indexablesLists }
-		listKey={ "least_seo_score" }
-		listSize={ listSize }
-		assessmentFunction={ SEOScoreAssessment }
-		isDisabled={ ! setupInfo.enabledFeatures.isSeoScoreEnabled }
-		feature={ __( "SEO analysis", "wordpress-seo" ) }
-		metric={ __( "SEO score", "wordpress-seo" ) }
-	/>;
-
-	const readabilityScoresCard = <IndexablesScoreCard
-		key="lowest-readability-scores"
-		title={ __( "Lowest readability scores", "wordpress-seo" ) }
-		setIgnoredIndexable={ setIgnoredIndexable }
-		indexablesLists={ indexablesLists }
-		listKey={ "least_readability" }
-		listSize={ listSize }
-		assessmentFunction={ ReadabilityScoreAssessment }
-		isDisabled={ ! setupInfo.enabledFeatures.isReadabilityEnabled }
-		feature={ __( "Readability analysis", "wordpress-seo" ) }
-		metric={ __( "Readability score", "wordpress-seo" ) }
-	/>;
-
-	const leastLinksCard = <IndexablesLinksCard
-		key="lowest-link-count"
-		title={ __( "Lowest number of incoming links", "wordpress-seo" ) }
-		intro={ leastLinkedIntro }
-		outro={ leastLinkedOutro }
-		setIgnoredIndexable={ setIgnoredIndexable }
-		indexablesLists={ indexablesLists }
-		countKey={ "incoming_link_count" }
-		listKey={ "least_linked" }
-		listSize={ listSize }
-		handleLink={ handleLink }
-		assessmentFunction={ LeastLinkedAssessment }
-		isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
-		feature={ __( "Text link counter", "wordpress-seo" ) }
-		metric={ __( "number of links", "wordpress-seo" ) }
-	/>;
-
-	const mostLinksCard = <IndexablesLinksCard
-		key="highest-link-count"
-		title={ __( "Highest number of incoming links", "wordpress-seo" ) }
-		intro={ mostLinkedIntro }
-		outro={ mostLinkedOutro }
-		setIgnoredIndexable={ setIgnoredIndexable }
-		indexablesLists={ indexablesLists }
-		countKey={ "incoming_link_count" }
-		listKey={ "most_linked" }
-		listSize={ listSize }
-		handleLink={ handleLink }
-		assessmentFunction={ MostLinkedeAssessment }
-		isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
-		feature={ __( "Text link counter", "wordpress-seo" ) }
-		metric={ __( "number of links", "wordpress-seo" ) }
-	/>;
-
-	const orderedCards = [ seoScoresCard, leastLinksCard, readabilityScoresCard, mostLinksCard ];
+	const middleComponents = [
+		<IndexablesScoreCard
+			key="lowest-readability-scores"
+			title={ __( "Lowest readability scores", "wordpress-seo" ) }
+			setIgnoredIndexable={ setIgnoredIndexable }
+			indexablesLists={ indexablesLists }
+			scoreKey={ "readability_score" }
+			listKey={ "least_readability" }
+			listSize={ listSize }
+			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+			assessmentFunction={ ReadabilityScoreAssessment }
+			isDisabled={ ! setupInfo.enabledFeatures.isReadabilityEnabled }
+			feature={ __( "Readability analysis", "wordpress-seo" ) }
+			metric={ __( "Readability score", "wordpress-seo" ) }
+		/>,
+		<IndexablesLinksCard
+			key="lowest-link-count"
+			title={ __( "Lowest number of incoming links", "wordpress-seo" ) }
+			intro={ leastLinkedIntro }
+			outro={ leastLinkedOutro }
+			setIgnoredIndexable={ setIgnoredIndexable }
+			indexablesLists={ indexablesLists }
+			countKey={ "incoming_link_count" }
+			listKey={ "least_linked" }
+			listSize={ listSize }
+			handleLink={ handleLink }
+			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+			assessmentFunction={ LeastLinkedAssessment }
+			isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
+			feature={ __( "Text link counter", "wordpress-seo" ) }
+			metric={ __( "number of links", "wordpress-seo" ) }
+		/>,
+	];
 
 	return setupInfo && <div
 		className="yst-max-w-full yst-mt-6"
@@ -401,9 +374,40 @@ function IndexablesPage( { setupInfo } ) {
 		</Modal>
 		<div
 			id="indexables-table-columns"
-			className="yst-max-w-7xl 2xl:yst-columns-2 yst-gap-6"
+			className="yst-max-w-7xl yst-flex yst-flex-col 2xl:yst-block 2xl:yst-columns-2 yst-gap-6"
 		>
-			{ orderedCards }
+			<IndexablesScoreCard
+				key="lowest-seo-scores"
+				title={ __( "Lowest SEO scores", "wordpress-seo" ) }
+				setIgnoredIndexable={ setIgnoredIndexable }
+				indexablesLists={ indexablesLists }
+				scoreKey={ "primary_focus_keyword_score" }
+				listKey={ "least_seo_score" }
+				listSize={ listSize }
+				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+				assessmentFunction={ SEOScoreAssessment }
+				isDisabled={ ! setupInfo.enabledFeatures.isSeoScoreEnabled }
+				feature={ __( "SEO analysis", "wordpress-seo" ) }
+				metric={ __( "SEO score", "wordpress-seo" ) }
+			/>
+			{ isSingleColumn ? middleComponents : middleComponents.reverse() }
+			<IndexablesLinksCard
+				key="highest-link-count"
+				title={ __( "Highest number of incoming links", "wordpress-seo" ) }
+				intro={ mostLinkedIntro }
+				outro={ mostLinkedOutro }
+				setIgnoredIndexable={ setIgnoredIndexable }
+				indexablesLists={ indexablesLists }
+				countKey={ "incoming_link_count" }
+				listKey={ "most_linked" }
+				listSize={ listSize }
+				handleLink={ handleLink }
+				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+				assessmentFunction={ MostLinkedeAssessment }
+				isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
+				feature={ __( "Text link counter", "wordpress-seo" ) }
+				metric={ __( "number of links", "wordpress-seo" ) }
+			/>
 		</div>
 		{ ignoredIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoredIndexable ) }>{ `Undo ignore ${ignoredIndexable.indexable.id}` }</Button></div> }
 	</div>;
