@@ -43,6 +43,7 @@ function IndexablesScoreCard( {
 	isDisabled,
 	feature,
 	metric,
+	className,
 } ) {
 	const [ isLoading, setIsLoading ] = useState( ! isDisabled );
 	const [ oldListLength, setOldListLength ] = useState( indexablesLists[ listKey ]?.length );
@@ -67,7 +68,7 @@ function IndexablesScoreCard( {
 					? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
 					: title
 			}
-			className="yst-mb-6 last:yst-mb-0"
+			className={ className }
 		>
 			<IndexablesTable>
 				{
@@ -129,6 +130,7 @@ IndexablesScoreCard.propTypes = {
 	title: PropTypes.oneOfType( [ PropTypes.node, PropTypes.string ] ).isRequired,
 	listSize: PropTypes.number.isRequired,
 	listKey: PropTypes.string.isRequired,
+	className: PropTypes.string,
 	setIgnoredIndexable: PropTypes.func,
 	indexablesLists: PropTypes.object,
 	assessmentFunction: PropTypes.func.isRequired,
@@ -143,6 +145,7 @@ IndexablesScoreCard.defaultProps = {
 	isDisabled: false,
 	feature: "",
 	metric: "",
+	className: "",
 };
 
 export default IndexablesScoreCard;
