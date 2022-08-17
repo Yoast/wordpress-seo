@@ -218,7 +218,7 @@ class Yoast_Form {
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>" . esc_html( $text );
+		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
