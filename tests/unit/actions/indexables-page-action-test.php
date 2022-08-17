@@ -216,9 +216,9 @@ class Indexables_Page_Action_Test extends TestCase {
 				'content_analysis_active'  => false,
 				'enable_text_link_counter' => false,
 			],
-			'query_times'              => 0,
+			'query_times'              => 1,
 			'query_results'            => [ 'irrelevant' ],
-			'count_times'              => 0,
+			'count_times'              => 1,
 			'percentage_query_times'   => 0,
 			'no_keyphrase_query_times' => 0,
 			'expected_result'          => [
