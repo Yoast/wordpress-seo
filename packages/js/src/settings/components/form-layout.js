@@ -14,14 +14,14 @@ const FormLayout = ( {
 	const { isSubmitting } = useFormikContext();
 	return (
 		<div className="yst-rounded-lg yst-bg-white yst-shadow">
-			<Form className="yst-flex yst-flex-col">
+			<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
 				<header className="yst-border-b yst-border-gray-200">
 					<div className="yst-max-w-screen-sm yst-p-8">
 						<Title>{ title }</Title>
 						{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
 					</div>
 				</header>
-				<div className="yst-flex-grow yst-p-8 yst-pb-16 yst-max-w-5xl">
+				<div className="yst-flex-grow yst-p-8 yst-max-w-5xl">
 					{ children }
 				</div>
 				<footer className="yst-rounded-b-lg yst-p-8 yst-bg-gray-50">
