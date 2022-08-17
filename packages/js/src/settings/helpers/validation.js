@@ -34,7 +34,8 @@ export const createValidationSchema = settings => {
 			og_default_image_id: number().isMediaTypeImage(),
 		} ),
 		wpseo_titles: object().shape( {
-			// Media type image validation for all content & taxonomy images.
+			open_graph_frontpage_image_id: number().isMediaTypeImage(),
+			// Media type image validation for all post type & taxonomy images.
 			...reduce( titleSettings, ( acc, value, key ) => includes( key, "social-image-id" ) ? {
 				...acc,
 				[ key ]: number().isMediaTypeImage(),

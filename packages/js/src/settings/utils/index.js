@@ -10,7 +10,10 @@ export const flattenObject = ( object, parentPath = "" ) => reduce(
 	object,
 	( acc, value, key ) => {
 		if ( isObject( value ) ) {
-			return flattenObject( value, key );
+			return {
+				...acc,
+				...flattenObject( value, key ),
+			};
 		}
 		return {
 			...acc,
