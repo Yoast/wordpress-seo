@@ -91,6 +91,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						label
 					) }
 				/>
+				<hr className="yst-my-8" />
 				<FormikReplacementVariableEditorField
 					type="title"
 					name={ `wpseo_titles.title-tax-${ name }` }

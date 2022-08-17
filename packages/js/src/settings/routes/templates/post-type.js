@@ -127,6 +127,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						label
 					) }
 				/>
+				<hr className="yst-my-8" />
 				<FormikReplacementVariableEditorField
 					type="title"
 					name={ `wpseo_titles.title-${ name }` }
@@ -246,7 +247,6 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					description={ customFieldsDescription }
 				/> }
 			</FieldsetLayout>
-
 			{ hasArchive && <>
 				<hr className="yst-my-16" />
 				<div className="yst-mb-8">
