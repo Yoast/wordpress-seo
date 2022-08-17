@@ -46,6 +46,7 @@ function IndexablesLinksCard( {
 	listSize,
 	listKey,
 	handleLink,
+	assessmentFunction,
 } ) {
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ oldListLength, setOldListLength ] = useState( indexablesLists[ listKey ]?.length );
@@ -88,7 +89,7 @@ function IndexablesLinksCard( {
 								position={ position }
 							>
 								{ /* @TODO: needs to be calculated */ }
-								<IndexableScore colorClass={ parseInt( indexable.is_cornerstone, 10 ) ? "yst-bg-emerald-500" : "yst-bg-red-500" } />
+								<IndexableScore colorClass={ assessmentFunction( indexable ) } />
 								<IndexableLinkCount count={ parseInt( indexable[ countKey ], 10 ) } />
 								<IndexableTitleLink indexable={ indexable } />
 								<div key={ `least-linked-modal-button-${ indexable.id }` }  className="yst-shrink-0">
@@ -125,6 +126,7 @@ IndexablesLinksCard.propTypes = {
 	scoreThresholds: PropTypes.shape( { medium: PropTypes.number.isRequired } ),
 	indexablesLists: PropTypes.object,
 	handleLink: PropTypes.func,
+	assessmentFunction: PropTypes.func.isRequired,
 };
 
 IndexablesLinksCard.defaultProps = {
