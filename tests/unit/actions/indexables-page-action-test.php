@@ -210,7 +210,6 @@ class Indexables_Page_Action_Test extends TestCase {
 	 * @return array Data for test_get_setup_info function.
 	 */
 	public function get_setup_info_provider() {
-
 		$seo_score_enabled_no_posts = [
 			'ignore_list_state'        => [
 				'keyword_analysis_active'  => false,
