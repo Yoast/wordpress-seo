@@ -8,17 +8,12 @@ import { reduce, isObject } from "lodash";
  */
 export const flattenObject = ( object, parentPath = "" ) => reduce(
 	object,
-	( acc, value, key ) => {
-		if ( isObject( value ) ) {
-			return {
-				...acc,
-				...flattenObject( value, key ),
-			};
-		}
-		return {
-			...acc,
-			[ `${parentPath}.${key}` ]: value,
-		};
+	( acc, value, key ) => isObject( value ) ? {
+		...acc,
+		...flattenObject( value, key ),
+	} : {
+		...acc,
+		[ `${parentPath}.${key}` ]: value,
 	},
 	{}
 );
