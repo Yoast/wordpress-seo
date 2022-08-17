@@ -100,14 +100,6 @@ class Indexables_Page_Action {
 		$posts_with_readability  = 0;
 		$posts_without_keyphrase = [];
 
-		if ( ! $features['isSeoScoreEnabled'] && ! $features['isReadabilityEnabled'] && ! $features['isLinkCountEnabled'] ) {
-			return [
-				'enabledFeatures'       => $features,
-				'enoughContent'         => false,
-				'enoughAnalysedContent' => false,
-			];
-		}
-
 		$all_posts = $this->query()->count();
 
 		if ( $all_posts < 1 ) {

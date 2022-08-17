@@ -48,9 +48,6 @@ function LandingPage() {
 		</div>;
 	} else if  ( indexingState !== "already_done" && indexingState !== "completed" ) {
 		return <IndexationView setIndexingState={ setIndexingState } />;
-	} else if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
-		// @TODO: needs UX
-		return <span>All features deactivated.</span>;
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
 	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
