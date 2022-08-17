@@ -59,9 +59,10 @@ class Indexables_Page_Action {
 
 		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [ 'attachment' ] );
 		$object_sub_types    = \array_diff( $object_sub_types, $excluded_post_types );
+		$only_post_pages     = \array_intersect( $object_sub_types, [ 'post', 'page' ] );
 
 		$wanted_sub_types = [];
-		foreach ( $object_sub_types as $sub_type ) {
+		foreach ( $only_post_pages as $sub_type ) {
 			if ( $this->post_type_helper->is_indexable( $sub_type ) && $this->post_type_helper->has_metabox( $sub_type ) ) {
 				$wanted_sub_types[] = $sub_type;
 			}
