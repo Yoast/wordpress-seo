@@ -65,24 +65,18 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99999, 2 );
+		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99999 );
 	}
 
 	/**
 	 * Filters the robots.txt output.
 	 *
 	 * @param string $robots_txt The robots.txt output from WordPress.
-	 * @param string $is_public  Option that says whether the site is public or not.
 	 *
 	 * @return string Filtered robots.txt output.
 	 */
-	public function filter_robots( $robots_txt, $is_public ) {
-		// If the site isn't public, bail.
-		if ( $is_public === '0' ) {
-			return $robots_txt;
-		}
-
-		$robots_txt = $this->change_default_robots( $robots_txt );
+	public function filter_robots( $robots_txt ) {
+		$robots_txt = $this->remove_default_robots( $robots_txt );
 		$this->maybe_add_xml_sitemap();
 		$this->add_subdirectory_multisite_xml_sitemaps();
 
@@ -93,7 +87,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 		 */
 		do_action( 'Yoast\WP\SEO\register_robots_rules', $this->robots_txt_helper );
 
-		return $robots_txt . "\n" . $this->robots_txt_presenter->present() . "\n";
+		return rtrim( $robots_txt . "\n" . $this->robots_txt_presenter->present() . "\n" );
 	}
 
 	/**
@@ -103,10 +97,10 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 *
 	 * @return string
 	 */
-	protected function change_default_robots( $robots_txt ) {
+	protected function remove_default_robots( $robots_txt ) {
 		return \str_replace(
-			"User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php",
-			"User-agent: *\nDisallow:",
+			"User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n",
+			"",
 			$robots_txt
 		);
 	}
