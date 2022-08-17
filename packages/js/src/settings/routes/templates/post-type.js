@@ -235,7 +235,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					) }
 					description={ sprintf(
 						/* translators: %1$s expands to the post type plural, e.g. Posts. */
-						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s", "wordpress-seo" ),
+						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s.", "wordpress-seo" ),
 						label
 					) }
 				/>

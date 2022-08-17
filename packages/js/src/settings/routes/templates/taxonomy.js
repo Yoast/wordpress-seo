@@ -170,7 +170,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 					) }
 					description={ sprintf(
 						/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
-						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s", "wordpress-seo" ),
+						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s.", "wordpress-seo" ),
 						label
 					) }
 				/>
