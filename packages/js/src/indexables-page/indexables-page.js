@@ -311,10 +311,12 @@ function IndexablesPage( { setupInfo } ) {
 				setIgnoredIndexable( null );
 				return true;
 			}
+			/* eslint-disable-next-line no-warning-comments */
 			// @TODO: Throw an error notification.
 			console.error( "Undoing post has failed." );
 			return false;
 		} catch ( error ) {
+			/* eslint-disable-next-line no-warning-comments */
 			// @TODO: Throw an error notification.
 			console.error( error.message );
 			return false;
