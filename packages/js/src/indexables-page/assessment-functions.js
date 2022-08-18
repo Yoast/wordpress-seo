@@ -5,7 +5,7 @@
  *
  * @returns {string} The bullet color.
  */
-function SEOScoreAssessment( indexable ) {
+function seoScoreAssessment( indexable ) {
 	const SEOScoreThresholds = { medium: 40, good: 70 };
 
 	return parseInt( indexable.primary_focus_keyword_score, 10 ) > SEOScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
@@ -18,7 +18,7 @@ function SEOScoreAssessment( indexable ) {
  *
  * @returns {string} The bullet color.
  */
-function ReadabilityScoreAssessment( indexable ) {
+function readabilityScoreAssessment( indexable ) {
 	const readabilityScoreThresholds = { medium: 59, good: 89 };
 
 	return parseInt( indexable.readability_score, 10 ) > readabilityScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
@@ -31,7 +31,7 @@ function ReadabilityScoreAssessment( indexable ) {
  *
  * @returns {string} The bullet color.
  */
-function LeastLinkedAssessment( indexable ) {
+function leastLinkedAssessment( indexable ) {
 	const leastLinkedThresholds = { medium: 1, good: 2 };
 
 	const linkCount = parseInt( indexable.incoming_link_count, 10 );
@@ -54,13 +54,13 @@ function LeastLinkedAssessment( indexable ) {
  *
  * @returns {string} The bullet color.
  */
-function MostLinkedeAssessment( indexable ) {
+function mostLinkedAssessment( indexable ) {
 	return parseInt( indexable.is_cornerstone, 10 ) ? "yst-bg-emerald-500" : "yst-bg-red-500";
 }
 
 export {
-	SEOScoreAssessment,
-	ReadabilityScoreAssessment,
-	LeastLinkedAssessment,
-	MostLinkedeAssessment,
+	seoScoreAssessment,
+	readabilityScoreAssessment,
+	leastLinkedAssessment,
+	mostLinkedAssessment,
 };
