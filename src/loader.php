@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO;
 
+use Exception;
 use WP_CLI;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -53,23 +54,12 @@ class Loader {
 	protected $container;
 
 	/**
-	 * The invalid behavior to use when fetching classes from the container.
-	 *
-	 * @var int
-	 */
-	protected $invalid_behavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
-
-	/**
 	 * Loader constructor.
 	 *
 	 * @param ContainerInterface $container The dependency injection container.
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
-
-		if ( YOAST_ENVIRONMENT === 'production' ) {
-			$this->invalid_behavior = ContainerInterface::NULL_ON_INVALID_REFERENCE;
-		}
 	}
 
 	/**
@@ -177,7 +167,7 @@ class Loader {
 	 */
 	protected function load_commands() {
 		foreach ( $this->commands as $class ) {
-			$command = $this->container->get( $class, $this->invalid_behavior );
+			$command = $this->get_class( $class );
 
 			if ( $command === null ) {
 				continue;
@@ -198,7 +188,7 @@ class Loader {
 				continue;
 			}
 
-			$initializer = $this->container->get( $class, $this->invalid_behavior );
+			$initializer = $this->get_class( $class );
 
 			if ( $initializer === null ) {
 				continue;
@@ -219,7 +209,8 @@ class Loader {
 				continue;
 			}
 
-			$integration = $this->container->get( $class, $this->invalid_behavior );
+			$integration = $this->get_class( $class );
+			var_dump( $integration );
 
 			if ( $integration === null ) {
 				continue;
@@ -240,7 +231,7 @@ class Loader {
 				continue;
 			}
 
-			$route = $this->container->get( $class, $this->invalid_behavior );
+			$route = $this->get_class( $class );
 
 			if ( $route === null ) {
 				continue;
@@ -258,18 +249,55 @@ class Loader {
 	 * @return bool Whether or not all conditionals of the loadable are met.
 	 */
 	protected function conditionals_are_met( $loadable_class ) {
-		if ( ! \class_exists( $loadable_class ) ) {
+		// In production environments do not fatal if the class does not exist but log and fail gracefully.
+		if ( YOAST_ENVIRONMENT === 'production' && ! \class_exists( $loadable_class ) ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log(
+					\sprintf(
+						/* translators: %1$s expands to Yoast SEO, %2$s expands to the name of the class that could not be found. */
+						\__( '%1$s attempted to load the class %2$s but it could not be found.', 'wordpress-seo' ),
+						'Yoast SEO',
+						$loadable_class
+					)
+				);
+			}
 			return false;
 		}
 
 		$conditionals = $loadable_class::get_conditionals();
 		foreach ( $conditionals as $class ) {
-			$conditional = $this->container->get( $class, $this->invalid_behavior );
+			$conditional = $this->get_class( $class );
 			if ( $conditional === null || ! $conditional->is_met() ) {
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Gets a class from the container.
+	 *
+	 * @param string $class The class name.
+	 *
+	 * @return object|null The class or, in production environments, null if it does not exist.
+	 *
+	 * @throws Exception If the class does not exist in development environments.
+	 */
+	protected function get_class( $class ) {
+		try {
+			return $this->container->get( $class );
+		} catch ( Exception $e ) {
+			// In production environments do not fatal if the class could not be constructred but log and fail gracefully.
+			if ( YOAST_ENVIRONMENT === 'production' ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( $e->getMessage() );
+				}
+				return null;
+			}
+			throw $e;
+		}
 	}
 }
