@@ -6,7 +6,6 @@ import { defaults, isEmpty, isEqual, isNil } from "lodash-es";
  * 		   slug: string, locale: string, permalink: string, date: string}}
  */
 const defaultAttributes = {
-	textTitle: "",
 	keyword: "",
 	synonyms: "",
 	description: "",
