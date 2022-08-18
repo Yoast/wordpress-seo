@@ -1,9 +1,27 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { TextField } from "@yoast/ui-library";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FormikWithErrorField, FormLayout } from "../components";
+import { FormikValueChangeField, FormLayout } from "../components";
 import { createLink } from "../helpers";
+import { withFormikError } from "../hocs";
 import { useSelectSettings } from "../store";
+
+/**
+ * Transforms the value to the content of the content tag.
+ *
+ * If the value is a HTML tag, e.g. `<meta content="foo" />`.
+ * Then this function will return `foo`.
+ * Otherwise, the original value will be returned.
+ *
+ * @param {Object} event The change event.
+ * @returns {string} The original value or the value of the content tag.
+ */
+const transformContentTag = event => {
+	const match = event.target.value.match( /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/ );
+	return match?.groups?.content ? match.groups.content : event.target.value;
+};
+
+const FormikValueChangeWithErrorField = withFormikError( FormikValueChangeField );
 
 /**
  * @returns {JSX.Element} The webmaster tools route.
@@ -17,7 +35,7 @@ const WebmasterTools = () => {
 			description={ __( "Verify your site with different webmaster tools. This will add a verification meta tag on your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
 		>
 			<fieldset className="yst-max-w-screen-sm yst-space-y-8">
-				<FormikWithErrorField
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.baiduverify"
@@ -33,8 +51,9 @@ const WebmasterTools = () => {
 						"link-baidu-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
-				<FormikWithErrorField
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.msverify"
@@ -50,8 +69,9 @@ const WebmasterTools = () => {
 						"link-bing-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
-				<FormikWithErrorField
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.googleverify"
@@ -67,8 +87,9 @@ const WebmasterTools = () => {
 						"link-google-search-console"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
-				<FormikWithErrorField
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo_social.pinterestverify"
@@ -84,8 +105,9 @@ const WebmasterTools = () => {
 						"link-pinterest"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
-				<FormikWithErrorField
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.yandexverify"
@@ -101,6 +123,7 @@ const WebmasterTools = () => {
 						"link-yandex-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
 			</fieldset>
 		</FormLayout>

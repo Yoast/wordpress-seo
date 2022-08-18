@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import { __ } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
-import { object, number, addMethod, string } from "yup";
-import { includes, get, reduce } from "lodash";
+import { __ } from "@wordpress/i18n";
+import { get, includes, reduce } from "lodash";
+import { addMethod, number, object, string } from "yup";
 import { STORE_NAME } from "../constants";
 
 addMethod( number, "isMediaTypeImage", function() {
@@ -20,21 +20,6 @@ addMethod( number, "isMediaTypeImage", function() {
 } );
 
 /**
- * Transforms the value to the content of the content tag.
- *
- * If the value is a HTML tag, e.g. `<meta content="foo" />`.
- * Then this function will return `foo`.
- * Otherwise, the original value will be returned.
- *
- * @param {string} value The value.
- * @returns {string} The original value or the value of the content tag.
- */
-const transformContentTag = value => {
-	const match = value.match( /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/ );
-	return match?.groups?.content ? match.groups.content : value;
-};
-
-/**
  * @param {Object} settings The initial settings.
  * @returns {Object} Yup validation schema.
  */
@@ -44,22 +29,17 @@ export const createValidationSchema = settings => {
 	return object().shape( {
 		wpseo: object().shape( {
 			baiduverify: string()
-				.transform( transformContentTag )
 				.matches( /^[A-Za-z0-9_-]+$/, "The verification code is not valid. Please use only letters, numbers, underscores and dashes." ),
 			googleverify: string()
-				.transform( transformContentTag )
 				.matches( /^[A-Za-z0-9_-]+$/, "The verification code is not valid. Please use only letters, numbers, underscores and dashes." ),
 			msverify: string()
-				.transform( transformContentTag )
 				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
 			yandexverify: string()
-				.transform( transformContentTag )
 				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
 		} ),
 		wpseo_social: object().shape( {
 			og_default_image_id: number().isMediaTypeImage(),
 			pinterestverify: string()
-				.transform( transformContentTag )
 				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
 		} ),
 		wpseo_titles: object().shape( {
