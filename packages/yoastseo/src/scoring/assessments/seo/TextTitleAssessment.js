@@ -6,7 +6,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
- * Assessment for checking whether texts (e.g., posts, pages or CPTs) are missing a title.
+ * Assessment for checking whether texts (e.g., posts, pages or CPTs and other content types) are missing a title.
  */
 class TextTitleAssessment extends Assessment {
 	/**
@@ -57,7 +57,9 @@ class TextTitleAssessment extends Assessment {
 	/**
 	 * Returns the result object based on the number of keyword matches in the meta description.
 	 *
-	 * @returns {Object} Result object with score and text.
+	 * @param {boolean} textTitleData Whether the text has a title.
+	 *
+	 * @returns {{resultText: string, score}} Result object with score and text.
 	 */
 	calculateResult( textTitleData ) {
 		// GOOD result when the text has a title.
@@ -77,26 +79,23 @@ class TextTitleAssessment extends Assessment {
 		}
 
 		// BAD if the text is missing a title.
-		if ( ! textTitleData ) {
-			return {
-				score: this._config.scores.bad,
-				resultText: sprintf(
-					/**
+		return {
+			score: this._config.scores.bad,
+			resultText: sprintf(
+				/**
 					 * Translators:
-					 * %1$s and %3$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+					 * %1$s and %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag.
 					 */
-					__(
-						// eslint-disable-next-line max-len
-						"%1$sPage title%2$s: Your page does not have a title yet. %3$sAdd one%2$s!",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					"</a>",
-					this._config.urlCallToAction,
-					"</a>"
+				__(
+					// eslint-disable-next-line max-len
+					"%1$sTitle%3$s: Your page does not have a title yet. %2$sAdd one%3$s!",
+					"wordpress-seo"
 				),
-			};
-		}
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>"
+			),
+		};
 	}
 }
 
