@@ -217,7 +217,7 @@ class Yoast_Form {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before. Specifically, the $text variable can contain escaped html.
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
