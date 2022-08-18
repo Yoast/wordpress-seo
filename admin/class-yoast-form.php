@@ -200,7 +200,7 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $text Label text string.
+	 * @param string $text Label text string, which can contain escaped html.
 	 * @param array  $attr HTML attributes set.
 	 */
 	public function label( $text, $attr ) {
