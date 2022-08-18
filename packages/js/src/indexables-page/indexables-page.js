@@ -1,14 +1,55 @@
 /* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
+import { LinkIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
-import { useEffect, useState, useCallback } from "@wordpress/element";
-import { Button, Modal, useMediaQuery } from "@yoast/ui-library";
+import { useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
+import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
+import { makeOutboundLink } from "@yoast/helpers";
 import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
-import IndexablesScoreCard from "./components/indexables-score-card";
-import IndexablesLinksCard from "./components/indexables-links-card";
-import { SEOScoreAssessment, ReadabilityScoreAssessment, LeastLinkedAssessment, MostLinkedeAssessment } from "./assessment-functions";
+import IndexableTitleLink from "./components/indexable-title-link";
+import IndexablesPageCard from "./components/indexables-card";
+import IndexablesTable from "./components/indexables-table";
+import { seoScoreAssessment, readabilityScoreAssessment, mostLinkedAssessment } from "./assessment-functions";
+
+const Link = makeOutboundLink();
+
+/**
+ * A score representation.
+ *
+ * @param {string} colorClass The color of the bullet.
+ *
+ * @returns {WPElement} A div with a styled score representation.
+ */
+export function IndexableScore( { colorClass } ) {
+	return <div className="yst-flex yst-items-center">
+		<span className={ "yst-rounded-full yst-w-3 yst-h-3 " + colorClass } />
+	</div>;
+}
+
+IndexableScore.propTypes = {
+	colorClass: PropTypes.string.isRequired,
+};
+
+
+/**
+ * A link count representation.
+ *
+ * @param {int} count The number of links.
+ *
+ * @returns {WPElement} A div with a styled link count representation.
+ */
+export function IndexableLinkCount( { count } ) {
+	return 	<div className="yst-min-w-[36px] yst-shrink-0 yst-flex yst-items-center yst-gap-1.5">
+		<LinkIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />
+		{ count }
+	</div>;
+}
+
+IndexableLinkCount.propTypes = {
+	count: PropTypes.number.isRequired,
+};
 
 const leastLinkedIntro = addLinkToString(
 	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
@@ -59,6 +100,7 @@ const mostLinkedOutro = addLinkToString(
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
 /* eslint-disable complexity */
+/* eslint-disable max-statements */
 
 /**
  * Renders the four indexable tables.
@@ -70,15 +112,16 @@ function IndexablesPage( { setupInfo } ) {
 	const minimumIndexablesInBuffer = listSize * 2;
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
+	const [ loadedCards, setLoadedCards ] = useState( [] );
 
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
 
 	const [ indexablesLists, setIndexablesLists ] = useState(
 		{
-			least_readability: null,
-			least_seo_score: null,
-			most_linked: null,
-			least_linked: null,
+			least_readability: [],
+			least_seo_score: [],
+			most_linked: [],
+			least_linked: [],
 		}
 	);
 
@@ -91,19 +134,65 @@ function IndexablesPage( { setupInfo } ) {
 		}
 	);
 
+	const listFeatureLookup = useMemo( () => ( {
+		least_seo_score: setupInfo.enabledFeatures.isSeoScoreEnabled,
+		least_readability: setupInfo.enabledFeatures.isReadabilityEnabled,
+		least_linked: setupInfo.enabledFeatures.isLinkCountEnabled,
+		most_linked: setupInfo.enabledFeatures.isLinkCountEnabled,
+	} ), [ setupInfo ] );
+
+	const isListFeatureEnabled = useCallback( ( listName ) => {
+		return listFeatureLookup[ listName ];
+	}, [ listFeatureLookup ] );
+
+	const isListLoaded = useCallback( ( listName ) => {
+		return loadedCards.includes( listName );
+	}, [ loadedCards ] );
+
+	const isListEmpty = useCallback( ( listName ) => {
+		return indexablesLists[ listName ].length === 0;
+	}, [ indexablesLists ] );
+
 	const [ ignoredIndexable, setIgnoredIndexable ] = useState( null );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ suggestedLinksModalData, setSuggestedLinksModalData ] = useState( null );
 
+	const shouldShowDisabledAlert = useCallback( listName => {
+		// If the list's feature is disabled.
+		return ! isListFeatureEnabled( listName );
+	}, [ isListFeatureEnabled ] );
+
+	const shouldShowLoading = useCallback( listName => {
+		// If no fetch has been completed, and the feature for the list is enabled.
+		return isListFeatureEnabled( listName ) && ! isListLoaded( listName );
+	}, [ isListLoaded, isListFeatureEnabled ] );
+
+
+	const shouldShowTable = useCallback( listName => {
+		// If a fetch has been completed, the feature for the list is enabled, and the list is not empty.
+		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && ! isListEmpty( listName );
+	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
+
+
+	const shouldShowEmptyAlert = useCallback( listName => {
+		// If a fetch has been completed, the feature for the list is enabled, but the list is empty.
+		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && isListEmpty( listName );
+	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
+
 	/**
 	 * Fetches a list of indexables.
 	 *
-	 * @param {string} listName The name of the list to fetch.
+	 * @param {string} listName           The name of the list to fetch.
+	 * @param {boolean} isAdditionalFetch Whether or not this is not the first fetch.
 	 *
 	 * @returns {boolean} True if the request was successful.
 	 */
-	const fetchList = async( listName ) => {
+	const fetchList = async( listName, isAdditionalFetch = false ) => {
 		try {
+			if ( isAdditionalFetch ) {
+				setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== listName ) );
+			}
+
 			const response = await apiFetch( {
 				path: `yoast/v1/${ listName }`,
 				method: "GET",
@@ -124,6 +213,8 @@ function IndexablesPage( { setupInfo } ) {
 					[ listName ]: parsedResponse.list.length,
 				};
 			} );
+
+			setLoadedCards( prevState => [ ...prevState, listName ] );
 			return true;
 		} catch ( e ) {
 			// URL() constructor throws a TypeError exception if url is malformed.
@@ -163,12 +254,12 @@ function IndexablesPage( { setupInfo } ) {
 	 * @returns {boolean} True if the update was successful.
 	 */
 	const updateList = ( listName, indexablesList ) => {
-		if ( indexablesList === null ) {
+		if ( indexablesList.length === 0 ) {
 			return fetchList( listName );
 		}
 
 		return ( indexablesList.length < minimumIndexablesInBuffer  && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer )
-			? fetchList( listName )
+			? fetchList( listName, true )
 			: maybeRemoveIgnored( listName );
 	};
 
@@ -176,15 +267,21 @@ function IndexablesPage( { setupInfo } ) {
 		if ( setupInfo.enoughContent && setupInfo.enoughAnalysedContent ) {
 			if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
 				updateList( "least_readability", indexablesLists.least_readability );
+			} else {
+				setLoadedCards( prevState => [ ...prevState, "least_readability" ] );
 			}
 
 			if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
 				updateList( "least_seo_score", indexablesLists.least_seo_score );
+			} else {
+				setLoadedCards( prevState => [ ...prevState, "least_seo_score" ] );
 			}
 
 			if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
 				updateList( "most_linked", indexablesLists.most_linked );
 				updateList( "least_linked", indexablesLists.least_linked );
+			} else {
+				setLoadedCards( prevState => [ ...prevState, "most_linked", "least_linked" ] );
 			}
 		}
 	}, [] );
@@ -328,37 +425,144 @@ function IndexablesPage( { setupInfo } ) {
 	}, [ handleUndo ] );
 
 	const singleColumn = [
-		<IndexablesScoreCard
+		<IndexablesPageCard
 			key="lowest-readability-scores"
-			title={ __( "Lowest readability scores", "wordpress-seo" ) }
-			setIgnoredIndexable={ setIgnoredIndexable }
-			indexablesLists={ indexablesLists }
-			scoreKey={ "readability_score" }
-			listKey={ "least_readability" }
-			listSize={ listSize }
+			title={
+				shouldShowLoading( "least_readability" )
+					? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
+					: __( "Lowest readability scores", "wordpress-seo" )
+			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
-			assessmentFunction={ ReadabilityScoreAssessment }
-			isDisabled={ ! setupInfo.enabledFeatures.isReadabilityEnabled }
-			feature={ __( "Readability analysis", "wordpress-seo" ) }
-			metric={ __( "Readability score", "wordpress-seo" ) }
-		/>,
-		<IndexablesLinksCard
+		>
+			{
+				shouldShowDisabledAlert( "least_readability" ) && <Alert type={ "info" }>
+					{
+						addLinkToString(
+							// translators: %1$s and %2$s are the opening and closing anchor tags.
+							sprintf(
+								__(
+									"You've disabled the 'Readability analysis' feature. " +
+									"Enable this feature on the %1$sFeatures tab%2$s if you want us to calculate the Readability score of your content",
+									"wordpress-seo"
+								),
+								"<a>",
+								"</a>"
+							), "/wp-admin/admin.php?page=wpseo_dashboard#top#features"
+
+						)
+					}
+				</Alert>
+			}
+			{
+				shouldShowLoading( "least_readability" ) && <IndexablesTable isLoading={ true } />
+			}
+			{
+				shouldShowTable( "least_readability" ) && <IndexablesTable>
+					{ indexablesLists.least_readability.slice( 0, listSize ).map(
+						( indexable, position ) => {
+							return <IndexablesTable.Row
+								key={ `indexable-${ indexable.id }-row` }
+								type={ "least_readability" }
+								indexable={ indexable }
+								addToIgnoreList={ setIgnoredIndexable }
+								position={ position }
+							>
+								<IndexableScore
+									colorClass={ readabilityScoreAssessment( indexable ) }
+								/>
+								<IndexableTitleLink indexable={ indexable } />
+								<div>
+									<Link
+										id="least-readability-edit-link"
+										href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+										className="yst-button yst-button--secondary yst-text-gray-700"
+									>
+										{ __( "Improve", "wordpress-seo" ) }
+									</Link>
+								</div>
+							</IndexablesTable.Row>;
+						}
+					) }
+				</IndexablesTable>
+			}
+			{
+				shouldShowEmptyAlert( "least_readability" ) && <Alert type="info"><p>This list is empty</p></Alert>
+			}
+		</IndexablesPageCard>,
+		<IndexablesPageCard
 			key="lowest-link-count"
-			title={ __( "Lowest number of incoming links", "wordpress-seo" ) }
-			intro={ leastLinkedIntro }
-			outro={ leastLinkedOutro }
-			setIgnoredIndexable={ setIgnoredIndexable }
-			indexablesLists={ indexablesLists }
-			countKey={ "incoming_link_count" }
-			listKey={ "least_linked" }
-			listSize={ listSize }
-			handleLink={ handleLink }
+			title={
+				shouldShowLoading( "least_linked" )
+					? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
+					: __( "Lowest number of incoming links", "wordpress-seo" )
+			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
-			assessmentFunction={ LeastLinkedAssessment }
-			isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
-			feature={ __( "Text link counter", "wordpress-seo" ) }
-			metric={ __( "number of links", "wordpress-seo" ) }
-		/>,
+		>
+			{
+				shouldShowDisabledAlert( "least_linked" ) && <Alert type={ "info" }>
+					{
+						addLinkToString(
+							// translators: %1$s and %2$s are the opening and closing anchor tags.
+							sprintf(
+								__(
+									"You've disabled the 'Text link counter' feature. " +
+									"Enable this feature on the %1$sFeatures tab%2$s if you want us to calculate the number of links in your content",
+									"wordpress-seo"
+								),
+								"<a>",
+								"</a>"
+							), "/wp-admin/admin.php?page=wpseo_dashboard#top#features"
+
+						)
+					}
+				</Alert>
+			}
+			{
+				shouldShowLoading( "least_linked" ) && <IndexablesTable isLoading={ true } />
+			}
+			{
+				shouldShowTable( "least_linked" ) && <Fragment>
+					<div className="yst-mb-3 yst-text-justify yst-pr-6">
+						{ leastLinkedIntro }
+					</div>
+					<IndexablesTable>
+						{ indexablesLists.least_linked.slice( 0, listSize ).map(
+							( indexable, position ) => {
+								return <IndexablesTable.Row
+									key={ `indexable-${ indexable.id }-row` }
+									type={ "least_linked" }
+									indexable={ indexable }
+									addToIgnoreList={ setIgnoredIndexable }
+									position={ position }
+								>
+									<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
+									<IndexableTitleLink indexable={ indexable } />
+									<div key={ `least-linked-modal-button-${ indexable.id }` }  className="yst-shrink-0">
+										<Button
+											id="least-linked-modal-button"
+											data-indexableid={ indexable.id }
+											data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
+											data-breadcrumbtitle={ indexable.breadcrumb_title }
+											data-permalink={ indexable.permalink }
+											onClick={ handleLink }
+											variant="secondary"
+										>
+											{ __( "Add links", "wordpress-seo" ) }
+										</Button>
+									</div>
+								</IndexablesTable.Row>;
+							}
+						) }
+					</IndexablesTable>
+					<div className="yst-mt-3 yst-text-justify yst-pr-6">
+						{ leastLinkedOutro }
+					</div>
+				</Fragment>
+			}
+			{
+				shouldShowEmptyAlert( "least_linked" ) && <Alert type="info"><p>This list is empty</p></Alert>
+			}
+		</IndexablesPageCard>,
 	];
 
 	const doubleColumn = [ ...singleColumn ].reverse();
@@ -380,38 +584,141 @@ function IndexablesPage( { setupInfo } ) {
 			id="indexables-table-columns"
 			className="yst-max-w-7xl yst-flex yst-flex-col 2xl:yst-block 2xl:yst-columns-2 yst-gap-6"
 		>
-			<IndexablesScoreCard
-				key="lowest-seo-scores"
-				title={ __( "Lowest SEO scores", "wordpress-seo" ) }
-				setIgnoredIndexable={ setIgnoredIndexable }
-				indexablesLists={ indexablesLists }
-				scoreKey={ "primary_focus_keyword_score" }
-				listKey={ "least_seo_score" }
-				listSize={ listSize }
+			<IndexablesPageCard
+				title={
+					shouldShowLoading( "least_seo_score" )
+						? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
+						: __( "Lowest SEO scores", "wordpress-seo" )
+				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
-				assessmentFunction={ SEOScoreAssessment }
-				isDisabled={ ! setupInfo.enabledFeatures.isSeoScoreEnabled }
-				feature={ __( "SEO analysis", "wordpress-seo" ) }
-				metric={ __( "SEO score", "wordpress-seo" ) }
-			/>
+			>
+				{
+					shouldShowDisabledAlert( "least_seo_score" ) && <Alert type={ "info" }>
+						{
+							addLinkToString(
+								// translators: %1$s and %2$s are the opening and closing anchor tags.
+								sprintf(
+									__(
+										"You've disabled the 'SEO analysis' feature. " +
+										"Enable this feature on the %1$sFeatures tab%2$s if you want us to calculate the SEO score of your content",
+										"wordpress-seo"
+									),
+									"<a>",
+									"</a>"
+								), "/wp-admin/admin.php?page=wpseo_dashboard#top#features"
+
+							)
+						}
+					</Alert>
+				}
+				{
+					shouldShowLoading( "least_seo_score" ) && <IndexablesTable isLoading={ true } />
+				}
+				{
+					shouldShowTable( "least_seo_score" ) && <IndexablesTable>
+						{ indexablesLists.least_seo_score.slice( 0, listSize ).map(
+							( indexable, position ) => {
+								return <IndexablesTable.Row
+									key={ `indexable-${ indexable.id }-row` }
+									type={ "least_seo_score" }
+									indexable={ indexable }
+									addToIgnoreList={ setIgnoredIndexable }
+									position={ position }
+								>
+									<IndexableScore
+										colorClass={ seoScoreAssessment( indexable ) }
+									/>
+									<IndexableTitleLink indexable={ indexable } />
+									<div>
+										<Link
+											id="least-seo-score-edit-link"
+											href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+											className="yst-button yst-button--secondary yst-text-gray-700"
+										>
+											{ __( "Improve", "wordpress-seo" ) }
+										</Link>
+									</div>
+								</IndexablesTable.Row>;
+							}
+						) }
+					</IndexablesTable>
+				}
+				{
+					shouldShowEmptyAlert( "least_seo_score" ) && <Alert type="info"><p>This list is empty</p></Alert>
+				}
+			</IndexablesPageCard>
 			{ isSingleColumn ? singleColumn : doubleColumn }
-			<IndexablesLinksCard
-				key="highest-link-count"
-				title={ __( "Highest number of incoming links", "wordpress-seo" ) }
-				intro={ mostLinkedIntro }
-				outro={ mostLinkedOutro }
-				setIgnoredIndexable={ setIgnoredIndexable }
-				indexablesLists={ indexablesLists }
-				countKey={ "incoming_link_count" }
-				listKey={ "most_linked" }
-				listSize={ listSize }
-				handleLink={ handleLink }
+			<IndexablesPageCard
+				key="most-link-count"
+				title={
+					shouldShowLoading( "most_linked" )
+						? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
+						: __( "Highest number of incoming links", "wordpress-seo" )
+				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
-				assessmentFunction={ MostLinkedeAssessment }
-				isDisabled={ ! setupInfo.enabledFeatures.isLinkCountEnabled }
-				feature={ __( "Text link counter", "wordpress-seo" ) }
-				metric={ __( "number of links", "wordpress-seo" ) }
-			/>
+			>
+				{
+					shouldShowDisabledAlert( "most_linked" ) && <Alert type={ "info" }>
+						{
+							addLinkToString(
+								// translators: %1$s and %2$s are the opening and closing anchor tags.
+								sprintf(
+									__(
+										"You've disabled the 'Text link counter' feature. " +
+										"Enable this feature on the %1$sFeatures tab%2$s if you want us to calculate the number of links in your content",
+										"wordpress-seo"
+									),
+									"<a>",
+									"</a>"
+								), "/wp-admin/admin.php?page=wpseo_dashboard#top#features"
+
+							)
+						}
+					</Alert>
+				}
+				{
+					shouldShowLoading( "most_linked" ) && <IndexablesTable isLoading={ true } />
+				}
+				{
+					shouldShowTable( "most_linked" ) && <Fragment>
+						<div className="yst-mb-3 yst-text-justify yst-pr-6">
+							{ mostLinkedIntro }
+						</div>
+						<IndexablesTable>
+							{ indexablesLists.most_linked.slice( 0, listSize ).map(
+								( indexable, position ) => {
+									return <IndexablesTable.Row
+										key={ `indexable-${ indexable.id }-row` }
+										type={ "most_linked" }
+										indexable={ indexable }
+										addToIgnoreList={ setIgnoredIndexable }
+										position={ position }
+									>
+										<IndexableScore colorClass={ mostLinkedAssessment( indexable ) } />
+										<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
+										<IndexableTitleLink indexable={ indexable } />
+										<div>
+											<Link
+												id="most-linked-edit-link"
+												href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+												className="yst-button yst-button--secondary yst-text-gray-700"
+											>
+												{ __( "Edit", "wordpress-seo" ) }
+											</Link>
+										</div>
+									</IndexablesTable.Row>;
+								}
+							) }
+						</IndexablesTable>
+						<div className="yst-mt-3 yst-text-justify yst-pr-6">
+							{ mostLinkedOutro }
+						</div>
+					</Fragment>
+				}
+				{
+					shouldShowEmptyAlert( "most_linked" ) && <Alert type="info"><p>This list is empty, but why</p></Alert>
+				}
+			</IndexablesPageCard>
 		</div>
 		{ ignoredIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoredIndexable ) }>{ `Undo ignore ${ignoredIndexable.indexable.id}` }</Button></div> }
 	</div>;

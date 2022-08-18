@@ -5,7 +5,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import IndexablesPageCard from "./indexables-card";
 import { useState, useCallback, Fragment } from "@wordpress/element";
 import { Button, Link } from "@yoast/ui-library";
-import { IndexableLinkCount } from "./indexables-links-card";
+import { IndexableLinkCount } from "../indexables-page";
 
 /**
  * Renders the four indexable tables.

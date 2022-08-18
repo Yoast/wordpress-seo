@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { IndexableLinkCount } from "./indexables-links-card";
+import { IndexableLinkCount } from "../indexables-page";
 import { IndexableTitleLink } from "./indexable-title-link";
 import SvgIcon from "../../../../components/src/SvgIcon";
 import { range } from "lodash";
