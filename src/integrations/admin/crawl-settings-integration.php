@@ -276,6 +276,9 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			];
 		}
 		foreach ( $settings as $setting => $label ) {
+			if ( ! $this->should_feature_be_shown( $setting, $is_network ) ) {
+				continue;
+			}
 			$yform->toggle_switch(
 				$setting_prefix . $setting,
 				$toggles,
@@ -308,5 +311,20 @@ class Crawl_Settings_Integration implements Integration_Interface {
 					// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.
 					. WPSEO_Admin_Utils::get_new_tab_message();
 		echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span></a>';
+	}
+
+	/**
+	 * Checks if the feature should be shown.
+	 *
+	 * @param string $setting    The setting to be displayed.
+	 * @param bool   $is_network Whether we're on the network site.
+	 *
+	 * @return bool
+	 */
+	protected function should_feature_be_shown( $setting, $is_network ) {
+		if ( $setting === 'deny_wp_json_crawling' && $is_network ) {
+			return false;
+		}
+		return true;
 	}
 }
