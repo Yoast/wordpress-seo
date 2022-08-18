@@ -85,9 +85,9 @@ class Robots_Txt_Integration implements Integration_Interface {
 		 *
 		 * @param Robots_Txt_Helper $robots_txt_helper The Robots_Txt_Helper object.
 		 */
-		do_action( 'Yoast\WP\SEO\register_robots_rules', $this->robots_txt_helper );
+		\do_action( 'Yoast\WP\SEO\register_robots_rules', $this->robots_txt_helper );
 
-		return rtrim( $robots_txt . "\n" . $this->robots_txt_presenter->present() . "\n" );
+		return \rtrim( $robots_txt . "\n" . $this->robots_txt_presenter->present() . "\n" );
 	}
 
 	/**
