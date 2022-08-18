@@ -53,12 +53,23 @@ class Loader {
 	protected $container;
 
 	/**
+	 * The invalid behavior to use when fetching classes from the container.
+	 *
+	 * @var int
+	 */
+	protected $invalid_behavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+
+	/**
 	 * Loader constructor.
 	 *
 	 * @param ContainerInterface $container The dependency injection container.
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
+
+		if ( YOAST_ENVIRONMENT === 'production' ) {
+			$this->invalid_behavior = ContainerInterface::NULL_ON_INVALID_REFERENCE;
+		}
 	}
 
 	/**
@@ -166,7 +177,7 @@ class Loader {
 	 */
 	protected function load_commands() {
 		foreach ( $this->commands as $class ) {
-			$command = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+			$command = $this->container->get( $class, $this->invalid_behavior );
 
 			if ( $command === null ) {
 				continue;
@@ -187,7 +198,7 @@ class Loader {
 				continue;
 			}
 
-			$initializer = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+			$initializer = $this->container->get( $class, $this->invalid_behavior );
 
 			if ( $initializer === null ) {
 				continue;
@@ -208,7 +219,7 @@ class Loader {
 				continue;
 			}
 
-			$integration = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+			$integration = $this->container->get( $class, $this->invalid_behavior );
 
 			if ( $integration === null ) {
 				continue;
@@ -229,7 +240,7 @@ class Loader {
 				continue;
 			}
 
-			$route = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+			$route = $this->container->get( $class, $this->invalid_behavior );
 
 			if ( $route === null ) {
 				continue;
@@ -253,7 +264,7 @@ class Loader {
 
 		$conditionals = $loadable_class::get_conditionals();
 		foreach ( $conditionals as $class ) {
-			$conditional = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+			$conditional = $this->container->get( $class, $this->invalid_behavior );
 			if ( $conditional === null || ! $conditional->is_met() ) {
 				return false;
 			}
