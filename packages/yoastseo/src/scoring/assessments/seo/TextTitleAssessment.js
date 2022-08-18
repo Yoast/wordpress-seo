@@ -27,8 +27,8 @@ class TextTitleAssessment extends Assessment {
 				good: 9,
 				bad: -10000,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoast.com" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoast.com" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4nh" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4ni" ),
 		};
 
 		this.identifier = "textTitleAssessment";
