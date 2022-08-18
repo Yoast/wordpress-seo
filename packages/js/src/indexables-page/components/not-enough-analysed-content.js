@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 
 import IndexablesPageCard from "./indexables-card";
-import { useState, useCallback } from "@wordpress/element";
+import { useState, useCallback, Fragment } from "@wordpress/element";
 import { Button, Link } from "@yoast/ui-library";
 import { IndexableLinkCount } from "./indexables-links-card";
 
@@ -24,26 +24,40 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 		setStep( newStep );
 	}, [ numberOfVisibleIndexables, setNumberOfVisibleIndexables ] );
 
+	const title = seoEnabled
+		/* translators: %1$s expands to the number of posts without a focus keyphrase */
+		? sprintf(
+			__(
+				"Posts and pages without a focus keyphrase (%1$s)",
+				"wordpress-seo"
+			),
+			indexablesList.length
+		)
+		/* translators: %1$s expands to the number of posts which hasn't been analyzed */
+		: sprintf(
+			__(
+				"Posts and pages that haven't been analyzed (%1$s)",
+				"wordpress-seo"
+			),
+			indexablesList.length
+		);
+
+	const description = seoEnabled
+		? <Fragment>
+			<p>{ __( "Most of your posts and pages don't have a focus keyphrase yet. Help us to analyze your content by adding focus keyphrases. Below, we ordered your post and pages on the highest number of incoming links, so you can start adding focus keyphrases for your most important content first.", "wordpress-seo" ) }</p>
+			<p className="yst-mt-4">{ __( "Clicking the 'Add focus keyphrase' button will open the editor in a new browser tab. Once you're done, don't forget to click 'Update'.", "wordpress-seo" ) }</p>
+		</Fragment>
+		: <p>{ __( "Most of your posts and pages haven't been analyzed yet. Help us to analyze your content by opening and updating it. Clicking the 'Open editor' button will open the editor in a new browser tab. Make sure to click 'Update' at the top of that page.", "wordpress-seo" ) }</p>;
+
 	return <div className="yst-max-w-full yst-mt-6">
 		<div
 			id="start-writing-content"
 			className="yst-max-w-2xl"
 		>
 			<IndexablesPageCard
-				title={
-					/* translators: %1$s expands to the number of posts without a focus keyphrase */
-					sprintf(
-						__(
-							"Posts without a focus keyphrase (%1$s)",
-							"wordpress-seo"
-						),
-						indexablesList.length
-					)
-				}
+				title={ title }
 			>
-				{
-					! seoEnabled && <p>{ __( "Most of your post haven't been analyzed yet. Help us to analyze your content by opening and updating your posts. Clicking the 'Open editor' button will open the post editor in a new browser tab. Make sure to click 'Update' at the top of that page.", "wordpress-seo" ) }</p>
-				}
+				{ description }
 				<ul className="yst-divide-y yst-divide-gray-200">
 					{ indexablesList.slice( 0, numberOfVisibleIndexables ).map(
 						( indexable, index ) => {
