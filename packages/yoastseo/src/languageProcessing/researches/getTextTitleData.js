@@ -1,4 +1,4 @@
-import { unifyWhiteSpace } from "../helpers/sanitize/unifyWhitespace";
+import { unifyAllSpaces } from "../helpers/sanitize/unifyWhitespace";
 
 /**
  * Gets the text title data from the paper.
@@ -9,7 +9,7 @@ import { unifyWhiteSpace } from "../helpers/sanitize/unifyWhitespace";
  */
 export default function( paper ) {
 	let textTitle = paper.getTextTitle();
-	textTitle = unifyWhiteSpace( textTitle );
+	textTitle = unifyAllSpaces( textTitle );
 	textTitle = textTitle.trim();
 
 	return textTitle.length > 0;
