@@ -95,7 +95,7 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @return Yoast_Notification
 	 */
 	protected function get_notification() {
-		if ( is_multisite() && get_site_option( 'wpseo_ms' )[ 'allow_inclusive_language_analysis_active' ] === false ) {
+		if ( is_multisite() && get_site_option( 'wpseo_ms' )['allow_inclusive_language_analysis_active'] === false ) {
 			$message = sprintf(
 			/* translators: %1$s is a link to the Features tab on the Yoast SEO Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
 				__(
@@ -106,7 +106,8 @@ class WPSEO_Inclusive_Language_Notice {
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-notification' ) . '">',
 				'</a>'
 			);
-		} else {
+		}
+		else {
 			$message = sprintf(
 			/* translators: %1$s is a link to the Features tab on the Yoast SEO Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
 				__(
