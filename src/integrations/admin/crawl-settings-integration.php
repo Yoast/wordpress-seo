@@ -188,6 +188,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	private function add_crawl_settings( $yform, $is_network ) {
 		$this->display_premium_upsell_btn();
 
+		echo '<div class="yoast-crawl-settings-disabled">';
+
 		$this->print_toggles( $this->basic_settings, $yform, $is_network, \__( 'Basic crawl settings', 'wordpress-seo' ), \__( 'Remove links added by WordPress to the header and &lt;head&gt;.', 'wordpress-seo' ) );
 		$this->print_toggles( $this->feed_settings, $yform, $is_network, \__( 'Feed crawl settings', 'wordpress-seo' ), \__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' ) );
 
@@ -234,6 +236,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			echo '</p>';
 			echo '</div>';
 		}
+
+		echo '</div>';
 	}
 
 	/**
@@ -270,21 +274,25 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			// NOTE: the off/on labels here are flipped from their actual would-be values in premium for cosmetic reasons and limitations with disabled toggles.
 			$toggles = [
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
-				'off' => \__( 'Allow Control', 'wordpress-seo' ),
+				'on'  => \__( 'Allow Control', 'wordpress-seo' ),
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
-				'on'  => \__( 'Disable', 'wordpress-seo' ),
+				'off' => \__( 'Disable', 'wordpress-seo' ),
 			];
 		}
 		foreach ( $settings as $setting => $label ) {
+			$attr = [
+				'disabled'                => true,
+				'preserve_disabled_value' => true,
+			];
+			if ( $this->should_feature_be_disabled_multisite( $setting ) ) {
+				$attr['preserve_disabled_value'] = false;
+			}
 			$yform->toggle_switch(
 				$setting_prefix . $setting,
 				$toggles,
 				$label,
 				'',
-				[
-					'disabled'                => true,
-					'preserve_disabled_value' => true,
-				]
+				$attr
 			);
 			if ( $setting === 'remove_feed_global_comments' && ! $is_network ) {
 				echo '<p class="yoast-crawl-settings-help yoast-crawl-settings-help-free ">';
