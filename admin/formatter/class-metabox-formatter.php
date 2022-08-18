@@ -310,7 +310,7 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Whether a multilingual plugin is currently active.
+	 * Checks whether a multilingual plugin is currently active. Currently, we only check the following plugins: WPML, Polylang, and TranslatePress.
 	 *
 	 * @return bool Whether a multilingual plugin is currently active.
 	 */

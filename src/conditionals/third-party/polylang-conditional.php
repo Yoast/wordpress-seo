@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Conditionals\Third_Party;
 use Yoast\WP\SEO\Conditionals\Conditional;
 
 /**
- * Checks whether the Polylang plugin is installed and active.
+ * Conditional that is only met when the Polylang plugin is active.
  */
 class Polylang_Conditional implements Conditional {
 
