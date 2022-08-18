@@ -122,6 +122,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_cleanup_emoji'                     => false,
 		'search_cleanup_patterns'                  => false,
 		'search_character_limit'                   => 50,
+		'deny_search_crawling'                     => false,
 		'deny_wp_json_crawling'                    => false,
 		'least_readability_ignore_list'            => [],
 		'least_seo_score_ignore_list'              => [],
