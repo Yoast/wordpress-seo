@@ -58,8 +58,15 @@ class Indexables_Page_Action {
 		$object_sub_types = \array_values( $this->post_type_helper->get_public_post_types() );
 
 		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [ 'attachment' ] );
+		/**
+		 * Filter: 'wpseo_indexable_included_post_types' - Allow developers to specify which post types will
+		 * be shown in the indexables overview cards.
+		 *
+		 * @param array $included_post_types The currently included post types.
+		 */
+		$included_post_types = \apply_filters( 'wpseo_indexable_included_post_types', [ 'post', 'page' ] );
 		$object_sub_types    = \array_diff( $object_sub_types, $excluded_post_types );
-		$only_post_pages     = \array_intersect( $object_sub_types, [ 'post', 'page' ] );
+		$only_post_pages     = \array_intersect( $object_sub_types, $included_post_types );
 
 		$wanted_sub_types = [];
 		foreach ( $only_post_pages as $sub_type ) {
