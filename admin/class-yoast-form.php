@@ -200,7 +200,7 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $text Label text string.
+	 * @param string $text Label text string, which can contain escaped html.
 	 * @param array  $attr HTML attributes set.
 	 */
 	public function label( $text, $attr ) {
@@ -217,8 +217,8 @@ class Yoast_Form {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>" . esc_html( $text );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before. Specifically, the $text variable can contain escaped html.
+		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
