@@ -276,9 +276,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			];
 		}
 		foreach ( $settings as $setting => $label ) {
-			if ( ! $this->should_feature_be_shown( $setting, $is_network ) ) {
-				continue;
-			}
 			$yform->toggle_switch(
 				$setting_prefix . $setting,
 				$toggles,
@@ -292,6 +289,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			if ( $setting === 'remove_feed_global_comments' && ! $is_network ) {
 				echo '<p class="yoast-crawl-settings-help yoast-crawl-settings-help-free ">';
 				echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
+				echo '</p>';
+			}
+			if ( $this->should_feature_be_disabled_multisite( $setting ) ) {
+				echo '<p class="disabled">';
+				\esc_html_e( 'This feature is not available for multisites.', 'wordpress-seo' );
 				echo '</p>';
 			}
 		}
@@ -314,17 +316,16 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if the feature should be shown.
+	 * Checks if the feature should be disabled due to the site being a multisite.
 	 *
-	 * @param string $setting    The setting to be displayed.
-	 * @param bool   $is_network Whether we're on the network site.
+	 * @param string $setting The setting to be displayed.
 	 *
 	 * @return bool
 	 */
-	protected function should_feature_be_shown( $setting, $is_network ) {
-		if ( $setting === 'deny_wp_json_crawling' && $is_network ) {
-			return false;
-		}
-		return true;
+	protected function should_feature_be_disabled_multisite( $setting ) {
+		return (
+			\in_array( $setting, [ 'deny_wp_json_crawling' ], true )
+			&& \is_multisite()
+		);
 	}
 }
