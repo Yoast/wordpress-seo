@@ -105,10 +105,11 @@ IndexableRow.propTypes = {
 function IndexablesTable( { isLoading, children } ) {
 	return (
 		<ul className="yst-divide-y yst-divide-gray-200">
-			{ ( isLoading ) &&
+			{ isLoading &&
 				<PlaceholderRows columnCount={ 4 } listSize={ 5 } />
 			}
 			{ children }
+			{  ( ! isLoading && children.length === 0 ) && "nothing to see here" }
 		</ul>
 	);
 }
