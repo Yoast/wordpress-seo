@@ -99,7 +99,7 @@ class WPSEO_Inclusive_Language_Notice {
 			$message = sprintf(
 			/* translators: %1$s is a link to the Features tab on the Yoast SEO Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
 				__(
-					'<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now get feedback on the use of inclusive language? This feature is disabled by default. Please contact your Network admin to enable it. %2$sLearn more about this feature%3$s.',
+					'<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now get feedback on the use of inclusive language? This feature is disabled by default. Please contact your Network admin if you want to enable it. %2$sLearn more about this feature%3$s.',
 					'wordpress-seo'
 				),
 				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
