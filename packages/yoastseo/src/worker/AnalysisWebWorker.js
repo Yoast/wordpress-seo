@@ -915,6 +915,29 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Checks if the paper contains changes that are used for inclusive language analysis.
+	 *
+	 * @param {Paper} paper The paper to check against the cached paper.
+	 *
+	 * @returns {boolean} True if there are changes detected.
+	 */
+	shouldInclusiveLanguageUpdate( paper ) {
+		if ( this._paper === null ) {
+			return true;
+		}
+
+		if ( this._paper.getText() !== paper.getText() ) {
+			return true;
+		}
+
+		if ( this._paper.getTextTitle() !== paper.getTextTitle() ) {
+			return true;
+		}
+
+		return this._paper.getLocale() !== paper.getLocale();
+	}
+
+	/**
 	 * Checks if the related keyword contains changes that are used for seo.
 	 *
 	 * @param {string} key                     The identifier of the related keyword.
@@ -957,6 +980,7 @@ export default class AnalysisWebWorker {
 		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
+		const shouldInclusiveLanguageUpdate = this.shouldInclusiveLanguageUpdate( paper );
 
 		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
@@ -1024,7 +1048,7 @@ export default class AnalysisWebWorker {
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
-		if ( this._configuration.inclusiveLanguageAnalysisActive && this._inclusiveLanguageAssessor && shouldReadabilityUpdate ) {
+		if ( this._configuration.inclusiveLanguageAnalysisActive && this._inclusiveLanguageAssessor && shouldInclusiveLanguageUpdate ) {
 			this._inclusiveLanguageAssessor.assess( this._paper );
 			this._results.inclusiveLanguage = {
 				results: this._inclusiveLanguageAssessor.results,

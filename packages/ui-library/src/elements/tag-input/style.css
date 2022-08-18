@@ -6,7 +6,7 @@
 			yst-flex-wrap
 			yst-py-2
 			yst-px-3
-			yst-space-x-1.5
+			yst-gap-1.5
 			yst-border
 			yst-border-gray-300
 			yst-rounded-md
@@ -51,13 +51,16 @@
 		}
 
 		.yst-tag-input__tag {
+			min-height: 30px;
+
 			@apply
-			yst-flex
+			yst-inline-flex
 			yst-py-0.5
-			yst-px-2.5
+			yst-px-2
 			yst-rounded-full
 			yst-items-center
 			yst-text-xs
+			yst-leading-tight
 			yst-font-medium
 			yst-bg-gray-100
 			yst-text-gray-800

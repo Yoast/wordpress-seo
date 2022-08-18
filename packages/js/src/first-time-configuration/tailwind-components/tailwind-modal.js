@@ -53,7 +53,7 @@ export default function TailwindModal( { isOpen, handleClose, hasCloseButton, ch
 								<button
 									type="button"
 									onClick={ handleClose }
-									className="yst-bg-white yst-rounded-md yst-text-gray-400 hover:yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500"
+									className="yst-bg-white yst-rounded-md yst-text-gray-400 hover:yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 								>
 									<span className="yst-sr-only">{ __( "Close", "admin-ui" ) }</span>
 									<XIcon className="yst-h-6 yst-w-6" />

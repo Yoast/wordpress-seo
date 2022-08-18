@@ -21,6 +21,10 @@
             @apply yst-w-80 yst-p-4 yst-bg-white yst-shadow-lg yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-z-20 yst-pointer-events-auto;
         }
 
+        .yst-notification--large {
+            @apply yst-w-96;
+        }
+
         .yst-notification--info .yst-notification__icon {
             @apply yst-text-blue-500;
         }
