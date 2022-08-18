@@ -21,6 +21,7 @@ const paper = new Paper( content, {
 		hasVariants: true,
 		doAllVariantsHaveSKU: false,
 		doAllVariantsHaveIdentifier: false,
+		productType: "variable",
 	},
 } );
 

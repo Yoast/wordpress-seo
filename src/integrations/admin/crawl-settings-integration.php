@@ -135,6 +135,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			'search_cleanup_emoji'    => \__( 'Filter searches with emojis and other special characters', 'wordpress-seo' ),
 			'search_cleanup_patterns' => \__( 'Filter searches with common spam patterns', 'wordpress-seo' ),
 			'deny_search_crawling'    => \__( 'Prevent search engines from crawling site search URLs', 'wordpress-seo' ),
+			'deny_wp_json_crawling'   => \__( 'Prevent search engines from crawling /wp-json/', 'wordpress-seo' ),
 		];
 	}
 

@@ -29,7 +29,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "wheelchairBound",
 		nonInclusivePhrases: [ "wheelchair-bound", "wheelchair bound", "confined to a wheelchair" ],
-		inclusiveAlternatives: "<i>uses a wheelchair, is a wheelchair user</i>i",
+		inclusiveAlternatives: "<i>uses a wheelchair, is a wheelchair user</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,

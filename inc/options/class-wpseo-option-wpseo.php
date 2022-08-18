@@ -118,11 +118,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'clean_campaign_tracking_urls'             => false,
 		'clean_permalinks'                         => false,
 		'clean_permalinks_extra_variables'         => '',
-		'deny_search_crawling'                     => false,
 		'search_cleanup'                           => false,
 		'search_cleanup_emoji'                     => false,
 		'search_cleanup_patterns'                  => false,
 		'search_character_limit'                   => 50,
+		'deny_search_crawling'                     => false,
+		'deny_wp_json_crawling'                    => false,
 	];
 
 	/**
@@ -462,10 +463,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'clean_campaign_tracking_urls'
 				 *  'clean_permalinks'
 				 *  'clean_permalinks_extra_variables'
-				 *  'deny_search_crawling'
 				 *  'search_cleanup'
 				 *  'search_cleanup_emoji'
 				 *  'search_cleanup_patterns'
+				 *  'deny_search_crawling'
+				 *  'deny_wp_json_crawling'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */

@@ -123,10 +123,11 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}remove_pingback_header"             => true,
 			"{$allow_prefix}clean_campaign_tracking_urls"       => true,
 			"{$allow_prefix}clean_permalinks"                   => true,
-			"{$allow_prefix}deny_search_crawling"               => true,
 			"{$allow_prefix}search_cleanup"                     => true,
 			"{$allow_prefix}search_cleanup_emoji"               => true,
 			"{$allow_prefix}search_cleanup_patterns"            => true,
+			"{$allow_prefix}deny_search_crawling"               => true,
+			"{$allow_prefix}deny_wp_json_crawling"              => true,
 			"{$allow_prefix}wordproof_integration_active"       => false,
 			"{$allow_prefix}algolia_integration_active"         => true,
 		];

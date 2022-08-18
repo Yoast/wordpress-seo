@@ -7,6 +7,7 @@ import TwitterWrapper from "../components/social/TwitterWrapper";
 import getL10nObject from "../analysis/getL10nObject";
 import withLocation from "../helpers/withLocation";
 import { openMedia, prepareTwitterPreviewImage } from "../helpers/selectMedia";
+import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 
 const socialMediumName = "Twitter";
 
@@ -80,13 +81,16 @@ export default compose( [
 		};
 	} ),
 
-	withDispatch( dispatch => {
+	withDispatch( ( dispatch, ownProps, { select } ) => {
 		const {
 			setTwitterPreviewTitle,
 			setTwitterPreviewDescription,
 			clearTwitterPreviewImage,
 			loadTwitterPreviewData,
+			findCustomFields,
 		} = dispatch( "yoast-seo/editor" );
+
+		const postId = select( "yoast-seo/editor" ).getPostId();
 
 		return {
 			onSelectImageClick: selectMedia,
@@ -94,6 +98,7 @@ export default compose( [
 			onDescriptionChange: setTwitterPreviewDescription,
 			onTitleChange: setTwitterPreviewTitle,
 			onLoad: loadTwitterPreviewData,
+			onReplacementVariableSearchChange: getMemoizedFindCustomFields( postId, findCustomFields ),
 		};
 	} ),
 

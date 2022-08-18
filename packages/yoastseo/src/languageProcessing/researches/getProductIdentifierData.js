@@ -15,5 +15,8 @@ export default function( paper ) {
 	if ( customData.hasOwnProperty( "doAllVariantsHaveIdentifier" ) ) {
 		productData.doAllVariantsHaveIdentifier = customData.doAllVariantsHaveIdentifier;
 	}
+	if ( customData.hasOwnProperty( "productType" ) ) {
+		productData.productType = customData.productType;
+	}
 	return productData;
 }
