@@ -1,5 +1,4 @@
 import { Transition } from "@headlessui/react";
-import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -17,23 +16,6 @@ const Media = () => {
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
 	const pageTypes = useSelectSettings( "selectPageTypeValuesFor", [ name ], name );
-
-	const recommendedSize = useMemo( () => createInterpolateElement(
-		sprintf(
-			/**
-			 * translators: %1$s expands to an opening strong tag.
-			 * %2$s expands to a closing strong tag.
-			 * %3$s expands to the recommended image size.
-			 */
-			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
-			"<strong>",
-			"</strong>",
-			"1200x675px"
-		),
-		{
-			strong: <strong className="yst-font-semibold" />,
-		}
-	), [] );
 
 	const { values } = useFormikContext();
 	const { "disable-attachment": disableAttachment } = values.wpseo_titles;
