@@ -462,7 +462,7 @@ export default class AnalysisWebWorker {
 	 */
 	createSEOAssessor() {
 		const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
-		let textTitle = new assessments.seo.TextTitleAssessment();
+		const textTitle = new assessments.seo.TextTitleAssessment();
 
 		const {
 			keywordAnalysisActive,
@@ -507,18 +507,8 @@ export default class AnalysisWebWorker {
 			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
 		}
 
-		if ( useTextTitle ) {
-			if ( useCornerstone === true ) {
-				textTitle = new assessments.seo.TextTitleAssessment( {
-					scores: {
-						good: 9,
-						bad: -10000,
-					},
-				} );
-				assessor.addAssessment( "textTitleAssessment", textTitle );
-			} else {
-				assessor.addAssessment( "textTitleAssessment", textTitle );
-			}
+		if ( useTextTitle && isUndefined( assessor.getAssessment( "textTitleAssessment" ) ) ) {
+			assessor.addAssessment( "textTitleAssessment", textTitle );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {

@@ -10,7 +10,7 @@ import {
 	isString,
 	isUndefined,
 	merge,
-	throttle
+	throttle,
 } from "lodash-es";
 import MissingArgument from "./errors/missingArgument";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
@@ -32,7 +32,7 @@ import Paper from "./values/Paper.js";
 
 const keyphraseDistribution = new KeyphraseDistributionAssessment();
 let wordComplexity = new WordComplexityAssessment();
-let textTitle = new TextTitleAssessment();
+const textTitle = new TextTitleAssessment();
 
 var inputDebounceDelay = 800;
 
@@ -359,17 +359,7 @@ App.prototype.getSeoAssessor = function() {
 		assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
 	}
 	if ( useTextTitle && isUndefined( assessor.getAssessment( "textTitleAssessment" ) ) ) {
-		if ( assessor === true ) {
-			textTitle = new assessments.seo.TextTitleAssessment( {
-				scores: {
-					good: 9,
-					bad: -10000,
-				},
-			} );
-			assessor.addAssessment( "textTitleAssessment", textTitle );
-		} else {
-			assessor.addAssessment( "textTitleAssessment", textTitle );
-		}
+		assessor.addAssessment( "textTitleAssessment", textTitle );
 	}
 
 	return assessor;
