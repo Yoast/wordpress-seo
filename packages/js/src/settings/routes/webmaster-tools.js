@@ -1,8 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { TextField } from "@yoast/ui-library";
-import { Field } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FormLayout } from "../components";
+import { FormikWithErrorField, FormLayout } from "../components";
 import { createLink } from "../helpers";
 import { useSelectSettings } from "../store";
 
@@ -18,7 +17,7 @@ const WebmasterTools = () => {
 			description={ __( "Verify your site with different webmaster tools. This will add a verification meta tag on your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
 		>
 			<fieldset className="yst-max-w-screen-sm yst-space-y-8">
-				<Field
+				<FormikWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.baiduverify"
@@ -35,7 +34,7 @@ const WebmasterTools = () => {
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
-				<Field
+				<FormikWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.msverify"
@@ -52,7 +51,7 @@ const WebmasterTools = () => {
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
-				<Field
+				<FormikWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.googleverify"
@@ -69,7 +68,7 @@ const WebmasterTools = () => {
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
-				<Field
+				<FormikWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo_social.pinterestverify"
@@ -86,7 +85,7 @@ const WebmasterTools = () => {
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
-				<Field
+				<FormikWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.yandexverify"

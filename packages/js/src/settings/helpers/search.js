@@ -216,7 +216,32 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
  * @returns {Object} The search index.
  */
 export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
-	wpseo: {},
+	wpseo: {
+		baiduverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo-baiduverify",
+			fieldLabel: __( "Baidu", "wordpress-seo" ),
+		},
+		googleverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo-googleverify",
+			fieldLabel: __( "Google", "wordpress-seo" ),
+		},
+		msverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo-msverify",
+			fieldLabel: __( "Bing", "wordpress-seo" ),
+		},
+		yandexverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo-yandexverify",
+			fieldLabel: __( "Yandex", "wordpress-seo" ),
+		},
+	},
 	wpseo_titles: {
 		open_graph_frontpage_image_id: {
 			route: "/homepage",
@@ -257,6 +282,12 @@ export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site defaults", "wordpress-seo" ),
 			fieldId: "button-wpseo_social-og_default_image-preview",
 			fieldLabel: __( "Site image", "wordpress-seo" ),
+		},
+		pinterestverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo_social-pinterestverify",
+			fieldLabel: __( "Pinterest", "wordpress-seo" ),
 		},
 	},
 } );
