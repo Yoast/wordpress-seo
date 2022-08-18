@@ -17,7 +17,6 @@ import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
 import Pluggable from "./pluggable.js";
-import * as assessments from "./scoring/assessments";
 import WordComplexityAssessment from "./scoring/assessments/readability/WordComplexityAssessment";
 import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import TextTitleAssessment from "./scoring/assessments/seo/TextTitleAssessment";
