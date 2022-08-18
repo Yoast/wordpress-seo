@@ -6,7 +6,6 @@ import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, ge
 import { ReactComponent as AlgoliaLogo } from "../../images/algolia-logo.svg";
 import { ReactComponent as ElementorLogo } from "../../images/elementor-logo.svg";
 import { ReactComponent as JetpackLogo } from "../../images/jetpack-logo.svg";
-import { ReactComponent as RyteLogo } from "../../images/ryte-logo.svg";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { ReactComponent as ZapierLogo } from "../../images/zapier-logo.svg";
@@ -21,12 +20,16 @@ import { AlgoliaIntegration } from "./algolia-integration";
 const SEOTools = [
 	{
 		name: "Semrush",
-		claim: __( "Rank for the words your audience uses", "wordpress-seo" ),
+		claim: __( "Do keyword research without leaving your post", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-semrush",
 		logoLink: "http://yoa.st/semrush-prices-wordpress",
 		type: "toggleable",
 		slug: "semrush",
-		description: __( "Quickly discover relevant keyphrases that can make your content easy to find!", "wordpress-seo" ),
+		description: sprintf(
+			/* translators: 1: Semrush */
+			__( "Find out what your audience is searching for with %s data right in your sidebar.", "wordpress-seo" ),
+			"Semrush"
+		),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -34,12 +37,16 @@ const SEOTools = [
 	},
 	{
 		name: "Wincher",
-		claim: __( "Use data to improve your rankings", "wordpress-seo" ),
+		claim: __( "Track your rankings through time", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-wincher",
 		logoLink: "https://yoa.st/integrations-about-wincher",
 		type: "toggleable",
 		slug: "wincher",
-		description: __( "Track how your content ranks so you can make informed improvements to increase your rankings!", "wordpress-seo" ),
+		description: sprintf(
+			/* translators: 1: Wincher */
+			__( "Keep an eye on how your posts are ranking by connecting to your %s account.", "wordpress-seo" ),
+			"Wincher"
+		),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: false,
@@ -47,12 +54,16 @@ const SEOTools = [
 	},
 	{
 		name: "WordProof",
-		claim: __( "Put a stamp of trust on your content", "wordpress-seo" ),
+		claim: __( "Make your terms & privacy pages more trustworthy", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-wordproof",
 		logoLink: "https://yoa.st/integrations-about-wordproof",
 		type: "toggleable",
 		slug: "wordproof",
-		description: __( "Add trustworthiness to your Privacy Policy and Terms of Conditions pages!", "wordpress-seo" ),
+		description: sprintf(
+			/* translators: 1: WordProof */
+			__( "Use the power of the blockchain to timestamp your content with %s.", "wordpress-seo" ),
+			"WordProof"
+		),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: false,
@@ -61,35 +72,21 @@ const SEOTools = [
 	},
 	{
 		name: "Zapier",
-		claim: __( "Automate repetitive tasks and save time", "wordpress-seo" ),
+		claim: __( "Upgrade your workflow and automate tasks", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-zapier",
 		logoLink: "https://yoa.st/integrations-about-zapier",
 		type: "toggleable",
 		slug: "zapier",
-		description: __( "Send tweets, trigger emails, and integrate with over 5,000 other apps & tools.", "wordpress-seo" ),
+		description: sprintf(
+			/* translators: 1: Zapier */
+			__( "Send tweets, trigger emails, and integrate with over 5,000 other apps & tools in %s.", "wordpress-seo" ),
+			"Zapier"
+		),
 		isPremium: true,
 		isNew: false,
 		isMultisiteAvailable: true,
 		logo: ZapierLogo,
 		upsellLink: "https://yoa.st/get-zapier-integration",
-	},
-	{
-		name: "Ryte",
-		claim: __( "Ensure your site is findable", "wordpress-seo" ),
-		learnMoreLink: "https://yoa.st/integrations-about-ryte",
-		logoLink: "https://yoa.st/integrations-about-ryte",
-		type: "toggleable",
-		slug: "ryte",
-		description: sprintf(
-			/* translators: 1: Ryte, 2: Yoast SEO */
-			__( "%1$s in %2$s monitors your site’s findability and lets you know if your site is hidden from search engines.", "wordpress-seo" ),
-			"Ryte",
-			"Yoast SEO"
-		),
-		isPremium: false,
-		isNew: false,
-		isMultisiteAvailable: true,
-		logo: RyteLogo,
 	},
 ];
 
@@ -97,19 +94,16 @@ const pluginIntegrations = [
 	{
 		name: "Elementor",
 		claim: sprintf(
-			/* translators: 1: Elementor */
-			__( "Build SEO-proof pages in %s", "wordpress-seo" ),
+			/* translators: 1: Yoast SEO, 2: Elementor */
+			__( "Get %1$s tools and functionality in %2$s", "wordpress-seo" ),
+			"Yoast SEO",
 			"Elementor"
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-elementor",
 		logoLink: "https://yoa.st/integrations-about-elementor",
 		type: "plugin",
 		slug: "elementor",
-		description: sprintf(
-			/* translators: 1: Elementor*/
-			__( "Get the best SEO feedback right in the %s builder!", "wordpress-seo" ),
-			"Elementor"
-		),
+		description: __( "Take advantage of your favorite SEO & content analysis tools with your favorite page builder.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -118,19 +112,16 @@ const pluginIntegrations = [
 	{
 		name: "Jetpack",
 		claim: sprintf(
-			/* translators: 1: Jetpack */
-			__( "Upgrade the default Open Graph of %s", "wordpress-seo" ),
-			"Jetpack"
+			/* translators: 1: Jetpack, 2: Yoast */
+			__( "Get the most out of %1$s and %2$s, together", "wordpress-seo" ),
+			"Jetpack",
+			"Yoast"
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-jetpack",
 		logoLink: "https://yoa.st/integrations-about-jetpack",
 		type: "plugin",
 		slug: "jetpack",
-		description: sprintf(
-			/* translators: 1: Yoast SEO */
-			__( "Take your Open Graph to the next level by replacing it with that of %s.", "wordpress-seo" ),
-			"Yoast SEO"
-		),
+		description: __( "Upgrade your meta tags and social previews and manage your SEO settings in one place.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -138,12 +129,17 @@ const pluginIntegrations = [
 	},
 	{
 		name: "Algolia",
-		claim: __( "Improve internal search for better UX", "wordpress-seo" ),
+		claim: __( "Improve internal search results", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-algolia",
 		logoLink: "https://yoa.st/integrations-about-algolia",
 		type: "algolia",
 		slug: "algolia",
-		description: __( "Have happy website visitors by helping them find what they need!", "wordpress-seo" ),
+		description: sprintf(
+			/* translators: 1: Algolia, 2: Yoast SEO */
+			__( "Connect your %1$s account to improve your site’s search results using %2$s data.", "wordpress-seo" ),
+			"Algolia",
+			"Yoast SEO"
+		),
 		isPremium: true,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -154,14 +150,14 @@ const pluginIntegrations = [
 		name: "WooCommerce",
 		claim: sprintf(
 			/* translators: 1: WooCommerce */
-			__( "Upgrade the default SEO output of %s", "wordpress-seo" ),
+			__( "Upgrade your %s SEO", "wordpress-seo" ),
 			"WooCommerce"
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-woocommerce",
 		logoLink: "https://yoa.st/integrations-about-woocommerce",
 		type: "woocommerce",
 		slug: "woocommerce",
-		description: __( "Improve the titles, meta descriptions, canonicals, and breadcrumbs of your shop pages.", "wordpress-seo" ),
+		description: __( "Improve your technical SEO, meta tags and unlock more SEO ecommerce tools.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -170,21 +166,14 @@ const pluginIntegrations = [
 	},
 	{
 		name: "ACF",
-		claim: sprintf(
-			/* translators: 1: ACF */
-			__( "Get SEO feedback for your %s content", "wordpress-seo" ),
-			"ACF"
-		),
+		claim: __( "Integrate your custom fields and SEO data", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-acf",
 		logoLink: "https://yoa.st/integrations-about-acf",
 		type: "acf",
 		slug: "acf",
 		description: sprintf(
-			/* translators: 1: ACF, 2: Yoast SEO */
-			__( "Write excellent SEO content in your %1$s custom fields, flexible content and repeaters with %2$s!", "wordpress-seo" ),
-			"ACF",
-			"Yoast SEO",
-			"Yoast SEO",
+			/* translators: 1: ACF */
+			__( "Use %s fields to power your meta tags and templates, and analyze all of your content.", "wordpress-seo" ),
 			"ACF"
 		),
 		isPremium: false,

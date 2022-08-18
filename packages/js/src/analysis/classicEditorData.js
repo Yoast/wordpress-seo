@@ -466,7 +466,7 @@ export default class ClassicEditorData {
 		if ( this._previousData.slug !== newData.slug ) {
 			this._store.dispatch( setEditorDataSlug( newData.slug ) );
 		}
-		// Handle the text title (different than the SEO title) change.
+		// Handle the text title change (the title of the content as opposed to the SEO title from the SEO title field).
 		if ( this._previousData.title !== newData.title ) {
 			this._store.dispatch( setEditorDataTitle( newData.title ) );
 		}

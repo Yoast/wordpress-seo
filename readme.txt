@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.4
+Stable tag: 19.5.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -240,49 +240,55 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.6 =
+Release Date: August 23rd, 2022
+
+
+
+
+
+
+Bugfixes:
+
+* Fixes a bug in the Classic Editor where clicking on the SEO link inside of the Publish box would not scroll the SEO analysis into view when the SEO tab inside of the Yoast metabox was not already open.
+* Fixes a bug where an emoji is not entirely removed when the backspace/delete button is hit.
+* Fixes a bug where a redirect to our installation success page could happen on admin ajax calls.
+
+Other:
+
+* Adds a \"Search engines discouraged\" notification in the Yoast SEO dashboard when indexability is turned off in WordPress settings.
+* Removes the Ryte integration and deprecates all the relevant classes
+
+= 19.5.1 =
+Release Date: August 9th, 2022
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown on the front-end when Yoast SEO 19.5 was used with an older version of Yoast SEO Premium.
+
 = 19.5 =
 Release Date: August 9th, 2022
 
-
-
-
+Yoast SEO 19.5 is out today! This release includes more fixes and enhancements to enjoy. We've also made adjustments to our schema implementation, changing the order in which schema nodes are output. Read more about what's new in Yoast SEO 19.5 in [our release post in English](https://yoa.st/release-9-8-22) or [our release post in Spanish](https://yoa.st/release-9-8-22-spanish)!
 
 
 Enhancements:
 
 * Adds the site logo and name as default values in the first time configuration and search appearance.
 * Changes the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
-* Fixes a performance issue in the meta description editor that would occur when very large amounts of custom fields were used.
 
 Bugfixes:
 
+* Fixes a bug where a text starting with a double quotation mark followed by a space(s) broke the analysis.
 * Fixes a bug where text which includes the non-breaking space character (`&nbsp;`) is not highlighted correctly.
 * Fixes a bug where the Algolia integration could not be controlled at network level.
+* Fixes a bug where the score indicator in the classic editor would not update the hovering text when the score changed.
+* Fixes a bug where the score indicators of the overview pages and admin bar where inconsistent. The taxonomy overview and admin bar score indicators now uses red to indicate `Focus keyphrase not set`. The admin bar score indicator now shows blue when set to `noindex`.
 
 Other:
 
 * Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
-*  Sets the minimum supported WordPress version to 5.9.
-
-= 19.4 =
-Release Date: July 26th, 2022
-
-Yoast SEO 19.4 is out today! In this release, we’ve rolled out some improvements to our Schema structured data implementation. Additionally, we've fixed several bugs and added a couple of small enhancements to ensure you get the best user experience with Yoast SEO. But that's not all, we also have a new integration page coming in this release. Read more about what's new in Yoast SEO 19.4 in [our release post in English](https://yoa.st/release-26-7-22) or [our release post in Spanish](https://yoa.st/release-26-7-22-spanish)!
-
-Enhancements:
-
-* Enhances the Integrations page and relocates it in the Yoast SEO sidebar menu.
-* Improves Schema for archive pages by using the featured image of the first post as `primaryImageOfPage` and by removing `potentialAction`.
-* Improves Schema for attachment pages by setting the proper `primaryImage` attribute.
-* Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
-* Improves the text analysis by adding curly (“”) and angular quotation marks («»).
-* Improves the text analysis by filtering out all versions of the ampersand (&).
-* Removes the date from the meta description for WooCommerce products.
-
-Bugfixes:
-
-* Fixes a bug where a notice was shown indicating that the Flesch reading ease score has moved from the readability analysis to the Insights for languages that do not have Flesch reading ease support.
-* Fixes a bug where an `Undefined index: SERVER_NAME` warning would be triggered in cronjobs or WP CLI commands.
+* Sets the minimum supported WordPress version to 5.9.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

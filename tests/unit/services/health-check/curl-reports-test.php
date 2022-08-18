@@ -60,9 +60,10 @@ class Curl_Reports_Test extends TestCase {
 	/**
 	 * Checks if the instance builds the correct success report.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::get_success_result
+	 *
+	 * @return void
 	 */
 	public function test_get_success_result() {
 		$expected_result      = [ 'correct' ];
@@ -96,10 +97,11 @@ class Curl_Reports_Test extends TestCase {
 	/**
 	 * Checks if the instance builds the correct report for when the MyYoast API is not reachable.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::get_my_yoast_api_not_reachable_result
 	 * @covers ::get_my_yoast_api_not_reachable_description
+	 *
+	 * @return void
 	 */
 	public function test_get_my_yoast_api_not_reachable_result() {
 		$expected_result      = [ 'correct' ];
@@ -137,10 +139,11 @@ class Curl_Reports_Test extends TestCase {
 	/**
 	 * Checks if the instance builds the correct report for when there's no recent version of cURL installed.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::get_no_recent_curl_version_installed_result
 	 * @covers ::get_no_recent_curl_version_installed_description
+	 *
+	 * @return void
 	 */
 	public function test_get_no_recent_curl_version_installed_result() {
 		$expected_result      = [ 'correct' ];

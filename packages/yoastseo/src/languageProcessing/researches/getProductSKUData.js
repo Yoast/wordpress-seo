@@ -3,7 +3,7 @@
  *
  * @param {Paper} paper The paper that contains the data.
  *
- * @returns {{hasVariants: (boolean|*), hasGlobalSKU: (boolean|*), doAllVariantsHaveSKU: (boolean|*) }}
+ * @returns {{hasVariants: (boolean|*), hasGlobalIdentifier: (boolean|*), doAllVariantsHaveIdentifier: (boolean|*)}}
  * The object that contains information whether the product has global SKU or variants.
  */
 export default function( paper ) {
@@ -14,6 +14,9 @@ export default function( paper ) {
 	};
 	if ( customData.hasOwnProperty( "doAllVariantsHaveSKU" ) ) {
 		productData.doAllVariantsHaveSKU = customData.doAllVariantsHaveSKU;
+	}
+	if ( customData.hasOwnProperty( "productType" ) ) {
+		productData.productType = customData.productType;
 	}
 	return productData;
 }

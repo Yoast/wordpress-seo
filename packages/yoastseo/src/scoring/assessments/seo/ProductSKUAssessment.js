@@ -25,7 +25,7 @@ export default class ProductSKUAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
-			assessVariants: true,
+			assessVariants: false,
 		};
 
 		this.identifier = "productSKU";
@@ -56,12 +56,35 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Makes the assessment temporarily not applicable, until we have access to the needed data from WooCommerce and Shopify.
+	 * Contains extra logic for the isApplicable method.
 	 *
-	 * @returns {Boolean} Always returns false.
+	 * @param {object} customData The custom data part of the Paper object.
+	 *
+	 * @returns {bool} Whether the productSKUAssessment is applicable.
 	 */
-	isApplicable() {
-		return false;
+	applicabilityHelper( customData ) {
+		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
+		if ( ! this._config.assessVariants ) {
+			return false;
+		}
+
+		// If we have a variable product with no (active) variants. (active variant = variant with a price)
+		if (  customData.productType === "variable" && ! customData.hasVariants ) {
+			return false;
+		}
+		return ( customData.hasPrice || customData.hasVariants );
+	}
+
+	/**
+	 * Checks whether the assessment is applicable.
+	 *
+	 * @param {Paper} paper The paper to check.
+	 *
+	 * @returns {Boolean} Whether the assessment is applicable.
+	 */
+	isApplicable( paper ) {
+		const customData = paper.getCustomData();
+		return this.applicabilityHelper( customData );
 	}
 
 	/**
@@ -74,8 +97,9 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		// If a product has no variants, return orange bullet if it has no global SKU, and green bullet if it has one.
-		if ( ! productSKUData.hasVariants ) {
+		// NOTE: product types might not be available in shopify or they might differ.
+		// So take this into account when implementing SKUAssessment for shopify.
+		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
 					score: config.scores.ok,
@@ -97,51 +121,45 @@ export default class ProductSKUAssessment extends Assessment {
 				text: sprintf(
 					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
-						"%1$sSKU%2$s: Good job!",
+						"%1$sSKU%2$s: Your product has a SKU. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
 				),
 			};
-		}
-
-		// Don't return a score if the product has variants but we don't want to assess variants for this product.
-		// This is currently the case for Shopify products because we don't have access data about product variant identifiers in Shopify.
-		if ( ! config.assessVariants ) {
-			return {};
-		}
-
-		// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
-		// If all variants have a SKU, return green bullet.
-		if ( ! productSKUData.doAllVariantsHaveSKU ) {
+		} else if ( productSKUData.productType === "variable" ) {
+			// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
+			// If all variants have a SKU, return green bullet.
+			if ( ! productSKUData.doAllVariantsHaveSKU ) {
+				return {
+					score: config.scores.ok,
+					text: sprintf(
+						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
+						__(
+							"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude this if you can, as it" +
+							" will help search engines to better understand your content.%3$s",
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
 			return {
-				score: config.scores.ok,
+				score: config.scores.good,
 				text: sprintf(
-					// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
+					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
-						"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude this if you can, as it" +
-						" will help search engines to better understand your content.%3$s",
+						"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
-
-		return {
-			score: config.scores.good,
-			text: sprintf(
-				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-				__(
-					"%1$sSKU%2$s: Good job!",
-					"wordpress-seo"
-				),
-				this._config.urlTitle,
-				"</a>"
-			),
-		};
+		return {};
 	}
 }

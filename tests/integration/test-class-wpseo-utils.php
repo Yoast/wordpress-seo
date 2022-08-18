@@ -49,20 +49,6 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests translate_score function.
-	 *
-	 * @dataProvider translate_score_provider
-	 * @covers       WPSEO_Utils::translate_score
-	 *
-	 * @param int    $score     The decimal score to translate.
-	 * @param bool   $css_value Whether to return the i18n translated score or the CSS class value.
-	 * @param string $expected  Expected function result.
-	 */
-	public function test_translate_score( $score, $css_value, $expected ) {
-		$this->assertEquals( $expected, WPSEO_Utils::translate_score( $score, $css_value ) );
-	}
-
-	/**
 	 * Provides test data for test_translate_score().
 	 *
 	 * @return array

@@ -27,9 +27,10 @@ replacementVariablesSelectors.selectSpecificReplacementVariablesFor = createSele
 	[
 		replacementVariablesSelectors.selectSharedReplacementVariables,
 		replacementVariablesSelectors.selectSpecificReplacementVariables,
-		( state, postType ) => postType,
+		( state, context ) => context,
+		( state, context, fallback ) => fallback,
 	],
-	( shared, specific, postType ) => [ ...shared, ...get( specific, postType, [] ) ]
+	( shared, specific, context, fallback ) => [ ...shared, ...get( specific, context, get( specific, fallback, [] ) ) ]
 );
 replacementVariablesSelectors.selectReplacementVariablesFor = createSelector(
 	[
@@ -42,8 +43,9 @@ replacementVariablesSelectors.selectRecommendedReplacementVariablesFor = createS
 	[
 		replacementVariablesSelectors.selectRecommendedReplacementVariables,
 		( state, context ) => context,
+		( state, context, fallback ) => fallback,
 	],
-	( recommended, context ) => get( recommended, context, [] )
+	( recommended, context, fallback ) => get( recommended, context, get( recommended, fallback, [] ) )
 );
 
 export { replacementVariablesSelectors };

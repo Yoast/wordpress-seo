@@ -11,8 +11,12 @@ export const REMOVE_KEYWORD = `${ prefix }REMOVE_KEYWORD`;
 export const SET_READABILITY_RESULTS = `${ prefix }SET_READABILITY_RESULTS`;
 export const UPDATE_READABILITY_RESULT = `${ prefix }UPDATE_READABILITY_RESULT`;
 
+export const SET_INCLUSIVE_LANGUAGE_RESULTS = `${ prefix }SET_INCLUSIVE_LANGUAGE_RESULTS`;
+export const UPDATE_INCLUSIVE_LANGUAGE_RESULT = `${ prefix }UPDATE_INCLUSIVE_LANGUAGE_RESULT`;
+
 export const SET_OVERALL_READABILITY_SCORE = `${ prefix }SET_OVERALL_READABILITY_SCORE`;
 export const SET_OVERALL_SEO_SCORE = `${ prefix }SET_OVERALL_SEO_SCORE`;
+export const SET_OVERALL_INCLUSIVE_LANGUAGE_SCORE = `${ prefix }SET_OVERALL_INCLUSIVE_LANGUAGE_SCORE`;
 
 /*
  * Action creators
@@ -106,6 +110,35 @@ export function updateReadabilityResult( result ) {
 	};
 }
 
+
+/**
+ * An action creator for setting the inclusive language results.
+ *
+ * @param {Object} results The inclusive language results.
+ *
+ * @returns {Object} A set inclusive language results action.
+ */
+export function setInclusiveLanguageResults( results ) {
+	return {
+		type: SET_INCLUSIVE_LANGUAGE_RESULTS,
+		results: results,
+	};
+}
+
+/**
+ * An action creator for updating a single inclusive language result.
+ *
+ * @param {Object} result The inclusive language result.
+ *
+ * @returns {Object} An update inclusive language result action.
+ */
+export function updateInclusiveLanguageResult( result ) {
+	return {
+		type: UPDATE_INCLUSIVE_LANGUAGE_RESULT,
+		result: result,
+	};
+}
+
 /**
  * An action creator for setting the overall score for a readability result.
  *
@@ -132,6 +165,20 @@ export function setOverallSeoScore( overallScore, keyword ) {
 	return {
 		type: SET_OVERALL_SEO_SCORE,
 		keyword: keyword,
+		overallScore: overallScore,
+	};
+}
+
+/**
+ * An action creator for setting the overall score for an inclusive language result.
+ *
+ * @param {Object} overallScore The overall score.
+ *
+ * @returns {Object} A set overall score action.
+ */
+export function setOverallInclusiveLanguageScore( overallScore ) {
+	return {
+		type: SET_OVERALL_INCLUSIVE_LANGUAGE_SCORE,
 		overallScore: overallScore,
 	};
 }

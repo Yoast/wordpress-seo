@@ -106,11 +106,11 @@ class Integrations_Page implements Integration_Interface {
 		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
 
 		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
-		$woocommerce_seo_installed         = \file_exists( WP_PLUGIN_DIR . '/' . $woocommerce_seo_file );
+		$woocommerce_seo_installed         = \file_exists( \WP_PLUGIN_DIR . '/' . $woocommerce_seo_file );
 		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
 		$woocommerce_active                = $woocommerce_conditional->is_met();
-		$acf_seo_installed                 = \file_exists( WP_PLUGIN_DIR . '/' . $acf_seo_file );
-		$acf_seo_github_installed          = \file_exists( WP_PLUGIN_DIR . '/' . $acf_seo_file_github );
+		$acf_seo_installed                 = \file_exists( \WP_PLUGIN_DIR . '/' . $acf_seo_file );
+		$acf_seo_github_installed          = \file_exists( \WP_PLUGIN_DIR . '/' . $acf_seo_file_github );
 		$acf_seo_active                    = $wpseo_plugin_availability_checker->is_active( $acf_seo_file );
 		$acf_seo_github_active             = $wpseo_plugin_availability_checker->is_active( $acf_seo_file_github );
 		$acf_active                        = \class_exists( 'acf' );
@@ -146,8 +146,6 @@ class Integrations_Page implements Integration_Interface {
 			[
 				'semrush_integration_active'     => $this->options_helper->get( 'semrush_integration_active', true ),
 				'allow_semrush_integration'      => $this->options_helper->get( 'allow_semrush_integration_active', true ),
-				'ryte_integration_active'        => $this->options_helper->get( 'ryte_indexability', true ),
-				'allow_ryte_integration'         => $this->options_helper->get( 'allow_ryte_indexability', true ),
 				'zapier_integration_active'      => $this->options_helper->get( 'zapier_integration_active', false ),
 				'allow_zapier_integration'       => $this->options_helper->get( 'allow_zapier_integration_active', true ),
 				'algolia_integration_active'     => $this->options_helper->get( 'algolia_integration_active', false ),

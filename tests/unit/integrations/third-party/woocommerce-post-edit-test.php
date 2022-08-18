@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
-
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;

@@ -75,6 +75,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'environment_type',
 		'content_analysis_active',
 		'keyword_analysis_active',
+		'inclusive_language_analysis_active',
 		'enable_admin_bar_menu',
 		'enable_cornerstone_content',
 		'enable_xml_sitemap',
