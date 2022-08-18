@@ -107,7 +107,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 */
 	function renderMultilingualPluginDetectedNotice() {
 		const notice = __(
-			"We noticed that you are using a multilingual plugin. Please be aware that this analysis only gives feedback on texts written in English.",
+			"We noticed that you are using a multilingual plugin. Please be aware that this analysis feedback is intended only for texts written in English.",
 			"wordpress-seo"
 		);
 		return <Alert type={ "info" }>
