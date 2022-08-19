@@ -15,7 +15,6 @@ class TextTitleAssessment extends Assessment {
 	 * @param {Object} [config] The configuration to use.
 	 * @param {number} [config.scores.good] The score to return if there is a title in the text.
 	 * @param {number} [config.scores.bad] The score to return if there is no title in the text.
-	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
 	 *
 	 * @returns {void}
 	 */
@@ -55,7 +54,7 @@ class TextTitleAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the result object based on the number of keyword matches in the meta description.
+	 * Returns the result object based on whether the text has a title or not
 	 *
 	 * @param {boolean} textTitleData Whether the text has a title.
 	 *
