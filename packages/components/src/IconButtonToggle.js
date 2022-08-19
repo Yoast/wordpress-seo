@@ -36,11 +36,12 @@ const IconButtonBase = styled.button`
 /**
  * Determines whether the buttons should be disabled.
  *
- * @param {Object} props The component's props.
+ * @param {string} marksButtonStatus The marks button status.
+ *
  * @returns {boolean} True if the buttons should be disabled.
  */
-const areButtonsDisabled = function( props ) {
-	return props.marksButtonStatus === "disabled";
+const areButtonsDisabled = function( marksButtonStatus ) {
+	return marksButtonStatus === "disabled";
 };
 
 /**
@@ -51,9 +52,18 @@ const areButtonsDisabled = function( props ) {
  * @returns {ReactElement} ChangingIconButton component.
  */
 const ChangingIconButton = function( props ) {
+	const buttonsAreDisabled = areButtonsDisabled( props.marksButtonStatus );
+
+	let iconColor;
+	if ( buttonsAreDisabled ) {
+		iconColor = props.disabledIconColor;
+	} else {
+		iconColor = props.pressed ? props.pressedIconColor : props.unpressedIconColor;
+	}
+
 	return (
 		<IconButtonBase
-			disabled={ areButtonsDisabled( props ) }
+			disabled={ buttonsAreDisabled }
 			type="button"
 			onClick={ props.onClick }
 			pressed={ props.pressed }
@@ -64,32 +74,16 @@ const ChangingIconButton = function( props ) {
 			id={ props.id }
 			aria-label={ props.ariaLabel }
 			aria-pressed={ props.pressed }
-			unpressedIconColor={ areButtonsDisabled( props ) ? props.disabledIconColor : props.unpressedIconColor }
+			unpressedIconColor={ buttonsAreDisabled ? props.disabledIconColor : props.unpressedIconColor }
 			pressedIconColor={ props.pressedIconColor }
 			hoverBorderColor={ props.hoverBorderColor }
 			className={ props.className }
 		>
-			{ areButtonsDisabled( props ) &&
-				<SvgIcon
-					icon={ props.icon }
-					color={ props.disabledIconColor }
-					size="18px"
-				/>
-			}
-			{ ! props.pressed && ! areButtonsDisabled( props ) &&
-				<SvgIcon
-					icon={ props.icon }
-					color={ props.unpressedIconColor }
-					size="18px"
-				/>
-			}
-			{ props.pressed && ! areButtonsDisabled( props ) &&
-				<SvgIcon
-					icon={ props.icon }
-					color={ props.pressedIconColor }
-					size="18px"
-				/>
-			}
+			<SvgIcon
+				icon={ props.icon }
+				color={ iconColor }
+				size="18px"
+			/>;
 		</IconButtonBase>
 	);
 };
@@ -98,7 +92,6 @@ ChangingIconButton.propTypes = {
 	id: PropTypes.string.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired,
-	boxShadowColor: PropTypes.string,
 	unpressedBoxShadowColor: PropTypes.string,
 	pressedBoxShadowColor: PropTypes.string,
 	pressedBackground: PropTypes.string,

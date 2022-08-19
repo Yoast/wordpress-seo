@@ -10,6 +10,17 @@ import PropTypes from "prop-types";
  */
 class Textarea extends React.Component {
 	/**
+	 * Textarea component constructor.
+	 *
+	 * @param {Object} props The component's props.
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.setReference = this.setReference.bind( this );
+	}
+
+	/**
 	 * Renders the textarea.
 	 *
 	 * @returns {ReactElement} The rendered element.
@@ -17,7 +28,7 @@ class Textarea extends React.Component {
 	render() {
 		return (
 			<textarea
-				ref={ this.setReference.bind( this ) }
+				ref={ this.setReference }
 				name={ this.props.name }
 				value={ this.props.value }
 				onChange={ this.props.onChange }
@@ -54,8 +65,7 @@ class Textarea extends React.Component {
  * @type {{name: string, value: string, onChange:function, optionalAttributes: object}}
  */
 Textarea.propTypes = {
-	name: PropTypes.string.isRequired,
-
+	name: PropTypes.string,
 	value: PropTypes.string,
 	onChange: PropTypes.func,
 	optionalAttributes: PropTypes.object,
@@ -71,6 +81,8 @@ Textarea.defaultProps = {
 	name: "textarea",
 	value: "",
 	hasFocus: false,
+	onChange: null,
+	optionalAttributes: {},
 };
 
 export default Textarea;
