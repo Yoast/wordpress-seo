@@ -49,9 +49,11 @@ function LandingPage() {
 		</div>;
 	} else if  ( indexingState !== "already_done" && indexingState !== "completed" ) {
 		return <IndexationView setIndexingState={ setIndexingState } />;
+	} else if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
+		return <span>All features deactivated message</span>;
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
-	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
+	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false && ( setupInfo.enabledFeatures.isSeoScoreEnabled || setupInfo.enabledFeatures.isReadabilityEnabled ) ) {
 		return <NotEnoughAnalysedContent
 			indexablesList={ setupInfo.postsWithoutKeyphrase }
 			seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
