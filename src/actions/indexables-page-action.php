@@ -111,6 +111,7 @@ class Indexables_Page_Action {
 		$all_posts = $this->query()->count();
 
 		if ( $all_posts < 1 ) {
+			$this->set_indexables_state( 'no-content');
 			return [
 				'enabledFeatures'       => $features,
 				'enoughContent'         => false,
@@ -131,12 +132,23 @@ class Indexables_Page_Action {
 			->where_not_equal( 'readability_score', 0 )
 			->count();
 
-		$enough_analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
+		$analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
+
+		$enough_content          = $all_posts > $content_threshold;
+		$enough_analysed_content = $analysed_content > $analysis_threshold;
+
+		if ( ! $enough_content ) {
+			$this->set_indexables_state( 'not-enough-content');
+		} else if ( ! $enough_analysed_content ) {
+			$this->set_indexables_state( 'not-enough-analysed-content');
+		} else {
+			$this->set_indexables_state( 'all-good');
+		}
 
 		return [
 			'enabledFeatures'       => $features,
-			'enoughContent'         => $all_posts > $content_threshold,
-			'enoughAnalysedContent' => $enough_analysed_content > $analysis_threshold,
+			'enoughContent'         => $enough_content,
+			'enoughAnalysedContent' => $enough_analysed_content,
 			'postsWithoutKeyphrase' => \array_map(
 				function ( $indexable ) {
 					$output = $indexable;
@@ -307,5 +319,16 @@ class Indexables_Page_Action {
 	 */
 	public function set_reading_list( $state ) {
 		return $this->options_helper->set( 'indexables_page_reading_list', $state );
+	}
+
+	/**
+	 * Sets the indexables overview state.
+	 *
+	 * @param string $state The state to be saved.
+	 *
+	 * @return boolean Whether saving the indexables overview state succeeded.
+	 */
+	public function set_indexables_state( $state ) {
+		return $this->options_helper->set( 'indexables_overview_state', $state );
 	}
 }
