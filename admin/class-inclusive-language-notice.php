@@ -103,7 +103,7 @@ class WPSEO_Inclusive_Language_Notice {
 					'wordpress-seo'
 				),
 				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-notification' ) . '">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-notification' ) . '" target="_blank">',
 				'</a>'
 			);
 		}
@@ -115,7 +115,7 @@ class WPSEO_Inclusive_Language_Notice {
 					'wordpress-seo'
 				),
 				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-notification' ) . '">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-notification' ) . '" target="_blank">',
 				'</a>'
 			);
 		}
