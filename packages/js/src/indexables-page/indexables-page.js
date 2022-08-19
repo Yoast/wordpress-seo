@@ -588,7 +588,7 @@ function IndexablesPage( { setupInfo } ) {
 				</Fragment>
 			}
 			{
-				shouldShowEmptyAlert( "least_linked" ) && <div className="yst-flex"><p>{ __( "You have ignored all site content, so there's nothing to display here.", "wordpress-seo" ) }</p></div>
+				shouldShowEmptyAlert( "least_linked" ) && <div className="yst-flex"><p>{ __( "You have hidden all items from this list, so there is no content left to display here.", "wordpress-seo" ) }</p></div>
 			}
 		</IndexablesPageCard>,
 	];
@@ -747,7 +747,7 @@ function IndexablesPage( { setupInfo } ) {
 					</Fragment>
 				}
 				{
-					shouldShowEmptyAlert( "most_linked" ) && <div className="yst-flex"><p>{ __( "Your site has no content with links left to display here.", "wordpress-seo" ) }</p></div>
+					shouldShowEmptyAlert( "most_linked" ) && <div className="yst-flex"><p>{ __( "Your site has no content with incoming links left to display here.", "wordpress-seo" ) }</p></div>
 				}
 			</IndexablesPageCard>
 		</div>
