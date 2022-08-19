@@ -34,17 +34,6 @@ const IconButtonBase = styled.button`
 `;
 
 /**
- * Determines whether the buttons should be disabled.
- *
- * @param {string} marksButtonStatus The marks button status.
- *
- * @returns {boolean} True if the buttons should be disabled.
- */
-const areButtonsDisabled = function( marksButtonStatus ) {
-	return marksButtonStatus === "disabled";
-};
-
-/**
  * Returns the ChangingIconButton component.
  *
  * @param {Object} props Component props.
@@ -52,7 +41,7 @@ const areButtonsDisabled = function( marksButtonStatus ) {
  * @returns {ReactElement} ChangingIconButton component.
  */
 const ChangingIconButton = function( props ) {
-	const buttonsAreDisabled = areButtonsDisabled( props.marksButtonStatus );
+	const buttonsAreDisabled = props.marksButtonStatus === "disabled";
 
 	let iconColor;
 	if ( buttonsAreDisabled ) {
