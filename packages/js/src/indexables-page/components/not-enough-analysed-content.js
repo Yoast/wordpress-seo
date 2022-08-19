@@ -49,7 +49,7 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 		</Fragment>
 		: <p>{ __( "Most of your posts and pages haven't been analyzed yet. Help us to analyze your content by opening and updating it. Clicking the 'Open editor' button will open the editor in a new browser tab. Make sure to click 'Update' at the top of that page.", "wordpress-seo" ) }</p>;
 
-	return <div className="yst-max-w-full yst-mt-6">
+	return <div className="yst-max-w-full yst-my-6">
 		<div
 			id="start-writing-content"
 			className="yst-max-w-2xl"
