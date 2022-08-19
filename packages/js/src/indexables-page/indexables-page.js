@@ -568,7 +568,7 @@ function IndexablesPage( { setupInfo } ) {
 	const doubleColumn = [ ...singleColumn ].reverse();
 
 	return setupInfo && <div
-		className="yst-max-w-full yst-mt-6"
+		className="yst-max-w-full yst-my-6 2xl:yst-mb-0"
 	>
 		<Modal
 			onClose={ handleCloseModal }
