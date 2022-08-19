@@ -182,10 +182,6 @@ function IndexablesPage( { setupInfo } ) {
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
 
-	const shouldShowAllReadabiltyGreen = useCallback( () => {
-		return isSomethingGreenReadability;
-	}, [ isSomethingGreenReadability ] );
-
 	/**
 	 * Fetches a list of indexables.
 	 *
@@ -515,10 +511,10 @@ function IndexablesPage( { setupInfo } ) {
 				</IndexablesTable>
 			}
 			{
-				shouldShowEmptyAlert( "least_readability" ) && ! isSomethingGreenReadability && <Alert type="info"><p>This list is empty</p></Alert>
+				shouldShowEmptyAlert( "least_readability" ) && ! isSomethingGreenReadability && <div className="yst-flex"><p>{ __( "Your site has no content with Readability scores left to display here.", "wordpress-seo" ) }</p></div>
 			}
 			{
-				shouldShowEmptyAlert( "least_readability" ) && isSomethingGreenReadability && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">Congratulations! All of your content has a green readability score!</p></div>
+				shouldShowEmptyAlert( "least_readability" ) && isSomethingGreenReadability && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">{ __( "Congratulations! All of your content has a green readability score!", "wordpress-seo" ) }</p></div>
 			}
 		</IndexablesPageCard>,
 		<IndexablesPageCard
@@ -592,7 +588,7 @@ function IndexablesPage( { setupInfo } ) {
 				</Fragment>
 			}
 			{
-				shouldShowEmptyAlert( "least_linked" ) && <Alert type="info"><p>This list is empty</p></Alert>
+				shouldShowEmptyAlert( "least_linked" ) && <div className="yst-flex"><p>{ __( "You have ignored all site content, so there's nothing to display here.", "wordpress-seo" ) }</p></div>
 			}
 		</IndexablesPageCard>,
 	];
@@ -676,10 +672,10 @@ function IndexablesPage( { setupInfo } ) {
 					</IndexablesTable>
 				}
 				{
-					shouldShowEmptyAlert( "least_seo_score" ) && ! isSomethingGreenSEO && <Alert type="info"><p>This list is empty</p></Alert>
+					shouldShowEmptyAlert( "least_seo_score" ) && ! isSomethingGreenSEO && <div className="yst-flex"><p>{ __( "Your site has no content with SEO scores left to display here.", "wordpress-seo" ) }</p></div>
 				}
 				{
-					shouldShowEmptyAlert( "least_seo_score" ) && isSomethingGreenSEO && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">Congratulations! All of your content has a green SEO score!</p></div>
+					shouldShowEmptyAlert( "least_seo_score" ) && isSomethingGreenSEO && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">{ __( "Congratulations! All of your content has a green SEO score!", "wordpress-seo" ) }</p></div>
 				}
 			</IndexablesPageCard>
 			{ isSingleColumn ? singleColumn : doubleColumn }
@@ -751,7 +747,7 @@ function IndexablesPage( { setupInfo } ) {
 					</Fragment>
 				}
 				{
-					shouldShowEmptyAlert( "most_linked" ) && <Alert type="info"><p>This list is empty, but why</p></Alert>
+					shouldShowEmptyAlert( "most_linked" ) && <div className="yst-flex"><p>{ __( "Your site has no content with links left to display here.", "wordpress-seo" ) }</p></div>
 				}
 			</IndexablesPageCard>
 		</div>
