@@ -72,7 +72,7 @@ const ChangingIconButton = function( props ) {
 				icon={ props.icon }
 				color={ iconColor }
 				size="18px"
-			/>;
+			/>
 		</IconButtonBase>
 	);
 };
