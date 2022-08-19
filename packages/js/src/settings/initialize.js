@@ -20,7 +20,7 @@ const preloadMedia = async( settings ) => {
 	const titleSettings = get( settings, "wpseo_titles", {} );
 	const mediaIds = filter( [
 		get( settings, "wpseo_social.og_default_image_id", 0 ),
-		get( settings, "wpseo_social.og_frontpage_image_id", 0 ),
+		get( settings, "wpseo_titles.open_graph_frontpage_image_id", 0 ),
 		...reduce( titleSettings, ( acc, value, key ) => includes( key, "social-image-id" ) ? [ ...acc, value ] : acc, [] ),
 	], Boolean );
 	const mediaIdsChunks = chunk( mediaIds, 100 );

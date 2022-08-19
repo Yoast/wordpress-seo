@@ -45,10 +45,13 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$help_text .= ' ' . $feature->extra;
 		}
 		if ( ! empty( $feature->read_more_label ) ) {
-			$help_text .= ' ';
+			$url = $feature->read_more_url;
+			if ( ! empty( $feature->premium ) && $feature->premium === true ) {
+				$url = $feature->premium_url;
+			}
 			$help_text .= sprintf(
 				'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
-				esc_url( WPSEO_Shortlinker::get( $feature->read_more_url ) ),
+				esc_url( WPSEO_Shortlinker::get( $url ) ),
 				esc_html( $feature->read_more_label )
 			);
 		}
