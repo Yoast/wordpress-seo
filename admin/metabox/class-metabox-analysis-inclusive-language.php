@@ -38,4 +38,16 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	public function is_globally_enabled() {
 		return WPSEO_Options::get( 'inclusive_language_analysis_active', false );
 	}
+
+	/**
+	 * Whether or not a certain premium version support inclusive language feature.
+	 *
+	 * @return bool Whether or not a certain premium version support inclusive language feature.
+	 */
+	public function is_current_version_supported() {
+		$is_premium      = YoastSEO()->helpers->product->is_premium();
+		$premium_version = YoastSEO()->helpers->product->get_premium_version();
+
+		return $is_premium && \version_compare( $premium_version, '19.2-RC1', '<' );
+	}
 }
