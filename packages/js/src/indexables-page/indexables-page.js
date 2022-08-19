@@ -11,7 +11,7 @@ import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexableTitleLink from "./components/indexable-title-link";
 import IndexablesPageCard from "./components/indexables-card";
 import IndexablesTable from "./components/indexables-table";
-import { seoScoreAssessment, readabilityScoreAssessment, mostLinkedAssessment } from "./assessment-functions";
+import { SEOScoreThresholds, readabilityScoreThresholds, seoScoreAssessment, readabilityScoreAssessment, mostLinkedAssessment } from "./assessment-functions";
 
 const Link = makeOutboundLink();
 
@@ -114,6 +114,9 @@ function IndexablesPage( { setupInfo } ) {
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 	const [ loadedCards, setLoadedCards ] = useState( [] );
 
+	const [ isSomethingGreenReadability, setIsSomethingGreenReadability ] = useState( false );
+	const [ isSomethingGreenSEO, setIsSomethingGreenSEO ] = useState( false );
+
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
 
 	const [ indexablesLists, setIndexablesLists ] = useState(
@@ -179,6 +182,10 @@ function IndexablesPage( { setupInfo } ) {
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
 
+	const shouldShowAllReadabiltyGreen = useCallback( () => {
+		return isSomethingGreenReadability;
+	}, [ isSomethingGreenReadability ] );
+
 	/**
 	 * Fetches a list of indexables.
 	 *
@@ -200,17 +207,39 @@ function IndexablesPage( { setupInfo } ) {
 
 			const parsedResponse = await response.json;
 
+			let nonGreenIndexables = [];
+			if ( parsedResponse.list.length > 0 ) {
+				nonGreenIndexables = parsedResponse.list.filter( ( indexable ) => {
+					if ( listName === "least_readability" ) {
+						return parseInt( indexable.readability_score, 10 ) <= readabilityScoreThresholds.good;
+					}
+					if ( listName === "least_seo_score" ) {
+						return parseInt( indexable.primary_focus_keyword_score, 10 ) <= SEOScoreThresholds.good;
+					}
+
+					return true;
+				} );
+
+				if ( nonGreenIndexables.length !== parsedResponse.list.length ) {
+					if ( listName === "least_readability" ) {
+						setIsSomethingGreenReadability( true );
+					} else if ( listName === "least_seo_score" ) {
+						setIsSomethingGreenSEO( true );
+					}
+				}
+			}
+
 			setIndexablesLists( prevState => {
 				return {
 					...prevState,
-					[ listName ]: parsedResponse.list,
+					[ listName ]: nonGreenIndexables,
 				};
 			} );
 
 			setIndexablesListsFetchLength( prevState => {
 				return {
 					...prevState,
-					[ listName ]: parsedResponse.list.length,
+					[ listName ]: nonGreenIndexables.length,
 				};
 			} );
 
@@ -486,7 +515,10 @@ function IndexablesPage( { setupInfo } ) {
 				</IndexablesTable>
 			}
 			{
-				shouldShowEmptyAlert( "least_readability" ) && <Alert type="info"><p>This list is empty</p></Alert>
+				shouldShowEmptyAlert( "least_readability" ) && ! isSomethingGreenReadability && <Alert type="info"><p>This list is empty</p></Alert>
+			}
+			{
+				shouldShowEmptyAlert( "least_readability" ) && isSomethingGreenReadability && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">Congratulations! All of your content has a green readability score!</p></div>
 			}
 		</IndexablesPageCard>,
 		<IndexablesPageCard
@@ -644,7 +676,10 @@ function IndexablesPage( { setupInfo } ) {
 					</IndexablesTable>
 				}
 				{
-					shouldShowEmptyAlert( "least_seo_score" ) && <Alert type="info"><p>This list is empty</p></Alert>
+					shouldShowEmptyAlert( "least_seo_score" ) && ! isSomethingGreenSEO && <Alert type="info"><p>This list is empty</p></Alert>
+				}
+				{
+					shouldShowEmptyAlert( "least_seo_score" ) && isSomethingGreenSEO && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">Congratulations! All of your content has a green SEO score!</p></div>
 				}
 			</IndexablesPageCard>
 			{ isSingleColumn ? singleColumn : doubleColumn }

@@ -1,3 +1,6 @@
+const SEOScoreThresholds = { medium: 40, good: 70 };
+const readabilityScoreThresholds = { medium: 59, good: 89 };
+
 /**
  * Assessment function for the lowest SEO scores card.
  *
@@ -6,8 +9,6 @@
  * @returns {string} The bullet color.
  */
 function seoScoreAssessment( indexable ) {
-	const SEOScoreThresholds = { medium: 40, good: 70 };
-
 	return parseInt( indexable.primary_focus_keyword_score, 10 ) > SEOScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
 }
 
@@ -19,8 +20,6 @@ function seoScoreAssessment( indexable ) {
  * @returns {string} The bullet color.
  */
 function readabilityScoreAssessment( indexable ) {
-	const readabilityScoreThresholds = { medium: 59, good: 89 };
-
 	return parseInt( indexable.readability_score, 10 ) > readabilityScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500";
 }
 
@@ -59,6 +58,8 @@ function mostLinkedAssessment( indexable ) {
 }
 
 export {
+	SEOScoreThresholds,
+	readabilityScoreThresholds,
 	seoScoreAssessment,
 	readabilityScoreAssessment,
 	leastLinkedAssessment,
