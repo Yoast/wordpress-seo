@@ -243,6 +243,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.6 =
 Release Date: August 23rd, 2022
 
+
 Bugfixes:
 
 * Fixes a bug in the Classic Editor where clicking on the SEO link inside of the publish box would not always scroll the SEO analysis into view.
@@ -251,7 +252,7 @@ Bugfixes:
 
 Other:
 
-* Adds a "Search engines discouraged" notification in the Yoast SEO dashboard when the "Discourage search engines from indexing this site" WordPress setting is turned on.
+* Adds a \"Search engines discouraged\" notification in the Yoast SEO dashboard when the \"Discourage search engines from indexing this site\" WordPress setting is turned on.
 * Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at yoa.st/ryte-deprecation.
 
 = 19.5.1 =
