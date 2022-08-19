@@ -111,7 +111,7 @@ class Indexables_Page_Action {
 		$all_posts = $this->query()->count();
 
 		if ( $all_posts < 1 ) {
-			$this->set_indexables_state( 'no-content');
+			$this->set_indexables_state( 'no-content' );
 			return [
 				'enabledFeatures'       => $features,
 				'enoughContent'         => false,
@@ -138,11 +138,13 @@ class Indexables_Page_Action {
 		$enough_analysed_content = $analysed_content > $analysis_threshold;
 
 		if ( ! $enough_content ) {
-			$this->set_indexables_state( 'not-enough-content');
-		} else if ( ! $enough_analysed_content ) {
-			$this->set_indexables_state( 'not-enough-analysed-content');
-		} else {
-			$this->set_indexables_state( 'all-good');
+			$this->set_indexables_state( 'not-enough-content' );
+		}
+		elseif ( ! $enough_analysed_content ) {
+			$this->set_indexables_state( 'not-enough-analysed-content' );
+		}
+		else {
+			$this->set_indexables_state( 'all-good' );
 		}
 
 		return [
