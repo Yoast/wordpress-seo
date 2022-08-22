@@ -22,6 +22,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			scores: {
 				good: 9,
 				ok: 6,
+				invalidVariantData: 0,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
@@ -102,6 +103,24 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
+		// Return a grey bullet if the variant identifier data is not valid (i.e. when we are not able to detect a change to the data).
+		if ( productIdentifierData.isVariantIdentifierDataValid === false  ) {
+			return {
+				score: config.scores.invalidVariantData,
+				text: sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+					* %2$s expands to the string "Barcode" or "Product identifier". */
+					__(
+						"%1$s%2$s%3$s: Please save and refresh the page to view the result for this assessment.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this.name,
+					"</a>"
+				),
+			};
+		}
+
 		let feedbackStrings;
 
 		if ( this._config.productIdentifierOrBarcode === "Product identifier" ) {

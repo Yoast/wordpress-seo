@@ -22,6 +22,7 @@ export default class ProductSKUAssessment extends Assessment {
 			scores: {
 				good: 9,
 				ok: 6,
+				invalidVariantData: 0,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
@@ -97,6 +98,22 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
+		// Return a grey bullet if the variant identifier data is not valid (i.e. when we are not able to detect a change to the data).
+		if ( productSKUData.isVariantIdentifierDataValid === false  ) {
+			return {
+				score: config.scores.invalidVariantData,
+				text: sprintf(
+					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+					__(
+						"%1$sSKU%2$s: Please save and refresh the page to view the result for this assessment.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>"
+				),
+			};
+		}
+
 		// NOTE: product types might not be available in shopify or they might differ.
 		// So take this into account when implementing SKUAssessment for shopify.
 		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {
