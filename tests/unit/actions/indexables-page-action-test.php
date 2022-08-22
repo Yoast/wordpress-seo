@@ -102,15 +102,16 @@ class Indexables_Page_Action_Test extends TestCase {
 	 *
 	 * @dataProvider get_setup_info_provider
 	 *
-	 * @param array $features                 Whether each feature is enabled or not.
-	 * @param int   $query_times              The times the queries will be run.
-	 * @param array $query_results            The results of each count query.
-	 * @param array $count_times              The times the count queries will be run.
-	 * @param int   $percentage_query_times   The times the percentage queries will be run.
-	 * @param int   $no_keyphrase_query_times The times the query to get the indexables without key-phrases will be run.
-	 * @param array $expected_result          The expected result.
+	 * @param array  $features                   Whether each feature is enabled or not.
+	 * @param int    $query_times                The times the queries will be run.
+	 * @param array  $query_results              The results of each count query.
+	 * @param array  $count_times                The times the count queries will be run.
+	 * @param int    $percentage_query_times     The times the percentage queries will be run.
+	 * @param int    $no_keyphrase_query_times   The times the query to get the indexables without key-phrases will be run.
+	 * @param string $set_indexables_state_param The parameter to be passed to the set_indexables_state method.
+	 * @param array  $expected_result            The expected result.
 	 */
-	public function test_get_setup_info( $features, $query_times, $query_results, $count_times, $percentage_query_times, $no_keyphrase_query_times, $expected_result ) {
+	public function test_get_setup_info( $features, $query_times, $query_results, $count_times, $percentage_query_times, $no_keyphrase_query_times, $set_indexables_state_param, $expected_result ) {
 		$sub_types = [
 			'post'        => 'post',
 			'page'        => 'page',
@@ -198,6 +199,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->times( $no_keyphrase_query_times )
 			->andReturn( [] );
 
+		$this->mock_instance
+			->expects( 'set_indexables_state' )
+			->once()
+			->with( $set_indexables_state_param );
+
 		$this->assertEquals(
 			$expected_result,
 			$this->mock_instance->get_setup_info( 20, 0.5 )
@@ -211,17 +217,18 @@ class Indexables_Page_Action_Test extends TestCase {
 	 */
 	public function get_setup_info_provider() {
 		$seo_score_enabled_no_posts = [
-			'ignore_list_state'        => [
+			'ignore_list_state'          => [
 				'keyword_analysis_active'  => false,
 				'content_analysis_active'  => true,
 				'enable_text_link_counter' => true,
 			],
-			'query_times'              => 1,
-			'query_results'            => [ 0, 'irrelevant', 'irrelevant' ],
-			'count_times'              => 1,
-			'percentage_query_times'   => 0,
-			'no_keyphrase_query_times' => 0,
-			'expected_result'          => [
+			'query_times'                => 1,
+			'query_results'              => [ 0, 'irrelevant', 'irrelevant' ],
+			'count_times'                => 1,
+			'percentage_query_times'     => 0,
+			'no_keyphrase_query_times'   => 0,
+			'set_indexables_state_param' => 'no-content',
+			'expected_result'            => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => false,
 					'isReadabilityEnabled' => true,
@@ -233,17 +240,18 @@ class Indexables_Page_Action_Test extends TestCase {
 		];
 
 		$not_enough_posts = [
-			'ignore_list_state'        => [
+			'ignore_list_state'          => [
 				'keyword_analysis_active'  => true,
 				'content_analysis_active'  => true,
 				'enable_text_link_counter' => true,
 			],
-			'query_times'              => 4,
-			'query_results'            => [ 7, 7, 7 ],
-			'count_times'              => 3,
-			'percentage_query_times'   => 1,
-			'no_keyphrase_query_times' => 1,
-			'expected_result'          => [
+			'query_times'                => 4,
+			'query_results'              => [ 7, 7, 7 ],
+			'count_times'                => 3,
+			'percentage_query_times'     => 1,
+			'no_keyphrase_query_times'   => 1,
+			'set_indexables_state_param' => 'not-enough-content',
+			'expected_result'            => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => true,
 					'isReadabilityEnabled' => true,
@@ -256,17 +264,18 @@ class Indexables_Page_Action_Test extends TestCase {
 		];
 
 		$not_enough_analyzed_posts = [
-			'ignore_list_state'        => [
+			'ignore_list_state'          => [
 				'keyword_analysis_active'  => true,
 				'content_analysis_active'  => true,
 				'enable_text_link_counter' => true,
 			],
-			'query_times'              => 4,
-			'query_results'            => [ 25, 12, 12 ],
-			'count_times'              => 3,
-			'percentage_query_times'   => 1,
-			'no_keyphrase_query_times' => 1,
-			'expected_result'          => [
+			'query_times'                => 4,
+			'query_results'              => [ 25, 12, 12 ],
+			'count_times'                => 3,
+			'percentage_query_times'     => 1,
+			'no_keyphrase_query_times'   => 1,
+			'set_indexables_state_param' => 'not-enough-analysed-content',
+			'expected_result'            => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => true,
 					'isReadabilityEnabled' => true,
@@ -279,17 +288,18 @@ class Indexables_Page_Action_Test extends TestCase {
 		];
 
 		$all_threshold_passed = [
-			'ignore_list_state'        => [
+			'ignore_list_state'          => [
 				'keyword_analysis_active'  => true,
 				'content_analysis_active'  => true,
 				'enable_text_link_counter' => true,
 			],
-			'query_times'              => 4,
-			'query_results'            => [ 25, 13, 12 ],
-			'count_times'              => 3,
-			'percentage_query_times'   => 1,
-			'no_keyphrase_query_times' => 1,
-			'expected_result'          => [
+			'query_times'                => 4,
+			'query_results'              => [ 25, 13, 12 ],
+			'count_times'                => 3,
+			'percentage_query_times'     => 1,
+			'no_keyphrase_query_times'   => 1,
+			'set_indexables_state_param' => 'all-good',
+			'expected_result'            => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => true,
 					'isReadabilityEnabled' => true,
