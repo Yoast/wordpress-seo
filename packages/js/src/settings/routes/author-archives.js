@@ -38,13 +38,27 @@ const AuthorArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+	const description = useMemo( () => createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+			__( "(e.g., %1$shttps://www.example.com/author/example/%2$s)", "wordpress-seo" ),
+			"<code>",
+			"</code>"
+		),
+		{
+			code: <code />,
+		}
+	) );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
 	const { "disable-author": isAuthorDisabled, "noindex-author-wpseo": isAuthorNoIndex } = values.wpseo_titles;
 
 	return (
-		<FormLayout title={ label }>
+		<FormLayout
+			title={ label }
+			description={ description }
+		>
 			<fieldset className="yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-author" }
