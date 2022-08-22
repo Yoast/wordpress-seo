@@ -78,6 +78,10 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return false;
 		}
 
+		if ( customData.productType === "variable" && ! customData.isVariantDataValid ) {
+			return true;
+		}
+
 		return ( customData.hasPrice || customData.hasVariants );
 	}
 
