@@ -127,6 +127,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'most_linked_ignore_list'                  => [],
 		'least_linked_ignore_list'                 => [],
 		'indexables_page_reading_list'             => [ false, false, false, false, false ],
+		'indexables_overview_state'                => 'dashboard-not-visited',
 	];
 
 	/**
@@ -314,6 +315,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'index_now_key':
 				case 'wincher_website_id':
 				case 'clean_permalinks_extra_variables':
+				case 'indexables_overview_state':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
