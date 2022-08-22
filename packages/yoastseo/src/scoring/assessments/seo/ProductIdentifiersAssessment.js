@@ -74,11 +74,11 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		}
 
 		// If we have a variable product with no (active) variants. (active variant = variant with a price)
-		if (  customData.productType === "variable" && ! customData.hasVariants  ) {
+		if (  customData.productType === "variable" && ! customData.hasVariants && customData.isVariantIdentifierDataValid  ) {
 			return false;
 		}
 
-		return ( customData.hasPrice || customData.hasVariants );
+		return ( customData.hasPrice || customData.hasVariants || ! customData.isVariantIdentifierDataValid );
 	}
 
 	/**
