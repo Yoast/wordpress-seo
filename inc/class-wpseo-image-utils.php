@@ -272,8 +272,16 @@ class WPSEO_Image_Utils {
 			return $image['filesize'];
 		}
 
+		if ( ! isset( $image['path'] ) ) {
+			return 0;
+		}
+
 		// If the file size for the file is over our limit, we're going to go for a smaller version.
-		return wp_filesize( self::get_absolute_path( $image['path'] ) );
+		if ( function_exists( 'wp_filesize' ) ) {
+			return wp_filesize( self::get_absolute_path( $image['path'] ) );
+		}
+
+		return file_exists( $image['path'] ) ? (int) filesize( $image['path'] ) : 0;
 	}
 
 	/**
