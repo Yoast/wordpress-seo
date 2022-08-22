@@ -56,6 +56,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
 * **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
 * **[Premium]** **New!** Yoast SEO Premium comes with a new word complexity feature that gives you actionable feedback on using difficult words. This feature is in beta and English only for now.
+* **[Premium]** **New!** Yoast SEO Premium comes with a new inclusive language analysis that helps you write inclusive content. This feature is opt-in, in beta and English only for now.
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -243,9 +244,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.6 =
 Release Date: August 23rd, 2022
 
+Yoast SEO 19.6 is out today! In this release, we’ve rolled out some general enhancements. In addition, we’ve improved the performance of Yoast SEO on bigger, more complex sites. Read more about what's new in Yoast SEO 19.6 in [our release post in English](https://yoa.st/release-23-8-22) or [our release post in Spanish](https://yoa.st/release-23-8-22-spanish)!
+
 Bugfixes:
 
-* Fixes a bug in the Classic Editor where clicking on the SEO link inside of the publish box would not always scroll the SEO analysis into view.
+* Fixes a bug in the Classic Editor where clicking on the SEO link inside the publish box would not always scroll the SEO analysis into view.
 * Fixes a bug where an emoji in our replacement variable editors is not entirely removed when the backspace/delete button is hit.
 * Fixes a bug where a redirect to our installation success page could happen on admin AJAX calls.
 
