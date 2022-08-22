@@ -1,6 +1,10 @@
 import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
 import { merge } from "lodash";
+import { STORE_NAME } from "../constants";
+import { mediaClient } from "../helpers";
+import { breadcrumbsSelectors } from "./breadcrumbs";
 import { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
+import media, { FETCH_MEDIA_ACTION_NAME, mediaActions, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
@@ -10,11 +14,8 @@ import replacementVariables, {
 	replacementVariablesSelectors,
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
-import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
-import media, { mediaActions, mediaSelectors, FETCH_MEDIA_ACTION_NAME } from "./media";
 import search, { searchActions, searchSelectors } from "./search";
-import { STORE_NAME } from "../constants";
-import { mediaClient } from "../helpers";
+import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -44,6 +45,7 @@ const createStore = ( { initialState } ) => {
 			...searchActions,
 		},
 		selectors: {
+			...breadcrumbsSelectors,
 			...linkParamsSelectors,
 			...notificationsSelectors,
 			...postTypesSelectors,
