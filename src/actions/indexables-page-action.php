@@ -144,7 +144,7 @@ class Indexables_Page_Action {
 			$this->set_indexables_state( 'not-enough-analysed-content' );
 		}
 		else {
-			$this->set_indexables_state( 'all-good' );
+			$this->set_indexables_state( 'lists-shown' );
 		}
 
 		return [

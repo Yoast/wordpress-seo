@@ -127,7 +127,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'most_linked_ignore_list'                  => [],
 		'least_linked_ignore_list'                 => [],
 		'indexables_page_reading_list'             => [ false, false, false, false, false ],
-		'indexables_overview_state'                => 'optimization-not-complete',
+		'indexables_overview_state'                => 'dashboard-not-visited',
 	];
 
 	/**

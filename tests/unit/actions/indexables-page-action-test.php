@@ -298,7 +298,7 @@ class Indexables_Page_Action_Test extends TestCase {
 			'count_times'                => 3,
 			'percentage_query_times'     => 1,
 			'no_keyphrase_query_times'   => 1,
-			'set_indexables_state_param' => 'all-good',
+			'set_indexables_state_param' => 'lists-shown',
 			'expected_result'            => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => true,
