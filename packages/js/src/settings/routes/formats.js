@@ -44,6 +44,31 @@ const Formats = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+	const disableDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators:
+			 * %1$s and %2$s expand to an opening and closing code tag.
+			 * %3$s and %4$s expand to an opening and closing strong tag.
+			 * %5$s and %6$s expand to an opening and closing em tag.
+			 * %7$s expands to a line break.
+			 */
+			__( "Format-based archives (e.g., %1$shttps://www.example.com/format/example/%2$s) can cause duplicate content issues, and rarely provide a great user experience. %3$sFor %5$smost%6$s sites, we'd recommend that you %5$sdisable%6$s them%4$s.%7$sOr, if your site uses Format-based archives, we recommend that you %3$sexclude it from search results%4$s by using the setting below.", "wordpress-seo" ),
+			"<code>",
+			"</code>",
+			"<strong>",
+			"</strong>",
+			"<em>",
+			"</em>",
+			"<br />"
+		),
+		{
+			code: <code className="yst-break-all" />,
+			strong: <strong />,
+			em: <em />,
+			br: <><br /><br /></>,
+		}
+	) );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
@@ -58,6 +83,7 @@ const Formats = () => {
 					name={ "wpseo_titles.disable-post_format" }
 					data-id={ "input-wpseo_titles-disable-post_format" }
 					label={ __( "Enable format-based archives", "wordpress-seo" ) }
+					description={ disableDescription }
 					className="yst-toggle-field--grid"
 				/>
 			</fieldset>
