@@ -78,7 +78,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return false;
 		}
 
-		return ( customData.hasPrice || customData.hasVariants || ! customData.isVariantIdentifierDataValid );
+		return ( customData.hasPrice || customData.hasVariants );
 	}
 
 	/**

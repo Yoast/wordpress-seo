@@ -73,7 +73,7 @@ export default class ProductSKUAssessment extends Assessment {
 		if (  customData.productType === "variable" && ! customData.hasVariants && customData.isVariantIdentifierDataValid ) {
 			return false;
 		}
-		return ( customData.hasPrice || customData.hasVariants || ! customData.isVariantIdentifierDataValid );
+		return ( customData.hasPrice || customData.hasVariants );
 	}
 
 	/**
