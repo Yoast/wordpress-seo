@@ -296,7 +296,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'tracking' => true,
 			],
 			'old_value'             => false,
-			'times'                 => 1,
+			'times'                 => 2,
 			'option_result'         => true,
 			'expected'              => (object) [
 				'success' => true,
@@ -309,7 +309,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'tracking' => true,
 			],
 			'old_value'             => false,
-			'times'                 => 1,
+			'times'                 => 2,
 			'option_result'         => true,
 			'expected'              => (object) [
 				'success' => true,
@@ -348,7 +348,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'tracking' => true,
 			],
 			'old_value'             => false,
-			'times'                 => 1,
+			'times'                 => 2,
 			'option_result'         => false,
 			'expected'              => (object) [
 				'success' => false,
