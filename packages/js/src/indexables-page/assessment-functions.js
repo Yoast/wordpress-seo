@@ -46,22 +46,10 @@ function leastLinkedAssessment( indexable ) {
 	return "yst-bg-red-500";
 }
 
-/**
- * Assessment function for the most linked indexables card.
- *
- * @param {object} indexable The indexable to be assessed.
- *
- * @returns {string} The bullet color.
- */
-function mostLinkedAssessment( indexable ) {
-	return parseInt( indexable.is_cornerstone, 10 ) ? "yst-bg-emerald-500" : "yst-bg-red-500";
-}
-
 export {
 	SEOScoreThresholds,
 	readabilityScoreThresholds,
 	seoScoreAssessment,
 	readabilityScoreAssessment,
 	leastLinkedAssessment,
-	mostLinkedAssessment,
 };

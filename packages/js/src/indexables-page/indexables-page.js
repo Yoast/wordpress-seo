@@ -2,6 +2,7 @@
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
 import { LinkIcon, RefreshIcon } from "@heroicons/react/outline";
+import { StarIcon } from "@heroicons/react/solid";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
 import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
@@ -11,7 +12,7 @@ import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexableTitleLink from "./components/indexable-title-link";
 import IndexablesPageCard from "./components/indexables-card";
 import IndexablesTable from "./components/indexables-table";
-import { SEOScoreThresholds, readabilityScoreThresholds, seoScoreAssessment, readabilityScoreAssessment, mostLinkedAssessment } from "./assessment-functions";
+import { SEOScoreThresholds, readabilityScoreThresholds, seoScoreAssessment, readabilityScoreAssessment } from "./assessment-functions";
 
 const Link = makeOutboundLink();
 
@@ -74,20 +75,32 @@ const leastLinkedOutro = addLinkToString(
 	"https://www.yoast.com"
 );
 
-const mostLinkedIntro = addLinkToString(
-	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-	sprintf(
+const mostLinkedIntro = <Fragment>
+	{
 		__(
 			"The content below is supposed to be your cornerstone content: the most important and extensive articles on your site. " +
-			"Make sure to mark this content as cornerstone content to get all bullets green. " +
-			"%1$sLearn more about cornerstone content%2$s.",
-			"wordpress-seo"
-		),
-		"<a>",
-		"</a>"
-	),
-	"https://www.yoast.com"
-);
+			"Make sure to mark this content as cornerstone content (", "wordpress-seo"
+		)
+	}
+	{
+		<StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700 yst-inline" />
+	}
+	{
+		addLinkToString(
+			// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+			sprintf(
+				__(
+					"). %1$sLearn more about cornerstone content%2$s.",
+					"wordpress-seo"
+				),
+				"<a>",
+				"</a>"
+			),
+			"https://www.yoast.com"
+		)
+	}
+
+</Fragment>;
 
 const mostLinkedOutro = addLinkToString(
 	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
@@ -775,7 +788,13 @@ function IndexablesPage( { setupInfo } ) {
 										addToIgnoreList={ setIgnoredIndexable }
 										position={ position }
 									>
-										<IndexableScore colorClass={ mostLinkedAssessment( indexable ) } />
+										<div className="yst-flex yst-items-center">
+											{
+												( !! parseInt( indexable.is_cornerstone, 10 ) === true )
+													? <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700" />
+													: <div className="yst-w-4" />
+											}
+										</div>
 										<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
 										<IndexableTitleLink indexable={ indexable } />
 										<div>
