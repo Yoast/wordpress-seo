@@ -273,9 +273,7 @@ class WPSEO_Image_Utils {
 		}
 
 		// If the file size for the file is over our limit, we're going to go for a smaller version.
-		// @todo Save the filesize to the image metadata.
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- If file size doesn't properly return, we'll not fail.
-		return @filesize( self::get_absolute_path( $image['path'] ) );
+		return wp_filesize( self::get_absolute_path( $image['path'] ) );
 	}
 
 	/**
