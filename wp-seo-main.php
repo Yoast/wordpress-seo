@@ -213,7 +213,7 @@ function _wpseo_activate() {
 	}
 
 	// Reset tracking to be disabled by default.
-	if ( ! YoastSEO()->helpers->product->is_premium() ) {
+	if ( ! YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'toggled_tracking' ) !== true ) {
 		WPSEO_Options::set( 'tracking', false );
 	}
 
