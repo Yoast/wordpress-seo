@@ -44,29 +44,15 @@ const Formats = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const disableDescription = useMemo( () => createInterpolateElement(
+	const description = useMemo( () => createInterpolateElement(
 		sprintf(
-			/**
-			 * translators:
-			 * %1$s and %2$s expand to an opening and closing code tag.
-			 * %3$s and %4$s expand to an opening and closing strong tag.
-			 * %5$s and %6$s expand to an opening and closing em tag.
-			 * %7$s expands to a line break.
-			 */
-			__( "Format-based archives (e.g., %1$shttps://www.example.com/format/example/%2$s) can cause duplicate content issues, and rarely provide a great user experience. %3$sFor %5$smost%6$s sites, we'd recommend that you %5$sdisable%6$s them%4$s.%7$sOr, if your site uses Format-based archives, we recommend that you %3$sexclude it from search results%4$s by using the setting below.", "wordpress-seo" ),
+			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+			__( "(e.g., %1$shttps://www.example.com/format/example/%2$s)", "wordpress-seo" ),
 			"<code>",
-			"</code>",
-			"<strong>",
-			"</strong>",
-			"<em>",
-			"</em>",
-			"<br />"
+			"</code>"
 		),
 		{
-			code: <code className="yst-break-all" />,
-			strong: <strong />,
-			em: <em />,
-			br: <><br /><br /></>,
+			code: <code />,
 		}
 	) );
 
@@ -77,13 +63,14 @@ const Formats = () => {
 	return (
 		<FormLayout
 			title={ <div className="yst-flex yst-items-center yst-gap-1.5">{ label }</div> }
+			description={ description }
 		>
 			<fieldset className="yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-post_format" }
 					data-id={ "input-wpseo_titles-disable-post_format" }
 					label={ __( "Enable format-based archives", "wordpress-seo" ) }
-					description={ disableDescription }
+					description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
 					className="yst-toggle-field--grid"
 				/>
 			</fieldset>
@@ -101,8 +88,7 @@ const Formats = () => {
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Categories. %2$s expands to the post type singular, e.g.
-							// Category.
+							// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag.
 							__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
 							label,
 							singularLabel
@@ -118,7 +104,7 @@ const Formats = () => {
 							) }
 							description={ sprintf(
 								// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-								__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+								__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 								label
 							) }
 						/>
@@ -147,8 +133,7 @@ const Formats = () => {
 							<Badge variant="upsell">Premium</Badge>
 						</div> }
 						description={ sprintf(
-							// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g.
-							// Category.
+							// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag.
 							__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
 							label,
 							singularLabel
