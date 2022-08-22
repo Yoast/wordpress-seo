@@ -949,6 +949,13 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 19.7 upgrade routine.
+	 */
+	private function upgrade_197() {
+		add_action( 'init', [ $this, 'remove_inclusive_language_notification_for_197' ] );
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1061,6 +1068,15 @@ class WPSEO_Upgrade {
 	 */
 	public function remove_plugin_updated_notification_for_157() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-plugin-updated' );
+	}
+
+	/**
+	 * Removes the wpseo-inclusive-language-notice notification from the Notification center for the 19.7 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_inclusive_language_notification_for_197() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-inclusive-language-notice' );
 	}
 
 	/**
