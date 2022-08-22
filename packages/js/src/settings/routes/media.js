@@ -9,9 +9,7 @@ import { useSelectSettings } from "../store";
  * @returns {JSX.Element} The media route.
  */
 const Media = () => {
-	const name = "attachment";
-	const label = __( "Media pages", "wordpress-seo" );
-	const singularLabel = __( "Media page", "wordpress-seo" );
+	const { name, label, singularLabel, hasSchemaArticleType } = useSelectSettings( "selectPostType", [], "attachment" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
@@ -21,7 +19,13 @@ const Media = () => {
 	const { "disable-attachment": disableAttachment } = values.wpseo_titles;
 
 	return (
-		<FormLayout title={ label }>
+		<FormLayout
+			title={ sprintf(
+				/* translators: %1$s expands to the post type plural, e.g. Posts. */
+				__( "%1$s pages", "wordpress-seo" ),
+				label
+			) }
+		>
 			<fieldset className="yst-space-y-8">
 				{ ! disableAttachment && <Alert variant="info">{ __( "We recommend that you enable the setting below.", "wordpress-seo" ) }</Alert> }
 				<FormikValueChangeField
@@ -29,8 +33,16 @@ const Media = () => {
 					type="checkbox"
 					name={ `wpseo_titles.disable-${ name }` }
 					data-id={ `input-wpseo_titles-disable-${ name }` }
-					label={ __( "Redirect Media pages to the media itself", "wordpress-seo" ) }
-					description={ __( "When you upload media (e.g. an image or video), WordPress automatically creates a Media page for it. These pages are quite empty and if you don't use these it's better to disable them, and redirect them to the media item itself.", "wordpress-seo" ) }
+					label={ sprintf(
+						/* translators: %1$s expands to the post type plural, e.g. Posts. */
+						__( "Redirect %1$s pages to the media itself", "wordpress-seo" ),
+						label
+					) }
+					description={ sprintf(
+						/* translators: %1$s expands to the post type singular, e.g. Post. */
+						__( "When you upload media (e.g. an image or video), WordPress automatically creates a %1$s page for it. These pages are quite empty and if you don't use these it's better to disable them, and redirect them to the media item itself.", "wordpress-seo" ),
+						singularLabel
+					) }
 				/>
 			</fieldset>
 			<hr className="yst-my-8" />
@@ -48,7 +60,7 @@ const Media = () => {
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
 							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-							__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
+							__( "Choose how your %1$s pages should look in search engines. You can always customize this per individual %2$s page.", "wordpress-seo" ),
 							label,
 							singularLabel
 						) }
@@ -58,7 +70,7 @@ const Media = () => {
 							data-id={ `input-wpseo_titles-noindex-${ name }` }
 							label={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. Posts.
-								__( "Show %1$s in search results", "wordpress-seo" ),
+								__( "Show %1$s pages in search results", "wordpress-seo" ),
 								label
 							) }
 							description={ __( "Disabling this means that Media pages created by WordPress will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ) }
@@ -86,7 +98,7 @@ const Media = () => {
 						title={ __( "Schema", "wordpress-seo" ) }
 						description={ sprintf(
 							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-							__( "Choose how your %1$s should be described by default in your site's Schema.org markup. You can change these setting per individual %2$s.", "wordpress-seo" ),
+							__( "Choose how your %1$s pages should be described by default in your site's Schema.org markup. You can change these setting per individual %2$s page.", "wordpress-seo" ),
 							label,
 							singularLabel
 						) }
@@ -99,14 +111,14 @@ const Media = () => {
 							label={ __( "Page type", "wordpress-seo" ) }
 							options={ pageTypes }
 						/>
-						<FormikValueChangeField
+						{ hasSchemaArticleType && <FormikValueChangeField
 							as={ SelectField }
 							type="select"
 							name={ `wpseo_titles.schema-article-type-${ name }` }
 							id={ `input-wpseo_titles-schema-article-type-${ name }` }
 							label={ __( "Article type", "wordpress-seo" ) }
 							options={ articleTypes }
-						/>
+						/> }
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
@@ -118,13 +130,13 @@ const Media = () => {
 							name={ `wpseo_titles.display-metabox-pt-${ name }` }
 							data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
 							label={ sprintf(
-								/* translators: %1$s expands to Yoast SEO. %2$s expands to the taxonomy plural, e.g. Categories. */
-								__( "Enable %1$s for %2$s", "wordpress-seo" ),
+								/* translators: %1$s expands to Yoast SEO. %2$s expands to the post type plural, e.g. Posts. */
+								__( "Enable %1$s for %2$s pages", "wordpress-seo" ),
 								"Yoast SEO",
 								label
 							) }
 							description={ sprintf(
-								/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
+								/* translators: %1$s expands to the post type plural, e.g. Posts. */
 								__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s.", "wordpress-seo" ),
 								label
 							) }
