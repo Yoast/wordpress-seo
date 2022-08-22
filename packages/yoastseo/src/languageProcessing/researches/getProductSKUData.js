@@ -18,8 +18,8 @@ export default function( paper ) {
 	if ( customData.hasOwnProperty( "productType" ) ) {
 		productData.productType = customData.productType;
 	}
-	if ( customData.hasOwnProperty( "variantIdentifierDataIsValid" ) ) {
-		productData.isVariantIdentifierDataValid = customData.isVariantIdentifierDataValid;
+	if ( customData.hasOwnProperty( "isVariantDataValid" ) ) {
+		productData.isVariantDataValid = customData.isVariantDataValid;
 	}
 	return productData;
 }

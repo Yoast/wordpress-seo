@@ -74,7 +74,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		}
 
 		// If we have a variable product with no (active) variants. (active variant = variant with a price)
-		if (  customData.productType === "variable" && ! customData.hasVariants && customData.isVariantIdentifierDataValid  ) {
+		if (  customData.productType === "variable" && ! customData.hasVariants && customData.isVariantDataValid  ) {
 			return false;
 		}
 
@@ -104,7 +104,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
 		// Return a grey bullet if the variant identifier data is not valid (i.e. when we are not able to detect a change to the data).
-		if ( productIdentifierData.isVariantIdentifierDataValid === false  ) {
+		if ( productIdentifierData.isVariantDataValid === false  ) {
 			return {
 				score: config.scores.invalidVariantData,
 				text: sprintf(
