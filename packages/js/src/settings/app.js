@@ -2,11 +2,11 @@ import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } 
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
 import { map } from "lodash";
-import PropTypes from "prop-types";
+import { PropTypes } from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
+import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
 import { useRouterScrollRestore } from "./hooks";
-import useTaxonomyPostTypeBadges from "./hooks/use-taxonomy-post-type-badges";
 import {
 	AuthorArchives,
 	Breadcrumbs,
@@ -28,21 +28,21 @@ import {
 import { useSelectSettings } from "./store";
 
 /**
- * @param {Object} props The props.
- * @param {string} props.taxonomyName The taxonomy name to render submenu item for.
- * @param {string} props.idSuffix Extra id suffix. Can prevent double IDs on the page.
+ * @param {Object} taxonomy The taxonomy to render submenu item for.
+ * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
  * @returns {JSX.Element} The TaxonomySubmenuItem element.
  */
-const TaxonomySubmenuItem = ( { taxonomyName, idSuffix = "" } ) => {
-	const taxonomy = useSelectSettings( "selectTaxonomy", [ taxonomyName ], taxonomyName );
-	const badges = useTaxonomyPostTypeBadges( taxonomyName );
+const TaxonomySubmenuItem = ( { taxonomy, idSuffix = "" } ) => {
+	const hasPostTypeBadge = useSelectSettings( "selectTaxonomyHasPostTypeBadge", [ taxonomy.name ], taxonomy.name );
 
 	return (
 		<SidebarNavigation.SubmenuItem
 			to={ `/taxonomy/${ taxonomy.route }` }
 			label={ <div className="yst-flex yst-w-full yst-justify-between yst-items-center">
 				<span>{ taxonomy.label }</span>
-				{ badges && <div className="yst-flex yst-flex-wrap yst-justify-end yst-gap-1.5">{ badges }</div> }
+				{ hasPostTypeBadge && <div className="yst-flex yst-flex-wrap yst-justify-end yst-gap-1.5">
+					<TaxonomyPostTypeBadges name={ taxonomy.name } />
+				</div> }
 			</div> }
 			idSuffix={ idSuffix }
 		/>
@@ -50,7 +50,7 @@ const TaxonomySubmenuItem = ( { taxonomyName, idSuffix = "" } ) => {
 };
 
 TaxonomySubmenuItem.propTypes = {
-	taxonomyName: PropTypes.string.isRequired,
+	taxonomy: PropTypes.object.isRequired,
 	idSuffix: PropTypes.string,
 };
 
@@ -94,7 +94,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ ColorSwatchIcon }
 			label={ __( "Taxonomy settings", "wordpress-seo" ) }
 		>
-			{ map( taxonomies, ( { name } ) => <TaxonomySubmenuItem key={ `link-taxonomy-${ name }` } taxonomyName={ name } /> ) }
+			{ map( taxonomies, taxonomy => <TaxonomySubmenuItem key={ `link-taxonomy-${ taxonomy.name }` } taxonomy={ taxonomy } /> ) }
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }

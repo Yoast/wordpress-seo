@@ -5,31 +5,32 @@ import { map } from "lodash";
 import { PropTypes } from "prop-types";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
-import { useTaxonomyPostTypeBadges } from "../hooks";
+import TaxonomyPostTypeBadges from "../components/taxonomy-post-type-badges";
 import { useSelectSettings } from "../store";
 
 /**
- * @param {string} taxonomyName The taxonomy to represent.
+ * @param {string} name The taxonomy name to represent.
  * @param {string} label The select label.
  * @param {Object[]} options The label and values.
  * @returns {JSX.Element} The TaxonomySelect.
  */
-const TaxonomySelect = ( { taxonomyName, label, options } ) => {
-	const badges = useTaxonomyPostTypeBadges( taxonomyName );
+const TaxonomySelect = ( { name, label, options } ) => {
+	const hasPostTypeBadge = useSelectSettings( "selectTaxonomyHasPostTypeBadge", [ name ], name );
 
 	return <FormikValueChangeField
-		key={ taxonomyName }
 		as={ SelectField }
-		name={ `wpseo_titles.taxonomy-${ taxonomyName }-ptparent` }
-		id={ `input-wpseo_titles-taxonomy-${ taxonomyName }-ptparent` }
+		name={ `wpseo_titles.taxonomy-${ name }-ptparent` }
+		id={ `input-wpseo_titles-taxonomy-${ name }-ptparent` }
 		label={ label }
-		labelSuffix={ badges && <div className="yst-flex yst-flex-wrap yst-ml-1.5 yst-gap-1.5">{ badges }</div> }
+		labelSuffix={ hasPostTypeBadge && <div className="yst-flex yst-flex-wrap yst-ml-1.5 yst-gap-1.5">
+			<TaxonomyPostTypeBadges name={ name } />
+		</div> }
 		options={ options }
 	/>;
 };
 
 TaxonomySelect.propTypes = {
-	taxonomyName: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		label: PropTypes.string.isRequired,
@@ -128,7 +129,7 @@ const Breadcrumbs = () => {
 			>
 				{ map( breadcrumbsForTaxonomies, ( { label, options }, taxonomyName ) => <TaxonomySelect
 					key={ `input-breadcrumbs-taxonomy-${ taxonomyName }` }
-					taxonomyName={ taxonomyName }
+					name={ taxonomyName }
 					label={ label }
 					options={ options }
 				/> ) }
