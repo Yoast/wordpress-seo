@@ -33,14 +33,13 @@ export const breadcrumbsSelectors = {
 		[
 			taxonomiesSelectors.selectAllTaxonomies,
 			postTypesSelectors.selectAllPostTypes,
-			state => preferencesSelectors.selectPreference( state, "homepageIsLatestPosts" ),
-			state => preferencesSelectors.selectPreference( state, "homepagePostsEditUrl" ),
+			preferencesSelectors.selectHasPageForPosts,
 		],
-		( taxonomies, postTypes, homepageIsLatestPosts, homepagePostsEditUrl ) => {
+		( taxonomies, postTypes, hasPageForPosts ) => {
 			let options = [
 				{ value: 0, label: __( "None", "wordpress-seo" ) },
 			];
-			if ( ! homepageIsLatestPosts && ! isEmpty( homepagePostsEditUrl ) ) {
+			if ( hasPageForPosts ) {
 				options.push( { value: "post", label: __( "Blog", "wordpress-seo" ) } );
 			}
 			const filteredPostTypes = filter( postTypes, ( { hasArchive } ) => hasArchive );
