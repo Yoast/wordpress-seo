@@ -480,6 +480,37 @@ function IndexablesPage( { setupInfo } ) {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
+	const onClickUndoAll = useCallback( async( event ) => {
+		const { type } = event.target.dataset;
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/restore_all_indexables",
+				method: "POST",
+				data: { type: type },
+			} );
+
+			const parsedResponse = await response.json;
+			if ( parsedResponse.success ) {
+				// If there is a button to ignore a single indexable, for a list for which we are removing all indexables...
+				if ( ignoredIndexable && ignoredIndexable.type === type ) {
+					// ...remove that button.
+					setIgnoredIndexable( null );
+				}
+				handleRefreshLists();
+				return true;
+			}
+			/* eslint-disable-next-line no-warning-comments */
+			// @TODO: Throw an error notification.
+			console.error( "Undoing all ignored indexables has failed." );
+			return false;
+		} catch ( error ) {
+			/* eslint-disable-next-line no-warning-comments */
+			// @TODO: Throw an error notification.
+			console.error( error.message );
+			return false;
+		}
+	}, [ apiFetch, handleRefreshLists, ignoredIndexable ] );
+
 	const singleColumn = [
 		<IndexablesPageCard
 			key="lowest-readability-scores"
@@ -627,7 +658,7 @@ function IndexablesPage( { setupInfo } ) {
 	const doubleColumn = [ ...singleColumn ].reverse();
 
 	return setupInfo && <div
-		className="yst-max-w-full yst-my-6 2xl:yst-mb-0"
+		className="yst-max-w-full yst-mt-6"
 	>
 		<Modal
 			onClose={ handleCloseModal }
@@ -736,7 +767,7 @@ function IndexablesPage( { setupInfo } ) {
 						? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
 						: __( "Highest number of incoming links", "wordpress-seo" )
 				}
-				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+				className="yst-mb-6"
 			>
 				{
 					shouldShowDisabledAlert( "most_linked" ) && <Alert type={ "info" }>
@@ -801,7 +832,17 @@ function IndexablesPage( { setupInfo } ) {
 				}
 			</IndexablesPageCard>
 		</div>
-		{ ignoredIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoredIndexable ) }>{ `Undo ignore ${ignoredIndexable.indexable.id}` }</Button></div> }
+		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
+			<Button variant="secondary" onClick={ onClickUndoAll } data-type={ "least_seo_score" } disabled={ false }>{ __( "Undo hiding of all seo indexables", "wordpress-seo" ) }</Button>
+			<Button variant="secondary" onClick={ onClickUndoAll } data-type={ "least_readability" } disabled={ false }>{ __( "Undo hiding of all readability indexables", "wordpress-seo" ) }</Button>
+			<Button variant="secondary" onClick={ onClickUndoAll } data-type={ "least_linked" } disabled={ false }>{ __( "Undo hiding of all least linked indexables", "wordpress-seo" ) }</Button>
+			<Button variant="secondary" onClick={ onClickUndoAll } data-type={ "most_linked" } disabled={ false }>{ __( "Undo hiding of all most linked indexables", "wordpress-seo" ) }</Button>
+			{
+				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
+					{ `Undo ignore ${ignoredIndexable.indexable.id}` }
+				</Button>
+			}
+		</div>
 	</div>;
 }
 
