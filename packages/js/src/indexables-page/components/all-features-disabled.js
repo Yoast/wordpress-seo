@@ -1,7 +1,6 @@
 
 import { __, sprintf } from "@wordpress/i18n";
 
-import { AdjustmentsIcon } from "@heroicons/react/outline";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import IconAdjustments from "../../../images/icon-adjustments.svg";
 
