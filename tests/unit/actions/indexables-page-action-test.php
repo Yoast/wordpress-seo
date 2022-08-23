@@ -367,6 +367,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
+			->expects( 'select_many' )
+			->with( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'readability_score' )
+			->andReturnSelf();
+
+		$this->indexable_repository
 			->expects( 'where_raw' )
 			->with( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->andReturnSelf();
@@ -460,6 +465,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
+			->expects( 'select_many' )
+			->with( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'primary_focus_keyword', 'primary_focus_keyword_score' )
+			->andReturnSelf();
+
+		$this->indexable_repository
 			->expects( 'where_raw' )
 			->with( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->andReturnSelf();
@@ -550,6 +560,11 @@ class Indexables_Page_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'query' )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'select_many' )
+			->with( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'incoming_link_count', 'is_cornerstone' )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -657,6 +672,11 @@ class Indexables_Page_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'query' )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'select_many' )
+			->with( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'incoming_link_count' )
 			->andReturnSelf();
 
 		$this->indexable_repository
