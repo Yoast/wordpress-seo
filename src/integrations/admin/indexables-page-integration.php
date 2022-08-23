@@ -3,16 +3,12 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Option_Tab;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Indexables_Page_Integration class
@@ -69,22 +65,6 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_indexables_page_tab' ] );
-	}
-
-	/**
-	 * Adds a dedicated tab in the General sub-page.
-	 *
-	 * @param WPSEO_Options_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
-	 */
-	public function add_indexables_page_tab( $dashboard_tabs ) {
-		$dashboard_tabs->add_tab(
-			new WPSEO_Option_Tab(
-				'indexables-page',
-				__( 'Indexables', 'wordpress-seo' ),
-				[ 'save_button' => false ]
-			)
-		);
 	}
 
 	/**
