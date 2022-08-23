@@ -300,7 +300,7 @@ function IndexablesPage( { setupInfo } ) {
 	 * @returns {void}
 	 */
 	const updateLists = ( isRefresh ) => {
-		if ( setupInfo.enoughContent && setupInfo.enoughAnalysedContent ) {
+		if ( setupInfo ) {
 			if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
 				updateList( "least_readability", indexablesLists.least_readability, isRefresh );
 			} else {
