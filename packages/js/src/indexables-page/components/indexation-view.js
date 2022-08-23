@@ -13,7 +13,7 @@ import Indexation from "./indexation";
 function IndexationView( { setIndexingState } ) {
 	return <div
 		id="indexation-view"
-		className="yst-max-w-full yst-mt-6 yst-flex"
+		className="yst-max-w-full yst-my-6 yst-flex"
 	>
 		<div
 			className="yst-flex yst-flex-col yst-max-w-6xl yst-w-full yst-items-center yst-bg-white yst-rounded-lg yst-px-8 yst-py-10 yst-shadow"
