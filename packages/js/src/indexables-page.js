@@ -16,7 +16,9 @@ domReady( () => {
 
 	render(
 		<Root context={ context }>
-			<LandingPage />
+			<div className="yst-max-w-7xl yst-h-full yst-border-y yst-border-gray-300 yst-py-2">
+				<LandingPage />
+			</div>
 		</Root>,
 		root
 	);

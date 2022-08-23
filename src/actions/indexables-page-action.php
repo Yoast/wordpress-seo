@@ -176,6 +176,7 @@ class Indexables_Page_Action {
 		$ignore_list                   = empty( $least_readability_ignore_list ) ? [ -1 ] : $least_readability_ignore_list;
 
 		$least_readable = $this->query()
+			->select_many( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'readability_score' )
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'readability_score', 0 )
 			->order_by_asc( 'readability_score' )
@@ -198,6 +199,7 @@ class Indexables_Page_Action {
 		$ignore_list                 = empty( $least_seo_score_ignore_list ) ? [ -1 ] : $least_seo_score_ignore_list;
 
 		$least_seo_score = $this->query()
+			->select_many( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'primary_focus_keyword', 'primary_focus_keyword_score' )
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'primary_focus_keyword', 0 )
 			->order_by_asc( 'primary_focus_keyword_score' )
@@ -220,6 +222,7 @@ class Indexables_Page_Action {
 		$ignore_list             = empty( $most_linked_ignore_list ) ? [ -1 ] : $most_linked_ignore_list;
 
 		$most_linked = $this->query()
+			->select_many( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'incoming_link_count', 'is_cornerstone' )
 			->where_gt( 'incoming_link_count', 0 )
 			->where_not_null( 'incoming_link_count' )
 			->where_not_in( 'id', $ignore_list )
@@ -243,6 +246,7 @@ class Indexables_Page_Action {
 		$ignore_list              = empty( $least_linked_ignore_list ) ? [ -1 ] : $least_linked_ignore_list;
 
 		$least_linked = $this->query()
+			->select_many( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'incoming_link_count' )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_asc( 'incoming_link_count' )
 			->limit( $limit )
