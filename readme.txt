@@ -249,7 +249,7 @@ Yoast SEO 19.6 is out today! In this release, we’ve rolled out some general en
 Bugfixes:
 
 * Fixes a bug in the Classic Editor where clicking on the SEO link inside the publish box would not always scroll the SEO analysis into view.
-* Fixes a bug where an emoji in our replacement variable editors is not entirely removed when the backspace/delete button is hit.
+* Fixes a bug where an emoji in our replacement variable editors would not be entirely removed when the backspace/delete button is hit.
 * Fixes a bug where a redirect to our installation success page could happen on admin AJAX calls.
 
 Other:
