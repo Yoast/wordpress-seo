@@ -35,7 +35,7 @@ class Indexables_Page_Helper {
 	 *
 	 * @var float
 	 */
-	const ANALYSED_POSTS_THRESHOLD = 0.5;
+	const ANALYSED_POSTS_THRESHOLD = 0;
 
 	/**
 	 * Indexables_Page_Helper constructor.
@@ -114,5 +114,21 @@ class Indexables_Page_Helper {
 	 */
 	public function get_link_suggestions_enabled() {
 		return $this->options->get( 'enable_link_suggestions', false ) === true;
+	}
+
+	/**
+	 * Checks if the ignore list name is a valid list name
+	 *
+	 * @return bool Wether the list name is valid or not.
+	 */
+	public function is_valid_ignore_list_name( $list_name ) {
+		$valid_list_names = [
+			'least_readability_ignore_list',
+			'least_seo_score_ignore_list',
+			'most_linked_ignore_list',
+			'least_linked_ignore_list',
+		];
+
+		return in_array( $list_name, $valid_list_names, true );
 	}
 }
