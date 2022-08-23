@@ -1,8 +1,8 @@
 /* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
-import { LinkIcon } from "@heroicons/react/outline";
-import { __, sprintf } from "@wordpress/i18n";
+import { LinkIcon, RefreshIcon } from "@heroicons/react/outline";
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
 import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
@@ -113,11 +113,14 @@ function IndexablesPage( { setupInfo } ) {
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 	const [ loadedCards, setLoadedCards ] = useState( [] );
+	const [ refreshInterval, setRefreshInterval ] = useState( null );
 
 	const [ isSomethingGreenReadability, setIsSomethingGreenReadability ] = useState( false );
 	const [ isSomethingGreenSEO, setIsSomethingGreenSEO ] = useState( false );
 
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
+
+	const [ lastRefreshTime, setLastRefreshTime ] = useState( 0 );
 
 	const [ indexablesLists, setIndexablesLists ] = useState(
 		{
@@ -273,13 +276,14 @@ function IndexablesPage( { setupInfo } ) {
 	/**
 	 * Updates the content of a list of indexables.
 	 *
-	 * @param {string} listName       The name of the list to fetch.
-	 * @param {array}  indexablesList The current content of the list.
+	 * @param {string}  listName       The name of the list to fetch.
+	 * @param {array}   indexablesList The current content of the list.
+	 * @param {boolean} isRefresh      Whether it's a refresh.
 	 *
 	 * @returns {boolean} True if the update was successful.
 	 */
-	const updateList = ( listName, indexablesList ) => {
-		if ( indexablesList.length === 0 ) {
+	const updateList = ( listName, indexablesList, isRefresh ) => {
+		if ( indexablesList.length === 0 || isRefresh ) {
 			return fetchList( listName );
 		}
 
@@ -288,27 +292,54 @@ function IndexablesPage( { setupInfo } ) {
 			: maybeRemoveIgnored( listName );
 	};
 
-	useEffect( () => {
+	/**
+	 * Updates all lists.
+	 *
+	 * @param {boolean} isRefresh Whether it's a refresh.
+	 *
+	 * @returns {void}
+	 */
+	const updateLists = ( isRefresh ) => {
 		if ( setupInfo ) {
 			if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
-				updateList( "least_readability", indexablesLists.least_readability );
+				updateList( "least_readability", indexablesLists.least_readability, isRefresh );
 			} else {
 				setLoadedCards( prevState => [ ...prevState, "least_readability" ] );
 			}
 
 			if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
-				updateList( "least_seo_score", indexablesLists.least_seo_score );
+				updateList( "least_seo_score", indexablesLists.least_seo_score, isRefresh );
 			} else {
 				setLoadedCards( prevState => [ ...prevState, "least_seo_score" ] );
 			}
 
 			if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
-				updateList( "most_linked", indexablesLists.most_linked );
-				updateList( "least_linked", indexablesLists.least_linked );
+				updateList( "most_linked", indexablesLists.most_linked, isRefresh );
+				updateList( "least_linked", indexablesLists.least_linked, isRefresh );
 			} else {
 				setLoadedCards( prevState => [ ...prevState, "most_linked", "least_linked" ] );
 			}
+
+			if ( refreshInterval ) {
+				clearInterval( refreshInterval );
+			}
+
+			setLastRefreshTime( 0 );
+			const interval = setInterval( () => {
+				setLastRefreshTime( ( prevCounter ) => prevCounter + 1 );
+			}, 60000 );
+			setRefreshInterval( interval );
 		}
+	};
+
+	const handleRefreshLists = useCallback( () => {
+		setLoadedCards( [] );
+
+		updateLists( true );
+	}, [ setLoadedCards, updateLists ] );
+
+	useEffect( () => {
+		updateLists( false );
 	}, [] );
 
 	// We update a list each time the content of ignoredIndexable changes
@@ -608,6 +639,25 @@ function IndexablesPage( { setupInfo } ) {
 				suggestedLinksModalData={ suggestedLinksModalData }
 			 />
 		</Modal>
+		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-3">
+			<span className="yst-italic">
+				{
+					// translators: %d is the number of minutes since the last refresh.
+					sprintf(
+						_n( "Last refreshed: %d min ago", "Last refreshed: %d mins ago", lastRefreshTime, "wordpress-seo" ),
+						lastRefreshTime
+					)
+				}
+			</span>
+			<button
+				type="button"
+				onClick={ handleRefreshLists }
+				className={ "yst-ml-6 yst-font-medium yst-text-[#4F46E5]" }
+			>
+				<RefreshIcon className="yst-inline-block yst-align-text-bottom yst-mr-1 yst-h-4 yst-w-4 yst-text-[#4F46E5]" />
+				{ __( "Refresh data", "wordpress-seo" ) }
+			</button>
+		</div>
 		<div
 			id="indexables-table-columns"
 			className="yst-max-w-7xl yst-flex yst-flex-col 2xl:yst-block 2xl:yst-columns-2 yst-gap-6"
