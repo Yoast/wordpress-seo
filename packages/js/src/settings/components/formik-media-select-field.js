@@ -108,7 +108,7 @@ const FormikMediaSelectField = ( {
 	}, [] );
 
 	return (
-		<fieldset id={ id } className={ classNames( "yst-w-96", disabled && "yst-opacity-50" ) }>
+		<fieldset id={ id } className={ classNames( "yst-w-96 yst-max-w-full", disabled && "yst-opacity-50" ) }>
 			<Field
 				type="hidden"
 				name={ mediaIdName }
@@ -127,7 +127,7 @@ const FormikMediaSelectField = ( {
 				id={ `button-${ id }-preview` }
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
-					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 yst-border-gray-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
+					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-max-w-full yst-rounded-md yst-mb-4 yst-border-gray-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
 					mediaUrl ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
 					disabled && "yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
@@ -144,7 +144,7 @@ const FormikMediaSelectField = ( {
 						/>
 					</>
 				) : (
-					<div className="yst-w-48">
+					<div className="yst-w-48 yst-max-w-full">
 						<span className="yst-sr-only">{ selectLabel }</span>
 						<Icon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-gray-400 yst-stroke-1" />
 						{ previewLabel && (
