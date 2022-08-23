@@ -4,7 +4,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { LinkIcon, RefreshIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
+import { createInterpolateElement, useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
 import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
 import { addLinkToString } from "../helpers/stringHelpers";
@@ -78,28 +78,30 @@ const leastLinkedOutro = addLinkToString(
 const mostLinkedIntro = <Fragment>
 	{
 		__(
-			"The content below is supposed to be your cornerstone content: the most important and extensive articles on your site. " +
-			"Make sure to mark this content as cornerstone content (", "wordpress-seo"
+			"The content below is supposed to be your cornerstone content: the most important and extensive articles on your site. ", "wordpress-seo"
 		)
 	}
 	{
-		<StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700 yst-inline" />
-	}
-	{
-		addLinkToString(
-			// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+		createInterpolateElement(
+			// translators: %1$s and %2$s are replaced by opening and closing span tags.
+			// %3$s is replaced by the StarIcon component.
+			// %4$s and %5$s are replaced by opening and closing anchor tags.
 			sprintf(
-				__(
-					"). %1$sLearn more about cornerstone content%2$s.",
-					"wordpress-seo"
-				),
+				__( "Make sure to mark this content as cornerstone content %1$s(%3$s)%2$s. %4$sLearn more about cornerstone content%5$s.", "wordpress-seo" ),
+				"<span>",
+				"</span>",
+				"<StarIcon />",
 				"<a>",
 				"</a>"
 			),
-			"https://www.yoast.com"
+			{
+				span: <span className="yst-whitespace-nowrap" />,
+				// eslint-disable-next-line jsx-a11y/anchor-has-content
+				a: <a id="kek" href="https://www.yoast.com" target="_blank" rel="noopener noreferrer" />,
+				StarIcon: <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700 yst-inline" />,
+			}
 		)
 	}
-
 </Fragment>;
 
 const mostLinkedOutro = addLinkToString(
