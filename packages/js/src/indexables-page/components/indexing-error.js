@@ -47,7 +47,7 @@ function ErrorBox( { title, value } ) {
 
 	return <details>
 		<summary>{ title }</summary>
-		<pre className="yst-overflow-x-scroll yst-max-w-[500px] yst-border yst-border-solid yst-border-red-900 yst-p-4">
+		<pre className="yst-overflow-x-scroll yst-mt-2 yst-max-w-[500px] yst-border yst-border-solid yst-border-red-900 yst-rounded yst-p-4">
 			{ value }
 		</pre>
 	</details>;
@@ -71,11 +71,11 @@ ErrorBox.defaultProps = {
  * @returns {JSX.Element} The indexation error component.
  */
 export default function IndexingError( { message, error } ) {
-	return <Alert className="yst-mb-4" variant="error">
-		<div className="indexables-indexing-error" dangerouslySetInnerHTML={ { __html: message } } />
+	return <Alert className="yst-mb-4 indexables-indexing-error" variant="error">
+		<div dangerouslySetInnerHTML={ { __html: message } } />
 		<details>
 			<summary>{ __( "Error details", "wordpress-seo" ) }</summary>
-			<div className="indexables-indexing-error yst-mt-2">
+			<div className="yst-mt-2">
 				<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
 				<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
 				<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
