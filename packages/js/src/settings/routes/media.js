@@ -43,6 +43,7 @@ const Media = () => {
 						__( "When you upload media (e.g. an image or video), WordPress automatically creates a %1$s page for it. These pages are quite empty and if you don't use these it's better to disable them, and redirect them to the media item itself.", "wordpress-seo" ),
 						singularLabel
 					) }
+					className="yst-toggle-field--grid"
 				/>
 			</fieldset>
 			<hr className="yst-my-8" />
