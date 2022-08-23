@@ -63,6 +63,8 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * Indexables_Page_Integration constructor.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
+	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
+	 * @param Short_Link_Helper         $short_link_helper      The short link helper.
 	 * @param Indexables_Page_Helper    $indexables_page_helper The indexables page helper.
 	 * @param Product_Helper            $product_helper         The product helper.
 	 */
