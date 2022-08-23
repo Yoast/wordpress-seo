@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
-import { createLink } from "../helpers/url";
+import { createLink } from "../helpers";
 
 /**
  * @returns {Object} The initial state.

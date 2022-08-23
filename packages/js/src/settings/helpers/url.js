@@ -3,7 +3,7 @@ import { forEach } from "lodash";
 /**
  * Combines a link with params.
  * @param {string} link The link.
- * @param {Object} params The search params.
+ * @param {Object} [params] The search params.
  * @returns {string} The link with params.
  */
 export const createLink = ( link, params = {} ) => {

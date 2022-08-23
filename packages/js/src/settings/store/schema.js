@@ -68,7 +68,7 @@ schemaSelectors.selectPageTypeDefault = createSelector(
 		schemaSelectors.selectPageTypeDefaults,
 		( state, postType ) => postType,
 	],
-	( pageTypeDefaults, postType ) => get( pageTypeDefaults, postType, "Web Page" )
+	( pageTypeDefaults, postType ) => get( pageTypeDefaults, postType, "WebPage" )
 );
 schemaSelectors.selectPageTypeValuesFor = createSelector(
 	[

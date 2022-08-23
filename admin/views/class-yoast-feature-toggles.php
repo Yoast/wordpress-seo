@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
@@ -85,6 +86,20 @@ class Yoast_Feature_Toggles {
 				'read_more_label' => __( 'Discover why readability is important for SEO.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2ao',
 				'order'           => 20,
+			],
+			(object) [
+				'name'                => __( 'Inclusive language analysis', 'wordpress-seo' ),
+				'premium'             => true,
+				'premium_version'     => '19.2-RC1',
+				'in_beta'             => true,
+				'supported_languages' => Language_Helper::$languages_with_inclusive_language_support,
+				'setting'             => 'inclusive_language_analysis_active',
+				'label'               => __( 'The inclusive language analysis offers suggestions to write more inclusive copy.', 'wordpress-seo' ),
+				'read_more_label'     => __( 'Discover why inclusive language is important for SEO.', 'wordpress-seo' ),
+				'read_more_url'       => 'https://yoa.st/inclusive-language-features-free',
+				'premium_url'         => 'https://yoa.st/inclusive-language-features-premium',
+				'premium_upsell_url'  => 'https://yoa.st/get-inclusive-language',
+				'order'               => 25,
 			],
 			(object) [
 				'name'            => __( 'Cornerstone content', 'wordpress-seo' ),

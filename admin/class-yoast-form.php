@@ -874,8 +874,14 @@ class Yoast_Form {
 
 		// Show disabled note if attribute does not exists or does exist and is set to true.
 		if ( ! isset( $attr['show_disabled_note'] ) || ( $attr['show_disabled_note'] === true ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-			echo $this->get_disabled_note( $variable );
+			if ( isset( $attr['note_when_disabled'] ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
+				echo $this->get_disabled_note( $variable, $attr['note_when_disabled'] );
+			}
+			else {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
+				echo $this->get_disabled_note( $variable );
+			}
 		}
 
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
@@ -1021,21 +1027,26 @@ class Yoast_Form {
 	/**
 	 * Gets the explanation note to print if a given control is disabled.
 	 *
-	 * @param string $variable The variable within the option to print a disabled note for.
+	 * @param string $variable    The variable within the option to print a disabled note for.
+	 * @param string $custom_note An optional custom note to print instead.
 	 *
 	 * @return string Explanation note HTML string, or empty string if no note necessary.
 	 */
-	protected function get_disabled_note( $variable ) {
-		if ( ! $this->is_control_disabled( $variable ) ) {
+	protected function get_disabled_note( $variable, $custom_note = '' ) {
+		if ( $custom_note === '' && ! $this->is_control_disabled( $variable ) ) {
 			return '';
 		}
-
 		$disabled_message = esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' );
 
 		// The explanation to show when disabling the Usage tracking feature for multisite subsites.
 		if ( $this->is_tracking_on_subsite( $variable ) ) {
 			$disabled_message = esc_html__( 'This feature has been disabled since subsites never send tracking data.', 'wordpress-seo' );
 		}
+
+		if ( $custom_note ) {
+			$disabled_message = esc_html( $custom_note );
+		}
+
 		return '<p class="disabled-note">' . $disabled_message . '</p>';
 	}
 

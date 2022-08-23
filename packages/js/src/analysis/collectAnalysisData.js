@@ -72,6 +72,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	// Make a data structure for the paper data.
 	const data = {
 		text: editData.content,
+		textTitle: editData.title,
 		keyword: storeData.focusKeyword,
 		synonyms: storeData.synonyms,
 		/*

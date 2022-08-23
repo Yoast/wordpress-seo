@@ -56,6 +56,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
 * **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
 * **[Premium]** **New!** Yoast SEO Premium comes with a new word complexity feature that gives you actionable feedback on using difficult words. This feature is in beta and English only for now.
+* **[Premium]** **New!** Yoast SEO Premium comes with a new inclusive language analysis that helps you write inclusive content. This feature is opt-in, in beta and English only for now.
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -240,6 +241,22 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.6 =
+Release Date: August 23rd, 2022
+
+Yoast SEO 19.6 is out today! In this release, we’ve rolled out some general enhancements. In addition, we’ve improved the performance of Yoast SEO on bigger, more complex sites. Read more about what's new in Yoast SEO 19.6 in [our release post in English](https://yoa.st/release-23-8-22) or [our release post in Spanish](https://yoa.st/release-23-8-22-spanish)!
+
+Bugfixes:
+
+* Fixes a bug in the Classic Editor where clicking on the SEO link inside the publish box would not always scroll the SEO analysis into view.
+* Fixes a bug where an emoji in our replacement variable editors would not be entirely removed when the backspace/delete button is hit.
+* Fixes a bug where a redirect to our installation success page could happen on admin AJAX calls.
+
+Other:
+
+* Adds a "Search engines discouraged" notification in the Yoast SEO dashboard when the "Discourage search engines from indexing this site" WordPress setting is turned on.
+* Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at yoa.st/ryte-deprecation.
+
 = 19.5.1 =
 Release Date: August 9th, 2022
 
@@ -270,26 +287,6 @@ Other:
 
 * Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
 * Sets the minimum supported WordPress version to 5.9.
-
-= 19.4 =
-Release Date: July 26th, 2022
-
-Yoast SEO 19.4 is out today! In this release, we’ve rolled out some improvements to our Schema structured data implementation. Additionally, we've fixed several bugs and added a couple of small enhancements to ensure you get the best user experience with Yoast SEO. But that's not all, we also have a new integration page coming in this release. Read more about what's new in Yoast SEO 19.4 in [our release post in English](https://yoa.st/release-26-7-22) or [our release post in Spanish](https://yoa.st/release-26-7-22-spanish)!
-
-Enhancements:
-
-* Enhances the Integrations page and relocates it in the Yoast SEO sidebar menu.
-* Improves Schema for archive pages by using the featured image of the first post as `primaryImageOfPage` and by removing `potentialAction`.
-* Improves Schema for attachment pages by setting the proper `primaryImage` attribute.
-* Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
-* Improves the text analysis by adding curly (“”) and angular quotation marks («»).
-* Improves the text analysis by filtering out all versions of the ampersand (&).
-* Removes the date from the meta description for WooCommerce products.
-
-Bugfixes:
-
-* Fixes a bug where a notice was shown indicating that the Flesch reading ease score has moved from the readability analysis to the Insights for languages that do not have Flesch reading ease support.
-* Fixes a bug where an `Undefined index: SERVER_NAME` warning would be triggered in cronjobs or WP CLI commands.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
