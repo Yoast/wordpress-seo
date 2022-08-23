@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useState } from "@wordpress/element";
 import { noop } from "lodash";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import RawModal from ".";
 import Button from "../../elements/button";
 

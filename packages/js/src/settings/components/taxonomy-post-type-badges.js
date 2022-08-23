@@ -1,5 +1,5 @@
 import { Badge } from "@yoast/ui-library";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import { useSelectSettings } from "../store";
 
 /**

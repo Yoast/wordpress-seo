@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { SelectField, TextField, ToggleField } from "@yoast/ui-library";
 import { Field } from "formik";
 import { map } from "lodash";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
 import TaxonomyPostTypeBadges from "../components/taxonomy-post-type-badges";

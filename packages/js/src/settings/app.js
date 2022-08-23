@@ -2,7 +2,7 @@ import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } 
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
 import { map } from "lodash";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
 import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
