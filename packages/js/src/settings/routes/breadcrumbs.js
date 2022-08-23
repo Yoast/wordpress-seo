@@ -45,6 +45,7 @@ const Breadcrumbs = () => {
 	const breadcrumbsLink = useSelectSettings( "selectLink", [], "https://yoa.st/breadcrumbs" );
 	const breadcrumbsForPostTypes = useSelectSettings( "selectBreadcrumbsForPostTypes" );
 	const breadcrumbsForTaxonomies = useSelectSettings( "selectBreadcrumbsForTaxonomies" );
+	const hasPageForPosts = useSelectSettings( "selectHasPageForPosts" );
 
 	return (
 		<FormLayout title={ __( "Breadcrumbs", "wordpress-seo" ) }>
@@ -100,6 +101,13 @@ const Breadcrumbs = () => {
 					label={ __( "Breadcrumb for 404 page", "wordpress-seo" ) }
 					placeholder={ __( "Add separator", "wordpress-seo" ) }
 				/>
+				{ hasPageForPosts && <FormikValueChangeField
+					as={ ToggleField }
+					type="checkbox"
+					name="wpseo_titles.breadcrumbs-display-blog-page"
+					data-id="input-wpseo_titles-breadcrumbs-display-blog-page"
+					label={ __( "Show Blog page in breadcrumbs", "wordpress-seo" ) }
+				/> }
 				<FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"
