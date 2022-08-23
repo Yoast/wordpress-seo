@@ -862,4 +862,8 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast .yoast-crawl-settings-disabled {
   opacity: 0.5;
 }
+.yoast .indexables-indexing-error p {
+  margin-bottom: 13px;
+}
+
 /*# sourceMappingURL=admin-global.css.map */
