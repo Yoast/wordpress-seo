@@ -1,12 +1,12 @@
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
-import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
-import { get, head, indexOf, lastIndexOf, map } from "lodash";
+import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
 import { useRouterScrollRestore } from "./hooks";
+import useTaxonomyPostTypeBadges from "./hooks/use-taxonomy-post-type-badges";
 import {
 	AuthorArchives,
 	Breadcrumbs,
@@ -29,39 +29,20 @@ import { useSelectSettings } from "./store";
 
 /**
  * @param {Object} props The props.
- * @param {Object} props.postTypes The post types.
- * @param {Object} props.taxonomies The taxonomies.
  * @param {string} props.taxonomyName The taxonomy name to render submenu item for.
  * @param {string} props.idSuffix Extra id suffix. Can prevent double IDs on the page.
  * @returns {JSX.Element} The TaxonomySubmenuItem element.
  */
-const TaxonomySubmenuItem = ( { postTypes, taxonomies, taxonomyName, idSuffix = "" } ) => {
-	const taxonomy = useMemo( () => get( taxonomies, taxonomyName, {} ), [ taxonomies, taxonomyName ] );
-	const firstPostType = useMemo( () => get( postTypes, head( taxonomy.postTypes ), null ), [ postTypes, taxonomy ] );
-	// Check if taxonomy label is unique.
-	const isLabelUnique = useMemo( () => {
-		const taxonomyLabels = map( taxonomies, "label" );
-		return indexOf( taxonomyLabels, taxonomy.label ) === lastIndexOf( taxonomyLabels, taxonomy.label );
-	}, [ taxonomies, taxonomy ] );
+const TaxonomySubmenuItem = ( { taxonomyName, idSuffix = "" } ) => {
+	const taxonomy = useSelectSettings( "selectTaxonomy", [ taxonomyName ], taxonomyName );
+	const badges = useTaxonomyPostTypeBadges( taxonomyName );
 
 	return (
 		<SidebarNavigation.SubmenuItem
 			to={ `/taxonomy/${ taxonomy.route }` }
 			label={ <div className="yst-flex yst-w-full yst-justify-between yst-items-center">
 				<span>{ taxonomy.label }</span>
-				{ ! isLabelUnique && firstPostType && (
-					<div className="yst-flex yst-flex-wrap yst-justify-end yst-gap-1.5">
-						<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
-							{ postTypes[ head( taxonomy.postTypes ) ]?.label }
-						</Badge>
-						{ taxonomy.postTypes.length > 1 && <Badge
-							variant="plain" size="small"
-							className="yst-border yst-border-gray-300"
-						>
-							+{ taxonomy.postTypes.length - 1 }
-						</Badge> }
-					</div>
-				) }
+				{ badges && <div className="yst-flex yst-flex-wrap yst-justify-end yst-gap-1.5">{ badges }</div> }
 			</div> }
 			idSuffix={ idSuffix }
 		/>
@@ -69,8 +50,6 @@ const TaxonomySubmenuItem = ( { postTypes, taxonomies, taxonomyName, idSuffix = 
 };
 
 TaxonomySubmenuItem.propTypes = {
-	postTypes: PropTypes.object.isRequired,
-	taxonomies: PropTypes.object.isRequired,
 	taxonomyName: PropTypes.string.isRequired,
 	idSuffix: PropTypes.string,
 };
@@ -115,10 +94,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ ColorSwatchIcon }
 			label={ __( "Taxonomy settings", "wordpress-seo" ) }
 		>
-			{ map( taxonomies, ( { name } ) => <TaxonomySubmenuItem
-				key={ `link-taxonomy-${ name }` } postTypes={ postTypes }
-				taxonomies={ taxonomies } taxonomyName={ name }
-			/> ) }
+			{ map( taxonomies, ( { name } ) => <TaxonomySubmenuItem key={ `link-taxonomy-${ name }` } taxonomyName={ name } /> ) }
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
