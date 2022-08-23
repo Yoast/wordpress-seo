@@ -255,7 +255,7 @@ Bugfixes:
 Other:
 
 * Adds a "Search engines discouraged" notification in the Yoast SEO dashboard when the "Discourage search engines from indexing this site" WordPress setting is turned on.
-* Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at yoa.st/ryte-deprecation.
+* Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at [yoa.st/ryte-deprecation](https://yoa.st/ryte-deprecation).
 
 = 19.5.1 =
 Release Date: August 9th, 2022
