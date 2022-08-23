@@ -8,7 +8,7 @@ import NotEnoughContent from "./components/not-enough-content";
 import NotEnoughAnalysedContent from "./components/not-enough-analysed-content";
 import IndexationView from "./components/indexation-view";
 import IndexablesPage from "./indexables-page";
-import { Alert } from "@yoast/ui-library";
+import { Alert, Spinner } from "@yoast/ui-library";
 
 /* eslint-disable complexity */
 
@@ -62,7 +62,14 @@ function LandingPage() {
 			seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
 		/>;
 	}
-	return setupInfo && <IndexablesPage setupInfo={ setupInfo } />;
+	return setupInfo === null
+		? <div className="yst-flex yst-max-w-full yst-my-6 yst-justify-center">
+			<div className="yst-flex">
+				<Spinner />
+				<span className="yst-ml-3">Loading... </span>
+			</div>
+		</div>
+		: <IndexablesPage setupInfo={ setupInfo } />;
 }
 
 export default LandingPage;
