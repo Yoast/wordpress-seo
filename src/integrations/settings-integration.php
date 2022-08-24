@@ -222,15 +222,19 @@ class Settings_Integration implements Integration_Interface {
 		/* translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag. */
 		$title = \__( 'Settings %1$sBeta%2$s', 'wordpress-seo' );
 
-		\array_unshift(
+		\array_splice(
 			$pages,
+			1,
+			0,
 			[
-				'wpseo_dashboard',
-				'',
-				\sprintf( $title, '<span class="yoast-badge yoast-beta-badge">', '</span>' ),
-				'wpseo_manage_options',
-				'wpseo_settings',
-				[ $this, 'display_page' ],
+				[
+					'wpseo_dashboard',
+					'',
+					\sprintf( $title, '<span class="yoast-badge yoast-beta-badge">', '</span>' ),
+					'wpseo_manage_options',
+					'wpseo_settings',
+					[ $this, 'display_page' ],
+				],
 			]
 		);
 
