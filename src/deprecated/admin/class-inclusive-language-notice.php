@@ -17,35 +17,36 @@ class WPSEO_Inclusive_Language_Notice {
 	 *
 	 * The value of this database field holds whether the user has dismissed this notice or not.
 	 *
-	 * @var string
-	 */
-	// Probably don't need it.
-	const USER_META_DISMISSED = 'wpseo-remove-inclusive-language-notice';
-
-	/**
-	 * Holds the option name.
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
 	 *
 	 * @var string
 	 */
-	// Keep it?
-	const OPTION_NAME = 'wpseo';
+	const USER_META_DISMISSED = 'wpseo-remove-inclusive-language-notice';
 
 	/**
 	 * The Premium version in which the Inclusive language feature was added.
+	 *
+	 * * @deprecated 19.7
+	 * @codeCoverageIgnore
 	 */
-	// Remove.
 	const PREMIUM_VERSION_ADDED = '19.2-RC1';
 
 	/**
 	 * Holds the notification center.
 	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
+	 *
 	 * @var Yoast_Notification_Center
 	 */
-	// Probably don't need it.
 	protected $notification_center;
 
 	/**
 	 * WPSEO_Inclusive_Language_Notice constructor.
+	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Notification_Center $notification_center The notification center to add notifications to.
 	 */
@@ -55,6 +56,9 @@ class WPSEO_Inclusive_Language_Notice {
 
 	/**
 	 * Listener for the notice.
+	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
 	 */
 	public function dismiss_notice_listener()
 	{
@@ -70,6 +74,9 @@ class WPSEO_Inclusive_Language_Notice {
 
 	/**
 	 * Adds a notification to the notification center.
+	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
 	 */
 	public function add_notification()
 	{
@@ -87,6 +94,9 @@ class WPSEO_Inclusive_Language_Notice {
 	/**
 	 * Whether the notification should be shown.
 	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether or not the notification should be shown.
 	 */
 	public function should_show_notification()
@@ -101,6 +111,9 @@ class WPSEO_Inclusive_Language_Notice {
 
 	/**
 	 * Gets the notification value.
+	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
 	 *
 	 * @return Yoast_Notification
 	 */
