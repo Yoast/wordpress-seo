@@ -66,7 +66,7 @@ function LandingPage() {
 		? <div className="yst-flex yst-max-w-full yst-my-6 yst-justify-center">
 			<div className="yst-flex">
 				<Spinner />
-				<span className="yst-ml-3">Loading... </span>
+				<span className="yst-ml-3">{ __( "Loading...", "wordpress-seo" ) }</span>
 			</div>
 		</div>
 		: <IndexablesPage setupInfo={ setupInfo } />;
