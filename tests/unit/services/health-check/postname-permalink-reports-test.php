@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Brain\Monkey;
 
 /**
  * Postname_Permalink_Reports

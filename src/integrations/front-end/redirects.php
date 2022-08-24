@@ -104,7 +104,7 @@ class Redirects implements Integration_Interface {
 		\add_action( 'wp', [ $this, 'archive_redirect' ] );
 		\add_action( 'wp', [ $this, 'page_redirect' ], 99 );
 		\add_action( 'template_redirect', [ $this, 'attachment_redirect' ], 1 );
-		\add_action( 'pre_get_posts', [ $this, 'disable_date_queries' ] );
+		\add_action( 'template_redirect', [ $this, 'disable_date_queries' ] );
 	}
 
 	/**
@@ -224,8 +224,8 @@ class Redirects implements Integration_Interface {
 	/**
 	 * Redirects away query variables that shouldn't work.
 	 *
-	 * @param array  $query_vars   The query variables in the current URL.
-	 * @param string $base_url     The base URL without query string.
+	 * @param array  $query_vars The query variables in the current URL.
+	 * @param string $base_url   The base URL without query string.
 	 *
 	 * @return void
 	 */
@@ -234,7 +234,7 @@ class Redirects implements Integration_Interface {
 			unset( $query_vars[ $variable ] );
 		}
 		$url = $base_url;
-		if ( count( $query_vars ) > 0 ) {
+		if ( \count( $query_vars ) > 0 ) {
 			$url .= '?' . \http_build_query( $query_vars );
 		}
 

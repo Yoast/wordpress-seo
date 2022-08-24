@@ -163,13 +163,11 @@ async function saveFinishedSteps( finishedSteps ) {
  * @returns {Object} The initial state.
  */
 function calculateInitialState( windowObject, isStepFinished ) {
-	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
+	let { companyOrPerson, companyName, companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
 
-	if ( shouldForceCompany ) {
+	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
+		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "company";
-	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) {
-		// Set the stage for an empty step 2 in case the customer does seem to have consciously finished step 2 without setting data.
-		companyOrPerson = "emptyChoice";
 	}
 
 	return {
@@ -238,7 +236,7 @@ export default function FirstTimeConfigurationSteps() {
 						// The classList replace will return false if the class was not present (and thus an adminbar counter).
 						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
 						// If the count reaches zero because of this, remove the red dot alltogether.
-						if ( isAdminBarCounter  && newCount === "0" ) {
+						if ( isAdminBarCounter && newCount === "0" ) {
 							counterNode.style.display = "none";
 						} else {
 							counterNode.firstChild.textContent = counterNode.firstChild.textContent.replace( oldCount, newCount );
@@ -264,8 +262,8 @@ export default function FirstTimeConfigurationSteps() {
 		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
 
-	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ! state.companyLogo );
-	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ! state.personLogo );
+	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) );
+	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) );
 
 	/**
 	 * Runs checks of finishing the site representation step.

@@ -1,5 +1,6 @@
 import wordComplexity from "../config/internal/wordComplexity";
 import functionWords from "../config/functionWords";
+import { normalizeSingle } from "../../../helpers/sanitize/quotes";
 
 const contractionPrefixes = "^(c'|d'|l'|s')";
 const contractionRegex = new RegExp( contractionPrefixes );
@@ -15,6 +16,9 @@ export default function checkIfWordIsComplex( word ) {
 	const wordComplexityConfig = wordComplexity;
 	const lengthLimit = wordComplexityConfig.wordLength;
 	const frequencyList = wordComplexityConfig.frequencyList;
+
+	// Normalize single quotes before checking for contractions.
+	word = normalizeSingle( word );
 
 	/*
 	 * We want to remove the definite article l', preposition d' from a word,

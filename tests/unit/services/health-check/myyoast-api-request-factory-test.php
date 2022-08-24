@@ -33,8 +33,9 @@ class MyYoast_Api_Request_Factory_Test extends TestCase {
 	/**
 	 * Checks if the factory returns a new instance.
 	 *
-	 * @return void
 	 * @covers ::create
+	 *
+	 * @return void
 	 */
 	public function test_factory_returns_instance() {
 		$url      = 'sites/current';

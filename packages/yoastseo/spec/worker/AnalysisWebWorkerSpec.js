@@ -177,61 +177,67 @@ describe( "AnalysisWebWorker", () => {
 		} );
 
 		describe( "shouldAssessorsUpdate", () => {
-			const updateBoth = { readability: true, seo: true };
-			const updateNone = { readability: false, seo: false };
-			const updateReadability = { readability: true, seo: false };
-			const updateSEO = { readability: false, seo: true };
+			const updateAll = { readability: true, seo: true, inclusiveLanguage: true };
+			const updateNone = { readability: false, seo: false, inclusiveLanguage: false };
+			const updateReadability = { readability: true, seo: false, inclusiveLanguage: false };
+			const updateSEO = { readability: false, seo: true, inclusiveLanguage: false };
+			const updateSEOAndReadability = { readability: true, seo: true, inclusiveLanguage: false };
 
-			test( "update both when an empty configuration is passed", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateBoth );
+			test( "update all when an empty configuration is passed", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateAll );
 			} );
 
-			test( "update both when an empty configuration is passed along with null assessors", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, null, null ) ).toEqual( updateBoth );
+			test( "update all when an empty configuration is passed along with null assessors", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, null, null ) ).toEqual( updateAll );
 			} );
 
 			test( "update none when an empty configuration is passed along with non-null assessors", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, false, false ) ).toEqual( updateNone );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, false, false, false ) ).toEqual( updateNone );
 			} );
 
 			test( "update readability with contentAnalysisActive", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { contentAnalysisActive: true }, false, false ) ).toEqual( updateReadability );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { contentAnalysisActive: true }, false, false, false ) )
+					.toEqual( updateReadability );
 			} );
 
-			test( "update seo with useWordComplexity", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useWordComplexity: true }, false, false ) ).toEqual( updateReadability );
+			test( "update readability with useWordComplexity", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useWordComplexity: true }, false, false, false ) )
+					.toEqual( updateReadability );
 			} );
 
 			test( "update seo with keywordAnalysisActive", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false ) ).toEqual( updateSEO );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false, false ) )
+					.toEqual( updateSEO );
 			} );
 
-			test( "update both with useCornerstone", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useCornerstone: true }, false, false ) ).toEqual( updateBoth );
+			test( "update both SEO and readability with useCornerstone", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useCornerstone: true }, false, false, false ) )
+					.toEqual( updateSEOAndReadability );
 			} );
 
 			test( "update seo with useTaxonomy", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false ) ).toEqual( updateSEO );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
 			test( "update seo with useKeywordDistribution", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false ) ).toEqual( updateSEO );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
-			test( "update both with locale", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { locale: "en_US" }, false, false ) ).toEqual( updateBoth );
+			test( "update all with locale", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { locale: "en_US" }, false, false, false ) ).toEqual( updateAll );
 			} );
 
-			test( "update both with translations", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { translations: {} }, false, false ) ).toEqual( updateBoth );
+			test( "update all with translations", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { translations: {} }, false, false, false ) ).toEqual( updateAll );
 			} );
 
 			test( "update seo with researchData", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { researchData: {} }, false, false ) ).toEqual( updateSEO );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { researchData: {} }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
-			test( "update both with customAnalysis", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { customAnalysisType: "test" }, false, false ) ).toEqual( updateBoth );
+			test( "update both SEO and readability with customAnalysis", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { customAnalysisType: "test" }, false, false, false ) )
+					.toEqual( updateSEOAndReadability );
 			} );
 		} );
 
@@ -1703,6 +1709,43 @@ describe( "AnalysisWebWorker", () => {
 		test( "returns false when the keyword and synonyms are the same", () => {
 			worker._relatedKeywords[ key ] = { keyword, synonyms };
 			expect( worker.shouldSeoUpdate( key, { keyword, synonyms } ) ).toBe( false );
+		} );
+	} );
+
+	describe( "shouldInclusiveLanguageUpdate", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+		} );
+
+		test( "returns true when the existing paper is null", () => {
+			const paper = new Paper( "This does not matter here." );
+			worker._paper = null;
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the paper text is different", () => {
+			const paper = new Paper( "This is different content." );
+			worker._paper = new Paper( "This is the content." );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the paper locale is different", () => {
+			const paper = new Paper( "This is the content.", { locale: "en_US" } );
+			worker._paper = new Paper( "This is the content.", { locale: "nl_NL" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the text title of the paper is different", () => {
+			const paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			worker._paper = new Paper( "This is the content.", { textTitle: "A different text title" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns false when the text and text title are the same", () => {
+			const paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			worker._paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( false );
 		} );
 	} );
 

@@ -5,6 +5,7 @@ const classNameMap = {
 	variant: {
 		"default": "yst-link--primary",
 		primary: "yst-link--primary",
+		error: "yst-link--error",
 	},
 };
 

@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Post_Type;
+
 /**
  * A helper object for post types.
  */

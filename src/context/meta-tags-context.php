@@ -612,16 +612,19 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_main_image_id() {
 		switch ( true ) {
-			case is_singular():
+			case \is_singular():
 				return $this->get_singular_post_image( $this->id );
-			case is_author():
-			case is_tax():
-			case is_tag():
-			case is_category():
-			case is_search():
-			case is_date():
-			case is_post_type_archive():
-				return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
+			case \is_author():
+			case \is_tax():
+			case \is_tag():
+			case \is_category():
+			case \is_search():
+			case \is_date():
+			case \is_post_type_archive():
+				if ( ! empty( $GLOBALS['wp_query']->posts ) ) {
+					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
+				}
+				return null;
 			default:
 				return null;
 		}
@@ -653,7 +656,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 *
 	 * @return false|int
 	 */
-	private function fallback_to_site_logo() {
+	public function fallback_to_site_logo() {
 		$logo_id = \get_option( 'site_logo' );
 		if ( ! $logo_id ) {
 			$logo_id = \get_theme_mod( 'custom_logo', false );

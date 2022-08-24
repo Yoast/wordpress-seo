@@ -26,27 +26,6 @@ class Integrations_Action {
 	}
 
 	/**
-	 * Checks if the current user has the capability a specific user.
-	 *
-	 * @param int $user_id The id of the user to be edited.
-	 *
-	 * @return object The response object.
-	 */
-	public function check_capability( $user_id ) {
-		if ( $this->social_profiles_helper->can_edit_profile( $user_id ) ) {
-			return (object) [
-				'success' => true,
-				'status'  => 200,
-			];
-		}
-
-		return (object) [
-			'success' => false,
-			'status'  => 403,
-		];
-	}
-
-	/**
 	 * Sets an integration state.
 	 *
 	 * @param string $integration_name The name of the integration to activate/deactivate.
@@ -55,7 +34,7 @@ class Integrations_Action {
 	 * @return object The response object.
 	 */
 	public function set_integration_active( $integration_name, $params ) {
-		$option_name  = $this->get_integration_option_name( $integration_name );
+		$option_name  = $integration_name . '_integration_active';
 		$success      = true;
 		$option_value = $this->options_helper->get( $option_name );
 
@@ -74,16 +53,5 @@ class Integrations_Action {
 			'status'  => 500,
 			'error'   => 'Could not save the option in the database',
 		];
-	}
-
-	/**
-	 * Returns the option name associated to a plugin activation status.
-	 *
-	 * @param string $integration_name The name of the integration to activate/deactivate.
-	 *
-	 * @return string The option name.
-	 */
-	private function get_integration_option_name( $integration_name ) {
-		return ( $integration_name === 'ryte' ) ? 'ryte_indexability' : $integration_name . '_integration_active';
 	}
 }

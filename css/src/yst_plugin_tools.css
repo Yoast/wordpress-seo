@@ -65,6 +65,7 @@ tr.yst_row.even {
   float: left;
   width: 200px;
   margin: 5px 0;
+  word-wrap: break-word;
 }
 
 .wpseo_content_wrapper label.textinput.error,
@@ -546,78 +547,141 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 /* Banners sidebar. */
 .yoast-sidebar__title {
-  width: 100%;
-  margin: 5px 0;
-  padding: 10px 0;
-  color: #a4286a;
-  text-align: left;
-  box-sizing: border-box;
-  line-height: 19px;
-  border-bottom: 1px solid #a4286a;
+	width: 100%;
+	margin: 5px 0;
+	padding: 10px 0;
+	color: #a4286a;
+	text-align: left;
+	box-sizing: border-box;
+	line-height: 19px;
+	border-bottom: 1px solid #a4286a;
+}
+
+.yoast-sidebar__product {
+	background: #A4286A;
+	padding: 24px;
+	margin-top: 34px;
+	border-radius: 8px;
+	color: #FFFFFF;
+}
+
+.yoast-sidebar__product h2 {
+	color: #FFFFFF;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.yoast-sidebar__product .product-image {
+	max-width: 75px;
+	max-height: 75px;
+	margin: -50px auto 16px;
+}
+
+.yoast-sidebar__product .product-image img {
+	border: solid 1px #FFFFFF;
+	border-radius: 12px 12px 0 12px;
+	overflow: hidden;
+}
+
+.yoast-sidebar__product p {
+	margin-bottom: 16px;
+	margin-top: 0;
+	font-size: 1rem;
+}
+
+.yoast-sidebar__product .plugin-buy-button .yoast-button-upsell {
+	width: 100%;
+}
+
+.yoast-sidebar__product .review-container {
+	margin-top: 24px;
+}
+
+.yoast-sidebar__product .review-container a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.yoast-sidebar__product .review-container .title {
+	font-weight: bold;
+	font-size: 14px;
+	margin-bottom: 8px;
+	color: #FFFFFF;
+}
+
+.yoast-sidebar__product .review-container .title:hover {
+	text-decoration: underline;
+}
+
+.yoast-sidebar__product .review-container .rating {
+	display: flex;
+	gap: 5px;
+}
+
+.yoast-sidebar__product .review-container .rating img {
+	max-width: 22px;
+	max-height: 22px;
+}
+
+.yoast-sidebar__product .review-container .rating .rating-text {
+	font-size: 20px;
+	line-height: 24px;
 }
 
 .yoast-sidebar__section {
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
-  border: 1px solid #dcdcdc;
-  background-color: #fff;
-  padding: 16px;
-  margin: 10px 0 20px 0;
+	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+	border: 1px solid #dcdcdc;
+	background-color: #fff;
+	padding: 16px;
+	margin: 10px 0 20px 0;
 }
 
 .yoast-sidebar__section h2 {
-  margin-top: 0;
-  color: #a4286a;
+	margin-top: 0;
+	color: #a4286a;
 }
 
 .yoast-sidebar__section a {
-  color: #0085ba;
+	color: #0085ba;
 }
 
 .yoast-sidebar__section ul {
-  position: relative;
+	position: relative;
 }
 
 .yoast-sidebar__section li {
-  list-style: none;
-  margin-left: 20px;
+	list-style: none;
+	margin-left: 20px;
 }
 
 .yoast-sidebar__section li::before {
-  content: '+';
-  position: absolute;
-  left: 0;
-  font-weight: bold;
+	content: '+';
+	position: absolute;
+	left: 0;
+	font-weight: bold;
 }
 
 .yoast-sidebar__section div {
-  position: relative;
-  margin: 10px 0 20px 0;
+	position: relative;
+	margin: 10px 0 20px 0;
 }
 
 .yoast-sidebar__section div img {
-  float: right;
-  width: 70px;
-  height: 70px;
-  margin: 0 0 0 10px;
+	float: right;
+	width: 70px;
+	height: 70px;
+	margin: 0 0 0 10px;
 }
 
 .yoast-sidebar__section div img.alignleft {
-  margin: 0 10px 0 0;
-  float: left;
+	margin: 0 10px 0 0;
+	float: left;
 }
 
 .yoast-sidebar__section div p {
-  float: left;
-  width: 100%;
-  margin: 0;
-}
-
-.wpseo-banner__link {
-  display: inline-block;
-}
-
-.wpseo-banner__image {
-  vertical-align: top;
+	float: left;
+	width: 100%;
+	margin: 0;
 }
 
 /*

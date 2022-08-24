@@ -36,6 +36,7 @@ const populateStore = store => {
 
 	store.dispatch( actions.setDismissedAlerts( get( window, "wpseoScriptData.dismissedAlerts", {} ) ) );
 	store.dispatch( actions.setIsPremium( Boolean( get( window, "wpseoScriptData.metabox.isPremium", false ) ) ) );
+	store.dispatch( actions.setPostId( Number( get( window, "wpseoScriptData.postId", null ) ) ) );
 };
 
 /**

@@ -1,6 +1,7 @@
 import { useState } from "@wordpress/element";
-import { SvgIcon } from "@yoast/components";
+import { BetaBadge, SvgIcon } from "@yoast/components";
 import PropTypes from "prop-types";
+/* eslint-disable complexity */
 
 /**
  * Sidebar Collapsible component with default padding and separator
@@ -47,12 +48,14 @@ const SidebarCollapsible = ( props ) => {
 					<div className="yoast-title">{ props.title }</div>
 					<div className="yoast-subtitle">{ props.subTitle }</div>
 				</span>
+				{ props.hasBetaBadgeLabel && <BetaBadge /> }
 				<span className="yoast-chevron" aria-hidden="true" />
 			</button>
 		</h2>
 		{ isOpen && props.children }
 	</div>;
 };
+/* eslint-enable complexity */
 
 export default SidebarCollapsible;
 
@@ -64,9 +67,11 @@ SidebarCollapsible.propTypes = {
 	] ).isRequired,
 	prefixIcon: PropTypes.object,
 	subTitle: PropTypes.string,
+	hasBetaBadgeLabel: PropTypes.bool,
 };
 
 SidebarCollapsible.defaultProps = {
 	prefixIcon: null,
 	subTitle: "",
+	hasBetaBadgeLabel: false,
 };
