@@ -393,16 +393,16 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::get_product_template
 	 */
 	public function test_title_by_using_the_product_archive_template() {
-		// Sets the stubs.
-		Monkey\Functions\stubs(
-			[
-				'is_shop'        => true,
-				'is_search'      => false,
-				'is_archive'     => true,
-				'wc_get_page_id' => 1337,
-				'get_post'       => [ 'post' ],
-			]
-		);
+		$this->woocommerce_helper->expects( 'is_shop_page' )
+				->once()
+				->andReturn( true );
+
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )
+			->once()
+			->andReturn( 1337 );
+
+		Monkey\Functions\expect( 'is_archive' )->andReturn( true );
+		Monkey\Functions\expect( 'get_post' )->with( 1337 )->andReturn( [ 'post' ] );
 
 		$this->options
 			->expects( 'get' )
@@ -428,16 +428,16 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::get_product_template
 	 */
 	public function test_description_by_using_the_product_archive_template() {
-		// Sets the stubs.
-		Monkey\Functions\stubs(
-			[
-				'is_shop'        => true,
-				'is_search'      => false,
-				'is_archive'     => true,
-				'wc_get_page_id' => 1337,
-				'get_post'       => [ 'post' ],
-			]
-		);
+		$this->woocommerce_helper->expects( 'is_shop_page' )
+				->once()
+				->andReturn( true );
+
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )
+			->once()
+			->andReturn( 1337 );
+
+		Monkey\Functions\expect( 'is_archive' )->andReturn( true );
+		Monkey\Functions\expect( 'get_post' )->with( 1337 )->andReturn( [ 'post' ] );
 
 		$this->options
 			->expects( 'get' )
@@ -474,8 +474,7 @@ class WooCommerce_Test extends TestCase {
 			->expects( 'get_paginated_url' )
 			->andReturn( 'https://example.com/permalink/page/5' );
 
-		$this->instance
-			->expects( 'is_shop_page' )
+		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()
 			->andReturnTrue();
 
@@ -498,8 +497,7 @@ class WooCommerce_Test extends TestCase {
 			->expects( 'get_current_archive_page_number' )
 			->andReturn( 1 );
 
-		$this->instance
-			->expects( 'is_shop_page' )
+		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()
 			->andReturnTrue();
 
@@ -516,8 +514,7 @@ class WooCommerce_Test extends TestCase {
 	public function test_canonical_on_non_shop_page() {
 		$presentation = Mockery::mock( Indexable_Presentation::class );
 
-		$this->instance
-			->expects( 'is_shop_page' )
+		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()
 			->andReturnFalse();
 
@@ -534,8 +531,7 @@ class WooCommerce_Test extends TestCase {
 	public function test_canonical_on_invalid_permalink() {
 		$presentation = Mockery::mock( Indexable_Presentation::class );
 
-		$this->instance
-			->expects( 'is_shop_page' )
+		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()
 			->andReturnTrue();
 
