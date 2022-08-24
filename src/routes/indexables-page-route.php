@@ -188,7 +188,6 @@ class Indexables_Page_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'ignore_indexable' ],
 				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
-				// @TODO: add validation/sanitization.
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
