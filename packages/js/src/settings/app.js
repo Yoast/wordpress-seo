@@ -1,6 +1,7 @@
-import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Badge } from "@yoast/ui-library";
+import { Badge, ChildrenLimiter } from "@yoast/ui-library";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
@@ -61,6 +62,18 @@ TaxonomySubmenuItem.propTypes = {
  * @returns {JSX.Element} The menu element.
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
+	const renderMoreOrLessButton = useCallback( ( { show, toggle } ) => {
+		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
+
+		return <button
+			className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-mb-1 yst-text-sm yst-font-medium yst-text-gray-800 yst-rounded-md yst-no-underline hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+			onClick={ toggle }
+		>
+			{ show ? __( "Less", "wordpress-seo" ) : __( "More", "wordpress-seo" ) }
+			<ChevronIcon className="yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
+		</button>;
+	}, [] );
+
 	return <>
 		<figure className="yst-w-44 yst-px-3 yst-mb-12">
 			<YoastLogo />
@@ -81,20 +94,24 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ NewspaperIcon }
 			label={ __( "Content settings", "wordpress-seo" ) }
 		>
-			<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			{ map( postTypes, ( { name, route, label } ) => (
-				<SidebarNavigation.SubmenuItem
-					key={ `link-post-type-${ name }` } to={ `/post-type/${ route }` } label={ label }
-					idSuffix={ idSuffix }
-				/>
-			) ) }
+			<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+				<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				{ map( postTypes, ( { name, route, label } ) => (
+					<SidebarNavigation.SubmenuItem
+						key={ `link-post-type-${ name }` } to={ `/post-type/${ route }` } label={ label }
+						idSuffix={ idSuffix }
+					/>
+				) ) }
+			</ChildrenLimiter>
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
 			icon={ ColorSwatchIcon }
 			label={ __( "Taxonomy settings", "wordpress-seo" ) }
 		>
-			{ map( taxonomies, taxonomy => <TaxonomySubmenuItem key={ `link-taxonomy-${ taxonomy.name }` } taxonomy={ taxonomy } /> ) }
+			<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+				{ map( taxonomies, taxonomy => <TaxonomySubmenuItem key={ `link-taxonomy-${ taxonomy.name }` } taxonomy={ taxonomy } /> ) }
+			</ChildrenLimiter>
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
