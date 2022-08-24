@@ -54,8 +54,6 @@ const NotEnoughContent = () => {
 
 			setReadingListState( parsedResponse.state );
 		} catch ( error ) {
-			// @TODO: Throw an error notification.
-			console.error( error.message );
 			return false;
 		}
 	}, [] );
@@ -80,8 +78,6 @@ const NotEnoughContent = () => {
 				return false;
 			}
 		} catch ( error ) {
-			// @TODO: Throw an error notification.
-			console.error( error.message );
 			setReadingListState( oldState );
 			return false;
 		}

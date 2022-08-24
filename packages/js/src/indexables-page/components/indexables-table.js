@@ -1,4 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { useState, useCallback } from "@wordpress/element";
 import { EyeOffIcon } from "@heroicons/react/outline";
@@ -36,7 +37,7 @@ function PlaceholderRows( { columnCount, listSize } ) {
  *
  * @returns {WPElement} A table with the indexables.
  */
-const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } ) => {
+const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, setErrorMessage } ) => {
 	const [ isHandlingIgnore, setIsHandlingIgnore ] = useState( false );
 	const [ rowAnimationClasses, setRowAnimationClasses ] = useState( "" );
 
@@ -57,19 +58,17 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } 
 			} );
 
 			const parsedResponse = await response.json;
+			setIsHandlingIgnore( false );
+
 			if ( parsedResponse.success ) {
 				setRowAnimationClasses( "yst-animate-slideRight" );
-				setIsHandlingIgnore( false );
 				return true;
 			}
-			/* eslint-disable no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Ignoring post has failed." );
+			setErrorMessage( __( "The request has failed.", "wordpress-seo" ) );
 			return false;
 		} catch ( error ) {
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setIsHandlingIgnore( false );
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, addToIgnoreList ] );
 
@@ -92,6 +91,7 @@ IndexableRow.propTypes = {
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
 	position: PropTypes.number,
+	setErrorMessage: PropTypes.func,
 	children: PropTypes.node,
 };
 
