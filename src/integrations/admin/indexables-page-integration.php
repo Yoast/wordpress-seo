@@ -3,17 +3,15 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Option_Tab;
+use WPSEO_Addon_Manager;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
 use Yoast\WP\SEO\Routes\Indexing_Route;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 /**
  * Indexables_Page_Integration class
  */
@@ -25,6 +23,20 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	private $admin_asset_manager;
+
+	/**
+	 * The short link helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	protected $short_link_helper;
+
+	/**
+	 * The addon manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	protected $addon_manager;
 
 	/**
 	 * The indexables page helper.
@@ -51,15 +63,21 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * Indexables_Page_Integration constructor.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
+	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
+	 * @param Short_Link_Helper         $short_link_helper      The short link helper.
 	 * @param Indexables_Page_Helper    $indexables_page_helper The indexables page helper.
 	 * @param Product_Helper            $product_helper         The product helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
+		WPSEO_Addon_Manager $addon_manager,
+		Short_Link_Helper $short_link_helper,
 		Indexables_Page_Helper $indexables_page_helper,
 		Product_Helper $product_helper
 	) {
 		$this->admin_asset_manager    = $admin_asset_manager;
+		$this->addon_manager          = $addon_manager;
+		$this->short_link_helper      = $short_link_helper;
 		$this->indexables_page_helper = $indexables_page_helper;
 		$this->product_helper         = $product_helper;
 	}
@@ -69,22 +87,6 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_indexables_page_tab' ] );
-	}
-
-	/**
-	 * Adds a dedicated tab in the General sub-page.
-	 *
-	 * @param WPSEO_Options_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
-	 */
-	public function add_indexables_page_tab( $dashboard_tabs ) {
-		$dashboard_tabs->add_tab(
-			new WPSEO_Option_Tab(
-				'indexables-page',
-				__( 'Indexables', 'wordpress-seo' ),
-				[ 'save_button' => false ]
-			)
-		);
 	}
 
 	/**
@@ -106,7 +108,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 			'amount'       => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
 			// Forcing this to 0 to not display the initial alert notice.
 			'firstTime'    => '0',
-			'errorMessage' => '',
+			'errorMessage' => $this->render_indexing_error(),
 			'restApi'      => [
 				'root'               => \esc_url_raw( \rest_url() ),
 				'indexing_endpoints' => $this->get_endpoints(),
@@ -157,5 +159,20 @@ class Indexables_Page_Integration implements Integration_Interface {
 		$endpoints['complete'] = Indexing_Route::FULL_COMPLETE_ROUTE;
 
 		return $endpoints;
+	}
+
+	/**
+	 * The error to show if optimization failed.
+	 *
+	 * @return string The error to show if optimization failed.
+	 */
+	protected function render_indexing_error() {
+		$presenter = new Indexing_Error_Presenter(
+			$this->short_link_helper,
+			$this->product_helper,
+			$this->addon_manager
+		);
+
+		return $presenter->present();
 	}
 }

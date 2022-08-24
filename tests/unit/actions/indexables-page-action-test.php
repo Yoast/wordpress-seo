@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
+use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -57,19 +58,27 @@ class Indexables_Page_Action_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $indexables_page_helper;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
-		$this->options_helper       = Mockery::mock( Options_Helper::class );
+		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
+		$this->post_type_helper       = Mockery::mock( Post_Type_Helper::class );
+		$this->options_helper         = Mockery::mock( Options_Helper::class );
+		$this->indexables_page_helper = Mockery::mock( Indexables_Page_Helper::class );
 
-		$this->instance      = new Indexables_Page_Action( $this->indexable_repository, $this->post_type_helper, $this->options_helper );
+		$this->instance      = new Indexables_Page_Action( $this->indexable_repository, $this->post_type_helper, $this->options_helper, $this->indexables_page_helper );
 		$this->mock_instance = Mockery::mock(
 			Indexables_Page_Action::class,
-			[ $this->indexable_repository, $this->post_type_helper, $this->options_helper ]
+			[ $this->indexable_repository, $this->post_type_helper, $this->options_helper, $this->indexables_page_helper ]
 		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
@@ -367,6 +376,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
+			->expects( 'select_many' )
+			->with( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'readability_score' )
+			->andReturnSelf();
+
+		$this->indexable_repository
 			->expects( 'where_raw' )
 			->with( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->andReturnSelf();
@@ -460,6 +474,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
+			->expects( 'select_many' )
+			->with( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'primary_focus_keyword', 'primary_focus_keyword_score' )
+			->andReturnSelf();
+
+		$this->indexable_repository
 			->expects( 'where_raw' )
 			->with( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->andReturnSelf();
@@ -550,6 +569,11 @@ class Indexables_Page_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'query' )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'select_many' )
+			->with( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'incoming_link_count', 'is_cornerstone' )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -660,6 +684,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
+			->expects( 'select_many' )
+			->with( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'incoming_link_count' )
+			->andReturnSelf();
+
+		$this->indexable_repository
 			->expects( 'where_raw' )
 			->with( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->andReturnSelf();
@@ -721,6 +750,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->with( 'test_ignore_list_name', $expected_result )
 			->andReturns();
 
+		$this->indexables_page_helper
+			->expects( 'is_valid_ignore_list_name' )
+			->with( 'test_ignore_list_name' )
+			->andReturns( true );
+
 		$this->instance->add_indexable_to_ignore_list( 'test_ignore_list_name', $indexable_id );
 	}
 
@@ -768,6 +802,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->expects( 'set' )
 			->with( 'test_ignore_list_name', $expected_result )
 			->andReturns();
+
+		$this->indexables_page_helper
+			->expects( 'is_valid_ignore_list_name' )
+			->with( 'test_ignore_list_name' )
+			->andReturns( true );
 
 		$this->instance->remove_indexable_from_ignore_list( 'test_ignore_list_name', $indexable_id );
 	}
