@@ -21,7 +21,7 @@ export default {
 
 const Template = args => {
 	const renderMoreOrLessButton = useCallback( ( { show, toggle } ) => {
-		return <Button className="yst-ml-1.5" onClick={ toggle }>{ show ? "Less" : "More" }</Button>;
+		return <Button className="yst-mx-1.5" onClick={ toggle }>{ show ? "Less" : "More" }</Button>;
 	}, [] );
 
 	return <ChildrenLimiter { ...args } renderButton={ renderMoreOrLessButton } />;
@@ -33,7 +33,7 @@ Factory.parameters = {
 	docs: {
 		transformSource: ( args ) => (
 			"const renderMoreOrLessButton = useCallback( ( { show, toggle } ) => {\n" +
-			"\treturn <Button className=\"yst-ml-1.5\" onClick={ toggle }>{ show ? \"Less\" : \"More\" }</Button>;\n" +
+			"\treturn <Button className=\"yst-mx-1.5\" onClick={ toggle }>{ show ? \"Less\" : \"More\" }</Button>;\n" +
 			"}, [] );\n" +
 			"\n" +
 			`return ${ args.replace( "renderButton={() => {}}", "renderButton={ renderMoreOrLessButton }" ) };`
