@@ -4,7 +4,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { LinkIcon, RefreshIcon } from "@heroicons/react/outline";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
-import { Button, Modal, useMediaQuery, Alert, Spinner } from "@yoast/ui-library";
+import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
 import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
