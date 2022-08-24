@@ -77,6 +77,19 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 		return <SvgIcon icon="loading-spinner" />;
 	}
 
+	if ( suggestedLinksModalData.error !== null ) {
+		return (
+			<Alert variant="error">
+				{
+					sprintf(
+						// Translators: %s expands to the error message.
+						__( "An error occurred while fetching the suggested links list: %s", "wordpress-seo" ),
+						suggestedLinksModalData.error
+					)
+				}
+			</Alert>
+		);
+	}
 	if ( ! isLinkSuggestionsEnabled ) {
 		return <SuggestedLinksModalContent suggestedLinksModalData={ suggestedLinksModalData } isPremium={ isPremium }>
 			<Alert>
@@ -195,6 +208,7 @@ SuggestedLinksModal.propTypes = {
 	isPremium: PropTypes.bool,
 	suggestedLinksModalData: PropTypes.shape( {
 		linksList: PropTypes.arrayOf( PropTypes.object ),
+		error: PropTypes.string,
 	} ),
 };
 

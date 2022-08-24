@@ -66,6 +66,20 @@ class Indexables_Page_Route implements Route_Interface {
 	const RESTORE_INDEXABLE_ROUTE = '/restore_indexable';
 
 	/**
+	 * Allows to restore all indexables previously ignored.
+	 *
+	 * @var string
+	 */
+	const RESTORE_ALL_INDEXABLES_ROUTE = '/restore_all_indexables';
+
+	/**
+	 * Allows to restore all indexables previously ignored for a certain list.
+	 *
+	 * @var string
+	 */
+	const RESTORE_ALL_INDEXABLES_FOR_LIST_ROUTE = '/restore_all_indexables_for_list';
+
+	/**
 	 * Gets the reading list state.
 	 *
 	 * @var string
@@ -220,6 +234,37 @@ class Indexables_Page_Route implements Route_Interface {
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::RESTORE_INDEXABLE_ROUTE, $restore_indexable_route );
 
+		$restore_all_indexables_route = [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'restore_all_indexables' ],
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::RESTORE_ALL_INDEXABLES_ROUTE, $restore_all_indexables_route );
+
+		$restore_all_indexables_for_list_route = [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'restore_all_indexables_for_list' ],
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
+				'args'                => [
+					'type' => [
+						'type'     => 'string',
+						'enum'     => [
+							'least_readability',
+							'least_seo_score',
+							'most_linked',
+							'least_linked',
+						],
+					],
+				],
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::RESTORE_ALL_INDEXABLES_FOR_LIST_ROUTE, $restore_all_indexables_for_list_route );
+
 		$get_reading_list_route = [
 			[
 				'methods'             => 'GET',
@@ -373,6 +418,73 @@ class Indexables_Page_Route implements Route_Interface {
 		$indexable_id     = intval( $params['id'] );
 
 		if ( $this->indexables_page_action->remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) ) {
+			return new WP_REST_Response(
+				[
+					'json' => (object) [ 'success' => true ],
+				],
+				200
+			);
+		}
+
+		return new WP_REST_Response(
+			[
+				'json' => (object) [
+					'success' => false,
+					'error'   => 'Could not save the option in the database',
+				],
+			],
+			500
+		);
+	}
+
+	/**
+	 * Restores all indexables from all ignore lists.
+	 *
+	 * @return WP_REST_Response The success or failure response.
+	 */
+	public function restore_all_indexables() {
+		$list_names = $this->indexables_page_helper->get_ignore_list_names();
+		$success    = true;
+		foreach ( $list_names as $list_name ) {
+			$result = $this->indexables_page_action->remove_all_indexables_from_ignore_list( $list_name );
+
+			if ( $result === false ) {
+				$success = false;
+			}
+		}
+
+		if ( $success === true ) {
+			return new WP_REST_Response(
+				[
+					'json' => (object) [ 'success' => true ],
+				],
+				200
+			);
+		}
+
+		return new WP_REST_Response(
+			[
+				'json' => (object) [
+					'success' => false,
+					'error'   => 'Could not save the option in the database',
+				],
+			],
+			500
+		);
+	}
+
+	/**
+	 * Restores all indexables from a specific ignore list.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The success or failure response.
+	 */
+	public function restore_all_indexables_for_list( WP_REST_Request $request ) {
+		$params           = $request->get_json_params();
+		$ignore_list_name = $params['type'] . '_ignore_list';
+
+		if ( $this->indexables_page_action->remove_all_indexables_from_ignore_list( $ignore_list_name ) ) {
 			return new WP_REST_Response(
 				[
 					'json' => (object) [ 'success' => true ],

@@ -36,7 +36,7 @@ function PlaceholderRows( { columnCount, listSize } ) {
  *
  * @returns {WPElement} A table with the indexables.
  */
-const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } ) => {
+const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, setErrorMessage } ) => {
 	const [ isHandlingIgnore, setIsHandlingIgnore ] = useState( false );
 	const [ rowAnimationClasses, setRowAnimationClasses ] = useState( "" );
 
@@ -67,9 +67,7 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } 
 			console.error( "Ignoring post has failed." );
 			return false;
 		} catch ( error ) {
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, addToIgnoreList ] );
 
@@ -92,6 +90,7 @@ IndexableRow.propTypes = {
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
 	position: PropTypes.number,
+	setErrorMessage: PropTypes.func,
 	children: PropTypes.node,
 };
 

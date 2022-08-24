@@ -119,6 +119,8 @@ function IndexablesPage( { setupInfo } ) {
 	const [ isSomethingGreenReadability, setIsSomethingGreenReadability ] = useState( false );
 	const [ isSomethingGreenSEO, setIsSomethingGreenSEO ] = useState( false );
 
+	const [ errorMessage, setErrorMessage ] = useState( null );
+
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
 
 	const [ lastRefreshTime, setLastRefreshTime ] = useState( 0 );
@@ -328,36 +330,34 @@ function IndexablesPage( { setupInfo } ) {
 	 * @returns {void}
 	 */
 	const updateLists = ( isRefresh ) => {
-		if ( setupInfo ) {
-			if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
-				updateList( "least_readability", indexablesLists.least_readability, isRefresh );
-			} else {
-				setLoadedCards( prevState => [ ...prevState, "least_readability" ] );
-			}
-
-			if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
-				updateList( "least_seo_score", indexablesLists.least_seo_score, isRefresh );
-			} else {
-				setLoadedCards( prevState => [ ...prevState, "least_seo_score" ] );
-			}
-
-			if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
-				updateList( "most_linked", indexablesLists.most_linked, isRefresh );
-				updateList( "least_linked", indexablesLists.least_linked, isRefresh );
-			} else {
-				setLoadedCards( prevState => [ ...prevState, "most_linked", "least_linked" ] );
-			}
-
-			if ( refreshInterval ) {
-				clearInterval( refreshInterval );
-			}
-
-			setLastRefreshTime( 0 );
-			const interval = setInterval( () => {
-				setLastRefreshTime( ( prevCounter ) => prevCounter + 1 );
-			}, 60000 );
-			setRefreshInterval( interval );
+		if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
+			updateList( "least_readability", indexablesLists.least_readability, isRefresh );
+		} else {
+			setLoadedCards( prevState => [ ...prevState, "least_readability" ] );
 		}
+
+		if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
+			updateList( "least_seo_score", indexablesLists.least_seo_score, isRefresh );
+		} else {
+			setLoadedCards( prevState => [ ...prevState, "least_seo_score" ] );
+		}
+
+		if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
+			updateList( "most_linked", indexablesLists.most_linked, isRefresh );
+			updateList( "least_linked", indexablesLists.least_linked, isRefresh );
+		} else {
+			setLoadedCards( prevState => [ ...prevState, "most_linked", "least_linked" ] );
+		}
+
+		if ( refreshInterval ) {
+			clearInterval( refreshInterval );
+		}
+
+		setLastRefreshTime( 0 );
+		const interval = setInterval( () => {
+			setLastRefreshTime( ( prevCounter ) => prevCounter + 1 );
+		}, 60000 );
+		setRefreshInterval( interval );
 	};
 
 	const handleRefreshLists = useCallback( () => {
@@ -396,6 +396,7 @@ function IndexablesPage( { setupInfo } ) {
 				linksList: null,
 				breadcrumbTitle: breadcrumbTitle,
 				permalink: permalink,
+				error: null,
 			 } );
 			 return true;
 		}
@@ -413,6 +414,7 @@ function IndexablesPage( { setupInfo } ) {
 					linksList: [],
 					breadcrumbTitle: breadcrumbTitle,
 					permalink: permalink,
+					error: null,
 				 } );
 				 return true;
 			}
@@ -422,13 +424,19 @@ function IndexablesPage( { setupInfo } ) {
 					linksList: parsedResponse,
 					breadcrumbTitle: breadcrumbTitle,
 					permalink: permalink,
+					error: null,
 				 } );
 				return true;
 			}
 			return false;
 		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( error.message );
+			setSuggestedLinksModalData( {
+				incomingLinksCount: null,
+				linksList: null,
+				breadcrumbTitle: null,
+				permalink: null,
+				error: error.message,
+			 } );
 			return false;
 		}
 	}, [ setSuggestedLinksModalData, setIsModalOpen ] );
@@ -457,6 +465,15 @@ function IndexablesPage( { setupInfo } ) {
 	const handleCloseModal = useCallback( () => {
 		setIsModalOpen( false );
 		setSuggestedLinksModalData( null );
+	}, [] );
+
+	/**
+	 * Handles the closing of the error modal.
+	 *
+	 * @returns {void}
+	 */
+	const handleCloseErrorModal = useCallback( () => {
+		setErrorMessage( null );
 	}, [] );
 
 	/**
@@ -490,23 +507,37 @@ function IndexablesPage( { setupInfo } ) {
 					};
 				} );
 				setIgnoredIndexable( null );
-				return true;
+			} else {
+				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Undoing post has failed." );
-			return false;
 		} catch ( error ) {
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable ] );
 
 	const onClickUndo = useCallback( ( ignored ) => {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
+
+	const onClickUndoAll = useCallback( async() => {
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/restore_all_indexables",
+				method: "POST",
+			} );
+
+			const parsedResponse = await response.json;
+			if ( parsedResponse.success ) {
+				// If there is a button to ignore a single indexable, unmount it.
+				setIgnoredIndexable( null );
+				handleRefreshLists();
+				return true;
+			}
+			setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
+		} catch ( error ) {
+			setErrorMessage( error.message );
+		}
+	}, [ apiFetch, handleRefreshLists, setIgnoredIndexable ] );
 
 	const singleColumn = [
 		<IndexablesPageCard
@@ -550,6 +581,7 @@ function IndexablesPage( { setupInfo } ) {
 								indexable={ indexable }
 								addToIgnoreList={ setIgnoredIndexable }
 								position={ position }
+								setErrorMessage={ setErrorMessage }
 							>
 								<IndexableScore
 									colorClass={ readabilityScoreAssessment( indexable ) }
@@ -643,6 +675,7 @@ function IndexablesPage( { setupInfo } ) {
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoredIndexable }
 									position={ position }
+									setErrorMessage={ setErrorMessage }
 								>
 									<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
 									<IndexableTitleLink indexable={ indexable } />
@@ -676,18 +709,32 @@ function IndexablesPage( { setupInfo } ) {
 
 	const doubleColumn = [ ...singleColumn ].reverse();
 
-	return setupInfo && <div
-		className="yst-max-w-full yst-my-6 2xl:yst-mb-0"
-	>
+	return <div className="yst-max-w-full yst-mt-6">
 		<Modal
+			id="error-modal"
+			onClose={ handleCloseErrorModal }
+			isOpen={ errorMessage !== null }
+		>
+			<Alert variant="error">
+				{
+					sprintf(
+						// Translators: %s expands to the error message.
+						__( "An error occurred: %s", "wordpress-seo" ),
+						errorMessage
+					)
+				}
+			</Alert>
+		</Modal>
+		<Modal
+			id="suggested-links-modal"
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
-			 <SuggestedLinksModal
+			<SuggestedLinksModal
 				isLinkSuggestionsEnabled={ isLinkSuggestionsEnabled }
 				isPremium={ isPremiumInstalled }
 				suggestedLinksModalData={ suggestedLinksModalData }
-			 />
+			/>
 		</Modal>
 		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-3">
 			<span className="yst-italic">
@@ -752,6 +799,7 @@ function IndexablesPage( { setupInfo } ) {
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoredIndexable }
 									position={ position }
+									setErrorMessage={ setErrorMessage }
 								>
 									<IndexableScore
 										colorClass={ seoScoreAssessment( indexable ) }
@@ -797,7 +845,7 @@ function IndexablesPage( { setupInfo } ) {
 						? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
 						: __( "Highest number of incoming links", "wordpress-seo" )
 				}
-				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+				className="yst-mb-6"
 			>
 				{
 					shouldShowDisabledAlert( "most_linked" ) && <Alert variant={ "info" }>
@@ -846,6 +894,7 @@ function IndexablesPage( { setupInfo } ) {
 										indexable={ indexable }
 										addToIgnoreList={ setIgnoredIndexable }
 										position={ position }
+										setErrorMessage={ setErrorMessage }
 									>
 										<IndexableScore colorClass={ mostLinkedAssessment( indexable ) } />
 										<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
@@ -873,7 +922,17 @@ function IndexablesPage( { setupInfo } ) {
 				}
 			</IndexablesPageCard>
 		</div>
-		{ ignoredIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoredIndexable ) }>{ `Undo ignore ${ignoredIndexable.indexable.id}` }</Button></div> }
+		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
+			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Undo hiding all items", "wordpress-seo" ) }</Button>
+			{
+				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
+					{
+						/* translators: %1$s expands to the title of a post that was just just hidden. */
+						sprintf( __( "Undo hiding of: %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
+					}
+				</Button>
+			}
+		</div>
 	</div>;
 }
 
