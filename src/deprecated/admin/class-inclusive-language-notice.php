@@ -7,6 +7,8 @@
 
 /**
  * Represents the notice for the Inclusive language feature.
+ *
+ * @deprecated 19.7
  */
 class WPSEO_Inclusive_Language_Notice {
 
@@ -17,6 +19,7 @@ class WPSEO_Inclusive_Language_Notice {
 	 *
 	 * @var string
 	 */
+	// Probably don't need it.
 	const USER_META_DISMISSED = 'wpseo-remove-inclusive-language-notice';
 
 	/**
@@ -24,11 +27,13 @@ class WPSEO_Inclusive_Language_Notice {
 	 *
 	 * @var string
 	 */
+	// Keep it?
 	const OPTION_NAME = 'wpseo';
 
 	/**
 	 * The Premium version in which the Inclusive language feature was added.
 	 */
+	// Remove.
 	const PREMIUM_VERSION_ADDED = '19.2-RC1';
 
 	/**
@@ -36,6 +41,7 @@ class WPSEO_Inclusive_Language_Notice {
 	 *
 	 * @var Yoast_Notification_Center
 	 */
+	// Probably don't need it.
 	protected $notification_center;
 
 	/**
@@ -139,6 +145,9 @@ class WPSEO_Inclusive_Language_Notice {
 
 	/**
 	 * Dismisses the notice.
+	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
 	 */
 	protected function dismiss_notice()
 	{
