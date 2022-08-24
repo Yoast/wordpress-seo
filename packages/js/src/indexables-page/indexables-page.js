@@ -84,7 +84,7 @@ const mostLinkedIntro = <Fragment>
 	{
 		createInterpolateElement(
 			// translators: %1$s and %2$s are replaced by opening and closing span tags.
-			// %3$s is replaced by the StarIcon component.
+			// %3$s is replaced by an icon of a star.
 			// %4$s and %5$s are replaced by opening and closing anchor tags.
 			sprintf(
 				__( "Make sure to mark this content as cornerstone content %1$s(%3$s)%2$s. %4$sLearn more about cornerstone content%5$s.", "wordpress-seo" ),
@@ -97,7 +97,7 @@ const mostLinkedIntro = <Fragment>
 			{
 				span: <span className="yst-whitespace-nowrap" />,
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a id="kek" href="https://www.yoast.com" target="_blank" rel="noopener noreferrer" />,
+				a: <a id="indexables-page-cornerstone-link" href="https://www.yoast.com" target="_blank" rel="noopener noreferrer" />,
 				StarIcon: <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700 yst-inline" />,
 			}
 		)
