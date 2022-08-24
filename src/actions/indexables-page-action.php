@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions;
 
+use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -33,20 +34,30 @@ class Indexables_Page_Action {
 	private $options_helper;
 
 	/**
+	 * The indexables page helper.
+	 *
+	 * @var Indexables_Page_Helper
+	 */
+	private $indexables_page_helper;
+
+	/**
 	 * Indexable_Action constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Post_Type_Helper     $post_type_helper The post type helper.
-	 * @param Options_Helper       $options_helper The options helper.
+	 * @param Indexable_Repository   $indexable_repository The indexable repository.
+	 * @param Post_Type_Helper       $post_type_helper The post type helper.
+	 * @param Options_Helper         $options_helper The options helper.
+	 * @param Indexables_Page_Helper $indexables_page_helper The indexables page helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		Post_Type_Helper $post_type_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Indexables_Page_Helper $indexables_page_helper
 	) {
-		$this->indexable_repository = $indexable_repository;
-		$this->post_type_helper     = $post_type_helper;
-		$this->options_helper       = $options_helper;
+		$this->indexable_repository   = $indexable_repository;
+		$this->post_type_helper       = $post_type_helper;
+		$this->options_helper         = $options_helper;
+		$this->indexables_page_helper = $indexables_page_helper;
 	}
 
 	/**
@@ -274,6 +285,10 @@ class Indexables_Page_Action {
 	 * @return boolean Whether saving the ignore-list to the database succeeded.
 	 */
 	public function add_indexable_to_ignore_list( $ignore_list_name, $indexable_id ) {
+		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
+			return false;
+		};
+
 		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
 		if ( ! in_array( $indexable_id, $ignore_list, true ) ) {
 			$ignore_list[] = $indexable_id;
@@ -291,6 +306,10 @@ class Indexables_Page_Action {
 	 * @return boolean Whether saving the ignore-list to the database succeeded.
 	 */
 	public function remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) {
+		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
+			return false;
+		};
+
 		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
 
 		$ignore_list = \array_values(
@@ -303,6 +322,20 @@ class Indexables_Page_Action {
 		);
 
 		return $this->options_helper->set( $ignore_list_name, $ignore_list );
+	}
+
+	/**
+	 * Removes all indexables from an ignore-list.
+	 *
+	 * @param string $ignore_list_name The name of the ignore-list.
+	 *
+	 * @return boolean Whether saving the ignore-list to the database succeeded.
+	 */
+	public function remove_all_indexables_from_ignore_list( $ignore_list_name ) {
+		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
+			return false;
+		};
+		return $this->options_helper->set( $ignore_list_name, [] );
 	}
 
 	/**
