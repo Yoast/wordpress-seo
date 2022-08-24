@@ -117,17 +117,43 @@ class Indexables_Page_Helper {
 	}
 
 	/**
+	 * Returns the list names that are valid.
+	 * 
+	 * @return array An array with valid list names.
+	 */
+	public function get_list_names() {
+		$valid_list_names = [
+			'least_readability',
+			'least_seo_score',
+			'most_linked',
+			'least_linked',
+		];
+
+		return $valid_list_names;
+	}
+
+	/**
+	 * Returns the ignore list names that are valid.
+	 * 
+	 * @return array An array with valid ignore list names.
+	 */
+	public function get_ignore_list_names() {
+		$valid_list_names = $this->get_list_names();
+		$valid_ignore_list_names = [];
+		foreach( $valid_list_names as $valid_list_name ) {
+			$valid_ignore_list_names[] = $valid_list_name . '_ignore_list';
+		}
+
+		return $valid_ignore_list_names;
+	}
+
+	/**
 	 * Checks if the ignore list name is a valid list name
 	 *
 	 * @return bool Wether the list name is valid or not.
 	 */
 	public function is_valid_ignore_list_name( $list_name ) {
-		$valid_list_names = [
-			'least_readability_ignore_list',
-			'least_seo_score_ignore_list',
-			'most_linked_ignore_list',
-			'least_linked_ignore_list',
-		];
+		$valid_list_names = $this->get_ignore_list_names();
 
 		return in_array( $list_name, $valid_list_names, true );
 	}

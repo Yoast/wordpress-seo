@@ -480,22 +480,17 @@ function IndexablesPage( { setupInfo } ) {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
-	const onClickUndoAll = useCallback( async( event ) => {
-		const { type } = event.target.dataset;
+	const onClickUndoAll = useCallback( async() => {
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/restore_all_indexables",
 				method: "POST",
-				data: { type: type },
 			} );
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				// If there is a button to ignore a single indexable, for a list for which we are removing all indexables...
-				if ( ignoredIndexable && ignoredIndexable.type === type ) {
-					// ...remove that button.
-					setIgnoredIndexable( null );
-				}
+				// If there is a button to ignore a single indexable, unmount it.
+				setIgnoredIndexable( null );
 				handleRefreshLists();
 				return true;
 			}
@@ -509,7 +504,7 @@ function IndexablesPage( { setupInfo } ) {
 			console.error( error.message );
 			return false;
 		}
-	}, [ apiFetch, handleRefreshLists, ignoredIndexable ] );
+	}, [ apiFetch, handleRefreshLists, setIgnoredIndexable ] );
 
 	const singleColumn = [
 		<IndexablesPageCard
@@ -833,13 +828,13 @@ function IndexablesPage( { setupInfo } ) {
 			</IndexablesPageCard>
 		</div>
 		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
-			<Button variant="secondary" onClick={ onClickUndoAll } data-type={ "least_seo_score" } disabled={ false }>{ __( "Undo hiding of all seo indexables", "wordpress-seo" ) }</Button>
-			<Button variant="secondary" onClick={ onClickUndoAll } data-type={ "least_readability" } disabled={ false }>{ __( "Undo hiding of all readability indexables", "wordpress-seo" ) }</Button>
-			<Button variant="secondary" onClick={ onClickUndoAll } data-type={ "least_linked" } disabled={ false }>{ __( "Undo hiding of all least linked indexables", "wordpress-seo" ) }</Button>
-			<Button variant="secondary" onClick={ onClickUndoAll } data-type={ "most_linked" } disabled={ false }>{ __( "Undo hiding of all most linked indexables", "wordpress-seo" ) }</Button>
+			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Undo hiding all items", "wordpress-seo" ) }</Button>
 			{
 				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
-					{ `Undo ignore ${ignoredIndexable.indexable.id}` }
+					{
+						/* translators: %1$s expands to the title of a post that was just just hidden. */
+						sprintf( __( "Undo hiding of: %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
+					}
 				</Button>
 			}
 		</div>
