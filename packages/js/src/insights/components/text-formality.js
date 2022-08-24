@@ -38,7 +38,7 @@ const TextFormality = ( { location } ) => {
 	const upsellDescription = useMemo( () => {
 		return createInterpolateElement(
 			sprintf(
-				// translators: %1$s expands to a starting `b` tag, %1$s expands to a closing `b` tag and %3$s expands to `Yoast SEO Premium`.
+				// Translators: %1$s expands to a starting `b` tag, %2$s expands to a closing `b` tag and %3$s expands to `Yoast SEO Premium`.
 				__( "%1$s%3$s%2$s will help you assess the formality level of your text.", "wordpress-seo" ),
 				"<b>",
 				"</b>",
@@ -54,6 +54,7 @@ const TextFormality = ( { location } ) => {
 		return shouldUpsell
 			? createInterpolateElement(
 				sprintf(
+					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__( "%1$sRead more about text formality.%2$s", "wordpress-seo" ),
 					"<a>",
 					"</a>"
@@ -64,6 +65,7 @@ const TextFormality = ( { location } ) => {
 			)
 			: createInterpolateElement(
 				sprintf(
+					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__( "%1$sRead our article on text formality to learn more about how to change the formality level of a text.%2$s", "wordpress-seo" ),
 					"<a>",
 					"</a>"
@@ -106,7 +108,7 @@ const TextFormality = ( { location } ) => {
 				<p>{ upsellDescription }</p>
 				<OutboundLink href={ upsellLink } className="yoast-button yoast-button-upsell">
 					{ sprintf(
-						// translators: %s expands to `Premium` (part of add-on name).
+						// Translators: %s expands to `Premium` (part of add-on name).
 						__( "Unlock with %s", "wordpress-seo" ),
 						"Premium"
 					) }
