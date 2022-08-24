@@ -53,7 +53,10 @@ class WooCommerce implements Integration_Interface {
 	 * @var Pagination_Helper
 	 */
 	protected $pagination_helper;
+
 	/**
+	 * The WooCommerce helper.
+	 *
 	 * @var Woocommerce_Helper
 	 */
 	private $woocommerce_helper;

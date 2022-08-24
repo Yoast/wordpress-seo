@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -84,28 +85,32 @@ class WooCommerce_Test extends TestCase {
 	protected $pagination_helper;
 
 	/**
+	 * The WooCommerce helper.
+	 *
+	 * @var Mockery\MockInterface|Woocommerce_Helper
+	 */
+	protected $woocommerce_helper;
+
+	/**
 	 * Sets an instance for test purposes.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options           = Mockery::mock( Options_Helper::class );
-		$this->replace_vars      = Mockery::mock( WPSEO_Replace_Vars::class );
-		$this->context_memoizer  = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->repository        = Mockery::mock( Indexable_Repository::class );
-		$this->pagination_helper = Mockery::mock( Pagination_Helper::class );
-		$this->instance          = Mockery::mock(
-			WooCommerce::class,
-			[
-				$this->options,
-				$this->replace_vars,
-				$this->context_memoizer,
-				$this->repository,
-				$this->pagination_helper,
-			]
-		)
-			->shouldAllowMockingProtectedMethods()
-			->makePartial();
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->replace_vars       = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->context_memoizer   = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->repository         = Mockery::mock( Indexable_Repository::class );
+		$this->pagination_helper  = Mockery::mock( Pagination_Helper::class );
+		$this->woocommerce_helper = Mockery::mock( Woocommerce_Helper::class );
+		$this->instance           = new WooCommerce(
+			$this->options,
+			$this->replace_vars,
+			$this->context_memoizer,
+			$this->repository,
+			$this->pagination_helper,
+			$this->woocommerce_helper
+		);
 
 		$presentation       = new Indexable_Presentation();
 		$this->indexable    = new Indexable_Mock();
@@ -135,7 +140,8 @@ class WooCommerce_Test extends TestCase {
 			$this->replace_vars,
 			$this->context_memoizer,
 			$this->repository,
-			$this->pagination_helper
+			$this->pagination_helper,
+			$this->woocommerce_helper
 		);
 
 		$this->assertInstanceOf(
@@ -174,7 +180,7 @@ class WooCommerce_Test extends TestCase {
 			],
 		];
 
-		Monkey\Functions\expect( 'wc_get_page_id' )
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )
 			->once()
 			->andReturn( 707 );
 
@@ -189,8 +195,7 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::get_page_id
 	 */
 	public function test_get_page_id_for_non_shop_page() {
-		$this->instance
-			->expects( 'is_shop_page' )
+		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()
 			->andReturnFalse();
 
@@ -205,11 +210,10 @@ class WooCommerce_Test extends TestCase {
 	 */
 	public function test_get_page_id_when_woocommerce_function_does_not_exist() {
 		// Sets the stubs.
-		Monkey\Functions\expect( 'wc_get_page_id' )
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )
 			->andReturn( -1 );
 
-		$this->instance
-			->expects( 'is_shop_page' )
+		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()
 			->andReturnTrue();
 
@@ -223,12 +227,11 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::get_shop_page_id
 	 */
 	public function test_get_page_id() {
-		$this->instance
-			->expects( 'is_shop_page' )
+		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()
 			->andReturnTrue();
 
-		Monkey\Functions\expect( 'wc_get_page_id' )
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )
 			->once()
 			->andReturn( 707 );
 
@@ -244,21 +247,35 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::is_shop_page
 	 * @covers ::get_shop_page_id
 	 *
-	 * @param string $expected       The expected value.
-	 * @param string $model_value    Value that is set as indexable title.
-	 * @param string $template_value Value returned by the get_product_template_method.
-	 * @param string $stubs          Array with stubs.
+	 * @param string   $expected       The expected value.
+	 * @param string   $model_value    Value that is set as indexable title.
+	 * @param string   $template_value Value returned by the get_product_template_method.
+	 * @param bool     $is_shop_page   Whether or not the current page is a shop page.
+	 * @param int|bool $shop_page_id   What the current shop page ID is, false if none.
+	 * @param bool     $is_archive     Whether or not the current page is an archive.
 	 */
-	public function test_title( $expected, $model_value, $template_value, $stubs ) {
-		// Sets the stubs.
-		Monkey\Functions\stubs( $stubs );
+	public function test_title( $expected, $model_value, $template_value, $is_shop_page, $shop_page_id, $is_archive ) {
+		if ( $is_shop_page !== null ) {
+			$this->woocommerce_helper->expects( 'is_shop_page' )
+				->once()
+				->andReturn( $is_shop_page );
+		}
+
+		if ( $shop_page_id ) {
+			$this->woocommerce_helper->expects( 'get_shop_page_id' )
+				->once()
+				->andReturn( $shop_page_id );
+		}
+
+		Monkey\Functions\expect( 'is_archive' )->andReturn( $is_archive );
 
 		$this->indexable->title = $model_value;
 
-		$this->instance
-			->shouldReceive( 'get_product_template' )
-			->with( 'title-product', 1337 )
-			->andReturn( $template_value );
+		$this->options->shouldReceive( 'get' )->zeroOrMoreTimes()->with( 'title-product' )->andReturn( $template_value );
+
+		Monkey\Functions\expect( 'get_post' )->with( 1337 )->andReturn( [] );
+
+		$this->replace_vars->shouldReceive( 'replace' )->zeroOrMoreTimes()->with( $template_value, [] )->andReturn( $template_value );
 
 		$this->assertEquals(
 			$expected,
@@ -275,21 +292,35 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::is_shop_page
 	 * @covers ::get_shop_page_id
 	 *
-	 * @param string $expected       The expected value.
-	 * @param string $model_value    Value that is set as indexable description.
-	 * @param string $template_value Value returned by the get_product_template_method.
-	 * @param string $stubs          Array with stubs.
+	 * @param string   $expected       The expected value.
+	 * @param string   $model_value    Value that is set as indexable title.
+	 * @param string   $template_value Value returned by the get_product_template_method.
+	 * @param bool     $is_shop_page   Whether or not the current page is a shop page.
+	 * @param int|bool $shop_page_id   What the current shop page ID is, false if none.
+	 * @param bool     $is_archive     Whether or not the current page is an archive.
 	 */
-	public function test_description( $expected, $model_value, $template_value, $stubs ) {
-		// Sets the stubs.
-		Monkey\Functions\stubs( $stubs );
+	public function test_description( $expected, $model_value, $template_value, $is_shop_page, $shop_page_id, $is_archive ) {
+		if ( $is_shop_page !== null ) {
+			$this->woocommerce_helper->expects( 'is_shop_page' )
+				->once()
+				->andReturn( $is_shop_page );
+		}
+
+		if ( $shop_page_id ) {
+			$this->woocommerce_helper->expects( 'get_shop_page_id' )
+				->once()
+				->andReturn( $shop_page_id );
+		}
+
+		Monkey\Functions\expect( 'is_archive' )->andReturn( $is_archive );
 
 		$this->indexable->description = $model_value;
 
-		$this->instance
-			->shouldReceive( 'get_product_template' )
-			->with( 'metadesc-product', 1337 )
-			->andReturn( $template_value );
+		$this->options->shouldReceive( 'get' )->zeroOrMoreTimes()->with( 'metadesc-product' )->andReturn( $template_value );
+
+		Monkey\Functions\expect( 'get_post' )->with( 1337 )->andReturn( [] );
+
+		$this->replace_vars->shouldReceive( 'replace' )->zeroOrMoreTimes()->with( $template_value, [] )->andReturn( $template_value );
 
 		$this->assertEquals(
 			$expected,
@@ -304,71 +335,53 @@ class WooCommerce_Test extends TestCase {
 	 */
 	public function meta_value_provider() {
 		return [
-			'has_model_value'            => [
+			'has_model_value' => [
 				'expected'       => 'This is a value',
 				'model_value'    => 'This is a value',
 				'template_value' => '',
-				'stubs'          => [],
+				'is_shop_page'   => null,
+				'shop_page_id'   => false,
+				'is_archive'     => false,
 			],
-			'is_not_on_shop_page'        => [
+			'is_not_on_shop_page' => [
 				'expected'       => 'This is a value',
 				'model_value'    => null,
 				'template_value' => '',
-				'stubs'          => [
-					'is_shop' => false,
-				],
+				'is_shop_page'   => false,
+				'shop_page_id'   => false,
+				'is_archive'     => false,
 			],
-			'is_shop_page_and_searching' => [
+			'is_not_archive' => [
 				'expected'       => 'This is a value',
 				'model_value'    => null,
 				'template_value' => '',
-				'stubs'          => [
-					'is_shop'   => true,
-					'is_search' => true,
-				],
+				'is_shop_page'   => true,
+				'shop_page_id'   => false,
+				'is_archive'     => false,
 			],
-			'is_not_archive'             => [
+			'no_set_shop_page_id' => [
 				'expected'       => 'This is a value',
 				'model_value'    => null,
 				'template_value' => '',
-				'stubs'          => [
-					'is_shop'    => true,
-					'is_search'  => false,
-					'is_archive' => false,
-				],
+				'is_shop_page'   => true,
+				'shop_page_id'   => -1,
+				'is_archive'     => true,
 			],
-			'no_set_shop_page_id'        => [
+			'with_no_product_template' => [
 				'expected'       => 'This is a value',
 				'model_value'    => null,
 				'template_value' => '',
-				'stubs'          => [
-					'is_shop'        => true,
-					'is_search'      => false,
-					'is_archive'     => true,
-					'wc_get_page_id' => -1,
-				],
+				'is_shop_page'   => true,
+				'shop_page_id'   => 1337,
+				'is_archive'     => true,
 			],
-			'with_no_product_template'   => [
-				'expected'       => 'This is a value',
-				'model_value'    => null,
-				'template_value' => '',
-				'stubs'          => [
-					'is_shop'        => true,
-					'is_search'      => false,
-					'is_archive'     => true,
-					'wc_get_page_id' => 1337,
-				],
-			],
-			'with_product_template'      => [
+			'with_product_template' => [
 				'expected'       => 'The is a template value',
 				'model_value'    => null,
 				'template_value' => 'The is a template value',
-				'stubs'          => [
-					'is_shop'        => true,
-					'is_search'      => false,
-					'is_archive'     => true,
-					'wc_get_page_id' => 1337,
-				],
+				'is_shop_page'   => true,
+				'shop_page_id'   => 1337,
+				'is_archive'     => true,
 			],
 		];
 	}
