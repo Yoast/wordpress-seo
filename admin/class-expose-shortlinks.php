@@ -73,8 +73,8 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks-insights-upsell-sidebar-text_formality'         => 'https://yoa.st/formality-upsell-sidebar',
 		'shortlinks-insights-upsell-metabox-text_formality'         => 'https://yoa.st/formality-upsell-metabox',
 		'shortlinks-insights-upsell-elementor-text_formality'       => 'https://yoa.st/formality-upsell-elementor',
-		'shortlinks-insights-text_formality_info_free'      		=> 'https://yoa.st/formality-sidebar-free',
-        'shortlinks-insights-text_formality_info_premium'   		=> 'https://yoa.st/formality-sidebar',
+		'shortlinks-insights-text_formality_info_free'              => 'https://yoa.st/formality-sidebar-free',
+		'shortlinks-insights-text_formality_info_premium'           => 'https://yoa.st/formality-sidebar',
 	];
 
 	/**
