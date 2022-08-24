@@ -119,6 +119,8 @@ function IndexablesPage( { setupInfo } ) {
 	const [ isSomethingGreenReadability, setIsSomethingGreenReadability ] = useState( false );
 	const [ isSomethingGreenSEO, setIsSomethingGreenSEO ] = useState( false );
 
+	const [ errorMessage, setErrorMessage ] = useState( null );
+
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
 
 	const [ lastRefreshTime, setLastRefreshTime ] = useState( 0 );
@@ -394,6 +396,7 @@ function IndexablesPage( { setupInfo } ) {
 				linksList: null,
 				breadcrumbTitle: breadcrumbTitle,
 				permalink: permalink,
+				error: null,
 			 } );
 			 return true;
 		}
@@ -411,6 +414,7 @@ function IndexablesPage( { setupInfo } ) {
 					linksList: [],
 					breadcrumbTitle: breadcrumbTitle,
 					permalink: permalink,
+					error: null,
 				 } );
 				 return true;
 			}
@@ -420,13 +424,19 @@ function IndexablesPage( { setupInfo } ) {
 					linksList: parsedResponse,
 					breadcrumbTitle: breadcrumbTitle,
 					permalink: permalink,
+					error: null,
 				 } );
 				return true;
 			}
 			return false;
 		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( error.message );
+			setSuggestedLinksModalData( {
+				incomingLinksCount: null,
+				linksList: null,
+				breadcrumbTitle: null,
+				permalink: null,
+				error: error.message,
+			 } );
 			return false;
 		}
 	}, [ setSuggestedLinksModalData, setIsModalOpen ] );
@@ -455,6 +465,15 @@ function IndexablesPage( { setupInfo } ) {
 	const handleCloseModal = useCallback( () => {
 		setIsModalOpen( false );
 		setSuggestedLinksModalData( null );
+	}, [] );
+
+	/**
+	 * Handles the closing of the error modal.
+	 *
+	 * @returns {void}
+	 */
+	const handleCloseErrorModal = useCallback( () => {
+		setErrorMessage( null );
 	}, [] );
 
 	/**
@@ -488,17 +507,11 @@ function IndexablesPage( { setupInfo } ) {
 					};
 				} );
 				setIgnoredIndexable( null );
-				return true;
+			} else {
+				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Undoing post has failed." );
-			return false;
 		} catch ( error ) {
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable ] );
 
@@ -520,15 +533,9 @@ function IndexablesPage( { setupInfo } ) {
 				handleRefreshLists();
 				return true;
 			}
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Undoing all ignored indexables has failed." );
-			return false;
+			setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 		} catch ( error ) {
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, handleRefreshLists, setIgnoredIndexable ] );
 
@@ -574,6 +581,7 @@ function IndexablesPage( { setupInfo } ) {
 								indexable={ indexable }
 								addToIgnoreList={ setIgnoredIndexable }
 								position={ position }
+								setErrorMessage={ setErrorMessage }
 							>
 								<IndexableScore
 									colorClass={ readabilityScoreAssessment( indexable ) }
@@ -667,6 +675,7 @@ function IndexablesPage( { setupInfo } ) {
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoredIndexable }
 									position={ position }
+									setErrorMessage={ setErrorMessage }
 								>
 									<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
 									<IndexableTitleLink indexable={ indexable } />
@@ -702,6 +711,22 @@ function IndexablesPage( { setupInfo } ) {
 
 	return <div className="yst-max-w-full yst-mt-6">
 		<Modal
+			id="error-modal"
+			onClose={ handleCloseErrorModal }
+			isOpen={ errorMessage !== null }
+		>
+			<Alert variant="error">
+				{
+					sprintf(
+						// Translators: %s expands to the error message.
+						__( "An error occurred: %s", "wordpress-seo" ),
+						errorMessage
+					)
+				}
+			</Alert>
+		</Modal>
+		<Modal
+			id="suggested-links-modal"
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
@@ -774,6 +799,7 @@ function IndexablesPage( { setupInfo } ) {
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoredIndexable }
 									position={ position }
+									setErrorMessage={ setErrorMessage }
 								>
 									<IndexableScore
 										colorClass={ seoScoreAssessment( indexable ) }
@@ -868,6 +894,7 @@ function IndexablesPage( { setupInfo } ) {
 										indexable={ indexable }
 										addToIgnoreList={ setIgnoredIndexable }
 										position={ position }
+										setErrorMessage={ setErrorMessage }
 									>
 										<IndexableScore colorClass={ mostLinkedAssessment( indexable ) } />
 										<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
