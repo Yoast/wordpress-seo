@@ -300,36 +300,34 @@ function IndexablesPage( { setupInfo } ) {
 	 * @returns {void}
 	 */
 	const updateLists = ( isRefresh ) => {
-		if ( setupInfo ) {
-			if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
-				updateList( "least_readability", indexablesLists.least_readability, isRefresh );
-			} else {
-				setLoadedCards( prevState => [ ...prevState, "least_readability" ] );
-			}
-
-			if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
-				updateList( "least_seo_score", indexablesLists.least_seo_score, isRefresh );
-			} else {
-				setLoadedCards( prevState => [ ...prevState, "least_seo_score" ] );
-			}
-
-			if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
-				updateList( "most_linked", indexablesLists.most_linked, isRefresh );
-				updateList( "least_linked", indexablesLists.least_linked, isRefresh );
-			} else {
-				setLoadedCards( prevState => [ ...prevState, "most_linked", "least_linked" ] );
-			}
-
-			if ( refreshInterval ) {
-				clearInterval( refreshInterval );
-			}
-
-			setLastRefreshTime( 0 );
-			const interval = setInterval( () => {
-				setLastRefreshTime( ( prevCounter ) => prevCounter + 1 );
-			}, 60000 );
-			setRefreshInterval( interval );
+		if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
+			updateList( "least_readability", indexablesLists.least_readability, isRefresh );
+		} else {
+			setLoadedCards( prevState => [ ...prevState, "least_readability" ] );
 		}
+
+		if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
+			updateList( "least_seo_score", indexablesLists.least_seo_score, isRefresh );
+		} else {
+			setLoadedCards( prevState => [ ...prevState, "least_seo_score" ] );
+		}
+
+		if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
+			updateList( "most_linked", indexablesLists.most_linked, isRefresh );
+			updateList( "least_linked", indexablesLists.least_linked, isRefresh );
+		} else {
+			setLoadedCards( prevState => [ ...prevState, "most_linked", "least_linked" ] );
+		}
+
+		if ( refreshInterval ) {
+			clearInterval( refreshInterval );
+		}
+
+		setLastRefreshTime( 0 );
+		const interval = setInterval( () => {
+			setLastRefreshTime( ( prevCounter ) => prevCounter + 1 );
+		}, 60000 );
+		setRefreshInterval( interval );
 	};
 
 	const handleRefreshLists = useCallback( () => {
@@ -652,18 +650,16 @@ function IndexablesPage( { setupInfo } ) {
 
 	const doubleColumn = [ ...singleColumn ].reverse();
 
-	return setupInfo && <div
-		className="yst-max-w-full yst-mt-6"
-	>
+	return <div className="yst-max-w-full yst-mt-6">
 		<Modal
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
-			 <SuggestedLinksModal
+			<SuggestedLinksModal
 				isLinkSuggestionsEnabled={ isLinkSuggestionsEnabled }
 				isPremium={ isPremiumInstalled }
 				suggestedLinksModalData={ suggestedLinksModalData }
-			 />
+			/>
 		</Modal>
 		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-3">
 			<span className="yst-italic">
