@@ -455,8 +455,8 @@ class Indexables_Page_Route implements Route_Interface {
 	 */
 	public function restore_all_indexables() {
 		$list_names = $this->indexables_page_helper->get_ignore_list_names();
-		$success = true;
-		foreach( $list_names as $list_name ) {
+		$success    = true;
+		foreach ( $list_names as $list_name ) {
 			$result = $this->indexables_page_action->remove_all_indexables_from_ignore_list( $list_name );
 
 			if ( $result === false ) {

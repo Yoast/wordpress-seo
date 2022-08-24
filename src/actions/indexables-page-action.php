@@ -43,9 +43,10 @@ class Indexables_Page_Action {
 	/**
 	 * Indexable_Action constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Post_Type_Helper     $post_type_helper The post type helper.
-	 * @param Options_Helper       $options_helper The options helper.
+	 * @param Indexable_Repository   $indexable_repository The indexable repository.
+	 * @param Post_Type_Helper       $post_type_helper The post type helper.
+	 * @param Options_Helper         $options_helper The options helper.
+	 * @param Indexables_Page_Helper $indexables_page_helper The indexables page helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
@@ -53,9 +54,9 @@ class Indexables_Page_Action {
 		Options_Helper $options_helper,
 		Indexables_Page_Helper $indexables_page_helper
 	) {
-		$this->indexable_repository = $indexable_repository;
-		$this->post_type_helper     = $post_type_helper;
-		$this->options_helper       = $options_helper;
+		$this->indexable_repository   = $indexable_repository;
+		$this->post_type_helper       = $post_type_helper;
+		$this->options_helper         = $options_helper;
 		$this->indexables_page_helper = $indexables_page_helper;
 	}
 

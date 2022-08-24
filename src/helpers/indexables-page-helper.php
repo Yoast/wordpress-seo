@@ -118,7 +118,7 @@ class Indexables_Page_Helper {
 
 	/**
 	 * Returns the list names that are valid.
-	 * 
+	 *
 	 * @return array An array with valid list names.
 	 */
 	public function get_list_names() {
@@ -134,13 +134,13 @@ class Indexables_Page_Helper {
 
 	/**
 	 * Returns the ignore list names that are valid.
-	 * 
+	 *
 	 * @return array An array with valid ignore list names.
 	 */
 	public function get_ignore_list_names() {
-		$valid_list_names = $this->get_list_names();
+		$valid_list_names        = $this->get_list_names();
 		$valid_ignore_list_names = [];
-		foreach( $valid_list_names as $valid_list_name ) {
+		foreach ( $valid_list_names as $valid_list_name ) {
 			$valid_ignore_list_names[] = $valid_list_name . '_ignore_list';
 		}
 
@@ -149,6 +149,8 @@ class Indexables_Page_Helper {
 
 	/**
 	 * Checks if the ignore list name is a valid list name
+	 *
+	 * @param string $list_name The list name.
 	 *
 	 * @return bool Wether the list name is valid or not.
 	 */
