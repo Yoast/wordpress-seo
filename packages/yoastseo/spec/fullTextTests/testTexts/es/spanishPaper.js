@@ -12,6 +12,7 @@ const paper = new Paper( content, {
 	locale: "es_ES",
 	permalink: "https://es.wikipedia.org/wiki/Hey_Jude",
 	slug: "Hey-Jude",
+	textTitle: "Hey Jude - la canción de la banda británica de rock The Beatles",
 } );
 
 const expectedResults = {
@@ -93,6 +94,11 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

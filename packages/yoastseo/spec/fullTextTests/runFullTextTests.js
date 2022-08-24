@@ -18,6 +18,7 @@ import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordA
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
+import TextTitleAssessment from "../../src/scoring/assessments/seo/TextTitleAssessment";
 // Import content assessments
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
@@ -118,6 +119,9 @@ testPapers.forEach( function( testPaper ) {
 			compare( new KeyphraseDistributionAssessment(), expectedResults.keyphraseDistribution );
 		} );
 
+		it( "returns a score and the associated feedback text for the textTitle assessment", function() {
+			compare( new TextTitleAssessment(), expectedResults.textTitle );
+		} );
 		// Readability assessments.
 
 		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {

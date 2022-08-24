@@ -21,6 +21,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -34,6 +35,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -48,6 +50,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"textLength",
 			"titleWidth",
 			"singleH1",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -62,6 +65,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -75,6 +79,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"textLength",
 			"titleWidth",
 			"functionWordsInKeyphrase",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -91,6 +96,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -105,6 +111,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -120,6 +127,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"textLength",
 			"titleWidth",
 			"slugKeyword",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -149,6 +157,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"textLength",
 			"titleWidth",
 			"keyphraseDistribution",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -177,6 +186,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"textLength",
 			"titleWidth",
 			"keyphraseDistribution",
+			"textTitleAssessment",
 		] );
 	} );
 
