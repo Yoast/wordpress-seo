@@ -50,6 +50,22 @@ const TextFormality = ( { location } ) => {
 		);
 	}, [] );
 
+	const formalityLevelString = useMemo( () => {
+		return createInterpolateElement(
+			sprintf(
+				// Translators: %1$s expands to a starting `span` tag, %2$s expands to a closing `span` tag,
+				// %3$s expands to the formality level (either formal or informal).
+				__( "Overall, your text appears to be %1$s%3$s%2$s.", "wordpress-seo" ),
+				"<span>",
+				"</span>",
+				formalityLevel
+			),
+			{
+				span: <FormalityLevel />,
+			}
+		);
+	}, [ formalityLevel ] );
+
 	const textFormalityInfo = useMemo( () => {
 		return shouldUpsell
 			? createInterpolateElement(
@@ -91,17 +107,7 @@ const TextFormality = ( { location } ) => {
 			}
 			{ ! shouldUpsell && textLength !== 0 && <div>
 				<p>
-					{ __(
-						"Overall, your text appears to be ",
-						"wordpress-seo"
-					) }
-					<FormalityLevel>
-						{ sprintf(
-							__( "%s", "wordpress-seo" ),
-							formalityLevel
-						) }
-					</FormalityLevel>
-					{ "." }
+					{ formalityLevelString }
 				</p>
 			</div> }
 			{ shouldUpsell && <div>
