@@ -8,7 +8,7 @@ import getWords from "../../../helpers/word/getWords";
  */
 
 const informalPronouns = [ "I", "you", "me", "my", "mine", "your", "yours", "myself", "yourself", "yourselves" ];
-const formalPronouns = [ "we", "they",   "their", "theirs", "themselves", "us", "our", "ours", "ourselves",  "it", "its", "itself" ];
+const formalPronouns = [ "we", "they", "their", "theirs", "themselves", "us", "our", "ours", "ourselves", "it", "its", "itself" ];
 
 /**
  * Calculates the average length of units in an array.
@@ -46,9 +46,9 @@ function getPronouns( wordsArray, pronouns ) {
  * @returns {Object} The object containing the features needed for the calculation of the formality level of the text.
  */
 function getRequiredFeatures( paper, researcher ) {
-	const passiveSentences = researcher.getResearch( "getPassiveVoiceResult" ).passives;
 	const text = paper.getText();
-	const sentences = getSentences( text );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+	const sentences = getSentences( text, memoizedTokenizer );
 	const words = getWords( text );
 
 	// Calculate the average letter length per sentence.
@@ -64,6 +64,7 @@ function getRequiredFeatures( paper, researcher ) {
 	const averageWordLength = calculateTotalLength( words ) / words.length;
 	// Calculate normalized passive voice size = the number of passives occurrences in the text / the total number of sentences.
 	// 3.
+	const passiveSentences = researcher.getResearch( "getPassiveVoiceResult" ).passives;
 	const averagePassives = passiveSentences.length / sentences.length;
 	// Calculate the average number of formal pronouns = the number of occurrences of formal pronouns / the total number of words in the text.
 	// 4.
