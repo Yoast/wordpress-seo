@@ -6,7 +6,7 @@
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a text and a keyword.
+**When it applies**: If there is a text and a keyword.
 
 **Name in code**: IntroductionKeywordAssessment
 
@@ -25,7 +25,7 @@
 
 **Uses synonyms**: no
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: KeyphraseLengthAssessment
 
@@ -45,7 +45,7 @@
 
 **Uses synonyms**: no
 
-**When applies**: If there is a text of at least 100 words and a keyword.
+**When it applies**: If there is a text of at least 100 words and a keyword.
 
 **Name in code**: KeywordDensityAssessment
 
@@ -69,7 +69,7 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a meta description and a keyword.
+**When it applies**: If there is a meta description and a keyword.
 
 **Name in code**: MetaDescriptionKeywordAssessment
 
@@ -88,7 +88,7 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Uses synonyms**: yes
 
-**When applies**: If there is is a text with at least one subheading and a keyphrase. Does not apply to taxonomies.
+**When it applies**: If there is is a text with at least one subheading and a keyphrase. Does not apply to taxonomies.
 
 **Name in code**: SubHeadingsKeywordAssessment
 
@@ -108,7 +108,7 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a text, a keyword and a keyword in the text that has link. Does not apply to taxonomies.
+**When it applies**: If there is a text, a keyword and a keyword in the text that has link. Does not apply to taxonomies.
 
 **Name in code**: TextCompetingLinksAssessment
 
@@ -135,7 +135,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a text. Does not apply to taxonomies.
+**When it applies**: If there is a text. Does not apply to taxonomies.
 
 **Name in code**: ImageKeyphraseAssessment
 
@@ -158,7 +158,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: no
 
-**When applies**: If there is a title and a keyword.
+**When it applies**: If there is a title and a keyword.
 
 **Name in code**: TitleKeywordAssessment
 
@@ -179,7 +179,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: no
 
-**When applies**: If there is a slug and a keyword.
+**When it applies**: If there is a slug and a keyword.
 
 **Name in code**: SlugKeywordAssessment
 
@@ -198,7 +198,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: no
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: PreviouslyUsedKeyword
 
@@ -217,7 +217,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a text with at least 15 sentences and a keyword.
+**When it applies**: If there is a text with at least 15 sentences and a keyword.
 
 **Name in code**: KeyphraseDistribution
 
@@ -236,7 +236,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 1) Text length
 **What it does**: Checks if the text is long enough.
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: TextLengthAssessment
 
@@ -255,7 +255,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 2) Outbound links
 **What it does**: Checks if outbound links are present and followed.
 
-**When applies**: If there is a text.
+**When it applies**: If there is a text.
 
 **Name in code**: OutboundLinksAssessment
 
@@ -273,7 +273,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 3) Internal links
 **What it does**: Checks if internal links are present and followed.
 
-**When applies**: If there is a text.
+**When it applies**: If there is a text.
 
 **Name in code**: InternalLinksAssessment
 
@@ -291,7 +291,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 4) SEO Title width
 **What it does**: Checks if the SEO title has a good length. Note that this assessment checks the SEO title as it appears in the snippet preview. Therefore, it also takes into account the content from replacement variables.
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: PageTitleWidthAssesment
 
@@ -301,14 +301,14 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
-| Red	| 1	| No title		| **SEO title width**: Please create an SEO title. |
-| Red	| 3	| Title width > 600 px		| **SEO title width**: The SEO title wider than the viewable limit. **Try to make it shorter.** |
-| Green	| 9	| Title width between 1 px and 600 px		| **SEO title width**: Good job! |
+| Red	| 1	| No SEO title		| **SEO title width**: Please create an SEO title. |
+| Red	| 3	| SEO title width > 600 px		| **SEO title width**: The SEO title wider than the viewable limit. **Try to make it shorter.** |
+| Green	| 9	| SEO title width between 1 px and 600 px		| **SEO title width**: Good job! |
 
 ### 5) Meta description length
 **What it does**: Checks if the meta description has a good length. The date (and the separator ' - ') length are also included in the calculation, if the date is shown in the Google preview.
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: MetaDescriptionLengthAssessment
 
@@ -326,7 +326,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 6) Single title
 **What it does**: Checks if there is an H1 heading elsewhere than at the beginning of the text.
 
-**When applies**: When there is an H1 heading elsewhere than at the beginning of the text.
+**When it applies**: When there is an H1 heading elsewhere than at the beginning of the text.
 
 **Name in code**: SingleH1Assessment
 
@@ -341,7 +341,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 7) Function words in keyphrase
 **What it does**: Checks if the keyphrase consists of only function words.
 
-**When applies**: When the keyphrase consists of only function words (and the language has function word support).
+**When it applies**: When the keyphrase consists of only function words (and the language has function word support).
 
 **Name in code**: FunctionWordsInKeyphraseAssessment
 
@@ -356,7 +356,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 8) Images
 **What it does**: Checks the presence of images in the text.
 
-**When applies**: If there is a text with at least one image present.
+**When it applies**: If there is a text with at least one image present.
 
 **Name in code**: ImageCountAssessment
 
@@ -368,3 +368,19 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |------------	|------------------	|---------------------	|---------------	|
 | Red	| 3	| No images		| **Images**: No images appear on this page. **Add some!** |
 | Green	| 9	| There are at least 1 image		| **Images**: Good job! |
+
+### 9) Title
+**What it does**: Checks for the presence of a title.
+
+**When it applies**: Always.
+
+**Name in code**: TextTitleAssessment
+
+**Title URL**: [https://yoa.st/4nh]() (link placement is in bold in the feedback strings)
+
+**Call to action URL**: [https://yoa.st/4ni]() (link placement is in bold in the feedback strings)
+
+| Bullet  | Score	     | Criterion             | Feedback |
+|---------|-------------|---------------------	|---------------	|
+| Red	  | -10000	    | No title		        | **Title**: Your page does not have a title yet. **Add one!** |
+| Green	  | 9	        | There is a title		| **Title**: Your page has a title. Well done! |
