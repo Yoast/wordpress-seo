@@ -493,6 +493,37 @@ function IndexablesPage( { setupInfo } ) {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
+	const onClickUndoAllList = useCallback( async( event ) => {
+		const { type } = event.target.dataset;
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/restore_all_indexables_for_list",
+				method: "POST",
+				data: { type: type },
+			} );
+
+			const parsedResponse = await response.json;
+			if ( parsedResponse.success ) {
+				// If there is a button to ignore a single indexable, for a list for which we are removing all indexables...
+				if ( ignoredIndexable && ignoredIndexable.type === type ) {
+					// ...remove that button.
+					setIgnoredIndexable( null );
+				}
+				updateList( type, indexablesLists[ type ], true );
+				return true;
+			}
+			/* eslint-disable-next-line no-warning-comments */
+			// @TODO: Throw an error notification.
+			console.error( "Undoing all ignored indexables has failed." );
+			return false;
+		} catch ( error ) {
+			/* eslint-disable-next-line no-warning-comments */
+			// @TODO: Throw an error notification.
+			console.error( error.message );
+			return false;
+		}
+	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable ] );
+
 	const onClickUndoAll = useCallback( async() => {
 		try {
 			const response = await apiFetch( {
@@ -528,6 +559,9 @@ function IndexablesPage( { setupInfo } ) {
 					: __( "Lowest readability scores", "wordpress-seo" )
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+			options={ [
+				{ title: __( "Undo hiding of all indexables for this list", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_readability" } },
+			] }
 		>
 			{
 				shouldShowDisabledAlert( "least_readability" ) && <Alert type={ "info" }>
@@ -595,6 +629,9 @@ function IndexablesPage( { setupInfo } ) {
 					: __( "Lowest number of incoming links", "wordpress-seo" )
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+			options={ [
+				{ title: __( "Undo hiding of all indexables for this list", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_linked" } },
+			] }
 		>
 			{
 				shouldShowDisabledAlert( "least_linked" ) && <Alert type={ "info" }>
@@ -706,6 +743,9 @@ function IndexablesPage( { setupInfo } ) {
 						: __( "Lowest SEO scores", "wordpress-seo" )
 				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+				options={ [
+					{ title: __( "Undo hiding of all indexables for this list", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_seo_score" } },
+				] }
 			>
 				{
 					shouldShowDisabledAlert( "least_seo_score" ) && <Alert type={ "info" }>
@@ -774,6 +814,9 @@ function IndexablesPage( { setupInfo } ) {
 						: __( "Highest number of incoming links", "wordpress-seo" )
 				}
 				className="yst-mb-6"
+				options={ [
+					{ title: __( "Undo hiding of all indexables for this list", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "most_linked" } },
+				] }
 			>
 				{
 					shouldShowDisabledAlert( "most_linked" ) && <Alert type={ "info" }>
