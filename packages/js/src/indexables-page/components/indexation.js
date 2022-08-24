@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
-import IndexingError from "../../components/IndexingError";
+import IndexingError from "./indexing-error";
 import Alert from "../../first-time-configuration/tailwind-components/base/alert";
 import RequestError from "../../../../js/src/errors/RequestError";
 import ParseError from "../../../../js/src/errors/ParseError";
