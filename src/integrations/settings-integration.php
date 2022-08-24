@@ -302,7 +302,6 @@ class Settings_Integration implements Integration_Interface {
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
 			'nonce'                => \wp_create_nonce( 'wpseo_settings-options' ),
-			'userEditUrl'          => \admin_url( 'user-edit.php' ),
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => $this->get_schema( $transformed_post_types ),
@@ -342,6 +341,8 @@ class Settings_Integration implements Integration_Interface {
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
+			'editUserUrl'          			=> \admin_url( 'user-edit.php' ),
+			'generalSettingsUrl'          	=> \admin_url( 'options-general.php' ),
 		];
 	}
 
