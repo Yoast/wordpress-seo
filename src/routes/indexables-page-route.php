@@ -239,17 +239,6 @@ class Indexables_Page_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'restore_all_indexables' ],
 				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
-				'args'                => [
-					'type' => [
-						'type'     => 'string',
-						'enum'     => [
-							'least_readability',
-							'least_seo_score',
-							'most_linked',
-							'least_linked',
-						],
-					],
-				],
 			],
 		];
 
