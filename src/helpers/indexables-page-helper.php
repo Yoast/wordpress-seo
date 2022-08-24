@@ -35,7 +35,7 @@ class Indexables_Page_Helper {
 	 *
 	 * @var float
 	 */
-	const ANALYSED_POSTS_THRESHOLD = 0;
+	const ANALYSED_POSTS_THRESHOLD = 0.5;
 
 	/**
 	 * Indexables_Page_Helper constructor.
