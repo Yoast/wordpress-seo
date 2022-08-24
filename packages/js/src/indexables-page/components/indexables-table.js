@@ -57,16 +57,16 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 			} );
 
 			const parsedResponse = await response.json;
+			setIsHandlingIgnore( false );
+
 			if ( parsedResponse.success ) {
 				setRowAnimationClasses( "yst-animate-slideRight" );
-				setIsHandlingIgnore( false );
 				return true;
 			}
-			/* eslint-disable no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Ignoring post has failed." );
+			setErrorMessage( __( "The request has failed.", "wordpress-seo" ) );
 			return false;
 		} catch ( error ) {
+			setIsHandlingIgnore( false );
 			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, addToIgnoreList ] );
