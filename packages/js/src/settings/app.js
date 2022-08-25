@@ -1,11 +1,11 @@
 import { AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Badge, ChildrenLimiter } from "@yoast/ui-library";
+import { Badge, ChildrenLimiter, ErrorBoundary } from "@yoast/ui-library";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { Notifications, SidebarNavigation, YoastLogo } from "./components";
+import { Notifications, SidebarNavigation, ErrorFallback, YoastLogo } from "./components";
 import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
 import { useRouterScrollRestore } from "./hooks";
 import {
@@ -173,40 +173,42 @@ const App = () => {
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<main className="yst-flex-grow">
-						<Routes>
-							<Route path="author-archives" element={ <AuthorArchives /> } />
-							<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
-							<Route path="crawl-optimization" element={ <CrawlSettings /> } />
-							<Route path="date-archives" element={ <DateArchives /> } />
-							<Route path="homepage" element={ <Homepage /> } />
-							<Route path="formats" element={ <Formats /> } />
-							<Route path="media" element={ <Media /> } />
-							<Route path="not-found-pages" element={ <NotFoundPages /> } />
-							<Route path="rss" element={ <Rss /> } />
-							<Route path="search-pages" element={ <SearchPages /> } />
-							<Route path="site-defaults" element={ <SiteDefaults /> } />
-							<Route path="site-representation" element={ <SiteRepresentation /> } />
-							<Route path="site-preferences" element={ <SitePreferences /> } />
-							<Route path="webmaster-tools" element={ <WebmasterTools /> } />
-							<Route path="post-type">
-								{ map( postTypes, postType => (
-									<Route
-										key={ `route-post-type-${ postType.name }` } path={ postType.route }
-										element={ <PostType { ...postType } /> }
-									/>
-								) ) }
-							</Route>
-							<Route path="taxonomy">
-								{ map( taxonomies, taxonomy => (
-									<Route
-										key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
-										element={ <Taxonomy { ...taxonomy } /> }
-									/>
-								) ) }
-							</Route>
-							<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
-						</Routes>
+					<main className="yst-flex-grow yst-rounded-lg yst-bg-white yst-shadow">
+						<ErrorBoundary FallbackComponent={ ErrorFallback }>
+							<Routes>
+								<Route path="author-archives" element={ <AuthorArchives /> } />
+								<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
+								<Route path="crawl-optimization" element={ <CrawlSettings /> } />
+								<Route path="date-archives" element={ <DateArchives /> } />
+								<Route path="homepage" element={ <Homepage /> } />
+								<Route path="formats" element={ <Formats /> } />
+								<Route path="media" element={ <Media /> } />
+								<Route path="not-found-pages" element={ <NotFoundPages /> } />
+								<Route path="rss" element={ <Rss /> } />
+								<Route path="search-pages" element={ <SearchPages /> } />
+								<Route path="site-defaults" element={ <SiteDefaults /> } />
+								<Route path="site-representation" element={ <SiteRepresentation /> } />
+								<Route path="site-preferences" element={ <SitePreferences /> } />
+								<Route path="webmaster-tools" element={ <WebmasterTools /> } />
+								<Route path="post-type">
+									{ map( postTypes, postType => (
+										<Route
+											key={ `route-post-type-${ postType.name }` } path={ postType.route }
+											element={ <PostType { ...postType } /> }
+										/>
+									) ) }
+								</Route>
+								<Route path="taxonomy">
+									{ map( taxonomies, taxonomy => (
+										<Route
+											key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
+											element={ <Taxonomy { ...taxonomy } /> }
+										/>
+									) ) }
+								</Route>
+								<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
+							</Routes>
+						</ErrorBoundary>
 					</main>
 				</div>
 			</SidebarNavigation>
