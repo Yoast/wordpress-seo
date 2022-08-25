@@ -6,11 +6,11 @@
 			yst-cursor-pointer
 			yst-underline
 
-			hover:yst-text-indigo-700;
+			hover:yst-text-indigo-500
+			visited:yst-text-primary-600;
 		}
 
 		/* Variants */
-
 		.yst-link--default {
 		}
 

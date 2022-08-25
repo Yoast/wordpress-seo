@@ -38,7 +38,8 @@
 			yst-bg-white
 			yst-border-gray-300
 
-			hover:yst-bg-gray-50;
+			hover:yst-bg-gray-50
+			hover:yst-text-gray-700;
 		}
 
 		.yst-button--error {
