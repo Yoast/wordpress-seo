@@ -726,7 +726,7 @@ function IndexablesPage( { setupInfo } ) {
 			<button
 				type="button"
 				onClick={ handleRefreshLists }
-				className={ "yst-ml-6 yst-font-medium yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-ring-indigo-500 focus:yst-shadow-none focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-offset-white yst-rounded-lg yst-py-2 yst-px-3" }
+				className={ "yst-ml-6 yst-font-medium yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-ring-indigo-500 focus:yst-shadow-none focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-offset-[#f0f0f1] yst-rounded-lg yst-py-2 yst-px-3" }
 			>
 				<RefreshIcon className="yst-inline-block yst-align-text-bottom yst-mr-1 yst-h-4 yst-w-4" />
 				{ __( "Refresh data", "wordpress-seo" ) }
