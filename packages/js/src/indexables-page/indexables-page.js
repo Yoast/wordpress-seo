@@ -534,6 +534,31 @@ function IndexablesPage( { setupInfo } ) {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
+	const onClickUndoAllList = useCallback( async( event ) => {
+		const { type } = event.target.dataset;
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/restore_all_indexables_for_list",
+				method: "POST",
+				data: { type: type },
+			} );
+
+			const parsedResponse = await response.json;
+			if ( parsedResponse.success ) {
+				// If there is a button to ignore a single indexable, for a list for which we are removing all indexables...
+				if ( ignoredIndexable && ignoredIndexable.type === type ) {
+					// ...remove that button.
+					setIgnoredIndexable( null );
+				}
+				updateList( type, indexablesLists[ type ], true );
+			} else {
+				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
+			}
+		} catch ( error ) {
+			setErrorMessage( error.message );
+		}
+	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable ] );
+
 	const onClickUndoAll = useCallback( async() => {
 		try {
 			const response = await apiFetch( {
@@ -546,9 +571,9 @@ function IndexablesPage( { setupInfo } ) {
 				// If there is a button to ignore a single indexable, unmount it.
 				setIgnoredIndexable( null );
 				handleRefreshLists();
-				return true;
+			} else {
+				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
-			setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 		} catch ( error ) {
 			setErrorMessage( error.message );
 		}
@@ -563,6 +588,9 @@ function IndexablesPage( { setupInfo } ) {
 					: __( "Lowest readability scores", "wordpress-seo" )
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+			options={ [
+				{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_readability" } },
+			] }
 		>
 			{
 				shouldShowDisabledAlert( "least_readability" ) && <Alert variant={ "info" }>
@@ -642,6 +670,9 @@ function IndexablesPage( { setupInfo } ) {
 					: __( "Lowest number of incoming links", "wordpress-seo" )
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+			options={ [
+				{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_linked" } },
+			] }
 		>
 			{
 				shouldShowDisabledAlert( "least_linked" ) && <Alert variant={ "info" }>
@@ -678,7 +709,7 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			{
 				shouldShowTable( "least_linked" ) && <Fragment>
-					<div className="yst-mb-3 yst-text-justify">
+					<div className="yst-mb-3 yst-text-justify yst-max-w-[600px]">
 						{ leastLinkedIntro }
 					</div>
 					<IndexablesTable>
@@ -711,7 +742,7 @@ function IndexablesPage( { setupInfo } ) {
 							}
 						) }
 					</IndexablesTable>
-					<div className="yst-mt-3 yst-text-justify">
+					<div className="yst-mt-3 yst-text-justify  yst-max-w-[600px]">
 						{ leastLinkedOutro }
 					</div>
 				</Fragment>
@@ -751,7 +782,7 @@ function IndexablesPage( { setupInfo } ) {
 				suggestedLinksModalData={ suggestedLinksModalData }
 			/>
 		</Modal>
-		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-3">
+		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-4">
 			<span className="yst-italic">
 				{
 					// translators: %d is the number of minutes since the last refresh.
@@ -764,9 +795,9 @@ function IndexablesPage( { setupInfo } ) {
 			<button
 				type="button"
 				onClick={ handleRefreshLists }
-				className={ "yst-ml-6 yst-font-medium yst-text-[#4F46E5]" }
+				className={ "yst-ml-6 yst-font-medium yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-ring-indigo-500 focus:yst-shadow-none focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-offset-[#f0f0f1] yst-rounded-lg yst-py-2 yst-px-3" }
 			>
-				<RefreshIcon className="yst-inline-block yst-align-text-bottom yst-mr-1 yst-h-4 yst-w-4 yst-text-[#4F46E5]" />
+				<RefreshIcon className="yst-inline-block yst-align-text-bottom yst-mr-1 yst-h-4 yst-w-4" />
 				{ __( "Refresh data", "wordpress-seo" ) }
 			</button>
 		</div>
@@ -781,6 +812,9 @@ function IndexablesPage( { setupInfo } ) {
 						: __( "Lowest SEO scores", "wordpress-seo" )
 				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
+				options={ [
+					{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_seo_score" } },
+				] }
 			>
 				{
 					shouldShowDisabledAlert( "least_seo_score" ) && <Alert variant={ "info" }>
@@ -861,6 +895,9 @@ function IndexablesPage( { setupInfo } ) {
 						: __( "Highest number of incoming links", "wordpress-seo" )
 				}
 				className="yst-mb-6"
+				options={ [
+					{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "most_linked" } },
+				] }
 			>
 				{
 					shouldShowDisabledAlert( "most_linked" ) && <Alert variant={ "info" }>
@@ -897,7 +934,7 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				{
 					shouldShowTable( "most_linked" ) && <Fragment>
-						<div className="yst-mb-3 yst-text-justify">
+						<div className="yst-mb-3 yst-text-justify yst-max-w-[600px]">
 							{ mostLinkedIntro }
 						</div>
 						<IndexablesTable>
@@ -933,7 +970,7 @@ function IndexablesPage( { setupInfo } ) {
 								}
 							) }
 						</IndexablesTable>
-						<div className="yst-mt-3 yst-text-justify">
+						<div className="yst-mt-3 yst-text-justify yst-max-w-[600px]">
 							{ mostLinkedOutro }
 						</div>
 					</Fragment>
@@ -944,12 +981,12 @@ function IndexablesPage( { setupInfo } ) {
 			</IndexablesPageCard>
 		</div>
 		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
-			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Undo hiding all items", "wordpress-seo" ) }</Button>
+			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Restore all hidden items", "wordpress-seo" ) }</Button>
 			{
 				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
 					{
 						/* translators: %1$s expands to the title of a post that was just just hidden. */
-						sprintf( __( "Undo hiding of: %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
+						sprintf( __( "Restore %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
 					}
 				</Button>
 			}
