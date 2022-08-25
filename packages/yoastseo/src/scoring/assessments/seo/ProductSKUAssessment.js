@@ -63,15 +63,15 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {bool} Whether the productSKUAssessment is applicable.
 	 */
 	applicabilityHelper( customData ) {
-		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
-		if ( ! this._config.assessVariants ) {
-			return false;
+		if ( typeof this._config.isApplicable === "function" ) {
+			return this._config.isApplicable( customData );
 		}
 
 		// If we have a variable product with no (active) variants. (active variant = variant with a price)
 		if (  customData.productType === "variable" && ! customData.hasVariants ) {
 			return false;
 		}
+
 		return ( customData.hasPrice || customData.hasVariants );
 	}
 

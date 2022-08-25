@@ -65,11 +65,8 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @returns {bool} Whether the productIdentifierAssessment is applicable.
 	 */
 	applicabilityHelper( customData ) {
-		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
-		// Don't return a score if the product has variants but we don't want to assess variants for this product.
-		// This is currently the case for Shopify products because we don't have access data about product variant identifiers in Shopify.
-		if ( ! this._config.assessVariants ) {
-			return false;
+		if ( typeof this._config.isApplicable === "function" ) {
+			return this._config.isApplicable( customData );
 		}
 
 		// If we have a variable product with no (active) variants. (active variant = variant with a price)
