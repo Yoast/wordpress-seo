@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import { get, includes, reduce } from "lodash";
+import { reduce } from "lodash";
 import { addMethod, number, object, string } from "yup";
 import { STORE_NAME } from "../constants";
 
@@ -20,12 +20,11 @@ addMethod( number, "isMediaTypeImage", function() {
 } );
 
 /**
- * @param {Object} settings The initial settings.
+ * @param {Object} postTypes The post types.
+ * @param {Object} taxonomies The taxonomies.
  * @returns {Object} Yup validation schema.
  */
-export const createValidationSchema = settings => {
-	const titleSettings = get( settings, "wpseo_titles", {} );
-
+export const createValidationSchema = ( postTypes, taxonomies ) => {
 	return object().shape( {
 		wpseo: object().shape( {
 			baiduverify: string()
@@ -45,10 +44,21 @@ export const createValidationSchema = settings => {
 		wpseo_titles: object().shape( {
 			open_graph_frontpage_image_id: number().isMediaTypeImage(),
 			// Media type image validation for all post type & taxonomy images.
-			...reduce( titleSettings, ( acc, value, key ) => includes( key, "social-image-id" ) ? {
+			...reduce( postTypes, ( acc, { name, hasArchive } ) => ( {
 				...acc,
-				[ key ]: number().isMediaTypeImage(),
-			} : acc, {} ),
+				...( name !== "attachment" && {
+					[ `social-image-id-${ name }` ]: number().isMediaTypeImage(),
+				} ),
+				...( hasArchive && {
+					[ `social-image-id-ptarchive-${ name }` ]: number().isMediaTypeImage(),
+				} ),
+			} ), {} ),
+			...reduce( taxonomies, ( acc, { name } ) => ( {
+				...acc,
+				[ `social-image-id-tax-${ name }` ]: number().isMediaTypeImage(),
+			} ), {} ),
+			"social-image-id-author-wpseo": number().isMediaTypeImage(),
+			"social-image-id-archive-wpseo": number().isMediaTypeImage(),
 			"social-image-id-tax-post_format": number().isMediaTypeImage(),
 		} ),
 	} );

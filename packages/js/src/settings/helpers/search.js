@@ -210,12 +210,11 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 } );
 
 /**
- * @param {Object} settings The settings.
  * @param {Object} postTypes The post types.
  * @param {Object} taxonomies The taxonomies.
  * @returns {Object} The search index.
  */
-export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
+export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 	wpseo: {
 		baiduverify: {
 			route: "/webmaster-tools",
@@ -275,16 +274,16 @@ export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 			fieldId: "button-wpseo_titles-social-image-author-wpseo-preview",
 			fieldLabel: __( "Social image", "wordpress-seo" ),
 		},
-		"social-image-id-date-wpseo": {
+		"social-image-id-archive-wpseo": {
 			route: "/date-archives",
 			routeLabel: __( "Date archives", "wordpress-seo" ),
-			fieldId: "button-wpseo_titles-social-image-date-wpseo-preview",
+			fieldId: "button-wpseo_titles-social-image-archive-wpseo-preview",
 			fieldLabel: __( "Social image", "wordpress-seo" ),
 		},
-		"social-image-url-date-wpseo": {
+		"social-image-url-archive-wpseo": {
 			route: "/date-archives",
 			routeLabel: __( "Date archives", "wordpress-seo" ),
-			fieldId: "button-wpseo_titles-social-image-date-wpseo-preview",
+			fieldId: "button-wpseo_titles-social-image-archive-wpseo-preview",
 			fieldLabel: __( "Social image", "wordpress-seo" ),
 		},
 		"social-image-id-tax-post_format": {

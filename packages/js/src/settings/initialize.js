@@ -95,6 +95,8 @@ domReady( () => {
 	document.body.appendChild( shadowHost );
 
 	const settings = get( window, "wpseoScriptData.settings", {} );
+	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
+	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
 	registerStore();
 	preloadMedia( settings );
@@ -107,7 +109,7 @@ domReady( () => {
 				<HashRouter>
 					<Formik
 						initialValues={ settings }
-						validationSchema={ createValidationSchema( settings ) }
+						validationSchema={ createValidationSchema( postTypes, taxonomies ) }
 						onSubmit={ handleSubmit }
 					>
 						<App />
