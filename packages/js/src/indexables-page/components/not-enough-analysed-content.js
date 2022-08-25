@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 
 import IndexablesPageCard from "./indexables-card";
+import IndexableTitleLink from "./indexable-title-link";
 import { useState, useCallback, Fragment } from "@wordpress/element";
 import { Button, Link } from "@yoast/ui-library";
 import { IndexableLinkCount } from "../indexables-page";
@@ -63,12 +64,14 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 						( indexable, index ) => {
 							return <li
 								key={ `article-${ index }-li` }
-								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-h-14 last:yst-border-b-gray-200 last:border-b-1" }
+								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-h-14 last:yst-border-b-gray-200 last:yst-border-b-1" }
 							>
 								<IndexableLinkCount key={ `no-keyphrase-indexable-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
-								<span className="yst-min-w-0 yst-rounded-md yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit yst-grow">
-									<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span>
-								</span>
+								<IndexableTitleLink
+									indexable={ indexable }
+									showType={ false }
+									additionalClassNames="yst-ml-2.5"
+								/>
 								<Button
 									as="a"
 									type="button"
@@ -87,7 +90,7 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 				</ul>
 				{
 					( numberOfVisibleIndexables < indexablesList.length ) &&
-					<div className="yst-flex yst-justify-center">
+					<div className="yst-flex yst-justify-center yst-border-solid yst-border-t-[1px] yst-pt-6">
 						<Link as="button" onClick={ handleShowMore }>
 							{
 								/* translators: %1$s expands to the step value (i.e. the number of posts to be added to the visible list) */

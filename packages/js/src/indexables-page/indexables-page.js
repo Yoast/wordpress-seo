@@ -678,7 +678,7 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			{
 				shouldShowTable( "least_linked" ) && <Fragment>
-					<div className="yst-mb-3 yst-text-justify yst-pr-6">
+					<div className="yst-mb-3 yst-text-justify">
 						{ leastLinkedIntro }
 					</div>
 					<IndexablesTable>
@@ -711,7 +711,7 @@ function IndexablesPage( { setupInfo } ) {
 							}
 						) }
 					</IndexablesTable>
-					<div className="yst-mt-3 yst-text-justify yst-pr-6">
+					<div className="yst-mt-3 yst-text-justify">
 						{ leastLinkedOutro }
 					</div>
 				</Fragment>
@@ -897,7 +897,7 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				{
 					shouldShowTable( "most_linked" ) && <Fragment>
-						<div className="yst-mb-3 yst-text-justify yst-pr-6">
+						<div className="yst-mb-3 yst-text-justify">
 							{ mostLinkedIntro }
 						</div>
 						<IndexablesTable>
@@ -933,7 +933,7 @@ function IndexablesPage( { setupInfo } ) {
 								}
 							) }
 						</IndexablesTable>
-						<div className="yst-mt-3 yst-text-justify yst-pr-6">
+						<div className="yst-mt-3 yst-text-justify">
 							{ mostLinkedOutro }
 						</div>
 					</Fragment>
