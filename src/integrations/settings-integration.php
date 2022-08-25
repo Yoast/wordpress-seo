@@ -341,8 +341,8 @@ class Settings_Integration implements Integration_Interface {
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
-			'editUserUrl'          			=> \admin_url( 'user-edit.php' ),
-			'generalSettingsUrl'          	=> \admin_url( 'options-general.php' ),
+			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
+			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 		];
 	}
 
