@@ -560,7 +560,7 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 			options={ [
-				{ title: __( "Undo hiding of all indexables for this list", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_readability" } },
+				{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_readability" } },
 			] }
 		>
 			{
@@ -630,7 +630,7 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 			options={ [
-				{ title: __( "Undo hiding of all indexables for this list", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_linked" } },
+				{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_linked" } },
 			] }
 		>
 			{
@@ -744,7 +744,7 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 				options={ [
-					{ title: __( "Undo hiding of all indexables for this list", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_seo_score" } },
+					{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_seo_score" } },
 				] }
 			>
 				{
@@ -815,7 +815,7 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				className="yst-mb-6"
 				options={ [
-					{ title: __( "Undo hiding of all indexables for this list", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "most_linked" } },
+					{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "most_linked" } },
 				] }
 			>
 				{
@@ -888,12 +888,12 @@ function IndexablesPage( { setupInfo } ) {
 			</IndexablesPageCard>
 		</div>
 		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
-			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Undo hiding all items", "wordpress-seo" ) }</Button>
+			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Restore all hidden items", "wordpress-seo" ) }</Button>
 			{
 				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
 					{
 						/* translators: %1$s expands to the title of a post that was just just hidden. */
-						sprintf( __( "Undo hiding of: %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
+						sprintf( __( "Restore %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
 					}
 				</Button>
 			}
