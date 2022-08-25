@@ -85,7 +85,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		<SidebarNavigation.MenuItem
 			id={ `menu-site-settings${ idSuffix && `-${ idSuffix }` }` }
 			icon={ DesktopComputerIcon }
-			label={ __( "Site settings", "wordpress-seo" ) }
+			label={ __( "General", "wordpress-seo" ) }
 		>
 			{ /* <SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
 			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -96,7 +96,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		<SidebarNavigation.MenuItem
 			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
 			icon={ NewspaperIcon }
-			label={ __( "Content settings", "wordpress-seo" ) }
+			label={ __( "Content types", "wordpress-seo" ) }
 		>
 			<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 				<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -111,7 +111,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		<SidebarNavigation.MenuItem
 			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
 			icon={ ColorSwatchIcon }
-			label={ __( "Taxonomy settings", "wordpress-seo" ) }
+			label={ __( "Categories & tags", "wordpress-seo" ) }
 		>
 			<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 				{ map( taxonomies, taxonomy => <TaxonomySubmenuItem key={ `link-taxonomy-${ taxonomy.name }` } taxonomy={ taxonomy } /> ) }
@@ -120,7 +120,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		<SidebarNavigation.MenuItem
 			id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
 			icon={ AdjustmentsIcon }
-			label={ __( "Advanced settings", "wordpress-seo" ) }
+			label={ __( "Advanced", "wordpress-seo" ) }
 		>
 			{ /* <SidebarNavigation.SubmenuItem
 				to="/crawl-optimization"
