@@ -657,7 +657,7 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			{
 				shouldShowTable( "least_linked" ) && <Fragment>
-					<div className="yst-mb-3 yst-text-justify yst-pr-6">
+					<div className="yst-mb-3 yst-text-justify yst-max-w-[600px]">
 						{ leastLinkedIntro }
 					</div>
 					<IndexablesTable>
@@ -689,7 +689,7 @@ function IndexablesPage( { setupInfo } ) {
 							}
 						) }
 					</IndexablesTable>
-					<div className="yst-mt-3 yst-text-justify yst-pr-6">
+					<div className="yst-mt-3 yst-text-justify  yst-max-w-[600px]">
 						{ leastLinkedOutro }
 					</div>
 				</Fragment>
@@ -713,7 +713,7 @@ function IndexablesPage( { setupInfo } ) {
 				suggestedLinksModalData={ suggestedLinksModalData }
 			/>
 		</Modal>
-		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-3">
+		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-4">
 			<span className="yst-italic">
 				{
 					// translators: %d is the number of minutes since the last refresh.
@@ -726,9 +726,9 @@ function IndexablesPage( { setupInfo } ) {
 			<button
 				type="button"
 				onClick={ handleRefreshLists }
-				className={ "yst-ml-6 yst-font-medium yst-text-[#4F46E5]" }
+				className={ "yst-ml-6 yst-font-medium yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-ring-indigo-500 focus:yst-shadow-none focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-offset-white yst-rounded-lg yst-py-2 yst-px-3" }
 			>
-				<RefreshIcon className="yst-inline-block yst-align-text-bottom yst-mr-1 yst-h-4 yst-w-4 yst-text-[#4F46E5]" />
+				<RefreshIcon className="yst-inline-block yst-align-text-bottom yst-mr-1 yst-h-4 yst-w-4" />
 				{ __( "Refresh data", "wordpress-seo" ) }
 			</button>
 		</div>
@@ -842,7 +842,7 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				{
 					shouldShowTable( "most_linked" ) && <Fragment>
-						<div className="yst-mb-3 yst-text-justify yst-pr-6">
+						<div className="yst-mb-3 yst-text-justify yst-max-w-[600px]">
 							{ mostLinkedIntro }
 						</div>
 						<IndexablesTable>
@@ -877,7 +877,7 @@ function IndexablesPage( { setupInfo } ) {
 								}
 							) }
 						</IndexablesTable>
-						<div className="yst-mt-3 yst-text-justify yst-pr-6">
+						<div className="yst-mt-3 yst-text-justify yst-max-w-[600px]">
 							{ mostLinkedOutro }
 						</div>
 					</Fragment>

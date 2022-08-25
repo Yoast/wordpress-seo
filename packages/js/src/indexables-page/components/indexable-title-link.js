@@ -15,10 +15,10 @@ const Link = makeOutboundLink();
  * @returns {WPElement} A div with a styled link to the indexable.
  */
 export function IndexableTitleLink( { indexable, showType } ) {
-	return <div className="yst-grow yst-min-w-0 yst-flex yst-h-3/5">
+	return <div className="yst-grow yst-min-w-0 yst-flex yst-h-3/5 yst-ml-1">
 		<Link
 			href={ indexable.permalink }
-			className="yst-min-w-0 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit hover:yst-text-indigo-500"
+			className="yst-px-2 yst-min-w-0 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit hover:yst-text-indigo-500 yst--ml-2"
 		>
 			<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span><ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px]" />
 		</Link>
