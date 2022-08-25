@@ -466,6 +466,10 @@ export default class ClassicEditorData {
 		if ( this._previousData.slug !== newData.slug ) {
 			this._store.dispatch( setEditorDataSlug( newData.slug ) );
 		}
+		// Handle the text title change (the title of the content as opposed to the SEO title from the SEO title field).
+		if ( this._previousData.title !== newData.title ) {
+			this._store.dispatch( setEditorDataTitle( newData.title ) );
+		}
 	}
 
 	/**
@@ -513,6 +517,8 @@ export default class ClassicEditorData {
 	getData() {
 		return {
 			...this._store.getState().snippetEditor.data,
+			// Overwrites the title stored in the previous line, which contains data for the SEO title.
+			title: this.getTitle(),
 			content: this.getContent(),
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line

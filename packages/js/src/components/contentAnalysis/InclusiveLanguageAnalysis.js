@@ -16,7 +16,8 @@ import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import Portal from "../portals/Portal";
-import { SvgIcon } from "@yoast/components";
+import { Alert, SvgIcon } from "@yoast/components";
+import isMultilingualPluginActive from "../../analysis/isMultilingualPluginActive";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -99,6 +100,22 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	);
 
 	/**
+	 * Renders a notice that a multilingual plugin has been
+	 * detected and the analysis is run in English.
+	 *
+	 * @returns {JSX.Element} The multilingual plugin detected notice.
+	 */
+	function renderMultilingualPluginDetectedNotice() {
+		const notice = __(
+			"We noticed that you are using a multilingual plugin. Please be aware that this analysis feedback is intended only for texts written in English.",
+			"wordpress-seo"
+		);
+		return <Alert type={ "info" }>
+			{ notice }
+		</Alert>;
+	}
+
+	/**
 	 * Renders a feedback string for when no non-inclusive phrases are detected.
 	 *
 	 * @returns {JSX.Element} The feedback string.
@@ -148,6 +165,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 							id={ `yoast-inclusive-language-analysis-collapsible-${ location }` }
 							hasBetaBadgeLabel={ true }
 						>
+							{ isMultilingualPluginActive() ? renderMultilingualPluginDetectedNotice() : null }
 							{ props.results.length >= 1 ? renderResults() : renderGoodJob() }
 						</Collapsible>
 					);
@@ -161,6 +179,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 									target="wpseo-inclusive-language-score-icon"
 									scoreIndicator={ score.className }
 								/>
+								{ isMultilingualPluginActive() ? renderMultilingualPluginDetectedNotice() : null }
 								{ props.results.length >= 1 ? renderResults() : renderGoodJob() }
 							</InclusiveLanguageResultsTabContainer>
 						</Portal>

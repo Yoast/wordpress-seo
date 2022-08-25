@@ -36,14 +36,24 @@
 			z-index: 99999;
 		}
 
+		.yst-toggle-field--grid {
+			@apply lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12 lg:yst-max-w-none;
+
+			.yst-toggle-field__text {
+				@apply lg:yst-col-span-1;
+			}
+
+			.yst-toggle {
+				@apply lg:yst-col-span-2;
+			}
+		}
+
 		.yst-replacevar {
 			@apply yst-relative;
 		}
 
 		.yst-replacevar__label {
-			@apply
-			yst-mb-2
-			yst-cursor-pointer;
+			@apply yst-mb-2;
 
 			/* .yst-label */
 			@apply
@@ -101,6 +111,7 @@
 			yst-shadow-sm
 			yst-bg-white
 			yst-text-sm
+			yst-leading-6
 			yst-text-gray-700
 			yst-placeholder-gray-500
 			focus-within:yst-outline-none
@@ -133,6 +144,10 @@
 					hover:yst-bg-gray-100
 					hover:yst-text-gray-900
 					yst-cursor-pointer;
+
+					&[aria-selected] {
+						@apply yst-bg-gray-100 yst-text-gray-900
+					}
 				}
 			}
 		}
@@ -145,10 +160,11 @@
 			@apply
 			yst-inline-flex
 			yst-py-0.5
-			yst-px-2.5
-			yst-m-0.5
+			yst-px-2
+			yst-mx-0.5
 			yst-rounded-full
 			yst-items-center
+			yst-leading-tight
 			yst-text-xs
 			yst-font-medium
 			yst-bg-gray-100
@@ -156,3 +172,5 @@
 		}
 	}
 }
+
+

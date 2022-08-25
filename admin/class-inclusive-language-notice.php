@@ -27,6 +27,11 @@ class WPSEO_Inclusive_Language_Notice {
 	const OPTION_NAME = 'wpseo';
 
 	/**
+	 * The Premium version in which the Inclusive language feature was added.
+	 */
+	const PREMIUM_VERSION_ADDED = '19.2-RC1';
+
+	/**
 	 * Holds the notification center.
 	 *
 	 * @var Yoast_Notification_Center
@@ -80,7 +85,8 @@ class WPSEO_Inclusive_Language_Notice {
 
 		return YoastSEO()->helpers->product->is_premium()
 			&& YoastSEO()->helpers->language->has_inclusive_language_support( \WPSEO_Language_Utils::get_language( \get_locale() ) )
-			&& ! $availability->is_globally_enabled();
+			&& ! $availability->is_globally_enabled()
+			&& \version_compare( YoastSEO()->helpers->product->get_premium_version(), self::PREMIUM_VERSION_ADDED, '>=' );
 	}
 
 	/**
@@ -89,13 +95,30 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @return Yoast_Notification
 	 */
 	protected function get_notification() {
-		$message = sprintf(
+		if ( is_multisite() && get_site_option( 'wpseo_ms' )['allow_inclusive_language_analysis_active'] === false ) {
+			$message = sprintf(
 			/* translators: %1$s is a link to the Features tab on the Yoast SEO Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
-			__( '<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now enable the %1$sinclusive language feature%3$s to get feedback on inclusive language use? %2$sLearn more about this feature%3$s.', 'wordpress-seo' ),
-			'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-notification' ) . '">',
-			'</a>'
-		);
+				__(
+					'<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now get feedback on the use of inclusive language? This feature is disabled by default. Please contact your Network admin if you want to enable it. %2$sLearn more about this feature%3$s.',
+					'wordpress-seo'
+				),
+				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-notification' ) . '" target="_blank">',
+				'</a>'
+			);
+		}
+		else {
+			$message = sprintf(
+			/* translators: %1$s is a link to the Features tab on the Yoast SEO Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
+				__(
+					'<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now %1$senable the beta version of our inclusive language feature%3$s to get feedback on the use of inclusive language? This feature is disabled by default. %2$sLearn more about this feature%3$s.',
+					'wordpress-seo'
+				),
+				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-notification' ) . '" target="_blank">',
+				'</a>'
+			);
+		}
 
 		$notification = new Yoast_Notification(
 			$message,

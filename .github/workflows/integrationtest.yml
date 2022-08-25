@@ -6,9 +6,9 @@ on:
     branches:
       - master
       - trunk
-      - 'release/**'
-      - 'hotfix/[0-9]+.[0-9]+*'
-      - 'feature/**'
+      - "release/**"
+      - "hotfix/[0-9]+.[0-9]+*"
+      - "feature/**"
   pull_request:
   # Allow manually triggering the workflow.
   workflow_dispatch:
@@ -26,30 +26,30 @@ jobs:
     strategy:
       matrix:
         include:
-          - php_version: '5.6'
-            wp_version: '5.9'
+          - php_version: "5.6"
+            wp_version: "5.9"
             multisite: true
 
-          - php_version: '7.0'
-            wp_version: 'latest'
+          - php_version: "7.0"
+            wp_version: "latest"
             multisite: false
 
-          - php_version: '7.3'
-            wp_version: 'trunk'
+          - php_version: "7.3"
+            wp_version: "trunk"
             multisite: true
 
-          - php_version: '7.4'
-            wp_version: 'latest'
+          - php_version: "7.4"
+            wp_version: "latest"
             multisite: false
 
           # WP 5.6 is the earliest version which (sort of) supports PHP 8.0.
-          - php_version: '8.0'
-            wp_version: '5.9'
+          - php_version: "8.0"
+            wp_version: "5.9"
             multisite: false
 
           # WP 5.9 is the earliest version which (sort of) supports PHP 8.1.
-          - php_version: '8.1'
-            wp_version: 'latest'
+          - php_version: "8.1"
+            wp_version: "latest"
             multisite: true
 
     name: "Integration Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
@@ -85,8 +85,11 @@ jobs:
       # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
       # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
       # - league/oauth2-client and its dependencies *are* the packages being prefixed.
-      - name: Delete dependencies which are not cross-version compatible
+      - name: Delete dev dependencies which are not cross-version compatible
         run: composer remove --dev --no-scripts humbug/php-scoper league/oauth2-client
+
+      - name: Delete dependencies which are not cross-version compatible
+        run: composer remove --no-scripts composer/installers
 
       - name: Remove vendor directory
         run: rm -rf vendor/*

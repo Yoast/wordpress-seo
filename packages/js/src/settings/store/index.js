@@ -10,13 +10,16 @@ import replacementVariables, {
 	replacementVariablesSelectors,
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
+import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
+import media, { mediaActions, mediaSelectors, FETCH_MEDIA_ACTION_NAME } from "./media";
+import search, { searchActions, searchSelectors } from "./search";
+import { STORE_NAME } from "../constants";
+import { mediaClient } from "../helpers";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
-export const STORE_NAME = "@yoast/settings";
-
 /**
- * @param {string} selector The name of the selector.
+ * @param {string} selector The name of the sselector.
  * @param {array} [deps] List of dependencies.
  * @param {*} [args] Selector arguments.
  * @returns {*} The result.
@@ -36,6 +39,9 @@ const createStore = ( { initialState } ) => {
 			...preferencesActions,
 			...replacementVariablesActions,
 			...schemaActions,
+			...taxonomiesActions,
+			...mediaActions,
+			...searchActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -44,6 +50,9 @@ const createStore = ( { initialState } ) => {
 			...preferencesSelectors,
 			...replacementVariablesSelectors,
 			...schemaSelectors,
+			...taxonomiesSelectors,
+			...mediaSelectors,
+			...searchSelectors,
 		},
 		initialState: merge(
 			{},
@@ -54,6 +63,7 @@ const createStore = ( { initialState } ) => {
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 				schema: createInitialSchemaState(),
+				taxonomies: createInitialTaxonomiesState(),
 			},
 			initialState
 		),
@@ -63,8 +73,13 @@ const createStore = ( { initialState } ) => {
 			preferences,
 			replacementVariables,
 			schema,
+			taxonomies,
+			media,
+			search,
 		} ),
-		controls: {},
+		controls: {
+			[ FETCH_MEDIA_ACTION_NAME ]: async( { payload } ) => mediaClient.fetch( payload ),
+		},
 	} );
 };
 

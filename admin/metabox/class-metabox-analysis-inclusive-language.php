@@ -16,7 +16,7 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	 * @return bool Whether or not this analysis is enabled.
 	 */
 	public function is_enabled() {
-		return $this->is_globally_enabled() && $this->is_user_enabled()
+		return $this->is_globally_enabled() && $this->is_user_enabled() && $this->is_current_version_supported()
 				&& YoastSEO()->helpers->product->is_premium()
 				&& YoastSEO()->helpers->language->has_inclusive_language_support( \WPSEO_Language_Utils::get_language( \get_locale() ) );
 	}
@@ -37,5 +37,17 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	 */
 	public function is_globally_enabled() {
 		return WPSEO_Options::get( 'inclusive_language_analysis_active', false );
+	}
+
+	/**
+	 * Whether or not a certain premium version support inclusive language feature.
+	 *
+	 * @return bool Whether or not a certain premium version support inclusive language feature.
+	 */
+	private function is_current_version_supported() {
+		$is_premium      = YoastSEO()->helpers->product->is_premium();
+		$premium_version = YoastSEO()->helpers->product->get_premium_version();
+
+		return $is_premium && \version_compare( $premium_version, '19.2-RC1', '>=' );
 	}
 }
