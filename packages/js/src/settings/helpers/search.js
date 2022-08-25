@@ -263,7 +263,37 @@ export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 			...acc,
 			...createTaxonomySearchIndex( taxonomy ),
 		} ), {} ),
+		"social-image-id-author-wpseo": {
+			route: "/author-archives",
+			routeLabel: __( "Author archives", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-social-image-author-wpseo-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-url-author-wpseo": {
+			route: "/author-archives",
+			routeLabel: __( "Author archives", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-social-image-author-wpseo-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-id-date-wpseo": {
+			route: "/date-archives",
+			routeLabel: __( "Date archives", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-social-image-date-wpseo-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-url-date-wpseo": {
+			route: "/date-archives",
+			routeLabel: __( "Date archives", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-social-image-date-wpseo-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
 		"social-image-id-tax-post_format": {
+			route: "/formats",
+			routeLabel: taxonomies.post_format.label,
+			fieldId: "button-wpseo_titles-social-image-tax-post_format-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-url-tax-post_format": {
 			route: "/formats",
 			routeLabel: taxonomies.post_format.label,
 			fieldId: "button-wpseo_titles-social-image-tax-post_format-preview",
