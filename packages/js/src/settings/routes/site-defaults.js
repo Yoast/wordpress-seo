@@ -91,7 +91,7 @@ const SiteDefaults = () => {
 			 * translators: %1$s expands to an opening anchor tag.
 			 * %2$s expands to a closing anchor tag.
 			 */
-			__( "This field updates %1$sthe Site title in your WordPress settings%2$s.", "wordpress-seo" ),
+			__( "This field updates the %1$sSite title in your WordPress settings%2$s.", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),
@@ -106,7 +106,7 @@ const SiteDefaults = () => {
 			 * translators: %1$s expands to an opening anchor tag.
 			 * %2$s expands to a closing anchor tag.
 			 */
-			__( "This field updates %1$sthe Tagline in your WordPress settings%2$s.", "wordpress-seo" ),
+			__( "This field updates the %1$sTagline in your WordPress settings%2$s.", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),
