@@ -10,7 +10,7 @@ import { useSelectSettings } from "../store";
  */
 const ErrorFallback = ( { error } ) => {
 	const handleRefreshClick = useCallback( () => window?.location?.reload(), [] );
-	const supportLink = useSelectSettings( "selectLink", "", "https://yoast.com/help/support" );
+	const supportLink = useSelectSettings( "selectLink", [], "https://yoast.com/help/support" );
 
 	return (
 		<div role="alert" className="yst-max-w-screen-sm yst-p-8 yst-space-y-4">
