@@ -369,7 +369,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Red	| 3	| No images		| **Images**: No images appear on this page. **Add some!** |
 | Green	| 9	| There are at least 1 image		| **Images**: Good job! |
 
-### 9) Title
+### 9) Title (only in Premium) -- will be released in 19.3
 **What it does**: Checks for the presence of a title.
 
 **When it applies**: Always.
