@@ -38,11 +38,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertIsArray(
-			$this->getPropertyValue( $this->instance, 'robots_txt_allow_directives' )
-		);
-		$this->assertIsArray(
-			$this->getPropertyValue( $this->instance, 'robots_txt_disallow_directives' )
+		$this->assertIsObject(
+			$this->getPropertyValue( $this->instance, 'robots_txt_user_agents' )
 		);
 		$this->assertIsArray(
 			$this->getPropertyValue( $this->instance, 'robots_txt_sitemaps' )

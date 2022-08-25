@@ -6,6 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Robots_Txt_Helper;
 use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Robots\User_Agent_List;
 
 /**
  * Class Robots_Txt_Presenter_Test
@@ -44,23 +45,18 @@ class Robots_Txt_Presenter_Test extends TestCase {
 	/**
 	 * Test the present function.
 	 *
-	 * @param array  $disallow_directives Output for the registered disallow directives.
-	 * @param array  $allow_directives Output for the registered allow directives.
-	 * @param array  $sitemaps Output for the registered sitemaps.
-	 * @param string $expected The expected output to be written to robots.txt.
+	 * @param array  $robots_txt_user_agents Output for the registered user agents.
+	 * @param array  $sitemaps               Output for the registered sitemaps.
+	 * @param string $expected               The expected output to be written to robots.txt.
 	 *
 	 * @dataProvider present_dataprovider
 	 *
 	 * @covers ::present
 	 */
-	public function test_present( $disallow_directives, $allow_directives, $sitemaps, $expected ) {
+	public function test_present( $robots_txt_user_agents, $sitemaps, $expected ) {
 		$this->robots_txt_helper
-			->expects( 'get_disallow_directives' )
-			->andReturn( $disallow_directives );
-
-		$this->robots_txt_helper
-			->expects( 'get_allow_directives' )
-			->andReturn( $allow_directives );
+			->expects( 'get_robots_txt_user_agents' )
+			->andReturn( $robots_txt_user_agents );
 
 		$this->robots_txt_helper
 			->expects( 'get_sitemap_rules' )
@@ -78,80 +74,91 @@ class Robots_Txt_Presenter_Test extends TestCase {
 	 * @return array The data used for test_present.
 	 */
 	public function present_dataprovider() {
-		$no_disallow_allow_directives_registered                         = [
-			'disallow_directives' => [],
-			'allow_directives'    => [],
-			'sitemaps'            => [
+		$no_disallow_allow_directives_registered = [
+			'robots_txt_user_agents' => ( new User_Agent_List() )->get_user_agents(),
+			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'            => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
-		$only_disallow_directives                                        = [
-			'disallow_directives' => [
-				'*' => [ '/wp-json/' ],
-			],
-			'allow_directives'    => [],
-			'sitemaps'            => [
+		$user_agent_list                         = new User_Agent_List();
+		$user_agent                              = $user_agent_list->get_user_agent( '*' );
+		$user_agent->add_disallow_directive( '/wp-json/' );
+
+		$only_disallow_directives = [
+			'robots_txt_user_agents' => $user_agent_list->get_user_agents(),
+			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'            => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
-		$multiple_disallow_directives                                    = [
-			'disallow_directives' => [
-				'*'         => [ '/wp-json/', '/search/' ],
-				'Googlebot' => [ '/disallowed/for/googlebot' ],
-			],
-			'allow_directives'    => [],
-			'sitemaps'            => [
+
+		$user_agent_list = new User_Agent_List();
+		$user_agent      = $user_agent_list->get_user_agent( '*' );
+		$user_agent->add_disallow_directive( '/wp-json/' );
+		$user_agent->add_disallow_directive( '/search/' );
+
+		$user_agent = $user_agent_list->get_user_agent( 'Googlebot' );
+		$user_agent->add_disallow_directive( '/disallowed/for/googlebot' );
+		$multiple_disallow_directives = [
+			'robots_txt_user_agents' => $user_agent_list->get_user_agents(),
+			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'            => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nDisallow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nDisallow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
-		$one_allow_and_one_disallow_directive_for_same_user_agent        = [
-			'disallow_directives' => [
-				'*' => [ '/wp-json/' ],
-			],
-			'allow_directives'    => [
-				'*' => [ '/search/' ],
-			],
-			'sitemaps'            => [
+		$user_agent_list              = new User_Agent_List();
+		$user_agent                   = $user_agent_list->get_user_agent( '*' );
+		$user_agent->add_disallow_directive( '/wp-json/' );
+		$user_agent->add_allow_directive( '/search/' );
+
+		$one_allow_and_one_disallow_directive_for_same_user_agent = [
+			'robots_txt_user_agents' => $user_agent_list->get_user_agents(),
+			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'            => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
+
+		$user_agent_list = new User_Agent_List();
+		$user_agent      = $user_agent_list->get_user_agent( '*' );
+		$user_agent->add_disallow_directive( '/wp-json/' );
+		$user_agent->add_allow_directive( '/search/' );
+
+		$user_agent = $user_agent_list->get_user_agent( 'Googlebot' );
+		$user_agent->add_disallow_directive( '/disallowed/for/googlebot' );
+		$user_agent->add_disallow_directive( '/wp-admin' );
+
+		$user_agent = $user_agent_list->get_user_agent( 'Yahoobot' );
+		$user_agent->add_allow_directive( '/allowed/for/yahoo' );
 		$multiple_allow_and_disallow_directives_for_multiple_user_agents = [
-			'disallow_directives' => [
-				'*'         => [ '/wp-json/' ],
-				'Googlebot' => [ '/disallowed/for/googlebot', '/wp-admin' ],
-			],
-			'allow_directives'    => [
-				'*'        => [ '/search/' ],
-				'Yahoobot' => [ '/allowed/for/yahoo' ],
-			],
-			'sitemaps'            => [
+			'robots_txt_user_agents' => $user_agent_list->get_user_agents(),
+			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'            => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\nDisallow: /wp-admin\n\nUser-agent: Yahoobot\nAllow: /allowed/for/yahoo\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\nDisallow: /wp-admin\n\nUser-agent: Yahoobot\nAllow: /allowed/for/yahoo\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
+
+		$user_agent_list = new User_Agent_List();
+		$user_agent      = $user_agent_list->get_user_agent( '*' );
+		$user_agent->add_allow_directive( '/search/' );
+
 		$single_allow_directive = [
-			'disallow_directives' => [],
-			'allow_directives'    => [
-				'*' => [ '/search/' ],
-			],
-			'sitemaps'            => [
+			'robots_txt_user_agents' => $user_agent_list->get_user_agents(),
+			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'            => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
 		$multiple_sitemaps      = [
-			'disallow_directives' => [],
-			'allow_directives'    => [],
-			'sitemaps'            => [
+			'robots_txt_user_agents' => ( new User_Agent_List() )->get_user_agents(),
+			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 				'http://example.com/subsite/sitemap_index.html',
 			],
-			'expected'            => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\nSitemap: http://example.com/subsite/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\nSitemap: http://example.com/subsite/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
+
 		return [
 			'No disallow and allow directives registered' => $no_disallow_allow_directives_registered,
 			'Only disallow directives registered'         => $only_disallow_directives,
