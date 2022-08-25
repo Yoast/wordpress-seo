@@ -1,3 +1,4 @@
+/* global wpseoIndexablesPageData */
 import apiFetch from "@wordpress/api-fetch";
 import { ExternalLinkIcon, PlusIcon } from "@heroicons/react/outline";
 import { useEffect, useState, useCallback, Fragment } from "@wordpress/element";
@@ -13,23 +14,23 @@ const Link = makeOutboundLink();
 const readingList = [
 	{
 		title: "Blogging: The ultimate guide",
-		link: "#",
+		link: wpseoIndexablesPageData.shortlinks.ultimateGuide,
 	},
 	{
 		title: "10 tips for an awesome and SEO-friendly blog post",
-		link: "#",
+		link: wpseoIndexablesPageData.shortlinks.friendlyBlogpost,
 	},
 	{
 		title: "How to optimize a blog post for search engines: a checklist!",
-		link: "#",
+		link: wpseoIndexablesPageData.shortlinks.blogpostChecklist,
 	},
 	{
 		title: "Why the purpose of your text is important for SEO",
-		link: "#",
+		link: wpseoIndexablesPageData.shortlinks.textPurpose,
 	},
 	{
 		title: "How to write an SEO-friendly introduction for a blog post",
-		link: "#",
+		link: wpseoIndexablesPageData.shortlinks.seoIntroduction,
 	},
 ];
 
