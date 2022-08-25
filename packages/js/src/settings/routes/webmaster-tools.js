@@ -97,7 +97,7 @@ const WebmasterTools = () => {
 					label={ __( "Pinterest", "wordpress-seo" ) }
 					description={ addLinkToString(
 						sprintf(
-							__( "Claim your site %1$sover at Pinterest%2$s.", "wordpress-seo" ),
+							__( "Claim your site over at %1$sPinterest%2$s.", "wordpress-seo" ),
 							"<a>",
 							"</a>"
 						),
