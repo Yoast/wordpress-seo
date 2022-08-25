@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge } from "@yoast/ui-library";
+import { Badge, Link } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import {
@@ -27,6 +27,7 @@ const Formats = () => {
 	const { name, label, singularLabel } = useSelectSettings( "selectTaxonomy", [], "post_format" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
+	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -102,11 +103,18 @@ const Formats = () => {
 								__( "Show %1$s in search results", "wordpress-seo" ),
 								label
 							) }
-							description={ sprintf(
-								// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-								__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
-								label
-							) }
+							description={ <>
+								{ sprintf(
+									// translators: %1$s expands to the taxonomy plural, e.g. Categories.
+									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
+									label
+								) }
+								<br />
+								<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+									{ __( "Read more about the search results settings", "wordpress-seo" ) }
+								</Link>
+								.
+							</> }
 						/>
 						<FormikReplacementVariableEditorField
 							type="title"

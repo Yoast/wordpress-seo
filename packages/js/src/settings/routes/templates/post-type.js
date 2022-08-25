@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
+import { Badge, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import PropTypes from "prop-types";
@@ -39,6 +39,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const hasWooCommerceShopPage = useSelectSettings( "selectPreference", [], "hasWooCommerceShopPage" );
 	const editWooCommerceShopPageUrl = useSelectSettings( "selectPreference", [], "editWooCommerceShopPageUrl" );
 	const wooCommerceShopPageSettingUrl = useSelectSettings( "selectPreference", [], "wooCommerceShopPageSettingUrl" );
+	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -121,11 +122,18 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						__( "Show %1$s in search results", "wordpress-seo" ),
 						label
 					) }
-					description={ sprintf(
-						// translators: %1$s expands to the post type plural, e.g. Posts.
-						__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-						label
-					) }
+					description={ <>
+						{ sprintf(
+							// translators: %1$s expands to the post type plural, e.g. Posts.
+							__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+							label
+						) }
+						<br />
+						<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+							{ __( "Read more about the search results settings", "wordpress-seo" ) }
+						</Link>
+						.
+					</> }
 				/>
 				<hr className="yst-my-8" />
 				<FormikReplacementVariableEditorField

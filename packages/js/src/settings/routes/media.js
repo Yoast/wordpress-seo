@@ -1,6 +1,6 @@
 import { Transition } from "@headlessui/react";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, SelectField, ToggleField } from "@yoast/ui-library";
+import { Alert, Link, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { FieldsetLayout, FormikFlippedToggleField, FormikReplacementVariableEditorField, FormikValueChangeField, FormLayout } from "../components";
 import { useSelectSettings } from "../store";
@@ -14,6 +14,7 @@ const Media = () => {
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
 	const pageTypes = useSelectSettings( "selectPageTypeValuesFor", [ name ], name );
+	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const { values } = useFormikContext();
 	const { "disable-attachment": disableAttachment } = values.wpseo_titles;
@@ -74,7 +75,18 @@ const Media = () => {
 								__( "Show %1$s pages in search results", "wordpress-seo" ),
 								label
 							) }
-							description={ __( "Disabling this means that Media pages created by WordPress will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ) }
+							description={ <>
+								{ sprintf(
+									// translators: %1$s expands to the post type plural, e.g. Posts.
+									__( "Disabling this means that %1$s pages created by WordPress will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+									label
+								) }
+								<br />
+								<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+									{ __( "Read more about the search results settings", "wordpress-seo" ) }
+								</Link>
+								.
+							</> }
 						/>
 						<FormikReplacementVariableEditorField
 							type="title"
