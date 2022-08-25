@@ -62,20 +62,23 @@ TaxonomySubmenuItem.propTypes = {
  * @returns {JSX.Element} The menu element.
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
-	const renderMoreOrLessButton = useCallback( ( { show, toggle } ) => {
+	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
 
 		return <button
-			className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-mb-1 yst-text-sm yst-font-medium yst-text-gray-800 yst-rounded-md yst-no-underline hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+			className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-gray-600 yst-rounded-md yst-no-underline hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
 			onClick={ toggle }
+			{ ...ariaProps }
 		>
-			{ show ? __( "Less", "wordpress-seo" ) : __( "More", "wordpress-seo" ) }
-			<ChevronIcon className="yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
+			<span className="yst-flex yst-items-center yst-gap-2">
+				<ChevronIcon className="yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
+				{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
+			</span>
 		</button>;
 	}, [] );
 
 	return <>
-		<figure className="yst-w-44 yst-px-3 yst-mb-12">
+		<figure className="yst-w-44 yst-px-3 yst-mb-6">
 			<YoastLogo />
 		</figure>
 		<SidebarNavigation.MenuItem

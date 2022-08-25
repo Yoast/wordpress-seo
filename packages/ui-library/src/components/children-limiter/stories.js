@@ -1,5 +1,5 @@
 import { useCallback } from "@wordpress/element";
-import { range } from "lodash";
+import { map, range } from "lodash";
 import ChildrenLimiter from ".";
 import { Button } from "../../";
 
@@ -15,13 +15,13 @@ export default {
 	},
 	args: {
 		limit: 5,
-		children: range( 10 ),
+		children: map( range( 10 ), n => <p>{ n }</p> ),
 	},
 };
 
 const Template = args => {
-	const renderMoreOrLessButton = useCallback( ( { show, toggle } ) => {
-		return <Button className="yst-mx-1.5" onClick={ toggle }>{ show ? "Less" : "More" }</Button>;
+	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
+		return <Button className="yst-my-1.5" onClick={ toggle } { ...ariaProps }>{ show ? "Less" : "More" }</Button>;
 	}, [] );
 
 	return <ChildrenLimiter { ...args } renderButton={ renderMoreOrLessButton } />;
@@ -32,8 +32,8 @@ Factory.parameters = {
 	controls: { disable: false },
 	docs: {
 		transformSource: ( args ) => (
-			"const renderMoreOrLessButton = useCallback( ( { show, toggle } ) => {\n" +
-			"\treturn <Button className=\"yst-mx-1.5\" onClick={ toggle }>{ show ? \"Less\" : \"More\" }</Button>;\n" +
+			"const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {\n" +
+			"\treturn <Button className=\"yst-my-1.5\" onClick={ toggle } { ...ariaProps }>{ show ? \"Less\" : \"More\" }</Button>\n" +
 			"}, [] );\n" +
 			"\n" +
 			`return ${ args.replace( "renderButton={() => {}}", "renderButton={ renderMoreOrLessButton }" ) };`
