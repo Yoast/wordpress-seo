@@ -1,4 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { useState, useCallback } from "@wordpress/element";
 import { EyeOffIcon } from "@heroicons/react/outline";
@@ -20,7 +21,7 @@ function PlaceholderRows( { columnCount, listSize } ) {
 		cells.push( <div key={ `placeholder-column-${ i }` } className="yst-inline-block yst-animate-pulse"><div className="yst-w-full yst-bg-gray-200 yst-h-3 yst-rounded" /></div> );
 	}
 	for ( let i = 0; i < listSize; i++ ) {
-		rows.push( <li key={ `placeholder-row-${ i }` } className="yst-w-full yst-my-0 yst-h-14 yst-max-w-none yst-grid yst-gap-2 yst-items-center yst-grid-cols-[1fr_8fr_2fr_1fr]">{ cells }</li> );
+		rows.push( <li key={ `placeholder-row-${ i }` } className="yst-w-full yst-my-0 yst-h-14 yst-max-w-none yst-grid yst-gap-2 yst-items-center yst-grid-cols-[0.5fr_7.5fr_1fr_2fr_1fr]">{ cells }</li> );
 	}
 	return rows;
 }
@@ -36,7 +37,7 @@ function PlaceholderRows( { columnCount, listSize } ) {
  *
  * @returns {WPElement} A table with the indexables.
  */
-const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } ) => {
+const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, setErrorMessage } ) => {
 	const [ isHandlingIgnore, setIsHandlingIgnore ] = useState( false );
 	const [ rowAnimationClasses, setRowAnimationClasses ] = useState( "" );
 
@@ -57,19 +58,17 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } 
 			} );
 
 			const parsedResponse = await response.json;
+			setIsHandlingIgnore( false );
+
 			if ( parsedResponse.success ) {
 				setRowAnimationClasses( "yst-animate-slideRight" );
-				setIsHandlingIgnore( false );
 				return true;
 			}
-			/* eslint-disable no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Ignoring post has failed." );
+			setErrorMessage( __( "The request has failed.", "wordpress-seo" ) );
 			return false;
 		} catch ( error ) {
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setIsHandlingIgnore( false );
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, addToIgnoreList ] );
 
@@ -92,6 +91,7 @@ IndexableRow.propTypes = {
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
 	position: PropTypes.number,
+	setErrorMessage: PropTypes.func,
 	children: PropTypes.node,
 };
 
@@ -106,7 +106,7 @@ function IndexablesTable( { isLoading, children } ) {
 	return (
 		<ul className="yst-divide-y yst-divide-gray-200">
 			{ isLoading &&
-				<PlaceholderRows columnCount={ 4 } listSize={ 5 } />
+				<PlaceholderRows columnCount={ 5 } listSize={ 5 } />
 			}
 			{ children }
 			{  ( ! isLoading && children.length === 0 ) && "nothing to see here" }

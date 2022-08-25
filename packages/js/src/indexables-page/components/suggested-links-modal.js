@@ -77,6 +77,19 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 		return <SvgIcon icon="loading-spinner" />;
 	}
 
+	if ( suggestedLinksModalData.error !== null ) {
+		return (
+			<Alert variant="error">
+				{
+					sprintf(
+						// Translators: %s expands to the error message.
+						__( "An error occurred while fetching the suggested links list: %s", "wordpress-seo" ),
+						suggestedLinksModalData.error
+					)
+				}
+			</Alert>
+		);
+	}
 	if ( ! isLinkSuggestionsEnabled ) {
 		return <SuggestedLinksModalContent suggestedLinksModalData={ suggestedLinksModalData } isPremium={ isPremium }>
 			<Alert>
@@ -143,7 +156,7 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 								{ `Suggested post to link from ${elem}` }
 								<ExternalLinkIcon className="yst-h-4 yst-w- yst-ml-2" />
 							</span>
-							<Button className="yst-items-end" variant="secondary" disabled={ true }>Edit</Button>
+							<Button className="yst-items-end" variant="secondary" disabled={ true }>{ __( "Edit", "wordpress-seo" ) }</Button>
 						</li>;
 					} )
 					}
@@ -171,7 +184,7 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 								<IndexableTitleLink showType={ false } indexable={ link } />
 							</span>
 							<Button
-								className="yst-items-end"
+								className="yst-items-end yst-text-gray-700"
 								type="button"
 								as="a"
 								href={ "/wp-admin/post.php?action=edit&post=" + link.object_id }
@@ -179,7 +192,7 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 								rel="noopener noreferrer"
 								variant="secondary"
 							>
-								Edit
+								{ __( "Edit", "wordpress-seo" ) }
 							</Button>
 						</li>;
 					}
@@ -195,6 +208,7 @@ SuggestedLinksModal.propTypes = {
 	isPremium: PropTypes.bool,
 	suggestedLinksModalData: PropTypes.shape( {
 		linksList: PropTypes.arrayOf( PropTypes.object ),
+		error: PropTypes.string,
 	} ),
 };
 

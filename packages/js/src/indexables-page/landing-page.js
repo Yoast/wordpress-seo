@@ -1,7 +1,7 @@
 /* global yoastIndexingData */
 import apiFetch from "@wordpress/api-fetch";
 import { useState, useEffect } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 
 import AllFeaturesDisabled from "./components/all-features-disabled";
 import NotEnoughContent from "./components/not-enough-content";
@@ -21,6 +21,7 @@ import { Alert, Spinner } from "@yoast/ui-library";
 function LandingPage() {
 	const [ indexingState, setIndexingState ] = useState( () => parseInt( yoastIndexingData.amount, 10 ) === 0 ? "already_done" : "idle" );
 	const [ setupInfo, setSetupInfo ] = useState( null );
+	const [ errorMessage, setErrorMessage ] = useState( null );
 
 	useEffect( async() => {
 		if ( ( window.wpseoIndexablesPageData?.environment !== "staging" ) &&
@@ -34,10 +35,7 @@ function LandingPage() {
 				const parsedResponse = await response.json;
 				setSetupInfo( parsedResponse );
 			} catch ( error ) {
-				/* eslint-disable-next-line no-warning-comments */
-				// @TODO: Throw an error notification.
-				console.error( error.message );
-				return false;
+				setErrorMessage( error.message );
 			}
 		}
 	}, [ window.wpseoIndexablesPageData, indexingState ] );
@@ -50,6 +48,20 @@ function LandingPage() {
 		</div>;
 	} else if ( indexingState !== "already_done" && indexingState !== "completed" ) {
 		return <IndexationView setIndexingState={ setIndexingState } />;
+	} else if ( errorMessage !== null ) {
+		return (
+			<div className="yst-flex yst-max-w-full yst-my-6 yst-justify-center">
+				<Alert variant="error">
+					{
+						sprintf(
+							// Translators: %s expands to the error message.
+							__( "An error occurred while calculating your content: %s", "wordpress-seo" ),
+							errorMessage
+						)
+					}
+				</Alert>
+			</div>
+		);
 	} else if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
 		return <AllFeaturesDisabled />;
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {

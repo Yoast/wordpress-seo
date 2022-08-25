@@ -128,10 +128,13 @@ function IndexablesPage( { setupInfo } ) {
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 	const [ loadedCards, setLoadedCards ] = useState( [] );
+	const [ erroredCards, setErroredCards ] = useState( [] );
 	const [ refreshInterval, setRefreshInterval ] = useState( null );
 
 	const [ isSomethingGreenReadability, setIsSomethingGreenReadability ] = useState( false );
 	const [ isSomethingGreenSEO, setIsSomethingGreenSEO ] = useState( false );
+
+	const [ errorMessage, setErrorMessage ] = useState( null );
 
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
 
@@ -170,6 +173,10 @@ function IndexablesPage( { setupInfo } ) {
 		return loadedCards.includes( listName );
 	}, [ loadedCards ] );
 
+	const isListErrored = useCallback( ( listName ) => {
+		return erroredCards.includes( listName );
+	}, [ erroredCards ] );
+
 	const isListEmpty = useCallback( ( listName ) => {
 		return indexablesLists[ listName ].length === 0;
 	}, [ indexablesLists ] );
@@ -200,6 +207,13 @@ function IndexablesPage( { setupInfo } ) {
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
 
+
+	const shouldShowErrorAlert = useCallback( listName => {
+		// If the feature for the list is enabled but the fetch has failed.
+		return isListErrored( listName );
+	}, [ isListErrored ] );
+
+
 	/**
 	 * Fetches a list of indexables.
 	 *
@@ -209,6 +223,8 @@ function IndexablesPage( { setupInfo } ) {
 	 * @returns {boolean} True if the request was successful.
 	 */
 	const fetchList = async( listName, isAdditionalFetch = false ) => {
+		setErroredCards( prevState => [ ...prevState ].filter( erroredCard => erroredCard !== listName ) );
+
 		try {
 			if ( isAdditionalFetch ) {
 				setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== listName ) );
@@ -260,8 +276,22 @@ function IndexablesPage( { setupInfo } ) {
 			setLoadedCards( prevState => [ ...prevState, listName ] );
 			return true;
 		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( e.message );
+			setLoadedCards( prevState => [ ...prevState, listName ] );
+			setErroredCards( prevState => [ ...prevState, listName ] );
+
+			setIndexablesLists( prevState => {
+				return {
+					...prevState,
+					[ listName ]: [],
+				};
+			} );
+
+			setIndexablesListsFetchLength( prevState => {
+				return {
+					...prevState,
+					[ listName ]: 0,
+				};
+			} );
 			return false;
 		}
 	};
@@ -381,6 +411,7 @@ function IndexablesPage( { setupInfo } ) {
 				linksList: null,
 				breadcrumbTitle: breadcrumbTitle,
 				permalink: permalink,
+				error: null,
 			 } );
 			 return true;
 		}
@@ -398,6 +429,7 @@ function IndexablesPage( { setupInfo } ) {
 					linksList: [],
 					breadcrumbTitle: breadcrumbTitle,
 					permalink: permalink,
+					error: null,
 				 } );
 				 return true;
 			}
@@ -407,13 +439,19 @@ function IndexablesPage( { setupInfo } ) {
 					linksList: parsedResponse,
 					breadcrumbTitle: breadcrumbTitle,
 					permalink: permalink,
+					error: null,
 				 } );
 				return true;
 			}
 			return false;
 		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( error.message );
+			setSuggestedLinksModalData( {
+				incomingLinksCount: null,
+				linksList: null,
+				breadcrumbTitle: null,
+				permalink: null,
+				error: error.message,
+			 } );
 			return false;
 		}
 	}, [ setSuggestedLinksModalData, setIsModalOpen ] );
@@ -442,6 +480,15 @@ function IndexablesPage( { setupInfo } ) {
 	const handleCloseModal = useCallback( () => {
 		setIsModalOpen( false );
 		setSuggestedLinksModalData( null );
+	}, [] );
+
+	/**
+	 * Handles the closing of the error modal.
+	 *
+	 * @returns {void}
+	 */
+	const handleCloseErrorModal = useCallback( () => {
+		setErrorMessage( null );
 	}, [] );
 
 	/**
@@ -475,17 +522,11 @@ function IndexablesPage( { setupInfo } ) {
 					};
 				} );
 				setIgnoredIndexable( null );
-				return true;
+			} else {
+				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Undoing post has failed." );
-			return false;
 		} catch ( error ) {
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable ] );
 
@@ -510,17 +551,11 @@ function IndexablesPage( { setupInfo } ) {
 					setIgnoredIndexable( null );
 				}
 				updateList( type, indexablesLists[ type ], true );
-				return true;
+			} else {
+				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Undoing all ignored indexables has failed." );
-			return false;
 		} catch ( error ) {
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable ] );
 
@@ -536,17 +571,11 @@ function IndexablesPage( { setupInfo } ) {
 				// If there is a button to ignore a single indexable, unmount it.
 				setIgnoredIndexable( null );
 				handleRefreshLists();
-				return true;
+			} else {
+				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( "Undoing all ignored indexables has failed." );
-			return false;
 		} catch ( error ) {
-			/* eslint-disable-next-line no-warning-comments */
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
+			setErrorMessage( error.message );
 		}
 	}, [ apiFetch, handleRefreshLists, setIgnoredIndexable ] );
 
@@ -564,7 +593,7 @@ function IndexablesPage( { setupInfo } ) {
 			] }
 		>
 			{
-				shouldShowDisabledAlert( "least_readability" ) && <Alert type={ "info" }>
+				shouldShowDisabledAlert( "least_readability" ) && <Alert variant={ "info" }>
 					{
 						addLinkToString(
 							// translators: %1$s and %2$s are the opening and closing anchor tags.
@@ -595,6 +624,7 @@ function IndexablesPage( { setupInfo } ) {
 								indexable={ indexable }
 								addToIgnoreList={ setIgnoredIndexable }
 								position={ position }
+								setErrorMessage={ setErrorMessage }
 							>
 								<IndexableScore
 									colorClass={ readabilityScoreAssessment( indexable ) }
@@ -615,10 +645,21 @@ function IndexablesPage( { setupInfo } ) {
 				</IndexablesTable>
 			}
 			{
-				shouldShowEmptyAlert( "least_readability" ) && ! isSomethingGreenReadability && <div className="yst-flex"><p>{ __( "Your site has no content with Readability scores left to display here.", "wordpress-seo" ) }</p></div>
+				shouldShowErrorAlert( "least_readability" ) && <Alert variant={ "error" }>
+					{
+						__(
+							"An error occured while calculating the Readability scores of your content. " +
+							"Please try again later.",
+							"wordpress-seo"
+						)
+					}
+				</Alert>
 			}
 			{
-				shouldShowEmptyAlert( "least_readability" ) && isSomethingGreenReadability && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">{ __( "Congratulations! All of your content has a green readability score!", "wordpress-seo" ) }</p></div>
+				shouldShowEmptyAlert( "least_readability" ) && ! shouldShowErrorAlert( "least_readability" ) && ! isSomethingGreenReadability && <div className="yst-flex"><p>{ __( "Your site has no content with Readability scores left to display here.", "wordpress-seo" ) }</p></div>
+			}
+			{
+				shouldShowEmptyAlert( "least_readability" ) && ! shouldShowErrorAlert( "least_readability" ) && isSomethingGreenReadability && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">{ __( "Congratulations! All of your content has a green readability score!", "wordpress-seo" ) }</p></div>
 			}
 		</IndexablesPageCard>,
 		<IndexablesPageCard
@@ -634,7 +675,7 @@ function IndexablesPage( { setupInfo } ) {
 			] }
 		>
 			{
-				shouldShowDisabledAlert( "least_linked" ) && <Alert type={ "info" }>
+				shouldShowDisabledAlert( "least_linked" ) && <Alert variant={ "info" }>
 					{
 						addLinkToString(
 							// translators: %1$s and %2$s are the opening and closing anchor tags.
@@ -648,6 +689,17 @@ function IndexablesPage( { setupInfo } ) {
 								"</a>"
 							), "/wp-admin/admin.php?page=wpseo_dashboard#top#features"
 
+						)
+					}
+				</Alert>
+			}
+			{
+				shouldShowErrorAlert( "least_linked" ) && <Alert variant={ "error" }>
+					{
+						__(
+							"An error occured while calculating the incoming links of your content. " +
+							"Please try again later.",
+							"wordpress-seo"
 						)
 					}
 				</Alert>
@@ -669,6 +721,7 @@ function IndexablesPage( { setupInfo } ) {
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoredIndexable }
 									position={ position }
+									setErrorMessage={ setErrorMessage }
 								>
 									<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
 									<IndexableTitleLink indexable={ indexable } />
@@ -695,7 +748,7 @@ function IndexablesPage( { setupInfo } ) {
 				</Fragment>
 			}
 			{
-				shouldShowEmptyAlert( "least_linked" ) && <div className="yst-flex"><p>{ __( "You have hidden all items from this list, so there is no content left to display here.", "wordpress-seo" ) }</p></div>
+				shouldShowEmptyAlert( "least_linked" ) && ! shouldShowErrorAlert( "least_linked" ) && <div className="yst-flex"><p>{ __( "You have hidden all items from this list, so there is no content left to display here.", "wordpress-seo" ) }</p></div>
 			}
 		</IndexablesPageCard>,
 	];
@@ -704,6 +757,22 @@ function IndexablesPage( { setupInfo } ) {
 
 	return <div className="yst-max-w-full yst-mt-6">
 		<Modal
+			id="error-modal"
+			onClose={ handleCloseErrorModal }
+			isOpen={ errorMessage !== null }
+		>
+			<Alert variant="error">
+				{
+					sprintf(
+						// Translators: %s expands to the error message.
+						__( "An error occurred: %s", "wordpress-seo" ),
+						errorMessage
+					)
+				}
+			</Alert>
+		</Modal>
+		<Modal
+			id="suggested-links-modal"
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
@@ -748,7 +817,7 @@ function IndexablesPage( { setupInfo } ) {
 				] }
 			>
 				{
-					shouldShowDisabledAlert( "least_seo_score" ) && <Alert type={ "info" }>
+					shouldShowDisabledAlert( "least_seo_score" ) && <Alert variant={ "info" }>
 						{
 							addLinkToString(
 								// translators: %1$s and %2$s are the opening and closing anchor tags.
@@ -779,6 +848,7 @@ function IndexablesPage( { setupInfo } ) {
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoredIndexable }
 									position={ position }
+									setErrorMessage={ setErrorMessage }
 								>
 									<IndexableScore
 										colorClass={ seoScoreAssessment( indexable ) }
@@ -799,10 +869,21 @@ function IndexablesPage( { setupInfo } ) {
 					</IndexablesTable>
 				}
 				{
-					shouldShowEmptyAlert( "least_seo_score" ) && ! isSomethingGreenSEO && <div className="yst-flex"><p>{ __( "Your site has no content with SEO scores left to display here.", "wordpress-seo" ) }</p></div>
+					shouldShowErrorAlert( "least_seo_score" ) && <Alert variant={ "error" }>
+						{
+							__(
+								"An error occured while calculating the SEO scores of your content. " +
+								"Please try again later.",
+								"wordpress-seo"
+							)
+						}
+					</Alert>
 				}
 				{
-					shouldShowEmptyAlert( "least_seo_score" ) && isSomethingGreenSEO && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">{ __( "Congratulations! All of your content has a green SEO score!", "wordpress-seo" ) }</p></div>
+					shouldShowEmptyAlert( "least_seo_score" ) && ! shouldShowErrorAlert( "least_seo_score" ) && ! isSomethingGreenSEO && <div className="yst-flex"><p>{ __( "Your site has no content with SEO scores left to display here.", "wordpress-seo" ) }</p></div>
+				}
+				{
+					shouldShowEmptyAlert( "least_seo_score" ) && ! shouldShowErrorAlert( "least_seo_score" ) && isSomethingGreenSEO && <div className="yst-flex"><IndexableScore colorClass="yst-bg-emerald-500" /><p className="yst-ml-2">{ __( "Congratulations! All of your content has a green SEO score!", "wordpress-seo" ) }</p></div>
 				}
 			</IndexablesPageCard>
 			{ isSingleColumn ? singleColumn : doubleColumn }
@@ -819,7 +900,7 @@ function IndexablesPage( { setupInfo } ) {
 				] }
 			>
 				{
-					shouldShowDisabledAlert( "most_linked" ) && <Alert type={ "info" }>
+					shouldShowDisabledAlert( "most_linked" ) && <Alert variant={ "info" }>
 						{
 							addLinkToString(
 								// translators: %1$s and %2$s are the opening and closing anchor tags.
@@ -833,6 +914,17 @@ function IndexablesPage( { setupInfo } ) {
 									"</a>"
 								), "/wp-admin/admin.php?page=wpseo_dashboard#top#features"
 
+							)
+						}
+					</Alert>
+				}
+				{
+					shouldShowErrorAlert( "most_linked" ) && <Alert variant={ "error" }>
+						{
+							__(
+								"An error occured while calculating the incoming links of your content. " +
+								"Please try again later.",
+								"wordpress-seo"
 							)
 						}
 					</Alert>
@@ -854,6 +946,7 @@ function IndexablesPage( { setupInfo } ) {
 										indexable={ indexable }
 										addToIgnoreList={ setIgnoredIndexable }
 										position={ position }
+										setErrorMessage={ setErrorMessage }
 									>
 										<div className="yst-flex yst-items-center">
 											{
@@ -883,7 +976,7 @@ function IndexablesPage( { setupInfo } ) {
 					</Fragment>
 				}
 				{
-					shouldShowEmptyAlert( "most_linked" ) && <div className="yst-flex"><p>{ __( "Your site has no content with incoming links left to display here.", "wordpress-seo" ) }</p></div>
+					shouldShowEmptyAlert( "most_linked" ) && ! shouldShowErrorAlert( "most_linked" ) && <div className="yst-flex"><p>{ __( "Your site has no content with incoming links left to display here.", "wordpress-seo" ) }</p></div>
 				}
 			</IndexablesPageCard>
 		</div>
