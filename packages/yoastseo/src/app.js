@@ -75,7 +75,7 @@ var defaults = {
 	replaceTarget: [],
 	resetTarget: [],
 	elementTarget: [],
-	marker: function() {},
+	marker: noop,
 	keywordAnalysisActive: true,
 	contentAnalysisActive: true,
 	hasSnippetPreview: true,
