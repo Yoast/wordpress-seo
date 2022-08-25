@@ -154,7 +154,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 					'seoIntroduction'    => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-seo-friendly-introduction' ),
 					'internalLinks'      => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-internal-linking-suggestions' ),
 					'getPremium'         => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-get-premium' ),
-				]
+				],
 			]
 		);
 	}
