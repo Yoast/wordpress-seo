@@ -371,6 +371,7 @@ PostType.propTypes = {
 	label: PropTypes.string.isRequired,
 	singularLabel: PropTypes.string.isRequired,
 	hasArchive: PropTypes.bool.isRequired,
+	hasSchemaArticleType: PropTypes.bool.isRequired,
 };
 
 export default PostType;
