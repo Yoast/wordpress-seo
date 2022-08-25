@@ -22,7 +22,7 @@ export function IndexableTitleLink( { indexable, showType, additionalClassNames 
 		>
 			<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span><ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px] yst--ml-1 yst-mr-1" />
 		</Link>
-		{ ( showType ) && <Badge variant="plain" className="yst-text-gray-800 yst-text-[10px] yst-self-center yst-h-4">{ indexable.object_sub_type }</Badge> }
+		{ ( showType ) && <Badge variant="plain" className="yst-text-gray-800 yst-text-[10px] yst-self-center yst-h-4 yst-ml-1">{ indexable.object_sub_type }</Badge> }
 	</div>;
 }
 

@@ -21,7 +21,7 @@ function PlaceholderRows( { columnCount, listSize } ) {
 		cells.push( <div key={ `placeholder-column-${ i }` } className="yst-inline-block yst-animate-pulse"><div className="yst-w-full yst-bg-gray-200 yst-h-3 yst-rounded" /></div> );
 	}
 	for ( let i = 0; i < listSize; i++ ) {
-		rows.push( <li key={ `placeholder-row-${ i }` } className="yst-w-full yst-my-0 yst-h-14 yst-max-w-none yst-grid yst-gap-2 yst-items-center yst-grid-cols-[1fr_8fr_2fr_1fr]">{ cells }</li> );
+		rows.push( <li key={ `placeholder-row-${ i }` } className="yst-w-full yst-my-0 yst-h-14 yst-max-w-none yst-grid yst-gap-2 yst-items-center yst-grid-cols-[0.5fr_7.5fr_1fr_2fr_1fr]">{ cells }</li> );
 	}
 	return rows;
 }
@@ -106,7 +106,7 @@ function IndexablesTable( { isLoading, children } ) {
 	return (
 		<ul className="yst-divide-y yst-divide-gray-200">
 			{ isLoading &&
-				<PlaceholderRows columnCount={ 4 } listSize={ 5 } />
+				<PlaceholderRows columnCount={ 5 } listSize={ 5 } />
 			}
 			{ children }
 			{  ( ! isLoading && children.length === 0 ) && "nothing to see here" }
