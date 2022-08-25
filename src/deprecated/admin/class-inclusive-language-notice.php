@@ -25,6 +25,16 @@ class WPSEO_Inclusive_Language_Notice {
 	const USER_META_DISMISSED = 'wpseo-remove-inclusive-language-notice';
 
 	/**
+	 * Holds the option name.
+	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
+	 *
+	 * @var string
+	 */
+	const OPTION_NAME = 'wpseo';
+
+	/**
 	 * The Premium version in which the Inclusive language feature was added.
 	 *
 	 * @deprecated 19.7
