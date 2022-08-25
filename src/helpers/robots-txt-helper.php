@@ -2,24 +2,19 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\SEO\Values\Robots\User_Agent_List;
+
 /**
  * A helper object for the robots txt file.
  */
 class Robots_Txt_Helper {
 
 	/**
-	 * Holds an array with allow rules per user agent.
+	 * Holds a list of user agents with directives.
 	 *
-	 * @var array
+	 * @var User_Agent_List $robots_txt_user_agents
 	 */
-	protected $robots_txt_allow_directives;
-
-	/**
-	 * Holds an array with disallow rules per user agent.
-	 *
-	 * @var array
-	 */
-	protected $robots_txt_disallow_directives;
+	protected $robots_txt_user_agents;
 
 	/**
 	 * Holds an array with absolute URLs of sitemaps.
@@ -32,51 +27,41 @@ class Robots_Txt_Helper {
 	 * Constructor for Robots_Txt_Helper.
 	 */
 	public function __construct() {
-		$this->robots_txt_allow_directives    = [];
-		$this->robots_txt_disallow_directives = [];
-		$this->robots_txt_sitemaps            = [];
+		$this->robots_txt_user_agents = new User_Agent_List();
+		$this->robots_txt_sitemaps    = [];
 	}
 
 	/**
 	 * Add a disallow rule for a specific user agent if it does not exist yet.
 	 *
 	 * @param string $user_agent The user agent to add the disallow rule to.
-	 * @param string $path The path to add as a disallow rule.
+	 * @param string $path       The path to add as a disallow rule.
+	 *
 	 * @return void
 	 */
 	public function add_disallow( $user_agent, $path ) {
-		if ( \array_key_exists( $user_agent, $this->robots_txt_disallow_directives ) ) {
-			if ( ! \in_array( $path, $this->robots_txt_disallow_directives[ $user_agent ], true ) ) {
-				$this->robots_txt_disallow_directives[ $user_agent ][] = $path;
-			}
-		}
-		else {
-			$this->robots_txt_disallow_directives[ $user_agent ] = [ $path ];
-		}
+		$user_agent_container = $this->robots_txt_user_agents->get_user_agent( $user_agent );
+		$user_agent_container->add_disallow_directive( $path );
 	}
 
 	/**
 	 * Add an allow rule for a specific user agent if it does not exist yet.
 	 *
 	 * @param string $user_agent The user agent to add the allow rule to.
-	 * @param string $path The path to add as a allow rule.
+	 * @param string $path       The path to add as a allow rule.
+	 *
 	 * @return void
 	 */
 	public function add_allow( $user_agent, $path ) {
-		if ( \array_key_exists( $user_agent, $this->robots_txt_allow_directives ) ) {
-			if ( ! \in_array( $path, $this->robots_txt_allow_directives[ $user_agent ], true ) ) {
-				$this->robots_txt_allow_directives[ $user_agent ][] = $path;
-			}
-		}
-		else {
-			$this->robots_txt_allow_directives[ $user_agent ] = [ $path ];
-		}
+		$user_agent_container = $this->robots_txt_user_agents->get_user_agent( $user_agent );
+		$user_agent_container->add_allow_directive( $path );
 	}
 
 	/**
 	 * Add sitemap to robots.txt if it does not exist yet.
 	 *
 	 * @param string $absolute_path The absolute path to the sitemap to add.
+	 *
 	 * @return void
 	 */
 	public function add_sitemap( $absolute_path ) {
@@ -91,7 +76,7 @@ class Robots_Txt_Helper {
 	 * @return array The registered disallow directives per user agent.
 	 */
 	public function get_disallow_directives() {
-		return $this->robots_txt_disallow_directives;
+		return $this->robots_txt_user_agents->get_disallow_directives();
 	}
 
 	/**
@@ -100,7 +85,7 @@ class Robots_Txt_Helper {
 	 * @return array The registered allow directives per user agent.
 	 */
 	public function get_allow_directives() {
-		return $this->robots_txt_allow_directives;
+		return $this->robots_txt_user_agents->get_allow_directives();
 	}
 
 	/**
@@ -110,5 +95,14 @@ class Robots_Txt_Helper {
 	 */
 	public function get_sitemap_rules() {
 		return $this->robots_txt_sitemaps;
+	}
+
+	/**
+	 * Get all registered user agents
+	 *
+	 * @return array The registered user agents.
+	 */
+	public function get_robots_txt_user_agents() {
+		return $this->robots_txt_user_agents->get_user_agents();
 	}
 }

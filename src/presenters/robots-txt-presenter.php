@@ -63,35 +63,89 @@ class Robots_Txt_Presenter extends Abstract_Presenter {
 	 * @return string Content to be placed in a robots.txt file.
 	 */
 	public function present() {
-		$registered_disallow_directives = $this->robots_txt_helper->get_disallow_directives();
-		$registered_allow_directives    = $this->robots_txt_helper->get_allow_directives();
-		$registered_sitemaps            = $this->robots_txt_helper->get_sitemap_rules();
+		$robots_txt_content = self::YOAST_OUTPUT_BEFORE_COMMENT;
+		$robots_txt_content = $this->handle_user_agents( $robots_txt_content );
 
-		$user_agents = \array_unique( \array_merge( \array_keys( $registered_disallow_directives ), \array_keys( $registered_allow_directives ) ) );
-		$output_str  = self::YOAST_OUTPUT_BEFORE_COMMENT;
-		if ( count( $user_agents ) > 0 ) {
-			foreach ( $user_agents as $user_agent ) {
-				$output_str .= self::USER_AGENT_FIELD . ': ' . $user_agent . "\n";
-				if ( \array_key_exists( $user_agent, $registered_disallow_directives ) ) {
-					foreach ( $registered_disallow_directives[ $user_agent ] as $disallow_directive ) {
-						$output_str .= self::DISALLOW_DIRECTIVE . ': ' . $disallow_directive . "\n";
-					}
-				}
-				if ( \array_key_exists( $user_agent, $registered_allow_directives ) ) {
-					foreach ( $registered_allow_directives[ $user_agent ] as $allow_directive ) {
-						$output_str .= self::ALLOW_DIRECTIVE . ': ' . $allow_directive . "\n";
-					}
-				}
-				$output_str .= "\n";
+		$robots_txt_content = $this->handle_site_maps( $robots_txt_content );
+
+		return $robots_txt_content . self::YOAST_OUTPUT_AFTER_COMMENT;
+	}
+
+	/**
+	 * Adds user agent directives to the robots txt output string.
+	 *
+	 * @param array  $user_agents        The list if available user agents.
+	 * @param string $robots_txt_content The current working robots txt string.
+	 *
+	 * @return string
+	 */
+	private function add_user_agent_directives( $user_agents, $robots_txt_content ) {
+		foreach ( $user_agents as $user_agent ) {
+			$robots_txt_content .= self::USER_AGENT_FIELD . ': ' . $user_agent->get_user_agent() . PHP_EOL;
+
+			$robots_txt_content = $this->add_directive_path( $robots_txt_content, $user_agent->get_disallow_paths(), self::DISALLOW_DIRECTIVE );
+			$robots_txt_content = $this->add_directive_path( $robots_txt_content, $user_agent->get_allow_paths(), self::ALLOW_DIRECTIVE );
+
+			$robots_txt_content .= PHP_EOL;
+		}
+
+		return $robots_txt_content;
+	}
+
+	/**
+	 *  Adds user agent directives path content to the robots txt output string.
+	 *
+	 * @param string $robots_txt_content   The current working robots txt string.
+	 * @param array  $paths                The list of paths for which to add a txt entry.
+	 * @param string $directive_identifier The identifier for the directives. (Disallow of Allow).
+	 *
+	 * @return string
+	 */
+	private function add_directive_path( $robots_txt_content, $paths, $directive_identifier ) {
+		if ( \count( $paths ) > 0 ) {
+			foreach ( $paths as $path ) {
+				$robots_txt_content .= $directive_identifier . ': ' . $path . PHP_EOL;
 			}
 		}
+
+		return $robots_txt_content;
+	}
+
+	/**
+	 * Handles adding user agent content to the robots txt content if there is any.
+	 *
+	 * @param string $robots_txt_content The current working robots txt string.
+	 *
+	 * @return string
+	 */
+	private function handle_user_agents( $robots_txt_content ) {
+		$user_agents = $this->robots_txt_helper->get_robots_txt_user_agents();
+
+		if ( \count( $user_agents ) !== 0 ) {
+			$robots_txt_content = $this->add_user_agent_directives( $user_agents, $robots_txt_content );
+		}
 		else {
-			$output_str .= "User-agent: *\nDisallow:\n\n";
+			$robots_txt_content .= "User-agent: *\n";
+			$robots_txt_content .= "Disallow:\n\n";
 		}
 
+		return $robots_txt_content;
+	}
+
+	/**
+	 * Handles adding sitemap content to the robots txt content.
+	 *
+	 * @param string $robots_txt_content The current working robots txt string.
+	 *
+	 * @return string
+	 */
+	private function handle_site_maps( $robots_txt_content ) {
+		$registered_sitemaps = $this->robots_txt_helper->get_sitemap_rules();
+
 		foreach ( $registered_sitemaps as $sitemap ) {
-			$output_str .= self::SITEMAP_FIELD . ': ' . $sitemap . "\n";
+			$robots_txt_content .= self::SITEMAP_FIELD . ': ' . $sitemap . PHP_EOL;
 		}
-		return $output_str . self::YOAST_OUTPUT_AFTER_COMMENT;
+
+		return $robots_txt_content;
 	}
 }
