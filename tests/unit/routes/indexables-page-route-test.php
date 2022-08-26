@@ -47,6 +47,8 @@ class Indexables_Page_Route_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		Mockery::mock( '\WP_Error' );
+
 		$this->indexable_action       = Mockery::mock( Indexables_Page_Action::class );
 		$this->indexables_page_helper = Mockery::mock( Indexables_Page_Helper::class );
 		$this->instance               = new Indexables_Page_Route( $this->indexable_action, $this->indexables_page_helper );
@@ -461,15 +463,6 @@ class Indexables_Page_Route_Test extends TestCase {
 				)
 				->once();
 		}
-		else {
-			$wp_rest_response_mock = Mockery::mock( 'overload:WP_Error' );
-			$wp_rest_response_mock
-				->expects( '__construct' )
-				->with(
-					...$params_rest_response
-				)
-				->once();
-		}
 		$this->assertInstanceOf(
 			$rest_response_type,
 			$this->instance->ignore_indexable( $wp_rest_request )
@@ -561,15 +554,7 @@ class Indexables_Page_Route_Test extends TestCase {
 				)
 				->once();
 		}
-		else {
-			$wp_rest_response_mock = Mockery::mock( 'overload:WP_Error' );
-			$wp_rest_response_mock
-				->expects( '__construct' )
-				->with(
-					...$params_rest_response
-				)
-				->once();
-		}
+
 		$this->assertInstanceOf(
 			$rest_response_type,
 			$this->instance->restore_indexable( $wp_rest_request )
