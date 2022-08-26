@@ -56,31 +56,6 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Contains extra logic for the isApplicable method.
-	 *
-	 * @param {object} customData The custom data part of the Paper object.
-	 *
-	 * @returns {bool} Whether the productSKUAssessment is applicable.
-	 */
-	applicabilityHelper( customData ) {
-		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
-		if ( ! this._config.assessVariants ) {
-			return false;
-		}
-
-		// Do not show the assessment when we cannot retrieve the SKU (e.g. when a plugin that automatically generates SKU is used).
-		if ( ! customData.canRetrieveSku && customData.productType !== "variable"  ) {
-			return false;
-		}
-
-		// If we have a variable product with no (active) variants. (active variant = variant with a price)
-		if (  customData.productType === "variable" && ! customData.hasVariants ) {
-			return false;
-		}
-		return ( customData.hasPrice || customData.hasVariants );
-	}
-
-	/**
 	 * Checks whether the assessment is applicable.
 	 *
 	 * @param {Paper} paper The paper to check.
@@ -89,7 +64,13 @@ export default class ProductSKUAssessment extends Assessment {
 	 */
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
-		return this.applicabilityHelper( customData );
+		// Do not show the assessment when we cannot retrieve the SKU (e.g. when a plugin that automatically generates SKU is used).
+		if ( ! customData.canRetrieveSku && customData.productType !== "variable"  ) {
+			return false;
+		}
+
+		// For now the assessment is not applicable in Shopify, where we also don't want to assess variants (hence the applicability condition based on that).
+		return this._config.assessVariants;
 	}
 
 	/**
@@ -102,9 +83,9 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		// NOTE: product types might not be available in shopify or they might differ.
-		// So take this into account when implementing SKUAssessment for shopify.
-		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {
+		// Apply the following scoring conditions to products without variants.
+		if ( [ "simple", "external" ].includes( productSKUData.productType ) ||
+			( productSKUData.productType === "variable" && ! productSKUData.hasVariants ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
 					score: config.scores.ok,
@@ -133,7 +114,7 @@ export default class ProductSKUAssessment extends Assessment {
 					"</a>"
 				),
 			};
-		} else if ( productSKUData.productType === "variable" ) {
+		} else if ( productSKUData.productType === "variable" && productSKUData.hasVariants ) {
 			// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
 			// If all variants have a SKU, return green bullet.
 			if ( ! productSKUData.doAllVariantsHaveSKU ) {
