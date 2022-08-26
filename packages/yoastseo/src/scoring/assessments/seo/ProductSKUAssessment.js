@@ -58,12 +58,10 @@ export default class ProductSKUAssessment extends Assessment {
 	/**
 	 * Checks whether the assessment is applicable (for now it is not applicable in Shopify where we also don't want to
 	 * assess variants; hence the applicability condition based on that).
-	 *
-	 * @param {Paper} paper The paper to check.
-	 *
+	 **
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
-	isApplicable( paper ) {
+	isApplicable() {
 		return this._config.assessVariants;
 	}
 
