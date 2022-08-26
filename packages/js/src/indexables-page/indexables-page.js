@@ -220,7 +220,7 @@ function IndexablesPage( { setupInfo } ) {
 	 * @param {string} listName           The name of the list to fetch.
 	 * @param {boolean} isAdditionalFetch Whether or not this is not the first fetch.
 	 *
-	 * @returns {boolean} True if the request was successful.
+	 * @returns {void}
 	 */
 	const fetchList = async( listName, isAdditionalFetch = false ) => {
 		setErroredCards( prevState => [ ...prevState ].filter( erroredCard => erroredCard !== listName ) );
@@ -274,7 +274,6 @@ function IndexablesPage( { setupInfo } ) {
 			} );
 
 			setLoadedCards( prevState => [ ...prevState, listName ] );
-			return true;
 		} catch ( e ) {
 			setLoadedCards( prevState => [ ...prevState, listName ] );
 			setErroredCards( prevState => [ ...prevState, listName ] );
@@ -292,7 +291,6 @@ function IndexablesPage( { setupInfo } ) {
 					[ listName ]: 0,
 				};
 			} );
-			return false;
 		}
 	};
 
@@ -308,11 +306,12 @@ function IndexablesPage( { setupInfo } ) {
 			return;
 		}
 
+		const ignoredId = ignoredIndexable.indexable.id;
 		setIndexablesLists( prevState => {
 			return {
 				...prevState,
 				[ listName ]: prevState[ listName ].filter( indexable => {
-					return indexable.id !== ignoredIndexable.indexable.id;
+					return indexable.id !== ignoredId;
 				} ),
 			};
 		} );
@@ -325,14 +324,15 @@ function IndexablesPage( { setupInfo } ) {
 	 * @param {array}   indexablesList The current content of the list.
 	 * @param {boolean} isRefresh      Whether it's a refresh.
 	 *
-	 * @returns {boolean} True if the update was successful.
+	 * @returns {void}
 	 */
 	const updateList = ( listName, indexablesList, isRefresh ) => {
 		if ( indexablesList.length === 0 || isRefresh ) {
-			return fetchList( listName );
+			fetchList( listName );
+			return;
 		}
 
-		return ( indexablesList.length < minimumIndexablesInBuffer  && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer )
+		( indexablesList.length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer )
 			? fetchList( listName, true )
 			: maybeRemoveIgnored( listName );
 	};
@@ -388,7 +388,7 @@ function IndexablesPage( { setupInfo } ) {
 	// We update a list each time the content of ignoredIndexable changes
 	useEffect( async() => {
 		if ( ignoredIndexable !== null ) {
-			return updateList( ignoredIndexable.type, indexablesLists[ ignoredIndexable.type ] );
+			updateList( ignoredIndexable.type, indexablesLists[ ignoredIndexable.type ] );
 		}
 	}, [ ignoredIndexable ] );
 

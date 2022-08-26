@@ -79,7 +79,7 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 	>
 		{ children }
 		<div>
-			<Button variant="secondary" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>
+			<Button variant="secondary" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore } disabled={isHandlingIgnore} >
 				{ isHandlingIgnore ? <Spinner /> : <EyeOffIcon className="yst-w-4 yst-h-4" /> }
 			</Button>
 		</div>
