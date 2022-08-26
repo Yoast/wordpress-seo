@@ -109,9 +109,11 @@ const Notification = ( {
 					<Icon className="yst-notification__icon" />
 				</div>
 				<div className="yst-w-0 yst-flex-1">
-					<p className="yst-text-sm yst-font-medium yst-text-gray-700">
-						{ title }
-					</p>
+					{ ! children && (
+						<p className="yst-text-sm yst-font-medium yst-text-gray-700">
+							{ title }
+						</p>
+					) }
 					{ children || (
 						description && ( isArray( description ) ? (
 							<ul className="yst-list-disc yst-ml-4">{ description.map( ( text, index ) => <li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li> ) }</ul>
@@ -122,7 +124,7 @@ const Notification = ( {
 				</div>
 				{ onDismiss && (
 					<div className="yst-flex-shrink-0 yst-flex">
-						<button onClick={ handleDismiss } className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-gray-400 hover:yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500">
+						<button type="button" onClick={ handleDismiss } className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-gray-400 hover:yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500">
 							<span className="yst-sr-only">{ dismissScreenReaderLabel }</span>
 							<XIcon className="yst-h-5 yst-w-5" />
 						</button>
