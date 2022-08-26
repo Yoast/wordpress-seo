@@ -69,7 +69,7 @@ export default class ProductSKUAssessment extends Assessment {
 		}
 
 		// Do not show the assessment when we cannot retrieve the SKU (e.g. when a plugin that automatically generates SKU is used).
-		if ( ! customData.canRetrieveSku && ! customData.productType === "variable"  ) {
+		if ( ! customData.canRetrieveSku && customData.productType !== "variable"  ) {
 			return false;
 		}
 
