@@ -408,7 +408,7 @@ class Indexables_Page_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_REST_Response The success or failure response.
+	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function restore_indexable( WP_REST_Request $request ) {
 		$params           = $request->get_json_params();
@@ -436,7 +436,7 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Restores all indexables from all ignore lists.
 	 *
-	 * @return WP_REST_Response The success or failure response.
+	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function restore_all_indexables() {
 		$list_names = $this->indexables_page_helper->get_ignore_list_names();
@@ -472,7 +472,7 @@ class Indexables_Page_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_REST_Response The success or failure response.
+	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function restore_all_indexables_for_list( WP_REST_Request $request ) {
 		$params           = $request->get_json_params();
@@ -517,7 +517,7 @@ class Indexables_Page_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_REST_Response The success or failure response.
+	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function set_reading_list( WP_REST_Request $request ) {
 		$params             = $request->get_json_params();
