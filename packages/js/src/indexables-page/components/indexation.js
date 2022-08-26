@@ -9,7 +9,6 @@ import Alert from "../../first-time-configuration/tailwind-components/base/alert
 import RequestError from "../../../../js/src/errors/RequestError";
 import ParseError from "../../../../js/src/errors/ParseError";
 
-/* eslint-disable no-console*/
 const STATE = {
 	/**
 	 * When the process has not started yet, or has been stopped manually.
@@ -131,13 +130,11 @@ export class Indexation extends Component {
 	 */
 	async doIndexing( endpoint ) {
 		let url = this.settings.restApi.root + this.settings.restApi.indexing_endpoints[ endpoint ];
-		console.log( this.settings.restApi.root, this.settings.restApi.indexing_endpoints[ endpoint ] );
 		while ( this.isState( STATE.IN_PROGRESS ) && url !== false ) {
 			try {
 				await this.doPreIndexingAction( endpoint );
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
 				await this.doPostIndexingAction( endpoint, response );
-				console.log( "response", response );
 				this.setState( previousState => (
 					{
 						processed: previousState.processed + response.objects.length,
@@ -337,7 +334,6 @@ export class Indexation extends Component {
 		if ( this.isState( STATE.IN_PROGRESS ) ) {
 			percentageIndexed = ( this.state.processed / parseInt( this.state.amount, 10 ) ) * 100;
 		}
-		console.log( "processed", this.state.processed, "amount", this.state.amount, "percentageIndexed", percentageIndexed );
 		return <div className="yst-w-full yst-bg-gray-200 yst-rounded-full yst-h-2.5 yst-mb-4">
 			<div
 				className="yst-transition-[width] yst-ease-linear yst-bg-primary-500 yst-h-2.5 yst-rounded-full"

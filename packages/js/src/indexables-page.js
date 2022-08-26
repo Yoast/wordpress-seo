@@ -5,7 +5,6 @@ import { get } from "lodash";
 import LandingPage from "./indexables-page/landing-page";
 
 domReady( () => {
-	console.warn( "REMEMBER TO FIX RTL IN INDEXABLES-PAGE.JS" );
 	const context = {
 		isRtl: Boolean( get( window, "wpseoScriptData.metabox.isRtl", false ) ),
 	};
