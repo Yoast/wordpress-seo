@@ -222,7 +222,7 @@ function IndexablesPage( { setupInfo } ) {
 	 *
 	 * @returns {void}
 	 */
-	const fetchList = async( listName, isAdditionalFetch = false ) => {
+	const fetchList = useCallback( async( listName, isAdditionalFetch = false ) => {
 		setErroredCards( prevState => [ ...prevState ].filter( erroredCard => erroredCard !== listName ) );
 
 		try {
@@ -292,7 +292,8 @@ function IndexablesPage( { setupInfo } ) {
 				};
 			} );
 		}
-	};
+	}, [ apiFetch, setErroredCards, setLoadedCards, setIsSomethingGreenReadability,
+		setIsSomethingGreenSEO, setIndexablesLists, setIndexablesListsFetchLength ] );
 
 	/**
 	 * Updates a list in case an indexable has been ignored.
@@ -326,16 +327,19 @@ function IndexablesPage( { setupInfo } ) {
 	 *
 	 * @returns {void}
 	 */
-	const updateList = ( listName, indexablesList, isRefresh ) => {
+	const updateList = useCallback( ( listName, indexablesList, isRefresh ) => {
 		if ( indexablesList.length === 0 || isRefresh ) {
 			fetchList( listName );
 			return;
 		}
 
-		( indexablesList.length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer )
-			? fetchList( listName, true )
-			: maybeRemoveIgnored( listName );
-	};
+		if ( indexablesList.length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer ) {
+			fetchList( listName, true );
+			return;
+		}
+
+		maybeRemoveIgnored( listName );
+	}, [ fetchList, maybeRemoveIgnored, minimumIndexablesInBuffer, indexablesListsFetchLength ]);
 
 	/**
 	 * Updates all lists.
