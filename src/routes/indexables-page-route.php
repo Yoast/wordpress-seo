@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Request;
 use WP_REST_Response;
+use WP_Error;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
@@ -377,7 +378,7 @@ class Indexables_Page_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_REST_Response The success or failure response.
+	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function ignore_indexable( WP_REST_Request $request ) {
 		$params           = $request->get_json_params();
@@ -393,14 +394,12 @@ class Indexables_Page_Route implements Route_Interface {
 			);
 		}
 
-		return new WP_REST_Response(
+		return new WP_Error(
+			'ignore_failed',
+			'Could not save the option in the database',
 			[
-				'json' => (object) [
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
-				],
-			],
-			500
+				'status' => 500,
+			]
 		);
 	}
 
@@ -425,14 +424,12 @@ class Indexables_Page_Route implements Route_Interface {
 			);
 		}
 
-		return new WP_REST_Response(
+		return new WP_Error(
+			'restore_failed',
+			'Could not save the option in the database',
 			[
-				'json' => (object) [
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
-				],
-			],
-			500
+				'status' => 500,
+			]
 		);
 	}
 
@@ -461,14 +458,12 @@ class Indexables_Page_Route implements Route_Interface {
 			);
 		}
 
-		return new WP_REST_Response(
+		return new WP_Error(
+			'restore_all_failed',
+			'Could not save the option in the database',
 			[
-				'json' => (object) [
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
-				],
-			],
-			500
+				'status' => 500,
+			]
 		);
 	}
 
@@ -492,14 +487,12 @@ class Indexables_Page_Route implements Route_Interface {
 			);
 		}
 
-		return new WP_REST_Response(
+		return new WP_Error(
+			'restore_all_list_failed',
+			'Could not save the option in the database',
 			[
-				'json' => (object) [
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
-				],
-			],
-			500
+				'status' => 500,
+			]
 		);
 	}
 
@@ -539,14 +532,12 @@ class Indexables_Page_Route implements Route_Interface {
 			);
 		}
 
-		return new WP_REST_Response(
+		return new WP_Error(
+			'set_list_failed',
+			'Could not save the option in the database',
 			[
-				'json' => (object) [
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
-				],
-			],
-			500
+				'status' => 500,
+			]
 		);
 	}
 }
