@@ -164,7 +164,7 @@ describe( "a test for the applicability of the assessment", function() {
 			canRetrieveSku: true,
 			hasGlobalSKU: false,
 			hasVariants: false,
-			productType: "simple"
+			productType: "simple",
 		};
 		const paperWithCustomData = new Paper( "", { customData } );
 		const isApplicable = assessment.isApplicable( paperWithCustomData );
@@ -178,7 +178,7 @@ describe( "a test for the applicability of the assessment", function() {
 			canRetrieveSku: false,
 			hasGlobalSKU: false,
 			hasVariants: false,
-			productType: "simple"
+			productType: "simple",
 		};
 		const paperWithCustomData = new Paper( "", { customData } );
 		const isApplicable = assessment.isApplicable( paperWithCustomData );
@@ -192,7 +192,7 @@ describe( "a test for the applicability of the assessment", function() {
 			canRetrieveSku: false,
 			hasGlobalSKU: false,
 			hasVariants: true,
-			productType: "variable"
+			productType: "variable",
 		};
 		const paperWithCustomData = new Paper( "", { customData } );
 		const isApplicable = assessment.isApplicable( paperWithCustomData );
