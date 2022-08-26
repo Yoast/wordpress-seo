@@ -241,6 +241,52 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.7 =
+Release Date: September 6th, 2022
+
+
+Enhancements:
+
+* Adds an Insights tab to the editors which contains the Flesch reading ease score and feedback, (estimated) reading time, and word count. Since the Flesch reading ease score has been moved to the insights tab, it is removed from the readability analysis.
+* Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
+* Adds support for indexed terms in sitemap for taxonomies who have a default `noindex` option. It needs to be enabled using the `wpseo_sitemap_exclude_taxonomy` filter. Props to @mpskovvang.
+* Adds the site logo and name as default values in the first time configuration and search appearance.
+* Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
+* Changes the `@id` of the main Schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
+* Changes the logic of the Schema generation to prefer featured image and in-content images instead of OpenGraph and Twitter images.
+* Changes the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
+* Fixes an issue in the default editor where image elements would lead to repeated requests for that image source while editing content.
+* Improves Schema for archive pages by using the featured image of the first post as `primaryImageOfPage` and by removing `potentialAction`.
+* Improves Schema for attachment pages by setting the proper `primaryImage` attribute.
+* Improves sentence recognition for German by disregarding ordinal numbers as potential sentence boundaries.
+* Introduces a new filter `wpseo_sitemap_post_type_first_links` that can be used to add
+* Makes sure the `link` tag in the RSS feeds' `channel` section links to the most specific URL possible (for instance the category or tag the RSS feed is for) instead of the homepage.
+* Makes sure the title separator chosen in Yoast SEO is used for RSS feed titles too.
+* Removes the date from the meta description for WooCommerce products.
+* Uses the site logo set in the customizer as the logo in our Schema `Organization` output when a site has not set a logo in the Yoast SEO settings.
+
+Bugfixes:
+
+* Fixes a bug in the Classic Editor where clicking on the SEO link inside of the publish box would not always scroll the SEO analysis into view.
+* Fixes a bug where an emoji in our replacement variable editors would not be entirely removed when the backspace/delete button is hit.
+* Fixes a bug where notices would show an abnormally large heading in Yoast SEO Premium page.
+* Fixes a bug where text which includes the non-breaking space character (`&nbsp;`) is not highlighted correctly.
+* Fixes a bug where the Algolia integration could not be controlled at network level.
+* Fixes a bug where the desktop preview would show a truncated title, while the title length progress bar and title width assessment would indicate that the title length was still within the limits.
+* Fixes a bug where the focus keyphrase in the Wincher integration table on posts and terms would not be marked with an asterisk.
+* Minor security improvement
+* Security hardening
+* Use the new WordPress `wp_filesize` function.
+
+Other:
+
+* Adds a \"Search engines discouraged\" notification in the Yoast SEO dashboard when the \"Discourage search engines from indexing this site\" WordPress setting is turned on.
+* Changes Yoast SEO Premium sidebar ad to be the same styling as the one on yoast.com.
+* Exclude empty custom post type sitemaps from `sitemap_index.xml`.
+* Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
+* Improves compatibility with PHP 8.2
+* Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at yoa.st/ryte-deprecation.
+
 = 19.6 =
 Release Date: August 23rd, 2022
 
@@ -256,37 +302,6 @@ Other:
 
 * Adds a "Search engines discouraged" notification in the Yoast SEO dashboard when the "Discourage search engines from indexing this site" WordPress setting is turned on.
 * Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at [yoa.st/ryte-deprecation](https://yoa.st/ryte-deprecation).
-
-= 19.5.1 =
-Release Date: August 9th, 2022
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown on the front-end when Yoast SEO 19.5 was used with an older version of Yoast SEO Premium.
-
-= 19.5 =
-Release Date: August 9th, 2022
-
-Yoast SEO 19.5 is out today! This release includes more fixes and enhancements to enjoy. We've also made adjustments to our schema implementation, changing the order in which schema nodes are output. Read more about what's new in Yoast SEO 19.5 in [our release post in English](https://yoa.st/release-9-8-22) or [our release post in Spanish](https://yoa.st/release-9-8-22-spanish)!
-
-
-Enhancements:
-
-* Adds the site logo and name as default values in the first time configuration and search appearance.
-* Changes the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
-
-Bugfixes:
-
-* Fixes a bug where a text starting with a double quotation mark followed by a space(s) broke the analysis.
-* Fixes a bug where text which includes the non-breaking space character (`&nbsp;`) is not highlighted correctly.
-* Fixes a bug where the Algolia integration could not be controlled at network level.
-* Fixes a bug where the score indicator in the classic editor would not update the hovering text when the score changed.
-* Fixes a bug where the score indicators of the overview pages and admin bar where inconsistent. The taxonomy overview and admin bar score indicators now uses red to indicate `Focus keyphrase not set`. The admin bar score indicator now shows blue when set to `noindex`.
-
-Other:
-
-* Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
-* Sets the minimum supported WordPress version to 5.9.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
