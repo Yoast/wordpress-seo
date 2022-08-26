@@ -68,6 +68,11 @@ export default class ProductSKUAssessment extends Assessment {
 			return false;
 		}
 
+		// Do not show the assessment when we cannot retrieve the SKU (e.g. when a plugin that automatically generates SKU is used).
+		if ( ! customData.canRetrieveSku ) {
+			return false;
+		}
+
 		// If we have a variable product with no (active) variants. (active variant = variant with a price)
 		if (  customData.productType === "variable" && ! customData.hasVariants ) {
 			return false;
