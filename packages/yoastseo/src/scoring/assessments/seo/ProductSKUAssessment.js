@@ -56,35 +56,15 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Contains extra logic for the isApplicable method.
-	 *
-	 * @param {object} customData The custom data part of the Paper object.
-	 *
-	 * @returns {bool} Whether the productSKUAssessment is applicable.
-	 */
-	applicabilityHelper( customData ) {
-		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
-		if ( ! this._config.assessVariants ) {
-			return false;
-		}
-
-		// If we have a variable product with no (active) variants. (active variant = variant with a price)
-		if (  customData.productType === "variable" && ! customData.hasVariants ) {
-			return false;
-		}
-		return ( customData.hasPrice || customData.hasVariants );
-	}
-
-	/**
-	 * Checks whether the assessment is applicable.
+	 * Checks whether the assessment is applicable (for now it is not applicable in Shopify where we also don't want to
+	 * assess variants; hence the applicability condition based on that).
 	 *
 	 * @param {Paper} paper The paper to check.
 	 *
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {
-		const customData = paper.getCustomData();
-		return this.applicabilityHelper( customData );
+		return this._config.assessVariants;
 	}
 
 	/**
