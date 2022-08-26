@@ -64,7 +64,7 @@ const leastLinkedIntro = addLinkToString(
 		"<a>",
 		"</a>"
 	),
-	"https://www.yoast.com"
+	wpseoIndexablesPageData.shortlinks.orphanedContent
 );
 
 const leastLinkedOutro = addLinkToString(
@@ -72,7 +72,7 @@ const leastLinkedOutro = addLinkToString(
 	sprintf( __( "Find and fix any orphaned content on your site by using this %1$sstep-by-step workout%2$s!", "wordpress-seo" ),
 		"<a>",
 		"</a>" ),
-	"https://www.yoast.com"
+	wpseoIndexablesPageData.isPremium ? "/wp-admin/admin.php?page=wpseo_workouts#orphaned" : "/wp-admin/admin.php?page=wpseo_workouts"
 );
 
 const mostLinkedIntro = <Fragment>
@@ -97,7 +97,7 @@ const mostLinkedIntro = <Fragment>
 			{
 				span: <span className="yst-whitespace-nowrap" />,
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a id="indexables-page-cornerstone-link" href="https://www.yoast.com" target="_blank" rel="noopener noreferrer" />,
+				a: <a id="indexables-page-cornerstone-link" href={ wpseoIndexablesPageData.shortlinks.cornerstoneContent } target="_blank" rel="noopener noreferrer" />,
 				StarIcon: <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700 yst-inline" />,
 			}
 		)
@@ -109,7 +109,7 @@ const mostLinkedOutro = addLinkToString(
 	sprintf( __( "Improve rankings for all your cornerstones by using this %1$sstep-by-step workout%2$s!", "wordpress-seo" ),
 		"<a>",
 		"</a>" ),
-	"https://www.yoast.com"
+	wpseoIndexablesPageData.isPremium ? "/wp-admin/admin.php?page=wpseo_workouts#cornerstone" : "/wp-admin/admin.php?page=wpseo_workouts"
 );
 
 /* eslint-disable camelcase */

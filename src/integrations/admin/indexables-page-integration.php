@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Addon_Manager;
 
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -16,6 +17,13 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
  * Indexables_Page_Integration class
  */
 class Indexables_Page_Integration implements Integration_Interface {
+
+	/**
+	 * The shortlinker.
+	 *
+	 * @var WPSEO_Shortlinker
+	 */
+	private $shortlinker;
 
 	/**
 	 * The admin asset manager.
@@ -64,6 +72,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
 	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
+	 * @param WPSEO_Shortlinker         $shortlinker            The shortlinker.
 	 * @param Short_Link_Helper         $short_link_helper      The short link helper.
 	 * @param Indexables_Page_Helper    $indexables_page_helper The indexables page helper.
 	 * @param Product_Helper            $product_helper         The product helper.
@@ -71,12 +80,14 @@ class Indexables_Page_Integration implements Integration_Interface {
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		WPSEO_Addon_Manager $addon_manager,
+		WPSEO_Shortlinker $shortlinker,
 		Short_Link_Helper $short_link_helper,
 		Indexables_Page_Helper $indexables_page_helper,
 		Product_Helper $product_helper
 	) {
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->addon_manager          = $addon_manager;
+		$this->shortlinker            = $shortlinker;
 		$this->short_link_helper      = $short_link_helper;
 		$this->indexables_page_helper = $indexables_page_helper;
 		$this->product_helper         = $product_helper;
@@ -133,6 +144,17 @@ class Indexables_Page_Integration implements Integration_Interface {
 				'listSize'                 => $this->indexables_page_helper->get_indexables_list_size(),
 				'isLinkSuggestionsEnabled' => $this->indexables_page_helper->get_link_suggestions_enabled(),
 				'isPremium'                => $this->product_helper->is_premium(),
+				'shortlinks'               => [
+					'orphanedContent'    => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-orphaned-content' ),
+					'cornerstoneContent' => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-cornerstone-content' ),
+					'ultimateGuide'      => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-ultimate-guide-blogging' ),
+					'friendlyBlogpost'   => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-seo-friendly-blog-post' ),
+					'blogpostChecklist'  => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-optimize-blog-post-checklist' ),
+					'textPurpose'        => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-purpose-text-seo' ),
+					'seoIntroduction'    => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-seo-friendly-introduction' ),
+					'internalLinks'      => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-internal-linking-suggestions' ),
+					'getPremium'         => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-get-premium' ),
+				],
 			]
 		);
 	}

@@ -1,3 +1,4 @@
+/* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
 import { IndexableLinkCount } from "../indexables-page";
 import { IndexableTitleLink } from "./indexable-title-link";
@@ -121,7 +122,7 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 									"%1$sRead more about how internal linking can improve your site structure%2$s.", "wordpress-seo" ),
 								"<a>",
 								"</a>" ),
-							"https://www.yoast.com"
+							wpseoIndexablesPageData.shortlinks.internalLinks
 						)
 					}
 				</div>
@@ -130,7 +131,7 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 						id="indexables-page-suggested-links-upsell-button"
 						type="button"
 						as="a"
-						href="#"
+						href={ wpseoIndexablesPageData.shortlinks.getPremium }
 						variant="upsell"
 						className="yst-text-gray-800"
 						target="_blank"
