@@ -249,8 +249,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			}
 			
 			if ( $tax_noindex === 'default' && $tax_noindex_default === 'noindex' ) {
-                continue;
-            }
+				continue;
+			}
 
 			$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
 
@@ -298,8 +298,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter to exclude the taxonomy from the XML sitemap.
 		 *
-		 * @param bool   $exclude       Defaults to false.
-		 * @param string $taxonomy_name Name of the taxonomy to exclude..
+		 * @param bool   $exclude       Defaults to the current noindex setting for the taxonomy.
+		 * @param string $taxonomy_name Name of the taxonomy to exclude.
 		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', WPSEO_Options::get( "noindex-tax-{$taxonomy_name}" ) === true, $taxonomy_name ) ) {
 			return false;
