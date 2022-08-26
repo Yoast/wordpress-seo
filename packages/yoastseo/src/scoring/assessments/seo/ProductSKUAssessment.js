@@ -69,7 +69,7 @@ export default class ProductSKUAssessment extends Assessment {
 			return false;
 		}
 
-		// For now the assessment is not applicable in Shopify, where we also don't want to assess variants (hence the applicability condition based on that).
+		// For now the assessment is not applicable in Shopify, where we also don't want to assess variants.
 		return this._config.assessVariants;
 	}
 
