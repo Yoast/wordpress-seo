@@ -69,8 +69,8 @@ function getRequiredFeatures( paper, researcher ) {
 	// Calculate the average number of formal pronouns = the number of occurrences of formal pronouns / the total number of words in the text.
 	// 4.
 	const averageFormalPronouns = getPronouns( words, formalPronouns ).length / words.length;
-	// 5.
 	// Calculate the average number of informal pronouns = the number of occurrences of informal pronouns / the total number of words in the text.
+	// 5.
 	const averageInformalPronouns = getPronouns( words, informalPronouns ).length / words.length;
 
 	return {
@@ -83,6 +83,7 @@ function getRequiredFeatures( paper, researcher ) {
 	};
 }
 
+/* eslint-disable complexity */
 /**
  * Checks if a text is formal or informal.
  *
@@ -93,7 +94,6 @@ function getRequiredFeatures( paper, researcher ) {
  */
 export default function( paper, researcher ) {
 	const {
-		averageSentenceLength,
 		averageWordLengthPerSentence,
 		averageWordLength,
 		averagePassives,
@@ -101,26 +101,39 @@ export default function( paper, researcher ) {
 		averageInformalPronouns,
 	} = getRequiredFeatures( paper, researcher );
 
-	if ( averageWordLength <= 5.948 ) {
-		if ( averageInformalPronouns <= 0.029 ) {
-			if ( averageWordLengthPerSentence <= 31.439 && averageSentenceLength <= 169.375  ) {
-				return "formal";
+	if ( averageWordLength <= 4.811 ) {
+		if ( averageFormalPronouns <= 0.053 ) {
+			if ( averageInformalPronouns <= 0.028 ) {
+				if ( averagePassives <= 0.063 ) {
+					return "formal";
+				}
+				return "informal";
 			}
 			return "informal";
 		}
-		if ( averagePassives <= 0.25 ) {
+		if ( averagePassives <= 0.094 ) {
 			return "informal";
 		}
 		return "formal";
 	}
-	if ( averageWordLengthPerSentence <= 12.731 || averageSentenceLength <= 88.721 ) {
-		return "informal";
-	}
+
 	if ( averageInformalPronouns <= 0.006 ) {
+		if ( averagePassives <= 0.088 ) {
+			if ( averageFormalPronouns <= 0.015 ) {
+				return "informal";
+			}
+			return "formal";
+		}
 		return "formal";
 	}
-	if ( averageWordLength <= 6.129 && averageFormalPronouns <= 0.024 ) {
+
+	if ( averageWordLengthPerSentence <= 21.365 ) {
+		if ( averageFormalPronouns <= 0.006 ) {
+			return "formal";
+		}
 		return "informal";
 	}
+
 	return "formal";
 }
+/* eslint-enable complexity */
