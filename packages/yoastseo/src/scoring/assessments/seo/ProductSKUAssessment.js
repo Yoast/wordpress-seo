@@ -77,9 +77,9 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		// NOTE: product types might not be available in shopify or they might differ.
-		// So take this into account when implementing SKUAssessment for shopify.
-		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {
+		// Apply the following scoring conditions to products without variants.
+		if ( [ "simple", "external" ].includes( productSKUData.productType ) ||
+			( productSKUData.productType === "variable" && ! productSKUData.hasVariants ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
 					score: config.scores.ok,
@@ -108,7 +108,7 @@ export default class ProductSKUAssessment extends Assessment {
 					"</a>"
 				),
 			};
-		} else if ( productSKUData.productType === "variable" ) {
+		} else if ( productSKUData.productType === "variable" && productSKUData.hasVariants ) {
 			// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
 			// If all variants have a SKU, return green bullet.
 			if ( ! productSKUData.doAllVariantsHaveSKU ) {
