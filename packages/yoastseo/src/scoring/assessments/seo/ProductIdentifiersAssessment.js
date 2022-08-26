@@ -58,38 +58,13 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
-	 * Contains extra logic for the isApplicable method.
-	 *
-	 * @param {object} customData The custom data part of the Paper object.
-	 *
-	 * @returns {bool} Whether the productIdentifierAssessment is applicable.
-	 */
-	applicabilityHelper( customData ) {
-		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
-		// Don't return a score if the product has variants but we don't want to assess variants for this product.
-		// This is currently the case for Shopify products because we don't have access data about product variant identifiers in Shopify.
-		if ( ! this._config.assessVariants ) {
-			return false;
-		}
-
-		// If we have a variable product with no (active) variants. (active variant = variant with a price)
-		if (  customData.productType === "variable" && ! customData.hasVariants  ) {
-			return false;
-		}
-
-		return ( customData.hasPrice || customData.hasVariants );
-	}
-
-	/**
-	 * Checks whether the assessment is applicable.
-	 *
-	 * @param {Paper} paper The paper to check.
-	 *
+	 * Checks whether the assessment is applicable (for now it is not applicable in Shopify where we also don't want to
+	 * assess variants; hence the applicability condition based on that).
+	 **
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
-	isApplicable( paper ) {
-		const customData = paper.getCustomData();
-		return this.applicabilityHelper( customData );
+	isApplicable() {
+		return this._config.assessVariants;
 	}
 
 	/**
@@ -120,7 +95,9 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			};
 		}
 
-		if ( [ "simple", "external" ].includes( productIdentifierData.productType ) ) {
+		// Apply the following scoring conditions to products without variants.
+		if ( [ "simple", "external" ].includes( productIdentifierData.productType ) ||
+			( productIdentifierData.productType === "variable" && ! productIdentifierData.hasVariants ) ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
 					score: config.scores.ok,
@@ -159,7 +136,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					"</a>"
 				),
 			};
-		} else if ( productIdentifierData.productType === "variable" ) {
+		} else if ( productIdentifierData.productType === "variable" && productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 				// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
 				// If all variants have an identifier, return green bullet.
