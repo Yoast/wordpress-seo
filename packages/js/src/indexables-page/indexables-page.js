@@ -1007,7 +1007,7 @@ function IndexablesPage( { setupInfo } ) {
 				dismissScreenReaderLabel={ __( "Close notification.", "wordpress-seo" ) }
 			>
 				<p className="yst-flex yst-flex-row yst-justify-between yst-text-sm yst-font-medium yst-text-gray-700">
-					{ __( "Item succesfully hidden.", "wordpress-seo" ) }
+					{ __( "Item succesfully hidden!", "wordpress-seo" ) }
 					<LinkButton type="button" as="button" className="yst-ml-2" onClick={ onClickUndo( ignoredItem ) }>
 						{ __( "Undo", "wordpress-seo" ) }
 					</LinkButton>
