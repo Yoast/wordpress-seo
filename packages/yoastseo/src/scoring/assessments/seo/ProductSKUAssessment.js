@@ -68,7 +68,7 @@ export default class ProductSKUAssessment extends Assessment {
 		 * Do not show the assessment when we cannot retrieve the SKU (problems with this have been specifically found for
 		 * products without variants, so the check doesn't apply to products with variants).
 		*/
-		if ( ! customData.canRetrieveSku && customData.hasVariants === false ) {
+		if ( customData.canRetrieveSku === false && customData.hasVariants === false ) {
 			return false;
 		}
 
