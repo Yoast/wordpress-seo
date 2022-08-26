@@ -186,12 +186,11 @@ function IndexablesPage( { setupInfo } ) {
 	const [ suggestedLinksModalData, setSuggestedLinksModalData ] = useState( null );
 
 	const handleAddToIgnoreList = useCallback( ( newIgnoredIndexable ) => {
-		console.log( newIgnoredIndexable );
 		setIgnoredIndexable( prevState => [ ...prevState, newIgnoredIndexable ] );
 	}, [ setIgnoredIndexable ] );
 
 	const handleRemoveFromIgnoreList = useCallback( ( undoIgnoreIndexable ) => {
-		setIgnoredIndexable( prevState => prevState.filter( ignoredItem => ignoredItem.indexable.id === undoIgnoreIndexable.indexable.id ) );
+		setIgnoredIndexable( prevState => prevState.filter( ignoredItem => ignoredItem.indexable.id !== undoIgnoreIndexable.indexable.id ) );
 	}, [ setIgnoredIndexable ] );
 
 	const shouldShowDisabledAlert = useCallback( listName => {
@@ -316,15 +315,15 @@ function IndexablesPage( { setupInfo } ) {
 			return;
 		}
 
-		const ignoredId = ignoredIndexable.indexable.id;
-		// setIndexablesLists( prevState => {
-		// 	return {
-		// 		...prevState,
-		// 		[ listName ]: prevState[ listName ].filter( indexable => {
-		// 			return indexable.id !== ignoredId;
-		// 		} ),
-		// 	};
-		// } );
+		const ignoredId = ignoredIndexable[ ignoredIndexable.length - 1 ].indexable.id;
+		setIndexablesLists( prevState => {
+			return {
+				...prevState,
+				[ listName ]: prevState[ listName ].filter( indexable => {
+					return indexable.id !== ignoredId;
+				} ),
+			};
+		} );
 	};
 
 	/**
@@ -401,7 +400,6 @@ function IndexablesPage( { setupInfo } ) {
 	// We update a list each time the content of ignoredIndexable changes
 	useEffect( async() => {
 		if ( ignoredIndexable.length > 0 ) {
-			console.log( ignoredIndexable );
 			const lastIgnored = ignoredIndexable[ ignoredIndexable.length - 1 ];
 			updateList( lastIgnored.type, indexablesLists[ lastIgnored.type ] );
 		}
@@ -998,10 +996,10 @@ function IndexablesPage( { setupInfo } ) {
 		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
 			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Restore all hidden items", "wordpress-seo" ) }</Button>
 		</div>
-		{/* <Notifications>
-			{ ignoredIndexable.map( ( ignoredItem, index ) => <Notifications.Notification
-				key={ "undo-hiding-notification-" + index }
-				id={ "undo-hiding-notification-" + index }
+		<Notifications>
+			{ ignoredIndexable.map( ( ignoredItem ) => <Notifications.Notification
+				key={ "undo-hiding-notification-" + ignoredItem.indexable.id }
+				id={ "undo-hiding-notification-" + ignoredItem.indexable.id }
 				variant="success"
 				title={ __( "Item succesfully hidden.", "wordpress-seo" ) }
 				onDismiss={ () => handleRemoveFromIgnoreList( ignoredItem ) }
@@ -1014,8 +1012,11 @@ function IndexablesPage( { setupInfo } ) {
 						{ __( "Undo", "wordpress-seo" ) }
 					</LinkButton>
 				</p>
+				<p>
+					{ ignoredItem.indexable.breadcrumb_title }
+				</p>
 			</Notifications.Notification> ) }
-		</Notifications> */}
+		</Notifications>
 	</div>;
 }
 
