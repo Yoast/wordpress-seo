@@ -339,7 +339,7 @@ function IndexablesPage( { setupInfo } ) {
 		}
 
 		maybeRemoveIgnored( listName );
-	}, [ fetchList, maybeRemoveIgnored, minimumIndexablesInBuffer, indexablesListsFetchLength ]);
+	}, [ fetchList, maybeRemoveIgnored, minimumIndexablesInBuffer, indexablesListsFetchLength ] );
 
 	/**
 	 * Updates all lists.
