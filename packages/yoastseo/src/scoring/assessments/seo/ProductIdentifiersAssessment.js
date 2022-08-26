@@ -97,7 +97,9 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			};
 		}
 
-		if ( [ "simple", "external" ].includes( productIdentifierData.productType ) ) {
+		// Apply the following scoring conditions to products without variants.
+		if ( [ "simple", "external" ].includes( productIdentifierData.productType ) ||
+			( productIdentifierData.productType === "variable" && ! productIdentifierData.hasVariants ) ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
 					score: config.scores.ok,
@@ -136,7 +138,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					"</a>"
 				),
 			};
-		} else if ( productIdentifierData.productType === "variable" ) {
+		} else if ( productIdentifierData.productType === "variable" && productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 				// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
 				// If all variants have an identifier, return green bullet.
