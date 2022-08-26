@@ -247,6 +247,7 @@ Release Date: September 6th, 2022
 
 Enhancements:
 
+* Introduces the indexables overview, to guide you through your content needing more attention and improvements.
 * Adds support for indexed terms in sitemap for taxonomies who have a default `noindex` option. It needs to be enabled using the `wpseo_sitemap_exclude_taxonomy` filter. Props to @mpskovvang.
 * Fixes an issue in the default editor where image elements would lead to repeated requests for that image source while editing content.
 * Introduces a new filter `wpseo_sitemap_post_type_first_links` that can be used to add
