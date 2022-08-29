@@ -663,7 +663,8 @@ body.folded .wpseo-admin-submit-fixed {
 
 /* Disabled toggles in the Crawl settings tab */
 
-.yoast #crawl-settings fieldset[id$="_disabled"] ,
+.yoast #crawl-settings fieldset[id$="_disabled"],
+.yoast #crawl-settings p.disabled,
 .yoast label[for="search_character_limit_free"],
 .yoast label[for="clean_permalinks_extra_variables_free"],
 .yoast p.yoast-extra-variables-label-free {
