@@ -29,7 +29,7 @@ class User_Agent_List {
 	 * @return bool
 	 */
 	public function has_user_agent( $user_agent ) {
-		return array_key_exists( $user_agent, $this->user_agent_list );
+		return \array_key_exists( $user_agent, $this->user_agent_list );
 	}
 
 	/**
