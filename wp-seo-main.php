@@ -446,7 +446,7 @@ if ( ! $filter_exists ) {
 $is_login_page = false;
 if ( isset( $_SERVER['SCRIPT_NAME'] ) ) {
 	$script_name = sanitize_text_field( wp_unslash( $_SERVER['SCRIPT_NAME'] ) );
-	if ( stripos( wp_login_url(), $script_name ) !== false ) {
+	if ( strlen( $script_name ) > 0 && stripos( wp_login_url(), $script_name ) !== false ) {
 		$is_login_page = true;
 	}
 }
