@@ -61,6 +61,8 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @param Yoast_Notification_Center $notification_center The notification center to add notifications to.
 	 */
 	public function __construct( Yoast_Notification_Center $notification_center ) {
+		_deprecated_function( __METHOD__, 'WPSEO 19.7' );
+
 		$this->notification_center = $notification_center;
 	}
 
@@ -71,6 +73,8 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @codeCoverageIgnore
 	 */
 	public function dismiss_notice_listener() {
+		_deprecated_function( __METHOD__, 'WPSEO 19.7' );
+
 		if ( filter_input( INPUT_GET, 'yoast_dismiss' ) !== 'upsell' ) {
 			return;
 		}
@@ -88,13 +92,20 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @codeCoverageIgnore
 	 */
 	public function add_notification() {
+		_deprecated_function( __METHOD__, 'WPSEO 19.7' );
+
 		$this->notification_center->add_notification( $this->get_notification() );
 	}
 
 	/**
 	 * Removes a notification from the notification center.
+	 *
+	 * @deprecated 19.7
+	 * @codeCoverageIgnore
 	 */
 	public function remove_notification() {
+		_deprecated_function( __METHOD__, 'WPSEO 19.7' );
+
 		$this->notification_center->remove_notification( $this->get_notification() );
 	}
 
@@ -107,6 +118,8 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @return bool Whether or not the notification should be shown.
 	 */
 	public function should_show_notification() {
+		_deprecated_function( __METHOD__, 'WPSEO 19.7' );
+
 		$availability = new WPSEO_Metabox_Analysis_Inclusive_Language();
 
 		return YoastSEO()->helpers->product->is_premium()
@@ -124,6 +137,8 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @return Yoast_Notification
 	 */
 	protected function get_notification() {
+		_deprecated_function( __METHOD__, 'WPSEO 19.7' );
+
 		if ( is_multisite() && get_site_option( 'wpseo_ms' )['allow_inclusive_language_analysis_active'] === false ) {
 			$message = sprintf(
 			/* translators: %1$s is a link to the Features tab on the Yoast SEO Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
@@ -169,6 +184,8 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @codeCoverageIgnore
 	 */
 	protected function dismiss_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 19.7' );
+
 		update_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true );
 	}
 }
