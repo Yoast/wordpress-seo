@@ -45,7 +45,7 @@ function getPronouns( wordsArray, pronouns ) {
  *
  * @returns {Object} The object containing the features needed for the calculation of the formality level of the text.
  */
-function getRequiredFeatures( paper, researcher ) {
+export function getRequiredFeatures( paper, researcher ) {
 	const text = paper.getText();
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const sentences = getSentences( text, memoizedTokenizer );
