@@ -55,10 +55,10 @@ export function getRequiredFeatures( paper, researcher ) {
 	// The total number of characters in the sentences in the text / the total number of the sentences.
 	// 0.
 	const totalCharactersInSentences = calculateTotalLength( sentences );
-	const averageSentenceLength = totalCharactersInSentences / sentences.length;
+	const charsPerSentence = totalCharactersInSentences / sentences.length;
 	// Calculate the average word length per sentence = the total number of words in the text divided by the total number of the sentences.
 	// 1.
-	const averageWordLengthPerSentence = words.length / sentences.length;
+	const wordsPerSentence = words.length / sentences.length;
 	// Calculate the average word length = the total number of characters in the words in the text / the total number of words in the text.
 	// 2.
 	const averageWordLength = calculateTotalLength( words ) / words.length;
@@ -74,8 +74,8 @@ export function getRequiredFeatures( paper, researcher ) {
 	const averageInformalPronouns = getPronouns( words, informalPronouns ).length / words.length;
 
 	return {
-		averageSentenceLength,
-		averageWordLengthPerSentence,
+		charsPerSentence,
+		wordsPerSentence,
 		averageWordLength,
 		averagePassives,
 		averageFormalPronouns,
@@ -94,7 +94,7 @@ export function getRequiredFeatures( paper, researcher ) {
  */
 export default function( paper, researcher ) {
 	const {
-		averageWordLengthPerSentence,
+		wordsPerSentence,
 		averageWordLength,
 		averagePassives,
 		averageFormalPronouns,
@@ -127,7 +127,7 @@ export default function( paper, researcher ) {
 		return "formal";
 	}
 
-	if ( averageWordLengthPerSentence <= 21.365 ) {
+	if ( wordsPerSentence <= 21.365 ) {
 		if ( averageFormalPronouns <= 0.006 ) {
 			return "formal";
 		}
