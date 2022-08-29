@@ -130,7 +130,7 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 		<div className="yst-mobile-navigation__top">
 			<div className="yst-flex yst-relative yst-flex-shrink-0 yst-h-16 yst-z-10 yst-bg-white yst-border-b yst-border-gray-200">
 				<button
-					className="yst-px-4 yst-border-r yst-border-gray-200 yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
+					className="yst-px-4 yst-border-r yst-border-gray-200 yst-text-gray-400 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
 					onClick={ toggleOpen }
 				>
 					<span className="yst-sr-only">{ openButtonScreenReaderText }</span>

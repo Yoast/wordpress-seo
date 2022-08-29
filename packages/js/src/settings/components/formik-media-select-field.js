@@ -148,7 +148,7 @@ const FormikMediaSelectField = ( {
 						<span className="yst-sr-only">{ selectLabel }</span>
 						<Icon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-gray-400 yst-stroke-1" />
 						{ previewLabel && (
-							<p className="yst-text-xs yst-text-gray-500 yst-text-center yst-mt-1 yst-px-8">
+							<p className="yst-text-xs yst-text-gray-600 yst-text-center yst-mt-1 yst-px-8">
 								{ previewLabel }
 							</p>
 						) }
