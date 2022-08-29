@@ -161,7 +161,7 @@ describe( "a test for the applicability of the assessment", function() {
 	it( "is applicable when the SKU can be detected", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
-			canRetrieveSku: true,
+			canRetrieveGlobalSku: true,
 			hasGlobalSKU: false,
 			hasVariants: false,
 			productType: "simple",
@@ -175,7 +175,7 @@ describe( "a test for the applicability of the assessment", function() {
 	it( "is not applicable when the SKU cannot be detected on product without variants", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
-			canRetrieveSku: false,
+			canRetrieveGlobalSku: false,
 			hasGlobalSKU: false,
 			hasVariants: false,
 			productType: "simple",
@@ -189,7 +189,7 @@ describe( "a test for the applicability of the assessment", function() {
 	it( "is applicable when the SKU cannot be detected on product with variants", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
-			canRetrieveSku: false,
+			canRetrieveGlobalSku: false,
 			hasGlobalSKU: false,
 			hasVariants: true,
 			productType: "variable",
@@ -198,5 +198,19 @@ describe( "a test for the applicability of the assessment", function() {
 		const isApplicable = assessment.isApplicable( paperWithCustomData );
 
 		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "is not applicable when the SKU of at least one variant cannot be detected on product with variants", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveVariantSkus: false,
+			hasGlobalSKU: false,
+			hasVariants: true,
+			productType: "variable",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( false );
 	} );
 } );
