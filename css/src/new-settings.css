@@ -60,7 +60,7 @@
 			yst-flex
 			yst-text-sm
 			yst-font-medium
-			yst-text-gray-700;
+			yst-text-gray-800;
 		}
 
 		.yst-replacevar__button-insert {
@@ -92,7 +92,7 @@
 
 			/* .yst-button--secondary */
 			@apply
-			yst-text-gray-700
+			yst-text-gray-800
 			yst-bg-white
 			yst-border-gray-300
 
@@ -112,7 +112,7 @@
 			yst-bg-white
 			yst-text-sm
 			yst-leading-6
-			yst-text-gray-700
+			yst-text-gray-800
 			yst-placeholder-gray-500
 			focus-within:yst-outline-none
 			focus-within:yst-ring-primary-500
