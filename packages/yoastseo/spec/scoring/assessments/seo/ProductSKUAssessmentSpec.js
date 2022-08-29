@@ -157,4 +157,46 @@ describe( "a test for the applicability of the assessment", function() {
 
 		expect( isApplicable ).toBe( false );
 	} );
+
+	it( "is applicable when the SKU can be detected", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveSku: true,
+			hasGlobalSKU: false,
+			hasVariants: false,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "is not applicable when the SKU cannot be detected on product without variants", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveSku: false,
+			hasGlobalSKU: false,
+			hasVariants: false,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( false );
+	} );
+
+	it( "is applicable when the SKU cannot be detected on product with variants", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveSku: false,
+			hasGlobalSKU: false,
+			hasVariants: true,
+			productType: "variable",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
 } );

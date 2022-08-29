@@ -56,12 +56,23 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the assessment is applicable (for now it is not applicable in Shopify where we also don't want to
-	 * assess variants; hence the applicability condition based on that).
-	 **
+	 * Checks whether the assessment is applicable.
+	 *
+	 * @param {Paper} paper The paper to check.
+	 *
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
-	isApplicable() {
+	isApplicable( paper ) {
+		const customData = paper.getCustomData();
+		/*
+		 * Do not show the assessment when we cannot retrieve the SKU (problems with this have been specifically found for
+		 * products without variants, so the check doesn't apply to products with variants).
+		*/
+		if ( customData.canRetrieveSku === false && customData.hasVariants === false ) {
+			return false;
+		}
+
+		// For now the assessment is not applicable in Shopify, where we also don't want to assess variants.
 		return this._config.assessVariants;
 	}
 
