@@ -19,6 +19,7 @@ import { useSelectSettings } from "../store";
  */
 const DateArchives = () => {
 	const label = __( "Date archives", "wordpress-seo" );
+	const singularLabel = __( "Date archive", "wordpress-seo" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -39,7 +40,7 @@ const DateArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const description = useMemo( () => createInterpolateElement(
+	const descriptionExample = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 			__( "(e.g., %1$shttps://www.example.com/2020/%2$s)", "wordpress-seo" ),
@@ -47,7 +48,7 @@ const DateArchives = () => {
 			"</code>"
 		),
 		{
-			code: <code />,
+			code: <code className="yst-text-xs" />,
 		}
 	) );
 
@@ -58,13 +59,22 @@ const DateArchives = () => {
 	return (
 		<FormLayout
 			title={ label }
-			description={ description }
+			description={ <>
+				<span className="yst-block">{ descriptionExample }</span>
+				<span className="yst-block yst-mt-4">{ sprintf(
+					/* translators: %1$s is replaced by the "Date archives" translation. */
+					__( "Date archives are based on publication dates. From an SEO perspective, the posts in these archives have no real relation to the other posts except for their publication dates, which doesn’t say much about the content. They could also lead to duplicate content issues. This is why we recommend you to disable date archives.", "wordpress-seo" ),
+					"<a>",
+					"</a>",
+					singularLabel
+				) }</span>
+			</> }
 		>
 			<fieldset className="yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-date" }
 					data-id={ "input-wpseo_titles-disable-date" }
-					label={ __( "Enable date archives", "wordpress-seo" ) }
+					label={ label }
 					description={ sprintf(
 						/* translators: %1$s expands to "Date archives". */
 						__( "%1$s can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ),

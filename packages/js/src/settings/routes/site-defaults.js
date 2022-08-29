@@ -120,7 +120,10 @@ const SiteDefaults = () => {
 	const { opengraph } = values.wpseo_social;
 
 	return (
-		<FormLayout title={ __( "Site defaults", "wordpress-seo" ) }>
+		<FormLayout
+			title={ __( "Site defaults", "wordpress-seo" ) }
+			description={ __( "Configure the basics for your website.", "wordpress-seo" ) }
+		>
 			<div className="yst-max-w-screen-sm">
 				<Alert variant="info" id="alert-site-defaults-variables">{ siteDefaultsInfoAlertText }</Alert>
 				<hr className="yst-my-8" />

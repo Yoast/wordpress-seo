@@ -104,7 +104,14 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const { "breadcrumbs-enable": isBreadcrumbsEnabled } = values.wpseo_titles;
 
 	return (
-		<FormLayout title={ label }>
+		<FormLayout
+			title={ label }
+			description={ sprintf(
+				/* translators: %1$s expands to the post type plural, e.g. Posts. */
+				__( "Choose how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
+				label
+			) }
+		>
 			<FieldsetLayout
 				title={ __( "Search appearance", "wordpress-seo" ) }
 				description={ sprintf(

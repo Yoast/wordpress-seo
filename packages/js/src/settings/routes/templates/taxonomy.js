@@ -68,11 +68,16 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 					( { name: postTypeName, label: postTypeLabel } ) => <Badge key={ postTypeName } variant="plain">{ postTypeLabel }</Badge>
 				) }
 			</div> }
+			description={ sprintf(
+				/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
+				__( "Choose how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
+				label
+			) }
 		>
 			<FieldsetLayout
 				title={ __( "Search appearance", "wordpress-seo" ) }
 				description={ sprintf(
-					// translators: %1$s expands to the post type plural, e.g. Categories. %2$s expands to the post type singular, e.g. Category.
+					// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g. Category.
 					__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
 					label,
 					singularLabel

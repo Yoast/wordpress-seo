@@ -1,6 +1,7 @@
 import { Transition } from "@headlessui/react";
+import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Link, SelectField, ToggleField } from "@yoast/ui-library";
+import { Link, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { FieldsetLayout, FormikFlippedToggleField, FormikReplacementVariableEditorField, FormikValueChangeField, FormLayout } from "../components";
 import { useSelectSettings } from "../store";
@@ -14,10 +15,32 @@ const Media = () => {
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
 	const pageTypes = useSelectSettings( "selectPageTypeValuesFor", [ name ], name );
+	const thinContentProblemsInfoLink = useSelectSettings( "selectLink", [], "https://yoast.com/features/redirect-attachment-urls" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const { values } = useFormikContext();
 	const { "disable-attachment": disableAttachment } = values.wpseo_titles;
+
+	const description = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+			 * %3$s expands to the post type singular, e.g. Post.
+			 * %4$s expand to "Yoast SEO".
+			 * %5$s expand to "WordPress".
+			 */
+			__( "When you upload media (e.g. an image or video), %5$s automatically creates a %3$s page (attachment URL) for it. These pages are quite empty and could cause %1$sthin content problems and lead to excess pages on your site%2$s. Therefore, %4$s disables them by default (and redirects the attachment URL to the media itself).", "wordpress-seo" ),
+			"<a>",
+			"</a>",
+			singularLabel,
+			"Yoast SEO",
+			"WordPress"
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a href={ thinContentProblemsInfoLink } target="_blank" rel="noreferrer" />,
+		}
+	) );
 
 	return (
 		<FormLayout
@@ -26,9 +49,9 @@ const Media = () => {
 				__( "%1$s pages", "wordpress-seo" ),
 				label
 			) }
+			description={ description }
 		>
 			<fieldset className="yst-space-y-8">
-				{ ! disableAttachment && <Alert variant="info">{ __( "We recommend that you enable the setting below.", "wordpress-seo" ) }</Alert> }
 				<FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"
@@ -36,13 +59,13 @@ const Media = () => {
 					data-id={ `input-wpseo_titles-disable-${ name }` }
 					label={ sprintf(
 						/* translators: %1$s expands to the post type plural, e.g. Posts. */
-						__( "Redirect %1$s pages to the media itself", "wordpress-seo" ),
+						__( "%1$s pages", "wordpress-seo" ),
 						label
 					) }
 					description={ sprintf(
-						/* translators: %1$s expands to the post type singular, e.g. Post. */
-						__( "When you upload media (e.g. an image or video), WordPress automatically creates a %1$s page for it. These pages are quite empty and if you don't use these it's better to disable them, and redirect them to the media item itself.", "wordpress-seo" ),
-						singularLabel
+						/* translators: %1$s expands to the post type plural, e.g. Posts. */
+						__( "We recommend disabling %1$s pages. Disabling %1$s pages will cause all attachment URLs to redirect to the media itself.", "wordpress-seo" ),
+						label
 					) }
 					className="yst-toggle-field--grid"
 				/>

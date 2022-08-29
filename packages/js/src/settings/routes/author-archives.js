@@ -19,8 +19,10 @@ import { useSelectSettings } from "../store";
  */
 const AuthorArchives = () => {
 	const label = __( "Author archives", "wordpress-seo" );
+	const singularLabel = __( "Author archive", "wordpress-seo" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
+	const duplicateContentInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/duplicate-content" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
@@ -39,15 +41,28 @@ const AuthorArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const description = useMemo( () => createInterpolateElement(
+	const descriptionExample = useMemo( () => createInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+			/* translators: %1$s and %2$s are replaced by opening and closing <code> tags. */
 			__( "(e.g., %1$shttps://www.example.com/author/example/%2$s)", "wordpress-seo" ),
 			"<code>",
 			"</code>"
 		),
 		{
-			code: <code />,
+			code: <code className="yst-text-xs" />,
+		}
+	) );
+	const description = useMemo( () => createInterpolateElement(
+		sprintf(
+			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s is replaced by the "Author archive" translation. */
+			__( "If you're running a one author blog, the Author archive will be exactly the same as your homepage. This is what's called a %1$sduplicate content problem%2$s. If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or prevent it from showing up in search results.", "wordpress-seo" ),
+			"<a>",
+			"</a>",
+			singularLabel
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noreferrer" />,
 		}
 	) );
 
@@ -58,13 +73,21 @@ const AuthorArchives = () => {
 	return (
 		<FormLayout
 			title={ label }
-			description={ description }
+			description={ <>
+				<span className="yst-block">{ descriptionExample }</span>
+				<span className="yst-block yst-mt-4">{ description }</span>
+			</> }
 		>
 			<fieldset className="yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-author" }
 					data-id={ "input-wpseo_titles-disable-author" }
-					label={ __( "Enable author archives", "wordpress-seo" ) }
+					label={ label }
+					description={ sprintf(
+						/* translators: %1$s expands to . */
+						__( "Disabling this will redirect the Author archive to your site's homepage.", "wordpress-seo" ),
+						singularLabel
+					) }
 					className="yst-toggle-field--grid"
 				/>
 			</fieldset>

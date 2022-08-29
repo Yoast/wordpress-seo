@@ -48,7 +48,10 @@ const Breadcrumbs = () => {
 	const hasPageForPosts = useSelectSettings( "selectHasPageForPosts" );
 
 	return (
-		<FormLayout title={ __( "Breadcrumbs", "wordpress-seo" ) }>
+		<FormLayout
+			title={ __( "Breadcrumbs", "wordpress-seo" ) }
+			description={ __( "Configure the appearance and behavior of your breadcrumbs.", "wordpress-seo" ) }
+		>
 			<FieldsetLayout
 				title={ __( "Basic crawl settings", "wordpress-seo" ) }
 				description={ __( "Remove links added by WordPress to the header and <head>.", "wordpress-seo" ) }

@@ -53,7 +53,7 @@ const Formats = () => {
 			"</code>"
 		),
 		{
-			code: <code />,
+			code: <code className="yst-text-xs" />,
 		}
 	) );
 
@@ -70,7 +70,7 @@ const Formats = () => {
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-post_format" }
 					data-id={ "input-wpseo_titles-disable-post_format" }
-					label={ __( "Enable format-based archives", "wordpress-seo" ) }
+					label={ __( "Format-based archives", "wordpress-seo" ) }
 					description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
 					className="yst-toggle-field--grid"
 				/>
