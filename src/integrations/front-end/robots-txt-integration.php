@@ -124,8 +124,20 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	protected function add_subdirectory_multisite_xml_sitemaps() {
+
 		// If not on a multisite subdirectory, bail.
 		if ( ! \is_multisite() || \is_subdomain_install() ) {
+			return;
+		}
+		/**
+		 * Filter: 'wpseo_ignore_multisite_subdirectory_xml_sitemaps' - Enabling this filter removes subdirectory sites from xml sitemaps.
+		 *
+		 *
+		 * @since 19.8
+		 *
+		 * @param bool $show Whether to display multisites in the xml sitemaps.
+		 */
+		if ( \apply_filters( 'wpseo_ignore_multisite_subdirectory_xml_sitemaps', false ) ) {
 			return;
 		}
 
