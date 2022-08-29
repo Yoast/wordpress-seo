@@ -24,6 +24,7 @@ import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAs
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
+import TextTitleAssessment from "../../../../src/scoring/assessments/seo/TextTitleAssessment";
 
 // Import Readability assessments.
 import SubheadingDistributionTooLongAssessment
@@ -147,6 +148,10 @@ testPapers.forEach( function( testPaper ) {
 		const keyphraseDistributionAssessment = new KeyphraseDistribution( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+		} );
+		const textTitleAssessment = new TextTitleAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify83" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify84" ),
 		} );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment( {
 			shouldNotAppearInShortText: true,
@@ -399,6 +404,17 @@ testPapers.forEach( function( testPaper ) {
 				result.keyphraseDistribution = keyphraseDistributionAssessment.getResult( paper, researcher );
 				expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
 				expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the textTitle assessment", function() {
+			const isApplicable = textTitleAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.textTitle.isApplicable );
+
+			if ( isApplicable ) {
+				result.textTitle = textTitleAssessment.getResult( paper, researcher );
+				expect( result.textTitle.getScore() ).toBe( expectedResults.textTitle.score );
+				expect( result.textTitle.getText() ).toBe( expectedResults.textTitle.resultText );
 			}
 		} );
 

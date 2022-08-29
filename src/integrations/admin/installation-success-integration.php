@@ -60,6 +60,10 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_redirect() {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return;
+		}
+
 		if ( ! $this->options_helper->get( 'should_redirect_after_install_free', false ) ) {
 			return;
 		}

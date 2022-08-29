@@ -60,6 +60,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -74,6 +75,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -89,6 +91,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"singleH1",
 			"images",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -104,6 +107,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -117,6 +121,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -132,6 +137,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -149,6 +155,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -164,6 +171,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -180,6 +188,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"slugKeyword",
 			"images",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -210,6 +219,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -239,6 +249,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
+			"textTitleAssessment",
 		] );
 	} );
 

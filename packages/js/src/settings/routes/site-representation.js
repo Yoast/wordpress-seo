@@ -23,7 +23,7 @@ const SiteRepresentation = () => {
 	const users = useMemo( () => get( window, "wpseoScriptData.users", [] ), [] );
 	const userOptions = useMemo( () => map( users, user => ( { value: parseInt( user.id, 10 ), label: user.display_name } ) ), [ users ] );
 	const selectedUser = useMemo( () => (
-		find( users, user => companyOrPersonId === parseInt( user.id, 10 ) ) || users[ 0 ]
+		find( users, user => companyOrPersonId === parseInt( user.id, 10 ) ) || users[ 0 ] || {}
 	), [ users, companyOrPersonId ] );
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
@@ -103,7 +103,7 @@ const SiteRepresentation = () => {
 									__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 									"<strong>",
 									"</strong>",
-									"1200x675"
+									"1200x675px"
 								), {
 									strong: <strong className="yst-font-semibold" />,
 								} ) }
@@ -162,7 +162,7 @@ const SiteRepresentation = () => {
 									__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 									"<strong>",
 									"</strong>",
-									"696x696"
+									"696x696px"
 								), {
 									strong: <strong className="yst-font-semibold" />,
 								} ) }

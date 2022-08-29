@@ -53,7 +53,7 @@ Row.propTypes = {
  */
 const Header = ( { children, className = "", ...props } ) => (
 	<th
-		className={ classNames( "yst-px-6 yst-py-3 yst-text-left yst-text-xs yst-font-medium yst-text-gray-500 yst-uppercase yst-tracking-wider", className ) }
+		className={ classNames( "yst-px-6 yst-py-3 yst-text-left yst-text-xs yst-font-medium yst-text-gray-500 yst-bg-gray-50 yst-uppercase yst-tracking-wider", className ) }
 		{ ...props }
 	>
 		{ children }
@@ -67,17 +67,15 @@ Header.propTypes = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {string} [className] Optional class name.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
-const Head = ( { children, className = "", ...props } ) => (
-	<thead className={ classNames( "yst-bg-gray-50", className ) } { ...props }>{ children }</thead>
+const Head = ( { children, ...props } ) => (
+	<thead { ...props }>{ children }</thead>
 );
 
 Head.propTypes = {
 	children: PropTypes.node.isRequired,
-	className: PropTypes.string,
 };
 
 /**
