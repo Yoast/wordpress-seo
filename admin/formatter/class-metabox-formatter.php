@@ -53,11 +53,10 @@ class WPSEO_Metabox_Formatter {
 	 * @return array Default settings for the metabox.
 	 */
 	private function get_defaults() {
-		$analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
-		$analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$schema_types                = new Schema_Types();
-		$is_wincher_active           = YoastSEO()->helpers->wincher->is_active();
+		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
+		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$schema_types         = new Schema_Types();
+		$is_wincher_active    = YoastSEO()->helpers->wincher->is_active();
 
 		return [
 			'author_name'                     => get_the_author_meta( 'display_name' ),
