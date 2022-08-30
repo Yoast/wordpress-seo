@@ -51,10 +51,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return bool Whether the social templates should be used.
 	 */
 	public function use_social_templates() {
-		return YoastSEO()->helpers->product->is_premium()
-			&& defined( 'WPSEO_PREMIUM_VERSION' )
-			&& version_compare( WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' )
-			&& WPSEO_Options::get( 'opengraph', false ) === true;
+		return WPSEO_Options::get( 'opengraph', false ) === true;
 	}
 
 	/**
@@ -235,7 +232,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_title_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-title' );
+			return $this->get_social_template( 'title' );
 		}
 
 		return '';
@@ -248,7 +245,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_description_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-description' );
+			return $this->get_social_template( 'description' );
 		}
 
 		return '';
@@ -261,7 +258,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_image_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-image-url' );
+			return $this->get_social_template( 'image-url' );
 		}
 
 		return '';
@@ -282,6 +279,24 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 
 		return '';
+	}
+
+	/**
+	 * Retrieves a social template.
+	 *
+	 * @param string $template_option_name The name of the option in which the template you want to get is saved.
+	 *
+	 * @return string
+	 */
+	private function get_social_template( $template_option_name ) {
+		/**
+		 * Filters the social template value for a given post type.
+		 *
+		 * @param string $template             The social template value, defaults to empty string.
+		 * @param string $template_option_name The subname of the option in which the template you want to get is saved.
+		 * @param string $post_type            The name of the post type.
+		 */
+		return \apply_filters( 'wpseo_social_template_post_type', '', $template_option_name, $this->post->post_type );
 	}
 
 	/**
