@@ -38,7 +38,8 @@ describe( "a test for the formality classification accuracy", () => {
 		// expect( accuracy ).toBeGreaterThanOrEqual( 90 );
 
 		// Below prints the attribute values that can be used to create the decision tree
-		console.log( JSON.stringify( arrayOfResults, null, 2 ) );
+		// Uncomment to print json to stdout.
+		// console.log( JSON.stringify( arrayOfResults, null, 2 ) );
 
 		// Uncomment line below if you want to write the results to an output file. Make sure you write it to an existing directory.
 		// I advise creating the following directory packages/yoastseo/spec/languageProcessing/languages/en/helpers/output
@@ -72,7 +73,8 @@ describe( "a test for the formality classification accuracy", () => {
 		// expect( accuracy ).toBeGreaterThanOrEqual( 90 );
 
 		// Below prints the attribute values that can be used to create the decision tree
-		console.log( JSON.stringify( arrayOfResults, null, 2 ) );
+		// Uncomment to print json to stdout.
+		// console.log( JSON.stringify( arrayOfResults, null, 2 ) );
 
 		// Uncomment line below if you want to write the results to an output file. Make sure you write it to an existing directory.
 		// I advise creating the following directory packages/yoastseo/spec/languageProcessing/languages/en/helpers/output
