@@ -64,11 +64,13 @@ export default class ProductSKUAssessment extends Assessment {
 	 */
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
-		/*
-		 * Do not show the assessment when we cannot retrieve the SKU (problems with this have been specifically found for
-		 * products without variants, so the check doesn't apply to products with variants).
-		*/
-		if ( customData.canRetrieveSku === false && customData.hasVariants === false ) {
+
+		 // Do not show the assessment when we cannot retrieve the SKU.
+		if ( customData.canRetrieveGlobalSku === false && customData.hasVariants === false ) {
+			return false;
+		}
+
+		if ( customData.canRetrieveVariantSkus === false && customData.hasVariants === true ) {
 			return false;
 		}
 
