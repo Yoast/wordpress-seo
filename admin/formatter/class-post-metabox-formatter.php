@@ -278,7 +278,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		 * @param string $template             The template value, defaults to empty string.
 		 * @param string $template_option_name The name of the option in which the template you want to get is saved.
 		 * @param string $post_type            The name of the post type.
-		 *
 		 */
 		return \apply_filters( 'wpseo_social_template_post_type', '', $template_option_name, $this->post->post_type );
 	}
