@@ -327,9 +327,9 @@ function IndexablesPage( { setupInfo } ) {
 	 *
 	 * @returns {void}
 	 */
-	const updateList = useCallback( ( listName, indexablesList, isRefresh ) => {
+	const updateList = useCallback( ( listName, indexablesList, isRefresh = false ) => {
 		if ( indexablesList.length === 0 || isRefresh ) {
-			fetchList( listName );
+			fetchList( listName, isRefresh );
 			return;
 		}
 
