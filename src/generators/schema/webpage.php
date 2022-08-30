@@ -99,9 +99,15 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function add_image( &$data ) {
 		if ( $this->context->has_image ) {
-			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
-			$data['image']              = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
-			$data['thumbnailUrl']       = $this->context->main_image_url;
+			if ( $this->context->main_image_id ) {
+				$data['primaryImageOfPage'] = [ '@id' => home_url() . '#/schema/ImageObject/' . $this->context->main_image_id ];
+				$data['image']              = [ '@id' => home_url() . '#/schema/ImageObject/' . $this->context->main_image_id ];
+			}
+			elseif ( $this->context->main_image_url ) {
+				$data['primaryImageOfPage'] = [ '@id' => $this->context->main_image_url ];
+				$data['image']              = [ '@id' => $this->context->main_image_id ];
+			}
+			$data['thumbnailUrl'] = $this->context->main_image_url;
 		}
 	}
 
