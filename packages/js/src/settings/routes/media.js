@@ -52,9 +52,7 @@ const Media = () => {
 			description={ description }
 		>
 			<fieldset className="yst-space-y-8">
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
+				<FormikFlippedToggleField
 					name={ `wpseo_titles.disable-${ name }` }
 					data-id={ `input-wpseo_titles-disable-${ name }` }
 					label={ sprintf(
