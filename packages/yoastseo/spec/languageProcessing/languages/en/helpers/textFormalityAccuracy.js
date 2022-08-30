@@ -3,6 +3,9 @@ import Paper from "../../../../../src/values/Paper";
 import Researcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import testData from "./testPapers/en/textFormalityAccuracy.json";
 
+// (un)comment when you want to write features.)
+// const fs = require( "fs" );
+
 /**
  * To run this test for accuracy, run this file as a Jest test.
  *
@@ -32,7 +35,7 @@ describe( "a test for the formality classification accuracy", () => {
 		console.log( `The accuracy of the model on the formal class is: ${accuracy}%` );
 
 		// Comment-out the next line if you want to write to file. (The function will exit if te expect fails.)
-		expect( accuracy ).toBeGreaterThanOrEqual( 90 );
+		// expect( accuracy ).toBeGreaterThanOrEqual( 90 );
 
 		// Below prints the attribute values that can be used to create the decision tree
 		console.log( JSON.stringify( arrayOfResults, null, 2 ) );
@@ -40,7 +43,8 @@ describe( "a test for the formality classification accuracy", () => {
 		// Uncomment line below if you want to write the results to an output file. Make sure you write it to an existing directory.
 		// I advise creating the following directory packages/yoastseo/spec/languageProcessing/languages/en/helpers/output
 		// Make sure not to commit this directory
-		// fs.writeFileSync( "spec/languageProcessing/languages/en/helpers/output/formal_bigger.json", JSON.stringify( arrayOfResults, null, 2 ) );
+		// eslint-disable-next-line max-len
+		// fs.writeFileSync( "spec/languageProcessing/languages/en/helpers/output/formal_bigger_withcomplex.json", JSON.stringify( arrayOfResults, null, 2 ) );
 	} );
 
 	it( "should reach a high accuracy for informal texts", () => {
@@ -65,7 +69,7 @@ describe( "a test for the formality classification accuracy", () => {
 		console.log( `The accuracy of the model on the informal class is: ${accuracy}%` );
 
 		// Comment-out the next line if you want to write to file. (The function will exit if te expect fails.)
-		expect( accuracy ).toBeGreaterThanOrEqual( 90 );
+		// expect( accuracy ).toBeGreaterThanOrEqual( 90 );
 
 		// Below prints the attribute values that can be used to create the decision tree
 		console.log( JSON.stringify( arrayOfResults, null, 2 ) );
@@ -73,6 +77,7 @@ describe( "a test for the formality classification accuracy", () => {
 		// Uncomment line below if you want to write the results to an output file. Make sure you write it to an existing directory.
 		// I advise creating the following directory packages/yoastseo/spec/languageProcessing/languages/en/helpers/output
 		// Make sure not to commit this directory
-		// fs.writeFileSync( "spec/languageProcessing/languages/en/helpers/output/informal_bigger.json", JSON.stringify( arrayOfResults, null, 2 ) );
+		// eslint-disable-next-line max-len
+		// fs.writeFileSync( "spec/languageProcessing/languages/en/helpers/output/informal_bigger_withcomplex.json", JSON.stringify( arrayOfResults, null, 2 ) );
 	} );
 } );
