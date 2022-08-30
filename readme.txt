@@ -241,6 +241,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.6.1 =
+Release Date: August 30th, 2022
+
+
+Enhancements:
+
+* Adds `wpseo_social_template_post_type` and `wpseo_social_template_taxonomy` filters for the social templates in the metabox.
+
+Bugfixes:
+
+* Remove Premium code regarding the Frontend Inspector, the additional focus keyphrases and the wincher analysis of additional focus keyphrases
+
 = 19.6 =
 Release Date: August 23rd, 2022
 
