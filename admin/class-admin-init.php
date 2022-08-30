@@ -48,7 +48,6 @@ class WPSEO_Admin_Init {
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
 		$this->load_plugin_suggestions();
-		$this->set_inclusive_language_notice();
 	}
 
 	/**
@@ -186,23 +185,6 @@ class WPSEO_Admin_Init {
 		if ( ! YoastSEO()->helpers->product->is_premium() ) {
 			$upsell_block = new WPSEO_Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
 			$upsell_block->register_hooks();
-		}
-	}
-
-	/**
-	 * Sets the inclusive language notification.
-	 *
-	 * Notification should pop up if user has Premium activated, the site language is English and the feature toggle is not switched on.
-	 */
-	protected function set_inclusive_language_notice() {
-		$inclusive_language = new WPSEO_Inclusive_Language_Notice( Yoast_Notification_Center::get() );
-
-		if ( $inclusive_language->should_show_notification() ) {
-			$inclusive_language->add_notification();
-			$inclusive_language->dismiss_notice_listener();
-		}
-		else {
-			$inclusive_language->remove_notification();
 		}
 	}
 
