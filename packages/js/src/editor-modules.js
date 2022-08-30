@@ -26,6 +26,9 @@ import createInterpolateElement from "./helpers/createInterpolateElement";
 import * as i18n from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
+import { update as updateAdminBar } from "./ui/adminBar";
+import { updateScore, createScoresInPublishBox } from "./ui/publishBox";
+import { update as updateTrafficLight } from "./ui/trafficLight";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -76,5 +79,12 @@ window.yoast.editorModules = {
 		isBlockEditor,
 		i18n,
 		replacementVariableHelpers,
+		publishBox: {
+			updateScore,
+			createScoresInPublishBox,
+			scrollToCollapsible,
+		},
+		updateAdminBar,
+		updateTrafficLight,
 	},
 };

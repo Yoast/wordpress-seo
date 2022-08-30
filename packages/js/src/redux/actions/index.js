@@ -9,6 +9,7 @@ export * from "../../insights/redux/actions";
 export * from "./activeMarker";
 export * from "./advancedSettings";
 export * from "./analysis";
+export * from "./checlist";
 export * from "./cornerstoneContent";
 export * from "./editorData";
 export * from "./editorModals";
@@ -57,24 +58,10 @@ const wrappedSetSeoScore = ( seoScore, keyword ) => {
 	return setOverallSeoScore( seoScore, keyword );
 };
 
-/**
- * A wrapper function so that we can wrap the field helper to the monorepo action.
- *
- * @param {string} inclusiveLanguageScore The overall inclusive language score.
- *
- * @returns {Object} A set overall readability score action.
- */
-const wrappedSetInclusiveLanguageScore = ( inclusiveLanguageScore ) => {
-	AnalysisFields.inclusiveLanguageScore = inclusiveLanguageScore;
-	return setOverallInclusiveLanguageScore( inclusiveLanguageScore );
-};
-
 export { wrappedSetReadabilityScore as setOverallReadabilityScore };
 export { wrappedSetSeoScore as setOverallSeoScore };
-export { wrappedSetInclusiveLanguageScore as setOverallInclusiveLanguageScore };
 
 export {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-	setInclusiveLanguageResults,
 } from "yoast-components";
