@@ -19,7 +19,6 @@ const SiteRepresentation = () => {
 	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
 	const { other_social_urls: otherSocialUrls } = values.wpseo_social;
 
-	const userEditUrl = useMemo( () => get( window, "wpseoScriptData.userEditUrl", [] ), [] );
 	const users = useMemo( () => get( window, "wpseoScriptData.users", [] ), [] );
 	const userOptions = useMemo( () => map( users, user => ( { value: parseInt( user.id, 10 ), label: user.display_name } ) ), [ users ] );
 	const selectedUser = useMemo( () => (
@@ -27,6 +26,7 @@ const SiteRepresentation = () => {
 	), [ users, companyOrPersonId ] );
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
+	const editUserUrl = useSelectSettings( "selectPreference", [], "editUserUrl" );
 
 	return (
 		<FormLayout
@@ -145,7 +145,7 @@ const SiteRepresentation = () => {
 									strong: <strong className="yst-font-medium" />,
 									// eslint-disable-next-line jsx-a11y/anchor-has-content
 									a: <a
-										id="link-person-user-profile" href={ `${ userEditUrl }?user_id=${ selectedUser.id }` } target="_blank"
+										id="link-person-user-profile" href={ `${ editUserUrl }?user_id=${ selectedUser.id }` } target="_blank"
 										rel="noopener noreferrer"
 									/>,
 								} ) }

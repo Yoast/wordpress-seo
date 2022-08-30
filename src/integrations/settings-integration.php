@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WP_Post_Type;
+use WP_Taxonomy;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
-use WPSEO_Post_Type;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
@@ -219,20 +219,22 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The pages.
 	 */
 	public function add_page( $pages ) {
-		\array_unshift(
+		/* translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag. */
+		$title = \__( 'Settings %1$sBeta%2$s', 'wordpress-seo' );
+
+		\array_splice(
 			$pages,
+			1,
+			0,
 			[
-				'wpseo_dashboard',
-				'',
-				\sprintf(
-					/* translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag. */
-					\__( 'Settings %1$sBeta%2$s', 'wordpress-seo' ),
-					'<span class="yoast-badge yoast-beta-badge">',
-					'</span>'
-				),
-				'wpseo_manage_options',
-				'wpseo_settings',
-				[ $this, 'display_page' ],
+				[
+					'wpseo_dashboard',
+					'',
+					\sprintf( $title, '<span class="yoast-badge yoast-beta-badge">', '</span>' ),
+					'wpseo_manage_options',
+					'wpseo_settings',
+					[ $this, 'display_page' ],
+				],
 			]
 		);
 
@@ -290,22 +292,23 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$settings   = $this->get_settings();
-		$post_types = $this->get_post_types();
+		$settings               = $this->get_settings();
+		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
+		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
+		$transformed_post_types = $this->transform_post_types( $post_types );
 
 		return [
 			'settings'             => $settings,
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
 			'nonce'                => \wp_create_nonce( 'wpseo_settings-options' ),
-			'userEditUrl'          => \admin_url( 'user-edit.php' ),
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
-			'schema'               => $this->get_schema( $post_types ),
+			'schema'               => $this->get_schema( $transformed_post_types ),
 			'preferences'          => $this->get_preferences(),
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
-			'postTypes'            => $post_types,
-			'taxonomies'           => $this->get_taxonomies( \array_keys( $post_types ) ),
+			'postTypes'            => $transformed_post_types,
+			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
 		];
 	}
 
@@ -338,6 +341,8 @@ class Settings_Integration implements Integration_Interface {
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
+			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
+			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 		];
 	}
 
@@ -456,45 +461,37 @@ class Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Creates the post types to represent.
+	 * Transforms the post types, to represent them.
+	 *
+	 * @param WP_Post_Type[] $post_types The WP_Post_Type array to transform.
 	 *
 	 * @return array The post types.
 	 */
-	protected function get_post_types() {
-		$post_types = $this->post_type_helper->get_public_post_types( 'objects' );
-		$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
+	protected function transform_post_types( $post_types ) {
+		$transformed = [];
+		foreach ( $post_types as $name => $post_type ) {
+			$transformed[ $name ] = [
+				'name'                 => $post_type->name,
+				'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
+				'label'                => $post_type->label,
+				'singularLabel'        => $post_type->labels->singular_name,
+				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
+				'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
+			];
+		}
 
-		return \array_map( [ $this, 'transform_post_type' ], $post_types );
+		return $transformed;
 	}
 
 	/**
-	 * Transforms a WP_Post_Type to an array with the needed info.
+	 * Transforms the taxonomies, to represent them.
 	 *
-	 * @param WP_Post_Type $post_type The post type.
-	 *
-	 * @return array The transformed post type.
-	 */
-	protected function transform_post_type( WP_Post_Type $post_type ) {
-		return [
-			'name'                 => $post_type->name,
-			'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
-			'label'                => $post_type->label,
-			'singularLabel'        => $post_type->labels->singular_name,
-			'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
-			'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
-		];
-	}
-
-	/**
-	 * Creates the taxonomies to represent.
-	 *
-	 * @param string[] $post_type_names The post type names.
+	 * @param WP_Taxonomy[] $taxonomies      The WP_Taxonomy array to transform.
+	 * @param string[]      $post_type_names The post type names.
 	 *
 	 * @return array The taxonomies.
 	 */
-	protected function get_taxonomies( $post_type_names ) {
-		$taxonomies = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
-
+	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
 		$transformed = [];
 		foreach ( $taxonomies as $name => $taxonomy ) {
 			$transformed[ $name ] = [
