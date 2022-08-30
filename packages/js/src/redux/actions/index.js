@@ -1,7 +1,6 @@
 import {
 	setOverallReadabilityScore,
 	setOverallSeoScore,
-	setOverallInclusiveLanguageScore,
 } from "yoast-components";
 import AnalysisFields from "../../helpers/fields/AnalysisFields";
 
@@ -9,7 +8,7 @@ export * from "../../insights/redux/actions";
 export * from "./activeMarker";
 export * from "./advancedSettings";
 export * from "./analysis";
-export * from "./checlist";
+export * from "./checklist";
 export * from "./cornerstoneContent";
 export * from "./editorData";
 export * from "./editorModals";

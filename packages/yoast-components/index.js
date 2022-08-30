@@ -97,7 +97,6 @@ export {
 	setInclusiveLanguageResults,
 	setOverallReadabilityScore,
 	setOverallSeoScore,
-	setOverallInclusiveLanguageScore,
 } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 export {
