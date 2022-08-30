@@ -1016,9 +1016,6 @@ export default class AnalysisWebWorker {
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
-		console.log( this.additionalAssessors );
-		console.log( shouldCustomAssessorsUpdate );
-
 		Object.keys( this.additionalAssessors ).forEach(
 			assessorName => {
 				const { assessor } = this.additionalAssessors[ assessorName ];
