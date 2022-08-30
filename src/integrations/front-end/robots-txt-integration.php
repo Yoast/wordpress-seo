@@ -134,7 +134,6 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	protected function add_subdirectory_multisite_xml_sitemaps() {
-
 		// If not on a multisite subdirectory, bail.
 		if ( ! \is_multisite() || \is_subdomain_install() ) {
 			return;
