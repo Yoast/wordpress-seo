@@ -2,11 +2,12 @@
 import { AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Badge, ChildrenLimiter, ErrorBoundary } from "@yoast/ui-library";
+import { ChildrenLimiter, ErrorBoundary, useBeforeUnload } from "@yoast/ui-library";
+import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { Notifications, SidebarNavigation, ErrorFallback, YoastLogo } from "./components";
+import { ErrorFallback, Notifications, SidebarNavigation, YoastLogo } from "./components";
 import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
 import { useRouterScrollRestore } from "./hooks";
 import {
@@ -157,6 +158,12 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	useRouterScrollRestore();
+
+	const { dirty } = useFormikContext();
+	useBeforeUnload(
+		dirty,
+		__( "There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" )
+	);
 
 	return (
 		<>

@@ -31,9 +31,10 @@ const preloadMedia = async( settings ) => {
 /**
  * Handles the form submit.
  * @param {Object} values The values.
+ * @param {function} resetForm Resets the form.
  * @returns {Promise<boolean>} Promise of save result.
  */
-const handleSubmit = async( values ) => {
+const handleSubmit = async( values, { resetForm } ) => {
 	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
 	const { addNotification } = dispatch( STORE_NAME );
 
@@ -69,6 +70,9 @@ const handleSubmit = async( values ) => {
 			variant: "success",
 			title: __( "Great! Your settings were saved successfully.", "wordpress-seo" ),
 		} );
+
+		// Make sure the dirty state is reset after successfully saving.
+		resetForm();
 
 		return true;
 	} catch ( error ) {
