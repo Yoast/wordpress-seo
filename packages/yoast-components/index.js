@@ -94,7 +94,6 @@ export { setWordsForInsights } from "./redux/actions/insights";
 export {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-	setInclusiveLanguageResults,
 	setOverallReadabilityScore,
 	setOverallSeoScore,
 } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
