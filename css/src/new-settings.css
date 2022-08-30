@@ -36,18 +36,6 @@
 			z-index: 99999;
 		}
 
-		.yst-toggle-field--grid {
-			@apply lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12 lg:yst-max-w-none;
-
-			.yst-toggle-field__text {
-				@apply lg:yst-col-span-1;
-			}
-
-			.yst-toggle {
-				@apply lg:yst-col-span-2;
-			}
-		}
-
 		.yst-replacevar {
 			@apply yst-relative;
 		}

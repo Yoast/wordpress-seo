@@ -67,7 +67,6 @@ const Media = () => {
 						__( "We recommend disabling %1$s pages. Disabling %1$s pages will cause all attachment URLs to redirect to the media itself.", "wordpress-seo" ),
 						label
 					) }
-					className="yst-toggle-field--grid"
 				/>
 			</fieldset>
 			<hr className="yst-my-8" />

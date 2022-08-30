@@ -88,7 +88,6 @@ const AuthorArchives = () => {
 						__( "Disabling this will redirect the Author archive to your site's homepage.", "wordpress-seo" ),
 						singularLabel
 					) }
-					className="yst-toggle-field--grid"
 				/>
 			</fieldset>
 			<hr className="yst-my-8" />

@@ -72,7 +72,6 @@ const Formats = () => {
 					data-id={ "input-wpseo_titles-disable-post_format" }
 					label={ __( "Format-based archives", "wordpress-seo" ) }
 					description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
-					className="yst-toggle-field--grid"
 				/>
 			</fieldset>
 			<hr className="yst-my-8" />

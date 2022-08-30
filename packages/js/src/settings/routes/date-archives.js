@@ -80,7 +80,6 @@ const DateArchives = () => {
 						__( "%1$s can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ),
 						label
 					) }
-					className="yst-toggle-field--grid"
 				/>
 			</fieldset>
 			<hr className="yst-my-8" />
