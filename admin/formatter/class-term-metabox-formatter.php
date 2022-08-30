@@ -182,7 +182,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_title_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-title' );
+			return $this->get_social_template( 'title' );
 		}
 
 		return '';
@@ -195,7 +195,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_description_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-description' );
+			return $this->get_social_template( 'description' );
 		}
 
 		return '';
@@ -208,7 +208,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_image_template() {
 		if ( $this->use_social_templates ) {
-			return $this->get_template( 'social-image-url' );
+			return $this->get_social_template( 'image-url' );
 		}
 
 		return '';
@@ -222,10 +222,22 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string
 	 */
 	private function get_template( $template_option_name ) {
+		$needed_option = $template_option_name . '-tax-' . $this->term->taxonomy;
+		return WPSEO_Options::get( $needed_option, '' );
+	}
+
+	/**
+	 * Retrieves a social template.
+	 *
+	 * @param string $template_option_name The name of the option in which the template you want to get is saved.
+	 *
+	 * @return string
+	 */
+	private function get_social_template( $template_option_name ) {
 		/**
-		 * Filters the template value for a given taxonomy.
+		 * Filters the social template value for a given taxonomy.
 		 *
-		 * @param string $template             The template value, defaults to empty string.
+		 * @param string $template             The social template value, defaults to empty string.
 		 * @param string $template_option_name The name of the option in which the template you want to get is saved.
 		 * @param string $taxonomy             The name of the taxonomy.
 		 */
