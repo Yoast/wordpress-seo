@@ -51,10 +51,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return bool Whether the social templates should be used.
 	 */
 	public function use_social_templates() {
-		return YoastSEO()->helpers->product->is_premium()
-			&& defined( 'WPSEO_PREMIUM_VERSION' )
-			&& version_compare( WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' )
-			&& WPSEO_Options::get( 'opengraph', false ) === true;
+		return WPSEO_Options::get( 'opengraph', false ) === true;
 	}
 
 	/**
@@ -275,13 +272,15 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string
 	 */
 	private function get_template( $template_option_name ) {
-		$needed_option = $template_option_name . '-' . $this->post->post_type;
-
-		if ( WPSEO_Options::get( $needed_option, '' ) !== '' ) {
-			return WPSEO_Options::get( $needed_option );
-		}
-
-		return '';
+		/**
+		 * Filters the template value for a given post type.
+		 *
+		 * @param string $template             The template value, defaults to empty string.
+		 * @param string $template_option_name The name of the option in which the template you want to get is saved.
+		 * @param string $post_type            The name of the post type.
+		 *
+		 */
+		return \apply_filters( 'wpseo_social_template_post_type', '', $template_option_name, $this->post->post_type );
 	}
 
 	/**

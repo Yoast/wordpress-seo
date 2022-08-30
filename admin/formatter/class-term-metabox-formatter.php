@@ -57,10 +57,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return bool Whether the social templates should be used.
 	 */
 	public function use_social_templates() {
-		return YoastSEO()->helpers->product->is_premium()
-			&& defined( 'WPSEO_PREMIUM_VERSION' )
-			&& version_compare( WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' )
-			&& WPSEO_Options::get( 'opengraph', false ) === true;
+		return WPSEO_Options::get( 'opengraph', false ) === true;
 	}
 
 	/**
@@ -225,8 +222,15 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string
 	 */
 	private function get_template( $template_option_name ) {
-		$needed_option = $template_option_name . '-tax-' . $this->term->taxonomy;
-		return WPSEO_Options::get( $needed_option, '' );
+		/**
+		 * Filters the template value for a given taxonomy.
+		 *
+		 * @param string $template             The template value, defaults to empty string.
+		 * @param string $template_option_name The name of the option in which the template you want to get is saved.
+		 * @param string $taxonomy             The name of the taxonomy.
+		 *
+		 */
+		return \apply_filters( 'wpseo_social_template_taxonomy', '', $template_option_name, $this->term->taxonomy );
 	}
 
 	/**
