@@ -268,7 +268,7 @@ class Wincher_Keyphrases_Action {
 		 * @param int   $post_id    The ID of the post.
 		 */
 		return \apply_filters( 'wpseo_wincher_keyphrases_from_post', $keyphrases, $post->ID );
-}
+	}
 
 	/**
 	 * Collects all keyphrases known to Yoast.
