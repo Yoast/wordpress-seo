@@ -1,7 +1,7 @@
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { useState, useCallback } from "@wordpress/element";
+import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import { EyeOffIcon } from "@heroicons/react/outline";
 
 import { Button, Spinner } from "@yoast/ui-library";
@@ -45,6 +45,18 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 		addToIgnoreList( { indexable, type, position } );
 	}, [ indexable, type, position, addToIgnoreList ] );
 
+	const ref = useRef( null );
+
+	useEffect( () => {
+		const element = ref.current;
+
+		element.addEventListener( "animationend", addToIgnoreListCallback );
+
+	  return () => {
+			element.removeEventListener( "animationend", addToIgnoreListCallback );
+	  };
+	}, [] );
+
 	const handleIgnore =  useCallback( async( e ) => {
 		setIsHandlingIgnore( true );
 		const id = e.currentTarget.dataset.indexableid;
@@ -58,7 +70,6 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 			} );
 
 			const parsedResponse = await response.json;
-			setIsHandlingIgnore( false );
 
 			if ( parsedResponse.success ) {
 				setRowAnimationClasses( "yst-animate-slideRight" );
@@ -73,9 +84,9 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 	}, [ apiFetch, addToIgnoreList ] );
 
 	return <li
+		ref={ ref }
 		key={ `indexable-${ indexable.id }-row` }
 		className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14 " + rowAnimationClasses }
-		onAnimationEnd={ addToIgnoreListCallback }
 	>
 		{ children }
 		<div>

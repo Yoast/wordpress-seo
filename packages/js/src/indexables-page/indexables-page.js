@@ -5,7 +5,7 @@ import { LinkIcon, RefreshIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { createInterpolateElement, useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
-import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
+import { Link as LinkButton, Button, Modal, useMediaQuery, Alert, Notifications } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
 import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
@@ -181,9 +181,17 @@ function IndexablesPage( { setupInfo } ) {
 		return indexablesLists[ listName ].length === 0;
 	}, [ indexablesLists ] );
 
-	const [ ignoredIndexable, setIgnoredIndexable ] = useState( null );
+	const [ ignoredIndexable, setIgnoredIndexable ] = useState( [] );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ suggestedLinksModalData, setSuggestedLinksModalData ] = useState( null );
+
+	const handleAddToIgnoreList = useCallback( ( newIgnoredIndexable ) => {
+		setIgnoredIndexable( prevState => [ ...prevState, newIgnoredIndexable ] );
+	}, [ setIgnoredIndexable ] );
+
+	const handleRemoveFromIgnoreList = useCallback( ( undoIgnoreIndexable ) => {
+		setIgnoredIndexable( prevState => prevState.filter( ignoredItem => ignoredItem.indexable.id !== undoIgnoreIndexable.indexable.id ) );
+	}, [ setIgnoredIndexable ] );
 
 	const shouldShowDisabledAlert = useCallback( listName => {
 		// If the list's feature is disabled.
@@ -303,11 +311,11 @@ function IndexablesPage( { setupInfo } ) {
 	 * @returns {void}
 	 */
 	const maybeRemoveIgnored = ( listName ) => {
-		if ( ignoredIndexable === null ) {
+		if ( ignoredIndexable.length === 0 ) {
 			return;
 		}
 
-		const ignoredId = ignoredIndexable.indexable.id;
+		const ignoredId = ignoredIndexable[ ignoredIndexable.length - 1 ].indexable.id;
 		setIndexablesLists( prevState => {
 			return {
 				...prevState,
@@ -391,8 +399,9 @@ function IndexablesPage( { setupInfo } ) {
 
 	// We update a list each time the content of ignoredIndexable changes
 	useEffect( async() => {
-		if ( ignoredIndexable !== null ) {
-			updateList( ignoredIndexable.type, indexablesLists[ ignoredIndexable.type ] );
+		if ( ignoredIndexable.length > 0 ) {
+			const lastIgnored = ignoredIndexable[ ignoredIndexable.length - 1 ];
+			updateList( lastIgnored.type, indexablesLists[ lastIgnored.type ] );
 		}
 	}, [ ignoredIndexable ] );
 
@@ -525,14 +534,14 @@ function IndexablesPage( { setupInfo } ) {
 						[ type ]: newData,
 					};
 				} );
-				setIgnoredIndexable( null );
+				handleRemoveFromIgnoreList( ignored );
 			} else {
 				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
 		} catch ( error ) {
 			setErrorMessage( error.message );
 		}
-	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable ] );
+	}, [ apiFetch, setIndexablesLists, indexablesLists, handleRemoveFromIgnoreList ] );
 
 	const onClickUndo = useCallback( ( ignored ) => {
 		return () => handleUndo( ignored );
@@ -550,10 +559,10 @@ function IndexablesPage( { setupInfo } ) {
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
 				// If there is a button to ignore a single indexable, for a list for which we are removing all indexables...
-				if ( ignoredIndexable && ignoredIndexable.type === type ) {
-					// ...remove that button.
-					setIgnoredIndexable( null );
-				}
+				// if ( ignoredIndexable ) {
+				// 	// ...remove that button.
+				// 	setIgnoredIndexable( [] );
+				// }
 				updateList( type, indexablesLists[ type ], true );
 			} else {
 				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
@@ -561,7 +570,7 @@ function IndexablesPage( { setupInfo } ) {
 		} catch ( error ) {
 			setErrorMessage( error.message );
 		}
-	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable ] );
+	}, [ apiFetch, updateList, indexablesLists, setIgnoredIndexable ] );
 
 	const onClickUndoAll = useCallback( async() => {
 		try {
@@ -573,7 +582,7 @@ function IndexablesPage( { setupInfo } ) {
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
 				// If there is a button to ignore a single indexable, unmount it.
-				setIgnoredIndexable( null );
+				setIgnoredIndexable( [] );
 				handleRefreshLists();
 			} else {
 				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
@@ -626,7 +635,7 @@ function IndexablesPage( { setupInfo } ) {
 								key={ `indexable-${ indexable.id }-row` }
 								type={ "least_readability" }
 								indexable={ indexable }
-								addToIgnoreList={ setIgnoredIndexable }
+								addToIgnoreList={ handleAddToIgnoreList }
 								position={ position }
 								setErrorMessage={ setErrorMessage }
 							>
@@ -723,7 +732,7 @@ function IndexablesPage( { setupInfo } ) {
 									key={ `indexable-${ indexable.id }-row` }
 									type={ "least_linked" }
 									indexable={ indexable }
-									addToIgnoreList={ setIgnoredIndexable }
+									addToIgnoreList={ handleAddToIgnoreList }
 									position={ position }
 									setErrorMessage={ setErrorMessage }
 								>
@@ -850,7 +859,7 @@ function IndexablesPage( { setupInfo } ) {
 									key={ `indexable-${ indexable.id }-row` }
 									type={ "least_seo_score" }
 									indexable={ indexable }
-									addToIgnoreList={ setIgnoredIndexable }
+									addToIgnoreList={ handleAddToIgnoreList }
 									position={ position }
 									setErrorMessage={ setErrorMessage }
 								>
@@ -948,7 +957,7 @@ function IndexablesPage( { setupInfo } ) {
 										key={ `indexable-${ indexable.id }-row` }
 										type={ "most_linked" }
 										indexable={ indexable }
-										addToIgnoreList={ setIgnoredIndexable }
+										addToIgnoreList={ handleAddToIgnoreList }
 										position={ position }
 										setErrorMessage={ setErrorMessage }
 									>
@@ -986,15 +995,28 @@ function IndexablesPage( { setupInfo } ) {
 		</div>
 		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
 			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Restore all hidden items", "wordpress-seo" ) }</Button>
-			{
-				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
-					{
-						/* translators: %1$s expands to the title of a post that was just just hidden. */
-						sprintf( __( "Restore %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
-					}
-				</Button>
-			}
 		</div>
+		<Notifications>
+			{ ignoredIndexable.map( ( ignoredItem ) => <Notifications.Notification
+				key={ "undo-hiding-notification-" + ignoredItem.indexable.id }
+				id={ "undo-hiding-notification-" + ignoredItem.indexable.id }
+				variant="success"
+				title={ __( "Item succesfully hidden.", "wordpress-seo" ) }
+				onDismiss={ () => handleRemoveFromIgnoreList( ignoredItem ) }
+				autoDismiss={ 6000 }
+				dismissScreenReaderLabel={ __( "Close notification.", "wordpress-seo" ) }
+			>
+				<p className="yst-flex yst-flex-row yst-justify-between yst-text-sm yst-font-medium yst-text-gray-700">
+					{ __( "Item succesfully hidden!", "wordpress-seo" ) }
+					<LinkButton type="button" as="button" className="yst-ml-2" onClick={ onClickUndo( ignoredItem ) }>
+						{ __( "Undo", "wordpress-seo" ) }
+					</LinkButton>
+				</p>
+				<p>
+					{ ignoredItem.indexable.breadcrumb_title }
+				</p>
+			</Notifications.Notification> ) }
+		</Notifications>
 	</div>;
 }
 
