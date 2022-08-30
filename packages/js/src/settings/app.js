@@ -137,7 +137,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 		</SidebarNavigation.MenuItem>
