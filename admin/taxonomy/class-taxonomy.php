@@ -234,10 +234,6 @@ class WPSEO_Taxonomy {
 			return true;
 		}
 
-		if ( $key === 'wpseo_inclusive_language_score' && ! $this->analysis_inclusive_language->is_enabled() ) {
-			return true;
-		}
-
 		return false;
 	}
 

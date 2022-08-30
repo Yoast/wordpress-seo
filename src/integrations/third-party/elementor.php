@@ -368,10 +368,6 @@ class Elementor implements Integration_Interface {
 			return true;
 		}
 
-		if ( $key === 'inclusive_language_score' && ! $this->inclusive_language_analysis->is_enabled() ) {
-			return true;
-		}
-
 		return false;
 	}
 
