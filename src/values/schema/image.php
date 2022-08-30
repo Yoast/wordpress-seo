@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Values\Schema;
 
 /**
- * Class Iage
+ * Class Image
  *
  * Value object for a schema Image
  */
