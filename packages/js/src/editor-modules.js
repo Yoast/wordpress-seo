@@ -10,6 +10,8 @@ import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarP
 import MetaboxCollapsible from "./components/MetaboxCollapsible";
 import Modal from "./components/modals/Modal";
 import ImageSelectPortal from "./components/portals/ImageSelectPortal";
+import Portal from "./components/portals/Portal";
+import ScoreIconPortal from "./components/portals/ScoreIconPortal";
 import SidebarCollapsible from "./components/SidebarCollapsible";
 import SidebarItem from "./components/SidebarItem";
 import TopLevelProviders from "./components/TopLevelProviders";
@@ -55,7 +57,9 @@ window.yoast.editorModules = {
 		MetaboxCollapsible,
 		Modal,
 		portals: {
+			Portal,
 			ImageSelectPortal,
+			ScoreIconPortal,
 		},
 	},
 	containers: {
