@@ -251,7 +251,7 @@ Enhancements:
 
 Bugfixes:
 
-* Remove Premium code regarding the Frontend Inspector, the additional focus keyphrases and the wincher analysis of additional focus keyphrases
+* Remove Premium code regarding the Frontend Inspector and the additional focus keyphrases
 
 = 19.6 =
 Release Date: August 23rd, 2022
