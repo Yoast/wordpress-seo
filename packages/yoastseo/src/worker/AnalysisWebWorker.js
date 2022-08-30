@@ -76,6 +76,8 @@ export default class AnalysisWebWorker {
 		this._seoAssessor = null;
 		this._relatedKeywordAssessor = null;
 
+		this.additionalAssessors = {};
+
 		/*
 		 * The cached analyses results.
 		 *
@@ -127,6 +129,7 @@ export default class AnalysisWebWorker {
 		this.setCustomCornerstoneSEOAssessorClass = this.setCustomCornerstoneSEOAssessorClass.bind( this );
 		this.setCustomRelatedKeywordAssessorClass = this.setCustomRelatedKeywordAssessorClass.bind( this );
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
+		this.registerAssessor = this.registerAssessor.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -624,15 +627,13 @@ export default class AnalysisWebWorker {
 	 * @param {Object}   configuration          The configuration to check.
 	 * @param {Assessor} [contentAssessor=null] The content assessor.
 	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
-	 * @param {Assessor} [inclusiveLanguageAssessor=null] The inclusive language assessor.
 	 *
 	 * @returns {Object} Containing seo, readability, and inclusiveLanguage with true or false.
 	 */
 	static shouldAssessorsUpdate(
 		configuration,
 		contentAssessor = null,
-		seoAssessor = null,
-		inclusiveLanguageAssessor = null
+		seoAssessor = null
 	) {
 		const readability = [
 			"contentAnalysisActive",
@@ -652,17 +653,11 @@ export default class AnalysisWebWorker {
 			"researchData",
 			"customAnalysisType",
 		];
-		const inclusiveLanguage = [
-			"inclusiveLanguageAnalysisActive",
-			"locale",
-			"translations",
-		];
 		const configurationKeys = Object.keys( configuration );
 
 		return {
 			readability: isNull( contentAssessor ) || includesAny( configurationKeys, readability ),
 			seo: isNull( seoAssessor ) || includesAny( configurationKeys, seo ),
-			inclusiveLanguage: isNull( inclusiveLanguageAssessor ) || includesAny( configurationKeys, inclusiveLanguage ),
 		};
 	}
 
@@ -689,8 +684,7 @@ export default class AnalysisWebWorker {
 		const update = AnalysisWebWorker.shouldAssessorsUpdate(
 			configuration,
 			this._contentAssessor,
-			this._seoAssessor,
-			this._inclusiveLanguageAssessor
+			this._seoAssessor
 		);
 
 		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
@@ -745,9 +739,6 @@ export default class AnalysisWebWorker {
 			 * } );
 			 */
 		}
-		if ( update.inclusiveLanguage ) {
-			this._inclusiveLanguageAssessor = this.createInclusiveLanguageAssessor();
-		}
 
 		// Reset the paper in order to not use the cached results on analyze.
 		this.clearCache();
@@ -790,6 +781,10 @@ export default class AnalysisWebWorker {
 		this.refreshAssessment( name, pluginName );
 
 		return true;
+	}
+
+	registerAssessor( name, assessor ) {
+		this.additionalAssessors[ name ] = assessor;
 	}
 
 	/**
@@ -1048,12 +1043,17 @@ export default class AnalysisWebWorker {
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
-		if ( this._configuration.inclusiveLanguageAnalysisActive && this._inclusiveLanguageAssessor && shouldInclusiveLanguageUpdate ) {
-			this._inclusiveLanguageAssessor.assess( this._paper );
-			this._results.inclusiveLanguage = {
-				results: this._inclusiveLanguageAssessor.results,
-				score: this._inclusiveLanguageAssessor.calculateOverallScore(),
-			};
+		if ( Object.keys( this.additionalAssessors ) >= 1 && shouldReadabilityUpdate ) {
+			Object.keys( this.additionalAssessors ).forEach(
+				assessorName => {
+					const assessor = this.additionalAssessors[ assessorName ];
+					assessor.assess( this._paper );
+					this._results[ assessorName ] = {
+						results: assessor.results,
+						score: assessor.calculateOverallScore(),
+					};
+				}
+			);
 		}
 
 		return this._results;
