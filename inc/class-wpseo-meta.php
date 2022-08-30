@@ -1032,6 +1032,12 @@ class WPSEO_Meta {
 		};
 		$post_ids = array_map( $callback, $post_ids );
 
+		/*
+		 * If Premium is installed, get the additional keywords as well.
+		 * We only check for the additional keywords if we've not already found two.
+		 * In that case there's no use for an additional query as we already know
+		 * that the keyword has been used multiple times before.
+		 */
 		if ( count( $post_ids ) < 2 ) {
 			/**
 			 * Allows to add the additional keywords.
