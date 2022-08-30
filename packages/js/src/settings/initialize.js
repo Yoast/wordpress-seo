@@ -72,7 +72,7 @@ const handleSubmit = async( values, { resetForm } ) => {
 		} );
 
 		// Make sure the dirty state is reset after successfully saving.
-		resetForm();
+		resetForm( { values } );
 
 		return true;
 	} catch ( error ) {
