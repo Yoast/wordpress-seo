@@ -1,6 +1,10 @@
 import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
 import { merge } from "lodash";
-import { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
+import { STORE_NAME } from "../constants";
+import { mediaClient } from "../helpers";
+import { breadcrumbsSelectors } from "./breadcrumbs";
+import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
+import media, { createInitialMediaState, FETCH_MEDIA_ACTION_NAME, mediaActions, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
@@ -10,11 +14,8 @@ import replacementVariables, {
 	replacementVariablesSelectors,
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
+import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
-import media, { mediaActions, mediaSelectors, FETCH_MEDIA_ACTION_NAME } from "./media";
-import search, { searchActions, searchSelectors } from "./search";
-import { STORE_NAME } from "../constants";
-import { mediaClient } from "../helpers";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -34,48 +35,52 @@ const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
 			...linkParamsActions,
+			...mediaActions,
 			...notificationsActions,
 			...postTypesActions,
 			...preferencesActions,
 			...replacementVariablesActions,
 			...schemaActions,
-			...taxonomiesActions,
-			...mediaActions,
 			...searchActions,
+			...taxonomiesActions,
 		},
 		selectors: {
+			...breadcrumbsSelectors,
 			...linkParamsSelectors,
+			...mediaSelectors,
 			...notificationsSelectors,
 			...postTypesSelectors,
 			...preferencesSelectors,
 			...replacementVariablesSelectors,
 			...schemaSelectors,
-			...taxonomiesSelectors,
-			...mediaSelectors,
 			...searchSelectors,
+			...taxonomiesSelectors,
 		},
 		initialState: merge(
 			{},
 			{
 				linkParams: createInitialLinkParamsState(),
+				media: createInitialMediaState(),
 				notifications: createInitialNotificationsState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 				schema: createInitialSchemaState(),
+				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
+			linkParams,
+			media,
 			notifications,
 			postTypes,
 			preferences,
 			replacementVariables,
 			schema,
-			taxonomies,
-			media,
 			search,
+			taxonomies,
 		} ),
 		controls: {
 			[ FETCH_MEDIA_ACTION_NAME ]: async( { payload } ) => mediaClient.fetch( payload ),

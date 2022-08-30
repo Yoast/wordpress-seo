@@ -8,4 +8,6 @@ export { default as FormikWithErrorField } from "./formik-with-error-field";
 export { default as Notifications } from "./notifications";
 export { default as OpenGraphDisabledAlert } from "./open-graph-disabled-alert";
 export { default as SidebarNavigation } from "./sidebar-navigation";
+export { default as TaxonomyPostTypeBadges } from "./taxonomy-post-type-badges";
+export { default as ErrorFallback } from "./error-fallback";
 export { ReactComponent as YoastLogo } from "./yoast-logo.svg";

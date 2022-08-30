@@ -34,11 +34,12 @@
 
 		.yst-button--secondary {
 			@apply
-			yst-text-gray-700
+			yst-text-gray-800
 			yst-bg-white
 			yst-border-gray-300
 
-			hover:yst-bg-gray-50;
+			hover:yst-bg-gray-50
+			hover:yst-text-gray-800;
 		}
 
 		.yst-button--error {

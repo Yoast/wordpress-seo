@@ -210,13 +210,37 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 } );
 
 /**
- * @param {Object} settings The settings.
  * @param {Object} postTypes The post types.
  * @param {Object} taxonomies The taxonomies.
  * @returns {Object} The search index.
  */
-export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
-	wpseo: {},
+export const createSearchIndex = ( postTypes, taxonomies ) => ( {
+	wpseo: {
+		baiduverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo-baiduverify",
+			fieldLabel: __( "Baidu", "wordpress-seo" ),
+		},
+		googleverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo-googleverify",
+			fieldLabel: __( "Google", "wordpress-seo" ),
+		},
+		msverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo-msverify",
+			fieldLabel: __( "Bing", "wordpress-seo" ),
+		},
+		yandexverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo-yandexverify",
+			fieldLabel: __( "Yandex", "wordpress-seo" ),
+		},
+	},
 	wpseo_titles: {
 		open_graph_frontpage_image_id: {
 			route: "/homepage",
@@ -238,6 +262,42 @@ export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 			...acc,
 			...createTaxonomySearchIndex( taxonomy ),
 		} ), {} ),
+		"social-image-id-author-wpseo": {
+			route: "/author-archives",
+			routeLabel: __( "Author archives", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-social-image-author-wpseo-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-url-author-wpseo": {
+			route: "/author-archives",
+			routeLabel: __( "Author archives", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-social-image-author-wpseo-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-id-archive-wpseo": {
+			route: "/date-archives",
+			routeLabel: __( "Date archives", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-social-image-archive-wpseo-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-url-archive-wpseo": {
+			route: "/date-archives",
+			routeLabel: __( "Date archives", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-social-image-archive-wpseo-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-id-tax-post_format": {
+			route: "/formats",
+			routeLabel: taxonomies.post_format.label,
+			fieldId: "button-wpseo_titles-social-image-tax-post_format-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		"social-image-url-tax-post_format": {
+			route: "/formats",
+			routeLabel: taxonomies.post_format.label,
+			fieldId: "button-wpseo_titles-social-image-tax-post_format-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
 	},
 	wpseo_social: {
 		og_default_image_id: {
@@ -251,6 +311,12 @@ export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site defaults", "wordpress-seo" ),
 			fieldId: "button-wpseo_social-og_default_image-preview",
 			fieldLabel: __( "Site image", "wordpress-seo" ),
+		},
+		pinterestverify: {
+			route: "/webmaster-tools",
+			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
+			fieldId: "input-wpseo_social-pinterestverify",
+			fieldLabel: __( "Pinterest", "wordpress-seo" ),
 		},
 	},
 } );
