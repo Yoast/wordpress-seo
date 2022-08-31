@@ -241,6 +241,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.6.1 =
+Release Date: August 31st, 2022
+
+Other:
+
+* Fixes compliance with the wordpress.org plugin guidelines.
+
 = 19.6 =
 Release Date: August 23rd, 2022
 
