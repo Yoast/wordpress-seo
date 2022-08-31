@@ -242,9 +242,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 19.6.1 =
-Release Date: August 30th, 2022
-
-
+Release Date: August 31st, 2022
 
 Enhancements:
 
