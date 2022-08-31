@@ -103,8 +103,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 	} );
 } );
 
-// Ignore the shopify specs as long as it is not yet implemented for shopify.
-xdescribe( "a test for SKU assessment for Shopify", () => {
+describe( "a test for SKU assessment for Shopify", () => {
 	const assessment = new ProductSKUAssessment( { urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify79" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify80" ),
 		assessVariants: false,
@@ -114,6 +113,7 @@ xdescribe( "a test for SKU assessment for Shopify", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalSKU: true,
 			hasVariants: false,
+			productType: "simple",
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
@@ -125,6 +125,7 @@ xdescribe( "a test for SKU assessment for Shopify", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalSKU: false,
 			hasVariants: false,
+			productType: "simple",
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
@@ -132,33 +133,10 @@ xdescribe( "a test for SKU assessment for Shopify", () => {
 			" Your product is missing a SKU. <a href='https://yoa.st/shopify80' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
-
-	it( "should not return a score if the product has variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
-			hasGlobalSKU: false,
-			hasVariants: true,
-		} ) );
-
-		expect( assessmentResult.hasScore() ).toEqual( false );
-	} );
 } );
 
 describe( "a test for the applicability of the assessment", function() {
-	it( "is applicable when the assessVariants variable is set to true", function() {
-		const assessment = new ProductSKUAssessment( { assessVariants: true } );
-		const isApplicable = assessment.isApplicable( paper );
-
-		expect( isApplicable ).toBe( true );
-	} );
-
-	it( "is not applicable when the assessVariants variable is set to false", function() {
-		const assessment = new ProductSKUAssessment();
-		const isApplicable = assessment.isApplicable( paper );
-
-		expect( isApplicable ).toBe( false );
-	} );
-
-	it( "is applicable when the SKU can be detected", function() {
+	it( "is applicable when we want to assess variants and the SKU can be detected", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
 			canRetrieveGlobalSku: true,
@@ -172,7 +150,7 @@ describe( "a test for the applicability of the assessment", function() {
 		expect( isApplicable ).toBe( true );
 	} );
 
-	it( "is not applicable when the SKU cannot be detected on product without variants", function() {
+	it( "is not applicable when we want to assess variants and the SKU cannot be detected on product without variants", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
 			canRetrieveGlobalSku: false,
@@ -186,9 +164,11 @@ describe( "a test for the applicability of the assessment", function() {
 		expect( isApplicable ).toBe( false );
 	} );
 
-	it( "is applicable when the SKU cannot be detected on product with variants", function() {
+	it( "is applicable when we want to assess variants and when the global SKU cannot be detected on product with variants," +
+		"but the variant SKU can", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
+			canRetrieveVariantSkus: true,
 			canRetrieveGlobalSku: false,
 			hasGlobalSKU: false,
 			hasVariants: true,
@@ -200,13 +180,39 @@ describe( "a test for the applicability of the assessment", function() {
 		expect( isApplicable ).toBe( true );
 	} );
 
-	it( "is not applicable when the SKU of at least one variant cannot be detected on product with variants", function() {
+	it( "is not applicable when we want to assess variants and the SKU of at least one variant cannot be detected on product with variants", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
 			canRetrieveVariantSkus: false,
 			hasGlobalSKU: false,
 			hasVariants: true,
 			productType: "variable",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( false );
+	} );
+
+	it( "is applicable when we don't want to assess variants and the product doesn't have variants", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: false } );
+		const customData = {
+			hasGlobalSKU: false,
+			hasVariants: false,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "is not applicable when we don't want to assess variants and the product has variants", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: false } );
+		const customData = {
+			hasGlobalSKU: false,
+			hasVariants: true,
+			productType: "simple",
 		};
 		const paperWithCustomData = new Paper( "", { customData } );
 		const isApplicable = assessment.isApplicable( paperWithCustomData );

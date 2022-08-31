@@ -242,18 +242,32 @@ describe( "running assessments in the product page SEO assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a product with variants or a price", function() {
+	it( "additionally runs assessments that require the SKU to be detectable, and that shouldn't be applicable if the" +
+		"product has variants and we don't want to assess variants", function() {
+		const customData = {
+			canRetrieveGlobalSku: true,
+			canRetrieveVariantSkus: true,
+			hasVariants: true,
+			productType: "variable",
+		};
+		assessor.assess( new Paper( "", { customData } ) );
+		const AssessmentResults = assessor.getValidResults();
+		const assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toContain( "productSKU" );
+	} );
+
+	it( "additionally runs assessments that shouldn't be applicable if the product has variants and we don't want" +
+		" to assess variants", function() {
 		const customData = {
 			hasVariants: true,
-			hasPrice: false,
-			productType: "simple",
+			productType: "variable",
 		};
 		assessor.assess( new Paper( "", { customData } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
 		expect( assessments ).toContain( "productIdentifier" );
-		expect( assessments ).toContain( "productSKU" );
 	} );
 
 	describe( "has configuration overrides", () => {

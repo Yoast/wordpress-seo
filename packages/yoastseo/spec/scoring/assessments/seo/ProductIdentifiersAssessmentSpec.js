@@ -2,6 +2,7 @@ import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
+import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
 const paper = new Paper( "" );
 
@@ -106,8 +107,7 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 	} );
 } );
 
-// Ignore the shopify specs as long as it is not yet implemented for shopify.
-xdescribe( "a test for Product identifiers assessment for Shopify", () => {
+describe( "a test for Product identifiers assessment for Shopify", () => {
 	const assessment = new ProductIdentifiersAssessment( { urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
 		assessVariants: false,
@@ -117,6 +117,7 @@ xdescribe( "a test for Product identifiers assessment for Shopify", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: true,
 			hasVariants: false,
+			productType: "simple",
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
@@ -128,6 +129,7 @@ xdescribe( "a test for Product identifiers assessment for Shopify", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: false,
 			hasVariants: false,
+			productType: "simple",
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
@@ -135,30 +137,39 @@ xdescribe( "a test for Product identifiers assessment for Shopify", () => {
 			" Your product is missing a barcode (like a GTIN code). <a href='https://yoa.st/shopify82' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
-
-	it( "should not return a score if the product has variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
-			hasGlobalIdentifier: false,
-			hasVariants: true,
-		} ) );
-
-		expect( assessmentResult.hasScore() ).toEqual( false );
-	} );
 } );
 
 describe( "a test for the applicability of the assessment", function() {
 	it( "is applicable when the assessVariants variable is set to true", function() {
-		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const assessment = new ProductIdentifiersAssessment();
 		const isApplicable = assessment.isApplicable( paper );
 
 		expect( isApplicable ).toBe( true );
 	} );
 
-	it( "is not applicable when the assessVariants variable is set to false", function() {
-		const assessment = new ProductIdentifiersAssessment();
-		const isApplicable = assessment.isApplicable( paper );
+	it( "is not applicable when the assessVariants variable is set to false and the product has variants", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: false } );
+		const customData = {
+			hasGlobalIdentifier: false,
+			hasVariants: true,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
 
 		expect( isApplicable ).toBe( false );
 	} );
-} );
 
+	it( "is applicable when the assessVariants variable is set to false and the product doesn't have variants", function() {
+		const assessment = new ProductIdentifiersAssessment();
+		const customData = {
+			hasGlobalIdentifier: false,
+			hasVariants: false,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+} );
