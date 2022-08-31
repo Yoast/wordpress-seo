@@ -32,14 +32,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		$is_premium      = YoastSEO()->helpers->product->is_premium();
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
 
-		if ( $feature->premium && $feature->premium_version ) {
-			$not_supported_in_current_premium_version = $is_premium && \version_compare( $premium_version, $feature->premium_version, '<' );
-
-			if ( $not_supported_in_current_premium_version ) {
-				continue;
-			}
-		}
-
 		$help_text = esc_html( $feature->label );
 		if ( ! empty( $feature->extra ) ) {
 			$help_text .= ' ' . $feature->extra;
@@ -92,6 +84,15 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$note_when_disabled  = __( 'This feature has been disabled, since it is not supported for your language yet.', 'wordpress-seo' );
 			// Do not show Premium or Beta badge.
 			$name = $feature->name;
+		}
+
+		if ( $feature->premium && $feature->premium_version ) {
+			$not_supported_in_current_premium_version = $is_premium && \version_compare( $premium_version, $feature->premium_version, '<' );
+
+			if ( $not_supported_in_current_premium_version ) {
+				$disabled           = true;
+				$note_when_disabled = __( 'Please update your Yoast SEO Premium plugin to the latest version to be able to use this feature.', 'wordpress-seo' );
+			}
 		}
 
 		$preserve_disabled_value = false;

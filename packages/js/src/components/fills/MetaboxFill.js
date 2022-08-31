@@ -10,7 +10,7 @@ import { colors } from "@yoast/style-guide";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
@@ -87,9 +87,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
 					</Fragment>
-				</SidebarItem> }
-				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
-					<InclusiveLanguageAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
