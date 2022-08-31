@@ -3,8 +3,8 @@
  *
  * @param {Object} state The state.
  *
- * @returns {bool} The check list items.
+ * @returns {Object} The check list items.
  */
 export function getChecklistItems( state ) {
-	return state.checklistItems;
+	return state.checklist.checklistItems;
 }
