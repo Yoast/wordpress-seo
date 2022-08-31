@@ -35,7 +35,7 @@ describe( "a test for the formality classification accuracy", () => {
 		console.log( `The accuracy of the model on the formal class is: ${accuracy}%` );
 
 		// Comment-out the next line if you want to write to file. (The function will exit if te expect fails.)
-		// expect( accuracy ).toBeGreaterThanOrEqual( 90 );
+		expect( accuracy ).toBeGreaterThanOrEqual( 90 );
 
 		// Below prints the attribute values that can be used to create the decision tree
 		// Uncomment to print json to stdout.
@@ -70,7 +70,7 @@ describe( "a test for the formality classification accuracy", () => {
 		console.log( `The accuracy of the model on the informal class is: ${accuracy}%` );
 
 		// Comment-out the next line if you want to write to file. (The function will exit if te expect fails.)
-		// expect( accuracy ).toBeGreaterThanOrEqual( 90 );
+		expect( accuracy ).toBeGreaterThanOrEqual( 90 );
 
 		// Below prints the attribute values that can be used to create the decision tree
 		// Uncomment to print json to stdout.

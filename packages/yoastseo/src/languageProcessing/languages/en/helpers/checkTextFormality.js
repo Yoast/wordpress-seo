@@ -94,6 +94,7 @@ export function getRequiredFeatures( paper, researcher ) {
  */
 export default function( paper, researcher ) {
 	const {
+		charsPerSentence,
 		wordsPerSentence,
 		averageWordLength,
 		averagePassives,
@@ -101,39 +102,52 @@ export default function( paper, researcher ) {
 		averageInformalPronouns,
 	} = getRequiredFeatures( paper, researcher );
 
-	if ( averageWordLength <= 4.811 ) {
-		if ( averageFormalPronouns <= 0.053 ) {
-			if ( averageInformalPronouns <= 0.028 ) {
-				if ( averagePassives <= 0.063 ) {
-					return "formal";
+	if ( averageInformalPronouns <= 0.01805790513753891 ) {
+		if ( charsPerSentence <= 90.87325286865234 ) {
+			if ( charsPerSentence <= 73.79549026489258 ) {
+				if ( charsPerSentence <= 65.41666793823242 ) {
+					return "informal";
 				}
 				return "informal";
 			}
+			if ( charsPerSentence <= 86.5999984741211 ) {
+				return "formal";
+			}
 			return "informal";
 		}
-		if ( averagePassives <= 0.094 ) {
+		if ( charsPerSentence <= 172.26373291015625 ) {
+			if ( averageFormalPronouns <= 0.05696944147348404 ) {
+				return "formal";
+			}
 			return "informal";
 		}
-		return "formal";
+		if ( wordsPerSentence <= 36.83333396911621 ) {
+			return "informal";
+		}
+		return "informal";
 	}
-
-	if ( averageInformalPronouns <= 0.006 ) {
-		if ( averagePassives <= 0.088 ) {
-			if ( averageFormalPronouns <= 0.015 ) {
+	if ( averageInformalPronouns <= 0.04157066158950329 ) {
+		if ( wordsPerSentence <= 24.832167625427246 ) {
+			if ( wordsPerSentence <= 13.916666507720947 ) {
 				return "informal";
 			}
-			return "formal";
+			return "informal";
 		}
-		return "formal";
-	}
-
-	if ( wordsPerSentence <= 21.365 ) {
-		if ( averageFormalPronouns <= 0.006 ) {
+		if ( averageFormalPronouns <= 0.0007042253273539245 ) {
 			return "formal";
 		}
 		return "informal";
 	}
-
-	return "formal";
+	if ( averageInformalPronouns <= 0.06274875998497009 ) {
+		if ( averageInformalPronouns <= 0.06258514896035194 ) {
+			return "informal";
+		}
+		return "formal";
+	}
+	if ( averageInformalPronouns <= 0.06568162143230438 ) {
+		return "informal";
+	}
+	return "informal";
 }
+
 /* eslint-enable complexity */
