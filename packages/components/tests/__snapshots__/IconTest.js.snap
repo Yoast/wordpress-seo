@@ -1,9 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Icon with props matches the snapshot 1`] = `
+.c0 {
+  width: 200px;
+  height: 200px;
+  fill: red;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
 <svg
   aria-hidden="true"
-  className="Icon__IconComponent-sc-1qoxoow-0 cvIAPK"
+  className="c0"
   focusable="false"
   role="img"
   viewBox="0 0 500 500"
@@ -52,9 +61,17 @@ exports[`the Icon with props matches the snapshot 1`] = `
 `;
 
 exports[`the Icon without props matches the snapshot 1`] = `
+.c0 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
 <svg
   aria-hidden="true"
-  className="Icon__IconComponent-sc-1qoxoow-0 eBVrid"
+  className="c0"
   focusable="false"
   role="img"
   viewBox="0 0 500 500"

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the ArticleList matches the snapshot 1`] = `
-.c0 {
+.c5 {
   border: 0;
   -webkit-clip: rect(1px,1px,1px,1px);
   clip: rect(1px,1px,1px,1px);
@@ -19,30 +19,60 @@ exports[`the ArticleList matches the snapshot 1`] = `
   transform: translateY(1em);
 }
 
+.c0 {
+  box-sizing: border-box;
+}
+
+.c0 p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.c1 {
+  margin: 8px 0;
+  font-size: 1em;
+}
+
+.c2 {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.c4 {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.c3 {
+  margin: 8px 0;
+}
+
 <div
-  className="ArticleList__ArticleListContainer-sc-17ef94o-0 chqtaE articlelist-feed"
+  className="c0 articlelist-feed"
 >
   <h3
-    className="ArticleList__ArticleListHeader-sc-17ef94o-1 iEKBga articlelist-feed__header"
+    className="c1 articlelist-feed__header"
   >
     Feed title
   </h3>
   <ul
-    className="ArticleList__FeedList-sc-17ef94o-2 gSKsbE articlelist-feed__posts"
+    className="c2 articlelist-feed__posts"
     role="list"
   >
     <li
-      className="ArticleList__ArticleListItemContainer-sc-17ef94o-4 gTykSt articlelist-feed__post"
+      className="c3 articlelist-feed__post"
     >
       <a
-        className="ArticleList__ArticleListLink-sc-17ef94o-3 eCBpbf articlelist-feed__post-link"
+        className="c4 articlelist-feed__post-link"
         href="https://www.yoast.com/1"
         rel={null}
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="c0"
+          className="c5"
         >
           (Opens in a new browser tab)
         </span>
@@ -54,17 +84,17 @@ exports[`the ArticleList matches the snapshot 1`] = `
       </p>
     </li>
     <li
-      className="ArticleList__ArticleListItemContainer-sc-17ef94o-4 gTykSt articlelist-feed__post"
+      className="c3 articlelist-feed__post"
     >
       <a
-        className="ArticleList__ArticleListLink-sc-17ef94o-3 eCBpbf articlelist-feed__post-link"
+        className="c4 articlelist-feed__post-link"
         href="https://www.yoast.com/2"
         rel={null}
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="c0"
+          className="c5"
         >
           (Opens in a new browser tab)
         </span>
