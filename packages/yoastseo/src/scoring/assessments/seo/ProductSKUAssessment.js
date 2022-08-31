@@ -25,7 +25,7 @@ export default class ProductSKUAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
-			assessVariants: false,
+			assessVariants: true,
 		};
 
 		this.identifier = "productSKU";

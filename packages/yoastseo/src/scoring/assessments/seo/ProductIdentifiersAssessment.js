@@ -25,7 +25,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
-			assessVariants: false,
+			assessVariants: true,
 			productIdentifierOrBarcode: "Product identifier",
 		};
 
