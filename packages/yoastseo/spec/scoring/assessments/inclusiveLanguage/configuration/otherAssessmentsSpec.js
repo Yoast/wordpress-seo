@@ -1,9 +1,10 @@
+/*
 import Paper from "../../../../../src/values/Paper";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/otherAssessments";
-
-describe( "Other assessments", function() {
+ */
+describe.skip( "Other assessments", function() {
 	it( "should target potentially non-inclusive phrases",
 		function() {
 			const mockPaper = new Paper( "This ad is aimed at homosexuals" );

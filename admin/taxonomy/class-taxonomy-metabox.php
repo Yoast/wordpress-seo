@@ -46,13 +46,6 @@ class WPSEO_Taxonomy_Metabox {
 	protected $readability_analysis;
 
 	/**
-	 * Helper to determine whether or not the inclusive language analysis is enabled.
-	 *
-	 * @var WPSEO_Metabox_Analysis_Inclusive_Language
-	 */
-	protected $inclusive_language_analysis;
-
-	/**
 	 * The constructor.
 	 *
 	 * @param string   $taxonomy The taxonomy.
@@ -63,9 +56,8 @@ class WPSEO_Taxonomy_Metabox {
 		$this->taxonomy          = $taxonomy;
 		$this->is_social_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
-		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
-		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
+		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -148,10 +140,6 @@ class WPSEO_Taxonomy_Metabox {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();
 		}
 
-		if ( $this->inclusive_language_analysis->is_enabled() ) {
-			$tabs[] = new WPSEO_Metabox_Section_Inclusive_Language();
-		}
-
 		if ( $this->is_social_enabled ) {
 			$tabs[] = new WPSEO_Metabox_Section_React(
 				'social',
@@ -161,6 +149,56 @@ class WPSEO_Taxonomy_Metabox {
 					'html_after' => '<div id="wpseo-section-social"></div>',
 				]
 			);
+		}
+
+		$tabs = array_merge( $tabs, $this->get_additional_tabs() );
+
+		return $tabs;
+	}
+
+	/**
+	 * Returns the metabox tabs that have been added by other plugins.
+	 *
+	 * @return WPSEO_Metabox_Section_Additional[]
+	 */
+	protected function get_additional_tabs() {
+		$tabs = [];
+
+		/**
+		 * Private filter: 'yoast_free_additional_taxonomy_metabox_sections'.
+		 *
+		 * Meant for internal use only. Allows adding additional tabs to the Yoast SEO metabox for taxonomies.
+		 *
+		 * @param array[] $tabs {
+		 *     An array of arrays with tab specifications.
+		 *
+		 *     @type array $tab {
+		 *          A tab specification.
+		 *
+		 *          @type string $name         The name of the tab. Used in the HTML IDs, href and aria properties.
+		 *          @type string $link_content The content of the tab link.
+		 *          @type string $content      The content of the tab.
+		 *          @type array $options {
+		 *              Optional. Extra options.
+		 *
+		 *              @type string $link_class      Optional. The class for the tab link.
+		 *              @type string $link_aria_label Optional. The aria label of the tab link.
+		 *          }
+		 *     }
+		 * }
+		 */
+		$requested_tabs = apply_filters( 'yoast_free_additional_taxonomy_metabox_sections', [] );
+
+		foreach ( $requested_tabs as $tab ) {
+			if ( is_array( $tab ) && array_key_exists( 'name', $tab ) && array_key_exists( 'link_content', $tab ) && array_key_exists( 'content', $tab ) ) {
+				$options = array_key_exists( 'options', $tab ) ? $tab['options'] : [];
+				$tabs[]  = new WPSEO_Metabox_Section_Additional(
+					$tab['name'],
+					$tab['link_content'],
+					$tab['content'],
+					$options
+				);
+			}
 		}
 
 		return $tabs;
