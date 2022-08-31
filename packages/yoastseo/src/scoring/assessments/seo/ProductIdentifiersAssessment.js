@@ -58,13 +58,15 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the assessment is applicable (for now it is not applicable in Shopify where we also don't want to
-	 * assess variants; hence the applicability condition based on that).
-	 **
+	 * Checks whether the assessment is applicable. It is applicable unless the product has variants and we don't want to
+	 * assess variants (this is the case for Shopify since we cannot at the moment easily access variant data in Shopify).
+	 *
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
-	isApplicable() {
-		return this._config.assessVariants;
+	isApplicable( paper ) {
+		const customData = paper.getCustomData();
+
+		return ! ( this._config.assessVariants === false && customData.hasVariants );
 	}
 
 	/**

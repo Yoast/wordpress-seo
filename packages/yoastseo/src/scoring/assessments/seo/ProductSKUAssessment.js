@@ -57,6 +57,10 @@ export default class ProductSKUAssessment extends Assessment {
 
 	/**
 	 * Checks whether the assessment is applicable.
+	 * It is not applicable when the product has variants and we don't want to assess variants (this is the case for Shopify
+	 * since we cannot at the moment easily access variant data in Shopify).
+	 * It is also not applicable when we cannot retrieve the SKU (this can be the case if other plugins remove/change the SKU
+	 * input field in such as way that we cannot detect it.
 	 *
 	 * @param {Paper} paper The paper to check.
 	 *
@@ -65,17 +69,18 @@ export default class ProductSKUAssessment extends Assessment {
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
 
-		 // Do not show the assessment when we cannot retrieve the SKU.
-		if ( customData.canRetrieveGlobalSku === false && customData.hasVariants === false ) {
-			return false;
+		// Assessment is not applicable if we don't want to assess variants and the product has variants.
+		if ( this._config.assessVariants === false ) {
+			return ! customData.hasVariants;
 		}
 
-		if ( customData.canRetrieveVariantSkus === false && customData.hasVariants === true ) {
-			return false;
+		// Assessment is not applicable if product has variants and we cannot retrieve variant SKUs.
+		if( customData.hasVariants ) {
+			 return customData.canRetrieveVariantSkus;
 		}
 
-		// For now the assessment is not applicable in Shopify, where we also don't want to assess variants.
-		return this._config.assessVariants;
+		// Assessment is not applicable if product doesn't have variants and we cannot retrieve global SKU.
+		return customData.canRetrieveGlobalSku;
 	}
 
 	/**
