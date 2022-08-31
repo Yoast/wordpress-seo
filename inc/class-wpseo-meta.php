@@ -1027,34 +1027,20 @@ class WPSEO_Meta {
 		$post_ids = array_map( $callback, $post_ids );
 
 		/*
-		 * If Yoast SEO Premium is active, get the additional keywords as well.
+		 * If Premium is installed, get the additional keywords as well.
 		 * We only check for the additional keywords if we've not already found two.
 		 * In that case there's no use for an additional query as we already know
 		 * that the keyword has been used multiple times before.
 		 */
-		if ( YoastSEO()->helpers->product->is_premium() && count( $post_ids ) < 2 ) {
-			$query = [
-				'meta_query'     => [
-					[
-						'key'     => '_yoast_wpseo_focuskeywords',
-						'value'   => sprintf( '"keyword":"%s"', $keyword ),
-						'compare' => 'LIKE',
-					],
-				],
-				'post__not_in'   => [ $post_id ],
-				'fields'         => 'ids',
-				'post_type'      => 'any',
-
-				/*
-				 * We only need to return zero, one or two results:
-				 * - Zero: keyword hasn't been used before
-				 * - One: Keyword has been used once before
-				 * - Two or more: Keyword has been used twice or more before
-				 */
-				'posts_per_page' => 2,
-			];
-			$get_posts = new WP_Query( $query );
-			$post_ids  = array_merge( $post_ids, $get_posts->posts );
+		if ( count( $post_ids ) < 2 ) {
+			/**
+			 * Allows enhancing the array of posts' that share their focus keywords with the post's focus keywords.
+			 *
+			 * @param array  $post_ids The array of posts' ids that share their related keywords with the post.
+			 * @param string $keyword  The keyword to search for.
+			 * @param int    $post_id  The id of the post the keyword is associated to.
+			 */
+			$post_ids = apply_filters( 'wpseo_posts_for_focus_keyword', $post_ids, $keyword, $post_id );
 		}
 
 		return $post_ids;
