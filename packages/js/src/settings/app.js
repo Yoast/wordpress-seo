@@ -80,67 +80,74 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	}, [] );
 
 	return <>
-		<figure className="yst-w-44 yst-px-3 yst-mb-6">
-			<YoastLogo />
-		</figure>
-		<SidebarNavigation.MenuItem
-			id={ `menu-site-settings${ idSuffix && `-${ idSuffix }` }` }
-			icon={ DesktopComputerIcon }
-			label={ __( "General", "wordpress-seo" ) }
-		>
-			{ /* <SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
-			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			{ /* <SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
-		</SidebarNavigation.MenuItem>
-		<SidebarNavigation.MenuItem
-			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
-			icon={ NewspaperIcon }
-			label={ __( "Content types", "wordpress-seo" ) }
-		>
-			<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-				<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				{ map( postTypes, ( { name, route, label } ) => (
-					<SidebarNavigation.SubmenuItem
-						key={ `link-post-type-${ name }` } to={ `/post-type/${ route }` } label={ label }
-						idSuffix={ idSuffix }
-					/>
-				) ) }
-			</ChildrenLimiter>
-		</SidebarNavigation.MenuItem>
-		<SidebarNavigation.MenuItem
-			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
-			icon={ ColorSwatchIcon }
-			label={ __( "Categories & tags", "wordpress-seo" ) }
-		>
-			<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-				{ map( taxonomies, taxonomy => <TaxonomySubmenuItem key={ `link-taxonomy-${ taxonomy.name }` } taxonomy={ taxonomy } /> ) }
-			</ChildrenLimiter>
-		</SidebarNavigation.MenuItem>
-		<SidebarNavigation.MenuItem
-			id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
-			icon={ AdjustmentsIcon }
-			label={ __( "Advanced", "wordpress-seo" ) }
-		>
-			{ /* <SidebarNavigation.SubmenuItem
-				to="/crawl-optimization"
-				label={
-					<span className="yst-inline-flex yst-items-center yst-gap-1.5">
-						{ __( "Crawl optimization", "wordpress-seo" ) }
-						<Badge variant="info">{ __( "Beta", "wordpress-seo" ) }</Badge>
-					</span>
-				}
-				idSuffix={ idSuffix }
-			/> */ }
-			<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
-		</SidebarNavigation.MenuItem>
+		<header className="yst-sticky yst-top-0">
+			<div className="yst-bg-gray-100">
+				<figure className="yst-w-44 yst-px-3">
+					<YoastLogo />
+				</figure>
+			</div>
+			<div className="yst-h-6 yst-bg-gradient-to-b yst-from-gray-100" />
+		</header>
+		<div className="yst-space-y-6">
+			<SidebarNavigation.MenuItem
+				id={ `menu-site-settings${ idSuffix && `-${ idSuffix }` }` }
+				icon={ DesktopComputerIcon }
+				label={ __( "General", "wordpress-seo" ) }
+			>
+				{ /* <SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+				<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				{ /* <SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			</SidebarNavigation.MenuItem>
+			<SidebarNavigation.MenuItem
+				id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
+				icon={ NewspaperIcon }
+				label={ __( "Content types", "wordpress-seo" ) }
+			>
+				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
+					{ map( postTypes, ( { name, route, label } ) => (
+						<SidebarNavigation.SubmenuItem
+							key={ `link-post-type-${ name }` } to={ `/post-type/${ route }` } label={ label }
+							idSuffix={ idSuffix }
+						/>
+					) ) }
+				</ChildrenLimiter>
+			</SidebarNavigation.MenuItem>
+			<SidebarNavigation.MenuItem
+				id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
+				icon={ ColorSwatchIcon }
+				label={ __( "Categories & tags", "wordpress-seo" ) }
+			>
+				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+					{ map( taxonomies, taxonomy => <TaxonomySubmenuItem key={ `link-taxonomy-${ taxonomy.name }` } taxonomy={ taxonomy } /> ) }
+				</ChildrenLimiter>
+			</SidebarNavigation.MenuItem>
+			<SidebarNavigation.MenuItem
+				id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
+				icon={ AdjustmentsIcon }
+				label={ __( "Advanced", "wordpress-seo" ) }
+			>
+				{ /* <SidebarNavigation.SubmenuItem
+					to="/crawl-optimization"
+					label={
+						<span className="yst-inline-flex yst-items-center yst-gap-1.5">
+							{ __( "Crawl optimization", "wordpress-seo" ) }
+							<Badge variant="info">{ __( "Beta", "wordpress-seo" ) }</Badge>
+						</span>
+					}
+					idSuffix={ idSuffix }
+				/> */ }
+				<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			</SidebarNavigation.MenuItem>
+		</div>
 	</>;
 };
 
@@ -175,13 +182,13 @@ const App = () => {
 				>
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
-				<div className="yst-flex md:yst-gap-4 yst-p-4 md:yst-p-8">
-					<aside className="yst-hidden md:yst-block yst-flex-shrink-0 yst-w-56 lg:yst-w-64">
+				<div className="yst-p-4 md:yst-p-8 md:yst-pl-[17rem] lg:yst-pl-[19rem]">
+					<aside className="yst-sidebar-nav yst-hidden yst-overflow-auto md:yst-block yst-fixed yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64">
 						<SidebarNavigation.Sidebar>
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<main className="yst-flex-grow yst-rounded-lg yst-bg-white yst-shadow">
+					<main className="yst-rounded-lg yst-bg-white yst-shadow">
 						<ErrorBoundary FallbackComponent={ ErrorFallback }>
 							<Routes>
 								<Route path="author-archives" element={ <AuthorArchives /> } />
