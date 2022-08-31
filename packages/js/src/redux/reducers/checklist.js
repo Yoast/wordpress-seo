@@ -1,4 +1,4 @@
-import { ADD_CHECK_LIST } from "../actions";
+import { ADD_CHECKLIST } from "../actions";
 
 const INITIAL_STATE = {
 	checklistItems: {},
@@ -14,7 +14,7 @@ const INITIAL_STATE = {
  */
 function analysisDataReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case ADD_CHECK_LIST: {
+		case ADD_CHECKLIST: {
 			const nextState = Object.assign( {}, state );
 			nextState.checklistItems[ action.name ] = action.data;
 			return nextState;

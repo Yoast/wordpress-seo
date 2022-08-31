@@ -1,4 +1,4 @@
-export const ADD_CHECK_LIST = "ADD_CHECK_LIST";
+export const ADD_CHECKLIST = "ADD_CHECKLIST";
 
 /**
  * Adds a checklist to the pre-publish box.
@@ -8,9 +8,9 @@ export const ADD_CHECK_LIST = "ADD_CHECK_LIST";
  *
  * @returns {Object} An action for redux.
  */
-export function addCheckList( name, data ) {
+export function addChecklist( name, data ) {
 	return {
-		type: ADD_CHECK_LIST,
+		type: ADD_CHECKLIST,
 		name,
 		data,
 	};
