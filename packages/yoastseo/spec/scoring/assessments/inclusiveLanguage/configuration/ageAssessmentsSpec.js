@@ -1,10 +1,11 @@
+/*
 import Paper from "../../../../../src/values/Paper";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
 import Mark from "../../../../../src/values/Mark";
-
-describe( "Age assessments", function() {
+ */
+describe.skip( "Age assessments", function() {
 	it( "should target non-inclusive phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at aging dependants" );
 		const mockResearcher = new EnglishResearcher( mockPaper );

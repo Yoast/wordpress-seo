@@ -10,6 +10,8 @@ import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarP
 import MetaboxCollapsible from "./components/MetaboxCollapsible";
 import Modal from "./components/modals/Modal";
 import ImageSelectPortal from "./components/portals/ImageSelectPortal";
+import Portal from "./components/portals/Portal";
+import ScoreIconPortal from "./components/portals/ScoreIconPortal";
 import SidebarCollapsible from "./components/SidebarCollapsible";
 import SidebarItem from "./components/SidebarItem";
 import TopLevelProviders from "./components/TopLevelProviders";
@@ -24,6 +26,9 @@ import createInterpolateElement from "./helpers/createInterpolateElement";
 import * as i18n from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
+import { update as updateAdminBar } from "./ui/adminBar";
+import { updateScore, createScoresInPublishBox, scrollToCollapsible } from "./ui/publishBox";
+import { update as updateTrafficLight } from "./ui/trafficLight";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -55,7 +60,9 @@ window.yoast.editorModules = {
 		MetaboxCollapsible,
 		Modal,
 		portals: {
+			Portal,
 			ImageSelectPortal,
+			ScoreIconPortal,
 		},
 	},
 	containers: {
@@ -72,5 +79,12 @@ window.yoast.editorModules = {
 		isBlockEditor,
 		i18n,
 		replacementVariableHelpers,
+		publishBox: {
+			updateScore,
+			createScoresInPublishBox,
+			scrollToCollapsible,
+		},
+		updateAdminBar,
+		updateTrafficLight,
 	},
 };

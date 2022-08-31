@@ -3,6 +3,7 @@ import insights from "../../insights/redux/reducer";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
+import checklist from "./checklist";
 import isCornerstone from "./cornerstoneContent";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
@@ -33,6 +34,7 @@ export default {
 	advancedSettings,
 	analysis,
 	analysisData,
+	checklist,
 	dismissedAlerts,
 	editorContext,
 	editorData,
