@@ -241,6 +241,7 @@ class WPSEO_Admin_Asset_Manager {
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
