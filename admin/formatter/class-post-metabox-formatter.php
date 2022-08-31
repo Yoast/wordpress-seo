@@ -158,6 +158,12 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
 		$usage   = [ $keyword => $this->get_keyword_usage_for_current_post( $keyword ) ];
 
+		/**
+		* Allows enhancing the array of posts' that share their focus keywords with the post's related keywords.
+		*
+		* @param array $usage   The array of posts' ids that share their focus keywords with the post.
+		* @param int   $post_id The id of the post we're finding the usage of related keywords for.
+		*/
 		return apply_filters( 'wpseo_posts_for_related_keywords', $usage, $this->post->ID );
 	}
 

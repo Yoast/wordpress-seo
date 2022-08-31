@@ -1040,9 +1040,9 @@ class WPSEO_Meta {
 		 */
 		if ( count( $post_ids ) < 2 ) {
 			/**
-			 * Allows to add the additional keywords.
+			 * Allows enhancing the array of posts' that share their focus keywords with the post's focus keywords.
 			 *
-			 * @param array  $post_ids The array of posts ids to be filtered.
+			 * @param array  $post_ids The array of posts' ids that share their related keywords with the post.
 			 * @param string $keyword  The keyword to search for.
 			 * @param int    $post_id  The id of the post the keyword is associated to.
 			 */
