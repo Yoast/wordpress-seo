@@ -245,6 +245,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: August 31st, 2022
 
 
+
 Enhancements:
 
 * Adds `wpseo_social_template_post_type` and `wpseo_social_template_taxonomy` filters for the social templates in the metabox.
