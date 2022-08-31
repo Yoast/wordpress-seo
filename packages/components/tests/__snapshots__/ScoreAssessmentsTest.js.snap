@@ -1,63 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the ScoreAssessments matches the snapshot 1`] = `
-.c1 {
-  display: table-row;
-  font-size: 14px;
-}
-
-.c2 {
-  display: table-cell;
-  padding: 2px;
-}
-
-.c3 {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
-  background-color: #F00;
-}
-
-.c5 {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
-  background-color: #0F0;
-}
-
-.c4 {
-  padding-left: 8px;
-  width: 100%;
-}
-
-.c0 {
-  display: table;
-  box-sizing: border-box;
-  list-style: none;
-  max-width: 100%;
-  min-width: 200px;
-  margin: 8px 0;
-  padding: 0 8px;
-}
-
 <ul
-  className="c0 score-assessments"
+  className="ScoreAssessments__ScoreAssessmentList-sc-163g4zx-5 cpoxgq score-assessments"
   role="list"
 >
   <li
-    className="c1 score-assessments__item"
+    className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 edPBWl score-assessments__item"
   >
     <span
-      className="c2 c3 score-assessments__item-bullet"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 eAWKkH cdxGmE score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 eAWKkH ehsfoy score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -66,13 +21,13 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
     />
   </li>
   <li
-    className="c1 score-assessments__item"
+    className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 edPBWl score-assessments__item"
   >
     <span
-      className="c2 c5 score-assessments__item-bullet"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 eAWKkH clXnUM score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 eAWKkH ehsfoy score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
@@ -84,63 +39,18 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
 `;
 
 exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
-.c1 {
-  display: table-row;
-  font-size: 14px;
-}
-
-.c2 {
-  display: table-cell;
-  padding: 2px;
-}
-
-.c3 {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
-  background-color: #F00;
-}
-
-.c5 {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
-  background-color: #0F0;
-}
-
-.c4 {
-  padding-left: 8px;
-  width: 100%;
-}
-
-.c0 {
-  display: table;
-  box-sizing: border-box;
-  list-style: none;
-  max-width: 100%;
-  min-width: 200px;
-  margin: 8px 0;
-  padding: 0 8px;
-}
-
 <ul
-  className="c0 score-assessments"
+  className="ScoreAssessments__ScoreAssessmentList-sc-163g4zx-5 cpoxgq score-assessments"
   role="list"
 >
   <li
-    className="c1 score-assessments__item"
+    className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 edPBWl score-assessments__item"
   >
     <span
-      className="c2 c3 score-assessments__item-bullet"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 eAWKkH cdxGmE score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 eAWKkH ehsfoy score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -149,13 +59,13 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
     />
   </li>
   <li
-    className="c1 score-assessments__item"
+    className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 edPBWl score-assessments__item"
   >
     <span
-      className="c2 c5 score-assessments__item-bullet"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 eAWKkH clXnUM score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 eAWKkH ehsfoy score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
@@ -167,63 +77,18 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
 `;
 
 exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
-.c1 {
-  display: table-row;
-  font-size: 14px;
-}
-
-.c2 {
-  display: table-cell;
-  padding: 2px;
-}
-
-.c3 {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
-  background-color: #F00;
-}
-
-.c5 {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
-  background-color: #0F0;
-}
-
-.c4 {
-  padding-left: 8px;
-  width: 100%;
-}
-
-.c0 {
-  display: table;
-  box-sizing: border-box;
-  list-style: none;
-  max-width: 100%;
-  min-width: 200px;
-  margin: 8px 0;
-  padding: 0 8px;
-}
-
 <ul
-  className="c0 score-assessments"
+  className="ScoreAssessments__ScoreAssessmentList-sc-163g4zx-5 cpoxgq score-assessments"
   role="list"
 >
   <li
-    className="c1 score-assessments__item"
+    className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 edPBWl score-assessments__item"
   >
     <span
-      className="c2 c3 score-assessments__item-bullet"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 eAWKkH cdxGmE score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 eAWKkH ehsfoy score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -232,13 +97,13 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
     />
   </li>
   <li
-    className="c1 score-assessments__item"
+    className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 edPBWl score-assessments__item"
   >
     <span
-      className="c2 c5 score-assessments__item-bullet"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 eAWKkH clXnUM score-assessments__item-bullet"
     />
     <span
-      className="c2 c4 score-assessments__item-text"
+      className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 eAWKkH ehsfoy score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",

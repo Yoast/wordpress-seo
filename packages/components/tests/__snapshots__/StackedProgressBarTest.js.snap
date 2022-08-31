@@ -1,58 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the StackedProgressBar matches the snapshot 1`] = `
-.c0 {
-  margin: 8px 0;
-  height: 24px;
-  overflow: hidden;
-}
-
-.c1 {
-  display: inline-block;
-  vertical-align: top;
-  width: 0.48848569434752265%;
-  background-color: #F00;
-  height: 100%;
-}
-
-.c2 {
-  display: inline-block;
-  vertical-align: top;
-  width: 15.073272854152128%;
-  background-color: #FF0;
-  height: 100%;
-}
-
-.c3 {
-  display: inline-block;
-  vertical-align: top;
-  width: 79.13468248429868%;
-  background-color: #0FF;
-  height: 100%;
-}
-
-.c4 {
-  display: inline-block;
-  vertical-align: top;
-  width: 5.303558967201675%;
-  background-color: #333;
-  height: 100%;
-}
-
 <div
-  className="c0 stacked-progress-bar"
+  className="StackedProgressBar__StackedProgressBarContainer-sc-10t3bky-0 bLBbIp stacked-progress-bar"
 >
   <span
-    className="c1 stacked-progress-bar__part"
+    className="StackedProgressBar__StackedProgressBarProgress-sc-10t3bky-1 jCaQIP stacked-progress-bar__part"
   />
   <span
-    className="c2 stacked-progress-bar__part"
+    className="StackedProgressBar__StackedProgressBarProgress-sc-10t3bky-1 crsDRO stacked-progress-bar__part"
   />
   <span
-    className="c3 stacked-progress-bar__part"
+    className="StackedProgressBar__StackedProgressBarProgress-sc-10t3bky-1 dTBozY stacked-progress-bar__part"
   />
   <span
-    className="c4 stacked-progress-bar__part"
+    className="StackedProgressBar__StackedProgressBarProgress-sc-10t3bky-1 hKBHug stacked-progress-bar__part"
   />
 </div>
 `;

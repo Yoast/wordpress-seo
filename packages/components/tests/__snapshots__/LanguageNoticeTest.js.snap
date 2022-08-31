@@ -3,12 +3,8 @@
 exports[`LanguageNotice matches the snapshot by default 1`] = `null`;
 
 exports[`LanguageNotice matches the snapshot when showLanguageNotice equals true 1`] = `
-.c0 {
-  margin: 1em 0;
-}
-
 <p
-  className="c0"
+  className="LanguageNotice__YoastLanguageNotice-sc-3hyg3c-0 gArKMg"
 >
   Your site language is set to 
   <strong>
@@ -19,7 +15,7 @@ exports[`LanguageNotice matches the snapshot when showLanguageNotice equals true
 `;
 
 exports[`LanguageNotice matches the snapshot with a changed language link 1`] = `
-.c2 {
+.c0 {
   border: 0;
   -webkit-clip: rect(1px,1px,1px,1px);
   clip: rect(1px,1px,1px,1px);
@@ -37,16 +33,8 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
   transform: translateY(1em);
 }
 
-.c0 {
-  margin: 1em 0;
-}
-
-.c1 {
-  margin-left: 4px;
-}
-
 <p
-  className="c0"
+  className="LanguageNotice__YoastLanguageNotice-sc-3hyg3c-0 gArKMg"
 >
   Your site language is set to 
   <strong>
@@ -54,14 +42,14 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
   </strong>
   . 
   <a
-    className="c1"
+    className="LanguageNotice__ChangeLanguageLink-sc-3hyg3c-1 gxiHHm"
     href="http://www.example.com"
     rel="noopener"
     target="_blank"
   >
     Change language
     <span
-      className="c2"
+      className="c0"
     >
       (Opens in a new browser tab)
     </span>
@@ -70,7 +58,7 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
 `;
 
 exports[`LanguageNotice matches the snapshot with another language 1`] = `
-.c2 {
+.c0 {
   border: 0;
   -webkit-clip: rect(1px,1px,1px,1px);
   clip: rect(1px,1px,1px,1px);
@@ -88,16 +76,8 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
   transform: translateY(1em);
 }
 
-.c0 {
-  margin: 1em 0;
-}
-
-.c1 {
-  margin-left: 4px;
-}
-
 <p
-  className="c0"
+  className="LanguageNotice__YoastLanguageNotice-sc-3hyg3c-0 gArKMg"
 >
   Your site language is set to 
   <strong>
@@ -105,14 +85,14 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
   </strong>
   . 
   <a
-    className="c1"
+    className="LanguageNotice__ChangeLanguageLink-sc-3hyg3c-1 gxiHHm"
     href="http://www.example.com"
     rel="noopener"
     target="_blank"
   >
     Change language
     <span
-      className="c2"
+      className="c0"
     >
       (Opens in a new browser tab)
     </span>
