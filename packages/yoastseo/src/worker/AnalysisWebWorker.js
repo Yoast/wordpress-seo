@@ -41,6 +41,7 @@ logger.setDefaultLevel( "error" );
  * Webpack loader: https://github.com/webpack-contrib/worker-loader
  */
 export default class AnalysisWebWorker {
+	/* eslint-disable max-statements */
 	/**
 	 * Initializes the AnalysisWebWorker class.
 	 *
@@ -141,6 +142,7 @@ export default class AnalysisWebWorker {
 		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
 			"An error occurred after running the '%%name%%' research." );
 	}
+	/* eslint-enable max-statements */
 
 	/**
 	 * Binds actions to this scope.

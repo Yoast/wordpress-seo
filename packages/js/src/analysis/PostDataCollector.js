@@ -14,7 +14,6 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
-import isContentAnalysisActive from "./isContentAnalysisActive";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;

@@ -11,7 +11,6 @@ import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
 import measureTextWidth from "../helpers/measureTextWidth";
-import isContentAnalysisActive from "./isContentAnalysisActive";
 
 const $ = jQuery;
 
