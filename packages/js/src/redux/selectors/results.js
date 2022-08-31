@@ -1,4 +1,7 @@
-import { get, isEmpty, emptyArray, emptyObject } from "lodash";
+import { get, isEmpty } from "lodash";
+
+const emptyArray = [];
+const emptyObject = {};
 
 /**
  * Gets the SEO results.
