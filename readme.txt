@@ -248,6 +248,7 @@ Release Date: September 6th, 2022
 = 19.6.1 =
 Release Date: August 31st, 2022
 
+
 Enhancements:
 
 * Adds `wpseo_social_template_post_type` and `wpseo_social_template_taxonomy` filters for the social templates in the metabox.
@@ -256,4 +257,5 @@ Enhancements:
 Bugfixes:
 
 * Remove Premium code regarding the Frontend Inspector and the additional focus keyphrases
+* Remove Premium code regarding the related keyphrases' assessment
 
