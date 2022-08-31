@@ -164,36 +164,6 @@ class WPSEO_Metabox_Formatter {
 							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
 						),
 					],
-					'inclusive-language' => [
-						'na'   => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
-							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
-						),
-						'bad'  => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
-							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
-						),
-						'ok'   => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
-							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
-						),
-						'good' => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
-							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
-							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
-							'</a>',
-							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
-						),
-					],
 				],
 			],
 			'markdownEnabled'                 => $this->is_markdown_enabled(),
