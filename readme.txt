@@ -246,7 +246,7 @@ Release Date: August 31st, 2022
 
 Other:
 
-* Improves compliance with wordpress.org plugin guidelines.
+* Fixes compliance with the wordpress.org plugin guidelines.
 
 = 19.6 =
 Release Date: August 23rd, 2022
