@@ -158,34 +158,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
 		$usage   = [ $keyword => $this->get_keyword_usage_for_current_post( $keyword ) ];
 
-		if ( YoastSEO()->helpers->product->is_premium() ) {
-			return $this->get_premium_keywords( $usage );
-		}
-
-		return $usage;
-	}
-
-	/**
-	 * Retrieves the additional keywords from Premium, that are associated with the post.
-	 *
-	 * @param array $usage The original keyword usage for the main keyword.
-	 *
-	 * @return array The keyword usage, including the additional keywords.
-	 */
-	protected function get_premium_keywords( $usage ) {
-		$additional_keywords = json_decode( WPSEO_Meta::get_value( 'focuskeywords', $this->post->ID ), true );
-
-		if ( empty( $additional_keywords ) ) {
-			return $usage;
-		}
-
-		foreach ( $additional_keywords as $additional_keyword ) {
-			$keyword = $additional_keyword['keyword'];
-
-			$usage[ $keyword ] = $this->get_keyword_usage_for_current_post( $keyword );
-		}
-
-		return $usage;
+		return apply_filters( 'wpseo_posts_for_related_keywords', $usage, $this->post->ID );
 	}
 
 	/**
