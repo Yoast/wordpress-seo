@@ -246,12 +246,12 @@ Release Date: September 6th, 2022
 
 
 = 19.6.1 =
-Release Date: August 30th, 2022
-
+Release Date: August 31st, 2022
 
 Enhancements:
 
 * Adds `wpseo_social_template_post_type` and `wpseo_social_template_taxonomy` filters for the social templates in the metabox.
+* Adds `wpseo_wincher_keyphrases_from_post` and `wpseo_wincher_all_keyphrases` filters to enhance the collected keyphrases arrays
 
 Bugfixes:
 
