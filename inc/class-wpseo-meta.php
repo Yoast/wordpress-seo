@@ -1046,7 +1046,7 @@ class WPSEO_Meta {
 			 * @param string $keyword  The keyword to search for.
 			 * @param int    $post_id  The id of the post the keyword is associated to.
 			 */
-			$post_ids = apply_filters( 'wpseo_posts_of_additional_keywords', $post_ids, $keyword, $post_id );
+			$post_ids = apply_filters( 'wpseo_posts_for_focus_keyword', $post_ids, $keyword, $post_id );
 		}
 
 		return $post_ids;
