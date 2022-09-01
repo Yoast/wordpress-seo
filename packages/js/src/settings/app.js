@@ -184,7 +184,7 @@ const App = () => {
 				</SidebarNavigation.Mobile>
 				<div className="yst-p-4 md:yst-p-8 md:yst-pl-[17rem] lg:yst-pl-[19rem]">
 					<aside className="yst-sidebar-nav yst-hidden yst-overflow-auto md:yst-block yst-fixed yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64">
-						<SidebarNavigation.Sidebar>
+						<SidebarNavigation.Sidebar className="yst-px-0.5">
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
