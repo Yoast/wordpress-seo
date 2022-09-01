@@ -2,7 +2,6 @@ import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
-import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
 const paper = new Paper( "" );
 

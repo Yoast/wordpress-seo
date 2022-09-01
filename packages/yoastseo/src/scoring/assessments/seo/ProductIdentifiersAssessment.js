@@ -61,6 +61,8 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * Checks whether the assessment is applicable. It is applicable unless the product has variants and we don't want to
 	 * assess variants (this is the case for Shopify since we cannot at the moment easily access variant data in Shopify).
 	 *
+	 * @param {Paper} paper The paper to check.
+	 *
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {

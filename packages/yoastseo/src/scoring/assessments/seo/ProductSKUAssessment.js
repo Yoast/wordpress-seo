@@ -75,7 +75,7 @@ export default class ProductSKUAssessment extends Assessment {
 		}
 
 		// Assessment is not applicable if product has variants and we cannot retrieve variant SKUs.
-		if( customData.hasVariants ) {
+		if ( customData.hasVariants ) {
 			 return customData.canRetrieveVariantSkus;
 		}
 
