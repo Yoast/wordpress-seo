@@ -94,22 +94,22 @@ function LandingPage() {
 		return <AllFeaturesDisabled />;
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return (
-			<Fragment>
+			<div className=" yst-mt-2 yst-mb-6">
 				<RefreshButton onClickCallback={ handleRefresh } lastRefreshTime={ lastRefreshTime } />
 				<NotEnoughContent />
-			</Fragment>
+			</div>
 		);
 	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false &&
 		( setupInfo.enabledFeatures.isSeoScoreEnabled ||
 			setupInfo.enabledFeatures.isReadabilityEnabled ) ) {
 		return (
-			<Fragment>
+			<div className=" yst-mt-2 yst-mb-6">
 				<RefreshButton onClickCallback={ handleRefresh } lastRefreshTime={ lastRefreshTime } />
 				<NotEnoughAnalysedContent
 					indexablesList={ setupInfo.postsWithoutKeyphrase }
 					seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
 				/>
-			</Fragment>
+			</div>
 		);
 	}
 	return setupInfo === null
