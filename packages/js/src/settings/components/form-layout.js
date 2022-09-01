@@ -24,15 +24,18 @@ const FormLayout = ( {
 			<div className="yst-flex-grow yst-p-8 yst-max-w-5xl">
 				{ children }
 			</div>
-			<footer className="yst-rounded-b-lg yst-p-8 yst-bg-gray-50">
-				<Button
-					id="button-submit-settings"
-					type="submit"
-					isLoading={ isSubmitting }
-					disabled={ isSubmitting }
-				>
-					{ __( "Save changes", "wordpress-seo" ) }
-				</Button>
+			<footer className="yst-sticky yst-bottom-0">
+				<div className="yst-h-8 yst-bg-gradient-to-t yst-from-white" />
+				<div className="yst-p-8 yst-bg-gray-50 yst-rounded-b-lg">
+					<Button
+						id="button-submit-settings"
+						type="submit"
+						isLoading={ isSubmitting }
+						disabled={ isSubmitting }
+					>
+						{ __( "Save changes", "wordpress-seo" ) }
+					</Button>
+				</div>
 			</footer>
 		</Form>
 	);
