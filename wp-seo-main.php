@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '19.6' );
+define( 'WPSEO_VERSION', '19.6.1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -35,7 +35,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
-define( 'YOAST_SEO_WP_TESTED', '6.0.1' );
+define( 'YOAST_SEO_WP_TESTED', '6.0.2' );
 define( 'YOAST_SEO_WP_REQUIRED', '5.9' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
@@ -384,53 +384,6 @@ function wpseo_admin_init() {
 	new WPSEO_Admin_Init();
 }
 
-/**
- * Initialize the WP-CLI integration.
- *
- * The WP-CLI integration needs PHP 5.3 support, which should be automatically
- * enforced by the check for the WP_CLI constant. As WP-CLI itself only runs
- * on PHP 5.3+, the constant should only be set when requirements are met.
- */
-function wpseo_cli_init() {
-	if ( YoastSEO()->helpers->product->is_premium() ) {
-		WP_CLI::add_command(
-			'yoast redirect list',
-			'WPSEO_CLI_Redirect_List_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect create',
-			'WPSEO_CLI_Redirect_Create_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect update',
-			'WPSEO_CLI_Redirect_Update_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect delete',
-			'WPSEO_CLI_Redirect_Delete_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect has',
-			'WPSEO_CLI_Redirect_Has_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect follow',
-			'WPSEO_CLI_Redirect_Follow_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-	}
-}
-
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
 $spl_autoload_exists = function_exists( 'spl_autoload_register' );
 $filter_exists       = function_exists( 'filter_input' );
@@ -470,10 +423,6 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	}
 
 	add_action( 'plugins_loaded', 'load_yoast_notifications' );
-
-	if ( defined( 'WP_CLI' ) && WP_CLI ) {
-		add_action( 'plugins_loaded', 'wpseo_cli_init', 20 );
-	}
 
 	add_action( 'init', [ 'WPSEO_Replace_Vars', 'setup_statics_once' ] );
 

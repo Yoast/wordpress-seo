@@ -32,9 +32,6 @@ import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
 import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "./seo/ProductSKUAssessment";
 
-
-import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
-
 const readability = {
 	ListAssessment,
 	ParagraphTooLongAssessment,
@@ -73,12 +70,7 @@ const seo = {
 	ProductSKUAssessment,
 };
 
-const inclusiveLanguage = {
-	InclusiveLanguageAssessment,
-};
-
 export {
 	readability,
 	seo,
-	inclusiveLanguage,
 };

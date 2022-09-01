@@ -1,3 +1,4 @@
+import { doAction } from "@wordpress/hooks";
 import { actions } from "@yoast/externals/redux";
 import { Paper } from "yoastseo";
 import handleWorkerError from "./handleWorkerError";
@@ -10,7 +11,6 @@ import handleWorkerError from "./handleWorkerError";
 import {
 	setOverallReadabilityScore,
 	setOverallSeoScore,
-	setOverallInclusiveLanguageScore,
 } from "yoast-components";
 
 let isInitialized = false;
@@ -45,7 +45,8 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 	const paper = Paper.parse( collectData() );
 
 	worker.analyze( paper )
-		.then( ( { result: { seo, readability, inclusiveLanguage } } ) => {
+		.then( results => {
+			const { result: { seo, readability } } = results;
 			if ( seo ) {
 				// Only update the main results, which are located under the empty string key.
 				const seoResults = seo[ "" ];
@@ -77,19 +78,7 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 				dataCollector.saveContentScore( readability.score );
 			}
 
-			if ( inclusiveLanguage ) {
-				// Recreate the getMarker function after the worker is done.
-				inclusiveLanguage.results.forEach( result => {
-					result.getMarker = () => () => applyMarks( paper, result.marks );
-				} );
-
-				inclusiveLanguage.results = sortResultsByIdentifier( inclusiveLanguage.results );
-				store.dispatch( actions.setInclusiveLanguageResults( inclusiveLanguage.results ) );
-				store.dispatch( setOverallInclusiveLanguageScore( inclusiveLanguage.score ) );
-				store.dispatch( actions.refreshSnippetEditor() );
-
-				dataCollector.saveInclusiveLanguageScore( inclusiveLanguage.score );
-			}
+			doAction( "yoast.analysis.refresh", results, { paper, worker, collectData, applyMarks, store, dataCollector } );
 		} )
 		.catch( handleWorkerError );
 }
