@@ -222,13 +222,11 @@ function IndexablesPage( { setupInfo } ) {
 	 *
 	 * @returns {void}
 	 */
-	const fetchList = useCallback( async( listName, isAdditionalFetch = false ) => {
+	const fetchList = useCallback( async( listName ) => {
 		setErroredCards( prevState => [ ...prevState ].filter( erroredCard => erroredCard !== listName ) );
 
 		try {
-			if ( isAdditionalFetch ) {
-				setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== listName ) );
-			}
+			setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== listName ) );
 
 			const response = await apiFetch( {
 				path: `yoast/v1/${ listName }`,
@@ -327,7 +325,7 @@ function IndexablesPage( { setupInfo } ) {
 	 *
 	 * @returns {void}
 	 */
-	const updateList = useCallback( ( listName, indexablesList, isRefresh ) => {
+	const updateList = useCallback( ( listName, indexablesList, isRefresh = false ) => {
 		if ( indexablesList.length === 0 || isRefresh ) {
 			fetchList( listName );
 			return;
@@ -540,6 +538,8 @@ function IndexablesPage( { setupInfo } ) {
 
 	const onClickUndoAllList = useCallback( async( event ) => {
 		const { type } = event.target.dataset;
+		setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== type ) );
+
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/restore_all_indexables_for_list",
