@@ -32,27 +32,29 @@ function LandingPage() {
 	 *
 	 * @returns {void}
 	 */
-	async function getSetupInfo() {
+	const getSetupInfo = useCallback( async() => {
 		if ( ( window.wpseoIndexablesPageData?.environment !== "staging" ) &&
 		( indexingState === "already_done" || indexingState === "completed" ) ) {
 			setSetupInfo( null );
-		   try {
-			   const response = await apiFetch( {
-				   path: "yoast/v1/setup_info",
-				   method: "GET",
-			   } );
+			try {
+				const response = await apiFetch( {
+					path: "yoast/v1/setup_info",
+					method: "GET",
+				} );
 
-			   const parsedResponse = await response.json;
-			   setSetupInfo( parsedResponse );
-		   } catch ( error ) {
-			   setErrorMessage( error.message );
-		   }
-	   }
-	}
+				const parsedResponse = await response.json;
+				setSetupInfo( parsedResponse );
+			} catch ( error ) {
+				setErrorMessage( error.message );
+			}
+		}
+	}, [ indexingState, setSetupInfo, apiFetch, setErrorMessage ] );
 
-	const handleRefresh =  useCallback( () => {
+	useEffect( async() => {
 		getSetupInfo();
+	}, [ indexingState ] );
 
+	useEffect( () => {
 		if ( refreshInterval ) {
 			clearInterval( refreshInterval );
 		}
@@ -62,11 +64,7 @@ function LandingPage() {
 			setLastRefreshTime( ( prevCounter ) => prevCounter + 1 );
 		}, 60000 );
 		setRefreshInterval( interval );
-	}, [ getSetupInfo, setLastRefreshTime, refreshInterval ] );
-
-	useEffect( async() => {
-		getSetupInfo();
-	}, [ indexingState ] );
+	}, [ setupInfo ] );
 
 	if ( window.wpseoIndexablesPageData?.environment === "staging" ) {
 		return <div
@@ -104,7 +102,7 @@ function LandingPage() {
 			setupInfo.enabledFeatures.isReadabilityEnabled ) ) {
 		return (
 			<div className=" yst-mt-2 yst-mb-6">
-				<RefreshButton onClickCallback={ handleRefresh } lastRefreshTime={ lastRefreshTime } />
+				<RefreshButton onClickCallback={ getSetupInfo } lastRefreshTime={ lastRefreshTime } />
 				<NotEnoughAnalysedContent
 					indexablesList={ setupInfo.postsWithoutKeyphrase }
 					seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
