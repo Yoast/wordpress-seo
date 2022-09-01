@@ -1,6 +1,6 @@
 /* global yoastIndexingData */
 import apiFetch from "@wordpress/api-fetch";
-import { useState, useEffect } from "@wordpress/element";
+import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 
 import AllFeaturesDisabled from "./components/all-features-disabled";
@@ -9,6 +9,7 @@ import NotEnoughAnalysedContent from "./components/not-enough-analysed-content";
 import IndexationView from "./components/indexation-view";
 import IndexablesPage from "./indexables-page";
 import { Alert, Spinner } from "@yoast/ui-library";
+import RefreshButton from "./components/refresh-button";
 
 /* eslint-disable complexity */
 
@@ -23,22 +24,49 @@ function LandingPage() {
 	const [ setupInfo, setSetupInfo ] = useState( null );
 	const [ errorMessage, setErrorMessage ] = useState( null );
 
-	useEffect( async() => {
-		if ( ( window.wpseoIndexablesPageData?.environment !== "staging" ) &&
-		 ( indexingState === "already_done" || indexingState === "completed" ) ) {
-			try {
-				const response = await apiFetch( {
-					path: "yoast/v1/setup_info",
-					method: "GET",
-				} );
+	const [ lastRefreshTime, setLastRefreshTime ] = useState( 0 );
+	const [ refreshInterval, setRefreshInterval ] = useState( null );
 
-				const parsedResponse = await response.json;
-				setSetupInfo( parsedResponse );
-			} catch ( error ) {
-				setErrorMessage( error.message );
-			}
+	/**
+	 * Wrapper function for the setup_info API callback.
+	 *
+	 * @returns {void}
+	 */
+	async function getSetupInfo() {
+		if ( ( window.wpseoIndexablesPageData?.environment !== "staging" ) &&
+		( indexingState === "already_done" || indexingState === "completed" ) ) {
+			setSetupInfo( null );
+		   try {
+			   const response = await apiFetch( {
+				   path: "yoast/v1/setup_info",
+				   method: "GET",
+			   } );
+
+			   const parsedResponse = await response.json;
+			   setSetupInfo( parsedResponse );
+		   } catch ( error ) {
+			   setErrorMessage( error.message );
+		   }
+	   }
+	}
+
+	const handleRefresh =  useCallback( () => {
+		getSetupInfo();
+
+		if ( refreshInterval ) {
+			clearInterval( refreshInterval );
 		}
-	}, [ window.wpseoIndexablesPageData, indexingState ] );
+
+		setLastRefreshTime( 0 );
+		const interval = setInterval( () => {
+			setLastRefreshTime( ( prevCounter ) => prevCounter + 1 );
+		}, 60000 );
+		setRefreshInterval( interval );
+	}, [ getSetupInfo, setLastRefreshTime, refreshInterval ] );
+
+	useEffect( async() => {
+		getSetupInfo();
+	}, [ indexingState ] );
 
 	if ( window.wpseoIndexablesPageData?.environment === "staging" ) {
 		return <div
@@ -65,14 +93,24 @@ function LandingPage() {
 	} else if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
 		return <AllFeaturesDisabled />;
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
-		return <NotEnoughContent />;
+		return (
+			<Fragment>
+				<RefreshButton onClickCallback={ handleRefresh } lastRefreshTime={ lastRefreshTime } />
+				<NotEnoughContent />
+			</Fragment>
+		);
 	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false &&
 		( setupInfo.enabledFeatures.isSeoScoreEnabled ||
 			setupInfo.enabledFeatures.isReadabilityEnabled ) ) {
-		return <NotEnoughAnalysedContent
-			indexablesList={ setupInfo.postsWithoutKeyphrase }
-			seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
-		/>;
+		return (
+			<Fragment>
+				<RefreshButton onClickCallback={ handleRefresh } lastRefreshTime={ lastRefreshTime } />
+				<NotEnoughAnalysedContent
+					indexablesList={ setupInfo.postsWithoutKeyphrase }
+					seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
+				/>
+			</Fragment>
+		);
 	}
 	return setupInfo === null
 		? <div className="yst-flex yst-max-w-full yst-my-6 yst-justify-center">
