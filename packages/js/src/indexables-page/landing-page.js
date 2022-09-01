@@ -70,7 +70,7 @@ function LandingPage() {
 
 	if ( window.wpseoIndexablesPageData?.environment === "staging" ) {
 		return <div
-			className="yst-max-w-full yst-mt-6 "
+			className="yst-max-w-full yst-mt-6 yst-mb-6"
 		>
 			<Alert variant="info">{ __( "This functionality is disabled in staging environments.", "wordpress-seo" ) }</Alert>
 		</div>;
