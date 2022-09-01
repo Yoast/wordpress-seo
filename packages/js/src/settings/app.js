@@ -86,7 +86,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					<YoastLogo />
 				</figure>
 			</div>
-			<div className="yst-h-6 yst-bg-gradient-to-b yst-from-gray-100" />
+			<div className="yst-h-8 yst-bg-gradient-to-b yst-from-gray-100" />
 		</header>
 		<div className="yst-space-y-6">
 			<SidebarNavigation.MenuItem
