@@ -422,7 +422,15 @@
 		yst-antialiased;
 
 		a {
-			@apply yst-text-indigo-600 hover:yst-text-indigo-500 yst-underline;
+			@apply
+			yst-underline
+			yst-text-indigo-600
+			
+			hover:yst-text-indigo-500
+			focus:yst-text-indigo-500
+			focus:yst-outline-none
+			visited:yst-text-primary-500
+			visited:hover:yst-text-primary-400;
 		}
 
 		svg path {

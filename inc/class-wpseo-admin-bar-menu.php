@@ -28,13 +28,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	const KEYWORD_RESEARCH_SUBMENU_IDENTIFIER = 'wpseo-kwresearch';
 
 	/**
-	 * The identifier used for the frontend inspector submenu.
-	 *
-	 * @var string
-	 */
-	const FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER = 'wpseo-frontend-inspector';
-
-	/**
 	 * The identifier used for the Analysis submenu.
 	 *
 	 * @var string
@@ -126,9 +119,14 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$this->add_root_menu( $wp_admin_bar );
 
-		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() ) {
-			$this->add_frontend_inspector_submenu( $wp_admin_bar );
-		}
+		/**
+		* Adds a submenu item in the top of the adminbar.
+		*
+		* @param WP_Admin_Bar $wp_admin_bar    Admin bar instance to add the menu to.
+		* @param string       $menu_identifier The menu identifier.
+		*/
+		do_action( 'wpseo_add_adminbar_submenu', $wp_admin_bar, self::MENU_IDENTIFIER );
+
 		$this->add_keyword_research_submenu( $wp_admin_bar );
 
 		if ( ! is_admin() ) {
@@ -307,30 +305,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			];
 			$wp_admin_bar->add_menu( $menu_args );
 		}
-	}
-
-	/**
-	 * Adds the frontend inspector submenu.
-	 *
-	 * @param WP_Admin_Bar $wp_admin_bar The admin bar.
-	 *
-	 * @return void
-	 */
-	protected function add_frontend_inspector_submenu( WP_Admin_Bar $wp_admin_bar ) {
-		$menu_args = [
-			'parent' => self::MENU_IDENTIFIER,
-			'id'     => self::FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER,
-			'title'  => sprintf(
-				'%1$s <span class="yoast-badge yoast-beta-badge">%2$s</span>',
-				__( 'Front-end SEO inspector', 'wordpress-seo' ),
-				__( 'Beta', 'wordpress-seo' )
-			),
-			'href'   => '#wpseo-frontend-inspector',
-			'meta'   => [
-				'tabindex' => '0',
-			],
-		];
-		$wp_admin_bar->add_menu( $menu_args );
 	}
 
 	/**

@@ -1,7 +1,7 @@
 import { get, isEmpty } from "lodash";
 
+const emptyArray = [];
 const emptyObject = {};
-const emptyArray  = [];
 
 /**
  * Gets the SEO results.
@@ -44,17 +44,6 @@ export function getReadabilityResults( state ) {
 }
 
 /**
- * Gets the inclusive language results.
- *
- * @param {object} state The state.
- *
- * @returns {object} The results and overall score for the inclusive language analysis.
- */
-export function getInclusiveLanguageResults( state ) {
-	return get( state, "analysis.inclusiveLanguage", { results: emptyArray, overallScore: null } );
-}
-
-/**
  * Gets the SEO results for the focus keyword.
  *
  * @param {object} state The state.
@@ -76,12 +65,10 @@ export function getResultsForFocusKeyword( state ) {
 export function getResultById( state, id ) {
 	const focusKeywordResults = getResultsForFocusKeyword( state ).results || emptyArray;
 	const readabilityResults = getReadabilityResults( state ).results || emptyArray;
-	const inclusiveLanguageResults = getInclusiveLanguageResults( state ).results || emptyArray;
 
 	const allResults = [
 		...focusKeywordResults,
 		...readabilityResults,
-		...inclusiveLanguageResults,
 	];
 
 	return allResults.find( result => result._identifier === id );
