@@ -84,8 +84,8 @@ const AuthorArchives = () => {
 					data-id={ "input-wpseo_titles-disable-author" }
 					label={ label }
 					description={ sprintf(
-						/* translators: %1$s expands to . */
-						__( "Disabling this will redirect the Author archive to your site's homepage.", "wordpress-seo" ),
+						/* translators: %1$s expands to the post type singular, e.g. Post. */
+						__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
 						singularLabel
 					) }
 				/>
