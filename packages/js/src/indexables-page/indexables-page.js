@@ -195,24 +195,28 @@ function IndexablesPage( { setupInfo } ) {
 		return isListFeatureEnabled( listName ) && ! isListLoaded( listName );
 	}, [ isListLoaded, isListFeatureEnabled ] );
 
-
 	const shouldShowTable = useCallback( listName => {
 		// If a fetch has been completed, the feature for the list is enabled, and the list is not empty.
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && ! isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
-
 
 	const shouldShowEmptyAlert = useCallback( listName => {
 		// If a fetch has been completed, the feature for the list is enabled, but the list is empty.
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
 
-
 	const shouldShowErrorAlert = useCallback( listName => {
 		// If the feature for the list is enabled but the fetch has failed.
 		return isListErrored( listName );
 	}, [ isListErrored ] );
 
+	const shouldDisplayStars =  useCallback( () => {
+		const numberOfStars = indexablesLists.most_linked
+			.slice( 0, 5 )
+			.filter( indexable => !! parseInt( indexable.is_cornerstone, 10 ) )
+			.length;
+		return numberOfStars > 0;
+	}, [ indexablesLists.most_linked ] );
 
 	/**
 	 * Fetches a list of indexables.
@@ -952,13 +956,15 @@ function IndexablesPage( { setupInfo } ) {
 										position={ position }
 										setErrorMessage={ setErrorMessage }
 									>
-										<div className="yst-flex yst-items-center">
-											{
-												( !! parseInt( indexable.is_cornerstone, 10 ) === true )
-													? <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700" />
-													: <div className="yst-w-4" />
-											}
-										</div>
+										{ 
+											( shouldDisplayStars() ) && <div className="yst-flex yst-items-center">
+												{
+													( !! parseInt( indexable.is_cornerstone, 10 ) === true )
+														? <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700" />
+														: <div className="yst-w-4" />
+												}
+											</div> 
+										}
 										<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
 										<IndexableTitleLink indexable={ indexable } />
 										<div>
