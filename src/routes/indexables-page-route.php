@@ -521,7 +521,12 @@ class Indexables_Page_Route implements Route_Interface {
 	 */
 	public function set_reading_list( WP_REST_Request $request ) {
 		$params             = $request->get_json_params();
-		$reading_list_state = \array_map( function ( $article ) { return boolval( $article ); }, $params['state'] );
+		$reading_list_state = \array_map(
+			function ( $article ) {
+				return boolval( $article );
+			},
+			$params['state']
+		);
 
 		if ( $this->indexables_page_action->set_reading_list( $reading_list_state ) ) {
 			return new WP_REST_Response(
