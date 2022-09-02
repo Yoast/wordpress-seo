@@ -16,7 +16,7 @@ function IndexationView( { setIndexingState } ) {
 		className="yst-max-w-full yst-my-6 yst-flex"
 	>
 		<div
-			className="yst-flex yst-flex-col yst-max-w-6xl yst-w-full yst-items-center yst-bg-white yst-rounded-lg yst-px-8 yst-py-10 yst-shadow"
+			className="yst-flex yst-flex-col yst-w-full yst-items-center yst-bg-white yst-rounded-lg yst-px-8 yst-py-10 yst-shadow"
 		>
 			<img src={ IconSearch } alt="Magnifying lens icon" className="yst-mb-4" />
 			<h4 className="yst-mb-2 yst-text-base yst-text-gray-900 yst-font-medium yst-leading-tight">{ __( "No data to show yet", "wordpress-seo" ) }</h4>
