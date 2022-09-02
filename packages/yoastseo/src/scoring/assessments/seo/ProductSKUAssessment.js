@@ -99,7 +99,7 @@ export default class ProductSKUAssessment extends Assessment {
 	scoreProductSKU( productSKUData, config ) {
 		// NOTE: product types might not be available in shopify or they might differ.
 		// So take this into account when implementing SKUAssessment for shopify.
-		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {
+		if (  [ "simple", "external", "grouped" ].includes( productSKUData.productType ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
 					score: config.scores.ok,
