@@ -52,7 +52,7 @@ function LandingPage() {
 
 	useEffect( async() => {
 		getSetupInfo();
-	}, [] );
+	}, [ indexingState ] );
 
 	useEffect( () => {
 		if ( refreshInterval ) {
