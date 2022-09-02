@@ -1,6 +1,6 @@
 /* global yoastIndexingData */
 import apiFetch from "@wordpress/api-fetch";
-import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
+import { useCallback, useState, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 
 import AllFeaturesDisabled from "./components/all-features-disabled";
@@ -52,7 +52,7 @@ function LandingPage() {
 
 	useEffect( async() => {
 		getSetupInfo();
-	}, [ indexingState ] );
+	}, [] );
 
 	useEffect( () => {
 		if ( refreshInterval ) {
@@ -93,7 +93,7 @@ function LandingPage() {
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return (
 			<div className=" yst-mt-2 yst-mb-6">
-				<RefreshButton onClickCallback={ handleRefresh } lastRefreshTime={ lastRefreshTime } />
+				<RefreshButton onClickCallback={ getSetupInfo } lastRefreshTime={ lastRefreshTime } />
 				<NotEnoughContent />
 			</div>
 		);
