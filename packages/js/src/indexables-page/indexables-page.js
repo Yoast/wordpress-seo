@@ -331,19 +331,19 @@ function IndexablesPage( { setupInfo } ) {
 	 *
 	 * @returns {void}
 	 */
-	const updateList = useCallback( ( listName, indexablesList, isRefresh = false ) => {
-		if ( indexablesList.length === 0 || isRefresh ) {
+	const updateList = useCallback( ( listName, isRefresh = false ) => {
+		if ( indexablesLists[listName].length === 0 || isRefresh ) {
 			fetchList( listName );
 			return;
 		}
 
-		if ( indexablesList.length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer ) {
+		if ( indexablesLists[listName].length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer ) {
 			fetchList( listName, true );
 			return;
 		}
 
 		maybeRemoveIgnored( listName );
-	}, [ fetchList, maybeRemoveIgnored, minimumIndexablesInBuffer, indexablesListsFetchLength ] );
+	}, [ fetchList, maybeRemoveIgnored, minimumIndexablesInBuffer, indexablesListsFetchLength, indexablesLists ] );
 
 	/**
 	 * Updates all lists.
@@ -354,20 +354,20 @@ function IndexablesPage( { setupInfo } ) {
 	 */
 	const updateLists = ( isRefresh ) => {
 		if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
-			updateList( "least_readability", indexablesLists.least_readability, isRefresh );
+			updateList( "least_readability", isRefresh );
 		} else {
 			setLoadedCards( prevState => [ ...prevState, "least_readability" ] );
 		}
 
 		if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
-			updateList( "least_seo_score", indexablesLists.least_seo_score, isRefresh );
+			updateList( "least_seo_score", isRefresh );
 		} else {
 			setLoadedCards( prevState => [ ...prevState, "least_seo_score" ] );
 		}
 
 		if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
-			updateList( "most_linked", indexablesLists.most_linked, isRefresh );
-			updateList( "least_linked", indexablesLists.least_linked, isRefresh );
+			updateList( "most_linked", isRefresh );
+			updateList( "least_linked", isRefresh );
 		} else {
 			setLoadedCards( prevState => [ ...prevState, "most_linked", "least_linked" ] );
 		}
@@ -396,7 +396,7 @@ function IndexablesPage( { setupInfo } ) {
 	// We update a list each time the content of ignoredIndexable changes
 	useEffect( async() => {
 		if ( ignoredIndexable !== null ) {
-			updateList( ignoredIndexable.type, indexablesLists[ ignoredIndexable.type ] );
+			updateList( ignoredIndexable.type );
 		}
 	}, [ ignoredIndexable ] );
 
@@ -560,7 +560,7 @@ function IndexablesPage( { setupInfo } ) {
 					// ...remove that button.
 					setIgnoredIndexable( null );
 				}
-				updateList( type, indexablesLists[ type ], true );
+				updateList( type, true );
 			} else {
 				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}

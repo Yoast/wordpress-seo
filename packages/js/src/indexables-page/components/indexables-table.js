@@ -45,7 +45,7 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 		addToIgnoreList( { indexable, type, position } );
 	}, [ indexable, type, position, addToIgnoreList ] );
 
-	const handleIgnore =  useCallback( async( e ) => {
+	const handleIgnore = useCallback( async( e ) => {
 		setIsHandlingIgnore( true );
 		const id = e.currentTarget.dataset.indexableid;
 		const indexableType = e.currentTarget.dataset.indexabletype;
