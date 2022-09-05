@@ -3,7 +3,7 @@
 		.yst-code {
 			@apply
 			yst-block
-			yst-whitespace-pre
+			yst-whitespace-nowrap
 			yst-max-w-full
 			yst-overflow-x-auto
 			yst-text-xs;

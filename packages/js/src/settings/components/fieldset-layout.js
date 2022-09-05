@@ -18,7 +18,7 @@ const FieldsetLayout = ( {
 	description = null,
 } ) => {
 	return (
-		<Component id={ id } className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
+		<Component id={ id } className="yst-min-w-0 lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 			<div className="lg:yst-col-span-1">
 				<div className="max-w-screen-sm">
 					<Title as={ Component === "fieldset" ? "legend" : "h4" } size="4">
