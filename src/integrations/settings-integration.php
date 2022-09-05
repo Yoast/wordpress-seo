@@ -49,8 +49,18 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	const DISALLOWED_SETTINGS = [
 		'wpseo'        => [
+			'myyoast_oauth',
+			'semrush_tokens',
 			'custom_taxonomy_slugs',
+			'zapier_subscription',
+			'wincher_tokens',
 			'workouts_data',
+			'configuration_finished_steps',
+			'least_readability_ignore_list',
+			'least_seo_score_ignore_list',
+			'most_linked_ignore_list',
+			'least_linked_ignore_list',
+			'indexables_page_reading_list',
 		],
 		'wpseo_titles' => [
 			'company_logo_meta',
