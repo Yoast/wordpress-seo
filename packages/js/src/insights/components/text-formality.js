@@ -29,7 +29,7 @@ const FormalityLevel = styled.span`
  */
 const TextFormality = ( { location } ) => {
 	const shouldUpsell = useSelect( select => select( "yoast-seo/editor" ).getPreference( "shouldUpsell", false ), [] );
-	const formalityLevel = useSelect( select => select( "yoast-seo/editor" ).getTextFormalityLevel(), [] );
+	const formalityLevel = useSelect( select => select( "yoast-seo-premium/editor" )?.getTextFormalityLevel(), [] );
 	const textLength = useSelect( select => select( "yoast-seo/editor" ).getTextLength(), [] ).count;
 	const upsellLink = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-upsell-${ location }-text_formality`, "" ), [ location ] );
 	const infoLinkFree = get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_free", "" );

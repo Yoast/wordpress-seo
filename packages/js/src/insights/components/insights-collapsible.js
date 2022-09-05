@@ -15,7 +15,8 @@ import TextFormality from "./text-formality";
  */
 const InsightsCollapsible = ( { location } ) => {
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
-	const isTextFormalityAvailable = useSelect( select => select( "yoast-seo/editor" ).isTextFormalityAvailable(), [] );
+	const isTextFormalityAvailable = useSelect( select => select( "yoast-seo-premium/editor" )?.isTextFormalityAvailable(), [] );
+	console.log( isTextFormalityAvailable );
 
 	return (
 		<MetaboxCollapsible

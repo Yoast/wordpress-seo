@@ -16,7 +16,7 @@ import TextFormality from "./text-formality";
 const InsightsModal = ( { location } ) => {
 	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
-	const isTextFormalityAvailable = useSelect( select => select( "yoast-seo/editor" ).isTextFormalityAvailable(), [] );
+	const isTextFormalityAvailable = useSelect( select => select( "yoast-seo-premium/editor" )?.isTextFormalityAvailable(), [] );
 
 	return (
 		<EditorModal
