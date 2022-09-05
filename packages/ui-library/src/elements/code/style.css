@@ -1,0 +1,12 @@
+@layer components {
+	.yst-root {
+		.yst-code {
+			@apply
+			yst-block
+			yst-whitespace-pre
+			yst-max-w-full
+			yst-overflow-x-auto
+			yst-text-xs;
+		}
+	}
+}
