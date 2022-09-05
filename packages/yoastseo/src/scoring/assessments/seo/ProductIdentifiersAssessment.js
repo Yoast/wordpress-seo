@@ -63,7 +63,18 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 **
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
-	isApplicable() {
+	isApplicable( paper ) {
+		const customData = paper.getCustomData();
+
+		// Do not show the assessment when we cannot retrieve the SKU.
+		if ( customData.canRetrieveGlobalIdentifier === false && customData.hasVariants === false ) {
+			return false;
+		}
+
+		if ( customData.canRetrieveVariantIdentifiers === false && customData.hasVariants === true ) {
+			return false;
+		}
+
 		return this._config.assessVariants;
 	}
 
