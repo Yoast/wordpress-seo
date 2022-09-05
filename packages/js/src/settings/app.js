@@ -73,7 +73,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			{ ...ariaProps }
 		>
 			<span className="yst-flex yst-items-center yst-gap-2">
-				<ChevronIcon className="yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
+				<ChevronIcon className="yst-flex-shrink-0 yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
 				{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
 			</span>
 		</button>;
