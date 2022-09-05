@@ -140,6 +140,8 @@ const FormikMediaSelectField = ( {
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
 							src={ mediaUrl } alt={ media?.alt || "" }
+							loading="lazy"
+							decoding="async"
 							className="yst-object-cover yst-object-center yst-min-h-full yst-min-w-full"
 						/>
 					</>
