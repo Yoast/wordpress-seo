@@ -982,7 +982,7 @@ function IndexablesPage( { setupInfo } ) {
 				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
 					{
 						/* translators: %1$s expands to the title of a post that was just just hidden. */
-						sprintf( __( "Restore %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
+						sprintf( __( 'Restore "%1$s"', "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
 					}
 				</Button>
 			}
