@@ -53,7 +53,7 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 	return <div className="yst-max-w-full">
 		<div
 			id="start-writing-content"
-			className="yst-max-w-2xl"
+			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-flow-row yst-gap-6"
 		>
 			<IndexablesPageCard
 				title={ title }
