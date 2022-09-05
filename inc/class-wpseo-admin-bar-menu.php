@@ -620,10 +620,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$is_seo_enabled         = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
 		$is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
 
-		if ( ! $is_seo_enabled && ! $is_readability_enabled ) {
-			return '';
-		}
-
 		$indexable = $this->indexable_repository->for_current_page();
 
 		if ( $is_seo_enabled ) {

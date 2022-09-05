@@ -13,6 +13,7 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Young_adult_fiction",
 	slug: "Young_adult_fiction",
+	textTitle: "Young adult fiction",
 } );
 
 const expectedResults = {
@@ -83,6 +84,11 @@ const expectedResults = {
 			"your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>" +
 			"Distribute them more evenly</a>.",
 	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
+	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 9,
@@ -130,8 +136,8 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 13.99% of the words in your text are " +
-			"considered complex. <a href='https://yoa.st/shopify78' target='_blank'>" +
-			"Try to use shorter and more familiar words to improve readability</a>.",
+					"considered complex. <a href='https://yoa.st/shopify78' target='_blank'>" +
+					"Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
 

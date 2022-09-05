@@ -2,6 +2,7 @@ export { default as Alert } from "./elements/alert";
 export { default as Badge } from "./elements/badge";
 export { default as Button } from "./elements/button";
 export { default as Checkbox } from "./elements/checkbox";
+export { default as ErrorBoundary } from "./elements/error-boundary";
 export { default as Label } from "./elements/label";
 export { default as Link } from "./elements/link";
 export { default as ProgressBar } from "./elements/progress-bar";
@@ -16,6 +17,7 @@ export { default as Title } from "./elements/title";
 export { default as Toggle } from "./elements/toggle";
 
 export { default as CheckboxGroup } from "./components/checkbox-group";
+export { default as ChildrenLimiter } from "./components/children-limiter";
 export { default as FileImport } from "./components/file-import";
 export { default as Modal } from "./components/modal";
 export { default as Notifications } from "./components/notifications";

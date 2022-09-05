@@ -1,5 +1,6 @@
 import { inherits } from "util";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import TextTitleAssessment from "../assessments/seo/TextTitleAssessment";
 
 import IntroductionKeywordAssessment from "./../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./../assessments/seo/KeyphraseLengthAssessment";
@@ -82,6 +83,10 @@ const CollectionSEOAssessor = function( researcher, options ) {
 		new KeyphraseDistribution( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+		} ),
+		new TextTitleAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify83" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify84" ),
 		} ),
 	];
 };

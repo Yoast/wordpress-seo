@@ -1,9 +1,5 @@
 @layer components {
 	.yst-root {
-		.yst-select-field__label {
-			@apply yst-mb-2;
-		}
-
 		.yst-select-field__options {
 			@apply
 			yst-flex

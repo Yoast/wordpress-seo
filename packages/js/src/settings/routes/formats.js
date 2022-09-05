@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge } from "@yoast/ui-library";
+import { Badge, Link } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import {
@@ -27,6 +27,7 @@ const Formats = () => {
 	const { name, label, singularLabel } = useSelectSettings( "selectTaxonomy", [], "post_format" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
+	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -44,6 +45,17 @@ const Formats = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+	const description = useMemo( () => createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+			__( "(e.g., %1$shttps://www.example.com/format/example/%2$s)", "wordpress-seo" ),
+			"<code>",
+			"</code>"
+		),
+		{
+			code: <code className="yst-text-xs" />,
+		}
+	) );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
@@ -51,17 +63,15 @@ const Formats = () => {
 
 	return (
 		<FormLayout
-			title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-				<span>{ label }</span>
-				<Badge variant="plain">{ name }</Badge>
-			</div> }
+			title={ <div className="yst-flex yst-items-center yst-gap-1.5">{ label }</div> }
+			description={ description }
 		>
 			<fieldset className="yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-post_format" }
 					data-id={ "input-wpseo_titles-disable-post_format" }
-					label={ __( "Enable format-based archives", "wordpress-seo" ) }
-					className="yst-toggle-field--grid"
+					label={ __( "Format-based archives", "wordpress-seo" ) }
+					description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
 				/>
 			</fieldset>
 			<hr className="yst-my-8" />
@@ -71,15 +81,14 @@ const Formats = () => {
 					enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
 					enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 					enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leave="yst-transition yst-absolute yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
+					leave="yst-transition yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
 					leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
 					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 				>
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Categories. %2$s expands to the post type singular, e.g.
-							// Category.
+							// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag.
 							__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
 							label,
 							singularLabel
@@ -93,11 +102,18 @@ const Formats = () => {
 								__( "Show %1$s in search results", "wordpress-seo" ),
 								label
 							) }
-							description={ sprintf(
-								// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-								__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-								label
-							) }
+							description={ <>
+								{ sprintf(
+									// translators: %1$s expands to the taxonomy plural, e.g. Categories.
+									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
+									label
+								) }
+								<br />
+								<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+									{ __( "Read more about the search results settings", "wordpress-seo" ) }
+								</Link>
+								.
+							</> }
 						/>
 						<FormikReplacementVariableEditorField
 							type="title"
@@ -124,8 +140,7 @@ const Formats = () => {
 							<Badge variant="upsell">Premium</Badge>
 						</div> }
 						description={ sprintf(
-							// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g.
-							// Category.
+							// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag.
 							__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
 							label,
 							singularLabel

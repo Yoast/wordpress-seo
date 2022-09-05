@@ -14,6 +14,7 @@ const paper = new Paper( content, {
 	locale: "en_US",
 	permalink: "https://en.wikipedia.org/wiki/Batik",
 	slug: "Batik",
+	textTitle: "Koleksi Batik",
 } );
 
 const expectedResults = {
@@ -83,6 +84,11 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
+	},
 	subheadingsTooLong: {
 		isApplicable: false,
 	},
@@ -125,8 +131,8 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: You are not using too many complex words, " +
-			"which makes your text easy to read. Good job!",
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: " +
+			"You are not using too many complex words, which makes your text easy to read. Good job!",
 	},
 };
 

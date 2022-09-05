@@ -6,12 +6,15 @@ namespace Yoast\WP\SEO\Services\Health_Check;
  * Presents a set of different messages for the Default_Tagline health check.
  */
 class Default_Tagline_Reports {
+
 	use Reports_Trait;
 
 	/**
 	 * Constructor
 	 *
-	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects. This class uses the report builder to generate WordPress-friendly health check results.
+	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects.
+	 *                                                        This class uses the report builder to generate WordPress-friendly
+	 *                                                        health check results.
 	 * @return void
 	 */
 	public function __construct( Report_Builder_Factory $report_builder_factory ) {

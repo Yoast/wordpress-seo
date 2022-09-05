@@ -127,7 +127,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	private function add_potential_action( $data ) {
 		$url = $this->context->canonical;
-		if ( $data['@type'] === 'CollectionPage' || ( is_array( $data['@type'] ) && in_array( 'CollectionPage', $data['@type'], true ) ) ) {
+		if ( $data['@type'] === 'CollectionPage' || ( \is_array( $data['@type'] ) && \in_array( 'CollectionPage', $data['@type'], true ) ) ) {
 			return $data;
 		}
 

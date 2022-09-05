@@ -42,6 +42,13 @@ class Importable_Detector_Service_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents a mock of the instance to test.
+	 *
+	 * @var Mockery\MockInterface|Importable_Detector_Service_Double
+	 */
+	protected $mock_instance;
+
+	/**
 	 * The mocked importing action.
 	 *
 	 * @var Aioseo_Posts_Importing_Action_Double

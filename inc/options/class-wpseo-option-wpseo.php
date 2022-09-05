@@ -122,6 +122,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_cleanup_emoji'                     => false,
 		'search_cleanup_patterns'                  => false,
 		'search_character_limit'                   => 50,
+		'least_readability_ignore_list'            => [],
+		'least_seo_score_ignore_list'              => [],
+		'most_linked_ignore_list'                  => [],
+		'least_linked_ignore_list'                 => [],
+		'indexables_page_reading_list'             => [ false, false, false, false, false ],
+		'indexables_overview_state'                => 'dashboard-not-visited',
 	];
 
 	/**
@@ -309,6 +315,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'index_now_key':
 				case 'wincher_website_id':
 				case 'clean_permalinks_extra_variables':
+				case 'indexables_overview_state':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -385,6 +392,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'wincher_tokens':
 				case 'workouts_data':
 				case 'configuration_finished_steps':
+				case 'least_readability_ignore_list':
+				case 'least_seo_score_ignore_list':
+				case 'most_linked_ignore_list':
+				case 'least_linked_ignore_list':
+				case 'indexables_page_reading_list':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -431,10 +443,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				/*
-				* Boolean (checkbox) fields.
-				*/
-
-				/*
+				 * Boolean (checkbox) fields.
+				 *
 				 * Covers:
 				 *  'disableadvanced_meta'
 				 *  'enable_headless_rest_endpoints'

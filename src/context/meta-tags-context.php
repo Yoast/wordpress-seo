@@ -612,15 +612,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_main_image_id() {
 		switch ( true ) {
-			case is_singular():
+			case \is_singular():
 				return $this->get_singular_post_image( $this->id );
-			case is_author():
-			case is_tax():
-			case is_tag():
-			case is_category():
-			case is_search():
-			case is_date():
-			case is_post_type_archive():
+			case \is_author():
+			case \is_tax():
+			case \is_tag():
+			case \is_category():
+			case \is_search():
+			case \is_date():
+			case \is_post_type_archive():
 				if ( ! empty( $GLOBALS['wp_query']->posts ) ) {
 					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
 				}

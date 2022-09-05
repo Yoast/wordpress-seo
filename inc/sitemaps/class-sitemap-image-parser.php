@@ -288,8 +288,8 @@ class WPSEO_Sitemap_Image_Parser {
 	/**
 	 * Get image item array with filters applied.
 	 *
-	 * @param WP_Post $post  Post object for the context.
-	 * @param string  $src   Image URL.
+	 * @param WP_Post $post Post object for the context.
+	 * @param string  $src  Image URL.
 	 *
 	 * @return array
 	 */

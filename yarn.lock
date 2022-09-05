@@ -9958,12 +9958,12 @@ caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001204.tgz#95959fa4ebf08c871eff3274518e382cd0f8a223"
   integrity sha512-Q4X8pJp5li4mEiNmQMamOFrWbFB29anrWNe9U9/Qcuh7nseuH4D8XNIq7rHy/dt264SuoVOX+36qRMyhTvGnHQ==
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001181, caniuse-lite@^1.0.30001286, caniuse-lite@^1.0.30001335, caniuse-lite@^1.0.30001349:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001181, caniuse-lite@^1.0.30001286, caniuse-lite@^1.0.30001317, caniuse-lite@^1.0.30001335, caniuse-lite@^1.0.30001349:
   version "1.0.30001355"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001355.tgz"
   integrity sha512-Sd6pjJHF27LzCB7pT7qs+kuX2ndurzCzkpJl6Qct7LPSZ9jn0bkOA8mdgMgmqnQAWLVOOGjLpc+66V57eLtb1g==
 
-caniuse-lite@^1.0.30001317, caniuse-lite@^1.0.30001358:
+caniuse-lite@^1.0.30001358:
   version "1.0.30001359"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001359.tgz#a1c1cbe1c2da9e689638813618b4219acbd4925e"
   integrity sha512-Xln/BAsPzEuiVLgJ2/45IaqD9jShtk3Y33anKb4+yLwQzws3+v6odKfpgES/cDEaZMLzSChpIGdbOYtH9MyuHw==
@@ -24544,6 +24544,13 @@ react-animate-height@^2.0.23:
     classnames "^2.2.5"
     prop-types "^15.6.1"
 
+react-animate-height@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-animate-height/-/react-animate-height-3.0.4.tgz#80c9cc25e8569709ad1c626b968dbe5108d0ce46"
+  integrity sha512-k+mBS8yCzpFp+7BdrHsL5bXd6CO/2bYO2SvRGKfxK+Ss3nzplAJLlgnd6Zhcxe/avdpy/CgcziicFj7pIHgG5g==
+  dependencies:
+    classnames "^2.3.1"
+
 react-autosize-textarea@^7.0.0, react-autosize-textarea@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/react-autosize-textarea/-/react-autosize-textarea-7.1.0.tgz#902c84fc395a689ca3a484dfb6bc2be9ba3694d1"
@@ -24657,6 +24664,13 @@ react-element-to-jsx-string@^14.3.4:
     "@base2/pretty-print-object" "1.0.1"
     is-plain-object "5.0.0"
     react-is "17.0.2"
+
+react-error-boundary@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-3.1.4.tgz#255db92b23197108757a888b01e5b729919abde0"
+  integrity sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
 
 react-event-listener@^0.4.5:
   version "0.4.5"

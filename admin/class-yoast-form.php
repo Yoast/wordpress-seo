@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Sidebar_Presenter;
 
 /**
  * Admin form class.
@@ -189,7 +190,9 @@ class Yoast_Form {
 			return;
 		}
 
-		require_once 'views/sidebar.php';
+		$sidebar_presenter = new Sidebar_Presenter();
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in presenter.
+		echo $sidebar_presenter->present();
 	}
 
 	/**
@@ -197,7 +200,7 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string $text Label text string.
+	 * @param string $text Label text string, which can contain escaped html.
 	 * @param array  $attr HTML attributes set.
 	 */
 	public function label( $text, $attr ) {
@@ -214,7 +217,7 @@ class Yoast_Form {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before. Specifically, the $text variable can contain escaped html.
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
@@ -238,7 +241,7 @@ class Yoast_Form {
 
 		$id = ( $attr['id'] === '' ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
+		echo '<legend class="' . esc_attr( 'yoast-form-legend ' . $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
 	}
 
 	/**
@@ -274,7 +277,7 @@ class Yoast_Form {
 		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
-		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $variable ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $variable ), ']" value="on"', checked( $val, 'on', false ), $disabled_attribute, '/>';
+		echo '<input class="', esc_attr( 'checkbox ' . $class ), '" type="checkbox" id="', esc_attr( $variable ), '" name="', esc_attr( $this->option_name . '[' . $variable . ']' ), '" value="on"', checked( $val, 'on', false ), $disabled_attribute, '/>';
 
 		if ( ! empty( $label ) ) {
 			$this->label( $label, [ 'for' => $variable ] );
@@ -304,8 +307,7 @@ class Yoast_Form {
 			printf(
 				'<input class="checkbox double" id="%1$s" type="checkbox" name="%2$s" %3$s %5$s value="%4$s"/>',
 				esc_attr( $variable . '-' . $name ),
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-				esc_attr( $this->option_name ) . '[' . esc_attr( $variable ) . '][' . $name . ']',
+				esc_attr( $this->option_name . '[' . $variable . '][' . $name . ']' ),
 				checked( ! empty( $values[ $name ] ), true, false ),
 				esc_attr( $name ),
 				disabled( ( isset( $attr['disabled'] ) && $attr['disabled'] ), true, false )
@@ -411,7 +413,7 @@ class Yoast_Form {
 		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
-		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="' . $type . '" id="', esc_attr( $variable ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $variable ), ']" value="', esc_attr( $val ), '"', $disabled_attribute, '/>', '<br class="clear" />';
+		echo '<input', $attributes, $aria_attributes, ' class="', esc_attr( 'textinput ' . $attr['class'] ), '" placeholder="', esc_attr( $attr['placeholder'] ), '" type="', $type, '" id="', esc_attr( $variable ), '" name="', esc_attr( $this->option_name . '[' . $variable . ']' ), '" value="', esc_attr( $val ), '"', $disabled_attribute, '/>', '<br class="clear" />';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in getter.
 		echo Yoast_Input_Validation::get_the_error_description( $variable );
 	}
@@ -451,7 +453,7 @@ class Yoast_Form {
 		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
-		echo '<input' . $aria_attributes . ' class="' . esc_attr( $attr['class'] ) . '" type="' . $type . '" id="', esc_attr( $variable ), '" min="',esc_attr( $attr['min'] ),'" max="',esc_attr( $attr['max'] ),'" name="', esc_attr( $this->option_name ), '[', esc_attr( $variable ), ']" value="', esc_attr( $val ), '"', $disabled_attribute, '/>', '<br class="clear" />';
+		echo '<input' . $aria_attributes . ' class="' . esc_attr( $attr['class'] ) . '" type="' . $type . '" id="', esc_attr( $variable ), '" min="', esc_attr( $attr['min'] ), '" max="', esc_attr( $attr['max'] ), '" name="', esc_attr( $this->option_name . '[' . $variable . ']' ), '" value="', esc_attr( $val ), '"', $disabled_attribute, '/>', '<br class="clear" />';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in getter.
 		echo Yoast_Input_Validation::get_the_error_description( $variable );
 	}
@@ -506,7 +508,7 @@ class Yoast_Form {
 		printf(
 			'<input type="%1$s" name="%2$s" id="%3$s" class="%4$s"%5$s%6$s%7$s value="%8$s"%9$s>',
 			$type,
-			\esc_attr( $this->option_name ) . '[' . \esc_attr( $variable ) . ']',
+			\esc_attr( $this->option_name . '[' . $variable . ']' ),
 			\esc_attr( $variable ),
 			\esc_attr( $attr['class'] ),
 			isset( $attr['placeholder'] ) ? ' placeholder="' . \esc_attr( $attr['placeholder'] ) . '"' : '',
@@ -556,7 +558,7 @@ class Yoast_Form {
 		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
-		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $variable ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $variable ) . ']"', $disabled_attribute, '>' . esc_textarea( $val ) . '</textarea><br class="clear" />';
+		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="' . esc_attr( 'textinput ' . $attr['class'] ) . '" id="' . esc_attr( $variable ) . '" name="' . esc_attr( $this->option_name . '[' . $variable . ']' ), '"', $disabled_attribute, '>' . esc_textarea( $val ) . '</textarea><br class="clear" />';
 	}
 
 	/**
@@ -581,7 +583,7 @@ class Yoast_Form {
 			$id = 'hidden_' . $variable;
 		}
 
-		echo '<input type="hidden" id="' . esc_attr( $id ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $variable ) . ']" value="' . esc_attr( $val ) . '"/>';
+		echo '<input type="hidden" id="' . esc_attr( $id ) . '" name="' . esc_attr( $this->option_name . '[' . $variable . ']' ), '" value="' . esc_attr( $val ) . '"/>';
 	}
 
 	/**
@@ -863,8 +865,8 @@ class Yoast_Form {
 
 		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
 
-		$has_premium_upsell = ( isset( $attr['show_premium_upsell'] ) && $attr['show_premium_upsell'] ) && ( isset( $attr['premium_upsell_url'] ) && ! empty( $attr['premium_upsell_url'] ) );
-		$upsell_class       = $has_premium_upsell ? ' premium-upsell' : '';
+		$has_premium_upsell = ( isset( $attr['show_premium_upsell'] ) && $attr['show_premium_upsell'] && isset( $attr['premium_upsell_url'] ) && ! empty( $attr['premium_upsell_url'] ) );
+		$upsell_class       = ( $has_premium_upsell ) ? ' premium-upsell' : '';
 
 		$var_esc = esc_attr( $variable );
 

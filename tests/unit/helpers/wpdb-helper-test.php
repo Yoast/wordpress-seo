@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -14,6 +15,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Wpdb_Helper
  */
 class Wpdb_Helper_Test extends TestCase {
+
+	/**
+	 * Mocked version of the WP native wpdb object.
+	 *
+	 * @var wpdb|Mockery\MockInterface
+	 */
+	protected $wpdb;
 
 	/**
 	 * The instance under test.
@@ -28,7 +36,7 @@ class Wpdb_Helper_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->wpdb     = Mockery::mock( 'wpdb' );
+		$this->wpdb     = Mockery::mock( wpdb::class );
 		$this->instance = new Wpdb_Helper( $this->wpdb );
 	}
 

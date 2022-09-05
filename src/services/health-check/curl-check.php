@@ -24,7 +24,7 @@ class Curl_Check extends Health_Check {
 	/**
 	 * Constructor.
 	 *
-	 * @param Curl_Runner  $runner The object that implements the actual health check.
+	 * @param Curl_Runner  $runner  The object that implements the actual health check.
 	 * @param Curl_Reports $reports The object that generates WordPress-friendly results.
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class Curl_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return __( 'cURL', 'wordpress-seo' );
+		return \__( 'cURL', 'wordpress-seo' );
 	}
 
 	/**

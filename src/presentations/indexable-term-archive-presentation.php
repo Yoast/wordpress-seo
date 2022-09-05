@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Presentations;
 
 use WP_Term;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
@@ -16,6 +17,13 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 
 	use Archive_Adjacent;
+
+	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper
+	 */
+	protected $pagination;
 
 	/**
 	 * Holds the WP query wrapper instance.
