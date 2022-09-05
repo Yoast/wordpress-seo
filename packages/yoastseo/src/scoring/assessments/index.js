@@ -25,15 +25,13 @@ import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
 import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment";
+import TextTitleAssessment from "./seo/TextTitleAssessment";
 import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
 import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "./seo/ProductSKUAssessment";
-
-
-import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
 const readability = {
 	ListAssessment,
@@ -71,14 +69,10 @@ const seo = {
 	ImageAltTagsAssessment,
 	ProductIdentifiersAssessment,
 	ProductSKUAssessment,
-};
-
-const inclusiveLanguage = {
-	InclusiveLanguageAssessment,
+	TextTitleAssessment,
 };
 
 export {
 	readability,
 	seo,
-	inclusiveLanguage,
 };

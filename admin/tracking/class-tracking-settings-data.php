@@ -54,6 +54,11 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'zapier_api_key',
 		'wincher_tokens',
 		'wincher_website_id',
+		'least_readability_ignore_list',
+		'least_seo_score_ignore_list',
+		'most_linked_ignore_list',
+		'least_linked_ignore_list',
+		'indexables_page_reading_list',
 	];
 
 	/**
@@ -210,6 +215,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'search_cleanup_patterns',
 		'search_character_limit',
 		'wordproof_integration_active',
+		'indexables_overview_state',
 	];
 
 	/**

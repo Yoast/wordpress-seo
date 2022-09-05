@@ -109,7 +109,7 @@ const Notification = ( {
 					<Icon className="yst-notification__icon" />
 				</div>
 				<div className="yst-w-0 yst-flex-1">
-					<p className="yst-text-sm yst-font-medium yst-text-gray-700">
+					<p className="yst-text-sm yst-font-medium yst-text-gray-800">
 						{ title }
 					</p>
 					{ children || (

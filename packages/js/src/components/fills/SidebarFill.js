@@ -8,7 +8,7 @@ import { get } from "lodash";
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
 import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
@@ -89,9 +89,6 @@ export default function SidebarFill( { settings } ) {
 						shouldUpsell={ settings.shouldUpsell }
 						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
-				</SidebarItem> }
-				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language" renderPriority={ 21 }>
-					<InclusiveLanguageAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }

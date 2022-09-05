@@ -14,6 +14,7 @@ const paper = new Paper( content, {
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/M%C3%BAsica",
 	slug: "Música",
+	textTitle: "Música",
 } );
 
 const expectedResults = {
@@ -105,6 +106,11 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain" +
 			" the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

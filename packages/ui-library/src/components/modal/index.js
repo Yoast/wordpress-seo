@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { Fragment } from "@wordpress/element";
 import classNames from "classnames";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import Title from "../../elements/title";
 import { useSvgAria } from "../../hooks";
 

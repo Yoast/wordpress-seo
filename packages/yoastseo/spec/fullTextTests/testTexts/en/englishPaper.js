@@ -12,6 +12,7 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://yoast.com/future-of-voice-search/",
 	slug: "future-of-voice-search",
+	textTitle: "Voice search: what will the future bring?",
 } );
 
 const expectedResults = {
@@ -96,6 +97,11 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

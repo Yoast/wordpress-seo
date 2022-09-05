@@ -19,6 +19,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -31,6 +32,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -43,6 +45,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -55,6 +58,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -67,6 +71,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"metaDescriptionLength",
 			"titleWidth",
 			"functionWordsInKeyphrase",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -80,6 +85,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -93,6 +99,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -106,6 +113,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"metaDescriptionLength",
 			"titleWidth",
 			"slugKeyword",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -131,6 +139,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
@@ -155,6 +164,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
+			"textTitleAssessment",
 		] );
 	} );
 
