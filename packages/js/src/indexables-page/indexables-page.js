@@ -942,14 +942,14 @@ function IndexablesPage( { setupInfo } ) {
 										position={ position }
 										setErrorMessage={ setErrorMessage }
 									>
-										{ 
+										{
 											( shouldDisplayStars() ) && <div className="yst-flex yst-items-center">
 												{
 													( !! parseInt( indexable.is_cornerstone, 10 ) === true )
 														? <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700" />
 														: <div className="yst-w-4" />
 												}
-											</div> 
+											</div>
 										}
 										<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
 										<IndexableTitleLink indexable={ indexable } />
