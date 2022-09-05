@@ -25,7 +25,7 @@ function IndexationView( { setIndexingState } ) {
 					{ __( "We would like to show you insights into content that we feel could use improving.", "wordpress-seo" ) }
 				</p>
 				<p className="yst-gray-500 yst-font-normal yst-leading-normal yst-mb-6">
-					{ __( "Help us to analyze your site by running the SEO data optimization below.", "wordpress-seo" ) }
+					{ __( "Help us to analyze your site by running the site analysis below.", "wordpress-seo" ) }
 				</p>
 				<Indexation
 					preIndexingActions={ window.yoast.indexing.preIndexingActions }
