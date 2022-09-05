@@ -126,6 +126,7 @@ export default class AnalysisWebWorker {
 		this.setCustomRelatedKeywordAssessorClass = this.setCustomRelatedKeywordAssessorClass.bind( this );
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
 		this.registerAssessor = this.registerAssessor.bind( this );
+		this.registerResearch = this.registerResearch.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -1261,6 +1262,21 @@ export default class AnalysisWebWorker {
 			return;
 		}
 		this.send( "customMessage:failed", result.error );
+	}
+
+	/**
+	 * Registers custom research to the researcher.
+	 *
+	 * @param {string} name         The name of the research.
+	 * @param {function} research   The research function to add.
+	 * @returns {void}
+	 */
+	registerResearch( name, research ) {
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasResearch( name ) ) {
+			researcher.addResearch( name, research );
+		}
 	}
 
 	/**
