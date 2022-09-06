@@ -184,6 +184,14 @@ function IndexablesPage( { setupInfo } ) {
 	}, [ indexablesLists ] );
 
 	const [ ignoredIndexable, setIgnoredIndexable ] = useState( null );
+	const [ ignoredLists, setIgnoredLists ] = useState(
+		{
+			least_readability: wpseoIndexablesPageData.ignoreLists.least_readability,
+			least_seo_score: wpseoIndexablesPageData.ignoreLists.least_seo_score,
+			most_linked: wpseoIndexablesPageData.ignoreLists.most_linked,
+			least_linked: wpseoIndexablesPageData.ignoreLists.least_linked,
+		}
+	);
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ suggestedLinksModalData, setSuggestedLinksModalData ] = useState( null );
 
@@ -393,12 +401,13 @@ function IndexablesPage( { setupInfo } ) {
 		updateLists( false );
 	}, [] );
 
-	// We update a list each time the content of ignoredIndexable changes
+	// We update a list each time the content of ignoredIndexable changes.
 	useEffect( async() => {
+		console.log('ignoredIndexable', ignoredIndexable);
 		if ( ignoredIndexable !== null ) {
 			updateList( ignoredIndexable.type );
 		}
-	}, [ ignoredIndexable ] );
+	}, [ ignoredIndexable, ignoredLists ] );
 
 	/**
 	 * Handles the rendering of the links modal.
@@ -632,7 +641,9 @@ function IndexablesPage( { setupInfo } ) {
 								key={ `indexable-${ indexable.id }-row` }
 								type={ "least_readability" }
 								indexable={ indexable }
-								addToIgnoreList={ setIgnoredIndexable }
+								setIgnoredIndexable={ setIgnoredIndexable }
+								ignoredLists={ ignoredLists }
+								setIgnoredLists={ setIgnoredLists }
 								position={ position }
 								setErrorMessage={ setErrorMessage }
 							>
@@ -729,7 +740,9 @@ function IndexablesPage( { setupInfo } ) {
 									key={ `indexable-${ indexable.id }-row` }
 									type={ "least_linked" }
 									indexable={ indexable }
-									addToIgnoreList={ setIgnoredIndexable }
+									setIgnoredIndexable={ setIgnoredIndexable }
+									ignoredLists={ ignoredLists }
+									setIgnoredLists={ setIgnoredLists }
 									position={ position }
 									setErrorMessage={ setErrorMessage }
 								>
@@ -840,7 +853,9 @@ function IndexablesPage( { setupInfo } ) {
 									key={ `indexable-${ indexable.id }-row` }
 									type={ "least_seo_score" }
 									indexable={ indexable }
-									addToIgnoreList={ setIgnoredIndexable }
+									setIgnoredIndexable={ setIgnoredIndexable }
+									ignoredLists={ ignoredLists }
+									setIgnoredLists={ setIgnoredLists }
 									position={ position }
 									setErrorMessage={ setErrorMessage }
 								>
@@ -938,7 +953,9 @@ function IndexablesPage( { setupInfo } ) {
 										key={ `indexable-${ indexable.id }-row` }
 										type={ "most_linked" }
 										indexable={ indexable }
-										addToIgnoreList={ setIgnoredIndexable }
+										setIgnoredIndexable={ setIgnoredIndexable }
+										ignoredLists={ ignoredLists }
+										setIgnoredLists={ setIgnoredLists }
 										position={ position }
 										setErrorMessage={ setErrorMessage }
 									>
