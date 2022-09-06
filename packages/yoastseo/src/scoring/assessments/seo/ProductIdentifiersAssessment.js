@@ -66,7 +66,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
 
-		// Do not show the assessment when we cannot retrieve the SKU.
+		// Do not show the assessment when we cannot retrieve the identifiers.
 		if ( customData.canRetrieveGlobalIdentifier === false && ( customData.productType === "simple" || customData.hasVariants === false ) ) {
 			return false;
 		}
