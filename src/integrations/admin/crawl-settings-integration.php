@@ -46,6 +46,13 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	private $search_cleanup_settings;
 
 	/**
+	 * Holds the settings + labels for unused resources settings.
+	 *
+	 * @var array
+	 */
+	private $unused_resources_settings;
+
+	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
@@ -92,6 +99,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 */
 	public function is_premium_upgraded() {
 		$premium_version = $this->product_helper->get_premium_version();
+
 		return $premium_version !== null && \version_compare( $premium_version, '18.6-RC1', '>=' );
 	}
 
@@ -120,7 +128,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			'remove_rsd_wlw_links'     => \__( 'RSD / WLW links', 'wordpress-seo' ),
 			'remove_oembed_links'      => \__( 'oEmbed links', 'wordpress-seo' ),
 			'remove_generator'         => \__( 'Generator tag', 'wordpress-seo' ),
-			'remove_emoji_scripts'     => \__( 'Emoji scripts', 'wordpress-seo' ),
 			'remove_pingback_header'   => \__( 'Pingback HTTP header', 'wordpress-seo' ),
 			'remove_powered_by_header' => \__( 'Powered by HTTP header', 'wordpress-seo' ),
 		];
@@ -135,7 +142,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			'search_cleanup_emoji'    => \__( 'Filter searches with emojis and other special characters', 'wordpress-seo' ),
 			'search_cleanup_patterns' => \__( 'Filter searches with common spam patterns', 'wordpress-seo' ),
 			'deny_search_crawling'    => \__( 'Prevent search engines from crawling site search URLs', 'wordpress-seo' ),
-			'deny_wp_json_crawling'   => \__( 'Prevent search engines from crawling /wp-json/', 'wordpress-seo' ),
+		];
+
+		$this->unused_resources_settings = [
+			'remove_emoji_scripts'  => \__( 'Emoji scripts', 'wordpress-seo' ),
+			'deny_wp_json_crawling' => \__( 'Prevent search engines from crawling /wp-json/', 'wordpress-seo' ),
 		];
 	}
 
@@ -193,6 +204,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 
 		$this->print_toggles( $this->basic_settings, $yform, $is_network, \__( 'Basic crawl settings', 'wordpress-seo' ), \__( 'Remove links added by WordPress to the header and &lt;head&gt;.', 'wordpress-seo' ) );
 		$this->print_toggles( $this->feed_settings, $yform, $is_network, \__( 'Feed crawl settings', 'wordpress-seo' ), \__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' ) );
+		$this->print_toggles( $this->unused_resources_settings, $yform, $is_network, \__( 'Remove unused resources', 'wordpress-seo' ), \__( 'WordPress loads lots of resources, some of which your site might not need. If you’re not using these, removing them can speed up your pages and save resources.', 'wordpress-seo' ) );
 
 		$first_search_setting    = \array_slice( $this->search_cleanup_settings, 0, 1 );
 		$rest_search_settings    = \array_slice( $this->search_cleanup_settings, 1 );
