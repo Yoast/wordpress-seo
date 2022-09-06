@@ -1,4 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
+import { union } from "lodash";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { useState, useCallback } from "@wordpress/element";
@@ -29,32 +30,46 @@ function PlaceholderRows( { columnCount, listSize } ) {
 /**
  * A row representing an indexables.
  *
- * @param {object}   indexable       The indexable.
- * @param {JSX.node} children        The React children.
- * @param {string}   type            The indexable type.
- * @param {function} addToIgnoreList The indexable type.
- * @param {int}      position        The position of the indexable in the list.
+ * @param {object}   indexable           The indexable.
+ * @param {JSX.node} children            The React children.
+ * @param {string}   type                The indexable type.
+ * @param {function} setIgnoredIndexable The function that sets the Ignored Indexable.
+ * @param {object}   ignoredLists        The Ignored lists.
+ * @param {function} setIgnoredLists     The function that sets the Ignored lists.
+ * @param {int}      position            The position of the indexable in the list.
  *
  * @returns {WPElement} A table with the indexables.
  */
-const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, setErrorMessage } ) => {
+const IndexableRow = ( { indexable, children, type, setIgnoredIndexable, ignoredLists, setIgnoredLists, position, setErrorMessage } ) => {
 	const [ isHandlingIgnore, setIsHandlingIgnore ] = useState( false );
 	const [ rowAnimationClasses, setRowAnimationClasses ] = useState( "" );
 
-	const addToIgnoreListCallback = useCallback( () => {
-		addToIgnoreList( { indexable, type, position } );
-	}, [ indexable, type, position, addToIgnoreList ] );
+	const setIgnoredIndexableCallback = useCallback( () => {
+		setIgnoredIndexable( { indexable, type, position } );
+	}, [ indexable, type, position, setIgnoredIndexable ] );
 
-	const handleIgnore =  useCallback( async( e ) => {
+	const handleIgnore = useCallback( async( e ) => {
 		setIsHandlingIgnore( true );
 		const id = e.currentTarget.dataset.indexableid;
 		const indexableType = e.currentTarget.dataset.indexabletype;
 
+		const newIgnoredList = union( ignoredLists[ indexableType ], [ parseInt( id, 10 ) ] );
+
+		setIgnoredLists( prevState => {
+			return {
+				...prevState,
+				[ indexableType ]: union( prevState[ indexableType ], [ parseInt( id, 10 ) ] ),
+			};
+		} );
+
 		try {
 			const response = await apiFetch( {
-				path: "yoast/v1/ignore_indexable",
+				path: "yoast/v1/update_ignored_indexables",
 				method: "POST",
-				data: { id: id, type: indexableType },
+				data: {
+					type: indexableType,
+					list: newIgnoredList,
+				},
 			} );
 
 			const parsedResponse = await response.json;
@@ -69,12 +84,12 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 			setIsHandlingIgnore( false );
 			setErrorMessage( error.message );
 		}
-	}, [ apiFetch, addToIgnoreList ] );
+	}, [ apiFetch, setIgnoredIndexable, ignoredLists, setIgnoredLists ] );
 
 	return <li
 		key={ `indexable-${ indexable.id }-row` }
 		className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14 " + rowAnimationClasses }
-		onAnimationEnd={ addToIgnoreListCallback }
+		onAnimationEnd={ setIgnoredIndexableCallback }
 	>
 		{ children }
 		<div>
@@ -88,7 +103,9 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 IndexableRow.propTypes = {
 	indexable: PropTypes.object,
 	type: PropTypes.string,
-	addToIgnoreList: PropTypes.func,
+	setIgnoredIndexable: PropTypes.func,
+	ignoredLists: PropTypes.object,
+	setIgnoredLists: PropTypes.func,
 	position: PropTypes.number,
 	setErrorMessage: PropTypes.func,
 	children: PropTypes.node,

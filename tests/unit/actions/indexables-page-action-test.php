@@ -731,23 +731,16 @@ class Indexables_Page_Action_Test extends TestCase {
 	/**
 	 * Test adding an indexable to an ignore-list.
 	 *
-	 * @covers ::add_indexable_to_ignore_list
+	 * @covers ::update_ignored_indexables
 	 *
-	 * @dataProvider add_indexable_to_ignore_list_provider
+	 * @dataProvider update_ignored_indexables_provider
 	 *
-	 * @param array $ignore_list_state The state of the ignore-list in the database.
-	 * @param int   $indexable_id      The id of the indexable to add to the ignore-list.
-	 * @param array $expected_result   The expected result.
+	 * @param array $ignored_indexable_ids The id of the indexable to add to the ignore-list.
 	 */
-	public function test_add_indexable_to_ignore_list( $ignore_list_state, $indexable_id, $expected_result ) {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'test_ignore_list_name', [] )
-			->andReturn( $ignore_list_state );
-
+	public function test_update_ignored_indexables( $ignored_indexable_ids ) {
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'test_ignore_list_name', $expected_result )
+			->with( 'test_ignore_list_name', $ignored_indexable_ids )
 			->andReturns();
 
 		$this->indexables_page_helper
@@ -755,29 +748,25 @@ class Indexables_Page_Action_Test extends TestCase {
 			->with( 'test_ignore_list_name' )
 			->andReturns( true );
 
-		$this->instance->add_indexable_to_ignore_list( 'test_ignore_list_name', $indexable_id );
+		$this->instance->update_ignored_indexables( 'test_ignore_list_name', $ignored_indexable_ids );
 	}
 
 	/**
-	 * Data provider for test_add_indexable_to_ignore_list function.
+	 * Data provider for test_update_ignored_indexables function.
 	 *
-	 * @return array Data for test_add_indexable_to_ignore_list function.
+	 * @return array Data for test_update_ignored_indexables function.
 	 */
-	public function add_indexable_to_ignore_list_provider() {
-		$in_list = [
-			'ignore_list_state' => [ 1, 2, 3, 4 ],
-			'indexable_id'      => 3,
-			'expected_result'   => [ 1, 2, 3, 4 ],
+	public function update_ignored_indexables_provider() {
+		$not_empty_list = [
+			'ignored_indexable_ids' => [ 1, 2, 3, 4 ],
 		];
 
-		$not_in_list = [
-			'ignore_list_state' => [ 1, 2, 4 ],
-			'indexable_id'      => 3,
-			'expected_result'   => [ 1, 2, 4, 3 ],
+		$empty_list = [
+			'ignored_indexable_ids' => [],
 		];
 		return [
-			'Already in list' => $in_list,
-			'Not in list yet' => $not_in_list,
+			'Not empty list' => $not_empty_list,
+			'Empty'          => $empty_list,
 		];
 	}
 

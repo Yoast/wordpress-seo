@@ -57,7 +57,7 @@ class Indexables_Page_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const IGNORE_INDEXABLE_ROUTE = '/ignore_indexable';
+	const UPDATE_IGNORED_INDEXABLES_ROUTE = '/update_ignored_indexables';
 
 	/**
 	 * Allows to restore an indexable previously ignored.
@@ -184,10 +184,10 @@ class Indexables_Page_Route implements Route_Interface {
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::LEAST_LINKED_ROUTE, $least_linked_route );
 
-		$ignore_indexable_route = [
+		$update_ignored_indexables_route = [
 			[
 				'methods'             => 'POST',
-				'callback'            => [ $this, 'ignore_indexable' ],
+				'callback'            => [ $this, 'update_ignored_indexables' ],
 				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
 				'args'                => [
 					'id' => [
@@ -207,7 +207,7 @@ class Indexables_Page_Route implements Route_Interface {
 			],
 		];
 
-		\register_rest_route( Main::API_V1_NAMESPACE, self::IGNORE_INDEXABLE_ROUTE, $ignore_indexable_route );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::UPDATE_IGNORED_INDEXABLES_ROUTE, $update_ignored_indexables_route );
 
 		$restore_indexable_route = [
 			[
@@ -380,12 +380,18 @@ class Indexables_Page_Route implements Route_Interface {
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
-	public function ignore_indexable( WP_REST_Request $request ) {
+	public function update_ignored_indexables( WP_REST_Request $request ) {
 		$params           = $request->get_json_params();
 		$ignore_list_name = $params['type'] . '_ignore_list';
-		$indexable_id     = intval( $params['id'] );
 
-		if ( $this->indexables_page_action->add_indexable_to_ignore_list( $ignore_list_name, $indexable_id ) ) {
+		$ignored_indexable_ids = \array_map(
+			function ( $ignored_indexable_id ) {
+				return intval( $ignored_indexable_id );
+			},
+			$params['list']
+		);
+
+		if ( $this->indexables_page_action->update_ignored_indexables( $ignore_list_name, $ignored_indexable_ids ) ) {
 			return new WP_REST_Response(
 				[
 					'json' => (object) [ 'success' => true ],

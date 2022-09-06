@@ -279,22 +279,17 @@ class Indexables_Page_Action {
 	/**
 	 * Stores an indexable in an ignore-list.
 	 *
-	 * @param string $ignore_list_name The name of the ignore-list.
-	 * @param int    $indexable_id The ID of the indexable to store in the ignore-list.
+	 * @param string $ignore_list_name      The name of the ignore-list.
+	 * @param array  $ignored_indexable_ids The IDs of the updated ignored indexables.
 	 *
 	 * @return boolean Whether saving the ignore-list to the database succeeded.
 	 */
-	public function add_indexable_to_ignore_list( $ignore_list_name, $indexable_id ) {
+	public function update_ignored_indexables( $ignore_list_name, $ignored_indexable_ids ) {
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
 		};
 
-		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
-		if ( ! in_array( $indexable_id, $ignore_list, true ) ) {
-			$ignore_list[] = $indexable_id;
-		}
-
-		return $this->options_helper->set( $ignore_list_name, $ignore_list );
+		return $this->options_helper->set( $ignore_list_name, $ignored_indexable_ids );
 	}
 
 	/**
