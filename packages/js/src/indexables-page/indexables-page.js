@@ -509,7 +509,7 @@ function IndexablesPage( { setupInfo } ) {
 	}, [] );
 
 	/**
-	 * Handles the undo action
+	 * Handles the undo action for a single indexable.
 	 * @param {object} ignored The ignored indexable.
 	 *
 	 * @returns {boolean} True if the action was successful.
@@ -548,6 +548,9 @@ function IndexablesPage( { setupInfo } ) {
 	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable ] );
 
 	const onClickUndo = useCallback( ( ignored ) => {
+		if ( ignored === null ) {
+			return;
+		}
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
@@ -578,26 +581,6 @@ function IndexablesPage( { setupInfo } ) {
 		}
 	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable ] );
 
-	const onClickUndoAll = useCallback( async() => {
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/restore_all_indexables",
-				method: "POST",
-			} );
-
-			const parsedResponse = await response.json;
-			if ( parsedResponse.success ) {
-				// If there is a button to ignore a single indexable, unmount it.
-				setIgnoredIndexable( null );
-				handleRefreshLists();
-			} else {
-				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
-			}
-		} catch ( error ) {
-			setErrorMessage( error.message );
-		}
-	}, [ apiFetch, handleRefreshLists, setIgnoredIndexable ] );
-
 	const singleColumn = [
 		<IndexablesPageCard
 			key="lowest-readability-scores"
@@ -608,7 +591,8 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 			options={ [
-				{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_readability" } },
+				{ title: __( "Restore last hidden item", "wordpress-seo" ), active: ( ignoredIndexable && ignoredIndexable.type === "least_readability" ), action: onClickUndo( ignoredIndexable ), menuItemData: { "data-type": "least_readability" } },
+				{ title: __( "Restore all hidden items", "wordpress-seo" ), active: true, action: onClickUndoAllList, menuItemData: { "data-type": "least_readability" } },
 			] }
 		>
 			{
@@ -692,7 +676,8 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 			options={ [
-				{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_linked" } },
+				{ title: __( "Restore last hidden item", "wordpress-seo" ), active: ( ignoredIndexable && ignoredIndexable.type === "least_linked" ), action: onClickUndo( ignoredIndexable ), menuItemData: { "data-type": "least_linked" } },
+				{ title: __( "Restore all hidden items", "wordpress-seo" ), active: true, action: onClickUndoAllList, menuItemData: { "data-type": "least_linked" } },
 			] }
 		>
 			{
@@ -820,7 +805,8 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 				options={ [
-					{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_seo_score" } },
+					{ title: __( "Restore last hidden item", "wordpress-seo" ), active: ( ignoredIndexable && ignoredIndexable.type === "least_seo_score" ), action: onClickUndo( ignoredIndexable ), menuItemData: { "data-type": "least_seo_score" } },
+					{ title: __( "Restore all hidden items", "wordpress-seo" ), active: true, action: onClickUndoAllList, menuItemData: { "data-type": "least_seo_score" } },
 				] }
 			>
 				{
@@ -905,7 +891,8 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				className="yst-mb-6"
 				options={ [
-					{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "most_linked" } },
+					{ title: __( "Restore last hidden item", "wordpress-seo" ), active: ( ignoredIndexable && ignoredIndexable.type === "most_linked" ), action: onClickUndo( ignoredIndexable ), menuItemData: { "data-type": "most_linked" } },
+					{ title: __( "Restore hidden items", "wordpress-seo" ), active: true, action: onClickUndoAllList, menuItemData: { "data-type": "most_linked" } },
 				] }
 			>
 				{
@@ -992,17 +979,6 @@ function IndexablesPage( { setupInfo } ) {
 					shouldShowEmptyAlert( "most_linked" ) && ! shouldShowErrorAlert( "most_linked" ) && <div className="yst-flex"><p>{ __( "Your site has no content with incoming links left to display here.", "wordpress-seo" ) }</p></div>
 				}
 			</IndexablesPageCard>
-		</div>
-		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
-			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Restore all hidden items", "wordpress-seo" ) }</Button>
-			{
-				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
-					{
-						/* translators: %1$s expands to the title of a post that was just just hidden. */
-						sprintf( __( 'Restore "%1$s"', "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
-					}
-				</Button>
-			}
 		</div>
 	</div>;
 }
