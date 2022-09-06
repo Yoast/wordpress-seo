@@ -280,7 +280,7 @@ class Indexables_Page_Action {
 	 * Stores an indexable in an ignore-list.
 	 *
 	 * @param string $ignore_list_name      The name of the ignore-list.
-	 * @param int    $ignored_indexable_ids The IDs of the updated ignored indexables.
+	 * @param array  $ignored_indexable_ids The IDs of the updated ignored indexables.
 	 *
 	 * @return boolean Whether saving the ignore-list to the database succeeded.
 	 */

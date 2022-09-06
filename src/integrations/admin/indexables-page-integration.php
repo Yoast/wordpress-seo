@@ -83,6 +83,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * @param WPSEO_Shortlinker         $shortlinker            The shortlinker.
 	 * @param Short_Link_Helper         $short_link_helper      The short link helper.
 	 * @param Indexables_Page_Helper    $indexables_page_helper The indexables page helper.
+	 * @param Options_Helper            $options_helper         The options helper.
 	 * @param Product_Helper            $product_helper         The product helper.
 	 */
 	public function __construct(

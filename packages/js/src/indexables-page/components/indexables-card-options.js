@@ -46,7 +46,7 @@ export default function DotsMenu( { options } ) {
 											type="button"
 											onClick={ option.action }
 											className={ classNames(
-												! option.active ? "yst-opacity-50 " : "hover:yst-bg-gray-100 hover:yst-text-gray-900 ",
+												option.active ? "hover:yst-bg-gray-100 hover:yst-text-gray-900 " : "yst-opacity-50 ",
 												"yst-text-gray-700 yst-w-full yst-block yst-px-4 yst-py-2 yst-text-sm yst-text-left"
 											) }
 											disabled={ ! option.active }

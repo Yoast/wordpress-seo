@@ -340,12 +340,12 @@ function IndexablesPage( { setupInfo } ) {
 	 * @returns {void}
 	 */
 	const updateList = useCallback( ( listName, isRefresh = false ) => {
-		if ( indexablesLists[listName].length === 0 || isRefresh ) {
+		if ( indexablesLists[ listName ].length === 0 || isRefresh ) {
 			fetchList( listName );
 			return;
 		}
 
-		if ( indexablesLists[listName].length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer ) {
+		if ( indexablesLists[ listName ].length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer ) {
 			fetchList( listName, true );
 			return;
 		}
@@ -403,7 +403,6 @@ function IndexablesPage( { setupInfo } ) {
 
 	// We update a list each time the content of ignoredIndexable changes.
 	useEffect( async() => {
-		console.log('ignoredIndexable', ignoredIndexable);
 		if ( ignoredIndexable !== null ) {
 			updateList( ignoredIndexable.type );
 		}
@@ -540,7 +539,7 @@ function IndexablesPage( { setupInfo } ) {
 				} );
 				setIgnoredIndexable( null );
 
-				setIgnoredLists ( prevState => {
+				setIgnoredLists( prevState => {
 					return {
 						...prevState,
 						[ type ]: prevState[ type ].filter( listId => listId !== parseInt( id, 10 ) ),
@@ -587,7 +586,7 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				updateList( type, true );
 
-				setIgnoredLists ( prevState => {
+				setIgnoredLists( prevState => {
 					return {
 						...prevState,
 						[ type ]: [],

@@ -68,7 +68,7 @@ const IndexableRow = ( { indexable, children, type, setIgnoredIndexable, ignored
 				method: "POST",
 				data: {
 					type: indexableType,
-					list: newIgnoredList
+					list: newIgnoredList,
 				},
 			} );
 
