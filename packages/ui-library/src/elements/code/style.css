@@ -6,7 +6,12 @@
 			yst-whitespace-nowrap
 			yst-max-w-full
 			yst-overflow-x-auto
-			yst-text-xs;
+			yst-text-xs
+			yst-text-gray-800
+			yst-bg-gray-100
+			yst-p-1
+			yst-m-0
+			yst-rounded;
 		}
 	}
 }
