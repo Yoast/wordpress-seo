@@ -406,7 +406,7 @@ function IndexablesPage( { setupInfo } ) {
 		if ( ignoredIndexable !== null ) {
 			updateList( ignoredIndexable.type );
 		}
-	}, [ ignoredIndexable, ignoredLists ] );
+	}, [ ignoredIndexable ] );
 
 	/**
 	 * Handles the rendering of the links modal.

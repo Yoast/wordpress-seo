@@ -84,7 +84,7 @@ const IndexableRow = ( { indexable, children, type, setIgnoredIndexable, ignored
 			setIsHandlingIgnore( false );
 			setErrorMessage( error.message );
 		}
-	}, [ apiFetch, setIgnoredIndexable, ignoredLists ] );
+	}, [ apiFetch, setIgnoredIndexable, ignoredLists, setIgnoredLists ] );
 
 	return <li
 		key={ `indexable-${ indexable.id }-row` }
