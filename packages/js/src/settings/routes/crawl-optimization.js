@@ -46,106 +46,106 @@ const CrawlOptimization = () => {
 				"<code/>"
 			),
 			{
-				code: <code className="yst-text-xs">{ "<head>" }</code>,
+				code: <Code>{ "<head>" }</Code>,
 			}
 		),
 		removeShortlinks: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"shortlink\" href=\"https://www.example.com/?p=1\" />" }
 			</Code>,
 		} ),
 		removeRestApiLinks: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"https://api.w.org/\" href=\"https://www.example.com/wp-json/\" />" }
 			</Code>,
 		} ),
 		removeRsdWlwLinks: createInterpolateElement( codeExamples, {
-			code1: <Code>
+			code1: <Code variant="block">
 				{ "<link rel=\"EditURI\" type=\"application/rsd+xml\" title=\"RSD\" href=\"https://www.example.com/xmlrpc.php?rsd\" />" }
 			</Code>,
-			code2: <Code>
+			code2: <Code variant="block">
 				{ "<link rel=\"wlwmanifest\" type=\"application/wlwmanifest+xml\" href=\"https://www.example.com/wp-includes/wlwmanifest.xml\" />" }
 			</Code>,
 		} ),
 		removeOembedLinks: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/json+oembed\" href=\"https://www.example.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.example.com%2Fexample-post%2F\" />" }
 			</Code>,
 		} ),
 		removeGenerator: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<meta name=\"generator\" content=\"WordPress 6.0.1\" />" }
 			</Code>,
 		} ),
 		removePingbackHeader: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "X-Pingback: https://www.example.com/xmlrpc.php" }
 			</Code>,
 		} ),
 		removePoweredByHeader: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "X-Powered-By: PHP/7.4.1" }
 			</Code>,
 		} ),
 
 		// Disable unwanted content formats.
 		removeFeedGlobal: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Feed\" href=\"https://www.example.com/feed/\" />" }
 			</Code>,
 		} ),
 		removeFeedGlobalComments: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Comments Feed\" href=\"https://www.example.com/comments/feed/\" />" }
 			</Code>,
 		} ),
 		removeFeedPostComments: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Example post Comments Feed\" href=\"https://www.example.com/example-post/feed/\" />" }
 			</Code>,
 		} ),
 		removeFeedAuthors: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Posts by Example Author Feed\" href=\"https://www.example.com/author/example-author/feed/\" />" }
 			</Code>,
 		} ),
 		removeFeedPostTypes: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Movies Feed\" href=\"https://www.example.com/movies/feed/\" />" }
 			</Code>,
 		} ),
 		removeFeedCategories: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - News Category Feed\" href=\"https://www.example.com/category/news/feed/\" />" }
 			</Code>,
 		} ),
 		removeFeedTags: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Blue Tag Feed\" href=\"https://www.example.com/tag/blue/feed/\" />" }
 			</Code>,
 		} ),
 		removeFeedCustomTaxonomies: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Large size Feed\" href=\"https://www.example.com/size/large/feed/\" />" }
 			</Code>,
 		} ),
 		removeFeedSearch: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Search Results for 'example' Feed\" href=\"https://www.example.com/search/example/feed/rss2/\" />" }
 			</Code>,
 		} ),
 		removeAtomRdfFeeds: createInterpolateElement( codeExample, {
-			code: <Code>
+			code: <Code variant="block">
 				{ "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Example Website - Feed\" href=\"https://www.example.com/feed/atom/\" />" }
 			</Code>,
 		} ),
 
 		// Remove unused resources.
 		denyWpJsonCrawling: createInterpolateElement( codeExamples, {
-			code1: <Code>
+			code1: <Code variant="block">
 				{ "https://www.example.com/wp-json/" }
 			</Code>,
-			code2: <Code>
+			code2: <Code variant="block">
 				{ "https://www.example.com/?rest_route=/" }
 			</Code>,
 		} ),
@@ -159,8 +159,8 @@ const CrawlOptimization = () => {
 				"<code2/>"
 			),
 			{
-				code1: <code>?s=</code>,
-				code2: <code>/search/</code>,
+				code1: <Code>?s=</Code>,
+				code2: <Code>/search/</Code>,
 			}
 		),
 
@@ -172,7 +172,7 @@ const CrawlOptimization = () => {
 				"<code/>"
 			),
 			{
-				code: <code className="yst-text-xs">?color=red</code>,
+				code: <Code>?color=red</Code>,
 			}
 		),
 		cleanCampaignTrackingUrls: createInterpolateElement(
@@ -192,11 +192,11 @@ const CrawlOptimization = () => {
 				"<code5/>"
 			),
 			{
-				code1: <code className="yst-text-xs">utm</code>,
-				code2: <code className="yst-text-xs">#</code>,
-				code3: <code className="yst-text-xs">301</code>,
-				code4: <Code>https://www.example.com/?utm_medium=organic</Code>,
-				code5: <Code>https://www.example.com/#utm_medium=organic</Code>,
+				code1: <Code>utm</Code>,
+				code2: <Code>#</Code>,
+				code3: <Code>301</Code>,
+				code4: <Code variant="block">https://www.example.com/?utm_medium=organic</Code>,
+				code5: <Code variant="block">https://www.example.com/#utm_medium=organic</Code>,
 			}
 		),
 		cleanPermalinks: createInterpolateElement(
@@ -212,9 +212,9 @@ const CrawlOptimization = () => {
 				"<code3/>"
 			),
 			{
-				code1: <code className="yst-text-xs">301</code>,
-				code2: <Code>https://www.example.com/?unknown_parameter=yes</Code>,
-				code3: <Code>https://www.example.com</Code>,
+				code1: <Code>301</Code>,
+				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
+				code3: <Code variant="block">https://www.example.com</Code>,
 			}
 		),
 		cleanPermalinksExtraVariables: createInterpolateElement(
@@ -230,9 +230,9 @@ const CrawlOptimization = () => {
 				"<code3/>"
 			),
 			{
-				code1: <code className="yst-text-xs">unknown_parameter</code>,
-				code2: <Code>https://www.example.com/?unknown_parameter=yes</Code>,
-				code3: <Code>https://www.example.com</Code>,
+				code1: <Code>unknown_parameter</Code>,
+				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
+				code3: <Code variant="block">https://www.example.com</Code>,
 			}
 		),
 	} ), [] );
