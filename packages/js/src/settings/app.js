@@ -225,7 +225,7 @@ const App = () => {
 										/>
 									) ) }
 								</Route>
-								<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
+								<Route path="*" element={ <Navigate to="/site-representation" replace={ true } /> } />
 							</Routes>
 						</ErrorBoundary>
 					</main>
