@@ -60,10 +60,30 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	/**
 	 * Checks whether the assessment is applicable (for now it is not applicable in Shopify where we also don't want to
 	 * assess variants; hence the applicability condition based on that).
+	 *
+	 * @param {Paper} paper The paper to check.
 	 **
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
-	isApplicable() {
+	isApplicable( paper ) {
+		const customData = paper.getCustomData();
+
+		/*
+		 * If the global identifier cannot be retrieved, the assessment shouldn't be applicable if the product is a simple
+		 * or external product, or doesn't have variants. Even though in reality a simple or external product doesn't have variants,
+		 * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
+		 */
+		if ( customData.canRetrieveGlobalIdentifier === false &&
+			( [ "simple", "external" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
+			return false;
+		}
+
+
+		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
+		if ( customData.canRetrieveVariantIdentifiers === false && customData.hasVariants === true && customData.productType === "variable" ) {
+			return false;
+		}
+
 		return this._config.assessVariants;
 	}
 
