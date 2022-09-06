@@ -249,19 +249,21 @@ Release Date: September 20th, 2022
 Enhancements:
 
 * Introduces the indexables overview, to guide you through your content needing more attention and improvements.
-* Fixes an issue in the default editor where image elements would lead to repeated requests for that image source while editing content.
 * Introduces a new filter `wpseo_sitemap_post_type_first_links` that can be used to add.
 * Adds support for indexed terms in sitemap for taxonomies who have a default `noindex` option. It needs to be enabled using the `wpseo_sitemap_exclude_taxonomy` filter. Props to @mpskovvang.
 * Improves handling of fatal errors in the front-end by preventing Yoast SEO to run in the login page, allowing users to access their dashboard.
 
 Bugfixes:
 
+* Fixes an issue in the default editor where image elements would lead to repeated requests for that image source while editing content.
 * Minor security improvement
 * Security hardening
 * Use the new WordPress `wp_filesize` function.
 
 Other:
 
+* Adds a helper to help with adding content to the robots.txt file.
+* Adds options to support the changes in the premium plugin.
 * Changes Yoast SEO Premium sidebar ad to be the same styling as the one on yoast.com.
 * Exclude empty custom post type sitemaps from `sitemap_index.xml`.
 * Improves compatibility with PHP 8.2
