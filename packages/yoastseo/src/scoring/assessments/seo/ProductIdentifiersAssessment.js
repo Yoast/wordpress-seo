@@ -66,11 +66,18 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
 
-		// Do not show the assessment when we cannot retrieve the identifiers.
-		if ( customData.canRetrieveGlobalIdentifier === false && ( customData.productType === "simple" || customData.hasVariants === false ) ) {
+		/*
+		 * If the global identifier cannot be retrieved, the assessment shouldn't be applicable if the product is a simple
+		 * or external product, or doesn't have variants. Even though in reality a simple or external product doesn't have variants,
+		 * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
+		 */
+		if ( customData.canRetrieveGlobalIdentifier === false &&
+			( [ "simple", "external" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
 			return false;
 		}
 
+
+		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
 		if ( customData.canRetrieveVariantIdentifiers === false && customData.hasVariants === true && customData.productType === "variable" ) {
 			return false;
 		}
