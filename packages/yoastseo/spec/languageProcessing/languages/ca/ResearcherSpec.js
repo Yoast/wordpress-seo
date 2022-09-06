@@ -18,7 +18,6 @@ describe( "a test for the Catalan Researcher", function() {
 	it( "returns false if the default research is deleted in the Catalan Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
-		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Catalan Researcher doesn't have a certain helper", function() {

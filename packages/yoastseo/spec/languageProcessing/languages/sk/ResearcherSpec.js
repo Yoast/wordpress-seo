@@ -19,7 +19,6 @@ describe( "a test for the Slovak Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Slovak Researcher", function() {
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
-		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns the Slovak locale", function() {

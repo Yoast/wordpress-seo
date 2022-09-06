@@ -23,7 +23,6 @@ describe( "a test for the Portuguese Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Portuguese Researcher", function() {
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
-		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns Portuguese function words", function() {

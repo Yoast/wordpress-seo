@@ -28,8 +28,6 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		delete this.defaultResearches.textFormality;
-
 		Object.assign( this.config, {
 			language: "es",
 			passiveConstructionType: "periphrastic",
