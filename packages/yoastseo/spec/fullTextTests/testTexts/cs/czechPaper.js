@@ -13,7 +13,6 @@ const paper = new Paper( content, {
 	locale: "cs_CZ",
 	permalink: "https://cs.wikipedia.org/wiki/Nikifor_%C4%8Cernigovskij",
 	slug: "Nikifor_%C4%8Cernigovskij",
-	textTitle: "Nikifor Černigovskij",
 } );
 
 const expectedResults = {
@@ -103,11 +102,6 @@ const expectedResults = {
 		score: 1,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your " +
 			"text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

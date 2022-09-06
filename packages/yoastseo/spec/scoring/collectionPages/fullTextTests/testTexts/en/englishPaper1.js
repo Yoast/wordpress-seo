@@ -14,7 +14,6 @@ const paper = new Paper( content, {
 	locale: "en_US",
 	permalink: "https://en.wikipedia.org/wiki/Batik",
 	slug: "Batik",
-	textTitle: "Koleksi Batik",
 } );
 
 const expectedResults = {
@@ -83,11 +82,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Good job!",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: false,

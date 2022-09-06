@@ -368,19 +368,3 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |------------	|------------------	|---------------------	|---------------	|
 | Red	| 3	| No images		| **Images**: No images appear on this page. **Add some!** |
 | Green	| 9	| There are at least 1 image		| **Images**: Good job! |
-
-### 9) Title (only in Premium) -- will be released in 19.3
-**What it does**: Checks for the presence of a title.
-
-**When it applies**: Always.
-
-**Name in code**: TextTitleAssessment
-
-**Title URL**: [https://yoa.st/4nh]() (link placement is in bold in the feedback strings)
-
-**Call to action URL**: [https://yoa.st/4ni]() (link placement is in bold in the feedback strings)
-
-| Bullet  | Score	     | Criterion             | Feedback |
-|---------|-------------|---------------------	|---------------	|
-| Red	  | -10000	    | No title		        | **Title**: Your page does not have a title yet. **Add one!** |
-| Green	  | 9	        | There is a title		| **Title**: Your page has a title. Well done! |

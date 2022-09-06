@@ -13,7 +13,6 @@ const paper = new Paper( content, {
 	locale: "sk_SK",
 	permalink: "https://sk.wikipedia.org/wiki/Britsk%C3%A1_ma%C4%8Dka",
 	slug: "Britsk%C3%A1_ma%C4%8Dka",
-	textTitle: "Britská mačka",
 } );
 
 const expectedResults = {
@@ -102,11 +101,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
