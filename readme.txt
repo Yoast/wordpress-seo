@@ -247,6 +247,7 @@ Release Date: September 20th, 2022
 
 
 
+
 Enhancements:
 
 * Adds an Insights tab to the editors which contains the Flesch reading ease score and feedback, (estimated) reading time, and word count. Since the Flesch reading ease score has been moved to the insights tab, it is removed from the readability analysis.
@@ -283,7 +284,9 @@ Bugfixes:
 
 Other:
 
+* Adds a helper to help with adding content to the robots.txt file.
 * Adds a \"Search engines discouraged\" notification in the Yoast SEO dashboard when the \"Discourage search engines from indexing this site\" WordPress setting is turned on.
+* Adds options to support the changes in the premium plugin.
 * Changes Yoast SEO Premium sidebar ad to be the same styling as the one on yoast.com.
 * Exclude empty custom post type sitemaps from `sitemap_index.xml`.
 * Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
