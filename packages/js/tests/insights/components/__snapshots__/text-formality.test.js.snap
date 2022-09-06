@@ -38,32 +38,34 @@ exports[`a test for TextFormality component renders the component in elementor i
       Beta
     </span>
   </div>
-  <p>
-    <b>
-      Yoast SEO Premium
-    </b>
-     will help you assess the formality level of your text.
-  </p>
-  <a
-    className="yoast-button yoast-button-upsell"
-    href="https://yoa.st/formality-upsell-elementor"
-    rel={null}
-    target="_blank"
-  >
-    Unlock with Premium
-    <span
-      aria-hidden="true"
-      className="yoast-button-upsell__caret"
-    />
-    <span
-      className="c1"
+  <div>
+    <p>
+      <b>
+        Yoast SEO Premium
+      </b>
+       will help you assess the formality level of your text.
+    </p>
+    <a
+      className="yoast-button yoast-button-upsell"
+      href="https://yoa.st/formality-upsell-elementor"
+      rel={null}
+      target="_blank"
     >
-      (Opens in a new browser tab)
-    </span>
-  </a>
+      Unlock with Premium
+      <span
+        aria-hidden="true"
+        className="yoast-button-upsell__caret"
+      />
+      <span
+        className="c1"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+  </div>
   <p>
     <a
-      href="https://yoa.st/formality-sidebar-free"
+      href="https://yoa.st/formality-free"
       rel={null}
       target="_blank"
     >
@@ -134,7 +136,7 @@ exports[`a test for TextFormality component renders the component in elementor i
   </div>
   <p>
     <a
-      href="https://yoa.st/formality-sidebar"
+      href="https://yoa.st/formality"
       rel={null}
       target="_blank"
     >
@@ -187,32 +189,34 @@ exports[`a test for TextFormality component renders the component in metabox in 
       Beta
     </span>
   </div>
-  <p>
-    <b>
-      Yoast SEO Premium
-    </b>
-     will help you assess the formality level of your text.
-  </p>
-  <a
-    className="yoast-button yoast-button-upsell"
-    href="https://yoa.st/formality-upsell-metabox"
-    rel={null}
-    target="_blank"
-  >
-    Unlock with Premium
-    <span
-      aria-hidden="true"
-      className="yoast-button-upsell__caret"
-    />
-    <span
-      className="c1"
+  <div>
+    <p>
+      <b>
+        Yoast SEO Premium
+      </b>
+       will help you assess the formality level of your text.
+    </p>
+    <a
+      className="yoast-button yoast-button-upsell"
+      href="https://yoa.st/formality-upsell-metabox"
+      rel={null}
+      target="_blank"
     >
-      (Opens in a new browser tab)
-    </span>
-  </a>
+      Unlock with Premium
+      <span
+        aria-hidden="true"
+        className="yoast-button-upsell__caret"
+      />
+      <span
+        className="c1"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+  </div>
   <p>
     <a
-      href="https://yoa.st/formality-sidebar-free"
+      href="https://yoa.st/formality-free"
       rel={null}
       target="_blank"
     >
@@ -272,7 +276,7 @@ exports[`a test for TextFormality component renders the component in metabox in 
   </div>
   <p>
     <a
-      href="https://yoa.st/formality-sidebar"
+      href="https://yoa.st/formality"
       rel={null}
       target="_blank"
     >
@@ -325,32 +329,34 @@ exports[`a test for TextFormality component renders the component in sidebar in 
       Beta
     </span>
   </div>
-  <p>
-    <b>
-      Yoast SEO Premium
-    </b>
-     will help you assess the formality level of your text.
-  </p>
-  <a
-    className="yoast-button yoast-button-upsell"
-    href="https://yoa.st/formality-upsell-sidebar"
-    rel={null}
-    target="_blank"
-  >
-    Unlock with Premium
-    <span
-      aria-hidden="true"
-      className="yoast-button-upsell__caret"
-    />
-    <span
-      className="c1"
+  <div>
+    <p>
+      <b>
+        Yoast SEO Premium
+      </b>
+       will help you assess the formality level of your text.
+    </p>
+    <a
+      className="yoast-button yoast-button-upsell"
+      href="https://yoa.st/formality-upsell-sidebar"
+      rel={null}
+      target="_blank"
     >
-      (Opens in a new browser tab)
-    </span>
-  </a>
+      Unlock with Premium
+      <span
+        aria-hidden="true"
+        className="yoast-button-upsell__caret"
+      />
+      <span
+        className="c1"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+  </div>
   <p>
     <a
-      href="https://yoa.st/formality-sidebar-free"
+      href="https://yoa.st/formality-free"
       rel={null}
       target="_blank"
     >
@@ -421,7 +427,7 @@ exports[`a test for TextFormality component renders the component in sidebar in 
   </div>
   <p>
     <a
-      href="https://yoa.st/formality-sidebar"
+      href="https://yoa.st/formality"
       rel={null}
       target="_blank"
     >
@@ -481,7 +487,7 @@ exports[`a test for TextFormality component renders the component in sidebar in 
   </div>
   <p>
     <a
-      href="https://yoa.st/formality-sidebar"
+      href="https://yoa.st/formality"
       rel={null}
       target="_blank"
     >

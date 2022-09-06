@@ -53,13 +53,13 @@ describe( "The insights collapsible component", () => {
 
 		expect( render.find( TextLength ) ).toHaveLength( 1 );
 	} );
-	it( "renders the Text formality component if the label returned is not an empty string", () => {
+	it( "should render the Text formality component if it's available", () => {
 		mockSelect( true, true );
 		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
 		expect( render.find( TextFormality ) ).toHaveLength( 1 );
 	} );
-	it( "doesn not render the Text formality component if the label returned is an empty string", () => {
+	it( "should not render the Text formality component if it's unavailable", () => {
 		mockSelect( true, false );
 		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
