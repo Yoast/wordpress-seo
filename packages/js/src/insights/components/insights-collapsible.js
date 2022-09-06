@@ -7,7 +7,6 @@ import FleschReadingEase from "./flesch-reading-ease";
 import ProminentWords from "./prominent-words";
 import TextLength from "./text-length";
 import TextFormality from "./text-formality";
-import getContentLocale from "../../analysis/getContentLocale";
 
 /**
  * Insights collapsible component.
@@ -16,8 +15,6 @@ import getContentLocale from "../../analysis/getContentLocale";
  */
 const InsightsCollapsible = ( { location } ) => {
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
-	const isTextFormalityAvailable = useSelect( select => select( "yoast-seo-premium/editor" )?.isTextFormalityAvailable(), [] ) &&
-		getContentLocale().split( "_" )[ 0 ] === "en";
 
 	return (
 		<MetaboxCollapsible
@@ -34,9 +31,7 @@ const InsightsCollapsible = ( { location } ) => {
 					<EstimatedReadingTime />
 					<TextLength />
 				</div>
-				{ isTextFormalityAvailable && <div>
-					<TextFormality location={ location } />
-				</div> }
+				<TextFormality location={ location } />
 			</div>
 		</MetaboxCollapsible>
 	);

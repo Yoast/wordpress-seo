@@ -5,9 +5,8 @@ import EditorModal from "../../containers/EditorModal";
 import EstimatedReadingTime from "./estimated-reading-time";
 import FleschReadingEase from "./flesch-reading-ease";
 import ProminentWords from "./prominent-words";
-import TextLength from "./text-length";
 import TextFormality from "./text-formality";
-import getContentLocale from "../../analysis/getContentLocale";
+import TextLength from "./text-length";
 
 /**
  * Insights modal component.
@@ -17,8 +16,6 @@ import getContentLocale from "../../analysis/getContentLocale";
 const InsightsModal = ( { location } ) => {
 	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
-	const isTextFormalityAvailable = useSelect( select => select( "yoast-seo-premium/editor" )?.isTextFormalityAvailable(), [] ) &&
-		getContentLocale().split( "_" )[ 0 ] === "en";
 
 	return (
 		<EditorModal
@@ -37,9 +34,7 @@ const InsightsModal = ( { location } ) => {
 						<EstimatedReadingTime />
 						<TextLength />
 					</div>
-					{ isTextFormalityAvailable && <div>
-						<TextFormality location={ location } />
-					</div> }
+					<TextFormality location={ location } />
 				</div>
 			</div>
 		</EditorModal>
