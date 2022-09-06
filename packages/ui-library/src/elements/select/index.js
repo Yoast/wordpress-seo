@@ -105,9 +105,12 @@ const Select = ( {
 			</Listbox.Button>
 			<Transition
 				as={ Fragment }
-				leave="yst-transition yst-ease-in yst-duration-100"
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0"
+				enter="yst-transition yst-duration-100 yst-ease-out"
+				enterFrom="yst-transform yst-scale-95 yst-opacity-0"
+				enterTo="yst-transform yst-scale-100 yst-opacity-100"
+				leave="yst-transition yst-duration-75 yst-ease-out"
+				leaveFrom="yst-transform yst-scale-100 yst-opacity-100"
+				leaveTo="yst-transform yst-scale-95 yst-opacity-0"
 			>
 				<Listbox.Options className="yst-select__options">
 					{ children || options.map( option => <Option key={ option.value } { ...option } /> ) }

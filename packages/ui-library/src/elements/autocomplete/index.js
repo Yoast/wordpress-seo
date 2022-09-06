@@ -7,24 +7,22 @@ import classNames from "classnames";
 import { constant } from "lodash";
 
 const Option = ( {
+	children,
 	value,
-	label,
 } ) => {
-	const getClassName = useCallback( ( { active } ) => (
-		`yst-relative yst-cursor-default yst-select-none yst-py-2 yst-pl-10 yst-pr-4 ${
-			active ? "yst-bg-teal-600 yst-text-white" : "yst-text-gray-900"
-		}`
+	const getClassName = useCallback( ( { active, selected } ) => classNames(
+		"yst-relative yst-cursor-default yst-select-none yst-py-2 yst-pl-3 yst-pr-9 yst-my-0",
+		selected && "yst-bg-primary-500 yst-text-white",
+		( active && ! selected ) && "yst-bg-primary-200 yst-text-gray-700",
+		( ! active && ! selected ) && "yst-text-gray-700",
 	), [] );
 
 	return (
-		<Combobox.Option
-			className={ getClassName }
-			value={ value }
-		>
+		<Combobox.Option className={ getClassName } value={ value }>
 			{ ( { selected } ) => (
 				<>
 					<span className={ classNames( "yst-block yst-truncate", selected && "yst-font-semibold" ) }>
-						{ label }
+						{ children }
 					</span>
 					{ selected ? (
 						<span className="yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4 yst-text-white">
@@ -38,8 +36,8 @@ const Option = ( {
 };
 
 const optionPropType = {
+	children: PropTypes.node,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
-	label: PropTypes.string.isRequired,
 };
 
 Option.propTypes = optionPropType;
@@ -96,26 +94,33 @@ const Autocomplete = ( {
 				{ labelSuffix }
 			</div> }
 			<div className="yst-relative">
-				<div className="yst-relative yst-w-full yst-cursor-default yst-overflow-hidden yst-rounded-lg yst-bg-white yst-text-left yst-shadow-md focus:yst-outline-none focus-visible:yst-ring-2 focus-visible:yst-ring-white focus-visible:yst-ring-opacity-75 focus-visible:yst-ring-offset-2 focus-visible:yst-ring-offset-teal-300 sm:yst-text-sm">
-					<Combobox.Input
-						className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-						displayValue={ getDisplayValue }
-						onChange={ onQueryChange }
-					/>
-					<Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2" { ...buttonProps }>
+				<div className="yst-relative">
+					<Combobox.Button
+						className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-gray-300 yst-flex yst-items-center yst-rounded-r-md yst-pl-3 yst-pr-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
+						{ ...buttonProps }
+						as="div"
+					>
+						<Combobox.Input
+							className="yst-w-full yst-text-gray-700 yst-rounded-md yst-border-0 yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-none sm:yst-text-sm focus:yst-ring-0"
+							displayValue={ getDisplayValue }
+							onChange={ onQueryChange }
+						/>
 						<SelectorIcon
-							className="h-5 w-5 text-gray-400"
+							className="yst-h-5 yst-w-5 yst-text-gray-400 yst-inset-y-0 yst-right-0"
 							aria-hidden="true"
 						/>
 					</Combobox.Button>
 				</div>
 				<Transition
 					as={ Fragment }
-					leave="transition ease-in duration-100"
-					leaveFrom="opacity-100"
-					leaveTo="opacity-0"
+					enter="yst-transition yst-duration-100 yst-ease-out"
+					enterFrom="yst-transform yst-scale-95 yst-opacity-0"
+					enterTo="yst-transform yst-scale-100 yst-opacity-100"
+					leave="yst-transition yst-duration-75 yst-ease-out"
+					leaveFrom="yst-transform yst-scale-100 yst-opacity-100"
+					leaveTo="yst-transform yst-scale-95 yst-opacity-0"
 				>
-					<Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+					<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
 						{ children }
 					</Combobox.Options>
 				</Transition>
