@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
-import { get, keys } from "lodash";
+import { get, keys, map, join } from "lodash";
 import PropTypes from "prop-types";
 import { useSelectSettings } from "../store";
 import { STORE_NAME } from "../constants";
@@ -61,6 +61,7 @@ const FormikMediaSelectField = ( {
 	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
 	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
+	const srcSet = useMemo( () => join( map( media?.sizes, size => `${ size?.url } ${size?.width}w` ), ", " ), [ media ] );
 
 	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
@@ -108,7 +109,7 @@ const FormikMediaSelectField = ( {
 	}, [] );
 
 	return (
-		<fieldset id={ id } className={ classNames( "yst-w-96 yst-max-w-full", disabled && "yst-opacity-50" ) }>
+		<fieldset id={ id } className={ classNames( "yst-min-width-0 yst-w-96 yst-max-w-full", disabled && "yst-opacity-50" ) }>
 			<Field
 				type="hidden"
 				name={ mediaIdName }
@@ -135,11 +136,14 @@ const FormikMediaSelectField = ( {
 				) }
 				disabled={ disabled }
 			>
-				{ mediaUrl ? (
+				{ mediaId ? (
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
-							src={ mediaUrl } alt={ media?.alt || "" }
+							src={ media?.url } alt={ media?.alt || "" }
+							srcSet={ srcSet }
+							sizes={ variant === "landscape" ? "24rem" : "12rem" }
+							width={ variant === "landscape" ? "24rem" : "12rem" }
 							loading="lazy"
 							decoding="async"
 							className="yst-object-cover yst-object-center yst-min-h-full yst-min-w-full"
@@ -158,7 +162,7 @@ const FormikMediaSelectField = ( {
 				) }
 			</button>
 			<div className="yst-flex yst-gap-4">
-				{ mediaUrl ? (
+				{ mediaId ? (
 					<Button
 						id={ `button-${ id }-replace` }
 						variant="secondary" onClick={ handleSelectMediaClick }
@@ -175,7 +179,7 @@ const FormikMediaSelectField = ( {
 						{ selectLabel }
 					</Button>
 				) }
-				{ mediaUrl && (
+				{ mediaId && (
 					<Link
 						id={ `button-${ id }-remove` }
 						as="button"

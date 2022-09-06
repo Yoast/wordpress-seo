@@ -1,6 +1,6 @@
 /* eslint-disable camelcase, complexity */
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
-import { map } from "lodash";
+import { map, mapValues } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
 const mediaAdapter = createEntityAdapter();
@@ -52,6 +52,11 @@ const prepareMedia = media => ( {
 	type: media?.media_type || media?.type,
 	mime: media?.mime_type || media?.mime,
 	author: media?.author,
+	sizes: mapValues( media?.sizes || media?.media_details?.sizes, size => ( {
+		url: size?.url || size?.source_url,
+		width: size?.width,
+		height: size?.height,
+	} ), {} ),
 } );
 
 const mediaSlice = createSlice( {
