@@ -136,7 +136,7 @@ const FormikMediaSelectField = ( {
 				) }
 				disabled={ disabled }
 			>
-				{ mediaId ? (
+				{ mediaId > 0 ? (
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
@@ -162,7 +162,7 @@ const FormikMediaSelectField = ( {
 				) }
 			</button>
 			<div className="yst-flex yst-gap-4">
-				{ mediaId ? (
+				{ mediaId > 0 ? (
 					<Button
 						id={ `button-${ id }-replace` }
 						variant="secondary" onClick={ handleSelectMediaClick }
@@ -179,7 +179,7 @@ const FormikMediaSelectField = ( {
 						{ selectLabel }
 					</Button>
 				) }
-				{ mediaId && (
+				{ mediaId > 0 && (
 					<Link
 						id={ `button-${ id }-remove` }
 						as="button"
