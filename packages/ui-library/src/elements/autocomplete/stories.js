@@ -63,4 +63,6 @@ export const Factory = Template.bind( {} );
 Factory.parameters = {
 	controls: { disable: false },
 };
-Factory.args = {};
+Factory.args = {
+    id: "autocomplete",
+};
