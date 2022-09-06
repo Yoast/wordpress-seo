@@ -65,12 +65,19 @@ export default class ProductSKUAssessment extends Assessment {
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
 
-		 // Do not show the assessment when we cannot retrieve the SKU.
-		if ( customData.canRetrieveGlobalSku === false && customData.hasVariants === false ) {
+		/*
+	    * If the global SKU cannot be retrieved, the assessment shouldn't be applicable if the product is a simple
+	    * or external product, or doesn't have variants. Even though in reality a simple or external product doesn't have variants,
+	    * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
+	    */
+		if ( customData.canRetrieveGlobalSku === false &&
+			( [ "simple", "external" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
 			return false;
 		}
 
-		if ( customData.canRetrieveVariantSkus === false && customData.hasVariants === true ) {
+
+		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
+		if ( customData.canRetrieveVariantSkus === false && customData.hasVariants === true && customData.productType === "variable" ) {
 			return false;
 		}
 
