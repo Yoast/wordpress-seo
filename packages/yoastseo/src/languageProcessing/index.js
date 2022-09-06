@@ -28,7 +28,7 @@ import removePunctuation from "./helpers/sanitize/removePunctuation";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
-import EnglishResearcher from "../languageProcessing/languages/en/Researcher";
+import EnglishResearcher from "./languages/en/Researcher";
 
 export {
 	AbstractResearcher,
