@@ -333,9 +333,8 @@ function IndexablesPage( { setupInfo } ) {
 	/**
 	 * Updates the content of a list of indexables.
 	 *
-	 * @param {string}  listName       The name of the list to fetch.
-	 * @param {array}   indexablesList The current content of the list.
-	 * @param {boolean} isRefresh      Whether it's a refresh.
+	 * @param {string}  listName  The name of the list to fetch.
+	 * @param {boolean} isRefresh Whether it's a refresh.
 	 *
 	 * @returns {void}
 	 */
