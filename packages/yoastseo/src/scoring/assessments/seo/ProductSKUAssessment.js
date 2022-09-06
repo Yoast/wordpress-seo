@@ -88,7 +88,6 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		console.log( productSKUData );
 		// Apply the following scoring conditions to products without variants.
 		if ( [ "simple", "grouped", "external" ].includes( productSKUData.productType ) ||
 			( productSKUData.productType === "variable" && ! productSKUData.hasVariants ) ) {

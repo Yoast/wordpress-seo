@@ -22,6 +22,30 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			"Your product has an identifier. Good job!" );
 	} );
 
+	it( "returns the score 9 when a grouped product has a global identifier and no variants", function() {
+		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+			hasGlobalIdentifier: true,
+			hasVariants: false,
+			doAllVariantsHaveIdentifier: false,
+			productType: "grouped",
+		} ) );
+		expect( assessmentResult.getScore() ).toEqual( 9 );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: " +
+			"Your product has an identifier. Good job!" );
+	} );
+
+	it( "returns the score 9 when an external product has a global identifier and no variants", function() {
+		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+			hasGlobalIdentifier: true,
+			hasVariants: false,
+			doAllVariantsHaveIdentifier: false,
+			productType: "external",
+		} ) );
+		expect( assessmentResult.getScore() ).toEqual( 9 );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: " +
+			"Your product has an identifier. Good job!" );
+	} );
+
 	it( "returns the score 9 when a product has no global identifier, but has variants and all variants have an identifier", function() {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: false,
