@@ -509,10 +509,10 @@ function IndexablesPage( { setupInfo } ) {
 	}, [] );
 
 	/**
-	 * Handles the undo action for a single indexable.
+	 * Handles the undo action for a single ignored indexable.
 	 * @param {object} ignored The ignored indexable.
 	 *
-	 * @returns {boolean} True if the action was successful.
+	 * @returns {void}
 	 */
 	const handleUndo = useCallback( async( ignored ) => {
 		const id = ignored.indexable.id;
@@ -539,13 +539,20 @@ function IndexablesPage( { setupInfo } ) {
 					};
 				} );
 				setIgnoredIndexable( null );
+
+				setIgnoredLists ( prevState => {
+					return {
+						...prevState,
+						[ type ]: prevState[ type ].filter( listId => listId !== parseInt( id, 10 ) ),
+					};
+				} );
 			} else {
 				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
 		} catch ( error ) {
 			setErrorMessage( error.message );
 		}
-	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable ] );
+	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable, setIgnoredLists ] );
 
 	const onClickUndo = useCallback( ( ignored ) => {
 		if ( ignored === null ) {
@@ -554,6 +561,12 @@ function IndexablesPage( { setupInfo } ) {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
+	/**
+	 * Handles the undo action for all ignored indexables in a list.
+	 * @param {Event} event The event triggered by clicking on the Restore all ignore items for a list.
+	 *
+	 * @returns {void}
+	 */
 	const onClickUndoAllList = useCallback( async( event ) => {
 		const { type } = event.target.dataset;
 		setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== type ) );
@@ -569,17 +582,24 @@ function IndexablesPage( { setupInfo } ) {
 			if ( parsedResponse.success ) {
 				// If there is a button to ignore a single indexable, for a list for which we are removing all indexables...
 				if ( ignoredIndexable && ignoredIndexable.type === type ) {
-					// ...remove that button.
+					// ...disable that button.
 					setIgnoredIndexable( null );
 				}
 				updateList( type, true );
+
+				setIgnoredLists ( prevState => {
+					return {
+						...prevState,
+						[ type ]: [],
+					};
+				} );
 			} else {
 				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
 		} catch ( error ) {
 			setErrorMessage( error.message );
 		}
-	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable ] );
+	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable, setIgnoredLists ] );
 
 	const singleColumn = [
 		<IndexablesPageCard
