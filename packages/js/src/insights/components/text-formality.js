@@ -22,13 +22,17 @@ const TextFormality = ( { location } ) => {
 	const isFormalityAvailable = getContentLocale().split( "_" )[ 0 ] === "en";
 	const isPremium = getL10nObject().isPremium;
 
+	if ( ! isFormalityAvailable ) {
+		return null;
+	}
+
 	return (
 		<div className="yoast-text-formality">
 			<div className="yoast-field-group__title">
 				<b>{ __( "Text formality", "wordpress-seo" ) }</b>
 				<Badge className={ "yoast-beta-badge" } />
 			</div>
-			{ isPremium && isFormalityAvailable ? <Slot name="YoastTextFormality" /> : <TextFormalityUpsell location={ location } /> }
+			{ isPremium ? <Slot name="YoastTextFormality" /> : <TextFormalityUpsell location={ location } /> }
 		</div>
 	);
 };
