@@ -34,7 +34,7 @@ const WebmasterTools = () => {
 			title={ __( "Webmaster tools", "wordpress-seo" ) }
 			description={ __( "Verify your site with different webmaster tools. This will add a verification meta tag on your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
 		>
-			<fieldset className="yst-max-w-screen-sm yst-space-y-8">
+			<fieldset className="yst-min-width-0 yst-max-w-screen-sm yst-space-y-8">
 				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"

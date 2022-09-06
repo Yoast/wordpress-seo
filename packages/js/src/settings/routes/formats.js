@@ -66,7 +66,7 @@ const Formats = () => {
 			title={ <div className="yst-flex yst-items-center yst-gap-1.5">{ label }</div> }
 			description={ description }
 		>
-			<fieldset className="yst-space-y-8">
+			<fieldset className="yst-min-width-0 yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-post_format" }
 					data-id={ "input-wpseo_titles-disable-post_format" }

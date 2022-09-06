@@ -78,7 +78,7 @@ const AuthorArchives = () => {
 				<span className="yst-block yst-mt-4">{ description }</span>
 			</> }
 		>
-			<fieldset className="yst-space-y-8">
+			<fieldset className="yst-min-width-0 yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-author" }
 					data-id={ "input-wpseo_titles-disable-author" }

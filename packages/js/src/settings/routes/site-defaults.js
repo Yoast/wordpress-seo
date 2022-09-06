@@ -127,7 +127,7 @@ const SiteDefaults = () => {
 			<div className="yst-max-w-screen-sm">
 				<Alert variant="info" id="alert-site-defaults-variables">{ siteDefaultsInfoAlertText }</Alert>
 				<hr className="yst-my-8" />
-				<fieldset className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+				<fieldset className="yst-min-width-0 yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<Field
 						as={ TextField }
 						type="text"

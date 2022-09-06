@@ -18,6 +18,10 @@ const FieldsetLayout = ( {
 	description = null,
 } ) => {
 	return (
+		/**
+		 * Force min-width of 0px on fieldset element to prevent scaling based on min-content-size prop.
+		 * @see https://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content
+		 */
 		<Component id={ id } className="yst-min-w-0 lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 			<div className="lg:yst-col-span-1">
 				<div className="max-w-screen-sm">

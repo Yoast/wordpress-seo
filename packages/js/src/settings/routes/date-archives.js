@@ -70,7 +70,7 @@ const DateArchives = () => {
 				) }</span>
 			</> }
 		>
-			<fieldset className="yst-space-y-8">
+			<fieldset className="yst-min-width-0 yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-date" }
 					data-id={ "input-wpseo_titles-disable-date" }
