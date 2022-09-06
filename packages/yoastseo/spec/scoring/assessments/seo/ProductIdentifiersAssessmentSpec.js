@@ -160,5 +160,118 @@ describe( "a test for the applicability of the assessment", function() {
 
 		expect( isApplicable ).toBe( false );
 	} );
+
+	it( "is applicable when the global identifier of a simple product can be detected", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveGlobalIdentifier: true,
+			hasGlobalIdentifier: false,
+			hasVariants: false,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "is applicable when the global identifier of an external product can be detected", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveGlobalIdentifier: true,
+			hasGlobalIdentifier: false,
+			hasVariants: false,
+			productType: "external",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "is not applicable when the global identifier of a simple product cannot be detected", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveGlobalIdentifier: false,
+			hasGlobalIdentifier: false,
+			hasVariants: false,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( false );
+	} );
+
+	it( "is not applicable when the global identifier of an external product cannot be detected", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveGlobalIdentifier: false,
+			hasGlobalIdentifier: false,
+			hasVariants: false,
+			productType: "external",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( false );
+	} );
+
+	it( "is applicable when the global identifier cannot be detected on a product with variants", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveGlobalIdentifier: false,
+			hasGlobalIdentifier: false,
+			hasVariants: true,
+			productType: "variable",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "is not applicable when the identifiers of at least one variant cannot be detected on product with variants", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveVariantIdentifiers: false,
+			hasGlobalIdentifier: false,
+			hasVariants: true,
+			productType: "variable",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( false );
+	} );
+
+	it( "is applicable when variant identifiers can be detected on product with variants", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveVariantIdentifiers: true,
+			hasGlobalIdentifier: false,
+			hasVariants: true,
+			productType: "variable",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "is applicable when variant identifiers can be detected on a simple product with variants (case when" +
+		"hasVariants variable doesn't update correctly", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const customData = {
+			canRetrieveVariantIdentifiers: false,
+			hasGlobalIdentifier: false,
+			hasVariants: true,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
 } );
 
