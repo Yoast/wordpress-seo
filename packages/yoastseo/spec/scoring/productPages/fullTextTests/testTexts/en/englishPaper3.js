@@ -101,14 +101,15 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Not all your product variants" +
-			" have an identifier. <a href='https://yoa.st/4lz' target='_blank'>Include this if you can, as it" +
+			" have an identifier. You can add the product identifier via the \"Variations\" tab. " +
+			"<a href='https://yoa.st/4lz' target='_blank'>Include this if you can, as it" +
 			" will help search engines to better understand your content.</a>",
 	},
 	productSKU: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Not all your product variants have a SKU." +
-			" <a href='https://yoa.st/4lx' target='_blank'>Include this if you can, as it will help search engines to" +
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Not all your product variants have a SKU. You can add the SKU via " +
+			"the \"Variations\" tab. <a href='https://yoa.st/4lx' target='_blank'>Include this if you can, as it will help search engines to" +
 			" better understand your content.</a>",
 	},
 	imageKeyphrase: {
