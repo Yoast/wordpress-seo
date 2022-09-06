@@ -8,6 +8,7 @@ use WPSEO_Addon_Manager;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
@@ -54,6 +55,13 @@ class Indexables_Page_Integration implements Integration_Interface {
 	private $indexables_page_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
@@ -75,6 +83,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * @param WPSEO_Shortlinker         $shortlinker            The shortlinker.
 	 * @param Short_Link_Helper         $short_link_helper      The short link helper.
 	 * @param Indexables_Page_Helper    $indexables_page_helper The indexables page helper.
+	 * @param Options_Helper            $options_helper         The options helper.
 	 * @param Product_Helper            $product_helper         The product helper.
 	 */
 	public function __construct(
@@ -83,6 +92,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 		WPSEO_Shortlinker $shortlinker,
 		Short_Link_Helper $short_link_helper,
 		Indexables_Page_Helper $indexables_page_helper,
+		Options_Helper $options_helper,
 		Product_Helper $product_helper
 	) {
 		$this->admin_asset_manager    = $admin_asset_manager;
@@ -90,6 +100,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 		$this->shortlinker            = $shortlinker;
 		$this->short_link_helper      = $short_link_helper;
 		$this->indexables_page_helper = $indexables_page_helper;
+		$this->options_helper         = $options_helper;
 		$this->product_helper         = $product_helper;
 	}
 
@@ -144,6 +155,12 @@ class Indexables_Page_Integration implements Integration_Interface {
 				'listSize'                 => $this->indexables_page_helper->get_indexables_list_size(),
 				'isLinkSuggestionsEnabled' => $this->indexables_page_helper->get_link_suggestions_enabled(),
 				'isPremium'                => $this->product_helper->is_premium(),
+				'ignoreLists'              => [
+					'least_readability' => $this->options_helper->get( 'least_readability_ignore_list', [] ),
+					'least_seo_score'   => $this->options_helper->get( 'least_seo_score_ignore_list', [] ),
+					'most_linked'       => $this->options_helper->get( 'most_linked_ignore_list', [] ),
+					'least_linked'      => $this->options_helper->get( 'least_linked_ignore_list', [] ),
+				],
 				'shortlinks'               => [
 					'orphanedContent'    => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-orphaned-content' ),
 					'cornerstoneContent' => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-cornerstone-content' ),

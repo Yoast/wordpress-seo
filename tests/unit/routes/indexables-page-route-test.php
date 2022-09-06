@@ -131,11 +131,11 @@ class Indexables_Page_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'/ignore_indexable',
+				'/update_ignored_indexables',
 				[
 					[
 						'methods'             => 'POST',
-						'callback'            => [ $this->instance, 'ignore_indexable' ],
+						'callback'            => [ $this->instance, 'update_ignored_indexables' ],
 						'permission_callback' => [ $this->instance, 'permission_edit_others_posts' ],
 						'args'                => [
 							'id' => [
@@ -431,8 +431,8 @@ class Indexables_Page_Route_Test extends TestCase {
 	 * Tests the ignore indexable route.
 	 *
 	 * @param array  $request_params the parameters returned for get_json_params().
-	 * @param array  $indexable_action_params the expected parameters passed to add_indexable_to_ignore_list().
-	 * @param bool   $indexable_action_return_value the return value for add_indexable_to_ignore_list().
+	 * @param array  $indexable_action_params the expected parameters passed to update_ignored_indexables().
+	 * @param bool   $indexable_action_return_value the return value for update_ignored_indexables().
 	 * @param array  $params_rest_response the expected parameters passed to the constructor of WP_REST_Response.
 	 * @param string $rest_response_type the type of the response object, WP_REST_Response or WP_Error.
 	 * @covers ::ignore_indexable
@@ -447,7 +447,7 @@ class Indexables_Page_Route_Test extends TestCase {
 			->andReturn( $request_params );
 
 		$this->indexable_action
-			->expects( 'add_indexable_to_ignore_list' )
+			->expects( 'update_ignored_indexables' )
 			->with(
 				...$indexable_action_params
 			)->andReturn(
@@ -465,7 +465,7 @@ class Indexables_Page_Route_Test extends TestCase {
 		}
 		$this->assertInstanceOf(
 			$rest_response_type,
-			$this->instance->ignore_indexable( $wp_rest_request )
+			$this->instance->update_ignored_indexables( $wp_rest_request )
 		);
 	}
 
@@ -478,11 +478,11 @@ class Indexables_Page_Route_Test extends TestCase {
 		$valid_parameter_types = [
 			'request_params'                => [
 				'type' => 'least_readability',
-				'id'   => 5,
+				'list' => [ 5 ],
 			],
 			'indexable_action_params'       => [
 				'least_readability_ignore_list',
-				5,
+				[ 5 ],
 			],
 			'indexable_action_return_value' => true,
 			'params_rest_response'          => [
@@ -495,11 +495,11 @@ class Indexables_Page_Route_Test extends TestCase {
 		$invalid_option_name = [
 			'request_params'                => [
 				'type' => 'invalid',
-				'id'   => 5,
+				'list' => [ 5 ],
 			],
 			'indexable_action_params'       => [
 				'invalid_ignore_list',
-				5,
+				[ 5 ],
 			],
 			'indexable_action_return_value' => false,
 			'params_rest_response'          => [
