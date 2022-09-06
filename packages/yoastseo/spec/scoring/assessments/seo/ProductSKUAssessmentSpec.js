@@ -44,7 +44,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Your product is missing a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
+			" Your product is missing a SKU. You can add the SKU via the \"Inventory\" tab. <a href='https://yoa.st/4lx' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
@@ -58,7 +58,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
+			" Not all your product variants have a SKU. You can add the SKU via the \"Variations\" tab. <a href='https://yoa.st/4lx' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
@@ -72,7 +72,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
+			" Not all your product variants have a SKU. You can add the SKU via the \"Variations\" tab. <a href='https://yoa.st/4lx' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
@@ -98,7 +98,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Your product is missing a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
+			" Your product is missing a SKU. You can add the SKU via the \"Inventory\" tab. <a href='https://yoa.st/4lx' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 } );

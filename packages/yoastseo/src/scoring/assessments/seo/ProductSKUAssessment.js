@@ -97,8 +97,8 @@ export default class ProductSKUAssessment extends Assessment {
 					text: sprintf(
 						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 						__(
-							"%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude this if you can, as it" +
-							" will help search engines to better understand your content.%3$s",
+							"%1$sSKU%3$s: Your product is missing a SKU. You can add the SKU via the \"Inventory\" tab." +
+							" %2$sInclude this if you can, as it will help search engines to better understand your content.%3$s",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
@@ -128,8 +128,8 @@ export default class ProductSKUAssessment extends Assessment {
 					text: sprintf(
 						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 						__(
-							"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude this if you can, as it" +
-							" will help search engines to better understand your content.%3$s",
+							"%1$sSKU%3$s: Not all your product variants have a SKU. You can add the SKU via the \"Variations\" tab." +
+							" %2$sInclude this if you can, as it will help search engines to better understand your content.%3$s",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
