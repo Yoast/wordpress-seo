@@ -1,9 +1,9 @@
 /* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
-import { LinkIcon, RefreshIcon } from "@heroicons/react/outline";
+import { LinkIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
-import { __, _n, sprintf } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { createInterpolateElement, useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
 import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
@@ -12,6 +12,8 @@ import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexableTitleLink from "./components/indexable-title-link";
 import IndexablesPageCard from "./components/indexables-card";
 import IndexablesTable from "./components/indexables-table";
+import RefreshButton from "./components/refresh-button";
+
 import { SEOScoreThresholds, readabilityScoreThresholds, seoScoreAssessment, readabilityScoreAssessment } from "./assessment-functions";
 
 const Link = makeOutboundLink();
@@ -129,6 +131,8 @@ function IndexablesPage( { setupInfo } ) {
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 	const [ loadedCards, setLoadedCards ] = useState( [] );
 	const [ erroredCards, setErroredCards ] = useState( [] );
+
+	const [ lastRefreshTime, setLastRefreshTime ] = useState( 0 );
 	const [ refreshInterval, setRefreshInterval ] = useState( null );
 
 	const [ isSomethingGreenReadability, setIsSomethingGreenReadability ] = useState( false );
@@ -137,8 +141,6 @@ function IndexablesPage( { setupInfo } ) {
 	const [ errorMessage, setErrorMessage ] = useState( null );
 
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
-
-	const [ lastRefreshTime, setLastRefreshTime ] = useState( 0 );
 
 	const [ indexablesLists, setIndexablesLists ] = useState(
 		{
@@ -195,24 +197,28 @@ function IndexablesPage( { setupInfo } ) {
 		return isListFeatureEnabled( listName ) && ! isListLoaded( listName );
 	}, [ isListLoaded, isListFeatureEnabled ] );
 
-
 	const shouldShowTable = useCallback( listName => {
 		// If a fetch has been completed, the feature for the list is enabled, and the list is not empty.
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && ! isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
-
 
 	const shouldShowEmptyAlert = useCallback( listName => {
 		// If a fetch has been completed, the feature for the list is enabled, but the list is empty.
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
 
-
 	const shouldShowErrorAlert = useCallback( listName => {
 		// If the feature for the list is enabled but the fetch has failed.
 		return isListErrored( listName );
 	}, [ isListErrored ] );
 
+	const shouldDisplayStars =  useCallback( () => {
+		const numberOfStars = indexablesLists.most_linked
+			.slice( 0, 5 )
+			.filter( indexable => !! parseInt( indexable.is_cornerstone, 10 ) )
+			.length;
+		return numberOfStars > 0;
+	}, [ indexablesLists.most_linked ] );
 
 	/**
 	 * Fetches a list of indexables.
@@ -759,7 +765,7 @@ function IndexablesPage( { setupInfo } ) {
 
 	const doubleColumn = [ ...singleColumn ].reverse();
 
-	return <div className="yst-max-w-full yst-mt-6">
+	return <div className="yst-max-w-full yst-mt-2">
 		<Modal
 			id="error-modal"
 			onClose={ handleCloseErrorModal }
@@ -786,25 +792,9 @@ function IndexablesPage( { setupInfo } ) {
 				suggestedLinksModalData={ suggestedLinksModalData }
 			/>
 		</Modal>
-		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-4">
-			<span className="yst-italic">
-				{
-					// translators: %d is the number of minutes since the last refresh.
-					sprintf(
-						_n( "Last refreshed: %d min ago", "Last refreshed: %d mins ago", lastRefreshTime, "wordpress-seo" ),
-						lastRefreshTime
-					)
-				}
-			</span>
-			<button
-				type="button"
-				onClick={ handleRefreshLists }
-				className={ "yst-ml-6 yst-font-medium yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-ring-indigo-500 focus:yst-shadow-none focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-offset-[#f0f0f1] yst-rounded-lg yst-py-2 yst-px-3" }
-			>
-				<RefreshIcon className="yst-inline-block yst-align-text-bottom yst-mr-1 yst-h-4 yst-w-4" />
-				{ __( "Refresh data", "wordpress-seo" ) }
-			</button>
-		</div>
+
+		<RefreshButton onClickCallback={ handleRefreshLists } lastRefreshTime={ lastRefreshTime } />
+
 		<div
 			id="indexables-table-columns"
 			className="yst-max-w-7xl yst-flex yst-flex-col 2xl:yst-block 2xl:yst-columns-2 yst-gap-6"
@@ -952,13 +942,15 @@ function IndexablesPage( { setupInfo } ) {
 										position={ position }
 										setErrorMessage={ setErrorMessage }
 									>
-										<div className="yst-flex yst-items-center">
-											{
-												( !! parseInt( indexable.is_cornerstone, 10 ) === true )
-													? <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700" />
-													: <div className="yst-w-4" />
-											}
-										</div>
+										{
+											( shouldDisplayStars() ) && <div className="yst-flex yst-items-center">
+												{
+													( !! parseInt( indexable.is_cornerstone, 10 ) === true )
+														? <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700" />
+														: <div className="yst-w-4" />
+												}
+											</div>
+										}
 										<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
 										<IndexableTitleLink indexable={ indexable } />
 										<div>
@@ -990,7 +982,7 @@ function IndexablesPage( { setupInfo } ) {
 				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
 					{
 						/* translators: %1$s expands to the title of a post that was just just hidden. */
-						sprintf( __( "Restore %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
+						sprintf( __( 'Restore "%1$s"', "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
 					}
 				</Button>
 			}

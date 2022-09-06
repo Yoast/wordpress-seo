@@ -58,7 +58,6 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position, s
 			} );
 
 			const parsedResponse = await response.json;
-			setIsHandlingIgnore( false );
 
 			if ( parsedResponse.success ) {
 				setRowAnimationClasses( "yst-animate-slideRight" );
