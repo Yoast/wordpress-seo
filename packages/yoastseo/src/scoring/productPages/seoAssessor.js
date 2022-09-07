@@ -132,6 +132,7 @@ const ProductSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
 			assessVariants: options.assessVariants,
+			addSKULocation: options.addSKULocation,
 		} ),
 		new TextTitleAssessment( {
 			urlTitle: createAnchorOpeningTag( options.textTitleUrlTitle ),

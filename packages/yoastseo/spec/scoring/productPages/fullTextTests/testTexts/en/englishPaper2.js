@@ -101,15 +101,16 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product is missing an identifier " +
-			"(like a GTIN code). You can add the product identifier via the \"Yoast SEO\" tab in Product Data box." +
-			" <a href='https://yoa.st/4lz' target='_blank'>Include this if you can, as it will " +
+			"(like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab in the Product data box." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it will " +
 			"help search engines to better understand your content.</a>",
 	},
 	productSKU: {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product is missing a SKU. " +
-			"You can add the SKU via the \"Inventory\" tab. <a href='https://yoa.st/4lx' target='_blank'>Include this if you can, as it will " +
+			"You can add a SKU via the \"Inventory\" tab in the Product data box. " +
+			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will " +
 			"help search engines to better understand your content.</a>",
 	},
 	imageKeyphrase: {
