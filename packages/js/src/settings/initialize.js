@@ -1,16 +1,15 @@
+import { dispatch, select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
-import { dispatch, select } from "@wordpress/data";
-import { __ } from "@wordpress/i18n";
 import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
-import { forEach, get, isObject, isArray, chunk, includes, reduce, filter } from "lodash";
+import { chunk, filter, forEach, get, includes, reduce } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
-import { createValidationSchema } from "./helpers";
-import registerStore from "./store";
 import { STORE_NAME } from "./constants";
+import { createValidationSchema, handleSubmit } from "./helpers";
+import registerStore from "./store";
 
 /**
  * @param {Object} settings The settings.
@@ -26,64 +25,6 @@ const preloadMedia = async( settings ) => {
 	const mediaIdsChunks = chunk( mediaIds, 100 );
 	const { fetchMedia } = dispatch( STORE_NAME );
 	forEach( mediaIdsChunks, fetchMedia );
-};
-
-/**
- * Handles the form submit.
- * @param {Object} values The values.
- * @param {function} resetForm Resets the form.
- * @returns {Promise<boolean>} Promise of save result.
- */
-const handleSubmit = async( values, { resetForm } ) => {
-	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
-	const { addNotification } = dispatch( STORE_NAME );
-
-	const formData = new FormData();
-
-	formData.set( "option_page", "wpseo_settings" );
-	formData.set( "_wp_http_referer", "admin.php?page=wpseo_settings_saved" );
-	formData.set( "action", "update" );
-	formData.set( "_wpnonce", nonce );
-
-	forEach( values, ( value, name ) => {
-		if ( isObject( value ) ) {
-			forEach( value, ( nestedValue, nestedName ) => {
-				if ( isArray( nestedValue ) ) {
-					forEach( nestedValue, ( item, index ) => formData.set( `${ name }[${ nestedName }][${ index }]`, item ) );
-					return;
-				}
-				formData.set( `${ name }[${ nestedName }]`, nestedValue );
-			} );
-			return;
-		}
-		formData.set( name, value );
-	} );
-
-	try {
-		await fetch( endpoint, {
-			method: "POST",
-			body: new URLSearchParams( formData ),
-		} );
-
-		addNotification( {
-			variant: "success",
-			title: __( "Great! Your settings were saved successfully.", "wordpress-seo" ),
-		} );
-
-		// Make sure the dirty state is reset after successfully saving.
-		resetForm( { values } );
-
-		return true;
-	} catch ( error ) {
-		addNotification( {
-			id: "submit-error",
-			variant: "error",
-			title: __( "Oops! Something went wrong while saving.", "wordpress-seo" ),
-		} );
-
-		console.error( error.message );
-		return false;
-	}
 };
 
 domReady( () => {

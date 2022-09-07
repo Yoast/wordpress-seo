@@ -10,7 +10,7 @@ import { Field, FieldArray, useFormikContext } from "formik";
 import { find, get, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
-import { STORE_NAME } from "../constants";
+import { PERSON_SOCIAL_PROFILES_ROUTE, STORE_NAME } from "../constants";
 import { useSelectSettings } from "../store";
 
 /**
@@ -18,48 +18,50 @@ import { useSelectSettings } from "../store";
  */
 const PersonSocialProfiles = () => {
 	const { values, setFieldValue } = useFormikContext();
-	// eslint-disable-next-line camelcase
 	const { company_or_person_user_id: personId } = values.wpseo_titles;
+	const previousPersonId = usePrevious( personId );
 	const { addNotification } = dispatch( STORE_NAME );
 
-	const previousPersonId = usePrevious( personId );
 	useEffect( () => {
-		if ( previousPersonId === personId ) {
+		if ( previousPersonId === personId || personId < 1 ) {
 			return;
 		}
 
 		/**
-		 * @returns {Promise<boolean>} The promise of a fetch success status.
+		 * @returns {*} The dispatch return.
+		 */
+		const addSocialProfileError = () => addNotification( {
+			id: "social-profiles-error",
+			variant: "error",
+			title: __( "Oops! Something went wrong while fetching the social profiles.", "wordpress-seo" ),
+		} );
+
+		/**
+		 * @returns {Promise<boolean>} The promise of a fetch success value.
 		 */
 		const asyncWrapper = async() => {
-			const basePath = "/yoast/v1/configuration/person_social_profiles";
-
 			try {
-				const { success, social_profiles: socialProfiles } = await apiFetch( { path: `${ basePath }?user_id=12` } );
+				const {
+					success,
+					social_profiles: socialProfiles,
+				} = await apiFetch( { path: `${ PERSON_SOCIAL_PROFILES_ROUTE }?user_id=${ personId }` } );
 				if ( ! success ) {
-					addNotification( {
-						id: "social-profiles-error",
-						variant: "error",
-						title: __( "Oops! Something went wrong while fetching the social profiles.", "wordpress-seo" ),
-					} );
+					addSocialProfileError();
 					return false;
 				}
 
 				setFieldValue( "person_social_profiles", socialProfiles );
 				return true;
 			} catch ( error ) {
-				addNotification( {
-					id: "social-profiles-error",
-					variant: "error",
-					title: __( "Oops! Something went wrong while fetching the social profiles.", "wordpress-seo" ),
-				} );
+				addSocialProfileError();
 
 				console.error( error.message );
 				return false;
 			}
 		};
+
 		asyncWrapper();
-	}, [ previousPersonId, personId ] );
+	}, [ previousPersonId, personId, setFieldValue, addNotification ] );
 
 	return (
 		<FieldsetLayout
