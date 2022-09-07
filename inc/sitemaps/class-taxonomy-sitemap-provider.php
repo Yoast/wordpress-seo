@@ -281,6 +281,11 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return bool
 	 */
 	public function is_valid_taxonomy( $taxonomy_name ) {
+
+		if ( WPSEO_Options::get( "noindex-tax-{$taxonomy_name}" ) === true ) {
+			return false;
+		}
+
 		if ( in_array( $taxonomy_name, [ 'link_category', 'nav_menu' ], true ) ) {
 			return false;
 		}
@@ -295,7 +300,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param bool   $exclude       Defaults to false.
 		 * @param string $taxonomy_name Name of the taxonomy to exclude..
 		 */
-		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', WPSEO_Options::get( "noindex-tax-{$taxonomy_name}" ) === true, $taxonomy_name ) ) {
+		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) {
 			return false;
 		}
 
