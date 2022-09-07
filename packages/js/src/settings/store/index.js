@@ -1,10 +1,9 @@
 import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
 import { merge } from "lodash";
 import { STORE_NAME } from "../constants";
-import { mediaClient } from "../helpers";
 import { breadcrumbsSelectors } from "./breadcrumbs";
 import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
-import media, { createInitialMediaState, FETCH_MEDIA_ACTION_NAME, mediaActions, mediaSelectors } from "./media";
+import media, { createInitialMediaState, mediaActions, mediaSelectors, mediaControls } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
@@ -83,7 +82,7 @@ const createStore = ( { initialState } ) => {
 			taxonomies,
 		} ),
 		controls: {
-			[ FETCH_MEDIA_ACTION_NAME ]: async( { payload } ) => mediaClient.fetch( payload ),
+			...mediaControls,
 		},
 	} );
 };

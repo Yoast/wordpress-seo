@@ -1,5 +1,7 @@
 /* eslint-disable camelcase, complexity */
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import apiFetch from "@wordpress/api-fetch";
+import { buildQueryString } from "@wordpress/url";
 import { map, mapValues } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
@@ -26,10 +28,8 @@ export function* fetchMedia( ids ) {
 		const media = yield{
 			type: FETCH_MEDIA_ACTION_NAME,
 			payload: {
-				data: {
-					per_page: 100,
-					include: ids,
-				},
+				per_page: 100,
+				include: ids,
 			},
 		};
 		return { type: `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`, payload: media };
@@ -97,6 +97,12 @@ export const mediaSelectors = {
 export const mediaActions = {
 	...mediaSlice.actions,
 	fetchMedia,
+};
+
+export const mediaControls = {
+	[ FETCH_MEDIA_ACTION_NAME ]: async( { payload } ) => apiFetch( {
+		path: `/wp/v2/media?${ buildQueryString( payload ) }`,
+	} ),
 };
 
 export default mediaSlice.reducer;

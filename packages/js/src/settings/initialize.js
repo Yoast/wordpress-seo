@@ -66,7 +66,6 @@ const handleSubmit = async( values, { resetForm } ) => {
 		} );
 
 		addNotification( {
-			id: "submit-success",
 			variant: "success",
 			title: __( "Great! Your settings were saved successfully.", "wordpress-seo" ),
 		} );
