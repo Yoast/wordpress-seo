@@ -5811,6 +5811,15 @@
     "@wordpress/i18n" "^3.19.1"
     "@wordpress/url" "^2.22.1"
 
+"@wordpress/api-fetch@^6.13.0":
+  version "6.13.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/api-fetch/-/api-fetch-6.13.0.tgz#2dde9bbd6ce7aab117e4425d89f3de6284647348"
+  integrity sha512-PwVhZI64naytQFmMc2veQYz6jA3DyAPe3cv3L499iKgigNt41fNHZpEz5tgZmpLJA0Avp9Ldy+izCzt9A0PKcQ==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+    "@wordpress/i18n" "^4.16.0"
+    "@wordpress/url" "^3.17.0"
+
 "@wordpress/autop@^2.0.2", "@wordpress/autop@^2.12.1":
   version "2.12.1"
   resolved "https://registry.yarnpkg.com/@wordpress/autop/-/autop-2.12.1.tgz#941b307bfe96ea6b74e2006832a93c4ccb6b247e"
@@ -6486,6 +6495,13 @@
   dependencies:
     "@babel/runtime" "^7.16.0"
 
+"@wordpress/hooks@^3.16.0":
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-3.16.0.tgz#8fb9a84f4b965978651f3310a7df2c9c9903e99e"
+  integrity sha512-KpY8KFp2/3TX6lKmffNmdkeaH9c4CN1iJ8SiCufjGgRCnVWmWe/HcEJ5OjhUvBnRkhsLMY7pvlXMU8Mh7nLxyA==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+
 "@wordpress/hooks@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-3.3.1.tgz#7fe7291788350dc4d00b9d5cb20db69debcf8a40"
@@ -6551,6 +6567,19 @@
   dependencies:
     "@babel/runtime" "^7.16.0"
     "@wordpress/hooks" "^3.14.0"
+    gettext-parser "^1.3.1"
+    lodash "^4.17.21"
+    memize "^1.1.0"
+    sprintf-js "^1.1.1"
+    tannin "^1.2.0"
+
+"@wordpress/i18n@^4.16.0":
+  version "4.16.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-4.16.0.tgz#3175247d9aae78d369cc5f0c07312d7e345d75ee"
+  integrity sha512-N7BChVVaQpt63e2Wgc0ST+ahUuhSjd6bqHqgIBnxZ4LU3c8tzd/etYjBqSM8RPcI9gSOM32ddlTnJgAxgntKaA==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+    "@wordpress/hooks" "^3.16.0"
     gettext-parser "^1.3.1"
     lodash "^4.17.21"
     memize "^1.1.0"
@@ -6997,6 +7026,14 @@
     "@babel/runtime" "^7.13.10"
     lodash "^4.17.21"
     react-native-url-polyfill "^1.1.2"
+
+"@wordpress/url@^3.17.0":
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/url/-/url-3.17.0.tgz#19c51f54106fe27f63a331056204428bd1d90311"
+  integrity sha512-817geMi/DA5cPXO9tPHJB8g+MtI3xpA0s2/26paAciD5rPa/Y9BgTtfvPiR/pzKk+hQOxjNSw6dwb1bPGTmB1A==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+    remove-accents "^0.4.2"
 
 "@wordpress/warning@^1.4.1":
   version "1.4.1"
@@ -25770,6 +25807,11 @@ rememo@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/rememo/-/rememo-3.0.0.tgz#06e8e76e108865cc1e9b73329db49f844eaf8392"
   integrity sha512-eWtut/7pqMRnSccbexb647iPjN7ir6Tmf4RG92ZVlykFEkHqGYy9tWnpHH3I+FS+WQ6lQ1i1iDgarYzGKgTcRQ==
+
+remove-accents@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/remove-accents/-/remove-accents-0.4.2.tgz#0a43d3aaae1e80db919e07ae254b285d9e1c7bb5"
+  integrity sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
