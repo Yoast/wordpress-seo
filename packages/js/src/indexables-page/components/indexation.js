@@ -279,6 +279,7 @@ export class Indexation extends Component {
 			type="button"
 			className="yst-button yst-button--primary"
 			onClick={ this.startIndexing }
+			id="indexation-site-analysis"
 		>
 			{ __( "Start site analysis", "wordpress-seo" ) }
 		</button>;
@@ -311,6 +312,7 @@ export class Indexation extends Component {
 					type="button"
 					className="yst-button yst-button--secondary yst-button--disabled"
 					disabled={ true }
+					id="indexation-site-analysis"
 				>
 					{ __( "Start site analysis", "wordpress-seo" ) }
 				</button>
