@@ -41,7 +41,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper, researcher ) {
-		const productSKUData = researcher.getResearch( "getProductSKUData" );
+		const productSKUData = paper.getCustomData();
 
 		const result = this.scoreProductSKU( productSKUData, this._config );
 
