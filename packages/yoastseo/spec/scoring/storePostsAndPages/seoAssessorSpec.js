@@ -20,7 +20,6 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -37,7 +36,6 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -55,7 +53,6 @@ describe( "running assessments in the assessor", function() {
 			"internalLinks",
 			"titleWidth",
 			"singleH1",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -73,7 +70,6 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -87,7 +83,6 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -105,7 +100,6 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -125,7 +119,6 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -143,7 +136,6 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -162,7 +154,6 @@ describe( "running assessments in the assessor", function() {
 			"internalLinks",
 			"titleWidth",
 			"slugKeyword",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -195,7 +186,6 @@ describe( "running assessments in the assessor", function() {
 			"internalLinks",
 			"titleWidth",
 			"keyphraseDistribution",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -227,7 +217,6 @@ describe( "running assessments in the assessor", function() {
 			"internalLinks",
 			"titleWidth",
 			"keyphraseDistribution",
-			"textTitleAssessment",
 		] );
 	} );
 

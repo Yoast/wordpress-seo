@@ -12,7 +12,6 @@ const paper = new Paper( content, {
 	locale: "sv_SE",
 	permalink: "https://sv.wikipedia.org/wiki/Ester-Blenda-Nordström",
 	slug: "Ester-Blenda-Nordström",
-	textTitle: "Ester Blenda Nordström",
 } );
 
 const expectedResults = {
@@ -92,11 +91,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

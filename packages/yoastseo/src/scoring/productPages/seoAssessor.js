@@ -20,7 +20,6 @@ import KeyphraseDistribution from "../assessments/seo/KeyphraseDistributionAsses
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import ProductIdentifiersAssessment from "../assessments/seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "../assessments/seo/ProductSKUAssessment";
-import TextTitleAssessment from "../assessments/seo/TextTitleAssessment";
 
 /**
  * Creates the Assessor
@@ -132,10 +131,6 @@ const ProductSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
 			assessVariants: options.assessVariants,
-		} ),
-		new TextTitleAssessment( {
-			urlTitle: createAnchorOpeningTag( options.textTitleUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.textTitleCTAUrl ),
 		} ),
 	];
 };

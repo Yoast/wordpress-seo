@@ -12,7 +12,6 @@ const paper = new Paper( content, {
 	locale: "fa_IR",
 	permalink: "https://fa.wikipedia.org/wiki/%DA%AF%D8%B4%D8%AA%D8%A7_%D9%81%D8%B1%D8%A7%D9%86%DA%A9%D8%A7%D8%B1%D9%88%D9%85",
 	slug: "گشتا_فرانکاروم",
-	textTitle: "گشتا فرانکاروم",
 } );
 
 const expectedResults = {
@@ -103,11 +102,6 @@ const expectedResults = {
 		score: 1,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your text do not" +
 			" contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
