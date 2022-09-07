@@ -79,7 +79,7 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
 		$user_agent_list                         = new User_Agent_List();
 		$user_agent                              = $user_agent_list->get_user_agent( '*' );
@@ -90,7 +90,7 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
 
 		$user_agent_list = new User_Agent_List();
@@ -105,7 +105,7 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nDisallow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nDisallow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
 		$user_agent_list              = new User_Agent_List();
 		$user_agent                   = $user_agent_list->get_user_agent( '*' );
@@ -117,7 +117,7 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
 
 		$user_agent_list = new User_Agent_List();
@@ -136,7 +136,7 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\nDisallow: /wp-admin\n\nUser-agent: Yahoobot\nAllow: /allowed/for/yahoo\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\nDisallow: /wp-admin\n\nUser-agent: Yahoobot\nAllow: /allowed/for/yahoo\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
 
 		$user_agent_list = new User_Agent_List();
@@ -148,7 +148,7 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# ---------------------------\nUser-agent: *\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
 		$multiple_sitemaps      = [
 			'robots_txt_user_agents' => ( new User_Agent_List() )->get_user_agents(),
@@ -156,7 +156,7 @@ class Robots_Txt_Presenter_Test extends TestCase {
 				'http://example.com/sitemap_index.html',
 				'http://example.com/subsite/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# Added by Yoast SEO (see yoa.st/robots-txt-additions for more info).\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\nSitemap: http://example.com/subsite/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
+			'expected'               => "# START YOAST INTERNAL SEARCH BLOCK\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\nSitemap: http://example.com/subsite/sitemap_index.html\n# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK",
 		];
 
 		return [
