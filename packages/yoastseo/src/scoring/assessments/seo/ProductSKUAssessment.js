@@ -92,7 +92,7 @@ export default class ProductSKUAssessment extends Assessment {
 		// Check if we want to add information about where to add the SKU in the feedback string or not.
 		// Currently we want to implement it only for Woo Product pages.
 		let feedbackString = "";
-		if ( this._config.addSKULocation = true ) {
+		if ( this._config.addSKULocation === true ) {
 			feedbackString = __( "You can add a SKU via the \"Inventory\" tab in the Product data box.", "wordpress-seo" );
 		}
 
