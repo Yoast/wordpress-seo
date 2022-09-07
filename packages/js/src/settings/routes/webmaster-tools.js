@@ -1,8 +1,8 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { TextField } from "@yoast/ui-library";
+import { addQueryArgs } from "@wordpress/url";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FormikValueChangeField, FormLayout } from "../components";
-import { createLink } from "../helpers";
 import { withFormikError } from "../hocs";
 import { useSelectSettings } from "../store";
 
@@ -83,7 +83,7 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						createLink( "https://www.google.com/webmasters/verification/verification", { hl: "en", tid: "alternate", siteUrl } ),
+						addQueryArgs( "https://www.google.com/webmasters/verification/verification", { hl: "en", tid: "alternate", siteUrl } ),
 						"link-google-search-console"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }

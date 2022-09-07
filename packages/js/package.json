@@ -17,6 +17,7 @@
     "@wordpress/dom-ready": "^2.10.0",
     "@wordpress/element": "^2.19.1",
     "@wordpress/i18n": "^4.14.0",
+    "@wordpress/url": "^3.17.0",
     "@yoast/analysis-report": "^1.21.0",
     "@yoast/components": "^2.19.0",
     "@yoast/feature-flag": "^0.5.2",
