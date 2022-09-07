@@ -49,7 +49,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							?>
 						</h2>
 						<p>
-							<?php \esc_html_e( 'Be the first to get new features & tools, before everyone else. Get 24/7 support and boost your website’s visibility.', 'wordpress-seo' ); ?>
+							<?php \printf( \esc_html__( 'Be the first to %s get new features & tools%s, before everyone else. Get %s 24/7 support%s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>', '<strong>', '</strong>' ); ?>
 						</p>
 						<p class="plugin-buy-button">
 							<a class="yoast-button-upsell" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
