@@ -38,11 +38,10 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * Tests whether a product has product identifiers and returns an assessment result based on the research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher used for calling the research.
 	 *
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper ) {
 		const productIdentifierData = paper.getCustomData();
 
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );

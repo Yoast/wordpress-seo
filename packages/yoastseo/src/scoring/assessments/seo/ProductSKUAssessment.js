@@ -36,11 +36,10 @@ export default class ProductSKUAssessment extends Assessment {
 	 * Tests whether a product has a SKU and returns an assessment result based on the research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher used for calling the research.
 	 *
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper ) {
 		const productSKUData = paper.getCustomData();
 
 		const result = this.scoreProductSKU( productSKUData, this._config );
