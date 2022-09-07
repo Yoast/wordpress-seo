@@ -20,6 +20,7 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 
 /**
  * Class Settings_Integration.
@@ -132,17 +133,25 @@ class Settings_Integration implements Integration_Interface {
 	protected $article_helper;
 
 	/**
+	 * Holds the Social_Profiles_Helper.
+	 *
+	 * @var Social_Profiles_Helper
+	 */
+	protected $social_profiles_helper;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars        $replace_vars        The WPSEO_Replace_Vars.
-	 * @param Schema_Types              $schema_types        The Schema_Types.
-	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
-	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
-	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
-	 * @param Product_Helper            $product_helper      The Product_Helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper  The Woocommerce_Helper.
-	 * @param Article_Helper            $article_helper      The Article_Helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager          The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars        $replace_vars           The WPSEO_Replace_Vars.
+	 * @param Schema_Types              $schema_types           The Schema_Types.
+	 * @param Current_Page_Helper       $current_page_helper    The Current_Page_Helper.
+	 * @param Post_Type_Helper          $post_type_helper       The Post_Type_Helper.
+	 * @param Taxonomy_Helper           $taxonomy_helper        The Taxonomy_Helper.
+	 * @param Product_Helper            $product_helper         The Product_Helper.
+	 * @param Woocommerce_Helper        $woocommerce_helper     The Woocommerce_Helper.
+	 * @param Article_Helper            $article_helper         The Article_Helper.
+	 * @param Social_Profiles_Helper    $social_profiles_helper The Social_Profiles_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -153,17 +162,19 @@ class Settings_Integration implements Integration_Interface {
 		Taxonomy_Helper $taxonomy_helper,
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
-		Article_Helper $article_helper
+		Article_Helper $article_helper,
+		Social_Profiles_Helper $social_profiles_helper
 	) {
-		$this->asset_manager       = $asset_manager;
-		$this->replace_vars        = $replace_vars;
-		$this->schema_types        = $schema_types;
-		$this->current_page_helper = $current_page_helper;
-		$this->taxonomy_helper     = $taxonomy_helper;
-		$this->post_type_helper    = $post_type_helper;
-		$this->product_helper      = $product_helper;
-		$this->woocommerce_helper  = $woocommerce_helper;
-		$this->article_helper      = $article_helper;
+		$this->asset_manager          = $asset_manager;
+		$this->replace_vars           = $replace_vars;
+		$this->schema_types           = $schema_types;
+		$this->current_page_helper    = $current_page_helper;
+		$this->taxonomy_helper        = $taxonomy_helper;
+		$this->post_type_helper       = $post_type_helper;
+		$this->product_helper         = $product_helper;
+		$this->woocommerce_helper     = $woocommerce_helper;
+		$this->article_helper         = $article_helper;
+		$this->social_profiles_helper = $social_profiles_helper;
 	}
 
 	/**
@@ -377,6 +388,9 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( self::WP_OPTIONS as $option_name ) {
 			$settings[ $option_name ] = \get_option( $option_name );
 		}
+		// Add person social profiles.
+		$person_id                          = ( $settings['wpseo_titles']['company_or_person'] === 'person' ) ? $settings['wpseo_titles']['company_or_person_user_id'] : false;
+		$settings['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( $person_id );
 
 		// Remove disallowed settings.
 		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {

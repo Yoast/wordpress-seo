@@ -1,14 +1,144 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import apiFetch from "@wordpress/api-fetch";
+import { dispatch } from "@wordpress/data";
+import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Radio, RadioGroup, SelectField, TextField } from "@yoast/ui-library";
+import { Alert, Button, Radio, RadioGroup, SelectField, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { find, get, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
+import { STORE_NAME } from "../constants";
 import { useSelectSettings } from "../store";
+
+/**
+ * @returns {JSX.Element} The person social profiles form.
+ */
+const PersonSocialProfiles = () => {
+	const { values, setFieldValue } = useFormikContext();
+	// eslint-disable-next-line camelcase
+	const { company_or_person_user_id: personId } = values.wpseo_titles;
+	const { addNotification } = dispatch( STORE_NAME );
+
+	const previousPersonId = usePrevious( personId );
+	useEffect( () => {
+		if ( previousPersonId === personId ) {
+			return;
+		}
+
+		/**
+		 * @returns {Promise<boolean>} The promise of a fetch success status.
+		 */
+		const asyncWrapper = async() => {
+			const basePath = "/yoast/v1/configuration/person_social_profiles";
+
+			try {
+				const { success, social_profiles: socialProfiles } = await apiFetch( { path: `${ basePath }?user_id=12` } );
+				if ( ! success ) {
+					addNotification( {
+						id: "social-profiles-error",
+						variant: "error",
+						title: __( "Oops! Something went wrong while fetching the social profiles.", "wordpress-seo" ),
+					} );
+					return false;
+				}
+
+				setFieldValue( "person_social_profiles", socialProfiles );
+				return true;
+			} catch ( error ) {
+				addNotification( {
+					id: "social-profiles-error",
+					variant: "error",
+					title: __( "Oops! Something went wrong while fetching the social profiles.", "wordpress-seo" ),
+				} );
+
+				console.error( error.message );
+				return false;
+			}
+		};
+		asyncWrapper();
+	}, [ previousPersonId, personId ] );
+
+	return (
+		<FieldsetLayout
+			title={ __( "Other profiles", "wordpress-seo" ) }
+			description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
+		>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.facebook"
+				id="input-person_social_profiles-facebook"
+				label={ __( "Facebook", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.instagram"
+				id="input-person_social_profiles-instagram"
+				label={ __( "Instagram", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.linkedin"
+				id="input-person_social_profiles-linkedin"
+				label={ __( "LinkedIn", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://linkedin.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.myspace"
+				id="input-person_social_profiles-myspace"
+				label={ __( "MySpace", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://myspace.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.pinterest"
+				id="input-person_social_profiles-pinterest"
+				label={ __( "Pinterest", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://pinterest.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.soundcloud"
+				id="input-person_social_profiles-soundcloud"
+				label={ __( "SoundCloud", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://soundcloud.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.tumblr"
+				id="input-person_social_profiles-tumblr"
+				label={ __( "Tumblr", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://tumblr.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.twitter"
+				id="input-person_social_profiles-twitter"
+				label={ __( "Twitter", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.youtube"
+				id="input-person_social_profiles-youtube"
+				label={ __( "YouTube", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://youtube.com/yoast", "wordpress-seo" ) }
+			/>
+			<FormikWithErrorField
+				as={ TextField }
+				name="person_social_profiles.wikipedia"
+				id="input-person_social_profiles-wikipedia"
+				label={ __( "Wikipedia", "wordpress-seo" ) }
+				placeholder={ __( "E.g. https://wikipedia.com/yoast", "wordpress-seo" ) }
+			/>
+		</FieldsetLayout>
+	);
+};
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -111,6 +241,66 @@ const SiteRepresentation = () => {
 							mediaIdName="wpseo_titles.company_logo_id"
 						/>
 					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ __( "Other profiles", "wordpress-seo" ) }
+						description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
+					>
+						<FormikWithErrorField
+							as={ TextField }
+							name="wpseo_social.facebook_site"
+							id="input-wpseo_social-facebook_site"
+							label={ __( "Facebook", "wordpress-seo" ) }
+							placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
+						/>
+						<FormikWithErrorField
+							as={ TextField }
+							name="wpseo_social.instagram_site"
+							id="input-wpseo_social-instagram_site"
+							label={ __( "Instagram", "wordpress-seo" ) }
+							placeholder={ __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
+						/>
+						<FormikWithErrorField
+							as={ TextField }
+							name="wpseo_social.twitter_site"
+							id="input-wpseo_social-twitter_site"
+							label={ __( "Twitter", "wordpress-seo" ) }
+							placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
+						/>
+						<FieldArray name="wpseo_social.other_social_urls">
+							{ arrayHelpers => (
+								<>
+									{ otherSocialUrls.map( ( _, index ) => (
+										<div
+											key={ `wpseo_social.other_social_urls.${ index }` }
+											className="yst-w-full yst-flex yst-items-start yst-gap-2"
+										>
+											<FormikWithErrorField
+												as={ TextField }
+												name={ `wpseo_social.other_social_urls.${ index }` }
+												id={ `input-wpseo_social-other_social_urls-${ index }` }
+												label={ __( "Add another profile", "wordpress-seo" ) }
+												placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
+												className="yst-grow"
+											/>
+											<button
+												// eslint-disable-next-line react/jsx-no-bind
+												onClick={ arrayHelpers.remove.bind( null, index ) }
+												className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+											>
+												<TrashIcon className="yst-h-5 yst-w-5" />
+											</button>
+										</div>
+									) ) }
+									{ /* eslint-disable-next-line react/jsx-no-bind */ }
+									<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
+										<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-gray-400" />
+										{ __( "Add another profile", "wordpress-seo" ) }
+									</Button>
+								</>
+							) }
+						</FieldArray>
+					</FieldsetLayout>
 				</Transition>
 				<Transition
 					show={ companyOrPerson === "person" }
@@ -170,65 +360,10 @@ const SiteRepresentation = () => {
 							mediaIdName="wpseo_titles.person_logo_id"
 						/>
 					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<PersonSocialProfiles />
 				</Transition>
 			</div>
-			<hr className="yst-my-8" />
-			<FieldsetLayout
-				title={ __( "Other profiles", "wordpress-seo" ) }
-				description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
-			>
-				<FormikWithErrorField
-					as={ TextField }
-					name="wpseo_social.facebook_site"
-					id="input-wpseo_social-facebook_site"
-					label={ __( "Facebook", "wordpress-seo" ) }
-					placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
-				/>
-				<FormikWithErrorField
-					as={ TextField }
-					name="wpseo_social.instagram_site"
-					id="input-wpseo_social-instagram_site"
-					label={ __( "Instagram", "wordpress-seo" ) }
-					placeholder={ __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
-				/>
-				<FormikWithErrorField
-					as={ TextField }
-					name="wpseo_social.twitter_site"
-					id="input-wpseo_social-twitter_site"
-					label={ __( "Twitter", "wordpress-seo" ) }
-					placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
-				/>
-				<FieldArray name="wpseo_social.other_social_urls">
-					{ arrayHelpers => (
-						<>
-							{ otherSocialUrls.map( ( _, index ) => (
-								<div key={ `wpseo_social.other_social_urls.${ index }` } className="yst-w-full yst-flex yst-items-start yst-gap-2">
-									<FormikWithErrorField
-										as={ TextField }
-										name={ `wpseo_social.other_social_urls.${ index }` }
-										id={ `input-wpseo_social-other_social_urls-${ index }` }
-										label={ __( "Add another profile", "wordpress-seo" ) }
-										placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
-										className="yst-grow"
-									/>
-									<button
-										// eslint-disable-next-line react/jsx-no-bind
-										onClick={ arrayHelpers.remove.bind( null, index ) }
-										className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
-									>
-										<TrashIcon className="yst-h-5 yst-w-5" />
-									</button>
-								</div>
-							) ) }
-							{ /* eslint-disable-next-line react/jsx-no-bind */ }
-							<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
-								<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-gray-400" />
-								{ __( "Add another profile", "wordpress-seo" ) }
-							</Button>
-						</>
-					) }
-				</FieldArray>
-			</FieldsetLayout>
 		</FormLayout>
 	);
 };
