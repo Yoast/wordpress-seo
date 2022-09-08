@@ -1,10 +1,12 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { TextField } from "@yoast/ui-library";
 import { addQueryArgs } from "@wordpress/url";
+import { TextField } from "@yoast/ui-library";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FormikValueChangeField, FormLayout } from "../components";
 import { withFormikError } from "../hocs";
 import { useSelectSettings } from "../store";
+
+const CONTENT_TAG_REGEXP = /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/;
 
 /**
  * Transforms the value to the content of the content tag.
@@ -17,7 +19,7 @@ import { useSelectSettings } from "../store";
  * @returns {string} The original value or the value of the content tag.
  */
 const transformContentTag = event => {
-	const match = event.target.value.match( /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/ );
+	const match = event.target.value.match( CONTENT_TAG_REGEXP );
 	return match?.groups?.content ? match.groups.content : event.target.value;
 };
 

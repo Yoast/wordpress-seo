@@ -5,6 +5,9 @@ import { reduce } from "lodash";
 import { addMethod, number, object, string } from "yup";
 import { STORE_NAME } from "../constants";
 
+const ALPHA_NUMERIC_VERIFY_REGEXP = /^[A-Za-z0-9_-]+$/;
+const ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP = /^[A-Fa-f0-9_-]+$/;
+
 addMethod( number, "isMediaTypeImage", function() {
 	return this.test(
 		"isMediaTypeImage",
@@ -28,18 +31,18 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 	return object().shape( {
 		wpseo: object().shape( {
 			baiduverify: string()
-				.matches( /^[A-Za-z0-9_-]+$/, "The verification code is not valid. Please use only letters, numbers, underscores and dashes." ),
+				.matches( ALPHA_NUMERIC_VERIFY_REGEXP, __( "The verification code is not valid. Please use only letters, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			googleverify: string()
-				.matches( /^[A-Za-z0-9_-]+$/, "The verification code is not valid. Please use only letters, numbers, underscores and dashes." ),
+				.matches( ALPHA_NUMERIC_VERIFY_REGEXP, __( "The verification code is not valid. Please use only letters, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			msverify: string()
-				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
+				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			yandexverify: string()
-				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
+				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 		} ),
 		wpseo_social: object().shape( {
 			og_default_image_id: number().isMediaTypeImage(),
 			pinterestverify: string()
-				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
+				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 		} ),
 		wpseo_titles: object().shape( {
 			open_graph_frontpage_image_id: number().isMediaTypeImage(),
