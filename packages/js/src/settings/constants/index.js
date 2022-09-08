@@ -15,5 +15,3 @@ export const ASYNC_ACTION_STATUS = {
 	success: "success",
 	error: "error",
 };
-
-export const PERSON_SOCIAL_PROFILES_ROUTE = "/yoast/v1/configuration/person_social_profiles";

@@ -1,7 +1,6 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import apiFetch from "@wordpress/api-fetch";
 import { dispatch } from "@wordpress/data";
 import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -10,7 +9,8 @@ import { Field, FieldArray, useFormikContext } from "formik";
 import { find, get, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
-import { PERSON_SOCIAL_PROFILES_ROUTE, STORE_NAME } from "../constants";
+import { STORE_NAME } from "../constants";
+import { fetchUserSocialProfiles } from "../helpers";
 import { useSelectSettings } from "../store";
 
 /**
@@ -18,50 +18,28 @@ import { useSelectSettings } from "../store";
  */
 const PersonSocialProfiles = () => {
 	const { values, setFieldValue } = useFormikContext();
-	const { company_or_person_user_id: personId } = values.wpseo_titles;
-	const previousPersonId = usePrevious( personId );
+	const { company_or_person_user_id: userId } = values.wpseo_titles;
+	const previousUserId = usePrevious( userId );
 	const { addNotification } = dispatch( STORE_NAME );
 
 	useEffect( () => {
-		if ( previousPersonId === personId || personId < 1 ) {
+		if ( previousUserId === userId || userId < 1 ) {
 			return;
 		}
 
-		/**
-		 * @returns {*} The dispatch return.
-		 */
-		const addSocialProfileError = () => addNotification( {
-			id: "social-profiles-error",
-			variant: "error",
-			title: __( "Oops! Something went wrong while fetching the social profiles.", "wordpress-seo" ),
-		} );
-
-		/**
-		 * @returns {Promise<boolean>} The promise of a fetch success value.
-		 */
-		const asyncWrapper = async() => {
-			try {
-				const {
-					success,
-					social_profiles: socialProfiles,
-				} = await apiFetch( { path: `${ PERSON_SOCIAL_PROFILES_ROUTE }?user_id=${ personId }` } );
-				if ( ! success ) {
-					addSocialProfileError();
-					return false;
-				}
-
+		fetchUserSocialProfiles( userId )
+			.then( socialProfiles => {
 				setFieldValue( "person_social_profiles", socialProfiles );
-				return true;
-			} catch ( error ) {
-				addSocialProfileError();
-
-				console.error( error.message );
-				return false;
-			}
-		};
-
-		asyncWrapper();
-	}, [ previousPersonId, personId, setFieldValue, addNotification ] );
+			} )
+			.catch( error => {
+				addNotification( {
+					id: "social-profiles-error",
+					variant: "error",
+					title: __( "Oops! Something went wrong while fetching the social profiles.", "wordpress-seo" ),
+				} );
+				console.error( "Error while fetching the social profiles:", error.message );
+			} );
+	}, [ previousUserId, userId, setFieldValue, addNotification ] );
 
 	return (
 		<FieldsetLayout

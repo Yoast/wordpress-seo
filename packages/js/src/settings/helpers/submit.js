@@ -1,40 +1,8 @@
-import apiFetch from "@wordpress/api-fetch";
 import { dispatch } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { forEach, get, isArray, isObject } from "lodash";
-import { PERSON_SOCIAL_PROFILES_ROUTE, STORE_NAME } from "../constants";
-
-/**
- * @param {Object} values The values.
- * @returns {Promise<void>} Promise of save result. Errors when failing.
- */
-const submitPersonSocialProfiles = async( values ) => {
-	const { person_social_profiles: personSocialProfiles } = values;
-	const { company_or_person: companyOrPerson, company_or_person_user_id: personId } = values.wpseo_titles;
-
-	if ( companyOrPerson !== "person" || personId < 1 ) {
-		// A person is not represented.
-		return;
-	}
-
-	try {
-		const { json: { success } } = await apiFetch( {
-			path: PERSON_SOCIAL_PROFILES_ROUTE,
-			method: "POST",
-			data: {
-				...personSocialProfiles,
-				// eslint-disable-next-line camelcase
-				user_id: personId,
-			},
-		} );
-
-		if ( ! success ) {
-			throw new Error();
-		}
-	} catch ( error ) {
-		throw new Error( "Something went wrong saving the person' social profiles." );
-	}
-};
+import { STORE_NAME } from "../constants";
+import { submitUserSocialProfiles } from "./user-social-profiles";
 
 /**
  * @param {Object} values The values.
@@ -73,7 +41,7 @@ const submitSettings = async( values ) => {
 			body: new URLSearchParams( formData ),
 		} );
 	} catch ( error ) {
-		throw new Error( "Something went wrong saving the settings." );
+		throw new Error( error.message );
 	}
 };
 
@@ -89,7 +57,7 @@ export const handleSubmit = async( values, { resetForm } ) => {
 	try {
 		await Promise.all( [
 			submitSettings( values ),
-			submitPersonSocialProfiles( values ),
+			submitUserSocialProfiles( values ),
 		] );
 
 		addNotification( {
@@ -108,7 +76,7 @@ export const handleSubmit = async( values, { resetForm } ) => {
 			title: __( "Oops! Something went wrong while saving.", "wordpress-seo" ),
 		} );
 
-		console.error( error.message );
+		console.error( "Error while saving:", error.message );
 		return false;
 	}
 };
