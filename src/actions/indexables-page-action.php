@@ -96,16 +96,17 @@ class Indexables_Page_Action {
 	protected function query() {
 		$sub_types = $this->get_sub_types();
 		if ( empty( $sub_types ) ) {
-			// @TODO: Fix this case.
+			// If there are no subtypes to display, any query should return an empty result.
 			return $this->indexable_repository->query()->where_raw( '1 = 0' );
 		}
 
+		// Make sure that we consider the noindex of both each post but also for the global values.
 		$build_where = '(';
 		foreach ( $sub_types as $sub_type ) {
 			$is_default_noindex = $this->post_type_helper->is_indexable( $sub_type ) ? ' OR is_robots_noindex IS NULL' : '';
-			$build_where .= '( object_sub_type = \'' . $sub_type . '\' AND ( is_robots_noindex = FALSE' . $is_default_noindex . ' ) ) OR';
+			$build_where       .= '( object_sub_type = \'' . $sub_type . '\' AND ( is_robots_noindex = FALSE' . $is_default_noindex . ' ) ) OR';
 		}
-		$build_where = rtrim( $build_where, ' OR' );
+		$build_where  = rtrim( $build_where, ' OR' );
 		$build_where .= ')';
 
 		return $this->indexable_repository->query()
