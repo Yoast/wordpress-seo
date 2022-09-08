@@ -13,7 +13,6 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Young_adult_fiction",
 	slug: "Young_adult_fiction",
-	textTitle: "Young adult fiction",
 } );
 
 const expectedResults = {
@@ -83,11 +82,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of " +
 			"your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>" +
 			"Distribute them more evenly</a>.",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

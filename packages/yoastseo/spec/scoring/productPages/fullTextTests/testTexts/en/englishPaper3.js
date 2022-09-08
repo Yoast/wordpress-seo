@@ -23,7 +23,6 @@ const paper = new Paper( content, {
 		doAllVariantsHaveIdentifier: false,
 		productType: "variable",
 	},
-	textTitle: "Cat tree house",
 } );
 
 const expectedResults = {
@@ -132,11 +131,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Good job!",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

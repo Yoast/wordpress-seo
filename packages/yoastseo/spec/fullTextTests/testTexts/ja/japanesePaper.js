@@ -13,7 +13,6 @@ const paper = new Paper( content, {
 	locale: "ja",
 	permalink: "https://ja.wikipedia.org/wiki/%E5%AE%8C%E4%BA%86%E5%BD%A2",
 	slug: "%E5%AE%8C%E4%BA%86%E5%BD%A2",
-	textTitle: "完了形",
 } );
 
 const expectedResults = {
@@ -107,11 +106,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
 			"Large parts of your text do not contain the keyphrase or its synonyms. " +
 			"<a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

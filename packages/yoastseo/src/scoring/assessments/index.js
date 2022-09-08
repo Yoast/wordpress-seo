@@ -25,7 +25,6 @@ import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
 import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment";
-import TextTitleAssessment from "./seo/TextTitleAssessment";
 import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
@@ -69,7 +68,6 @@ const seo = {
 	ImageAltTagsAssessment,
 	ProductIdentifiersAssessment,
 	ProductSKUAssessment,
-	TextTitleAssessment,
 };
 
 export {

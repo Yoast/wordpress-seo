@@ -23,7 +23,6 @@ import getProminentWordsForInsights from "./researches/getProminentWordsForInsig
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings";
 import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
-import getTextTitleData from "./researches/getTextTitleData";
 import h1s from "./researches/h1s";
 import imageCount from "./researches/imageCount.js";
 import keyphraseDistribution from "./researches/keyphraseDistribution";
@@ -92,7 +91,6 @@ export default class AbstractResearcher {
 			wordComplexity,
 			getProductIdentifierData,
 			getProductSKUData,
-			getTextTitleData,
 		};
 
 		this._data = {};

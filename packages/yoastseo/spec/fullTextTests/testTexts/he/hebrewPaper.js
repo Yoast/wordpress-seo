@@ -13,7 +13,6 @@ const paper = new Paper( content, {
 	locale: "he_IL",
 	permalink: "https://he.wikipedia.org/wiki/%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
 	slug: "%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
-	textTitle: "נאפולי",
 } );
 
 const expectedResults = {
@@ -99,11 +98,7 @@ const expectedResults = {
 			"Uneven. Some parts of your text do not contain the keyphrase or its synonyms." +
 			" <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
-	},
+
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,

@@ -22,7 +22,6 @@ import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "../../assessments/seo/KeyphraseDistributionAssessment";
 import ProductIdentifiersAssessment from "../../assessments/seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "../../assessments/seo/ProductSKUAssessment";
-import TextTitleAssessment from "../../assessments/seo/TextTitleAssessment";
 
 /**
  * Creates the Assessor
@@ -152,10 +151,6 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
 			assessVariants: options.assessVariants,
-		} ),
-		new TextTitleAssessment( {
-			urlTitle: createAnchorOpeningTag( options.textTitleUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.textTitleCTAUrl ),
 		} ),
 	];
 };
