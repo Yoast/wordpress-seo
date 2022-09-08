@@ -41,7 +41,7 @@ const FormLayout = ( {
 					height={ dirty ? "auto" : 0 }
 					animateOpacity={ true }
 				>
-					<div className="yst-p-8 yst-bg-gray-50 yst-rounded-b-lg yst-space-x-3">
+					<div className="yst-flex yst-align-middle yst-p-8 yst-bg-gray-50 yst-rounded-b-lg yst-space-x-3">
 						<Button
 							id="button-submit-settings"
 							type="submit"
