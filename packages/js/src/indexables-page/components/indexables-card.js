@@ -14,9 +14,7 @@ import DotsMenu from "./indexables-card-options";
  */
 function IndexablesPageCard( { title, className, options, children } ) {
 	return <div className={ classNames( "yst-w-full yst-inline-block", className ) }>
-		<div
-			className="yst-bg-white yst-rounded-lg yst-p-8 yst-shadow"
-		>
+		<div className="yst-bg-white yst-rounded-lg yst-p-8 yst-shadow yst-overflow-x-hidden">
 			<div className="yst-w-full yst-flex yst-justify-between">
 				<h3 className="yst-mb-4 yst-text-base yst-text-gray-900 yst-font-medium yst-w-full">
 					{ title }
