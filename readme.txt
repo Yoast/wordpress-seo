@@ -247,11 +247,11 @@ Release Date: September 20th, 2022
 
 
 
+
 Enhancements:
 
 * Adds an Insights tab to the editors which contains the Flesch reading ease score and feedback, (estimated) reading time, and word count. Since the Flesch reading ease score has been moved to the insights tab, it is removed from the readability analysis.
 * Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
-* Adds support for indexed terms in sitemap for taxonomies who have a default `noindex` option. It needs to be enabled using the `wpseo_sitemap_exclude_taxonomy` filter. Props to @mpskovvang.
 * Adds the site logo and name as default values in the first time configuration and search appearance.
 * Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
 * Changes the `@id` of the main Schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
