@@ -64,7 +64,7 @@ const PersonSocialProfiles = () => {
 	return (
 		<FieldsetLayout
 			title={ __( "Other profiles", "wordpress-seo" ) }
-			description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
+			description={ __( "Tell us about the other profiles on the web that belong to the person.", "wordpress-seo" ) }
 		>
 			<FormikWithErrorField
 				as={ TextField }
