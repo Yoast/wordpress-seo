@@ -49,9 +49,9 @@ class Robots_Txt_Integration_Test extends TestCase {
 		parent::set_up();
 		$this->stubEscapeFunctions();
 
-		$this->options_helper       = Mockery::mock( Options_Helper::class );
-		$this->robots_txt_helper    = Mockery::mock( Robots_Txt_Helper::class );
-		$this->instance             = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper );
+		$this->options_helper    = Mockery::mock( Options_Helper::class );
+		$this->robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
+		$this->instance          = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper );
 	}
 
 	/**
@@ -139,14 +139,17 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame( '# START YOAST INTERNAL SEARCH BLOCK
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 Sitemap: http://basic.wordpress.test/sitemap_index.xml
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK', $this->instance->filter_robots( '' ) );
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
 	}
 
 	/**
@@ -229,14 +232,18 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame( '# START YOAST INTERNAL SEARCH BLOCK
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 Sitemap: http://basic.wordpress.test/sitemap_index.xml
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK', $this->instance->filter_robots( '' ) );	}
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
+	}
 
 	/**
 	 * Tests the robots filter for multisite installations, other site without Yoast SEO activated.
@@ -308,14 +315,18 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame( '# START YOAST INTERNAL SEARCH BLOCK
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 Sitemap: http://basic.wordpress.test/sitemap_index.xml
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK', $this->instance->filter_robots( '' ) );	}
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
+	}
 
 	/**
 	 * Tests the robots filter for a multisite subdirectory installation without any existing option rows.
@@ -386,14 +397,18 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame( '# START YOAST INTERNAL SEARCH BLOCK
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 Sitemap: http://basic.wordpress.test/sitemap_index.xml
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK', $this->instance->filter_robots( '' ) );	}
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
+	}
 
 	/**
 	 * Tests the robots filter for a public site, without sitemaps.
@@ -417,13 +432,17 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [] );
 
-		$this->assertSame( '# START YOAST INTERNAL SEARCH BLOCK
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK', $this->instance->filter_robots( '' ) );	}
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
+	}
 
 	/**
 	 * Provides the test with multisite data.
