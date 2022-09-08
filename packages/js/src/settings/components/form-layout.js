@@ -1,4 +1,4 @@
-import { useMemo } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, Title } from "@yoast/ui-library";
 import { Form, useFormikContext } from "formik";
@@ -15,9 +15,13 @@ const FormLayout = ( {
 	title,
 	description = null,
 } ) => {
-	const { isSubmitting, status, dirty } = useFormikContext();
+	const { isSubmitting, status, dirty, resetForm, initialValues } = useFormikContext();
 	const isMediaLoading = useSelectSettings( "selectIsMediaLoading" );
 	const isStatusBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
+
+	const handleUndo = useCallback( () => {
+		resetForm( { values: initialValues } );
+	}, [ resetForm, initialValues ] );
 
 	return (
 		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
@@ -38,7 +42,7 @@ const FormLayout = ( {
 					animateOpacity={ true }
 				>
 					<div className="yst-h-8 yst-bg-gradient-to-t yst-from-white" />
-					<div className="yst-p-8 yst-bg-gray-50 yst-rounded-b-lg">
+					<div className="yst-p-8 yst-bg-gray-50 yst-rounded-b-lg yst-space-x-3">
 						<Button
 							id="button-submit-settings"
 							type="submit"
@@ -46,6 +50,15 @@ const FormLayout = ( {
 							disabled={ isSubmitting || isMediaLoading || isStatusBlocked }
 						>
 							{ __( "Save changes", "wordpress-seo" ) }
+						</Button>
+						<Button
+							id="button-undo-settings"
+							type="button"
+							variant="secondary"
+							disabled={ ! dirty }
+							onClick={ handleUndo }
+						>
+							{ __( "Discard changes", "wordpress-seo" ) }
 						</Button>
 					</div>
 				</AnimateHeight>
