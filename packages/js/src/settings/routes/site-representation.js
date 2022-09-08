@@ -11,7 +11,27 @@ import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
 import { STORE_NAME } from "../constants";
 import { fetchUserSocialProfiles } from "../helpers";
+import { withFormikError } from "../hocs";
 import { useSelectSettings } from "../store";
+
+const TWITTER_URL_REGEXP = /^https?:\/\/(?:www\.)?twitter\.com\/(?<handle>[A-Za-z0-9_]{1,25})\/?$/;
+
+/**
+ * Transforms the handle of the Twitter URL.
+ *
+ * If the value is a Twitter URL, e.g. `https://www.twitter.com/foo`.
+ * Then this function will return `foo`.
+ * Otherwise, the original value will be returned.
+ *
+ * @param {Object} event The change event.
+ * @returns {string} The original value or the handle.
+ */
+const transformTwitterUrl = event => {
+	const match = event.target.value.match( TWITTER_URL_REGEXP );
+	return match?.groups?.handle ? match.groups.handle : event.target.value;
+};
+
+const FormikValueChangeWithErrorField = withFormikError( FormikValueChangeField );
 
 /**
  * @returns {JSX.Element} The person social profiles form.
@@ -95,12 +115,13 @@ const PersonSocialProfiles = () => {
 				label={ __( "Tumblr", "wordpress-seo" ) }
 				placeholder={ __( "E.g. https://tumblr.com/yoast", "wordpress-seo" ) }
 			/>
-			<FormikWithErrorField
+			<FormikValueChangeWithErrorField
 				as={ TextField }
 				name="person_social_profiles.twitter"
 				id="input-person_social_profiles-twitter"
 				label={ __( "Twitter", "wordpress-seo" ) }
 				placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
+				transformValue={ transformTwitterUrl }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
