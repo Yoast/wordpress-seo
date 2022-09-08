@@ -1,7 +1,9 @@
-import PropTypes from "prop-types";
-import { Form, useFormikContext } from "formik";
+import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Title, Button } from "@yoast/ui-library";
+import { Button, Title } from "@yoast/ui-library";
+import { Form, useFormikContext } from "formik";
+import { includes, values } from "lodash";
+import PropTypes from "prop-types";
 
 /**
  * @returns {JSX.Element} The form layout component.
@@ -11,7 +13,8 @@ const FormLayout = ( {
 	title,
 	description = null,
 } ) => {
-	const { isSubmitting } = useFormikContext();
+	const { isSubmitting, status } = useFormikContext();
+	const isBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
 
 	return (
 		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
@@ -31,7 +34,7 @@ const FormLayout = ( {
 						id="button-submit-settings"
 						type="submit"
 						isLoading={ isSubmitting }
-						disabled={ isSubmitting }
+						disabled={ isSubmitting || isBlocked }
 					>
 						{ __( "Save changes", "wordpress-seo" ) }
 					</Button>
