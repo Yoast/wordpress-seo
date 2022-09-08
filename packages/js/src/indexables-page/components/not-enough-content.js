@@ -14,23 +14,23 @@ const Link = makeOutboundLink();
 const readingList = [
 	{
 		title: "How to write a blog post: A step-by-step guide from preparation to publication",
-		link: wpseoIndexablesPageData.shortlinks.howToWriteABlogPost,
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingOne,
 	},
 	{
 		title: "10 tips for an awesome and SEO-friendly blog post",
-		link: wpseoIndexablesPageData.shortlinks.friendlyBlogPost,
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingTwo,
 	},
 	{
 		title: "Keyword research for SEO: the ultimate guide",
-		link: wpseoIndexablesPageData.shortlinks.keywordResearchUltimateGuide,
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingThree,
 	},
 	{
 		title: "How to start a blog",
-		link: wpseoIndexablesPageData.shortlinks.howToStartABlog,
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingFour,
 	},
 	{
 		title: "SEO copywriting must-reads",
-		link: wpseoIndexablesPageData.shortlinks.seoCopywritingMustRead,
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingFive,
 	},
 ];
 
