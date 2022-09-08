@@ -41,24 +41,26 @@ const FormLayout = ( {
 					height={ dirty ? "auto" : 0 }
 					animateOpacity={ true }
 				>
-					<div className="yst-flex yst-align-middle yst-p-8 yst-bg-gray-50 yst-rounded-b-lg yst-space-x-3">
-						<Button
-							id="button-submit-settings"
-							type="submit"
-							isLoading={ isSubmitting }
-							disabled={ isSubmitting || isMediaLoading || isStatusBlocked }
-						>
-							{ __( "Save changes", "wordpress-seo" ) }
-						</Button>
-						<Button
-							id="button-undo-settings"
-							type="button"
-							variant="secondary"
-							disabled={ ! dirty }
-							onClick={ handleUndo }
-						>
-							{ __( "Discard changes", "wordpress-seo" ) }
-						</Button>
+					<div className="yst-bg-gray-50 yst-rounded-b-lg">
+						<div className="yst-flex yst-align-middle yst-space-x-3 yst-p-8">
+							<Button
+								id="button-submit-settings"
+								type="submit"
+								isLoading={ isSubmitting }
+								disabled={ isSubmitting || isMediaLoading || isStatusBlocked }
+							>
+								{ __( "Save changes", "wordpress-seo" ) }
+							</Button>
+							<Button
+								id="button-undo-settings"
+								type="button"
+								variant="secondary"
+								disabled={ ! dirty }
+								onClick={ handleUndo }
+							>
+								{ __( "Discard changes", "wordpress-seo" ) }
+							</Button>
+						</div>
 					</div>
 				</AnimateHeight>
 			</footer>
