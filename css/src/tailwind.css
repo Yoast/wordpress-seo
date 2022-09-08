@@ -118,5 +118,9 @@
 		.yst-radio-group__description {
 			@apply yst-mb-4 !important;
 		}
+
+		.yst-checkbox__input {
+			@apply before:yst-content-none !important;
+		}
 	}
 }
