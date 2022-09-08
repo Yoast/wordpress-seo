@@ -4,6 +4,7 @@ import { Button, Title } from "@yoast/ui-library";
 import { Form, useFormikContext } from "formik";
 import { includes, values } from "lodash";
 import PropTypes from "prop-types";
+import { useSelectSettings } from "../store";
 
 /**
  * @returns {JSX.Element} The form layout component.
@@ -14,7 +15,8 @@ const FormLayout = ( {
 	description = null,
 } ) => {
 	const { isSubmitting, status } = useFormikContext();
-	const isBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
+	const isMediaLoading = useSelectSettings( "selectIsMediaLoading" );
+	const isStatusBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
 
 	return (
 		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
@@ -34,7 +36,7 @@ const FormLayout = ( {
 						id="button-submit-settings"
 						type="submit"
 						isLoading={ isSubmitting }
-						disabled={ isSubmitting || isBlocked }
+						disabled={ isSubmitting || isMediaLoading || isStatusBlocked }
 					>
 						{ __( "Save changes", "wordpress-seo" ) }
 					</Button>

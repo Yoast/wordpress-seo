@@ -1,8 +1,8 @@
 /* eslint-disable camelcase, complexity */
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { buildQueryString } from "@wordpress/url";
-import { map, mapValues } from "lodash";
+import { get, map, mapValues } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
 const mediaAdapter = createEntityAdapter();
@@ -11,7 +11,7 @@ const mediaAdapter = createEntityAdapter();
  * @returns {Object} The initial state.
  */
 export const createInitialMediaState = () => mediaAdapter.getInitialState( {
-	status: "idle",
+	status: ASYNC_ACTION_STATUS.idle,
 	error: "",
 } );
 
@@ -22,7 +22,7 @@ export const FETCH_MEDIA_ACTION_NAME = "fetchMedia";
  * @returns {Object} Success or error action object.
  */
 export function* fetchMedia( ids ) {
-	yield{ type: `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.request}` };
+	yield{ type: `${ FETCH_MEDIA_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }` };
 	try {
 		// Trigger the fetch media control flow.
 		const media = yield{
@@ -32,9 +32,9 @@ export function* fetchMedia( ids ) {
 				include: ids,
 			},
 		};
-		return { type: `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`, payload: media };
+		return { type: `${ FETCH_MEDIA_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload: media };
 	} catch ( error ) {
-		return { type: `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.error}`, payload: error };
+		return { type: `${ FETCH_MEDIA_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, payload: error };
 	}
 }
 
@@ -73,18 +73,18 @@ const mediaSlice = createSlice( {
 		},
 	},
 	extraReducers: ( builder ) => {
-		builder.addCase( `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.request}`, ( state ) => {
+		builder.addCase( `${ FETCH_MEDIA_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
 			state.status = ASYNC_ACTION_STATUS.loading;
 		} );
-		builder.addCase( `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`, ( state, action ) => {
+		builder.addCase( `${ FETCH_MEDIA_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, action ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
 			mediaAdapter.addMany( state, map( action.payload, prepareMedia ) );
 		} );
-		builder.addCase( `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.error}`, ( state, action ) => {
+		builder.addCase( `${ FETCH_MEDIA_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, action ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
 			state.error = action.payload;
 		} );
-	  },
+	},
 } );
 
 // Prefix selectors
@@ -92,6 +92,7 @@ const adapterSelectors = mediaAdapter.getSelectors( state => state.media );
 export const mediaSelectors = {
 	selectMediaIds: adapterSelectors.selectIds,
 	selectMediaById: adapterSelectors.selectById,
+	selectIsMediaLoading: state => get( state, "media.status", ASYNC_ACTION_STATUS.idle ) === ASYNC_ACTION_STATUS.loading,
 };
 
 export const mediaActions = {
