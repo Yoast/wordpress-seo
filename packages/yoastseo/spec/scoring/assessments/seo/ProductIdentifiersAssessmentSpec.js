@@ -45,8 +45,9 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Your product is missing an identifier (like a GTIN code). <a href='https://yoa.st/4lz' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" Your product is missing an identifier (like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab " +
+			"in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
 	it( "returns the score 6 when a product has a global identifier and variants, but not all variants have an identifier", function() {
@@ -59,8 +60,9 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Not all your product variants have an identifier. <a href='https://yoa.st/4lz' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" Not all your product variants have an identifier. You can add a product identifier via the \"Variations\" " +
+			"tab in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it " +
+			"will help search engines to better understand your content.</a>" );
 	} );
 
 	it( "returns the score 6 when a product has no global identifier, but has variants and not all variants have an identifier", function() {
@@ -73,8 +75,9 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Not all your product variants have an identifier. <a href='https://yoa.st/4lz' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" Not all your product variants have an identifier. You can add a product identifier via the \"Variations\"" +
+			" tab in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
 
@@ -101,8 +104,9 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Your product is missing an identifier (like a GTIN code). <a href='https://yoa.st/4lz' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" Your product is missing an identifier (like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab " +
+			"in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 } );
 
@@ -133,7 +137,7 @@ xdescribe( "a test for Product identifiers assessment for Shopify", () => {
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>:" +
 			" Your product is missing a barcode (like a GTIN code). <a href='https://yoa.st/shopify82' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
 	it( "should not return a score if the product has variants", () => {

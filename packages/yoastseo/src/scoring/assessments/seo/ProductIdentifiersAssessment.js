@@ -101,9 +101,11 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		if ( this._config.productIdentifierOrBarcode === "Product identifier" ) {
 			feedbackStrings = {
-				okNoVariants: __( "Your product is missing an identifier (like a GTIN code)", "wordpress-seo" ),
+				okNoVariants: __( "Your product is missing an identifier (like a GTIN code). " +
+					"You can add a product identifier via the \"Yoast SEO\" tab in the Product data box", "wordpress-seo" ),
 				goodNoVariants: __( "Your product has an identifier", "wordpress-seo" ),
-				okWithVariants: __( "Not all your product variants have an identifier", "wordpress-seo" ),
+				okWithVariants: __( "Not all your product variants have an identifier. " +
+					"You can add a product identifier via the \"Variations\" tab in the Product data box", "wordpress-seo" ),
 				goodWithVariants: __( "All your product variants have an identifier", "wordpress-seo" ),
 			};
 		} else {
@@ -127,7 +129,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 						* "Your product is missing a product identifier (like a GTIN code)"
 						* or "Your product is missing a barcode (like a GTIN code)" */
 						__(
-							"%1$s%2$s%5$s: %3$s. %4$sInclude this if you can, as it " +
+							"%1$s%2$s%5$s: %3$s. %4$sInclude it if you can, as it " +
 							"will help search engines to better understand your content.%5$s",
 							"wordpress-seo"
 						),
@@ -166,9 +168,9 @@ export default class ProductIdentifiersAssessment extends Assessment {
 						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string
 						* "Not all your product variants have a product identifier"
-						* or "ot all your product variants have a barcode" */
+						* or "Not all your product variants have a barcode" */
 						__(
-							"%1$s%2$s%5$s: %3$s. %4$sInclude this if you can, as it will help search engines to better understand your content.%5$s",
+							"%1$s%2$s%5$s: %3$s. %4$sInclude it if you can, as it will help search engines to better understand your content.%5$s",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
