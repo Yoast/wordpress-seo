@@ -7,6 +7,7 @@ import { STORE_NAME } from "../constants";
 
 const ALPHA_NUMERIC_VERIFY_REGEXP = /^[A-Za-z0-9_-]+$/;
 const ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP = /^[A-Fa-f0-9_-]+$/;
+const TWITTER_HANDLE_REGEXP = /^[A-Za-z0-9_]{1,25}$/;
 
 addMethod( number, "isMediaTypeImage", function() {
 	return this.test(
@@ -63,6 +64,19 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 			"social-image-id-author-wpseo": number().isMediaTypeImage(),
 			"social-image-id-archive-wpseo": number().isMediaTypeImage(),
 			"social-image-id-tax-post_format": number().isMediaTypeImage(),
+		} ),
+		person_social_profiles: object().shape( {
+			facebook: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			instagram: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			linkedin: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			myspace: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			pinterest: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			soundcloud: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			tumblr: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			twitter: string()
+				.matches( TWITTER_HANDLE_REGEXP, __( "The profile is not valid. Please use only 1-25 letters, numbers and underscores or enter a valid Twitter URL.", "wordpress-seo" ) ),
+			youtube: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			wikipedia: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 		} ),
 	} );
 };

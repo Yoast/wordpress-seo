@@ -319,4 +319,66 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldLabel: __( "Pinterest", "wordpress-seo" ),
 		},
 	},
+	person_social_profiles: {
+		facebook: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-facebook",
+			fieldLabel: __( "Facebook", "wordpress-seo" ),
+		},
+		instagram: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-instagram",
+			fieldLabel: __( "Instagram", "wordpress-seo" ),
+		},
+		linkedin: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-linkedin",
+			fieldLabel: __( "LinkedIn", "wordpress-seo" ),
+		},
+		myspace: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-myspace",
+			fieldLabel: __( "MySpace", "wordpress-seo" ),
+		},
+		Pinterest: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-Pinterest",
+			fieldLabel: __( "Pinterest", "wordpress-seo" ),
+		},
+		soundcloud: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-soundcloud",
+			fieldLabel: __( "SoundCloud", "wordpress-seo" ),
+		},
+		Tumblr: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-Tumblr",
+			fieldLabel: __( "Tumblr", "wordpress-seo" ),
+		},
+		twitter: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-twitter",
+			fieldLabel: __( "Twitter", "wordpress-seo" ),
+		},
+		youtube: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-youtube",
+			fieldLabel: __( "YouTube", "wordpress-seo" ),
+		},
+		wikipedia: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-person_social_profiles-wikipedia",
+			fieldLabel: __( "Wikipedia", "wordpress-seo" ),
+		},
+	},
 } );
