@@ -147,6 +147,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->with( 'enable_text_link_counter', true )
 			->andReturn( $features['enable_text_link_counter'] );
 
+		$this->post_type_helper
+			->expects( 'is_indexable' )
+			->times( 5 * $query_times )
+			->andReturn( true );
+
 		$this->indexable_repository
 			->expects( 'query' )
 			->times( $query_times )
@@ -165,9 +170,9 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
-			->expects( 'where_in' )
+			->expects( 'where_raw' )
 			->times( $query_times )
-			->with( 'object_sub_type', $sub_types )
+			->with( '(( object_sub_type = \'post\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'page\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'category\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_tag\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_format\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ))' )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -371,6 +376,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->expects( 'get_sub_types' )
 			->andReturn( $sub_types );
 
+		$this->post_type_helper
+			->expects( 'is_indexable' )
+			->times( 5 )
+			->andReturn( true );
+
 		$this->indexable_repository
 			->expects( 'query' )
 			->andReturnSelf();
@@ -391,8 +401,8 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
-			->expects( 'where_in' )
-			->with( 'object_sub_type', $sub_types )
+			->expects( 'where_raw' )
+			->with( '(( object_sub_type = \'post\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'page\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'category\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_tag\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_format\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ))' )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -469,6 +479,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->expects( 'get_sub_types' )
 			->andReturn( $sub_types );
 
+		$this->post_type_helper
+			->expects( 'is_indexable' )
+			->times( 5 )
+			->andReturn( true );
+
 		$this->indexable_repository
 			->expects( 'query' )
 			->andReturnSelf();
@@ -489,8 +504,8 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
-			->expects( 'where_in' )
-			->with( 'object_sub_type', $sub_types )
+			->expects( 'where_raw' )
+			->with( '(( object_sub_type = \'post\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'page\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'category\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_tag\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_format\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ))' )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -567,6 +582,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->expects( 'get_sub_types' )
 			->andReturn( $sub_types );
 
+		$this->post_type_helper
+			->expects( 'is_indexable' )
+			->times( 5 )
+			->andReturn( true );
+
 		$this->indexable_repository
 			->expects( 'query' )
 			->andReturnSelf();
@@ -592,8 +612,8 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
-			->expects( 'where_in' )
-			->with( 'object_sub_type', $sub_types )
+			->expects( 'where_raw' )
+			->with( '(( object_sub_type = \'post\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'page\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'category\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_tag\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_format\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ))' )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -679,6 +699,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->expects( 'get_sub_types' )
 			->andReturn( $sub_types );
 
+		$this->post_type_helper
+			->expects( 'is_indexable' )
+			->times( 5 )
+			->andReturn( true );
+
 		$this->indexable_repository
 			->expects( 'query' )
 			->andReturnSelf();
@@ -694,8 +719,8 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
-			->expects( 'where_in' )
-			->with( 'object_sub_type', $sub_types )
+			->expects( 'where_raw' )
+			->with( '(( object_sub_type = \'post\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'page\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'category\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_tag\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ) OR( object_sub_type = \'post_format\' AND ( is_robots_noindex = FALSE OR is_robots_noindex IS NULL ) ))' )
 			->andReturnSelf();
 
 		$this->indexable_repository
