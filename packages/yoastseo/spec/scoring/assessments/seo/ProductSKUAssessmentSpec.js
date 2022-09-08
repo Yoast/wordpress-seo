@@ -46,6 +46,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
 			productType: "simple",
+			addSKULocation: true,
 		};
 
 		const paperWithCustomData = new Paper( "", { customData } );
@@ -53,8 +54,9 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Your product is missing a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" Your product is missing a SKU. You can add a SKU via the \"Inventory\" tab in the Product data box. " +
+			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search engines " +
+			"to better understand your content.</a>" );
 	} );
 
 	it( "returns the score 6 when a product has a global SKU and variants, but not all variants have a SKU", function() {
@@ -70,8 +72,9 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" Not all your product variants have a SKU. You can add a SKU via the \"Variations\" tab in the Product " +
+			"data box. <a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search " +
+			"engines to better understand your content.</a>" );
 	} );
 
 	it( "returns the score 6 when a product has no global SKU, but has variants and not all variants have a SKU", function() {
@@ -87,8 +90,9 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" Not all your product variants have a SKU. You can add a SKU via the \"Variations\" tab in the Product " +
+			"data box. <a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search " +
+			"engines to better understand your content.</a>" );
 	} );
 
 	it( "returns the score 9 with the feedback for a simple product when a variable product has no variants but has a global SKU", function() {
@@ -119,8 +123,9 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Your product is missing a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" Your product is missing a SKU. You can add a SKU via the \"Inventory\" tab in the Product data box. " +
+			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search engines to " +
+			"better understand your content.</a>" );
 	} );
 } );
 
