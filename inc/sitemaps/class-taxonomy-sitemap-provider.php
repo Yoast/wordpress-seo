@@ -232,8 +232,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
 
-		$tax_noindex_default = ( WPSEO_Options::get( "noindex-tax-{$taxonomy->name}" ) === true ) ? 'noindex' : 'index';
-
 		foreach ( $terms as $term ) {
 
 			if ( in_array( $term->term_id, $terms_to_exclude, true ) ) {
@@ -245,9 +243,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$tax_noindex = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
 
 			if ( $tax_noindex === 'noindex' ) {
-				continue;
-			}
-			if ( $tax_noindex === 'default' && $tax_noindex_default === 'noindex' ) {
 				continue;
 			}
 
@@ -286,6 +281,11 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return bool
 	 */
 	public function is_valid_taxonomy( $taxonomy_name ) {
+
+		if ( WPSEO_Options::get( "noindex-tax-{$taxonomy_name}" ) === true ) {
+			return false;
+		}
+
 		if ( in_array( $taxonomy_name, [ 'link_category', 'nav_menu' ], true ) ) {
 			return false;
 		}
@@ -297,10 +297,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter to exclude the taxonomy from the XML sitemap.
 		 *
-		 * @param bool   $exclude       Defaults to the current noindex setting for the taxonomy.
-		 * @param string $taxonomy_name Name of the taxonomy to exclude.
+		 * @param bool   $exclude       Defaults to false.
+		 * @param string $taxonomy_name Name of the taxonomy to exclude..
 		 */
-		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', WPSEO_Options::get( "noindex-tax-{$taxonomy_name}" ) === true, $taxonomy_name ) ) {
+		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) {
 			return false;
 		}
 

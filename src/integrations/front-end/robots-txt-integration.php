@@ -38,14 +38,13 @@ class Robots_Txt_Integration implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @param Options_Helper       $options_helper Options helper.
-	 * @param Robots_Txt_Helper    $robots_txt_helper Robots txt helper.
-	 * @param Robots_Txt_Presenter $robots_txt_presenter Robots txt presenter.
+	 * @param Options_Helper    $options_helper Options helper.
+	 * @param Robots_Txt_Helper $robots_txt_helper Robots txt helper.
 	 */
-	public function __construct( Options_Helper $options_helper, Robots_Txt_Helper $robots_txt_helper, Robots_Txt_Presenter $robots_txt_presenter ) {
+	public function __construct( Options_Helper $options_helper, Robots_Txt_Helper $robots_txt_helper ) {
 		$this->options_helper       = $options_helper;
 		$this->robots_txt_helper    = $robots_txt_helper;
-		$this->robots_txt_presenter = $robots_txt_presenter;
+		$this->robots_txt_presenter = new Robots_Txt_Presenter( $robots_txt_helper );
 	}
 
 	/**
