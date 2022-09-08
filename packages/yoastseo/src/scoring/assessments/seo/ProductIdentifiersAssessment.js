@@ -116,7 +116,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		}
 
 		// Apply the following scoring conditions to products without variants.
-		if ( [ "simple", "external" ].includes( productIdentifierData.productType ) ||
+		if ( [ "simple", "grouped", "external" ].includes( productIdentifierData.productType ) ||
 			( productIdentifierData.productType === "variable" && ! productIdentifierData.hasVariants ) ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {

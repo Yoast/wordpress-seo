@@ -96,7 +96,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 */
 	scoreProductSKU( productSKUData, config ) {
 		// Apply the following scoring conditions to products without variants.
-		if ( [ "simple", "external" ].includes( productSKUData.productType ) ||
+		if ( [ "simple", "grouped", "external" ].includes( productSKUData.productType ) ||
 			( productSKUData.productType === "variable" && ! productSKUData.hasVariants ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {

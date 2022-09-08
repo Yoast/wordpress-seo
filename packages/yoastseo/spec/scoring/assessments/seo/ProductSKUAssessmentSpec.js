@@ -21,6 +21,30 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product has a SKU. Good job!" );
 	} );
 
+	it( "returns the score 9 when a grouped product has a global SKU and no variants", function() {
+		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+			hasGlobalSKU: true,
+			hasVariants: false,
+			doAllVariantsHaveSKU: false,
+			productType: "grouped",
+		} ) );
+
+		expect( assessmentResult.getScore() ).toEqual( 9 );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product has a SKU. Good job!" );
+	} );
+
+	it( "returns the score 9 when an external product has a global SKU and no variants", function() {
+		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+			hasGlobalSKU: true,
+			hasVariants: false,
+			doAllVariantsHaveSKU: false,
+			productType: "external",
+		} ) );
+
+		expect( assessmentResult.getScore() ).toEqual( 9 );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product has a SKU. Good job!" );
+	} );
+
 	it( "returns the score 9 when a product has no global SKU, but has variants and all variants have a SKU", function() {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalSKU: false,
