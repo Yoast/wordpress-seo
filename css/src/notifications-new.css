@@ -2,19 +2,27 @@
 @import "../../node_modules/yoast-components/css/accessibility.css";
 .yoast-notification {
 	padding: 0 12px;
-	border-left: 4px solid #fff;
+	border: 1px solid #e5e7eb;
+	border-left: 4px solid #e5e7eb;
 	background: #fff;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	border-radius: 0.5rem;
 }
 
 .yoast-container {
 	position: relative;
 	max-width: 1280px;
-	margin: 20px 0 1px;
-	padding: 20px 20px 0;
+	padding: 32px;
 	border: 1px solid #e5e5e5;
 	background-color: #fdfdfd;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	border-radius: 0.5rem;
+}
+
+.yoast-notifications {
+	max-width: 80rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
 }
 
 .yoast-notifications > h2:first-child {
@@ -28,9 +36,25 @@
 .yoast-notifications .yoast-container h3 {
 	margin: -20px -20px 0;
 	padding: 1em;
-	border-bottom: 1px solid #ccc;
 	background-color: #fdfdfd;
 	font-size: 1.4em;
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
+	color: rgb(17,24,39);
+	font-weight: 500;
+	font-size: 1rem;
+}
+
+@media screen and (min-width: 1536px) {
+	.yoast-notifications {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 1.5rem;
+	}
+
+	.yoast-container {
+		align-self: start;
+	}
 }
 
 .yoast-container .container {
@@ -68,6 +92,13 @@
 	border: none;
 	box-shadow: none;
 	border-radius: 0;
+}
+
+.yoast-notifications button.toggleable-container-trigger {
+	color: rgb(55,65,81);
+	font-weight: 500;
+	line-height: 1.25rem;
+	font-size: 0.875rem !important;
 }
 
 .yoast-notifications .button.restore:hover,
@@ -151,11 +182,16 @@
 }
 
 .yoast-notifications-active .yoast-notification-holder {
-	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+.yoast-notifications-active .yoast-notification-holder:first-of-type {
+	margin-top: 0;
 }
 
 .yoast-notifications-dismissed.paper.tab-block {
-	margin: 20px 0 20px 0;
+	margin-top: 20px;
+	margin-bottom: 0px;
 }
 
 .yoast-notifications-dismissed.paper.tab-block .paper-container.toggleable-container {
