@@ -102,7 +102,8 @@ class Yoast_Notifications {
 
 		if ( YoastSEO()->classes->get( Indexables_Page_Conditional::class )->is_met() ) {
 			$asset_manager->enqueue_style( 'notifications-new' );
-		} else {
+		}
+		else {
 			$asset_manager->enqueue_style( 'notifications' );
 		}
 	}
