@@ -38,7 +38,7 @@ $wpseo_contributors_phrase = sprintf(
 </div>
 
 <?php
-if( YoastSEO()->classes->get( Indexables_Page_Conditional::class )->is_met() ) {
+if ( YoastSEO()->classes->get( Indexables_Page_Conditional::class )->is_met() ) {
 ?>
 <div class="tab-block">
 	<div id="wpseo-indexables-page"></div>
