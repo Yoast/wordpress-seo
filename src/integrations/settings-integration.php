@@ -12,7 +12,8 @@ use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
-use Yoast\WP\SEO\Conditionals\Settings_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Settings_Ui_Conditional;
+use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -172,7 +173,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Settings_Conditional::class ];
+		return [ New_Settings_Ui_Conditional::class, User_Can_Manage_Wpseo_Options_Conditional::class ];
 	}
 
 	/**
