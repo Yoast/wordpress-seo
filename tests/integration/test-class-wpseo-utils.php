@@ -197,7 +197,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 */
 	public function sanitize_url_provider() {
 		return [
-			// Related issue: https://github.com/Yoast/wordpress-seo/issues/17099
+			// Related issue: https://github.com/Yoast/wordpress-seo/issues/17099.
 			'with_at_sign_in_url_path'       => [
 				'expected'        => 'https://example.org/test1/@test2',
 				'url_to_sanitize' => 'https://example.org/test1/@test2',
