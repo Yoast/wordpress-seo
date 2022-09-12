@@ -20,12 +20,11 @@ jest.mock( "@wordpress/data", () => (
  *
  * @returns {void}
  */
-function mockSelect( isFleschReadingEaseAvailable, isTextFormalityAvailable ) {
+function mockSelect( isFleschReadingEaseAvailable ) {
 	const select = jest.fn(
 		() => (
 			{
 				isFleschReadingEaseAvailable: jest.fn( () => isFleschReadingEaseAvailable ),
-				isTextFormalityAvailable: jest.fn( () => isTextFormalityAvailable ),
 			}
 		)
 	);
@@ -37,13 +36,13 @@ function mockSelect( isFleschReadingEaseAvailable, isTextFormalityAvailable ) {
 
 describe( "The insights collapsible component", () => {
 	it( "renders the Flesch reading ease (FRE) component if the FRE score and difficulty are available", () => {
-		mockSelect( true, true );
+		mockSelect( true );
 		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
 		expect( render.find( FleschReadingEase ) ).toHaveLength( 1 );
 	} );
 	it( "does not render the FRE component if the FRE score and difficulty are not available", () => {
-		mockSelect( false, true );
+		mockSelect( false );
 		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
 		expect( render.find( FleschReadingEase ) ).toHaveLength( 0 );
@@ -53,16 +52,10 @@ describe( "The insights collapsible component", () => {
 
 		expect( render.find( TextLength ) ).toHaveLength( 1 );
 	} );
-	it( "should render the Text formality component if it's available", () => {
-		mockSelect( true, true );
+	it( "renders the Text formality component", () => {
+		mockSelect( true );
 		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
 		expect( render.find( TextFormality ) ).toHaveLength( 1 );
-	} );
-	it( "should not render the Text formality component if it's unavailable", () => {
-		mockSelect( true, false );
-		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
-
-		expect( render.find( TextFormality ) ).toHaveLength( 0 );
 	} );
 } );

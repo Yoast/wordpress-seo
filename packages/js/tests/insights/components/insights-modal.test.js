@@ -26,13 +26,12 @@ jest.mock( "../../../src/containers/EditorModal", () => jest.fn() );
  *
  * @returns {void}
  */
-function mockSelect( isFleschReadingEaseAvailable, isElementorEditor, isTextFormalityAvailable ) {
+function mockSelect( isFleschReadingEaseAvailable, isElementorEditor ) {
 	const select = jest.fn(
 		() => (
 			{
 				isFleschReadingEaseAvailable: jest.fn( () => isFleschReadingEaseAvailable ),
 				getIsElementorEditor: jest.fn( () => isElementorEditor ),
-				isTextFormalityAvailable: jest.fn( () => isTextFormalityAvailable ),
 			}
 		)
 	);
@@ -44,13 +43,13 @@ function mockSelect( isFleschReadingEaseAvailable, isElementorEditor, isTextForm
 
 describe( "The insights collapsible component", () => {
 	it( "renders the Flesch reading ease (FRE) component if the FRE score and difficulty are available", () => {
-		mockSelect( true, false, true );
+		mockSelect( true, false );
 		const render = shallow( <InsightsModal location={ "sidebar" } /> );
 
 		expect( render.find( FleschReadingEase ) ).toHaveLength( 1 );
 	} );
 	it( "does not render the FRE component if the FRE score and difficulty are not available", () => {
-		mockSelect( false, false, false );
+		mockSelect( false, false );
 		const render = shallow( <InsightsModal location={ "sidebar" } /> );
 
 		expect( render.find( FleschReadingEase ) ).toHaveLength( 0 );
@@ -60,16 +59,10 @@ describe( "The insights collapsible component", () => {
 
 		expect( render.find( TextLength ) ).toHaveLength( 1 );
 	} );
-	it( "should render the Text formality component if it's available", () => {
-		mockSelect( true, true, true );
+	it( "renders the Text formality component", () => {
+		mockSelect( true, true );
 		const render = shallow( <InsightsModal location={ "sidebar" } /> );
 
 		expect( render.find( TextFormality ) ).toHaveLength( 1 );
-	} );
-	it( "should not render the Text formality component if it's unavailable", () => {
-		mockSelect( true, true, false );
-		const render = shallow( <InsightsModal location={ "sidebar" } /> );
-
-		expect( render.find( TextFormality ) ).toHaveLength( 0 );
 	} );
 } );
