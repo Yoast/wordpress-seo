@@ -69,7 +69,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 * @var array
 	 */
 	public static $twitter_card_types = [
-		'summary'             => '',
+		// 'summary'             => '',
 		'summary_large_image' => '',
 		// 'photo'               => '',
 		// 'gallery'             => '',
@@ -106,7 +106,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 * @return void
 	 */
 	public function translate_defaults() {
-		self::$twitter_card_types['summary']             = __( 'Summary', 'wordpress-seo' );
 		self::$twitter_card_types['summary_large_image'] = __( 'Summary with large image', 'wordpress-seo' );
 	}
 
