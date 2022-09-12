@@ -16,7 +16,6 @@ jest.mock( "@wordpress/data", () => (
  * Mocks the WordPress `useSelect` hook.
  *
  * @param {boolean} isFleschReadingEaseAvailable Whether FRE is available.
- * @param {boolean} isTextFormalityAvailable Whether Text formality is available.
  *
  * @returns {void}
  */

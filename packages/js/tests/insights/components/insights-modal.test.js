@@ -22,7 +22,6 @@ jest.mock( "../../../src/containers/EditorModal", () => jest.fn() );
  *
  * @param {boolean} isFleschReadingEaseAvailable    Whether FRE is available.
  * @param {boolean} isElementorEditor               Whether the editor is the Elementor editor.
- * @param {boolean} isTextFormalityAvailable        Whether Text formality is available.
  *
  * @returns {void}
  */
