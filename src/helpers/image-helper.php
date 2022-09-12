@@ -511,7 +511,7 @@ class Image_Helper {
 	 *
 	 * @return WP_Post[] Set of attachment objects.
 	 */
-	protected function get_gallery_images_from_post_content( $content, $post_id = 0 ) {
+	public function get_gallery_images_from_post_content( $content, $post_id = 0 ) {
 		$attachments = [];
 		$galleries   = $this->get_content_galleries( $content );
 

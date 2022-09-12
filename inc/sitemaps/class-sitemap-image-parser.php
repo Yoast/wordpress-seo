@@ -133,4 +133,16 @@ class WPSEO_Sitemap_Image_Parser {
 		 */
 		return apply_filters( 'wpseo_xml_sitemap_img', $image, $post );
 	}
+
+	/**
+	 * Parse gallery shortcodes in a given content.
+	 *
+	 * @param string $content Content string.
+	 * @param int    $post_id Optional. ID of post being parsed.
+	 *
+	 * @return array Set of attachment objects.
+	 */
+	protected function parse_galleries( $content, $post_id = 0 ) {
+		return $this->image_helper->get_gallery_images_from_post_content( $content, $post_id );
+	}
 }
