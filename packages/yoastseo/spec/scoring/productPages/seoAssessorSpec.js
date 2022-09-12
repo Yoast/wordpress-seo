@@ -242,7 +242,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require the SKU to be detectable, and that shouldn't be applicable if the" +
+	it( "runs the productSKUAssessments when applicable (canRetrieveVariantSkus is true) that require the SKU to be detectable, and that shouldn't be applicable if the" +
 		"product has variants and we don't want to assess variants", function() {
 		const customData = {
 			canRetrieveGlobalSku: true,
