@@ -37,7 +37,7 @@ const FormikValueChangeWithErrorField = withFormikError( FormikValueChangeField 
  * @returns {JSX.Element} The person social profiles form.
  */
 const PersonSocialProfiles = () => {
-	const { values, setStatus, setFieldValue } = useFormikContext();
+	const { values, status, setStatus, setFieldValue } = useFormikContext();
 	const { company_or_person_user_id: userId } = values.wpseo_titles;
 	const previousUserId = usePrevious( userId );
 	const { addNotification } = dispatch( STORE_NAME );
@@ -47,7 +47,7 @@ const PersonSocialProfiles = () => {
 			return;
 		}
 
-		setStatus( { isFetchingPersonSocialProfiles: true } );
+		setStatus( { ...status, isFetchingPersonSocialProfiles: true } );
 		fetchUserSocialProfiles( userId )
 			.then( socialProfiles => {
 				setFieldValue( "person_social_profiles", socialProfiles );
@@ -56,12 +56,12 @@ const PersonSocialProfiles = () => {
 				addNotification( {
 					id: "social-profiles-error",
 					variant: "error",
-					title: __( "Oops! Something went wrong while fetching the social profiles.", "wordpress-seo" ),
+					title: __( "Oops! Something went wrong while retrieving the user social profiles.", "wordpress-seo" ),
 				} );
 				console.error( "Error while fetching the social profiles:", error.message );
 			} )
 			.finally( () => {
-				setStatus( { isFetchingPersonSocialProfiles: false } );
+				setStatus( { ...status, isFetchingPersonSocialProfiles: false } );
 			} );
 	}, [ previousUserId, userId, setFieldValue, setStatus, addNotification ] );
 
