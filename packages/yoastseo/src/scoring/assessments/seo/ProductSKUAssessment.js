@@ -79,7 +79,7 @@ export default class ProductSKUAssessment extends Assessment {
 			return false;
 		}
 		// Assessment is not applicable if we don't want to assess variants and the product has variants.
-		if ( this._config.assessVariants === false ) {
+		if ! this._config.assessVariants {
 			return ! customData.hasVariants;
 		}
 
