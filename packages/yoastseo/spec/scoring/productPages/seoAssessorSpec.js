@@ -257,8 +257,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 		expect( assessments ).toContain( "productSKU" );
 	} );
 
-	it( "additionally runs assessments that shouldn't be applicable if the product has variants and we don't want" +
-		" to assess variants", function() {
+	it( "runs the productIdentifierAssessment when it is applicable (it has variants and assessVariants is True)", function() {
 		const customData = {
 			hasVariants: true,
 			productType: "variable",
