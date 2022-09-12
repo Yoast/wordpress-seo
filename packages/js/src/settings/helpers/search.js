@@ -344,10 +344,10 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldId: "input-person_social_profiles-myspace",
 			fieldLabel: __( "MySpace", "wordpress-seo" ),
 		},
-		Pinterest: {
+		pinterest: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-Pinterest",
+			fieldId: "input-person_social_profiles-pinterest",
 			fieldLabel: __( "Pinterest", "wordpress-seo" ),
 		},
 		soundcloud: {
@@ -356,10 +356,10 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldId: "input-person_social_profiles-soundcloud",
 			fieldLabel: __( "SoundCloud", "wordpress-seo" ),
 		},
-		Tumblr: {
+		tumblr: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-Tumblr",
+			fieldId: "input-person_social_profiles-tumblr",
 			fieldLabel: __( "Tumblr", "wordpress-seo" ),
 		},
 		twitter: {
