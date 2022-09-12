@@ -101,18 +101,18 @@ class Image_Helper {
 		$this->options_helper       = $options;
 		$this->url_helper           = $url_helper;
 
-		$this->home_url = home_url();
-		$parsed_home    = wp_parse_url( $this->home_url );
+		$this->home_url = \home_url();
+		$parsed_home    = \wp_parse_url( $this->home_url );
 
 		if ( ! empty( $parsed_home['host'] ) ) {
-			$this->host = str_replace( 'www.', '', $parsed_home['host'] );
+			$this->host = \str_replace( 'www.', '', $parsed_home['host'] );
 		}
 
 		if ( ! empty( $parsed_home['scheme'] ) ) {
 			$this->scheme = $parsed_home['scheme'];
 		}
 
-		$this->charset = esc_attr( get_bloginfo( 'charset' ) );
+		$this->charset = \esc_attr( \get_bloginfo( 'charset' ) );
 	}
 
 	/**
