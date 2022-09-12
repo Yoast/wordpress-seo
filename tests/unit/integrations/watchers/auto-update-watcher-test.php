@@ -67,4 +67,17 @@ class Auto_Update_Watcher_Test extends TestCase {
 
 		$this->instance->register_hooks();
 	}
+
+	/**
+	 * Tests the removal of the notification.
+	 *
+	 * @covers ::remove_notification
+	 */
+	public function test_remove_notification() {
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once();
+
+		$this->instance->remove_notification();
+	}
 }
