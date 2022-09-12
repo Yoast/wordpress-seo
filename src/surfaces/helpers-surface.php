@@ -77,33 +77,23 @@ class Helpers_Surface {
 	public $twitter;
 
 	/**
-	 * The Images helper.
-	 *
-	 * @var Image_Helper
-	 */
-	public $image_helper;
-
-	/**
 	 * Loader constructor.
 	 *
 	 * @param ContainerInterface         $container  The dependency injection container.
 	 * @param Open_Graph_Helpers_Surface $open_graph The OpenGraph helpers surface.
 	 * @param Schema_Helpers_Surface     $schema     The Schema helpers surface.
 	 * @param Twitter_Helpers_Surface    $twitter    The Twitter helpers surface.
-	 * @param Image_Helper               $image_helper The Image helper.
 	 */
 	public function __construct(
 		ContainerInterface $container,
 		Open_Graph_Helpers_Surface $open_graph,
 		Schema_Helpers_Surface $schema,
-		Twitter_Helpers_Surface $twitter,
-		Image_Helper $image_helper
+		Twitter_Helpers_Surface $twitter
 	) {
-		$this->container    = $container;
-		$this->open_graph   = $open_graph;
-		$this->schema       = $schema;
-		$this->twitter      = $twitter;
-		$this->image_helper = $image_helper;
+		$this->container  = $container;
+		$this->open_graph = $open_graph;
+		$this->schema     = $schema;
+		$this->twitter    = $twitter;
 	}
 
 	/**

@@ -483,10 +483,6 @@ class Image_Helper {
 
 			$src = $this->get_absolute_url( $src );
 
-			if ( strpos( $src, $this->host ) === false ) {
-				continue;
-			}
-
 			if ( $src !== esc_url( $src, null, 'attribute' ) ) {
 				continue;
 			}

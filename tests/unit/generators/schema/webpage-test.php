@@ -7,11 +7,13 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Schema\WebPage;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Schema\Image;
 
 /**
  * Class WebPage_Test
@@ -59,6 +61,13 @@ class WebPage_Test extends TestCase {
 	private $language;
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper|Mockery\MockInterface
+	 */
+	private $image;
+
+	/**
 	 * The Schema ID helper.
 	 *
 	 * @var ID_Helper
@@ -83,6 +92,7 @@ class WebPage_Test extends TestCase {
 		$this->date              = Mockery::mock( Date_Helper::class );
 		$this->language          = Mockery::mock( Language_Helper::class );
 		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context_Mock::class );
+		$this->image             = Mockery::mock( Image_Helper::class );
 		$this->id                = Mockery::mock( ID_Helper::class );
 
 		$this->instance          = Mockery::mock( WebPage::class )
@@ -96,6 +106,7 @@ class WebPage_Test extends TestCase {
 				'id'       => $this->id,
 				'language' => $this->language,
 			],
+			'Image'        => $this->image,
 		];
 
 		// Set some values that are used in multiple tests.
@@ -110,10 +121,15 @@ class WebPage_Test extends TestCase {
 			'post_date_gmt'     => '2345-12-12 12:12:12',
 			'post_modified_gmt' => '2345-12-12 23:23:23',
 			'post_author'       => 'the_author',
+			'post_content'      => '',
 		];
 		$this->meta_tags_context->indexable        = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => 'page',
+		];
+		$this->meta_tags_context->presentation     = (object) [
+			'open_graph_images' => [],
+			'twitter_image'     => null,
 		];
 
 		$this->id->website_hash = '#website';
@@ -122,22 +138,28 @@ class WebPage_Test extends TestCase {
 	/**
 	 * Sets up the tests that cover the generate function.
 	 *
-	 * @param bool   $is_front_page                          Whether the current page is a front page.
-	 * @param string $schema_page_type                       The Schema page type.
-	 * @param int    $calls_to_format_with_post_date_gmt     The number of function calls to 'format' with
-	 *                                                       'post_date_gmt' as argument.
-	 * @param int    $calls_to_format_with_post_modified_gmt The number of function calls to 'format' with
-	 *                                                       'post_modified_gmt' as argument.
-	 * @param int    $calls_to_filter                        The number of calls to the
-	 *                                                       'wpseo_schema_webpage_potential_action_target' filter.
+	 * @param bool    $is_front_page                          Whether the current page is a front page.
+	 * @param int     $calls_to_format_with_post_date_gmt     The number of function calls to 'format' with
+	 *                                                        'post_date_gmt' as argument.
+	 * @param int     $calls_to_format_with_post_modified_gmt The number of function calls to 'format' with
+	 *                                                        'post_modified_gmt' as argument.
+	 * @param int     $calls_to_filter                        The number of calls to the
+	 *                                                        'wpseo_schema_webpage_potential_action_target' filter.
+	 * @param Image[] $return_value_post_content_images      The return value for image test helper.
 	 */
 	public function setup_generate_test(
 		$is_front_page,
-		$schema_page_type,
 		$calls_to_format_with_post_date_gmt,
 		$calls_to_format_with_post_modified_gmt,
-		$calls_to_filter
+		$calls_to_filter,
+		$return_value_post_content_images
 	) {
+		$this->image
+			->expects( 'get_images_from_post_content' )
+			->with( '' )
+			->once()
+			->andReturn( $return_value_post_content_images );
+
 		$this->html
 			->expects( 'smart_strip_tags' )
 			->with( 'the-title' )
@@ -199,15 +221,14 @@ class WebPage_Test extends TestCase {
 			$this->meta_tags_context->main_image_url = $values_to_test['image_url'];
 		}
 
-		$this->id->primary_image_hash = '#primaryimage';
-		$this->id->breadcrumb_hash    = '#breadcrumb';
+		$this->id->breadcrumb_hash = '#breadcrumb';
 
 		$this->setup_generate_test(
 			false,
-			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
+			[]
 		);
 
 		$this->assertEquals( $expected, $this->instance->generate(), $message );
@@ -223,10 +244,10 @@ class WebPage_Test extends TestCase {
 	public function test_generate_on_front_page_site_does_not_represents_reference() {
 		$this->setup_generate_test(
 			true,
-			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
+			[]
 		);
 
 		$expected = [
@@ -264,10 +285,10 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			true,
-			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
+			[]
 		);
 
 		$expected = [
@@ -312,10 +333,10 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
+			[]
 		);
 
 		$expected = [
@@ -359,10 +380,10 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
+			[]
 		);
 
 		$this->id
@@ -407,10 +428,10 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			[ 'WebPage' ],
 			1,
 			1,
-			1
+			1,
+			[]
 		);
 
 		$this->html
@@ -458,10 +479,10 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			'CollectionPage',
 			0,
 			0,
-			0
+			0,
+			[]
 		);
 
 		$expected = [
@@ -491,10 +512,10 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			'CollectionPage',
 			1,
 			1,
-			0
+			0,
+			[]
 		);
 
 		$expected = [
@@ -582,8 +603,8 @@ class WebPage_Test extends TestCase {
 					'datePublished'      => '2345-12-12 12:12:12',
 					'dateModified'       => '2345-12-12 23:23:23',
 					'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
-					'primaryImageOfPage' => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
-					'image'              => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
+					'primaryImageOfPage' => [ '@id' => 'https://example.com/image.jpg' ],
+					'image'              => [ [ '@id' => 'https://example.com/image.jpg' ] ],
 					'thumbnailUrl'       => 'https://example.com/image.jpg',
 					'inLanguage'         => 'the-language',
 					'potentialAction'    => [

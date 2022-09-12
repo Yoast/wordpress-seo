@@ -240,8 +240,6 @@ class Schema_Generator implements Generator_Interface {
 		if ( $context->indexable->object_type === 'post' && \post_password_required( $context->post ) ) {
 			$schema_pieces = [
 				new Schema\WebPage(),
-				// TODO: Should we include Images here too?
-				new Schema\Images(),
 				new Schema\Website(),
 				new Schema\Organization(),
 			];

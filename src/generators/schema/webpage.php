@@ -100,8 +100,8 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function add_images( &$data ) {
 		$this->add_primary_image( $data );
-		$this->add_content_images( $data['image'] );
-		$this->add_social_images( $data['image'] );
+		$this->add_content_images( $data );
+		$this->add_social_images( $data );
 	}
 
 	/**
@@ -118,7 +118,7 @@ class WebPage extends Abstract_Schema_Piece {
 			}
 			elseif ( $this->context->main_image_url ) {
 				$data['primaryImageOfPage'] = [ '@id' => $this->context->main_image_url ];
-				$data['image']              = [ [ '@id' => $this->context->main_image_id ] ];
+				$data['image']              = [ [ '@id' => $this->context->main_image_url ] ];
 			}
 			$data['thumbnailUrl'] = $this->context->main_image_url;
 		}
@@ -169,8 +169,8 @@ class WebPage extends Abstract_Schema_Piece {
 	protected function maybe_add_image_id_to_graph( &$graph, $image ) {
 		$image_id = $this->get_image_schema_id( $image );
 
-		if ( ! $this->image_id_in_graph( $graph, $image_id ) ) {
-			$graph[] = [ '@id' => $image_id ];
+		if ( ! $this->image_id_in_graph( $graph['image'], $image_id ) ) {
+			$graph['image'][] = [ '@id' => $image_id ];
 		}
 	}
 
@@ -181,7 +181,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return void
 	 */
 	protected function add_content_images( &$graph ) {
-		$images = $this->helpers->image_helper->get_images_from_post_content( $this->context->post->post_content );
+		$images = $this->helpers->Image->get_images_from_post_content( $this->context->post->post_content );
 
 		foreach ( $images as $image ) {
 			$this->maybe_add_image_id_to_graph( $graph, $image );

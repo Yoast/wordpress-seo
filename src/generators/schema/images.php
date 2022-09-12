@@ -170,7 +170,7 @@ class Images extends Abstract_Schema_Piece {
 	 * @return void
 	 */
 	protected function add_post_content_images( &$graph ) {
-		$images = $this->helpers->image_helper->get_images_from_post_content( $this->context->post->post_content );
+		$images = $this->helpers->Image->get_images_from_post_content( $this->context->post->post_content );
 
 		foreach ( $images as $image ) {
 			$this->maybe_add_image_schema( $graph, $image );
