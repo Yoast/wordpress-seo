@@ -80,4 +80,18 @@ class Image {
 	public function has_id() {
 		return isset( $this->id );
 	}
+
+	/**
+	 * Get the schema ID of an image.
+	 *
+	 * @return string the schema ID.
+	 */
+	public function get_schema_id() {
+		if ( $this->has_id() ) {
+			return \home_url() . '#/schema/ImageObject/' . $this->get_id();
+		}
+		else {
+			return $this->get_src();
+		}
+	}
 }

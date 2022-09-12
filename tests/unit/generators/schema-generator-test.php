@@ -172,15 +172,18 @@ class Schema_Generator_Test extends TestCase {
 				],
 			],
 		];
+		$this->context->post   = (object) [
+			'post_content' => '',
+		];
 
 		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
 		$this->context->shouldReceive( 'generate_schema_page_type' )->andReturn( 'WebPage' );
 
-		$this->context->main_schema_id            = 'https://example.com/the-post/';
-		$this->context->indexable                 = Mockery::mock( Indexable_Mock::class );
-		$this->context->presentation              = Mockery::mock( Indexable_Presentation::class );
-		$this->context->presentation->source      = Mockery::mock();
-		$this->context->presentation->breadcrumbs = [
+		$this->context->main_schema_id                  = 'https://example.com/the-post/';
+		$this->context->indexable                       = Mockery::mock( Indexable_Mock::class );
+		$this->context->presentation                    = Mockery::mock( Indexable_Presentation::class );
+		$this->context->presentation->source            = Mockery::mock();
+		$this->context->presentation->breadcrumbs       = [
 			'item' => [
 				'@type' => 'WebPage',
 				'@id'   => 'https://example.com/the-post/#breadcrumb',
@@ -188,6 +191,9 @@ class Schema_Generator_Test extends TestCase {
 				'name'  => 'The post',
 			],
 		];
+		$this->context->presentation->open_graph_images = [];
+		$this->context->presentation->twitter_image     = null;
+		$this->context->images                          = [];
 	}
 
 	/**
@@ -302,6 +308,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->post                       = (object) [
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
+			'post_content'      => '',
 		];
 		$this->context->has_image                  = false;
 
@@ -485,6 +492,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->post                       = (object) [
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
+			'post_content'      => '',
 		];
 		$this->context->has_image                  = false;
 
@@ -544,6 +552,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->post                       = (object) [
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
+			'post_content'      => '',
 		];
 		$this->context->has_image                  = false;
 
@@ -638,6 +647,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->post                       = (object) [
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
+			'post_content'      => '',
 		];
 		$this->context->has_image                  = false;
 
@@ -727,6 +737,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->post                       = (object) [
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
+			'post_content'      => '',
 		];
 		$this->context->has_image                  = false;
 

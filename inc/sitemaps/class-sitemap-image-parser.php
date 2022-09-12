@@ -23,7 +23,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 * Set up URL properties for reuse.
 	 */
 	public function __construct() {
-		$this->image_helper = new Image_Helper( null, null, null );
+		$this->image_helper = YoastSEO()->helpers->image;
 	}
 
 	/**

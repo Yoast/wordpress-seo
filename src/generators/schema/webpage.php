@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Values\Schema\Image;
 class WebPage extends Abstract_Schema_Piece {
 
 	/**
-	 * Determines whether or not a piece should be added to the graph.
+	 * Determines whether a piece should be added to the graph.
 	 *
 	 * @return bool
 	 */
@@ -113,29 +113,14 @@ class WebPage extends Abstract_Schema_Piece {
 	protected function add_primary_image( &$data ) {
 		if ( $this->context->has_image ) {
 			if ( $this->context->main_image_id ) {
-				$data['primaryImageOfPage'] = [ '@id' => home_url() . '#/schema/ImageObject/' . $this->context->main_image_id ];
-				$data['image']              = [ [ '@id' => home_url() . '#/schema/ImageObject/' . $this->context->main_image_id ] ];
+				$data['primaryImageOfPage'] = [ '@id' => \home_url() . '#/schema/ImageObject/' . $this->context->main_image_id ];
+				$data['image']              = [ [ '@id' => \home_url() . '#/schema/ImageObject/' . $this->context->main_image_id ] ];
 			}
 			elseif ( $this->context->main_image_url ) {
 				$data['primaryImageOfPage'] = [ '@id' => $this->context->main_image_url ];
 				$data['image']              = [ [ '@id' => $this->context->main_image_url ] ];
 			}
 			$data['thumbnailUrl'] = $this->context->main_image_url;
-		}
-	}
-
-	/**
-	 * Get Image schema ID.
-	 *
-	 * @param Image $image The image to get the schema ID for.
-	 * @return string The schema ID for the image.
-	 */
-	protected function get_image_schema_id( $image ) {
-		if ( $image->has_id() ) {
-			return home_url() . '#/schema/ImageObject/' . $image->get_id();
-		}
-		else {
-			return $image->get_src();
 		}
 	}
 
@@ -167,7 +152,11 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return void
 	 */
 	protected function maybe_add_image_id_to_graph( &$graph, $image ) {
-		$image_id = $this->get_image_schema_id( $image );
+		$image_id = $image->get_schema_id();
+
+		if ( ! \key_exists( 'image', $graph ) ) {
+			$graph['image'] = [];
+		}
 
 		if ( ! $this->image_id_in_graph( $graph['image'], $image_id ) ) {
 			$graph['image'][] = [ '@id' => $image_id ];
@@ -181,9 +170,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return void
 	 */
 	protected function add_content_images( &$graph ) {
-		$images = $this->helpers->Image->get_images_from_post_content( $this->context->post->post_content );
-
-		foreach ( $images as $image ) {
+		foreach ( $this->context->images as $image ) {
 			$this->maybe_add_image_id_to_graph( $graph, $image );
 		}
 	}
