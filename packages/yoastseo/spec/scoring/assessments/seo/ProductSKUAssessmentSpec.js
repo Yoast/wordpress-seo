@@ -7,7 +7,7 @@ const paper = new Paper( "" );
 
 
 describe( "a test for SKU assessment for WooCommerce", function() {
-	const assessment = new ProductSKUAssessment( { assessVariants: true } );
+	const assessment = new ProductSKUAssessment( { assessVariants: true, addSKULocation: true } );
 
 	it( "returns the score 9 when a product has a global SKU and no variants", function() {
 		const customData = {
@@ -46,7 +46,6 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
 			productType: "simple",
-			addSKULocation: true,
 		};
 
 		const paperWithCustomData = new Paper( "", { customData } );
@@ -133,10 +132,19 @@ describe( "a test for SKU assessment for Shopify", () => {
 	const assessment = new ProductSKUAssessment( { urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify79" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify80" ),
 		assessVariants: false,
+		addSKULocation: false,
 	} );
 
 	it( "returns with score 9 when the product has global SKU and no variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
+			hasGlobalSKU: true,
+			hasVariants: false,
+			doAllVariantsHaveSKU: false,
+			productType: "variable",
+		};
+
+		const paperWithCustomData = new Paper("", { customData })
+		const assessmentResult = assessment.getResult( paperWithCustomData, Factory.buildMockResearcher( {
 			hasGlobalSKU: true,
 			hasVariants: false,
 			productType: "simple",
@@ -148,7 +156,16 @@ describe( "a test for SKU assessment for Shopify", () => {
 	} );
 
 	it( "returns with score 6 when the product doesn't have a global SKU nor variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
+			hasGlobalSKU: false,
+			hasVariants: false,
+			doAllVariantsHaveSKU: false,
+			productType: "variable",
+		};
+
+		const paperWithCustomData = new Paper("", { customData })
+
+		const assessmentResult = assessment.getResult( paperWithCustomData, Factory.buildMockResearcher( {
 			hasGlobalSKU: false,
 			hasVariants: false,
 			productType: "simple",
@@ -157,7 +174,7 @@ describe( "a test for SKU assessment for Shopify", () => {
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify79' target='_blank'>SKU</a>:" +
 			" Your product is missing a SKU. <a href='https://yoa.st/shopify80' target='_blank'>Include" +
-			" this if you can, as it will help search engines to better understand your content.</a>" );
+			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 } );
 
@@ -252,7 +269,7 @@ describe( "a test for the applicability of the assessment", function() {
 		const customData = {
 			hasGlobalSKU: false,
 			hasVariants: true,
-			productType: "variable",
+			productType: "simple",
 		};
 		const paperWithCustomData = new Paper( "", { customData } );
 		const isApplicable = assessment.isApplicable( paperWithCustomData );
@@ -274,11 +291,12 @@ describe( "a test for the applicability of the assessment", function() {
 		expect( isApplicable ).toBe( true );
 	} );
 
-	it( "is applicable when variant SKUs can be detected on a simple product with variants" +
-		" (case when hasVariants variable doesn't update correctly", function() {
+	// Made it an xit because simple products do not have variants.
+	xit( "is applicable when variant SKUs can be detected on a simple product with variants" +
+		" (case when hasVariants variable doesn't update correctly)", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
-			canRetrieveVariantSkus: false,
+			canRetrieveVariantSkus: true,
 			hasGlobalSKU: false,
 			hasVariants: true,
 			productType: "simple",
