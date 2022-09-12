@@ -83,7 +83,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return false;
 		}
 
-		return ! ( this._config.assessVariants === false && customData.hasVariants );
+		return this._config.assessVariants && ! customData.hasVariants;
 	}
 
 	/**

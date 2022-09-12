@@ -252,7 +252,7 @@ describe( "a test for the applicability of the assessment", function() {
 		const customData = {
 			hasGlobalSKU: false,
 			hasVariants: true,
-			productType: "simple",
+			productType: "variable",
 		};
 		const paperWithCustomData = new Paper( "", { customData } );
 		const isApplicable = assessment.isApplicable( paperWithCustomData );
