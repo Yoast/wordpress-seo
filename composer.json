@@ -37,7 +37,6 @@
 		"yoast/php-development-environment": "^1.0",
 		"yoast/wp-test-utils": "^1.0.0",
 		"yoast/yoastcs": "^2.2.1",
-		"chillerlan/php-qrcode": "^1.0.9",
 		"guzzlehttp/guzzle": "6.5.8",
 		"symfony/polyfill-intl-idn": "1.19.0",
 		"symfony/polyfill-intl-normalizer": "1.19.0",
@@ -86,7 +85,7 @@
 		],
 		"check-cs-thresholds": [
 			"@putenv YOASTCS_THRESHOLD_ERRORS=144",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=209",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=208",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs": [
@@ -111,7 +110,6 @@
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
-			"composer prefix-php-qrcode",
 			"composer prefix-wordproof"
 		],
 		"prefix-oauth2-client": [
@@ -121,9 +119,6 @@
 		],
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
-		],
-		"prefix-php-qrcode": [
-			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/chillerlan/php-qrcode --config=config/php-scoper/php-qrcode.inc.php --force --quiet"
 		],
 		"prefix-wordproof": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/wordproof/wordpress-sdk --config=config/php-scoper/wordproof.inc.php --force --quiet"

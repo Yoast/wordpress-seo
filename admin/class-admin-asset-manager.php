@@ -241,6 +241,7 @@ class WPSEO_Admin_Asset_Manager {
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
@@ -592,6 +593,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'notifications',
 				'src'  => 'notifications-' . $flat_version,
+			],
+			[
+				'name' => 'notifications-new',
+				'src'  => 'notifications-new-' . $flat_version,
 			],
 			[
 				'name' => 'alert',

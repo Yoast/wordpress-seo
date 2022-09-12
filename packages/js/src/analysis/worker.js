@@ -12,7 +12,6 @@ import getDefaultQueryParams from "./getDefaultQueryParams";
 import getTranslations from "./getTranslations";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
-import isInclusiveLanguageAnalysisActive from "./isInclusiveLanguageAnalysisActive";
 import { enabledFeatures } from "@yoast/feature-flag";
 
 /**
@@ -79,7 +78,6 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		locale: getContentLocale(),
 		contentAnalysisActive: isContentAnalysisActive(),
 		keywordAnalysisActive: isKeywordAnalysisActive(),
-		inclusiveLanguageAnalysisActive: isInclusiveLanguageAnalysisActive(),
 		defaultQueryParams: getDefaultQueryParams(),
 		logLevel: get( window, [ "wpseoScriptData", "analysis", "worker", "log_level" ], "ERROR" ),
 		enabledFeatures: enabledFeatures(),

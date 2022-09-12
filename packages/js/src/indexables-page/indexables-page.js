@@ -1,9 +1,9 @@
 /* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
-import { LinkIcon, RefreshIcon } from "@heroicons/react/outline";
+import { LinkIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
-import { __, _n, sprintf } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { createInterpolateElement, useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
 import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
@@ -12,6 +12,8 @@ import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexableTitleLink from "./components/indexable-title-link";
 import IndexablesPageCard from "./components/indexables-card";
 import IndexablesTable from "./components/indexables-table";
+import RefreshButton from "./components/refresh-button";
+
 import { SEOScoreThresholds, readabilityScoreThresholds, seoScoreAssessment, readabilityScoreAssessment } from "./assessment-functions";
 
 const Link = makeOutboundLink();
@@ -129,6 +131,8 @@ function IndexablesPage( { setupInfo } ) {
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 	const [ loadedCards, setLoadedCards ] = useState( [] );
 	const [ erroredCards, setErroredCards ] = useState( [] );
+
+	const [ lastRefreshTime, setLastRefreshTime ] = useState( 0 );
 	const [ refreshInterval, setRefreshInterval ] = useState( null );
 
 	const [ isSomethingGreenReadability, setIsSomethingGreenReadability ] = useState( false );
@@ -137,8 +141,6 @@ function IndexablesPage( { setupInfo } ) {
 	const [ errorMessage, setErrorMessage ] = useState( null );
 
 	const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
-
-	const [ lastRefreshTime, setLastRefreshTime ] = useState( 0 );
 
 	const [ indexablesLists, setIndexablesLists ] = useState(
 		{
@@ -182,6 +184,14 @@ function IndexablesPage( { setupInfo } ) {
 	}, [ indexablesLists ] );
 
 	const [ ignoredIndexable, setIgnoredIndexable ] = useState( null );
+	const [ ignoredLists, setIgnoredLists ] = useState(
+		{
+			least_readability: wpseoIndexablesPageData.ignoreLists.least_readability,
+			least_seo_score: wpseoIndexablesPageData.ignoreLists.least_seo_score,
+			most_linked: wpseoIndexablesPageData.ignoreLists.most_linked,
+			least_linked: wpseoIndexablesPageData.ignoreLists.least_linked,
+		}
+	);
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ suggestedLinksModalData, setSuggestedLinksModalData ] = useState( null );
 
@@ -195,24 +205,28 @@ function IndexablesPage( { setupInfo } ) {
 		return isListFeatureEnabled( listName ) && ! isListLoaded( listName );
 	}, [ isListLoaded, isListFeatureEnabled ] );
 
-
 	const shouldShowTable = useCallback( listName => {
 		// If a fetch has been completed, the feature for the list is enabled, and the list is not empty.
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && ! isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
-
 
 	const shouldShowEmptyAlert = useCallback( listName => {
 		// If a fetch has been completed, the feature for the list is enabled, but the list is empty.
 		return isListFeatureEnabled( listName ) && isListLoaded( listName ) && isListEmpty( listName );
 	}, [ isListFeatureEnabled, isListLoaded, isListEmpty ] );
 
-
 	const shouldShowErrorAlert = useCallback( listName => {
 		// If the feature for the list is enabled but the fetch has failed.
 		return isListErrored( listName );
 	}, [ isListErrored ] );
 
+	const shouldDisplayStars =  useCallback( () => {
+		const numberOfStars = indexablesLists.most_linked
+			.slice( 0, 5 )
+			.filter( indexable => !! parseInt( indexable.is_cornerstone, 10 ) )
+			.length;
+		return numberOfStars > 0;
+	}, [ indexablesLists.most_linked ] );
 
 	/**
 	 * Fetches a list of indexables.
@@ -222,13 +236,11 @@ function IndexablesPage( { setupInfo } ) {
 	 *
 	 * @returns {void}
 	 */
-	const fetchList = useCallback( async( listName, isAdditionalFetch = false ) => {
+	const fetchList = useCallback( async( listName ) => {
 		setErroredCards( prevState => [ ...prevState ].filter( erroredCard => erroredCard !== listName ) );
 
 		try {
-			if ( isAdditionalFetch ) {
-				setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== listName ) );
-			}
+			setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== listName ) );
 
 			const response = await apiFetch( {
 				path: `yoast/v1/${ listName }`,
@@ -321,25 +333,24 @@ function IndexablesPage( { setupInfo } ) {
 	/**
 	 * Updates the content of a list of indexables.
 	 *
-	 * @param {string}  listName       The name of the list to fetch.
-	 * @param {array}   indexablesList The current content of the list.
-	 * @param {boolean} isRefresh      Whether it's a refresh.
+	 * @param {string}  listName  The name of the list to fetch.
+	 * @param {boolean} isRefresh Whether it's a refresh.
 	 *
 	 * @returns {void}
 	 */
-	const updateList = useCallback( ( listName, indexablesList, isRefresh ) => {
-		if ( indexablesList.length === 0 || isRefresh ) {
+	const updateList = useCallback( ( listName, isRefresh = false ) => {
+		if ( indexablesLists[ listName ].length === 0 || isRefresh ) {
 			fetchList( listName );
 			return;
 		}
 
-		if ( indexablesList.length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer ) {
+		if ( indexablesLists[ listName ].length < minimumIndexablesInBuffer && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer ) {
 			fetchList( listName, true );
 			return;
 		}
 
 		maybeRemoveIgnored( listName );
-	}, [ fetchList, maybeRemoveIgnored, minimumIndexablesInBuffer, indexablesListsFetchLength ] );
+	}, [ fetchList, maybeRemoveIgnored, minimumIndexablesInBuffer, indexablesListsFetchLength, indexablesLists ] );
 
 	/**
 	 * Updates all lists.
@@ -350,20 +361,20 @@ function IndexablesPage( { setupInfo } ) {
 	 */
 	const updateLists = ( isRefresh ) => {
 		if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
-			updateList( "least_readability", indexablesLists.least_readability, isRefresh );
+			updateList( "least_readability", isRefresh );
 		} else {
 			setLoadedCards( prevState => [ ...prevState, "least_readability" ] );
 		}
 
 		if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
-			updateList( "least_seo_score", indexablesLists.least_seo_score, isRefresh );
+			updateList( "least_seo_score", isRefresh );
 		} else {
 			setLoadedCards( prevState => [ ...prevState, "least_seo_score" ] );
 		}
 
 		if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
-			updateList( "most_linked", indexablesLists.most_linked, isRefresh );
-			updateList( "least_linked", indexablesLists.least_linked, isRefresh );
+			updateList( "most_linked", isRefresh );
+			updateList( "least_linked", isRefresh );
 		} else {
 			setLoadedCards( prevState => [ ...prevState, "most_linked", "least_linked" ] );
 		}
@@ -389,10 +400,10 @@ function IndexablesPage( { setupInfo } ) {
 		updateLists( false );
 	}, [] );
 
-	// We update a list each time the content of ignoredIndexable changes
+	// We update a list each time the content of ignoredIndexable changes.
 	useEffect( async() => {
 		if ( ignoredIndexable !== null ) {
-			updateList( ignoredIndexable.type, indexablesLists[ ignoredIndexable.type ] );
+			updateList( ignoredIndexable.type );
 		}
 	}, [ ignoredIndexable ] );
 
@@ -496,10 +507,10 @@ function IndexablesPage( { setupInfo } ) {
 	}, [] );
 
 	/**
-	 * Handles the undo action
+	 * Handles the undo action for a single ignored indexable.
 	 * @param {object} ignored The ignored indexable.
 	 *
-	 * @returns {boolean} True if the action was successful.
+	 * @returns {void}
 	 */
 	const handleUndo = useCallback( async( ignored ) => {
 		const id = ignored.indexable.id;
@@ -526,20 +537,38 @@ function IndexablesPage( { setupInfo } ) {
 					};
 				} );
 				setIgnoredIndexable( null );
+
+				setIgnoredLists( prevState => {
+					return {
+						...prevState,
+						[ type ]: prevState[ type ].filter( listId => listId !== parseInt( id, 10 ) ),
+					};
+				} );
 			} else {
 				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
 		} catch ( error ) {
 			setErrorMessage( error.message );
 		}
-	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable ] );
+	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable, setIgnoredLists ] );
 
 	const onClickUndo = useCallback( ( ignored ) => {
+		if ( ignored === null ) {
+			return;
+		}
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
+	/**
+	 * Handles the undo action for all ignored indexables in a list.
+	 * @param {Event} event The event triggered by clicking on the Restore all ignore items for a list.
+	 *
+	 * @returns {void}
+	 */
 	const onClickUndoAllList = useCallback( async( event ) => {
 		const { type } = event.target.dataset;
+		setLoadedCards( prevState => [ ...prevState ].filter( loadedCard => loadedCard !== type ) );
+
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/restore_all_indexables_for_list",
@@ -551,37 +580,24 @@ function IndexablesPage( { setupInfo } ) {
 			if ( parsedResponse.success ) {
 				// If there is a button to ignore a single indexable, for a list for which we are removing all indexables...
 				if ( ignoredIndexable && ignoredIndexable.type === type ) {
-					// ...remove that button.
+					// ...disable that button.
 					setIgnoredIndexable( null );
 				}
-				updateList( type, indexablesLists[ type ], true );
+				updateList( type, true );
+
+				setIgnoredLists( prevState => {
+					return {
+						...prevState,
+						[ type ]: [],
+					};
+				} );
 			} else {
 				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
 			}
 		} catch ( error ) {
 			setErrorMessage( error.message );
 		}
-	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable ] );
-
-	const onClickUndoAll = useCallback( async() => {
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/restore_all_indexables",
-				method: "POST",
-			} );
-
-			const parsedResponse = await response.json;
-			if ( parsedResponse.success ) {
-				// If there is a button to ignore a single indexable, unmount it.
-				setIgnoredIndexable( null );
-				handleRefreshLists();
-			} else {
-				setErrorMessage( __( "The undo request was unsuccessful.", "wordpress-seo" ) );
-			}
-		} catch ( error ) {
-			setErrorMessage( error.message );
-		}
-	}, [ apiFetch, handleRefreshLists, setIgnoredIndexable ] );
+	}, [ apiFetch, updateList, indexablesLists, ignoredIndexable, setIgnoredIndexable, setIgnoredLists ] );
 
 	const singleColumn = [
 		<IndexablesPageCard
@@ -593,7 +609,8 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 			options={ [
-				{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_readability" } },
+				{ title: __( "Restore last hidden item", "wordpress-seo" ), active: ( ignoredIndexable && ignoredIndexable.type === "least_readability" ), action: onClickUndo( ignoredIndexable ), menuItemData: { "data-type": "least_readability" } },
+				{ title: __( "Restore all hidden items", "wordpress-seo" ), active: true, action: onClickUndoAllList, menuItemData: { "data-type": "least_readability" } },
 			] }
 		>
 			{
@@ -626,7 +643,9 @@ function IndexablesPage( { setupInfo } ) {
 								key={ `indexable-${ indexable.id }-row` }
 								type={ "least_readability" }
 								indexable={ indexable }
-								addToIgnoreList={ setIgnoredIndexable }
+								setIgnoredIndexable={ setIgnoredIndexable }
+								ignoredLists={ ignoredLists }
+								setIgnoredLists={ setIgnoredLists }
 								position={ position }
 								setErrorMessage={ setErrorMessage }
 							>
@@ -675,7 +694,8 @@ function IndexablesPage( { setupInfo } ) {
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 			options={ [
-				{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_linked" } },
+				{ title: __( "Restore last hidden item", "wordpress-seo" ), active: ( ignoredIndexable && ignoredIndexable.type === "least_linked" ), action: onClickUndo( ignoredIndexable ), menuItemData: { "data-type": "least_linked" } },
+				{ title: __( "Restore all hidden items", "wordpress-seo" ), active: true, action: onClickUndoAllList, menuItemData: { "data-type": "least_linked" } },
 			] }
 		>
 			{
@@ -723,7 +743,9 @@ function IndexablesPage( { setupInfo } ) {
 									key={ `indexable-${ indexable.id }-row` }
 									type={ "least_linked" }
 									indexable={ indexable }
-									addToIgnoreList={ setIgnoredIndexable }
+									setIgnoredIndexable={ setIgnoredIndexable }
+									ignoredLists={ ignoredLists }
+									setIgnoredLists={ setIgnoredLists }
 									position={ position }
 									setErrorMessage={ setErrorMessage }
 								>
@@ -759,7 +781,7 @@ function IndexablesPage( { setupInfo } ) {
 
 	const doubleColumn = [ ...singleColumn ].reverse();
 
-	return <div className="yst-max-w-full yst-mt-6">
+	return <div className="yst-max-w-full yst-mt-2">
 		<Modal
 			id="error-modal"
 			onClose={ handleCloseErrorModal }
@@ -786,25 +808,9 @@ function IndexablesPage( { setupInfo } ) {
 				suggestedLinksModalData={ suggestedLinksModalData }
 			/>
 		</Modal>
-		<div className="yst-max-w-7xl yst-text-right yst-gap-6 yst-mb-4">
-			<span className="yst-italic">
-				{
-					// translators: %d is the number of minutes since the last refresh.
-					sprintf(
-						_n( "Last refreshed: %d min ago", "Last refreshed: %d mins ago", lastRefreshTime, "wordpress-seo" ),
-						lastRefreshTime
-					)
-				}
-			</span>
-			<button
-				type="button"
-				onClick={ handleRefreshLists }
-				className={ "yst-ml-6 yst-font-medium yst-text-indigo-600 hover:yst-text-indigo-500 focus:yst-ring-indigo-500 focus:yst-shadow-none focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-offset-[#f0f0f1] yst-rounded-lg yst-py-2 yst-px-3" }
-			>
-				<RefreshIcon className="yst-inline-block yst-align-text-bottom yst-mr-1 yst-h-4 yst-w-4" />
-				{ __( "Refresh data", "wordpress-seo" ) }
-			</button>
-		</div>
+
+		<RefreshButton onClickCallback={ handleRefreshLists } lastRefreshTime={ lastRefreshTime } />
+
 		<div
 			id="indexables-table-columns"
 			className="yst-max-w-7xl yst-flex yst-flex-col 2xl:yst-block 2xl:yst-columns-2 yst-gap-6"
@@ -817,7 +823,8 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 				options={ [
-					{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "least_seo_score" } },
+					{ title: __( "Restore last hidden item", "wordpress-seo" ), active: ( ignoredIndexable && ignoredIndexable.type === "least_seo_score" ), action: onClickUndo( ignoredIndexable ), menuItemData: { "data-type": "least_seo_score" } },
+					{ title: __( "Restore all hidden items", "wordpress-seo" ), active: true, action: onClickUndoAllList, menuItemData: { "data-type": "least_seo_score" } },
 				] }
 			>
 				{
@@ -850,7 +857,9 @@ function IndexablesPage( { setupInfo } ) {
 									key={ `indexable-${ indexable.id }-row` }
 									type={ "least_seo_score" }
 									indexable={ indexable }
-									addToIgnoreList={ setIgnoredIndexable }
+									setIgnoredIndexable={ setIgnoredIndexable }
+									ignoredLists={ ignoredLists }
+									setIgnoredLists={ setIgnoredLists }
 									position={ position }
 									setErrorMessage={ setErrorMessage }
 								>
@@ -900,7 +909,8 @@ function IndexablesPage( { setupInfo } ) {
 				}
 				className="yst-mb-6"
 				options={ [
-					{ title: __( "Restore hidden items", "wordpress-seo" ), action: onClickUndoAllList, menuItemData: { "data-type": "most_linked" } },
+					{ title: __( "Restore last hidden item", "wordpress-seo" ), active: ( ignoredIndexable && ignoredIndexable.type === "most_linked" ), action: onClickUndo( ignoredIndexable ), menuItemData: { "data-type": "most_linked" } },
+					{ title: __( "Restore hidden items", "wordpress-seo" ), active: true, action: onClickUndoAllList, menuItemData: { "data-type": "most_linked" } },
 				] }
 			>
 				{
@@ -948,17 +958,21 @@ function IndexablesPage( { setupInfo } ) {
 										key={ `indexable-${ indexable.id }-row` }
 										type={ "most_linked" }
 										indexable={ indexable }
-										addToIgnoreList={ setIgnoredIndexable }
+										setIgnoredIndexable={ setIgnoredIndexable }
+										ignoredLists={ ignoredLists }
+										setIgnoredLists={ setIgnoredLists }
 										position={ position }
 										setErrorMessage={ setErrorMessage }
 									>
-										<div className="yst-flex yst-items-center">
-											{
-												( !! parseInt( indexable.is_cornerstone, 10 ) === true )
-													? <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700" />
-													: <div className="yst-w-4" />
-											}
-										</div>
+										{
+											( shouldDisplayStars() ) && <div className="yst-flex yst-items-center">
+												{
+													( !! parseInt( indexable.is_cornerstone, 10 ) === true )
+														? <StarIcon className="yst-h-4 yst-w-4 yst-text-gray-700" />
+														: <div className="yst-w-4" />
+												}
+											</div>
+										}
 										<IndexableLinkCount count={ parseInt( indexable.incoming_link_count, 10 ) } />
 										<IndexableTitleLink indexable={ indexable } />
 										<div>
@@ -983,17 +997,6 @@ function IndexablesPage( { setupInfo } ) {
 					shouldShowEmptyAlert( "most_linked" ) && ! shouldShowErrorAlert( "most_linked" ) && <div className="yst-flex"><p>{ __( "Your site has no content with incoming links left to display here.", "wordpress-seo" ) }</p></div>
 				}
 			</IndexablesPageCard>
-		</div>
-		<div className="yst-w-full yst-border-t yst-border-gray-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
-			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Restore all hidden items", "wordpress-seo" ) }</Button>
-			{
-				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
-					{
-						/* translators: %1$s expands to the title of a post that was just just hidden. */
-						sprintf( __( "Restore %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
-					}
-				</Button>
-			}
 		</div>
 	</div>;
 }

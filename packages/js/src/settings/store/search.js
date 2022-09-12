@@ -7,14 +7,13 @@ import { createSearchIndex } from "../helpers";
 /**
  * @returns {Object} Initial search state.
  */
-const createInitialSearchState = () => {
-	const settings = get( window, "wpseoScriptData.settings", {} );
+export const createInitialSearchState = () => {
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
 	return {
 		query: "",
-		index: createSearchIndex( settings, postTypes, taxonomies ),
+		index: createSearchIndex( postTypes, taxonomies ),
 	};
 };
 

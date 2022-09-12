@@ -20,7 +20,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -34,7 +33,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -49,7 +47,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"textLength",
 			"titleWidth",
 			"singleH1",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -64,7 +61,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -78,7 +74,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -93,7 +88,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -110,7 +104,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -125,7 +118,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -141,7 +133,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"textLength",
 			"titleWidth",
 			"slugKeyword",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -171,7 +162,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"textLength",
 			"titleWidth",
 			"keyphraseDistribution",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -200,7 +190,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"textLength",
 			"titleWidth",
 			"keyphraseDistribution",
-			"textTitleAssessment",
 		] );
 	} );
 

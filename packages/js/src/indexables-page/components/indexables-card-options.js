@@ -41,14 +41,15 @@ export default function DotsMenu( { options } ) {
 						{
 							options.map( ( option, index ) => {
 								return <Menu.Item key={ "card-option-" + index }>
-									{ ( { active } ) => (
+									{ () => (
 										<button
 											type="button"
 											onClick={ option.action }
 											className={ classNames(
-												active ? "yst-bg-gray-100 yst-text-gray-900" : "yst-text-gray-700",
-												"yst-w-full yst-block yst-px-4 yst-py-2 yst-text-sm yst-text-left"
+												option.active ? "hover:yst-bg-gray-100 hover:yst-text-gray-900 " : "yst-opacity-50 ",
+												"yst-text-gray-700 yst-w-full yst-block yst-px-4 yst-py-2 yst-text-sm yst-text-left"
 											) }
+											disabled={ ! option.active }
 											{ ...option.menuItemData }
 										>
 											{ option.title }
@@ -68,6 +69,7 @@ DotsMenu.propTypes = {
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		action: PropTypes.function,
+		active: PropTypes.bool,
 		menuItemData: PropTypes.object,
 	} ) ),
 };

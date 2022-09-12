@@ -210,7 +210,7 @@ export class Indexation extends Component {
 	}
 
 	/**
-	 * Start indexation on mount, when redirected from the "Start SEO data optimization" button in the dashboard notification.
+	 * Start indexation on mount, when redirected from the "Start site analysis" button in the dashboard notification.
 	 *
 	 * @returns {void}
 	 */
@@ -279,8 +279,9 @@ export class Indexation extends Component {
 			type="button"
 			className="yst-button yst-button--primary"
 			onClick={ this.startIndexing }
+			id="indexation-site-analysis"
 		>
-			{ __( "Start SEO data optimization", "wordpress-seo" ) }
+			{ __( "Start site analysis", "wordpress-seo" ) }
 		</button>;
 	}
 
@@ -295,7 +296,7 @@ export class Indexation extends Component {
 			className="yst-button yst-button--secondary"
 			onClick={ this.stopIndexing }
 		>
-			{ __( "Stop SEO data optimization", "wordpress-seo" ) }
+			{ __( "Stop site analysis", "wordpress-seo" ) }
 		</button>;
 	}
 
@@ -311,12 +312,13 @@ export class Indexation extends Component {
 					type="button"
 					className="yst-button yst-button--secondary yst-button--disabled"
 					disabled={ true }
+					id="indexation-site-analysis"
 				>
-					{ __( "Start SEO data optimization", "wordpress-seo" ) }
+					{ __( "Start site analysis", "wordpress-seo" ) }
 				</button>
 			</p>
 			<Alert type={ "info" } className="yst-mt-6">
-				{ __( "SEO data optimization is disabled for non-production environments.", "wordpress-seo" ) }
+				{ __( "Site analysis is disabled for non-production environments.", "wordpress-seo" ) }
 			</Alert>
 		</Fragment>;
 	}

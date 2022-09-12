@@ -38,14 +38,13 @@ class Robots_Txt_Integration implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @param Options_Helper       $options_helper Options helper.
-	 * @param Robots_Txt_Helper    $robots_txt_helper Robots txt helper.
-	 * @param Robots_Txt_Presenter $robots_txt_presenter Robots txt presenter.
+	 * @param Options_Helper    $options_helper Options helper.
+	 * @param Robots_Txt_Helper $robots_txt_helper Robots txt helper.
 	 */
-	public function __construct( Options_Helper $options_helper, Robots_Txt_Helper $robots_txt_helper, Robots_Txt_Presenter $robots_txt_presenter ) {
+	public function __construct( Options_Helper $options_helper, Robots_Txt_Helper $robots_txt_helper ) {
 		$this->options_helper       = $options_helper;
 		$this->robots_txt_helper    = $robots_txt_helper;
-		$this->robots_txt_presenter = $robots_txt_presenter;
+		$this->robots_txt_presenter = new Robots_Txt_Presenter( $robots_txt_helper );
 	}
 
 	/**
@@ -78,7 +77,17 @@ class Robots_Txt_Integration implements Integration_Interface {
 	public function filter_robots( $robots_txt ) {
 		$robots_txt = $this->remove_default_robots( $robots_txt );
 		$this->maybe_add_xml_sitemap();
-		$this->add_subdirectory_multisite_xml_sitemaps();
+
+		/**
+		 * Filter: 'wpseo_should_add_subdirectory_multisite_xml_sitemaps' - Disabling this filter removes subdirectory sites from xml sitemaps.
+		 *
+		 * @since 19.8
+		 *
+		 * @param bool $show Whether to display multisites in the xml sitemaps.
+		 */
+		if ( \apply_filters( 'wpseo_should_add_subdirectory_multisite_xml_sitemaps', true ) ) {
+			$this->add_subdirectory_multisite_xml_sitemaps();
+		}
 
 		/**
 		 * Allow registering custom robots rules to be outputted within the Yoast content block in robots.txt.

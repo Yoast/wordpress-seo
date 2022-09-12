@@ -12,7 +12,6 @@ const paper = new Paper( content, {
 	locale: "tr_TR",
 	permalink: "https://tr.wikipedia.org/wiki/Nektar",
 	slug: "Nektar",
-	textTitle: "Nektar",
 } );
 
 const expectedResults = {
@@ -92,11 +91,6 @@ const expectedResults = {
 	keyphraseDistribution: {
 		// The text doesnt contain more than 15 sentences.
 		isApplicable: false,
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

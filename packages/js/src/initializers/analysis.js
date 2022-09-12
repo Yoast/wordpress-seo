@@ -1,5 +1,5 @@
 import { dispatch, select, subscribe } from "@wordpress/data";
-import { applyFilters } from "@wordpress/hooks";
+import { applyFilters, doAction } from "@wordpress/hooks";
 import { debounce, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { refreshDelay } from "../analysis/constants";
@@ -22,7 +22,7 @@ async function runAnalysis( worker, data ) {
 
 	try {
 		const results = await worker.analyze( paper );
-		const { seo, readability, inclusiveLanguage } = results.result;
+		const { seo, readability } = results.result;
 
 		if ( seo ) {
 			// Only update the main results, which are located under the empty string key.
@@ -41,12 +41,7 @@ async function runAnalysis( worker, data ) {
 			dispatch( "yoast-seo/editor" ).setOverallReadabilityScore( readability.score );
 		}
 
-		if ( inclusiveLanguage ) {
-			inclusiveLanguage.results = sortResultsByIdentifier( inclusiveLanguage.results );
-
-			dispatch( "yoast-seo/editor" ).setInclusiveLanguageResults( inclusiveLanguage.results );
-			dispatch( "yoast-seo/editor" ).setOverallInclusiveLanguageScore( inclusiveLanguage.score );
-		}
+		doAction( "yoast.analysis.run", results, { paper } );
 	} catch ( error ) {
 		handleWorkerError();
 	}

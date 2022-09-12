@@ -14,7 +14,6 @@ const paper = new Paper( content, {
 	locale: "fr_FR",
 	permalink: "https://fr.wikipedia.org/wiki/Galaxie",
 	slug: "Galaxie",
-	textTitle: "Galaxies",
 } );
 
 const expectedResults = {
@@ -97,11 +96,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 1,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
