@@ -77,7 +77,17 @@ class Robots_Txt_Integration implements Integration_Interface {
 	public function filter_robots( $robots_txt ) {
 		$robots_txt = $this->remove_default_robots( $robots_txt );
 		$this->maybe_add_xml_sitemap();
-		$this->add_subdirectory_multisite_xml_sitemaps();
+
+		/**
+		 * Filter: 'wpseo_should_add_subdirectory_multisite_xml_sitemaps' - Disabling this filter removes subdirectory sites from xml sitemaps.
+		 *
+		 * @since 19.8
+		 *
+		 * @param bool $show Whether to display multisites in the xml sitemaps.
+		 */
+		if ( \apply_filters( 'wpseo_should_add_subdirectory_multisite_xml_sitemaps', true ) ) {
+			$this->add_subdirectory_multisite_xml_sitemaps();
+		}
 
 		/**
 		 * Allow registering custom robots rules to be outputted within the Yoast content block in robots.txt.

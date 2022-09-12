@@ -6,7 +6,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Main;
 
@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Main;
  * Indexables_Page_Route class.
  */
 class Indexables_Page_Route implements Route_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 * Represents the route that retrieves the neccessary information for setting up the Indexables Page.
@@ -117,6 +115,15 @@ class Indexables_Page_Route implements Route_Interface {
 	public function __construct( Indexables_Page_Action $indexables_page_action, Indexables_Page_Helper $indexables_page_helper ) {
 		$this->indexables_page_action = $indexables_page_action;
 		$this->indexables_page_helper = $indexables_page_helper;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public static function get_conditionals() {
+		return [
+			Indexables_Page_Conditional::class,
+		];
 	}
 
 	/**

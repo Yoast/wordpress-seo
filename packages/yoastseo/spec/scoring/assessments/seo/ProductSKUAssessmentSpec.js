@@ -10,24 +10,30 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 	const assessment = new ProductSKUAssessment( { assessVariants: true } );
 
 	it( "returns the score 9 when a product has a global SKU and no variants", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalSKU: true,
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
 			productType: "simple",
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product has a SKU. Good job!" );
 	} );
 
 	it( "returns the score 9 when a product has no global SKU, but has variants and all variants have a SKU", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalSKU: false,
 			hasVariants: true,
 			doAllVariantsHaveSKU: true,
 			productType: "variable",
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: All your product variants " +
@@ -35,13 +41,16 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 	} );
 
 	it( "returns the score 6 when a product has no global SKU and no variants", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalSKU: false,
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
 			productType: "simple",
 			addSKULocation: true,
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
@@ -51,12 +60,15 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 	} );
 
 	it( "returns the score 6 when a product has a global SKU and variants, but not all variants have a SKU", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalSKU: true,
 			hasVariants: true,
 			doAllVariantsHaveSKU: false,
 			productType: "variable",
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
@@ -66,12 +78,15 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 	} );
 
 	it( "returns the score 6 when a product has no global SKU, but has variants and not all variants have a SKU", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalSKU: false,
 			hasVariants: true,
 			doAllVariantsHaveSKU: false,
 			productType: "variable",
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
@@ -81,24 +96,30 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 	} );
 
 	it( "returns the score 9 with the feedback for a simple product when a variable product has no variants but has a global SKU", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalSKU: true,
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
 			productType: "variable",
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product has a SKU. Good job!" );
 	} );
 
 	it( "returns the score 6 with the feedback for a simple product when a variable product has no variants and no global SKU", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalSKU: false,
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
 			productType: "variable",
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +

@@ -7,6 +7,7 @@ use WPSEO_Addon_Manager;
 
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -72,7 +73,10 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [
+			Admin_Conditional::class,
+			Indexables_Page_Conditional::class,
+		];
 	}
 
 	/**
