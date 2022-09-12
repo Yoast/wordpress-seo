@@ -45,7 +45,7 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 
 	const description = seoEnabled
 		? <Fragment>
-			<p>{ __( "Most of your posts and pages don't have a focus keyphrase yet. Help us to analyze your content by adding focus keyphrases. Below, we ordered your posts and pages on the highest number of incoming links, so you can start adding focus keyphrases for your most important content first.", "wordpress-seo" ) }</p>
+			<p>{ __( "Most of your posts and pages don’t have a focus keyphrase yet. Help us to analyze your content by adding focus keyphrases. Below, we ordered your posts and pages on the highest number of internal links, so you can start adding focus keyphrases for your most important content first.", "wordpress-seo" ) }</p>
 			<p className="yst-mt-4">{ __( "Clicking the 'Add focus keyphrase' button will open the editor in a new browser tab. Once you're done, don't forget to click 'Update'.", "wordpress-seo" ) }</p>
 		</Fragment>
 		: <p>{ __( "Most of your posts and pages haven't been analyzed yet. Help us to analyze your content by opening and updating it. Clicking the 'Open editor' button will open the editor in a new browser tab. Make sure to click 'Update' at the top of that page.", "wordpress-seo" ) }</p>;

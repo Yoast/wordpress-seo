@@ -634,7 +634,7 @@ function IndexablesPage( { setupInfo } ) {
 					? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse">
 						<div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" />
 					</div>
-					: __( "Lowest readability scores", "wordpress-seo" )
+					: __( "Pages with the lowest readability scores", "wordpress-seo" )
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 			options={ [
@@ -744,7 +744,7 @@ function IndexablesPage( { setupInfo } ) {
 					? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse">
 						<div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" />
 					</div>
-					: __( "Lowest number of incoming links", "wordpress-seo" )
+					: __( "Pages with the fewest internal links", "wordpress-seo" )
 			}
 			className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 			options={ [
@@ -887,7 +887,7 @@ function IndexablesPage( { setupInfo } ) {
 						? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse">
 							<div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" />
 						</div>
-						: __( "Lowest SEO scores", "wordpress-seo" )
+						: __( "Pages with the lowest SEO scores", "wordpress-seo" )
 				}
 				className="2xl:yst-mb-6 2xl:last:yst-mb-0"
 				options={ [
@@ -997,7 +997,7 @@ function IndexablesPage( { setupInfo } ) {
 						? <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse">
 							<div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" />
 						</div>
-						: __( "Highest number of incoming links", "wordpress-seo" )
+						: __( "Pages with the most internal links", "wordpress-seo" )
 				}
 				className="yst-mb-6"
 				options={ [
