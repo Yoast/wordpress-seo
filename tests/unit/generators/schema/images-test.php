@@ -99,7 +99,7 @@ class Images_Test extends TestCase {
 		Monkey\Functions\expect( 'home_url' )
 			->andReturn( 'https://example.com' );
 
-		$image_id = 'https://example.com#/schema/ImageObject/1338';
+		$image_id = 'https://example.com/images/image-1338.jpg';
 
 		$image_schema = [
 			'@type'      => 'ImageObject',
@@ -110,6 +110,11 @@ class Images_Test extends TestCase {
 			'height'     => 222,
 			'caption'    => 'test_image',
 		];
+
+		$this->image
+			->expects( 'get_attachment_image_url' )
+			->with( 1338, 'full' )
+			->andReturn( 'https://example.com/images/image-1338.jpg' );
 
 		$this->schema_image->expects( 'generate_from_attachment_id' )
 			->once()
@@ -182,11 +187,11 @@ class Images_Test extends TestCase {
 		foreach ( $this->meta_tags_context->images as $image ) {
 			$this->schema_image
 				->expects( 'generate_from_attachment_id' )
-				->with( $image->get_schema_id(), $image->get_id() )
+				->with( $image->get_src(), $image->get_id() )
 				->andReturn(
 					[
 						'@type' => 'ImageObject',
-						'@id'   => $image->get_schema_id(),
+						'@id'   => $image->get_src(),
 					]
 				);
 		}
@@ -198,15 +203,15 @@ class Images_Test extends TestCase {
 			[
 				[
 					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com#/schema/ImageObject/1',
+					'@id'   => 'https://example.com/images/image-1.jpg',
 				],
 				[
 					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com#/schema/ImageObject/2',
+					'@id'   => 'https://example.com/images/image-2.jpg',
 				],
 				[
 					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com#/schema/ImageObject/3',
+					'@id'   => 'https://example.com/images/image-3.jpg',
 				],
 			],
 			$this->instance->generate()
@@ -239,21 +244,21 @@ class Images_Test extends TestCase {
 
 		$this->schema_image
 			->expects( 'generate_from_attachment_id' )
-			->with( 'https://example.com#/schema/ImageObject/1', 1 )
+			->with( 'https://example.com/images/image-1.jpg', 1 )
 			->andReturn(
 				[
 					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com#/schema/ImageObject/1',
+					'@id'   => 'https://example.com/images/image-1.jpg',
 				]
 			);
 
 		$this->schema_image
 			->expects( 'generate_from_attachment_id' )
-			->with( 'https://example.com#/schema/ImageObject/2', 2 )
+			->with( 'https://example.com/images/image-2.jpg', 2 )
 			->andReturn(
 				[
 					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com#/schema/ImageObject/2',
+					'@id'   => 'https://example.com/images/image-2.jpg',
 				]
 			);
 
@@ -271,11 +276,11 @@ class Images_Test extends TestCase {
 			[
 				[
 					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com#/schema/ImageObject/1',
+					'@id'   => 'https://example.com/images/image-1.jpg',
 				],
 				[
 					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com#/schema/ImageObject/2',
+					'@id'   => 'https://example.com/images/image-2.jpg',
 				],
 				[
 					'@type' => 'ImageObject',

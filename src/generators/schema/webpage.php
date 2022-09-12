@@ -113,8 +113,9 @@ class WebPage extends Abstract_Schema_Piece {
 	protected function add_primary_image( &$data ) {
 		if ( $this->context->has_image ) {
 			if ( $this->context->main_image_id ) {
-				$data['primaryImageOfPage'] = [ '@id' => \home_url() . '#/schema/ImageObject/' . $this->context->main_image_id ];
-				$data['image']              = [ [ '@id' => \home_url() . '#/schema/ImageObject/' . $this->context->main_image_id ] ];
+				$schema_id                  = $this->helpers->image->get_attachment_image_url( $this->context->main_image_id, 'full' );
+				$data['primaryImageOfPage'] = [ '@id' => $schema_id ];
+				$data['image']              = [ [ '@id' => $schema_id ] ];
 			}
 			elseif ( $this->context->main_image_url ) {
 				$data['primaryImageOfPage'] = [ '@id' => $this->context->main_image_url ];
@@ -152,7 +153,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return void
 	 */
 	protected function maybe_add_image_id_to_graph( &$graph, $image ) {
-		$image_id = $image->get_schema_id();
+		$image_id = $image->get_src();
 
 		if ( ! \key_exists( 'image', $graph ) ) {
 			$graph['image'] = [];

@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Schema\WebPage;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
@@ -53,6 +54,13 @@ class WebPage_Test extends TestCase {
 	private $date;
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper|Mockery\MockInterface
+	 */
+	private $image;
+
+	/**
 	 * The language helper.
 	 *
 	 * @var Language_Helper|Mockery\MockInterface
@@ -84,6 +92,7 @@ class WebPage_Test extends TestCase {
 		$this->date              = Mockery::mock( Date_Helper::class );
 		$this->language          = Mockery::mock( Language_Helper::class );
 		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context_Mock::class );
+		$this->image             = Mockery::mock( Image_Helper::class );
 		$this->id                = Mockery::mock( ID_Helper::class );
 
 		$this->instance          = Mockery::mock( WebPage::class )
@@ -97,6 +106,7 @@ class WebPage_Test extends TestCase {
 				'id'       => $this->id,
 				'language' => $this->language,
 			],
+			'image'        => $this->image,
 		];
 
 		// Set some values that are used in multiple tests.
@@ -675,6 +685,10 @@ class WebPage_Test extends TestCase {
 			$this->meta_tags_context->has_image      = true;
 			$this->meta_tags_context->main_image_id  = $featured_image['id'];
 			$this->meta_tags_context->main_image_url = $featured_image['url'];
+			$this->image
+				->expects( 'get_attachment_image_url' )
+				->with( $featured_image['id'], 'full' )
+				->andReturn( $featured_image['url'] );
 		}
 		$this->meta_tags_context->images                          = $content_images;
 		$this->meta_tags_context->presentation->open_graph_images = $open_graph_images;
@@ -716,11 +730,11 @@ class WebPage_Test extends TestCase {
 					],
 				],
 				'primaryImageOfPage' => [
-					'@id' => 'https://example.com#/schema/ImageObject/4',
+					'@id' => 'https://example.com/images/image-4.jpg',
 				],
 				'image'              => [
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/4',
+						'@id' => 'https://example.com/images/image-4.jpg',
 					],
 				],
 				'thumbnailUrl'       => 'https://example.com/images/image-4.jpg',
@@ -755,13 +769,13 @@ class WebPage_Test extends TestCase {
 				],
 				'image'           => [
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/1',
+						'@id' => 'https://example.com/images/image-1.jpg',
 					],
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/2',
+						'@id' => 'https://example.com/images/image-2.jpg',
 					],
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/3',
+						'@id' => 'https://example.com/images/image-3.jpg',
 					],
 				],
 			],
@@ -804,13 +818,13 @@ class WebPage_Test extends TestCase {
 				],
 				'image'           => [
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/1',
+						'@id' => 'https://example.com/images/image-1.jpg',
 					],
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/2',
+						'@id' => 'https://example.com/images/image-2.jpg',
 					],
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/3',
+						'@id' => 'https://example.com/images/image-3.jpg',
 					],
 				],
 			],
@@ -874,10 +888,10 @@ class WebPage_Test extends TestCase {
 				],
 				'image'           => [
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/1',
+						'@id' => 'https://example.com/images/image-1.jpg',
 					],
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/2',
+						'@id' => 'https://example.com/images/image-2.jpg',
 					],
 				],
 			],
@@ -913,17 +927,17 @@ class WebPage_Test extends TestCase {
 					],
 				],
 				'primaryImageOfPage' => [
-					'@id' => 'https://example.com#/schema/ImageObject/1',
+					'@id' => 'https://example.com/images/image-1.jpg',
 				],
 				'image'              => [
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/1',
+						'@id' => 'https://example.com/images/image-1.jpg',
 					],
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/2',
+						'@id' => 'https://example.com/images/image-2.jpg',
 					],
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/3',
+						'@id' => 'https://example.com/images/image-3.jpg',
 					],
 				],
 				'thumbnailUrl'       => 'https://example.com/images/image-1.jpg',
@@ -960,11 +974,11 @@ class WebPage_Test extends TestCase {
 					],
 				],
 				'primaryImageOfPage' => [
-					'@id' => 'https://example.com#/schema/ImageObject/1',
+					'@id' => 'https://example.com/images/image-1.jpg',
 				],
 				'image'              => [
 					[
-						'@id' => 'https://example.com#/schema/ImageObject/1',
+						'@id' => 'https://example.com/images/image-1.jpg',
 					],
 					[
 						'@id' => 'https://external.com/images/image-2.jpg',
