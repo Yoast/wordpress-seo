@@ -108,7 +108,7 @@ const NotEnoughContent = () => {
 					<PlusIcon className="yst-w-4 yst-h-4 yst-mr-1" />{ __( "Start writing a new post", "wordpress-seo" ) }
 				</Link>
 			</IndexablesPageCard>
-			<IndexablesPageCard title={ __( "Recommended reading list", "wordpress-seo" ) }>
+			<IndexablesPageCard title={ __( "Yoast's recommended reading list", "wordpress-seo" ) }>
 				<ul className="yst-divide-y yst-divide-gray-200">
 					{ readingList.map(
 						( article, index ) => {
