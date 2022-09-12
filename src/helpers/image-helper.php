@@ -116,11 +116,11 @@ class Image_Helper {
 	}
 
 	/**
-	 * Determines whether or not the wanted attachment is considered valid.
+	 * Determines whether the wanted attachment is considered valid.
 	 *
 	 * @param int $attachment_id The attachment ID to get the attachment by.
 	 *
-	 * @return bool Whether or not the attachment is valid.
+	 * @return bool Whether the attachment is valid.
 	 */
 	public function is_valid_attachment( $attachment_id ) {
 		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
@@ -151,7 +151,7 @@ class Image_Helper {
 	 *
 	 * @param string $mime_type The detected mime type.
 	 *
-	 * @return bool Whether or not the attachment is a valid image type.
+	 * @return bool Whether the attachment is a valid image type.
 	 */
 	public function is_valid_image_type( $mime_type ) {
 		return \in_array( $mime_type, static::$valid_image_types, true );
