@@ -1,16 +1,13 @@
 import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import { BetaBadge } from "@yoast/components";
+import { HelpIcon } from "@yoast/components";
+import { get } from "lodash";
 import PropTypes from "prop-types";
 import getContentLocale from "../../analysis/getContentLocale";
 import getL10nObject from "../../analysis/getL10nObject";
-import styled from "styled-components";
 
 import TextFormalityUpsell from "./text-formality-upsell";
 
-const Badge = styled( BetaBadge )`
-	margin: 0 2px 0 4px;
-`;
 /**
  * TextFormality component.
  *
@@ -21,6 +18,13 @@ const Badge = styled( BetaBadge )`
 const TextFormality = ( { location } ) => {
 	const isFormalityAvailable = getContentLocale().split( "_" )[ 0 ] === "en";
 	const isPremium = getL10nObject().isPremium;
+	const infoLink = isPremium
+		? get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_premium", "" )
+		: get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_free", "" );
+
+	const linkText = isPremium
+		? __( "Read our article on text formality to learn more about how to change the formality level of a text.", "wordpress-seo" )
+		: __( "Read more about text formality.", "wordpress-seo" );
 
 	if ( ! isFormalityAvailable ) {
 		return null;
@@ -30,7 +34,10 @@ const TextFormality = ( { location } ) => {
 		<div className="yoast-text-formality">
 			<div className="yoast-field-group__title">
 				<b>{ __( "Text formality", "wordpress-seo" ) }</b>
-				<Badge className={ "yoast-beta-badge" } />
+				<HelpIcon
+					linkTo={ infoLink }
+					linkText={ linkText }
+				/>
 			</div>
 			{ isPremium ? <Slot name="YoastTextFormality" /> : <TextFormalityUpsell location={ location } /> }
 		</div>

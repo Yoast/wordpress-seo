@@ -17,7 +17,6 @@ const OutboundLink = makeOutboundLink();
  */
 const TextFormalityUpsell = ( { location } ) => {
 	const upsellLink = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-upsell-${ location }-text_formality`, "" ), [ location ] );
-	const infoLinkFree = get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_free", "" );
 
 	const upsellDescription = useMemo( () => {
 		return createInterpolateElement(
@@ -30,20 +29,6 @@ const TextFormalityUpsell = ( { location } ) => {
 			),
 			{
 				b: <b />,
-			}
-		);
-	}, [] );
-
-	const textFormalityInfo = useMemo( () => {
-		return createInterpolateElement(
-			sprintf(
-				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-				__( "%1$sRead more about text formality.%2$s", "wordpress-seo" ),
-				"<a>",
-				"</a>"
-			),
-			{
-				a: <OutboundLink href={ infoLinkFree } />,
 			}
 		);
 	}, [] );
@@ -61,7 +46,6 @@ const TextFormalityUpsell = ( { location } ) => {
 					<span aria-hidden="true" className="yoast-button-upsell__caret" />
 				</OutboundLink>
 			</div>
-			<p>{ textFormalityInfo }</p>
 		</Fragment>
 	);
 };
