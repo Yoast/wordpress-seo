@@ -392,7 +392,7 @@ abstract class WPSEO_Option {
 						sprintf(
 							/* translators: %s expands to an invalid URL. */
 							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
-							'<strong>' . esc_html( $submitted_url ) . '</strong>'
+							'<strong>' . esc_url( $submitted_url ) . '</strong>'
 						),
 						// Message type.
 						'error'
