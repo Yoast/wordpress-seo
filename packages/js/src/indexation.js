@@ -3,11 +3,11 @@ import jQuery from "jquery";
 
 import Indexation from "./components/Indexation";
 
-const preIndexingActions = {};
-const indexingActions = {};
-
 window.yoast = window.yoast || {};
 window.yoast.indexing = window.yoast.indexing || {};
+
+window.yoast.indexing.preIndexingActions = {};
+window.yoast.indexing.indexingActions = {};
 
 let root;
 
@@ -23,8 +23,8 @@ function renderRoot() {
 
 	if ( root ) {
 		render( <Indexation
-			preIndexingActions={ preIndexingActions }
-			indexingActions={ indexingActions }
+			preIndexingActions={ window.yoast.indexing.preIndexingActions }
+			indexingActions={ window.yoast.indexing.indexingActions }
 		/>, root );
 	}
 }
@@ -41,7 +41,7 @@ function renderRoot() {
  * @returns {void}
  */
 window.yoast.indexing.registerPreIndexingAction = ( endpoint, action ) => {
-	preIndexingActions[ endpoint ] = action;
+	window.yoast.indexing.preIndexingActions[ endpoint ] = action;
 	renderRoot();
 };
 
@@ -57,7 +57,7 @@ window.yoast.indexing.registerPreIndexingAction = ( endpoint, action ) => {
  * @returns {void}
  */
 window.yoast.indexing.registerIndexingAction = ( endpoint, action ) => {
-	indexingActions[ endpoint ] = action;
+	window.yoast.indexing.indexingActions[ endpoint ] = action;
 	renderRoot();
 };
 

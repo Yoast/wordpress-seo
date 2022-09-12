@@ -1,5 +1,5 @@
 import { useCallback, useState } from "@wordpress/element";
-import SelectField from ".";
+import { Badge, SelectField } from "../../index";
 
 export default {
 	title: "2. Components/Select Field",
@@ -67,6 +67,22 @@ WithError.args = {
 	value: "2",
 	label: "Select field with a label",
 	error: "Select field with an error.",
+	options: [
+		{ value: "1", label: "Option 1" },
+		{ value: "2", label: "Option 2" },
+		{ value: "3", label: "Option 3" },
+		{ value: "4", label: "Option 4" },
+	],
+};
+
+
+export const WithLabelSuffix = Template.bind( {} );
+WithLabelSuffix.args = {
+	id: "select-field-3",
+	name: "name-3",
+	value: "3",
+	label: "Select field with a label suffix",
+	labelSuffix: <Badge className="yst-ml-1.5" size="small">Beta</Badge>,
 	options: [
 		{ value: "1", label: "Option 1" },
 		{ value: "2", label: "Option 2" },

@@ -31,9 +31,10 @@ const preloadMedia = async( settings ) => {
 /**
  * Handles the form submit.
  * @param {Object} values The values.
+ * @param {function} resetForm Resets the form.
  * @returns {Promise<boolean>} Promise of save result.
  */
-const handleSubmit = async( values ) => {
+const handleSubmit = async( values, { resetForm } ) => {
 	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
 	const { addNotification } = dispatch( STORE_NAME );
 
@@ -70,6 +71,9 @@ const handleSubmit = async( values ) => {
 			title: __( "Great! Your settings were saved successfully.", "wordpress-seo" ),
 		} );
 
+		// Make sure the dirty state is reset after successfully saving.
+		resetForm( { values } );
+
 		return true;
 	} catch ( error ) {
 		addNotification( {
@@ -95,6 +99,8 @@ domReady( () => {
 	document.body.appendChild( shadowHost );
 
 	const settings = get( window, "wpseoScriptData.settings", {} );
+	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
+	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
 	registerStore();
 	preloadMedia( settings );
@@ -107,7 +113,7 @@ domReady( () => {
 				<HashRouter>
 					<Formik
 						initialValues={ settings }
-						validationSchema={ createValidationSchema( settings ) }
+						validationSchema={ createValidationSchema( postTypes, taxonomies ) }
 						onSubmit={ handleSubmit }
 					>
 						<App />

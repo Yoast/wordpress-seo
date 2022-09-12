@@ -23,11 +23,14 @@ export function mockSelectors( name, schemaBlocksValidations = null ) {
 
 	const getFocusKeyphrase = jest.fn().mockReturnValue( null );
 
+	const getChecklistItems = jest.fn().mockReturnValue( {} );
+
 	const yoastSEOSelectors = {
 		getFocusKeyphrase,
 		getResultsForFocusKeyword,
 		getReadabilityResults,
 		getPreferences,
+		getChecklistItems,
 	};
 
 	const getSchemaBlocksValidationResults = jest.fn().mockReturnValue( schemaBlocksValidations || {

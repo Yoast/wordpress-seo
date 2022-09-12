@@ -31,6 +31,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"first-time-configuration": `${ sourceDirectory }/first-time-configuration.js`,
 	"help-scout-beacon": `${ sourceDirectory }/help-scout-beacon.js`,
 	"import": `${ sourceDirectory }/import.js`,
+	"indexables-page": `${ sourceDirectory }/indexables-page.js`,
 	indexation: `${ sourceDirectory }/indexation.js`,
 	"installation-success": `${ sourceDirectory }/installation-success.js`,
 	"integrations-page": `${ sourceDirectory }/integrations-page.js`,

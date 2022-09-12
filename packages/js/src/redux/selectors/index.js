@@ -2,6 +2,7 @@ export * from "../../insights/redux/selectors";
 export * from "./advancedSettings";
 export * from "./analysis";
 export * from "./cornerstoneContent";
+export * from "./checklist";
 export * from "./editorContext";
 export * from "./editorData";
 export * from "./editorModals";

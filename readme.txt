@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.6
+Stable tag: 19.6.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -240,6 +240,34 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 19.7 =
+Release Date: September 20th, 2022
+
+Enhancements:
+
+* Improves handling of fatal errors in the front-end by preventing Yoast SEO to run in the login page, allowing users to access their dashboard.
+
+Bugfixes:
+
+* Introduces a minor security improvement.
+* Introduces security hardening.
+* Uses the new WordPress `wp_filesize` function.
+
+Other:
+
+* Adds a helper to help with adding content to the robots.txt file.
+* Adds options to support the changes in the premium plugin.
+* Changes Yoast SEO Premium sidebar ad to be the same styling as the one on yoast.com.
+* Exclude empty custom post type sitemaps from `sitemap_index.xml`.
+* Improves compatibility with PHP 8.2.
+
+= 19.6.1 =
+Release Date: August 31st, 2022
+
+Other:
+
+* Fixes compliance with the wordpress.org plugin guidelines.
 
 = 19.6 =
 Release Date: August 23rd, 2022

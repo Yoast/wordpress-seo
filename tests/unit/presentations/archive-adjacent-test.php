@@ -3,8 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presentations;
 
 use Brain\Monkey;
-use Mockery;
-use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Post_Type_Archive_Presentation\Presentation_Instance_Builder;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -21,22 +19,12 @@ class Archive_Adjacent_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper
-	 */
-	protected $pagination;
-
-	/**
 	 * Does the setup for testing.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->pagination = Mockery::mock( Pagination_Helper::class );
-
 		$this->set_instance();
-		$this->instance->set_archive_adjacent_helpers( $this->pagination );
 	}
 
 	/**

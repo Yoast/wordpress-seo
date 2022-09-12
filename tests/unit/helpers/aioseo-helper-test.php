@@ -70,11 +70,11 @@ class Aioseo_Helper_Test extends TestCase {
 	/**
 	 * Tests checking if the AIOSEO database table exists.
 	 *
-	 * @param bool $table_exists    Whether the AIOSEO table exists.
-	 * @param bool $expected_result The expected result.
-	 *
 	 * @dataProvider provider_aioseo_exists
 	 * @covers ::aioseo_exists
+	 *
+	 * @param bool $table_exists    Whether the AIOSEO table exists.
+	 * @param bool $expected_result The expected result.
 	 */
 	public function test_aioseo_exists( $table_exists, $expected_result ) {
 		$this->wpdb_helper->expects( 'table_exists' )
@@ -90,11 +90,11 @@ class Aioseo_Helper_Test extends TestCase {
 	/**
 	 * Tests retrieving the option where the global settings exist.
 	 *
-	 * @param string $retrieved_option Whether the AIOSEO table exists.
-	 * @param array  $expected_result  The expected result.
-	 *
 	 * @dataProvider provider_get_global_option
 	 * @covers ::get_global_option
+	 *
+	 * @param string $retrieved_option Whether the AIOSEO table exists.
+	 * @param array  $expected_result  The expected result.
 	 */
 	public function test_get_global_option( $retrieved_option, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )

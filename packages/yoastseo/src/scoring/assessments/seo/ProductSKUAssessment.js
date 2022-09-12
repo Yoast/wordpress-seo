@@ -26,6 +26,7 @@ export default class ProductSKUAssessment extends Assessment {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
 			assessVariants: true,
+			addSKULocation: false,
 		};
 
 		this.identifier = "productSKU";
@@ -36,12 +37,11 @@ export default class ProductSKUAssessment extends Assessment {
 	 * Tests whether a product has a SKU and returns an assessment result based on the research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher used for calling the research.
 	 *
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
-	getResult( paper, researcher ) {
-		const productSKUData = researcher.getResearch( "getProductSKUData" );
+	getResult( paper ) {
+		const productSKUData = paper.getCustomData();
 
 		const result = this.scoreProductSKU( productSKUData, this._config );
 
@@ -69,14 +69,28 @@ export default class ProductSKUAssessment extends Assessment {
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
 
+		/*
+	    * If the global SKU cannot be retrieved, the assessment shouldn't be applicable if the product is a simple
+	    * or external product, or doesn't have variants. Even though in reality a simple or external product doesn't have variants,
+	    * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
+	    */
+		if ( customData.canRetrieveGlobalSku === false &&
+			( [ "simple", "external" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
+			return false;
+		}
 		// Assessment is not applicable if we don't want to assess variants and the product has variants.
 		if ( this._config.assessVariants === false ) {
 			return ! customData.hasVariants;
 		}
 
+		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
+		if ( customData.canRetrieveVariantSkus === false && customData.hasVariants === true && customData.productType === "variable" ) {
+			return false;
+		}
+
 		// Assessment is not applicable if product has variants and we cannot retrieve variant SKUs.
 		if ( customData.hasVariants ) {
-			 return customData.canRetrieveVariantSkus;
+			return customData.canRetrieveVariantSkus;
 		}
 
 		// Assessment is not applicable if product doesn't have variants and we cannot retrieve global SKU.
@@ -93,6 +107,13 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
+		// Check if we want to add information about where to add the SKU in the feedback string or not.
+		// Currently we want to implement it only for Woo Product pages.
+		let feedbackString = "";
+		if ( this._config.addSKULocation === true ) {
+			feedbackString = __( "You can add a SKU via the \"Inventory\" tab in the Product data box.", "wordpress-seo" );
+		}
+
 		// Apply the following scoring conditions to products without variants.
 		if ( [ "simple", "external" ].includes( productSKUData.productType ) ||
 			( productSKUData.productType === "variable" && ! productSKUData.hasVariants ) ) {
@@ -101,14 +122,16 @@ export default class ProductSKUAssessment extends Assessment {
 					score: config.scores.ok,
 					text: sprintf(
 						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
+						// %4$s expands to "You can add a SKU via the "Inventory" tab in the Product data box." or to an empty string.
 						__(
-							"%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude this if you can, as it" +
-							" will help search engines to better understand your content.%3$s",
+							"%1$sSKU%3$s: Your product is missing a SKU. %4$s" +
+							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
-						"</a>"
+						"</a>",
+						feedbackString
 					),
 				};
 			}
@@ -133,8 +156,9 @@ export default class ProductSKUAssessment extends Assessment {
 					text: sprintf(
 						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 						__(
-							"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude this if you can, as it" +
-							" will help search engines to better understand your content.%3$s",
+							"%1$sSKU%3$s: Not all your product variants have a SKU. " +
+							"You can add a SKU via the \"Variations\" tab in the Product data box." +
+							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,

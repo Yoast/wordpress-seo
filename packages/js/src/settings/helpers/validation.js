@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import { __ } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
-import { object, number, addMethod } from "yup";
-import { includes, get, reduce } from "lodash";
+import { __ } from "@wordpress/i18n";
+import { reduce } from "lodash";
+import { addMethod, number, object, string } from "yup";
 import { STORE_NAME } from "../constants";
 
 addMethod( number, "isMediaTypeImage", function() {
@@ -20,26 +20,46 @@ addMethod( number, "isMediaTypeImage", function() {
 } );
 
 /**
- * @param {Object} settings The initial settings.
+ * @param {Object} postTypes The post types.
+ * @param {Object} taxonomies The taxonomies.
  * @returns {Object} Yup validation schema.
  */
-export const createValidationSchema = settings => {
-	const titleSettings = get( settings, "wpseo_titles", {} );
-
+export const createValidationSchema = ( postTypes, taxonomies ) => {
 	return object().shape( {
-		// wpseo: object().shape( {
-		// 	baiduverify: string().url( "bad" ),
-		// } ),
+		wpseo: object().shape( {
+			baiduverify: string()
+				.matches( /^[A-Za-z0-9_-]+$/, "The verification code is not valid. Please use only letters, numbers, underscores and dashes." ),
+			googleverify: string()
+				.matches( /^[A-Za-z0-9_-]+$/, "The verification code is not valid. Please use only letters, numbers, underscores and dashes." ),
+			msverify: string()
+				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
+			yandexverify: string()
+				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
+		} ),
 		wpseo_social: object().shape( {
 			og_default_image_id: number().isMediaTypeImage(),
+			pinterestverify: string()
+				.matches( /^[A-Fa-f0-9_-]+$/, "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes." ),
 		} ),
 		wpseo_titles: object().shape( {
 			open_graph_frontpage_image_id: number().isMediaTypeImage(),
 			// Media type image validation for all post type & taxonomy images.
-			...reduce( titleSettings, ( acc, value, key ) => includes( key, "social-image-id" ) ? {
+			...reduce( postTypes, ( acc, { name, hasArchive } ) => ( {
 				...acc,
-				[ key ]: number().isMediaTypeImage(),
-			} : acc, {} ),
+				...( name !== "attachment" && {
+					[ `social-image-id-${ name }` ]: number().isMediaTypeImage(),
+				} ),
+				...( hasArchive && {
+					[ `social-image-id-ptarchive-${ name }` ]: number().isMediaTypeImage(),
+				} ),
+			} ), {} ),
+			...reduce( taxonomies, ( acc, { name } ) => ( {
+				...acc,
+				[ `social-image-id-tax-${ name }` ]: number().isMediaTypeImage(),
+			} ), {} ),
+			"social-image-id-author-wpseo": number().isMediaTypeImage(),
+			"social-image-id-archive-wpseo": number().isMediaTypeImage(),
+			"social-image-id-tax-post_format": number().isMediaTypeImage(),
 		} ),
 	} );
 };

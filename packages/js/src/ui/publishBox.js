@@ -1,4 +1,5 @@
 /* global wpseoScriptData */
+import { get } from "lodash";
 
 var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
@@ -20,10 +21,15 @@ String.prototype.ucfirst = function() {
  *
  * @param {String} scoreType The type of score, this is used for the label.
  * @param {String} status The status for the score, this is the descriptive status text.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
+ *
  * @returns {String} A string with label and description with correct text decoration.
  */
-function createSEOScoreLabel( scoreType, status ) {
-	return wpseoScriptData.metabox.publish_box.labels[ scoreType ][ status ] || "";
+function createSEOScoreLabel( scoreType, status, labels = null ) {
+	if ( labels !== null ) {
+		return get( labels, status, "" );
+	}
+	return get( wpseoScriptData, `metabox.publish_box.labels.${ scoreType }.${ status }`, "" );
 }
 
 /**
@@ -31,16 +37,17 @@ function createSEOScoreLabel( scoreType, status ) {
  *
  * @param {String} type The score type to update (content or seo).
  * @param {String} status The status is the class name that is used to update the image.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
  *
  * @returns {void}
  */
-export function updateScore( type, status ) {
+export function updateScore( type, status, labels = null ) {
 	var publishSection = $( "#" + type + "-score" );
 
 	var imageClass = imageScoreClass + " " + status;
 	publishSection.children( ".image" ).attr( "class", imageClass );
 
-	var text = createSEOScoreLabel( type, status );
+	var text = createSEOScoreLabel( type, status, labels );
 	publishSection.children( "." + scoreDescriptionClass ).html( text );
 }
 
@@ -49,10 +56,11 @@ export function updateScore( type, status ) {
  *
  * @param {String} type The score type, for example content score or keyword score.
  * @param {String} status The status for the score initialisation.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
  *
  * @returns {void}
  */
-function createScoresInPublishBox( type, status ) {
+export function createScoresInPublishBox( type, status, labels = null ) {
 	var publishSection = $( "<div />", {
 		"class": "misc-pub-section yoast yoast-seo-score " + type + "-score",
 		id: type + "-score",
@@ -60,7 +68,7 @@ function createScoresInPublishBox( type, status ) {
 
 	var spanElem = $( "<span />", {
 		"class": scoreDescriptionClass,
-		html: createSEOScoreLabel( type, status ),
+		html: createSEOScoreLabel( type, status, labels ),
 	} );
 
 	var imgElem = $( "<span>" )
@@ -77,7 +85,7 @@ function createScoresInPublishBox( type, status ) {
  *
  * @returns {void}
  */
-function scrollToCollapsible( id ) {
+export function scrollToCollapsible( id ) {
 	const $adminbar = $( "#wpadminbar" );
 	const $collapsible = $( id );
 
@@ -120,10 +128,6 @@ export function initialize() {
 		createScoresInPublishBox( "content", notAvailableStatus );
 	}
 
-	if ( wpseoScriptData.metabox.inclusiveLanguageAnalysisActive ) {
-		createScoresInPublishBox( "inclusive-language", notAvailableStatus );
-	}
-
 	// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
 	$( "#content-score" ).on( "click", "[href='#yoast-readability-analysis-collapsible-metabox']", function( event ) {
 		event.preventDefault();
@@ -142,15 +146,5 @@ export function initialize() {
 		document.querySelector( "#wpseo-meta-tab-content" ).click();
 
 		scrollToCollapsible( "#yoast-seo-analysis-collapsible-metabox" );
-	} );
-
-	// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
-	$( "#inclusive-language-score" ).on( "click", "[href='#yoast-inclusive-language-analysis-collapsible-metabox']", function( event ) {
-		event.preventDefault();
-
-		// Pretend to click on the inclusive language tab to make it focused.
-		document.querySelector( "#wpseo-meta-tab-inclusive-language" ).click();
-
-		scrollToCollapsible( "#wpseo-meta-section-inclusive-language" );
 	} );
 }
