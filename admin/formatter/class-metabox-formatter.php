@@ -94,7 +94,7 @@ class WPSEO_Metabox_Formatter {
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
 				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
-			'twitterCardType'                 => YoastSEO()->helpers->options->get( 'twitter_card_type' ),
+			'twitterCardType'                 => 'summary_large_image',
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
