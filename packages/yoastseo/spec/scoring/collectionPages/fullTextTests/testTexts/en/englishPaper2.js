@@ -14,7 +14,6 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Science_fiction",
 	slug: "https://en.wikipedia.org/wiki/Science_fiction",
-	textTitle: "Science fiction",
 } );
 
 const expectedResults = {
@@ -83,11 +82,6 @@ const expectedResults = {
 	keyphraseDistribution: {
 		// The text doesn't contain more than 15 sentences.
 		isApplicable: false,
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: false,

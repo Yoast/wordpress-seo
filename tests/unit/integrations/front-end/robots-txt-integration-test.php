@@ -36,13 +36,6 @@ class Robots_Txt_Integration_Test extends TestCase {
 	protected $robots_txt_helper;
 
 	/**
-	 * Holds the robots txt presenter.
-	 *
-	 * @var Mockery\MockInterface|Robots_Txt_Presenter
-	 */
-	protected $robots_txt_presenter;
-
-	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Robots_Txt_Integration
@@ -56,10 +49,9 @@ class Robots_Txt_Integration_Test extends TestCase {
 		parent::set_up();
 		$this->stubEscapeFunctions();
 
-		$this->options_helper       = Mockery::mock( Options_Helper::class );
-		$this->robots_txt_helper    = Mockery::mock( Robots_Txt_Helper::class );
-		$this->robots_txt_presenter = Mockery::mock( Robots_Txt_Presenter::class );
-		$this->instance             = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper, $this->robots_txt_presenter );
+		$this->options_helper    = Mockery::mock( Options_Helper::class );
+		$this->robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
+		$this->instance          = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper );
 	}
 
 	/**
@@ -139,12 +131,25 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->once()
 			->andReturn();
 
-		$this->robots_txt_presenter
-			->expects( 'present' )
-			->once()
-			->andReturn();
+		$this->robots_txt_helper
+			->expects( 'get_robots_txt_user_agents' )
+			->andReturn( [] );
 
-		$this->instance->filter_robots( 'Input' );
+		$this->robots_txt_helper
+			->expects( 'get_sitemap_rules' )
+			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
+
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
+# ---------------------------
+User-agent: *
+Disallow:
+
+Sitemap: http://basic.wordpress.test/sitemap_index.xml
+# ---------------------------
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
 	}
 
 	/**
@@ -218,11 +223,26 @@ class Robots_Txt_Integration_Test extends TestCase {
 					->andReturn();
 			}
 		}
-		$this->robots_txt_presenter
-			->expects( 'present' )
-			->andReturn();
 
-		$this->instance->filter_robots( '' );
+		$this->robots_txt_helper
+			->expects( 'get_robots_txt_user_agents' )
+			->andReturn( [] );
+
+		$this->robots_txt_helper
+			->expects( 'get_sitemap_rules' )
+			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
+
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
+# ---------------------------
+User-agent: *
+Disallow:
+
+Sitemap: http://basic.wordpress.test/sitemap_index.xml
+# ---------------------------
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
 	}
 
 	/**
@@ -287,11 +307,25 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->with( 2, 'active_plugins', [] )
 			->andReturn( [] );
 
-		$this->robots_txt_presenter
-			->expects( 'present' )
-			->andReturn();
+		$this->robots_txt_helper
+			->expects( 'get_robots_txt_user_agents' )
+			->andReturn( [] );
 
-		$this->instance->filter_robots( '' );
+		$this->robots_txt_helper
+			->expects( 'get_sitemap_rules' )
+			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
+
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
+# ---------------------------
+User-agent: *
+Disallow:
+
+Sitemap: http://basic.wordpress.test/sitemap_index.xml
+# ---------------------------
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
 	}
 
 	/**
@@ -355,11 +389,25 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->with( 2, 'sitemap_index.xml' )
 			->andReturn( 'https://example.com/site2/sitemap_index.xml' );
 
-		$this->robots_txt_presenter
-			->expects( 'present' )
-			->andReturn();
+		$this->robots_txt_helper
+			->expects( 'get_robots_txt_user_agents' )
+			->andReturn( [] );
 
-		$this->instance->filter_robots( '' );
+		$this->robots_txt_helper
+			->expects( 'get_sitemap_rules' )
+			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
+
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
+# ---------------------------
+User-agent: *
+Disallow:
+
+Sitemap: http://basic.wordpress.test/sitemap_index.xml
+# ---------------------------
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
 	}
 
 	/**
@@ -376,12 +424,24 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->robots_txt_presenter
-			->expects( 'present' )
-			->once()
-			->andReturn();
+		$this->robots_txt_helper
+			->expects( 'get_robots_txt_user_agents' )
+			->andReturn( [] );
 
-		$this->instance->filter_robots( '' );
+		$this->robots_txt_helper
+			->expects( 'get_sitemap_rules' )
+			->andReturn( [] );
+
+		$this->assertSame(
+			'# START YOAST INTERNAL SEARCH BLOCK
+# ---------------------------
+User-agent: *
+Disallow:
+
+# ---------------------------
+# END YOAST INTERNAL SEARCH BLOCK',
+			$this->instance->filter_robots( '' )
+		);
 	}
 
 	/**

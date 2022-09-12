@@ -17,13 +17,10 @@ import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
 import getParagraphLength from "./researches/getParagraphLength.js";
 import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
-import getProductIdentifierData from "./researches/getProductIdentifierData";
-import getProductSKUData from "./researches/getProductSKUData";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings";
 import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
-import getTextTitleData from "./researches/getTextTitleData";
 import h1s from "./researches/h1s";
 import imageCount from "./researches/imageCount.js";
 import keyphraseDistribution from "./researches/keyphraseDistribution";
@@ -90,9 +87,6 @@ export default class AbstractResearcher {
 			videoCount,
 			getPassiveVoiceResult,
 			wordComplexity,
-			getProductIdentifierData,
-			getProductSKUData,
-			getTextTitleData,
 		};
 
 		this._data = {};

@@ -19,7 +19,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -32,7 +31,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -45,7 +43,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -58,7 +55,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -71,7 +67,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -84,7 +79,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -98,7 +92,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -112,7 +105,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -126,7 +118,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"metaDescriptionLength",
 			"titleWidth",
 			"slugKeyword",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -152,7 +143,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 
@@ -177,7 +167,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"textTitleAssessment",
 		] );
 	} );
 

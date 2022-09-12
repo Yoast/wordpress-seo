@@ -2,7 +2,7 @@ import { defaults, isEmpty, isEqual, isNil } from "lodash-es";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
- * @type {{textTitle: string, keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
+ * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
  * 		   slug: string, locale: string, permalink: string, date: string}}
  */
 const defaultAttributes = {
@@ -24,7 +24,6 @@ const defaultAttributes = {
  *
  * @param {string} text                     The text to use in the analysis.
  * @param {object} [attributes]             The object containing all attributes.
- * @param {string} [attributes.textTitle]   The title of the text.
  * @param {string} [attributes.keyword]     The main keyword.
  * @param {string} [attributes.synonyms]    The main keyword's synonyms.
  * @param {string} [attributes.description] The SEO description.

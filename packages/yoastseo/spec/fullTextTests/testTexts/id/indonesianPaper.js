@@ -13,7 +13,6 @@ const paper = new Paper( content, {
 	locale: "id_ID",
 	permalink: "https://id.wikipedia.org/wiki/Persekutuan_Franka-Mongol",
 	slug: "Persekutuan_Franka-Mongol",
-	textTitle: "Persekutuan Franka-Mongol",
 } );
 
 const expectedResults = {
@@ -94,11 +93,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: <a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase distribution</a>.",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
