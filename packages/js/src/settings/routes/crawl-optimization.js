@@ -247,12 +247,7 @@ const CrawlOptimization = () => {
 
 	return (
 		<FormLayout
-			title={
-				<span className="yst-inline-flex yst-items-center yst-gap-1.5">
-					{ __( "Crawl optimization", "wordpress-seo" ) }
-					<Badge variant="info">{ __( "Beta", "wordpress-seo" ) }</Badge>
-				</span>
-			}
+			title={ __( "Crawl optimization", "wordpress-seo" ) }
 			description={ descriptions.page }
 		>
 			<FieldsetLayout
