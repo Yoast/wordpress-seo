@@ -289,7 +289,7 @@ class Settings_Integration implements Integration_Interface {
 	 * Displays the page.
 	 */
 	public function display_page() {
-		echo '<div id="yoast-seo-settings" class="yst--ml-2.5 md:yst--ml-5"></div>';
+		echo '<div id="yoast-seo-settings"></div>';
 	}
 
 	/**
