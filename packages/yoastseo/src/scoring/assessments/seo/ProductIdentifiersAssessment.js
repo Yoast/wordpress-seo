@@ -73,7 +73,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		 * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
 		 */
 		if ( customData.canRetrieveGlobalIdentifier === false &&
-			( [ "simple", "external" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
+			( [ "simple", "external", "grouped" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
 			return false;
 		}
 
