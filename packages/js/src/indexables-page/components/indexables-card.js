@@ -14,14 +14,16 @@ import DotsMenu from "./indexables-card-options";
  */
 function IndexablesPageCard( { title, className, options, children } ) {
 	return <div className={ classNames( "yst-w-full yst-inline-block", className ) }>
-		<div className="yst-bg-white yst-rounded-lg yst-p-8 yst-shadow yst-overflow-x-hidden">
-			<div className="yst-w-full yst-flex yst-justify-between">
+		<div className="yst-bg-white yst-rounded-lg yst-shadow">
+			<div className="yst-w-full yst-flex yst-justify-between yst-p-8 yst-pb-0">
 				<h3 className="yst-mb-4 yst-text-base yst-text-gray-900 yst-font-medium yst-w-full">
 					{ title }
 				</h3>
 				{ options.length > 0 && <DotsMenu options={ options } /> }
 			</div>
-			{ children }
+			<div className="yst-p-8 yst-pt-0 yst-overflow-x-hidden">
+				{ children }
+			</div>
 		</div>
 	</div>;
 }
