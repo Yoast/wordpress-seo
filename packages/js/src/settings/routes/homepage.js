@@ -119,7 +119,7 @@ const PageAndPosts = () => {
 	const homepagePostsEditDescription = useMemo( () => addLinkToString(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-			__( "You can determine the title and description for the posts page by %1$sediting the posts page itself%2$s.", "wordpress-seo" ),
+			__( "You can determine the title and description for the blog page by %1$sediting the blog page itself%2$s.", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),
