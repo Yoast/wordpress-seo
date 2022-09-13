@@ -94,7 +94,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener noreferrer" />,
+			a: <a id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noreferrer" />,
 			em: <em />,
 		}
 	), [] );
