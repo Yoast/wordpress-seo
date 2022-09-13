@@ -43,11 +43,11 @@
 @layer components {
 	.yst-root {
 		.yst-notifications--bottom-left {
-			left: calc( 160px + 2rem ); /* Next to admin menu. 160px is admin menu width */
+			left: calc(160px + 2rem); /* Next to admin menu. 160px is admin menu width */
 			z-index: 9991; /* 1 above admin menu */
 		}
 
-		.yst-mobile-navigation__top {			
+		.yst-mobile-navigation__top {
 			@media (min-width: 601px) and (max-width: 768px) {
 				top: 46px;
 			}
@@ -180,23 +180,27 @@
 			yst-text-gray-800;
 		}
 
-		.yst-sidebar-nav {
+		.yst-sidebar {
 			/* WP Admin bar height + some padding. */
-			top: calc( 32px + 2rem );
+			top: calc(32px + 2rem);
+		}
+
+		.yst-sidebar-nav {
 			/* WP Admin menu width + some padding. */
-			left: calc( 160px + 2rem );
+			left: calc(160px + 2rem);
 		}
 	}
 
 	.folded .yst-root .yst-sidebar-nav {
 		/* Collapsed WP Admin menu width + some padding. */
-		left: calc( 36px + 2rem );
+		left: calc(36px + 2rem);
 	}
 
 	.auto-fold .yst-root .yst-sidebar-nav {
-			@media (max-width: 960px) {
+		@media (max-width: 960px) {
 			/* Auto-collapsed WP Admin menu width + some padding. */
-			left: calc( 36px + 2rem );
+			left: calc(36px + 2rem);
+		}
 
 		@media (min-width: 768px) and (max-width: 782px) {
 			/* Collapsed WP Admin menu, only some padding. */

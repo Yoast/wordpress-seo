@@ -3,11 +3,12 @@ import { AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon, ColorSwatchIcon, Deskt
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, ChildrenLimiter, ErrorBoundary, useBeforeUnload } from "@yoast/ui-library";
+import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { ErrorFallback, Notifications, SidebarNavigation, YoastLogo } from "./components";
+import { ErrorFallback, Notifications, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
 import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
 import { useRouterScrollRestore } from "./hooks";
 import {
@@ -168,6 +169,8 @@ const App = () => {
 	const { pathname } = useLocation();
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+
 	useRouterScrollRestore();
 
 	const { dirty } = useFormikContext();
@@ -186,8 +189,12 @@ const App = () => {
 				>
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
-				<div className="yst-p-4 md:yst-p-8 md:yst-pl-[17rem] lg:yst-pl-[19rem]">
-					<aside className="yst-sidebar-nav yst-overflow-auto yst-hidden md:yst-block yst-fixed yst-pb-8 yst-pr-2 yst-bottom-0 yst-w-56 lg:yst-w-64">
+				<div className={ classNames(
+					"yst-p-4 md:yst-p-8 md:yst-pl-[17rem] lg:yst-pl-[19rem]",
+					! isPremium && "xl:yst-pr-[22rem]",
+				) }>
+					<aside
+						className="yst-sidebar yst-sidebar-nav yst-overflow-auto yst-hidden md:yst-block yst-fixed yst-pb-8 yst-pr-2 yst-bottom-0 yst-w-56 lg:yst-w-64">
 						<SidebarNavigation.Sidebar className="yst-px-0.5">
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
@@ -229,6 +236,7 @@ const App = () => {
 							</Routes>
 						</ErrorBoundary>
 					</main>
+					{ ! isPremium && <SidebarRecommendations /> }
 				</div>
 			</SidebarNavigation>
 		</>
