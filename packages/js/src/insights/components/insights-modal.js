@@ -34,7 +34,7 @@ const InsightsModal = ( { location } ) => {
 						<EstimatedReadingTime />
 						<TextLength />
 					</div>
-					<TextFormality location={ location } />
+					<TextFormality location={ location } name={ "YoastTextFormalitySidebar" } />
 				</div>
 			</div>
 		</EditorModal>

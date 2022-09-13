@@ -31,7 +31,7 @@ const InsightsCollapsible = ( { location } ) => {
 					<EstimatedReadingTime />
 					<TextLength />
 				</div>
-				<TextFormality location={ location } />
+				<TextFormality location={ location } name={ "YoastTextFormalityMetabox" } />
 			</div>
 		</MetaboxCollapsible>
 	);

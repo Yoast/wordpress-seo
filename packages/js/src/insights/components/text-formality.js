@@ -12,19 +12,18 @@ import TextFormalityUpsell from "./text-formality-upsell";
  * TextFormality component.
  *
  * @param {string} location The location of this component.
+ * @param {string} name     The name of the Text Formality component to fill.
  *
  * @returns {JSX.Element} The element.
  */
-const TextFormality = ( { location } ) => {
+const TextFormality = ( { location, name } ) => {
 	const isFormalityAvailable = getContentLocale().split( "_" )[ 0 ] === "en";
 	const isPremium = getL10nObject().isPremium;
 	const infoLink = isPremium
 		? get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_premium", "" )
 		: get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_free", "" );
 
-	const linkText = isPremium
-		? __( "Read our article on text formality to learn more about how to change the formality level of a text.", "wordpress-seo" )
-		: __( "Read more about text formality.", "wordpress-seo" );
+	const linkText = __( "Read more about text formality.", "wordpress-seo" );
 
 	if ( ! isFormalityAvailable ) {
 		return null;
@@ -39,13 +38,14 @@ const TextFormality = ( { location } ) => {
 					linkText={ linkText }
 				/>
 			</div>
-			{ isPremium ? <Slot name="YoastTextFormality" /> : <TextFormalityUpsell location={ location } /> }
+			{ isPremium ? <Slot name={ name } /> : <TextFormalityUpsell location={ location } /> }
 		</div>
 	);
 };
 
 TextFormality.propTypes = {
 	location: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
 };
 
 export default TextFormality;
