@@ -158,6 +158,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
 		const customData = {
+
 			hasGlobalIdentifier: false,
 			hasVariants: false,
 			productType: "simple",

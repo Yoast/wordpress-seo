@@ -140,15 +140,11 @@ describe( "a test for SKU assessment for Shopify", () => {
 			hasGlobalSKU: true,
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
-			productType: "variable",
+			productType: "simple",
 		};
 
 		const paperWithCustomData = new Paper("", { customData })
-		const assessmentResult = assessment.getResult( paperWithCustomData, Factory.buildMockResearcher( {
-			hasGlobalSKU: true,
-			hasVariants: false,
-			productType: "simple",
-		} ) );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify79' target='_blank'>SKU</a>: " +
@@ -160,16 +156,12 @@ describe( "a test for SKU assessment for Shopify", () => {
 			hasGlobalSKU: false,
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
-			productType: "variable",
+			productType: "simple",
 		};
 
 		const paperWithCustomData = new Paper("", { customData })
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
-		const assessmentResult = assessment.getResult( paperWithCustomData, Factory.buildMockResearcher( {
-			hasGlobalSKU: false,
-			hasVariants: false,
-			productType: "simple",
-		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify79' target='_blank'>SKU</a>:" +
@@ -193,7 +185,7 @@ describe( "a test for the applicability of the assessment", function() {
 		expect( isApplicable ).toBe( true );
 	} );
 
-	it( "is not applicable when the SKU  of a simple product cannot be detected", function() {
+	it( "is not applicable when the SKU of a simple product cannot be detected", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
 			canRetrieveGlobalSku: false,
@@ -292,7 +284,7 @@ describe( "a test for the applicability of the assessment", function() {
 	} );
 
 	// Made it an xit because simple products do not have variants.
-	xit( "is applicable when variant SKUs can be detected on a simple product with variants" +
+	it( "is applicable when variant SKUs can be detected on a simple product with variants" +
 		" (case when hasVariants variable doesn't update correctly)", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
