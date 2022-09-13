@@ -16,7 +16,7 @@ describe( "a test for TextFormality component", () => {
 				isPremium: false,
 			},
 		};
-		const render = shallow( <TextFormality location="sidebar" /> );
+		const render = shallow( <TextFormality location="sidebar" name="YoastTextFormalitySidebar" /> );
 
 		expect( render.find( TextFormalityUpsell ) ).toHaveLength( 0 );
 	} );
@@ -27,7 +27,7 @@ describe( "a test for TextFormality component", () => {
 				isPremium: false,
 			},
 		};
-		const render = shallow( <TextFormality location="sidebar" /> );
+		const render = shallow( <TextFormality location="sidebar" name="YoastTextFormalitySidebar" /> );
 
 		expect( render.find( TextFormalityUpsell ) ).toHaveLength( 1 );
 	} );
