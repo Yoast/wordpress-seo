@@ -1,9 +1,6 @@
 import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 import Paper from "../../../../src/values/Paper";
-import Factory from "../../../specHelpers/factory";
-
-const paper = new Paper( "" );
 
 
 describe( "a test for SKU assessment for WooCommerce", function() {
@@ -143,7 +140,7 @@ describe( "a test for SKU assessment for Shopify", () => {
 			productType: "simple",
 		};
 
-		const paperWithCustomData = new Paper("", { customData })
+		const paperWithCustomData = new Paper( "", { customData } );
 		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
@@ -159,7 +156,7 @@ describe( "a test for SKU assessment for Shopify", () => {
 			productType: "simple",
 		};
 
-		const paperWithCustomData = new Paper("", { customData })
+		const paperWithCustomData = new Paper( "", { customData } );
 		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 
@@ -229,19 +226,20 @@ describe( "a test for the applicability of the assessment", function() {
 		expect( isApplicable ).toBe( true );
 	} );
 
-	it( "is not applicable when we want to assess variants and the SKU of at least one variant cannot be detected on product with variants", function() {
-		const assessment = new ProductSKUAssessment( { assessVariants: true } );
-		const customData = {
-			canRetrieveVariantSkus: false,
-			hasGlobalSKU: false,
-			hasVariants: true,
-			productType: "variable",
-		};
-		const paperWithCustomData = new Paper( "", { customData } );
-		const isApplicable = assessment.isApplicable( paperWithCustomData );
+	it( "is not applicable when we want to assess variants and the SKU of at least one variant cannot be detected on product with variants",
+		function() {
+			const assessment = new ProductSKUAssessment( { assessVariants: true } );
+			const customData = {
+				canRetrieveVariantSkus: false,
+				hasGlobalSKU: false,
+				hasVariants: true,
+				productType: "variable",
+			};
+			const paperWithCustomData = new Paper( "", { customData } );
+			const isApplicable = assessment.isApplicable( paperWithCustomData );
 
-		expect( isApplicable ).toBe( false );
-	} );
+			expect( isApplicable ).toBe( false );
+		} );
 
 	it( "is applicable when we don't want to assess variants and the product doesn't have variants", function() {
 		const assessment = new ProductSKUAssessment( { assessVariants: false } );
