@@ -77,13 +77,12 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return false;
 		}
 
-
 		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
 		if ( customData.canRetrieveVariantIdentifiers === false && customData.hasVariants === true && customData.productType === "variable" ) {
 			return false;
 		}
 
-		return this._config.assessVariants && ! customData.hasVariants;
+		return this._config.assessVariants === false && ! customData.hasVariants;
 	}
 
 	/**
