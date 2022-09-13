@@ -25,7 +25,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
-			assessVariants: false,
+			assessVariants: true,
 			productIdentifierOrBarcode: "Product identifier",
 		};
 
@@ -57,11 +57,11 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the assessment is applicable (for now it is not applicable in Shopify where we also don't want to
-	 * assess variants; hence the applicability condition based on that).
+	 * Checks whether the assessment is applicable. It is applicable unless the product has variants and we don't want to
+	 * assess variants (this is the case for Shopify since we cannot at the moment easily access variant data in Shopify).
 	 *
 	 * @param {Paper} paper The paper to check.
-	 **
+	 *
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {
@@ -73,17 +73,17 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		 * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
 		 */
 		if ( customData.canRetrieveGlobalIdentifier === false &&
-			( [ "simple", "external" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
+			( [ "simple", "external", "grouped" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
 			return false;
 		}
-
 
 		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
 		if ( customData.canRetrieveVariantIdentifiers === false && customData.hasVariants === true && customData.productType === "variable" ) {
 			return false;
 		}
 
-		return this._config.assessVariants;
+		// Assessment is not applicable if we don't want to assess variants and the product has variants.
+		return ! ( this._config.assessVariants === false && customData.hasVariants );
 	}
 
 	/**
