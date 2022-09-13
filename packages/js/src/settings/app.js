@@ -23,7 +23,7 @@ import {
 	PostType,
 	Rss,
 	SearchPages,
-	SiteDefaults,
+	SiteBasics,
 	SitePreferences,
 	SiteRepresentation,
 	Taxonomy,
@@ -95,13 +95,13 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
 			>
+				<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem
 					to="/site-representation"
 					label={ __( "Site representation", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
 				/>
-				<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
@@ -212,7 +212,7 @@ const App = () => {
 								<Route path="not-found-pages" element={ <NotFoundPages /> } />
 								<Route path="rss" element={ <Rss /> } />
 								<Route path="search-pages" element={ <SearchPages /> } />
-								<Route path="site-defaults" element={ <SiteDefaults /> } />
+								<Route path="site-basics" element={ <SiteBasics /> } />
 								<Route path="site-representation" element={ <SiteRepresentation /> } />
 								<Route path="site-preferences" element={ <SitePreferences /> } />
 								<Route path="webmaster-tools" element={ <WebmasterTools /> } />
