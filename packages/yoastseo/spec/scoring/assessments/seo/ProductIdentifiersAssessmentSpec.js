@@ -138,11 +138,14 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		productIdentifierOrBarcode: "Barcode" } );
 
 	it( "returns with score 9 when the product has global identifier and no variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalIdentifier: true,
 			hasVariants: false,
 			productType: "simple",
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: " +
@@ -150,11 +153,14 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 	} );
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalIdentifier: false,
 			hasVariants: false,
 			productType: "simple",
-		} ) );
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>:" +
