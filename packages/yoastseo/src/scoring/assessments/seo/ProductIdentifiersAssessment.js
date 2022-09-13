@@ -82,7 +82,8 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return false;
 		}
 
-		return this._config.assessVariants === false && ! customData.hasVariants;
+		// Assessment is not applicable if we don't want to assess variants and the product has variants.
+		return ! ( this._config.assessVariants === false && customData.hasVariants );
 	}
 
 	/**

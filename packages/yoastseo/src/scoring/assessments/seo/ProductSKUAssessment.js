@@ -78,23 +78,14 @@ export default class ProductSKUAssessment extends Assessment {
 			( [ "simple", "external" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
 			return false;
 		}
-		// Assessment is not applicable if we don't want to assess variants and the product has variants.
-		if ( ! this._config.assessVariants ) {
-			return ! customData.hasVariants;
-		}
 
 		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
 		if ( customData.canRetrieveVariantSkus === false && customData.hasVariants === true && customData.productType === "variable" ) {
 			return false;
 		}
 
-		// Assessment is not applicable if product has variants and we cannot retrieve variant SKUs.
-		if ( customData.hasVariants ) {
-			return customData.canRetrieveVariantSkus;
-		}
-
-		// Assessment is not applicable if product doesn't have variants and we cannot retrieve global SKU.
-		return customData.canRetrieveGlobalSku;
+		// Assessment is not applicable if we don't want to assess variants and the product has variants.
+		return ! ( this._config.assessVariants === false && customData.hasVariants );
 	}
 
 	/**
