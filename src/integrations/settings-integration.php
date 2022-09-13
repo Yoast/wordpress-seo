@@ -194,6 +194,13 @@ class Settings_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+		// Suppress notifications.
+		\remove_all_actions( 'admin_notices' );
+		\remove_all_actions( 'user_admin_notices' );
+		\remove_all_actions( 'network_admin_notices' );
+		\remove_all_actions( 'all_admin_notices' );
+
+		// Add page.
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
 		\add_filter( 'admin_menu', [ $this, 'add_settings_saved_page' ] );
 
