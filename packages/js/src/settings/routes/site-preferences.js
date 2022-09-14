@@ -1,6 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, ToggleField as PureToggleField } from "@yoast/ui-library";
+import { Alert, Badge, ToggleField as PureToggleField, Title, Card } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
 import { withDisabledMessageSupport } from "../hocs";
@@ -141,141 +141,337 @@ const SitePreferences = () => {
 			title={ __( "Site preferences", "wordpress-seo" ) }
 			description={ __( "Tell us which features you want to use.", "wordpress-seo" ) }
 		>
-			<FieldsetLayout title={ __( "Writing", "wordpress-seo" ) }>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.keyword_analysis_active"
-					data-id="input-wpseo-keyword_analysis_active"
-					label={ __( "SEO analysis", "wordpress-seo" ) }
-					description={ seoAnalysisLink }
-				/>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.content_analysis_active"
-					data-id="input-wpseo-content_analysis_active"
-					label={ __( "Readability analysis", "wordpress-seo" ) }
-					description={ readabilityAnalysisLink }
-				/>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.inclusive_language_analysis_active"
-					data-id="input-wpseo-inclusive_language_analysis_active"
-					label={ __( "Inclusive language analysis", "wordpress-seo" ) }
-					labelSuffix={ <>
-						<Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge>
-						<Badge className="yst-ml-1.5" size="small" variant="info">Beta</Badge>
-					</> }
-					description={ inclusiveLanguageAnalysisLink }
-				/>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_metabox_insights"
-					data-id="input-wpseo-enable_metabox_insights"
-					label={ __( "Insights", "wordpress-seo" ) }
-					description={ insightsLink }
-				/>
-			</FieldsetLayout>
+			<fieldset className="yst-min-w-0">
+				<div className="yst-max-w-screen-sm yst-mb-8">
+					<Title as="legend" size="2">
+						{ __( "Writing", "wordpress-seo" ) }
+					</Title>
+				</div>
+				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "SEO analysis", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ seoAnalysisLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.keyword_analysis_active"
+								data-id="input-wpseo-keyword_analysis_active"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Readability analysis", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ readabilityAnalysisLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.content_analysis_active"
+								data-id="input-wpseo-content_analysis_active"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Inclusive language analysis", "wordpress-seo" ) }
+							</Title>
+							<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+								<Badge size="small" variant="upsell">Premium</Badge>
+								<Badge size="small" variant="info">Beta</Badge>
+							</div>
+						</Card.Header>
+						<Card.Content>
+							{ inclusiveLanguageAnalysisLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.inclusive_language_analysis_active"
+								data-id="input-wpseo-inclusive_language_analysis_active"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Insights", "wordpress-seo" ) }
+							</Title>
+							<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+								<Badge size="small" variant="upsell">Premium</Badge>
+							</div>
+						</Card.Header>
+						<Card.Content>
+							{ insightsLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_metabox_insights"
+								data-id="input-wpseo-enable_metabox_insights"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+				</div>
+			</fieldset>
 			<hr className="yst-my-8" />
-			<FieldsetLayout title={ __( "Site structure", "wordpress-seo" ) }>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_cornerstone_content"
-					data-id="input-wpseo-enable_cornerstone_content"
-					label={ __( "Cornerstone content", "wordpress-seo" ) }
-					description={ cornerstoneContentLink }
-				/>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_text_link_counter"
-					data-id="input-wpseo-enable_text_link_counter"
-					label={ __( "Text link counter", "wordpress-seo" ) }
-					description={ textLinkCounterLink }
-				/>
-				{ isPremium && <FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_link_suggestions"
-					data-id="input-wpseo-enable_link_suggestions"
-					label={ __( "Link suggestions", "wordpress-seo" ) }
-					labelSuffix={ <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-					description={ linkSuggestionsLink }
-				/> }
-			</FieldsetLayout>
+			<fieldset className="yst-min-w-0">
+				<div className="yst-max-w-screen-sm yst-mb-8">
+					<Title as="legend" size="2">
+						{ __( "Site structure", "wordpress-seo" ) }
+					</Title>
+				</div>
+				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Cornerstone content", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ cornerstoneContentLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_cornerstone_content"
+								data-id="input-wpseo-enable_cornerstone_content"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Text link counter", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ textLinkCounterLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_text_link_counter"
+								data-id="input-wpseo-enable_text_link_counter"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Link suggestions", "wordpress-seo" ) }
+							</Title>
+							<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+								<Badge size="small" variant="upsell">Premium</Badge>
+							</div>
+						</Card.Header>
+						<Card.Content>
+							{ linkSuggestionsLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_link_suggestions"
+								data-id="input-wpseo-enable_link_suggestions"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+				</div>
+			</fieldset>
 			<hr className="yst-my-8" />
-			<FieldsetLayout id="section-social-sharing" title={ __( "Social sharing", "wordpress-seo" ) }>
-				<Alert id="alert-social-sharing">
-					{ __( "Facebook, Twitter and Pinterest all use Facebook's Open Graph data, so be sure to keep the 'Open Graph data' setting below enabled if you want to optimize your site for these social platforms.", "wordpress-seo" ) }
-				</Alert>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo_social.opengraph"
-					data-id="input-wpseo_social-opengraph"
-					label={ __( "Open Graph data", "wordpress-seo" ) }
-					description={ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }
-				/>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo_social.twitter"
-					data-id="input-wpseo_social-twitter"
-					label={ __( "Twitter card data", "wordpress-seo" ) }
-					description={ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }
-				/>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_enhanced_slack_sharing"
-					data-id="input-wpseo-enable_enhanced_slack_sharing"
-					label={ __( "Slack sharing", "wordpress-seo" ) }
-					description={ slackSharingLink }
-				/>
-			</FieldsetLayout>
+			<fieldset id="section-social-sharing" className="yst-min-w-0">
+				<div className="yst-max-w-screen-sm yst-mb-8">
+					<Title as="legend" size="2" className="yst-mb-2">
+						{ __( "Social sharing", "wordpress-seo" ) }
+					</Title>
+					<Alert id="alert-social-sharing">
+						{ __( "Facebook, Twitter and Pinterest all use Facebook's Open Graph data, so be sure to keep the 'Open Graph data' setting below enabled if you want to optimize your site for these social platforms.", "wordpress-seo" ) }
+					</Alert>
+				</div>
+				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Open Graph data", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo_social.opengraph"
+								data-id="input-wpseo_social-opengraph"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Twitter card data", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo_social.twitter"
+								data-id="input-wpseo_social-twitter"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Slack sharing", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ slackSharingLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_enhanced_slack_sharing"
+								data-id="input-wpseo-enable_enhanced_slack_sharing"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+				</div>
+			</fieldset>
 			<hr className="yst-my-8" />
-			<FieldsetLayout title={ __( "Tools", "wordpress-seo" ) }>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_admin_bar_menu"
-					data-id="input-wpseo-enable_admin_bar_menu"
-					label={ __( "Admin bar menu", "wordpress-seo" ) }
-					description={ __( "The Yoast SEO admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.", "wordpress-seo" ) }
-				/>
-			</FieldsetLayout>
+			<fieldset className="yst-min-w-0">
+				<div className="yst-max-w-screen-sm yst-mb-8">
+					<Title as="legend" size="2">
+						{ __( "Tools", "wordpress-seo" ) }
+					</Title>
+				</div>
+				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "Admin bar menu", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ __( "The Yoast SEO admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.", "wordpress-seo" ) }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_admin_bar_menu"
+								data-id="input-wpseo-enable_admin_bar_menu"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+				</div>
+			</fieldset>
 			<hr className="yst-my-8" />
-			<FieldsetLayout title={ __( "APIs", "wordpress-seo" ) }>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_headless_rest_endpoints"
-					data-id="input-wpseo-enable_headless_rest_endpoints"
-					label={ __( "REST API endpoint", "wordpress-seo" ) }
-					description={ __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ) }
-				/>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_xml_sitemap"
-					data-id="input-wpseo-enable_xml_sitemap"
-					label={ __( "XML sitemaps", "wordpress-seo" ) }
-					description={ xmlSitemapsLink }
-				/>
-				{ isPremium && <FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.enable_index_now"
-					data-id="input-wpseo-enable_index_now"
-					label={ __( "IndexNow", "wordpress-seo" ) }
-					labelSuffix={ <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-					description={ indexNowLink }
-				/> }
-			</FieldsetLayout>
+			<fieldset className="yst-min-w-0">
+				<div className="yst-max-w-screen-sm yst-mb-8">
+					<Title as="legend" size="2">
+						{ __( "APIs", "wordpress-seo" ) }
+					</Title>
+				</div>
+				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "REST API endpoint", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ) }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_headless_rest_endpoints"
+								data-id="input-wpseo-enable_headless_rest_endpoints"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "XML sitemaps", "wordpress-seo" ) }
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ xmlSitemapsLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_xml_sitemap"
+								data-id="input-wpseo-enable_xml_sitemap"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+					<Card>
+						<Card.Header className="yst-justify-start">
+							<Title as="h4">
+								{ __( "IndexNow", "wordpress-seo" ) }
+								<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+									<Badge size="small" variant="upsell">Premium</Badge>
+								</div>
+							</Title>
+						</Card.Header>
+						<Card.Content>
+							{ indexNowLink }
+						</Card.Content>
+						<Card.Footer>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo.enable_index_now"
+								data-id="input-wpseo-enable_index_now"
+								label={ __( "Enable feature", "wordpress-seo" ) }
+							/>
+						</Card.Footer>
+					</Card>
+				</div>
+			</fieldset>
 			<hr className="yst-my-8" />
 			<FieldsetLayout title={ __( "Security & privacy", "wordpress-seo" ) }>
 				<FormikValueChangeField
