@@ -16,6 +16,8 @@
 @import "../src/elements/file-input/style.css";
 @import "../src/elements/autocomplete/style.css";
 
+@import "../src/components/autocomplete-field/style.css";
+@import "../src/components/card/style.css";
 @import "../src/components/checkbox-group/style.css";
 @import "../src/components/file-import/style.css";
 @import "../src/components/modal/style.css";
@@ -27,7 +29,6 @@
 @import "../src/components/text-field/style.css";
 @import "../src/components/textarea-field/style.css";
 @import "../src/components/toggle-field/style.css";
-@import "../src/components/autocomplete-field/style.css";
 
 @tailwind base;
 @tailwind components;
