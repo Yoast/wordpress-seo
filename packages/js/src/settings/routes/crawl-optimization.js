@@ -3,8 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Badge, Code, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikFlippedToggleField, FormikValueChangeField, FormLayout } from "../components";
-import FormikTagField from "../components/formik-tag-field";
+import { FieldsetLayout, FormikFlippedToggleField, FormikValueChangeField, FormLayout, FormikTagField } from "../components";
 import { useSelectSettings } from "../store";
 
 /**

@@ -14,8 +14,8 @@ import {
 	FormikValueChangeField,
 	FormLayout,
 	OpenGraphDisabledAlert,
+	FormikTagField,
 } from "../../components";
-import FormikTagField from "../../components/formik-tag-field";
 import { useSelectSettings } from "../../store";
 
 /**
