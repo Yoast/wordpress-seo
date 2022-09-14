@@ -242,17 +242,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					type="checkbox"
 					name={ `wpseo_titles.display-metabox-pt-${ name }` }
 					data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
-					label={ sprintf(
-						/* translators: %1$s expands to Yoast SEO. %2$s expands to the post type plural, e.g. Posts. */
-						__( "Enable %1$s for %2$s", "wordpress-seo" ),
-						"Yoast SEO",
-						label
-					) }
-					description={ sprintf(
-						/* translators: %1$s expands to the post type plural, e.g. Posts. */
-						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s.", "wordpress-seo" ),
-						label
-					) }
+					label={ __( "Enable SEO controsl and assessments", "wordpress-seo" ) }
+					description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
 				/>
 				{ isPremium && <FormikTagField
 					name={ `wpseo_titles.page-analyse-extra-${ name }` }
