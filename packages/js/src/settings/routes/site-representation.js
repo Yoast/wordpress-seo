@@ -2,13 +2,13 @@ import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { dispatch } from "@wordpress/data";
-import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
+import { createInterpolateElement, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Radio, RadioGroup, SelectField, TextField, usePrevious } from "@yoast/ui-library";
+import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
-import { find, get, map } from "lodash";
+import { isEmpty } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
+import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
 import { STORE_NAME } from "../constants";
 import { fetchUserSocialProfiles } from "../helpers";
 import { withFormikError } from "../hocs";
@@ -154,11 +154,7 @@ const SiteRepresentation = () => {
 	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
 	const { other_social_urls: otherSocialUrls } = values.wpseo_social;
 
-	const users = useMemo( () => get( window, "wpseoScriptData.users", [] ), [] );
-	const userOptions = useMemo( () => map( users, user => ( { value: parseInt( user.id, 10 ), label: user.display_name } ) ), [ users ] );
-	const selectedUser = useMemo( () => (
-		find( users, user => companyOrPersonId === parseInt( user.id, 10 ) ) || users[ 0 ] || {}
-	), [ users, companyOrPersonId ] );
+	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
 	const editUserUrl = useSelectSettings( "selectPreference", [], "editUserUrl" );
@@ -317,34 +313,35 @@ const SiteRepresentation = () => {
 					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 				>
 					<FieldsetLayout title={ __( "Personal info", "wordpress-seo" ) }>
-						<FormikValueChangeField
-							as={ SelectField }
+						<FormikUserSelectField
 							name="wpseo_titles.company_or_person_user_id"
 							id="input-wpseo_titles-company_or_person_user_id"
 							label={ __( "Select a user", "wordpress-seo" ) }
-							options={ userOptions }
 						/>
-						<Alert id="alert-person-user-profile">
-							{ createInterpolateElement(
-								sprintf(
+						{ ! isEmpty( personUser ) && (
+							<Alert id="alert-person-user-profile">
+								{ createInterpolateElement(
+									sprintf(
 									// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
 									// %3$s and %4$s are replaced by opening and closing <a> tags.
 									// %5$s is replaced by the selected user display name.
-									__( "You have selected the user %1$s%5$s%2$s as the person this site represents. Their user profile information will now be used in search results. %3$sUpdate their profile to make sure the information is correct%4$s.", "wordpress-seo" ),
-									"<strong>",
-									"</strong>",
-									"<a>",
-									"</a>",
-									selectedUser.display_name
-								), {
-									strong: <strong className="yst-font-medium" />,
-									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a
-										id="link-person-user-profile" href={ `${ editUserUrl }?user_id=${ selectedUser.id }` } target="_blank"
-										rel="noopener noreferrer"
-									/>,
-								} ) }
-						</Alert>
+										__( "You have selected the user %1$s%5$s%2$s as the person this site represents. Their user profile information will now be used in search results. %3$sUpdate their profile to make sure the information is correct%4$s.", "wordpress-seo" ),
+										"<strong>",
+										"</strong>",
+										"<a>",
+										"</a>",
+										personUser?.name
+									), {
+										strong: <strong className="yst-font-medium" />,
+										// eslint-disable-next-line jsx-a11y/anchor-has-content
+										a: <a
+											id="link-person-user-profile" href={ `${ editUserUrl }?user_id=${ personUser?.id }` } target="_blank"
+											rel="noopener noreferrer"
+										/>,
+									} ) }
+							</Alert>
+						) }
+
 						<FormikMediaSelectField
 							id="wpseo_titles-person_logo"
 							label={ __( "Personal logo or avatar", "wordpress-seo" ) }
