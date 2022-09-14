@@ -243,9 +243,6 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The pages.
 	 */
 	public function add_page( $pages ) {
-		/* translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag. */
-		$title = \__( 'Settings %1$sBeta%2$s', 'wordpress-seo' );
-
 		\array_splice(
 			$pages,
 			1,
@@ -254,7 +251,7 @@ class Settings_Integration implements Integration_Interface {
 				[
 					'wpseo_dashboard',
 					'',
-					\sprintf( $title, '<span class="yoast-badge yoast-beta-badge">', '</span>' ),
+					\__( 'Settings', 'wordpress-seo' ),
 					'wpseo_manage_options',
 					'wpseo_settings',
 					[ $this, 'display_page' ],
