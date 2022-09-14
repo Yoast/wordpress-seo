@@ -2,33 +2,32 @@
 import PropTypes from "prop-types";
 import { Fragment, useCallback } from "@wordpress/element";
 import { Combobox, Transition } from "@headlessui/react";
-import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
+import { SelectorIcon, CheckIcon, ExclamationCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { constant } from "lodash";
+import { useSvgAria } from "../../hooks";
 
 const Option = ( {
 	children,
 	value,
 } ) => {
+	const svgAriaProps = useSvgAria();
 	const getClassName = useCallback( ( { active, selected } ) => classNames(
-		"yst-relative yst-cursor-default yst-select-none yst-py-2 yst-pl-3 yst-pr-9 yst-my-0",
-		selected && "yst-bg-primary-500 yst-text-white",
-		( active && ! selected ) && "yst-bg-primary-200 yst-text-gray-700",
-		( ! active && ! selected ) && "yst-text-gray-700",
+		"yst-autocomplete__option",
+		selected && "yst-autocomplete__option--selected",
+		( active && ! selected ) && "yst-autocomplete__option--active",
 	), [] );
 
 	return (
 		<Combobox.Option className={ getClassName } value={ value }>
 			{ ( { selected } ) => (
 				<>
-					<span className={ classNames( "yst-block yst-truncate", selected && "yst-font-semibold" ) }>
+					<span className={ classNames( "yst-autocomplete__option-label", selected && "yst-font-semibold" ) }>
 						{ children }
 					</span>
-					{ selected ? (
-						<span className="yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4 yst-text-white">
-							<CheckIcon className="yst-h-5 yst-w-5" aria-hidden="true" />
-						</span>
-					) : null }
+					{ selected && (
+						<CheckIcon className="yst-autocomplete__option-check" {...svgAriaProps} />
+					) }
 				</>
 			) }
 		</Combobox.Option>
@@ -75,6 +74,7 @@ const Autocomplete = ( {
 	...props
 } ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
+	const svgAriaProps = useSvgAria();
 
 	return (
 		<Combobox
@@ -96,19 +96,20 @@ const Autocomplete = ( {
 			<div className="yst-relative">
 				<div className="yst-relative">
 					<Combobox.Button
-						className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-gray-300 yst-flex yst-items-center yst-rounded-r-md yst-pl-3 yst-pr-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
+						className="yst-autocomplete__button"
 						{ ...buttonProps }
 						as="div"
 					>
 						<Combobox.Input
-							className="yst-w-full yst-text-gray-700 yst-rounded-md yst-border-0 yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-none sm:yst-text-sm focus:yst-ring-0"
+							className="yst-autocomplete__input"
 							displayValue={ getDisplayValue }
 							onChange={ onQueryChange }
 						/>
-						<SelectorIcon
-							className="yst-h-5 yst-w-5 yst-text-gray-400 yst-inset-y-0 yst-right-0"
-							aria-hidden="true"
-						/>
+						{ isError ? (
+							<ExclamationCircleIcon className="yst-autocomplete__button-icon yst-text-red-500" { ...svgAriaProps } />
+						) : (
+							<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
+						) }
 					</Combobox.Button>
 				</div>
 				<Transition
@@ -120,7 +121,7 @@ const Autocomplete = ( {
 					leaveFrom="yst-transform yst-scale-100 yst-opacity-100"
 					leaveTo="yst-transform yst-scale-95 yst-opacity-0"
 				>
-					<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
+					<Combobox.Options className="yst-autocomplete__options">
 						{ children }
 					</Combobox.Options>
 				</Transition>
@@ -132,7 +133,6 @@ const Autocomplete = ( {
 Autocomplete.propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
-	options: PropTypes.arrayOf( PropTypes.shape( optionPropType ) ),
 	children: PropTypes.node,
 	selectedLabel: PropTypes.string,
 	label: PropTypes.string,
