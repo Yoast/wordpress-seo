@@ -27,6 +27,19 @@ const preloadMedia = async( settings ) => {
 	forEach( mediaIdsChunks, fetchMedia );
 };
 
+/**
+ * @param {Object} settings The settings.
+ * @returns {void}
+ */
+const preloadUsers = async( settings ) => {
+	const userId = get( settings, "wpseo_titles.company_or_person_user_id", [] );
+	const { fetchUsers } = dispatch( STORE_NAME );
+
+	if ( userId ) {
+		fetchUsers( { include: [ userId ] } );
+	}
+};
+
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-settings" );
 	if ( ! root ) {
@@ -44,6 +57,7 @@ domReady( () => {
 
 	registerStore();
 	preloadMedia( settings );
+	preloadUsers();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
