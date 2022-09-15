@@ -107,7 +107,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 */
 	public function default_values( $defaults ) {
 		if ( $this->wordproof->integration_is_disabled() ) {
-			$defaults['wordproof_integration_active'] = true;
+			$defaults['wordproof_integration_active'] = false;
 		}
 
 		return $defaults;
