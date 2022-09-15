@@ -188,23 +188,23 @@ const PremiumUpsellList = () => {
 				</Title>
 				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside yst-text-slate-800 yst-mt-6">
 					<li>
-						<strong>{ __( "Multiple keyphrases", "wordpress-seo" ) }</strong>
+						<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
 						:&nbsp;
 						{ __( "Increase your SEO reach", "wordpress-seo" ) }
 					</li>
 					<li>
-						<strong>{ __( "No more dead links", "wordpress-seo" ) }</strong>
+						<span className="yst-font-semibold">{ __( "No more dead links", "wordpress-seo" ) }</span>
 						:&nbsp;
 						{ __( "Easy redirect manager", "wordpress-seo" ) }
 					</li>
-					<li><strong>{ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</strong></li>
+					<li><span className="yst-font-semibold">{ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</span></li>
 					<li>
-						<strong>{ __( "Social media preview", "wordpress-seo" ) }</strong>
+						<span className="yst-font-semibold">{ __( "Social media preview", "wordpress-seo" ) }</span>
 						:&nbsp;
 						{ __( "Facebook & Twitter", "wordpress-seo" ) }
 					</li>
-					<li><strong>{ __( "24/7 email support", "wordpress-seo" ) }</strong></li>
-					<li><strong>{ __( "No ads!", "wordpress-seo" ) }</strong></li>
+					<li><span className="yst-font-semibold">{ __( "24/7 email support", "wordpress-seo" ) }</span></li>
+					<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
 				</ul>
 				<Button
 					as="a" variant="upsell" size="large" href={ getPremiumLink }
