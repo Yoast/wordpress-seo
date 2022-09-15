@@ -177,47 +177,45 @@ const PremiumUpsellList = () => {
 	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
 
 	return (
-		<div className="yst-rounded-lg yst-bg-white yst-shadow">
-			<div className="yst-p-6 yst-max-w-5xl">
-				<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
-					{ sprintf(
-						/* translators: %s expands to Yoast SEO Premium */
-						__( "Upgrade to %s", "wordpress-seo" ),
-						"Yoast SEO Premium",
-					) }
-				</Title>
-				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside yst-text-slate-800 yst-mt-6">
-					<li>
-						<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Increase your SEO reach", "wordpress-seo" ) }
-					</li>
-					<li>
-						<span className="yst-font-semibold">{ __( "No more dead links", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Easy redirect manager", "wordpress-seo" ) }
-					</li>
-					<li><span className="yst-font-semibold">{ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</span></li>
-					<li>
-						<span className="yst-font-semibold">{ __( "Social media preview", "wordpress-seo" ) }</span>
-						:&nbsp;
-						{ __( "Facebook & Twitter", "wordpress-seo" ) }
-					</li>
-					<li><span className="yst-font-semibold">{ __( "24/7 email support", "wordpress-seo" ) }</span></li>
-					<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
-				</ul>
-				<Button
-					as="a" variant="upsell" size="large" href={ getPremiumLink }
-					className="yst-gap-2 yst-mt-4"
-				>
-					{ sprintf(
-						/* translators: %s expands to Yoast SEO Premium */
-						__( "Get %s", "wordpress-seo" ),
-						"Yoast SEO Premium",
-					) }
-					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
-				</Button>
-			</div>
+		<div className="yst-p-6 yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
+			<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
+				{ sprintf(
+					/* translators: %s expands to Yoast SEO Premium */
+					__( "Upgrade to %s", "wordpress-seo" ),
+					"Yoast SEO Premium",
+				) }
+			</Title>
+			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside yst-text-slate-800 yst-mt-6">
+				<li>
+					<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
+					:&nbsp;
+					{ __( "Increase your SEO reach", "wordpress-seo" ) }
+				</li>
+				<li>
+					<span className="yst-font-semibold">{ __( "No more dead links", "wordpress-seo" ) }</span>
+					:&nbsp;
+					{ __( "Easy redirect manager", "wordpress-seo" ) }
+				</li>
+				<li><span className="yst-font-semibold">{ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</span></li>
+				<li>
+					<span className="yst-font-semibold">{ __( "Social media preview", "wordpress-seo" ) }</span>
+					:&nbsp;
+					{ __( "Facebook & Twitter", "wordpress-seo" ) }
+				</li>
+				<li><span className="yst-font-semibold">{ __( "24/7 email support", "wordpress-seo" ) }</span></li>
+				<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
+			</ul>
+			<Button
+				as="a" variant="upsell" size="large" href={ getPremiumLink }
+				className="yst-gap-2 yst-mt-4"
+			>
+				{ sprintf(
+					/* translators: %s expands to Yoast SEO Premium */
+					__( "Get %s", "wordpress-seo" ),
+					"Yoast SEO Premium",
+				) }
+				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
+			</Button>
 		</div>
 	);
 };
