@@ -440,6 +440,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					// If the setting has changed, record it.
 					if ( $old[ $key ] !== $clean[ $key ] ) {
 						$clean['wordproof_integration_changed'] = true;
+						$dirty['wordproof_integration_changed'] = true;
 					}
 					break;
 
