@@ -92,7 +92,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'wincher_tokens'                           => [],
 		'wincher_automatically_add_keyphrases'     => false,
 		'wincher_website_id'                       => '',
-		'wordproof_integration_active'             => false,
+		'wordproof_integration_active'             => true,
 		'wordproof_integration_changed'            => false,
 		'first_time_install'                       => false,
 		'should_redirect_after_install_free'       => false,
