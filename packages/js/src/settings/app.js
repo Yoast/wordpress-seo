@@ -178,15 +178,15 @@ const PremiumUpsellList = () => {
 
 	return (
 		<div className="yst-rounded-lg yst-bg-white yst-shadow">
-			<div className="yst-p-6 yst-space-y-3 yst-max-w-5xl">
-				<Title as="h2" size="4" className="yst-text-base yst-text-primary-500">
+			<div className="yst-p-6 yst-max-w-5xl">
+				<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
 					{ sprintf(
 						/* translators: %s expands to Yoast SEO Premium */
 						__( "Upgrade to %s", "wordpress-seo" ),
 						"Yoast SEO Premium",
 					) }
 				</Title>
-				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside">
+				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside yst-text-slate-800 yst-mt-6">
 					<li>
 						<strong>{ __( "Multiple keyphrases", "wordpress-seo" ) }</strong>
 						:&nbsp;
