@@ -246,21 +246,18 @@ Release Date: September 20th, 2022
 
 Enhancements:
 
-* Improves handling of fatal errors in the front-end by preventing Yoast SEO to run in the login page, allowing users to access their dashboard.
+* Improves the handling of fatal errors in the front-end by preventing Yoast SEO to run in the login page, allowing users to access their dashboard.
+* Excludes empty custom post type sitemaps from `sitemap_index.xml`.
+* Introduces a new filter `wpseo_sitemap_post_type_first_links` that can be used to add links at the start of the first sitemap page for post types. Props to @jamalbou.
 
 Bugfixes:
 
-* Introduces a minor security improvement.
-* Introduces security hardening.
-* Uses the new WordPress `wp_filesize` function.
+* Fixes a bug in the default editor where image elements would lead to repeated requests for that image source while editing content.
 
 Other:
 
-* Adds a helper to help with adding content to the robots.txt file.
-* Adds options to support the changes in the premium plugin.
+* Adds new disabled toggles to the Crawl settings tab in the General page.
 * Changes Yoast SEO Premium sidebar ad to be the same styling as the one on yoast.com.
-* Exclude empty custom post type sitemaps from `sitemap_index.xml`.
-* Improves compatibility with PHP 8.2.
 
 = 19.6.1 =
 Release Date: August 31st, 2022
