@@ -82,6 +82,9 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			}
 		}
 
+		$breadcrumbs = \array_filter( $breadcrumbs, [ $this, 'not_empty_text' ] );
+		$breadcrumbs = \array_values( $breadcrumbs );
+
 		// Create intermediate breadcrumbs.
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			$list_elements[] = $this->create_breadcrumb( $index, $breadcrumb );
@@ -92,6 +95,17 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			'@id'             => $this->context->canonical . Schema_IDs::BREADCRUMB_HASH,
 			'itemListElement' => $list_elements,
 		];
+	}
+
+	/**
+	 * Checks whether the breadcrumb has a not empty text.
+	 *
+	 * @param array $breadcrumb The breadcrumb array.
+	 *
+	 * @return bool If the breadcrumb has a not empty text.
+	 */
+	private function not_empty_text( $breadcrumb ) {
+		return ! empty( $breadcrumb['text'] );
 	}
 
 	/**
