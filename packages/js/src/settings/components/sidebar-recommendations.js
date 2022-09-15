@@ -43,7 +43,7 @@ const PremiumUpsellCard = () => {
 			<p className="yst-mt-2">{ info }</p>
 			<Button
 				as="a" variant="upsell" size="large" href={ getPremiumLink }
-				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 sm:yst-px-0"
+				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-px-4 sm:yst-px-0"
 			>
 				{ getPremium }
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />

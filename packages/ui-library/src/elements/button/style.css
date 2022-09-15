@@ -78,7 +78,7 @@
 		.yst-button--large {
 			@apply
 			yst-py-3
-			yst-px-4
+			yst-px-6
 			yst-text-base
 			yst-leading-5;
 		}
