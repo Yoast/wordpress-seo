@@ -1,5 +1,5 @@
 import { PropTypes } from "prop-types";
-import classNames from 'classnames';
+import classNames from "classnames";
 
 /**
  * @param {string} as The element to render as.
@@ -8,9 +8,9 @@ import classNames from 'classnames';
  * @returns {WPElement} The card header.
  */
 const Header = ( { as: Component = "header", children, className = "", ...props } ) => (
-    <Component { ...props } className={ classNames( "yst-card__header", className ) }>
-        { children }
-    </Component>
+	<Component { ...props } className={ classNames( "yst-card__header", className ) }>
+		{ children }
+	</Component>
 );
 
 Header.propTypes = {
@@ -26,9 +26,9 @@ Header.propTypes = {
  * @returns {WPElement} The card content.
  */
 const Content = ( { as: Component = "div", children, className = "", ...props } ) => (
-    <Component { ...props } className={ classNames( "yst-card__content", className ) }>
-        { children }
-    </Component>
+	<Component { ...props } className={ classNames( "yst-card__content", className ) }>
+		{ children }
+	</Component>
 );
 
 Content.propTypes = {
@@ -45,9 +45,9 @@ Content.propTypes = {
  * @returns  {WPElement} The card footer.
  */
 const Footer = ( { as: Component = "footer", children, className = "", ...props } ) => (
-    <Component { ...props } className={ classNames( "yst-card__footer", className ) }>
-        { children }
-    </Component>
+	<Component { ...props } className={ classNames( "yst-card__footer", className ) }>
+		{ children }
+	</Component>
 );
 
 Footer.propTypes = {
@@ -63,13 +63,13 @@ Footer.propTypes = {
  * @returns {JSX.Element} The card component.
  */
 const Card = ( { as: Component = "div", children, className = "", ...props } ) => (
-    <Component { ...props } className={ classNames( "yst-card", className ) }>
-        { children }
-    </Component>
+	<Component { ...props } className={ classNames( "yst-card", className ) }>
+		{ children }
+	</Component>
 );
 
 Card.propTypes = {
-    as: PropTypes.element,
+	as: PropTypes.element,
 	children: PropTypes.node.isRequired,
 	className: PropTypes.node,
 };
