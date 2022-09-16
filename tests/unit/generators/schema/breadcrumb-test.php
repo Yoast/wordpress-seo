@@ -523,9 +523,8 @@ class Breadcrumb_Test extends TestCase {
 	}
 
 	/**
-	 * Generate method should fall back to the page title when the
-	 * text is empty, but only for the current page.
-	 * (last item in the breadcrumb list).
+	 * Generate method should omit the entity when
+	 * text is empty.
 	 *
 	 * @covers ::generate
 	 * @covers ::not_hidden
@@ -557,11 +556,6 @@ class Breadcrumb_Test extends TestCase {
 			->once()
 			->with( 'Home' )
 			->andReturn( 'Home' );
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->once()
-			->with( '' )
-			->andReturn( '' );
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
@@ -572,11 +566,6 @@ class Breadcrumb_Test extends TestCase {
 					'position' => 1,
 					'name'     => 'Home',
 					'item'     => 'https://wordpress.example.com/',
-				],
-				[
-					'@type'    => 'ListItem',
-					'position' => 2,
-					'name'     => '',
 				],
 			],
 		];
