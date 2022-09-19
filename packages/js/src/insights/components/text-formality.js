@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 
 import TextFormalityUpsell from "./text-formality-upsell";
 import {useSelect} from "@wordpress/data";
+import getL10nObject from "../../analysis/getL10nObject";
 
 /**
  * TextFormality component.

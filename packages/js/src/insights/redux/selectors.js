@@ -1,7 +1,6 @@
 import { get } from "lodash";
 import getContentLocale from "../../analysis/getContentLocale";
 import getL10nObject from "../../analysis/getL10nObject";
-import {select} from "@wordpress/data";
 
 /**
  * Gets the Estimated Reading Time from the store.
