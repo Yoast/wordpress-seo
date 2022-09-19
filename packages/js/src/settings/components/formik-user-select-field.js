@@ -99,7 +99,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 			// Hack to force re-render of Headless UI Combobox.Input component when selectedUser changes.
 			value={ selectedUser ? value : 0 }
 			onChange={ handleChange }
-			selectedLabel={ selectedUser?.name }
+			selectedLabel={ selectedUser?.name || __( "Select a user...", "wordpress-seo" ) }
 			onQueryChange={ handleQueryChange }
 			className={ className }
 		>
