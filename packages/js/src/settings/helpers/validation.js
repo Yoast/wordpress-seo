@@ -47,6 +47,8 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 		} ),
 		wpseo_titles: object().shape( {
 			open_graph_frontpage_image_id: number().isMediaTypeImage(),
+			company_logo_id: number().isMediaTypeImage(),
+			person_logo_id: number().isMediaTypeImage(),
 			// Media type image validation for all post type & taxonomy images.
 			...reduce( postTypes, ( acc, { name, hasArchive } ) => ( {
 				...acc,
