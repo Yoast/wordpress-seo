@@ -276,13 +276,6 @@ const SiteRepresentation = () => {
 						/>
 						<FormikWithErrorField
 							as={ TextField }
-							name="wpseo_social.instagram_site"
-							id="input-wpseo_social-instagram_site"
-							label={ __( "Instagram", "wordpress-seo" ) }
-							placeholder={ __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
-						/>
-						<FormikWithErrorField
-							as={ TextField }
 							name="wpseo_social.twitter_site"
 							id="input-wpseo_social-twitter_site"
 							label={ __( "Twitter", "wordpress-seo" ) }
