@@ -75,6 +75,7 @@ class Schema_Generator implements Generator_Interface {
 		$pieces_to_generate = $this->filter_graph_pieces_to_generate( $pieces );
 		$graph              = $this->generate_graph( $pieces_to_generate, $context );
 		$graph              = $this->add_schema_blocks_graph_pieces( $graph, $context );
+		$graph              = $this->finalize_graph( $graph );
 
 		return [
 			'@context' => 'https://schema.org',
@@ -191,6 +192,57 @@ class Schema_Generator implements Generator_Interface {
 
 				if ( isset( $block['attrs']['yoast-schema'] ) ) {
 					$graph[] = $this->schema_replace_vars_helper->replace( $block['attrs']['yoast-schema'], $context->presentation );
+				}
+			}
+		}
+
+		return $graph;
+	}
+
+	/**
+	 * Finalizes the schema graph after all filtering is done.
+	 *
+	 * @param array $graph The current schema graph.
+	 *
+	 * @return array The schema graph.
+	 */
+	protected function finalize_graph( $graph ) {
+		$graph = $this->remove_empty_breadcrumb( $graph );
+
+		return $graph;
+	}
+
+	/**
+	 * Removes the breadcrumb schema if empty.
+	 *
+	 * @param array $graph The current schema graph.
+	 *
+	 * @return array The schema graph with empty breadcrumpbs taken out.
+	 */
+	protected function remove_empty_breadcrumb( $graph ) {
+		if ( $this->helpers->current_page->is_home_static_page() || $this->helpers->current_page->is_home_posts_page() ) {
+			return $graph;
+		}
+
+		// Remove the breadcrumb piece, if it's empty.
+		$index_to_remove = 0;
+		foreach ( $graph as $key => $piece ) {
+			if ( \in_array( 'BreadcrumbList', $this->get_type_from_piece( $piece ), true ) ) {
+				if ( isset( $piece['itemListElement'] ) && is_array( $piece['itemListElement'] ) && count( $piece['itemListElement'] ) === 1 ) {
+					$index_to_remove = $key;
+					break;
+				}
+			}
+		}
+
+		// If the breadcrumb piece has been removed, we should remove its reference from the WebPage node.
+		if ( $index_to_remove !== 0 ) {
+			\array_splice( $graph, $index_to_remove, 1 );
+
+			foreach ( $graph as $key => $piece ) {
+				if ( \in_array( 'WebPage', $this->get_type_from_piece( $piece ), true ) && isset( $piece['breadcrumb'] ) ) {
+					unset( $piece['breadcrumb'] );
+					$graph[ $key ] = $piece;
 				}
 			}
 		}
