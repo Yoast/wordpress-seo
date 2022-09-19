@@ -259,7 +259,6 @@ Bugfixes:
 Other:
 
 * Adds new disabled toggles to the Crawl settings tab in the General page.
-* Changes Yoast SEO Premium sidebar ad to be the same styling as the one on yoast.com.
 
 = 19.6.1 =
 Release Date: August 31st, 2022
