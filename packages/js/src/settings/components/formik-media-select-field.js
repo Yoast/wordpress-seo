@@ -63,7 +63,16 @@ const FormikMediaSelectField = ( {
 	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
 	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
-	const srcSet = useMemo( () => join( map( media?.sizes, size => `${ size?.url } ${size?.width}w` ), ", " ), [ media ] );
+	const previewMedia = useMemo( () => {
+		if ( mediaId > 0 ) {
+			return media;
+		}
+		if ( fallbackMediaId > 0 ) {
+			return fallbackMedia;
+		}
+		return null;
+	}, [ mediaId, media, fallbackMediaId, fallbackMedia ] );
+	const previewSrcSet = useMemo( () => join( map( media?.sizes || fallbackMedia?.sizes, size => `${ size?.url } ${size?.width}w` ), ", " ), [ media, fallbackMedia ] );
 
 	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
@@ -134,19 +143,19 @@ const FormikMediaSelectField = ( {
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
 					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-max-w-full yst-rounded-md yst-mb-4 yst-border-gray-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-					mediaId > 0 || fallbackMediaId > 0 ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
+					previewMedia ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
 					disabled && "yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
 					className
 				) }
 				disabled={ disabled }
 			>
-				{ mediaId > 0 || fallbackMediaId > 0 ? (
+				{ previewMedia ? (
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
-							src={ media?.url || fallbackMedia?.url } alt={ media?.alt || fallbackMedia?.alt || "" }
-							srcSet={ srcSet }
+							src={ previewMedia?.url } alt={ previewMedia?.alt || "" }
+							srcSet={ previewSrcSet }
 							sizes={ variant === "landscape" ? "24rem" : "12rem" }
 							width={ variant === "landscape" ? "24rem" : "12rem" }
 							loading="lazy"
