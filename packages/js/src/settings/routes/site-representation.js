@@ -151,13 +151,20 @@ const PersonSocialProfiles = () => {
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
 	// eslint-disable-next-line camelcase
-	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
+	const {
+		company_or_person: companyOrPerson,
+		company_or_person_user_id: companyOrPersonId,
+		company_name: companyName,
+		company_logo_id: companyLogoId,
+	} = values.wpseo_titles;
 	const { other_social_urls: otherSocialUrls } = values.wpseo_social;
 
 	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
 	const editUserUrl = useSelectSettings( "selectPreference", [], "editUserUrl" );
+	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
+	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
 	const siteName = useSelectSettings( "selectFallback", [], "siteName" );
 
@@ -175,8 +182,13 @@ const SiteRepresentation = () => {
 				"link-google-knowledge-graph"
 			) }
 		>
-			<section>
-				<RadioGroup label={ __( "Choose whether your site represents an organization or a person.", "wordpress-seo" ) }>
+			<section className="yst-space-y-8">
+				{ isLocalSeoActive && (
+					<Alert id="alert-local-seo-company-or-person" variant="info">
+						{ companyOrPersonMessage }
+					</Alert>
+				) }
+				<RadioGroup label={ __( "Choose whether your site represents an organization or a person.", "wordpress-seo" ) } disabled={ isLocalSeoActive }>
 					<Field
 						as={ Radio }
 						type="radio"
@@ -184,6 +196,7 @@ const SiteRepresentation = () => {
 						id="input-wpseo_titles-company_or_person-company"
 						label={ __( "Organization", "wordpress-seo" ) }
 						value="company"
+						disabled={ isLocalSeoActive }
 					/>
 					<Field
 						as={ Radio }
@@ -192,6 +205,7 @@ const SiteRepresentation = () => {
 						id="input-wpseo_titles-company_or_person-person"
 						label={ __( "Person", "wordpress-seo" ) }
 						value="person"
+						disabled={ isLocalSeoActive }
 					/>
 				</RadioGroup>
 			</section>
@@ -207,18 +221,20 @@ const SiteRepresentation = () => {
 					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 				>
 					<FieldsetLayout title={ __( "Organization", "wordpress-seo" ) }>
-						<Alert id="alert-organization-name-logo" variant="warning">
-							{ addLinkToString(
-								sprintf(
+						{ ( ! companyName || companyLogoId < 1 ) && (
+							<Alert id="alert-organization-name-logo" variant="warning">
+								{ addLinkToString(
+									sprintf(
 									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-									__( "An organization name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
-									"<a>",
-									"</a>"
-								),
-								structuredDataLink,
-								"link-structured-data"
-							) }
-						</Alert>
+										__( "An organization name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
+										"<a>",
+										"</a>"
+									),
+									structuredDataLink,
+									"link-structured-data"
+								) }
+							</Alert>
+						) }
 						<Field
 							as={ TextField }
 							name="wpseo_titles.company_name"

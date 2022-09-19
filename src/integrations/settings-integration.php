@@ -361,6 +361,7 @@ class Settings_Integration implements Integration_Interface {
 			'isNetworkAdmin'                => \is_network_admin(),
 			'isMainSite'                    => \is_main_site(),
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
+			'isLocalSeoActive'              => (bool) \defined( 'WPSEO_LOCAL_FILE' ),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
 			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
@@ -371,6 +372,7 @@ class Settings_Integration implements Integration_Interface {
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
+			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 		];
 	}
 
