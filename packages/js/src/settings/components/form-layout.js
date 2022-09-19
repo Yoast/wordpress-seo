@@ -72,10 +72,10 @@ const FormLayout = ( {
 										<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
 									</div>
 									<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
-										<Modal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-gray-900">
+										<Modal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900">
 											{ __( "Discard all changes", "wordpress-seo" ) }
 										</Modal.Title>
-										<Modal.Description className="yst-text-sm yst-text-gray-500">
+										<Modal.Description className="yst-text-sm yst-text-slate-500">
 											{ __( "You are about to discard all unsaved changes. All of your settings will be reset to the point where you last saved. Are you sure you want to do this?", "wordpress-seo" ) }
 										</Modal.Description>
 									</div>
