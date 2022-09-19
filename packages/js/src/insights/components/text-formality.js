@@ -5,7 +5,7 @@ import { get } from "lodash";
 import PropTypes from "prop-types";
 
 import TextFormalityUpsell from "./text-formality-upsell";
-import {useSelect} from "@wordpress/data";
+import { useSelect } from "@wordpress/data";
 import getL10nObject from "../../analysis/getL10nObject";
 
 /**
@@ -17,7 +17,7 @@ import getL10nObject from "../../analysis/getL10nObject";
  * @returns {JSX.Element} The element.
  */
 const TextFormality = ( { location, name } ) => {
-	const isFormalitySupported = useSelect( select => select("yoast-seo/editor").isFormalitySupported(), [] );
+	const isFormalitySupported = useSelect( select => select( "yoast-seo/editor" ).isFormalitySupported(), [] );
 	const isPremium = getL10nObject().isPremium;
 
 	const infoLink = isPremium
