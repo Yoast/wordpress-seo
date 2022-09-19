@@ -1,5 +1,5 @@
 === Yoast SEO ===
-Contributors: yoast, joostdevalk, omarreiss
+Contributors: yoast, joostdevalk, tdevalk
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
