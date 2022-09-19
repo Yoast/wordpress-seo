@@ -336,6 +336,7 @@ class Settings_Integration implements Integration_Interface {
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
+			'fallbacks'            => $this->get_fallbacks(),
 		];
 	}
 
@@ -564,5 +565,25 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		return $route;
+	}
+
+	/**
+	 * Retrieves the fallbacks.
+	 *
+	 * @return array The fallbacks.
+	 */
+	protected function get_fallbacks() {
+		$site_logo_id = \get_option( 'site_logo' );
+		if ( ! $site_logo_id ) {
+			$site_logo_id = \get_theme_mod( 'custom_logo' );
+		}
+		if ( ! $site_logo_id ) {
+			$site_logo_id = "0";
+		}
+
+		return [
+			'siteLogoId' => $site_logo_id,
+			'siteName'   => \get_bloginfo( 'name' ),
+		];
 	}
 }

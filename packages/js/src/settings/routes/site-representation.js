@@ -158,6 +158,8 @@ const SiteRepresentation = () => {
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
 	const editUserUrl = useSelectSettings( "selectPreference", [], "editUserUrl" );
+	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
+	const siteName = useSelectSettings( "selectFallback", [], "siteName" );
 
 	return (
 		<FormLayout
@@ -222,6 +224,7 @@ const SiteRepresentation = () => {
 							name="wpseo_titles.company_name"
 							id="input-wpseo_titles-company_name"
 							label={ __( "Organization name", "wordpress-seo" ) }
+							placeholder={ siteName }
 						/>
 						<FormikMediaSelectField
 							id="wpseo_titles-company_logo"
@@ -240,6 +243,7 @@ const SiteRepresentation = () => {
 								} ) }
 							mediaUrlName="wpseo_titles.company_logo"
 							mediaIdName="wpseo_titles.company_logo_id"
+							fallbackMediaId={ siteLogoId }
 						/>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
@@ -360,6 +364,7 @@ const SiteRepresentation = () => {
 								} ) }
 							mediaUrlName="wpseo_titles.person_logo"
 							mediaIdName="wpseo_titles.person_logo_id"
+							fallbackMediaId={ siteLogoId }
 						/>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />

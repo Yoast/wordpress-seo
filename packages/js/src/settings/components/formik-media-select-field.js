@@ -29,6 +29,7 @@ const classNameMap = {
  * @param {string} id Id.
  * @param {string} mediaUrlName Name for the hidden media url field.
  * @param {string} mediaIdName Name for the hidden media id field.
+ * @param {string} fallbackMediaId ID for the fallback media.
  * @param {string} previewLabel Label for the preview button.
  * @param {string} [selectLabel] Label for the select button.
  * @param {string} [replaceLabel] Label for the replace button.
@@ -46,6 +47,7 @@ const FormikMediaSelectField = ( {
 	id,
 	mediaUrlName,
 	mediaIdName,
+	fallbackMediaId = "0",
 	previewLabel = "",
 	selectLabel = __( "Select image", "wordpress-seo" ),
 	replaceLabel = __( "Replace image", "wordpress-seo" ),
@@ -56,8 +58,8 @@ const FormikMediaSelectField = ( {
 	const [ wpMediaLibrary, setWpMediaLibrary ] = useState( null );
 	const wpMedia = useMemo( () => get( window, "wp.media", null ), [] );
 	const mediaId = useMemo( () => get( values, mediaIdName, "" ), [ values, mediaIdName ] );
-	const mediaUrl = useMemo( () => get( values, mediaUrlName, "" ), [ values, mediaUrlName ] );
 	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
+	const fallbackMedia = useSelectSettings( "selectMediaById", [ fallbackMediaId ], fallbackMediaId );
 	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
 	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
@@ -106,6 +108,9 @@ const FormikMediaSelectField = ( {
 		if ( mediaId && ! media ) {
 			fetchMedia( [ mediaId ] );
 		}
+		if ( fallbackMediaId && ! fallbackMedia ) {
+			fetchMedia( [ fallbackMediaId ] );
+		}
 	}, [] );
 
 	return (
@@ -129,18 +134,18 @@ const FormikMediaSelectField = ( {
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
 					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-max-w-full yst-rounded-md yst-mb-4 yst-border-gray-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-					mediaUrl ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
+					mediaId > 0 || fallbackMediaId > 0 ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
 					disabled && "yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
 					className
 				) }
 				disabled={ disabled }
 			>
-				{ mediaId > 0 ? (
+				{ mediaId > 0 || fallbackMediaId > 0 ? (
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
-							src={ media?.url } alt={ media?.alt || "" }
+							src={ media?.url || fallbackMedia?.url } alt={ media?.alt || fallbackMedia?.alt || "" }
 							srcSet={ srcSet }
 							sizes={ variant === "landscape" ? "24rem" : "12rem" }
 							width={ variant === "landscape" ? "24rem" : "12rem" }
@@ -209,6 +214,7 @@ FormikMediaSelectField.propTypes = {
 	id: PropTypes.string.isRequired,
 	mediaUrlName: PropTypes.string.isRequired,
 	mediaIdName: PropTypes.string.isRequired,
+	fallbackMediaId: PropTypes.string,
 	previewLabel: PropTypes.node,
 	selectLabel: PropTypes.string,
 	replaceLabel: PropTypes.string,

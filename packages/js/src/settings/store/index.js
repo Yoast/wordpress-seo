@@ -2,6 +2,7 @@ import { combineReducers, createReduxStore, register, useSelect } from "@wordpre
 import { merge } from "lodash";
 import { STORE_NAME } from "../constants";
 import { breadcrumbsSelectors } from "./breadcrumbs";
+import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
 import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
 import media, { createInitialMediaState, mediaActions, mediaSelectors, mediaControls } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
@@ -34,6 +35,7 @@ export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( 
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
+			...fallbacksActions,
 			...linkParamsActions,
 			...mediaActions,
 			...notificationsActions,
@@ -47,6 +49,7 @@ const createStore = ( { initialState } ) => {
 		},
 		selectors: {
 			...breadcrumbsSelectors,
+			...fallbacksSelectors,
 			...linkParamsSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
@@ -61,6 +64,7 @@ const createStore = ( { initialState } ) => {
 		initialState: merge(
 			{},
 			{
+				fallbacks: createInitialFallbacksState(),
 				linkParams: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
 				notifications: createInitialNotificationsState(),
@@ -75,6 +79,7 @@ const createStore = ( { initialState } ) => {
 			initialState
 		),
 		reducer: combineReducers( {
+			fallbacks,
 			linkParams,
 			media,
 			notifications,
