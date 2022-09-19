@@ -55,13 +55,13 @@ export const getTextLength = state => get( state, "insights.textLength", {} );
  * If the language is supported, an upsell should be shown in Free.
  * In Premium, the feature should be shown if the version of Premium contains the getTextFormalityLevel selector.
  *
- * @returns {boolean}
+ * @returns {boolean}   Whether Formality feature is supported.
  */
 export const isFormalitySupported = () => {
 	const isLanguageSupported = getContentLocale().split( "_" )[ 0 ] === "en";
 	const isPremium = getL10nObject().isPremium;
 
-	if( ! isLanguageSupported ) {
+	if ( ! isLanguageSupported ) {
 		return false;
 	}
 
@@ -75,5 +75,5 @@ export const isFormalitySupported = () => {
 	 * (so not in the versions of Premium before it was added).
 	*/
 	const premiumSelectors = window.wp.data.select( "yoast-seo-premium/editor" );
-	return premiumSelectors.hasOwnProperty("getTextFormalityLevel" );
-}
+	return premiumSelectors.hasOwnProperty( "getTextFormalityLevel" );
+};
