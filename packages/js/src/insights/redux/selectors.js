@@ -1,4 +1,7 @@
 import { get } from "lodash";
+import getContentLocale from "../../analysis/getContentLocale";
+import getL10nObject from "../../analysis/getL10nObject";
+import {select} from "@wordpress/data";
 
 /**
  * Gets the Estimated Reading Time from the store.
@@ -46,3 +49,32 @@ export const isFleschReadingEaseAvailable = state => {
  * @returns {{ count: number, unit: ("character"|"word") }} The text length.
  */
 export const getTextLength = state => get( state, "insights.textLength", {} );
+
+/**
+ * Checks whether the formality feature, or an upsell for the feature, should be shown.
+ * It should not be shown if formality is not supported in the current locale.
+ * If the language is supported, an upsell should be shown in Free.
+ * In Premium, the feature should be shown if the version of Premium contains the getTextFormalityLevel selector.
+ *
+ * @returns {boolean}
+ */
+export const isFormalitySupported = () => {
+	const isLanguageSupported = getContentLocale().split( "_" )[ 0 ] === "en";
+	const isPremium = getL10nObject().isPremium;
+
+	if( ! isLanguageSupported ) {
+		return false;
+	}
+
+	// The formality feature is not available in Free, but we do want to show an upsell for it.
+	if ( ! isPremium ) {
+		return true;
+	}
+
+	/*
+	 * The formality feature is only available if the getTextFormalityLevel selector is available
+	 * (so not in the versions of Premium before it was added).
+	*/
+	const premiumSelectors = window.wp.data.select( "yoast-seo-premium/editor" );
+	return premiumSelectors.hasOwnProperty("getTextFormalityLevel" );
+}

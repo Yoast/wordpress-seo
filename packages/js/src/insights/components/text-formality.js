@@ -3,10 +3,9 @@ import { __ } from "@wordpress/i18n";
 import { HelpIcon } from "@yoast/components";
 import { get } from "lodash";
 import PropTypes from "prop-types";
-import getContentLocale from "../../analysis/getContentLocale";
-import getL10nObject from "../../analysis/getL10nObject";
 
 import TextFormalityUpsell from "./text-formality-upsell";
+import {useSelect} from "@wordpress/data";
 
 /**
  * TextFormality component.
@@ -17,15 +16,15 @@ import TextFormalityUpsell from "./text-formality-upsell";
  * @returns {JSX.Element} The element.
  */
 const TextFormality = ( { location, name } ) => {
-	const isFormalityAvailable = getContentLocale().split( "_" )[ 0 ] === "en";
-	const isPremium = getL10nObject().isPremium;
+	const isFormalitySupported = useSelect( select => select("yoast-seo/editor").isFormalitySupported(), [] );
+
 	const infoLink = isPremium
 		? get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_premium", "" )
 		: get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_free", "" );
 
 	const linkText = __( "Read more about text formality.", "wordpress-seo" );
 
-	if ( ! isFormalityAvailable ) {
+	if ( ! isFormalitySupported ) {
 		return null;
 	}
 
