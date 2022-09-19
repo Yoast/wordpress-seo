@@ -2,7 +2,7 @@
 import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { reduce } from "lodash";
-import { addMethod, number, object, string } from "yup";
+import { addMethod, number, object, string, array } from "yup";
 import { STORE_NAME } from "../constants";
 
 const ALPHA_NUMERIC_VERIFY_REGEXP = /^[A-Za-z0-9_-]+$/;
@@ -42,6 +42,12 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 		} ),
 		wpseo_social: object().shape( {
 			og_default_image_id: number().isMediaTypeImage(),
+			facebook_site: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			twitter_site: string()
+				.matches( TWITTER_HANDLE_REGEXP, __( "The profile is not valid. Please use only 1-25 letters, numbers and underscores or enter a valid Twitter URL.", "wordpress-seo" ) ),
+			other_social_urls: array().of(
+				string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) )
+			),
 			pinterestverify: string()
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 		} ),

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { __, sprintf } from "@wordpress/i18n";
-import { reduce } from "lodash";
+import { reduce, times } from "lodash";
 
 /**
  * @param {Object} postType The post type.
@@ -468,18 +468,18 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldId: "input-wpseo_social-facebook_site",
 			fieldLabel: __( "Facebook", "wordpress-seo" ),
 		},
-		instagram_site: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-wpseo_social-instagram_site",
-			fieldLabel: __( "Instagram", "wordpress-seo" ),
-		},
 		twitter_site: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_social-twitter_site",
 			fieldLabel: __( "Twitter", "wordpress-seo" ),
 		},
+		other_social_urls: times( 25, index => ( {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: `input-wpseo_social-other_social_urls-${ index }`,
+			fieldLabel: __( "Other social profile", "wordpress-seo" ),
+		} ) ),
 	},
 	person_social_profiles: {
 		facebook: {
