@@ -27,6 +27,7 @@ import sanitizeString from "./helpers/sanitize/sanitizeString";
 import removePunctuation from "./helpers/sanitize/removePunctuation";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
+import getSentences from "./helpers/sentence/getSentences";
 
 export {
 	AbstractResearcher,
@@ -59,4 +60,5 @@ export {
 	sanitizeString,
 	removePunctuation,
 	getLanguage,
+	getSentences,
 };
