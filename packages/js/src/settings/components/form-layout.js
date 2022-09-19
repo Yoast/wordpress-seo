@@ -81,10 +81,10 @@ const FormLayout = ( {
 									</div>
 								</div>
 								<div className="yst-flex yst-flex-col sm:yst-flex-row-reverse yst-gap-3 yst-mt-6">
-									<Button type="button" variant="error" onClick={ handleUndo }>
+									<Button type="button" variant="error" onClick={ handleUndo } className="yst-block yst-text-center">
 										{ __( "Yes, discard changes", "wordpress-seo" ) }
 									</Button>
-									<Button type="button" variant="secondary" onClick={ unsetRequestUndo }>
+									<Button type="button" variant="secondary" onClick={ unsetRequestUndo } className="yst-block yst-text-center">
 										{ __( "No, continue editing", "wordpress-seo" ) }
 									</Button>
 								</div>
