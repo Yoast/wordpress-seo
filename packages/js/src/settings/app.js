@@ -227,7 +227,7 @@ const App = () => {
 	const { pathname } = useLocation();
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
-	const isPremium = false;//useSelectSettings( "selectPreference", [], "isPremium" );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 
 	useRouterScrollRestore();
 
