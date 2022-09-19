@@ -62,6 +62,7 @@ class Feed_Improvements implements Integration_Interface {
 
 		\add_action( 'do_feed_rss', [ $this, 'send_canonical_header' ], 9 );
 		\add_action( 'do_feed_rss2', [ $this, 'send_canonical_header' ], 9 );
+		\add_action( 'do_feed_rss2', [ $this, 'add_robots_headers' ], 9 );
 	}
 
 	/**
@@ -91,6 +92,19 @@ class Feed_Improvements implements Integration_Interface {
 		$url = $this->get_url_for_queried_object( $this->meta->for_home_page()->canonical );
 		if ( ! empty( $url ) ) {
 			\header( \sprintf( 'Link: <%s>; rel="canonical"', $url ), false );
+		}
+	}
+
+	/**
+	 * Adds noindex, follow tag for comment feeds.
+	 *
+	 * @param $for_comments bool If the RRS feed is meant for a comment feed.
+	 *
+	 * @return void
+	 */
+	public function add_robots_headers( $for_comments ) {
+		if ( $for_comments && ! \headers_sent() ) {
+			\header( 'x-robots-tag: noindex, follow ', true );
 		}
 	}
 
