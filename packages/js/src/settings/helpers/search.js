@@ -215,7 +215,103 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
  * @returns {Object} The search index.
  */
 export const createSearchIndex = ( postTypes, taxonomies ) => ( {
+	blogname: {
+		route: "/site-basics",
+		routeLabel: __( "Site basics", "wordpress-seo" ),
+		fieldId: "input-blogname",
+		fieldLabel: __( "Site title", "wordpress-seo" ),
+	},
+	blogdescription: {
+		route: "/site-basics",
+		routeLabel: __( "Site basics", "wordpress-seo" ),
+		fieldId: "input-blogdescription",
+		fieldLabel: __( "Tagline", "wordpress-seo" ),
+	},
 	wpseo: {
+		keyword_analysis_active: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-keyword_analysis_active",
+			fieldLabel: __( "SEO analysis", "wordpress-seo" ),
+		},
+		content_analysis_active: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-content_analysis_active",
+			fieldLabel: __( "Readability analysis", "wordpress-seo" ),
+		},
+		inclusive_language_analysis_active: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-inclusive_language_analysis_active",
+			fieldLabel: __( "Inclusive language analysis", "wordpress-seo" ),
+		},
+		enable_metabox_insights: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_metabox_insights",
+			fieldLabel: __( "Insights", "wordpress-seo" ),
+		},
+		enable_cornerstone_content: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_cornerstone_content",
+			fieldLabel: __( "Cornerstone content", "wordpress-seo" ),
+		},
+		enable_text_link_counter: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_text_link_counter",
+			fieldLabel: __( "Text link counter", "wordpress-seo" ),
+		},
+		enable_link_suggestions: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_link_suggestions",
+			fieldLabel: __( "Link suggestions", "wordpress-seo" ),
+		},
+		enable_enhanced_slack_sharing: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_enhanced_slack_sharing",
+			fieldLabel: __( "Slack sharing", "wordpress-seo" ),
+		},
+		enable_admin_bar_menu: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_admin_bar_menu",
+			fieldLabel: __( "Admin bar menu", "wordpress-seo" ),
+		},
+		enable_headless_rest_endpoints: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_headless_rest_endpoints",
+			fieldLabel: __( "REST API endpoint", "wordpress-seo" ),
+		},
+		enable_xml_sitemap: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_xml_sitemap",
+			fieldLabel: __( "XML sitemaps", "wordpress-seo" ),
+		},
+		enable_index_now: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo-enable_index_now",
+			fieldLabel: __( "IndexNow", "wordpress-seo" ),
+		},
+		disableadvanced_meta: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "input-wpseo-disableadvanced_meta",
+			fieldLabel: __( "Restrict advanced settings for authors", "wordpress-seo" ),
+		},
+		tracking: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "input-wpseo-tracking",
+			fieldLabel: __( "Usage tracking", "wordpress-seo" ),
+		},
 		baiduverify: {
 			route: "/webmaster-tools",
 			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
@@ -242,6 +338,42 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		},
 	},
 	wpseo_titles: {
+		separator: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-separator-sc-dash",
+			fieldLabel: __( "Title separator", "wordpress-seo" ),
+		},
+		company_or_person: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-company_or_person-company",
+			fieldLabel: __( "Organization or a person", "wordpress-seo" ),
+		},
+		company_name: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-company_name",
+			fieldLabel: __( "Organization name", "wordpress-seo" ),
+		},
+		company_logo_id: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-company_logo-preview",
+			fieldLabel: __( "Organization logo", "wordpress-seo" ),
+		},
+		company_or_person_user_id: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-company_or_person_user_id",
+			fieldLabel: __( "User", "wordpress-seo" ),
+		},
+		person_logo_id: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-person_logo-preview",
+			fieldLabel: __( "Personal logo or avatar", "wordpress-seo" ),
+		},
 		open_graph_frontpage_image_id: {
 			route: "/homepage",
 			routeLabel: __( "Homepage", "wordpress-seo" ),
@@ -300,15 +432,27 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		},
 	},
 	wpseo_social: {
+		opengraph: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo_social-opengraph",
+			fieldLabel: __( "Open Graph data", "wordpress-seo" ),
+		},
+		twitter: {
+			route: "/site-preferences",
+			routeLabel: __( "Site preferences", "wordpress-seo" ),
+			fieldId: "card-wpseo_social-twitter",
+			fieldLabel: __( "Twitter card data", "wordpress-seo" ),
+		},
 		og_default_image_id: {
-			route: "/site-defaults",
-			routeLabel: __( "Site defaults", "wordpress-seo" ),
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
 			fieldId: "button-wpseo_social-og_default_image-preview",
 			fieldLabel: __( "Site image", "wordpress-seo" ),
 		},
-		og_default_image_url: {
-			route: "/site-defaults",
-			routeLabel: __( "Site defaults", "wordpress-seo" ),
+		og_default_image: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
 			fieldId: "button-wpseo_social-og_default_image-preview",
 			fieldLabel: __( "Site image", "wordpress-seo" ),
 		},
@@ -317,6 +461,24 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Webmaster tools", "wordpress-seo" ),
 			fieldId: "input-wpseo_social-pinterestverify",
 			fieldLabel: __( "Pinterest", "wordpress-seo" ),
+		},
+		facebook_site: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_social-facebook_site",
+			fieldLabel: __( "Facebook", "wordpress-seo" ),
+		},
+		instagram_site: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_social-instagram_site",
+			fieldLabel: __( "Instagram", "wordpress-seo" ),
+		},
+		twitter_site: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_social-twitter_site",
+			fieldLabel: __( "Twitter", "wordpress-seo" ),
 		},
 	},
 	person_social_profiles: {
