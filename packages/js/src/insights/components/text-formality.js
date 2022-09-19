@@ -17,6 +17,7 @@ import {useSelect} from "@wordpress/data";
  */
 const TextFormality = ( { location, name } ) => {
 	const isFormalitySupported = useSelect( select => select("yoast-seo/editor").isFormalitySupported(), [] );
+	const isPremium = getL10nObject().isPremium;
 
 	const infoLink = isPremium
 		? get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_premium", "" )
