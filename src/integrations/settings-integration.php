@@ -588,7 +588,7 @@ class Settings_Integration implements Integration_Interface {
 			$site_logo_id = \get_theme_mod( 'custom_logo' );
 		}
 		if ( ! $site_logo_id ) {
-			$site_logo_id = "0";
+			$site_logo_id = '0';
 		}
 
 		return [
