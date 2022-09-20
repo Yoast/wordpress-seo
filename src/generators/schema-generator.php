@@ -242,13 +242,7 @@ class Schema_Generator implements Generator_Interface {
 			\array_splice( $graph, $index_to_remove, 1 );
 
 			// Get the type of the WebPage node.
-			$webpage_type = $context->schema_page_type;
-			if ( ! \is_array( $webpage_type ) ) {
-				$webpage_types = [ $webpage_type ];
-			}
-			else {
-				$webpage_types = $webpage_type;
-			}
+			$webpage_types = \is_array( $context->schema_page_type ) ? $context->schema_page_type : [ $context->schema_page_type ];
 
 			foreach ( $graph as $key => $piece ) {
 				if ( ! empty( \array_intersect( $webpage_types, $this->get_type_from_piece( $piece ) ) ) && isset( $piece['breadcrumb'] ) ) {
