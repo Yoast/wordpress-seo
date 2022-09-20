@@ -37,14 +37,14 @@
 
 		.yst-button--secondary {
 			@apply
-			yst-text-gray-800
+			yst-text-slate-800
 			yst-bg-white
-			yst-border-gray-300
+			yst-border-slate-300
 
-			hover:yst-text-gray-800
-			hover:yst-bg-gray-50
-			visited:yst-text-gray-800
-			visited:hover:yst-text-gray-800;
+			hover:yst-text-slate-800
+			hover:yst-bg-slate-50
+			visited:yst-text-slate-800
+			visited:hover:yst-text-slate-800;
 		}
 
 		.yst-button--error {
