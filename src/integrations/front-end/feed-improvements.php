@@ -106,7 +106,6 @@ class Feed_Improvements implements Integration_Interface {
 
 		$url = $this->get_url_for_queried_object( $this->meta->for_home_page()->canonical );
 		if ( ! empty( $url ) ) {
-
 			\header( \sprintf( 'Link: <%s>; rel="canonical"', $url ), false );
 		}
 	}
