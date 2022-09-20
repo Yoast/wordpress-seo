@@ -274,12 +274,13 @@ const SiteRepresentation = () => {
 							label={ __( "Facebook", "wordpress-seo" ) }
 							placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
 						/>
-						<FormikWithErrorField
+						<FormikValueChangeWithErrorField
 							as={ TextField }
 							name="wpseo_social.twitter_site"
 							id="input-wpseo_social-twitter_site"
 							label={ __( "Twitter", "wordpress-seo" ) }
 							placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
+							transformValue={ transformTwitterUrl }
 						/>
 						<FieldArray name="wpseo_social.other_social_urls">
 							{ arrayHelpers => (
