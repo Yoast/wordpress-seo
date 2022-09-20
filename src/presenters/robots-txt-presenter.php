@@ -9,9 +9,9 @@ use Yoast\WP\SEO\Helpers\Robots_Txt_Helper;
  */
 class Robots_Txt_Presenter extends Abstract_Presenter {
 
-	const YOAST_OUTPUT_BEFORE_COMMENT = "# START YOAST INTERNAL SEARCH BLOCK\n# ---------------------------\n";
+	const YOAST_OUTPUT_BEFORE_COMMENT = "# START YOAST BLOCK\n# ---------------------------\n";
 
-	const YOAST_OUTPUT_AFTER_COMMENT = "# ---------------------------\n# END YOAST INTERNAL SEARCH BLOCK";
+	const YOAST_OUTPUT_AFTER_COMMENT = "# ---------------------------\n# END YOAST BLOCK";
 
 	/**
 	 * Text to be outputted for the allow directive.
