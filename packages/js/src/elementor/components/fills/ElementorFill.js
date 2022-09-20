@@ -67,23 +67,23 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
 				</SidebarItem> }
-				<SidebarItem renderPriority={ 23 }>
+				<SidebarItem renderPriority={ 25 }>
 					<GooglePreviewModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
+				{ settings.displayFacebook && <SidebarItem renderPriority={ 26 }>
 					<FacebookPreviewModal />
 				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
+				{ settings.displayTwitter && <SidebarItem renderPriority={ 27 }>
 					<TwitterPreviewModal />
 				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
+				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 28 }>
 					<SidebarCollapsible
 						title={ __( "Schema", "wordpress-seo" ) }
 					>
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
+				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 29 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
 					>
@@ -95,20 +95,22 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
 					</Fragment>
 				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 20 }>
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
+						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 21 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-					<SidebarItem key="wincher-seo-performance" renderPriority={ 21 }>
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
 						<WincherSEOPerformanceModal location="sidebar" shouldCloseOnClickOutside={ false } />
 					</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>

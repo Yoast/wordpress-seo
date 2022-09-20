@@ -81,6 +81,7 @@ class WPSEO_Upgrade {
 			'18.9-RC0'   => 'upgrade_189',
 			'19.1-RC0'   => 'upgrade_191',
 			'19.3-RC0'   => 'upgrade_193',
+			'19.6-RC0'   => 'upgrade_196',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -936,6 +937,15 @@ class WPSEO_Upgrade {
 			WPSEO_Options::set( 'enable_index_now', true );
 			WPSEO_Options::set( 'enable_link_suggestions', true );
 		}
+	}
+
+	/**
+	 * Performs the 19.6 upgrade routine.
+	 */
+	private function upgrade_196() {
+		WPSEO_Options::set( 'ryte_indexability', false );
+		WPSEO_Options::set( 'allow_ryte_indexability', false );
+		wp_clear_scheduled_hook( 'wpseo_ryte_fetch' );
 	}
 
 	/**

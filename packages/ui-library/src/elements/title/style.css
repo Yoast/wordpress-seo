@@ -1,7 +1,7 @@
 @layer components {
 	.yst-root {
 		.yst-title {
-			@apply yst-text-gray-900 yst-font-medium;
+			@apply yst-text-gray-900 yst-font-medium yst-leading-tight;
 		}
 
 		.yst-title--1 {
@@ -13,7 +13,7 @@
 		}
 
 		.yst-title--3 {
-			@apply yst-text-sm;
+			@apply yst-text-tiny;
 		}
 
 		.yst-title--4 {

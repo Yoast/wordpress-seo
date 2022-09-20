@@ -137,7 +137,6 @@ class WordProofTimestampToggle extends Component {
 					linkTo={ "https://yoa.st/wordproof-integration" }
 					htmlFor={ this.props.id }
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
-					hasNewBadge={ true }
 				>
 					<Toggle
 						id={ this.props.id }

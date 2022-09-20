@@ -12,7 +12,7 @@
 		}
 
 		.yst-radio-group__label {
-			@apply yst-mb-1;
+			@apply yst-mb-4;
 		}
 
 		.yst-radio-group__options {

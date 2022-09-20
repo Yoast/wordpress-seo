@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -102,7 +101,7 @@ class Links_Table_Runner_Test extends TestCase {
 			->andReturn( true );
 		$this->migration_status
 			->shouldReceive( 'is_version' )
-			->withArgs( [ 'free', WPSEO_VERSION ] )
+			->withArgs( [ 'free', \WPSEO_VERSION ] )
 			->andReturn( true );
 
 		$this->instance->run();
@@ -126,7 +125,7 @@ class Links_Table_Runner_Test extends TestCase {
 			->andReturn( true );
 		$this->migration_status
 			->shouldReceive( 'is_version' )
-			->withArgs( [ 'free', WPSEO_VERSION ] )
+			->withArgs( [ 'free', \WPSEO_VERSION ] )
 			->andReturn( false );
 
 		$this->instance->run();

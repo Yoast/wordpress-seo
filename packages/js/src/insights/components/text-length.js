@@ -23,6 +23,7 @@ const TextLength = () => {
 
 	return (
 		<InsightsCard
+			id={ "yoastseo-text-length-insights" }
 			amount={ textLength.count }
 			unit={ unitString }
 			title={ titleString }

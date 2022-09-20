@@ -1,5 +1,4 @@
-import { defaults, isEmpty, isEqual } from "lodash-es";
-import { unifyNonBreakingSpace } from "../languageProcessing/helpers/sanitize/unifyWhitespace";
+import { defaults, isEmpty, isEqual, isNil } from "lodash-es";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
@@ -17,10 +16,11 @@ const defaultAttributes = {
 	permalink: "",
 	date: "",
 	customData: {},
+	textTitle: "",
 };
 
 /**
- * Construct the Paper object and set the keyword property.
+ * Constructs the Paper object and sets the keyword property.
  *
  * @param {string} text                     The text to use in the analysis.
  * @param {object} [attributes]             The object containing all attributes.
@@ -40,8 +40,6 @@ const defaultAttributes = {
  */
 function Paper( text, attributes ) {
 	this._text = text || "";
-	// Unify whitespaces and non-breaking spaces.
-	this._text = unifyNonBreakingSpace( this._text );
 
 	attributes = attributes || {};
 	defaults( attributes, defaultAttributes );
@@ -66,7 +64,7 @@ function Paper( text, attributes ) {
 }
 
 /**
- * Check whether a keyword is available.
+ * Checks whether a keyword is available.
  * @returns {boolean} Returns true if the Paper has a keyword.
  */
 Paper.prototype.hasKeyword = function() {
@@ -74,7 +72,7 @@ Paper.prototype.hasKeyword = function() {
 };
 
 /**
- * Return the associated keyword or an empty string if no keyword is available.
+ * Returns the associated keyword or an empty string if no keyword is available.
  * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
@@ -82,7 +80,7 @@ Paper.prototype.getKeyword = function() {
 };
 
 /**
- * Check whether synonyms are available.
+ * Checks whether synonyms are available.
  * @returns {boolean} Returns true if the Paper has synonyms.
  */
 Paper.prototype.hasSynonyms = function() {
@@ -90,7 +88,7 @@ Paper.prototype.hasSynonyms = function() {
 };
 
 /**
- * Return the associated synonyms or an empty string if no synonyms is available.
+ * Returns the associated synonyms or an empty string if no synonyms is available.
  * @returns {string} Returns synonyms.
  */
 Paper.prototype.getSynonyms = function() {
@@ -98,7 +96,7 @@ Paper.prototype.getSynonyms = function() {
 };
 
 /**
- * Check whether the text is available.
+ * Checks whether the text is available.
  * @returns {boolean} Returns true if the paper has a text.
  */
 Paper.prototype.hasText = function() {
@@ -106,7 +104,7 @@ Paper.prototype.hasText = function() {
 };
 
 /**
- * Return the associated text or am empty string if no text is available.
+ * Returns the associated text or am empty string if no text is available.
  * @returns {string} Returns text
  */
 Paper.prototype.getText = function() {
@@ -114,7 +112,7 @@ Paper.prototype.getText = function() {
 };
 
 /**
- * Check whether a description is available.
+ * Checks whether a description is available.
  * @returns {boolean} Returns true if the paper has a description.
  */
 Paper.prototype.hasDescription = function() {
@@ -122,7 +120,7 @@ Paper.prototype.hasDescription = function() {
 };
 
 /**
- * Return the description or an empty string if no description is available.
+ * Returns the description or an empty string if no description is available.
  * @returns {string} Returns the description.
  */
 Paper.prototype.getDescription = function() {
@@ -130,7 +128,7 @@ Paper.prototype.getDescription = function() {
 };
 
 /**
- * Check whether a title is available
+ * Checks whether a title is available
  * @returns {boolean} Returns true if the Paper has a title.
  */
 Paper.prototype.hasTitle = function() {
@@ -138,7 +136,7 @@ Paper.prototype.hasTitle = function() {
 };
 
 /**
- * Return the title, or an empty string of no title is available.
+ * Returns the title, or an empty string of no title is available.
  * @returns {string} Returns the title
  */
 Paper.prototype.getTitle = function() {
@@ -146,7 +144,7 @@ Paper.prototype.getTitle = function() {
 };
 
 /**
- * Check whether a title width in pixels is available
+ * Checks whether a title width in pixels is available
  * @returns {boolean} Returns true if the Paper has a title.
  */
 Paper.prototype.hasTitleWidth = function() {
@@ -154,7 +152,7 @@ Paper.prototype.hasTitleWidth = function() {
 };
 
 /**
- * Return the title width in pixels, or an empty string of no title width in pixels is available.
+ * Returns the title width in pixels, or an empty string of no title width in pixels is available.
  * @returns {string} Returns the title
  */
 Paper.prototype.getTitleWidth = function() {
@@ -162,7 +160,7 @@ Paper.prototype.getTitleWidth = function() {
 };
 
 /**
- * Check whether a slug is available
+ * Checks whether a slug is available
  * @returns {boolean} Returns true if the Paper has a slug.
  */
 Paper.prototype.hasSlug = function() {
@@ -170,7 +168,7 @@ Paper.prototype.hasSlug = function() {
 };
 
 /**
- * Return the slug, or an empty string of no slug is available.
+ * Returns the slug, or an empty string of no slug is available.
  * @returns {string} Returns the url
  */
 Paper.prototype.getSlug = function() {
@@ -178,7 +176,7 @@ Paper.prototype.getSlug = function() {
 };
 
 /**
- * Check whether an url is available
+ * Checks whether an url is available
  * @deprecated Since version 18.7. Use hasSlug instead.
  * @returns {boolean} Returns true if the Paper has a slug.
  */
@@ -188,7 +186,7 @@ Paper.prototype.hasUrl = function() {
 };
 
 /**
- * Return the url, or an empty string if no url is available.
+ * Returns the url, or an empty string if no url is available.
  * @deprecated Since version 18.8. Use getSlug instead.
  * @returns {string} Returns the url
  */
@@ -198,7 +196,7 @@ Paper.prototype.getUrl = function() {
 };
 
 /**
- * Check whether a locale is available
+ * Checks whether a locale is available
  * @returns {boolean} Returns true if the paper has a locale
  */
 Paper.prototype.hasLocale = function() {
@@ -206,7 +204,7 @@ Paper.prototype.hasLocale = function() {
 };
 
 /**
- * Return the locale or an empty string if no locale is available
+ * Returns the locale or an empty string if no locale is available
  * @returns {string} Returns the locale
  */
 Paper.prototype.getLocale = function() {
@@ -214,7 +212,7 @@ Paper.prototype.getLocale = function() {
 };
 
 /**
- * Check whether a permalink is available
+ * Checks whether a permalink is available
  * @returns {boolean} Returns true if the Paper has a permalink.
  */
 Paper.prototype.hasPermalink = function() {
@@ -222,7 +220,7 @@ Paper.prototype.hasPermalink = function() {
 };
 
 /**
- * Return the permalink, or an empty string if no permalink is available.
+ * Returns the permalink, or an empty string if no permalink is available.
  * @returns {string} Returns the permalink.
  */
 Paper.prototype.getPermalink = function() {
@@ -230,7 +228,7 @@ Paper.prototype.getPermalink = function() {
 };
 
 /**
- * Check whether a date is available.
+ * Checks whether a date is available.
  * @returns {boolean} Returns true if the Paper has a date.
  */
 Paper.prototype.hasDate = function() {
@@ -246,7 +244,7 @@ Paper.prototype.getDate = function() {
 };
 
 /**
- * Check whether custom data is available.
+ * Checks whether custom data is available.
  * @returns {boolean} Returns true if the Paper has custom data.
  */
 Paper.prototype.hasCustomData = function() {
@@ -259,6 +257,22 @@ Paper.prototype.hasCustomData = function() {
  */
 Paper.prototype.getCustomData = function() {
 	return this._attributes.customData;
+};
+
+/**
+ * Checks whether a text title is available.
+ * @returns {boolean} Returns true if the Paper has a text title.
+ */
+Paper.prototype.hasTextTitle = function() {
+	return this._attributes.textTitle !== "" && ! isNil( this._attributes.textTitle );
+};
+
+/**
+ * Returns the text title, or an empty string if no data is available.
+ * @returns {string} Returns the text title.
+ */
+Paper.prototype.getTextTitle = function() {
+	return this._attributes.textTitle;
 };
 
 /**

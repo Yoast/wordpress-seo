@@ -148,5 +148,4 @@ class Description_Presenter_Test extends TestCase {
 
 		$this->assertEquals( $expected, $actual );
 	}
-
 }

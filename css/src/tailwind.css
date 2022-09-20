@@ -8,6 +8,8 @@
 @layer base {
 	.yst-root {
 		a {
+			@apply focus:yst-shadow-none;
+			
 			text-decoration: underline;
 			color: #1D4ED8;
 		}
@@ -115,6 +117,10 @@
 
 		.yst-radio-group__description {
 			@apply yst-mb-4 !important;
+		}
+
+		.yst-checkbox__input {
+			@apply before:yst-content-none !important;
 		}
 	}
 }

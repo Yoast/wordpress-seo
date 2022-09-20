@@ -16,6 +16,7 @@ import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
 import getParagraphLength from "./researches/getParagraphLength.js";
+import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings";
@@ -35,9 +36,7 @@ import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
-import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 import wordComplexity from "./researches/wordComplexity";
-import getProductIdentifierData from "./researches/getProductIdentifierData";
 
 /**
  * The researches contains all the researches
@@ -88,7 +87,6 @@ export default class AbstractResearcher {
 			videoCount,
 			getPassiveVoiceResult,
 			wordComplexity,
-			getProductIdentifierData,
 		};
 
 		this._data = {};

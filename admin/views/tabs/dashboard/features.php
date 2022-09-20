@@ -7,6 +7,7 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Beta_Badge_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -28,6 +29,9 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	);
 
 	foreach ( $feature_toggles as $feature ) {
+		$is_premium      = YoastSEO()->helpers->product->is_premium();
+		$premium_version = YoastSEO()->helpers->product->get_premium_version();
+
 		$help_text = esc_html( $feature->label );
 		if ( ! empty( $feature->extra ) ) {
 			$help_text .= ' ' . $feature->extra;
@@ -57,14 +61,38 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$name .= ' ' . new Premium_Badge_Presenter( $feature->name );
 		}
 
+		if ( ! empty( $feature->in_beta ) && $feature->in_beta === true ) {
+			$name .= ' ' . new Beta_Badge_Presenter( $feature->name );
+		}
+
 		$disabled            = false;
 		$show_premium_upsell = false;
 		$premium_upsell_url  = '';
-
+		$note_when_disabled  = '';
 		if ( $feature->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
 			$disabled            = true;
 			$show_premium_upsell = true;
 			$premium_upsell_url  = WPSEO_Shortlinker::get( $feature->premium_upsell_url );
+		}
+
+		$current_language                             = WPSEO_Language_Utils::get_language( \get_locale() );
+		$feature_is_not_supported_in_current_language = $feature->supported_languages && ! \in_array( $current_language, $feature->supported_languages, true );
+
+		if ( $feature_is_not_supported_in_current_language ) {
+			$disabled            = true;
+			$show_premium_upsell = false;
+			$note_when_disabled  = __( 'This feature has been disabled, since it is not supported for your language yet.', 'wordpress-seo' );
+			// Do not show Premium or Beta badge.
+			$name = $feature->name;
+		}
+
+		if ( $feature->premium && $feature->premium_version ) {
+			$not_supported_in_current_premium_version = $is_premium && \version_compare( $premium_version, $feature->premium_version, '<' );
+
+			if ( $not_supported_in_current_premium_version ) {
+				$disabled           = true;
+				$note_when_disabled = __( 'Please update your Yoast SEO Premium plugin to the latest version to be able to use this feature.', 'wordpress-seo' );
+			}
 		}
 
 		$preserve_disabled_value = false;
@@ -85,6 +113,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 				'preserve_disabled_value' => $preserve_disabled_value,
 				'show_premium_upsell'     => $show_premium_upsell,
 				'premium_upsell_url'      => $premium_upsell_url,
+				'note_when_disabled'      => $note_when_disabled,
 			]
 		);
 

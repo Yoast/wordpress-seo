@@ -3,6 +3,7 @@ import { useSelect } from "@wordpress/data";
 import InsightsCollapsible from "../../../src/insights/components/insights-collapsible";
 import { shallow } from "enzyme";
 import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
+import TextFormality from "../../../src/insights/components/text-formality";
 import TextLength from "../../../src/insights/components/text-length";
 
 jest.mock( "@wordpress/data", () => (
@@ -14,7 +15,7 @@ jest.mock( "@wordpress/data", () => (
 /**
  * Mocks the WordPress `useSelect` hook.
  *
- * @param {boolean} isFleschReadingEaseAvailable Whether FRE is available
+ * @param {boolean} isFleschReadingEaseAvailable Whether FRE is available.
  *
  * @returns {void}
  */
@@ -49,5 +50,11 @@ describe( "The insights collapsible component", () => {
 		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
 		expect( render.find( TextLength ) ).toHaveLength( 1 );
+	} );
+	it( "renders the Text formality component", () => {
+		mockSelect( true );
+		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
+
+		expect( render.find( TextFormality ) ).toHaveLength( 1 );
 	} );
 } );

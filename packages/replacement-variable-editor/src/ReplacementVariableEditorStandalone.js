@@ -10,22 +10,14 @@ import includes from "lodash/includes";
 import get from "lodash/get";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
+import { applyFilters } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import styled from "styled-components";
-import { withTheme } from "styled-components";
+import styled, { withTheme } from "styled-components";
 
 // Internal dependencies.
-import {
-	replacementVariablesShape,
-	recommendedReplacementVariablesShape,
-} from "./constants";
+import { replacementVariablesShape, recommendedReplacementVariablesShape } from "./constants";
 import { Mention } from "./Mention";
-import {
-	serializeEditor,
-	unserializeEditor,
-	replaceReplacementVariables,
-	serializeSelection,
-} from "./helpers/serialization";
+import { serializeEditor, unserializeEditor, replaceReplacementVariables, serializeSelection } from "./helpers/serialization";
 import {
 	getTrigger,
 	hasWhitespaceAt,
@@ -34,10 +26,9 @@ import {
 	insertText,
 	removeSelectedText,
 	moveCaret,
+	removeEmojiCompletely,
 } from "./helpers/replaceText";
-import {
-	selectReplacementVariables,
-} from "./helpers/selection";
+import { selectReplacementVariables } from "./helpers/selection";
 
 /**
  * Needed to avoid styling issues on the settings pages with the
@@ -49,11 +40,19 @@ import {
  * WordPress admin menu. The admin menu has a z-index of 9990. Therefor we add
  * an extra 9990 to our z-index value.
  */
-const ZIndexOverride = styled.div`
+const MentionSuggestionsStyleWrapper = styled.div`
 	div {
 		z-index: 10995;
 	}
+	> div {
+		max-height: 450px;
+		overflow-y: auto;
+	}
 `;
+
+// Regex sources from https://github.com/facebook/draft-js/issues/1105
+// eslint-disable-next-line max-len
+const emojiRegExp = new RegExp( "(?:\\p{RI}\\p{RI}|\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(?:\\u{200D}\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*)", "gu" );
 
 /**
  * A replacement variable editor. It allows replacements variables as tokens in
@@ -102,6 +101,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			editorState,
 			searchValue: "",
 			isSuggestionsOpen: false,
+			editorKey: this.props.fieldId,
 			suggestions: this.mapReplacementVariablesToSuggestions( currentReplacementVariables ),
 		};
 
@@ -124,6 +124,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	initializeBinds() {
 		this.onChange = this.onChange.bind( this );
+		this.handleKeyCommand = this.handleKeyCommand.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
@@ -141,15 +142,29 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
 		 */
-		this.mentionsPlugin = createMentionPlugin( {
+		const mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
 			mentionComponent: Mention,
 		} );
 
-		this.singleLinePlugin = createSingleLinePlugin( {
+		const singleLinePlugin = createSingleLinePlugin( {
 			stripEntities: false,
 		} );
+
+		this.pluginList = {
+			mentionsPlugin,
+			singleLinePlugin: {
+				...singleLinePlugin,
+				handleReturn: () => {
+				},
+			},
+		};
+
+		this.pluginList = applyFilters(
+			"yoast.replacementVariableEditor.pluginList",
+			this.pluginList
+		);
 	}
 
 	/**
@@ -189,6 +204,94 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				resolve();
 			} );
 		} );
+	}
+
+	/**
+	 * Handles a keystroke for the draft js editor.
+	 *
+	 * @param {string} command The given command key.
+	 * @returns {string} If the keystroke is handled or not.
+	 */
+	handleKeyCommand( command ) {
+		if ( command !== "backspace" && command !== "delete" ) {
+			return "not-handled";
+		}
+
+		let editorState = removeSelectedText( this.state.editorState );
+		const content = editorState.getCurrentContent();
+		const selection = editorState.getSelection();
+
+		if ( ! selection.isCollapsed() ) {
+			return "not-handled";
+		}
+
+		const startOffset = selection.getStartOffset();
+
+		if ( startOffset < 0 ) {
+			return "not-handled";
+		}
+
+		const block = content.getBlockForKey( selection.getStartKey() );
+		const blockText = block.getText();
+
+		const startOffsetLocator = ( command === "backspace" ) ? startOffset - 1 : startOffset + 1;
+
+		if ( ( blockText.codePointAt( startOffsetLocator ) || 0 ) <= 127 ) {
+			return "not-handled";
+		}
+
+		let match;
+		if ( command === "backspace" ) {
+			match = this.getBackwardMatch( blockText, startOffset );
+		} else {
+			match = this.getForwardMatch( blockText, startOffset );
+		}
+
+		if ( match ) {
+			editorState = removeEmojiCompletely( editorState, match, command );
+
+			// Save the editor state and then focus the editor.
+			this.onChange( editorState ).then( () => this.focus() );
+			// This is really important. If this is removed draft js will not do anything.
+			return "handled";
+		}
+
+		return "not-handled";
+	}
+
+	/**
+	 * This goes a character forward at a time until there is no emoji found. When this is the case it returns an array of emojis
+	 *
+	 * @param {string} blockText The text to check.
+	 * @param {int} startOffset the point in the string the caret is currently placed.
+	 * @returns {array|null} The list with emojis in the string if they are there.
+	 */
+	getForwardMatch( blockText, startOffset ) {
+		let offset = 1;
+		[ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ].every( ( key ) => {
+			const curChar = blockText.slice( startOffset, startOffset + key );
+			if ( curChar.match( emojiRegExp ) === null || curChar.match( emojiRegExp ).length > 1 ) {
+				return false;
+			}
+			offset = key;
+			return true;
+		} );
+
+
+		const lastChars = blockText.slice( startOffset, startOffset + offset );
+		return lastChars.match( emojiRegExp );
+	}
+
+	/**
+	 * This checks the entire string for all emojis
+	 *
+	 * @param {string} blockText The text to check.
+	 * @param {int} startOffset the point in the string the caret is currently placed.
+	 * @returns {array|null} The list with emojis in the string if they are there.
+	 */
+	getBackwardMatch( blockText, startOffset ) {
+		const lastChars = blockText.slice( 0, startOffset );
+		return lastChars.match( emojiRegExp );
 	}
 
 	/**
@@ -272,6 +375,10 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( { value } ) {
+		if ( this.props.onSearchChange ) {
+			this.props.onSearchChange( value );
+		}
+
 		const recommendedReplacementVariables = this.determineCurrentReplacementVariables(
 			this.props.replacementVariables,
 			this.props.recommendedReplacementVariables,
@@ -411,25 +518,35 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	componentWillReceiveProps( nextProps ) {
 		const { content, replacementVariables, recommendedReplacementVariables } = this.props;
 		const { searchValue } = this.state;
+		const nextState = {};
 
-		if (
-			( nextProps.content !== this._serializedContent && nextProps.content !== content ) ||
-			nextProps.replacementVariables !== replacementVariables
-		) {
+		if ( nextProps.content !== this._serializedContent && nextProps.content !== content ) {
 			this._serializedContent = nextProps.content;
-			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+		} else if ( nextProps.replacementVariables !== replacementVariables ) {
+			const newReplacementVariableNames = nextProps.replacementVariables
+				.map( rv => rv.name )
+				.filter( rvName => ! replacementVariables.map( rv => rv.name ).includes( rvName ) );
+
+			if ( newReplacementVariableNames.some( rvName => content.includes( "%%" + rvName + "%%" ) ) ) {
+				this._serializedContent = nextProps.content;
+				nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			}
+		}
+
+		if ( nextProps.replacementVariables !== replacementVariables ) {
 			const currentReplacementVariables = this.determineCurrentReplacementVariables(
 				nextProps.replacementVariables,
 				recommendedReplacementVariables,
 				searchValue
 			);
-			const suggestions = this.mapReplacementVariablesToSuggestions( currentReplacementVariables );
-
-			this.setState( {
-				editorState,
-				suggestions: this.suggestionsFilter( searchValue, suggestions ),
-			} );
+			nextState.suggestions = this.suggestionsFilter(
+				searchValue,
+				this.mapReplacementVariablesToSuggestions( currentReplacementVariables )
+			);
 		}
+
+		this.setState( nextState );
 	}
 
 	/**
@@ -498,19 +615,21 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {ReactElement} The rendered element.
 	 */
 	render() {
-		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled } = this.props;
+		const { MentionSuggestions } = this.pluginList.mentionsPlugin;
+		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled, fieldId } = this.props;
 		const { editorState, suggestions, isSuggestionsOpen } = this.state;
 
 		return (
 			<React.Fragment>
 				<Editor
+					key={ this.state.editorKey }
 					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
+					handleKeyCommand={ this.handleKeyCommand }
 					onChange={ this.onChange }
 					onFocus={ onFocus }
 					onBlur={ onBlur }
-					plugins={ [ this.mentionsPlugin, this.singleLinePlugin ] }
+					plugins={ Object.values( this.pluginList ) }
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
@@ -518,14 +637,22 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					spellCheck={ true }
 					readOnly={ isDisabled }
 				/>
-				<ZIndexOverride>
+
+				{ applyFilters(
+					"yoast.replacementVariableEditor.additionalPlugins",
+					<React.Fragment />,
+					this.pluginList,
+					fieldId
+				) }
+
+				<MentionSuggestionsStyleWrapper>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
 						onOpenChange={ this.onSuggestionsOpenChange }
 						open={ isSuggestionsOpen }
 					/>
-				</ZIndexOverride>
+				</MentionSuggestionsStyleWrapper>
 			</React.Fragment>
 		);
 	}
@@ -536,6 +663,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	replacementVariables: replacementVariablesShape.isRequired,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
+	onSearchChange: PropTypes.func,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
@@ -546,6 +674,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
+	onSearchChange: null,
 	onFocus: () => {},
 	onBlur: () => {},
 	placeholder: "",

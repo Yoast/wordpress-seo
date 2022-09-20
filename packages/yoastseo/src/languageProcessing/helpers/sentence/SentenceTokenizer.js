@@ -42,7 +42,7 @@ export default class SentenceTokenizer {
          * \u06D4 - Urdu full stop.
          * \u061f - Arabic question mark.
         */
-		this.sentenceDelimiters = "”〞〟„』\"?!\u2026\u06d4\u061f";
+		this.sentenceDelimiters = "”〞〟„』›»’‛`\"?!\u2026\u06d4\u061f";
 	}
 
 	/**
@@ -459,7 +459,7 @@ export default class SentenceTokenizer {
 						"sentence-delimiter" !== nextToken.type &&
 						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
 						// Don't split on quotation marks unless they're preceded by a full stop.
-						if ( this.isQuotation( token.src ) && previousToken.src !== "." ) {
+						if ( this.isQuotation( token.src ) && previousToken && previousToken.src !== "." ) {
 							break;
 						}
 						/*
@@ -467,7 +467,7 @@ export default class SentenceTokenizer {
 					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
 					     * b) The next token is a sentence start
 					    */
-						if ( token.src === "…" || token.src === "\"" ) {
+						if ( this.isQuotation( token.src ) || token.src === "…" ) {
 							currentSentence = this.getValidSentence( hasNextSentence,
 								nextSentenceStart,
 								nextCharacters,

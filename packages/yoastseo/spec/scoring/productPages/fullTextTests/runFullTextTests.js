@@ -23,6 +23,7 @@ import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageC
 import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
+import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
 // Import Readability assessments.
 import SubheadingDistributionTooLongAssessment
@@ -117,10 +118,16 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 		} );
 		const productIdentifiersAssessment = new ProductIdentifiersAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
-			assessVariants: false,
-			productIdentifierOrBarcode: { lowercase: "barcode" },
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
+			assessVariants: true,
+		} );
+		const productSKUAssessment = new ProductSKUAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
+			assessVariants: true,
+			productType: "simple",
+			addSKULocation: true,
 		} );
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
@@ -337,6 +344,17 @@ testPapers.forEach( function( testPaper ) {
 				result.productIdentifiers = productIdentifiersAssessment.getResult( paper, researcher );
 				expect( result.productIdentifiers.getScore() ).toBe( expectedResults.productIdentifiers.score );
 				expect( result.productIdentifiers.getText() ).toBe( expectedResults.productIdentifiers.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the SKU assessment", function() {
+			const isApplicable = productSKUAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.productSKU.isApplicable );
+
+			if ( isApplicable ) {
+				result.productSKU = productSKUAssessment.getResult( paper, researcher );
+				expect( result.productSKU.getScore() ).toBe( expectedResults.productSKU.score );
+				expect( result.productSKU.getText() ).toBe( expectedResults.productSKU.resultText );
 			}
 		} );
 

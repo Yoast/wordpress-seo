@@ -26,29 +26,23 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
 			assessVariants: true,
-			productIdentifierOrBarcode: {
-				lowercase: "product identifier",
-				uppercase: "",
-			},
+			productIdentifierOrBarcode: "Product identifier",
 		};
 
 		this.identifier = "productIdentifier";
 		this._config = merge( defaultConfig, config );
-		this._config.productIdentifierOrBarcode.lowercase = __( this._config.productIdentifierOrBarcode.lowercase, "wordpress-seo" );
-		this._config.productIdentifierOrBarcode.uppercase =
-			this._config.productIdentifierOrBarcode.lowercase[ 0 ].toUpperCase() + this._config.productIdentifierOrBarcode.lowercase.slice( 1 );
+		this.name = __( this._config.productIdentifierOrBarcode, "wordpress-seo" );
 	}
 
 	/**
 	 * Tests whether a product has product identifiers and returns an assessment result based on the research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher  The researcher used for calling the research.
 	 *
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
-	getResult( paper, researcher ) {
-		const productIdentifierData = researcher.getResearch( "getProductIdentifierData" );
+	getResult( paper ) {
+		const productIdentifierData = paper.getCustomData();
 
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );
 
@@ -63,12 +57,33 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
-	 * Makes the assessment temporarily not applicable, until we have access to the needed data from WooCommerce and Shopify.
+	 * Checks whether the assessment is applicable. It is applicable unless the product has variants and we don't want to
+	 * assess variants (this is the case for Shopify since we cannot at the moment easily access variant data in Shopify).
 	 *
-	 * @returns {Boolean} Always returns false.
+	 * @param {Paper} paper The paper to check.
+	 *
+	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
-	isApplicable() {
-		return false;
+	isApplicable( paper ) {
+		const customData = paper.getCustomData();
+
+		/*
+		 * If the global identifier cannot be retrieved, the assessment shouldn't be applicable if the product is a simple
+		 * or external product, or doesn't have variants. Even though in reality a simple or external product doesn't have variants,
+		 * this double check is added because the hasVariants variable doesn't always update correctly when changing product type.
+		 */
+		if ( customData.canRetrieveGlobalIdentifier === false &&
+			( [ "simple", "external", "grouped" ].includes( customData.productType ) || customData.hasVariants === false ) ) {
+			return false;
+		}
+
+		// If variant identifiers cannot be retrieved for a variable product with variants, the assessment shouldn't be applicable.
+		if ( customData.canRetrieveVariantIdentifiers === false && customData.hasVariants === true && customData.productType === "variable" ) {
+			return false;
+		}
+
+		// Assessment is not applicable if we don't want to assess variants and the product has variants.
+		return ! ( this._config.assessVariants === false && customData.hasVariants );
 	}
 
 	/**
@@ -81,23 +96,85 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
-		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
-		if ( ! productIdentifierData.hasVariants ) {
+		let feedbackStrings;
+
+		if ( this._config.productIdentifierOrBarcode === "Product identifier" ) {
+			feedbackStrings = {
+				okNoVariants: __( "Your product is missing an identifier (like a GTIN code). " +
+					"You can add a product identifier via the \"Yoast SEO\" tab in the Product data box", "wordpress-seo" ),
+				goodNoVariants: __( "Your product has an identifier", "wordpress-seo" ),
+				okWithVariants: __( "Not all your product variants have an identifier. " +
+					"You can add a product identifier via the \"Variations\" tab in the Product data box", "wordpress-seo" ),
+				goodWithVariants: __( "All your product variants have an identifier", "wordpress-seo" ),
+			};
+		} else {
+			feedbackStrings = {
+				okNoVariants: __( "Your product is missing a barcode (like a GTIN code)", "wordpress-seo" ),
+				goodNoVariants: __( "Your product has a barcode", "wordpress-seo" ),
+				okWithVariants: __( "Not all your product variants have a barcode", "wordpress-seo" ),
+				goodWithVariants: __( "All your product variants have a barcode", "wordpress-seo" ),
+			};
+		}
+
+		// Apply the following scoring conditions to products without variants.
+		if ( [ "simple", "external" ].includes( productIdentifierData.productType ) ||
+			( productIdentifierData.productType === "variable" && ! productIdentifierData.hasVariants ) ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
 						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
-						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string "barcode"
-						* or "product identifier" */
+						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the feedback string
+						* "Your product is missing a product identifier (like a GTIN code)"
+						* or "Your product is missing a barcode (like a GTIN code)" */
 						__(
-							"%1$s%2$s%5$s: Your product is missing a %3$s (like a GTIN code). %4$sInclude this if you can, as it" +
-							" will help search engines to better understand your content.%5$s",
+							"%1$s%2$s%5$s: %3$s. %4$sInclude it if you can, as it " +
+							"will help search engines to better understand your content.%5$s",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
-						this._config.productIdentifierOrBarcode.uppercase,
-						this._config.productIdentifierOrBarcode.lowercase,
+						this.name,
+						feedbackStrings.okNoVariants,
+						this._config.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
+
+			return {
+				score: config.scores.good,
+				text: sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the feedback string
+					* "Your product has a product identifier" or "Your product has a barcode" */
+					__(
+						"%1$s%2$s%4$s: %3$s. Good job!",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this.name,
+					feedbackStrings.goodNoVariants,
+					"</a>"
+				),
+			};
+		} else if ( productIdentifierData.productType === "variable" && productIdentifierData.hasVariants ) {
+			if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
+				// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
+				// If all variants have an identifier, return green bullet.
+				return {
+					score: config.scores.ok,
+					text: sprintf(
+						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string
+						* "Not all your product variants have a product identifier"
+						* or "Not all your product variants have a barcode" */
+						__(
+							"%1$s%2$s%5$s: %3$s. %4$sInclude it if you can, as it will help search engines to better understand your content.%5$s",
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
+						this.name,
+						feedbackStrings.okWithVariants,
 						this._config.urlCallToAction,
 						"</a>"
 					),
@@ -106,61 +183,20 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {
 				score: config.scores.good,
 				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-					* %2$s expands to the string "Barcode" or "Product identifier" */
+					/* Translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					* %2$s expands to the string "Barcode" or "Product identifier" , %3$s expands to the feedback string
+					* "All your product variants have a product identifier" or "All your product variants have a barcode" */
 					__(
-						"%1$s%2$s%3$s: Good job!",
+						"%1$s%2$s%4$s: %3$s. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					this._config.productIdentifierOrBarcode.uppercase,
+					this.name,
+					feedbackStrings.goodWithVariants,
 					"</a>"
 				),
 			};
 		}
-
-		// Don't return a score if the product has variants but we don't want to assess variants for this product.
-		// This is currently the case for Shopify products because we don't have access data about product variant identifiers in Shopify.
-		if ( ! config.assessVariants ) {
-			return {};
-		}
-
-		// If we want to assess variants, if product has variants and not all variants have an identifier, return orange bullet.
-		// If all variants have an identifier, return green bullet.
-		if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
-			return {
-				score: config.scores.ok,
-				text: sprintf(
-					/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
-					* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string "barcode"
-					* or "product identifier" */
-					__(
-						"%1$s%2$s%5$s: Not all your product variants have a %3$s. %4$sInclude this if you can, as it" +
-						" will help search engines to better understand your content.%5$s",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.productIdentifierOrBarcode.uppercase,
-					this._config.productIdentifierOrBarcode.lowercase,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
-		}
-
-		return {
-			score: config.scores.good,
-			text: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-				* %2$s expands to the string "Barcode" or "Product identifier" */
-				__(
-					"%1$s%2$s%3$s: Good job!",
-					"wordpress-seo"
-				),
-				this._config.urlTitle,
-				this._config.productIdentifierOrBarcode.uppercase,
-				"</a>"
-			),
-		};
+		return {};
 	}
 }

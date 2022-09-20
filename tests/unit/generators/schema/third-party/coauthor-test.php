@@ -2,11 +2,9 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the tested class.
 namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema\Third_Party;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Generators\Schema\Third_Party\CoAuthor_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -63,6 +61,11 @@ class CoAuthor_Test extends TestCase {
 	/**
 	 * Tests generating the Person data given a user ID.
 	 *
+	 * @dataProvider provider_generate_from_user_id
+	 * @covers ::generate_from_user_id
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 *
 	 * @param int    $user_id                The user ID.
 	 * @param array  $person_data            The person data.
 	 * @param bool   $disable_author         Whether the disable-author option is true.
@@ -70,11 +73,6 @@ class CoAuthor_Test extends TestCase {
 	 * @param string $author_posts_url       The archive url of the user.
 	 * @param int    $author_posts_url_times The times we'll retrieve the archive url of the user.
 	 * @param mixed  $expected_result        The expected result.
-	 *
-	 * @dataProvider provider_generate_from_user_id
-	 * @covers ::generate_from_user_id
-	 * @covers ::generate
-	 * @covers ::determine_user_id
 	 */
 	public function test_generate_from_user_id( $user_id, $person_data, $disable_author, $disable_author_times, $author_posts_url, $author_posts_url_times, $expected_result ) {
 		$this->instance->expects( 'build_person_data' )

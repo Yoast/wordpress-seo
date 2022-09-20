@@ -54,7 +54,7 @@ export const parameters = {
 
 export const decorators = [
 	( Story, context ) => (
-		<Root context={ { isRtl: context.globals.dir === "rtl" } }>
+		<Root dir={ context.globals.dir } context={ { isRtl: context.globals.dir === "rtl" } }>
 			<Story { ...context } />
 		</Root>
 	),

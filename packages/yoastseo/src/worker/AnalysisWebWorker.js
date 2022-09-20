@@ -41,6 +41,7 @@ logger.setDefaultLevel( "error" );
  * Webpack loader: https://github.com/webpack-contrib/worker-loader
  */
 export default class AnalysisWebWorker {
+	/* eslint-disable max-statements */
 	/**
 	 * Initializes the AnalysisWebWorker class.
 	 *
@@ -74,6 +75,8 @@ export default class AnalysisWebWorker {
 		this._seoAssessor = null;
 		this._relatedKeywordAssessor = null;
 
+		this.additionalAssessors = {};
+
 		/*
 		 * The cached analyses results.
 		 *
@@ -86,6 +89,7 @@ export default class AnalysisWebWorker {
 		 * {Object} 				seo         		SEO assessor results, per keyword identifier or empty string for the main.
 		 * {Object} 				seo[ "" ]  			The result of the paper analysis for the main keyword.
 		 * {Object} 				seo[ key ]  		Same as above, but instead for a related keyword.
+		 * {Object} 				inclusive_language 	Inclusive language assessor results.
 		 */
 		this._results = {
 			readability: {
@@ -120,6 +124,8 @@ export default class AnalysisWebWorker {
 		this.setCustomCornerstoneSEOAssessorClass = this.setCustomCornerstoneSEOAssessorClass.bind( this );
 		this.setCustomRelatedKeywordAssessorClass = this.setCustomRelatedKeywordAssessorClass.bind( this );
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
+		this.registerAssessor = this.registerAssessor.bind( this );
+		this.registerResearch = this.registerResearch.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -136,6 +142,7 @@ export default class AnalysisWebWorker {
 		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
 			"An error occurred after running the '%%name%%' research." );
 	}
+	/* eslint-enable max-statements */
 
 	/**
 	 * Binds actions to this scope.
@@ -240,7 +247,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {void}
 	 */
-	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions  ) {
+	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ] = CornerstoneRelatedKeywordAssessorClass;
 		this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
 		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
@@ -480,10 +487,10 @@ export default class AnalysisWebWorker {
 						this._CustomCornerstoneSEOAssessorOptions[ customAnalysisType ] )
 					: new CornerstoneSEOAssessor( this._researcher );
 			} else {
-			/*
-			 * For non-cornerstone content, use a custom SEO assessor if available,
-			 * otherwise use the default SEO assessor.
-			 */
+				/*
+				 * For non-cornerstone content, use a custom SEO assessor if available,
+				 * otherwise use the default SEO assessor.
+				 */
 				assessor = this._CustomSEOAssessorClasses[ customAnalysisType ]
 					? new this._CustomSEOAssessorClasses[ customAnalysisType ](
 						this._researcher,
@@ -536,10 +543,10 @@ export default class AnalysisWebWorker {
 						this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] )
 					: new CornerstoneRelatedKeywordAssessor( this._researcher );
 			} else {
-			/*
-			 * For non-cornerstone content, use a custom related keyword assessor if available,
-			 * otherwise use the default related keyword assessor.
-			 */
+				/*
+				 * For non-cornerstone content, use a custom related keyword assessor if available,
+				 * otherwise use the default related keyword assessor.
+				 */
 				assessor = this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ]
 					? new this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ](
 						this._researcher,
@@ -567,6 +574,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
 	 */
+
 	/*
 	 * Disabled code:
 	 * createSEOTreeAssessor( assessorConfig ) {
@@ -604,7 +612,11 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {Object} Containing seo and readability with true or false.
 	 */
-	static shouldAssessorsUpdate( configuration, contentAssessor = null, seoAssessor = null ) {
+	static shouldAssessorsUpdate(
+		configuration,
+		contentAssessor = null,
+		seoAssessor = null
+	) {
 		const readability = [
 			"contentAnalysisActive",
 			"useCornerstone",
@@ -651,7 +663,11 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	initialize( id, configuration ) {
-		const update = AnalysisWebWorker.shouldAssessorsUpdate( configuration, this._contentAssessor, this._seoAssessor );
+		const update = AnalysisWebWorker.shouldAssessorsUpdate(
+			configuration,
+			this._contentAssessor,
+			this._seoAssessor
+		);
 
 		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
 			setLocaleData( configuration.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
@@ -677,7 +693,7 @@ export default class AnalysisWebWorker {
 		if ( has( configuration, "enabledFeatures" ) ) {
 			// Make feature flags available inside of the web worker.
 			enableFeatures( configuration.enabledFeatures );
-			delete  configuration.enabledFeatures;
+			delete configuration.enabledFeatures;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
@@ -728,12 +744,12 @@ export default class AnalysisWebWorker {
 
 		if ( ! isObject( assessment ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-				". Expected parameter `assessment` to be a function." );
+										". Expected parameter `assessment` to be a function." );
 		}
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		// Prefix the name with the pluginName so the test name is always unique.
@@ -747,6 +763,20 @@ export default class AnalysisWebWorker {
 		this.refreshAssessment( name, pluginName );
 
 		return true;
+	}
+
+	/**
+	 * Registers a custom assessor.
+	 *
+	 * @param {string} name The name of the assessor.
+	 * @param {Function} AssessorClass The assessor class to instantiate.
+	 * @param {Function} shouldUpdate Function that checks whether the assessor should update.
+	 *
+	 * @returns {void}
+	 */
+	registerAssessor( name, AssessorClass, shouldUpdate ) {
+		const assessor = new AssessorClass( this._researcher );
+		this.additionalAssessors[ name ] = { assessor, shouldUpdate };
 	}
 
 	/**
@@ -765,12 +795,12 @@ export default class AnalysisWebWorker {
 
 		if ( ! isObject( handler ) ) {
 			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName +
-				". Expected parameter `handler` to be a function." );
+										". Expected parameter `handler` to be a function." );
 		}
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		// Prefix the name with the pluginName so the test name is always unique.
@@ -797,7 +827,7 @@ export default class AnalysisWebWorker {
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to refresh assessment for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		this.clearCache();
@@ -915,6 +945,14 @@ export default class AnalysisWebWorker {
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
+		const shouldCustomAssessorsUpdate = {};
+		Object.keys( this.additionalAssessors ).forEach(
+			assessorName => {
+				const shouldUpdate = this.additionalAssessors[ assessorName ].shouldUpdate( this._paper, paper );
+				shouldCustomAssessorsUpdate[ assessorName ] = shouldUpdate;
+			}
+		);
+
 		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
 			this._paper = paper;
@@ -929,7 +967,7 @@ export default class AnalysisWebWorker {
 				 */
 			} catch ( exception ) {
 				logger.debug( "Yoast SEO and readability analysis: " +
-					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
+							  "An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
 				this._tree = null;
 			}
 
@@ -981,6 +1019,20 @@ export default class AnalysisWebWorker {
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
+		Object.keys( this.additionalAssessors ).forEach(
+			assessorName => {
+				const { assessor } = this.additionalAssessors[ assessorName ];
+				if ( ! this._results[ assessorName ] || shouldCustomAssessorsUpdate[ assessorName ] ) {
+					assessor.assess( this._paper );
+					this._results[ assessorName ] = {
+						results: assessor.results,
+						score: assessor.calculateOverallScore(),
+					};
+				}
+			}
+		);
+
+
 		return this._results;
 	}
 
@@ -1027,7 +1079,7 @@ export default class AnalysisWebWorker {
 		 */
 
 		// Combine the results of the tree assessor and old assessor.
-		const results = [ ...treeAssessmentResults, ... oldAssessmentResults ];
+		const results = [ ...treeAssessmentResults, ...oldAssessmentResults ];
 
 		// Aggregate the results.
 		const score = scoreAggregator.aggregate( results );
@@ -1089,7 +1141,9 @@ export default class AnalysisWebWorker {
 
 			// We need to remember the key, since the SEO results are stored in an object, not an array.
 			return this.assess( relatedPaper, tree, analysisCombination ).then(
-				results => ( { key: key, results: results } )
+				results => (
+					{ key: key, results: results }
+				)
 			);
 		} ) );
 	}
@@ -1199,6 +1253,21 @@ export default class AnalysisWebWorker {
 			return;
 		}
 		this.send( "customMessage:failed", result.error );
+	}
+
+	/**
+	 * Registers custom research to the researcher.
+	 *
+	 * @param {string} name         The name of the research.
+	 * @param {function} research   The research function to add.
+	 * @returns {void}
+	 */
+	registerResearch( name, research ) {
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasResearch( name ) ) {
+			researcher.addResearch( name, research );
+		}
 	}
 
 	/**

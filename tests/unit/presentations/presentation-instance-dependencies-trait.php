@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Values_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -92,13 +91,6 @@ trait Presentation_Instance_Dependencies {
 	 * @var Twitter_Image_Helper|Mockery\MockInterface
 	 */
 	protected $twitter;
-
-	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper|Mockery\MockInterface
-	 */
-	protected $pagination;
 
 	/**
 	 * Holds the open open graph image generator.

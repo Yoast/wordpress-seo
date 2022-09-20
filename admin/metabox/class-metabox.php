@@ -71,6 +71,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function __construct() {
 		if ( $this->is_internet_explorer() ) {
 			add_action( 'add_meta_boxes', [ $this, 'internet_explorer_metabox' ] );
+
 			return;
 		}
 
@@ -908,6 +909,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'userLanguageCode'           => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
+			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
@@ -1103,9 +1105,31 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return $custom_replace_vars;
 		}
 
+		$meta = YoastSEO()->meta->for_post( $post->ID );
+
+		if ( ! $meta ) {
+			return $custom_replace_vars;
+		}
+
+		// Simply concatenate all fields containing replace vars so we can handle them all with a single regex find.
+		$replace_vars_fields = implode(
+			' ',
+			[
+				$meta->presentation->title,
+				$meta->presentation->meta_description,
+			]
+		);
+
+		preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
+		$fields_to_include = $matches[1];
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.
 			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			// Skip custom fields that are not used, new ones will be fetched dynamically.
+			if ( ! in_array( $custom_field_name, $fields_to_include, true ) ) {
 				continue;
 			}
 

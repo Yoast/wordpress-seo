@@ -56,6 +56,7 @@ export default class WordComplexityAssessment extends Assessment {
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 		assessmentResult.setHasMarks( calculatedScore.hasMarks );
+		assessmentResult.setHasBetaBadge( true );
 		return assessmentResult;
 	}
 
@@ -69,7 +70,7 @@ export default class WordComplexityAssessment extends Assessment {
 		const hasMarks = complexWordsPercentage > 0;
 		const assessmentLink = this._config.urlTitle + this.name + "</a>";
 
-		if ( complexWordsPercentage < 5 ) {
+		if ( complexWordsPercentage < 10 ) {
 			return {
 				score: this._config.scores.goodAmount,
 				hasMarks: hasMarks,

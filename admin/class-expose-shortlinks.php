@@ -64,12 +64,19 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.wincher.seo_performance'                        => 'https://yoa.st/wincher-integration',
 		'shortlinks-insights-estimated_reading_time'                => 'https://yoa.st/4fd',
 		'shortlinks-insights-flesch_reading_ease'                   => 'https://yoa.st/34r',
+		'shortlinks-insights-flesch_reading_ease_sidebar'           => 'https://yoa.st/4mf',
+		'shortlinks-insights-flesch_reading_ease_metabox'           => 'https://yoa.st/4mg',
 		'shortlinks-insights-flesch_reading_ease_article'           => 'https://yoa.st/34s',
 		'shortlinks-insights-keyword_research_link'                 => 'https://yoa.st/keyword-research-metabox',
 		'shortlinks-insights-upsell-sidebar-prominent_words'        => 'https://yoa.st/prominent-words-upsell-sidebar',
 		'shortlinks-insights-upsell-metabox-prominent_words'        => 'https://yoa.st/prominent-words-upsell-metabox',
 		'shortlinks-insights-upsell-elementor-prominent_words'      => 'https://yoa.st/prominent-words-upsell-elementor',
 		'shortlinks-insights-word_count'                            => 'https://yoa.st/word-count',
+		'shortlinks-insights-upsell-sidebar-text_formality'         => 'https://yoa.st/formality-upsell-sidebar',
+		'shortlinks-insights-upsell-metabox-text_formality'         => 'https://yoa.st/formality-upsell-metabox',
+		'shortlinks-insights-upsell-elementor-text_formality'       => 'https://yoa.st/formality-upsell-elementor',
+		'shortlinks-insights-text_formality_info_free'              => 'https://yoa.st/formality-free',
+		'shortlinks-insights-text_formality_info_premium'           => 'https://yoa.st/formality',
 	];
 
 	/**

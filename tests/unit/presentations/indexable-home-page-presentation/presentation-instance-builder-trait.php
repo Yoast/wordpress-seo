@@ -23,6 +23,13 @@ trait Presentation_Instance_Builder {
 	protected $indexable;
 
 	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper|Mockery\MockInterface
+	 */
+	protected $pagination;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Indexable_Home_Page_Presentation

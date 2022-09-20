@@ -30,6 +30,8 @@ describe( "the keyphrase length assessment for product pages", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"No focus keyphrase was set for this page. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
+		expect( result.hasJumps() ).toBeTruthy();
+		expect( result.getEditFieldName() ).toBe( "keyphrase" );
 	} );
 
 	it( "should show a different feedback text for product pages when no keyphrase is set for a related keyphrase", function() {
@@ -40,6 +42,7 @@ describe( "the keyphrase length assessment for product pages", function() {
 		expect( result.getScore() ).toEqual( -999 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
+		expect( result.hasJumps() ).toBeTruthy();
 	} );
 
 	it( "should assess a product page with one-word keyphrase as bad ", function() {
@@ -50,6 +53,7 @@ describe( "the keyphrase length assessment for product pages", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase contains 1 content word. That's way less than the recommended minimum of 4 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
+		expect( result.hasJumps() ).toBeTruthy();
 	} );
 
 	it( "should assess a product page with a keyphrase that's slightly too short as okay ", function() {
@@ -60,6 +64,7 @@ describe( "the keyphrase length assessment for product pages", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase contains 3 content words. That's less than the recommended minimum of 4 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
+		expect( result.hasJumps() ).toBeTruthy();
 	} );
 
 	it( "should assess a product page with a keyphrase that's the correct length", function() {
@@ -68,6 +73,8 @@ describe( "the keyphrase length assessment for product pages", function() {
 
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
+		expect( result.hasJumps() ).toBeFalsy();
+		expect( result.hasEditFieldName() ).toBeFalsy();
 	} );
 
 	it( "should assess a product page with a keyphrase that's slightly too long as okay", function() {
@@ -78,6 +85,7 @@ describe( "the keyphrase length assessment for product pages", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase contains 7 content words. That's more than the recommended maximum of 6 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+		expect( result.hasJumps() ).toBeTruthy();
 	} );
 	it( "should assess a product page with a keyphrase that's too long as bad", function() {
 		const paper = new Paper( "", { keyword: "a test ".repeat( 9 ) } );
@@ -87,6 +95,7 @@ describe( "the keyphrase length assessment for product pages", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase contains 9 content words. That's way more than the recommended maximum of 6 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+		expect( result.hasJumps() ).toBeTruthy();
 	} );
 } );
 

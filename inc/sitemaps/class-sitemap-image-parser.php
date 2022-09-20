@@ -199,7 +199,12 @@ class WPSEO_Sitemap_Image_Parser {
 				&& preg_match( '|wp-image-(?P<id>\d+)|', $class, $matches )
 				&& get_post_status( $matches['id'] )
 			) {
-				$src = $this->image_url( $matches['id'] );
+				$query_params = wp_parse_url( $src, PHP_URL_QUERY );
+				$src          = $this->image_url( $matches['id'] );
+
+				if ( $query_params ) {
+					$src = $src . '?' . $query_params;
+				}
 			}
 
 			$src = $this->get_absolute_url( $src );
@@ -288,8 +293,8 @@ class WPSEO_Sitemap_Image_Parser {
 	/**
 	 * Get image item array with filters applied.
 	 *
-	 * @param WP_Post $post  Post object for the context.
-	 * @param string  $src   Image URL.
+	 * @param WP_Post $post Post object for the context.
+	 * @param string  $src  Image URL.
 	 *
 	 * @return array
 	 */

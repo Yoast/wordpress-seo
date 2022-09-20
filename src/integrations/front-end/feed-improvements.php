@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
@@ -60,8 +60,9 @@ class Feed_Improvements implements Integration_Interface {
 		\add_filter( 'get_bloginfo_rss', [ $this, 'filter_bloginfo_rss' ], 10, 2 );
 		\add_filter( 'document_title_separator', [ $this, 'filter_document_title_separator' ] );
 
-		\add_action( 'do_feed_rss', [ $this, 'send_canonical_header' ], 9 );
+		\add_action( 'do_feed_rss', [ $this, 'handle_rss_feed' ], 9 );
 		\add_action( 'do_feed_rss2', [ $this, 'send_canonical_header' ], 9 );
+		\add_action( 'do_feed_rss2', [ $this, 'add_robots_headers' ], 9 );
 	}
 
 	/**
@@ -81,16 +82,44 @@ class Feed_Improvements implements Integration_Interface {
 	}
 
 	/**
-	 * Adds a canonical link header to the main canonical URL for the requested feed object.
+	 * Makes sure send canonical header always runs, because this RSS hook does not support the for_comments parameter
+	 *
+	 * @return void
 	 */
-	public function send_canonical_header() {
-		if ( \headers_sent() ) {
+	public function handle_rss_feed() {
+		$this->send_canonical_header( false );
+	}
+
+	/**
+	 * Adds a canonical link header to the main canonical URL for the requested feed object. If it is not a comment
+	 * feed.
+	 *
+	 * @param bool $for_comments If the RRS feed is meant for a comment feed.
+	 *
+	 * @return void
+	 */
+	public function send_canonical_header( $for_comments ) {
+
+		if ( $for_comments || \headers_sent() ) {
 			return;
 		}
 
 		$url = $this->get_url_for_queried_object( $this->meta->for_home_page()->canonical );
 		if ( ! empty( $url ) ) {
 			\header( \sprintf( 'Link: <%s>; rel="canonical"', $url ), false );
+		}
+	}
+
+	/**
+	 * Adds noindex, follow tag for comment feeds.
+	 *
+	 * @param bool $for_comments If the RSS feed is meant for a comment feed.
+	 *
+	 * @return void
+	 */
+	public function add_robots_headers( $for_comments ) {
+		if ( $for_comments && ! \headers_sent() ) {
+			\header( 'X-Robots-Tag: noindex, follow', true );
 		}
 	}
 

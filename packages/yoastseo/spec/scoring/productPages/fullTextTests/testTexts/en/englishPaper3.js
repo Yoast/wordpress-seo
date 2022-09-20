@@ -15,8 +15,13 @@ const paper = new Paper( content, {
 	permalink: "https://en.wikipedia.org/wiki/Cat_tree",
 	slug: "Cat_tree",
 	customData: {
+		canRetrieveVariantSkus: true,
+		hasGlobalSKU: true,
 		hasGlobalIdentifier: true,
 		hasVariants: true,
+		doAllVariantsHaveSKU: false,
+		doAllVariantsHaveIdentifier: false,
+		productType: "variable",
 	},
 } );
 
@@ -93,8 +98,18 @@ const expectedResults = {
 	},
 	productIdentifiers: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 6,
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Not all your product variants" +
+			" have an identifier. You can add a product identifier via the \"Variations\" tab in the Product data box. " +
+			"<a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it" +
+			" will help search engines to better understand your content.</a>",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Not all your product variants have a SKU. You can add a SKU via " +
+			"the \"Variations\" tab in the Product data box. <a href='https://yoa.st/4lx' target='_blank'>Include " +
+			"it if you can, as it will help search engines to better understand your content.</a>",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
@@ -162,7 +177,7 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 13.04% of the words in your text are considered complex. " +
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.59% of the words in your text are considered complex. " +
 			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
