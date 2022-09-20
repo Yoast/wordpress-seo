@@ -241,6 +241,31 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.8 =
+Release Date: October 4th, 2022
+
+
+Enhancements:
+
+* Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them to be indexed, reducing duplicate content.
+* Removes empty breadcrumb schemas if not on homepage.
+* Removes two notifications from the Yoast SEO dashboard: the one suggesting to set the auto update on, and the one suggesting to activate an add-on which is installed but currently inactive.
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be when the `php_uname()` function is disabled by the web hosting provider.
+* Fixes a bug where `ListItem` entries would be output in a `BreadcrumbList` even if their text was empty, resulting in Schema validation errors.
+* Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml
+* Prevents a bug where robots meta would be synchronized between multilingual contents when using a plugin like WPML or Polylang.
+
+Other:
+
+* Add a helper to help with adding content to the `robots.txt` file.
+* Add a setting for disabling crawling of search URLs.
+* Add options to support the changes in the premium plugin.
+* Deprecates the `wpseo_twitter_card_type` filter.
+* Forces the use of the large card, which is the only supported format by Twitter.
+
 = 19.7.1 =
 Release Date: September 20th, 2022
 
@@ -270,29 +295,6 @@ Bugfixes:
 Other:
 
 * Adds new disabled toggles to the Crawl settings tab in the General page.
-
-= 19.6.1 =
-Release Date: August 31st, 2022
-
-Other:
-
-* Fixes compliance with the wordpress.org plugin guidelines.
-
-= 19.6 =
-Release Date: August 23rd, 2022
-
-Yoast SEO 19.6 is out today! In this release, we’ve rolled out some general enhancements. In addition, we’ve improved the performance of Yoast SEO on bigger, more complex sites. Read more about what's new in Yoast SEO 19.6 in [our release post in English](https://yoa.st/release-23-8-22) or [our release post in Spanish](https://yoa.st/release-23-8-22-spanish)!
-
-Bugfixes:
-
-* Fixes a bug in the Classic Editor where clicking on the SEO link inside the publish box would not always scroll the SEO analysis into view.
-* Fixes a bug where an emoji in our replacement variable editors would not be entirely removed when the backspace/delete button is hit.
-* Fixes a bug where a redirect to our installation success page could happen on admin AJAX calls.
-
-Other:
-
-* Adds a "Search engines discouraged" notification in the Yoast SEO dashboard when the "Discourage search engines from indexing this site" WordPress setting is turned on.
-* Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at [yoa.st/ryte-deprecation](https://yoa.st/ryte-deprecation).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
