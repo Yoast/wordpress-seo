@@ -256,15 +256,12 @@ Bugfixes:
 * Fixes a bug where a fatal error would be when the `php_uname()` function is disabled by the web hosting provider.
 * Fixes a bug where `ListItem` entries would be output in a `BreadcrumbList` even if their text was empty, resulting in Schema validation errors.
 * Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml
-* Prevents a bug where robots meta would be synchronized between multilingual contents when using a plugin like WPML or Polylang.
+* Fixes a bug where robots meta would be synchronized between multilingual contents when using a plugin like WPML or Polylang.
 
 Other:
 
-* Add a helper to help with adding content to the `robots.txt` file.
-* Add a setting for disabling crawling of search URLs.
-* Add options to support the changes in the premium plugin.
-* Deprecates the `wpseo_twitter_card_type` filter.
 * Forces the use of the large card, which is the only supported format by Twitter.
+* Deprecates the `wpseo_twitter_card_type` filter.
 
 = 19.7.1 =
 Release Date: September 20th, 2022
