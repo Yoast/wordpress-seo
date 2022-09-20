@@ -194,12 +194,6 @@ class Settings_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// Suppress notifications.
-		\remove_all_actions( 'admin_notices' );
-		\remove_all_actions( 'user_admin_notices' );
-		\remove_all_actions( 'network_admin_notices' );
-		\remove_all_actions( 'all_admin_notices' );
-
 		// Add page.
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
 		\add_filter( 'admin_menu', [ $this, 'add_settings_saved_page' ] );
@@ -211,6 +205,7 @@ class Settings_Integration implements Integration_Interface {
 
 			if ( $post_action === 'update' && $option_page === 'wpseo_settings' ) {
 				\add_action( 'admin_init', [ $this, 'register_setting' ] );
+				\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 			}
 
 			return;
@@ -220,6 +215,7 @@ class Settings_Integration implements Integration_Interface {
 		if ( $this->current_page_helper->get_current_yoast_seo_page() === 'wpseo_settings' ) {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 		}
 	}
 
@@ -311,6 +307,18 @@ class Settings_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
+	}
+
+	/**
+	 * Removes all current WP notices.
+	 *
+	 * @return void
+	 */
+	public function remove_notices() {
+		\remove_all_actions( 'admin_notices' );
+		\remove_all_actions( 'user_admin_notices' );
+		\remove_all_actions( 'network_admin_notices' );
+		\remove_all_actions( 'all_admin_notices' );
 	}
 
 	/**
