@@ -54,11 +54,6 @@ class WPSEO_Schema_IDs {
 	const PERSON_LOGO_HASH = '#personlogo';
 
 	/**
-	 * Hash used for an Article's primary image `@id`.
-	 */
-	const PRIMARY_IMAGE_HASH = '#primaryimage';
-
-	/**
 	 * Hash used for the WebPage's `@id`.
 	 *
 	 * @deprecated 19.3

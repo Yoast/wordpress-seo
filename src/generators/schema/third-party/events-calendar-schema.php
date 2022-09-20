@@ -143,18 +143,18 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 			// Generate an @id for the event.
 			$d->{'@id'} = $permalink . '#' . \strtolower( \esc_attr( $d->{'@type'} ) );
 
-			// Transform the post_thumbnail from the url to the @id of #primaryimage.
+			// Transform the post_thumbnail from the url to the @id of the main image url.
 			if ( \has_post_thumbnail( $post_id ) ) {
 				if ( \is_singular( 'tribe_events' ) ) {
 					// On a single view we can assume that Yoast SEO already printed the
 					// image schema for the post thumbnail.
 					$d->image = (object) [
-						'@id' => $permalink . '#primaryimage',
+						'@id' => $this->context->main_image_url,
 					];
 				}
 				else {
 					$image_id  = \get_post_thumbnail_id( $post_id );
-					$schema_id = $permalink . '#primaryimage';
+					$schema_id = $this->context->main_image_url;
 					$d->image  = $this->helpers->schema->image->generate_from_attachment_id( $schema_id, $image_id );
 				}
 			}
