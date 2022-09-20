@@ -120,7 +120,7 @@ class Feed_Improvements implements Integration_Interface {
 	 */
 	public function add_robots_headers( $for_comments ) {
 		if ( $for_comments && ! \headers_sent() ) {
-			\header( 'x-robots-tag: noindex, follow', true );
+			\header( 'X-Robots-Tag: noindex, follow', true );
 		}
 	}
 
