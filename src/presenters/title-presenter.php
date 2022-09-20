@@ -21,7 +21,7 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<title>This is the Yoast title | %s</title>';
+	protected $tag_format = '<title>%s</title>';
 
 	/**
 	 * The method of escaping to use.
