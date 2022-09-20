@@ -1,8 +1,16 @@
 /* eslint-disable */
-import { AdjustmentsIcon, ChevronDownIcon, ChevronUpIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import {
+	AdjustmentsIcon,
+	ArrowNarrowRightIcon,
+	ChevronDownIcon,
+	ChevronUpIcon,
+	ColorSwatchIcon,
+	DesktopComputerIcon,
+	NewspaperIcon,
+} from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-import { Badge, ChildrenLimiter, ErrorBoundary, useBeforeUnload } from "@yoast/ui-library";
+import { __, sprintf } from "@wordpress/i18n";
+import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -163,13 +171,65 @@ Menu.propTypes = {
 };
 
 /**
+ * @returns {JSX.Element} The element.
+ */
+const PremiumUpsellList = () => {
+	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+
+	return (
+		<div className="yst-rounded-lg yst-bg-white yst-shadow">
+			<div className="yst-p-6 yst-space-y-3 yst-max-w-5xl">
+				<Title as="h2" size="4" className="yst-text-base yst-text-primary-500">
+					{ sprintf(
+						/* translators: %s expands to Yoast SEO Premium */
+						__( "Upgrade to %s", "wordpress-seo" ),
+						"Yoast SEO Premium",
+					) }
+				</Title>
+				<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside">
+					<li>
+						<strong>{ __( "Multiple keyphrases", "wordpress-seo" ) }</strong>
+						:&nbsp;
+						{ __( "Increase your SEO reach", "wordpress-seo" ) }
+					</li>
+					<li>
+						<strong>{ __( "No more dead links", "wordpress-seo" ) }</strong>
+						:&nbsp;
+						{ __( "Easy redirect manager", "wordpress-seo" ) }
+					</li>
+					<li><strong>{ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</strong></li>
+					<li>
+						<strong>{ __( "Social media preview", "wordpress-seo" ) }</strong>
+						:&nbsp;
+						{ __( "Facebook & Twitter", "wordpress-seo" ) }
+					</li>
+					<li><strong>{ __( "24/7 email support", "wordpress-seo" ) }</strong></li>
+					<li><strong>{ __( "No ads!", "wordpress-seo" ) }</strong></li>
+				</ul>
+				<Button
+					as="a" variant="upsell" size="large" href={ getPremiumLink }
+					className="yst-gap-2 yst-mt-4"
+				>
+					{ sprintf(
+						/* translators: %s expands to Yoast SEO Premium */
+						__( "Get %s", "wordpress-seo" ),
+						"Yoast SEO Premium",
+					) }
+					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
+				</Button>
+			</div>
+		</div>
+	);
+};
+
+/**
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
 	const { pathname } = useLocation();
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
-	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const isPremium = false;//useSelectSettings( "selectPreference", [], "isPremium" );
 
 	useRouterScrollRestore();
 
@@ -199,43 +259,46 @@ const App = () => {
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<main className="yst-rounded-lg yst-bg-white yst-shadow">
-						<ErrorBoundary FallbackComponent={ ErrorFallback }>
-							<Routes>
-								<Route path="author-archives" element={ <AuthorArchives /> } />
-								<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
-								<Route path="crawl-optimization" element={ <CrawlSettings /> } />
-								<Route path="date-archives" element={ <DateArchives /> } />
-								<Route path="homepage" element={ <Homepage /> } />
-								<Route path="formats" element={ <Formats /> } />
-								<Route path="media" element={ <Media /> } />
-								<Route path="not-found-pages" element={ <NotFoundPages /> } />
-								<Route path="rss" element={ <Rss /> } />
-								<Route path="search-pages" element={ <SearchPages /> } />
-								<Route path="site-basics" element={ <SiteBasics /> } />
-								<Route path="site-representation" element={ <SiteRepresentation /> } />
-								<Route path="site-preferences" element={ <SitePreferences /> } />
-								<Route path="webmaster-tools" element={ <WebmasterTools /> } />
-								<Route path="post-type">
-									{ map( postTypes, postType => (
-										<Route
-											key={ `route-post-type-${ postType.name }` } path={ postType.route }
-											element={ <PostType { ...postType } /> }
-										/>
-									) ) }
-								</Route>
-								<Route path="taxonomy">
-									{ map( taxonomies, taxonomy => (
-										<Route
-											key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
-											element={ <Taxonomy { ...taxonomy } /> }
-										/>
-									) ) }
-								</Route>
-								<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
-							</Routes>
-						</ErrorBoundary>
-					</main>
+					<div className="yst-flex yst-flex-col yst-gap-4">
+						<main className="yst-rounded-lg yst-bg-white yst-shadow">
+							<ErrorBoundary FallbackComponent={ ErrorFallback }>
+								<Routes>
+									<Route path="author-archives" element={ <AuthorArchives /> } />
+									<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
+									<Route path="crawl-optimization" element={ <CrawlSettings /> } />
+									<Route path="date-archives" element={ <DateArchives /> } />
+									<Route path="homepage" element={ <Homepage /> } />
+									<Route path="formats" element={ <Formats /> } />
+									<Route path="media" element={ <Media /> } />
+									<Route path="not-found-pages" element={ <NotFoundPages /> } />
+									<Route path="rss" element={ <Rss /> } />
+									<Route path="search-pages" element={ <SearchPages /> } />
+									<Route path="site-basics" element={ <SiteBasics /> } />
+									<Route path="site-representation" element={ <SiteRepresentation /> } />
+									<Route path="site-preferences" element={ <SitePreferences /> } />
+									<Route path="webmaster-tools" element={ <WebmasterTools /> } />
+									<Route path="post-type">
+										{ map( postTypes, postType => (
+											<Route
+												key={ `route-post-type-${ postType.name }` } path={ postType.route }
+												element={ <PostType { ...postType } /> }
+											/>
+										) ) }
+									</Route>
+									<Route path="taxonomy">
+										{ map( taxonomies, taxonomy => (
+											<Route
+												key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
+												element={ <Taxonomy { ...taxonomy } /> }
+											/>
+										) ) }
+									</Route>
+									<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
+								</Routes>
+							</ErrorBoundary>
+						</main>
+						{ ! isPremium && <PremiumUpsellList /> }
+					</div>
 					{ ! isPremium && <SidebarRecommendations /> }
 				</div>
 			</SidebarNavigation>
