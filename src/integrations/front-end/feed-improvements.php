@@ -114,7 +114,7 @@ class Feed_Improvements implements Integration_Interface {
 	/**
 	 * Adds noindex, follow tag for comment feeds.
 	 *
-	 * @param bool $for_comments If the RRS feed is meant for a comment feed.
+	 * @param bool $for_comments If the RSS feed is meant for a comment feed.
 	 *
 	 * @return void
 	 */
