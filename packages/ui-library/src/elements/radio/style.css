@@ -5,6 +5,16 @@
 		}
 
 		/* Variants */
+		.yst-radio--disabled {
+			.yst-radio__input,
+			.yst-radio__label,
+			.yst-radio__check {
+				@apply
+				yst-opacity-50
+				yst-cursor-not-allowed
+				focus:yst-ring-0;
+			}
+		}
 
 		.yst-radio--inline-block {
 			@apply yst-inline-flex;

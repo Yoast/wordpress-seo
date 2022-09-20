@@ -1,7 +1,9 @@
 export { default as Alert } from "./elements/alert";
+export { default as Autocomplete } from "./elements/autocomplete";
 export { default as Badge } from "./elements/badge";
 export { default as Button } from "./elements/button";
 export { default as Checkbox } from "./elements/checkbox";
+export { default as Code } from "./elements/code";
 export { default as ErrorBoundary } from "./elements/error-boundary";
 export { default as Label } from "./elements/label";
 export { default as Link } from "./elements/link";
@@ -16,6 +18,7 @@ export { default as Textarea } from "./elements/textarea";
 export { default as Title } from "./elements/title";
 export { default as Toggle } from "./elements/toggle";
 
+export { default as AutocompleteField } from "./components/autocomplete-field";
 export { default as CheckboxGroup } from "./components/checkbox-group";
 export { default as ChildrenLimiter } from "./components/children-limiter";
 export { default as FileImport } from "./components/file-import";

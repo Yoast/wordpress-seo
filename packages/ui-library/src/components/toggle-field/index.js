@@ -17,14 +17,14 @@ import Toggle from "../../elements/toggle";
  * @returns {JSX.Element} ToggleField component.
  */
 const ToggleField = ( {
-	children,
+	children = null,
 	label,
-	labelSuffix,
-	description,
+	labelSuffix = null,
+	description = null,
 	checked,
-	disabled,
+	disabled = false,
 	onChange,
-	className,
+	className = "",
 	...props
 } ) => (
 	<Switch.Group as="div" className={ classNames( "yst-toggle-field", disabled && "yst-toggle-field--disabled", className ) }>
@@ -35,7 +35,9 @@ const ToggleField = ( {
 					{ labelSuffix }
 				</div>
 				{ ( description || children ) && (
-					<Switch.Description className="yst-toggle-field__description">{ description || children }</Switch.Description>
+					<Switch.Description as="div" className="yst-toggle-field__description">
+						{ description || children }
+					</Switch.Description>
 				) }
 			</div>
 		) }
@@ -58,14 +60,6 @@ ToggleField.propTypes = {
 	disabled: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
-};
-
-ToggleField.defaultProps = {
-	children: null,
-	className: "",
-	labelSuffix: null,
-	description: null,
-	disabled: false,
 };
 
 export default ToggleField;
