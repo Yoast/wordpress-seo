@@ -148,7 +148,7 @@ const SitePreferences = () => {
 					</Title>
 				</div>
 				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
-					<Card>
+					<Card id="card-wpseo-keyword_analysis_active">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "SEO analysis", "wordpress-seo" ) }
@@ -167,7 +167,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo-content_analysis_active">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Readability analysis", "wordpress-seo" ) }
@@ -186,7 +186,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo-inclusive_language_analysis_active">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Inclusive language analysis", "wordpress-seo" ) }
@@ -209,7 +209,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo-enable_metabox_insights">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Insights", "wordpress-seo" ) }
@@ -241,7 +241,7 @@ const SitePreferences = () => {
 					</Title>
 				</div>
 				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
-					<Card>
+					<Card id="card-wpseo-enable_cornerstone_content">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Cornerstone content", "wordpress-seo" ) }
@@ -260,7 +260,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo-enable_text_link_counter">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Text link counter", "wordpress-seo" ) }
@@ -279,7 +279,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo-enable_link_suggestions">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Link suggestions", "wordpress-seo" ) }
@@ -314,7 +314,7 @@ const SitePreferences = () => {
 					</Alert>
 				</div>
 				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
-					<Card>
+					<Card id="card-wpseo_social-opengraph">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Open Graph data", "wordpress-seo" ) }
@@ -333,7 +333,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo_social-twitter">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Twitter card data", "wordpress-seo" ) }
@@ -352,7 +352,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo-enable_enhanced_slack_sharing">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Slack sharing", "wordpress-seo" ) }
@@ -381,7 +381,7 @@ const SitePreferences = () => {
 					</Title>
 				</div>
 				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
-					<Card>
+					<Card id="card-wpseo-enable_admin_bar_menu">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "Admin bar menu", "wordpress-seo" ) }
@@ -410,7 +410,7 @@ const SitePreferences = () => {
 					</Title>
 				</div>
 				<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
-					<Card>
+					<Card id="card-wpseo-enable_headless_rest_endpoints">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "REST API endpoint", "wordpress-seo" ) }
@@ -429,7 +429,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo-enable_xml_sitemap">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "XML sitemaps", "wordpress-seo" ) }
@@ -448,7 +448,7 @@ const SitePreferences = () => {
 							/>
 						</Card.Footer>
 					</Card>
-					<Card>
+					<Card id="card-wpseo-enable_index_now">
 						<Card.Header className="yst-justify-start">
 							<Title as="h4">
 								{ __( "IndexNow", "wordpress-seo" ) }

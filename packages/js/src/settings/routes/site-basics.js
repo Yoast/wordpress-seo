@@ -153,7 +153,7 @@ const SiteBasics = () => {
 							as={ Radio }
 							type="radio"
 							name="wpseo_titles.separator"
-							id={ `input-wpseo_titles-separator.${ value }` }
+							id={ `input-wpseo_titles-separator-${ value }` }
 							label={ label }
 							aria-label={ ariaLabel }
 							value={ value }
