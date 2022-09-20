@@ -74,10 +74,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase" +
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: Not all the words from your keyphrase" +
 			" \"História de Portugal\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results write" +
 			" the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>.",
 	},
@@ -106,13 +106,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your text do not contain" +
 			" the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-	fleschReadingEase: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 41.9 in the test, which is considered" +
-			" difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve" +
-			" readability</a>.",
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 3,
@@ -133,13 +126,15 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 7.1% of the sentences contain transition words," +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 7.8% of the sentences contain transition words," +
 			" which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.6% of the sentences contain passive voice, " +
+			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
+			"Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -156,12 +151,16 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes that reflect" +
-			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
+			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>" +
+			"Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
+	},
+	wordComplexity: {
+		isApplicable: false,
 	},
 };
 

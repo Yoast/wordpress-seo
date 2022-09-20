@@ -23,6 +23,7 @@ function getDisplayValue( selectedOption ) {
  * The Yoast version of a Tailwind Combobox.
  *
  * @param {Object}   props               The props object.
+ * @param {string}   props.id            The id for this combo box.
  * @param {Object}   props.value         Selected option with shape {value, label}.
  * @param {*}        props.value.value   The id of the selected option
  * @param {string}   props.value.label   The display label of the selected option
@@ -34,7 +35,7 @@ function getDisplayValue( selectedOption ) {
  *
  * @returns {WPElement} The Yoast version of a Tailwind Combobox.
  */
-export default function YoastComboBox( { value, label, onChange, onQueryChange, options, placeholder, isLoading } ) {
+export default function YoastComboBox( { id, value, label, onChange, onQueryChange, options, placeholder, isLoading } ) {
 	const [ filteredOptions, setFilteredOptions ] = useState( options );
 	const [ query, setQuery ] = useState( "" );
 
@@ -80,7 +81,7 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 		};
 	}, [] );
 
-	return <Combobox id="configuration-user-select" as="div" value={ value } onChange={ onChange } onBlur={ handleBlur }>
+	return <Combobox id={ id } as="div" value={ value } onChange={ onChange } onBlur={ handleBlur }>
 		{
 			( { open } ) => {
 				return <Fragment>
@@ -88,7 +89,6 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 					<div className="yst-h-[45px] yst-max-w-sm yst-relative">
 						<Combobox.Button
 							role="button"
-							id="configuration-user-select-button"
 							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-gray-300 yst-flex yst-items-center yst-rounded-r-md yst-pl-3 yst-pr-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
 							as="div"
 						>
@@ -136,6 +136,7 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 YoastComboBox.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	options: PropTypes.array.isRequired,
+	id: PropTypes.string.isRequired,
 	value: PropTypes.shape( {
 		value: PropTypes.number,
 		label: PropTypes.string,

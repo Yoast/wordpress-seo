@@ -11,15 +11,16 @@ import ImageSelect from "../../base/image-select";
 /**
  * The Person section.
  *
- * @param {Object}   props             The props object.
- * @param {function} props.dispatch    The function to update the container's state.
- * @param {string}   props.imageUrl    The image URL.
- * @param {integer}  props.personId    The ID of the user.
- * @param {Boolean}  props.canEditUser Whether the current user can edit the selected person's profile.
+ * @param {Object}   props                      The props object.
+ * @param {function} props.dispatch             The function to update the container's state.
+ * @param {string}   props.imageUrl             The image URL.
+ * @param {string}   props.fallbackImageUrl     The fallback image URL for when there is no image.
+ * @param {integer}  props.personId             The ID of the user.
+ * @param {Boolean}  props.canEditUser          Whether the current user can edit the selected person's profile.
 
  * @returns {WPElement} The person section.
  */
-export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
+export function PersonSection( { dispatch, imageUrl, fallbackImageUrl, person, canEditUser } ) {
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
 			dispatch( { type: "SET_PERSON_LOGO", payload: { ...selectedImage } } );
@@ -34,7 +35,7 @@ export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 		( selectedPerson ) => {
 			dispatch( { type: "SET_PERSON", payload: selectedPerson } );
 			apiFetch( {
-				path: `yoast/v1/workouts/check_capability?user_id=${ selectedPerson.value  }`,
+				path: `yoast/v1/configuration/check_capability?user_id=${ selectedPerson.value  }`,
 			} ).then( response => {
 				dispatch( { type: "SET_CAN_EDIT_USER", payload: response.success } );
 			} ).catch(
@@ -66,7 +67,7 @@ export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 			b: <b />,
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a
-				id="yoast-configuration-workout-user-selector-user-link"
+				id="yoast-configuration-user-selector-user-link"
 				href={ window.wpseoScriptData.userEditUrl.replace( "{user_id}", person.id ) }
 				target="_blank" rel="noopener noreferrer"
 			/>,
@@ -93,6 +94,7 @@ export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 				className="yst-mt-6"
 				id="person-logo-input"
 				url={ imageUrl }
+				fallbackUrl={ fallbackImageUrl }
 				onSelectImageClick={ openImageSelect }
 				onRemoveImageClick={ removeImage }
 				imageAltText=""
@@ -106,6 +108,7 @@ export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 PersonSection.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	imageUrl: PropTypes.string,
+	fallbackImageUrl: PropTypes.string,
 	person: PropTypes.shape( {
 		id: PropTypes.number,
 		name: PropTypes.string,
@@ -115,6 +118,7 @@ PersonSection.propTypes = {
 
 PersonSection.defaultProps = {
 	imageUrl: "",
+	fallbackImageUrl: "",
 	person: {
 		id: 0,
 		name: "",

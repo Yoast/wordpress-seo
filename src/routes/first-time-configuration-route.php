@@ -8,7 +8,6 @@ use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * First_Time_Configuration_Route class.
  */
@@ -82,7 +81,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 	/**
 	 * First_Time_Configuration_Route constructor.
 	 *
-	 * @param First_Time_Configuration_Action $first_time_configuration_action The configuration workout action.
+	 * @param First_Time_Configuration_Action $first_time_configuration_action The first-time configuration action.
 	 */
 	public function __construct(
 		First_Time_Configuration_Action $first_time_configuration_action
@@ -396,7 +395,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 	/**
 	 * Returns the first time configuration state.
 	 *
-	 * @return WP_REST_Response the configuration of the workouts.
+	 * @return WP_REST_Response the state of the configuration.
 	 */
 	public function get_configuration_state() {
 		$data = $this

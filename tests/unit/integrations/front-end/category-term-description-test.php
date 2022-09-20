@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Category_Term_Description_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Category_Term_Description
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end

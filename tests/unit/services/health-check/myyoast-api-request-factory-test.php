@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * MyYoast_Api_Request_Factory_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Health_Check\MyYoast_Api_Request_Factory
- *
- * phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class MyYoast_Api_Request_Factory_Test extends TestCase {
 
@@ -35,8 +33,9 @@ class MyYoast_Api_Request_Factory_Test extends TestCase {
 	/**
 	 * Checks if the factory returns a new instance.
 	 *
-	 * @return void
 	 * @covers ::create
+	 *
+	 * @return void
 	 */
 	public function test_factory_returns_instance() {
 		$url      = 'sites/current';

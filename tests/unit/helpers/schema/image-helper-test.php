@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use Mockery;
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;

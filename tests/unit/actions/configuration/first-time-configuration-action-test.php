@@ -6,10 +6,9 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_profiles_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * Class First_Time_Configuration_Action_Test
  *
@@ -37,7 +36,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * The social profiles helper.
 	 *
-	 * @var Mockery\MockInterface|Social_profiles_Helper
+	 * @var Mockery\MockInterface|Social_Profiles_Helper
 	 */
 	protected $social_profiles_helper;
 
@@ -48,7 +47,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper         = Mockery::mock( Options_Helper::class );
-		$this->social_profiles_helper = Mockery::mock( Social_profiles_Helper::class );
+		$this->social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
 
 		$this->instance = new First_Time_Configuration_Action( $this->options_helper, $this->social_profiles_helper );
 	}
@@ -64,7 +63,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			$this->getPropertyValue( $this->instance, 'options_helper' )
 		);
 		$this->assertInstanceOf(
-			Social_profiles_Helper::class,
+			Social_Profiles_Helper::class,
 			$this->getPropertyValue( $this->instance, 'social_profiles_helper' )
 		);
 	}
@@ -370,13 +369,13 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * Tests the check_capability method.
 	 *
-	 * @param int    $user_id  The id of the user.
-	 * @param bool   $can_edit The result of the current_user_can call.
-	 * @param object $expected The expected result object.
-	 *
 	 * @covers ::check_capability
 	 *
 	 * @dataProvider check_capability_provider
+	 *
+	 * @param int    $user_id  The id of the user.
+	 * @param bool   $can_edit The result of the current_user_can call.
+	 * @param object $expected The expected result object.
 	 */
 	public function test_check_capability( $user_id, $can_edit, $expected ) {
 		$this->social_profiles_helper

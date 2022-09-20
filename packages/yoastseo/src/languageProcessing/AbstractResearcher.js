@@ -7,7 +7,7 @@ import MissingArgument from "../errors/missingArgument";
 import altTagCount from "./researches/altTagCount.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
-import findKeywordInPageTitle from "./researches/findKeywordInPageTitle";
+import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
 import findList from "./researches/findList";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
@@ -16,6 +16,7 @@ import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
 import getParagraphLength from "./researches/getParagraphLength.js";
+import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings";
@@ -35,7 +36,7 @@ import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
-import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
+import wordComplexity from "./researches/wordComplexity";
 
 /**
  * The researches contains all the researches
@@ -55,7 +56,7 @@ export default class AbstractResearcher {
 			altTagCount,
 			countSentencesFromText,
 			findKeywordInFirstParagraph,
-			findKeywordInPageTitle,
+			findKeyphraseInSEOTitle,
 			findList,
 			findTransitionWords,
 			functionWordsInKeyphrase,
@@ -85,6 +86,7 @@ export default class AbstractResearcher {
 			wordCountInText,
 			videoCount,
 			getPassiveVoiceResult,
+			wordComplexity,
 		};
 
 		this._data = {};

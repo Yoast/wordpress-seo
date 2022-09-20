@@ -21,6 +21,11 @@ describe( "a test for the Spanish Researcher", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
+	it( "checks if a word is complex in Spanish", function() {
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "situados" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "sobre" ) ).toEqual( false );
+	} );
+
 	it( "returns the Spanish function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );

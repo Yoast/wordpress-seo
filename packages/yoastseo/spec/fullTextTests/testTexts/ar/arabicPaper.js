@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./arabicPaper.html";
 
-const name = "arabicPaper1";
+const name = "arabicPaper";
 
 const paper = new Paper( content, {
 	keyword: "العناية بالنباتات",
@@ -63,10 +63,10 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. <a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. <a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -91,9 +91,6 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-	fleschReadingEase: {
-		isApplicable: false,
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
@@ -112,7 +109,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 23.1% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 23.5% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
@@ -138,6 +135,9 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page." +
 			" <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: false,
 	},
 };
 

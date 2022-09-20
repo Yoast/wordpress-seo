@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service
- * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode,Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
 class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 
@@ -23,7 +23,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
 	 */
-	protected $aioseo_robots_provider_service;
+	protected $robots_provider;
 
 	/**
 	 * The class under test.

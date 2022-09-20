@@ -8,7 +8,6 @@ use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Routes\First_Time_Configuration_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * Class First_Time_Configuration_Route_Test.
  *
@@ -266,11 +265,12 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	/**
 	 * Tests the can_edit_user method.
 	 *
-	 * @param bool   $can_edit The result of the check_capability call.
-	 * @param object $expected The expected result object.
 	 * @covers ::can_edit_user
 	 *
 	 * @dataProvider can_edit_user_provider
+	 *
+	 * @param bool   $can_edit The result of the check_capability call.
+	 * @param object $expected The expected result object.
 	 */
 	public function test_can_edit_user( $can_edit, $expected ) {
 		$request = Mockery::mock( 'WP_Rest_Request' );

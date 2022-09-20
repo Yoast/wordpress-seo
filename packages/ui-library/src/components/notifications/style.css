@@ -1,0 +1,48 @@
+@layer components {
+    .yst-root {
+
+        .yst-notifications {
+            @apply yst-fixed yst-w-full yst-z-20 yst-pointer-events-none yst-flex yst-flex-col yst-space-y-4;
+        }
+
+        .yst-notifications--bottom-center {
+            @apply yst-bottom-8 yst-items-center;
+        }
+
+        .yst-notifications--bottom-left {
+            @apply yst-bottom-8 yst-left-8;
+        }
+
+        .yst-notifications--top-center {
+            @apply yst-top-8 yst-items-center;
+        }
+
+        .yst-notification {
+            @apply yst-w-80 yst-p-4 yst-bg-white yst-shadow-lg yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-z-20 yst-pointer-events-auto;
+        }
+
+        .yst-notification--large {
+            @apply yst-w-96;
+        }
+
+        .yst-notification--info .yst-notification__icon {
+            @apply yst-text-blue-500;
+        }
+
+        .yst-notification--warning .yst-notification__icon {
+            @apply yst-text-amber-500;
+        }
+
+        .yst-notification--success .yst-notification__icon {
+            @apply yst-text-green-500;
+        }
+
+        .yst-notification--error .yst-notification__icon {
+            @apply yst-text-red-500;
+        }
+
+        .yst-notification__icon {
+            @apply yst-w-5 yst-h-5;
+        }
+    }
+}

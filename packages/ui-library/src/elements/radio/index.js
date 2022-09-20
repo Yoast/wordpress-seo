@@ -16,8 +16,9 @@ const classNameMap = {
  * @param {string} name Name.
  * @param {string} value Value.
  * @param {string} label Label.
- * @param {string} screenReaderLabel Screen reader label.
+ * @param {string} [screenReaderLabel] Screen reader label.
  * @param {string} [variant] Variant.
+ * @param {boolean} [disabled] Disabled state.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Radio component.
  */
@@ -26,9 +27,10 @@ const Radio = ( {
 	name,
 	value,
 	label,
-	screenReaderLabel,
-	variant,
-	className,
+	screenReaderLabel = "",
+	variant = "default",
+	disabled = false,
+	className = "",
 	...props
 } ) => {
 	const svgAriaProps = useSvgAria();
@@ -39,6 +41,7 @@ const Radio = ( {
 				className={ classNames(
 					"yst-radio",
 					"yst-radio--inline-block",
+					disabled && "yst-radio--disabled",
 					className,
 				) }
 			>
@@ -47,6 +50,7 @@ const Radio = ( {
 					id={ id }
 					name={ name }
 					value={ value }
+					disabled={ disabled }
 					className="yst-radio__input"
 					aria-label={ screenReaderLabel }
 					{ ...props }
@@ -63,6 +67,7 @@ const Radio = ( {
 		<div
 			className={ classNames(
 				"yst-radio",
+				disabled && "yst-radio--disabled",
 				className,
 			) }
 		>
@@ -71,6 +76,7 @@ const Radio = ( {
 				id={ id }
 				name={ name }
 				value={ value }
+				disabled={ disabled }
 				className="yst-radio__input"
 				{ ...props }
 			/>
@@ -86,13 +92,8 @@ Radio.propTypes = {
 	label: PropTypes.string.isRequired,
 	screenReaderLabel: PropTypes.string,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
+	disabled: PropTypes.bool,
 	className: PropTypes.string,
-};
-
-Radio.defaultProps = {
-	screenReaderLabel: "",
-	variant: "default",
-	className: "",
 };
 
 export default Radio;

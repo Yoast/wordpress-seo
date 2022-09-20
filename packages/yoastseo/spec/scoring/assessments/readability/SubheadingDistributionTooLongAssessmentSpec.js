@@ -119,6 +119,21 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		expect( assessment ).toBe( true );
 	} );
 
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
+		expect( new SubheadingDistributionTooLong().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "should return false for isApplicable for a paper with only an image.", function() {
+		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
+		expect( new SubheadingDistributionTooLong().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "should return false for isApplicable for a paper with only spaces.", function() {
+		const paper = new Paper( "        " );
+		expect( new SubheadingDistributionTooLong().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
 	it( "Returns false from hasSubheadings to the paper without text", function() {
 		const paper =  new Paper( shortText );
 		const assessment = subheadingDistributionTooLong.hasSubheadings( paper );

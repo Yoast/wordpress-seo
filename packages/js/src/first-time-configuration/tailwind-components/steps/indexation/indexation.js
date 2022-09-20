@@ -283,6 +283,7 @@ export class Indexation extends Component {
 			type="button"
 			className="yst-button yst-button--secondary"
 			onClick={ this.startIndexing }
+			id="indexation-data-optimization"
 		>
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
 		</button>;
@@ -315,6 +316,7 @@ export class Indexation extends Component {
 					type="button"
 					className="yst-button yst-button--secondary yst-button--disabled"
 					disabled={ true }
+					id="indexation-data-optimization"
 				>
 					{ __( "Start SEO data optimization", "wordpress-seo" ) }
 				</button>

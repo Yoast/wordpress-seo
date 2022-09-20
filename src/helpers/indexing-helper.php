@@ -232,6 +232,15 @@ class Indexing_Helper {
 	}
 
 	/**
+	 * Gets a boolean that indicates whether or not the indexing of the indexables has completed.
+	 *
+	 * @return bool Whether the indexing of the indexables has completed.
+	 */
+	public function is_finished_indexables_indexing() {
+		return $this->options_helper->get( 'indexables_indexing_completed', false );
+	}
+
+	/**
 	 * Returns the total number of unindexed objects.
 	 *
 	 * @return int The total number of unindexed objects.

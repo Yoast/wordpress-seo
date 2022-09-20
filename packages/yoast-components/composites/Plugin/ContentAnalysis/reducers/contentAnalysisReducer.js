@@ -1,5 +1,5 @@
-import { readabilityResultsReducer } from "../reducers/contentAnalysis/readabilityResultsReducer";
-import { keywordResultsReducer } from "../reducers/contentAnalysis/keywordResultsReducer";
+import { readabilityResultsReducer } from "./contentAnalysis/readabilityResultsReducer";
+import { keywordResultsReducer } from "./contentAnalysis/keywordResultsReducer";
 import { combineReducers } from "redux";
 
 export default combineReducers( {

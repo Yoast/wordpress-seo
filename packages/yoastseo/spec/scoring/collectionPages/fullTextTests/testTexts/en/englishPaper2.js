@@ -53,10 +53,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 168 words. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase " +
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase " +
 			"appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
@@ -80,11 +80,8 @@ const expectedResults = {
 		resultText: "",
 	},
 	keyphraseDistribution: {
-		isApplicable: true,
-		score: 1,
-		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of " +
-			"your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>" +
-			"Distribute them more evenly</a>.",
+		// The text doesn't contain more than 15 sentences.
+		isApplicable: false,
 	},
 	subheadingsTooLong: {
 		isApplicable: false,
@@ -104,8 +101,8 @@ const expectedResults = {
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 10.5% of the sentences contain passive voice, " +
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 15.4% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -119,6 +116,12 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: There is enough variety " +
 			"in your sentences. That's great!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 17.26% of the words in your text are considered complex. " +
+			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
 

@@ -2,15 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Services\Health_Check\Links_Table_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 
 /**
  * Links_Table_Reports

@@ -1,6 +1,5 @@
-import "./style.css";
-
 import Root from "../src/components/root";
+import "./style.css";
 
 export const globalTypes = {
 	dir: {
@@ -17,7 +16,7 @@ export const globalTypes = {
 			],
 		},
 	},
-  };
+};
 
 export const parameters = {
 	viewMode: "docs",
@@ -55,7 +54,7 @@ export const parameters = {
 
 export const decorators = [
 	( Story, context ) => (
-		<Root context={ { isRtl: context.globals.dir === "rtl" } }>
+		<Root dir={ context.globals.dir } context={ { isRtl: context.globals.dir === "rtl" } }>
 			<Story { ...context } />
 		</Root>
 	),

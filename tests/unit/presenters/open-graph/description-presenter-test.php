@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters\Open_Graph;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -51,9 +52,23 @@ class Description_Presenter_Test extends TestCase {
 		$this->instance     = new Description_Presenter();
 		$this->presentation = new Indexable_Presentation();
 		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance->presentation = $this->presentation;
 		$this->instance->replace_vars = $this->replace_vars;
+		$this->instance->helpers      = (object) [
+			'string' => $this->string,
+		];
+
+		$this->string
+			->expects( 'strip_all_tags' )
+			->withAnyArgs()
+			->once()
+			->andReturnUsing(
+				static function ( $str ) {
+					return $str;
+				}
+			);
 
 		$this->presentation->source = [];
 
@@ -74,6 +89,8 @@ class Description_Presenter_Test extends TestCase {
 	 */
 	public function test_present() {
 		$this->presentation->open_graph_description = 'My description';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$expected = '<meta property="og:description" content="My description" />';
 		$actual   = $this->instance->present();
@@ -108,8 +125,25 @@ class Description_Presenter_Test extends TestCase {
 			->once()
 			->with( 'My description', $this->presentation )
 			->andReturn( 'My filtered description' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$expected = '<meta property="og:description" content="My filtered description" />';
+		$actual   = $this->instance->present();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests whether the presenter returns the correct description when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_class() {
+		$this->presentation->open_graph_description = 'My description';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$expected = '<meta property="og:description" content="My description" class="yoast-seo-meta-tag" />';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

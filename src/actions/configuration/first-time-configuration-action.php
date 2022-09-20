@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Actions\Configuration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * Class First_Time_Configuration_Action.
  */
@@ -130,10 +129,10 @@ class First_Time_Configuration_Action {
 	public function set_person_social_profiles( $params ) {
 		$social_profiles = \array_filter(
 			$params,
-			function ( $key ) {
+			static function ( $key ) {
 				return $key !== 'user_id';
 			},
-			ARRAY_FILTER_USE_KEY
+			\ARRAY_FILTER_USE_KEY
 		);
 
 		$failures = $this->social_profiles_helper->set_person_social_profiles( $params['user_id'], $social_profiles );
@@ -155,7 +154,7 @@ class First_Time_Configuration_Action {
 	/**
 	 * Gets the values for the social profiles.
 	 *
-	 * @param int $user_id the person id.
+	 * @param int $user_id The person ID.
 	 *
 	 * @return object The response object.
 	 */
@@ -266,7 +265,7 @@ class First_Time_Configuration_Action {
 	public function get_configuration_state() {
 		$configuration_option = $this->options_helper->get( 'configuration_finished_steps' );
 
-		if ( ! is_null( $configuration_option ) ) {
+		if ( ! \is_null( $configuration_option ) ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,

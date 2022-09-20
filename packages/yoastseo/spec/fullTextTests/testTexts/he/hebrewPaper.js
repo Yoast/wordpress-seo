@@ -68,10 +68,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -98,9 +98,7 @@ const expectedResults = {
 			"Uneven. Some parts of your text do not contain the keyphrase or its synonyms." +
 			" <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-	fleschReadingEase: {
-		isApplicable: false,
-	},
+
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
@@ -150,6 +148,9 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page." +
 			" <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: false,
 	},
 };
 

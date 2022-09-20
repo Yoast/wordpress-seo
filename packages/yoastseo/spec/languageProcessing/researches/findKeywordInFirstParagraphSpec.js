@@ -1,10 +1,12 @@
 /* eslint-disable capitalized-comments, spaced-comment */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../../src/values/Paper.js";
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataJA = getMorphologyData( "ja" );
 
 const keyphraseEN = "walking in nature benefits";
 const sentenceWithAllKeywordsEN = "I like to take walks in the nature, because my body and brain benefit from it! ";
@@ -453,6 +455,27 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
+	it( "skips the first paragraph if there is an estimated reading time element", function() {
+		const paper = new Paper(
+			"<p class='yoast-reading-time__wrapper'>" +
+			"<span class='yoast-reading-time__icon'><svg><path></path></svg></span>" +
+			"<span class='yoast-reading-time__spacer' style='display:inline-block;width:1em'></span>" +
+			"<span class='yoast-reading-time__descriptive-text'>Estimated reading time:  </span>" +
+			"<span class='yoast-reading-time__reading-time'>2</span><span class='yoast-reading-time__time-unit'> minutes</span></p>" +
+			"<div>A sentence with a keyword</div>", {
+				keyword: "keyword",
+				synonyms: "",
+			}
+		);
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
 	it( "does not find keyword in the link in the first paragraph", function() {
 		const paper = new Paper(
 			"<a href=\"https://test.keyword.com/test\"> keyword <img src=\"https://www.keyword.com/test.jpg\" alt=\"a keyword tag\"> keyword </a>", {
@@ -861,7 +884,47 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		} );
 	} );
 
-	/*it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
+	it( "returns a good result when the first paragraph contains the exact match of the keyphrase in upper case with a period", function() {
+		let paper = new Paper( "What is ASP.NET", { keyword: "ASP.NET" } );
+		let researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual(
+			{
+				foundInOneSentence: true,
+				foundInParagraph: true,
+				keyphraseOrSynonym: "keyphrase",
+			}
+		);
+
+		paper = new Paper( "What is ASP.net", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+
+		paper = new Paper( "What is asp.NET", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+
+		paper = new Paper( "What is asp.net", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
 		const paper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。", { keyword: "『小さい花の刺繍』",
 			synonyms: "野生のハーブの刺繡",
 		} );
@@ -899,5 +962,5 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
 		} );
-	} );*/
+	} );
 } );

@@ -73,7 +73,7 @@ class Redirects_Integration_Test extends TestCase {
 				'wpseo_dashboard',
 				'',
 				'Redirects <span class="yoast-badge yoast-premium-badge"></span>',
-				'wpseo_manage_options',
+				'edit_others_posts',
 				'wpseo_redirects',
 				[ $this->instance, 'display' ],
 			],

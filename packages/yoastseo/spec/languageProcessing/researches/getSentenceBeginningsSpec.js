@@ -85,6 +85,18 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( sentenceBeginnings[ 0 ].word ).toBe( "hello" );
 	} );
 
+	it( "removes list items that are on multiple lines", function() {
+		mockPaper = new Paper( "<ul><li>item 1</li>\n\n<li class='list-item'>item 2</li>\n<li>item 3</li><li>item 4</li>\n\n      </ul>" +
+			"<p>Hello. Hello. Hello.</p>" );
+		researcher = new EnglishResearcher( mockPaper );
+
+		const sentenceBeginnings = getSentenceBeginnings( mockPaper, researcher );
+
+		expect( sentenceBeginnings ).toHaveLength( 1 );
+		expect( sentenceBeginnings[ 0 ].count ).toBe( 3 );
+		expect( sentenceBeginnings[ 0 ].word ).toBe( "hello" );
+	} );
+
 	it( "does not count consecutive sentences in tables", function() {
 		mockPaper = new Paper( "<figure class='wp-block-table'><table><tbody><tr><td>Cats and dogs.</td><td>Cats are cute.</td></tr><tr><td>Cats" +
 			" are awesome.</td><td>Cats are nice.</td></tr></tbody></table><figcaption>Cats are great.</figcaption></figure>" );

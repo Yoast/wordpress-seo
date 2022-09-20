@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Indexing_Controls_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Indexing_Controls
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end

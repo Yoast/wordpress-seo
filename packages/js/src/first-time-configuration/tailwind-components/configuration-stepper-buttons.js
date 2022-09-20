@@ -142,7 +142,7 @@ StepButtons.defaultProps = {
 };
 
 /**
- * A convenience class for the ConfigurationWorkout buttons:
+ * A convenience class for the Configuration stepper buttons:
  * "Save and continue" and "Go back" when the stepper is in progress, "Save changes" when the Stepper has been completed once.
  *
  * @param {Object}   props                     The props for the StepButtons.

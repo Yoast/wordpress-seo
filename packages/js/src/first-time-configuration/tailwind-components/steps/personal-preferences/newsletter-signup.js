@@ -89,8 +89,8 @@ export function NewsletterSignup( { gdprLink } ) {
 			<p className="yst-my-2">
 				{
 					sprintf(
+						// translators: %1$s expands to "Yoast", %2$s expands to "Yoast SEO"
 						__(
-							// translators: %1$s expands to "Yoast", %2$s expands to "Yoast SEO"
 							"Sign up for the %1$s newsletter to receive best-practice tips on how to rank, stay up-to-date with the latest SEO news and get guidance on how to use %2$s to the fullest!",
 							"wordpress-seo"
 						),
@@ -139,7 +139,7 @@ export function NewsletterSignup( { gdprLink } ) {
 							"</a>"
 						),
 						gdprLink,
-						"yoast-configuration-workout-gdpr-link"
+						"yoast-configuration-gdpr-link"
 					)
 				}
 			</p>

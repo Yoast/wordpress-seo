@@ -1,5 +1,5 @@
-/* eslint-disable no-undefined */
 import classNames from "classnames";
+import { keys } from "lodash";
 import PropTypes from "prop-types";
 import Spinner from "../spinner";
 
@@ -40,7 +40,8 @@ const Button = ( {
 	...props
 } ) => (
 	<Component
-		type={ type || ( Component === "button" && "button" ) }
+		// eslint-disable-next-line no-undefined
+		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
 		className={ classNames(
 			"yst-button",
@@ -61,8 +62,8 @@ Button.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	type: PropTypes.oneOf( [ "button", "submit" ] ),
-	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
-	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
+	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
+	size: PropTypes.oneOf( keys( classNameMap.size ) ),
 	isLoading: PropTypes.bool,
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
@@ -70,6 +71,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
 	as: "button",
+	// eslint-disable-next-line no-undefined
 	type: undefined,
 	variant: "primary",
 	size: "default",

@@ -49,6 +49,8 @@ class Rel_Prev_Presenter_Test extends TestCase {
 		$presentation->rel_prev = 'https://permalink/post/2';
 		$presentation->robots   = [];
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$this->assertEquals(
 			'<link rel="prev" href="https://permalink/post/2" />',
 			$this->instance->present()
@@ -107,9 +109,31 @@ class Rel_Prev_Presenter_Test extends TestCase {
 			->with( 'https://permalink/post/2', 'prev' )
 			->once()
 			->andReturn( 'https://filtered' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			'<link rel="prev" href="https://filtered" />',
+			$this->instance->present()
+		);
+	}
+
+	/**
+	 * Tests the presentation of the rel prev meta tag when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_with_class() {
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+
+		$presentation->rel_prev = 'https://permalink/post/2';
+		$presentation->robots   = [];
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertEquals(
+			'<link rel="prev" href="https://permalink/post/2" class="yoast-seo-meta-tag" />',
 			$this->instance->present()
 		);
 	}

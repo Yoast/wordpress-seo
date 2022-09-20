@@ -51,9 +51,6 @@ async function updateSiteRepresentation( state ) {
 		/* eslint-enable camelcase */
 	};
 
-	if ( window.wpseoFirstTimeConfigurationData.canEditWordPressOptions ) {
-		siteRepresentation.description = state.siteTagline;
-	}
 	const response = await apiFetch( {
 		path: "yoast/v1/configuration/site_representation",
 		method: "POST",
@@ -166,13 +163,11 @@ async function saveFinishedSteps( finishedSteps ) {
  * @returns {Object} The initial state.
  */
 function calculateInitialState( windowObject, isStepFinished ) {
-	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
+	let { companyOrPerson, companyName, companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
 
-	if ( shouldForceCompany ) {
+	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
+		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "company";
-	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) {
-		// Set the stage for an empty step 2 in case the customer does seem to have consciously finished step 2 without setting data.
-		companyOrPerson = "emptyChoice";
 	}
 
 	return {
@@ -181,8 +176,8 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		companyOrPersonOptions,
 		personSocialProfiles: {},
 		errorFields: [],
+		stepErrors: {},
 		editedSteps: [],
-		savedSteps: [],
 	};
 }
 
@@ -216,26 +211,32 @@ export default function FirstTimeConfigurationSteps() {
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 
+	const setStepError = useCallback( ( step, message ) => {
+		dispatch( { type: "SET_STEP_ERROR", payload: { step, message } } );
+	}, [] );
+
+	const removeStepError = useCallback( ( step ) => {
+		dispatch( { type: "REMOVE_STEP_ERROR", payload: step } );
+	}, [] );
+
 	/* Briefly override window variable and remove indexing notices, because indexingstate is reinitialized when navigating back and forth
 	without triggering a reload, whereas the window variable remains stale. */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
 			const indexationNotice = document.getElementById( "wpseo-reindex" );
 			if ( indexationNotice ) {
-				let allCounters = document.querySelectorAll( ".yoast-issue-counter" );
+				const allCounters = document.querySelectorAll( ".yoast-issue-counter, #toplevel_page_wpseo_dashboard .update-plugins" );
 
-				// Update the notification counters
-				if ( allCounters ) {
+				// Update the notification counters if there are any (non-zero ones).
+				if ( allCounters.length > 0 && allCounters[ 0 ].firstChild.textContent !== "0" ) {
 					// Get the oldCount for easier targeting.
 					const oldCount = allCounters[ 0 ].firstChild.textContent;
 					const newCount = ( parseInt( oldCount, 10 ) - 1 ).toString();
-					// Find and add the sidebar counters
-					allCounters = [ ...allCounters, ...document.querySelectorAll( "#toplevel_page_wpseo_dashboard .update-plugins.count-" + oldCount ) ];
 					allCounters.forEach( ( counterNode => {
 						// The classList replace will return false if the class was not present (and thus an adminbar counter).
 						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
 						// If the count reaches zero because of this, remove the red dot alltogether.
-						if ( isAdminBarCounter  && newCount === "0" ) {
+						if ( isAdminBarCounter && newCount === "0" ) {
 							counterNode.style.display = "none";
 						} else {
 							counterNode.firstChild.textContent = counterNode.firstChild.textContent.replace( oldCount, newCount );
@@ -249,17 +250,6 @@ export default function FirstTimeConfigurationSteps() {
 		}
 	}, [ indexingState ] );
 
-	/**
-	 * Sets the step to isSaved.
-	 *
-	 * @param {number} stepNumber The number of the step to save.
-	 *
-	 * @returns {void}
-	 */
-	const setStepIsSaved = ( stepNumber ) => {
-		dispatch( { type: "SET_STEP_SAVED", payload: stepNumber } );
-	};
-
 	const isStep2Finished = isStepFinished( STEPS.siteRepresentation );
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
 	const isStep4Finished = isStepFinished( STEPS.personalPreferences );
@@ -272,8 +262,8 @@ export default function FirstTimeConfigurationSteps() {
 		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
 
-	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ! state.companyLogo );
-	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ! state.personLogo );
+	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ( ! state.companyLogo && ! state.companyLogoFallback ) );
+	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ( ! state.personLogo && ! state.personLogoFallback ) );
 
 	/**
 	 * Runs checks of finishing the site representation step.
@@ -293,9 +283,9 @@ export default function FirstTimeConfigurationSteps() {
 		}
 		setSiteRepresentationEmpty( state.companyOrPerson === "emptyChoice" || isCompanyAndEmpty || isPersonAndEmpty );
 		return updateSiteRepresentation( state )
-			.then( () => setStepIsSaved( 2 ) )
 			.then( () => {
 				setErrorFields( [] );
+				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
 				return true;
 			} )
@@ -305,7 +295,7 @@ export default function FirstTimeConfigurationSteps() {
 					return false;
 				}
 				if ( e.message ) {
-					setErrorFields( [ "site_representation", e.message ] );
+					setStepError( STEPS.siteRepresentation, e.message );
 				}
 				return false;
 			} );
@@ -329,9 +319,9 @@ export default function FirstTimeConfigurationSteps() {
 					}
 					return response;
 				} )
-				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
+					removeStepError( STEPS.socialProfiles );
 					finishSteps( STEPS.socialProfiles );
 				} )
 				.then( () => {
@@ -341,6 +331,9 @@ export default function FirstTimeConfigurationSteps() {
 					( e ) => {
 						if ( e.failures ) {
 							setErrorFields( e.failures );
+						}
+						if ( e.message ) {
+							setStepError( STEPS.socialProfiles, e.message );
 						}
 						return false;
 					}
@@ -355,9 +348,9 @@ export default function FirstTimeConfigurationSteps() {
 				}
 				return response;
 			} )
-			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
+				removeStepError( STEPS.socialProfiles );
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
@@ -367,6 +360,9 @@ export default function FirstTimeConfigurationSteps() {
 				( e ) => {
 					if ( e.failures ) {
 						setErrorFields( e.failures );
+					}
+					if ( e.message ) {
+						setStepError( STEPS.socialProfiles, e.message );
 					}
 					return false;
 				}
@@ -387,10 +383,16 @@ export default function FirstTimeConfigurationSteps() {
 					document.getElementById( "tracking-off" ).checked = true;
 				}
 			} )
-			.then( () => setStepIsSaved( 4 ) )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
+				removeStepError( STEPS.personalPreferences );
 				return true;
+			} )
+			.catch( e => {
+				if ( e.message ) {
+					setStepError( STEPS.personalPreferences, e.message );
+				}
+				return false;
 			} );
 	}
 
@@ -576,7 +578,7 @@ export default function FirstTimeConfigurationSteps() {
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert }  isStepperFinished={ isStepperFinished } />
+							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
 							<ContinueButton
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
@@ -606,6 +608,7 @@ export default function FirstTimeConfigurationSteps() {
 								state={ state }
 								siteRepresentationEmpty={ siteRepresentationEmpty }
 							/>
+							<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
 							<ConfigurationStepButtons
 								stepperFinishedOnce={ stepperFinishedOnce }
 								saveFunction={ updateOnFinishSiteRepresentation }
@@ -628,6 +631,7 @@ export default function FirstTimeConfigurationSteps() {
 						</Step.Header>
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
+							<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>
@@ -646,6 +650,7 @@ export default function FirstTimeConfigurationSteps() {
 						</Step.Header>
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
+							<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishPersonalPreferences } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>

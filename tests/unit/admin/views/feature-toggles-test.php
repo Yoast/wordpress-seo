@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin\Views;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Feature_Toggle;
 use Yoast_Feature_Toggles;
@@ -33,57 +34,62 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 			'has_after'     => false,
 		],
 		2 => [
-			'name'          => 'Cornerstone content',
+			'name'          => 'Inclusive language analysis',
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
 		3 => [
-			'name'          => 'Text link counter',
+			'name'          => 'Cornerstone content',
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
 		4 => [
-			'name'          => 'Insights',
+			'name'          => 'Text link counter',
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
 		5 => [
-			'name'          => 'Link suggestions',
+			'name'          => 'Insights',
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
 		6 => [
+			'name'          => 'Link suggestions',
+			'has_read_more' => true,
+			'has_after'     => false,
+		],
+		7 => [
 			'name'          => 'XML sitemaps',
 			'has_read_more' => true,
 			'has_after'     => true,
 		],
-		7 => [
+		8 => [
 			'name'          => 'Admin bar menu',
 			'has_read_more' => false,
 			'has_after'     => false,
 		],
-		8 => [
+		9 => [
 			'name'          => 'Security: no advanced or schema settings for authors',
 			'has_read_more' => false,
 			'has_after'     => false,
 		],
-		9 => [
+		10 => [
 			'name'          => 'Usage tracking',
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
-		10 => [
+		11 => [
 			'name'          => 'REST API: Head endpoint',
 			'has_read_more' => false,
 			'has_after'     => false,
 		],
-		11 => [
+		12 => [
 			'name'          => 'Enhanced Slack sharing',
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
-		12 => [
-			'name'          => 'Print QR code',
+		13 => [
+			'name'          => 'IndexNow',
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
@@ -143,19 +149,20 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 	 */
 	public function test_toggle_sorting() {
 		$expected_names = [
-			0  => 'Admin bar menu',
+			0  => 'XML sitemaps',
 			1  => 'Readability analysis',
-			2  => 'Security: no advanced or schema settings for authors',
-			3  => 'Text link counter',
-			4  => 'Insights',
-			5  => 'Link suggestions',
-			6  => 'SEO analysis',
-			7  => 'XML sitemaps',
-			8  => 'Cornerstone content',
-			9  => 'Usage tracking',
-			10 => 'REST API: Head endpoint',
-			11 => 'Enhanced Slack sharing',
-			12 => 'Print QR code',
+			2  => 'Admin bar menu',
+			3  => 'Cornerstone content',
+			4  => 'Text link counter',
+			5  => 'Insights',
+			6  => 'Link suggestions',
+			7  => 'SEO analysis',
+			8  => 'Security: no advanced or schema settings for authors',
+			9  => 'Inclusive language analysis',
+			10 => 'Usage tracking',
+			11 => 'REST API: Head endpoint',
+			12 => 'Enhanced Slack sharing',
+			13 => 'IndexNow',
 		];
 
 		$this->stubEscapeFunctions();
@@ -190,7 +197,7 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 	 * @param array $toggles Current array with integration toggle objects where each object
 	 *                       should have a `name`, `setting` and `label` property.
 	 *
-	 * @return Adjusted array with integration toggle objects.
+	 * @return array Adjusted array with integration toggle objects.
 	 */
 	public function toggle_filter_callback( $toggles ) {
 		$toggles[0]->order = 50;

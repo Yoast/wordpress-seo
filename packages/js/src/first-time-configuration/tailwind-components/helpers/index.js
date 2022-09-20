@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { cloneDeep } from "lodash";
+import { cloneDeep, pickBy } from "lodash";
 
 import classNames from "classnames";
 
@@ -72,19 +72,7 @@ function addStepToEditedSteps( editedSteps, stepNumber ) {
 }
 
 /**
- * Removes a step from savedSteps.
- *
- * @param {Array} savedSteps Steps that have been saved.
- * @param {number} stepNumber  The number of the step that was edited.
- *
- * @returns {Array} The new array of savedSteps
- */
-function removeStepFromSavedSteps( savedSteps, stepNumber ) {
-	return savedSteps.filter( step => step !== stepNumber );
-}
-
-/**
- * Adjusts the editedSteps and savedSteps and returns the full state;
+ * Adjusts the editedSteps and returns the full state;
  *
  * @param {Object} state      The state.
  * @param {number} stepNumber The number of the step that was edited.
@@ -93,11 +81,9 @@ function removeStepFromSavedSteps( savedSteps, stepNumber ) {
  */
 function handleStepEdit( state, stepNumber ) {
 	const newEditedSteps = addStepToEditedSteps( state.editedSteps, stepNumber );
-	const newSavedSteps = removeStepFromSavedSteps( state.savedSteps, stepNumber );
 	return {
 		...state,
 		editedSteps: newEditedSteps,
-		savedSteps: newSavedSteps,
 	};
 }
 
@@ -214,21 +200,15 @@ export function configurationReducer( state, action ) {
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
 			return newState;
+		case "SET_STEP_ERROR":
+			newState.stepErrors[ action.payload.step ] = action.payload.message;
+			return newState;
+		case "REMOVE_STEP_ERROR":
+			newState.stepErrors = pickBy( newState.stepErrors, ( _value, key ) => key !== action.payload );
+			return newState;
 		case "SET_TRACKING":
 			newState = handleStepEdit( newState, 4 );
 			newState.tracking = action.payload;
-			return newState;
-		case "SET_STEP_SAVED":
-			if ( ! newState.savedSteps.includes( action.payload ) ) {
-				newState.savedSteps = [ ...newState.savedSteps, action.payload ];
-			}
-			newState.editedSteps = newState.editedSteps.filter( step => step !== action.payload );
-			return newState;
-		case "SET_STEP_NOT_SAVED":
-			newState.savedSteps = newState.savedSteps.filter( step => step !== action.payload );
-			return newState;
-		case "SET_ALL_STEPS_NOT_SAVED":
-			newState.savedSteps = [];
 			return newState;
 		default:
 			return newState;

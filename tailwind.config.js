@@ -1,57 +1,43 @@
-const tailwindcssForms = require( "@tailwindcss/forms" )( {
-	strategy: "class",
-} );
+const preset = require( "@yoast/tailwindcss-preset" );
 
 module.exports = {
-	content: [ "./packages/js/**/*.{html,js}" ],
+	presets: [ preset ],
+	content: [
+		"./packages/ui-library/src/**/!(stories).js",
+		"./packages/js/src/**/*.js",
+		"./src/integrations/settings-integration.php",
+	],
 	theme: {
-		fontSize: {
-			xxs: "0.675rem",
-			xs: ".75rem",
-			sm: ".8125rem",
-			tiny: ".875rem",
-			base: "1rem",
-			lg: "1.125rem",
-			xl: "1.25rem",
-			"2xl": "1.5rem",
-			"3xl": "1.875rem",
-			"4xl": "2.25rem",
-			"5xl": "3rem",
-			"6xl": "4rem",
-			"7xl": "5rem",
-		},
 		extend: {
-			colors: {
-				primary: {
-					50: "#faf4f8",
-					100: "#f6eaf0",
-					200: "#e8c9da",
-					300: "#dba9c3",
-					400: "#bf6997",
-					500: "#a4286a",
-					600: "#94245f",
-					700: "#7b1e50",
-					800: "#621840",
-					900: "#501434",
+			keyframes: {
+				slideRight: {
+					"0%": {
+						transform: "translate(0, 0)",
+						opacity: 1,
+					},
+					"100%": {
+						transform: "translate(100%, 0)",
+						opacity: 0,
+					},
 				},
+			},
+			animation: {
+				slideRight: "slideRight .5s ease-in-out forwards",
 			},
 		},
 	},
-	variants: {
-		extend: {
-			backgroundColor: [ "active", "group-focus", "disabled" ],
-			borderWidth: [ "first", "last" ],
-			borderRadius: [ "first", "last" ],
-			textColor: [ "active", "group-focus" ],
-			margin: [ "last" ],
-		},
-	},
-	plugins: [
-		tailwindcssForms,
+	safelist: process.env.NODE_ENV === "development" ? [ { pattern: /.*/, variants: [ "sm", "md", "lg", "xl", "2xl" ] } ] : [
+		"yst-border-l",
+		"yst-space-x-8",
+		"yst-pb-10",
+		"yst-space-y-6",
+		"yst--left-3",
+		"yst-ring-gray-200",
+		"yst-font-mono",
+		"sm:yst-w-auto",
+		"sm:yst-mb-0",
+		"sm:yst-ml-3",
+		"sm:yst-flex",
+		"sm:yst-flex-row-reverse",
 	],
-	important: true,
-	corePlugins: {
-		preflight: false,
-	},
-	prefix: "yst-",
 };

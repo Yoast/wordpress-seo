@@ -9,8 +9,6 @@ use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
-
 /**
  * Default_Tagline_Reports
  *

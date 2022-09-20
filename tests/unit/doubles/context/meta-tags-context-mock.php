@@ -17,6 +17,13 @@ class Meta_Tags_Context_Mock extends Meta_Tags_Context {
 	public $canonical;
 
 	/**
+	 * Represents the permalink.
+	 *
+	 * @var string
+	 */
+	public $permalink;
+
+	/**
 	 * Represents the title.
 	 *
 	 * @var string

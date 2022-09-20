@@ -160,6 +160,6 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
 	 */
 	isApplicable( paper, researcher ) {
-		return paper.hasText() && researcher.hasResearch( "getSentenceBeginnings" );
+		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getSentenceBeginnings" );
 	}
 }

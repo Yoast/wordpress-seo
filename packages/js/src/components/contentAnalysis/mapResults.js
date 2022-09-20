@@ -1,5 +1,5 @@
-import { interpreters } from "yoastseo";
 import { colors } from "@yoast/style-guide";
+import { interpreters } from "yoastseo";
 
 /**
  * Mapped result definition.
@@ -11,6 +11,9 @@ import { colors } from "@yoast/style-guide";
  * @property {func} marker
  * @property {number} score
  * @property {string} markerId
+ * @property {bool} hasBetaBadge
+ * @property {bool} hasJumps
+ * @property {string} editFieldName
  */
 
 /**
@@ -41,6 +44,9 @@ function mapResult( result, key = "" ) {
 		id,
 		text: result.text,
 		markerId: key.length > 0 ? `${key}:${id}` : id,
+		hasBetaBadge: result.hasBetaBadge(),
+		hasJumps: result.hasJumps(),
+		editFieldName: result.editFieldName,
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.
@@ -87,25 +93,23 @@ function processResult( mappedResult, mappedResults ) {
  *
  * @returns {Object} The icon and color for the score.
  */
-export function getIconForScore( score ) {
-	let icon = { icon: "seo-score-none", color: colors.$color_red };
-
+export function getIconForScore( score ) { // eslint-disable-line complexity
 	switch ( score ) {
 		case "loading":
-			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
-			break;
+			return { icon: "loading-spinner", color: colors.$color_green_medium_light };
+		case "not-set":
+			return { icon: "seo-score-none", color: colors.$color_score_icon };
+		case "noindex":
+			return { icon: "seo-score-none", color: colors.$color_noindex };
 		case "good":
-			icon = { icon: "seo-score-good", color: colors.$color_green_medium };
-			break;
+			return { icon: "seo-score-good", color: colors.$color_green_medium };
 		case "ok":
-			icon = { icon: "seo-score-ok", color: colors.$color_ok };
-			break;
+			return { icon: "seo-score-ok", color: colors.$color_ok };
 		case "bad":
-			icon = { icon: "seo-score-bad", color: colors.$color_red };
-			break;
+			return { icon: "seo-score-bad", color: colors.$color_red };
+		default:
+			return { icon: "seo-score-none", color: colors.$color_red };
 	}
-
-	return icon;
 }
 
 /**

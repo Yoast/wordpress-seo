@@ -74,6 +74,7 @@ export default function UserSelector( { initialValue, onChangeCallback, placehol
 	}, 500 ), [] );
 
 	return <YoastComboBox
+		id="yoast-configuration-user-select"
 		value={ selectedPerson }
 		label={ __( "Name", "wordpress-seo" ) }
 		onChange={ handleSelectChange }

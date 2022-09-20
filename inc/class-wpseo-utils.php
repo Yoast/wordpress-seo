@@ -117,26 +117,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Translates a decimal analysis score into a textual one.
-	 *
-	 * @since 1.8.0
-	 *
-	 * @param int  $val       The decimal score to translate.
-	 * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
-	 *
-	 * @return string
-	 */
-	public static function translate_score( $val, $css_value = true ) {
-		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
-
-		if ( $css_value ) {
-			return $seo_rank->get_css_class();
-		}
-
-		return $seo_rank->get_label();
-	}
-
-	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
 	 * Sanitize a string from user input or from the db.
@@ -897,6 +877,7 @@ class WPSEO_Utils {
 			'isBreadcrumbsDisabled' => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'         => ( (string) get_option( 'blog_public' ) ) === '0',
+			'news_seo_is_active'    => ( defined( 'WPSEO_NEWS_FILE' ) ),
 		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
@@ -1416,5 +1397,29 @@ SVG;
 		}
 
 		return is_super_admin();
+	}
+
+	/**
+	 * Translates a decimal analysis score into a textual one.
+	 *
+	 * @since 1.8.0
+	 * @deprecated 19.5
+	 * @codeCoverageIgnore
+	 *
+	 * @param int  $val       The decimal score to translate.
+	 * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
+	 *
+	 * @return string
+	 */
+	public static function translate_score( $val, $css_value = true ) {
+		_deprecated_function( __METHOD__, 'WPSEO 19.5', 'YoastSEO()->helpers->score_icon' );
+
+		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
+
+		if ( $css_value ) {
+			return $seo_rank->get_css_class();
+		}
+
+		return $seo_rank->get_label();
 	}
 }

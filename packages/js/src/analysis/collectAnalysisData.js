@@ -1,3 +1,4 @@
+import { applyFilters } from "@wordpress/hooks";
 import {
 	cloneDeep,
 	merge,
@@ -71,6 +72,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	// Make a data structure for the paper data.
 	const data = {
 		text: editData.content,
+		textTitle: editData.title,
 		keyword: storeData.focusKeyword,
 		synonyms: storeData.synonyms,
 		/*
@@ -98,5 +100,5 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	data.titleWidth = measureTextWidth( data.title );
 	data.locale = getContentLocale();
 
-	return Paper.parse( data );
+	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }

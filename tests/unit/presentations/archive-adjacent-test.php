@@ -2,8 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations;
 
-use Mockery;
-use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Post_Type_Archive_Presentation\Presentation_Instance_Builder;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -20,22 +19,12 @@ class Archive_Adjacent_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper
-	 */
-	protected $pagination;
-
-	/**
 	 * Does the setup for testing.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->pagination = Mockery::mock( Pagination_Helper::class );
-
 		$this->set_instance();
-		$this->instance->set_archive_adjacent_helpers( $this->pagination );
 	}
 
 	/**
@@ -94,6 +83,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->once()
 			->andReturn( 2 );
 
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_rel_prev() );
 	}
 
@@ -125,6 +118,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->with( 'https://example.com/permalink/', 2 )
 			->once()
 			->andReturn( 'https://example.com/permalink/page/2/' );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/permalink/page/2/', $this->instance->generate_rel_prev() );
 	}
@@ -200,6 +197,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->with( 'https://example.com/permalink/', 6 )
 			->once()
 			->andReturn( 'https://example.com/permalink/page/6/' );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/permalink/page/6/', $this->instance->generate_rel_next() );
 	}

@@ -3,7 +3,7 @@ module.exports = {
 	prefix: "yst-",
 	theme: {
 		fontSize: {
-			xxs: "0.6rem",
+			xxs: "0.675rem",
 			xs: ".75rem",
 			sm: ".8125rem",
 			tiny: ".875rem",
@@ -20,28 +20,31 @@ module.exports = {
 		extend: {
 			colors: {
 				primary: {
-					50: "#faf4f8",
-					100: "#f6eaf0",
-					200: "#e8c9da",
-					300: "#dba9c3",
-					400: "#bf6997",
-					500: "#a4286a",
-					600: "#94245f",
-					700: "#7b1e50",
-					800: "#621840",
-					900: "#501434",
+					50: "#faf3f7",
+					100: "#f3e5ed",
+					200: "#e0b3cc",
+					300: "#cd82ab",
+					400: "#b94986",
+					500: "#a61e69",
+					600: "#9a1660",
+					700: "#8f0f57",
+					800: "#83084e",
+					900: "#770045",
 				},
+			},
+			strokeWidth: {
+				3: "3px",
 			},
 		},
 	},
-	variants: {
-		extend: {
-			backgroundColor: [ "active", "group-focus", "disabled" ],
-			textColor: [ "active", "group-focus", "disabled" ],
-		},
-	},
+	important: true,
 	plugins: [
-		require( "@tailwindcss/forms" ),
+		require( "@tailwindcss/forms" )( {
+			strategy: "class",
+		} ),
 	],
+	corePlugins: {
+		preflight: false,
+	},
 	content: [ "./node_modules/@yoast/ui-library/**/*.js" ],
 };

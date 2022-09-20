@@ -21,6 +21,11 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		if ( is_multisite() ) {
 			add_action( 'user_has_cap', [ $this, 'filter_user_has_wpseo_manage_options_cap' ], 10, 4 );
 		}
+
+		/**
+		 * Maybe add manage_privacy_options capability for wpseo_manager user role.
+		 */
+		add_filter( 'map_meta_cap', [ $this, 'map_meta_cap_for_seo_manager' ], 10, 2 );
 	}
 
 	/**
@@ -73,5 +78,34 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		}
 
 		return $allcaps;
+	}
+
+	/**
+	 * Maybe add manage_privacy_options capability for wpseo_manager user role.
+	 *
+	 * @param string[] $caps Primitive capabilities required of the user.
+	 * @param string[] $cap  Capability being checked.
+	 *
+	 * @return string[] Filtered primitive capabilities required of the user.
+	 */
+	public function map_meta_cap_for_seo_manager( $caps, $cap ) {
+		$user = wp_get_current_user();
+
+		// No multisite support.
+		if ( is_multisite() ) {
+			return $caps;
+		}
+
+		// User must be of role wpseo_manager.
+		if ( ! in_array( 'wpseo_manager', $user->roles, true ) ) {
+			return $caps;
+		}
+
+		// Remove manage_options cap requirement if requested cap is manage_privacy_options.
+		if ( $cap === 'manage_privacy_options' ) {
+			return array_diff( $caps, [ 'manage_options' ] );
+		}
+
+		return $caps;
 	}
 }

@@ -68,7 +68,7 @@ export default class TextLengthAssessment extends Assessment {
 			this._config.countTextIn.plural = __( "characters", "wordpress-seo" );
 		}
 
-		const calculatedResult = this.calculateResult( wordCount );
+		const calculatedResult = this.calculateResult( wordCount.count );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedResult.score );

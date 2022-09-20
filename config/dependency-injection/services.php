@@ -45,6 +45,7 @@ $container->register( Adapter::class, Adapter::class )->setAutowired( true )->se
 
 // Elegantly deprecate renamed classes.
 include __DIR__ . '/renamed-classes.php';
+include __DIR__ . '/deprecated-classes.php';
 
 $yoast_seo_excluded_files = [
 	'main.php',
@@ -62,6 +63,7 @@ $yoast_seo_excluded_directories = [
 	'surfaces/values',
 	'wordpress',
 	'values/oauth',
+	'values/robots',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );

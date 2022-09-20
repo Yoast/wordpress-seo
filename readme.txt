@@ -1,11 +1,11 @@
 === Yoast SEO ===
-Contributors: yoast, joostdevalk, omarreiss
+Contributors: yoast, joostdevalk, tdevalk
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.9
-Stable tag: 18.9
+Tested up to: 6.0
+Stable tag: 19.7.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -36,6 +36,8 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
+* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
+* **[Premium]** **New!** Yoast SEO Premium comes with an IndexNow integration to ping search engines like Microsoft Bing whenever you publish or update content.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -53,6 +55,8 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
 * **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
+* **[Premium]** **New!** Yoast SEO Premium comes with a new word complexity feature that gives you actionable feedback on using difficult words. This feature is in beta and English only for now.
+* **[Premium]** **New!** Yoast SEO Premium comes with a new inclusive language analysis that helps you write inclusive content. This feature is opt-in, in beta and English only for now.
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -110,6 +114,7 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
 * [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 * [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
+* [WordProof](https://wordproof.com/), which helps you prove ownership by adding timestamps.
 
 ### BUG REPORTS
 
@@ -126,7 +131,7 @@ Want more information on search engine optimization and Yoast SEO? Have a look a
 * Also follow Yoast on [Facebook](https://facebook.com/yoast), [Instagram](https://www.instagram.com/yoast/) & [Twitter](https://twitter.com/yoast).
 
 == Installation ==
-Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration workout as explained in the ‘after activation’ step!
+Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO first-time configuration as explained in the ‘after activation’ step!
 
 ### INSTALL YOAST SEO FROM WITHIN WORDPRESS
 
@@ -143,8 +148,8 @@ Starting with Yoast SEO consists of just two steps: installing and setting up th
 
 ### AFTER ACTIVATION
 
-1. You should see (a notice to start) the Yoast SEO configuration workout;
-1. Go through the configuration workout and set up the plugin for your site;
+1. You should see (a notice to start) the Yoast SEO first-time configuration;
+1. Go through this configuration and set up the plugin for your site;
 1. You’re done!
 
 == Frequently Asked Questions ==
@@ -236,37 +241,57 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 18.9 =
-Release Date: May 17th, 2022
+= 19.8 =
+Release Date: October 4th, 2022
 
-Yoast SEO 18.9 is out now! In this release, we have improved the first experience users have with the plugin. The first-time configuration takes users by the hand and guides them in properly setting everything up so that search engines understand their site. Make sure to run that first-time configuration to see if you’ve filled everything in correctly! Read more about what's new in Yoast SEO 18.9 in [our release post in English](https://yoa.st/release-17-5-22) or [our release post in Spanish](https://yoa.st/release-17-5-22-spanish)!
 
 Enhancements:
 
-* Adds an `installation successful` page to welcome first-time users.
-* Introduces the First-time configuration, replacing and improving the Configuration Workout.
-* Renames the main admin menu item to `Yoast SEO` instead of `SEO`.
+* Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them to be indexed, reducing duplicate content.
+* Removes empty breadcrumb schemas if not on homepage.
+* Removes two notifications from the Yoast SEO dashboard: the one suggesting to set the auto update on, and the one suggesting to activate an add-on which is installed but currently inactive.
 
 Bugfixes:
 
-* Fixes a bug that would lead to race conditions when using persistent object caching.
-* Fixes a bug where a 403 error page would be thrown when a user tried to access the old configuration wizard.
-* Fixes a bug where our How To and FAQ blocks would not handle focus correctly when using WordPress 6.0.
-* Fixes a bug where the global var $post is sometimes modified unexpectedly. Props to [grantalltodavid](https://github.com/grantalltodavid).
+* Fixes a bug where a fatal error would be when the `php_uname()` function is disabled by the web hosting provider.
+* Fixes a bug where `ListItem` entries would be output in a `BreadcrumbList` even if their text was empty, resulting in Schema validation errors.
+* Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml
+* Fixes a bug where robots meta would be synchronized between multilingual contents when using a plugin like WPML or Polylang.
 
 Other:
 
-* Adds a `Premium` badge to the Workouts menu item.
-* Updates the look of the Accounts tab in the Social page.
+* Forces the use of the large card, which is the only supported format by Twitter.
+* Deprecates the `wpseo_twitter_card_type` filter.
 
-= 18.8 =
-Release Date: May 6th, 2022
+= 19.7.1 =
+Release Date: September 20th, 2022
 
-Did you catch the latest update from Google? Today they made some small changes to how they read XML sitemaps. But you don’t have to worry about that - today's Yoast SEO 18.8 update already applies the latest standards. Read more about what's new in Yoast SEO 18.8 in [our release post in English](https://yoa.st/release-6-5-22) or [our release post in Spanish](https://yoa.st/release-6-5-22-spanish)!
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown in combination with certain plugins that change the standard login page URL.
+
+Other:
+
+* Changes the copy in the `robots.txt` comment. 
+
+= 19.7 =
+Release Date: September 20th, 2022
+
+Yoast SEO 19.7 is out today! We’ve rolled out some general enhancements, bug fixes, and security improvements in this release. Go check it out! Read more about what's new in Yoast SEO 19.7 in [our release post in English](https://yoa.st/release-20-9-22) or [our release post in Spanish](https://yoa.st/release-20-9-22-spanish)!
 
 Enhancements:
 
-* Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
+* Improves the handling of fatal errors in the front-end by preventing Yoast SEO to run in the login page, allowing users to access their dashboard.
+* Excludes empty custom post type sitemaps from `sitemap_index.xml`.
+* Introduces a new filter `wpseo_sitemap_post_type_first_links` that can be used to add links at the start of the first sitemap page for post types. Props to @jamalbou.
+
+Bugfixes:
+
+* Fixes a bug in the default editor where image elements would lead to repeated requests for that image source while editing content.
+
+Other:
+
+* Adds new disabled toggles to the Crawl settings tab in the General page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
