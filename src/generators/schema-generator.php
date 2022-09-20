@@ -230,7 +230,7 @@ class Schema_Generator implements Generator_Interface {
 		$index_to_remove = 0;
 		foreach ( $graph as $key => $piece ) {
 			if ( \in_array( 'BreadcrumbList', $this->get_type_from_piece( $piece ), true ) ) {
-				if ( isset( $piece['itemListElement'] ) && is_array( $piece['itemListElement'] ) && count( $piece['itemListElement'] ) === 1 ) {
+				if ( isset( $piece['itemListElement'] ) && \is_array( $piece['itemListElement'] ) && \count( $piece['itemListElement'] ) === 1 ) {
 					$index_to_remove = $key;
 					break;
 				}
@@ -243,7 +243,7 @@ class Schema_Generator implements Generator_Interface {
 
 			// Get the type of the WebPage node.
 			$webpage_type = $context->schema_page_type;
-			if ( ! is_array( $webpage_type ) ) {
+			if ( ! \is_array( $webpage_type ) ) {
 				$webpage_types = [ $webpage_type ];
 			}
 			else {
