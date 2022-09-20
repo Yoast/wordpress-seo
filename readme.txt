@@ -241,6 +241,17 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.7.1 =
+Release Date: September 20th, 2022
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown in combination with certain plugins that change the standard login page URL.
+
+Other:
+
+* Changes the copy in the `robots.txt` comment. 
+
 = 19.7 =
 Release Date: September 20th, 2022
 
