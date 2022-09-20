@@ -6,6 +6,7 @@ import EstimatedReadingTime from "./estimated-reading-time";
 import FleschReadingEase from "./flesch-reading-ease";
 import ProminentWords from "./prominent-words";
 import TextLength from "./text-length";
+import TextFormality from "./text-formality";
 
 /**
  * Insights collapsible component.
@@ -30,6 +31,7 @@ const InsightsCollapsible = ( { location } ) => {
 					<EstimatedReadingTime />
 					<TextLength />
 				</div>
+				<TextFormality location={ location } name={ "YoastTextFormalityMetabox" } />
 			</div>
 		</MetaboxCollapsible>
 	);

@@ -1,11 +1,11 @@
 === Yoast SEO ===
-Contributors: yoast, joostdevalk, omarreiss
+Contributors: yoast, joostdevalk, tdevalk
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.6.1
+Stable tag: 19.7
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -244,6 +244,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.7 =
 Release Date: September 20th, 2022
 
+Yoast SEO 19.7 is out today! We’ve rolled out some general enhancements, bug fixes, and security improvements in this release. Go check it out! Read more about what's new in Yoast SEO 19.7 in [our release post in English](https://yoa.st/release-20-9-22) or [our release post in Spanish](https://yoa.st/release-20-9-22-spanish)!
+
 Enhancements:
 
 * Improves the handling of fatal errors in the front-end by preventing Yoast SEO to run in the login page, allowing users to access their dashboard.
@@ -257,7 +259,6 @@ Bugfixes:
 Other:
 
 * Adds new disabled toggles to the Crawl settings tab in the General page.
-* Changes Yoast SEO Premium sidebar ad to be the same styling as the one on yoast.com.
 
 = 19.6.1 =
 Release Date: August 31st, 2022
@@ -281,37 +282,6 @@ Other:
 
 * Adds a "Search engines discouraged" notification in the Yoast SEO dashboard when the "Discourage search engines from indexing this site" WordPress setting is turned on.
 * Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at [yoa.st/ryte-deprecation](https://yoa.st/ryte-deprecation).
-
-= 19.5.1 =
-Release Date: August 9th, 2022
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown on the front-end when Yoast SEO 19.5 was used with an older version of Yoast SEO Premium.
-
-= 19.5 =
-Release Date: August 9th, 2022
-
-Yoast SEO 19.5 is out today! This release includes more fixes and enhancements to enjoy. We've also made adjustments to our schema implementation, changing the order in which schema nodes are output. Read more about what's new in Yoast SEO 19.5 in [our release post in English](https://yoa.st/release-9-8-22) or [our release post in Spanish](https://yoa.st/release-9-8-22-spanish)!
-
-
-Enhancements:
-
-* Adds the site logo and name as default values in the first time configuration and search appearance.
-* Changes the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
-
-Bugfixes:
-
-* Fixes a bug where a text starting with a double quotation mark followed by a space(s) broke the analysis.
-* Fixes a bug where text which includes the non-breaking space character (`&nbsp;`) is not highlighted correctly.
-* Fixes a bug where the Algolia integration could not be controlled at network level.
-* Fixes a bug where the score indicator in the classic editor would not update the hovering text when the score changed.
-* Fixes a bug where the score indicators of the overview pages and admin bar where inconsistent. The taxonomy overview and admin bar score indicators now uses red to indicate `Focus keyphrase not set`. The admin bar score indicator now shows blue when set to `noindex`.
-
-Other:
-
-* Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
-* Sets the minimum supported WordPress version to 5.9.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

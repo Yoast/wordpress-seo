@@ -5,6 +5,7 @@ import EditorModal from "../../containers/EditorModal";
 import EstimatedReadingTime from "./estimated-reading-time";
 import FleschReadingEase from "./flesch-reading-ease";
 import ProminentWords from "./prominent-words";
+import TextFormality from "./text-formality";
 import TextLength from "./text-length";
 
 /**
@@ -33,6 +34,7 @@ const InsightsModal = ( { location } ) => {
 						<EstimatedReadingTime />
 						<TextLength />
 					</div>
+					<TextFormality location={ location } name={ "YoastTextFormalitySidebar" } />
 				</div>
 			</div>
 		</EditorModal>
