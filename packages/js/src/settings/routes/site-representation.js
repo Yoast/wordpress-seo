@@ -150,6 +150,7 @@ const PersonSocialProfiles = () => {
  */
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
+	const { blogname } = values;
 	// eslint-disable-next-line camelcase
 	const {
 		company_or_person: companyOrPerson,
@@ -166,7 +167,6 @@ const SiteRepresentation = () => {
 	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
-	const siteName = useSelectSettings( "selectFallback", [], "siteName" );
 
 	return (
 		<FormLayout
@@ -182,13 +182,16 @@ const SiteRepresentation = () => {
 				"link-google-knowledge-graph"
 			) }
 		>
-			<section className="yst-space-y-8">
+			<FieldsetLayout
+				title={ __( "Person/organization", "wordpress-seo" ) }
+				description={  __( "Choose wether your site represents an organization or a person.", "wordpress-seo" ) }
+			>
 				{ isLocalSeoActive && (
-					<Alert id="alert-local-seo-company-or-person" variant="info" className="yst-max-w-screen-sm">
+					<Alert id="alert-local-seo-company-or-person" variant="info">
 						{ companyOrPersonMessage }
 					</Alert>
 				) }
-				<RadioGroup label={ __( "Choose whether your site represents an organization or a person.", "wordpress-seo" ) } disabled={ isLocalSeoActive }>
+				<RadioGroup disabled={ isLocalSeoActive }>
 					<Field
 						as={ Radio }
 						type="radio"
@@ -208,7 +211,8 @@ const SiteRepresentation = () => {
 						disabled={ isLocalSeoActive }
 					/>
 				</RadioGroup>
-			</section>
+			</FieldsetLayout>
+			<section className="yst-space-y-8" />
 			<hr className="yst-my-8" />
 			<div className="yst-relative">
 				<Transition
@@ -220,7 +224,10 @@ const SiteRepresentation = () => {
 					leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
 					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 				>
-					<FieldsetLayout title={ __( "Organization", "wordpress-seo" ) }>
+					<FieldsetLayout
+						title={ __( "Organization", "wordpress-seo" ) }
+						description={ __( "Please tell us more about your organization. This information will help Google to understand your website, and improve your chance of getting rich results.", "wordpress-seo" ) }
+					>
 						{ ( ! companyName || companyLogoId < 1 ) && (
 							<Alert id="alert-organization-name-logo" variant="warning">
 								{ addLinkToString(
@@ -240,20 +247,21 @@ const SiteRepresentation = () => {
 							name="wpseo_titles.company_name"
 							id="input-wpseo_titles-company_name"
 							label={ __( "Organization name", "wordpress-seo" ) }
-							placeholder={ siteName }
+							placeholder={ blogname }
 						/>
 						<FormikMediaSelectField
 							id="wpseo_titles-company_logo"
 							label={ __( "Organization logo", "wordpress-seo" ) }
+							variant="square"
 							previewLabel={ createInterpolateElement(
-								// translators: %1$s expands to an opening strong tag.
-								// %2$s expands to a closing strong tag.
-								// %3$s expands to the recommended image size.
 								sprintf(
+									// translators: %1$s expands to an opening strong tag.
+									// %2$s expands to a closing strong tag.
+									// %3$s expands to the recommended image size.
 									__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 									"<strong>",
 									"</strong>",
-									"1200x630px"
+									"696x696px"
 								), {
 									strong: <strong className="yst-font-semibold" />,
 								} ) }
@@ -326,7 +334,10 @@ const SiteRepresentation = () => {
 					leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
 					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 				>
-					<FieldsetLayout title={ __( "Personal info", "wordpress-seo" ) }>
+					<FieldsetLayout
+						title={ __( "Personal info", "wordpress-seo" ) }
+						description={ __( "Please tell us more about the person this site represents.", "wordpress-seo" ) }
+					>
 						<FormikUserSelectField
 							name="wpseo_titles.company_or_person_user_id"
 							id="input-wpseo_titles-company_or_person_user_id"
