@@ -8,7 +8,7 @@ import { FormLayout, FieldsetLayout } from "../components";
  * @param {JSX.node} children The content.
  * @returns {JSX.Element} The element.
  */
-const VariableCell = ( { children } ) => <Table.Cell className="yst-whitespace-nowrap yst-font-medium yst-text-gray-800">{ children }</Table.Cell>;
+const VariableCell = ( { children } ) => <Table.Cell className="yst-whitespace-nowrap yst-font-medium yst-text-slate-800">{ children }</Table.Cell>;
 
 VariableCell.propTypes = {
 	children: PropTypes.node.isRequired,
@@ -47,7 +47,7 @@ const Rss = () => {
 				title={ __( "Available variables", "wordpress-seo" ) }
 				description={ __( "You can use the following variables within the content, they will be replaced by the value on the right.", "wordpress-seo" ) }
 			>
-				<div className="yst-overflow-hidden yst-border yst-border-gray-200 yst-shadow-sm yst-rounded-lg">
+				<div className="yst-overflow-hidden yst-border yst-border-slate-200 yst-shadow-sm yst-rounded-lg">
 					<Table>
 						<Table.Head>
 							<Table.Row>

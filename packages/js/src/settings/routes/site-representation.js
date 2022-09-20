@@ -317,7 +317,7 @@ const SiteRepresentation = () => {
 									) ) }
 									{ /* eslint-disable-next-line react/jsx-no-bind */ }
 									<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
-										<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-gray-400" />
+										<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-slate-400" />
 										{ __( "Add another profile", "wordpress-seo" ) }
 									</Button>
 								</>

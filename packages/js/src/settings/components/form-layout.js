@@ -25,7 +25,7 @@ const FormLayout = ( {
 
 	return (
 		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
-			<header className="yst-p-8 yst-border-b yst-border-gray-200">
+			<header className="yst-p-8 yst-border-b yst-border-slate-200">
 				<div className="yst-max-w-screen-sm">
 					<Title>{ title }</Title>
 					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
@@ -41,7 +41,7 @@ const FormLayout = ( {
 					height={ dirty ? "auto" : 0 }
 					animateOpacity={ true }
 				>
-					<div className="yst-bg-gray-50 yst-border-gray-200 yst-border-t yst-rounded-b-lg">
+					<div className="yst-bg-slate-50 yst-border-slate-200 yst-border-t yst-rounded-b-lg">
 						<div className="yst-flex yst-align-middle yst-space-x-3 yst-p-8">
 							<Button
 								id="button-submit-settings"

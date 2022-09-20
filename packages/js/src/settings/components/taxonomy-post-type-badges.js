@@ -20,12 +20,12 @@ const TaxonomyPostTypeBadges = ( { name } ) => {
 	}
 
 	return <>
-		<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
+		<Badge variant="plain" size="small" className="yst-border yst-border-slate-300">
 			{ firstPostType.label }
 		</Badge>
 		{ taxonomy.postTypes.length > 1 && <Badge
 			variant="plain" size="small"
-			className="yst-border yst-border-gray-300"
+			className="yst-border yst-border-slate-300"
 		>
 			+{ taxonomy.postTypes.length - 1 }
 		</Badge> }

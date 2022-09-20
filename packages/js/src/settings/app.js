@@ -69,12 +69,12 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
 
 		return <button
-			className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-gray-600 yst-rounded-md yst-no-underline hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+			className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-slate-600 yst-rounded-md yst-no-underline hover:yst-text-slate-900 hover:yst-bg-slate-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
 			onClick={ toggle }
 			{ ...ariaProps }
 		>
 			<span className="yst-flex yst-items-center yst-gap-2">
-				<ChevronIcon className="yst-flex-shrink-0 yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
+				<ChevronIcon className="yst-flex-shrink-0 yst-h-4 yst-w-4 yst-text-slate-400 group-hover:yst-text-slate-500 yst-stroke-3" />
 				{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
 			</span>
 		</button>;
@@ -82,12 +82,12 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	return <>
 		<header className="yst-sticky yst-top-0">
-			<div className="yst-bg-gray-100">
+			<div className="yst-bg-slate-100">
 				<figure className="yst-w-44 yst-px-3">
 					<YoastLogo />
 				</figure>
 			</div>
-			<div className="yst-h-8 yst-bg-gradient-to-b yst-from-gray-100" />
+			<div className="yst-h-8 yst-bg-gradient-to-b yst-from-slate-100" />
 		</header>
 		<div className="yst-space-y-6">
 			<SidebarNavigation.MenuItem
