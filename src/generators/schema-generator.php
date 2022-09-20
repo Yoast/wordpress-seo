@@ -75,7 +75,7 @@ class Schema_Generator implements Generator_Interface {
 		$pieces_to_generate = $this->filter_graph_pieces_to_generate( $pieces );
 		$graph              = $this->generate_graph( $pieces_to_generate, $context );
 		$graph              = $this->add_schema_blocks_graph_pieces( $graph, $context );
-		$graph              = $this->finalize_graph( $graph );
+		$graph              = $this->finalize_graph( $graph, $context );
 
 		return [
 			'@context' => 'https://schema.org',
@@ -202,12 +202,13 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Finalizes the schema graph after all filtering is done.
 	 *
-	 * @param array $graph The current schema graph.
+	 * @param array             $graph   The current schema graph.
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array The schema graph.
 	 */
-	protected function finalize_graph( $graph ) {
-		$graph = $this->remove_empty_breadcrumb( $graph );
+	protected function finalize_graph( $graph, $context ) {
+		$graph = $this->remove_empty_breadcrumb( $graph, $context );
 
 		return $graph;
 	}
@@ -215,11 +216,12 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Removes the breadcrumb schema if empty.
 	 *
-	 * @param array $graph The current schema graph.
+	 * @param array             $graph   The current schema graph.
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array The schema graph with empty breadcrumpbs taken out.
 	 */
-	protected function remove_empty_breadcrumb( $graph ) {
+	protected function remove_empty_breadcrumb( $graph, $context ) {
 		if ( $this->helpers->current_page->is_home_static_page() || $this->helpers->current_page->is_home_posts_page() ) {
 			return $graph;
 		}
@@ -239,8 +241,17 @@ class Schema_Generator implements Generator_Interface {
 		if ( $index_to_remove !== 0 ) {
 			\array_splice( $graph, $index_to_remove, 1 );
 
+			// Get the type of the WebPage node.
+			$webpage_type = $context->schema_page_type;
+			if ( ! is_array( $webpage_type ) ) {
+				$webpage_types = [ $webpage_type ];
+			}
+			else {
+				$webpage_types = $webpage_type;
+			}
+
 			foreach ( $graph as $key => $piece ) {
-				if ( \in_array( 'WebPage', $this->get_type_from_piece( $piece ), true ) && isset( $piece['breadcrumb'] ) ) {
+				if ( ! empty( \array_intersect( $webpage_types, $this->get_type_from_piece( $piece ) ) ) && isset( $piece['breadcrumb'] ) ) {
 					unset( $piece['breadcrumb'] );
 					$graph[ $key ] = $piece;
 				}
