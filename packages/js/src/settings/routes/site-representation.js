@@ -184,7 +184,7 @@ const SiteRepresentation = () => {
 		>
 			<section className="yst-space-y-8">
 				{ isLocalSeoActive && (
-					<Alert id="alert-local-seo-company-or-person" variant="info">
+					<Alert id="alert-local-seo-company-or-person" variant="info" className="yst-max-w-screen-sm">
 						{ companyOrPersonMessage }
 					</Alert>
 				) }
