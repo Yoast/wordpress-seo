@@ -26,7 +26,7 @@ const Option = ( {
 						{ children }
 					</span>
 					{ selected && (
-						<CheckIcon className="yst-autocomplete__option-check" {...svgAriaProps} />
+						<CheckIcon className="yst-autocomplete__option-check" { ...svgAriaProps } />
 					) }
 				</>
 			) }
