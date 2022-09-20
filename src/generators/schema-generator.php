@@ -219,7 +219,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @param array             $graph   The current schema graph.
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
-	 * @return array The schema graph with empty breadcrumpbs taken out.
+	 * @return array The schema graph with empty breadcrumbs taken out.
 	 */
 	protected function remove_empty_breadcrumb( $graph, $context ) {
 		if ( $this->helpers->current_page->is_home_static_page() || $this->helpers->current_page->is_home_posts_page() ) {
