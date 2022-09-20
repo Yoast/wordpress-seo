@@ -1,5 +1,5 @@
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -45,41 +45,64 @@ export function renderRatingToColor( rating ) {
 /**
  * Renders a list of results based on the array of results.
  *
- * @param {AssessmentResult[]} results                    The results from YoastSEO.js
- * @param {string}             marksButtonActivatedResult The currently activated result.
- * @param {string}             marksButtonStatus          The overall status of the mark buttons.
- * @param {string}             marksButtonClassName       A class name to set on the mark buttons.
- * @param {Function}           onMarksButtonClick         Function that is called when the user
- *                                                        clicks one of the mark buttons.
+ * @param {Object}          props                               Component props.
+ * @param {MappedResult[]}  props.results                       The results from YoastSEO.js
+ * @param {string}          props.marksButtonActivatedResult    The currently activated result.
+ * @param {string}          props.marksButtonStatus             The overall status of the mark buttons.
+ * @param {string}          props.marksButtonClassName          A class name to set on the mark buttons.
+ * @param {string}          props.editButtonClassName           A class name to set on the edit buttons.
+ * @param {Function}        props.onMarksButtonClick            Function that is called when the user
+ *                                                              clicks one of the mark buttons.
+ * @param {Function}        props.onEditButtonClick             Function that is called when the user
+ *                                                              clicks one of the edit buttons.
+ * @param {bool}            props.isPremium                     Whether the Premium plugin is active or not.
  *
  * @returns {React.Element} The rendered list.
  */
-export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, onMarksButtonClick } ) {
+export default function AnalysisList( props ) {
 	return <AnalysisListBase role="list">
-		{ results.map( ( result ) => {
+		{ props.results.map( ( result ) => {
 			const color = renderRatingToColor( result.rating );
-			const isMarkButtonPressed = result.markerId === marksButtonActivatedResult;
+			const isMarkButtonPressed = result.markerId === props.marksButtonActivatedResult;
 
-			let ariaLabel = "";
-			if ( marksButtonStatus === "disabled" ) {
-				ariaLabel = __( "Marks are disabled in current view", "wordpress-seo" );
+			const markButtonId = result.id + "Mark";
+			const editButtonId = result.id + "Edit";
+
+			let ariaLabelMarks = "";
+			if ( props.marksButtonStatus === "disabled" ) {
+				ariaLabelMarks = __( "Marks are disabled in current view", "wordpress-seo" );
 			} else if ( isMarkButtonPressed ) {
-				ariaLabel = __( "Remove highlight from the text", "wordpress-seo" );
+				ariaLabelMarks = __( "Remove highlight from the text", "wordpress-seo" );
 			} else {
-				ariaLabel = __( "Highlight this result in the text", "wordpress-seo" );
+				ariaLabelMarks = __( "Highlight this result in the text", "wordpress-seo" );
 			}
+
+			const editFieldName = result.editFieldName;
+			const ariaLabelEdit = editFieldName === "" ? ""
+				: sprintf(
+					/* Translators: %1$s refers to the name of the field that should be edited (keyphrase, meta description,
+					   slug or SEO title). */
+					__( "Edit your %1$s", "wordpress-seo" ), editFieldName );
 
 			return <AnalysisResult
 				key={ result.id }
 				text={ result.text }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
-				ariaLabel={ ariaLabel }
+				hasEditButton={ result.hasJumps }
+				ariaLabelMarks={ ariaLabelMarks }
+				ariaLabelEdit={ ariaLabelEdit }
 				pressed={ isMarkButtonPressed }
-				buttonId={ result.id }
-				onButtonClick={ () => onMarksButtonClick( result.id, result.marker ) }
-				marksButtonClassName={ marksButtonClassName }
-				marksButtonStatus={ marksButtonStatus }
+				suppressedText={ result.rating === "upsell" }
+				buttonIdMarks={ markButtonId }
+				buttonIdEdit={ editButtonId }
+				onButtonClickMarks={ () => props.onMarksButtonClick( result.id, result.marker ) }
+				onButtonClickEdit={ () => props.onEditButtonClick( result.id ) }
+				marksButtonClassName={ props.marksButtonClassName }
+				editButtonClassName={ props.editButtonClassName }
+				marksButtonStatus={ props.marksButtonStatus }
+				hasBetaBadgeLabel={ result.hasBetaBadge }
+				isPremium={ props.isPremium }
 			/>;
 		} ) }
 	</AnalysisListBase>;
@@ -90,12 +113,18 @@ AnalysisList.propTypes = {
 	marksButtonActivatedResult: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	editButtonClassName: PropTypes.string,
 	onMarksButtonClick: PropTypes.func,
+	onEditButtonClick: PropTypes.func,
+	isPremium: PropTypes.bool,
 };
 
 AnalysisList.defaultProps = {
 	marksButtonActivatedResult: "",
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	editButtonClassName: "",
 	onMarksButtonClick: noop,
+	onEditButtonClick: noop,
+	isPremium: false,
 };

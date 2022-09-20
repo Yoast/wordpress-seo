@@ -100,11 +100,6 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
-	fleschReadingEase: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 100 in the test, which is considered very easy to read. Good job!",
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 3,
@@ -118,7 +113,7 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 25.4% of the sentences contain more than 25 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 26.2% of the sentences contain more than 25 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
@@ -150,6 +145,11 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 28.06% of the words in your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
 

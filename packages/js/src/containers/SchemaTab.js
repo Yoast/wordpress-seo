@@ -96,8 +96,11 @@ export default compose( [
 			getDefaultArticleType,
 		} = select( "yoast-seo/editor" );
 
+		const { displaySchemaSettingsFooter: displayFooter, isNewsEnabled } = getPreferences();
+
 		return {
-			displayFooter: getPreferences().displaySchemaSettingsFooter,
+			displayFooter,
+			isNewsEnabled,
 			schemaPageTypeSelected: getPageType(),
 			schemaArticleTypeSelected: getArticleType(),
 			defaultArticleType: getDefaultArticleType(),

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Static_Home_Page_Presentation;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -64,6 +65,10 @@ class Canonical_Test extends TestCase {
 				}
 			);
 
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -101,6 +106,10 @@ class Canonical_Test extends TestCase {
 					return $val;
 				}
 			);
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/permalink/2/', $this->instance->generate_canonical() );
 	}

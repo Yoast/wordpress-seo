@@ -264,7 +264,7 @@ describe( "A content assessor", function() {
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 8;
+			const expected = 7;
 			expect( actual ).toBe( expected );
 		} );
 

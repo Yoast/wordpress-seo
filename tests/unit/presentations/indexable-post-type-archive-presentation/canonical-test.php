@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Post_Type_Archive_Presentation;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -36,6 +37,10 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEmpty( $this->instance->generate_canonical() );
 	}
 
@@ -49,6 +54,10 @@ class Canonical_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_date' )
 			->once()
 			->andReturn( false );
 
@@ -70,6 +79,10 @@ class Canonical_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_date' )
 			->once()
 			->andReturn( false );
 

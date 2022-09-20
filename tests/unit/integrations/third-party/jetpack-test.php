@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Jetpack_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\Jetpack
- * @covers ::<!public>
  *
  * @group integrations
  * @group third-party

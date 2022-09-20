@@ -31,18 +31,23 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"first-time-configuration": `${ sourceDirectory }/first-time-configuration.js`,
 	"help-scout-beacon": `${ sourceDirectory }/help-scout-beacon.js`,
 	"import": `${ sourceDirectory }/import.js`,
+	"indexables-page": `${ sourceDirectory }/indexables-page.js`,
 	indexation: `${ sourceDirectory }/indexation.js`,
 	"installation-success": `${ sourceDirectory }/installation-success.js`,
+	"integrations-page": `${ sourceDirectory }/integrations-page.js`,
 	"network-admin": `${ sourceDirectory }/network-admin.js`,
 	"post-edit": `${ sourceDirectory }/post-edit.js`,
 	"quick-edit-handler": `${ sourceDirectory }/quick-edit-handler.js`,
 	"reindex-links": `${ sourceDirectory }/reindex-links.js`,
 	settings: `${ sourceDirectory }/settings.js`,
+	"new-settings": `${ sourceDirectory }/settings/initialize.js`,
 	"structured-data-blocks": `${ sourceDirectory }/structured-data-blocks.js`,
 	"term-edit": `${ sourceDirectory }/term-edit.js`,
 	"used-keywords-assessment": `${ sourceDirectory }/used-keywords-assessment.js`,
 	"react-select": `${ sourceDirectory }/externals/react-select.js`,
 	workouts: `${ sourceDirectory }/workouts.js`,
+	"wordproof-uikit": `${ sourceDirectory }/wordproof-uikit.js`,
+	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
 } );
 
 /**

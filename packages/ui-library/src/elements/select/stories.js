@@ -1,10 +1,13 @@
 import { useState, useCallback } from "@wordpress/element";
-
 import Select from ".";
 
 export default {
 	title: "1. Elements/Select",
 	component: Select,
+	argTypes: {
+		children: { control: "text" },
+		labelSuffix: { control: "text" },
+	},
 	parameters: {
 		docs: {
 			description: {

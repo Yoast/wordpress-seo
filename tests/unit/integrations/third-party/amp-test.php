@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * AMP integration test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\AMP
- * @covers ::<!public>
  *
  * @group integrations
  * @group third-party

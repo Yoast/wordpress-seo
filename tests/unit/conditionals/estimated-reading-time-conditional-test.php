@@ -20,6 +20,20 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Estimated_Reading_Time_Conditional_Test extends TestCase {
 
 	/**
+	 * Holds the Post_Conditional instance.
+	 *
+	 * @var Post_Conditional|Mockery\MockInterface
+	 */
+	protected $post_conditional;
+
+	/**
+	 * Holds the Input_Helper instance.
+	 *
+	 * @var Input_Helper|Mockery\MockInterface
+	 */
+	protected $input_helper;
+
+	/**
 	 * The estimated reading time conditional.
 	 *
 	 * @var Estimated_Reading_Time_Conditional

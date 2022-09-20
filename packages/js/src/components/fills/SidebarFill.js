@@ -9,8 +9,10 @@ import { get } from "lodash";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
+import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
 import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
@@ -18,6 +20,7 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
+import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -48,45 +51,58 @@ export default function SidebarFill( { settings } ) {
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
-				<SidebarItem key="google-preview" renderPriority={ 23 }>
+				<SidebarItem key="google-preview" renderPriority={ 25 }>
 					<GooglePreviewModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem key="facebook-preview" renderPriority={ 24 }>
+				{ settings.displayFacebook && <SidebarItem key="facebook-preview" renderPriority={ 26 }>
 					<FacebookPreviewModal />
 				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem key="twitter-preview" renderPriority={ 25 }>
+				{ settings.displayTwitter && <SidebarItem key="twitter-preview" renderPriority={ 27 }>
 					<TwitterPreviewModal />
 				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 26 }>
+				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 28 }>
 					<SidebarCollapsible
 						title={ __( "Schema", "wordpress-seo" ) }
 					>
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 27 }>
+				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 29 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
 					>
 						<AdvancedSettings />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 10 }>
-					<ReadabilityAnalysis />
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 10 }>
+					<Fragment>
+						<SeoAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
+						/>
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="sidebar" /> }
+					</Fragment>
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 20 }>
-					<SeoAnalysis
+				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
+					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
-						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive && <SidebarItem renderPriority={ 22 }>
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive && <SidebarItem renderPriority={ 23 }>
 					<WincherSEOPerformanceModal
 						location="sidebar"
 					/>
+				</SidebarItem> }
+				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
+					<InsightsModal location="sidebar" />
 				</SidebarItem> }
 			</Fill>
 		</Fragment>

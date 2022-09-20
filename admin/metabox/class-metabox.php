@@ -71,6 +71,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function __construct() {
 		if ( $this->is_internet_explorer() ) {
 			add_action( 'add_meta_boxes', [ $this, 'internet_explorer_metabox' ] );
+
 			return;
 		}
 
@@ -204,6 +205,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<a href="https://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html" target="_blank" rel="noopener">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
+		/* translators: %s expands to the post type name. */
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['title']        = __( 'Timestamp this %s', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['description']  = __( 'Use WordProof to timestamp this page to comply with legal regulations and join the fight for a more transparant and accountable internet.', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['0'] = __( 'Off', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['1'] = __( 'On', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['type']         = 'hidden';
 
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
@@ -902,11 +909,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'userLanguageCode'           => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'                     => true,
 			'isBlockEditor'              => $is_block_editor,
+			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'analysis'                   => [
-				'plugins'                     => $plugins_script_data,
-				'worker'                      => $worker_script_data,
-				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
+				'plugins' => $plugins_script_data,
+				'worker'  => $worker_script_data,
 			],
 			'dismissedAlerts'            => $dismissed_alerts,
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
@@ -1098,9 +1105,31 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return $custom_replace_vars;
 		}
 
+		$meta = YoastSEO()->meta->for_post( $post->ID );
+
+		if ( ! $meta ) {
+			return $custom_replace_vars;
+		}
+
+		// Simply concatenate all fields containing replace vars so we can handle them all with a single regex find.
+		$replace_vars_fields = implode(
+			' ',
+			[
+				$meta->presentation->title,
+				$meta->presentation->meta_description,
+			]
+		);
+
+		preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
+		$fields_to_include = $matches[1];
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.
 			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			// Skip custom fields that are not used, new ones will be fetched dynamically.
+			if ( ! in_array( $custom_field_name, $fields_to_include, true ) ) {
 				continue;
 			}
 

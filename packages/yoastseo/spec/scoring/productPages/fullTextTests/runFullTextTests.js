@@ -2,6 +2,7 @@ import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -21,6 +22,8 @@ import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/Ke
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
+import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
+import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
 // Import Readability assessments.
 import SubheadingDistributionTooLongAssessment
@@ -114,6 +117,18 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 		} );
+		const productIdentifiersAssessment = new ProductIdentifiersAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
+			assessVariants: true,
+		} );
+		const productSKUAssessment = new ProductSKUAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
+			assessVariants: true,
+			productType: "simple",
+			addSKULocation: true,
+		} );
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
@@ -168,6 +183,10 @@ testPapers.forEach( function( testPaper ) {
 		const listPresenceAssessment = new ListAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
+		} );
+		const wordComplexityAssessment = new WordComplexityAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
 		} );
 
 		// SEO assessments.
@@ -317,6 +336,28 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
+		it( "returns a score and the associated feedback text for the product identifiers assessment", function() {
+			const isApplicable = productIdentifiersAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.productIdentifiers.isApplicable );
+
+			if ( isApplicable ) {
+				result.productIdentifiers = productIdentifiersAssessment.getResult( paper, researcher );
+				expect( result.productIdentifiers.getScore() ).toBe( expectedResults.productIdentifiers.score );
+				expect( result.productIdentifiers.getText() ).toBe( expectedResults.productIdentifiers.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the SKU assessment", function() {
+			const isApplicable = productSKUAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.productSKU.isApplicable );
+
+			if ( isApplicable ) {
+				result.productSKU = productSKUAssessment.getResult( paper, researcher );
+				expect( result.productSKU.getScore() ).toBe( expectedResults.productSKU.score );
+				expect( result.productSKU.getText() ).toBe( expectedResults.productSKU.resultText );
+			}
+		} );
+
 		// Images-related assessments
 		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
 			const isApplicable = imageKeyphraseAssessment.isApplicable( paper, researcher );
@@ -432,6 +473,16 @@ testPapers.forEach( function( testPaper ) {
 				result.listPresence = listPresenceAssessment.getResult( paper, researcher );
 				expect( result.listPresence.getScore() ).toBe( expectedResults.listPresence.score );
 				expect( result.listPresence.getText() ).toBe( expectedResults.listPresence.resultText );
+			}
+		} );
+		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
+			const isApplicable = wordComplexityAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.wordComplexity.isApplicable );
+
+			if ( isApplicable ) {
+				result.wordComplexity = wordComplexityAssessment.getResult( paper, researcher );
+				expect( result.wordComplexity.getScore() ).toBe( expectedResults.wordComplexity.score );
+				expect( result.wordComplexity.getText() ).toBe( expectedResults.wordComplexity.resultText );
 			}
 		} );
 	} );

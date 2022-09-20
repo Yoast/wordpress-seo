@@ -134,6 +134,7 @@ class SocialPreviewEditor extends Component {
 			replacementVariables,
 			recommendedReplacementVariables,
 			applyReplacementVariables,
+			onReplacementVariableSearchChange,
 			isPremium,
 			isLarge,
 			socialPreviewLabel,
@@ -180,6 +181,7 @@ class SocialPreviewEditor extends Component {
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+					onReplacementVariableSearchChange={ onReplacementVariableSearchChange }
 					onMouseHover={ this.setHoveredField }
 					hoveredField={ this.state.hoveredField }
 					onSelect={ this.setActiveField }
@@ -215,6 +217,7 @@ SocialPreviewEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	applyReplacementVariables: PropTypes.func,
+	onReplacementVariableSearchChange: PropTypes.func,
 	socialPreviewLabel: PropTypes.string,
 	idSuffix: PropTypes.string,
 	activeMetaTabId: PropTypes.string,
@@ -233,6 +236,7 @@ SocialPreviewEditor.defaultProps = {
 	titlePreviewFallback: "",
 	alt: "",
 	applyReplacementVariables: data => data,
+	onReplacementVariableSearchChange: null,
 	socialPreviewLabel: "",
 	idSuffix: "",
 	activeMetaTabId: "",

@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Redirects;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -16,7 +17,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Redirects_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Redirects
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end
@@ -59,6 +59,13 @@ class Redirects_Test extends TestCase {
 	private $redirect;
 
 	/**
+	 * The URL helper mock.
+	 *
+	 * @var Mockery\MockInterface|Url_Helper
+	 */
+	private $url;
+
+	/**
 	 * Sets an instance for test purposes.
 	 */
 	protected function set_up() {
@@ -68,7 +75,8 @@ class Redirects_Test extends TestCase {
 		$this->meta         = Mockery::mock( Meta_Helper::class );
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 		$this->redirect     = Mockery::mock( Redirect_Helper::class );
-		$this->instance     = Mockery::mock( Redirects::class, [ $this->options, $this->meta, $this->current_page, $this->redirect ] )
+		$this->url          = Mockery::mock( Url_Helper::class );
+		$this->instance     = Mockery::mock( Redirects::class, [ $this->options, $this->meta, $this->current_page, $this->redirect, $this->url ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}
@@ -96,6 +104,7 @@ class Redirects_Test extends TestCase {
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'archive_redirect' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'page_redirect' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'template_redirect', [ $this->instance, 'attachment_redirect' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'template_redirect', [ $this->instance, 'disable_date_queries' ] ) );
 	}
 
 	/**

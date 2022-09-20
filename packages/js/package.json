@@ -9,12 +9,13 @@
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "@headlessui/react": "^1.5",
-    "@heroicons/react": "^1.0.5",
+    "@headlessui/react": "^1.6.6",
+    "@heroicons/react": "^1.0.6",
     "@wordpress/blocks": "^11.1.2",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
     "@wordpress/element": "^2.19.1",
+    "@wordpress/i18n": "^4.14.0",
     "@yoast/analysis-report": "^1.21.0",
     "@yoast/components": "^2.19.0",
     "@yoast/feature-flag": "^0.5.2",
@@ -24,6 +25,7 @@
     "@yoast/search-metadata-previews": "^2.24.0",
     "@yoast/social-metadata-forms": "^1.16.0",
     "@yoast/style-guide": "^0.13.0",
+    "@yoast/ui-library": "^2.1.2",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
@@ -44,7 +46,11 @@
     "select2": "4.0.13",
     "styled-components": "^5.2.1",
     "yoast-components": "^5.24.0",
-    "yoastseo": "^1.91.0"
+    "yoastseo": "^1.91.0",
+    "formik": "^2.2.9",
+    "@reduxjs/toolkit": "^1.8.3",
+    "react-router-dom": "^6.3.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

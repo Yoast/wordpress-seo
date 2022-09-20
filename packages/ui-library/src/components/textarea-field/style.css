@@ -1,29 +1,27 @@
 @layer components {
-	.yst-textarea-field {
+	.yst-root {
+		.yst-textarea-field__input--error {
+			@apply yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500;
+		}
 
-	}
+		.yst-textarea-field__label {
+			@apply yst-flex yst-items-center yst-mb-2;
+		}
 
-	.yst-textarea-field__input--error {
-		@apply yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500;
-	}
+		.yst-textarea-field__description {
+			@apply yst-mt-2;
+		}
 
-	.yst-textarea-field__label {
-		@apply yst-flex yst-items-center yst-mb-2;
-	}
+		.yst-textarea-field__error-icon {
+			@apply yst-absolute yst-top-1 yst-right-1 yst-bottom-0 yst-pointer-events-none;
+		}
 
-	.yst-textarea-field__description {
-		@apply yst-mt-2;
-	}
+		.yst-textarea-field__error-icon > svg {
+			@apply yst-h-5 yst-w-5 yst-text-red-500;
+		}
 
-	.yst-textarea-field__error-icon {
-		@apply yst-absolute yst-top-1 yst-right-1 yst-bottom-0 yst-pointer-events-none;
-	}
-
-	.yst-textarea-field__error-icon > svg {
-		@apply yst-h-5 yst-w-5 yst-text-red-500;
-	}
-
-	.yst-textarea-field__error {
-		@apply yst-mt-2 yst-text-sm yst-text-red-600;
+		.yst-textarea-field__error {
+			@apply yst-mt-2 yst-text-sm yst-text-red-600;
+		}
 	}
 }

@@ -32,7 +32,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Holds the Pagination_Helper instance.
 	 *
-	 * @var Pagination_Helper
+	 * @var Pagination_Helper|Mockery\MockInterface
 	 */
 	protected $pagination;
 

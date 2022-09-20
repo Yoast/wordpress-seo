@@ -4,6 +4,7 @@ import SentenceBeginningsAssessment from "../../../../src/scoring/assessments/re
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 let paper = new Paper();
 // eslint-disable-next-line max-statements
@@ -45,9 +46,24 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 	} );
 
 	it( "is applicable for an paper with text and a researcher that has the getSentenceBeginnings research.", function() {
-		paper = new Paper( "ciao", { locale: "it_IT" } );
+		paper = new Paper( "Era una gatta, assai trita, e non era d’alcuno, e, vecchia, aveva un suo gattino.", { locale: "it_IT" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );
 		expect( assessment ).toBe( true );
+	} );
+
+	it( "returns false if the text is too short", function() {
+		paper = new Paper( "hallo" );
+		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "should return false for isApplicable for a paper with only an image.", function() {
+		paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
+		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "should return false for isApplicable for a paper with only spaces.", function() {
+		paper = new Paper( "        " );
+		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "is not applicable for a paper with text and a researcher without sentence beginning support.", function() {

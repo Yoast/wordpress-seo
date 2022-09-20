@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Config\Schema_IDs;
-
 /**
  * Returns schema Author data.
  */
@@ -51,7 +49,7 @@ class Author extends Person {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( $this->context->indexable->object_type === 'user' ) {
 			$data['mainEntityOfPage'] = [
-				'@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH,
+				'@id' => $this->context->main_schema_id,
 			];
 		}
 

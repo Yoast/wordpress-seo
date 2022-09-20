@@ -92,9 +92,6 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
-	fleschReadingEase: {
-		isApplicable: false,
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
@@ -138,6 +135,9 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: false,
 	},
 };
 

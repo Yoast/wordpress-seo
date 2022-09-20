@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Services\Health_Check\Links_Table_Reports;

@@ -3,7 +3,7 @@ module.exports = {
 	prefix: "yst-",
 	theme: {
 		fontSize: {
-			xxs: "0.6rem",
+			xxs: "0.675rem",
 			xs: ".75rem",
 			sm: ".8125rem",
 			tiny: ".875rem",
@@ -32,16 +32,19 @@ module.exports = {
 					900: "#501434",
 				},
 			},
+			strokeWidth: {
+				3: "3px",
+			},
 		},
 	},
-	variants: {
-		extend: {
-			backgroundColor: [ "active", "group-focus", "disabled" ],
-			textColor: [ "active", "group-focus", "disabled" ],
-		},
-	},
+	important: true,
 	plugins: [
-		require( "@tailwindcss/forms" ),
+		require( "@tailwindcss/forms" )( {
+			strategy: "class",
+		} ),
 	],
+	corePlugins: {
+		preflight: false,
+	},
 	content: [ "./node_modules/@yoast/ui-library/**/*.js" ],
 };

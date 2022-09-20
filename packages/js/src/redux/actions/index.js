@@ -4,13 +4,14 @@ import {
 } from "yoast-components";
 import AnalysisFields from "../../helpers/fields/AnalysisFields";
 
+export * from "../../insights/redux/actions";
 export * from "./activeMarker";
 export * from "./advancedSettings";
 export * from "./analysis";
+export * from "./checklist";
 export * from "./cornerstoneContent";
 export * from "./editorData";
 export * from "./editorModals";
-export * from "./estimatedReadingTime";
 export * from "./focusKeyword";
 export * from "./markerButtons";
 export * from "./markerPauseStatus";
@@ -29,6 +30,7 @@ export * from "./WincherModal";
 export * from "./WincherRequest";
 export * from "./WincherSEOPerformance";
 export * from "./isPremium";
+export * from "./postId";
 
 /**
  * A wrapper function so that we can wrap the field helper to the monorepo action.

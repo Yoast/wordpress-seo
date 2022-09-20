@@ -32,6 +32,7 @@ const SidebarButton = ( props ) => {
 					<div className="yoast-title">{ props.title }</div>
 					<div className="yoast-subtitle">{ props.subTitle }</div>
 				</span>
+				{ props.children }
 				{
 					props.suffixIcon && <SvgIcon
 						size={ props.suffixIcon.size }
@@ -52,6 +53,7 @@ SidebarButton.propTypes = {
 	subTitle: PropTypes.string,
 	suffixIcon: PropTypes.object,
 	prefixIcon: PropTypes.object,
+	children: PropTypes.node,
 };
 
 SidebarButton.defaultProps = {
@@ -59,4 +61,5 @@ SidebarButton.defaultProps = {
 	suffixIcon: null,
 	prefixIcon: null,
 	subTitle: "",
+	children: null,
 };

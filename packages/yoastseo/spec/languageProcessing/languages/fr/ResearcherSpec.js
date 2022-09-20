@@ -73,4 +73,9 @@ describe( "a test for the French Researcher", function() {
 		};
 		expect( researcher.getHelper( "fleschReadingScore" )( statistics ) ).toBe( 76.3 );
 	} );
+
+	it( "checks if a word is complex in French", function() {
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "continuellement" ) ).toEqual( false );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "dictionnaire" ) ).toEqual( true );
+	} );
 } );

@@ -33,6 +33,18 @@ function testGetSentences( testCases ) {
 }
 
 describe( "Get sentences from text", function() {
+	it( "does not split sentences ending on a quotation mark without a preceding period", function() {
+		const sentence = "Hello. \"How are you\" Bye";
+		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\" Bye" ] );
+	} );
+	it( "splits sentences ending on a quotation mark preceded by a period", function() {
+		const sentence = "Hello. \"How are you.\" Bye";
+		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you.\"", "Bye" ] );
+	} );
+	it( "splits sentences ending on a quotation mark followed by a period", function() {
+		const sentence = "Hello. \"How are you\". Bye";
+		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\".", "Bye" ] );
+	} );
 	it( "returns sentences", function() {
 		const sentence = "Hello. How are you? Bye";
 		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "How are you?", "Bye" ] );
@@ -508,6 +520,32 @@ describe( "a test for when texts containing sentence delimiter", () => {
 		expect( getSentences( text, japaneseSentenceTokenizer ) ).toEqual( [
 			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており‥",
 			"抜本的な輸送力増強を迫られていた。" ] );
+	} );
+
+	it( "can deal with the edge case of quotes around initials.", ()=>{
+		const text = "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer.";
+		expect( getSentences( text ) ).toEqual(
+			[ "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ] );
+	} );
+
+	it( "should not break when the text starts with double quotation mark followed by space", ()=>{
+		let text = "\" This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "\"", "This is a text with double quotation mark." ] );
+
+		text = "\" \"This is a text with two double quotation marks.";
+		expect( getSentences( text ) ).toEqual(  [ "\"", "\"This is a text with two double quotation marks." ] );
+
+		text = "” This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "”", "This is a text with double quotation mark." ] );
+
+		text = "„ This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "„", "This is a text with double quotation mark." ] );
+
+		text = "» This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "»", "This is a text with double quotation mark." ] );
+
+		text = "« »This is a text with two double quotation marks.";
+		expect( getSentences( text ) ).toEqual( [ "« »This is a text with two double quotation marks." ] );
 	} );
 } );
 

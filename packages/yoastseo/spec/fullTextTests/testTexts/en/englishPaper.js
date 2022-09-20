@@ -97,11 +97,6 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
-	fleschReadingEase: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 74.4 in the test, which is considered fairly easy to read. Good job!",
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 9,
@@ -146,6 +141,12 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page." +
 			" <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: " +
+			"You are not using too many complex words, which makes your text easy to read. Good job!",
 	},
 };
 

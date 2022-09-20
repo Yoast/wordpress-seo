@@ -104,15 +104,23 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 
 describe( "Applicability of the assessment.", function() {
 	it( "should return true for isApplicable on a paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
-		const researcher = new EnglishResearcher( paper );
-		paragraphTooLongAssessment.getResult( paper, researcher );
+		const paper = new Paper( "This is a very interesting paper. With at least fifty characters." );
 		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 	it( "should return false for isApplicable on a paper without text.", function() {
-		const paper = new Paper( "", { locale: "en_US" } );
-		const researcher = new EnglishResearcher( paper );
-		paragraphTooLongAssessment.getResult( paper, researcher );
+		const paper = new Paper( "" );
+		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( false );
+	} );
+	it( "should return false for isApplicable for a paper with only an image.", function() {
+		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
+		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( false );
+	} );
+	it( "should return false for isApplicable for a paper with only spaces.", function() {
+		const paper = new Paper( "        " );
+		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( false );
+	} );
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
 		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( false );
 	} );
 } );

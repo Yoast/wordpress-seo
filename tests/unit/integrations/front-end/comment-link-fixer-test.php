@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Comment_Link_Fixer_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Comment_Link_Fixer
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end

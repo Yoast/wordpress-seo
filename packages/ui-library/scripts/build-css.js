@@ -2,7 +2,7 @@
 /* eslint-disable require-jsdoc */
 const fs = require( "fs" );
 const path = require( "path" );
-const execSync = require( "child_process" ).execSync;
+const { execSync } = require( "child_process" );
 
 // Define build directory.
 const BUILD_DIR = path.join( __dirname, "../build/css" );
@@ -17,6 +17,3 @@ fs.mkdirSync( BUILD_DIR, { recursive: true } );
 [ "elements", "components" ].forEach( scope => {
 	fs.appendFileSync( `${ BUILD_DIR }/style.css`, execSync( `cat src/${ scope }/**/*.css` ) );
 } );
-
-// Copy the base CSS file.
-fs.copyFileSync( "src/base.css", `${ BUILD_DIR }/base.css` );

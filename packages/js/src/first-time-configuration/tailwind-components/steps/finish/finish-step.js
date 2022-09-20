@@ -9,8 +9,7 @@ import { ReactComponent as ConfigurationFinishImage } from "../../../../../image
  * @returns {void}
  */
 function goToSEODashboard() {
-	document.getElementById( "dashboard-tab" ).click();
-	window.scrollTo( 0, 0 );
+	window.location.href = "admin.php?page=wpseo_dashboard";
 }
 
 /**
@@ -33,7 +32,7 @@ function regularContent() {
  * @returns {WPElement} The webinar promo content.
  */
 function webinarPromoContent() {
-	const webinarIntroSettingsUrl = get( window, "wpseoScriptData.webinarIntroSettingsUrl", "https://yoa.st/webinar-intro-settings" );
+	const webinarIntroSettingsUrl = get( window, "wpseoScriptData.webinarIntroSettingsUrl", "https://yoa.st/webinar-intro-first-time-config" );
 
 	return (
 		<>

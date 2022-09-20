@@ -13,6 +13,11 @@ const {
 	hideReplacementVariables,
 	setContentImage,
 	updateSettings,
+	setEditorDataContent,
+	setEditorDataTitle,
+	setEditorDataExcerpt,
+	setEditorDataImageUrl,
+	setEditorDataSlug,
 } = actions;
 
 const $ = global.jQuery;
@@ -206,14 +211,13 @@ export default class BlockEditorData {
 		const content = this.getPostAttribute( "content" );
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
-		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
 		const slug = this.getSlug();
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
-			slug: slug,
-			excerpt: excerpt || excerptFromContent( content, limit ),
+			slug,
+			excerpt: excerpt || excerptFromContent( content, getContentLocale() === "ja" ? 80 : 156 ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
@@ -249,24 +253,20 @@ export default class BlockEditorData {
 	 */
 	calculateContentImage( content ) {
 		const images = languageProcessing.imageInText( content );
-		let image = "";
 
 		if ( images.length === 0 ) {
 			return "";
 		}
 
-		do {
-			var currentImage = images.shift();
-			currentImage = $( currentImage );
+		const imageElements = $.parseHTML( images.join( "" ) );
 
-			var imageSource = currentImage.prop( "src" );
-
-			if ( imageSource ) {
-				image = imageSource;
+		for ( const imageElement of imageElements ) {
+			if ( imageElement.src ) {
+				return imageElement.src;
 			}
-		} while ( "" === image && images.length > 0 );
+		}
 
-		return image;
+		return "";
 	}
 
 	/**
@@ -277,21 +277,29 @@ export default class BlockEditorData {
 	 * @returns {void}
 	 */
 	handleEditorChange( newData ) {
+		// Handle content change.
+		if ( this._data.content !== newData.content ) {
+			this._store.dispatch( setEditorDataContent( newData.content ) );
+		}
 		// Handle title change.
 		if ( this._data.title !== newData.title ) {
+			this._store.dispatch( setEditorDataTitle( newData.title ) );
 			this._store.dispatch( updateReplacementVariable( "title", newData.title ) );
 		}
 		// Handle excerpt change.
 		if ( this._data.excerpt !== newData.excerpt ) {
+			this._store.dispatch( setEditorDataExcerpt( newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
 		// Handle slug change.
 		if ( this._data.slug !== newData.slug ) {
+			this._store.dispatch( setEditorDataSlug( newData.slug ) );
 			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
 		// Handle snippet preview image change.
 		if ( this._data.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
+			this._store.dispatch( setEditorDataImageUrl( newData.snippetPreviewImageURL ) );
 			this._store.dispatch( updateData( { snippetPreviewImageURL: newData.snippetPreviewImageURL } ) );
 		}
 		// Handle content image change.

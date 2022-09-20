@@ -44,7 +44,10 @@ $dashboard_tabs->add_tab(
 $dashboard_tabs->add_tab(
 	new WPSEO_Option_Tab(
 		'integrations',
-		__( 'Integrations', 'wordpress-seo' )
+		__( 'Integrations', 'wordpress-seo' ),
+		[
+			'save_button' => false,
+		]
 	)
 );
 $dashboard_tabs->add_tab(
