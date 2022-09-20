@@ -25,8 +25,8 @@ const FormLayout = ( {
 
 	return (
 		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
-			<header className="yst-border-b yst-border-gray-200">
-				<div className="yst-max-w-screen-sm yst-p-8">
+			<header className="yst-p-8 yst-border-b yst-border-gray-200">
+				<div className="yst-max-w-screen-sm">
 					<Title>{ title }</Title>
 					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
 				</div>
