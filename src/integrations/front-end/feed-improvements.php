@@ -82,7 +82,7 @@ class Feed_Improvements implements Integration_Interface {
 	}
 
 	/**
-	 * Makes sure send canonical header always runs, because this RRS hook does not support the for_comments parameter
+	 * Makes sure send canonical header always runs, because this RSS hook does not support the for_comments parameter
 	 *
 	 * @return void
 	 */
