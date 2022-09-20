@@ -2,10 +2,10 @@
   "name": "@yoast/ui-library",
   "version": "2.1.2",
   "description": "Yoast UI library",
-  "main": "./build/index.js",
-  "style": "./build/css/style.css",
+  "main": "build/index.js",
+  "style": "build/css/style.css",
   "files": [
-    "./build/**/*"
+    "build/**/*"
   ],
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
@@ -64,7 +64,9 @@
     "@heroicons/react": "^1.0.6",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
-    "prop-types": "^15.8.1"
+    "prop-types": "^15.8.1",
+    "react-animate-height": "^3.0.4",
+    "react-error-boundary": "^3.1.4"
   },
   "peerDependencies": {
     "@wordpress/element": "^4.1.1"

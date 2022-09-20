@@ -60,7 +60,7 @@ const LatestPosts = () => {
 		<hr className="yst-my-8" />
 		<FieldsetLayout
 			title={ __( "Social appearance", "wordpress-seo" ) }
-			description={ __( "Choose how your Homepage should look on social media.", "wordpress-seo" ) }
+			description={ __( "Choose how your Homepage should look on social media. Note that this is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
 		>
 			<OpenGraphDisabledAlert
 				isEnabled={ opengraph }

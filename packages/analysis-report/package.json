@@ -12,7 +12,7 @@
     "build:js": "babel src --out-dir build",
     "clean": "rm -rf build",
     "test": "jest",
-    "lint": "eslint . --max-warnings=5",
+    "lint": "eslint . --max-warnings=2",
     "prepublishOnly": "yarn clean && cp -R src build && cp package.json build/package.json && json -I -f build/package.json -e \"this.main='index.js'\" && cp babel.config.js build/babel.config.js"
   },
   "author": "Team Yoast",

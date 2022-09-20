@@ -27,7 +27,7 @@ class Page_Comments_Runner implements Runner_Interface {
 	 * @return void
 	 */
 	public function run() {
-		$this->comments_on_single_page = get_option( 'page_comments' ) !== '1';
+		$this->comments_on_single_page = \get_option( 'page_comments' ) !== '1';
 	}
 
 	/**

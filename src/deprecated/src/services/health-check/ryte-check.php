@@ -30,7 +30,7 @@ class Ryte_Check extends Health_Check {
 	 * @deprecated 19.6
 	 * @codeCoverageIgnore
 	 *
-	 * @param Ryte_Runner  $runner The object that implements the actual health check.
+	 * @param Ryte_Runner  $runner  The object that implements the actual health check.
 	 * @param Ryte_Reports $reports The object that generates WordPress-friendly results.
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class Ryte_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return __( 'Ryte', 'wordpress-seo' );
+		return \__( 'Ryte', 'wordpress-seo' );
 	}
 
 	/**

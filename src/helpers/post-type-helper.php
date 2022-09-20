@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Post_Type;
+
 /**
  * A helper object for post types.
  */
@@ -38,6 +40,17 @@ class Post_Type_Helper {
 		}
 
 		return ( $this->options_helper->get( 'noindex-' . $post_type_name, false ) === false );
+	}
+
+	/**
+	 * Checks if the request post type has the Yoast Metabox enabled.
+	 *
+	 * @param string $post_type_name The name of the post type to lookup.
+	 *
+	 * @return bool True if metabox is enabled.
+	 */
+	public function has_metabox( $post_type_name ) {
+		return ( $this->options_helper->get( 'display-metabox-pt-' . $post_type_name, true ) === true );
 	}
 
 	/**
@@ -116,7 +129,7 @@ class Post_Type_Helper {
 	/**
 	 * Checks if the post type with the given name has an archive page.
 	 *
-	 * @param \WP_Post_Type|string $post_type The name of the post type to check.
+	 * @param WP_Post_Type|string $post_type The name of the post type to check.
 	 *
 	 * @return bool True when the post type has an archive page.
 	 */

@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Presenters\Admin\Auto_Update_Notification_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Search_Engines_Discouraged_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

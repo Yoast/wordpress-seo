@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
+use WP_User;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
@@ -43,7 +44,7 @@ class Meta_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 		$user_data = \get_userdata( $this->presentation->context->post->post_author );
 
-		if ( ! $user_data instanceof \WP_User ) {
+		if ( ! $user_data instanceof WP_User ) {
 			return '';
 		}
 

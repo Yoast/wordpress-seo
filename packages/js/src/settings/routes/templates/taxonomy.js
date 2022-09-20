@@ -1,6 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, ToggleField } from "@yoast/ui-library";
+import { Badge, Link, ToggleField } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -27,6 +27,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
+	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -67,11 +68,16 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 					( { name: postTypeName, label: postTypeLabel } ) => <Badge key={ postTypeName } variant="plain">{ postTypeLabel }</Badge>
 				) }
 			</div> }
+			description={ sprintf(
+				/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
+				__( "Choose how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
+				label
+			) }
 		>
 			<FieldsetLayout
 				title={ __( "Search appearance", "wordpress-seo" ) }
 				description={ sprintf(
-					// translators: %1$s expands to the post type plural, e.g. Categories. %2$s expands to the post type singular, e.g. Category.
+					// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g. Category.
 					__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
 					label,
 					singularLabel
@@ -85,11 +91,18 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						__( "Show %1$s in search results", "wordpress-seo" ),
 						label
 					) }
-					description={ sprintf(
-						// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-						__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-						label
-					) }
+					description={ <>
+						{ sprintf(
+							// translators: %1$s expands to the taxonomy plural, e.g. Categories.
+							__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+							label
+						) }
+						<br />
+						<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+							{ __( "Read more about the search results settings", "wordpress-seo" ) }
+						</Link>
+						.
+					</> }
 				/>
 				<hr className="yst-my-8" />
 				<FormikReplacementVariableEditorField

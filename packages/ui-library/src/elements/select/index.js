@@ -49,6 +49,7 @@ Option.propTypes = optionPropType;
  * @param {string} [selectedLabel] When using children instead of options, pass the label of the selected option.
  * @param {string} [label] Label.
  * @param {Object} [labelProps] Extra label props.
+ * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {Function} onChange Change callback.
  * @param {boolean} [isError] Error message.
  * @param {string} [className] CSS class.
@@ -64,6 +65,7 @@ const Select = ( {
 	selectedLabel = "",
 	label = "",
 	labelProps = {},
+	labelSuffix = null,
 	onChange,
 	isError = false,
 	className = "",
@@ -89,7 +91,10 @@ const Select = ( {
 			) }
 			{ ...props }
 		>
-			{ label && <Listbox.Label { ...labelProps }>{ label }</Listbox.Label> }
+			{ label && <div className="yst-flex yst-items-center yst-mb-2">
+				<Listbox.Label { ...labelProps }>{ label }</Listbox.Label>
+				{ labelSuffix }
+			</div> }
 			<Listbox.Button className="yst-select__button" { ...buttonProps }>
 				<span className="yst-select__button-label">{ selectedLabel || selectedOption?.label || "" }</span>
 				{ isError ? (
@@ -120,6 +125,7 @@ Select.propTypes = {
 	selectedLabel: PropTypes.string,
 	label: PropTypes.string,
 	labelProps: PropTypes.object,
+	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
 	isError: PropTypes.bool,
 	className: PropTypes.string,

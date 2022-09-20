@@ -5,6 +5,14 @@ import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
 const mediaAdapter = createEntityAdapter();
 
+/**
+ * @returns {Object} The initial state.
+ */
+export const createInitialMediaState = () => mediaAdapter.getInitialState( {
+	status: "idle",
+	error: "",
+} );
+
 export const FETCH_MEDIA_ACTION_NAME = "fetchMedia";
 
 /**
@@ -48,10 +56,7 @@ const prepareMedia = media => ( {
 
 const mediaSlice = createSlice( {
 	name: "media",
-	initialState: mediaAdapter.getInitialState( {
-		status: "idle",
-		error: "",
-	} ),
+	initialState: createInitialMediaState(),
 	reducers: {
 		addOneMedia: {
 			reducer: mediaAdapter.addOne,
