@@ -593,7 +593,6 @@ class Settings_Integration implements Integration_Interface {
 
 		return [
 			'siteLogoId' => $site_logo_id,
-			'siteName'   => \get_bloginfo( 'name' ),
 		];
 	}
 }
