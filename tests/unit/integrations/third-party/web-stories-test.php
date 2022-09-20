@@ -64,6 +64,10 @@ class Web_Stories_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
+		$this->front_end
+			->expects( 'title_presenter_should_be_removed' )
+			->andReturn( false );
+
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'web_stories_enable_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
