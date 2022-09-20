@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Surfaces;
 
 use Yoast\WP\SEO\Helpers;
-use Yoast\WP\SEO\Helpers\Image_Helper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
