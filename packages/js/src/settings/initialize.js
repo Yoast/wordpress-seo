@@ -21,6 +21,8 @@ const preloadMedia = async( { settings, fallbacks } ) => {
 	const mediaIds = filter( [
 		get( settings, "wpseo_social.og_default_image_id", "0" ),
 		get( settings, "wpseo_titles.open_graph_frontpage_image_id", "0" ),
+		get( settings, "wpseo_titles.company_logo_id", "0" ),
+		get( settings, "wpseo_titles.person_logo_id", "0" ),
 		get( fallbacks, "siteLogoId", "0" ),
 		...reduce( titleSettings, ( acc, value, key ) => includes( key, "social-image-id" ) ? [ ...acc, value ] : acc, [] ),
 	], Boolean );
