@@ -68,8 +68,8 @@ const Formats = () => {
 		>
 			<fieldset className="yst-min-width-0 yst-space-y-8">
 				<FormikFlippedToggleField
-					name={ "wpseo_titles.disable-post_format" }
-					data-id={ "input-wpseo_titles-disable-post_format" }
+					name="wpseo_titles.disable-post_format"
+					data-id="input-wpseo_titles-disable-post_format"
 					label={ __( "Format-based archives", "wordpress-seo" ) }
 					description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
 				/>

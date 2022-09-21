@@ -99,8 +99,8 @@ const DateArchives = () => {
 						) }
 					>
 						<FormikFlippedToggleField
-							name={ "wpseo_titles.noindex-archive-wpseo" }
-							data-id={ "input-wpseo_titles-noindex-archive-wpseo" }
+							name="wpseo_titles.noindex-archive-wpseo"
+							data-id="input-wpseo_titles-noindex-archive-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. Posts.
 								__( "Show %1$s in search results", "wordpress-seo" ),

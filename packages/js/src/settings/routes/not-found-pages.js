@@ -19,8 +19,8 @@ const NotFoundPages = () => {
 			>
 				<FormikReplacementVariableEditorField
 					type="title"
-					name={ "wpseo_titles.title-404-wpseo" }
-					fieldId={ "input-wpseo_titles.title-404-wpseo" }
+					name="wpseo_titles.title-404-wpseo"
+					fieldId="input-wpseo_titles.title-404-wpseo"
 					label={ __( "SEO title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }

@@ -45,6 +45,11 @@
 		.yst-modal {
 			z-index: 100000 !important;
 		}
+
+		/* Reset some WP common styles */
+		li, dd {
+			margin-bottom: 0;
+		}
 	}
 }
 

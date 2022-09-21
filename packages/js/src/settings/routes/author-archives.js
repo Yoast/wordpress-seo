@@ -107,8 +107,8 @@ const AuthorArchives = () => {
 						) }
 					>
 						<FormikFlippedToggleField
-							name={ "wpseo_titles.noindex-author-wpseo" }
-							data-id={ "input-wpseo_titles-noindex-author-wpseo" }
+							name="wpseo_titles.noindex-author-wpseo"
+							data-id="input-wpseo_titles-noindex-author-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. Posts.
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -129,8 +129,8 @@ const AuthorArchives = () => {
 							</> }
 						/>
 						{ ! isAuthorNoIndex && <FormikFlippedToggleField
-							name={ "wpseo_titles.noindex-author-noposts-wpseo" }
-							data-id={ "input-wpseo_titles-noindex-author-noposts-wpseo" }
+							name="wpseo_titles.noindex-author-noposts-wpseo"
+							data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
 							label={ __( "Show archives for authors without posts in search results", "wordpress-seo" ) }
 							description={ __( "Disabling this means that archives for authors without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ) }
 						/> }

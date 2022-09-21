@@ -19,8 +19,8 @@ const SearchPages = () => {
 			>
 				<FormikReplacementVariableEditorField
 					type="title"
-					name={ "wpseo_titles.title-search-wpseo" }
-					fieldId={ "input-wpseo_titles.title-search-wpseo" }
+					name="wpseo_titles.title-search-wpseo"
+					fieldId="input-wpseo_titles.title-search-wpseo"
 					label={ __( "SEO title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
