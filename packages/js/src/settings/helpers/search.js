@@ -375,25 +375,66 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldLabel: __( "Personal logo or avatar", "wordpress-seo" ),
 		},
 		open_graph_frontpage_image_id: {
-			route: "/homepage",
-			routeLabel: __( "Homepage", "wordpress-seo" ),
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 			fieldId: "button-wpseo_titles-open_graph_frontpage_image-preview",
 			fieldLabel: __( "Social image", "wordpress-seo" ),
 		},
-		open_graph_frontpage_image: {
-			route: "/homepage",
-			routeLabel: __( "Homepage", "wordpress-seo" ),
-			fieldId: "button-wpseo_titles-open_graph_frontpage_image-preview",
-			fieldLabel: __( "Social image", "wordpress-seo" ),
+		"breadcrumbs-sep": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-sep",
+			fieldLabel: __( "Separator between breadcrumbs", "wordpress-seo" ),
 		},
-		...reduce( postTypes, ( acc, postType ) => ( {
-			...acc,
-			...createPostTypeSearchIndex( postType ),
-		} ), {} ),
-		...reduce( taxonomies, ( acc, taxonomy ) => ( {
-			...acc,
-			...createTaxonomySearchIndex( taxonomy ),
-		} ), {} ),
+		"breadcrumbs-home": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-home",
+			fieldLabel: __( "Anchor text for the Homepage", "wordpress-seo" ),
+		},
+		"breadcrumbs-prefix": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-prefix",
+			fieldLabel: __( "Prefix for the breadcrumb path", "wordpress-seo" ),
+		},
+		"breadcrumbs-archiveprefix": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-archiveprefix",
+			fieldLabel: __( "Prefix for Archive breadcrumbs", "wordpress-seo" ),
+		},
+		"breadcrumbs-searchprefix": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-searchprefix",
+			fieldLabel: __( "Prefix for Search page breadcrumbs", "wordpress-seo" ),
+		},
+		"breadcrumbs-404crumb": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-404crumb",
+			fieldLabel: __( "Breadcrumb for 404 page", "wordpress-seo" ),
+		},
+		"breadcrumbs-display-blog-page": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-display-blog-page",
+			fieldLabel: __( "Show Blog page in breadcrumbs", "wordpress-seo" ),
+		},
+		"breadcrumbs-boldlast": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-boldlast",
+			fieldLabel: __( "Bold the last page", "wordpress-seo" ),
+		},
+		"breadcrumbs-enable": {
+			route: "/breadcrumbs",
+			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-breadcrumbs-enable",
+			fieldLabel: __( "Enable breadcrumbs for your theme", "wordpress-seo" ),
+		},
+		// Breadcrumbs post types & taxonomies
 		"social-image-id-author-wpseo": {
 			route: "/author-archives",
 			routeLabel: __( "Author archives", "wordpress-seo" ),
@@ -430,6 +471,14 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldId: "button-wpseo_titles-social-image-tax-post_format-preview",
 			fieldLabel: __( "Social image", "wordpress-seo" ),
 		},
+		...reduce( postTypes, ( acc, postType ) => ( {
+			...acc,
+			...createPostTypeSearchIndex( postType ),
+		} ), {} ),
+		...reduce( taxonomies, ( acc, taxonomy ) => ( {
+			...acc,
+			...createTaxonomySearchIndex( taxonomy ),
+		} ), {} ),
 	},
 	wpseo_social: {
 		opengraph: {

@@ -20,7 +20,7 @@ const TaxonomySelect = ( { name, label, options } ) => {
 	return <FormikValueChangeField
 		as={ SelectField }
 		name={ `wpseo_titles.taxonomy-${ name }-ptparent` }
-		id={ `input-wpseo_titles-taxonomy-${ name }-ptparent` }
+		data-id={ `input-wpseo_titles-taxonomy-${ name }-ptparent` }
 		label={ label }
 		labelSuffix={ hasPostTypeBadge && <div className="yst-flex yst-flex-wrap yst-ml-1.5 yst-gap-1.5">
 			<TaxonomyPostTypeBadges name={ name } />
@@ -128,7 +128,7 @@ const Breadcrumbs = () => {
 					key={ postTypeName }
 					as={ SelectField }
 					name={ `wpseo_titles.post_types-${ postTypeName }-maintax` }
-					id={ `input-wpseo_titles-post_types-${ postTypeName }-maintax` }
+					data-id={ `input-wpseo_titles-post_types-${ postTypeName }-maintax` }
 					label={ postTypes.label }
 					options={ postTypes.options }
 				/> ) }
