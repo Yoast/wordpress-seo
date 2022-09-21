@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .seo_page_wpseo_settings {
-	@apply yst-bg-gray-100;
+	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
 	z-index: -1;
@@ -77,7 +77,7 @@
 			yst-flex
 			yst-text-sm
 			yst-font-medium
-			yst-text-gray-800;
+			yst-text-slate-800;
 		}
 
 		.yst-replacevar__button-insert {
@@ -109,11 +109,11 @@
 
 			/* .yst-button--secondary */
 			@apply
-			yst-text-gray-800
+			yst-text-slate-800
 			yst-bg-white
-			yst-border-gray-300
+			yst-border-slate-300
 
-			hover:yst-bg-gray-50;
+			hover:yst-bg-slate-50;
 		}
 
 		.yst-replacevar__editor {
@@ -123,14 +123,14 @@
 			yst-py-2
 			yst-px-3
 			yst-border
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-bg-white
 			yst-text-sm
 			yst-leading-6
-			yst-text-gray-800
-			yst-placeholder-gray-500
+			yst-text-slate-800
+			yst-placeholder-slate-500
 			focus-within:yst-outline-none
 			focus-within:yst-ring-primary-500
 			focus-within:yst-border-primary-500
@@ -156,14 +156,14 @@
 					yst-px-4
 					yst-py-2
 					yst-text-sm
-					yst-text-gray-800
+					yst-text-slate-800
 					yst-no-underline
-					hover:yst-bg-gray-100
-					hover:yst-text-gray-900
+					hover:yst-bg-slate-100
+					hover:yst-text-slate-900
 					yst-cursor-pointer;
 
 					&[aria-selected] {
-						@apply yst-bg-gray-100 yst-text-gray-900
+						@apply yst-bg-slate-100 yst-text-slate-900
 					}
 				}
 			}
@@ -184,8 +184,8 @@
 			yst-leading-tight
 			yst-text-xs
 			yst-font-medium
-			yst-bg-gray-100
-			yst-text-gray-800;
+			yst-bg-slate-200
+			yst-text-slate-900;
 		}
 
 		.yst-sidebar {
