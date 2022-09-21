@@ -65,7 +65,7 @@ class Web_Stories_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->front_end
-			->expects( 'title_presenter_should_be_removed' )
+			->expects( 'should_title_presenter_be_removed' )
 			->andReturn( false );
 
 		$this->instance->register_hooks();

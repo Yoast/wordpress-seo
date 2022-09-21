@@ -612,11 +612,11 @@ class Front_End_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the title_presenter_should_be_removed function.
+	 * Tests the should_title_presenter_be_removed function.
 	 *
-	 * @covers ::title_presenter_should_be_removed
+	 * @covers ::should_title_presenter_be_removed
 	 */
-	public function test_title_presenter_should_be_removed() {
+	public function test_should_title_presenter_be_removed() {
 		Monkey\Functions\expect( 'get_theme_support' )
 			->once()
 			->with( 'title-tag' )
@@ -627,6 +627,6 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'forcerewritetitle', false )
 			->andReturn( false );
 
-		$this->assertEquals( true, $this->instance->title_presenter_should_be_removed() );
+		$this->assertEquals( true, $this->instance->should_title_presenter_be_removed() );
 	}
 }
