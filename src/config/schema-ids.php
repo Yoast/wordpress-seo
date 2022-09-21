@@ -48,6 +48,13 @@ class Schema_IDs {
 	const PERSON_LOGO_HASH = '#/schema/person/image/';
 
 	/**
+	 * Hash used for an Article's primary image `@id`.
+	 *
+	 * @deprecated 19.8
+	 */
+	const PRIMARY_IMAGE_HASH = '';
+
+	/**
 	 * Hash used for the WebPage's `@id`.
 	 *
 	 * @deprecated 19.3
