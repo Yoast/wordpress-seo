@@ -267,6 +267,8 @@ class WebPage extends Abstract_Schema_Piece {
 	 *
 	 * @deprecated 19.8
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $data WebPage schema data.
 	 * @return void
 	 */
