@@ -99,7 +99,6 @@ function registerFills( store ) {
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
-	const showZapierPanel = preferences.isZapierIntegrationActive;
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
@@ -141,12 +140,12 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
-			<SlotWithDefault
-				name="YoastZapierPrePublish"
-			>
-				<PostPublishZapierUpsell />
-			</SlotWithDefault>
-			{ showWincherPanel && <WincherPostPublish /> }
+				<SlotWithDefault
+					name="YoastZapierPrePublish"
+				>
+					<PostPublishZapierUpsell />
+				</SlotWithDefault>
+				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
 				name="document-panel"
