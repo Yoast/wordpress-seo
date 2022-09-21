@@ -5,7 +5,7 @@ import { Button, Link, Title } from "@yoast/ui-library";
 import { ReactComponent as StarHalf } from "../../../images/star-rating-half.svg";
 import { ReactComponent as Star } from "../../../images/star-rating-star.svg";
 import { ReactComponent as YoastSeoLogo } from "../../../images/Yoast_SEO_Icon.svg";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 import { ReactComponent as G2Logo } from "./g2-logo-white-rgb.svg";
 
 /**

@@ -4,7 +4,7 @@ import { Alert, Code, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout } from "../components";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The crawl optimization route.

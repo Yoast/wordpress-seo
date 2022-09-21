@@ -12,7 +12,7 @@ import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikVa
 import { STORE_NAME } from "../constants";
 import { fetchUserSocialProfiles } from "../helpers";
 import { withFormikError } from "../hocs";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 const TWITTER_URL_REGEXP = /^https?:\/\/(?:www\.)?twitter\.com\/(?<handle>[A-Za-z0-9_]{1,25})\/?$/;
 

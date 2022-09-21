@@ -16,7 +16,7 @@ import {
 	OpenGraphDisabledAlert,
 	FormikTagField,
 } from "../../components";
-import { useSelectSettings } from "../../store";
+import { useSelectSettings } from "../../hooks";
 
 /**
  * @param {string} name The post type name.

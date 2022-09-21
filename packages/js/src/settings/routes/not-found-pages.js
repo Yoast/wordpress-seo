@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { FieldsetLayout, FormikReplacementVariableEditorField, FormLayout } from "../components";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The 404 pages route.

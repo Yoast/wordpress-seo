@@ -8,7 +8,7 @@ import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { get, keys, map, join } from "lodash";
 import PropTypes from "prop-types";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 import { STORE_NAME } from "../constants";
 
 const classNameMap = {

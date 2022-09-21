@@ -4,7 +4,7 @@ import { TextField } from "@yoast/ui-library";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FormikValueChangeField, FormLayout } from "../components";
 import { withFormikError } from "../hocs";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 const CONTENT_TAG_REGEXP = /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/;
 

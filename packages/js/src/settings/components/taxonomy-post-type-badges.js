@@ -1,6 +1,6 @@
 import { Badge } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * Creates the taxonomy post type badges.

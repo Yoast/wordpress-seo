@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
 import TaxonomyPostTypeBadges from "../components/taxonomy-post-type-badges";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @param {string} name The taxonomy name to represent.

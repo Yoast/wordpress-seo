@@ -14,7 +14,7 @@ import {
 	FormLayout,
 	OpenGraphDisabledAlert,
 } from "../../components";
-import { useSelectSettings } from "../../store";
+import { useSelectSettings } from "../../hooks";
 
 /**
  * @param {string} name The taxonomy name.

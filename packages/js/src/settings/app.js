@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ErrorFallback, Notifications, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
 import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
-import { useRouterScrollRestore } from "./hooks";
+import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
 	Breadcrumbs,
@@ -37,7 +37,6 @@ import {
 	Taxonomy,
 	WebmasterTools,
 } from "./routes";
-import { useSelectSettings } from "./store";
 
 /**
  * @param {Object} taxonomy The taxonomy to render submenu item for.

@@ -1,4 +1,4 @@
-import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
+import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { STORE_NAME } from "../constants";
 import { breadcrumbsSelectors } from "./breadcrumbs";
@@ -19,14 +19,6 @@ import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomies
 import users, { createInitialUsersState, usersActions, usersSelectors, usersControls } from "./users";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
-
-/**
- * @param {string} selector The name of the sselector.
- * @param {array} [deps] List of dependencies.
- * @param {*} [args] Selector arguments.
- * @returns {*} The result.
- */
-export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( select => select( STORE_NAME )[ selector ]?.( ...args ), deps );
 
 /**
  * @param {Object} initialState Initial state.

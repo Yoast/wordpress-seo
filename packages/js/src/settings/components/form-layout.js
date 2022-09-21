@@ -6,7 +6,7 @@ import { Form, useFormikContext } from "formik";
 import { includes, values } from "lodash";
 import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The form layout component.

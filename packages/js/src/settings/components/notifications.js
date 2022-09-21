@@ -8,7 +8,7 @@ import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { Link } from "react-router-dom";
 import { flattenObject } from "../utils";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 import { STORE_NAME } from "../constants";
 
 /**

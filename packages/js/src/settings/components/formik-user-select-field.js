@@ -10,7 +10,7 @@ import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import { useField } from "formik";
 import classNames from "classnames";
 import { ASYNC_ACTION_STATUS, STORE_NAME } from "../constants";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 let abortController;
 

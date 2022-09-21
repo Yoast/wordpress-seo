@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikReplacementVariableEditorField, FormLayout, OpenGraphDisabledAlert } from "../components";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The element.

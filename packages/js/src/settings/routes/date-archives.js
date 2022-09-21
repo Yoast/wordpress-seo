@@ -12,7 +12,7 @@ import {
 	FormLayout,
 	OpenGraphDisabledAlert,
 } from "../components";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The date archives route.

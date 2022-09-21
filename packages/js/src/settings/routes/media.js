@@ -4,7 +4,7 @@ import { Link, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
 import { FieldsetLayout, FormikFlippedToggleField, FormikReplacementVariableEditorField, FormikValueChangeField, FormLayout } from "../components";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The media route.
