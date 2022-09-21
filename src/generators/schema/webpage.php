@@ -261,4 +261,16 @@ class WebPage extends Abstract_Schema_Piece {
 	private function build_search_url() {
 		return $this->context->site_url . '?s=' . \get_search_query();
 	}
+
+	/**
+	 * If we have an image, make it the primary image of the page.
+	 *
+	 * @deprecated 19.8
+	 *
+	 * @param array $data WebPage schema data.
+	 * @return void
+	 */
+	public function add_image( &$data ) {
+		$data = $this->add_primary_image( $data );
+	}
 }
