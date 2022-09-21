@@ -245,23 +245,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: October 4th, 2022
 
 
+
 Enhancements:
 
-* Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them to be indexed, reducing duplicate content.
-* Removes empty breadcrumb schemas if not on homepage.
-* Removes two notifications from the Yoast SEO dashboard: the one suggesting to set the auto update on, and the one suggesting to activate an add-on which is installed but currently inactive.
+* Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them from being indexed, reducing duplicate content.
+* Removes the `BreadcrumbList` schema output from pages that are not the homepage if there are no valid `ListItem`s in its `itemListElement` schema piece other than the homepage's.
+* Removes two notifications from the Yoast SEO dashboard: the one suggesting enabling auto-updates, and the one suggesting activating an add-on that is installed but currently inactive.
 
 Bugfixes:
 
-* Fixes a bug where a fatal error would be when the `php_uname()` function is disabled by the web hosting provider.
+* Fixes a bug where a fatal error would be thrown when the `php_uname()` function is disabled by the web hosting provider and usage tracking is enabled.
 * Fixes a bug where `ListItem` entries would be output in a `BreadcrumbList` even if their text was empty, resulting in Schema validation errors.
-* Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml
+* Fixes a bug where `noindex, nofollow` would not be displayed when `wpseo_robots` filter is set to `false`.
 * Fixes a bug where robots meta would be synchronized between multilingual contents when using a plugin like WPML or Polylang.
+* Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
 
 Other:
 
-* Forces the use of the large card, which is the only supported format by Twitter.
+* Add a setting for disabling crawling of search URLs.
 * Deprecates the `wpseo_twitter_card_type` filter.
+* Forces the use of the large card, which is the only supported format by Twitter.
 
 = 19.7.1 =
 Release Date: September 20th, 2022
