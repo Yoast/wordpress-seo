@@ -25,7 +25,7 @@ import SidebarSlot from "../components/slots/SidebarSlot";
 import SlotWithDefault from "../components/slots/SlotWithDefault";
 import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
-import PrePublishZapierUpsell from "../components/PrePublishZapierUpsell";
+import PostPublishZapierUpsell from "../components/PostPublishZapierUpsell";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
 import WincherPostPublish from "../containers/WincherPostPublish";
@@ -99,7 +99,7 @@ function registerFills( store ) {
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
-	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
+	const showZapierPanel = preferences.isZapierIntegrationActive;
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
@@ -134,16 +134,6 @@ function registerFills( store ) {
 			>
 				<PrePublish />
 			</PluginPrePublishPanel> }
-			{ ( ! isPremium || showZapierPanel ) && <PluginPrePublishPanel
-				className="yoast-seo-sidebar-panel"
-				title="Zapier"
-				initialOpen={ true }
-				icon={ <Fragment /> }
-			>
-				<SlotWithDefault name="YoastZapierPrePublish">
-					<PrePublishZapierUpsell />
-				</SlotWithDefault>
-			</PluginPrePublishPanel> }
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"
 				title={ __( "Yoast SEO", "wordpress-seo" ) }
@@ -151,7 +141,12 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
-				{ showWincherPanel && <WincherPostPublish /> }
+			{ showZapierPanel && <SlotWithDefault
+				name="YoastZapierPrePublish"
+			>
+				<PostPublishZapierUpsell />
+			</SlotWithDefault> }
+			{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
 				name="document-panel"

@@ -1,5 +1,6 @@
 /* External dependencies */
 import interpolateComponents from "interpolate-components";
+import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { ButtonStyledLink } from "@yoast/components";
 import { get } from "lodash";
@@ -17,7 +18,7 @@ const OutboundLink = makeOutboundLink();
  *
  * @returns {wp.Element} The Zapier pre-publish panel content component.
  */
-const PrePublishZapierUpsell = () => {
+const PostPublishZapierUpsell = () => {
 	const premiumBuyLink = get( window, "wpseoAdminL10n.shortlinks-upsell-prepublish-zapier_upsell_buy_link", "https://yoa.st/get-zapier-prepublish" );
 	const zapierHelpLink = get( window, "wpseoAdminL10n.shortlinks-upsell-prepublish-zapier_upsell_help_link", "https://yoa.st/help-zapier-prepublish" );
 
@@ -39,13 +40,18 @@ const PrePublishZapierUpsell = () => {
 	} );
 
 	return (
-		<div className="yoast">
-			<p style={ { marginTop: 0 } }>{ interpolatedText }</p>
-			<ButtonStyledLink variant="buy" small={ true } href={ premiumBuyLink } target="_blank">
-				{ __( "Unlock with Premium!", "wordpress-seo" ) }
-			</ButtonStyledLink>
-		</div>
+		<Fragment>
+			<strong>
+				{ __( "Connect Yoast SEO with Zapier!", "wordpress-seo" ) }
+			</strong>
+			<div className="yoast yoast-zapier">
+				<p style={ { marginTop: 0 } }>{ interpolatedText }</p>
+				<ButtonStyledLink variant="buy" small={ true } href={ premiumBuyLink } target="_blank">
+					{ __( "Unlock with Premium!", "wordpress-seo" ) }
+				</ButtonStyledLink>
+			</div>
+		</Fragment>
 	);
 };
 
-export default PrePublishZapierUpsell;
+export default PostPublishZapierUpsell;
