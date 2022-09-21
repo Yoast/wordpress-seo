@@ -41,6 +41,10 @@
 			yst-shadow-none
 			checked:before:yst-hidden;
 		}
+
+		.yst-modal {
+			z-index: 100000 !important;
+		}
 	}
 }
 
