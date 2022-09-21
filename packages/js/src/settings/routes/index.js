@@ -11,6 +11,6 @@ export { default as NotFoundPages } from "./not-found-pages";
 export { default as Rss } from "./rss";
 export { default as SearchPages } from "./search-pages";
 export { default as SiteBasics } from "./site-basics";
-export { default as SitePreferences } from "./site-preferences";
+export { default as SiteFeatures } from "./site-features";
 export { default as SiteRepresentation } from "./site-representation";
 export { default as WebmasterTools } from "./webmaster-tools";

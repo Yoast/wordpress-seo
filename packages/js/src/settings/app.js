@@ -32,7 +32,7 @@ import {
 	Rss,
 	SearchPages,
 	SiteBasics,
-	SitePreferences,
+	SiteFeatures,
 	SiteRepresentation,
 	Taxonomy,
 	WebmasterTools,
@@ -103,7 +103,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
 			>
-				<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem
 					to="/site-representation"
@@ -273,7 +273,7 @@ const App = () => {
 									<Route path="search-pages" element={ <SearchPages /> } />
 									<Route path="site-basics" element={ <SiteBasics /> } />
 									<Route path="site-representation" element={ <SiteRepresentation /> } />
-									<Route path="site-preferences" element={ <SitePreferences /> } />
+									<Route path="site-features" element={ <SiteFeatures /> } />
 									<Route path="webmaster-tools" element={ <WebmasterTools /> } />
 									<Route path="post-type">
 										{ map( postTypes, postType => (
@@ -291,7 +291,7 @@ const App = () => {
 											/>
 										) ) }
 									</Route>
-									<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
+									<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
 								</Routes>
 							</ErrorBoundary>
 						</main>

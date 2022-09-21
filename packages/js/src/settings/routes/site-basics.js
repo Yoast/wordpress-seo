@@ -165,7 +165,7 @@ const SiteBasics = () => {
 					isEnabled={ opengraph }
 					text={
 						/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-						__( "The %1$sSite image%2$s requires Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" )
+						__( "The %1$sSite image%2$s requires Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" )
 					}
 				/>
 				<FormikMediaSelectField

@@ -35,7 +35,7 @@ const useSelectLink = ( { link, content, id, ...anchorProps } ) => {
 /**
  * @returns {JSX.Element} The site preferences route.
  */
-const SitePreferences = () => {
+const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
 	const sitemapsLink = useSelectSettings( "selectLink", [], "https://yoa.st/2a-" );
@@ -138,7 +138,7 @@ const SitePreferences = () => {
 
 	return (
 		<FormLayout
-			title={ __( "Site preferences", "wordpress-seo" ) }
+			title={ __( "Site features", "wordpress-seo" ) }
 			description={ __( "Tell us which features you want to use.", "wordpress-seo" ) }
 		>
 			<fieldset className="yst-min-w-0">
@@ -495,4 +495,4 @@ const SitePreferences = () => {
 	);
 };
 
-export default SitePreferences;
+export default SiteFeatures;
