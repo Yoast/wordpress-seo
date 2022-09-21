@@ -54,8 +54,6 @@ export {
 	DIFFICULTY,
 
 	Factory,
-
-	Mark,
 };
 
 /*
