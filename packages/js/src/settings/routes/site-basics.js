@@ -1,13 +1,13 @@
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, RadioGroup, TextField, useSvgAria } from "@yoast/ui-library";
+import { Alert, RadioGroup, TextField, useSvgAria, ToggleField } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
 import PropTypes from "prop-types";
-import { FormikMediaSelectField, FormLayout, OpenGraphDisabledAlert } from "../components";
-import { useSelectSettings } from "../store";
+import { FormikMediaSelectField, FormLayout, FieldsetLayout, OpenGraphDisabledAlert, FormikValueChangeField } from "../components";
+import { useSelectSettings, useSelectLink } from "../hooks";
 
 /**
  * UI library's inline-block variant Radio, but with a dangerously set inner HTML label.
@@ -60,6 +60,13 @@ Radio.propTypes = {
 const SiteBasics = () => {
 	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
 	const generalSettingsUrl = useSelectSettings( "selectPreference", [], "generalSettingsUrl" );
+
+	const usageTrackingLink = useSelectLink( {
+		link: "https://yoa.st/usage-tracking-2",
+		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+		content: __( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sAllow us to track some data about your site to improve our plugin%2$s.", "wordpress-seo" ),
+		id: "link-usage-tracking",
+	} );
 	const infoAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
@@ -124,9 +131,11 @@ const SiteBasics = () => {
 			title={ __( "Site basics", "wordpress-seo" ) }
 			description={ __( "Configure the basics for your website.", "wordpress-seo" ) }
 		>
-			<div className="yst-max-w-screen-sm">
+			<FieldsetLayout
+				title={ __( "Site info", "wordpress-seo" ) }
+				description={ __( "Set the basic info for your website. Note that some of these values can be used as variables when configuring the search appearance of your content.", "wordpress-seo" ) }
+			>
 				<Alert variant="info" id="alert-site-defaults-variables">{ infoAlertText }</Alert>
-				<hr className="yst-my-8" />
 				<fieldset className="yst-min-width-0 yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<Field
 						as={ TextField }
@@ -145,7 +154,6 @@ const SiteBasics = () => {
 						description={ taglineDescription }
 					/>
 				</fieldset>
-				<hr className="yst-my-8" />
 				<RadioGroup label={ __( "Title separator", "wordpress-seo" ) } variant="inline-block">
 					{ map( separators, ( { label, aria_label: ariaLabel }, value ) => (
 						<Field
@@ -160,7 +168,6 @@ const SiteBasics = () => {
 						/>
 					) ) }
 				</RadioGroup>
-				<hr className="yst-my-8" />
 				<OpenGraphDisabledAlert
 					isEnabled={ opengraph }
 					text={
@@ -177,7 +184,27 @@ const SiteBasics = () => {
 					mediaIdName="wpseo_social.og_default_image_id"
 					disabled={ ! opengraph }
 				/>
-			</div>
+			</FieldsetLayout>
+
+			<hr className="yst-my-8" />
+			<FieldsetLayout title={ __( "Security & privacy", "wordpress-seo" ) }>
+				<FormikValueChangeField
+					as={ ToggleField }
+					type="checkbox"
+					name="wpseo.disableadvanced_meta"
+					data-id="input-wpseo-disableadvanced_meta"
+					label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
+					description={ __( "By default only editors and administrators can access the Advanced - and Schema section of the Yoast SEO metabox. Disabling this allows access to all users.", "wordpress-seo" ) }
+				/>
+				<FormikValueChangeField
+					as={ ToggleField }
+					type="checkbox"
+					name="wpseo.tracking"
+					data-id="input-wpseo-tracking"
+					label={ __( "Usage tracking", "wordpress-seo" ) }
+					description={ usageTrackingLink }
+				/>
+			</FieldsetLayout>
 		</FormLayout>
 	);
 };

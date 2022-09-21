@@ -2,35 +2,11 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Badge, ToggleField as PureToggleField, Title, Card } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
+import { FormikValueChangeField, FormLayout } from "../components";
 import { withDisabledMessageSupport } from "../hocs";
-import { useSelectSettings } from "../store";
+import { useSelectSettings, useSelectLink } from "../hooks";
 
 const ToggleField = withDisabledMessageSupport( PureToggleField );
-
-/**
- * @param {string} link The link/URL.
- * @param {string} content Expected to contain 2 replacements, indicating the start and end anchor tags.
- * @param {string} id The ID.
- * @param {Object} [anchorProps] Extra anchor properties.
- * @returns {JSX.Element} The anchor element.
- */
-const useSelectLink = ( { link, content, id, ...anchorProps } ) => {
-	const href = useSelectSettings( "selectLink", [ link ], link );
-	return useMemo( () => createInterpolateElement(
-		sprintf( content, "<a>", "</a>" ),
-		{
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a
-				id={ id }
-				href={ href }
-				target="_blank"
-				rel="noopener noreferrer"
-				{ ...anchorProps }
-			/>,
-		}
-	), [ href, content, id, anchorProps ] );
-};
 
 /**
  * @returns {JSX.Element} The site preferences route.
@@ -117,12 +93,6 @@ const SiteFeatures = () => {
 			/>,
 		}
 	), [ sitemapsLink, sitemapUrl, enableXmlSitemap ] );
-	const usageTrackingLink = useSelectLink( {
-		link: "https://yoa.st/usage-tracking-2",
-		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-		content: __( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sAllow us to track some data about your site to improve our plugin%2$s.", "wordpress-seo" ),
-		id: "link-usage-tracking",
-	} );
 	const indexNowLink = useSelectLink( {
 		link: "https://yoa.st/index-now-feature",
 		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
@@ -472,25 +442,6 @@ const SiteFeatures = () => {
 					</Card>
 				</div>
 			</fieldset>
-			<hr className="yst-my-8" />
-			<FieldsetLayout title={ __( "Security & privacy", "wordpress-seo" ) }>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.disableadvanced_meta"
-					data-id="input-wpseo-disableadvanced_meta"
-					label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
-					description={ __( "By default only editors and administrators can access the Advanced - and Schema section of the Yoast SEO metabox. Disabling this allows access to all users.", "wordpress-seo" ) }
-				/>
-				<FormikValueChangeField
-					as={ ToggleField }
-					type="checkbox"
-					name="wpseo.tracking"
-					data-id="input-wpseo-tracking"
-					label={ __( "Usage tracking", "wordpress-seo" ) }
-					description={ usageTrackingLink }
-				/>
-			</FieldsetLayout>
 		</FormLayout>
 	);
 };
