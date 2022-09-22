@@ -540,10 +540,37 @@ class Settings_Integration implements Integration_Interface {
 				'singularLabel'        => $post_type->labels->singular_name,
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
 				'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
+				'menuPosition'         => $post_type->menu_position,
 			];
 		}
 
+		\uasort( $transformed, [ $this, 'compare_post_types' ] );
+
 		return $transformed;
+	}
+
+	/**
+	 * Compares two post types.
+	 *
+	 * @param array $a The first post type.
+	 * @param array $b The second post type.
+	 *
+	 * @return int The order.
+	 */
+	protected function compare_post_types( $a, $b ) {
+		if ( $a['menuPosition'] === null && $b['menuPosition'] !== null ) {
+			return 1;
+		}
+		if ( $a['menuPosition'] !== null && $b['menuPosition'] === null ) {
+			return -1;
+		}
+
+		if ( $a['menuPosition'] === null && $b['menuPosition'] === null ) {
+			// No position specified, order alphabetically by label.
+			return \strnatcmp( $a['label'], $b['label'] );
+		}
+
+		return ( $a['menuPosition'] < $b['menuPosition'] ) ? -1 : 1;
 	}
 
 	/**
@@ -570,6 +597,10 @@ class Settings_Integration implements Integration_Interface {
 				),
 			];
 		}
+
+		\uasort( $transformed, static function ( $a, $b ) {
+			return \strnatcmp( $a['label'], $b['label'] );
+		} );
 
 		return $transformed;
 	}
