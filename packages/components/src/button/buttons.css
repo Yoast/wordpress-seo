@@ -104,8 +104,6 @@
 	background-color: currentColor;
 	-webkit-mask-image: var(--yoast-svg-icon-caret-right);
 	mask-image: var(--yoast-svg-icon-caret-right);
-	-webkit-mask-repeat: no-repeat;
-	mask-repeat: no-repeat;
 }
 
 .yoast .yoast-button--edit {
@@ -136,8 +134,6 @@ html[dir=rtl] .yoast .yoast-button--buy {
 .yoast .yoast-button--small .yoast-button--buy__caret {
 	width: 4px;
 	height: 10px;
-	-webkit-mask-size: 4px 10px;
-	mask-size: 4px 10px;
 }
 
 .yoast-remove, .yoast-hide {
