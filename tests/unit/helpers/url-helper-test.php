@@ -241,7 +241,6 @@ class Url_Helper_Test extends TestCase {
 	 *
 	 * @covers ::ensure_absolute_url
 	 * @covers ::is_relative
-	 *
 	 */
 	public function test_ensure_absolute_url_with_relative_url_given() {
 		Monkey\Functions\expect( 'home_url' )
