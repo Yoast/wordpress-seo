@@ -176,7 +176,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		/**
 		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.
 		 *
-		 * @api array $crumbs The crumbs array.
+		 * @param array $crumbs The crumbs array.
 		 */
 		$filtered_crumbs = \apply_filters( 'wpseo_breadcrumb_links', $crumbs );
 
