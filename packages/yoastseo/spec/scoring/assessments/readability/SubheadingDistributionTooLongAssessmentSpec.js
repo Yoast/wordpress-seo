@@ -4,7 +4,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import CornerStoneContentAssessor from "../../../../src/scoring/cornerstone/contentAssessor";
-import ProductCornerstoneContentAssessor from "../../../../src/scoring/eCommerce/assessors/productPages/cornerstone/contentAssessor";
+import ProductCornerstoneContentAssessor from "../../../../src/scoring/productPages/cornerstone/contentAssessor";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
