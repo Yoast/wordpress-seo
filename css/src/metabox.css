@@ -556,6 +556,15 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   display: inline;
 }
 
+.yoast-zapier-text {
+  display: flex;
+}
+
+.yoast-zapier-text .yoast-logo.svg {
+  max-width: 18px;
+  width: 100% !important;
+}
+
 /**
 * Content and SEO score in publish bar
 */
@@ -715,7 +724,11 @@ ul.yoast-seo-social-share-buttons a {
 }
 
 .yoast.yoast-zapier {
-  margin: 15px 0 25px;
+  margin: 8px 0 25px;
+}
+
+.yoast-field-group.yoast-wincher-post-publish {
+  margin-bottom: 10px;
 }
 
 div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
