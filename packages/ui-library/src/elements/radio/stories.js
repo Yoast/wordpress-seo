@@ -31,6 +31,16 @@ export const Variants = ( args ) => (
 		<Radio id="radio-1" name="name" value="1" label="I am a radio button." />
 		<hr />
 		<Radio id="radio-2" name="name" value="2" screenReaderLabel="Option #2" label="2" variant="inline-block" />
+		<hr />
+		<Radio
+			id="radio-3"
+			name="name"
+			value="&bull;"
+			screenReaderLabel="Option bullet"
+			label={ "&bull;" }
+			isLabelDangerousHtml={ true }
+			variant="inline-block"
+		/>
 	</div>
 );
 Variants.parameters = {
