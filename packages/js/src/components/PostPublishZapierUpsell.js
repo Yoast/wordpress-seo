@@ -23,15 +23,15 @@ const PostPublishZapierUpsell = () => {
 	const zapierHelpLink = get( window, "wpseoAdminL10n.shortlinks-upsell-postpublish-zapier_upsell_help_link", "https://yoa.st/about-zapier" );
 
 	const text =  __(
-			"Instantly share your published posts with 2000+ destinations such as Twitter, Facebook and more.",
-			"wordpress-seo-premium"
-		);
+		"Instantly share your published posts with 2000+ destinations such as Twitter, Facebook and more.",
+		"wordpress-seo"
+	);
 
 	const learnMoreText = sprintf(
 		/* translators: 1: Link start tag, 2: Link closing tag. */
 		__(
 			"Or %1$sLearn more%2$s	",
-			"wordpress-seo-premium"
+			"wordpress-seo"
 		),
 		"{{link}}",
 		"{{/link}}"
@@ -44,9 +44,14 @@ const PostPublishZapierUpsell = () => {
 
 	return (
 		<Fragment>
-			<div style={ { paddingTop: "10px" } } >
+			<div style={ { paddingTop: "10px" } }>
 				<strong>
-					{ __( "Connect Yoast SEO with Zapier!", "wordpress-seo" ) }
+					{ sprintf(
+						/* translators: 1: Yoast SEO, 2: Zapier. */
+						__( "Connect %1$s with %2$s", "wordpress-seo" ),
+						"Yoast SEO",
+						"Zapier"
+					) }
 				</strong>
 			</div>
 			<div className="yoast yoast-zapier">
