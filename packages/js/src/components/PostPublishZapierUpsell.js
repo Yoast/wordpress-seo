@@ -41,9 +41,11 @@ const PostPublishZapierUpsell = () => {
 
 	return (
 		<Fragment>
-			<strong>
-				{ __( "Connect Yoast SEO with Zapier!", "wordpress-seo" ) }
-			</strong>
+			<div style={ { paddingTop: "10px" } } >
+				<strong>
+					{ __( "Connect Yoast SEO with Zapier!", "wordpress-seo" ) }
+				</strong>
+			</div>
 			<div className="yoast yoast-zapier">
 				<p style={ { marginTop: 0 } }>{ interpolatedText }</p>
 				<ButtonStyledLink variant="buy" small={ true } href={ premiumBuyLink } target="_blank">
