@@ -22,20 +22,23 @@ const PostPublishZapierUpsell = () => {
 	const premiumBuyLink = get( window, "wpseoAdminL10n.shortlinks-upsell-postpublish-zapier_upsell_buy_link", "https://yoa.st/get-zapier-postpublish" );
 	const zapierHelpLink = get( window, "wpseoAdminL10n.shortlinks-upsell-postpublish-zapier_upsell_help_link", "https://yoa.st/about-zapier" );
 
-	const text = sprintf(
-		/* translators: 1: Link start tag, 2: Yoast SEO, 3: Zapier, 4: Link closing tag. */
+	const text =  __(
+			"Instantly share your published posts with 2000+ destinations such as Twitter, Facebook and more.",
+			"wordpress-seo-premium"
+		);
+
+	const learnMoreText = sprintf(
+		/* translators: 1: Link start tag, 2: Link closing tag. */
 		__(
-			"%1$sConnect %2$s with %3$s%4$s to instantly share your published posts with 2000+ destinations such as Twitter, Facebook and more.",
+			"Or %1$sLearn more%2$s	",
 			"wordpress-seo-premium"
 		),
 		"{{link}}",
-		"Yoast SEO",
-		"Zapier",
 		"{{/link}}"
 	);
 
 	const interpolatedText = interpolateComponents( {
-		mixedString: text,
+		mixedString: learnMoreText,
 		components: { link: <OutboundLink href={ zapierHelpLink } /> },
 	} );
 
@@ -47,10 +50,11 @@ const PostPublishZapierUpsell = () => {
 				</strong>
 			</div>
 			<div className="yoast yoast-zapier">
-				<p style={ { marginTop: 0 } }>{ interpolatedText }</p>
+				<p style={ { marginTop: 0 } }>{ text }</p>
 				<ButtonStyledLink variant="buy" small={ true } href={ premiumBuyLink } target="_blank">
 					{ __( "Unlock with Premium!", "wordpress-seo" ) }
 				</ButtonStyledLink>
+				<p style={ { marginTop: "5px" } }>{ interpolatedText }</p>
 			</div>
 		</Fragment>
 	);
