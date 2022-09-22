@@ -19,6 +19,8 @@ import AssessmentResult from "./src/values/AssessmentResult";
 import Assessment from "./src/scoring/assessments/assessment";
 import { DIFFICULTY } from "./src/languageProcessing/researches/getFleschReadingScore";
 
+import Factory from "./spec/specHelpers/factory";
+
 /*
  * Everything exported here is put on the `yoast.analysis` global in the plugin.
  */
@@ -49,6 +51,8 @@ export {
 	values,
 
 	DIFFICULTY,
+
+	Factory,
 };
 
 /*
