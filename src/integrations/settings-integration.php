@@ -327,7 +327,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$settings               = $this->get_settings();
+		$settings               = $this->transform_settings( $this->get_settings() );
 		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
@@ -414,6 +414,31 @@ class Settings_Integration implements Integration_Interface {
 			foreach ( $disallowed_settings as $disallowed_setting ) {
 				unset( $settings[ $option_name ][ $disallowed_setting ] );
 			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Transforms setting values.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The settings.
+	 */
+	protected function transform_settings( $settings ) {
+		if ( isset( $settings['wpseo_titles']['breadcrumbs-sep'] ) ) {
+			/**
+			 * The breadcrumbs separator default value is the HTML entity `&raquo;`.
+			 * Which does not get decoded in our JS, while it did in our Yoast form. Decode it here as an exception.
+			 */
+			$settings['wpseo_titles']['breadcrumbs-sep'] = \html_entity_decode(
+				$settings['wpseo_titles']['breadcrumbs-sep'],
+				( \ENT_NOQUOTES | \ENT_HTML5 ),
+				'UTF-8'
+			);
+
+			return $settings;
 		}
 
 		return $settings;
