@@ -20,7 +20,6 @@ import KeyphraseDistribution from "../../../assessments/seo/KeyphraseDistributio
 import FunctionWordsInKeyphrase from "../../../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import ProductIdentifiersAssessment from "../../../assessments/seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "../../../assessments/seo/ProductSKUAssessment";
-import TextTitleAssessment from "../../assessments/TextTitleAssessment";
 
 /**
  * Creates the Assessor
@@ -135,14 +134,6 @@ const ProductSEOAssessor = function( researcher, options ) {
 			addSKULocation: options.addSKULocation,
 		} ),
 	];
-
-	if ( options.shouldAddPremiumAssessments ) {
-		this._assessments.push(
-			new TextTitleAssessment( {
-				urlTitle: createAnchorOpeningTag( options.textTitleUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.textTitleCTAUrl ),
-			} ) );
-	}
 };
 
 inherits( ProductSEOAssessor, Assessor );
