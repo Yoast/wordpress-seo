@@ -31,26 +31,24 @@ const ToggleField = ( {
 		as="div"
 		className={ classNames( "yst-toggle-field", disabled && "yst-toggle-field--disabled", className ) }
 	>
-		{ ( label || description || children ) && (
-			<div className="yst-toggle-field__text">
-				<div className="yst-flex yst-items-center yst-mb-1">
-					<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
-					{ labelSuffix }
-				</div>
-				{ ( description || children ) && (
-					<Switch.Description as="div" className="yst-toggle-field__description">
-						{ description || children }
-					</Switch.Description>
-				) }
-			</div>
+		<div className="yst-toggle-field__header">
+			{ label && <div className="yst-toggle-field__label-wrapper">
+				<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
+				{ labelSuffix }
+			</div> }
+			<Toggle
+				checked={ checked }
+				onChange={ onChange }
+				screenReaderLabel={ label }
+				disabled={ disabled }
+				{ ...props }
+			/>
+		</div>
+		{ ( description || children ) && (
+			<Switch.Description as="div" className="yst-toggle-field__description">
+				{ description || children }
+			</Switch.Description>
 		) }
-		<Toggle
-			checked={ checked }
-			onChange={ onChange }
-			screenReaderLabel={ label }
-			disabled={ disabled }
-			{ ...props }
-		/>
 	</Switch.Group>
 );
 
