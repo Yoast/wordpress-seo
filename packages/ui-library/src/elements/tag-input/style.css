@@ -62,6 +62,7 @@
 			yst-text-xs
 			yst-leading-tight
 			yst-font-medium
+			yst-bg-slate-200
 			yst-text-slate-900
 			yst-cursor-pointer
 			focus:yst-outline-none
@@ -78,7 +79,7 @@
 			yst-inline-flex
 			yst-ml-0.5
 			yst--mr-1
-			yst-bg-slate-100
+			yst-bg-slate-200
 			yst-text-slate-400
 			hover:yst-text-slate-500
 			focus:yst-outline-none
