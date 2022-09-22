@@ -19,8 +19,8 @@ const OutboundLink = makeOutboundLink();
  * @returns {wp.Element} The Zapier pre-publish panel content component.
  */
 const PostPublishZapierUpsell = () => {
-	const premiumBuyLink = get( window, "wpseoAdminL10n.shortlinks-upsell-prepublish-zapier_upsell_buy_link", "https://yoa.st/get-zapier-prepublish" );
-	const zapierHelpLink = get( window, "wpseoAdminL10n.shortlinks-upsell-prepublish-zapier_upsell_help_link", "https://yoa.st/help-zapier-prepublish" );
+	const premiumBuyLink = get( window, "wpseoAdminL10n.shortlinks-upsell-postpublish-zapier_upsell_buy_link", "https://yoa.st/get-zapier-postpublish" );
+	const zapierHelpLink = get( window, "wpseoAdminL10n.shortlinks-upsell-postpublish-zapier_upsell_help_link", "https://yoa.st/about-zapier" );
 
 	const text = sprintf(
 		/* translators: 1: Link start tag, 2: Yoast SEO, 3: Zapier, 4: Link closing tag. */
