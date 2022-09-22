@@ -88,11 +88,13 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 					{ label && <Combobox.Label className="yst-block yst-mb-1 yst-max-w-sm yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Combobox.Label> }
 					<div className="yst-h-[45px] yst-max-w-sm yst-relative">
 						<Combobox.Button
+							data-id={ `button-${ id }` }
 							role="button"
 							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-gray-300 yst-flex yst-items-center yst-rounded-r-md yst-pl-3 yst-pr-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
 							as="div"
 						>
 							<Combobox.Input
+								data-id={ `input-${ id }` }
 								className="yst-w-full yst-text-gray-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-none sm:yst-text-sm"
 								onChange={ handleInputChange }
 								displayValue={ getDisplayValue }
