@@ -141,7 +141,7 @@ function registerFills( store ) {
 			>
 				<PostPublish />
 				<SlotWithDefault
-					name="YoastZapierPrePublish"
+					name="YoastZapierPostPublish"
 				>
 					<PostPublishZapierUpsell />
 				</SlotWithDefault>
