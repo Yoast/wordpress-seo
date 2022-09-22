@@ -1,58 +1,10 @@
-import { CheckCircleIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, RadioGroup, TextField, useSvgAria, ToggleField } from "@yoast/ui-library";
-import classNames from "classnames";
+import { Alert, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
-import PropTypes from "prop-types";
-import { FormikMediaSelectField, FormLayout, FieldsetLayout, OpenGraphDisabledAlert, FormikValueChangeField } from "../components";
-import { useSelectSettings, useSelectLink } from "../hooks";
-
-/**
- * UI library's inline-block variant Radio, but with a dangerously set inner HTML label.
- * @param {string} id Identifier.
- * @param {string} name Name.
- * @param {string} value Value.
- * @param {string} label Label.
- * @param {string} [screenReaderLabel] Screen reader label.
- * @param {string} [className] CSS class.
- * @param {Object} [props] Extra input props.
- * @returns {JSX.Element} Radio component.
- */
-const Radio = ( { id, name, value, label, screenReaderLabel = "", className = "", ...props } ) => {
-	const svgAriaProps = useSvgAria();
-
-	return <div className={ classNames( "yst-radio", "yst-radio--inline-block", className ) }>
-		<input
-			type="radio"
-			id={ id }
-			name={ name }
-			value={ value }
-			className="yst-radio__input"
-			aria-label={ screenReaderLabel }
-			{ ...props }
-		/>
-		<span className="yst-radio__content">
-			{ /* eslint-disable-next-line jsx-a11y/label-has-associated-control -- incompatible with dangerouslySetInnerHTML */ }
-			<label
-				htmlFor={ id }
-				className="yst-label yst-radio__label"
-				dangerouslySetInnerHTML={ { __html: label } }
-			/>
-			<CheckCircleIcon className="yst-radio__check" { ...svgAriaProps } />
-		</span>
-	</div>;
-};
-
-Radio.propTypes = {
-	name: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-	screenReaderLabel: PropTypes.string,
-	className: PropTypes.string,
-};
+import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormLayout, OpenGraphDisabledAlert } from "../components";
+import { useSelectLink, useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The site defaults route.
@@ -160,9 +112,11 @@ const SiteBasics = () => {
 							key={ value }
 							as={ Radio }
 							type="radio"
+							variant="inline-block"
 							name="wpseo_titles.separator"
 							id={ `input-wpseo_titles-separator-${ value }` }
 							label={ label }
+							isLabelDangerousHtml={ true }
 							aria-label={ ariaLabel }
 							value={ value }
 						/>
