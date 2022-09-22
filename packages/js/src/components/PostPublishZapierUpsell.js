@@ -30,7 +30,7 @@ const PostPublishZapierUpsell = () => {
 	const learnMoreText = sprintf(
 		/* translators: 1: Link start tag, 2: Link closing tag. */
 		__(
-			"Or %1$sLearn more%2$s	",
+			"or %1$sLearn more%2$s	",
 			"wordpress-seo"
 		),
 		"{{link}}",
