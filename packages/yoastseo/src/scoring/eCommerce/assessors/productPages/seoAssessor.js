@@ -134,11 +134,15 @@ const ProductSEOAssessor = function( researcher, options ) {
 			assessVariants: options.assessVariants,
 			addSKULocation: options.addSKULocation,
 		} ),
-		new TextTitleAssessment( {
-			urlTitle: createAnchorOpeningTag( options.textTitleUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.textTitleCTAUrl ),
-		} ),
 	];
+
+	if ( options.shouldAddPremiumAssessments ) {
+		this._assessments.push(
+			new TextTitleAssessment( {
+				urlTitle: createAnchorOpeningTag( options.textTitleUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.textTitleCTAUrl ),
+			} ) );
+	}
 };
 
 inherits( ProductSEOAssessor, Assessor );
