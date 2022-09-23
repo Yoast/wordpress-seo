@@ -80,10 +80,10 @@ export default class TextTitleAssessment extends Assessment {
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sTitle%2$s: Your page has a title. Well done!",
-						"wordpress-seo",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					"</a>",
+					"</a>"
 				),
 			};
 		}
