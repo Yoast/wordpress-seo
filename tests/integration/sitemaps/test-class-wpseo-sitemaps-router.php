@@ -67,7 +67,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_base_url( $home_url, $expected, $message ) {
 		update_option( 'home', $home_url );
-		$this->assertSame( $expected, WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
+		$this->assertSame( $expected, WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ), $message );
 	}
 
 	/**
