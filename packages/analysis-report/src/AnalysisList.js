@@ -1,6 +1,5 @@
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
-import { useCallback } from "@wordpress/element";
 import React from "@wordpress/element";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -85,16 +84,6 @@ export default function AnalysisList( props ) {
 					   slug or SEO title). */
 					__( "Edit your %1$s", "wordpress-seo" ), editFieldName );
 
-			const onButtonClickMarks = useCallback(
-				() => props.onMarksButtonClick( result.id, result.marker ),
-				[ props.onMarksButtonClick, result.id, result.marker ]
-			);
-
-			const onButtonClickEdit = useCallback(
-				() => props.onEditButtonClick( result.id ),
-				[ props.onEditButtonClick, result.id ]
-			);
-
 			return <AnalysisResult
 				key={ result.id }
 				text={ result.text }
@@ -107,8 +96,8 @@ export default function AnalysisList( props ) {
 				suppressedText={ result.rating === "upsell" }
 				buttonIdMarks={ markButtonId }
 				buttonIdEdit={ editButtonId }
-				onButtonClickMarks={ onButtonClickMarks }
-				onButtonClickEdit={ onButtonClickEdit }
+				onButtonClickMarks={ () => props.onMarksButtonClick( result.id, result.marker ) }
+				onButtonClickEdit={ () => props.onEditButtonClick( result.id ) }
 				marksButtonClassName={ props.marksButtonClassName }
 				editButtonClassName={ props.editButtonClassName }
 				marksButtonStatus={ props.marksButtonStatus }
