@@ -31,6 +31,7 @@ import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
 import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "./seo/ProductSKUAssessment";
+import TextTitleAssessment from "./seo/TextTitleAssessment";
 
 const readability = {
 	ListAssessment,
@@ -60,6 +61,7 @@ const seo = {
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,
 	TextLengthAssessment,
+	TextTitleAssessment,
 	KeyphraseInSEOTitleAssessment,
 	SlugKeywordAssessment,
 	UrlKeywordAssessment,
