@@ -72,6 +72,8 @@ class Image_Presenter_Test extends TestCase {
 
 		$this->presentation->open_graph_images = [ $image ];
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$this->assertEquals(
 			'<meta property="og:image" content="https://example.com/image.jpg" />' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
 			$this->instance->present()
@@ -136,5 +138,29 @@ class Image_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_images = [ $raw_image ];
 
 		$this->assertSame( [ $expected_image ], $this->instance->get() );
+	}
+
+	/**
+	 * Tests the presentation with a set image when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_a_set_image_with_class() {
+		$this->stubEscapeFunctions();
+
+		$image = [
+			'url'    => 'https://example.com/image.jpg',
+			'width'  => 100,
+			'height' => 100,
+		];
+
+		$this->presentation->open_graph_images = [ $image ];
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertEquals(
+			'<meta property="og:image" content="https://example.com/image.jpg" class="yoast-seo-meta-tag" />' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" class="yoast-seo-meta-tag" />' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" class="yoast-seo-meta-tag" />',
+			$this->instance->present()
+		);
 	}
 }

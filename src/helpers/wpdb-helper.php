@@ -19,7 +19,7 @@ class Wpdb_Helper {
 	/**
 	 * Constructs a Wpdb_Helper instance.
 	 *
-	 * @param param wpdb $wpdb The WordPress database instance.
+	 * @param wpdb $wpdb The WordPress database instance.
 	 */
 	public function __construct( wpdb $wpdb ) {
 		$this->wpdb = $wpdb;

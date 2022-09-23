@@ -1,8 +1,0 @@
-instrumentation:
-  root: js
-  extensions:
-      - .js
-  include-all-sources: true
-  excludes:
-    - templates.js
-    - bc/*.js

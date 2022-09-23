@@ -68,7 +68,7 @@ describe( "parse", () => {
 			title: "A text about a keyword.",
 			synonyms: "",
 			titleWidth: 0,
-			url: "",
+			slug: "",
 		};
 
 		const expected = new Paper( "This is a sample text.", {

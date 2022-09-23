@@ -73,7 +73,7 @@ function renderLeftColumn( props ) {
 		</Container>
 
 		<Container>
-			{ renderPaperAttribute( props, "url", "Choose a slug", "Slug", ( id, value ) => {
+			{ renderPaperAttribute( props, "slug", "Choose a slug", "Slug", ( id, value ) => {
 				props.setPaperAttribute( id, value );
 				props.setPaperAttribute( "permalink", `${window.location.origin}/${value}` );
 			} ) }

@@ -16,8 +16,6 @@ use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
-
 /**
  * Class Admin_Columns_Cache_Integration_Test.
  *
@@ -25,6 +23,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Primary_Category_Quick_Edit_Watcher
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
  */
 class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 
@@ -390,4 +390,3 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 		$this->instance->validate_primary_category( 1337, [], [ '1', '2' ], 'category' );
 	}
 }
-// phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.

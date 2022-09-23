@@ -16,8 +16,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Abstract_Exclude_Post_Type
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Abstract_Exclude_Post_Type_Test extends TestCase {
 

@@ -1587,7 +1587,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... LIKE clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param string|null  $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1599,7 +1599,7 @@ class ORM implements \ArrayAccess {
 	 * Adds where HAVING ... NOT LIKE clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param string|null  $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1611,7 +1611,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... > clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param mixed        $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1623,7 +1623,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... < clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param mixed        $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1635,7 +1635,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... >= clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value. Defaults to null.
+	 * @param mixed        $value       The value. Defaults to null.
 	 *
 	 * @return ORM
 	 */
@@ -1647,7 +1647,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... <= clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param mixed        $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1659,7 +1659,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... IN clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $values      The values. Defaults to null.
+	 * @param array|null   $values      The values. Defaults to null.
 	 *
 	 * @return ORM
 	 */
@@ -1671,7 +1671,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... NOT IN clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $values      The values. Defaults to null.
+	 * @param array|null   $values      The values. Defaults to null.
 	 *
 	 * @return ORM
 	 */
@@ -2451,50 +2451,50 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Checks whether the data has the key.
 	 *
-	 * @param mixed $key Key.
+	 * @param mixed $offset Key.
 	 *
 	 * @return bool Whether the data has the key.
 	 */
 	#[ReturnTypeWillChange]
-	public function offsetExists( $key ) {
-		return \array_key_exists( $key, $this->data );
+	public function offsetExists( $offset ) {
+		return \array_key_exists( $offset, $this->data );
 	}
 
 	/**
 	 * Retrieves the value of the key.
 	 *
-	 * @param mixed $key Key.
+	 * @param mixed $offset Key.
 	 *
 	 * @return array|mixed|null The value.
 	 */
 	#[ReturnTypeWillChange]
-	public function offsetGet( $key ) {
-		return $this->get( $key );
+	public function offsetGet( $offset ) {
+		return $this->get( $offset );
 	}
 
 	/**
 	 * Sets the value of the key.
 	 *
-	 * @param string|int $key   Key.
-	 * @param mixed      $value Value.
+	 * @param string|int $offset Key.
+	 * @param mixed      $value  Value.
 	 */
 	#[ReturnTypeWillChange]
-	public function offsetSet( $key, $value ) {
-		if ( \is_null( $key ) ) {
+	public function offsetSet( $offset, $value ) {
+		if ( \is_null( $offset ) ) {
 			return;
 		}
-		$this->set( $key, $value );
+		$this->set( $offset, $value );
 	}
 
 	/**
 	 * Removes the given key from the data.
 	 *
-	 * @param mixed $key Key.
+	 * @param mixed $offset Key.
 	 */
 	#[ReturnTypeWillChange]
-	public function offsetUnset( $key ) {
-		unset( $this->data[ $key ] );
-		unset( $this->dirty_fields[ $key ] );
+	public function offsetUnset( $offset ) {
+		unset( $this->data[ $offset ] );
+		unset( $this->dirty_fields[ $offset ] );
 	}
 
 	/*

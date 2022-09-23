@@ -6,7 +6,6 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Presenter class for the Open Graph article modified time.
- * phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Article_Modified_Time_Presenter extends Abstract_Indexable_Tag_Presenter {
 

@@ -7,8 +7,8 @@ import KeywordDensityAssessment from "../../assessments/seo/KeywordDensityAssess
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment";
 import InternalLinksAssessment from "../../assessments/seo/InternalLinksAssessment";
-import TitleKeywordAssessment from "../../assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../../assessments/seo/KeyphraseInSEOTitleAssessment";
+import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../../assessor";
 import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../../assessments/seo/MetaDescriptionLengthAssessment";
@@ -102,7 +102,7 @@ const StorePostsAndPagesCornerstoneSEOAssessor = function( researcher, options )
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify62" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify63" ),
 		} ),
-		new TitleKeywordAssessment( {
+		new KeyphraseInSEOTitleAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} ),
@@ -117,7 +117,7 @@ const StorePostsAndPagesCornerstoneSEOAssessor = function( researcher, options )
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
 		}, true ),
-		new UrlKeywordAssessment(
+		new SlugKeywordAssessment(
 			{
 				scores: {
 					okay: 3,

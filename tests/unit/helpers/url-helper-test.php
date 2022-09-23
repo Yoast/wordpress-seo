@@ -4,8 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Stringable_Object_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -30,7 +32,7 @@ class Url_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->instance = new Url_Helper();
 	}
 
 	/**
@@ -68,14 +70,14 @@ class Url_Helper_Test extends TestCase {
 	 */
 	public function test_build_absolute_url_relative_url() {
 		Monkey\Functions\expect( 'home_url' )
-			->andReturn( 'home_url' );
+			->andReturn( 'https://example.com' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->withArgs( [ 'https://example.com/my-page', \PHP_URL_PATH ] )
 			->andReturn( '/my-page' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->withArgs( [ 'home_url' ] )
+			->withArgs( [ 'https://example.com' ] )
 			->andReturn(
 				[
 					'scheme' => 'https',
@@ -90,10 +92,88 @@ class Url_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_url_path() always returns a string and handles unexpected input gracefully.
+	 *
+	 * @dataProvider data_get_url_path
+	 *
+	 * @covers ::get_url_path
+	 *
+	 * @param mixed  $url_input Input to pass to the get_url_path() function.
+	 * @param string $expected  Output expected from the get_url_path() function.
+	 *
+	 * @return void
+	 */
+	public function test_get_url_path( $url_input, $expected ) {
+		Monkey\Functions\stubs(
+			[
+				'wp_parse_url' => static function( $url, $component ) {
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mocking wp_parse_url(), this is fine.
+					return \parse_url( $url, $component );
+				},
+			]
+		);
+
+		$this->assertSame( $expected, $this->instance->get_url_path( $url_input ) );
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_get_url_path() {
+		return [
+			'URL is an empty string' => [
+				'url_input' => '',
+				'expected'  => '',
+			],
+			'URL with domain, no path' => [
+				'url_input' => 'https://example.com',
+				'expected'  => '',
+			],
+			'URL with domain, path is only slash' => [
+				'url_input' => 'https://example.com/',
+				'expected'  => '/',
+			],
+			'URL with domain and full path' => [
+				'url_input' => 'https://example.com/this/is/the/path',
+				'expected'  => '/this/is/the/path',
+			],
+			'URL with domain and full path and trailing slash' => [
+				'url_input' => 'https://example.com/this/is/the/path/',
+				'expected'  => '/this/is/the/path/',
+			],
+			'URL with domain, no path via a stringable object' => [
+				'url_input' => new Stringable_Object_Mock( 'https://example.com' ),
+				'expected'  => '',
+			],
+			'URL with domain and full path via a stringable object' => [
+				'url_input' => new Stringable_Object_Mock( 'https://example.com/this/is/the/path' ),
+				'expected'  => '/this/is/the/path',
+			],
+			'URL is not a string: null' => [
+				'url_input' => null,
+				'expected'  => '',
+			],
+			'URL is not a string: boolean true' => [
+				'url_input' => true,
+				'expected'  => '',
+			],
+			'URL is not a string: array' => [
+				'url_input' => [],
+				'expected'  => '',
+			],
+			'URL is not a string: object, but not stringable' => [
+				'url_input' => new stdClass(),
+				'expected'  => '',
+			],
+		];
+	}
+
+	/**
 	 * Tests retrieving of the file extension.
 	 *
 	 * @covers ::get_extension_from_url
-	 * @covers ::get_url_path
 	 */
 	public function test_get_extension_from_url() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -110,7 +190,6 @@ class Url_Helper_Test extends TestCase {
 	 * Tests retrieving of the file extension with no path present.
 	 *
 	 * @covers ::get_extension_from_url
-	 * @covers ::get_url_path
 	 */
 	public function test_get_extension_from_url_no_path() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -127,7 +206,6 @@ class Url_Helper_Test extends TestCase {
 	 * Tests retrieving of the file extension with no extension present.
 	 *
 	 * @covers ::get_extension_from_url
-	 * @covers ::get_url_path
 	 */
 	public function test_get_extension_from_url_no_extension() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -162,35 +240,35 @@ class Url_Helper_Test extends TestCase {
 	 * Tests the ensure absolute url with a relative url given as argument.
 	 *
 	 * @covers ::ensure_absolute_url
+	 * @covers ::is_relative
 	 */
 	public function test_ensure_absolute_url_with_relative_url_given() {
-		$this->instance
-			->expects( 'is_relative' )
-			->once()
-			->with( 'page' )
-			->andReturnTrue();
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.com' );
 
-		$this->instance
-			->expects( 'build_absolute_url' )
-			->once()
-			->with( 'page' )
-			->andReturn( 'https://example.org/page' );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->withArgs( [ 'page', \PHP_URL_PATH ] )
+			->andReturn( 'page' );
 
-		$this->assertEquals( 'https://example.org/page', $this->instance->ensure_absolute_url( 'page' ) );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->withArgs( [ 'https://example.com' ] )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
+
+		$this->assertEquals( 'https://example.com/page', $this->instance->ensure_absolute_url( 'page' ) );
 	}
 
 	/**
 	 * Tests the ensure absolute url with an absolute url given as argument.
 	 *
 	 * @covers ::ensure_absolute_url
+	 * @covers ::is_relative
 	 */
 	public function test_ensure_absolute_url_with_absolute_url_given() {
-		$this->instance
-			->expects( 'is_relative' )
-			->once()
-			->with( 'https://example.org/page' )
-			->andReturnFalse();
-
 		$this->assertEquals( 'https://example.org/page', $this->instance->ensure_absolute_url( 'https://example.org/page' ) );
 	}
 
@@ -427,6 +505,142 @@ class Url_Helper_Test extends TestCase {
 				false,
 				SEO_Links::TYPE_INTERNAL,
 				'When home_url has a path URLs that do start with it should be internal',
+			],
+		];
+	}
+
+	/**
+	 * Tests the recreate_current_url function.
+	 *
+	 * @covers ::recreate_current_url
+	 *
+	 * @dataProvider recreate_current_url_test_data
+	 *
+	 * @param array  $params   The input parameters.
+	 * @param string $expected The expected output.
+	 */
+	public function test_recreate_current_url( $params, $expected ) {
+		if ( ! empty( $params['HTTPS'] ) ) {
+			$_SERVER['HTTPS'] = $params['HTTPS'];
+		}
+
+		if ( ! empty( $params['REQUEST_URI'] ) ) {
+			$_SERVER['REQUEST_URI'] = $params['REQUEST_URI'];
+		}
+
+		if ( ! empty( $params['SERVER_NAME'] ) ) {
+			$_SERVER['SERVER_NAME'] = $params['SERVER_NAME'];
+		}
+
+		if ( ! empty( $params['SERVER_PORT'] ) ) {
+			$_SERVER['SERVER_PORT'] = $params['SERVER_PORT'];
+		}
+
+		$this->assertSame(
+			$expected,
+			$this->instance->recreate_current_url( $params['with_request_uri'] )
+		);
+
+		if ( ! empty( $params['HTTPS'] ) ) {
+			unset( $_SERVER['HTTPS'] );
+		}
+
+		if ( ! empty( $params['REQUEST_URI'] ) ) {
+			unset( $_SERVER['REQUEST_URI'] );
+		}
+
+		if ( ! empty( $params['SERVER_NAME'] ) ) {
+			unset( $_SERVER['SERVER_NAME'] );
+		}
+
+		if ( ! empty( $params['SERVER_PORT'] ) ) {
+			unset( $_SERVER['SERVER_PORT'] );
+		}
+	}
+
+	/**
+	 * Data for the test_recreate_current_url.
+	 *
+	 * @return array The test data.
+	 */
+	public function recreate_current_url_test_data() {
+		return [
+			'HTTP with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'http://foobar.tld/path',
+			],
+			'HTTP without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'http://foobar.tld',
+			],
+			'HTTPS with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'HTTPS'            => 'on',
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'https://foobar.tld/path',
+			],
+			'HTTPS without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'HTTPS'            => 'on',
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'https://foobar.tld',
+			],
+			'HTTP with port and request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => 'http://foobar.tld:8080/path',
+			],
+			'HTTP with port and without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => 'http://foobar.tld:8080',
+			],
+			'No server name with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '/path',
+			],
+			'Empty server name with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => '',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '/path',
+			],
+			'No server name with no request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '',
 			],
 		];
 	}

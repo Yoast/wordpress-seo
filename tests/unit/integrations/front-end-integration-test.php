@@ -229,6 +229,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter',
 			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter',
 			'Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Author_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Card_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Title_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',
@@ -608,5 +609,24 @@ class Front_End_Integration_Test extends TestCase {
 			],
 			$this->instance->filter_robots_presenter( $presenters )
 		);
+	}
+
+	/**
+	 * Tests the should_title_presenter_be_removed function.
+	 *
+	 * @covers ::should_title_presenter_be_removed
+	 */
+	public function test_should_title_presenter_be_removed() {
+		Monkey\Functions\expect( 'get_theme_support' )
+			->once()
+			->with( 'title-tag' )
+			->andReturn( false );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'forcerewritetitle', false )
+			->andReturn( false );
+
+		$this->assertEquals( true, $this->instance->should_title_presenter_be_removed() );
 	}
 }

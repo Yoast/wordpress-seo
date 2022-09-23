@@ -236,7 +236,7 @@ class Wincher_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request. This request should have a code param set.
 	 *
-	 * @return object The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function untrack_keyphrase( WP_REST_Request $request ) {
 		$data = $this->keyphrases_action->untrack_keyphrase( $request['keyphraseID'] );

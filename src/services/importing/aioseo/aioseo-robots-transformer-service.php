@@ -3,12 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
-
 /**
  * Transforms AISOEO search appearance robot settings.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Robots_Transformer_Service {
 

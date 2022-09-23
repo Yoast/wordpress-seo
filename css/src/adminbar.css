@@ -1,6 +1,21 @@
 @import url(../src/score_icon.css);
-.adminbar-seo-score {
+
+#wp-admin-bar-wpseo-menu .wpseo-score-icon {
   margin: 10px 0 0 4px !important;
+}
+
+#wpadminbar .yoast-badge {
+	display: inline-block;
+	padding: 0 8px;
+	border-radius: 8px;
+	font-weight: 600;
+	line-height: 1.6;
+	margin-left: 4px;
+}
+
+#wpadminbar .yoast-beta-badge {
+	background-color: #CCE5FF;
+	color: #004973;
 }
 
 #wpadminbar .yoast-issue-added,
@@ -42,7 +57,7 @@
 }
 
 @media screen and (max-width: 782px) {
-  .adminbar-seo-score {
+  #wp-admin-bar-wpseo-menu .wpseo-score-icon {
     margin: 16px 10px 0 2px !important;
   }
   #wpadminbar #wp-admin-bar-wpseo-menu {

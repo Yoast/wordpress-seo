@@ -51,19 +51,19 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	/**
 	 * Set the status of the sitemap, is it usable.
 	 *
-	 * @param bool|string $valid Is the sitemap valid or not.
+	 * @param bool|string $usable Is the sitemap usable or not.
 	 *
 	 * @return void
 	 */
-	public function set_status( $valid ) {
+	public function set_status( $usable ) {
 
-		if ( $valid === self::OK ) {
+		if ( $usable === self::OK ) {
 			$this->status = self::OK;
 
 			return;
 		}
 
-		if ( $valid === self::ERROR ) {
+		if ( $usable === self::ERROR ) {
 			$this->status  = self::ERROR;
 			$this->sitemap = '';
 

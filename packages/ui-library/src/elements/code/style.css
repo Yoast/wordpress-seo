@@ -1,0 +1,22 @@
+@layer components {
+	.yst-root {
+		.yst-code {
+			@apply
+			yst-inline-block
+			yst-text-xs
+			yst-text-gray-800
+			yst-bg-gray-100
+			yst-p-1
+			yst-m-0
+			yst-rounded;
+		}
+
+		.yst-code--block {
+			@apply
+			yst-block
+			yst-whitespace-nowrap
+			yst-max-w-full
+			yst-overflow-x-auto;
+		}
+	}
+}

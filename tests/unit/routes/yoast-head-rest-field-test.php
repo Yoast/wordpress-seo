@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- Reason: this explicitly concerns the Yoast head fields.
 
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
@@ -19,9 +19,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group routes
  * @group indexables
- *
- * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Yoast_Head_REST_Field_Test extends TestCase {
 

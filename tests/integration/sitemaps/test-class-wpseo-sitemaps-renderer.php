@@ -61,8 +61,6 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		$image_a = 'http://example.com/image.jpg';
 		$image_b = 'example.com/my category/my=page*without"enco@ding/';
 		$image_c = '//example.com/my category?s=keyword&p=2';
-		$title   = 'Image title.';
-		$alt     = 'Image alt.';
 		$links   = [
 			[
 				'loc'    => $loc,
@@ -72,18 +70,12 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 				'images' => [
 					[
 						'src'   => $image_a,
-						'title' => $title . 'A',
-						'alt'   => $alt . 'A',
 					],
 					[
 						'src'   => $image_b,
-						'title' => $title . 'B',
-						'alt'   => $alt . 'B',
 					],
 					[
 						'src'   => $image_c,
-						'title' => $title . 'C',
-						'alt'   => $alt . 'C',
 					],
 				],
 			],
@@ -98,8 +90,6 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		$this->assertStringContainsString( "<image:loc>{$image_a}</image:loc>", $index );
 		$this->assertStringContainsString( "<image:loc>{$expected_b}</image:loc>", $index );
 		$this->assertStringContainsString( "<image:loc>{$expected_c}</image:loc>", $index );
-		$this->assertStringContainsString( "<image:title><![CDATA[{$title}A]]></image:title>", $index );
-		$this->assertStringContainsString( "<image:caption><![CDATA[{$alt}C]]></image:caption>", $index );
 	}
 
 	/**
@@ -140,6 +130,10 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 			'Full URL which will validate with the filter - contains &#038;' => [
 				'loc'      => 'http://example.com/page-name?s=keyword&#038;p=2#anchor',
 				'expected' => 'http://example.com/page-name?s=keyword&amp;p=2#anchor',
+			],
+			'Full URL which will validate with the filter - contains &#039;' => [
+				'loc'      => 'http://example.com/page-name?s=keyword&p=\'2&#039;#anchor',
+				'expected' => 'http://example.com/page-name?s=keyword&amp;p=&apos;2&apos;#anchor',
 			],
 
 			/*

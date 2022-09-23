@@ -148,12 +148,12 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 	 * Returns a WPSEO_Import_Status object to check against.
 	 *
 	 * @param string $action The action to return.
-	 * @param bool   $bool   The status.
+	 * @param bool   $status The status.
 	 *
 	 * @return WPSEO_Import_Status Import status object.
 	 */
-	private function status( $action, $bool ) {
-		return new WPSEO_Import_Status( $action, $bool );
+	private function status( $action, $status ) {
+		return new WPSEO_Import_Status( $action, $status );
 	}
 
 	/**

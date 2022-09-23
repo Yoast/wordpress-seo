@@ -55,7 +55,13 @@ export function getWincherTrackableKeyphrases( state ) {
 		keyphrases.push( ...premiumStore.getKeywords().map( k => k.keyword.trim() ) );
 	}
 
-	return uniq( keyphrases.filter( k => !! k ).map( k => k.toLocaleLowerCase() ) ).sort();
+	return uniq( keyphrases.filter( k => !! k ).map(
+		// Canonicalize the keyword the same way Wincher does
+		k => k
+			.replace( /["+:\s]+/g, " " )
+			.trim()
+			.toLocaleLowerCase()
+	) ).sort();
 }
 
 /**
@@ -89,8 +95,8 @@ export function getWincherAllKeyphrasesMissRanking( state ) {
 export function getWincherPermalink( state ) {
 	const analysisData = getAnalysisData( state );
 
-	// Workaround for the fact that analysisData.permalink is initialized before the slug/url is ready.
-	if ( ! analysisData.url ) {
+	// Workaround for the fact that analysisData.permalink is initialized before the slug is ready.
+	if ( ! analysisData.slug ) {
 		return "";
 	}
 

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
@@ -12,8 +13,6 @@ use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 
 /**
  * Importing action interface.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Interface {
 
@@ -30,6 +29,13 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 * @var string
 	 */
 	const TYPE = null;
+
+	/**
+	 * The AIOSEO helper.
+	 *
+	 * @var Aioseo_Helper
+	 */
+	protected $aioseo_helper;
 
 	/**
 	 * The import cursor helper.
@@ -100,6 +106,17 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	}
 
 	/**
+	 * Sets the AIOSEO helper.
+	 *
+	 * @required
+	 *
+	 * @param Aioseo_Helper $aioseo_helper The AIOSEO helper.
+	 */
+	public function set_aioseo_helper( Aioseo_Helper $aioseo_helper ) {
+		$this->aioseo_helper = $aioseo_helper;
+	}
+
+	/**
 	 * The name of the plugin we import from.
 	 *
 	 * @return string The plugin we import from.
@@ -138,8 +155,8 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	/**
 	 * Can the current action import the data from plugin $plugin of type $type?
 	 *
-	 * @param string $plugin The plugin to import from.
-	 * @param string $type   The type of data to import.
+	 * @param string|null $plugin The plugin to import from.
+	 * @param string|null $type   The type of data to import.
 	 *
 	 * @return bool True if this action can handle the combination of Plugin and Type.
 	 *
@@ -191,7 +208,7 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 *
 	 * @param bool $completed Whether the importer is completed.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function set_completed( $completed ) {
 		$completed_id                  = $this->get_completed_id();

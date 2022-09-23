@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class BbPress_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\BbPress
- * @covers ::<!public>
  *
  * @group integrations
  * @group third-party

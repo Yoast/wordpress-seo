@@ -46,6 +46,13 @@ class OAuth_Token {
 	public $created_at;
 
 	/**
+	 * The number of times we've gotten an error trying to refresh this token.
+	 *
+	 * @var int
+	 */
+	public $error_count;
+
+	/**
 	 * OAuth_Token constructor.
 	 *
 	 * @param string $access_token  The access token.
@@ -53,10 +60,11 @@ class OAuth_Token {
 	 * @param int    $expires       The date and time at which the token will expire.
 	 * @param bool   $has_expired   Whether or not the token has expired.
 	 * @param int    $created_at    The timestamp of when the token was created.
+	 * @param int    $error_count   The number of times we've gotten an error trying to refresh this token.
 	 *
 	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
-	public function __construct( $access_token, $refresh_token, $expires, $has_expired, $created_at ) {
+	public function __construct( $access_token, $refresh_token, $expires, $has_expired, $created_at, $error_count = 0 ) {
 
 		if ( empty( $access_token ) ) {
 			throw new Empty_Property_Exception( 'access_token' );
@@ -64,7 +72,7 @@ class OAuth_Token {
 
 		$this->access_token = $access_token;
 
-		if ( empty( $access_token ) ) {
+		if ( empty( $refresh_token ) ) {
 			throw new Empty_Property_Exception( 'refresh_token' );
 		}
 
@@ -82,6 +90,7 @@ class OAuth_Token {
 
 		$this->has_expired = $has_expired;
 		$this->created_at  = $created_at;
+		$this->error_count = $error_count;
 	}
 
 	/**
@@ -124,6 +133,7 @@ class OAuth_Token {
 			'expires'       => $this->expires,
 			'has_expired'   => $this->has_expired(),
 			'created_at'    => $this->created_at,
+			'error_count'   => $this->error_count,
 		];
 	}
 }

@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Static_Posts_Page_Presentation;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Presentations\Presentation_Instance_Dependencies;
 
@@ -42,18 +41,11 @@ trait Presentation_Instance_Builder {
 	protected $post_type;
 
 	/**
-	 * Represents the meta tags context.
-	 *
-	 * @var Meta_Tags_Context_Mock|Mockery\MockInterface
-	 */
-	protected $context;
-
-	/**
 	 * Represents the date helper.
 	 *
 	 * @var Date_Helper
 	 */
-	protected $date_helper;
+	protected $date;
 
 	/**
 	 * Holds the Pagination_Helper instance.

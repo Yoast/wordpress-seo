@@ -38,15 +38,15 @@ export const validateSize = ( image ) => {
  */
 export const validateType = ( image ) => {
 	const { type } = image;
-	const validTypes = [ "jpg", "png", "gif", "jpeg" ];
+	const validTypes = [ "jpg", "png", "gif", "jpeg", "webp" ];
 
 	const warningMessage = sprintf(
 		/* Translators: %s expands to the jpg format, %s expands to the png format, %s expands to the gif format. */
 		__(
-			"The format of the uploaded image is not supported. The supported formats are: %s, %s and %s.",
+			"The format of the uploaded image is not supported. The supported formats are: %s, %s, %s and %s.",
 			"wordpress-seo"
 		),
-		"JPG", "PNG", "GIF"
+		"JPG", "PNG", "WEBP", "GIF"
 	);
 
 	if ( ! validTypes.includes( type ) ) {

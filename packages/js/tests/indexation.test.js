@@ -1,5 +1,6 @@
-import Indexation from "../src/components/Indexation";
 import { mount } from "enzyme";
+import { act } from "react-dom/test-utils";
+import Indexation from "../src/components/Indexation";
 
 /**
  * Fetch mock response.
@@ -8,7 +9,7 @@ import { mount } from "enzyme";
  *
  * @returns {Promise} The promise.
  */
-const fetchReponse = ( data ) => {
+const fetchResponse = ( data ) => {
 	return Promise.resolve( { text: () => Promise.resolve( JSON.stringify( data ) ), ok: true } );
 };
 
@@ -30,11 +31,12 @@ describe( "Indexation", () => {
 		expect( alert.text() ).toEqual( "SEO data optimization is disabled for non-production environments." );
 	} );
 
-	it( "will show you when the indexation is complete", ( done ) => {
+	it( "will show you when the indexation is complete", async() => {
 		global.yoastIndexingData = {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
 				indexing_endpoints: {
 					prepare: "indexing-endpoint",
 				},
@@ -42,10 +44,9 @@ describe( "Indexation", () => {
 			},
 		};
 
-		global.fetch = jest.fn();
-		global.fetch.mockImplementation( ( url ) => {
+		global.fetch = jest.fn().mockImplementation( ( url ) => {
 			if ( url === "https://example.com/indexing-endpoint" ) {
-				return fetchReponse( {
+				return fetchResponse( {
 					objects: [
 						{}, {}, {}, {}, {},
 					],
@@ -65,30 +66,30 @@ describe( "Indexation", () => {
 		expect( progressBar.prop( "value" ) ).toEqual( 0 );
 		expect( progressBar.prop( "max" ) ).toEqual( 5 );
 
-		// Allow callbacks to be executed first.
-		setTimeout( () => {
+		await act( async() => {
 			component.update();
-
-			expect( global.fetch ).toHaveBeenCalledWith( "https://example.com/indexing-endpoint", {
-				headers: {
-					"X-WP-Nonce": "nonsense",
-				},
-				method: "POST",
-			} );
-
-			const alert = component.find( "Alert" );
-			expect( alert.text() ).toEqual( "SEO data optimization complete" );
-			expect( alert.prop( "type" ) ).toEqual( "success" );
-
-			done();
 		} );
+
+		component.update();
+
+		expect( global.fetch ).toHaveBeenCalledWith( "https://example.com/indexing-endpoint", {
+			headers: {
+				"X-WP-Nonce": "nonsense",
+			},
+			method: "POST",
+		} );
+
+		const alert = component.find( "Alert" );
+		expect( alert.text() ).toEqual( "SEO data optimization complete" );
+		expect( alert.prop( "type" ) ).toEqual( "success" );
 	} );
 
-	it( "shows an error when something goes wrong", ( done ) => {
+	it( "shows an error when something goes wrong", async() => {
 		global.yoastIndexingData = {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
 				indexing_endpoints: {
 					prepare: "indexing-endpoint",
 				},
@@ -98,31 +99,29 @@ describe( "Indexation", () => {
 			errorMessage: "An error message.",
 		};
 
-		global.fetch = jest.fn();
-		global.fetch.mockImplementation( () => {
-			return Promise.reject( new Error( "Request failed!" ) );
-		} );
+		global.fetch = jest.fn( () => (
+			Promise.reject( new Error( "Request failed!" ) ) )
+		);
 
 		const component = mount( <Indexation /> );
 
-		component.find( "button" ).simulate( "click" );
-
-		setTimeout( () => {
-			component.update();
-
-			const alert = component.find( "Alert" );
-
-			expect( alert.prop( "type" ) ).toEqual( "error" );
-
-			done();
+		await act( async() => {
+			component.find( "button" ).simulate( "click" );
 		} );
+
+		component.update();
+
+		const alert = component.find( "Alert" );
+
+		expect( alert.prop( "type" ) ).toEqual( "error" );
 	} );
 
-	it( "executes registered pre- and postindexing actions", async function( done ) {
+	it( "executes registered pre- and postindexing actions", async() => {
 		global.yoastIndexingData = {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
 				indexing_endpoints: {
 					indexation: "indexing-endpoint",
 				},
@@ -130,10 +129,9 @@ describe( "Indexation", () => {
 			},
 		};
 
-		global.fetch = jest.fn();
-		global.fetch.mockImplementation( ( url ) => {
+		global.fetch = jest.fn().mockImplementation( ( url ) => {
 			if ( url === "https://example.com/indexing-endpoint" ) {
-				return fetchReponse( {
+				return fetchResponse( {
 					objects: [
 						{}, {}, {}, {}, {},
 					],
@@ -159,17 +157,12 @@ describe( "Indexation", () => {
 
 		component.update();
 
-		// Allow setState to mutate the sate.
-		setTimeout( () => {
-			const settings = global.yoastIndexingData;
+		const settings = global.yoastIndexingData;
 
-			expect( preIndexingAction ).toHaveBeenCalledWith( settings );
-			expect( postIndexingAction ).toHaveBeenCalledWith( [
-				// Response.objects
-				{}, {}, {}, {}, {},
-			], settings );
-
-			done();
-		}, 5 );
+		expect( preIndexingAction ).toHaveBeenCalledWith( settings );
+		expect( postIndexingAction ).toHaveBeenCalledWith( [
+			// Response.objects
+			{}, {}, {}, {}, {},
+		], settings );
 	} );
 } );

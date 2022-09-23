@@ -1,0 +1,51 @@
+@layer components {
+	.yst-root {
+		.yst-badge {
+			@apply
+			yst-inline-flex
+			yst-items-center
+			yst-px-2
+			yst-py-0.5
+			yst-rounded-full
+			yst-text-xs
+			yst-font-medium
+			yst-align-middle
+			yst-leading-tight
+			yst-whitespace-nowrap
+			yst-bg-blue-100
+			yst-text-blue-800;
+		}
+
+		/* Variants */
+
+		.yst-badge--info {
+			@apply
+			yst-bg-blue-200
+			yst-text-blue-900;
+		}
+
+		.yst-badge--upsell {
+			@apply
+			yst-bg-amber-200
+			yst-text-amber-900;
+		}
+
+		.yst-badge--plain {
+			@apply
+			yst-bg-gray-100
+			yst-text-gray-800;
+		}
+
+		/* Sizes */
+
+		.yst-badge--small {
+			@apply yst-text-xxs;
+		}
+
+		.yst-badge--large {
+			@apply
+			yst-px-3
+			yst-text-base;
+		}
+	}
+}

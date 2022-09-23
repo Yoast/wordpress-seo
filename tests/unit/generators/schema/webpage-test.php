@@ -101,6 +101,7 @@ class WebPage_Test extends TestCase {
 		// Set some values that are used in multiple tests.
 		$this->meta_tags_context->schema_page_type = [ 'WebPage' ];
 		$this->meta_tags_context->canonical        = 'https://example.com/the-post/';
+		$this->meta_tags_context->main_schema_id   = 'https://example.com/the-post/';
 		$this->meta_tags_context->title            = 'the-title';
 		$this->meta_tags_context->description      = '';
 		$this->meta_tags_context->site_url         = 'https://example.com/';
@@ -115,7 +116,6 @@ class WebPage_Test extends TestCase {
 			'object_sub_type' => 'page',
 		];
 
-		$this->id->webpage_hash = '#webpage';
 		$this->id->website_hash = '#website';
 	}
 
@@ -195,6 +195,10 @@ class WebPage_Test extends TestCase {
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
 		$this->meta_tags_context->has_image = $values_to_test['has_image'];
 
+		if ( $this->meta_tags_context->has_image ) {
+			$this->meta_tags_context->main_image_url = $values_to_test['image_url'];
+		}
+
 		$this->id->primary_image_hash = '#primaryimage';
 		$this->id->breadcrumb_hash    = '#breadcrumb';
 
@@ -227,7 +231,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -268,7 +272,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -316,7 +320,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -369,7 +373,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -417,7 +421,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -457,26 +461,18 @@ class WebPage_Test extends TestCase {
 			'CollectionPage',
 			0,
 			0,
-			1
+			0
 		);
 
 		$expected = [
 			'@type'           => 'CollectionPage',
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
 			'inLanguage'      => 'the-language',
-			'potentialAction' => [
-				[
-					'@type'  => 'ReadAction',
-					'target' => [
-						'https://example.com/the-post/',
-					],
-				],
-			],
 			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 		];
 
@@ -498,12 +494,12 @@ class WebPage_Test extends TestCase {
 			'CollectionPage',
 			1,
 			1,
-			1
+			0
 		);
 
 		$expected = [
 			'@type'           => 'CollectionPage',
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'datePublished'   => '2345-12-12 12:12:12',
@@ -513,14 +509,6 @@ class WebPage_Test extends TestCase {
 				'@id' => 'https://example.com/#website',
 			],
 			'inLanguage'      => 'the-language',
-			'potentialAction' => [
-				[
-					'@type'  => 'ReadAction',
-					'target' => [
-						'https://example.com/the-post/',
-					],
-				],
-			],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );
@@ -559,7 +547,7 @@ class WebPage_Test extends TestCase {
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
-					'@id'             => 'https://example.com/the-post/#webpage',
+					'@id'             => 'https://example.com/the-post/',
 					'url'             => 'https://example.com/the-post/',
 					'name'            => 'the-title',
 					'isPartOf'        => [
@@ -581,10 +569,11 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'has_image'           => true,
+					'image_url'           => 'https://example.com/image.jpg',
 				],
 				'expected'       => [
 					'@type'              => [ 'WebPage' ],
-					'@id'                => 'https://example.com/the-post/#webpage',
+					'@id'                => 'https://example.com/the-post/',
 					'url'                => 'https://example.com/the-post/',
 					'name'               => 'the-title',
 					'isPartOf'           => [
@@ -594,6 +583,8 @@ class WebPage_Test extends TestCase {
 					'dateModified'       => '2345-12-12 23:23:23',
 					'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 					'primaryImageOfPage' => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
+					'image'              => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
+					'thumbnailUrl'       => 'https://example.com/image.jpg',
 					'inLanguage'         => 'the-language',
 					'potentialAction'    => [
 						[
@@ -610,7 +601,7 @@ class WebPage_Test extends TestCase {
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
-					'@id'             => 'https://example.com/the-post/#webpage',
+					'@id'             => 'https://example.com/the-post/',
 					'url'             => 'https://example.com/the-post/',
 					'name'            => 'the-title',
 					'isPartOf'        => [

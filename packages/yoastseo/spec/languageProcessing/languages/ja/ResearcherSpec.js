@@ -18,7 +18,8 @@ describe( "a test for Japanese Researcher", function() {
 	it( "returns false if the default research is deleted in the Japanese Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
 		expect( researcher.getResearch( "getPassiveVoiceResult" ) ).toBe( false );
-		expect( researcher.getResearch( "keywordCountInUrl" ) ).toBe( false );
+		expect( researcher.getResearch( "keywordCountInSlug" ) ).toBe( false );
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Japanese Researcher doesn't have a certain helper", function() {

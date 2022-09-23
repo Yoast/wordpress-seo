@@ -55,6 +55,8 @@ class Image_Presenter_Test extends TestCase {
 	public function test_present() {
 		$this->presentation->twitter_image = 'relative_image.jpg';
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
 		$actual   = $this->instance->present();
 
@@ -86,8 +88,25 @@ class Image_Presenter_Test extends TestCase {
 			->once()
 			->with( 'relative_image.jpg', $this->presentation )
 			->andReturn( 'relative_image.jpg' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
+		$actual   = $this->instance->present();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests whether the presenter returns the correct image when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_class() {
+		$this->presentation->twitter_image = 'relative_image.jpg';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$expected = '<meta name="twitter:image" content="relative_image.jpg" class="yoast-seo-meta-tag" />';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

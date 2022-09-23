@@ -79,14 +79,14 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$choices = $admin->get_site_choices();
 		$this->assertSame( $site->id, (int) key( $choices ) );
-		$this->assertContains( (string) $site->id, $choices[ $site->id ] );
-		$this->assertContains( $site->domain . $site->path, $choices[ $site->id ] );
+		$this->assertStringStartsWith( (string) $site->id, $choices[ $site->id ] );
+		$this->assertStringContainsString( $site->domain . $site->path, $choices[ $site->id ] );
 
 		$choices = $admin->get_site_choices( false, true );
 		$this->assertSame( $site->id, (int) key( $choices ) );
-		$this->assertContains( (string) $site->id, $choices[ $site->id ] );
-		$this->assertContains( $site->blogname, $choices[ $site->id ] );
-		$this->assertContains( $site->domain . $site->path, $choices[ $site->id ] );
+		$this->assertStringStartsWith( (string) $site->id, $choices[ $site->id ] );
+		$this->assertStringContainsString( $site->blogname, $choices[ $site->id ] );
+		$this->assertStringContainsString( $site->domain . $site->path, $choices[ $site->id ] );
 	}
 
 	/**
@@ -130,14 +130,21 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			->setMethods( [ 'verify_request', 'terminate_request' ] )
 			->getMock();
 
-		$admin
-			->expects( $this->once() )
-			->method( 'verify_request' )
-			->with( '-network-options' );
+		// These two expectations should be removed once the underlying issue has been resolved.
+		if ( PHP_VERSION_ID >= 80100 ) {
+			$this->expectDeprecation();
+			$this->expectDeprecationMessage( 'Constant FILTER_SANITIZE_STRING is deprecated' );
+		}
+		else {
+			$admin
+				->expects( $this->once() )
+				->method( 'verify_request' )
+				->with( '-network-options' );
 
-		$admin
-			->expects( $this->once() )
-			->method( 'terminate_request' );
+			$admin
+				->expects( $this->once() )
+				->method( 'terminate_request' );
+		}
 
 		$admin->handle_update_options_request();
 	}

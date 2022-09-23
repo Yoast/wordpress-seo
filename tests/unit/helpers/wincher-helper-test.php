@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wincher_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
@@ -21,11 +22,18 @@ use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 class Wincher_Helper_Test extends TestCase {
 
 	/**
-	 * The instance under test.
+	 * The instance to test.
 	 *
-	 * @var Wincher_Helper
+	 * @var Wincher_Helper|Mockery\Mock
 	 */
 	protected $instance;
+
+	/**
+	 * Holds the Options Page helper instance.
+	 *
+	 * @var Options_Helper|Mockery\Mock
+	 */
+	protected $options;
 
 	/**
 	 * The token mock.
@@ -47,9 +55,63 @@ class Wincher_Helper_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance                        = new Wincher_Helper();
+		$this->options                         = Mockery::mock( Options_Helper::class );
+		$this->instance                        = Mockery::mock( Wincher_Helper::class, [ $this->options ] )
+			->makePartial();
 		$this->token                           = Mockery::mock( OAuth_Token::class );
 		$this->authentication_failed_exception = Mockery::mock( Authentication_Failed_Exception::class );
+	}
+
+	/**
+	 * Tests if given dependencies are set as expected.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$this->assertInstanceOf( Wincher_Helper::class, $this->instance );
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options' )
+		);
+	}
+
+	/**
+	 * Test return option.
+	 *
+	 * @covers ::is_active
+	 */
+	public function test_is_active() {
+		Monkey\Functions\expect( 'current_user_can' )->andReturn( true );
+
+		$this->options->expects( 'get' )->andReturn( true );
+
+		$this->assertTrue( $this->instance->is_active() );
+	}
+
+	/**
+	 * Test return if conditionals are unmet.
+	 *
+	 * @covers ::is_active
+	 */
+	public function test_is_active_unmet() {
+		Monkey\Functions\stubs(
+			[
+				'is_multisite' => true,
+			]
+		);
+
+		$this->assertFalse( $this->instance->is_active() );
+	}
+
+	/**
+	 * Test return if capabilities are unmet.
+	 *
+	 * @covers ::is_active
+	 */
+	public function test_is_active_unmet_capabilities() {
+		Monkey\Functions\expect( 'current_user_can' )->andReturn( false );
+
+		$this->assertFalse( $this->instance->is_active() );
 	}
 
 	/**
@@ -57,7 +119,7 @@ class Wincher_Helper_Test extends TestCase {
 	 *
 	 * @covers ::login_status
 	 */
-	public function test_get_login_status() {
+	public function test_login_status() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
 		$wincher_client->expects( 'get_tokens' )->once()->andReturn( $this->token );
 		$wincher_client->expects( 'has_valid_tokens' )->once()->andReturnTrue();
@@ -79,7 +141,7 @@ class Wincher_Helper_Test extends TestCase {
 	 *
 	 * @covers ::login_status
 	 */
-	public function test_get_login_status_not_logged_in() {
+	public function test_login_status_not_logged_in() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
 		$wincher_client->expects( 'get_tokens' )->once()->andReturnNull();
 		$wincher_client->expects( 'has_valid_tokens' )->once()->andReturnFalse();
@@ -97,11 +159,12 @@ class Wincher_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of the login status when the user is not logged in when an authentication failed exception is thrown.
+	 * Tests retrieval of the login status when the user is not logged in when an authentication failed exception is
+	 * thrown.
 	 *
 	 * @covers ::login_status
 	 */
-	public function test_get_login_status_not_logged_in_on_authentication_exception() {
+	public function test_login_status_not_logged_in_on_authentication_exception() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
 		$wincher_client->expects( 'get_tokens' )->once()->andThrow( $this->authentication_failed_exception );
 		$wincher_client->expects( 'has_valid_tokens' )->never();
@@ -114,7 +177,6 @@ class Wincher_Helper_Test extends TestCase {
 				'classes' => $classes,
 			]
 		);
-
 		$this->assertFalse( $this->instance->login_status() );
 	}
 
@@ -123,7 +185,7 @@ class Wincher_Helper_Test extends TestCase {
 	 *
 	 * @covers ::login_status
 	 */
-	public function test_get_login_status_not_logged_in_on_empty_token_exception() {
+	public function test_login_status_not_logged_in_on_empty_token_exception() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
 		$wincher_client->expects( 'get_tokens' )->once()->andThrow( Empty_Token_Exception::class );
 		$wincher_client->expects( 'has_valid_tokens' )->never();

@@ -25,7 +25,7 @@ class Uninstall_Integration implements Integration_Interface {
 	/**
 	 * Performs all necessary actions that should happen upon plugin uninstall.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function wpseo_uninstall() {
 		$this->clear_import_statuses();
@@ -34,7 +34,7 @@ class Uninstall_Integration implements Integration_Interface {
 	/**
 	 * Clears the persistent import statuses.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function clear_import_statuses() {
 		$yoast_options = \get_site_option( 'wpseo' );

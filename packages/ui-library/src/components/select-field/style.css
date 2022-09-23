@@ -1,0 +1,18 @@
+@layer components {
+	.yst-root {
+		.yst-select-field__options {
+			@apply
+			yst-flex
+			yst-flex-col
+			yst-gap-3;
+		}
+
+		.yst-select-field__description {
+			@apply yst-mt-2;
+		}
+
+		.yst-select-field__error {
+			@apply yst-mt-2 yst-text-red-600;
+		}
+	}
+}

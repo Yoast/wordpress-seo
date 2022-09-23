@@ -94,4 +94,16 @@ class Language_Helper_Test extends TestCase {
 			[ 'ja' ],
 		];
 	}
+
+	/**
+	 * Tests if all the languages that have inclusive language support are
+	 * set to be supported in the code.
+	 *
+	 * @covers ::has_inclusive_language_support
+	 *
+	 * @return void
+	 */
+	public function test_has_inclusive_language_support() {
+		$this->assertTrue( $this->instance->has_inclusive_language_support( 'en' ) );
+	}
 }

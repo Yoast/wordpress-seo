@@ -13,7 +13,16 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_tree",
-	url: "Cat_tree",
+	slug: "Cat_tree",
+	customData: {
+		canRetrieveVariantSkus: true,
+		hasGlobalSKU: true,
+		hasGlobalIdentifier: true,
+		hasVariants: true,
+		doAllVariantsHaveSKU: false,
+		doAllVariantsHaveIdentifier: false,
+		productType: "variable",
+	},
 } );
 
 const expectedResults = {
@@ -61,10 +70,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 345 words. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: The exact match of the focus " +
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus " +
 			"keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
@@ -72,7 +81,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify52' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: Great work!",
@@ -86,6 +95,21 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
+	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Not all your product variants" +
+			" have an identifier. You can add a product identifier via the \"Variations\" tab in the Product data box. " +
+			"<a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it" +
+			" will help search engines to better understand your content.</a>",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Not all your product variants have a SKU. You can add a SKU via " +
+			"the \"Variations\" tab in the Product data box. <a href='https://yoa.st/4lx' target='_blank'>Include " +
+			"it if you can, as it will help search engines to better understand your content.</a>",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
@@ -124,7 +148,7 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 28.6% of the sentences contain " +
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 41.2% of the sentences contain " +
 			"more than 20 words, which is more than the recommended maximum of 20%. <a href='https://yoa.st/shopify49' target='_blank'>" +
 			"Try to shorten the sentences</a>.",
 	},
@@ -136,7 +160,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 17.4% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 21.1% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -149,6 +173,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: There is at least one list on this page. Great!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.59% of the words in your text are considered complex. " +
+			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
 

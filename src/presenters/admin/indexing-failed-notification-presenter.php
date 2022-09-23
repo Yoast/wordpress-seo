@@ -1,5 +1,4 @@
 <?php
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 

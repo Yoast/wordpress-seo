@@ -235,12 +235,12 @@ class Pagination_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_query_var' )
 			->twice()
 			->andReturnUsing(
-				static function( $query_var, $default ) {
+				static function( $query_var, $default_response ) {
 					if ( $query_var === 'page' ) {
-						$default = 2;
+						$default_response = 2;
 					}
 
-					return $default;
+					return $default_response;
 				}
 			);
 

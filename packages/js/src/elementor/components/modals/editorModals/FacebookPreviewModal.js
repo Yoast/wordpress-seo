@@ -15,6 +15,7 @@ const FacebookPreviewModal = () => {
 		<EditorModal
 			title={ __( "Facebook preview", "wordpress-seo" ) }
 			id="yoast-facebook-preview-modal"
+			shouldCloseOnClickOutside={ false }
 		>
 			<FacebookEditor />
 		</EditorModal>

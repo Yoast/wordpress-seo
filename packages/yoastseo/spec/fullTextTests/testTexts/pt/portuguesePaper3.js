@@ -1,3 +1,5 @@
+// Paper not included in index.js, but kept for a future check of a passive voice detection issue connected to node versions.
+
 import Paper from "../../../../src/values/Paper.js";
 import content from "./portuguesePaper3.html";
 
@@ -11,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/M%C3%BAsica",
-	url: "Música",
+	slug: "Música",
 } );
 
 const expectedResults = {
@@ -72,10 +74,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase" +
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: Not all the words from your keyphrase" +
 			" \"Definições de música\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results write" +
 			" the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>.",
 	},
@@ -84,7 +86,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug." +
@@ -103,13 +105,6 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain" +
 			" the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
-	},
-	fleschReadingEase: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 38.9 in the test, which is considered" +
-			" difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve" +
-			" readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -163,6 +158,9 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: Good job!",
 	},
+	wordComplexity: {
+		isApplicable: false,
+	},
 };
 
 export {
@@ -176,4 +174,3 @@ export default {
 	paper: paper,
 	expectedResults: expectedResults,
 };
-

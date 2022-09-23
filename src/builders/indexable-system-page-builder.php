@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * System page builder for the indexables.
  *
  * Formats system pages ( search and error ) meta to indexable format.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_System_Page_Builder {
 

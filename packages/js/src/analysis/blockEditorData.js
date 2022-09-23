@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { select, subscribe } from "@wordpress/data";
 import { actions } from "@yoast/externals/redux";
 import { debounce } from "lodash-es";
@@ -11,6 +12,12 @@ const {
 	updateData,
 	hideReplacementVariables,
 	setContentImage,
+	updateSettings,
+	setEditorDataContent,
+	setEditorDataTitle,
+	setEditorDataExcerpt,
+	setEditorDataImageUrl,
+	setEditorDataSlug,
 } = actions;
 
 const $ = global.jQuery;
@@ -168,6 +175,34 @@ export default class BlockEditorData {
 	}
 
 	/**
+	 * Gets the base url from the permalink. The base url is the full url retrieved from permalink minus the slug.
+	 *
+	 * @param {string} slug The slug to strip from the permalink.
+	 *
+	 * @returns {string} The base url.
+	 */
+	getPostBaseUrl( slug ) {
+		const permalink = select( "core/editor" ).getPermalink();
+		let url;
+		let baseUrl = "";
+		try {
+			url = new URL( permalink );
+			baseUrl = url.href;
+		} catch ( e ) {
+			// Fallback on the base url retrieved from the wpseoScriptData.
+			baseUrl = window.wpseoScriptData.metabox.base_url;
+		}
+		// Strip slug from the url.
+		baseUrl = baseUrl.replace( new RegExp( slug + "/$" ), "" );
+		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
+		if ( ! baseUrl.endsWith( "/" ) ) {
+			baseUrl += "/";
+		}
+
+		return baseUrl;
+	}
+
+	/**
 	 * Collects the content, title, slug and excerpt of a post from Gutenberg.
 	 *
 	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
@@ -176,17 +211,18 @@ export default class BlockEditorData {
 		const content = this.getPostAttribute( "content" );
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
-		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
+		const slug = this.getSlug();
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
-			slug: this.getSlug(),
-			excerpt: excerpt || excerptFromContent( content, limit ),
+			slug,
+			excerpt: excerpt || excerptFromContent( content, getContentLocale() === "ja" ? 80 : 156 ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
 			contentImage,
+			baseUrl: this.getPostBaseUrl( slug ),
 		};
 	}
 
@@ -217,24 +253,20 @@ export default class BlockEditorData {
 	 */
 	calculateContentImage( content ) {
 		const images = languageProcessing.imageInText( content );
-		let image = "";
 
 		if ( images.length === 0 ) {
 			return "";
 		}
 
-		do {
-			var currentImage = images.shift();
-			currentImage = $( currentImage );
+		const imageElements = $.parseHTML( images.join( "" ) );
 
-			var imageSource = currentImage.prop( "src" );
-
-			if ( imageSource ) {
-				image = imageSource;
+		for ( const imageElement of imageElements ) {
+			if ( imageElement.src ) {
+				return imageElement.src;
 			}
-		} while ( "" === image && images.length > 0 );
+		}
 
-		return image;
+		return "";
 	}
 
 	/**
@@ -245,27 +277,38 @@ export default class BlockEditorData {
 	 * @returns {void}
 	 */
 	handleEditorChange( newData ) {
-		// Handle title change
+		// Handle content change.
+		if ( this._data.content !== newData.content ) {
+			this._store.dispatch( setEditorDataContent( newData.content ) );
+		}
+		// Handle title change.
 		if ( this._data.title !== newData.title ) {
+			this._store.dispatch( setEditorDataTitle( newData.title ) );
 			this._store.dispatch( updateReplacementVariable( "title", newData.title ) );
 		}
-		// Handle excerpt change
+		// Handle excerpt change.
 		if ( this._data.excerpt !== newData.excerpt ) {
+			this._store.dispatch( setEditorDataExcerpt( newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
-		// Handle slug change
+		// Handle slug change.
 		if ( this._data.slug !== newData.slug ) {
+			this._store.dispatch( setEditorDataSlug( newData.slug ) );
 			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
 		// Handle snippet preview image change.
 		if ( this._data.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
+			this._store.dispatch( setEditorDataImageUrl( newData.snippetPreviewImageURL ) );
 			this._store.dispatch( updateData( { snippetPreviewImageURL: newData.snippetPreviewImageURL } ) );
 		}
-
 		// Handle content image change.
 		if ( this._data.contentImage !== newData.contentImage ) {
 			this._store.dispatch( setContentImage( newData.contentImage ) );
+		}
+		// Handle base URL change.
+		if ( this._data.baseUrl !== newData.baseUrl ) {
+			this._store.dispatch( updateSettings( { baseUrl: newData.baseUrl } ) );
 		}
 	}
 

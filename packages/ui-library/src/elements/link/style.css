@@ -1,0 +1,28 @@
+@layer components {
+	.yst-root {
+		.yst-link {
+			@apply
+			yst-text-indigo-600
+			yst-cursor-pointer
+			yst-underline
+
+			hover:yst-text-indigo-500
+			focus:yst-text-indigo-500
+			focus:yst-outline-none
+			visited:yst-text-primary-500
+			visited:hover:yst-text-primary-400;
+		}
+
+		/* Variants */
+		.yst-link--default {
+		}
+
+		.yst-link--primary {
+			@apply yst-text-primary-600 hover:yst-text-primary-500 focus:yst-text-primary-500;
+		}
+
+		.yst-link--error {
+			@apply yst-text-red-600 hover:yst-text-red-500 focus:yst-text-red-500;
+		}
+	}
+}

@@ -14,10 +14,11 @@ import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
 import WincherTableRow from "./WincherTableRow";
 import {
 	getKeyphrases,
-	handleAPIResponse,
 	trackKeyphrases,
 	untrackKeyphrase,
 } from "../helpers/wincherEndpoints";
+
+import { handleAPIResponse } from "../helpers/api";
 
 const GetMoreInsightsLink = makeOutboundLink();
 
@@ -339,7 +340,7 @@ const WincherKeyphrasesTable = ( props ) => {
 									onTrackKeyphrase={ onTrackKeyphrase }
 									onUntrackKeyphrase={ onUntrackKeyphrase }
 									rowData={ getKeyphraseData( keyphrase ) }
-									isFocusKeyphrase={ keyphrase === focusKeyphrase.trim() }
+									isFocusKeyphrase={ keyphrase === focusKeyphrase.trim().toLowerCase() }
 									websiteId={ websiteId }
 									isDisabled={ ! isLoggedIn }
 									isLoading={ isDataLoading || loadingKeyphrases.indexOf( keyphrase.toLowerCase() ) >= 0 }

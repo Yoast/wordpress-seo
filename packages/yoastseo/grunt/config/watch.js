@@ -8,10 +8,6 @@ module.exports = {
 		files: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
 		tasks: [ "eslint" ],
 	},
-	sass: {
-		files: "<%= files.scss %>",
-		tasks: [ "sass:build", "postcss:build" ],
-	},
 	templates: {
 		files: "<%= files.templates %>",
 		tasks: [ "build:jst" ],

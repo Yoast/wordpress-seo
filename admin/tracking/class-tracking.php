@@ -106,7 +106,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 * Sends the tracking data.
 	 *
 	 * @param bool $force Whether to send the tracking data ignoring the two
-	 *                    weeks time treshhold. Default false.
+	 *                    weeks time threshold. Default false.
 	 */
 	public function send( $force = false ) {
 		if ( ! $this->should_send_tracking( $force ) ) {

@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
@@ -32,6 +33,7 @@ class Results extends Component {
 		}
 
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
+		this.handleEditButtonClick = this.handleEditButtonClick.bind( this );
 	}
 
 	/**
@@ -76,6 +78,97 @@ class Results extends Component {
 	}
 
 	/**
+	 * Focuses on a focus or related keyphrase input field.
+	 *
+	 * @param {string} inputFieldLocation The location of the input field that should be focused on (metabox or sidebar).
+	 *
+	 * @returns {void}
+	 */
+	focusOnKeyphraseField( inputFieldLocation ) {
+		// The keyword key is used for labelling the related keyphrase(s).
+		const keywordKey = this.props.keywordKey;
+		const elementID = keywordKey === "" ? "focus-keyword-input-" + inputFieldLocation
+			: "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation;
+
+
+		const element = document.getElementById( elementID );
+		element.focus();
+		element.scrollIntoView( {
+			behavior: "auto",
+			block: "center",
+			inline: "center",
+		} );
+	}
+
+	/**
+     * Focuses on a Google preview input field (meta description, title or slug).
+	 *
+	 * @param {string}	id     				Result id which determines which input field should be focused on.
+	 * @param {string}	inputFieldLocation	The location of the input field that should be focused on (metabox or modal).
+	 *
+	 * @returns {void}
+	 */
+	focusOnGooglePreviewField( id, inputFieldLocation ) {
+		let inputField;
+
+		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
+			inputField = "description";
+		} else if ( id === "titleWidth" || id === "keyphraseInSEOTitle" ) {
+			inputField = "title";
+		} else {
+			inputField = "slug";
+		}
+
+		const element = document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation );
+		element.focus();
+		element.scrollIntoView( {
+			behavior: "auto",
+			block: "center",
+			inline: "center",
+		} );
+	}
+
+	/**
+	 * Handles a click on an edit button to jump to a relevant edit field.
+	 *
+	 * @param {string}   id     Result id which determines which edit field should be focused on.
+	 *
+	 * @returns {void}
+	 */
+	handleEditButtonClick( id ) {
+		// Whether the user is in the metabox or sidebar.
+		let inputFieldLocation = this.props.location;
+
+		if ( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
+			this.focusOnKeyphraseField( inputFieldLocation );
+			return;
+		}
+		/*
+		 * For all the other assessments that have an edit button, we need to jump to the relevant Google preview fields.
+		 * (metadescription, slug, or title). If the user is in the sidebar, these are accessed through a modal. So if the
+		 * inputFieldLocation string is 'sidebar' it should now be changed to 'modal'.
+	     */
+		if ( inputFieldLocation === "sidebar" ) {
+			inputFieldLocation = "modal";
+			// Open the modal.
+			document.getElementById( "yoast-google-preview-modal-open-button" ).click();
+			// Wait for the input field elements to become available, then focus on the relevant field.
+			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
+		} else {
+			const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
+			// Check if the collapsible is closed before clicking on it.
+			if ( googlePreviewCollapsible && googlePreviewCollapsible.getAttribute( "aria-expanded" ) === "false" ) {
+				// If it is closed, click on it to open it, and wait a bit before focusing on the edit field.
+				googlePreviewCollapsible.click();
+				setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
+			} else {
+				// Collapsible already open, we can click on the field directly.
+				this.focusOnGooglePreviewField( id, inputFieldLocation );
+			}
+		}
+	}
+
+	/**
 	 * Removes all markers.
 	 *
 	 * @returns {void}
@@ -98,20 +191,38 @@ class Results extends Component {
 			considerationsResults,
 			problemsResults,
 		} = mappedResults;
+
+		const { upsellResults, resultCategoryLabels } = this.props;
+
+		const defaultLabels = {
+			errors: __( "Errors", "wordpress-seo" ),
+			problems: __( "Problems", "wordpress-seo" ),
+			improvements: __( "Improvements", "wordpress-seo" ),
+			considerations: __( "Considerations", "wordpress-seo" ),
+			goodResults: __( "Good results", "wordpress-seo" ),
+		};
+
+		const labels = Object.assign( defaultLabels, resultCategoryLabels );
+
 		return (
 			<Fragment>
 				<ContentAnalysis
 					errorsResults={ errorsResults }
 					problemsResults={ problemsResults }
+					upsellResults={ upsellResults }
 					improvementsResults={ improvementsResults }
 					considerationsResults={ considerationsResults }
 					goodResults={ goodResults }
 					activeMarker={ this.props.activeMarker }
 					onMarkButtonClick={ this.handleMarkButtonClick }
+					onEditButtonClick={ this.handleEditButtonClick }
 					marksButtonClassName={ this.props.marksButtonClassName }
+					editButtonClassName={ this.props.editButtonClassName }
 					marksButtonStatus={ this.props.marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
+					isPremium={ this.props.isPremium }
+					resultCategoryLabels={ labels }
 				/>
 			</Fragment>
 		);
@@ -120,20 +231,36 @@ class Results extends Component {
 
 Results.propTypes = {
 	results: PropTypes.array,
+	upsellResults: PropTypes.array,
 	marksButtonClassName: PropTypes.string,
+	editButtonClassName: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
 	setActiveMarker: PropTypes.func.isRequired,
 	setMarkerPauseStatus: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
 	keywordKey: PropTypes.string,
+	location: PropTypes.string,
+	isPremium: PropTypes.bool,
+	resultCategoryLabels: PropTypes.shape( {
+		errors: PropTypes.string,
+		problems: PropTypes.string,
+		improvements: PropTypes.string,
+		considerations: PropTypes.string,
+		goodResults: PropTypes.string,
+	} ),
 };
 
 Results.defaultProps = {
 	results: null,
+	upsellResults: [],
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	editButtonClassName: "",
 	activeMarker: null,
 	keywordKey: "",
+	location: "",
+	isPremium: false,
+	resultCategoryLabels: {},
 };
 
 export default Results;

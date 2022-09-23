@@ -6,6 +6,7 @@ use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
@@ -107,6 +108,14 @@ class Importing_Route extends Abstract_Action_Route {
 				$next_url
 			);
 		} catch ( \Exception $exception ) {
+			if ( $exception instanceof Aioseo_Validation_Exception ) {
+				return new WP_Error(
+					'wpseo_error_validation',
+					$exception->getMessage(),
+					[ 'stackTrace' => $exception->getTraceAsString() ]
+				);
+			}
+
 			return new WP_Error(
 				'wpseo_error_indexing',
 				$exception->getMessage(),

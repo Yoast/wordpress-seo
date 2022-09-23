@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Theme_Titles_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Theme_Titles
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end

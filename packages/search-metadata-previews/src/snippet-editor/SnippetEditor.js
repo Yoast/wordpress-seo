@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import noop from "lodash/noop";
+import { escapeRegExp, noop } from "lodash";
 
 /* Yoast dependencies */
 import { assessments, languageProcessing, helpers } from "yoastseo";
@@ -125,6 +125,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object}   props.titleLengthProgress               The values for the title length assessment.
 	 * @param {Object}   props.descriptionLengthProgress         The values for the description length assessment.
 	 * @param {Function} props.mapEditorDataToPreview            Function to map the editor data to data for the preview.
+	 * @param {Function} props.applyReplacementVariables         Function that overrides default replacement variables application with a custom one.
 	 * @param {string}   props.locale                            The locale of the page.
 	 * @param {string}   props.mobileImageSrc                    Mobile Image source for snippet preview.
 	 * @param {bool}     props.hasPaperStyle                     Whether or not it has paper style.
@@ -163,6 +164,7 @@ class SnippetEditor extends React.Component {
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
 		this.handleChange = this.handleChange.bind( this );
+		this.haveReplaceVarsChanged = this.haveReplaceVarsChanged.bind( this );
 	}
 
 	/**
@@ -189,11 +191,23 @@ class SnippetEditor extends React.Component {
 		   The replacement variables are converted from an array of objects to a string for easier and more consistent
 		   comparison.
 		 */
-		if ( JSON.stringify( prevProps.replacementVariables ) !== JSON.stringify( nextProps.replacementVariables ) ) {
+		if ( this.haveReplaceVarsChanged( prevProps.replacementVariables, nextProps.replacementVariables ) ) {
 			isDirty = true;
 		}
 
 		return isDirty;
+	}
+
+	/**
+	 * Checks if the replacement variables have changed.
+	 *
+	 * @param {ReplaceVar[]} oldReplaceVars The old replacement variables.
+	 * @param {ReplaceVar[]} newReplaceVars The new replacement variables.
+	 *
+	 * @returns {boolean} If there is a difference between the old replacement variables and the new ones.
+	 */
+	haveReplaceVarsChanged( oldReplaceVars, newReplaceVars ) {
+		return JSON.stringify( oldReplaceVars ) !== JSON.stringify( newReplaceVars );
 	}
 
 	/**
@@ -217,21 +231,15 @@ class SnippetEditor extends React.Component {
 						nextProps.locale ),
 				}
 			);
+
+			if ( this.haveReplaceVarsChanged( this.props.replacementVariables, nextProps.replacementVariables ) ) {
+				/*
+				 * Make sure that changes to the replace vars (e.g. title, category, tags) get reflected on the
+				 * analysis data on the store (used in, among other things, the SEO analysis).
+				 */
+				this.props.onChangeAnalysisData( data );
+			}
 		}
-	}
-
-	/**
-	 * Calls the onChangeAnalysisData function with the current analysis
-	 * data when the component did update.
-	 *
-	 *  @returns {void}
-	 */
-	componentDidUpdate() {
-		const analysisData = this.mapDataToMeasurements( {
-			...this.props.data,
-		} );
-
-		this.props.onChangeAnalysisData( analysisData );
 	}
 
 	/**
@@ -262,6 +270,7 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			descriptionEditorFieldPlaceholder,
+			onReplacementVariableSearchChange,
 			replacementVariables,
 			recommendedReplacementVariables,
 			hasPaperStyle,
@@ -284,6 +293,7 @@ class SnippetEditor extends React.Component {
 					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
+					onReplacementVariableSearchChange={ onReplacementVariableSearchChange }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					titleLengthProgress={ titleLengthProgress }
@@ -413,8 +423,12 @@ class SnippetEditor extends React.Component {
 	 * @returns {string} The processed content.
 	 */
 	processReplacementVariables( content, replacementVariables = this.props.replacementVariables ) {
+		if ( this.props.applyReplacementVariables ) {
+			return this.props.applyReplacementVariables( content );
+		}
+
 		for ( const { name, value } of replacementVariables ) {
-			content = content.replace( new RegExp( "%%" + name + "%%", "g" ), value );
+			content = content.replace( new RegExp( "%%" + escapeRegExp( name ) + "%%", "g" ), value );
 		}
 
 		return content;
@@ -598,6 +612,7 @@ class SnippetEditor extends React.Component {
 }
 
 SnippetEditor.propTypes = {
+	onReplacementVariableSearchChange: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
@@ -613,6 +628,7 @@ SnippetEditor.propTypes = {
 	onChangeAnalysisData: PropTypes.func,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
+	applyReplacementVariables: PropTypes.func,
 	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	wordsToHighlight: PropTypes.array,
@@ -631,6 +647,7 @@ SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
 	wordsToHighlight: [],
+	onReplacementVariableSearchChange: null,
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	titleLengthProgress: {
@@ -643,6 +660,7 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
+	applyReplacementVariables: null,
 	mapEditorDataToPreview: null,
 	keyword: "",
 	locale: "en",

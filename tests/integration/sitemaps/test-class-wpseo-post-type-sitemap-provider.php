@@ -42,9 +42,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_index_links_no_entries() {
 		$index_links = self::$class_instance->get_index_links( 1 );
-		$this->assertNotEmpty( $index_links );
-		$this->assertContains( 'http://example.org/post-sitemap.xml', $index_links[0] );
-		$this->assertContains( 'http://example.org/page-sitemap.xml', $index_links[1] );
+		$this->assertEquals( [], $index_links );
 	}
 
 	/**
@@ -63,7 +61,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$this->factory->post->create();
 
 		$index_links = self::$class_instance->get_index_links( 1 );
-		$this->assertContains( 'http://example.org/post-sitemap1.xml', $index_links[0] );
+		$this->assertContains( 'http://example.org/post-sitemap.xml', $index_links[0] );
 		$this->assertContains( 'http://example.org/post-sitemap2.xml', $index_links[1] );
 	}
 

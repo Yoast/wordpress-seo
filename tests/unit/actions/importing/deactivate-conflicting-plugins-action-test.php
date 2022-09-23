@@ -20,7 +20,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
@@ -34,7 +33,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	/**
 	 * The service responsible for detecting conflicting plugins
 	 *
-	 * @var Mockery::mockInterface|Conflicting_Plugins_Service
+	 * @var Mockery\MockInterface|Conflicting_Plugins_Service
 	 */
 	protected $conflicting_plugins_service;
 
@@ -82,13 +81,13 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	/**
 	 * Tests wether the tested class can import all data it should be able to handle
 	 *
-	 * @param string $plugin The plugin that's being imported.
-	 * @param string $type   The type of data being imported.
-	 *
 	 * @dataProvider is_compatible_with_testdata
 	 *
 	 * @covers ::is_compatible_with
 	 * @covers ::__construct
+	 *
+	 * @param string $plugin The plugin that's being imported.
+	 * @param string $type   The type of data being imported.
 	 */
 	public function test_is_compatible_with( $plugin, $type ) {
 		// Arrange.
@@ -132,13 +131,13 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	/**
 	 * Tests wether the tested class can import all data it should be able to handle
 	 *
-	 * @param string $plugin The plugin that's being imported.
-	 * @param string $type   The type of data being imported.
-	 *
 	 * @dataProvider is_compatible_with_wrong_testdata
 	 *
 	 * @covers ::is_compatible_with
 	 * @covers ::__construct
+	 *
+	 * @param string $plugin The plugin that's being imported.
+	 * @param string $type   The type of data being imported.
 	 */
 	public function test_is_not_compatible_with( $plugin, $type ) {
 		// Arrange.
@@ -242,10 +241,10 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 *
 	 * @dataProvider get_limited_data
 	 *
+	 * @covers ::get_limited_unindexed_count
+	 *
 	 * @param int $limit    The requested maximum.
 	 * @param int $expected The expected result.
-	 *
-	 * @covers ::get_limited_unindexed_count
 	 */
 	public function test_get_limited_unindexed_count( $limit, $expected ) {
 		// Arrange.

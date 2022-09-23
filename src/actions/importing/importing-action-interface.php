@@ -24,8 +24,8 @@ interface Importing_Action_Interface extends Indexation_Action_Interface, Limite
 	/**
 	 * Whether or not this action is capable of importing given a specific plugin and type.
 	 *
-	 * @param string $plugin The name of the plugin being imported.
-	 * @param string $type   The component of the plugin being imported.
+	 * @param string|null $plugin The name of the plugin being imported.
+	 * @param string|null $type   The component of the plugin being imported.
 	 *
 	 * @return bool True if the action can import the given plugin's data of the given type.
 	 */

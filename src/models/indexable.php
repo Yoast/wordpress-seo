@@ -112,6 +112,7 @@ class Indexable extends Model {
 		'is_public',
 		'is_protected',
 		'has_public_posts',
+		'has_ancestors',
 	];
 
 	/**

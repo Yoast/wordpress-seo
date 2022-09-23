@@ -439,6 +439,21 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Checks if the current global post is the privacy policy page.
+	 *
+	 * @return bool current global post is set as privacy page
+	 */
+	public function current_post_is_privacy_policy() {
+		global $post;
+
+		if ( ! isset( $post->ID ) ) {
+			return false;
+		}
+
+		return \intval( $post->ID ) === \intval( \get_option( 'wp_page_for_privacy_policy', false ) );
+	}
+
+	/**
 	 * Returns the permalink of the currently opened date archive.
 	 *
 	 * @return string The permalink of the currently opened date archive.

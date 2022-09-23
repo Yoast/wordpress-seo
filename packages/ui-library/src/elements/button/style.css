@@ -1,0 +1,102 @@
+@layer components {
+	.yst-root {
+		.yst-button {
+			@apply
+			yst-inline-flex
+			yst-items-center
+			yst-py-2
+			yst-px-3
+			yst-border
+			yst-shadow-sm
+			yst-no-underline
+			yst-cursor-pointer
+			yst-rounded-md
+			yst-text-sm
+			yst-font-medium
+			yst-leading-4
+
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-offset-2
+			focus:yst-ring-primary-500
+		}
+
+		/* Variants */
+
+		.yst-button--primary {
+			@apply
+			yst-text-white
+			yst-bg-primary-500
+			yst-border-transparent
+
+			hover:yst-text-white
+			hover:yst-bg-primary-700
+			visited:yst-text-white
+			visited:hover:yst-text-white;
+		}
+
+		.yst-button--secondary {
+			@apply
+			yst-text-gray-800
+			yst-bg-white
+			yst-border-gray-300
+
+			hover:yst-text-gray-800
+			hover:yst-bg-gray-50
+			visited:yst-text-gray-800
+			visited:hover:yst-text-gray-800;
+		}
+
+		.yst-button--error {
+			@apply
+			yst-text-white
+			yst-bg-red-600
+			yst-border-transparent
+
+			hover:yst-text-white
+			hover:yst-bg-red-700
+			focus:yst-ring-red-600
+			visited:yst-text-white
+			visited:hover:yst-text-white;
+		}
+
+		.yst-button--upsell {
+			@apply
+			yst-text-amber-900
+			yst-bg-amber-300
+			yst-border-transparent
+
+			hover:yst-text-amber-900
+			hover:yst-bg-amber-400
+			focus:yst-ring-amber-400
+			visited:yst-text-amber-900
+			visited:hover:yst-text-amber-900;
+		}
+
+		/* Sizes */
+
+		.yst-button--large {
+			@apply
+			yst-py-3
+			yst-px-6
+			yst-text-base;
+		}
+
+		.yst-button--small {
+			@apply
+			yst-text-xs
+			yst-py-1.5
+			yst-px-2.5;
+		}
+
+		/* States */
+
+		.yst-button--disabled {
+			@apply
+			yst-opacity-50
+			yst-cursor-not-allowed
+
+			focus:yst-ring-0;
+		}
+	}
+}

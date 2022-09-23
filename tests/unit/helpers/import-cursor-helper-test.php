@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Class Import_Cursor_Helper_Test
  *
@@ -17,7 +16,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @package Yoast\WP\SEO\Tests\Unit\Actions\Importing
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\Import_Cursor_Helper
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Import_Cursor_Helper_Test extends TestCase {
 

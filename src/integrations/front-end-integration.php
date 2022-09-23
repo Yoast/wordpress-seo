@@ -101,6 +101,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
+		'Meta_Author',
 	];
 
 	/**
@@ -156,6 +157,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var string[]
 	 */
 	protected $singular_presenters = [
+		'Meta_Author',
 		'Open_Graph\Article_Author',
 		'Open_Graph\Article_Publisher',
 		'Open_Graph\Article_Published_Time',
@@ -456,6 +458,15 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Whether the title presenter should be removed.
+	 *
+	 * @return bool True when the title presenter should be removed, false otherwise.
+	 */
+	public function should_title_presenter_be_removed() {
+		return ! \get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false );
+	}
+
+	/**
 	 * Checks if the Title presenter needs to be removed.
 	 *
 	 * @param string[] $presenters The presenters.
@@ -469,7 +480,7 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
-		if ( ! \get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false ) ) {
+		if ( $this->should_title_presenter_be_removed() ) {
 			$presenters = \array_diff( $presenters, [ 'Title' ] );
 		}
 

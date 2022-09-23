@@ -53,6 +53,8 @@ class Site_Name_Presenter_Test extends TestCase {
 	public function test_present() {
 		$this->presentation->open_graph_site_name = 'My Site';
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$expected = '<meta property="og:site_name" content="My Site" />';
 		$actual   = $this->instance->present();
 
@@ -86,8 +88,25 @@ class Site_Name_Presenter_Test extends TestCase {
 			->once()
 			->with( 'My Site', $this->presentation )
 			->andReturn( 'My Site' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$expected = '<meta property="og:site_name" content="My Site" />';
+		$actual   = $this->instance->present();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests whether the presenter returns the correct title when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_class() {
+		$this->presentation->open_graph_site_name = 'My Site';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$expected = '<meta property="og:site_name" content="My Site" class="yoast-seo-meta-tag" />';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );

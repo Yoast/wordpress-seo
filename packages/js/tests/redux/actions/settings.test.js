@@ -1,4 +1,4 @@
-import { setSettings, SET_SETTINGS } from "../../../src/redux/actions/settings";
+import { setSettings, SET_SETTINGS, updateSettings, UPDATE_SETTINGS } from "../../../src/redux/actions";
 
 
 describe( setSettings, () => {
@@ -15,5 +15,16 @@ describe( setSettings, () => {
 		const actual = setSettings( settings );
 
 		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "updateSettings for snippet editor", () => {
+	it( "returns an action", () => {
+		const newSettingsData = { baseUrl: " http://basic.wordpress.test/yoast-test-books/" };
+
+		expect( updateSettings( newSettingsData ) ).toEqual( {
+			type: UPDATE_SETTINGS,
+			snippetEditor: newSettingsData,
+		} );
 	} );
 } );
