@@ -28,30 +28,15 @@
         "message": "Please use @wordpress/element instead."
       }
     ],
-    "max-len": [
-      "error",
-      {
-        "code": 150,
-        "ignoreStrings": true,
-        "ignorePattern": "[\t]*<path [\\w\\W]*/>\n"
-      }
-    ],
-    "space-unary-ops": [
-      "error",
-      {
-        "words": true,
-        "nonwords": false,
-        "overrides": {
-          "!": true,
-          "!!": true
-        }
-      }
-    ],
     "space-before-function-paren": [
       "error",
       {
         "anonymous": "never",
         "named": "never",
+        /*
+         * This makes sure that there's a space between `async` and the function parens:
+         * @example `const func = async () => {};`.
+         */
         "asyncArrow": "always"
       }
     ],
