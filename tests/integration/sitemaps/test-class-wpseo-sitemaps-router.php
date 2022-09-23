@@ -71,7 +71,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provides data for the generate get base url test.
+	 * Provides data for the get base url test.
 	 *
 	 * @return array Test data to use.
 	 */
@@ -89,7 +89,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 			],
 			[
 				'home_url' => 'example.org',
-				'expected' => 'https://example.org/sitemap.xml',
+				'expected' => 'http://example.org/sitemap.xml',
 				'message'  => 'Tests the base URL of the sitemap for a home url with no http schema',
 			],
 		];
