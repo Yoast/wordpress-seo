@@ -177,11 +177,11 @@ describe( "AnalysisWebWorker", () => {
 		} );
 
 		describe( "shouldAssessorsUpdate", () => {
-			const updateAll = { readability: true, seo: true, inclusiveLanguage: true };
-			const updateNone = { readability: false, seo: false, inclusiveLanguage: false };
-			const updateReadability = { readability: true, seo: false, inclusiveLanguage: false };
-			const updateSEO = { readability: false, seo: true, inclusiveLanguage: false };
-			const updateSEOAndReadability = { readability: true, seo: true, inclusiveLanguage: false };
+			const updateAll = { readability: true, seo: true };
+			const updateNone = { readability: false, seo: false };
+			const updateReadability = { readability: true, seo: false };
+			const updateSEO = { readability: false, seo: true };
+			const updateSEOAndReadability = { readability: true, seo: true };
 
 			test( "update all when an empty configuration is passed", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateAll );

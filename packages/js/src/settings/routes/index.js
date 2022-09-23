@@ -1,4 +1,5 @@
 export { default as PostType } from "./templates/post-type";
+export { default as Taxonomy } from "./templates/taxonomy";
 export { default as AuthorArchives } from "./author-archives";
 export { default as Breadcrumbs } from "./breadcrumbs";
 export { default as CrawlSettings } from "./crawl-optimization";
@@ -9,7 +10,7 @@ export { default as Media } from "./media";
 export { default as NotFoundPages } from "./not-found-pages";
 export { default as Rss } from "./rss";
 export { default as SearchPages } from "./search-pages";
-export { default as SiteDefaults } from "./site-defaults";
+export { default as SiteBasics } from "./site-basics";
 export { default as SitePreferences } from "./site-preferences";
 export { default as SiteRepresentation } from "./site-representation";
 export { default as WebmasterTools } from "./webmaster-tools";

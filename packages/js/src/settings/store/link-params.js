@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
-import { createLink } from "../helpers/url";
+import { addQueryArgs } from "@wordpress/url";
 
 /**
  * @returns {Object} The initial state.
@@ -22,7 +22,7 @@ linkParamsSelectors.selectLink = createSelector(
 		linkParamsSelectors.selectLinkParams,
 		( state, url ) => url,
 	],
-	( linkParams, link ) => createLink( link, linkParams )
+	( linkParams, link ) => addQueryArgs( link, linkParams )
 );
 
 export { linkParamsSelectors };

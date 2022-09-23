@@ -9,8 +9,7 @@ import { ReactComponent as ConfigurationFinishImage } from "../../../../../image
  * @returns {void}
  */
 function goToSEODashboard() {
-	document.getElementById( "dashboard-tab" ).click();
-	window.scrollTo( 0, 0 );
+	window.location.href = "admin.php?page=wpseo_dashboard";
 }
 
 /**

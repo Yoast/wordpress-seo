@@ -60,8 +60,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 
@@ -76,8 +74,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 
@@ -93,8 +89,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"singleH1",
 			"images",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 
@@ -110,8 +104,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 
@@ -125,8 +117,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"functionWordsInKeyphrase",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 
@@ -144,8 +134,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 
@@ -161,8 +149,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 
@@ -179,9 +165,35 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"slugKeyword",
 			"images",
-			"productIdentifier",
-			"productSKU",
 		] );
+	} );
+
+	it( "additionally runs assessments that require the SKU to be detectable, and that shouldn't be applicable if the" +
+		"product has variants and we don't want to assess variants", function() {
+		const customData = {
+			canRetrieveGlobalSku: true,
+			canRetrieveVariantSkus: true,
+			hasVariants: true,
+			productType: "variable",
+		};
+		assessor.assess( new Paper( "", { customData } ) );
+		const AssessmentResults = assessor.getValidResults();
+		const assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toContain( "productSKU" );
+	} );
+
+	it( "additionally runs assessments that shouldn't be applicable if the product has variants and we don't want" +
+		" to assess variants", function() {
+		const customData = {
+			hasVariants: true,
+			productType: "variable",
+		};
+		assessor.assess( new Paper( "", { customData } ) );
+		const AssessmentResults = assessor.getValidResults();
+		const assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toContain( "productIdentifier" );
 	} );
 
 	// These specifications will additionally trigger the largest keyword distance assessment.
@@ -211,8 +223,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 
@@ -242,8 +252,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
-			"productIdentifier",
-			"productSKU",
 		] );
 	} );
 

@@ -82,6 +82,7 @@ describe( "serialize", () => {
 			title: "A text about a keyword.",
 			date: "8 September 2021",
 			customData: { hasGlobalIdentifier: true, hasVariants: true },
+			textTitle: "The title of the text",
 		} );
 
 		expect( serialize( thing ) ).toEqual( {
@@ -97,6 +98,7 @@ describe( "serialize", () => {
 			slug: "",
 			date: "8 September 2021",
 			customData: { hasGlobalIdentifier: true, hasVariants: true },
+			textTitle: "The title of the text",
 		} );
 	} );
 

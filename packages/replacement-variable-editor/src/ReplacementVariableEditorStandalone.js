@@ -40,9 +40,13 @@ import { selectReplacementVariables } from "./helpers/selection";
  * WordPress admin menu. The admin menu has a z-index of 9990. Therefor we add
  * an extra 9990 to our z-index value.
  */
-const ZIndexOverride = styled.div`
+const MentionSuggestionsStyleWrapper = styled.div`
 	div {
 		z-index: 10995;
+	}
+	> div {
+		max-height: 450px;
+		overflow-y: auto;
 	}
 `;
 
@@ -371,6 +375,10 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( { value } ) {
+		if ( this.props.onSearchChange ) {
+			this.props.onSearchChange( value );
+		}
+
 		const recommendedReplacementVariables = this.determineCurrentReplacementVariables(
 			this.props.replacementVariables,
 			this.props.recommendedReplacementVariables,
@@ -510,25 +518,35 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	componentWillReceiveProps( nextProps ) {
 		const { content, replacementVariables, recommendedReplacementVariables } = this.props;
 		const { searchValue } = this.state;
+		const nextState = {};
 
-		if (
-			( nextProps.content !== this._serializedContent && nextProps.content !== content ) ||
-			nextProps.replacementVariables !== replacementVariables
-		) {
+		if ( nextProps.content !== this._serializedContent && nextProps.content !== content ) {
 			this._serializedContent = nextProps.content;
-			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+		} else if ( nextProps.replacementVariables !== replacementVariables ) {
+			const newReplacementVariableNames = nextProps.replacementVariables
+				.map( rv => rv.name )
+				.filter( rvName => ! replacementVariables.map( rv => rv.name ).includes( rvName ) );
+
+			if ( newReplacementVariableNames.some( rvName => content.includes( "%%" + rvName + "%%" ) ) ) {
+				this._serializedContent = nextProps.content;
+				nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			}
+		}
+
+		if ( nextProps.replacementVariables !== replacementVariables ) {
 			const currentReplacementVariables = this.determineCurrentReplacementVariables(
 				nextProps.replacementVariables,
 				recommendedReplacementVariables,
 				searchValue
 			);
-			const suggestions = this.mapReplacementVariablesToSuggestions( currentReplacementVariables );
-
-			this.setState( {
-				editorState,
-				suggestions: this.suggestionsFilter( searchValue, suggestions ),
-			} );
+			nextState.suggestions = this.suggestionsFilter(
+				searchValue,
+				this.mapReplacementVariablesToSuggestions( currentReplacementVariables )
+			);
 		}
+
+		this.setState( nextState );
 	}
 
 	/**
@@ -627,14 +645,14 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					fieldId
 				) }
 
-				<ZIndexOverride>
+				<MentionSuggestionsStyleWrapper>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
 						onOpenChange={ this.onSuggestionsOpenChange }
 						open={ isSuggestionsOpen }
 					/>
-				</ZIndexOverride>
+				</MentionSuggestionsStyleWrapper>
 			</React.Fragment>
 		);
 	}
@@ -645,6 +663,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	replacementVariables: replacementVariablesShape.isRequired,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
+	onSearchChange: PropTypes.func,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
@@ -655,6 +674,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
+	onSearchChange: null,
 	onFocus: () => {},
 	onBlur: () => {},
 	placeholder: "",

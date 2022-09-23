@@ -241,7 +241,14 @@ class WPSEO_Admin_Asset_Manager {
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
+			'indexables-page'          => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
@@ -586,6 +593,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'notifications',
 				'src'  => 'notifications-' . $flat_version,
+			],
+			[
+				'name' => 'notifications-new',
+				'src'  => 'notifications-new-' . $flat_version,
 			],
 			[
 				'name' => 'alert',

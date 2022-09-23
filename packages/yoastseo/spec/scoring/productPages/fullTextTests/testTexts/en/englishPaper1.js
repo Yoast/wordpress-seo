@@ -14,9 +14,11 @@ const paper = new Paper( content, {
 	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
 	slug: "Cat_play_and_toys",
 	customData: {
+		canRetrieveGlobalSku: true,
 		hasGlobalSKU: true,
 		hasGlobalIdentifier: true,
 		hasVariants: false,
+		productType: "simple",
 	},
 } );
 
@@ -94,12 +96,12 @@ const expectedResults = {
 	productIdentifiers: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Good job!",
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product has an identifier. Good job!",
 	},
 	productSKU: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Good job!",
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product has a SKU. Good job!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,

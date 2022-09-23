@@ -29,7 +29,7 @@ const withDisabledMessageSupport = ( Component ) => {
 		}, [ isDisabledTracking ] );
 
 		if ( isDisabledSetting || isDisabledTracking ) {
-			return <Component name={ name } { ...props } disabled={ true } labelSuffix={ <Badge variant="plain" className="yst-ml-1.5">{ text }</Badge> } />;
+			return <Component name={ name } { ...props } disabled={ true } labelSuffix={ <Badge variant="plain" size="small" className="yst-ml-1.5">{ text }</Badge> } />;
 		}
 		return <Component name={ name } { ...props } />;
 	};

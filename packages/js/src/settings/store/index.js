@@ -1,6 +1,10 @@
 import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
 import { merge } from "lodash";
-import { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
+import { STORE_NAME } from "../constants";
+import { breadcrumbsSelectors } from "./breadcrumbs";
+import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
+import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
+import media, { createInitialMediaState, mediaActions, mediaSelectors, mediaControls } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
@@ -10,13 +14,14 @@ import replacementVariables, {
 	replacementVariablesSelectors,
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
+import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
+import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
+import users, { createInitialUsersState, usersActions, usersSelectors, usersControls } from "./users";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
-export const STORE_NAME = "@yoast/settings";
-
 /**
- * @param {string} selector The name of the selector.
+ * @param {string} selector The name of the sselector.
  * @param {array} [deps] List of dependencies.
  * @param {*} [args] Selector arguments.
  * @returns {*} The result.
@@ -30,41 +35,66 @@ export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( 
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
+			...fallbacksActions,
 			...linkParamsActions,
+			...mediaActions,
 			...notificationsActions,
 			...postTypesActions,
 			...preferencesActions,
 			...replacementVariablesActions,
 			...schemaActions,
+			...searchActions,
+			...taxonomiesActions,
+			...usersActions,
 		},
 		selectors: {
+			...breadcrumbsSelectors,
+			...fallbacksSelectors,
 			...linkParamsSelectors,
+			...mediaSelectors,
 			...notificationsSelectors,
 			...postTypesSelectors,
 			...preferencesSelectors,
 			...replacementVariablesSelectors,
 			...schemaSelectors,
+			...searchSelectors,
+			...taxonomiesSelectors,
+			...usersSelectors,
 		},
 		initialState: merge(
 			{},
 			{
+				fallbacks: createInitialFallbacksState(),
 				linkParams: createInitialLinkParamsState(),
+				media: createInitialMediaState(),
 				notifications: createInitialNotificationsState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 				schema: createInitialSchemaState(),
+				search: createInitialSearchState(),
+				taxonomies: createInitialTaxonomiesState(),
+				users: createInitialUsersState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
+			fallbacks,
+			linkParams,
+			media,
 			notifications,
 			postTypes,
 			preferences,
 			replacementVariables,
 			schema,
+			search,
+			taxonomies,
+			users,
 		} ),
-		controls: {},
+		controls: {
+			...mediaControls,
+			...usersControls,
+		},
 	} );
 };
 

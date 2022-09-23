@@ -1,7 +1,6 @@
 import {
 	setOverallReadabilityScore,
 	setOverallSeoScore,
-	setOverallInclusiveLanguageScore,
 } from "yoast-components";
 import AnalysisFields from "../../helpers/fields/AnalysisFields";
 
@@ -9,6 +8,7 @@ export * from "../../insights/redux/actions";
 export * from "./activeMarker";
 export * from "./advancedSettings";
 export * from "./analysis";
+export * from "./checklist";
 export * from "./cornerstoneContent";
 export * from "./editorData";
 export * from "./editorModals";
@@ -30,6 +30,7 @@ export * from "./WincherModal";
 export * from "./WincherRequest";
 export * from "./WincherSEOPerformance";
 export * from "./isPremium";
+export * from "./postId";
 
 /**
  * A wrapper function so that we can wrap the field helper to the monorepo action.
@@ -56,24 +57,10 @@ const wrappedSetSeoScore = ( seoScore, keyword ) => {
 	return setOverallSeoScore( seoScore, keyword );
 };
 
-/**
- * A wrapper function so that we can wrap the field helper to the monorepo action.
- *
- * @param {string} inclusiveLanguageScore The overall inclusive language score.
- *
- * @returns {Object} A set overall readability score action.
- */
-const wrappedSetInclusiveLanguageScore = ( inclusiveLanguageScore ) => {
-	AnalysisFields.inclusiveLanguageScore = inclusiveLanguageScore;
-	return setOverallInclusiveLanguageScore( inclusiveLanguageScore );
-};
-
 export { wrappedSetReadabilityScore as setOverallReadabilityScore };
 export { wrappedSetSeoScore as setOverallSeoScore };
-export { wrappedSetInclusiveLanguageScore as setOverallInclusiveLanguageScore };
 
 export {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
-	setInclusiveLanguageResults,
 } from "yoast-components";

@@ -1,10 +1,29 @@
 import { __, sprintf } from "@wordpress/i18n";
+import { addQueryArgs } from "@wordpress/url";
 import { TextField } from "@yoast/ui-library";
-import { Field } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FormLayout } from "../components";
-import { createLink } from "../helpers/url";
+import { FormikValueChangeField, FormLayout } from "../components";
+import { withFormikError } from "../hocs";
 import { useSelectSettings } from "../store";
+
+const CONTENT_TAG_REGEXP = /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/;
+
+/**
+ * Transforms the value to the content of the content tag.
+ *
+ * If the value is a HTML tag, e.g. `<meta content="foo" />`.
+ * Then this function will return `foo`.
+ * Otherwise, the original value will be returned.
+ *
+ * @param {Object} event The change event.
+ * @returns {string} The original value or the value of the content tag.
+ */
+const transformContentTag = event => {
+	const match = event.target.value.match( CONTENT_TAG_REGEXP );
+	return match?.groups?.content ? match.groups.content : event.target.value;
+};
+
+const FormikValueChangeWithErrorField = withFormikError( FormikValueChangeField );
 
 /**
  * @returns {JSX.Element} The webmaster tools route.
@@ -17,8 +36,8 @@ const WebmasterTools = () => {
 			title={ __( "Webmaster tools", "wordpress-seo" ) }
 			description={ __( "Verify your site with different webmaster tools. This will add a verification meta tag on your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
 		>
-			<fieldset className="yst-max-w-screen-sm yst-space-y-8">
-				<Field
+			<fieldset className="yst-min-width-0 yst-max-w-screen-sm yst-space-y-8">
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.baiduverify"
@@ -34,8 +53,9 @@ const WebmasterTools = () => {
 						"link-baidu-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
-				<Field
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.msverify"
@@ -51,8 +71,9 @@ const WebmasterTools = () => {
 						"link-bing-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
-				<Field
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.googleverify"
@@ -64,12 +85,13 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						createLink( "https://www.google.com/webmasters/verification/verification", { hl: "en", tid: "alternate", siteUrl } ),
+						addQueryArgs( "https://www.google.com/webmasters/verification/verification", { hl: "en", tid: "alternate", siteUrl } ),
 						"link-google-search-console"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
-				<Field
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo_social.pinterestverify"
@@ -77,7 +99,7 @@ const WebmasterTools = () => {
 					label={ __( "Pinterest", "wordpress-seo" ) }
 					description={ addLinkToString(
 						sprintf(
-							__( "Claim your site %1$sover at Pinterest%2$s.", "wordpress-seo" ),
+							__( "Claim your site over at %1$sPinterest%2$s.", "wordpress-seo" ),
 							"<a>",
 							"</a>"
 						),
@@ -85,8 +107,9 @@ const WebmasterTools = () => {
 						"link-pinterest"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
-				<Field
+				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
 					name="wpseo.yandexverify"
@@ -102,6 +125,7 @@ const WebmasterTools = () => {
 						"link-yandex-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
+					transformValue={ transformContentTag }
 				/>
 			</fieldset>
 		</FormLayout>

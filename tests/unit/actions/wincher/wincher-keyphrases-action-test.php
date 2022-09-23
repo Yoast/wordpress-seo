@@ -254,15 +254,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				]
 			);
 
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'helpers' => $helpers_mock,
-			]
-		);
+		Monkey\Filters\expectApplied( 'wpseo_wincher_all_keyphrases' );
 
 		$this->client_instance
 			->expects( 'post' )

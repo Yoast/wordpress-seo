@@ -3,6 +3,7 @@ import insights from "../../insights/redux/reducer";
 import activeMarker from "./activeMarker";
 import advancedSettings from "./advancedSettings";
 import analysisData from "./analysisData";
+import checklist from "./checklist";
 import isCornerstone from "./cornerstoneContent";
 import dismissedAlerts from "./dismissedAlerts";
 import editorContext from "./editorContext";
@@ -11,6 +12,7 @@ import editorModals from "./editorModals";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
 import isPremium from "./isPremium";
+import postId from "./postId";
 import marksButtonStatus from "./markerButtons";
 import isMarkerPaused from "./markerPauseStatus";
 import preferences from "./preferences";
@@ -32,6 +34,7 @@ export default {
 	advancedSettings,
 	analysis,
 	analysisData,
+	checklist,
 	dismissedAlerts,
 	editorContext,
 	editorData,
@@ -42,6 +45,7 @@ export default {
 	isCornerstone,
 	isMarkerPaused,
 	isPremium,
+	postId,
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,

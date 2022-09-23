@@ -126,6 +126,8 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
 			assessVariants: true,
+			productType: "simple",
+			addSKULocation: true,
 		} );
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
@@ -346,7 +348,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the SKU assessment", function() {
-			const isApplicable = productSKUAssessment.isApplicable();
+			const isApplicable = productSKUAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.productSKU.isApplicable );
 
 			if ( isApplicable ) {

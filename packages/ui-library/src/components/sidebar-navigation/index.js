@@ -23,11 +23,13 @@ const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props 
 	const { activePath } = useNavigationContext();
 
 	return (
-		<li>
+		<li className="yst-m-0 yst-pb-1">
 			<Component
 				className={ classNames(
-					"yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-rounded-md hover:yst-text-gray-900 hover:yst-bg-gray-50 yst-no-underline focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500",
-					activePath === props[ pathProp ] ? "yst-bg-gray-200 yst-text-gray-900" : "yst-text-gray-600",
+					"yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-rounded-md yst-no-underline focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500",
+					activePath === props[ pathProp ]
+						? "yst-bg-gray-200 yst-text-gray-900"
+						: "yst-text-gray-600 hover:yst-text-gray-900 hover:yst-bg-gray-50",
 				) }
 				{ ...props }
 			>
@@ -59,7 +61,7 @@ const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = tr
 	return (
 		<div>
 			<button
-				className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-mb-1 yst-text-sm yst-font-medium yst-text-gray-800 yst-rounded-md yst-no-underline hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+				className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-gray-800 yst-rounded-md yst-no-underline hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
 				onClick={ toggleOpen }
 				{ ...props }
 			>
@@ -71,7 +73,7 @@ const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = tr
 				</span>
 				<ChevronIcon className="yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
 			</button>
-			{ isOpen && children && <ul className="yst-ml-8 yst-space-y-1">
+			{ isOpen && children && <ul className="yst-ml-8 yst-mt-1 yst-space-y-1">
 				{ children }
 			</ul> }
 		</div>
@@ -107,7 +109,7 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 		<Dialog className="yst-root" open={ isOpen } onClose={ toggleOpen }>
 			<div className="yst-mobile-navigation__dialog">
 				<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30" aria-hidden="true" />
-				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-white">
+				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-gray-100">
 					<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
 						<button
 							className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-gray-600"
@@ -118,7 +120,7 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 						</button>
 					</div>
 					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto yst-p-4">
-						<div className="yst-h-full yst-flex yst-flex-col">
+						<div className="yst-h-full yst-flex yst-flex-col yst-space-y-6">
 							{ children }
 						</div>
 					</div>
@@ -128,7 +130,7 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 		<div className="yst-mobile-navigation__top">
 			<div className="yst-flex yst-relative yst-flex-shrink-0 yst-h-16 yst-z-10 yst-bg-white yst-border-b yst-border-gray-200">
 				<button
-					className="yst-px-4 yst-border-r yst-border-gray-200 yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
+					className="yst-px-4 yst-border-r yst-border-gray-200 yst-text-gray-400 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
 					onClick={ toggleOpen }
 				>
 					<span className="yst-sr-only">{ openButtonScreenReaderText }</span>
@@ -148,14 +150,16 @@ Mobile.propTypes = {
 
 /**
  * @param {JSX.node} children The menu items.
+ * @param {string} className The CSS classname.
  * @returns {JSX.Element} The sidebar element.
  */
-const Sidebar = ( { children } ) => (
-	<nav className="yst-space-y-6">{ children }</nav>
+const Sidebar = ( { children, className = "" } ) => (
+	<nav className={ className }>{ children }</nav>
 );
 
 Sidebar.propTypes = {
 	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
 };
 
 /**
