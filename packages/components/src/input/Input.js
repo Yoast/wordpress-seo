@@ -26,6 +26,17 @@ const inputTypes = [
  */
 class Input extends React.Component {
 	/**
+	 * Constructor for the Input component.
+	 *
+	 * @param {Object} props The component's props.
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.setReference = this.setReference.bind( this );
+	}
+
+	/**
 	 * Determines whether or not the component updated and sets its focus accordingly.
 	 *
 	 * @returns {void}
@@ -54,7 +65,7 @@ class Input extends React.Component {
 	render() {
 		return (
 			<input
-				ref={ this.setReference.bind( this ) }
+				ref={ this.setReference }
 				type={ this.props.type }
 				name={ this.props.name }
 				defaultValue={ this.props.value }
@@ -73,8 +84,8 @@ class Input extends React.Component {
  * @type {{type: string, name: string, placeholder: string, value: string, onChange: function, optionalAttributes:object}}
  */
 Input.propTypes = {
-	name: PropTypes.string.isRequired,
-	type: PropTypes.oneOf( inputTypes ).isRequired,
+	name: PropTypes.string,
+	type: PropTypes.oneOf( inputTypes ),
 	value: PropTypes.any,
 	onChange: PropTypes.func,
 	optionalAttributes: PropTypes.object,
@@ -94,6 +105,9 @@ Input.defaultProps = {
 	value: "",
 	hasFocus: false,
 	className: "",
+	onChange: null,
+	optionalAttributes: {},
+	autoComplete: null,
 };
 
 export default Input;

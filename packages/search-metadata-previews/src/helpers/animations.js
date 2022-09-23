@@ -99,10 +99,11 @@ export class YoastSlideToggle extends React.Component {
 
 YoastSlideToggle.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
-	duration: PropTypes.number.isRequired,
+	duration: PropTypes.number,
 	children: PropTypes.node,
 };
 
 YoastSlideToggle.defaultProps = {
 	duration: 300,
+	children: [],
 };
