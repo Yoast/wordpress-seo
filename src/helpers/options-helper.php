@@ -118,13 +118,13 @@ class Options_Helper {
 	}
 
 	/**
-	 * Checks whether a URL is valid, with empty strings being valid URLs.
+	 * Checks whether a social URL is valid, with empty strings being valid social URLs.
 	 *
 	 * @param string $url The url to be checked.
 	 *
 	 * @return bool Whether the URL is valid.
 	 */
-	public function is_url_valid( $url ) {
+	public function is_social_url_valid( $url ) {
 		return $url === '' || WPSEO_Option_Social::get_instance()->validate_social_url( $url );
 	}
 
