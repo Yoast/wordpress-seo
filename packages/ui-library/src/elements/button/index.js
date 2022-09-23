@@ -1,7 +1,7 @@
 import classNames from "classnames";
+import { keys } from "lodash";
 import PropTypes from "prop-types";
 import Spinner from "../spinner";
-import { keys } from "lodash";
 
 const classNameMap = {
 	variant: {
@@ -40,7 +40,8 @@ const Button = ( {
 	...props
 } ) => (
 	<Component
-		type={ type || ( Component === "button" && "button" ) }
+		// eslint-disable-next-line no-undefined
+		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
 		className={ classNames(
 			"yst-button",

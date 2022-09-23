@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.7
+Stable tag: 19.7.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -241,6 +241,40 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.8 =
+Release Date: October 4th, 2022
+
+Enhancements:
+
+* Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them from being indexed, reducing duplicate content.
+* Removes the `BreadcrumbList` schema output from pages that are not the homepage if there are no valid `ListItem`s in its `itemListElement` schema piece other than the homepage's.
+* Removes two notifications from the Yoast SEO dashboard: the one suggesting enabling auto-updates, and the one suggesting activating an add-on that is installed but currently inactive.
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when the `php_uname()` function is disabled by the web hosting provider and usage tracking is enabled.
+* Fixes a bug where changes in the replacement variables (e.g. the value of the `%%title%%` replacement variable when the post title changes) would not be reflected in the Meta description length, the SEO title width, and the Keyphrase in SEO title assessments.
+* Fixes a bug where `ListItem` entries would be output in a `BreadcrumbList` even if their text was empty, resulting in Schema validation errors.
+* Fixes a bug where passing `__false` to the `wpseo_robots` filter would result in a `max-image-preview:large` robots meta directive instead of the desired `noindex, nofollow` directive.
+* Fixes a bug where robots meta tags would be unintentionally synchronized between pages in different languages when using multilingual plugins like WPML or Polylang.
+* Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
+
+Other:
+
+* Deprecates the `wpseo_twitter_card_type` filter.
+* Outputs `summary_large_image` for all `twitter:card` meta tags, because it's the only supported format by Twitter.
+
+= 19.7.1 =
+Release Date: September 20th, 2022
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown in combination with certain plugins that change the standard login page URL.
+
+Other:
+
+* Changes the copy in the `robots.txt` comment. 
+
 = 19.7 =
 Release Date: September 20th, 2022
 
@@ -259,29 +293,6 @@ Bugfixes:
 Other:
 
 * Adds new disabled toggles to the Crawl settings tab in the General page.
-
-= 19.6.1 =
-Release Date: August 31st, 2022
-
-Other:
-
-* Fixes compliance with the wordpress.org plugin guidelines.
-
-= 19.6 =
-Release Date: August 23rd, 2022
-
-Yoast SEO 19.6 is out today! In this release, we’ve rolled out some general enhancements. In addition, we’ve improved the performance of Yoast SEO on bigger, more complex sites. Read more about what's new in Yoast SEO 19.6 in [our release post in English](https://yoa.st/release-23-8-22) or [our release post in Spanish](https://yoa.st/release-23-8-22-spanish)!
-
-Bugfixes:
-
-* Fixes a bug in the Classic Editor where clicking on the SEO link inside the publish box would not always scroll the SEO analysis into view.
-* Fixes a bug where an emoji in our replacement variable editors would not be entirely removed when the backspace/delete button is hit.
-* Fixes a bug where a redirect to our installation success page could happen on admin AJAX calls.
-
-Other:
-
-* Adds a "Search engines discouraged" notification in the Yoast SEO dashboard when the "Discourage search engines from indexing this site" WordPress setting is turned on.
-* Removes the Ryte integration and deprecates all the relevant classes. More information about this can be found at [yoa.st/ryte-deprecation](https://yoa.st/ryte-deprecation).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

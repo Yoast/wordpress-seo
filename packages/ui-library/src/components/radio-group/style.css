@@ -11,6 +11,17 @@
 			}
 		}
 
+		.yst-radio-group--disabled {
+			.yst-radio-group__label,
+			.yst-radio-group__description {
+				@apply yst-opacity-50;
+			}
+
+			.yst-radio-group__label {
+				@apply yst-cursor-not-allowed;
+			}
+		}
+
 		.yst-radio-group__label {
 			@apply yst-mb-4;
 		}

@@ -1,5 +1,5 @@
 /**
- * Keep constants centralized to avoid circulr dependency problems.
+ * Keep constants centralized to avoid circular dependency problems.
  */
 export const STORE_NAME = "@yoast/settings";
 

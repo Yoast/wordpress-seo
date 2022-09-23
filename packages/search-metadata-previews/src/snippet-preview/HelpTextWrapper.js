@@ -76,6 +76,8 @@ class HelpTextWrapper extends React.Component {
 		};
 
 		this.uniqueId = uniqueId( "yoast-help-" );
+
+		this.onButtonClick = this.onButtonClick.bind( this );
 	}
 
 	/**
@@ -84,7 +86,7 @@ class HelpTextWrapper extends React.Component {
 	 * @returns {void}
 	 */
 	onButtonClick() {
-		this.setState( { isExpanded: ! this.state.isExpanded } );
+		this.setState( prevState => ( { isExpanded: ! prevState.isExpanded } ) );
 	}
 
 	/**
@@ -102,7 +104,7 @@ class HelpTextWrapper extends React.Component {
 			>
 				<HelpTextButton
 					className={ this.props.className + "__button" }
-					onClick={ this.onButtonClick.bind( this ) }
+					onClick={ this.onButtonClick }
 					aria-expanded={ isExpanded }
 					aria-controls={ isExpanded ? helpPanelId : null }
 					aria-label={ this.props.helpTextButtonLabel }

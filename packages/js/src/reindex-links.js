@@ -63,7 +63,7 @@ function doReindexRequest( progressbar, resolve ) {
 		beforeSend: ( xhr ) => {
 			xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
 		},
-		success: function( response ) {
+		success: response => {
 			const totalIndexed = parseInt( response, 10 );
 			if ( totalIndexed !== 0 ) {
 				progressbar.update( totalIndexed );

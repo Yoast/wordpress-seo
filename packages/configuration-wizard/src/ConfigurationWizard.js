@@ -41,10 +41,22 @@ class ConfigurationWizard extends React.Component {
 		};
 
 		this.postStep = this.postStep.bind( this );
+		this.setStepRef = this.setStepRef.bind( this );
 		this.setNextStep = this.setNextStep.bind( this );
 		this.setPreviousStep = this.setPreviousStep.bind( this );
 		this.listenToHashChange = this.listenToHashChange.bind( this );
 		window.addEventListener( "hashchange", this.listenToHashChange, false );
+	}
+
+	/**
+	 * Sets a ref on this component.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	setStepRef( ref ) {
+		this.step = ref;
 	}
 
 	/**
@@ -388,9 +400,7 @@ class ConfigurationWizard extends React.Component {
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
 							<Step
-								ref={ ref => {
-									this.step = ref;
-								} }
+								ref={ this.setStepRef }
 								currentStep={ this.state.currentStepId }
 								title={ step.title }
 								fields={ step.fields }

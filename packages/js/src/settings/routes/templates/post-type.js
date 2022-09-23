@@ -14,8 +14,8 @@ import {
 	FormikValueChangeField,
 	FormLayout,
 	OpenGraphDisabledAlert,
+	FormikTagField,
 } from "../../components";
-import FormikTagField from "../../components/formik-tag-field";
 import { useSelectSettings } from "../../store";
 
 /**
@@ -51,7 +51,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 			"<strong>",
 			"</strong>",
-			"1200x675px"
+			"1200x630px"
 		),
 		{
 			strong: <strong className="yst-font-semibold" />,
@@ -94,7 +94,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener noreferrer" />,
+			a: <a id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noreferrer" />,
 			em: <em />,
 		}
 	), [] );

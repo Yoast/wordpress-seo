@@ -2,7 +2,8 @@
 import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import { useState, useCallback, useEffect, useContext, createContext } from "@wordpress/element";
-import { ExclamationCircleIcon, CheckCircleIcon, ExclamationIcon, XIcon, InformationCircleIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon, ExclamationIcon, XIcon, InformationCircleIcon } from "@heroicons/react/outline";
+import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import { isArray, keys } from "lodash";
 import classNames from "classnames";
 

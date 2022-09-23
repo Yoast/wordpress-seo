@@ -72,12 +72,12 @@ class Social_Profiles_Helper_Test extends TestCase {
 		];
 
 		$this->options_helper
-			->expects( 'validate_social_url' )
+			->expects( 'is_social_url_valid' )
 			->times( $validate_social_url_times )
 			->andReturn( ...$validate_social_url_results );
 
 		$this->options_helper
-			->expects( 'validate_twitter_id' )
+			->expects( 'is_twitter_id_valid' )
 			->times( $validate_twitter_id_times )
 			->andReturn( ...$validate_twitter_id_results );
 
@@ -216,12 +216,12 @@ class Social_Profiles_Helper_Test extends TestCase {
 		];
 
 		$this->options_helper
-			->expects( 'validate_social_url' )
+			->expects( 'is_social_url_valid' )
 			->times( $validate_social_url_times )
 			->andReturn( ...$validate_social_url_results );
 
 		$this->options_helper
-			->expects( 'validate_twitter_id' )
+			->expects( 'is_twitter_id_valid' )
 			->times( $validate_twitter_id_times )
 			->andReturn( ...$validate_twitter_id_results );
 
@@ -258,7 +258,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 	public function set_organization_social_profiles() {
 		$success_all = [
 			'social_profiles'             => [
-				'facebook_site'          => 'https://facebook.com/janedoe',
+				'facebook_site'          => '',
 				'twitter_site'           => 'https://twitter.com/janedoe',
 				'other_social_urls'      => [
 					'https://youtube.com/janedoe',

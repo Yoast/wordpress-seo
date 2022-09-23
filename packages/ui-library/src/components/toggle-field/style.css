@@ -5,6 +5,7 @@
 			yst-flex
 			yst-items-center
 			yst-justify-between
+			yst-gap-6
 			yst-max-w-sm;
 		}
 
@@ -21,7 +22,7 @@
 		}
 
 		.yst-toggle-field__text {
-			@apply yst-mr-6;
+			@apply yst-grow-0 yst-overflow-auto;
 		}
 
 		.yst-toggle-field__description {

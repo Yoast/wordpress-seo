@@ -5,17 +5,19 @@
   "private": true,
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=122"
+    "lint": "eslint src tests --max-warnings=119"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "@headlessui/react": "^1.6.6",
+    "@headlessui/react": "^1.7.1",
     "@heroicons/react": "^1.0.6",
+    "@wordpress/api-fetch": "^6.13.0",
     "@wordpress/blocks": "^11.1.2",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
     "@wordpress/element": "^2.19.1",
     "@wordpress/i18n": "^4.14.0",
+    "@wordpress/url": "^3.17.0",
     "@yoast/analysis-report": "^1.21.0",
     "@yoast/components": "^2.19.0",
     "@yoast/feature-flag": "^0.5.2",
