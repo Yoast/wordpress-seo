@@ -129,6 +129,7 @@ export function StepButtons( { stepId, beforeContinue, continueLabel, beforeBack
 }
 
 StepButtons.propTypes = {
+	stepId: PropTypes.string.isRequired,
 	beforeContinue: PropTypes.func,
 	continueLabel: PropTypes.string,
 	beforeBack: PropTypes.func,
@@ -173,6 +174,7 @@ export function ConfigurationStepButtons( { stepId, stepperFinishedOnce, saveFun
 }
 
 ConfigurationStepButtons.propTypes = {
+	stepId: PropTypes.string.isRequired,
 	stepperFinishedOnce: PropTypes.bool.isRequired,
 	saveFunction: PropTypes.func.isRequired,
 	setEditState: PropTypes.func.isRequired,
