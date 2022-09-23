@@ -154,14 +154,6 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			addSKULocation: options.addSKULocation,
 		} ),
 	];
-
-	if ( options.shouldAddPremiumAssessments ) {
-		this._assessments.push(
-			new TextTitleAssessment( {
-				urlTitle: createAnchorOpeningTag( options.textTitleUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.textTitleCTAUrl ),
-			} ) );
-	}
 };
 
 inherits( ProductCornerstoneSEOAssessor, SEOAssessor );
