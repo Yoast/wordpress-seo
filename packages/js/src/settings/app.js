@@ -91,14 +91,14 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	return <>
 		<header className="yst-sticky yst-top-0">
-			<div className="yst-bg-slate-100">
+			<div className="yst-p-4 yst-bg-slate-100">
 				<Link to="/site-features">
 					<YoastLogo className="yst-w-44 yst-px-3" { ...svgAriaProps } />
 				</Link>
 			</div>
 			<div className="yst-h-8 yst-bg-gradient-to-b yst-from-slate-100" />
 		</header>
-		<div className="yst-space-y-6">
+		<div className="yst-p-4 yst-pt-0 yst-space-y-6">
 			<SidebarNavigation.MenuItem
 				id={ `menu-site-settings${ idSuffix && `-${ idSuffix }` }` }
 				icon={ DesktopComputerIcon }

@@ -119,8 +119,8 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 							<XIcon className="yst-h-6 yst-w-6 yst-text-white" />
 						</button>
 					</div>
-					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto yst-p-4">
-						<div className="yst-h-full yst-flex yst-flex-col yst-space-y-6">
+					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto">
+						<div className="yst-h-full yst-flex yst-flex-col">
 							{ children }
 						</div>
 					</div>
