@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -54,6 +55,10 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -69,6 +74,10 @@ class Canonical_Test extends TestCase {
 			->andReturn( false );
 
 		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
 			->once()
 			->andReturn( false );
 
@@ -94,6 +103,10 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/dynamic-permalink/' );
 
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -118,6 +131,32 @@ class Canonical_Test extends TestCase {
 			->expects( 'get_date_archive_permalink' )
 			->andReturn( 'https://example.com/2022/06' );
 
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/2022/06', $this->instance->generate_canonical() );
+	}
+
+	/**
+	 * Tests the situation where the permalink is given and we are in an attachment page.
+	 *
+	 * @covers ::generate_canonical
+	 */
+	public function test_with_permalink_on_attachment_page() {
+		$wp          = Mockery::mock();
+		$wp->request = 'https://example.com/image';
+
+		$GLOBALS['wp'] = $wp;
+
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'home_url' )
+			->with( $wp->request )
+			->andReturnFirstArg();
+
+		$this->assertEquals( 'https://example.com/image', $this->instance->generate_canonical() );
 	}
 }
