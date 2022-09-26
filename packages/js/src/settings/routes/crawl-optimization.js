@@ -4,7 +4,10 @@ import { Alert, Code, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout } from "../components";
+import { withFormikDisabledDummy } from "../hocs";
 import { useSelectSettings } from "../hooks";
+
+const FormikValueChangeFieldWithDummy = withFormikDisabledDummy( FormikValueChangeField );
 
 /**
  * @returns {JSX.Element} The crawl optimization route.
@@ -253,17 +256,18 @@ const CrawlOptimization = () => {
 				title={ __( "Remove unwanted metadata", "wordpress-seo" ) }
 				description={ descriptions.removeUnwantedMetadata }
 			>
-				<FormikValueChangeField
+				<FormikValueChangeFieldWithDummy
 					as={ ToggleField }
 					type="checkbox"
 					name="wpseo.remove_shortlinks"
 					data-id="input-wpseo-remove_shortlinks"
 					label={ __( "Shortlinks", "wordpress-seo" ) }
+					isDummy={ true }
 				>
 					{ __( "Remove links to WordPress' internal 'shortlink' URLs for your posts.", "wordpress-seo" ) }
 					&nbsp;
 					{ descriptions.removeShortlinks }
-				</FormikValueChangeField>
+				</FormikValueChangeFieldWithDummy>
 				<FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"

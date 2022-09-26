@@ -92,7 +92,6 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 
 	return (
 		<AutocompleteField
-			{ ...props }
 			{ ...field }
 			name={ name }
 			id={ id }
@@ -103,6 +102,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 			selectedLabel={ trim( selectedUser?.name ) || selectedUser?.username }
 			onQueryChange={ handleQueryChange }
 			className={ className }
+			{ ...props }
 		>
 			<>
 				{ status === ASYNC_ACTION_STATUS.idle || status === ASYNC_ACTION_STATUS.success && (
