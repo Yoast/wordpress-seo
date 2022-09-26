@@ -243,7 +243,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @return array The crumb.
 	 */
 	private function get_term_crumb( $crumb, $ancestor ) {
-		$crumb['term_id'] = $ancestor->object_id;
+		$crumb['term_id']  = $ancestor->object_id;
+		$crumb['taxonomy'] = $ancestor->object_sub_type;
 
 		return $crumb;
 	}
