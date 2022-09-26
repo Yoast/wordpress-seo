@@ -10,12 +10,12 @@ import {
 } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload } from "@yoast/ui-library";
+import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ErrorFallback, Notifications, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
 import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
@@ -72,6 +72,8 @@ TaxonomySubmenuItem.propTypes = {
  * @returns {JSX.Element} The menu element.
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
+	const svgAriaProps = useSvgAria();
+
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
 
@@ -90,9 +92,9 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	return <>
 		<header className="yst-sticky yst-top-0">
 			<div className="yst-bg-slate-100">
-				<figure className="yst-w-44 yst-px-3">
-					<YoastLogo />
-				</figure>
+				<Link to="/site-features">
+					<YoastLogo className="yst-w-44 yst-px-3" { ...svgAriaProps } />
+				</Link>
 			</div>
 			<div className="yst-h-8 yst-bg-gradient-to-b yst-from-slate-100" />
 		</header>
