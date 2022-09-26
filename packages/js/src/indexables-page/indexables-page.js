@@ -998,17 +998,6 @@ function IndexablesPage( { setupInfo } ) {
 				}
 			</IndexablesPageCard>
 		</div>
-		<div className="yst-w-full yst-border-t yst-border-slate-300 yst-pb-6 yst-pt-8 yst-mt-2 yst-space-x-2">
-			<Button variant="secondary" onClick={ onClickUndoAll } disabled={ false }>{ __( "Restore all hidden items", "wordpress-seo" ) }</Button>
-			{
-				ignoredIndexable && <Button variant="secondary" onClick={ onClickUndo( ignoredIndexable ) }>
-					{
-						/* translators: %1$s expands to the title of a post that was just just hidden. */
-						sprintf( __( "Restore %1$s", "wordpress-seo" ), ignoredIndexable.indexable.breadcrumb_title )
-					}
-				</Button>
-			}
-		</div>
 	</div>;
 }
 
