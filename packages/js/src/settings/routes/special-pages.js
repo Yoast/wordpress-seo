@@ -3,7 +3,7 @@ import { FieldsetLayout, FormikReplacementVariableEditorField, FormLayout } from
 import { useSelectSettings } from "../hooks";
 
 /**
- * @returns {JSX.Element} The search pages route.
+ * @returns {JSX.Element} The special pages route.
  */
 const SpecialPages = () => {
 	const searchReplacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "search", "search" );
