@@ -12,7 +12,7 @@ import { ReactComponent as G2Logo } from "./g2-logo-white-rgb.svg";
  * @returns {JSX.Element} The premium upsell card.
  */
 const PremiumUpsellCard = () => {
-	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
 	const info = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to opening and closing <strong> tags. */
