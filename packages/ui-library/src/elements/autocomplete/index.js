@@ -53,6 +53,7 @@ Option.propTypes = optionPropType;
  * @param {Function} onChange Change callback.
  * @param {Function} onQueryChange Query change callback.
  * @param {boolean} [isError] Error message.
+ * @param {string} [placeholder] Input placeholder.
  * @param {string} [className] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
  * @param {Object} [props] Any extra props.
@@ -69,6 +70,7 @@ const Autocomplete = ( {
 	onChange,
 	onQueryChange,
 	isError = false,
+	placeholder = "",
 	className = "",
 	buttonProps = {},
 	...props
@@ -102,6 +104,7 @@ const Autocomplete = ( {
 					>
 						<Combobox.Input
 							className="yst-autocomplete__input"
+							placeholder={ placeholder }
 							displayValue={ getDisplayValue }
 							onChange={ onQueryChange }
 						/>
@@ -141,6 +144,7 @@ Autocomplete.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onQueryChange: PropTypes.func.isRequired,
 	isError: PropTypes.bool,
+	placeholder: PropTypes.string,
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };
