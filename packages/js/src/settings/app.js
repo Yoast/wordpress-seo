@@ -142,6 +142,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
 				icon={ AdjustmentsIcon }
 				label={ __( "Advanced", "wordpress-seo" ) }
+				defaultOpen={ false }
 			>
 				<SidebarNavigation.SubmenuItem
 					to="/crawl-optimization"
