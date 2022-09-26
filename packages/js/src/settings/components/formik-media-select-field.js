@@ -138,7 +138,7 @@ const FormikMediaSelectField = ( {
 				aria-describedby={ describedBy }
 				disabled={ disabled }
 			/>
-			{ label && <Label as="legend" className="yst-mb-2">{ label }</Label> }
+			{ label && <Label as="legend" className={ classNames( "yst-mb-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>{ label }</Label> }
 			<button
 				type="button"
 				id={ `button-${ id }-preview` }
@@ -202,7 +202,7 @@ const FormikMediaSelectField = ( {
 						type="button"
 						variant="error"
 						onClick={ handleRemoveMediaClick }
-						className={ disabled ? "yst-opacity-50 yst-cursor-not-allowed" : "" }
+						className={ disabled && "yst-opacity-50 yst-cursor-not-allowed" }
 						disabled={ disabled }
 					>
 						{ removeLabel }
@@ -210,7 +210,9 @@ const FormikMediaSelectField = ( {
 				) }
 			</div>
 			{ error && <p id={ describedByIds.error } className="yst-mt-2 yst-text-sm yst-text-red-600">{ error }</p> }
-			{ description && <p id={ describedByIds.description } className="yst-mt-2">{ description }</p> }
+			{ description && (
+				<p id={ describedByIds.description } className={ classNames( "yst-mt-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>{ description }</p>
+			) }
 		</fieldset>
 	);
 };
