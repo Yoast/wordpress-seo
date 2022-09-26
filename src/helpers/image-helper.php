@@ -239,7 +239,12 @@ class Image_Helper {
 	 * @return string The url when found, empty string otherwise.
 	 */
 	public function get_attachment_image_url( $attachment_id, $size ) {
-		$url = \wp_get_attachment_image_url( $attachment_id, $size );
+		if ( is_attachment() ) {
+			global $wp;
+			$url =  \home_url( $wp->request );
+		} else {
+			$url = \wp_get_attachment_image_url( $attachment_id, $size );
+		}
 		if ( ! $url ) {
 			return '';
 		}
