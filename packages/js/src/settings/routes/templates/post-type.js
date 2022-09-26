@@ -41,6 +41,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const wooCommerceShopPageSettingUrl = useSelectSettings( "selectPreference", [], "wooCommerceShopPageSettingUrl" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
+	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoast.com" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -247,13 +248,16 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 					description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
 				/>
-				{ isPremium && <FormikTagField
-					name={ `wpseo_titles.page-analyse-extra-${ name }` }
-					id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
-					label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
-					labelSuffix={ <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-					description={ customFieldsDescription }
-				/> }
+				<PremiumUpsellFeature premiumLink={ pageAnalysisPremiumLink }>
+					<FormikTagField
+						name={ `wpseo_titles.page-analyse-extra-${ name }` }
+						id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
+						label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
+						labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+						description={ customFieldsDescription }
+						disabled={ ! isPremium }
+					/>
+				</PremiumUpsellFeature>
 			</FieldsetLayout>
 			{ hasArchive && <>
 				<hr className="yst-my-16" />
