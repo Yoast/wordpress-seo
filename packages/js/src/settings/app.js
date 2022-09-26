@@ -27,13 +27,12 @@ import {
 	Formats,
 	Homepage,
 	Media,
-	NotFoundPages,
 	PostType,
 	Rss,
-	SearchPages,
 	SiteBasics,
 	SiteFeatures,
 	SiteRepresentation,
+	SpecialPages,
 	Taxonomy,
 	WebmasterTools,
 } from "./routes";
@@ -156,8 +155,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				/>
 				<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -270,12 +268,11 @@ const App = () => {
 									<Route path="homepage" element={ <Homepage /> } />
 									<Route path="formats" element={ <Formats /> } />
 									<Route path="media" element={ <Media /> } />
-									<Route path="not-found-pages" element={ <NotFoundPages /> } />
 									<Route path="rss" element={ <Rss /> } />
-									<Route path="search-pages" element={ <SearchPages /> } />
 									<Route path="site-basics" element={ <SiteBasics /> } />
 									<Route path="site-representation" element={ <SiteRepresentation /> } />
 									<Route path="site-features" element={ <SiteFeatures /> } />
+									<Route path="special-pages" element={ <SpecialPages /> } />
 									<Route path="webmaster-tools" element={ <WebmasterTools /> } />
 									<Route path="post-type">
 										{ map( postTypes, postType => (
