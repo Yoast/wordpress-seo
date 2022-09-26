@@ -2,7 +2,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
-import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
@@ -11,10 +10,11 @@ import {
 	FormikFlippedToggleField,
 	FormikMediaSelectField,
 	FormikReplacementVariableEditorField,
+	FormikTagField,
 	FormikValueChangeField,
 	FormLayout,
 	OpenGraphDisabledAlert,
-	FormikTagField,
+	PremiumUpsellFeature,
 } from "../../components";
 import { useSelectSettings } from "../../hooks";
 
@@ -40,6 +40,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const editWooCommerceShopPageUrl = useSelectSettings( "selectPreference", [], "editWooCommerceShopPageUrl" );
 	const wooCommerceShopPageSettingUrl = useSelectSettings( "selectPreference", [], "wooCommerceShopPageSettingUrl" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
+	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -174,35 +175,36 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					singularLabel
 				) }
 			>
-				<OpenGraphDisabledAlert isEnabled={ opengraph } />
-				<FormikMediaSelectField
-					id={ `wpseo_titles-social-image-${ name }` }
-					label={ __( "Social image", "wordpress-seo" ) }
-					previewLabel={ recommendedSize }
-					mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
-					mediaIdName={ `wpseo_titles.social-image-id-${ name }` }
-					disabled={ ! opengraph }
-				/>
-				<FormikReplacementVariableEditorField
-					type="title"
-					name={ `wpseo_titles.social-title-${ name }` }
-					fieldId={ `input-wpseo_titles-social-title-${ name }` }
-					label={ __( "Social title", "wordpress-seo" ) }
-					replacementVariables={ replacementVariables }
-					recommendedReplacementVariables={ recommendedReplacementVariables }
-					className={ classNames( ! opengraph && "yst-opacity-50" ) }
-					isDisabled={ ! opengraph }
-				/>
-				<FormikReplacementVariableEditorField
-					type="description"
-					name={ `wpseo_titles.social-description-${ name }` }
-					fieldId={ `input-wpseo_titles-social-description-${ name }` }
-					label={ __( "Social description", "wordpress-seo" ) }
-					replacementVariables={ replacementVariables }
-					recommendedReplacementVariables={ recommendedReplacementVariables }
-					className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
-					isDisabled={ ! opengraph }
-				/>
+				<PremiumUpsellFeature premiumLink={ socialAppearancePremiumLink }>
+					<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
+					<FormikMediaSelectField
+						id={ `wpseo_titles-social-image-${ name }` }
+						label={ __( "Social image", "wordpress-seo" ) }
+						previewLabel={ recommendedSize }
+						mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
+						mediaIdName={ `wpseo_titles.social-image-id-${ name }` }
+						disabled={ ! isPremium || ! opengraph }
+					/>
+					<FormikReplacementVariableEditorField
+						type="title"
+						name={ `wpseo_titles.social-title-${ name }` }
+						fieldId={ `input-wpseo_titles-social-title-${ name }` }
+						label={ __( "Social title", "wordpress-seo" ) }
+						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
+						isDisabled={ ! isPremium || ! opengraph }
+					/>
+					<FormikReplacementVariableEditorField
+						type="description"
+						name={ `wpseo_titles.social-description-${ name }` }
+						fieldId={ `input-wpseo_titles-social-description-${ name }` }
+						label={ __( "Social description", "wordpress-seo" ) }
+						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
+						className="yst-replacevar--description"
+						isDisabled={ ! isPremium || ! opengraph }
+					/>
+				</PremiumUpsellFeature>
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout
@@ -327,30 +329,35 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							singularLabel
 						) }
 					>
-						<FormikMediaSelectField
-							id={ `wpseo_titles-social-image-ptarchive-${ name }` }
-							label={ __( "Social image", "wordpress-seo" ) }
-							previewLabel={ recommendedSize }
-							mediaUrlName={ `wpseo_titles.social-image-url-ptarchive-${ name }` }
-							mediaIdName={ `wpseo_titles.social-image-id-ptarchive-${ name }` }
-						/>
-						<FormikReplacementVariableEditorField
-							type="title"
-							name={ `wpseo_titles.social-title-ptarchive-${ name }` }
-							fieldId={ `input-wpseo_titles-social-title-ptarchive-${ name }` }
-							label={ __( "Social title", "wordpress-seo" ) }
-							replacementVariables={ replacementVariablesArchives }
-							recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-						/>
-						<FormikReplacementVariableEditorField
-							type="description"
-							name={ `wpseo_titles.social-description-ptarchive-${ name }` }
-							fieldId={ `input-wpseo_titles-social-description-ptarchive-${ name }` }
-							label={ __( "Social description", "wordpress-seo" ) }
-							replacementVariables={ replacementVariablesArchives }
-							recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-							className="yst-replacevar--description"
-						/>
+						<PremiumUpsellFeature premiumLink={ socialAppearancePremiumLink }>
+							<FormikMediaSelectField
+								id={ `wpseo_titles-social-image-ptarchive-${ name }` }
+								label={ __( "Social image", "wordpress-seo" ) }
+								previewLabel={ recommendedSize }
+								mediaUrlName={ `wpseo_titles.social-image-url-ptarchive-${ name }` }
+								mediaIdName={ `wpseo_titles.social-image-id-ptarchive-${ name }` }
+								disabled={ ! isPremium || ! opengraph }
+							/>
+							<FormikReplacementVariableEditorField
+								type="title"
+								name={ `wpseo_titles.social-title-ptarchive-${ name }` }
+								fieldId={ `input-wpseo_titles-social-title-ptarchive-${ name }` }
+								label={ __( "Social title", "wordpress-seo" ) }
+								replacementVariables={ replacementVariablesArchives }
+								recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
+								isDisabled={ ! isPremium || ! opengraph }
+							/>
+							<FormikReplacementVariableEditorField
+								type="description"
+								name={ `wpseo_titles.social-description-ptarchive-${ name }` }
+								fieldId={ `input-wpseo_titles-social-description-ptarchive-${ name }` }
+								label={ __( "Social description", "wordpress-seo" ) }
+								replacementVariables={ replacementVariablesArchives }
+								recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
+								className="yst-replacevar--description"
+								isDisabled={ ! isPremium || ! opengraph }
+							/>
+						</PremiumUpsellFeature>
 					</FieldsetLayout>
 					{ isBreadcrumbsEnabled && <>
 						<hr className="yst-my-8" />

@@ -82,7 +82,6 @@ const LatestPosts = () => {
 				label={ __( "Social title", "wordpress-seo" ) }
 				replacementVariables={ replacementVariables }
 				recommendedReplacementVariables={ recommendedReplacementVariables }
-				className={ classNames( ! opengraph && "yst-opacity-50" ) }
 				isDisabled={ ! opengraph }
 			/>
 			<FormikReplacementVariableEditorField
@@ -92,7 +91,7 @@ const LatestPosts = () => {
 				label={ __( "Social description", "wordpress-seo" ) }
 				replacementVariables={ replacementVariables }
 				recommendedReplacementVariables={ recommendedReplacementVariables }
-				className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
+				className="yst-replacevar--description"
 				isDisabled={ ! opengraph }
 			/>
 		</FieldsetLayout>

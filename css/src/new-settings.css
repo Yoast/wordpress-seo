@@ -74,6 +74,19 @@
 			@apply yst-relative;
 		}
 
+		.yst-replacevar--disabled {
+			.yst-replacevar__label,
+			.yst-replacevar__editor {
+				@apply yst-opacity-50;
+			}
+
+			.yst-replacevar__button-insert,
+			.yst-replacevar__label,
+			.yst-replacevar__editor {
+				@apply yst-cursor-not-allowed;
+			}
+		}
+
 		.yst-replacevar__label {
 			@apply yst-mb-2;
 

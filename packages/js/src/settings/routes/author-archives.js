@@ -1,7 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Link } from "@yoast/ui-library";
-import classNames from "classnames";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
 import {
@@ -11,6 +10,7 @@ import {
 	FormikReplacementVariableEditorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
+	PremiumUpsellFeature,
 } from "../components";
 import { useSelectSettings } from "../hooks";
 
@@ -24,6 +24,8 @@ const AuthorArchives = () => {
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const duplicateContentInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/duplicate-content" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -164,35 +166,36 @@ const AuthorArchives = () => {
 							label
 						) }
 					>
-						<OpenGraphDisabledAlert isEnabled={ opengraph } />
-						<FormikMediaSelectField
-							id="wpseo_titles-social-image-author-wpseo"
-							label={ __( "Social image", "wordpress-seo" ) }
-							previewLabel={ recommendedSize }
-							mediaUrlName="wpseo_titles.social-image-url-author-wpseo"
-							mediaIdName="wpseo_titles.social-image-id-author-wpseo"
-							disabled={ ! opengraph }
-						/>
-						<FormikReplacementVariableEditorField
-							type="title"
-							name="wpseo_titles.social-title-author-wpseo"
-							fieldId="input-wpseo_titles-social-title-author-wpseo"
-							label={ __( "Social title", "wordpress-seo" ) }
-							replacementVariables={ replacementVariables }
-							recommendedReplacementVariables={ recommendedReplacementVariables }
-							className={ classNames( ! opengraph && "yst-opacity-50" ) }
-							isDisabled={ ! opengraph }
-						/>
-						<FormikReplacementVariableEditorField
-							type="description"
-							name="wpseo_titles.social-description-author-wpseo"
-							fieldId="input-wpseo_titles-social-description-author-wpseo"
-							label={ __( "Social description", "wordpress-seo" ) }
-							replacementVariables={ replacementVariables }
-							recommendedReplacementVariables={ recommendedReplacementVariables }
-							className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
-							isDisabled={ ! opengraph }
-						/>
+						<PremiumUpsellFeature premiumLink={ socialAppearancePremiumLink }>
+							<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
+							<FormikMediaSelectField
+								id="wpseo_titles-social-image-author-wpseo"
+								label={ __( "Social image", "wordpress-seo" ) }
+								previewLabel={ recommendedSize }
+								mediaUrlName="wpseo_titles.social-image-url-author-wpseo"
+								mediaIdName="wpseo_titles.social-image-id-author-wpseo"
+								disabled={ ! isPremium || ! opengraph }
+							/>
+							<FormikReplacementVariableEditorField
+								type="title"
+								name="wpseo_titles.social-title-author-wpseo"
+								fieldId="input-wpseo_titles-social-title-author-wpseo"
+								label={ __( "Social title", "wordpress-seo" ) }
+								replacementVariables={ replacementVariables }
+								recommendedReplacementVariables={ recommendedReplacementVariables }
+								isDisabled={ ! isPremium || ! opengraph }
+							/>
+							<FormikReplacementVariableEditorField
+								type="description"
+								name="wpseo_titles.social-description-author-wpseo"
+								fieldId="input-wpseo_titles-social-description-author-wpseo"
+								label={ __( "Social description", "wordpress-seo" ) }
+								replacementVariables={ replacementVariables }
+								recommendedReplacementVariables={ recommendedReplacementVariables }
+								className="yst-replacevar--description"
+								isDisabled={ ! isPremium || ! opengraph }
+							/>
+						</PremiumUpsellFeature>
 					</FieldsetLayout>
 				</AnimateHeight>
 			</div>
