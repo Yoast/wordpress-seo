@@ -41,7 +41,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const wooCommerceShopPageSettingUrl = useSelectSettings( "selectPreference", [], "wooCommerceShopPageSettingUrl" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
-	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoast.com" );
+	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
