@@ -442,6 +442,10 @@ class Image_Helper {
 				$id           = intval( $matches['id'] );
 				$src          = $this->image_url( $matches['id'] );
 
+				if ( is_null( $src ) ) {
+					continue;
+				}
+
 				if ( $query_params ) {
 					$src = $src . '?' . $query_params;
 				}
@@ -459,7 +463,10 @@ class Image_Helper {
 		$gallery_images = $this->get_gallery_images_from_post_content( $content );
 
 		foreach ( $gallery_images as $image ) {
-			$images[] = new Image( $this->url_helper->ensure_absolute_url( $this->image_url( $image->ID ) ), $image->ID );
+			$image_src = $this->image_url( $image->ID );
+			if ( ! is_null( $image_src ) ) {
+				$images[] = new Image( $this->url_helper->ensure_absolute_url( $image_src ), $image->ID );
+			}
 		}
 
 		return $images;
@@ -529,43 +536,36 @@ class Image_Helper {
 	}
 
 	/**
-	 * Get attached image URL with filters applied. Adapted from core for speed.
+	 * Get attached image URL with post ID.
 	 *
 	 * @param int $post_id ID of the post.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function image_url( $post_id ) {
-
-		static $uploads;
-
-		if ( empty( $uploads ) ) {
-			$uploads = wp_upload_dir();
-		}
+		$uploads = \wp_upload_dir();
 
 		if ( $uploads['error'] !== false ) {
-			return '';
+			return null;
 		}
 
-		$file = get_post_meta( $post_id, '_wp_attached_file', true );
+		$file = \get_post_meta( $post_id, '_wp_attached_file', true );
 
 		if ( empty( $file ) ) {
-			return '';
+			return null;
 		}
 
 		// Check that the upload base exists in the file location.
-		if ( strpos( $file, $uploads['basedir'] ) === 0 ) {
-			$src = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+		if ( \strpos( $file, $uploads['basedir'] ) === 0 ) {
+			return \str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
 		}
-		elseif ( strpos( $file, 'wp-content/uploads' ) !== false ) {
-			$src = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
+		elseif ( \strpos( $file, 'wp-content/uploads' ) !== false ) {
+			return $uploads['baseurl'] . \substr( $file, ( \strpos( $file, 'wp-content/uploads' ) + 18 ) );
 		}
 		else {
 			// It's a newly uploaded file, therefore $file is relative to the baseurl.
-			$src = $uploads['baseurl'] . '/' . $file;
+			return $uploads['baseurl'] . '/' . $file;
 		}
-
-		return apply_filters( 'wp_get_attachment_url', $src, $post_id );
 	}
 
 	/**

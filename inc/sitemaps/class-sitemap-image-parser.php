@@ -54,7 +54,7 @@ class WPSEO_Sitemap_Image_Parser {
 
 		$thumbnail_id = get_post_thumbnail_id( $post->ID );
 		if ( $thumbnail_id ) {
-			$src      = $this->url_helper->ensure_absolute_url( $this->image_helper->image_url( $thumbnail_id ) );
+			$src      = $this->url_helper->ensure_absolute_url( $this->image_url( $thumbnail_id ) );
 			$images[] = $this->get_image_item( $post, $src );
 		}
 
@@ -73,7 +73,7 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		if ( $post->post_type === 'attachment' && wp_attachment_is_image( $post ) ) {
-			$src      = $this->url_helper->ensure_absolute_url( $this->image_helper->image_url( $post->ID ) );
+			$src      = $this->url_helper->ensure_absolute_url( $this->image_url( $post->ID ) );
 			$images[] = $this->get_image_item( $post, $src );
 		}
 
@@ -153,5 +153,20 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function parse_galleries( $content, $post_id = 0 ) {
 		return $this->image_helper->get_gallery_images_from_post_content( $content, $post_id );
+	}
+
+	/**
+	 * Get attached image URL with filters applied.
+	 *
+	 * @param int $post_id ID of the post.
+	 *
+	 * @return string
+	 */
+	protected function image_url( $post_id ) {
+		$src = $this->image_helper->image_url( $post_id );
+		if ( is_null( $src ) ) {
+			$src = '';
+		}
+		return \apply_filters( 'wp_get_attachment_url', $src, $post_id );
 	}
 }
