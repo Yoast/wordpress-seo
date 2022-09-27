@@ -225,11 +225,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The permalink.
 	 */
 	public function generate_permalink() {
-		if ( \is_attachment() ) {
-			global $wp;
-			return \home_url( $wp->request );
-		}
-
 		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
 			return $this->permalink_helper->get_permalink_for_indexable( $this->model );
 		}
