@@ -49,7 +49,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 				$image_url = \home_url( $wp->request );
 			}
 
-			$class     = \is_admin_bar_showing() ? ' class="yoast-seo-meta-tag"' : '';
+			$class = \is_admin_bar_showing() ? ' class="yoast-seo-meta-tag"' : '';
 
 			$return .= '<meta property="og:image" content="' . \esc_url( $image_url, null, 'attribute' ) . '"' . $class . ' />';
 
