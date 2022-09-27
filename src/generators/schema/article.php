@@ -204,13 +204,13 @@ class Article extends Abstract_Schema_Piece {
 		$post_content = \preg_replace( '@<(pre|code)[^>]*?>.*?</\\1>@si', '', $post_content );
 
 		// Add space between tags that don't have it.
-		$post_content = \preg_replace( '@>\s{0}<@', '> <', $post_content );
+		$post_content = \preg_replace( '@><@', '> <', $post_content );
 
 		// Strips all other tags.
 		$post_content = \wp_strip_all_tags( $post_content );
 
 		// Remove Emoji.
-		$pattern      = \join( '|', \_wp_emoji_list( 'partials' ) );
+		$pattern      = \implode( '|', \_wp_emoji_list( 'partials' ) );
 		$post_content = \wp_encode_emoji( $post_content );
 		$post_content = \preg_replace( "@$pattern/@i", ' ', $post_content );
 
