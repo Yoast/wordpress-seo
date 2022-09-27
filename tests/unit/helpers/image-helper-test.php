@@ -395,9 +395,6 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_attachment_image_url
 	 */
 	public function test_get_attachment_image_url() {
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
 
 		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
 			->once()
@@ -416,9 +413,6 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_attachment_image_url
 	 */
 	public function test_get_attachment_image_url_no_url_found() {
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
 
 		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
 			->once()

@@ -157,6 +157,6 @@ class Canonical_Test extends TestCase {
 			->with( $wp->request )
 			->andReturnFirstArg();
 
-		$this->assertEquals( 'https://example.com/image', $this->instance->generate_canonical() );
+		$this->assertEquals( 'https://example.com/image/', $this->instance->generate_canonical() );
 	}
 }
