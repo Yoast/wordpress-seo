@@ -51,34 +51,6 @@ class Image_Helper {
 	private $url_helper;
 
 	/**
-	 * Holds the home_url() value to speed up loops.
-	 *
-	 * @var string
-	 */
-	protected $home_url = '';
-
-	/**
-	 * Holds site URL hostname.
-	 *
-	 * @var string
-	 */
-	protected $host = '';
-
-	/**
-	 * Holds site URL protocol.
-	 *
-	 * @var string
-	 */
-	protected $scheme = 'http';
-
-	/**
-	 * Cached set of attachments for multiple posts.
-	 *
-	 * @var array
-	 */
-	protected $attachments = [];
-
-	/**
 	 * Holds blog charset value for use in DOM parsing.
 	 *
 	 * @var string
@@ -100,19 +72,6 @@ class Image_Helper {
 		$this->indexable_repository = $indexable_repository;
 		$this->options_helper       = $options;
 		$this->url_helper           = $url_helper;
-
-		$this->home_url = \home_url();
-		$parsed_home    = \wp_parse_url( $this->home_url );
-
-		if ( ! empty( $parsed_home['host'] ) ) {
-			$this->host = \str_replace( 'www.', '', $parsed_home['host'] );
-		}
-
-		if ( ! empty( $parsed_home['scheme'] ) ) {
-			$this->scheme = $parsed_home['scheme'];
-		}
-
-		$this->charset = \esc_attr( \get_bloginfo( 'charset' ) );
 	}
 
 	/**
@@ -454,8 +413,10 @@ class Image_Helper {
 		// Prevent DOMDocument from bubbling warnings about invalid HTML.
 		libxml_use_internal_errors( true );
 
+		$charset = \esc_attr( \get_bloginfo( 'charset' ) );
+
 		$post_dom = new DOMDocument();
-		$post_dom->loadHTML( '<?xml encoding="' . $this->charset . '">' . $content );
+		$post_dom->loadHTML( '<?xml encoding="' . $charset . '">' . $content );
 
 		// Clear the errors, so they don't get kept in memory.
 		libxml_clear_errors();
@@ -486,7 +447,7 @@ class Image_Helper {
 				}
 			}
 
-			$src = $this->get_absolute_url( $src );
+			$src = $this->url_helper->ensure_absolute_url( $src );
 
 			if ( $src !== esc_url( $src, null, 'attribute' ) ) {
 				continue;
@@ -498,7 +459,7 @@ class Image_Helper {
 		$gallery_images = $this->get_gallery_images_from_post_content( $content );
 
 		foreach ( $gallery_images as $image ) {
-			$images[] = new Image( $this->get_absolute_url( $this->image_url( $image->ID ) ), $image->ID );
+			$images[] = new Image( $this->url_helper->ensure_absolute_url( $this->image_url( $image->ID ) ), $image->ID );
 		}
 
 		return $images;
@@ -605,37 +566,6 @@ class Image_Helper {
 		}
 
 		return apply_filters( 'wp_get_attachment_url', $src, $post_id );
-	}
-
-	/**
-	 * Make absolute URL for domain or protocol-relative one.
-	 *
-	 * @param string $src URL to process.
-	 *
-	 * @return string
-	 */
-	public function get_absolute_url( $src ) {
-
-		if ( empty( $src ) || ! is_string( $src ) ) {
-			return $src;
-		}
-
-		if ( YoastSEO()->helpers->url->is_relative( $src ) === true ) {
-
-			if ( $src[0] !== '/' ) {
-				return $src;
-			}
-
-			// The URL is relative, we'll have to make it absolute.
-			return $this->home_url . $src;
-		}
-
-		if ( strpos( $src, 'http' ) !== 0 ) {
-			// Protocol relative URL, we add the scheme as the standard requires a protocol.
-			return $this->scheme . ':' . $src;
-		}
-
-		return $src;
 	}
 
 	/**

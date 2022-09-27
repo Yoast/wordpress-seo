@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 
 /**
  * Parses images from the given post.
@@ -20,10 +21,18 @@ class WPSEO_Sitemap_Image_Parser {
 	protected $image_helper;
 
 	/**
+	 * Holds the URL Helper.
+	 *
+	 * @var Url_Helper
+	 */
+	protected $url_helper;
+
+	/**
 	 * Set up URL properties for reuse.
 	 */
 	public function __construct() {
 		$this->image_helper = YoastSEO()->helpers->image;
+		$this->url_helper   = YoastSEO()->helpers->url;
 	}
 
 	/**
@@ -45,7 +54,7 @@ class WPSEO_Sitemap_Image_Parser {
 
 		$thumbnail_id = get_post_thumbnail_id( $post->ID );
 		if ( $thumbnail_id ) {
-			$src      = $this->image_helper->get_absolute_url( $this->image_helper->image_url( $thumbnail_id ) );
+			$src      = $this->url_helper->ensure_absolute_url( $this->image_helper->image_url( $thumbnail_id ) );
 			$images[] = $this->get_image_item( $post, $src );
 		}
 
@@ -64,7 +73,7 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		if ( $post->post_type === 'attachment' && wp_attachment_is_image( $post ) ) {
-			$src      = $this->image_helper->get_absolute_url( $this->image_helper->image_url( $post->ID ) );
+			$src      = $this->url_helper->ensure_absolute_url( $this->image_helper->image_url( $post->ID ) );
 			$images[] = $this->get_image_item( $post, $src );
 		}
 
