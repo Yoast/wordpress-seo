@@ -11,6 +11,7 @@ const paper = new Paper( content, {
 		" como os suevos e os visigodos. No século VIII, as terras foram conquistadas pelos mouros. ",
 	title: "Portugal",
 	titleWidth: 450,
+	textTitle: "Portugal",
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/Portugal",
 	slug: "Portugal",
@@ -161,6 +162,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

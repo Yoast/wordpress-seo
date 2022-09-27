@@ -11,6 +11,7 @@ const paper = new Paper( content, {
 		"Some cats prefer options which offer shelter or a secluded escape,[1] which may be at any height of the structure.",
 	title: "Cat tree house",
 	titleWidth: 450,
+	textTitle: "Cat tree house",
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_tree",
 	slug: "Cat_tree",
@@ -179,6 +180,11 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.59% of the words in your text are considered complex. " +
 			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

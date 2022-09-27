@@ -28,7 +28,6 @@ import removePunctuation from "./helpers/sanitize/removePunctuation";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
-import unifyWhitespace from "./helpers/sanitize/unifyWhitespace";
 
 export {
 	AbstractResearcher,
@@ -62,5 +61,4 @@ export {
 	removePunctuation,
 	getLanguage,
 	getSentences,
-	unifyWhitespace,
 };

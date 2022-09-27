@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Det här är en artikel om författaren Ester Nordströms liv.",
 	title: "Ester Blenda Nordström",
 	titleWidth: 450,
+	textTitle: "Ester Blenda Nordström",
 	locale: "sv_SE",
 	permalink: "https://sv.wikipedia.org/wiki/Ester-Blenda-Nordström",
 	slug: "Ester-Blenda-Nordström",
@@ -138,6 +139,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

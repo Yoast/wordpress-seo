@@ -1,7 +1,7 @@
 import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import Paper from "../../../../src/values/Paper";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import TextTitleAssessment from "../../../../src/scoring/assessments/premium/TextTitleAssessment";
+import TextTitleAssessment from "../../../../src/scoring/assessments/premiumAssessments/TextTitleAssessment";
 
 describe( "a test to check whether a text has a title or not", () => {
 	const assessment = new TextTitleAssessment();

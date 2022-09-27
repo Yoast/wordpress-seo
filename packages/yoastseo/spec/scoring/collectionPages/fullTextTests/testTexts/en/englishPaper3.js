@@ -10,6 +10,7 @@ const paper = new Paper( content, {
 		"While the genre is targeted to adolescents, approximately half of YA readers are adults.",
 	title: "Young adult fiction",
 	titleWidth: 450,
+	textTitle: "Young adult fiction",
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Young_adult_fiction",
 	slug: "Young_adult_fiction",
@@ -132,6 +133,11 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 13.99% of the words in your text are " +
 					"considered complex. <a href='https://yoa.st/shopify78' target='_blank'>" +
 					"Try to use shorter and more familiar words to improve readability</a>.",
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

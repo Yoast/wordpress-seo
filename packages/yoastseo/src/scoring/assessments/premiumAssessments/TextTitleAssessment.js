@@ -48,7 +48,7 @@ export default class TextTitleAssessment extends Assessment {
 	}
 
 	/**
-	 * Runs the getTextTitleData research and based on this, returns an assessment result with score.
+	 * Gets the title from the Paper and based on this returns an assessment result with score.
 	 *
 	 * @param {Paper}      paper      The paper to use for the assessment.
 	 *
