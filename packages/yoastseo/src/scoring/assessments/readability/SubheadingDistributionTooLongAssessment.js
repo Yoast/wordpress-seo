@@ -157,11 +157,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks() {
-		return map( this.getTooLongSubheadingTexts(), function( tooLongText ) {
-			tooLongText = stripTags( tooLongText.text );
-			const marked = marker( tooLongText.text );
+		return map( this.getTooLongSubheadingTexts(), function( { text } ) {
+			text = stripTags( text );
+			const marked = marker( text );
 			return new Mark( {
-				original: tooLongText,
+				original: text,
 				marked: marked,
 			} );
 		} );
