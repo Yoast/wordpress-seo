@@ -16,7 +16,12 @@ import {
 	OpenGraphDisabledAlert,
 	PremiumUpsellFeature,
 } from "../../components";
+import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
+
+const FormikMediaSelectFieldWithDummy = withFormikDummyField( FormikMediaSelectField );
+const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
+const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
  * @param {string} name The post type name.
@@ -167,7 +172,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 			<FieldsetLayout
 				title={ <div className="yst-flex yst-items-center yst-gap-1.5">
 					<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-					<Badge variant="upsell">Premium</Badge>
+					{ isPremium && <Badge variant="upsell">Premium</Badge> }
 				</div> }
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
@@ -176,26 +181,28 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					singularLabel
 				) }
 			>
-				<PremiumUpsellFeature premiumLink={ socialAppearancePremiumLink }>
+				<PremiumUpsellFeature variant="card" premiumLink={ socialAppearancePremiumLink }>
 					<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
-					<FormikMediaSelectField
+					<FormikMediaSelectFieldWithDummy
 						id={ `wpseo_titles-social-image-${ name }` }
 						label={ __( "Social image", "wordpress-seo" ) }
 						previewLabel={ recommendedSize }
 						mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
 						mediaIdName={ `wpseo_titles.social-image-id-${ name }` }
-						disabled={ ! isPremium || ! opengraph }
+						disabled={ ! opengraph }
+						isDummy={ ! isPremium }
 					/>
-					<FormikReplacementVariableEditorField
+					<FormikReplacementVariableEditorFieldWithDummy
 						type="title"
 						name={ `wpseo_titles.social-title-${ name }` }
 						fieldId={ `input-wpseo_titles-social-title-${ name }` }
 						label={ __( "Social title", "wordpress-seo" ) }
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
-						isDisabled={ ! isPremium || ! opengraph }
+						isDisabled={ ! opengraph }
+						isDummy={ ! isPremium }
 					/>
-					<FormikReplacementVariableEditorField
+					<FormikReplacementVariableEditorFieldWithDummy
 						type="description"
 						name={ `wpseo_titles.social-description-${ name }` }
 						fieldId={ `input-wpseo_titles-social-description-${ name }` }
@@ -203,7 +210,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						className="yst-replacevar--description"
-						isDisabled={ ! isPremium || ! opengraph }
+						isDisabled={ ! opengraph }
+						isDummy={ ! isPremium }
 					/>
 				</PremiumUpsellFeature>
 			</FieldsetLayout>
@@ -248,14 +256,14 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 					description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
 				/>
-				<PremiumUpsellFeature premiumLink={ pageAnalysisPremiumLink }>
-					<FormikTagField
+				<PremiumUpsellFeature variant="card" premiumLink={ pageAnalysisPremiumLink }>
+					<FormikTagFieldWithDummy
 						name={ `wpseo_titles.page-analyse-extra-${ name }` }
 						id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 						label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
 						labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 						description={ customFieldsDescription }
-						disabled={ ! isPremium }
+						isDummy={ ! isPremium }
 					/>
 				</PremiumUpsellFeature>
 			</FieldsetLayout>
@@ -324,7 +332,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					<FieldsetLayout
 						title={ <div className="yst-flex yst-items-center yst-gap-1.5">
 							<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-							<Badge variant="upsell">Premium</Badge>
+							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
 							// translators: %1$s expands to the post type plural, e.g. Posts.
@@ -333,25 +341,27 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							singularLabel
 						) }
 					>
-						<PremiumUpsellFeature premiumLink={ socialAppearancePremiumLink }>
-							<FormikMediaSelectField
+						<PremiumUpsellFeature variant="card" premiumLink={ socialAppearancePremiumLink }>
+							<FormikMediaSelectFieldWithDummy
 								id={ `wpseo_titles-social-image-ptarchive-${ name }` }
 								label={ __( "Social image", "wordpress-seo" ) }
 								previewLabel={ recommendedSize }
 								mediaUrlName={ `wpseo_titles.social-image-url-ptarchive-${ name }` }
 								mediaIdName={ `wpseo_titles.social-image-id-ptarchive-${ name }` }
-								disabled={ ! isPremium || ! opengraph }
+								disabled={ ! opengraph }
+								isDummy={ ! isPremium }
 							/>
-							<FormikReplacementVariableEditorField
+							<FormikReplacementVariableEditorFieldWithDummy
 								type="title"
 								name={ `wpseo_titles.social-title-ptarchive-${ name }` }
 								fieldId={ `input-wpseo_titles-social-title-ptarchive-${ name }` }
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariablesArchives }
 								recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-								isDisabled={ ! isPremium || ! opengraph }
+								isDisabled={ ! opengraph }
+								isDummy={ ! isPremium }
 							/>
-							<FormikReplacementVariableEditorField
+							<FormikReplacementVariableEditorFieldWithDummy
 								type="description"
 								name={ `wpseo_titles.social-description-ptarchive-${ name }` }
 								fieldId={ `input-wpseo_titles-social-description-ptarchive-${ name }` }
@@ -359,7 +369,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								replacementVariables={ replacementVariablesArchives }
 								recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
 								className="yst-replacevar--description"
-								isDisabled={ ! isPremium || ! opengraph }
+								isDisabled={ ! opengraph }
+								isDummy={ ! isPremium }
 							/>
 						</PremiumUpsellFeature>
 					</FieldsetLayout>

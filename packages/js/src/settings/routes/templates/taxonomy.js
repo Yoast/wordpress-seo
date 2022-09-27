@@ -14,7 +14,11 @@ import {
 	OpenGraphDisabledAlert,
 	PremiumUpsellFeature,
 } from "../../components";
+import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
+
+const FormikMediaSelectFieldWithDummy = withFormikDummyField( FormikMediaSelectField );
+const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
  * @param {string} name The taxonomy name.
@@ -129,7 +133,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 			<FieldsetLayout
 				title={ <div className="yst-flex yst-items-center yst-gap-1.5">
 					<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-					<Badge variant="upsell">Premium</Badge>
+					{ isPremium && <Badge variant="upsell">Premium</Badge> }
 				</div> }
 				description={ sprintf(
 					// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g. Category.
@@ -138,7 +142,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 					singularLabel
 				) }
 			>
-				<PremiumUpsellFeature premiumLink={ socialAppearancePremiumLink }>
+				<PremiumUpsellFeature variant="card" premiumLink={ socialAppearancePremiumLink }>
 					<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 					<FormikMediaSelectField
 						id={ `wpseo_titles-social-image-tax-${ name }` }
@@ -146,7 +150,8 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						previewLabel={ recommendedSize }
 						mediaUrlName={ `wpseo_titles.social-image-url-tax-${ name }` }
 						mediaIdName={ `wpseo_titles.social-image-id-tax-${ name }` }
-						disabled={ ! isPremium || ! opengraph }
+						disabled={ ! opengraph }
+						isDummy={ ! isPremium }
 					/>
 					<FormikReplacementVariableEditorField
 						type="title"
@@ -155,7 +160,8 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						label={ __( "Social title", "wordpress-seo" ) }
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
-						isDisabled={ ! isPremium || ! opengraph }
+						isDisabled={ ! opengraph }
+						isDummy={ ! isPremium }
 					/>
 					<FormikReplacementVariableEditorField
 						type="description"
@@ -165,7 +171,8 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						className="yst-replacevar--description"
-						isDisabled={ ! isPremium || ! opengraph }
+						isDisabled={ ! opengraph }
+						isDummy={ ! isPremium }
 					/>
 				</PremiumUpsellFeature>
 			</FieldsetLayout>

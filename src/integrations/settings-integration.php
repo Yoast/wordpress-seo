@@ -50,13 +50,15 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	const DISALLOWED_SETTINGS = [
 		'wpseo'        => [
-			'myyoast_oauth',
+			'myyoast-oauth',
 			'semrush_tokens',
 			'custom_taxonomy_slugs',
 			'zapier_subscription',
-			'wincher_tokens',
+			'import_cursors',
 			'workouts_data',
 			'configuration_finished_steps',
+			'importing_completed',
+			'wincher_tokens',
 			'least_readability_ignore_list',
 			'least_seo_score_ignore_list',
 			'most_linked_ignore_list',
@@ -324,13 +326,15 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$settings               = $this->transform_settings( $this->get_settings() );
+		$default_settings       = $this->get_default_settings();
+		$settings               = $this->get_settings( $default_settings );
 		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
 
 		return [
-			'settings'             => $settings,
+			'settings'             => $this->transform_settings( $settings ),
+			'defaultSettings'      => $default_settings,
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
 			'nonce'                => \wp_create_nonce( 'wpseo_settings-options' ),
@@ -382,20 +386,51 @@ class Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves the settings and their values.
+	 * Retrieves the default settings.
 	 *
-	 * @return array The settings.
+	 * @return array The default settings.
 	 */
-	protected function get_settings() {
+	protected function get_default_settings() {
 		$defaults = [];
-		$settings = [];
 
 		// Add Yoast settings.
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
 			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
 				$option_instance          = WPSEO_Options::get_option_instance( $option_name );
 				$defaults[ $option_name ] = ( $option_instance ) ? $option_instance->get_defaults() : [];
-				$settings[ $option_name ] = \array_merge( $defaults[ $option_name ], WPSEO_Options::get_option( $option_name ) );
+			}
+		}
+		// Add WP settings.
+		foreach ( self::WP_OPTIONS as $option_name ) {
+			$defaults[ $option_name ] = "";
+		}
+		// Add person social profiles.
+		$defaults['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( false );
+
+		// Remove disallowed settings.
+		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {
+			foreach ( $disallowed_settings as $disallowed_setting ) {
+				unset( $defaults[ $option_name ][ $disallowed_setting ] );
+			}
+		}
+
+		return $defaults;
+	}
+
+	/**
+	 * Retrieves the settings and their values.
+	 *
+	 * @param array $default_settings The default settings.
+	 *
+	 * @return array The settings.
+	 */
+	protected function get_settings( $default_settings ) {
+		$settings = [];
+
+		// Add Yoast settings.
+		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
+			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
+				$settings[ $option_name ] = \array_merge( $default_settings[ $option_name ], WPSEO_Options::get_option( $option_name ) );
 			}
 		}
 		// Add WP settings.
@@ -442,7 +477,7 @@ class Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves the settings and their values.
+	 * Retrieves the disabled settings.
 	 *
 	 * @param array $settings The settings.
 	 *

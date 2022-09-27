@@ -12,7 +12,11 @@ import {
 	OpenGraphDisabledAlert,
 	PremiumUpsellFeature,
 } from "../components";
+import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
+
+const FormikMediaSelectFieldWithDummy = withFormikDummyField( FormikMediaSelectField );
+const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
  * Presents the `post_format` taxonomy.
@@ -136,7 +140,7 @@ const Formats = () => {
 					<FieldsetLayout
 						title={ <div className="yst-flex yst-items-center yst-gap-1.5">
 							<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-							<Badge variant="upsell">Premium</Badge>
+							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
 							// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag.
@@ -145,26 +149,28 @@ const Formats = () => {
 							singularLabel
 						) }
 					>
-						<PremiumUpsellFeature premiumLink={ socialAppearancePremiumLink }>
+						<PremiumUpsellFeature variant="card" premiumLink={ socialAppearancePremiumLink }>
 							<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
-							<FormikMediaSelectField
+							<FormikMediaSelectFieldWithDummy
 								id={ `wpseo_titles-social-image-tax-${ name }` }
 								label={ __( "Social image", "wordpress-seo" ) }
 								previewLabel={ recommendedSize }
 								mediaUrlName={ `wpseo_titles.social-image-url-tax-${ name }` }
 								mediaIdName={ `wpseo_titles.social-image-id-tax-${ name }` }
-								disabled={ ! isPremium || ! opengraph }
+								disabled={ ! opengraph }
+								isDummy={ ! isPremium }
 							/>
-							<FormikReplacementVariableEditorField
+							<FormikReplacementVariableEditorFieldWithDummy
 								type="title"
 								name={ `wpseo_titles.social-title-tax-${ name }` }
 								fieldId={ `input-wpseo_titles-social-title-tax-${ name }` }
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ ! isPremium || ! opengraph }
+								isDisabled={ ! opengraph }
+								isDummy={ ! isPremium }
 							/>
-							<FormikReplacementVariableEditorField
+							<FormikReplacementVariableEditorFieldWithDummy
 								type="description"
 								name={ `wpseo_titles.social-description-tax-${ name }` }
 								fieldId={ `input-wpseo_titles-social-description-tax-${ name }` }
@@ -172,7 +178,8 @@ const Formats = () => {
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ ! isPremium || ! opengraph }
+								isDisabled={ ! opengraph }
+								isDummy={ ! isPremium }
 							/>
 						</PremiumUpsellFeature>
 					</FieldsetLayout>
