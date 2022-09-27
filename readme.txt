@@ -246,6 +246,7 @@ Release Date: October 4th, 2022
 
 
 
+
 Enhancements:
 
 * Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them from being indexed, reducing duplicate content.
@@ -260,6 +261,7 @@ Bugfixes:
 * Fixes a bug where passing `__false` to the `wpseo_robots` filter would result in a `max-image-preview:large` robots meta directive instead of the desired `noindex, nofollow` directive.
 * Fixes a bug where robots meta tags would be unintentionally synchronized between pages in different languages when using multilingual plugins like WPML or Polylang.
 * Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
+* Fixes a bug where Yoast would conflict with Elementor, when Yoast Premium or Yoast News or Yoast Video is active, throwing console errors.
 
 Other:
 
