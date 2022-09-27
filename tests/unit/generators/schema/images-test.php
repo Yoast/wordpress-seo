@@ -242,6 +242,21 @@ class Images_Test extends TestCase {
 		Monkey\Functions\expect( 'home_url' )
 			->andReturn( 'https://example.com' );
 
+		$this->image
+			->expects( 'get_attachment_image_url' )
+			->with( 1, 'full' )
+			->andReturn( 'https://example.com/images/image-1.jpg' );
+
+		$this->image
+			->expects( 'get_attachment_image_url' )
+			->with( 2, 'full' )
+			->andReturn( 'https://example.com/images/image-2.jpg' );
+
+		$this->image
+			->expects( 'get_attachment_by_url' )
+			->with( 'https://example.com/images/image-3.jpg' )
+			->andReturn( 0 );
+
 		$this->schema_image
 			->expects( 'generate_from_attachment_id' )
 			->with( 'https://example.com/images/image-1.jpg', 1 )
