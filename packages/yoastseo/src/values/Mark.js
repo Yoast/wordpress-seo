@@ -3,7 +3,7 @@ import { defaults } from "lodash-es";
 /**
  * Represents a marked piece of text
  *
- * @param {Object} properties The properties of this Mark.
+ * @param {{marked: (string|*), original: Array<string[]>}} properties The properties of this Mark.
  * @param {string} properties.original The original text that should be marked.
  * @param {string} properties.marked The new text including marks.
  * @constructor
