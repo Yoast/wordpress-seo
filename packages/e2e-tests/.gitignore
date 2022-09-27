@@ -1,2 +1,4 @@
+/allure-report
+/allure-results
 __snapshots__
 jest-puppeteer.config.js

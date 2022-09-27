@@ -37,7 +37,11 @@ yarn wp-env stop
 
 that stops the WordPress local environment.
 
-## Misc
+## Test reporter
+
+The package integrates the [jest-allure](https://github.com/zaqqaz/jest-allure) test reporter which provides advanced information about the tests. Run the `allure serve` command to generate and view a report in the browser.
+
+## Configuration
 
 A configuration example is present in the [jest-puppeteer.config.js.example](jest-puppeteer.config.js.example) file.
 
