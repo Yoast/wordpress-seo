@@ -24,6 +24,7 @@ const classNameMap = {
  * @param {string} [description] Description.
  * @param {JSX.Element} [icon] Icon to show in select.
  * @param {boolean} [disabled] Disabled.
+ * @param {boolean} [isDummy] Wether component should be in dummy state.
  * @param {string} [libraryType] Media type that should show in WP library, ie. "image" or "video".
  * @param {string} [variant] Variant.
  * @param {string} id Id.
@@ -42,6 +43,7 @@ const FormikMediaSelectField = ( {
 	description = "",
 	icon: Icon = PhotographIcon,
 	disabled = false,
+	isDummy = false,
 	libraryType = "image",
 	variant = "landscape",
 	id,
@@ -74,16 +76,27 @@ const FormikMediaSelectField = ( {
 	}, [ mediaId, media, fallbackMediaId, fallbackMedia ] );
 	const previewSrcSet = useMemo( () => join( map( media?.sizes || fallbackMedia?.sizes, size => `${ size?.url } ${size?.width}w` ), ", " ), [ media, fallbackMedia ] );
 
-	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
+	const handleSelectMediaClick = useCallback( () => {
+		if ( isDummy ) {
+			return;
+		}
+		wpMediaLibrary?.open();
+	}, [ isDummy, wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
+		if ( isDummy ) {
+			return;
+		}
 		// Update Formik state, but only validate on type.
 		setFieldTouched( mediaUrlName, true, false );
 		setFieldValue( mediaUrlName, "", false );
 
 		setFieldTouched( mediaIdName, true, false );
 		setFieldValue( mediaIdName, "" );
-	}, [ setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
+	}, [ isDummy, setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
 	const handleSelectMedia = useCallback( () => {
+		if ( isDummy ) {
+			return;
+		}
 		const selectedMedia = wpMediaLibrary.state()?.get( "selection" )?.first()?.toJSON() || {};
 
 		// Update Formik state, but only validate on type.
@@ -95,7 +108,7 @@ const FormikMediaSelectField = ( {
 
 		// Update Redux state, note that this entity structure is different from what WP API returns.
 		addOneMedia( selectedMedia );
-	}, [ wpMediaLibrary, setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
+	}, [ isDummy, wpMediaLibrary, setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
 
 	useEffect( () => {
 		if ( wpMedia ) {
@@ -145,14 +158,14 @@ const FormikMediaSelectField = ( {
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
 					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-max-w-full yst-rounded-md yst-mb-4 yst-border-slate-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-					previewMedia ? "yst-bg-slate-50 yst-border" : "yst-border-2 yst-border-dashed",
+					! isDummy && previewMedia ? "yst-bg-slate-50 yst-border" : "yst-border-2 yst-border-dashed",
 					disabled && "yst-opacity-50 yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
 					className
 				) }
 				disabled={ disabled }
 			>
-				{ previewMedia ? (
+				{ ! isDummy && previewMedia ? (
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
@@ -178,7 +191,7 @@ const FormikMediaSelectField = ( {
 				) }
 			</button>
 			<div className="yst-flex yst-gap-4">
-				{ mediaId > 0 ? (
+				{ ! isDummy && ( mediaId > 0 ) ? (
 					<Button
 						id={ `button-${ id }-replace` }
 						variant="secondary" onClick={ handleSelectMediaClick }
@@ -195,7 +208,7 @@ const FormikMediaSelectField = ( {
 						{ selectLabel }
 					</Button>
 				) }
-				{ mediaId > 0 && (
+				{ ! isDummy && ( mediaId > 0 ) && (
 					<Link
 						id={ `button-${ id }-remove` }
 						as="button"
@@ -222,6 +235,7 @@ FormikMediaSelectField.propTypes = {
 	description: PropTypes.node,
 	icon: PropTypes.elementType,
 	disabled: PropTypes.bool,
+	isDummy: PropTypes.bool,
 	libraryType: PropTypes.string,
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
 	id: PropTypes.string.isRequired,
