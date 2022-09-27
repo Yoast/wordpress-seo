@@ -38,7 +38,7 @@ const FormLayout = ( {
 			<div className="yst-flex-grow yst-p-8 yst-max-w-5xl">
 				{ children }
 			</div>
-			<footer className="yst-sticky yst-bottom-0">
+			<footer className="yst-sticky yst-bottom-0 yst-z-40">
 				<AnimateHeight
 					easing="ease-in-out"
 					duration={ 300 }
