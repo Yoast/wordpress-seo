@@ -69,10 +69,6 @@ class Permalink_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/dynamic-permalink/' );
 
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
-
 		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->permalink );
 	}
 

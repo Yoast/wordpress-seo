@@ -103,10 +103,6 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/dynamic-permalink/' );
 
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
-
 		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -131,10 +127,6 @@ class Canonical_Test extends TestCase {
 			->expects( 'get_date_archive_permalink' )
 			->andReturn( 'https://example.com/2022/06' );
 
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
-
 		$this->assertEquals( 'https://example.com/2022/06', $this->instance->generate_canonical() );
 	}
 
@@ -148,6 +140,15 @@ class Canonical_Test extends TestCase {
 		$wp->request = 'https://example.com/image';
 
 		$GLOBALS['wp'] = $wp;
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
 
 		Monkey\Functions\expect( 'is_attachment' )
 			->once()

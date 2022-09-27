@@ -175,10 +175,6 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
-
 		$this->assertEquals( 'https://example.com/dynamic-term-archive/', $this->instance->generate_canonical() );
 	}
 
@@ -214,10 +210,6 @@ class Canonical_Test extends TestCase {
 			->with( 'https://example.com/dynamic-term-archive/', 2 )
 			->once()
 			->andReturn( 'https://example.com/dynamic-term-archive/page/2/' );
-
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/dynamic-term-archive/page/2/', $this->instance->generate_canonical() );
 	}

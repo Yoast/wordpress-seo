@@ -132,10 +132,6 @@ class Canonical_Test extends TestCase {
 	public function test_without_pagination_with_dynamic_permalinks() {
 		$this->indexable->permalink = 'https://example.com/';
 
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
-
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
 			->once()
@@ -162,10 +158,6 @@ class Canonical_Test extends TestCase {
 	 */
 	public function test_with_pagination_with_dynamic_permalinks() {
 		$this->indexable->permalink = 'https://example.com/';
-
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
 
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )

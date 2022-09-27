@@ -136,10 +136,6 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
-
 		$this->assertEquals( 'https://example.com/dynamic-custom-post-type/', $this->instance->generate_canonical() );
 	}
 
@@ -172,10 +168,6 @@ class Canonical_Test extends TestCase {
 			->with( 'https://example.com/dynamic-custom-post-type/', 3 )
 			->once()
 			->andReturn( 'https://example.com/dynamic-custom-post-type/page/3/' );
-
-		Monkey\Functions\expect( 'is_attachment' )
-			->once()
-			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/dynamic-custom-post-type/page/3/', $this->instance->generate_canonical() );
 	}
