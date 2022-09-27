@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { buildQueryString } from "@wordpress/url";
 import { useDispatch } from "@wordpress/data";
-import { map, values, debounce, find, isEmpty } from "lodash";
+import { map, values, debounce, find, isEmpty, trim } from "lodash";
 import apiFetch from "@wordpress/api-fetch";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import { useField } from "formik";
@@ -111,11 +111,11 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 							<UserSelectOptionsContent>
 								{ __( "No users found.", "wordpress-seo" ) }
 							</UserSelectOptionsContent>
-						) : map( queriedUserIds, id => {
-							const user = users?.[ id ];
+						) : map( queriedUserIds, userId => {
+							const user = users?.[ userId ];
 							return user ? (
 								<AutocompleteField.Option key={ user?.id } value={ user?.id }>
-									{ user?.name || user?.username }
+									{ trim( user?.name ) || user?.username }
 								</AutocompleteField.Option>
 							) : null;
 						} ) }
