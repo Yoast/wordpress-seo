@@ -60,7 +60,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 
 			const response = await apiFetch( {
 				// eslint-disable-next-line camelcase
-				path: `/wp/v2/users?${ buildQueryString( { search, per_page: 20 } ) }`,
+				path: `/wp/v2/users?${ buildQueryString( { context: "edit", search, per_page: 20 } ) }`,
 				signal: abortController?.signal,
 			} );
 
@@ -99,7 +99,8 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 			// Hack to force re-render of Headless UI Combobox.Input component when selectedUser changes.
 			value={ selectedUser ? value : 0 }
 			onChange={ handleChange }
-			selectedLabel={ selectedUser?.name || __( "Select a user...", "wordpress-seo" ) }
+			placeholder={ __( "Select a user...", "wordpress-seo" ) }
+			selectedLabel={ selectedUser?.name }
 			onQueryChange={ handleQueryChange }
 			className={ className }
 		>
@@ -114,7 +115,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 							const user = users?.[ id ];
 							return user ? (
 								<AutocompleteField.Option key={ user?.id } value={ user?.id }>
-									{ user?.name }
+									{ user?.name || user?.username }
 								</AutocompleteField.Option>
 							) : null;
 						} ) }

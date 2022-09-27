@@ -70,7 +70,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'breadcrumbs-home'                 => '', // Text field.
 		'breadcrumbs-prefix'               => '', // Text field.
 		'breadcrumbs-searchprefix'         => '', // Text field.
-		'breadcrumbs-sep'                  => '&raquo;', // Text field.
+		'breadcrumbs-sep'                  => '»', // Text field.
 
 		'website_name'                     => '',
 		'person_name'                      => '',

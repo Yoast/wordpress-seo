@@ -207,7 +207,7 @@ class WPSEO_Utils {
 		if ( isset( $parts['path'] ) && strpos( $parts['path'], '/' ) === 0 ) {
 			$path = explode( '/', wp_strip_all_tags( $parts['path'] ) );
 			$path = self::sanitize_encoded_text_field( $path );
-			$url .= implode( '/', $path );
+			$url .= str_replace( '%40', '@', implode( '/', $path ) );
 		}
 
 		if ( ! $url ) {

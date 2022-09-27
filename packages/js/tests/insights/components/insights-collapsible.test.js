@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelect } from "@wordpress/data";
+import { enableFeatures } from "@yoast/feature-flag";
 import InsightsCollapsible from "../../../src/insights/components/insights-collapsible";
 import { shallow } from "enzyme";
 import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
@@ -51,7 +52,14 @@ describe( "The insights collapsible component", () => {
 
 		expect( render.find( TextLength ) ).toHaveLength( 1 );
 	} );
-	it( "renders the Text formality component", () => {
+	it( "does not render the Text formality component when the feature is disabled", () => {
+		mockSelect( true );
+		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
+
+		expect( render.find( TextFormality ) ).toHaveLength( 0 );
+	} );
+	it( "renders the Text formality component when the feature is enabled", () => {
+		enableFeatures( [ "TEXT_FORMALITY" ] );
 		mockSelect( true );
 		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
