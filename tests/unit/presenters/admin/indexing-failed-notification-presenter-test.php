@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;

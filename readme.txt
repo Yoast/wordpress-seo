@@ -1,11 +1,11 @@
 === Yoast SEO ===
-Contributors: yoast, joostdevalk, omarreiss
+Contributors: yoast, joostdevalk, tdevalk
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.8
-Stable tag: 17.7.1
+Tested up to: 6.0
+Stable tag: 19.7.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -36,6 +36,8 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
+* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
+* **[Premium]** **New!** Yoast SEO Premium comes with an IndexNow integration to ping search engines like Microsoft Bing whenever you publish or update content.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -53,6 +55,8 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
 * **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
+* **[Premium]** **New!** Yoast SEO Premium comes with a new word complexity feature that gives you actionable feedback on using difficult words. This feature is in beta and English only for now.
+* **[Premium]** **New!** Yoast SEO Premium comes with a new inclusive language analysis that helps you write inclusive content. This feature is opt-in, in beta and English only for now.
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -110,6 +114,7 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
 * [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 * [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
+* [WordProof](https://wordproof.com/), which helps you prove ownership by adding timestamps.
 
 ### BUG REPORTS
 
@@ -126,7 +131,7 @@ Want more information on search engine optimization and Yoast SEO? Have a look a
 * Also follow Yoast on [Facebook](https://facebook.com/yoast), [Instagram](https://www.instagram.com/yoast/) & [Twitter](https://twitter.com/yoast).
 
 == Installation ==
-Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration wizard as explained in the ‘after activation’ step!
+Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO first-time configuration as explained in the ‘after activation’ step!
 
 ### INSTALL YOAST SEO FROM WITHIN WORDPRESS
 
@@ -143,8 +148,8 @@ Starting with Yoast SEO consists of just two steps: installing and setting up th
 
 ### AFTER ACTIVATION
 
-1. You should see (a notice to start) the Yoast SEO configuration wizard;
-1. Go through the configuration wizard and set up the plugin for your site;
+1. You should see (a notice to start) the Yoast SEO first-time configuration;
+1. Go through this configuration and set up the plugin for your site;
 1. You’re done!
 
 == Frequently Asked Questions ==
@@ -236,55 +241,60 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 17.8 =
-Release Date: December 14th, 2021
+= 19.8 =
+Release Date: October 4th, 2022
+
+
 
 Enhancements:
 
-* Adds a new integration with Wincher for keyphrase performance tracking.
-* Improves the user direction in the configuration workout.
-* Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
+* Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them from being indexed, reducing duplicate content.
+* Removes the `BreadcrumbList` schema output from pages that are not the homepage if there are no valid `ListItem`s in its `itemListElement` schema piece other than the homepage's.
+* Removes two notifications from the Yoast SEO dashboard: the one suggesting enabling auto-updates, and the one suggesting activating an add-on that is installed but currently inactive.
 
 Bugfixes:
 
-* Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
-* Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
-* Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
-* Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
-* Fixes a bug where the state of indexation was not persisted when switching between workouts and the workouts page.
+* Fixes a bug where a fatal error would be thrown when the `php_uname()` function is disabled by the web hosting provider and usage tracking is enabled.
+* Fixes a bug where changes in the replacement variables (e.g. the value of the `%%title%%` replacement variable when the post title changes) would not be reflected in the Meta description length, the SEO title width, and the Keyphrase in SEO title assessments.
+* Fixes a bug where `ListItem` entries would be output in a `BreadcrumbList` even if their text was empty, resulting in Schema validation errors.
+* Fixes a bug where passing `__false` to the `wpseo_robots` filter would result in a `max-image-preview:large` robots meta directive instead of the desired `noindex, nofollow` directive.
+* Fixes a bug where robots meta tags would be unintentionally synchronized between pages in different languages when using multilingual plugins like WPML or Polylang.
+* Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
 
 Other:
 
-* Fixes some styling issues in the configuration workout.
-* Prevents SEO managers from changing the site description in the configuration workout.
-* Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
-* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
+* Deprecates the `wpseo_twitter_card_type` filter.
+* Outputs `summary_large_image` for all `twitter:card` meta tags, because it's the only supported format by Twitter.
 
-= 17.7.1 =
-Release Date: December 1st, 2021
+= 19.7.1 =
+Release Date: September 20th, 2022
 
 Bugfixes:
 
-* Fixes a bug where the notification to start configuring Yoast SEO would also been shown on existing installations.
-* Fixes a bug where Yoast addons would not inherit the auto-update settings from Yoast SEO.
-* Fixes a bug where changing the auto-update settings of another plugin could stop Yoast addons from being auto-updated.
+* Fixes a bug where a fatal error would be thrown in combination with certain plugins that change the standard login page URL.
 
-= 17.7 =
-Release Date: November 30th, 2021
+Other:
 
-Meet Yoast SEO 17.7! This release introduces a new configuration workout to help you set up the Yoast SEO plugin properly from the get-go. Get the basic settings right in Yoast SEO and create a solid foundation for your SEO! Read more about what's new in Yoast SEO 17.7 in [our release post in English](https://yoa.st/release-17-7) or [our release post in Spanish](https://yoa.st/release-17-7-spanish)!
+* Changes the copy in the `robots.txt` comment. 
+
+= 19.7 =
+Release Date: September 20th, 2022
+
+Yoast SEO 19.7 is out today! We’ve rolled out some general enhancements, bug fixes, and security improvements in this release. Go check it out! Read more about what's new in Yoast SEO 19.7 in [our release post in English](https://yoa.st/release-20-9-22) or [our release post in Spanish](https://yoa.st/release-20-9-22-spanish)!
 
 Enhancements:
 
-* Replaces the configuration wizard with a configuration workout, which makes it easier to configure Yoast SEO for your website.
-* Adds a link to the archive page for the content types in the Search Appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
-* Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
+* Improves the handling of fatal errors in the front-end by preventing Yoast SEO to run in the login page, allowing users to access their dashboard.
+* Excludes empty custom post type sitemaps from `sitemap_index.xml`.
+* Introduces a new filter `wpseo_sitemap_post_type_first_links` that can be used to add links at the start of the first sitemap page for post types. Props to @jamalbou.
 
 Bugfixes:
 
-* Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to [artemidaspatanews](https://github.com/artemidaspatanews).
-* Fixes a bug where some post types would cause a PHP warning about custom fields.
-* Fixes a bug where memory issues could occur when indexing a site with large amounts of terms assigned to many posts.
+* Fixes a bug in the default editor where image elements would lead to repeated requests for that image source while editing content.
+
+Other:
+
+* Adds new disabled toggles to the Crawl settings tab in the General page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

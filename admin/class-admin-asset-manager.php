@@ -89,6 +89,10 @@ class WPSEO_Admin_Asset_Manager {
 			$script->get_version(),
 			$script->is_in_footer()
 		);
+
+		if ( in_array( 'wp-i18n', $script->get_deps(), true ) ) {
+			wp_set_script_translations( $this->prefix . $script->get_name(), 'wordpress-seo' );
+		}
 	}
 
 	/**
@@ -226,9 +230,6 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return array The scripts that need to be registered.
 	 */
 	protected function scripts_to_be_registered() {
-		$flat_version = $this->flatten_version( WPSEO_VERSION );
-		$ext_length   = ( strlen( $flat_version ) + 4 );
-
 		$header_scripts          = [
 			'admin-global',
 			'block-editor',
@@ -237,32 +238,65 @@ class WPSEO_Admin_Asset_Manager {
 			'help-scout-beacon',
 		];
 		$additional_dependencies = [
-			'analysis-worker'    => [ self::PREFIX . 'analysis-package' ],
-			'api-client'         => [ 'wp-api' ],
-			'dashboard-widget'   => [ self::PREFIX . 'api-client' ],
-			'elementor'          => [ self::PREFIX . 'api-client' ],
-			'indexation'         => [
+			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
+			'api-client'               => [ 'wp-api' ],
+			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'editor-modules'           => [ 'jquery' ],
+			'elementor'                => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
+			'indexables-page'          => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
+			'indexation'               => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
-			'post-edit'          => [
+			'first-time-configuration' => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
+			'integrations-page'        => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
+			'post-edit'                => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'block-editor',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
-			'reindex-links'      => [
+			'reindex-links'            => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
-			'settings'           => [
+			'settings'                 => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
-			'term-edit'          => [
+			'term-edit'                => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'classic-editor',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 		];
@@ -270,7 +304,7 @@ class WPSEO_Admin_Asset_Manager {
 		$plugin_scripts   = $this->load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/plugin.php',
-				'ext_length'      => $ext_length,
+				'ext_length'      => 3,
 				'additional_deps' => $additional_dependencies,
 				'header_scripts'  => $header_scripts,
 			]
@@ -278,7 +312,7 @@ class WPSEO_Admin_Asset_Manager {
 		$external_scripts = $this->load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/externals.php',
-				'ext_length'      => $ext_length,
+				'ext_length'      => 3,
 				'suffix'          => '-package',
 				'base_dir'        => 'externals/',
 				'additional_deps' => $additional_dependencies,
@@ -288,7 +322,7 @@ class WPSEO_Admin_Asset_Manager {
 		$language_scripts = $this->load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/languages.php',
-				'ext_length'      => $ext_length,
+				'ext_length'      => 3,
 				'suffix'          => '-language',
 				'base_dir'        => 'languages/',
 				'additional_deps' => $additional_dependencies,
@@ -306,6 +340,21 @@ class WPSEO_Admin_Asset_Manager {
 			$renamed_scripts
 		);
 
+		$scripts['installation-success'] = [
+			'name'    => 'installation-success',
+			'src'     => 'installation-success.js',
+			'deps'    => [
+				'wp-a11y',
+				'wp-dom-ready',
+				'wp-components',
+				'wp-element',
+				'wp-i18n',
+				self::PREFIX . 'yoast-components',
+				self::PREFIX . 'externals-components',
+			],
+			'version' => $scripts['installation-success']['version'],
+		];
+
 		$scripts['post-edit-classic'] = [
 			'name'      => 'post-edit-classic',
 			'src'       => $scripts['post-edit']['src'],
@@ -319,12 +368,13 @@ class WPSEO_Admin_Asset_Manager {
 				$scripts['post-edit']['deps']
 			),
 			'in_footer' => ! in_array( 'post-edit-classic', $header_scripts, true ),
+			'version'   => $scripts['post-edit']['version'],
 		];
 
 		$scripts['workouts'] = [
-			'name' => 'workouts',
-			'src'  => 'workouts-' . $flat_version . '.js',
-			'deps' => [
+			'name'    => 'workouts',
+			'src'     => 'workouts.js',
+			'deps'    => [
 				'clipboard',
 				'lodash',
 				'wp-api-fetch',
@@ -335,10 +385,14 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-dom-ready',
 				'wp-element',
 				'wp-i18n',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'analysis',
 				self::PREFIX . 'react-select',
 				self::PREFIX . 'yoast-components',
 			],
+			'version' => $scripts['workouts']['version'],
 		];
 
 		// Add the current language to every script that requires the analysis package.
@@ -404,6 +458,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => $args['base_dir'] . $file,
 				'deps'      => $deps,
 				'in_footer' => ! in_array( $name, $args['header_scripts'], true ),
+				'version'   => $data['version'],
 			];
 		}
 
@@ -449,7 +504,7 @@ class WPSEO_Admin_Asset_Manager {
 			'deps'    => [
 				'jquery',
 			],
-			'version' => '4.1.0-rc.0',
+			'version' => '4.0.13',
 		];
 		$scripts['select2-translations'] = [
 			'name'    => 'select2-translations',
@@ -458,7 +513,7 @@ class WPSEO_Admin_Asset_Manager {
 				'jquery',
 				self::PREFIX . 'select2-core',
 			],
-			'version' => '4.1.0-rc.0',
+			'version' => '4.0.13',
 		];
 
 		return $scripts;
@@ -540,6 +595,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'notifications-' . $flat_version,
 			],
 			[
+				'name' => 'notifications-new',
+				'src'  => 'notifications-new-' . $flat_version,
+			],
+			[
 				'name' => 'alert',
 				'src'  => 'alerts-' . $flat_version,
 			],
@@ -583,7 +642,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name'    => 'select2',
 				'src'     => 'select2/select2',
 				'suffix'  => '.min',
-				'version' => '4.1.0-rc.0',
+				'version' => '4.0.13',
 				'rtl'     => false,
 			],
 			[
@@ -630,9 +689,23 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'elementor-' . $flat_version,
 			],
 			[
+				'name' => 'tailwind',
+				'src'  => 'tailwind-' . $flat_version,
+			],
+			[
+				'name' => 'new-settings',
+				'src'  => 'new-settings-' . $flat_version,
+			],
+			[
 				'name' => 'workouts',
 				'src'  => 'workouts-' . $flat_version,
-				'deps' => [ self::PREFIX . 'monorepo' ],
+				'deps' => [
+					self::PREFIX . 'monorepo',
+				],
+			],
+			[
+				'name' => 'inside-editor',
+				'src'  => 'inside-editor-' . $flat_version,
 			],
 		];
 	}

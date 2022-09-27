@@ -68,7 +68,7 @@ class Addon_Activate_Action_Test extends TestCase {
 	/**
 	 * Tests if an activated addon can be activated "again".
 	 */
-	public function test_activate_addon_is_already_installed() {
+	public function test_activate_addon_is_already_activated() {
 
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
@@ -89,7 +89,7 @@ class Addon_Activate_Action_Test extends TestCase {
 	/**
 	 * Tests if an exception is thrown on activation error.
 	 */
-	public function test_activate_addon_activation_result_is_null() {
+	public function test_activate_addon_activation_when_activation_fails() {
 
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
@@ -117,7 +117,8 @@ class Addon_Activate_Action_Test extends TestCase {
 
 		$wp_error
 			->expects( 'get_error_message' )
-			->once();
+			->once()
+			->andReturn( '' );
 
 		Monkey\Functions\expect( 'activate_plugin' )
 			->once()

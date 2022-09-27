@@ -13,23 +13,26 @@ import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
-import { Slot } from "@wordpress/components";
-
+import { actions } from "@yoast/externals/redux";
+import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 
 /* Internal dependencies */
 import PluginIcon from "../containers/PluginIcon";
 import SidebarFill from "../containers/SidebarFill";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
-import { setMarkerStatus } from "../redux/actions";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import SidebarSlot from "../components/slots/SidebarSlot";
+import SlotWithDefault from "../components/slots/SlotWithDefault";
 import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
+import PostPublishZapierUpsell from "../components/PostPublishZapierUpsell";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
+import { isWordProofIntegrationActive } from "../helpers/wordproof";
+
 
 /**
  * Registers the Yoast inline link format.
@@ -96,7 +99,7 @@ function registerFills( store ) {
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
-	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
+	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
 	/**
@@ -130,14 +133,6 @@ function registerFills( store ) {
 			>
 				<PrePublish />
 			</PluginPrePublishPanel> }
-			{ isPremium && showZapierPanel && <PluginPrePublishPanel
-				className="yoast-seo-sidebar-panel"
-				title="Zapier"
-				initialOpen={ true }
-				icon={ <Fragment /> }
-			>
-				<Slot name="YoastZapierPrePublish" />
-			</PluginPrePublishPanel> }
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"
 				title={ __( "Yoast SEO", "wordpress-seo" ) }
@@ -145,7 +140,12 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
-				{ preferences.isKeywordAnalysisActive && <WincherPostPublish /> }
+				<SlotWithDefault
+					name="YoastZapierPostPublish"
+				>
+					<PostPublishZapierUpsell />
+				</SlotWithDefault>
+				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
 				name="document-panel"
@@ -173,7 +173,7 @@ function registerFills( store ) {
  */
 function initializeAnnotations( store ) {
 	if ( isAnnotationAvailable() ) {
-		store.dispatch( setMarkerStatus( "enabled" ) );
+		store.dispatch( actions.setMarkerStatus( "enabled" ) );
 	}
 }
 
@@ -188,4 +188,8 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
+
+	if ( isWordProofIntegrationActive() ) {
+		initializeWordProofForBlockEditor();
+	}
 }

@@ -36,6 +36,12 @@ class Input_Helper_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_filter() {
+		// These two expectations should be removed once the underlying issue has been resolved.
+		if ( \PHP_VERSION_ID >= 80100 ) {
+			$this->expectDeprecation();
+			$this->expectDeprecationMessage( 'Constant FILTER_SANITIZE_STRING is deprecated' );
+		}
+
 		$this->assertNull( $this->instance->filter( \INPUT_POST, 'bogus', \FILTER_SANITIZE_STRING ) );
 	}
 }

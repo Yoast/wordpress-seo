@@ -118,10 +118,12 @@ class SocialPreviewEditor extends Component {
 			description,
 			descriptionInputPlaceholder,
 			imageUrl,
+			alt,
 			title,
 			titleInputPlaceholder,
 			replacementVariables,
 			recommendedReplacementVariables,
+			onReplacementVariableSearchChange,
 			isPremium,
 			location,
 		} = this.props;
@@ -137,6 +139,7 @@ class SocialPreviewEditor extends Component {
 					onRemoveImageClick={ onRemoveImageClick }
 					imageSelected={ !! imageUrl }
 					imageUrl={ imageUrl }
+					imageAltText={ alt }
 					onTitleChange={ onTitleChange }
 					onSelectImageClick={ onSelectImageClick }
 					description={ description }
@@ -144,6 +147,7 @@ class SocialPreviewEditor extends Component {
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+					onReplacementVariableSearchChange={ onReplacementVariableSearchChange }
 					onMouseHover={ this.setHoveredField }
 					hoveredField={ this.state.hoveredField }
 					onSelect={ this.setActiveField }
@@ -172,7 +176,9 @@ SocialPreviewEditor.propTypes = {
 	titleInputPlaceholder: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
+	onReplacementVariableSearchChange: PropTypes.func,
 	location: PropTypes.string,
+	alt: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -182,7 +188,9 @@ SocialPreviewEditor.defaultProps = {
 	isPremium: false,
 	descriptionInputPlaceholder: "",
 	titleInputPlaceholder: "",
+	onReplacementVariableSearchChange: null,
 	location: "",
+	alt: "",
 };
 
 export default SocialPreviewEditor;

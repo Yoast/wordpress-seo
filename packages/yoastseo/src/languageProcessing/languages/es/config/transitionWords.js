@@ -26,7 +26,7 @@ export const multipleWords = [  "a causa de", "a continuación", "a diferencia d
 	"entre ellos figura", "es cierto que", "es decir", "es evidente que", "es incuestionable", "es indudable", "es más", "está claro que",
 	"esto indica", "excepto si", "generalmente por ejemplo",	"gracias a", "hasta aquí", "hasta cierto punto", "hasta el momento", "hay que añadir",
 	"igual que", "la mayor parte del tiempo", "la mayoría del tiempo", "lo que es peor", "más tarde", "mejor dicho", "mientras tanto",
-	"mirándolo todo", "nadie puede ignorar", "no faltaría más", "no obstante", "o sea", "otra vez", "otro aspecto", "par ilustrar", "para concluir",
+	"mirándolo todo", "nadie puede ignorar", "no faltaría más", "no obstante", "o sea", "otra vez", "otro aspecto", "para ilustrar", "para concluir",
 	"para conclusión", "para continuar", "para empezar", "para finalizar", "para mencionar una cosa", "para que", "para resumir", "para terminar",
 	"pongamos por caso", "por añadidura", "por cierto", "por consiguiente", "por ejemplo", "por el consiguiente", "por el contrario",
 	"por el hecho que",	"por eso", "por esta razón", "por esto", "por fin", "por la mayor parte", "por lo general", "por lo que",

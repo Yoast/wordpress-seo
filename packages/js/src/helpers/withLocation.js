@@ -1,6 +1,6 @@
 import { createHigherOrderComponent, pure } from "@wordpress/compose";
 import { createElement, useContext } from "@wordpress/element";
-import { LocationContext } from "../components/contexts/location";
+import { LocationContext } from "@yoast/externals/contexts";
 
 /**
  * Creates a higher-order component that uses the LocationContext.

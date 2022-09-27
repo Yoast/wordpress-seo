@@ -16,15 +16,6 @@ export const END_MARK =   "</yoastmark>";
 let annotationQueue = [];
 
 const ANNOTATION_ATTRIBUTES = {
-	"core/quote": [
-		{
-			key: "value",
-			multilineTag: "p",
-		},
-		{
-			key: "citation",
-		},
-	],
 	"core/paragraph": [
 		{
 			key: "content",

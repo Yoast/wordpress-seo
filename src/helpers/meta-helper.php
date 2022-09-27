@@ -64,4 +64,16 @@ class Meta_Helper {
 	public function set_value( $key, $meta_value, $post_id ) {
 		return WPSEO_Meta::set_value( $key, $meta_value, $post_id );
 	}
+
+	/**
+	 * Deletes a meta value for a post.
+	 *
+	 * @param string $key     The internal key of the meta value to change (without prefix).
+	 * @param int    $post_id The ID of the post to delete the meta for.
+	 *
+	 * @return bool Whether the delete was successful or not.
+	 */
+	public function delete( $key, $post_id ) {
+		return WPSEO_Meta::delete( $key, $post_id );
+	}
 }

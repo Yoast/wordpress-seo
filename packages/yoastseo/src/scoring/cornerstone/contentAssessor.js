@@ -1,6 +1,5 @@
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
-import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
@@ -12,7 +11,6 @@ import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
 /*
  Temporarily disabled:
 
- var wordComplexity = require( "./assessments/readability/wordComplexityAssessment.js" );
  var sentenceLengthInDescription = require( "./assessments/readability/sentenceLengthInDescriptionAssessment.js" );
  */
 
@@ -27,17 +25,17 @@ import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
  */
 const CornerStoneContentAssessor = function( researcher, options = {} ) {
 	Assessor.call( this, researcher, options );
-	this.type = "CornerstoneContentAssessor";
+	this.type = "cornerstoneContentAssessor";
 
 	this._assessments = [
-
-		fleschReadingEase,
 		new SubheadingDistributionTooLong( {
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+				recommendedMaximumLength: 250,
 			},
+			applicableIfTextLongerThan: 250,
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong(),
 		new SentenceLengthInText( {

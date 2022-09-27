@@ -1,6 +1,6 @@
 export const WINCHER_SET_REQUEST_SUCCEEDED = "WINCHER_SET_REQUEST_SUCCEEDED";
 export const WINCHER_SET_REQUEST_FAILED = "WINCHER_SET_REQUEST_FAILED";
-export const WINCHER_SET_REQUEST_LIMIT_REACHED = "WINCHER_SET_LIMIT_REACHED";
+export const WINCHER_SET_KEYPHRASE_LIMIT_REACHED = "WINCHER_SET_KEYPHRASE_LIMIT_REACHED";
 export const WINCHER_NEW_REQUEST = "WINCHER_NEW_REQUEST";
 export const WINCHER_SET_LOGIN_STATUS = "WINCHER_SET_LOGIN_STATUS";
 export const WINCHER_SET_TRACK_ALL_REQUEST = "WINCHER_FORCE_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
@@ -54,7 +54,7 @@ export function setWincherRequestFailed( response ) {
  */
 export function setWincherSetKeyphraseLimitReached( limit ) {
 	return {
-		type: WINCHER_SET_REQUEST_LIMIT_REACHED,
+		type: WINCHER_SET_KEYPHRASE_LIMIT_REACHED,
 		limit,
 	};
 }
@@ -78,11 +78,14 @@ export function setWincherLoginStatus( loginStatus, newlyAuthenticated ) {
 /**
  * Tracks all keyphrases associated with the current article.
  *
+ * @param {boolean} trackAll Whether to trackAll keyphrases or not.
+ *
  * @returns {Object} Action object.
  */
-export function setWincherTrackAllKeyphrases() {
+export function setWincherTrackAllKeyphrases( trackAll ) {
 	return {
 		type: WINCHER_SET_TRACK_ALL_REQUEST,
+		trackAll,
 	};
 }
 

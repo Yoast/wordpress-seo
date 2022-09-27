@@ -83,8 +83,9 @@ describe( "running assessments in the store blog SEO assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text and a long url with stop words", function() {
-		assessor.assess( new Paper( "text", { url: "a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url" } ) );
+	it( "additionally runs assessments that require a text and a long slug with stop words", function() {
+		assessor.assess( new Paper( "text",
+			{ slug: "a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -95,8 +96,8 @@ describe( "running assessments in the store blog SEO assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text, a url and a keyword", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword", url: "sample url" } ) );
+	it( "additionally runs assessments that require a text, a slug and a keyword", function() {
+		assessor.assess( new Paper( "text", { keyword: "keyword", slug: "sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -104,7 +105,7 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"titleWidth",
-			"urlKeyword",
+			"slugKeyword",
 		] );
 	} );
 
@@ -188,8 +189,8 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify47' target='_blank'>" );
 		} );
 
-		test( "TitleKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "titleKeyword" );
+		test( "KeyphraseInSEOTitleAssessment", () => {
+			const assessment = assessor.getAssessment( "keyphraseInSEOTitle" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -208,8 +209,8 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify53' target='_blank'>" );
 		} );
 
-		test( "UrlKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "urlKeyword" );
+		test( "SlugKeywordAssessment", () => {
+			const assessment = assessor.getAssessment( "slugKeyword" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();

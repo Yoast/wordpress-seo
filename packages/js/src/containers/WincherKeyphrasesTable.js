@@ -37,6 +37,7 @@ export default compose( [
 			setWincherSetKeyphraseLimitReached,
 			setWincherTrackedKeyphrases,
 			setWincherTrackingForKeyphrase,
+			setWincherTrackAllKeyphrases,
 			unsetWincherTrackingForKeyphrase,
 		} = dispatch( "yoast-seo/editor" );
 
@@ -61,6 +62,9 @@ export default compose( [
 			},
 			setTrackedKeyphrases: ( keyphrases ) => {
 				setWincherTrackedKeyphrases( keyphrases );
+			},
+			setHasTrackedAll: () => {
+				setWincherTrackAllKeyphrases( false );
 			},
 		};
 	} ),

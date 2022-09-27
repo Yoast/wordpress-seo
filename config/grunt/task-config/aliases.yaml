@@ -1,11 +1,8 @@
 # Grunt aliases
 ---
 'build':
-  - 'build:ts'
-  - 'build:js'
-  - 'build:css'
+  - 'build:dev'
   - 'build:images'
-  - 'build:i18n'
 
 'build-watch':
   - 'clean:vendor-prefixed'
@@ -17,6 +14,7 @@
 # Grunt command to only build CSS and JS
 'build:dev':
   - 'build:ts'
+  - 'build:packages'
   - 'build:js'
   - 'build:css'
 
@@ -24,7 +22,11 @@
 'build:ts':
   - 'shell:install-schema-blocks'
 
-# Build JavaScript from assets to production
+# Compile the JavaScript packages that need it.
+'build:packages':
+  - 'shell:build-ui-library'
+
+# Build JavaScript from assets to development
 'build:js':
   - 'clean:build-assets-js'
   - 'copy:js-dependencies'
@@ -35,52 +37,8 @@
   - 'clean:build-assets-css'
   - 'copy:css-dependencies'
   - 'copy:css-files'
-  - 'postcss:build'
+  - 'shell:postcss-dev'
   - 'rtlcss:build'
-
-# Build internationalisation features
-'build:i18n':
-  - 'clean:language-files'
-  - 'build:i18n:potFiles'
-  - 'build:i18n:translations'
-# Create the relevant POT files
-'build:i18n:potFiles':
-  - 'makepot'
-  - 'shell:makepot-yoast-components-configuration-wizard'
-  - 'shell:makepot-wordpress-seo'
-  - 'copy:makepot-wordpress-seo'
-  - 'shell:makepot-yoast-js-analysis-report'
-  - 'copy:makepot-yoast-js-analysis-report'
-  - 'shell:makepot-yoast-js-components'
-  - 'copy:makepot-yoast-js-components'
-  - 'shell:makepot-yoast-js-configuration-wizard'
-  - 'copy:makepot-yoast-js-configuration-wizard'
-  - 'shell:makepot-yoast-js-helpers'
-  - 'copy:makepot-yoast-js-helpers'
-  - 'shell:makepot-yoast-js-search-metadata-previews'
-  - 'copy:makepot-yoast-js-search-metadata-previews'
-  - 'shell:makepot-yoast-js-social-metadata-forms'
-  - 'copy:makepot-yoast-js-social-metadata-forms'
-  - 'shell:makepot-yoast-js-replacement-variable-editor'
-  - 'copy:makepot-yoast-js-replacement-variable-editor'
-  - 'shell:makepot-yoast-components-remaining'
-  - 'shell:combine-pots-yoast-components'
-  - 'shell:makepot-yoastseojs'
-  - 'copy:makepot-yoastseojs'
-  - 'convert-pot-to-wp'
-  - 'shell:combine-pot-files'
-# Download and build the latest translations
-'build:i18n:translations':
-  - 'glotpress_download'
-
-  # Custom tasks required because of WordPress.org
-  - 'copy:de_CH-informal'
-  - 'clean:after-po-download'
-
-  - 'copy:json-translations'
-  - 'po2json'
-  - 'i18n-clean-json'
-  - 'clean:po-files'
 
 clean:build-assets:
   - 'clean:build-assets-js'
@@ -149,11 +107,14 @@ release:
   - 'clean:build-assets'
   - 'build:images'
   - 'release:ts'
+  - 'release:packages'
   - 'release:js'
   - 'release:css'
-  - 'build:i18n'
 'release:ts':
   - 'shell:install-schema-blocks'
+# Compile the JavaScript packages that need it.
+'release:packages':
+  - 'shell:build-ui-library'
 'release:js':
   - 'copy:js-dependencies'
   - 'shell:webpack-prod'
@@ -163,7 +124,7 @@ release:
   - 'clean:build-assets-css'
   - 'copy:css-dependencies'
   - 'copy:css-files'
-  - 'postcss:release'
+  - 'shell:postcss-release'
   - 'rtlcss:build'
 
 'deploy:master':

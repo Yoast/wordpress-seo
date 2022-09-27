@@ -28,6 +28,8 @@ export function mapSelectToProps( select ) {
 	maybeAddSEOCheck( checklist, yoastStore );
 	maybeAddSchemaBlocksValidationCheck( checklist, schemaBlocksStore, wpBlockEditorStore );
 
+	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
+
 	return { checklist };
 }
 

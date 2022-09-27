@@ -12,7 +12,14 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
-	url: "Cat_play_and_toys",
+	slug: "Cat_play_and_toys",
+	customData: {
+		canRetrieveGlobalSku: true,
+		hasGlobalSKU: true,
+		hasGlobalIdentifier: true,
+		hasVariants: false,
+		productType: "simple",
+	},
 } );
 
 const expectedResults = {
@@ -24,8 +31,8 @@ const expectedResults = {
 	keyphraseLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: The keyphrase is 2 words long. That's shorter " +
-			"than the recommended minimum of 4 words. <a href='https://yoa.st/shopify11' target='_blank'>Make it longer</a>!",
+		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: The keyphrase contains 2 content words. That's way " +
+			"less than the recommended minimum of 4 content words. <a href='https://yoa.st/shopify11' target='_blank'>Make it longer</a>!",
 	},
 	keywordDensity: {
 		isApplicable: true,
@@ -57,12 +64,12 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 218 words. Good job!",
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 217 words. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in SEO title</a>: Does not contain the exact match. " +
 			"<a href='https://yoa.st/shopify25' target='_blank'>Try to write the exact match of your keyphrase in the SEO title " +
 			"and put it at the beginning of the title</a>.",
 	},
@@ -71,7 +78,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify52' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: Great work!",
@@ -85,6 +92,16 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
+	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product has an identifier. Good job!",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product has a SKU. Good job!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
@@ -133,6 +150,7 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
+		isApplicable: true,
 		score: 0,
 		resultText: "",
 	},
@@ -141,6 +159,13 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: No lists appear on this page. " +
 			"<a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.52% of the words in your " +
+			"text are considered complex. <a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more" +
+			" familiar words to improve readability</a>.",
 	},
 };
 

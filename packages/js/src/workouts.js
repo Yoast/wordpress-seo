@@ -7,10 +7,6 @@ import * as actions from "./workouts/redux/actions";
 import * as selectors from "./workouts/redux/selectors";
 import workoutsReducer from "./workouts/redux/reducer";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
-import { setWordPressSeoL10n } from "./helpers/i18n";
-import ConfigurationWorkoutCard from "./workouts/components/ConfigurationWorkoutCard";
-
-setWordPressSeoL10n();
 
 if ( window.wp.data.createReduxStore ) {
 	const store = createReduxStore( "yoast-seo/workouts", {
@@ -48,10 +44,6 @@ function registerWorkout( key, priority, Component ) {
 
 window.wpseoWorkoutsData = window.wpseoWorkoutsData || {};
 window.wpseoWorkoutsData.registerWorkout = registerWorkout;
-
-if ( window.wpseoWorkoutsData.canDoConfigurationWorkout ) {
-	registerWorkout( "configuration", 1, () => <ConfigurationWorkoutCard /> );
-}
 
 domReady( () => {
 	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );

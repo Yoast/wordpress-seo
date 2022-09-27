@@ -8,11 +8,10 @@ import TransitionWords from "../../assessments/readability/TransitionWordsAssess
 import PassiveVoice from "../../assessments/readability/PassiveVoiceAssessment.js";
 import SentenceBeginnings from "../../assessments/readability/SentenceBeginningsAssessment.js";
 import TextPresence from "../../assessments/readability/TextPresenceAssessment.js";
+import WordComplexityAssessment from "../../assessments/readability/WordComplexityAssessment";
 
 /*
  Temporarily disabled:
-
- var wordComplexity = require( "./assessments/readability/wordComplexityAssessment.js" );
  var sentenceLengthInDescription = require( "./assessments/readability/sentenceLengthInDescriptionAssessment.js" );
  */
 
@@ -35,10 +34,11 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, optio
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+				recommendedMaximumLength: 250,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
@@ -66,7 +66,13 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, optio
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} ),
-		// Temporarily disabled: wordComplexity,
+		new WordComplexityAssessment( {
+			scores: {
+				acceptableAmount: 3,
+			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
+		} ),
 	];
 };
 

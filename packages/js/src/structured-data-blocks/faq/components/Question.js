@@ -5,7 +5,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
 import { Component } from "@wordpress/element";
 import { IconButton } from "@wordpress/components";
-import { RichText, MediaUpload } from "@wordpress/editor";
+import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
@@ -243,7 +243,7 @@ export default class Question extends Component {
 		} = this.props;
 
 		let newAnswer = answer.slice();
-		const image   = <img key={ media.id } alt={ media.alt } src={ media.url } />;
+		const image   = <img className={ `wp-image-${ media.id }` } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
 
 		if ( newAnswer.push ) {
 			newAnswer.push( image );
@@ -323,7 +323,6 @@ export default class Question extends Component {
 	 */
 	render() {
 		const {
-			subElement,
 			attributes,
 			isSelected,
 		} = this.props;
@@ -342,10 +341,8 @@ export default class Question extends Component {
 					key={ id + "-question" }
 					value={ question }
 					onChange={ this.onChangeQuestion }
-					isSelected={ isSelected && subElement === "question" }
 					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
-					keepPlaceholderOnFocus={ true }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichText
@@ -354,10 +351,8 @@ export default class Question extends Component {
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ this.onChangeAnswer }
-					isSelected={ isSelected && subElement === "answer" }
 					unstableOnFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
-					keepPlaceholderOnFocus={ true }
 				/>
 				{ isSelected &&
 					<div className="schema-faq-section-controls-container">
@@ -379,12 +374,7 @@ Question.propTypes = {
 	onFocus: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
-};
-
-Question.defaultProps = {
-	subElement: "",
 };

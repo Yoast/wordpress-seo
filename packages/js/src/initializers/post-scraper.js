@@ -6,10 +6,6 @@ import {
 	isUndefined,
 	debounce,
 } from "lodash-es";
-import {
-	setReadabilityResults,
-	setSeoResultsForKeyword,
-} from "yoast-components";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
@@ -45,18 +41,21 @@ import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
 
 // Redux dependencies.
-import { setFocusKeyword } from "../redux/actions/focusKeyword";
-import { setMarkerStatus } from "../redux/actions/markerButtons";
-import { updateData } from "../redux/actions/snippetEditor";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
-import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
-import { refreshSnippetEditor } from "../redux/actions/snippetEditor.js";
+import { actions } from "@yoast/externals/redux";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
 
-setYoastComponentsL10n();
-setWordPressSeoL10n();
+
+const {
+	setFocusKeyword,
+	setMarkerStatus,
+	updateData,
+	setCornerstoneContent,
+	refreshSnippetEditor,
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} = actions;
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
@@ -151,11 +150,11 @@ export default function initPostScraper( $, store, editorData ) {
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {Object} publishBox             The publish box object.
+	 * @param {Object} activePublishBox             The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( publishBox ) {
+	function initializeKeywordAnalysis( activePublishBox ) {
 		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
@@ -163,24 +162,24 @@ export default function initPostScraper( $, store, editorData ) {
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 
-		publishBox.updateScore( "keyword", indicator.className );
+		activePublishBox.updateScore( "keyword", indicator.className );
 	}
 
 	/**
 	 * Initializes content analysis
 	 *
-	 * @param {Object} publishBox The publish box object.
+	 * @param {Object} activePublishBox The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeContentAnalysis( publishBox ) {
+	function initializeContentAnalysis( activePublishBox ) {
 		const savedContentScore = $( "#yoast_wpseo_content_score" ).val();
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
 		updateAdminBar( indicator );
 
-		publishBox.updateScore( "content", indicator.className );
+		activePublishBox.updateScore( "content", indicator.className );
 	}
 
 	/**
@@ -420,8 +419,6 @@ export default function initPostScraper( $, store, editorData ) {
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
-		const blockEditorDataModule = select( "core/block-editor" );
-
 		// Content analysis
 		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
@@ -433,7 +430,7 @@ export default function initPostScraper( $, store, editorData ) {
 			store,
 			customAnalysisData,
 			app.pluggable,
-			blockEditorDataModule
+			select( "core/block-editor" )
 		);
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
 
@@ -471,18 +468,20 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
-		window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
-			registerPlugin: app.registerPlugin,
-			registerModification: app.registerModification,
-			pluginReady: app.pluginReady,
-			pluginReloaded: app.pluginReloaded,
-		} );
 
 		if ( isBlockEditor() ) {
-			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, blockEditorDataModule );
+			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
 			reusableBlocksPlugin.register();
 		}
-
+		// Only process shortcodes (for analysis) in the post text for editors other than the block editor.
+		if ( ! isBlockEditor() ) {
+			window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
+				registerPlugin: app.registerPlugin,
+				registerModification: app.registerModification,
+				pluginReady: app.pluginReady,
+				pluginReloaded: app.pluginReloaded,
+			} );
+		}
 		if ( wpseoScriptData.metabox.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );
 			markdownPlugin.register();

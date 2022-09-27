@@ -7,6 +7,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Enhancements
 * Updates the styling of our Google preview to reflect the updated styling of the Google search results.
 * Adds custom config for `PageTitleWidthAssessment` so that the bar indicator under SEO title field shows green when short SEO title is set.
+* Adds locale as one of the props in `SnippetEditor.js` to be used to determine which configuration to use in meta description length progress bar.
 
 ### Bugfixes
 * Passes different config when initializing `MetadescriptionLengthAssessment` in `SnippetEditor.js` depending on whether the cornerstone content is active or not.

@@ -264,7 +264,7 @@ describe( "A content assessor", function() {
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 8;
+			const expected = 7;
 			expect( actual ).toBe( expected );
 		} );
 
@@ -289,7 +289,7 @@ describe( "A content assessor", function() {
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.parameters ).toBeDefined();
-			expect( assessment._config.parameters.recommendedMaximumWordCount ).toBe( 250 );
+			expect( assessment._config.parameters.recommendedMaximumLength ).toBe( 250 );
 			expect( assessment._config.parameters.slightlyTooMany ).toBe( 250 );
 			expect( assessment._config.parameters.farTooMany ).toBe( 300 );
 		} );

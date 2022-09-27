@@ -25,6 +25,8 @@ export function openModal( props ) {
 	const { keyphrases, onNoKeyphraseSet, onOpen, location } = props;
 
 	if ( ! keyphrases.length ) {
+		// This is fragile, should replace with a real React ref.
+		document.querySelector( "#focus-keyword-input-sidebar" ).focus();
 		onNoKeyphraseSet();
 
 		return;
@@ -57,7 +59,7 @@ export function closeModal( props, event ) {
  * @returns {wp.Element} The WincherSEOPerformanceModal.
  */
 export default function WincherSEOPerformanceModal( props ) {
-	const { location, whichModalOpen } = props;
+	const { location, whichModalOpen, shouldCloseOnClickOutside } = props;
 
 	const onModalOpen = useCallback( () => {
 		openModal( props );
@@ -77,6 +79,7 @@ export default function WincherSEOPerformanceModal( props ) {
 				onRequestClose={ onModalClose }
 				icon={ <YoastIcon /> }
 				additionalClassName="yoast-wincher-seo-performance-modal"
+				shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
 			>
 				<ModalContainer
 					className="yoast-gutenberg-modal__content yoast-wincher-seo-performance-modal__content"
@@ -105,10 +108,13 @@ WincherSEOPerformanceModal.propTypes = {
 		"none",
 		"metabox",
 		"sidebar",
+		"postpublish",
 	] ),
+	shouldCloseOnClickOutside: PropTypes.bool,
 };
 
 WincherSEOPerformanceModal.defaultProps = {
 	location: "",
 	whichModalOpen: "none",
+	shouldCloseOnClickOutside: true,
 };

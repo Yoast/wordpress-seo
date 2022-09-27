@@ -1,5 +1,6 @@
 export const DISMISS_ALERT = "DISMISS_ALERT";
 export const DISMISS_ALERT_SUCCESS = "DISMISS_ALERT_SUCCESS";
+export const SET_DISMISSED_ALERTS = "SET_DISMISSED_ALERTS";
 
 /**
  * Creates an action to dismiss an alert.
@@ -19,5 +20,19 @@ export function* dismissAlert( alertKey ) {
 	return {
 		type: DISMISS_ALERT_SUCCESS,
 		alertKey,
+	};
+}
+
+/**
+ * Set dismissed alerts.
+ *
+ * @param {Object} dismissedAlerts An object of dismissed alerts keyed by alert key.
+ *
+ * @returns {Object} A DISMISS_ALERT_SUCCESS action.
+ */
+export function setDismissedAlerts( dismissedAlerts ) {
+	return {
+		type: SET_DISMISSED_ALERTS,
+		payload: dismissedAlerts,
 	};
 }

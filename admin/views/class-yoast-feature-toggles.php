@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
@@ -87,6 +88,20 @@ class Yoast_Feature_Toggles {
 				'order'           => 20,
 			],
 			(object) [
+				'name'                => __( 'Inclusive language analysis', 'wordpress-seo' ),
+				'premium'             => true,
+				'premium_version'     => '19.2.1-RC0',
+				'in_beta'             => true,
+				'supported_languages' => Language_Helper::$languages_with_inclusive_language_support,
+				'setting'             => 'inclusive_language_analysis_active',
+				'label'               => __( 'The inclusive language analysis offers suggestions to write more inclusive copy.', 'wordpress-seo' ),
+				'read_more_label'     => __( 'Discover why inclusive language is important for SEO.', 'wordpress-seo' ),
+				'read_more_url'       => 'https://yoa.st/inclusive-language-features-free',
+				'premium_url'         => 'https://yoa.st/inclusive-language-features-premium',
+				'premium_upsell_url'  => 'https://yoa.st/get-inclusive-language',
+				'order'               => 25,
+			],
+			(object) [
 				'name'            => __( 'Cornerstone content', 'wordpress-seo' ),
 				'setting'         => 'enable_cornerstone_content',
 				'label'           => __( 'The cornerstone content feature lets you to mark and filter cornerstone content on your website.', 'wordpress-seo' ),
@@ -104,7 +119,6 @@ class Yoast_Feature_Toggles {
 			],
 			(object) [
 				'name'               => __( 'Insights', 'wordpress-seo' ),
-				'premium'            => true,
 				'setting'            => 'enable_metabox_insights',
 				'label'              => __( 'Find relevant data about your content right in the Insights section in the Yoast SEO metabox. You’ll see what words you use most often and if they’re a match with your keywords! ', 'wordpress-seo' ),
 				'read_more_label'    => __( 'Find out how Insights can help you improve your content.', 'wordpress-seo' ),
@@ -113,14 +127,15 @@ class Yoast_Feature_Toggles {
 				'order'              => 41,
 			],
 			(object) [
-				'name'            => __( 'Link suggestions', 'wordpress-seo' ),
-				'premium'         => true,
-				'setting'         => 'enable_link_suggestions',
-				'label'           => __( 'Get relevant internal linking suggestions  — while you’re writing! The link suggestions metabox shows a list of posts on your blog with similar content that might be interesting to link to. ', 'wordpress-seo' ),
-				'read_more_label' => __( 'Read more about how internal linking can improve your site structure.', 'wordpress-seo' ),
-				'read_more_url'   => 'https://yoa.st/4ev',
-				'premium_url'     => 'https://yoa.st/17g',
-				'order'           => 42,
+				'name'               => __( 'Link suggestions', 'wordpress-seo' ),
+				'premium'            => true,
+				'setting'            => 'enable_link_suggestions',
+				'label'              => __( 'Get relevant internal linking suggestions — while you’re writing! The link suggestions metabox shows a list of posts on your blog with similar content that might be interesting to link to. ', 'wordpress-seo' ),
+				'read_more_label'    => __( 'Read more about how internal linking can improve your site structure.', 'wordpress-seo' ),
+				'read_more_url'      => 'https://yoa.st/4ev',
+				'premium_url'        => 'https://yoa.st/17g',
+				'premium_upsell_url' => 'https://yoa.st/get-link-suggestions',
+				'order'              => 42,
 			],
 			(object) [
 				'name'            => __( 'XML sitemaps', 'wordpress-seo' ),
@@ -180,6 +195,17 @@ class Yoast_Feature_Toggles {
 				'read_more_label' => __( 'Find out how a rich snippet can improve visibility and click-through-rate.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/help-slack-share',
 				'order'           => 105,
+			],
+			(object) [
+				'name'               => __( 'IndexNow', 'wordpress-seo' ),
+				'premium'            => true,
+				'setting'            => 'enable_index_now',
+				'label'              => __( 'Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.', 'wordpress-seo' ),
+				'read_more_label'    => __( 'Find out how IndexNow can help your site.', 'wordpress-seo' ),
+				'read_more_url'      => 'https://yoa.st/index-now-read-more',
+				'premium_url'        => 'https://yoa.st/index-now-feature',
+				'premium_upsell_url' => 'https://yoa.st/get-indexnow',
+				'order'              => 110,
 			],
 		];
 

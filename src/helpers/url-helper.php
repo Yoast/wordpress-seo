@@ -100,13 +100,18 @@ class Url_Helper {
 	/**
 	 * Gets the path from the passed URL.
 	 *
-	 * @codeCoverageIgnore It only wraps a WordPress function.
-	 *
 	 * @param string $url The URL to get the path from.
 	 *
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
 	public function get_url_path( $url ) {
+		if ( \is_string( $url ) === false
+			&& \is_object( $url ) === false
+			|| ( \is_object( $url ) === true && \method_exists( $url, '__toString' ) === false )
+		) {
+			return '';
+		}
+
 		return (string) \wp_parse_url( $url, \PHP_URL_PATH );
 	}
 
@@ -212,5 +217,48 @@ class Url_Helper {
 		}
 
 		return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
+	}
+
+	/**
+	 * Recreate current URL.
+	 *
+	 * @param bool $with_request_uri Whether we want the REQUEST_URI appended.
+	 *
+	 * @return string
+	 */
+	public function recreate_current_url( $with_request_uri = true ) {
+		$current_url = 'http';
+		if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) {
+			$current_url .= 's';
+		}
+		$current_url .= '://';
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- We know this is scary.
+		$suffix = ( $with_request_uri && isset( $_SERVER['REQUEST_URI'] ) ) ? $_SERVER['REQUEST_URI'] : '';
+
+		if ( isset( $_SERVER['SERVER_NAME'] ) && ! empty( $_SERVER['SERVER_NAME'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- We know this is scary.
+			$server_name = $_SERVER['SERVER_NAME'];
+		}
+		else {
+			// Early return with just the path.
+			return $suffix;
+		}
+
+		$server_port = '';
+		if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] !== '80' && $_SERVER['SERVER_PORT'] !== '443' ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- We know this is scary.
+			$server_port = $_SERVER['SERVER_PORT'];
+		}
+
+		if ( ! empty( $server_port ) ) {
+			$current_url .= $server_name . ':' . $server_port . $suffix;
+		}
+		else {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- We know this is scary.
+			$current_url .= $server_name . $suffix;
+		}
+
+		return $current_url;
 	}
 }

@@ -1,5 +1,6 @@
 import { get } from "lodash";
 import { applyFilters } from "@wordpress/hooks";
+import getContentLocale from "../../analysis/getContentLocale";
 import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
 
 /**
@@ -41,7 +42,9 @@ export const getEditorDataExcerptWithFallback = ( state ) => {
 
 	// Fallback to the first piece of the content.
 	if ( excerpt === "" ) {
-		excerpt = excerptFromContent( get( state, "editorData.content", "" ) );
+		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
+
+		excerpt = excerptFromContent( get( state, "editorData.content", "" ), limit );
 	}
 
 	return excerpt;
@@ -88,3 +91,12 @@ export const getEditorDataImageFallback = state => {
 
 	return "";
 };
+
+/**
+ * Gets the slug.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The slug.
+ */
+export const getEditorDataSlug = state => get( state, "editorData.slug", "" );

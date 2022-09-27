@@ -92,10 +92,6 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 				require_once WPSEO_PATH . 'admin/views/tool-file-editor.php';
 				break;
 
-			case 'wpseo_configurator':
-				require_once WPSEO_PATH . 'admin/config-ui/class-configuration-page.php';
-				break;
-
 			default:
 				require_once WPSEO_PATH . 'admin/pages/dashboard.php';
 				break;

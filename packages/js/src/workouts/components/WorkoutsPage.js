@@ -70,7 +70,11 @@ export default function WorkoutsPage( props ) {
 		if ( loading === true ) {
 			initWorkouts( workoutsSetting );
 			if ( window.location.hash && window.location.hash.length > 1 ) {
-				openWorkout( window.location.hash.substr( 1 ) );
+				if ( window.location.hash.substr( 1 ) === "configuration" ) {
+					window.location.href = window.wpseoWorkoutsData.firstTimeConfigurationUrl;
+				} else {
+					openWorkout( window.location.hash.substr( 1 ) );
+				}
 			}
 			return;
 		}
@@ -100,7 +104,7 @@ export default function WorkoutsPage( props ) {
 	}, [ workouts ] );
 
 	return (
-		<div>
+		<div className="wrap">
 			<h1 id="workouts-page-title">
 				{ __( "SEO workouts", "wordpress-seo" ) }
 			</h1>

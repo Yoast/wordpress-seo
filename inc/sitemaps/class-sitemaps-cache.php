@@ -122,9 +122,15 @@ class WPSEO_Sitemaps_Cache {
 			return null;
 		}
 
-		// Unserialize Cache Data object (is_serialized doesn't recognize classes).
+		/*
+		 * Unserialize Cache Data object as is_serialized() doesn't recognize classes in C format.
+		 * This work-around should no longer be needed once the minimum PHP version has gone up to PHP 7.4,
+		 * as the `WPSEO_Sitemap_Cache_Data` class uses O format serialization in PHP 7.4 and higher.
+		 *
+		 * @link https://wiki.php.net/rfc/custom_object_serialization
+		 */
 		if ( is_string( $sitemap ) && strpos( $sitemap, 'C:24:"WPSEO_Sitemap_Cache_Data"' ) === 0 ) {
-
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Can't be avoided due to how WP stores options.
 			$sitemap = unserialize( $sitemap );
 		}
 

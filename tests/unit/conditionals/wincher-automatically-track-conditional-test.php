@@ -7,8 +7,6 @@ use Yoast\WP\SEO\Conditionals\Wincher_Automatically_Track_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
-
 /**
  * Class Wincher_Automatically_Track_Conditional_Test.
  *

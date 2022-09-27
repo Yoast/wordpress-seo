@@ -8,7 +8,6 @@ use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
@@ -260,7 +259,7 @@ class Indexable_Term_Builder {
 				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
+			WHERE	p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
 				AND		p.post_password = ''
 		";
 

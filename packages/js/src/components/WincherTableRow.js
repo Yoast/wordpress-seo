@@ -221,7 +221,9 @@ export default function WincherTableRow( props ) {
 	);
 
 	return <tr>
-		<td>{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }</td>
+		<td className="yoast-table--nopadding">
+			{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }
+		</td>
 		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
 
 		{ getPositionalDataByState( props ) }

@@ -6,8 +6,9 @@ use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Services\Importing\Importer_Action_Filter_Trait;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
 /**
  * Importing_Route class.
@@ -17,8 +18,6 @@ use Yoast\WP\SEO\Services\Importing\Importer_Action_Filter_Trait;
 class Importing_Route extends Abstract_Action_Route {
 
 	use No_Conditionals;
-
-	use Importer_Action_Filter_Trait;
 
 	/**
 	 * The import route constant.
@@ -35,12 +34,24 @@ class Importing_Route extends Abstract_Action_Route {
 	protected $importers = [];
 
 	/**
+	 * The importable detector service.
+	 *
+	 * @var Importable_Detector_Service
+	 */
+	protected $importable_detector;
+
+	/**
 	 * Importing_Route constructor.
 	 *
-	 * @param Importing_Action_Interface ...$importers All available importers.
+	 * @param Importable_Detector_Service $importable_detector The importable detector service.
+	 * @param Importing_Action_Interface  ...$importers        All available importers.
 	 */
-	public function __construct( Importing_Action_Interface ...$importers ) {
-		$this->importers = $importers;
+	public function __construct(
+		Importable_Detector_Service $importable_detector,
+		Importing_Action_Interface ...$importers
+	) {
+		$this->importable_detector = $importable_detector;
+		$this->importers           = $importers;
 	}
 
 	/**
@@ -49,7 +60,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 * @return void
 	 */
 	public function register_routes() {
-		register_rest_route(
+		\register_rest_route(
 			Main::API_V1_NAMESPACE,
 			self::ROUTE,
 			[
@@ -61,7 +72,7 @@ class Importing_Route extends Abstract_Action_Route {
 	}
 
 	/**
-	 * Executes the rest request.
+	 * Executes the rest request, but only if the respective action is enabled.
 	 *
 	 * @param mixed $data The request parameters.
 	 *
@@ -76,7 +87,7 @@ class Importing_Route extends Abstract_Action_Route {
 		try {
 			$importer = $this->get_importer( $plugin, $type );
 
-			if ( $importer === false ) {
+			if ( $importer === false || ! $importer->is_enabled() ) {
 				return new WP_Error(
 					'rest_no_route',
 					'Requested importer not found',
@@ -88,7 +99,7 @@ class Importing_Route extends Abstract_Action_Route {
 
 			$result = $importer->index();
 
-			if ( $result === false || count( $result ) === 0 ) {
+			if ( $result === false || \count( $result ) === 0 ) {
 				$next_url = false;
 			}
 
@@ -97,6 +108,14 @@ class Importing_Route extends Abstract_Action_Route {
 				$next_url
 			);
 		} catch ( \Exception $exception ) {
+			if ( $exception instanceof Aioseo_Validation_Exception ) {
+				return new WP_Error(
+					'wpseo_error_validation',
+					$exception->getMessage(),
+					[ 'stackTrace' => $exception->getTraceAsString() ]
+				);
+			}
+
 			return new WP_Error(
 				'wpseo_error_indexing',
 				$exception->getMessage(),
@@ -114,9 +133,9 @@ class Importing_Route extends Abstract_Action_Route {
 	 * @return Importing_Action_Interface|false The importer, or false if no importer was found.
 	 */
 	protected function get_importer( $plugin, $type ) {
-		$importers = $this->filter_actions( $this->importers, $plugin, $type );
+		$importers = $this->importable_detector->filter_actions( $this->importers, $plugin, $type );
 
-		if ( count( $importers ) !== 1 ) {
+		if ( \count( $importers ) !== 1 ) {
 			return false;
 		}
 
@@ -145,6 +164,6 @@ class Importing_Route extends Abstract_Action_Route {
 	 * @return bool Whether or not the current user is allowed to import.
 	 */
 	public function is_user_permitted_to_import() {
-		return \current_user_can( 'edit_posts' );
+		return \current_user_can( 'activate_plugins' );
 	}
 }

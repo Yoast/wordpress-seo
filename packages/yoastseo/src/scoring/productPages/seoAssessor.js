@@ -6,8 +6,8 @@ import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessm
 import KeywordDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
 import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
-import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
+import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
@@ -18,6 +18,8 @@ import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "../assessments/seo/KeyphraseDistributionAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import ProductIdentifiersAssessment from "../assessments/seo/ProductIdentifiersAssessment";
+import ProductSKUAssessment from "../assessments/seo/ProductSKUAssessment";
 
 /**
  * Creates the Assessor
@@ -73,8 +75,9 @@ const ProductSEOAssessor = function( researcher, options ) {
 			veryFarBelowMinimum: 50,
 			urlTitle: createAnchorOpeningTag( options.textLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textLengthCTAUrl ),
+			customContentType: this.type,
 		} ),
-		new TitleKeywordAssessment( {
+		new KeyphraseInSEOTitleAssessment( {
 			urlTitle: createAnchorOpeningTag( options.titleKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.titleKeyphraseCTAUrl ),
 		} ),
@@ -85,7 +88,7 @@ const ProductSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.titleWidthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.titleWidthCTAUrl ),
 		}, true ),
-		new UrlKeywordAssessment( {
+		new SlugKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( options.urlKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.urlKeyphraseCTAUrl ),
 		} ),
@@ -117,6 +120,18 @@ const ProductSEOAssessor = function( researcher, options ) {
 		new KeyphraseDistribution( {
 			urlTitle: createAnchorOpeningTag( options.keyphraseDistributionUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseDistributionCTAUrl ),
+		} ),
+		new ProductIdentifiersAssessment( {
+			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
+			assessVariants: options.assessVariants,
+			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
+		} ),
+		new ProductSKUAssessment( {
+			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
+			assessVariants: options.assessVariants,
+			addSKULocation: options.addSKULocation,
 		} ),
 	];
 };

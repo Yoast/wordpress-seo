@@ -2,16 +2,31 @@ import getWordForms from "../../../../../src/languageProcessing/languages/ja/cus
 import { Paper } from "../../../../../index";
 import Researcher from "../../../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../../../specHelpers/getMorphologyData";
-import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "ja" );
 
 describe( "The getWordForms function", () => {
-	if ( ! isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		it( "is not run when the Japanese feature flag is disabled", function() {} );
-		return;
-	}
+	it( "creates word forms for a Japanese keyphrase that contains spaces", () => {
+		const paper = new Paper(
+			"休ま",
+			{
+				keyword: "かしら かい を ばっかり",
+			}
+		);
 
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "かしらかう", "かしらかい", "かしらかわ", "かしらかえ", "かしらかお", "かしらかっ", "かしらかえる", "かしらかわせ",
+				"かしらかわせる", "かしらかわれ", "かしらかわれる", "かしらかおう", "かしらかく", "かしらかき", "かしらかか", "かしらかけ",
+				"かしらかこ", "かしらかける", "かしらかかせ", "かしらかかせる", "かしらかかれ", "かしらかかれる", "かしらかこう", "かしらかかっ",
+				"かしらかぐ", "かしらかぎ", "かしらかが", "かしらかげ", "かしらかご", "かしらかげる", "かしらかがせ", "かしらかがせる", "かしらかがれ",
+				"かしらかがれる", "かしらかごう" ] ],
+			synonymsForms: [],
+		} );
+	} );
 	it( "creates word forms for a Japanese keyphrase.", () => {
 		const paper = new Paper(
 			"休ま",
@@ -43,7 +58,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [],
+			keyphraseForms: [ [] ],
 			synonymsForms: [],
 		} );
 	} );
@@ -61,7 +76,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [],
+			keyphraseForms: [ [] ],
 			synonymsForms: [ [ [ "休む", "休み", "休ま", "休め", "休も", "休ん", "休める", "休ませ", "休ませる", "休まれ", "休まれる", "休もう" ] ] ],
 		} );
 	} );
@@ -78,7 +93,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [ [ "休め" ] ],
+			keyphraseForms: [ [ "\"休め\"" ] ],
 			synonymsForms: [],
 		} );
 	} );
@@ -95,7 +110,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [ [ "頑張り" ] ],
+			keyphraseForms: [ [ "「頑張り」" ] ],
 			synonymsForms: [],
 		} );
 	} );
@@ -136,7 +151,7 @@ describe( "The getWordForms function", () => {
 		expect( forms ).toEqual( {
 			keyphraseForms: [ [ "話す", "話し", "話さ", "話せ", "話そ", "話せる", "話させ", "話させる", "話され", "話される", "話そう" ] ],
 			synonymsForms: [
-				[ [ "休め" ] ],
+				[ [ "『休め』" ] ],
 				[ [ "及ぶ", "及び", "及ば", "及べ", "及ぼ", "及ん", "及べる", "及ばせ", "及ばせる", "及ばれ", "及ばれる", "及ぼう" ] ],
 			],
 		} );
@@ -243,7 +258,8 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [ [ [ "及ぼ" ] ] ],
 		} );
 	} );
-	it( "a test to make sure that createWordForms is not accessed when there is no morpohlogyData file available (using a word that ends in る)", () => {
+	it( "a test to make sure that createWordForms is not accessed when there is no morpohlogyData file " +
+		"available (using a word that ends in る)", () => {
 		const paper = new Paper(
 			"話せる及ん",
 			{
@@ -259,7 +275,8 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [ [ [ "及ぼ" ] ] ],
 		} );
 	} );
-	it( "creates forms for a Japanese keyphrase consisting of multiple words, including function words, when no morphologyData file is available.", () => {
+	it( "creates forms for a Japanese keyphrase consisting of multiple words, including function words, " +
+		"when no morphologyData file is available.", () => {
 		const paper = new Paper(
 			"犬です。",
 			{
@@ -280,6 +297,67 @@ describe( "The getWordForms function", () => {
 				[ [ "猫" ],
 					[ "及ぼ" ] ],
 			synonymsForms: [],
+		} );
+	} );
+
+	it( "should not create forms for a keyword containing a single function word", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * ばっかり - function word, is deleted
+				 */
+				keyword: "ばっかり",
+				synonyms: "",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [] ],
+			synonymsForms: [],
+		} );
+	} );
+
+	it( "should not create forms for a keyword containing only function words", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * から - function word, is deleted
+				 * より - function word, is deleted
+				 */
+				keyword: "からより",
+				synonyms: "",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [] ],
+			synonymsForms: [],
+		} );
+	} );
+
+	it( "should not create forms for a synonym containing only function words", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * ばっかり - function word, is deleted
+				 */
+				keyword: "猫",
+				synonyms: "からより",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "猫" ] ],
+			synonymsForms: [ [ [] ] ],
 		} );
 	} );
 } );

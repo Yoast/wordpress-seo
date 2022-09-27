@@ -13,7 +13,7 @@ import Alert from "../Alert";
  * @returns {React.Component} The ImageSelect.
  */
 function ImageSelect( props ) {
-	const imageSelected = props.imageUrl !== "";
+	const imageSelected = props.usingFallback === false && props.imageUrl !== "";
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
 	const showWarnings = props.warnings.length > 0 && imageSelected;
 
@@ -91,7 +91,7 @@ export default ImageSelect;
 ImageSelect.propTypes = {
 	defaultImageUrl: PropTypes.string,
 	imageUrl: PropTypes.string,
-	imageAltText: PropTypes.string.isRequired,
+	imageAltText: PropTypes.string,
 	hasPreview: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
@@ -104,12 +104,14 @@ ImageSelect.propTypes = {
 	warnings: PropTypes.arrayOf( PropTypes.string ),
 	hasNewBadge: PropTypes.bool,
 	isDisabled: PropTypes.bool,
+	usingFallback: PropTypes.bool,
 	hasPremiumBadge: PropTypes.bool,
 };
 
 ImageSelect.defaultProps = {
 	defaultImageUrl: "",
 	imageUrl: "",
+	imageAltText: "",
 	onClick: () => {},
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
@@ -120,5 +122,6 @@ ImageSelect.defaultProps = {
 	warnings: [],
 	hasNewBadge: false,
 	isDisabled: false,
+	usingFallback: false,
 	hasPremiumBadge: false,
 };

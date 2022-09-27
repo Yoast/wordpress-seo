@@ -1,9 +1,9 @@
 import {
+	CLEAR_FACEBOOK_IMAGE,
 	LOAD_FACEBOOK_PREVIEW,
-	SET_FACEBOOK_TITLE,
 	SET_FACEBOOK_DESCRIPTION,
 	SET_FACEBOOK_IMAGE,
-	CLEAR_FACEBOOK_IMAGE,
+	SET_FACEBOOK_TITLE,
 } from "../actions/facebookEditor";
 
 /**
@@ -16,8 +16,11 @@ const initialState = {
 	image: {
 		url: "",
 		id: "",
+		alt: "",
 	},
 };
+
+/* eslint-disable complexity */
 
 /**
  * A reducer for the FacebookPreview object.
@@ -36,30 +39,35 @@ const facebookReducer = ( state = initialState, action ) => {
 				description: action.description,
 				image: { id: action.id, url: action.imageUrl },
 			};
-		case SET_FACEBOOK_TITLE :
+		case SET_FACEBOOK_TITLE:
 			return { ...state, title: action.title };
 		case SET_FACEBOOK_DESCRIPTION :
 			return { ...state, description: action.description };
-		case SET_FACEBOOK_IMAGE :
+		case SET_FACEBOOK_IMAGE:
 			return {
 				...state,
 				warnings: action.image.warnings,
 				image: {
 					id: action.image.id,
 					url: action.image.url,
+					alt: action.image.alt || "",
 				},
 			};
 		case CLEAR_FACEBOOK_IMAGE :
-			return { ...state,
+			return {
+				...state,
 				image: {
 					url: "",
 					id: "",
+					alt: "",
 				},
 				warnings: [],
 			};
-	  default:
+		default:
 			return state;
 	}
 };
+
+/* eslint-enable complexity */
 
 export default facebookReducer;

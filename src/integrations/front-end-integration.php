@@ -101,6 +101,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
+		'Meta_Author',
 	];
 
 	/**
@@ -156,6 +157,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var string[]
 	 */
 	protected $singular_presenters = [
+		'Meta_Author',
 		'Open_Graph\Article_Author',
 		'Open_Graph\Article_Publisher',
 		'Open_Graph\Article_Published_Time',
@@ -220,6 +222,8 @@ class Front_End_Integration implements Integration_Interface {
 		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
+		// Filter the title for compatibility with block-based themes.
+		\add_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
 
 		// Removes our robots presenter from the list when wp_robots is handling this.
 		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
@@ -251,7 +255,11 @@ class Front_End_Integration implements Integration_Interface {
 		$title_presenter->replace_vars = $this->replace_vars;
 		$title_presenter->helpers      = $this->helpers;
 
-		return \esc_html( $title_presenter->get() );
+		\remove_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
+		$title = \esc_html( $title_presenter->get() );
+		\add_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
+
+		return $title;
 	}
 
 	/**
@@ -383,10 +391,7 @@ class Front_End_Integration implements Integration_Interface {
 	private function get_needed_presenters( $page_type ) {
 		$presenters = $this->get_presenters_for_page_type( $page_type );
 
-		if ( ! \get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false ) ) {
-			// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
-			$presenters = \array_diff( $presenters, [ 'Title' ] );
-		}
+		$presenters = $this->maybe_remove_title_presenter( $presenters );
 
 		$callback   = static function ( $presenter ) {
 			return "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter";
@@ -450,5 +455,35 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		return \array_merge( $presenters, $this->closing_presenters );
+	}
+
+	/**
+	 * Whether the title presenter should be removed.
+	 *
+	 * @return bool True when the title presenter should be removed, false otherwise.
+	 */
+	public function should_title_presenter_be_removed() {
+		return ! \get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false );
+	}
+
+	/**
+	 * Checks if the Title presenter needs to be removed.
+	 *
+	 * @param string[] $presenters The presenters.
+	 *
+	 * @return string[] The presenters.
+	 */
+	private function maybe_remove_title_presenter( $presenters ) {
+		// Do not remove the title if we're on a REST request.
+		if ( $this->request->is_rest_request() ) {
+			return $presenters;
+		}
+
+		// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
+		if ( $this->should_title_presenter_be_removed() ) {
+			$presenters = \array_diff( $presenters, [ 'Title' ] );
+		}
+
+		return $presenters;
 	}
 }

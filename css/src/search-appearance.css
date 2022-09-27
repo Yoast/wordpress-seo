@@ -1,6 +1,6 @@
-@import "../../node_modules/draft-js-mention-plugin/lib/plugin.css";
+@import "@draft-js-plugins/mention/lib/plugin.css";
 /*rtl:begin:ignore*/
-@import "../../node_modules/draft-js/dist/Draft.css";
+@import "draft-js/dist/Draft.css";
 /*rtl:end:ignore*/
 
 .yoast-schema-settings-container {

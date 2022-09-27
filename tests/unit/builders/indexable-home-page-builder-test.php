@@ -25,8 +25,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 5 words is fine.
  */
 class Indexable_Home_Page_Builder_Test extends TestCase {
 
@@ -95,6 +93,13 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * @var Post_Helper|Mockery\MockInterface
 	 */
 	protected $post_helper;
+
+	/**
+	 * The post helper
+	 *
+	 * @var Indexable_Builder_Versions|Mockery\MockInterface
+	 */
+	protected $versions;
 
 	/**
 	 * The wpdb instance

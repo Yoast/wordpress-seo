@@ -1,8 +1,8 @@
 @import url(../src/icons.css);
 @import url(../src/modal.css);
-@import "../../node_modules/draft-js-mention-plugin/lib/plugin.css";
+@import "@draft-js-plugins/mention/lib/plugin.css";
 /*!rtl:begin:ignore*/
-@import "../../node_modules/draft-js/dist/Draft.css";
+@import "draft-js/dist/Draft.css";
 /*!rtl:end:ignore*/
 
 #wpseo_meta {
@@ -556,6 +556,15 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   display: inline;
 }
 
+.yoast-zapier-text {
+  display: flex;
+}
+
+.yoast-zapier-text .yoast-logo.svg {
+  max-width: 18px;
+  width: 100% !important;
+}
+
 /**
 * Content and SEO score in publish bar
 */
@@ -714,6 +723,14 @@ ul.yoast-seo-social-share-buttons a {
 	align-items: center;
 }
 
+.yoast.yoast-zapier {
+  margin: 8px 0 25px;
+}
+
+.yoast-field-group.yoast-wincher-post-publish {
+  margin-bottom: 10px;
+}
+
 div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
 div.interface-pinned-items button.components-button[aria-label="Yoast SEO Premium"] > svg,
 .edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,
@@ -797,6 +814,45 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 .yoast .components-form-token-field__remove-token.components-button {
 	background-color: var(--yoast-color-primary);
 	color: var(--yoast-color-white);
+}
+
+.yoast-wordproof-metabox-alert.yoast-wordproof-metabox-alert {
+	margin-top: 18px;
+	margin-bottom: 0px;
+}
+
+/* Insights */
+.yoast .yoast-insights {
+	color: #404040;
+}
+.yoast .yoast-insights .yoast-field-group__title > b {
+	color: var(--yoast-color-primary);
+	font-size: 16px;
+	font-weight: var(--yoast-font-weight-default);
+	line-height: 1.2em;
+}
+.yoast .yoast-insights-card__score {
+	color: var(--yoast-color-primary);
+	margin-block: 0;
+}
+.yoast .yoast-insights-card__description {
+	line-height: 1.4em;
+}
+.yoast .yoast-prominent-words p,
+.yoast .yoast-prominent-words ul,
+.yoast .yoast-text-formality p {
+	margin-block: 1.2em;
+}
+.yoast #wpseo-metabox-root .yoast-prominent-words {
+	margin-bottom: 24px;
+	padding-bottom: 24px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.yoast .yoast-insights .yoast-data-model--upsell li {
+	color: #bbb;
+}
+.yoast .yoast-insights .yoast-data-model--upsell li:after {
+	background: #fdf4f8;
 }
 
 /*# sourceMappingURL=metabox.css.map */

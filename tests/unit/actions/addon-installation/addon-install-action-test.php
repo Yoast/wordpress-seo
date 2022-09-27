@@ -135,7 +135,8 @@ class Addon_Install_Action_Test extends TestCase {
 
 		$wp_error
 			->expects( 'get_error_message' )
-			->once();
+			->once()
+			->andReturn( '' );
 
 		$plugin_upgrader = Mockery::mock( 'overload:' . Plugin_Upgrader::class );
 

@@ -1,9 +1,8 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
 
+import { __ } from "@wordpress/i18n";
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
-import LoginPopup from "../helpers/loginPopup";
-import { getAuthorizationUrl, authenticate, trackAllKeyphrases } from "../helpers/wincherEndpoints";
 
 /**
  * @summary Initializes the admin script.
@@ -141,37 +140,11 @@ export default function initAdmin( jQuery ) {
 	}
 
 	/**
-	 * When the hash changes, get the base url from the action and then add the current hash
-	 */
-	jQuery( window ).on( "hashchange", wpseoSetTabHash );
-
-	/**
-	 * Adds select2 for selected fields.
-	 *
-	 * @returns {void}
-	 */
-	function initSelect2() {
-		var select2Width = "400px";
-
-		// Select2 for Twitter card meta data in Settings
-		jQuery( "#twitter_card_type" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-		} );
-
-		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( "#breadcrumbs select" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-		} );
-	}
-
-	/**
 	 * Set the initial active tab in the settings pages.
 	 *
 	 * @returns {void}
 	 */
-	function setInitialActiveTab() {
+	 function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
 		/* In some cases, the second # gets replace by %23, which makes the tab
 		 * switching not work unless we do this. */
@@ -194,6 +167,29 @@ export default function initAdmin( jQuery ) {
 
 		jQuery( "#" + activeTabId ).addClass( "active" );
 		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).trigger( "click" );
+	}
+
+	/**
+	 * When the hash changes, get the base url from the action and then add the current hash
+	 */
+	jQuery( window ).on( "hashchange", function() {
+		setInitialActiveTab();
+		wpseoSetTabHash();
+	 } );
+
+	/**
+	 * Adds select2 for selected fields.
+	 *
+	 * @returns {void}
+	 */
+	function initSelect2() {
+		var select2Width = "400px";
+
+		// Select2 for taxonomy breadcrumbs in Advanced
+		jQuery( "#breadcrumbs select" ).select2( {
+			width: select2Width,
+			language: wpseoScriptData.userLanguageCode,
+		} );
 	}
 
 	/**
@@ -303,109 +299,26 @@ export default function initAdmin( jQuery ) {
 		}
 	}
 
-	// Variable to store the popup reference in.
-	let wincherPopup = null;
-
 	/**
-	 * Performs the adding of exisitng keywords to Wincher request.
+	 * Checks wether or not the confirmation dialog should be displayed upom switching tab.
 	 *
-	 * @returns {void}
+	 * @param {object} target The clicked tab.
+	 *
+	 * @returns {bool} If the dialog should be displayed.
 	 */
-	async function addExistingKeyphrasesRequest() {
-		jQuery( "#wincher-track-all-keyohrases-success, #wincher-track-all-keyohrases-error" ).hide();
+	function canShowConfirmDialog( target ) {
+		// Is the user in the first time configuration tab?
+		var comingFromFTCTab = !! jQuery( "#first-time-configuration-tab" ).filter( ".nav-tab-active" ).length;
+		// Does the user wants to switch to the first time configuration tab?
+		var goingToFTCTab = !! target.filter( "#first-time-configuration-tab" ).length;
 
-		const data = await trackAllKeyphrases();
 
-		if ( data.status === 201 ) {
-			jQuery( "#wincher-track-all-keyphrases-success" ).show();
-		}
-
-		if ( data.status === 400 ) {
-			jQuery( "#wincher-track-all-limit" ).text( data.results.limit );
-			jQuery( "#wincher-track-all-keyphrases-error" ).show();
-		}
-
-		if ( data.status === 403 || data.status === 404 ) {
-			jQuery( "#wincher-website-error" ).show();
-		}
-	}
-
-	/**
-	 * Get the tokens using the provided code after user has granted authorization.
-	 *
-	 * @param {Object} data The message data.
-	 *
-	 * @returns {void}
-	 */
-	async function performAuthenticationRequest( data ) {
-		const response = await authenticate( data );
-
-		if ( response.status !== 200 ) {
-			return;
-		}
-
-		const popup = wincherPopup.getPopup();
-
-		if ( popup ) {
-			popup.close();
-		}
-
-		jQuery( "#wincher-login-success" ).show();
-		// We need to set the value so that it's not reset on save.
-		jQuery( "#hidden_wincher_website_id" ).val( data.websiteId );
-
-		await addExistingKeyphrasesRequest();
-	}
-
-	/**
-	 * Fires when the user wants to connect to Wincher.
-	 *
-	 * @returns {void}
-	 */
-	async function onConnect() {
-		if ( wincherPopup && ! wincherPopup.isClosed() ) {
-			wincherPopup.focus();
-			return;
-		}
-
-		const { url } = await getAuthorizationUrl();
-
-		wincherPopup = new LoginPopup(
-			url,
-			{
-				success: {
-					type: "wincher:oauth:success",
-					callback: async( data ) => await performAuthenticationRequest( data ),
-				},
-				error: {
-					type: "wincher:oauth:error",
-					callback: () => {},
-				},
-			},
-			{
-				title: "Wincher_login",
-				width: 500,
-				height: 700,
-			}
-		);
-
-		wincherPopup.createPopup();
-	}
-
-	/**
-	 * Adds the existing keyphrases to Wincher.
-	 *
-	 * @returns {void}
-	 */
-	async function addExistingKeyphrasesToWincher() {
-		// Check if we're logged in first.
-		if ( ! wpseoAdminGlobalL10n.wincher_is_logged_in ) {
-			onConnect();
-
-			return;
-		}
-
-		await addExistingKeyphrasesRequest();
+		/**
+		 * Show the pop-up iff the user is in the first time configuration tab
+		 * and clicks on a tab which is different from the first time configuration tab
+		 * and the current step is being edited (set by first time configuration in React)
+		*/
+		return ( comingFromFTCTab && ( ! goingToFTCTab ) && window.isStepBeingEdited );
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
@@ -487,21 +400,45 @@ export default function initAdmin( jQuery ) {
 		} ).change();
 
 		// Handle the settings pages tabs.
-		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function() {
-			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
-			jQuery( ".wpseotab" ).removeClass( "active" );
+		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function( event ) {
+			var canChangeTab = true;
 
-			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
-			var activeTab = jQuery( "#" + id );
-			activeTab.addClass( "active" );
-			jQuery( this ).addClass( "nav-tab-active" );
-			if ( activeTab.hasClass( "nosave" ) ) {
-				jQuery( "#wpseo-submit-container" ).hide();
-			} else {
-				jQuery( "#wpseo-submit-container" ).show();
+			if ( canShowConfirmDialog( jQuery( this ) ) ) {
+				/* eslint-disable no-alert */
+				canChangeTab = confirm( __( "There are unsaved changes in one or more steps. Leaving means that those changes may not be saved. Are you sure you want to leave?", "wordpress-seo" ) );
 			}
 
-			jQuery( window ).trigger( "yoast-seo-tab-change" );
+			if ( canChangeTab ) {
+				window.isStepBeingEdited = false;
+				jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
+				jQuery( ".wpseotab" ).removeClass( "active" );
+
+				var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
+				var activeTab = jQuery( "#" + id );
+				activeTab.addClass( "active" );
+				jQuery( this ).addClass( "nav-tab-active" );
+				if ( activeTab.hasClass( "nosave" ) ) {
+					jQuery( "#wpseo-submit-container" ).hide();
+				} else {
+					jQuery( "#wpseo-submit-container" ).show();
+				}
+
+				jQuery( window ).trigger( "yoast-seo-tab-change" );
+				if ( id === "first-time-configuration" ) {
+					jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
+				} else {
+					jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
+				}
+			} else {
+				// Re-establish the focus on the first time configuration tab if the user clicks 'Cancel' on the pop-up
+				event.preventDefault();
+				jQuery( "#first-time-configuration-tab" ).trigger( "focus" );
+			}
+		} );
+
+		// Handle the link in the first-time notice when in General page.
+		jQuery( "#yoast-first-time-configuration-notice a" ).on( "click", function() {
+			jQuery( "#first-time-configuration-tab" ).click();
 		} );
 
 		// Handle the Company or Person select.
@@ -540,18 +477,6 @@ export default function initAdmin( jQuery ) {
 			target
 				.attr( "aria-expanded", ! toggleableContainer.hasClass( "toggleable-container-hidden" ) )
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
-		} );
-
-		jQuery( "#wincher-track-all-keyphrases" ).on( "click", ( event ) => {
-			event.preventDefault();
-
-			addExistingKeyphrasesToWincher();
-		} );
-
-		jQuery( "#wincher-track-all-website-error-link" ).on( "click", ( event ) => {
-			event.preventDefault();
-
-			onConnect();
 		} );
 
 		const opengraphToggle = jQuery( "#opengraph" );

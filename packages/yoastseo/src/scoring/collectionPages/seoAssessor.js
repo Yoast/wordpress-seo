@@ -5,8 +5,8 @@ import IntroductionKeywordAssessment from "./../assessments/seo/IntroductionKeyw
 import KeyphraseLengthAssessment from "./../assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./../assessments/seo/MetaDescriptionKeywordAssessment";
-import TitleKeywordAssessment from "./../assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "./../assessments/seo/UrlKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
+import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "./../assessor";
 import MetaDescriptionLengthAssessment from "./../assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "./../assessments/seo/TextLengthAssessment";
@@ -14,23 +14,6 @@ import PageTitleWidthAssessment from "./../assessments/seo/PageTitleWidthAssessm
 import FunctionWordsInKeyphrase from "./../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "./../assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "./../assessments/seo/KeyphraseDistributionAssessment";
-
-/**
- * Returns the text length assessment to use.
- *
- * @returns {TextLengthAssessment} The text length assessment (with collection page configuration) to use.
- */
-export const getTextLengthAssessment = function() {
-	// Export so it can be used in tests.
-	return new TextLengthAssessment( {
-		recommendedMinimum: 80,
-		slightlyBelowMinimum: 50,
-		belowMinimum: 20,
-		veryFarBelowMinimum: 10,
-		urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
-		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
-	} );
-};
 
 /**
  * Creates the Assessor used for collection pages.
@@ -41,7 +24,7 @@ export const getTextLengthAssessment = function() {
  */
 const CollectionSEOAssessor = function( researcher, options ) {
 	Assessor.call( this, researcher, options );
-	this.type = "CollectionSEOAssessor";
+	this.type = "collectionSEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment( {
@@ -64,8 +47,16 @@ const CollectionSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
 		} ),
-		getTextLengthAssessment(),
-		new TitleKeywordAssessment( {
+		new TextLengthAssessment( {
+			recommendedMinimum: 80,
+			slightlyBelowMinimum: 50,
+			belowMinimum: 20,
+			veryFarBelowMinimum: 10,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
+			customContentType: this.type,
+		} ),
+		new KeyphraseInSEOTitleAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} ),
@@ -76,7 +67,7 @@ const CollectionSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
 		}, true ),
-		new UrlKeywordAssessment( {
+		new SlugKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 		} ),

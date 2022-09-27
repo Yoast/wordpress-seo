@@ -60,7 +60,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 
 <div class="tab-block">
 	<h3><?php esc_html_e( 'Step 2: Import', 'wordpress-seo' ); ?></h3>
-	<p>
+	<p class="yoast-import-explanation">
 		<?php
 		printf(
 			/* translators: 1: expands to Yoast SEO */
@@ -91,12 +91,13 @@ function wpseo_import_external_select( $name, $plugins ) {
 </div>
 
 <div class="tab-block">
-	<h3><?php esc_html_e( 'Step 4: Do the configuration workout', 'wordpress-seo' ); ?></h3>
+	<h3><?php esc_html_e( 'Step 4: Go through the first time configuration', 'wordpress-seo' ); ?></h3>
 	<p>
 		<?php
 		printf(
-			esc_html__( 'You should complete the configuration workout, from the SEO &rarr; Workouts page, to make sure the most important settings for your site are correct and your SEO data has been optimized.', 'wordpress-seo' ),
-			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">',
+			/* translators: 1: Link start tag to the First time configuration tab in the General page, 2: Link closing tag. */
+			esc_html__( 'You should finish the %1$sfirst time configuration%2$s to make sure your SEO data has been optimized and you’ve set the essential Yoast SEO settings for your site.', 'wordpress-seo' ),
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
 			'</a>'
 		);
 		?>
@@ -105,7 +106,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 
 <div class="tab-block">
 	<h3><?php esc_html_e( 'Step 5: Clean up', 'wordpress-seo' ); ?></h3>
-	<p>
+	<p class="yoast-cleanup-explanation">
 		<?php esc_html_e( 'Once you\'re certain your site is OK, you can clean up. This will remove all the original data.', 'wordpress-seo' ); ?>
 	</p>
 	<form action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"

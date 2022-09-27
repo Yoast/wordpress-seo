@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Importable_Detector_Test.
+ * Class Conflicting_Plugins_Service_Test.
  *
  * @group importing
  *

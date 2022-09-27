@@ -231,7 +231,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		let newText = text.slice();
-		const image = <img key={ media.id } alt={ media.alt } src={ media.url } />;
+		const image = <img className={ `wp-image-${ media.id }` } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
 
 		if ( newText.push ) {
 			newText.push( image );
@@ -311,7 +311,6 @@ export default class HowToStep extends Component {
 			index,
 			step,
 			isSelected,
-			subElement,
 			isUnorderedList,
 		} = this.props;
 
@@ -331,10 +330,8 @@ export default class HowToStep extends Component {
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
-					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusTitle }
-					keepPlaceholderOnFocus={ true }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichTextWithAppendedSpace
@@ -343,10 +340,8 @@ export default class HowToStep extends Component {
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
-					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusText }
-					keepPlaceholderOnFocus={ true }
 				/>
 				{ isSelected &&
 					<div className="schema-how-to-step-controls-container">
@@ -368,7 +363,6 @@ HowToStep.propTypes = {
 	onFocus: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
@@ -377,5 +371,4 @@ HowToStep.propTypes = {
 
 HowToStep.defaultProps = {
 	isUnorderedList: false,
-	subElement: "",
 };

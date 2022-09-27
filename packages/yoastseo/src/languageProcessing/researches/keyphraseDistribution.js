@@ -202,13 +202,14 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const getContentWordsHelper = researcher.getHelper( "getContentWords" );
 	const wordsCharacterCount = researcher.getResearch( "wordsCharacterCount" );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
 	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
 
 	let text = paper.getText();
 	text = mergeListItems( text );
-	const sentences = getSentences( text );
+	const sentences = getSentences( text, memoizedTokenizer );
 	const topicForms = researcher.getResearch( "morphology" );
 
 	const originalTopic = [];
@@ -216,10 +217,8 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		originalTopic.push( getContentWordsHelper( paper.getKeyword() ) );
 		parseSynonyms( paper.getSynonyms() ).forEach( synonym => originalTopic.push( getContentWordsHelper( synonym ) ) );
 	}
-
 	const locale = paper.getLocale();
 	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
-
 	topicForms.synonymsForms.forEach( function( synonym ) {
 		topicFormsInOneArray.push( synonym );
 	} );

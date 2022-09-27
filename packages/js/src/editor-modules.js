@@ -1,28 +1,36 @@
-import getL10nObject from "./analysis/getL10nObject";
+import { LocationConsumer, LocationContext, LocationProvider } from "@yoast/externals/contexts";
+import * as constants from "./analysis/constants";
 import getContentLocale from "./analysis/getContentLocale";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import * as constants from "./analysis/constants";
+import getL10nObject from "./analysis/getL10nObject";
+import isZapierConnected from "./analysis/isZapierConnected";
+import isZapierIntegrationActive from "./analysis/isZapierIntegrationActive";
 import * as refreshAnalysis from "./analysis/refreshAnalysis";
-import HelpLink from "./components/HelpLink";
-import TopLevelProviders from "./components/TopLevelProviders";
-import * as i18n from "./helpers/i18n";
-import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarPriority";
 import * as mapResults from "./components/contentAnalysis/mapResults";
+import HelpLink from "./components/HelpLink";
+import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarPriority";
 import MetaboxCollapsible from "./components/MetaboxCollapsible";
-import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
+import Modal from "./components/modals/Modal";
+import ImageSelectPortal from "./components/portals/ImageSelectPortal";
+import Portal from "./components/portals/Portal";
+import ScoreIconPortal from "./components/portals/ScoreIconPortal";
 import SidebarCollapsible from "./components/SidebarCollapsible";
+import SidebarItem from "./components/SidebarItem";
+import TopLevelProviders from "./components/TopLevelProviders";
+import EditorModal from "./containers/EditorModal";
+import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
 import Results from "./containers/Results";
+import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
+import WincherSEOPerformance from "./containers/WincherSEOPerformance";
+import * as ajaxHelper from "./helpers/ajaxHelper";
+import createWatcher from "./helpers/create-watcher";
 import createInterpolateElement from "./helpers/createInterpolateElement";
+import * as i18n from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
-import * as location from "./components/contexts/location";
-import Modal from "./components/modals/Modal";
-import SidebarItem from "./components/SidebarItem";
-import * as ajaxHelper from "./helpers/ajaxHelper";
-import EditorModal from "./containers/EditorModal";
-import ImageSelectPortal from "./components/portals/ImageSelectPortal";
-import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
-import WincherSEOPerformance from "./containers/WincherSEOPerformance";
+import { update as updateAdminBar } from "./ui/adminBar";
+import { updateScore, createScoresInPublishBox, scrollToCollapsible } from "./ui/publishBox";
+import { update as updateTrafficLight } from "./ui/trafficLight";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -30,6 +38,8 @@ window.yoast.editorModules = {
 		getL10nObject,
 		getContentLocale,
 		getIndicatorForScore,
+		isZapierConnected,
+		isZapierIntegrationActive,
 		constants,
 		refreshAnalysis,
 	},
@@ -43,14 +53,20 @@ window.yoast.editorModules = {
 			mapResults,
 		},
 		contexts: {
-			location,
+			location: {
+				LocationContext,
+				LocationProvider,
+				LocationConsumer,
+			},
 		},
 		SidebarItem,
 		SidebarCollapsible,
 		MetaboxCollapsible,
 		Modal,
 		portals: {
+			Portal,
 			ImageSelectPortal,
+			ScoreIconPortal,
 		},
 	},
 	containers: {
@@ -63,8 +79,16 @@ window.yoast.editorModules = {
 	helpers: {
 		ajaxHelper,
 		createInterpolateElement,
+		createWatcher,
 		isBlockEditor,
 		i18n,
 		replacementVariableHelpers,
+		publishBox: {
+			updateScore,
+			createScoresInPublishBox,
+			scrollToCollapsible,
+		},
+		updateAdminBar,
+		updateTrafficLight,
 	},
 };

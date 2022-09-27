@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
@@ -62,12 +63,14 @@ class Notice_Presenter extends Abstract_Presenter {
 	/**
 	 * Notice_Presenter constructor.
 	 *
-	 * @param string $title          Title of the admin notice.
-	 * @param string $content        Content of the admin notice.
-	 * @param string $image_filename Optional. The filename of the image of the admin notice, should be inside the 'images' folder.
-	 * @param string $button         Optional. An HTML string to be displayed after the main content, usually a button.
-	 * @param bool   $is_dismissible Optional. Whether the admin notice should be dismissible.
-	 * @param string $id             Optional. The id of the notice.
+	 * @param string      $title          Title of the admin notice.
+	 * @param string      $content        Content of the admin notice.
+	 * @param string|null $image_filename Optional. The filename of the image of the admin notice,
+	 *                                    should be inside the 'images' folder.
+	 * @param string|null $button         Optional. An HTML string to be displayed after the main content,
+	 *                                    usually a button.
+	 * @param bool        $is_dismissible Optional. Whether the admin notice should be dismissible.
+	 * @param string      $id             Optional. The id of the notice.
 	 */
 	public function __construct( $title, $content, $image_filename = null, $button = null, $is_dismissible = false, $id = '' ) {
 		$this->title          = $title;
@@ -81,7 +84,12 @@ class Notice_Presenter extends Abstract_Presenter {
 			$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
 
-		$this->asset_manager->enqueue_style( 'notifications' );
+		if ( \YoastSEO()->classes->get( Indexables_Page_Conditional::class )->is_met() ) {
+			$this->asset_manager->enqueue_style( 'notifications-new' );
+		}
+		else {
+			$this->asset_manager->enqueue_style( 'notifications' );
+		}
 	}
 
 	/**
@@ -102,7 +110,7 @@ class Notice_Presenter extends Abstract_Presenter {
 		$out .= '<div class="notice-yoast__header">';
 		$out .= '<span class="yoast-icon"></span>';
 		$out .= \sprintf(
-			'<h1 class="notice-yoast__header-heading">%s</h1>',
+			'<h2 class="notice-yoast__header-heading">%s</h2>',
 			\esc_html( $this->title )
 		);
 		$out .= '</div>';
@@ -113,7 +121,7 @@ class Notice_Presenter extends Abstract_Presenter {
 		$out .= '</div>';
 
 		if ( ! \is_null( $this->image_filename ) ) {
-			$out .= '<img src="' . \esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/' . $this->image_filename ) . '" alt="" height="60" width="75"/>';
+			$out .= '<img src="' . \esc_url( \plugin_dir_url( \WPSEO_FILE ) . 'images/' . $this->image_filename ) . '" alt="" height="60" width="75"/>';
 		}
 
 		$out .= '</div>';

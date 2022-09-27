@@ -2,9 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Config;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
+use UnexpectedValueException;
 use Yoast\WP\SEO\Config\OAuth_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
@@ -92,7 +94,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -138,10 +140,11 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -211,11 +214,12 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->andReturns( $this->token );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -248,6 +252,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -257,7 +262,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'authorization_code', [ 'code' => '' ] )
 			->andThrow( IdentityProviderException::class );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -290,6 +295,7 @@ class OAuth_Client_Test extends TestCase {
 				'expires'       => 604800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
+				'error_count'   => 0,
 			]
 		);
 
@@ -303,13 +309,14 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->once()
 			->andReturnTrue();
 
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -346,6 +353,7 @@ class OAuth_Client_Test extends TestCase {
 				'expires'       => 604800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
+				'error_count'   => 0,
 			]
 		);
 
@@ -359,12 +367,13 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->once()
 			->andReturnFalse();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -410,10 +419,11 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -441,7 +451,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -478,7 +488,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -516,10 +526,11 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -544,7 +555,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -575,10 +586,11 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -609,7 +621,7 @@ class OAuth_Client_Test extends TestCase {
 
 		$this->expectException( Empty_Token_Exception::class );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -650,6 +662,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -657,7 +670,7 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'set' )
 			->once();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -672,6 +685,12 @@ class OAuth_Client_Test extends TestCase {
 			->once()
 			->with( 'refresh_token', [ 'refresh_token' => '000001' ] )
 			->andReturn( $this->response );
+
+		Functions\expect( 'get_transient' )
+			->once();
+
+		Functions\expect( 'delete_transient' )
+			->once();
 
 		$this->assertInstanceOf( OAuth_Token::class, $instance->get_tokens() );
 	}
@@ -695,10 +714,11 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -729,6 +749,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -747,7 +768,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'refresh_token', [ 'refresh_token' => null ] )
 			->andReturn( $this->response );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -759,6 +780,12 @@ class OAuth_Client_Test extends TestCase {
 
 		$instance
 			->expects( 'store_token' )
+			->once();
+
+		Functions\expect( 'get_transient' )
+			->once();
+
+		Functions\expect( 'delete_transient' )
 			->once();
 
 		$instance->refresh_tokens( $this->token );
@@ -790,6 +817,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -797,9 +825,9 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'getAccessToken' )
 			->once()
 			->with( 'refresh_token', [ 'refresh_token' => null ] )
-			->andThrow( \UnexpectedValueException::class );
+			->andThrow( UnexpectedValueException::class );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -814,6 +842,88 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'store_token' )
 			->never();
 
+		$instance
+			->expects( 'clear_token' )
+			->never();
+
+		Functions\expect( 'get_transient' )
+			->once()
+			->andReturn( false );
+
+		Functions\expect( 'set_transient' )
+			->once()
+			->andReturn( true );
+
+		Functions\expect( 'delete_transient' )
+			->once();
+
 		$instance->refresh_tokens( $this->token );
+	}
+
+	/**
+	 * Tests the refreshing of tokens which fails with an invalid_grant message.
+	 *
+	 * @covers ::refresh_tokens
+	 */
+	public function test_refresh_tokens_fails_with_invalid_grant() {
+		$this->expectException( Authentication_Failed_Exception::class );
+
+		$this->time = \time();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'oauth_token' )
+			->andReturn(
+				[
+					'access_token'  => '000000',
+					'refresh_token' => '000001',
+					'expires'       => 604800,
+					'has_expired'   => true,
+					'created_at'    => $this->time,
+					'error_count'   => 0,
+				]
+			);
+
+		$this->provider
+			->expects( 'getAccessToken' )
+			->once()
+			->with( 'refresh_token', [ 'refresh_token' => null ] )
+			->andThrow( UnexpectedValueException::class, 'invalid_grant' );
+
+		$instance = Mockery::mock(
+			OAuth_Client::class,
+			[
+				'oauth_token',
+				$this->provider,
+				$this->options_helper,
+			]
+		)
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
+
+		$instance
+			->expects( 'store_token' )
+			->never();
+
+		$instance
+			->expects( 'clear_token' )
+			->once();
+
+		Functions\expect( 'get_transient' )
+			->once()
+			->andReturn( false );
+
+		Functions\expect( 'set_transient' )
+			->once()
+			->andReturn( true );
+
+		Functions\expect( 'delete_transient' )
+			->once();
+
+		$token              = clone $this->token;
+		$token->error_count = 1;
+
+		$instance->refresh_tokens( $token );
 	}
 }

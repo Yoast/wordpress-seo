@@ -7,7 +7,6 @@ use Elementor\Core\DocumentTypes\PageBase;
 use WP_Post;
 use WP_Screen;
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Language_Utils;
 use WPSEO_Meta;
@@ -16,11 +15,11 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
+use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
-use Yoast\WP\SEO\Config\Wincher_Links;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -183,7 +182,7 @@ class Elementor implements Integration_Interface {
 	 * Register a panel tab slug, in order to allow adding controls to this tab.
 	 */
 	public function add_yoast_panel_tab() {
-		Controls_Manager::add_tab( $this::YOAST_TAB, \__( 'Yoast SEO', 'wordpress-seo' ) );
+		Controls_Manager::add_tab( $this::YOAST_TAB, 'Yoast SEO' );
 	}
 
 	/**
@@ -201,7 +200,7 @@ class Elementor implements Integration_Interface {
 		$document->start_controls_section(
 			'yoast_temporary_section',
 			[
-				'label' => \__( 'Yoast SEO', 'wordpress-seo' ),
+				'label' => 'Yoast SEO',
 				'tab'   => self::YOAST_TAB,
 			]
 		);
@@ -390,9 +389,6 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_script( 'admin-global' );
 		$this->asset_manager->enqueue_script( 'elementor' );
 
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( 'elementor' );
-
 		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminGlobalL10n', \YoastSEO()->helpers->wincher->get_admin_global_links() );
 		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 		$this->asset_manager->localize_script( 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
@@ -425,19 +421,19 @@ class Elementor implements Integration_Interface {
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
-			'media'             => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'           => $this->get_metabox_script_data(),
-			'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'isPost'            => true,
-			'isBlockEditor'     => WP_Screen::get()->is_block_editor(),
-			'isElementorEditor' => true,
-			'postStatus'        => get_post_status( $post_id ),
-			'analysis'          => [
-				'plugins'                     => $plugins_script_data,
-				'worker'                      => $worker_script_data,
-				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
+			'media'                    => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
+			'metabox'                  => $this->get_metabox_script_data(),
+			'userLanguageCode'         => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'isPost'                   => true,
+			'isBlockEditor'            => WP_Screen::get()->is_block_editor(),
+			'isElementorEditor'        => true,
+			'postStatus'               => \get_post_status( $post_id ),
+			'analysis'                 => [
+				'plugins' => $plugins_script_data,
+				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'   => $dismissed_alerts,
+			'dismissedAlerts'          => $dismissed_alerts,
+			'webinarIntroElementorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
@@ -485,13 +481,40 @@ class Elementor implements Integration_Interface {
 		\printf(
 			'<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />',
 			\esc_attr( WPSEO_Meta::$form_prefix . 'slug' ),
-			\esc_attr( $this->get_metabox_post()->post_name )
+			\esc_attr( $this->get_post_slug() )
 		);
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo \apply_filters( 'wpseo_elementor_hidden_fields', '' );
 
 		echo '</form>';
+	}
+
+	/**
+	 * Returns the slug for the post being edited.
+	 *
+	 * @return string
+	 */
+	protected function get_post_slug() {
+		$post = $this->get_metabox_post();
+
+		// In case get_metabox_post returns null for whatever reason.
+		if ( ! $post instanceof WP_Post ) {
+			return '';
+		}
+
+		// Drafts might not have a post_name unless the slug has been manually changed.
+		// In this case we get it using get_sample_permalink.
+		if ( ! $post->post_name ) {
+			$sample = \get_sample_permalink( $post );
+
+			// Since get_sample_permalink runs through filters, ensure that it has the expected return value.
+			if ( \is_array( $sample ) && \count( $sample ) === 2 && \is_string( $sample[1] ) ) {
+				return $sample[1];
+			}
+		}
+
+		return $post->post_name;
 	}
 
 	/**
@@ -682,9 +705,25 @@ class Elementor implements Integration_Interface {
 
 		$custom_fields = \get_post_custom( $post->ID );
 
+		// Simply concatenate all fields containing replace vars so we can handle them all with a single regex find.
+		$replace_vars_fields = implode(
+			' ',
+			[
+				YoastSEO()->meta->for_post( $post->ID )->presentation->title,
+				YoastSEO()->meta->for_post( $post->ID )->presentation->meta_description,
+			]
+		);
+
+		preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
+		$fields_to_include = $matches[1];
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.
 			if ( \substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			// Skip custom fields that are not used, new ones will be fetched dynamically.
+			if ( ! in_array( $custom_field_name, $fields_to_include, true ) ) {
 				continue;
 			}
 

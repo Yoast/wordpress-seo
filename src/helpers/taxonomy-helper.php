@@ -30,12 +30,12 @@ class Taxonomy_Helper {
 	 *
 	 * @codeCoverageIgnore It only sets dependencies.
 	 *
-	 * @param Options_Helper $options The options helper.
-	 * @param String_Helper  $string  The string helper.
+	 * @param Options_Helper $options       The options helper.
+	 * @param String_Helper  $string_helper The string helper.
 	 */
-	public function __construct( Options_Helper $options, String_Helper $string ) {
+	public function __construct( Options_Helper $options, String_Helper $string_helper ) {
 		$this->options = $options;
-		$this->string  = $string;
+		$this->string  = $string_helper;
 	}
 
 	/**

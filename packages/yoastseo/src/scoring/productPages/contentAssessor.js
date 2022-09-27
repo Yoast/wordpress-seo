@@ -1,4 +1,5 @@
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import WordComplexityAssessment from "../assessments/readability/WordComplexityAssessment";
 
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
@@ -35,7 +36,7 @@ const ProductContentAssessor = function( researcher, options ) {
 			},
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
-		} ),
+		}, true ),
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
@@ -57,6 +58,10 @@ const ProductContentAssessor = function( researcher, options ) {
 		new ListsPresence( {
 			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
+		} ),
+		new WordComplexityAssessment( {
+			urlTitle: createAnchorOpeningTag( options.wordComplexityTitleUrl ),
+			urlCallToAction: createAnchorOpeningTag( options.wordComplexityCTAUrl ),
 		} ),
 	];
 };

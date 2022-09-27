@@ -46,6 +46,15 @@ export const getTwitterImageType = state => get( state, "settings.socialPreviews
 export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src", "" );
 
 /**
+ * Gets the Twitter alt text from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Twitter alt text.
+ */
+export const getTwitterAltText = state => get( state, "twitterEditor.image.alt", "" );
+
+/**
  * Gets the Twitter warnings from the state.
  *
  * @param {Object} state The state.

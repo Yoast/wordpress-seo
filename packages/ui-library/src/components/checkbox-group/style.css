@@ -1,0 +1,18 @@
+@layer components {
+	.yst-root {
+		.yst-checkbox-group__label {
+			@apply yst-mb-4;
+		}
+
+		.yst-checkbox-group__options {
+			@apply
+			yst-flex
+			yst-flex-col
+			yst-gap-3;
+		}
+
+		.yst-checkbox-group__description {
+			@apply yst-mb-4;
+		}
+	}
+}

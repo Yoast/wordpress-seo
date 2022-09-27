@@ -63,6 +63,35 @@ describe( "Adds Yoast marks to specific words in a sentence for languages with c
 		);
 	} );
 
+	it( "should still add Yoast marks to all instances of specified words in a sentence even when the word is enclosed in double quotes", function() {
+		expect( markWordsInSentences(
+			[ "『小さい花の刺繍』" ],
+			[ "彼女はオンラインストアで黒の長袖マキシドレスを購入したかった。", "小さい花の刺繍しかし、それは在庫切れでしたマキシドレス。" ],
+			"ja",
+			matchWordCustomHelper
+		) ).toEqual( [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>小さい花の刺繍</yoastmark>しかし、それは在庫切れでしたマキシドレス。",
+				original: "小さい花の刺繍しかし、それは在庫切れでしたマキシドレス。" } ),
+		 ]
+		);
+	} );
+
+	it( "should still add Yoast marks to all instances of specified words in a sentence even when " +
+		"the keyword is enclosed in double quotes and the instances in the text is followed by a fullstop", function() {
+		expect( markWordsInSentences(
+			[ "『小さい花の刺繍』" ],
+			[ "彼女はオンラインストアで黒の長袖マキシドレスを購入したかった。", "しかし、それは在庫切れでしたマキシドレス。", "小さい花の刺繍。" ],
+			"ja",
+			matchWordCustomHelper
+		) ).toEqual( [
+			new Mark( {
+				marked: "<yoastmark class='yoast-text-mark'>小さい花の刺繍</yoastmark>。",
+				original: "小さい花の刺繍。" } ),
+		]
+		);
+	} );
+
 	it( "returns an empty array when the topic is not found in the sentence", function() {
 		expect( markWordsInSentences(
 			[ "書き", "甘い香ら" ],

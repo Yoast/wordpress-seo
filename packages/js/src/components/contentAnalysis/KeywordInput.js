@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { KeywordInput as KeywordInputComponent } from "yoast-components";
 import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
-import { LocationConsumer } from "../contexts/location";
+import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 
 const KeywordInputContainer = styled.div`

@@ -13,6 +13,7 @@ const ToggleDiv = styled.div`
 	width: 100%;
 	justify-content: space-between;
 	align-items: center;
+	position: relative;
 `;
 
 const ToggleLabel = styled.span`
@@ -156,7 +157,7 @@ Toggle.propTypes = {
 	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
 	id: PropTypes.string.isRequired,
-	labelText: PropTypes.string.isRequired,
+	labelText: PropTypes.string,
 	showToggleStateLabel: PropTypes.bool,
 };
 

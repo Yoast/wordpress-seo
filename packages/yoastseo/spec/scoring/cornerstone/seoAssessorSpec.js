@@ -106,7 +106,8 @@ describe( "running assessments in the assessor", function() {
 	} );
 
 	it( "additionally runs assessments that require a text and a long url with stop words", function() {
-		assessor.assess( new Paper( "text", { url: "a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url" } ) );
+		assessor.assess( new Paper( "text",
+			{ slug: "a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -121,8 +122,8 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text, a url and a keyword", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword", url: "sample url" } ) );
+	it( "additionally runs assessments that require a text, a slug and a keyword", function() {
+		assessor.assess( new Paper( "text", { keyword: "keyword", slug: "sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -135,7 +136,7 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"urlKeyword",
+			"slugKeyword",
 		] );
 	} );
 
@@ -252,8 +253,8 @@ describe( "running assessments in the assessor", function() {
 			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
 		} );
 
-		test( "UrlKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "urlKeyword" );
+		test( "SlugKeywordAssessment", () => {
+			const assessment = assessor.getAssessment( "slugKeyword" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();

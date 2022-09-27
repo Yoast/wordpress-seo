@@ -38,6 +38,7 @@ class Schema_Types {
 	 */
 	const ARTICLE_TYPES = [
 		'Article'                  => '',
+		'BlogPosting'              => '',
 		'SocialMediaPosting'       => '',
 		'NewsArticle'              => '',
 		'AdvertiserContentArticle' => '',
@@ -127,6 +128,10 @@ class Schema_Types {
 					'value' => 'Article',
 				],
 				[
+					'name'  => \__( 'Blog Post', 'wordpress-seo' ),
+					'value' => 'BlogPosting',
+				],
+				[
 					'name'  => \__( 'Social Media Posting', 'wordpress-seo' ),
 					'value' => 'SocialMediaPosting',
 				],
@@ -160,5 +165,21 @@ class Schema_Types {
 				],
 			]
 		);
+	}
+
+	/**
+	 * Gets the values of the article type options.
+	 *
+	 * @return array[] The values of the Schema article type options.
+	 */
+	public function get_article_type_options_values() {
+		$article_types       = $this->get_article_type_options();
+		$article_type_values = [];
+
+		foreach ( $article_types as $type ) {
+			$article_type_values[] = $type['value'];
+		}
+
+		return $article_type_values;
 	}
 }

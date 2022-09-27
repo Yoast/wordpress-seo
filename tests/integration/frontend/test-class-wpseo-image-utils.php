@@ -62,6 +62,15 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests getting a non-existent medium image.
+	 *
+	 * @covers \WPSEO_Image_Utils::get_image
+	 */
+	public function test_get_image_for_non_existent_medium_image() {
+		$this->assertFalse( WPSEO_Image_Utils::get_image( 0, 'medium' ) );
+	}
+
+	/**
 	 * Returns getting the image for an existing attachment.
 	 *
 	 * @covers \WPSEO_Image_Utils::get_image

@@ -93,6 +93,15 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		},
 
 		/**
+		 * Return the helpers to be used for the assessment.
+		 *
+		 * @returns {Object} The helpers for the assessment.
+		 */
+		getHelper: function() {
+			return helpers;
+		},
+
+		/**
 		 * Return the config to be used for the assessment.
 		 *
 		 * @returns {Object} The config for the assessment results.

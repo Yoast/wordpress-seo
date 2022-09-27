@@ -1,0 +1,11 @@
+@layer components {
+	.yst-root {
+		.yst-label {
+			@apply
+			yst-flex
+			yst-text-sm
+			yst-font-medium
+			yst-text-gray-800;
+		}
+	}
+}

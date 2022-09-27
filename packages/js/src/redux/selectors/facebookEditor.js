@@ -37,6 +37,15 @@ export const getFacebookImageUrl = state => get( state, "facebookEditor.image.ur
 export const getFacebookImageSrc = state => get( state, "facebookEditor.image.src", "" );
 
 /**
+ * Gets the facebook alt text from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Facebook alt text.
+ */
+export const getFacebookAltText = state => get( state, "facebookEditor.image.alt", "" );
+
+/**
  * Gets the facebook warnings from the state.
  *
  * @param {Object} state The state.

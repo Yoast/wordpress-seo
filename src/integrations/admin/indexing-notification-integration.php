@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
+use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
@@ -179,6 +181,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Admin_Conditional::class,
+			Not_Admin_Ajax_Conditional::class,
+			User_Can_Manage_Wpseo_Options_Conditional::class,
 		];
 	}
 

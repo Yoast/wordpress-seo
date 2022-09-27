@@ -1,4 +1,6 @@
 import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
+import excludeEstimatedReadingTime from "../helpers/sanitize/excludeEstimatedReadingTime";
+import sanitizeLineBreakTag from "../helpers/sanitize/sanitizeLineBreakTag";
 import countWords from "../helpers/word/countWords.js";
 import matchParagraphs from "../helpers/html/matchParagraphs.js";
 import { filter } from "lodash-es";
@@ -12,7 +14,11 @@ import { filter } from "lodash-es";
  * @returns {Array} The array containing an object with the paragraph word or character count and paragraph text.
  */
 export default function( paper, researcher ) {
-	const text = excludeTableOfContentsTag( paper.getText() );
+	let text = excludeTableOfContentsTag( paper.getText() );
+	// Excludes the Estimated Reading time text from the research
+	text = excludeEstimatedReadingTime( text );
+	// Replaces line break tags containing attribute(s) with paragraph tag.
+	text = sanitizeLineBreakTag( text );
 	const paragraphs = matchParagraphs( text );
 	const paragraphsLength = [];
 

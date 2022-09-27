@@ -97,7 +97,15 @@ class WPSEO_Addon_Manager {
 		add_action( 'admin_init', [ $this, 'validate_addons' ], 15 );
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
 		add_filter( 'plugins_api', [ $this, 'get_plugin_information' ], 10, 3 );
+		add_action( 'plugins_loaded', [ $this, 'register_expired_messages' ], 10 );
+	}
 
+	/**
+	 * Registers "expired subscription" warnings to the update messages of our addons.
+	 *
+	 * @return void
+	 */
+	public function register_expired_messages() {
 		foreach ( array_keys( $this->get_installed_addons() ) as $plugin_file ) {
 			add_action( 'in_plugin_update_message-' . $plugin_file, [ $this, 'expired_subscription_warning' ], 10, 2 );
 		}
@@ -359,7 +367,7 @@ class WPSEO_Addon_Manager {
 		if ( $subscription && $this->has_subscription_expired( $subscription ) ) {
 			echo '<br><br>';
 			/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
-			echo '<strong><span class="wp-ui-text-notification alert dashicons dashicons-warning"></span> ' . sprintf( esc_html__( 'A new version of %1$s is available. %2$sRenew your subscription%3$s if you want to update to the latest version.', 'wordpress-seo' ), esc_html( $plugin_data['name'] ), '<a href="' . esc_attr( WPSEO_Shortlinker::get( 'https://yoa.st/4ey' ) ) . '">', '</a>' ) . '</strong>';
+			echo '<strong><span class="wp-ui-text-notification alert dashicons dashicons-warning"></span> ' . sprintf( esc_html__( 'A new version of %1$s is available. %2$sRenew your subscription%3$s if you want to update to the latest version.', 'wordpress-seo' ), esc_html( $plugin_data['name'] ), '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4ey' ) ) . '">', '</a>' ) . '</strong>';
 		}
 	}
 
@@ -480,10 +488,10 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Converts a subscription to plugin based format.
 	 *
-	 * @param stdClass $subscription    The subscription to convert.
-	 * @param stdClass $yoast_free_data The Yoast Free's data.
-	 * @param bool     $plugin_info     Whether we're in the plugin information modal.
-	 * @param string   $plugin_file     The plugin filename.
+	 * @param stdClass      $subscription    The subscription to convert.
+	 * @param stdClass|null $yoast_free_data The Yoast Free's data.
+	 * @param bool          $plugin_info     Whether we're in the plugin information modal.
+	 * @param string        $plugin_file     The plugin filename.
 	 *
 	 * @return stdClass The converted subscription.
 	 */

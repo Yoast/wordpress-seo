@@ -9,11 +9,12 @@ import keyphraseLengthFactor from "./keyphraseLengthFactor.js";
  * @param {number} keyphraseLength The length of the focus keyphrase in words.
  * @param {number} recommendedKeywordDensity The recommended keyword density (either maximum or minimum).
  * @param {string} maxOrMin Whether it's a maximum or minimum recommended keyword density.
+ * @param {function} customGetWords A helper to get words from the text for languages that don't use the default approach.
  *
  * @returns {number} The recommended keyword count.
  */
-export default function( text, keyphraseLength, recommendedKeywordDensity, maxOrMin ) {
-	const wordCount = countWords( text );
+export default function( text, keyphraseLength, recommendedKeywordDensity, maxOrMin, customGetWords ) {
+	const wordCount = customGetWords ? customGetWords( text ).length : countWords( text );
 
 	if ( wordCount === 0 ) {
 		return 0;

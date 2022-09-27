@@ -26,6 +26,7 @@ export default class Researcher extends AbstractResearcher {
 
 		// Delete Flesch Reading Ease research since Norwegian doesn't have the support for it
 		delete this.defaultResearches.getFleschReadingScore;
+		delete this.defaultResearches.wordComplexity;
 
 		Object.assign( this.config, {
 			language: "nb",

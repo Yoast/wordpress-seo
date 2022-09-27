@@ -4,8 +4,8 @@ import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeyword
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
-import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "./assessments/seo/KeyphraseInSEOTitleAssessment";
+import SlugKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
 import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "./assessments/seo/TextLengthAssessment";
@@ -28,6 +28,7 @@ export const getTextLengthAssessment = function() {
 		veryFarBelowMinimum: 50,
 		urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
+		customContentType: "taxonomyAssessor",
 	} );
 };
 
@@ -40,7 +41,7 @@ export const getTextLengthAssessment = function() {
  */
 const TaxonomyAssessor = function( researcher, options ) {
 	Assessor.call( this, researcher, options );
-	this.type = "TaxonomyAssessor";
+	this.type = "taxonomyAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
@@ -49,7 +50,7 @@ const TaxonomyAssessor = function( researcher, options ) {
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLengthAssessment(),
 		getTextLengthAssessment(),
-		new TitleKeywordAssessment(),
+		new KeyphraseInSEOTitleAssessment(),
 		new PageTitleWidthAssessment(
 			{
 				scores: {
@@ -57,7 +58,7 @@ const TaxonomyAssessor = function( researcher, options ) {
 				},
 			}, true
 		),
-		new UrlKeywordAssessment(),
+		new SlugKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
 	];

@@ -177,57 +177,67 @@ describe( "AnalysisWebWorker", () => {
 		} );
 
 		describe( "shouldAssessorsUpdate", () => {
-			const updateBoth = { readability: true, seo: true };
+			const updateAll = { readability: true, seo: true };
 			const updateNone = { readability: false, seo: false };
 			const updateReadability = { readability: true, seo: false };
 			const updateSEO = { readability: false, seo: true };
+			const updateSEOAndReadability = { readability: true, seo: true };
 
-			test( "update both when an empty configuration is passed", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateBoth );
+			test( "update all when an empty configuration is passed", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateAll );
 			} );
 
-			test( "update both when an empty configuration is passed along with null assessors", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, null, null ) ).toEqual( updateBoth );
+			test( "update all when an empty configuration is passed along with null assessors", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, null, null ) ).toEqual( updateAll );
 			} );
 
 			test( "update none when an empty configuration is passed along with non-null assessors", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, false, false ) ).toEqual( updateNone );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( {}, false, false, false ) ).toEqual( updateNone );
 			} );
 
 			test( "update readability with contentAnalysisActive", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { contentAnalysisActive: true }, false, false ) ).toEqual( updateReadability );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { contentAnalysisActive: true }, false, false, false ) )
+					.toEqual( updateReadability );
+			} );
+
+			test( "update readability with useWordComplexity", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useWordComplexity: true }, false, false, false ) )
+					.toEqual( updateReadability );
 			} );
 
 			test( "update seo with keywordAnalysisActive", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false ) ).toEqual( updateSEO );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false, false ) )
+					.toEqual( updateSEO );
 			} );
 
-			test( "update both with useCornerstone", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useCornerstone: true }, false, false ) ).toEqual( updateBoth );
+			test( "update both SEO and readability with useCornerstone", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useCornerstone: true }, false, false, false ) )
+					.toEqual( updateSEOAndReadability );
 			} );
 
 			test( "update seo with useTaxonomy", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false ) ).toEqual( updateSEO );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
 			test( "update seo with useKeywordDistribution", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false ) ).toEqual( updateSEO );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
-			test( "update both with locale", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { locale: "en_US" }, false, false ) ).toEqual( updateBoth );
+			test( "update all with locale", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { locale: "en_US" }, false, false, false ) ).toEqual( updateAll );
 			} );
 
-			test( "update both with translations", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { translations: {} }, false, false ) ).toEqual( updateBoth );
+			test( "update all with translations", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { translations: {} }, false, false, false ) ).toEqual( updateAll );
 			} );
 
 			test( "update seo with researchData", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { researchData: {} }, false, false ) ).toEqual( updateSEO );
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { researchData: {} }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
-			test( "update both with customAnalysis", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { customAnalysisType: "test" }, false, false ) ).toEqual( updateBoth );
+			test( "update both SEO and readability with customAnalysis", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { customAnalysisType: "test" }, false, false, false ) )
+					.toEqual( updateSEOAndReadability );
 			} );
 		} );
 
@@ -399,6 +409,10 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
 
+				// When switching useWordComplexity on/off.
+				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
+				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
+
 				// When changing locale.
 				scope.onmessage( createMessage( "initialize", { locale: "en_US" } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -418,6 +432,10 @@ describe( "AnalysisWebWorker", () => {
 
 				// Not when switching readability analysis on/off.
 				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: true } ) );
+				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
+
+				// Not when switching useWordComplexity on/off.
+				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
 
 				// When switching seo analysis on/off.
@@ -1186,12 +1204,12 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = false;
 			let assessor = worker.createContentAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 
 			worker._configuration.useCornerstone = true;
 			assessor = worker.createContentAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType and sets the custom content assessor if available", () => {
@@ -1209,7 +1227,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomContentAssessorClasses.type2 = SEOAssessor;
 			const assessor = worker.createContentAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default content assessor if no custom analysis type is set", () => {
@@ -1218,7 +1236,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomContentAssessorClasses.type1 = SEOAssessor;
 			const assessor = worker.createContentAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType and sets the custom cornerstone content assessor if available", () => {
@@ -1237,7 +1255,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneContentAssessorClasses.type2 = SEOAssessor;
 			const assessor = worker.createContentAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no custom analysis type is set", () => {
@@ -1246,7 +1264,34 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneContentAssessorClasses.type1 = SEOAssessor;
 			const assessor = worker.createContentAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
+		} );
+
+
+		test( "listens to useWordComplexity", () => {
+			worker._configuration.useWordComplexity = false;
+			let assessor = worker.createContentAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "contentAssessor" );
+			let assessment = assessor.getAssessment( "wordComplexity" );
+			expect( assessment ).not.toBeDefined();
+
+			worker._configuration.useWordComplexity = true;
+			assessor = worker.createContentAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "contentAssessor" );
+			assessment = assessor.getAssessment( "wordComplexity" );
+			expect( assessment ).toBeDefined();
+			expect( assessment.identifier ).toBe( "wordComplexity" );
+
+			worker._configuration.useCornerstone = true;
+			worker._configuration.useWordComplexity = true;
+			assessor = worker.createContentAssessor();
+			expect( assessor ).not.toBeNull();
+			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
+			assessment = assessor.getAssessment( "wordComplexity" );
+			expect( assessment ).toBeDefined();
+			expect( assessment.identifier ).toBe( "wordComplexity" );
 		} );
 	} );
 
@@ -1273,7 +1318,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
 		} );
 
 		test( "listens to useTaxonomy", () => {
@@ -1285,7 +1330,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useTaxonomy = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "TaxonomyAssessor" );
+			expect( assessor.type ).toBe( "taxonomyAssessor" );
 		} );
 
 		test( "listens to useKeywordDistribution", () => {
@@ -1308,7 +1353,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useKeywordDistribution = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
 			assessment = assessor.getAssessment( "keyphraseDistribution" );
 			expect( assessment ).toBeDefined();
 			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
@@ -1320,7 +1365,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomSEOAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default SEO assessor if no matching custom assessor is available", () => {
@@ -1348,7 +1393,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no matching custom assessor is available", () => {
@@ -1358,7 +1403,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneSEOAssessorClasses.type2 = contentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no custom analysis type is set", () => {
@@ -1368,7 +1413,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
 		} );
 
 		test( "adds registered assessments", () => {
@@ -1395,7 +1440,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default related keyword assessor if no matching custom assessor is available", () => {
@@ -1423,7 +1468,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no matching custom assessor is available", () => {

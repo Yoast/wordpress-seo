@@ -25,7 +25,6 @@ const wordsToStem = [
 	[ "puanını", "puan" ],
 	// Stem words end in suffixes in step a_3
 	[ "pêkirin", "pêkir" ],
-	[ "radyosu'nun", "radyosu'n" ],
 	[ "reflektörün", "reflektör" ],
 	[ "reforların", "refor" ],
 	// Stem words end in suffixes in step a_4
@@ -35,7 +34,6 @@ const wordsToStem = [
 	[ "aktarımına", "aktarım" ],
 	[ "akıbetine", "akıbet" ],
 	// Stem words end in suffixes in step a_6
-	[ "aliağa'mızda", "aliağa'mız" ],
 	[ "almakta", "almak" ],
 	[ "amatörde", "amatör" ],
 	[ "alışverişte", "alışveriş" ],
@@ -150,6 +148,15 @@ const wordsToStem = [
 	[ "samandağ", "samandak" ],
 	// A word with multiple suffixes.
 	[ "kedileriyle", "kedi" ],
+	// A word where the suffix is attached with an apostrophe
+	[ "Universitesi'ne", "universite" ],
+	[ "radyosu'nun", "radyo" ],
+	[ "aliağa'mızda", "aliağa" ],
+	[ "aliağa'da", "aliağa" ],
+	[ "Madonna'yı", "madonna" ],
+	// Words that end of an ending similar to a suffix
+	// [ "aliağa", "aliağa" ],
+	// [ "universite", "universite" ],
 ];
 describe( "Test for stemming Turkish words", () => {
 	it( "stems Turkish words", () => {

@@ -7,6 +7,9 @@
 
 /**
  * Localizes JavaScript files.
+ *
+ * @codeCoverageIgnore
+ * @deprecated 18.0
  */
 final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 
@@ -19,19 +22,27 @@ final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 
 	/**
 	 * WPSEO_Admin_Asset_Yoast_Components_L10n constructor.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 18.0
 	 */
 	public function __construct() {
+		_deprecated_constructor( __CLASS__, '18.0' );
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 
 	/**
 	 * Localizes the given script with the JavaScript translations.
 	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 18.0
+	 *
 	 * @param string $script_handle The script handle to localize for.
 	 *
 	 * @return void
 	 */
 	public function localize_script( $script_handle ) {
+		_deprecated_function( __FUNCTION__, '18.0' );
 		$translations = [
 			'yoast-components'    => $this->get_translations( 'yoast-components' ),
 			'wordpress-seo'       => $this->get_translations( 'wordpress-seojs' ),
@@ -43,10 +54,14 @@ final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 	/**
 	 * Returns translations necessary for JS files.
 	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 18.0
+	 *
 	 * @param string $component The component to retrieve the translations for.
 	 * @return object|null The translations in a Jed format for JS files.
 	 */
 	protected function get_translations( $component ) {
+		_deprecated_function( __FUNCTION__, '18.0' );
 		$locale = \get_user_locale();
 
 		$file = WPSEO_PATH . 'languages/' . $component . '-' . $locale . '.json';

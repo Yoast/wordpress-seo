@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
@@ -29,6 +30,13 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	protected $author_archive;
 
 	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper
+	 */
+	protected $pagination;
+
+	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
 	 * @codeCoverageIgnore
@@ -51,18 +59,16 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->canonical;
 		}
 
-		$permalink = $this->get_permalink();
-
-		if ( ! $permalink ) {
+		if ( ! $this->permalink ) {
 			return '';
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $permalink, $current_page );
+			return $this->pagination->get_paginated_url( $this->permalink, $current_page );
 		}
 
-		return $permalink;
+		return $this->permalink;
 	}
 
 	/**

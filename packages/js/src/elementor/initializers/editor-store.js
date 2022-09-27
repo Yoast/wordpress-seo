@@ -1,10 +1,8 @@
 import { combineReducers, registerStore } from "@wordpress/data";
-import { pickBy } from "lodash";
-import reducers from "../../redux/reducers";
-import * as actions from "../../redux/actions";
+import { pickBy, get } from "lodash";
+import { actions, reducers, selectors } from "@yoast/externals/redux";
 import * as analysisSelectors from "../redux/selectors/analysis";
 import * as controls from "../../redux/controls";
-import * as selectors from "../../redux/selectors";
 import * as snippetEditorActions from "../redux/actions/snippetEditor";
 
 /**
@@ -53,6 +51,9 @@ const populateStore = store => {
 	store.dispatch( actions.setWincherLoginStatus( window.wpseoScriptData.metabox.wincherLoginStatus, false ) );
 	store.dispatch( actions.setWincherWebsiteId( window.wpseoScriptData.metabox.wincherWebsiteId ) );
 	store.dispatch( actions.setWincherAutomaticKeyphaseTracking( window.wpseoScriptData.metabox.wincherAutoAddKeyphrases ) );
+
+	store.dispatch( actions.setDismissedAlerts( get( window, "wpseoScriptData.dismissedAlerts", {} ) ) );
+	store.dispatch( actions.setIsPremium( Boolean( get( window, "wpseoScriptData.metabox.isPremium", false ) ) ) );
 };
 
 /**

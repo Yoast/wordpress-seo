@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
 
@@ -15,13 +16,13 @@ class Options_Helper {
 	 *
 	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
-	 * @param string $key     The key it should return.
-	 * @param mixed  $default The default value that should be returned if the key isn't set.
+	 * @param string $key           The key it should return.
+	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
 	 *
-	 * @return mixed|null Returns value if found, $default if not.
+	 * @return mixed|null Returns value if found, $default_value if not.
 	 */
-	public function get( $key, $default = null ) {
-		return WPSEO_Options::get( $key, $default );
+	public function get( $key, $default_value = null ) {
+		return WPSEO_Options::get( $key, $default_value );
 	}
 
 	/**
@@ -114,5 +115,27 @@ class Options_Helper {
 	 */
 	protected function get_separator_options() {
 		return WPSEO_Option_Titles::get_instance()->get_separator_options();
+	}
+
+	/**
+	 * Checks whether a social URL is valid, with empty strings being valid social URLs.
+	 *
+	 * @param string $url The url to be checked.
+	 *
+	 * @return bool Whether the URL is valid.
+	 */
+	public function is_social_url_valid( $url ) {
+		return $url === '' || WPSEO_Option_Social::get_instance()->validate_social_url( $url );
+	}
+
+	/**
+	 * Checks whether a twitter id is valid, with empty strings being valid twitter id.
+	 *
+	 * @param string $twitter_id The twitter id to be checked.
+	 *
+	 * @return bool Whether the twitter id is valid.
+	 */
+	public function is_twitter_id_valid( $twitter_id ) {
+		return empty( $twitter_id ) || WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, false );
 	}
 }

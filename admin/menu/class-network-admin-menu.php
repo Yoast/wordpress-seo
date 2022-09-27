@@ -32,7 +32,7 @@ class WPSEO_Network_Admin_Menu extends WPSEO_Base_Menu {
 
 		add_menu_page(
 			__( 'Network Settings', 'wordpress-seo' ) . ' - Yoast SEO',
-			__( 'SEO', 'wordpress-seo' ),
+			'Yoast SEO',
 			$this->get_manage_capability(),
 			$this->get_page_identifier(),
 			[ $this, 'network_config_page' ],

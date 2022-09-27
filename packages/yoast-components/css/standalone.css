@@ -1,0 +1,13 @@
+@import "./all.css";
+
+body {
+	background: #f1f1f1;
+	font-family: arial, sans-serif;
+	line-height: 1.375; /* 22px based on default browser font size 16px. */
+}
+
+.yoast-search-result-editor {
+	width: 640px;
+	margin: 0 auto;
+	font-family: Arial, sans-serif;
+}

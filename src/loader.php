@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO;
 
+use Exception;
+use Throwable;
 use WP_CLI;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -64,62 +66,62 @@ class Loader {
 	/**
 	 * Registers an integration.
 	 *
-	 * @param string $class The class name of the integration to be loaded.
+	 * @param string $integration_class The class name of the integration to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_integration( $class ) {
-		$this->integrations[] = $class;
+	public function register_integration( $integration_class ) {
+		$this->integrations[] = $integration_class;
 	}
 
 	/**
 	 * Registers an initializer.
 	 *
-	 * @param string $class The class name of the initializer to be loaded.
+	 * @param string $initializer_class The class name of the initializer to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_initializer( $class ) {
-		$this->initializers[] = $class;
+	public function register_initializer( $initializer_class ) {
+		$this->initializers[] = $initializer_class;
 	}
 
 	/**
 	 * Registers a route.
 	 *
-	 * @param string $class The class name of the route to be loaded.
+	 * @param string $route_class The class name of the route to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_route( $class ) {
-		$this->routes[] = $class;
+	public function register_route( $route_class ) {
+		$this->routes[] = $route_class;
 	}
 
 	/**
 	 * Registers a command.
 	 *
-	 * @param string $class The class name of the command to be loaded.
+	 * @param string $command_class The class name of the command to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_command( $class ) {
-		$this->commands[] = $class;
+	public function register_command( $command_class ) {
+		$this->commands[] = $command_class;
 	}
 
 	/**
 	 * Registers a migration.
 	 *
-	 * @param string $plugin  The plugin the migration belongs to.
-	 * @param string $version The version of the migration.
-	 * @param string $class   The class name of the migration to be loaded.
+	 * @param string $plugin          The plugin the migration belongs to.
+	 * @param string $version         The version of the migration.
+	 * @param string $migration_class The class name of the migration to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_migration( $plugin, $version, $class ) {
+	public function register_migration( $plugin, $version, $migration_class ) {
 		if ( ! \array_key_exists( $plugin, $this->migrations ) ) {
 			$this->migrations[ $plugin ] = [];
 		}
 
-		$this->migrations[ $plugin ][ $version ] = $class;
+		$this->migrations[ $plugin ][ $version ] = $migration_class;
 	}
 
 	/**
@@ -166,7 +168,11 @@ class Loader {
 	 */
 	protected function load_commands() {
 		foreach ( $this->commands as $class ) {
-			$command = $this->container->get( $class );
+			$command = $this->get_class( $class );
+
+			if ( $command === null ) {
+				continue;
+			}
 
 			WP_CLI::add_command( $class::get_namespace(), $command );
 		}
@@ -183,7 +189,13 @@ class Loader {
 				continue;
 			}
 
-			$this->container->get( $class )->initialize();
+			$initializer = $this->get_class( $class );
+
+			if ( $initializer === null ) {
+				continue;
+			}
+
+			$initializer->initialize();
 		}
 	}
 
@@ -198,7 +210,13 @@ class Loader {
 				continue;
 			}
 
-			$this->container->get( $class )->register_hooks();
+			$integration = $this->get_class( $class );
+
+			if ( $integration === null ) {
+				continue;
+			}
+
+			$integration->register_hooks();
 		}
 	}
 
@@ -213,25 +231,84 @@ class Loader {
 				continue;
 			}
 
-			$this->container->get( $class )->register_routes();
+			$route = $this->get_class( $class );
+
+			if ( $route === null ) {
+				continue;
+			}
+
+			$route->register_routes();
 		}
 	}
 
 	/**
-	 * Checks if all conditionals of a given integration are met.
+	 * Checks if all conditionals of a given loadable are met.
 	 *
-	 * @param Loadable_Interface $class The class name of the integration.
+	 * @param string $loadable_class The class name of the loadable.
 	 *
-	 * @return bool Whether or not all conditionals of the integration are met.
+	 * @return bool Whether all conditionals of the loadable are met.
 	 */
-	protected function conditionals_are_met( $class ) {
-		$conditionals = $class::get_conditionals();
-		foreach ( $conditionals as $conditional ) {
-			if ( ! $this->container->get( $conditional )->is_met() ) {
+	protected function conditionals_are_met( $loadable_class ) {
+		// In production environments do not fatal if the class does not exist but log and fail gracefully.
+		if ( YOAST_ENVIRONMENT === 'production' && ! \class_exists( $loadable_class ) ) {
+			if ( \defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				\error_log(
+					\sprintf(
+						/* translators: %1$s expands to Yoast SEO, %2$s expands to the name of the class that could not be found. */
+						\__( '%1$s attempted to load the class %2$s but it could not be found.', 'wordpress-seo' ),
+						'Yoast SEO',
+						$loadable_class
+					)
+				);
+			}
+			return false;
+		}
+
+		$conditionals = $loadable_class::get_conditionals();
+		foreach ( $conditionals as $class ) {
+			$conditional = $this->get_class( $class );
+			if ( $conditional === null || ! $conditional->is_met() ) {
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Gets a class from the container.
+	 *
+	 * @param string $class The class name.
+	 *
+	 * @return object|null The class or, in production environments, null if it does not exist.
+	 *
+	 * @throws Throwable If the class does not exist in development environments.
+	 * @throws Exception If the class does not exist in development environments.
+	 */
+	protected function get_class( $class ) {
+		try {
+			return $this->container->get( $class );
+		} catch ( Throwable $e ) {
+			// In production environments do not fatal if the class could not be constructed but log and fail gracefully.
+			if ( YOAST_ENVIRONMENT === 'production' ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( $e->getMessage() );
+				}
+				return null;
+			}
+			throw $e;
+		} catch ( Exception $e ) { // Also catch Exception for PHP 5.6 compatibility.
+			// In production environments do not fatal if the class could not be constructed but log and fail gracefully.
+			if ( YOAST_ENVIRONMENT === 'production' ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( $e->getMessage() );
+				}
+				return null;
+			}
+			throw $e;
+		}
 	}
 }

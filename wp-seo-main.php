@@ -5,12 +5,6 @@
  * @package WPSEO\Main
  */
 
-use Composer\Autoload\ClassLoader;
-use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
-use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
-use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
-use Yoast\WP\SEO\Routes\Wincher_Route;
-
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -21,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '17.8-RC4' );
+define( 'WPSEO_VERSION', '19.8-RC5' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -41,8 +35,8 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
-define( 'YOAST_SEO_WP_TESTED', '5.8.1' );
-define( 'YOAST_SEO_WP_REQUIRED', '5.6' );
+define( 'YOAST_SEO_WP_TESTED', '6.0.2' );
+define( 'YOAST_SEO_WP_REQUIRED', '5.9' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );
@@ -54,11 +48,11 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 /**
  * Autoload our class files.
  *
- * @param string $class Class name.
+ * @param string $class_name Class name.
  *
  * @return void
  */
-function wpseo_auto_load( $class ) {
+function wpseo_auto_load( $class_name ) {
 	static $classes = null;
 
 	if ( $classes === null ) {
@@ -68,9 +62,9 @@ function wpseo_auto_load( $class ) {
 		];
 	}
 
-	$cn = strtolower( $class );
+	$cn = strtolower( $class_name );
 
-	if ( ! class_exists( $class ) && isset( $classes[ $cn ] ) ) {
+	if ( ! class_exists( $class_name ) && isset( $classes[ $cn ] ) ) {
 		require_once $classes[ $cn ];
 	}
 }
@@ -208,7 +202,7 @@ function _wpseo_activate() {
 	WPSEO_Options::ensure_options_exist();
 
 	if ( is_multisite() && ms_is_switched() ) {
-		delete_option( 'rewrite_rules' );
+		update_option( 'rewrite_rules', '' );
 	}
 	else {
 		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
@@ -225,7 +219,12 @@ function _wpseo_activate() {
 
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 	WPSEO_Options::set( 'first_time_install', true );
-	WPSEO_Options::set( 'should_redirect_after_install_free', true );
+	if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
+		WPSEO_Options::set( 'should_redirect_after_install_free', true );
+	}
+	else {
+		WPSEO_Options::set( 'activation_redirect_timestamp_free', \time() );
+	}
 
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();
@@ -235,10 +234,6 @@ function _wpseo_activate() {
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
-
-	// Schedule cronjob when it doesn't exists on activation.
-	$wpseo_ryte = new WPSEO_Ryte();
-	$wpseo_ryte->activate_hooks();
 
 	do_action( 'wpseo_activate' );
 }
@@ -250,7 +245,7 @@ function _wpseo_deactivate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 
 	if ( is_multisite() && ms_is_switched() ) {
-		delete_option( 'rewrite_rules' );
+		update_option( 'rewrite_rules', '' );
 	}
 	else {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
@@ -359,10 +354,6 @@ function wpseo_init() {
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
 	}
-
-	// Loading Ryte integration.
-	$wpseo_ryte = new WPSEO_Ryte();
-	$wpseo_ryte->register_hooks();
 }
 
 /**
@@ -375,9 +366,6 @@ function wpseo_init_rest_api() {
 	}
 
 	// Boot up REST API.
-	$configuration_service = new WPSEO_Configuration_Service();
-	$configuration_service->initialize();
-
 	$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
@@ -394,53 +382,6 @@ function wpseo_init_rest_api() {
  */
 function wpseo_admin_init() {
 	new WPSEO_Admin_Init();
-}
-
-/**
- * Initialize the WP-CLI integration.
- *
- * The WP-CLI integration needs PHP 5.3 support, which should be automatically
- * enforced by the check for the WP_CLI constant. As WP-CLI itself only runs
- * on PHP 5.3+, the constant should only be set when requirements are met.
- */
-function wpseo_cli_init() {
-	if ( YoastSEO()->helpers->product->is_premium() ) {
-		WP_CLI::add_command(
-			'yoast redirect list',
-			'WPSEO_CLI_Redirect_List_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect create',
-			'WPSEO_CLI_Redirect_Create_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect update',
-			'WPSEO_CLI_Redirect_Update_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect delete',
-			'WPSEO_CLI_Redirect_Delete_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect has',
-			'WPSEO_CLI_Redirect_Has_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-
-		WP_CLI::add_command(
-			'yoast redirect follow',
-			'WPSEO_CLI_Redirect_Follow_Command',
-			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
-		);
-	}
 }
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
@@ -482,10 +423,6 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	}
 
 	add_action( 'plugins_loaded', 'load_yoast_notifications' );
-
-	if ( defined( 'WP_CLI' ) && WP_CLI ) {
-		add_action( 'plugins_loaded', 'wpseo_cli_init', 20 );
-	}
 
 	add_action( 'init', [ 'WPSEO_Replace_Vars', 'setup_statics_once' ] );
 

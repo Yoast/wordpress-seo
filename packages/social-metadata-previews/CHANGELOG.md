@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Enhancements
+* The Facebook and Twitter Preview now uses image instead of a background image.
+* Export the variables TWITTER_IMAGE_SIZES, FACEBOOK_IMAGE_SIZES and  determineFacebookImageMode.
+
+
 ## 1.15.0 April 1st, 2021
 ### Enhancements
 * Removes the keyphrase highlighting in the mobile meta description to reflect new Google behavior.

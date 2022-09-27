@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import getLanguage from "../../languageProcessing/helpers/language/getLanguage";
 import wordCountInText from "./wordCountInText.js";
 import imageCount from "./imageCount.js";
@@ -52,10 +51,10 @@ export default function( paper, researcher ) {
 	const charactersPerMinuteScore = charactersPerMinute[ language ];
 
 	// The default approach of calculating the text length is by counting the words in the text.
-	let textLength = wordCountInText( paper );
+	let textLength = wordCountInText( paper ).count;
 	let minutesToReadText;
 
-	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) && charactersPerMinuteScore ) {
+	if ( charactersPerMinuteScore ) {
 		/*
 		 * If a language has a characters per minute score, we assume that the language also uses a character count helper
 		 * for retrieving the text length and a custom helper to get words from the text.

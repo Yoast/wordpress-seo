@@ -1,4 +1,5 @@
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
+import { act } from "react-dom/test-utils";
 
 global.window.wpseoAdminGlobalL10n = [];
 global.window.wpseoAdminGlobalL10n[ "links.wincher.login" ] = "test.com";
@@ -7,7 +8,12 @@ import WincherKeyphrasesTable
 	from "../../../js/src/components/WincherKeyphrasesTable";
 import { noop } from "lodash";
 import WincherTableRow from "../../src/components/WincherTableRow";
+import { trackKeyphrases } from "../../src/helpers/wincherEndpoints";
 
+jest.mock( "../../src/helpers/wincherEndpoints" );
+trackKeyphrases.mockImplementation( async fn => {
+	return fn;
+} );
 
 const keyphrases = [ "yoast seo" ];
 
@@ -50,6 +56,7 @@ describe( "WincherKeyphrasesTable", () => {
 			setRequestSucceeded={ noop }
 			addTrackedKeyphrase={ noop }
 			removeTrackedKeyphrase={ noop }
+			setHasTrackedAll={ noop }
 			permalink=""
 		/> );
 
@@ -69,14 +76,40 @@ describe( "WincherKeyphrasesTable", () => {
 			setRequestSucceeded={ noop }
 			addTrackedKeyphrase={ noop }
 			removeTrackedKeyphrase={ noop }
+			setHasTrackedAll={ noop }
 			permalink=""
 		/> );
 
-		expect( component.find( WincherTableRow ).length ).toEqual( 1 );
-		expect( component.instance().getKeyphraseData( "yoast seo" ) ).toEqual( keyphrasesData[ "yoast seo" ] );
+		const rows = component.find( WincherTableRow );
+		expect( rows.length ).toEqual( 1 );
+		expect( rows.first().props().keyphrase ).toEqual( keyphrases[ 0 ] );
 	} );
 
-	it( "should track all keyphrases", () => {
+	it( "should track all keyphrases", async() => {
+		await act( async() => {
+			mount( <WincherKeyphrasesTable
+				keyphrases={ keyphrases }
+				trackedKeyphrases={ {} }
+				onAuthentication={ noop }
+				addTrackingKeyphrase={ noop }
+				newRequest={ noop }
+				setKeyphraseLimitReached={ noop }
+				setTrackedKeyphrases={ noop }
+				setRequestFailed={ noop }
+				setRequestSucceeded={ noop }
+				addTrackedKeyphrase={ noop }
+				removeTrackedKeyphrase={ noop }
+				setHasTrackedAll={ noop }
+				isLoggedIn={ true }
+				trackAll={ true }
+				permalink=""
+			/> );
+		} );
+
+		expect( trackKeyphrases ).toHaveBeenCalledWith( keyphrases );
+	} );
+
+	it( "should add an asterisk after the focus keyphrase, even if the keyphrase contains capital letters", () => {
 		const component = shallow( <WincherKeyphrasesTable
 			keyphrases={ keyphrases }
 			trackedKeyphrases={ keyphrasesData }
@@ -89,15 +122,12 @@ describe( "WincherKeyphrasesTable", () => {
 			setRequestSucceeded={ noop }
 			addTrackedKeyphrase={ noop }
 			removeTrackedKeyphrase={ noop }
-			isLoggedIn={ true }
-			trackAll={ true }
+			setHasTrackedAll={ noop }
 			permalink=""
+			focusKeyphrase={ "Yoast SEO" }
 		/> );
 
-		const spy = jest.spyOn( component.instance(), "performTrackingRequest" );
-
-		component.instance().componentDidMount();
-
-		expect( spy ).toHaveBeenCalled();
+		const rows = component.find( WincherTableRow );
+		expect( rows.first().props().isFocusKeyphrase ).toEqual( true );
 	} );
 } );
