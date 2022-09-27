@@ -1,6 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Link, ToggleField } from "@yoast/ui-library";
+import { Badge, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
@@ -12,7 +12,6 @@ import {
 	FormikValueChangeField,
 	FormLayout,
 	OpenGraphDisabledAlert,
-	PremiumUpsellFeature,
 } from "../../components";
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
@@ -142,7 +141,16 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 					singularLabel
 				) }
 			>
-				<PremiumUpsellFeature variant="card" premiumLink={ socialAppearancePremiumLink }>
+				<FeatureUpsell
+					shouldUpsell={ ! isPremium }
+					variant="card"
+					cardLink={ socialAppearancePremiumLink }
+					cardText={ sprintf(
+						/* translators: %1$s expands to Premium. */
+						__( "Unlock with %1$s", "wordpress-seo" ),
+						"Premium"
+					) }
+				>
 					<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 					<FormikMediaSelectField
 						id={ `wpseo_titles-social-image-tax-${ name }` }
@@ -174,7 +182,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						isDisabled={ ! opengraph }
 						isDummy={ ! isPremium }
 					/>
-				</PremiumUpsellFeature>
+				</FeatureUpsell>
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout

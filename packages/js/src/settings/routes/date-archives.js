@@ -1,6 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Link } from "@yoast/ui-library";
+import { Badge, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
 import {
@@ -10,7 +10,6 @@ import {
 	FormikReplacementVariableEditorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
-	PremiumUpsellFeature,
 } from "../components";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
@@ -155,7 +154,16 @@ const DateArchives = () => {
 							label
 						) }
 					>
-						<PremiumUpsellFeature variant="card" premiumLink={ socialAppearancePremiumLink }>
+						<FeatureUpsell
+							shouldUpsell={ ! isPremium }
+							variant="card"
+							cardLink={ socialAppearancePremiumLink }
+							cardText={ sprintf(
+								/* translators: %1$s expands to Premium. */
+								__( "Unlock with %1$s", "wordpress-seo" ),
+								"Premium"
+							) }
+						>
 							<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 							<FormikMediaSelectFieldWithDummy
 								id="wpseo_titles-social-image-archive-wpseo"
@@ -187,7 +195,7 @@ const DateArchives = () => {
 								isDisabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
-						</PremiumUpsellFeature>
+						</FeatureUpsell>
 					</FieldsetLayout>
 				</AnimateHeight>
 			</div>

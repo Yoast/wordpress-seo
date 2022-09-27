@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
+import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
@@ -14,7 +14,6 @@ import {
 	FormikValueChangeField,
 	FormLayout,
 	OpenGraphDisabledAlert,
-	PremiumUpsellFeature,
 } from "../../components";
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
@@ -181,7 +180,16 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					singularLabel
 				) }
 			>
-				<PremiumUpsellFeature variant="card" premiumLink={ socialAppearancePremiumLink }>
+				<FeatureUpsell
+					shouldUpsell={ ! isPremium }
+					variant="card"
+					cardLink={ socialAppearancePremiumLink }
+					cardText={ sprintf(
+						/* translators: %1$s expands to Premium. */
+						__( "Unlock with %1$s", "wordpress-seo" ),
+						"Premium"
+					) }
+				>
 					<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 					<FormikMediaSelectFieldWithDummy
 						id={ `wpseo_titles-social-image-${ name }` }
@@ -213,7 +221,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						isDisabled={ ! opengraph }
 						isDummy={ ! isPremium }
 					/>
-				</PremiumUpsellFeature>
+				</FeatureUpsell>
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout
@@ -256,7 +264,16 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 					description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
 				/>
-				<PremiumUpsellFeature variant="card" premiumLink={ pageAnalysisPremiumLink }>
+				<FeatureUpsell
+					shouldUpsell={ ! isPremium }
+					variant="card"
+					cardLink={ pageAnalysisPremiumLink }
+					cardText={ sprintf(
+						/* translators: %1$s expands to Premium. */
+						__( "Unlock with %1$s", "wordpress-seo" ),
+						"Premium"
+					) }
+				>
 					<FormikTagFieldWithDummy
 						name={ `wpseo_titles.page-analyse-extra-${ name }` }
 						id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
@@ -265,7 +282,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						description={ customFieldsDescription }
 						isDummy={ ! isPremium }
 					/>
-				</PremiumUpsellFeature>
+				</FeatureUpsell>
 			</FieldsetLayout>
 			{ hasArchive && <>
 				<hr className="yst-my-16" />
@@ -341,7 +358,16 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							singularLabel
 						) }
 					>
-						<PremiumUpsellFeature variant="card" premiumLink={ socialAppearancePremiumLink }>
+						<FeatureUpsell
+							shouldUpsell={ ! isPremium }
+							variant="card"
+							cardLink={ socialAppearancePremiumLink }
+							cardText={ sprintf(
+								/* translators: %1$s expands to Premium. */
+								__( "Unlock with %1$s", "wordpress-seo" ),
+								"Premium"
+							) }
+						>
 							<FormikMediaSelectFieldWithDummy
 								id={ `wpseo_titles-social-image-ptarchive-${ name }` }
 								label={ __( "Social image", "wordpress-seo" ) }
@@ -372,7 +398,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								isDisabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
-						</PremiumUpsellFeature>
+						</FeatureUpsell>
 					</FieldsetLayout>
 					{ isBreadcrumbsEnabled && <>
 						<hr className="yst-my-8" />

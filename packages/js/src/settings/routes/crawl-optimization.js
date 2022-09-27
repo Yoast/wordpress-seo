@@ -1,10 +1,10 @@
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Code, TextField, ToggleField, useSvgAria } from "@yoast/ui-library";
+import { Alert, Button, Code, FeatureUpsell, TextField, ToggleField, useSvgAria } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, PremiumUpsellFeature } from "../components";
+import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout } from "../components";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
@@ -270,7 +270,7 @@ const CrawlOptimization = () => {
 				</div> }
 			</> }
 		>
-			<PremiumUpsellFeature>
+			<FeatureUpsell shouldUpsell={ ! isPremium }>
 				<FieldsetLayout
 					title={ __( "Remove unwanted metadata", "wordpress-seo" ) }
 					description={ descriptions.removeUnwantedMetadata }
@@ -614,7 +614,7 @@ const CrawlOptimization = () => {
 						isDummy={ ! isPremium }
 					/>
 				</FieldsetLayout>
-			</PremiumUpsellFeature>
+			</FeatureUpsell>
 		</FormLayout>
 	);
 };
