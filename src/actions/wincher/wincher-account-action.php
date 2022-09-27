@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Wincher_Account_Action {
 
+	const ACCOUNT_URL = 'https://api.wincher.com/beta/account';
+
 	/**
 	 * The Wincher_Client instance.
 	 *
@@ -23,8 +25,6 @@ class Wincher_Account_Action {
 	 * @var Options_Helper
 	 */
 	protected $options_helper;
-
-	const ACCOUNT_URL = 'https://api.wincher.com/beta/account';
 
 	/**
 	 * Wincher_Account_Action constructor.

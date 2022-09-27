@@ -40,6 +40,12 @@ class WPSEO_Admin_Pages {
 	 * Make sure the needed scripts are loaded for admin pages.
 	 */
 	public function init() {
+		$page = filter_input( INPUT_GET, 'page' );
+		if ( $page === 'wpseo_settings' ) {
+			// Bail, this is managed in `Yoast\WP\SEO\Integrations\Settings_Integration`.
+			return;
+		}
+
 		if ( filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
 			WPSEO_Options::reset();
 		}
@@ -58,6 +64,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'wp-admin' );
 		$this->asset_manager->enqueue_style( 'select2' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_style( 'monorepo' );
 
 		$page = filter_input( INPUT_GET, 'page' );
 		if ( $page === 'wpseo_titles' ) {
@@ -65,7 +72,7 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( $page === 'wpseo_social' || $page === 'wpseo_licenses' ) {
-			$this->asset_manager->enqueue_style( 'monorepo' );
+			$this->asset_manager->enqueue_style( 'tailwind' );
 		}
 	}
 
@@ -81,8 +88,11 @@ class WPSEO_Admin_Pages {
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
-			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'dismissedAlerts'  => $dismissed_alerts,
+			'userLanguageCode'        => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'dismissedAlerts'         => $dismissed_alerts,
+			'isRtl'                   => is_rtl(),
+			'isPremium'               => YoastSEO()->helpers->product->is_premium(),
+			'webinarIntroSettingsUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
 		];
 
 		$page = filter_input( INPUT_GET, 'page' );
@@ -101,6 +111,8 @@ class WPSEO_Admin_Pages {
 				'brushstrokeBackgroundURL'         => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
 				'showLocalSEOUpsell'               => $this->should_show_local_seo_upsell(),
 				'localSEOUpsellURL'                => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
+				'showNewsSEOUpsell'                => $this->should_show_news_seo_upsell(),
+				'newsSEOUpsellURL'                 => WPSEO_Shortlinker::get( 'https://yoa.st/get-news-settings' ),
 				'knowledgeGraphCompanyInfoMissing' => WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n(),
 				'schema'                           => [
 					'pageTypeOptions'    => $schema_types->get_page_type_options(),
@@ -121,6 +133,8 @@ class WPSEO_Admin_Pages {
 			$script_data['media'] = [
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			];
+
+			$script_data['userEditUrl'] = add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) );
 		}
 
 		if ( $page === 'wpseo_tools' ) {
@@ -128,7 +142,26 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( $page === 'wpseo_social' ) {
-			$script_data['social'] = true;
+			$user_id = WPSEO_Options::get( 'company_or_person_user_id', '' );
+			$user    = \get_userdata( $user_id );
+
+			$user_name = '';
+			if ( $user instanceof \WP_User ) {
+				$user_name = $user->get( 'display_name' );
+			}
+
+			$script_data['social'] = [
+				'facebook_url'      => WPSEO_Options::get( 'facebook_site', '' ),
+				'twitter_username'  => WPSEO_Options::get( 'twitter_site', '' ),
+				'other_social_urls' => WPSEO_Options::get( 'other_social_urls', [] ),
+				'company_or_person' => WPSEO_Options::get( 'company_or_person', '' ),
+				'user_id'           => $user_id,
+				'user_name'         => $user_name,
+			];
+
+			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_titles' );
+
+			$script_data['force_organization'] = ( defined( 'WPSEO_LOCAL_FILE' ) );
 		}
 
 		$this->asset_manager->localize_script( 'settings', 'wpseoScriptData', $script_data );
@@ -167,6 +200,18 @@ class WPSEO_Admin_Pages {
 	private function should_show_local_seo_upsell() {
 		return ! YoastSEO()->helpers->product->is_premium()
 			&& ! ( defined( 'WPSEO_LOCAL_FILE' ) );
+	}
+
+	/**
+	 * Determines whether the News SEO upsell should be shown.
+	 *
+	 * The News SEO upsell should:
+	 * - Not be shown when Local SEO is active.
+	 *
+	 * @return bool Whether the News SEO upsell should be shown.
+	 */
+	private function should_show_news_seo_upsell() {
+		return ! ( defined( 'WPSEO_NEWS_FILE' ) );
 	}
 
 	/**

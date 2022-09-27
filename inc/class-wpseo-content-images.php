@@ -72,7 +72,7 @@ class WPSEO_Content_Images {
 	 */
 	private function get_img_tag_source( $image ) {
 		preg_match( '`src=(["\'])(.*?)\1`', $image, $matches );
-		if ( isset( $matches[2] ) ) {
+		if ( isset( $matches[2] ) && filter_var( $matches[2], FILTER_VALIDATE_URL ) ) {
 			return $matches[2];
 		}
 		return false;

@@ -76,4 +76,9 @@ describe( "a test for the English Researcher", function() {
 		};
 		expect( researcher.getHelper( "fleschReadingScore" )( statistics ) ).toBe( 17.3 );
 	} );
+
+	it( "checks if a word is complex in English", function() {
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "polygonal" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "investigations" ) ).toEqual( false );
+	} );
 } );

@@ -1,4 +1,4 @@
-# The overview of the SEO assessments scoring criteria
+# Overview of the SEO assessments scoring criteria
 
 ## Keyphrase-based SEO assessments
 ### 1) Keyphrase in introduction
@@ -6,7 +6,7 @@
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a text and a keyword.
+**When it applies**: If there is a text and a keyword.
 
 **Name in code**: IntroductionKeywordAssessment
 
@@ -25,7 +25,7 @@
 
 **Uses synonyms**: no
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: KeyphraseLengthAssessment
 
@@ -45,7 +45,7 @@
 
 **Uses synonyms**: no
 
-**When applies**: If there is a text of at least 100 words and a keyword.
+**When it applies**: If there is a text of at least 100 words and a keyword.
 
 **Name in code**: KeywordDensityAssessment
 
@@ -69,7 +69,7 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a meta description and a keyword.
+**When it applies**: If there is a meta description and a keyword.
 
 **Name in code**: MetaDescriptionKeywordAssessment
 
@@ -88,7 +88,7 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Uses synonyms**: yes
 
-**When applies**: If there is is a text with at least one subheading and a keyphrase. Does not apply to taxonomies.
+**When it applies**: If there is is a text with at least one subheading and a keyphrase. Does not apply to taxonomies.
 
 **Name in code**: SubHeadingsKeywordAssessment
 
@@ -108,7 +108,7 @@ A simple model shows that as the text length (in words) goes up, the keyphrase d
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a text, a keyword and a keyword in the text that has link. Does not apply to taxonomies.
+**When it applies**: If there is a text, a keyword and a keyword in the text that has link. Does not apply to taxonomies.
 
 **Name in code**: TextCompetingLinksAssessment
 
@@ -135,7 +135,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a text. Does not apply to taxonomies.
+**When it applies**: If there is a text. Does not apply to taxonomies.
 
 **Name in code**: ImageKeyphraseAssessment
 
@@ -153,12 +153,12 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| There are less than 5 images and at least one has an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
 | Green	| 9	| There are at least 5 images and between 30 and 75% have an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
 
-### 8) Keyphrase in title
+### 8) Keyphrase in SEO title
 **What it does**: Checks if the keyphrase is used in the page title (when function words precede the keyphrase in the title they are filtered out when determining the position of the keyphrase in the title).
 
 **Uses synonyms**: no
 
-**When applies**: If there is a title and a keyword.
+**When it applies**: If there is a title and a keyword.
 
 **Name in code**: TitleKeywordAssessment
 
@@ -168,20 +168,20 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
-| Red	| 2	| You haven’t used your exact keyphrase, and, your keyphrase isn’t at the beginning		| **Keyphrase in title**: Not all the words from your keyphrase 'your_keyphrase_here' appear in the SEO title. **For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title.** |
-| Red	| 2	| You haven’t used your exact keyphrase, when the keyphrase is enclosed in quotation marks		| **Keyphrase in title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
-| Orange	| 6	| The exact match of the keyphrase doesn’t appear at the beginning of the SEO title		| **Keyphrase in title**: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. **Move it to the beginning for the best results.** |
-| Orange	| 6	| SEO title does not contain an exact match of your keyphrase		| **Keyphrase in title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
-| Green	| 9	| SEO title contains the exact match of the focus keyphrase at beginning		| **Keyphrase in title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job! |
+| Red	| 2	| You haven't used all the content words from your keyphrase and your keyphrase isn’t at the beginning		| **Keyphrase in SEO title**: Not all the words from your keyphrase 'your_keyphrase_here' appear in the SEO title. **For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title.** |
+| Red	| 2	| You haven’t used your exact keyphrase, when the keyphrase is enclosed in quotation marks		| **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
+| Orange	| 6	| The exact match of the keyphrase doesn’t appear at the beginning of the SEO title		| **Keyphrase in SEO title**: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. **Move it to the beginning for the best results.** |
+| Orange	| 6	| SEO title does not contain an exact match of your keyphrase		| **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
+| Green	| 9	| SEO title contains the exact match of the focus keyphrase at beginning		| **Keyphrase in SEO title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job! |
 
 ### 9) Keyphrase in slug
-**What it does**: Checks if the keyphrase is used in the URL.
+**What it does**: Checks if the keyphrase is used in the slug.
 
 **Uses synonyms**: no
 
-**When applies**: If there is a URL and a keyword.
+**When it applies**: If there is a slug and a keyword.
 
-**Name in code**: UrlKeywordAssessment
+**Name in code**: SlugKeywordAssessment
 
 **Title URL**: [https://yoa.st/33o](https://yoast.com/slug/#utm_source=yoast-seo&utm_medium=software&utm_term=urlkeyword-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
@@ -189,16 +189,16 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
-| Orange (in cornerstone: Red)		| 6 (in cornerstone: 3)		| Not all content words are in URL		| **Keyphrase in slug**: (Part of) your keyphrase does not appear in the slug. **Change that!** |
-| Green	| 9	| For short keyphrases (1-2 content words): All content words are in URL			| **Keyphrase in slug**: Great work! |
-| Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in URL		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
+| Orange (in cornerstone: Red)		| 6 (in cornerstone: 3)		| Not all content words are in the slug		| **Keyphrase in slug**: (Part of) your keyphrase does not appear in the slug. **Change that!** |
+| Green	| 9	| For short keyphrases (1-2 content words): All content words are in the slug			| **Keyphrase in slug**: Great work! |
+| Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in the slug		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
 
 ### 10) Previously used keywords
 **What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
 
 **Uses synonyms**: no
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: PreviouslyUsedKeyword
 
@@ -217,7 +217,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Uses synonyms**: yes
 
-**When applies**: If there is a text with at least 15 sentences and a keyword.
+**When it applies**: If there is a text with at least 15 sentences and a keyword.
 
 **Name in code**: KeyphraseDistribution
 
@@ -236,7 +236,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 1) Text length
 **What it does**: Checks if the text is long enough.
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: TextLengthAssessment
 
@@ -255,7 +255,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 2) Outbound links
 **What it does**: Checks if outbound links are present and followed.
 
-**When applies**: If there is a text.
+**When it applies**: If there is a text.
 
 **Name in code**: OutboundLinksAssessment
 
@@ -273,7 +273,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 3) Internal links
 **What it does**: Checks if internal links are present and followed.
 
-**When applies**: If there is a text.
+**When it applies**: If there is a text.
 
 **Name in code**: InternalLinksAssessment
 
@@ -291,7 +291,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 4) SEO Title width
 **What it does**: Checks if the SEO title has a good length. Note that this assessment checks the SEO title as it appears in the snippet preview. Therefore, it also takes into account the content from replacement variables.
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: PageTitleWidthAssesment
 
@@ -301,14 +301,14 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
-| Red	| 1	| No title		| **SEO title width**: Please create an SEO title. |
-| Red	| 3	| Title width > 600 px		| **SEO title width**: The SEO title wider than the viewable limit. **Try to make it shorter.** |
-| Green	| 9	| Title width between 1 px and 600 px		| **SEO title width**: Good job! |
+| Red	| 1	| No SEO title		| **SEO title width**: Please create an SEO title. |
+| Red	| 3	| SEO title width > 600 px		| **SEO title width**: The SEO title wider than the viewable limit. **Try to make it shorter.** |
+| Green	| 9	| SEO title width between 1 px and 600 px		| **SEO title width**: Good job! |
 
 ### 5) Meta description length
-**What it does**: Checks if the metadescription has a good length. The date (and the separator ' - ') length are also included in the calculation.
+**What it does**: Checks if the meta description has a good length. The date (and the separator ' - ') length are also included in the calculation, if the date is shown in the Google preview.
 
-**When applies**: Always.
+**When it applies**: Always.
 
 **Name in code**: MetaDescriptionLengthAssessment
 
@@ -326,7 +326,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 6) Single title
 **What it does**: Checks if there is an H1 heading elsewhere than at the beginning of the text.
 
-**When applies**: When there is an H1 heading elsewhere than at the beginning of the text.
+**When it applies**: When there is an H1 heading elsewhere than at the beginning of the text.
 
 **Name in code**: SingleH1Assessment
 
@@ -341,7 +341,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 7) Function words in keyphrase
 **What it does**: Checks if the keyphrase consists of only function words.
 
-**When applies**: When the keyphrase consists of only function words (and the language has function word support).
+**When it applies**: When the keyphrase consists of only function words (and the language has function word support).
 
 **Name in code**: FunctionWordsInKeyphraseAssessment
 
@@ -356,7 +356,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 ### 8) Images
 **What it does**: Checks the presence of images in the text.
 
-**When applies**: If there is a text with at least one image present.
+**When it applies**: If there is a text with at least one image present.
 
 **Name in code**: ImageCountAssessment
 

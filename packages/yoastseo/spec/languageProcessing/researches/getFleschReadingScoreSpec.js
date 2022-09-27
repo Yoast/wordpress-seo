@@ -1,38 +1,55 @@
-import fleschFunction from "../../../src/languageProcessing/researches/getFleschReadingScore";
+/* eslint-disable capitalized-comments */
+import fleschFunction, { DIFFICULTY } from "../../../src/languageProcessing/researches/getFleschReadingScore";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
-import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
-import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
-import PortugueseResearcher from "../../../src/languageProcessing/languages/pt/Researcher";
-import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
-import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
-import SpanishResearcher from "../../../src/languageProcessing/languages/es/Researcher";
 
 describe( "a test to calculate the fleschReading score", function() {
 	it( "returns a score", function() {
-		let mockPaper = new Paper( "A piece of text to calculate scores." );
-		const mockResearch = new EnglishResearcher( mockPaper );
-		expect( fleschFunction( mockPaper, mockResearch ) ).toBe( 91 );
+		let mockPaper = new Paper( "A piece of text that contains more than ten words to calculate scores." );
+		const researcher = new EnglishResearcher( mockPaper );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 89.5, difficulty: DIFFICULTY.EASY } );
 
 		mockPaper = new Paper( "One question we get quite often in our website reviews is whether we can help people recover " +
 			"from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop " +
 			"and people were actually in a bit of trouble" );
-		expect( fleschFunction( mockPaper, mockResearch ) ).toBe( 63.9 );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 63.9, difficulty: DIFFICULTY.OKAY } );
 
 		mockPaper = new Paper( "" );
-		expect( fleschFunction( mockPaper, mockResearch ) ).toBe( 0 );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: -1, difficulty: DIFFICULTY.NO_DATA } );
+	} );
+	it( "Clamps the score between 0 and 100.", () => {
+		let mockPaper = new Paper( "You can go auditorily impaired by heedfully aurally perceiving extravagantly loud music. " +
+									 "You can go auditorily impaired by heedfully aurally perceiving extravagantly loud music. " +
+									 "You can go auditorily impaired by heedfully aurally perceiving extravagantly loud music." );
+		const researcher = new EnglishResearcher( mockPaper );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 0, difficulty: DIFFICULTY.VERY_DIFFICULT } );
+
+		mockPaper = new Paper( "Hi world. Hi world. Hi world. Hi world. Hi world. Hi world. Hi world. Hi world. Hi world." );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 100, difficulty: DIFFICULTY.VERY_EASY } );
 	} );
 } );
+
 describe( "A test to check the filter of digits", function() {
 	const mockPaper = new Paper( "A text string to test with digits" );
 	const mockPaperWithDigits = new Paper( "A 456 text string to test with 123 digits" );
 	it( "should return the same for a text string with only extra digits", function() {
 		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) )
-			.toBe( fleschFunction( mockPaperWithDigits, new EnglishResearcher( mockPaperWithDigits ) ) );
+			.toEqual( fleschFunction( mockPaperWithDigits, new EnglishResearcher( mockPaperWithDigits ) ) );
 	} );
 } );
 
+describe( "A test that returns a question mark if there is not enough textual data.", function() {
+	it( "returns a question mark when there is no textual data", function() {
+		const mockPaper = new Paper( "()" );
+		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { score: -1, difficulty: DIFFICULTY.NO_DATA } );
+	} );
+	it( "returns a question mark when there is less than 11 words.", function() {
+		const mockPaper = new Paper( "There are not enough words in this sentence now." );
+		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { score: -1, difficulty: DIFFICULTY.NO_DATA } );
+	} );
+} );
+
+/*
 describe( "A test that uses the Dutch Flesch Reading", function() {
 	it( "returns a score", function() {
 		const mockPaper = new Paper( "Een kort stukje tekst in het Nederlands om te testen.", { locale: "nl_NL" } );
@@ -103,10 +120,4 @@ describe( "A test that uses the Portuguese Flesch Reading", function() {
 		expect( fleschFunction( mockPaper, new PortugueseResearcher( mockPaper ) ) ).toBe( 77.9 );
 	} );
 } );
-
-describe( "A test that returns 0 after sentence formatting", function() {
-	it( "returns a score of 0", function() {
-		const mockPaper = new Paper( "()" );
-		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
-	} );
-} );
+*/

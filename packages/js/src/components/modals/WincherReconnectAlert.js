@@ -31,7 +31,12 @@ const WincherReconnectAlert = ( props ) => {
 					mixedString: message,
 					components: {
 						// eslint-disable-next-line jsx-a11y/anchor-is-valid
-						reconnectToWincher: <a href="#" onClick={ props.onReconnect }>
+						reconnectToWincher: <a
+							href="#" onClick={ e => { // eslint-disable-line react/jsx-no-bind
+								e.preventDefault();
+								props.onReconnect();
+							} }
+						>
 							{
 								sprintf(
 									/* translators: %s : Expands to "Wincher". */

@@ -1,4 +1,5 @@
 /* External dependencies */
+import { Fragment } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -10,6 +11,7 @@ import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
 import AdvancedSettings from "../../containers/AdvancedSettings";
@@ -19,7 +21,8 @@ import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases"
 import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
 import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
-
+import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
+import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -70,13 +73,23 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					</MetaboxCollapsible>
 				</SidebarItem>
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
-					<ReadabilityAnalysis />
+					<ReadabilityAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
+					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
-					<SeoAnalysis
-						shouldUpsell={ settings.shouldUpsell }
-						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-					/>
+					<Fragment>
+						<SeoAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
+						/>
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
+					</Fragment>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 				<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
@@ -108,6 +121,9 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				>
 					<SocialMetadataPortal target="wpseo-section-social" />
 				</SidebarItem>
+				{ settings.isInsightsEnabled && <SidebarItem key="insights" renderPriority={ 52 }>
+					<InsightsCollapsible location="metabox" />
+				</SidebarItem> }
 			</Fill>
 		</>
 	);

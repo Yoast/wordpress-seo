@@ -1,29 +1,24 @@
 /* global wpseoScriptData */
+import { get } from "lodash";
 
 var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
 var $ = jQuery;
-
-/* eslint-disable no-extend-native */
-/**
- * Converts the first letter to uppercase in a string.
- *
- * @returns {string} The string with the first letter uppercased.
- */
-String.prototype.ucfirst = function() {
-	return this.charAt( 0 ).toUpperCase() + this.substr( 1 );
-};
-/* eslint-enable no-extend-native */
 
 /**
  * Creates a text with the label and description for a seo score.
  *
  * @param {String} scoreType The type of score, this is used for the label.
  * @param {String} status The status for the score, this is the descriptive status text.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
+ *
  * @returns {String} A string with label and description with correct text decoration.
  */
-function createSEOScoreLabel( scoreType, status ) {
-	return wpseoScriptData.metabox.publish_box.labels[ scoreType ][ status ] || "";
+function createSEOScoreLabel( scoreType, status, labels = null ) {
+	if ( labels !== null ) {
+		return get( labels, status, "" );
+	}
+	return get( wpseoScriptData, `metabox.publish_box.labels.${ scoreType }.${ status }`, "" );
 }
 
 /**
@@ -31,16 +26,17 @@ function createSEOScoreLabel( scoreType, status ) {
  *
  * @param {String} type The score type to update (content or seo).
  * @param {String} status The status is the class name that is used to update the image.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
  *
  * @returns {void}
  */
-export function updateScore( type, status ) {
+export function updateScore( type, status, labels = null ) {
 	var publishSection = $( "#" + type + "-score" );
 
 	var imageClass = imageScoreClass + " " + status;
 	publishSection.children( ".image" ).attr( "class", imageClass );
 
-	var text = createSEOScoreLabel( type, status );
+	var text = createSEOScoreLabel( type, status, labels );
 	publishSection.children( "." + scoreDescriptionClass ).html( text );
 }
 
@@ -49,10 +45,11 @@ export function updateScore( type, status ) {
  *
  * @param {String} type The score type, for example content score or keyword score.
  * @param {String} status The status for the score initialisation.
+ * @param {Object|null} [labels] The score labels, instead of using the free script data.
  *
  * @returns {void}
  */
-function createScoresInPublishBox( type, status ) {
+export function createScoresInPublishBox( type, status, labels = null ) {
 	var publishSection = $( "<div />", {
 		"class": "misc-pub-section yoast yoast-seo-score " + type + "-score",
 		id: type + "-score",
@@ -60,14 +57,14 @@ function createScoresInPublishBox( type, status ) {
 
 	var spanElem = $( "<span />", {
 		"class": scoreDescriptionClass,
-		html: createSEOScoreLabel( type, status ),
+		html: createSEOScoreLabel( type, status, labels ),
 	} );
 
 	var imgElem = $( "<span>" )
 		.attr( "class", imageScoreClass + " na" );
 
 	publishSection.append( imgElem ).append( spanElem );
-	$( "#yoast-seo-publishbox-section" ).prepend( publishSection );
+	$( "#yoast-seo-publishbox-section" ).append( publishSection );
 }
 
 /**
@@ -77,7 +74,7 @@ function createScoresInPublishBox( type, status ) {
  *
  * @returns {void}
  */
-function scrollToCollapsible( id ) {
+export function scrollToCollapsible( id ) {
 	const $adminbar = $( "#wpadminbar" );
 	const $collapsible = $( id );
 
@@ -133,6 +130,9 @@ export function initialize() {
 	// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
 	$( "#keyword-score" ).on( "click", "[href='#yoast-seo-analysis-collapsible-metabox']", function( event ) {
 		event.preventDefault();
+
+		// Pretend to click on the SEO tab to make it focused.
+		document.querySelector( "#wpseo-meta-tab-content" ).click();
 
 		scrollToCollapsible( "#yoast-seo-analysis-collapsible-metabox" );
 	} );

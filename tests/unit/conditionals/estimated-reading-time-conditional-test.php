@@ -9,8 +9,6 @@ use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
-
 /**
  * Class Estimated_Reading_Time_Conditional.
  *
@@ -20,6 +18,20 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional
  */
 class Estimated_Reading_Time_Conditional_Test extends TestCase {
+
+	/**
+	 * Holds the Post_Conditional instance.
+	 *
+	 * @var Post_Conditional|Mockery\MockInterface
+	 */
+	protected $post_conditional;
+
+	/**
+	 * Holds the Input_Helper instance.
+	 *
+	 * @var Input_Helper|Mockery\MockInterface
+	 */
+	protected $input_helper;
 
 	/**
 	 * The estimated reading time conditional.
@@ -47,6 +59,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when we are saving for Elementor.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @requires PHP < 8.1
 	 */
 	public function test_ajax_elementor_save() {
 		// We are in an Ajax request.
@@ -65,6 +79,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when we are not on a post, and also not in an Elementor save.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @requires PHP < 8.1
 	 */
 	public function test_not_post_not_elementor_save() {
 		// We are in an Ajax request.
@@ -143,4 +159,3 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		$this->assertEquals( true, $this->instance->is_met() );
 	}
 }
-// phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded

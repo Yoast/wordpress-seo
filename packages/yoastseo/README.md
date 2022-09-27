@@ -8,9 +8,19 @@
 
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
-![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessment.png)
+![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessments.png)
 
 Also included is a preview of the Google search results which can be assessed using the library.
+
+## Documentation
+* A list of all the [assessors](src/scoring/README.md)
+* Information on the [scoring system of the assessments](src/scoring/assessments/README.md)
+  * [SEO analysis scoring](src/scoring/assessments/SCORING%20SEO.md)
+  * [Readability analysis scoring](src/scoring/assessments/SCORING%20READABILITY.md)
+* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
+* Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
+* Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
+
 
 ## Installation
 
@@ -132,12 +142,6 @@ The following readability assessments are available for all languages:
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Documentation
-
-* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
-* Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
-* Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
 
 ## Testing
 

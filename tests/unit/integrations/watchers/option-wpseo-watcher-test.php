@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\WordProof_Helper;
+use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -31,7 +31,7 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Option_Wpseo_Watcher( Mockery::mock( WordProof_Helper::class ) );
+		$this->instance = new Option_Wpseo_Watcher( Mockery::mock( Wordproof_Helper::class ) );
 	}
 
 	/**

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Config;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
@@ -139,6 +140,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -212,6 +214,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->andReturns( $this->token );
@@ -249,6 +252,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -291,6 +295,7 @@ class OAuth_Client_Test extends TestCase {
 				'expires'       => 604800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
+				'error_count'   => 0,
 			]
 		);
 
@@ -304,6 +309,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->once()
@@ -347,6 +353,7 @@ class OAuth_Client_Test extends TestCase {
 				'expires'       => 604800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
+				'error_count'   => 0,
 			]
 		);
 
@@ -360,6 +367,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->once()
@@ -411,6 +419,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -517,6 +526,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -576,6 +586,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -651,6 +662,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -674,6 +686,12 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'refresh_token', [ 'refresh_token' => '000001' ] )
 			->andReturn( $this->response );
 
+		Functions\expect( 'get_transient' )
+			->once();
+
+		Functions\expect( 'delete_transient' )
+			->once();
+
 		$this->assertInstanceOf( OAuth_Token::class, $instance->get_tokens() );
 	}
 
@@ -696,6 +714,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -730,6 +749,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -762,6 +782,12 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'store_token' )
 			->once();
 
+		Functions\expect( 'get_transient' )
+			->once();
+
+		Functions\expect( 'delete_transient' )
+			->once();
+
 		$instance->refresh_tokens( $this->token );
 
 		$this->assertInstanceOf(
@@ -791,6 +817,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -815,6 +842,88 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'store_token' )
 			->never();
 
+		$instance
+			->expects( 'clear_token' )
+			->never();
+
+		Functions\expect( 'get_transient' )
+			->once()
+			->andReturn( false );
+
+		Functions\expect( 'set_transient' )
+			->once()
+			->andReturn( true );
+
+		Functions\expect( 'delete_transient' )
+			->once();
+
 		$instance->refresh_tokens( $this->token );
+	}
+
+	/**
+	 * Tests the refreshing of tokens which fails with an invalid_grant message.
+	 *
+	 * @covers ::refresh_tokens
+	 */
+	public function test_refresh_tokens_fails_with_invalid_grant() {
+		$this->expectException( Authentication_Failed_Exception::class );
+
+		$this->time = \time();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'oauth_token' )
+			->andReturn(
+				[
+					'access_token'  => '000000',
+					'refresh_token' => '000001',
+					'expires'       => 604800,
+					'has_expired'   => true,
+					'created_at'    => $this->time,
+					'error_count'   => 0,
+				]
+			);
+
+		$this->provider
+			->expects( 'getAccessToken' )
+			->once()
+			->with( 'refresh_token', [ 'refresh_token' => null ] )
+			->andThrow( UnexpectedValueException::class, 'invalid_grant' );
+
+		$instance = Mockery::mock(
+			OAuth_Client::class,
+			[
+				'oauth_token',
+				$this->provider,
+				$this->options_helper,
+			]
+		)
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
+
+		$instance
+			->expects( 'store_token' )
+			->never();
+
+		$instance
+			->expects( 'clear_token' )
+			->once();
+
+		Functions\expect( 'get_transient' )
+			->once()
+			->andReturn( false );
+
+		Functions\expect( 'set_transient' )
+			->once()
+			->andReturn( true );
+
+		Functions\expect( 'delete_transient' )
+			->once();
+
+		$token              = clone $this->token;
+		$token->error_count = 1;
+
+		$instance->refresh_tokens( $token );
 	}
 }

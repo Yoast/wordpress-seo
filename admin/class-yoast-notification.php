@@ -119,7 +119,7 @@ class Yoast_Notification {
 	}
 
 	/**
-	 * Retrieve the is of the user to show the notification for.
+	 * Retrieve the id of the user to show the notification for.
 	 *
 	 * Returns the id of the current user if not user has been sent.
 	 *

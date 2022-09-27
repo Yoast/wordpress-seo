@@ -1,5 +1,8 @@
-import { SET_SETTINGS } from "../actions/settings";
-import { SET_CONTENT_IMAGE } from "../actions/settings";
+import {
+	SET_SETTINGS,
+	SET_CONTENT_IMAGE,
+	UPDATE_SETTINGS,
+} from "../actions";
 
 /**
  * A reducer for settings.
@@ -19,6 +22,15 @@ export default function settingsReducer( state = {}, action ) {
 				...state,
 				socialPreviews: {
 					...newSocialPreviews,
+				},
+			};
+		}
+		case UPDATE_SETTINGS: {
+			const newSnippetEditorSettings = Object.assign( {}, state.snippetEditor, action.snippetEditor );
+			return {
+				...state,
+				snippetEditor: {
+					...newSnippetEditorSettings,
 				},
 			};
 		}

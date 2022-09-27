@@ -66,6 +66,6 @@ class Woocommerce_Helper {
 			return false;
 		}
 
-		return intval( $post->ID ) === intval( \wc_terms_and_conditions_page_id() );
+		return \intval( $post->ID ) === \intval( \wc_terms_and_conditions_page_id() );
 	}
 }

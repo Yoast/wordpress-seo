@@ -571,7 +571,11 @@ class Model implements JsonSerializable {
 	 * @return array
 	 */
 	public function __debugInfo() {
-		return $this->orm->as_array();
+		if ( $this->orm ) {
+			return $this->orm->as_array();
+		}
+
+		return [];
 	}
 
 	/**
@@ -658,7 +662,7 @@ class Model implements JsonSerializable {
 	/**
 	 * Save the data associated with this model instance to the database.
 	 *
-	 * @return null Nothing.
+	 * @return bool True on success.
 	 */
 	public function save() {
 		if ( $this->uses_timestamps ) {
@@ -674,7 +678,7 @@ class Model implements JsonSerializable {
 	/**
 	 * Delete the database row associated with this model instance.
 	 *
-	 * @return null Nothing.
+	 * @return bool|int Response of wpdb::query.
 	 */
 	public function delete() {
 		return $this->orm->delete();

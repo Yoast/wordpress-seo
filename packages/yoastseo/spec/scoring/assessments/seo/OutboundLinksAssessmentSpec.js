@@ -5,7 +5,7 @@ const linkStatisticAssessment = new OutboundLinksAssessment();
 
 const attributes = {
 	keyword: "keyword",
-	url: "http://example.com",
+	slug: "example-slug",
 };
 
 describe( "Tests outbound links assessment", function() {
@@ -120,7 +120,7 @@ describe( "tests for the assessment applicability.", function() {
 
 	it( "returns true when the paper is not empty.", function() {
 		const paper = new Paper( "sample keyword", {
-			url: "sample-with-keyword",
+			slug: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
 		expect( linkStatisticAssessment.isApplicable( paper ) ).toBe( true );

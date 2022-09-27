@@ -15,6 +15,7 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
+use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
@@ -420,19 +421,19 @@ class Elementor implements Integration_Interface {
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
-			'media'             => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'           => $this->get_metabox_script_data(),
-			'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'isPost'            => true,
-			'isBlockEditor'     => WP_Screen::get()->is_block_editor(),
-			'isElementorEditor' => true,
-			'postStatus'        => \get_post_status( $post_id ),
-			'analysis'          => [
-				'plugins'                     => $plugins_script_data,
-				'worker'                      => $worker_script_data,
-				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
+			'media'                    => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
+			'metabox'                  => $this->get_metabox_script_data(),
+			'userLanguageCode'         => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'isPost'                   => true,
+			'isBlockEditor'            => WP_Screen::get()->is_block_editor(),
+			'isElementorEditor'        => true,
+			'postStatus'               => \get_post_status( $post_id ),
+			'analysis'                 => [
+				'plugins' => $plugins_script_data,
+				'worker'  => $worker_script_data,
 			],
-			'dismissedAlerts'   => $dismissed_alerts,
+			'dismissedAlerts'          => $dismissed_alerts,
+			'webinarIntroElementorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
@@ -704,9 +705,25 @@ class Elementor implements Integration_Interface {
 
 		$custom_fields = \get_post_custom( $post->ID );
 
+		// Simply concatenate all fields containing replace vars so we can handle them all with a single regex find.
+		$replace_vars_fields = implode(
+			' ',
+			[
+				YoastSEO()->meta->for_post( $post->ID )->presentation->title,
+				YoastSEO()->meta->for_post( $post->ID )->presentation->meta_description,
+			]
+		);
+
+		preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
+		$fields_to_include = $matches[1];
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.
 			if ( \substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			// Skip custom fields that are not used, new ones will be fetched dynamically.
+			if ( ! in_array( $custom_field_name, $fields_to_include, true ) ) {
 				continue;
 			}
 

@@ -1,4 +1,4 @@
-import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessment";
+// Readbility assessments.
 import ListAssessment from "./readability/ListAssessment";
 import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
@@ -7,8 +7,9 @@ import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAs
 import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment";
 import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
-import WordComplexityAssessment from "./readability/wordComplexityAssessment";
+import WordComplexityAssessment from "./readability/WordComplexityAssessment";
 
+// SEO assessments.
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
@@ -23,14 +24,15 @@ import SingleH1Assessment from "./seo/SingleH1Assessment";
 import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
-import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment";
+import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
+import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
+import ProductSKUAssessment from "./seo/ProductSKUAssessment";
 
 const readability = {
-	FleschReadingEaseAssessment,
 	ListAssessment,
 	ParagraphTooLongAssessment,
 	PassiveVoiceAssessment,
@@ -42,6 +44,7 @@ const readability = {
 	WordComplexityAssessment,
 };
 
+// We expose the deprecated UrlKeywordAssessment for backwards compatibility.
 const seo = {
 	FunctionWordsInKeyphraseAssessment,
 	InternalLinksAssessment,
@@ -57,11 +60,14 @@ const seo = {
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,
 	TextLengthAssessment,
-	TitleKeywordAssessment,
+	KeyphraseInSEOTitleAssessment,
+	SlugKeywordAssessment,
 	UrlKeywordAssessment,
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
 	ImageAltTagsAssessment,
+	ProductIdentifiersAssessment,
+	ProductSKUAssessment,
 };
 
 export {

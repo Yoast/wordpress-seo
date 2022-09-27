@@ -230,31 +230,6 @@ class WPSEO_Sitemaps_Renderer {
 
 			$output .= "\t\t<image:image>\n";
 			$output .= "\t\t\t<image:loc>" . $this->encode_and_escape( $img['src'] ) . "</image:loc>\n";
-
-			if ( ! empty( $img['title'] ) ) {
-
-				$title = $img['title'];
-
-				if ( $this->needs_conversion ) {
-					$title = mb_convert_encoding( $title, $this->output_charset, $this->charset );
-				}
-
-				$title   = _wp_specialchars( html_entity_decode( $title, ENT_QUOTES, $this->output_charset ) );
-				$output .= "\t\t\t<image:title><![CDATA[{$title}]]></image:title>\n";
-			}
-
-			if ( ! empty( $img['alt'] ) ) {
-
-				$alt = $img['alt'];
-
-				if ( $this->needs_conversion ) {
-					$alt = mb_convert_encoding( $alt, $this->output_charset, $this->charset );
-				}
-
-				$alt     = _wp_specialchars( html_entity_decode( $alt, ENT_QUOTES, $this->output_charset ) );
-				$output .= "\t\t\t<image:caption><![CDATA[{$alt}]]></image:caption>\n";
-			}
-
 			$output .= "\t\t</image:image>\n";
 		}
 		unset( $img, $title, $alt );
@@ -294,6 +269,7 @@ class WPSEO_Sitemaps_Renderer {
 		$url = $this->encode_url_rfc3986( $url );
 		$url = esc_url( $url );
 		$url = str_replace( '&#038;', '&amp;', $url );
+		$url = str_replace( '&#039;', '&apos;', $url );
 
 		if ( strpos( $url, '//' ) === 0 ) {
 			// Schema-relative URL for which esc_url() does not add a scheme.

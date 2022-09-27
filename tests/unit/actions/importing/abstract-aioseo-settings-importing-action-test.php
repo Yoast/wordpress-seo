@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 use Brain\Monkey;
 use Exception;
 use Mockery;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Abstract_Aioseo_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -28,7 +28,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Represents the mock instance to test.
 	 *
-	 * @var Abstract_Aioseo_Settings_Importing_Action_Double
+	 * @var Abstract_Aioseo_Settings_Importing_Action
 	 */
 	protected $mock_instance;
 
@@ -87,7 +87,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->mock_instance      = Mockery::mock(
-			Abstract_Aioseo_Settings_Importing_Action_Double::class,
+			Abstract_Aioseo_Settings_Importing_Action::class,
 			[ $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
@@ -106,12 +106,12 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests the getting of the total number of unimported objects.
 	 *
+	 * @dataProvider provider_get_total_unindexed
+	 * @covers ::get_total_unindexed
+	 *
 	 * @param array $query_results            The results from the query.
 	 * @param bool  $expected_finished        Whether the importing action is finished or not.
 	 * @param int   $expected_unindexed_count The count of the total unindexed data.
-	 *
-	 * @dataProvider provider_get_total_unindexed
-	 * @covers ::get_total_unindexed
 	 */
 	public function test_get_total_unindexed( $query_results, $expected_finished, $expected_unindexed_count ) {
 		$this->mock_instance->expects( 'query' )
@@ -129,12 +129,12 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests the getting of the limited number of unimported objects.
 	 *
+	 * @dataProvider provider_get_limited_unindexed
+	 * @covers ::get_limited_unindexed_count
+	 *
 	 * @param array $query_results            The results from the query.
 	 * @param bool  $expected_finished        Whether the importing action is finished or not.
 	 * @param int   $expected_unindexed_count The limited count of the unindexed data.
-	 *
-	 * @dataProvider provider_get_limited_unindexed
-	 * @covers ::get_limited_unindexed_count
 	 */
 	public function test_get_limited_unindexed_count( $query_results, $expected_finished, $expected_unindexed_count ) {
 		$this->mock_instance->expects( 'query' )
@@ -153,12 +153,12 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests importing AIOSEO settings.
 	 *
+	 * @dataProvider provider_index
+	 * @covers ::index
+	 *
 	 * @param array $query_results             The results from the query.
 	 * @param bool  $expected_finished         Whether the importing action is expected to be finished or not.
 	 * @param array $expected_created_settings The created settings that are expected to be returned.
-	 *
-	 * @dataProvider provider_index
-	 * @covers ::index
 	 */
 	public function test_index( $query_results, $expected_finished, $expected_created_settings ) {
 		$this->mock_instance->expects( 'get_limit' )
@@ -201,13 +201,13 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests the getting of the chunk of the unimported data.
 	 *
+	 * @dataProvider provider_get_unimported_chunk
+	 * @covers ::get_unimported_chunk
+	 *
 	 * @param array  $importable_data All of the available AIOSEO settings.
 	 * @param int    $limit           The maximum number of unimported objects to be returned.
 	 * @param string $cursor          The current cursor indicating where the import has been left off.
 	 * @param array  $expected        The expected result.
-	 *
-	 * @dataProvider provider_get_unimported_chunk
-	 * @covers ::get_unimported_chunk
 	 */
 	public function test_get_unimported_chunk( $importable_data, $limit, $cursor, $expected ) {
 		$this->mock_instance->expects( 'get_cursor_id' )
@@ -235,12 +235,12 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests importing a single AIOSEO setting.
 	 *
+	 * @dataProvider provider_import_single_setting
+	 * @covers ::import_single_setting
+	 *
 	 * @param string $setting         The name of the setting.
 	 * @param string $setting_value   The values of the setting.
 	 * @param array  $setting_mapping The mapping of the setting to Yoast formats.
-	 *
-	 * @dataProvider provider_import_single_setting
-	 * @covers ::import_single_setting
 	 */
 	public function test_import_single_setting( $setting, $setting_value, $setting_mapping ) {
 		$this->options->expects( 'get_default' )

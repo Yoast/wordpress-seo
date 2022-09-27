@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class RSS_Footer_Embed_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\RSS_Footer_Embed
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end

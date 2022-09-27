@@ -5,8 +5,6 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 /**
  * Importing action for AIOSEO taxonomies settings data.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings_Importing_Action {
 
@@ -88,5 +86,23 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 				'option_name'      => 'aioseo_options_dynamic',
 			];
 		}
+	}
+
+	/**
+	 * Returns a setting map of the robot setting for post category taxonomies.
+	 *
+	 * @return array The setting map of the robot setting for post category taxonomies.
+	 */
+	public function pluck_robot_setting_from_mapping() {
+		$this->build_mapping();
+
+		foreach ( $this->aioseo_options_to_yoast_map as $setting ) {
+			// Return the first archive setting map.
+			if ( $setting['transform_method'] === 'import_noindex' && isset( $setting['subtype'] ) && $setting['subtype'] === 'category' ) {
+				return $setting;
+			}
+		}
+
+		return [];
 	}
 }

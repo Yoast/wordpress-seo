@@ -2,14 +2,14 @@
 
 namespace Yoast\WP\SEO\Config;
 
-use WordProof\SDK\Config\DefaultAppConfig;
+use YoastSEO_Vendor\WordProof\SDK\Config\DefaultAppConfig;
 
 /**
  * Class WordProof_App_Config.
  *
  * @package Yoast\WP\SEO\Config
  */
-class WordProof_App_Config extends DefaultAppConfig {
+class Wordproof_App_Config extends DefaultAppConfig {
 
 	/**
 	 * Returns the partner.
@@ -21,11 +21,11 @@ class WordProof_App_Config extends DefaultAppConfig {
 	}
 
 	/**
-	 * Returns the environment.
+	 * Returns if the WordProof Uikit should be loaded from a cdn.
 	 *
-	 * @return string The environment.
+	 * @return bool True or false.
 	 */
-	public function getEnvironment() {
-		return 'staging';
+	public function getLoadUikitFromCdn() {
+		return false;
 	}
 }

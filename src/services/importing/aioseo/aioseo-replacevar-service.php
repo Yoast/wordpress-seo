@@ -55,7 +55,7 @@ class Aioseo_Replacevar_Service {
 	 * @param string $aioseo_var The AIOSEO replacevar.
 	 * @param string $yoast_var  The Yoast replacevar.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function compose_map( $aioseo_var, $yoast_var ) {
 		$map = $this->replace_vars_map;

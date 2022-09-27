@@ -7,6 +7,9 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -48,15 +51,47 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				$help_text
 			);
 
+			$name = $integration->name;
+			if ( ! empty( $integration->premium ) && $integration->premium === true ) {
+				$name .= ' ' . new Premium_Badge_Presenter( $integration->name );
+			}
+
+			if ( ! empty( $integration->new ) && $integration->new === true ) {
+				$name .= ' ' . new Badge_Presenter( $integration->name );
+			}
+
+			$disabled            = $integration->disabled;
+			$show_premium_upsell = false;
+			$premium_upsell_url  = '';
+
+			if ( $integration->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
+				$disabled            = true;
+				$show_premium_upsell = true;
+				$premium_upsell_url  = WPSEO_Shortlinker::get( $integration->premium_upsell_url );
+			}
+
+			$preserve_disabled_value = false;
+			if ( $disabled ) {
+				$preserve_disabled_value = true;
+			}
+
 			$yform->toggle_switch(
 				WPSEO_Option::ALLOW_KEY_PREFIX . $integration->setting,
 				[
 					'on'  => __( 'Allow Control', 'wordpress-seo' ),
 					'off' => __( 'Disable', 'wordpress-seo' ),
 				],
-				$integration->name,
-				$feature_help->get_button_html() . $feature_help->get_panel_html()
+				$name,
+				$feature_help->get_button_html() . $feature_help->get_panel_html(),
+				[
+					'disabled'                => $disabled,
+					'preserve_disabled_value' => $preserve_disabled_value,
+					'show_premium_upsell'     => $show_premium_upsell,
+					'premium_upsell_url'      => $premium_upsell_url,
+				]
 			);
+
+			do_action( 'Yoast\WP\SEO\admin_network_integration_after', $integration );
 		}
 		?>
 	</div>

@@ -12,14 +12,13 @@ import TextCompetingLinksAssessment from "../../src/scoring/assessments/seo/Text
 import TextLengthAssessment from "../../src/scoring/assessments/seo/TextLengthAssessment";
 import OutboundLinksAssessment from "../../src/scoring/assessments/seo/OutboundLinksAssessment";
 import InternalLinksAssessment from "../../src/scoring/assessments/seo/InternalLinksAssessment";
-import TitleKeywordAssessment from "../../src/scoring/assessments/seo/TitleKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
 import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
-import UrlKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
+import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
 // Import content assessments
-import fleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
@@ -27,6 +26,7 @@ import TransitionWordsAssessment from "../../src/scoring/assessments/readability
 import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/PassiveVoiceAssessment";
 import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
+import WordComplexityAssessment from "../../src/scoring/assessments/readability/WordComplexityAssessment";
 // Import test papers
 import testPapers from "./testTexts";
 
@@ -102,16 +102,16 @@ testPapers.forEach( function( testPaper ) {
 			compare( new InternalLinksAssessment(), expectedResults.internalLinks );
 		} );
 
-		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-			compare( new TitleKeywordAssessment(), expectedResults.titleKeyword );
+		it( "returns a score and the associated feedback text for the keyphraseInSEOTitle assessment", function() {
+			compare( new KeyphraseInSEOTitleAssessment(), expectedResults.keyphraseInSEOTitle );
 		} );
 
 		it( "returns a score and the associated feedback text for the titleWidth assessment", function() {
 			compare( new TitleWidthAssessment(), expectedResults.titleWidth );
 		} );
 
-		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
-			compare( new UrlKeywordAssessment(), expectedResults.urlKeyword );
+		it( "returns a score and the associated feedback text for the slugKeyword assessment", function() {
+			compare( new SlugKeywordAssessment(), expectedResults.slugKeyword );
 		} );
 
 		it( "returns a score and the associated feedback text for the keyphraseDistribution assessment", function() {
@@ -119,16 +119,9 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		// Readability assessments.
-		it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
-			// The class fleschReadingEaseAssessment does not inherit from Assessment (!), so we can not use the compare() function here.
-			const isApplicable = fleschReadingAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.fleschReadingEase.isApplicable );
 
-			if ( isApplicable ) {
-				const result = fleschReadingAssessment.getResult( paper, researcher );
-				expect( result.getScore() ).toBe( expectedResults.fleschReadingEase.score );
-				expect( result.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
-			}
+		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
+			compare( new WordComplexityAssessment(), expectedResults.wordComplexity );
 		} );
 
 		it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {

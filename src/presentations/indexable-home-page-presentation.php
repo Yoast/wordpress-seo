@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Presentations;
 
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
+
 /**
  * Class Indexable_Home_Page_Presentation.
  *
@@ -10,6 +12,13 @@ namespace Yoast\WP\SEO\Presentations;
 class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 	use Archive_Adjacent;
+
+	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper
+	 */
+	protected $pagination;
 
 	/**
 	 * Generates the canonical.
@@ -21,18 +30,16 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 			return $this->model->canonical;
 		}
 
-		$permalink = $this->get_permalink();
-
-		if ( ! $permalink ) {
+		if ( ! $this->permalink ) {
 			return '';
 		}
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $permalink, $current_page );
+			return $this->pagination->get_paginated_url( $this->permalink, $current_page );
 		}
 
-		return $permalink;
+		return $this->permalink;
 	}
 
 	/**

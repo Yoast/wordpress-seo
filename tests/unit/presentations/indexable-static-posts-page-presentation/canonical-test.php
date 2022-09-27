@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Static_Posts_Page_Presentation;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -54,6 +55,14 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 1 );
 
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -72,6 +81,14 @@ class Canonical_Test extends TestCase {
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 1 );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
+				->once()
+				->andReturn( false );
 
 		$this->assertEmpty( $this->instance->generate_canonical() );
 	}
@@ -99,6 +116,14 @@ class Canonical_Test extends TestCase {
 			->once()
 			->with( 'https://example.com/permalink/', 2 )
 			->andReturn( 'https://example.com/permalink/page/2/' );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/permalink/page/2/', $this->instance->generate_canonical() );
 	}

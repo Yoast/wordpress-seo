@@ -1,9 +1,9 @@
 const Paper = require( "../../src/values/Paper" );
-const researches = [ "altTagCount", "countSentencesFromText", "findKeywordInFirstParagraph", "findKeywordInPageTitle",
+const researches = [ "altTagCount", "countSentencesFromText", "findKeywordInFirstParagraph", "findKeyphraseInSEOTitle",
 	"findTransitionWords", "functionWordsInKeyphrase", "getFleschReadingScore", "getKeywordDensity", "getLinks",
 	"getLinkStatistics", "getParagraphLength", "getPassiveVoice", "getProminentWordsForInsights", "getProminentWordsForInternalLinking",
 	"getSentenceBeginnings", "getSubheadingTextLengths", "h1s", "imageCount", "keyphraseDistribution", "keyphraseLength",
-	"keywordCount", "keywordCountInUrl", "matchKeywordInSubheadings", "metaDescriptionKeyword", "metaDescriptionLength",
+	"keywordCount", "keywordCountInSlug", "matchKeywordInSubheadings", "metaDescriptionKeyword", "metaDescriptionLength",
 	"morphology", "pageTitleWidth", "readingTime", "sentences", "wordCountInText" ];
 const Researcher = require( "../../src/researcher" );
 var fs = require( "fs" );
@@ -27,7 +27,7 @@ function assess( researcher, research, runs ) {
 	// Save all run times
 	var times = [];
 	// Loop for *run* times
-	for( var i = 0; i < runs; i++ ) {
+	for ( var i = 0; i < runs; i++ ) {
 		var researchStartTime = Date.now();
 		researcher.getResearch( research );
 		times[ times.length ] = Date.now() - researchStartTime;
@@ -44,7 +44,7 @@ function assess( researcher, research, runs ) {
 }
 
 function calculatePercentage( results, totalTime ) {
-	for( var i = 0; i < results.length; i++ )        {
+	for ( var i = 0; i < results.length; i++ )        {
 		results[ i ].percentage = ( 100 / totalTime ) * results[ i ].time;
 	}
 	return results;
@@ -67,7 +67,7 @@ function assessAll( paper, runs ) {
 	var results = [];
 	var startTime = Date.now();
 
-	for( var i = 0; i < researches.length; i++ ) {
+	for ( var i = 0; i < researches.length; i++ ) {
 		results[ results.length ] = assess( researcher, researches[ i ], runs );
 	}
 
@@ -80,13 +80,13 @@ function assessAll( paper, runs ) {
 }
 
 module.exports = {
-	doAnalysis: ({ filepath = "", locale = "en_US", runs = 1 }) => {
+	doAnalysis: ( { filepath = "", locale = "en_US", runs = 1 } ) => {
 		if ( filepath === "" ) {
 			filepath = __dirname + "/text1.html";
 		}
 
 		const text = fs.readFileSync( filepath, { encoding: "utf-8" } );
-		const paper = new Paper( text, { "locale": locale } );
+		const paper = new Paper( text, { locale: locale } );
 		paper.title = "The 100 Best U.S. Colleges and universities by State | The best schools";
 		paper.description = "" +
 			"The best colleges and universities list includes a full-fledged " +

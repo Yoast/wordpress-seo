@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Twitter;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -53,6 +54,8 @@ class Creator_Presenter_Test extends TestCase {
 
 		$this->presentation->twitter_creator = '@TwitterHandle';
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$this->assertEquals(
 			'<meta name="twitter:creator" content="@TwitterHandle" />',
 			$this->instance->present()
@@ -79,5 +82,23 @@ class Creator_Presenter_Test extends TestCase {
 		$this->presentation->twitter_creator = '@TwitterHandle';
 
 		$this->assertSame( '@TwitterHandle', $this->instance->get() );
+	}
+
+	/**
+	 * Tests the presentation for a set twitter creator when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_class() {
+		$this->stubEscapeFunctions();
+
+		$this->presentation->twitter_creator = '@TwitterHandle';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertEquals(
+			'<meta name="twitter:creator" content="@TwitterHandle" class="yoast-seo-meta-tag" />',
+			$this->instance->present()
+		);
 	}
 }

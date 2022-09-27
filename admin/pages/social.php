@@ -15,7 +15,7 @@ $yform = Yoast_Form::get_instance();
 $yform->admin_header( true, 'wpseo_social' );
 
 $social_tabs = new WPSEO_Option_Tabs( 'social' );
-$social_tabs->add_tab( new WPSEO_Option_Tab( 'accounts', __( 'Accounts', 'wordpress-seo' ) ) );
+$social_tabs->add_tab( new WPSEO_Option_Tab( 'accounts', __( 'Accounts', 'wordpress-seo' ), [ 'save_button' => false ] ) );
 $social_tabs->add_tab( new WPSEO_Option_Tab( 'facebook', __( 'Facebook', 'wordpress-seo' ) ) );
 $social_tabs->add_tab( new WPSEO_Option_Tab( 'twitterbox', __( 'Twitter', 'wordpress-seo' ) ) );
 $social_tabs->add_tab( new WPSEO_Option_Tab( 'pinterest', __( 'Pinterest', 'wordpress-seo' ) ) );

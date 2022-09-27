@@ -32,7 +32,7 @@ class Url_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->instance = new Url_Helper();
 	}
 
 	/**
@@ -70,14 +70,14 @@ class Url_Helper_Test extends TestCase {
 	 */
 	public function test_build_absolute_url_relative_url() {
 		Monkey\Functions\expect( 'home_url' )
-			->andReturn( 'home_url' );
+			->andReturn( 'https://example.com' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->withArgs( [ 'https://example.com/my-page', \PHP_URL_PATH ] )
 			->andReturn( '/my-page' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->withArgs( [ 'home_url' ] )
+			->withArgs( [ 'https://example.com' ] )
 			->andReturn(
 				[
 					'scheme' => 'https',
@@ -240,35 +240,35 @@ class Url_Helper_Test extends TestCase {
 	 * Tests the ensure absolute url with a relative url given as argument.
 	 *
 	 * @covers ::ensure_absolute_url
+	 * @covers ::is_relative
 	 */
 	public function test_ensure_absolute_url_with_relative_url_given() {
-		$this->instance
-			->expects( 'is_relative' )
-			->once()
-			->with( 'page' )
-			->andReturnTrue();
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.com' );
 
-		$this->instance
-			->expects( 'build_absolute_url' )
-			->once()
-			->with( 'page' )
-			->andReturn( 'https://example.org/page' );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->withArgs( [ 'page', \PHP_URL_PATH ] )
+			->andReturn( 'page' );
 
-		$this->assertEquals( 'https://example.org/page', $this->instance->ensure_absolute_url( 'page' ) );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->withArgs( [ 'https://example.com' ] )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
+
+		$this->assertEquals( 'https://example.com/page', $this->instance->ensure_absolute_url( 'page' ) );
 	}
 
 	/**
 	 * Tests the ensure absolute url with an absolute url given as argument.
 	 *
 	 * @covers ::ensure_absolute_url
+	 * @covers ::is_relative
 	 */
 	public function test_ensure_absolute_url_with_absolute_url_given() {
-		$this->instance
-			->expects( 'is_relative' )
-			->once()
-			->with( 'https://example.org/page' )
-			->andReturnFalse();
-
 		$this->assertEquals( 'https://example.org/page', $this->instance->ensure_absolute_url( 'https://example.org/page' ) );
 	}
 
@@ -505,6 +505,142 @@ class Url_Helper_Test extends TestCase {
 				false,
 				SEO_Links::TYPE_INTERNAL,
 				'When home_url has a path URLs that do start with it should be internal',
+			],
+		];
+	}
+
+	/**
+	 * Tests the recreate_current_url function.
+	 *
+	 * @covers ::recreate_current_url
+	 *
+	 * @dataProvider recreate_current_url_test_data
+	 *
+	 * @param array  $params   The input parameters.
+	 * @param string $expected The expected output.
+	 */
+	public function test_recreate_current_url( $params, $expected ) {
+		if ( ! empty( $params['HTTPS'] ) ) {
+			$_SERVER['HTTPS'] = $params['HTTPS'];
+		}
+
+		if ( ! empty( $params['REQUEST_URI'] ) ) {
+			$_SERVER['REQUEST_URI'] = $params['REQUEST_URI'];
+		}
+
+		if ( ! empty( $params['SERVER_NAME'] ) ) {
+			$_SERVER['SERVER_NAME'] = $params['SERVER_NAME'];
+		}
+
+		if ( ! empty( $params['SERVER_PORT'] ) ) {
+			$_SERVER['SERVER_PORT'] = $params['SERVER_PORT'];
+		}
+
+		$this->assertSame(
+			$expected,
+			$this->instance->recreate_current_url( $params['with_request_uri'] )
+		);
+
+		if ( ! empty( $params['HTTPS'] ) ) {
+			unset( $_SERVER['HTTPS'] );
+		}
+
+		if ( ! empty( $params['REQUEST_URI'] ) ) {
+			unset( $_SERVER['REQUEST_URI'] );
+		}
+
+		if ( ! empty( $params['SERVER_NAME'] ) ) {
+			unset( $_SERVER['SERVER_NAME'] );
+		}
+
+		if ( ! empty( $params['SERVER_PORT'] ) ) {
+			unset( $_SERVER['SERVER_PORT'] );
+		}
+	}
+
+	/**
+	 * Data for the test_recreate_current_url.
+	 *
+	 * @return array The test data.
+	 */
+	public function recreate_current_url_test_data() {
+		return [
+			'HTTP with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'http://foobar.tld/path',
+			],
+			'HTTP without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'http://foobar.tld',
+			],
+			'HTTPS with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'HTTPS'            => 'on',
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'https://foobar.tld/path',
+			],
+			'HTTPS without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'HTTPS'            => 'on',
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'https://foobar.tld',
+			],
+			'HTTP with port and request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => 'http://foobar.tld:8080/path',
+			],
+			'HTTP with port and without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => 'http://foobar.tld:8080',
+			],
+			'No server name with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '/path',
+			],
+			'Empty server name with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => '',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '/path',
+			],
+			'No server name with no request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '',
 			],
 		];
 	}

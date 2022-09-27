@@ -83,7 +83,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	 *
 	 * @param string $redirect_attachment The redirect_attachment setting.
 	 *
-	 * @return string The transformed redirect_attachment setting.
+	 * @return bool The transformed redirect_attachment setting.
 	 */
 	public function import_redirect_attachment( $redirect_attachment ) {
 		switch ( $redirect_attachment ) {

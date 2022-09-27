@@ -39,17 +39,19 @@ class Content_Images_Test extends TestCase {
 	public function test_get_images_from_content() {
 
 		Monkey\Functions\expect( 'get_home_url' )
-			->andReturn( 'one.wordpress.test' );
+			->andReturn( 'https://one.wordpress.test' );
 
 		$external_image1      = 'https://example.com/media/first_image.jpg';
 		$external_image2      = 'https://example.com/media/second_image.jpg';
 		$non_attachment_image = \get_home_url() . '/wp-content/plugins/wordpress-seo/tests/integration/assets/yoast.png';
+		$data_uri_image       = 'data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7';
 
 		$post_content = '<p>This is a post. It has several images:</p>
 			<img src="' . $external_image1 . '"/>
 			<img src="' . $external_image2 . '"/>
 			<img src="' . $external_image2 . '"/>
 			<img src="' . $non_attachment_image . '"/>
+			<img src="' . $data_uri_image . '"/>
 			<img src=""/>
 			<p> That were all the images. Done! </p>
 			<p>End of post</p>';

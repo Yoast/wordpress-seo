@@ -28,8 +28,8 @@ class Importable_Detector_Service {
 	/**
 	 * Returns the detected importers that have data to work with.
 	 *
-	 * @param string $plugin The plugin name of the importer.
-	 * @param string $type   The type of the importer.
+	 * @param string|null $plugin The plugin name of the importer.
+	 * @param string|null $type   The type of the importer.
 	 *
 	 * @return array The detected importers that have data to work with.
 	 */
@@ -49,7 +49,7 @@ class Importable_Detector_Service {
 	/**
 	 * Returns the detected cleanups that have data to work with.
 	 *
-	 * @param string $plugin The plugin name of the cleanup.
+	 * @param string|null $plugin The plugin name of the cleanup.
 	 *
 	 * @return array The detected importers that have data to work with.
 	 */
@@ -70,8 +70,8 @@ class Importable_Detector_Service {
 	 * Filters all import actions from a list that do not match the given Plugin or Type.
 	 *
 	 * @param Importing_Action_Interface[] $all_actions The complete list of actions.
-	 * @param string                       $plugin      The Plugin name whose actions to keep.
-	 * @param string                       $type        The type of actions to keep.
+	 * @param string|null                  $plugin      The Plugin name whose actions to keep.
+	 * @param string|null                  $type        The type of actions to keep.
 	 *
 	 * @return array
 	 */

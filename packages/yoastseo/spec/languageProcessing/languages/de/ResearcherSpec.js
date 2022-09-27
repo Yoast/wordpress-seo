@@ -75,4 +75,9 @@ describe( "a test for the German Researcher", function() {
 		};
 		expect( researcher.getHelper( "fleschReadingScore" )( testStatistics ) ).toBe( 58 );
 	} );
+
+	it( "checks if a word is complex in German", function() {
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "optimierungen" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "boxen" ) ).toEqual( false );
+	} );
 } );

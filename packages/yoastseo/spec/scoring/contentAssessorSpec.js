@@ -242,7 +242,7 @@ describe( "A content assessor", function() {
 	} );
 
 	describe( "Checks the applicable assessments", function() {
-		it( "Should have 8 available assessments for a fully supported language", function() {
+		it( "Should have 7 available assessments for a fully supported language", function() {
 			const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
 				"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
 				"signiferumque duo. At erant expetenda patrioque quo, rebum atqui nam ad, tempor elaboraret interpretaris pri ad. " +
@@ -262,12 +262,14 @@ describe( "A content assessor", function() {
 				return paper;
 			};
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 8;
+			const expected = 7;
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
-			const paper = new Paper( "test", { locale: "xx_XX" } );
+			// A text of at least 50 characters.
+			const longEnoughText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis. There is more";
+			const paper = new Paper( longEnoughText, { locale: "xx_XX" } );
 			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
 
 			contentAssessor.getPaper = function() {

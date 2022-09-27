@@ -11,8 +11,8 @@ const paper = new Paper( content, {
 	title: "完了形",
 	titleWidth: 450,
 	locale: "ja",
-	permalink: "%E5%AE%8C%E4%BA%86%E5%BD%A2",
-	url: "https://ja.wikipedia.org/wiki/%E5%AE%8C%E4%BA%86%E5%BD%A2",
+	permalink: "https://ja.wikipedia.org/wiki/%E5%AE%8C%E4%BA%86%E5%BD%A2",
+	slug: "%E5%AE%8C%E4%BA%86%E5%BD%A2",
 } );
 
 const expectedResults = {
@@ -78,10 +78,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 			"The focus keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
@@ -89,7 +89,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: false,
 	},
 	urlLength: {
@@ -106,9 +106,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
 			"Large parts of your text do not contain the keyphrase or its synonyms. " +
 			"<a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
-	},
-	fleschReadingEase: {
-		isApplicable: false,
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -157,6 +154,9 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. " +
 			"<a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: false,
 	},
 };
 

@@ -137,4 +137,8 @@ ListTable.propTypes = {
 	] ),
 };
 
+ListTable.defaultProps = {
+	children: [],
+};
+
 export { ListTable, ZebrafiedListTable };

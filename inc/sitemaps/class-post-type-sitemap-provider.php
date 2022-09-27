@@ -37,7 +37,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		add_filter( 'save_post', [ $this, 'save_post' ] );
+		add_action( 'save_post', [ $this, 'save_post' ] );
 
 		/**
 		 * Filter - Allows excluding images from the XML sitemap.
@@ -104,6 +104,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$total_count = $this->get_post_type_count( $post_type );
 
+			if ( $total_count === 0 ) {
+				continue;
+			}
+
 			$max_pages = 1;
 			if ( $total_count > $max_entries ) {
 				$max_pages = (int) ceil( $total_count / $max_entries );
@@ -129,7 +133,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
 
-				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
+				$current_page = ( $page_counter === 0 ) ? '' : ( $page_counter + 1 );
 				$date         = false;
 
 				if ( empty( $current_page ) || $current_page === $max_pages ) {
@@ -414,7 +418,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			];
 		}
 
-		return $links;
+		/**
+		 * Filters the first post type links.
+		 *
+		 * @param array $links      The first post type links.
+		 * @param string $post_type The post type this archive is for.
+		 */
+		return apply_filters( 'wpseo_sitemap_post_type_first_links', $links, $post_type );
 	}
 
 	/**

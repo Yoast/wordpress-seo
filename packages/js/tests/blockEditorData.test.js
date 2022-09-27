@@ -22,6 +22,7 @@ jest.mock( "@wordpress/data", () => {
 				getEditedPostAttribute: mockGetEditedPostAttribute,
 				getEditedPostContent: jest.fn().mockReturnValue( "" ),
 				getActiveMarker: () => null,
+				getPermalink: jest.fn().mockReturnValue( "https://www.yoast.com/" ),
 			};
 		},
 		subscribe: () => {},
@@ -100,6 +101,7 @@ describe( "collectGutenbergData", () => {
 			// eslint-disable-next-line camelcase
 			excerpt_only: "excerpt",
 			snippetPreviewImageURL: "featured-image",
+			baseUrl: "https://www.yoast.com/",
 		};
 
 		const mockGetFeaturedImage = jest.fn();

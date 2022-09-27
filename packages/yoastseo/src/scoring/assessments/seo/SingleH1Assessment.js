@@ -10,10 +10,10 @@ import AssessmentResult from "../../../values/AssessmentResult.js";
 import Mark from "../../../values/Mark.js";
 
 /**
- * Assessment to check whether the body of the text contains H1s in the body (except at the very beginning,
- * where they are acceptable).
+ * Assessment to check whether the body of the text contains more than 1 H1s in the body.
+ * This assessment doesn't penalize H1 that is not in the very beginning of the body.
  */
-class singleH1Assessment extends Assessment {
+class SingleH1Assessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -61,27 +61,13 @@ class singleH1Assessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether an H1 is in the first position of the body.
-	 *
-	 * @returns {boolean} Returns true if there is an H1 in the first position of the body.
-	 */
-	firstH1AtBeginning() {
-		return ( this._h1s[ 0 ].position === 0 );
-	}
-
-	/**
 	 * Returns the score and the feedback string for the single H1 assessment.
 	 *
 	 * @returns {Object|null} The calculated score and the feedback string.
 	 */
 	calculateResult() {
-		// Returns the default assessment result if there are no H1s in the body.
-		if ( this._h1s.length === 0 ) {
-			return;
-		}
-
-		// Returns the default assessment result if there is one H1 and it's at the beginning of the body.
-		if ( this._h1s.length === 1 && this.firstH1AtBeginning() ) {
+		// Returns the default assessment result if the h1 is not more than 1 in the body, regardless of its position.
+		if ( this._h1s.length <= 1 ) {
 			return;
 		}
 
@@ -102,21 +88,12 @@ class singleH1Assessment extends Assessment {
 	}
 
 	/**
-	 * Marks all H1s in the body of the text (except at the very beginning,
-	 * where they are acceptable and don't need to be changed).
+	 * Marks all H1s in the body of the text, regardless of their position in the text.
 	 *
 	 * @returns {Array} Array with all the marked H1s.
 	 */
 	getMarks() {
 		const h1s = this._h1s;
-
-		/*
-		 * Removes the first H1 from the array if that H1 is in the first position of the body.
-		 * The very beginning of the body is the only position where an H1 is deemed acceptable.
-		 */
-		if ( this.firstH1AtBeginning() ) {
-			h1s.shift();
-		}
 
 		return map( h1s, function( h1 ) {
 			return new Mark( {
@@ -138,4 +115,4 @@ class singleH1Assessment extends Assessment {
 	}
 }
 
-export default singleH1Assessment;
+export default SingleH1Assessment;
