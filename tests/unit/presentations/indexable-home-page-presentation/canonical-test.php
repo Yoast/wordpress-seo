@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Home_Page_Presentation;
 
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -43,6 +44,10 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_without_permalink() {
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
 			->once()
@@ -62,6 +67,10 @@ class Canonical_Test extends TestCase {
 	 */
 	public function test_without_pagination() {
 		$this->indexable->permalink = 'https://example.com/';
+
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
 
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
@@ -87,6 +96,10 @@ class Canonical_Test extends TestCase {
 	 */
 	public function test_with_pagination() {
 		$this->indexable->permalink = 'https://example.com/';
+
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
 
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
