@@ -38,7 +38,7 @@ const FeatureUpsell = ( { children, shouldUpsell = true, className = "", variant
 				/>
 				<div className="yst-absolute yst-inset-0 yst-z-20 yst-flex yst-items-center yst-justify-center">
 					<Button as="a" className="yst-gap-2 yst-shadow-lg yst-shadow-amber-700/30" variant="upsell" href={ cardLink } rel="noreferrer">
-						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1" { ...svgAriaProps } />
+						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 						{ cardText }
 					</Button>
 				</div>
