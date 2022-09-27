@@ -60,7 +60,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 
 			const response = await apiFetch( {
 				// eslint-disable-next-line camelcase
-				path: `/wp/v2/users?${ buildQueryString( { search, per_page: 20 } ) }`,
+				path: `/wp/v2/users?${ buildQueryString( { context: "edit", search, per_page: 20 } ) }`,
 				signal: abortController?.signal,
 			} );
 
