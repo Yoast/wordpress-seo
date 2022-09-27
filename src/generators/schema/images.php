@@ -142,7 +142,7 @@ class Images extends Abstract_Schema_Piece {
 		// We will try to convert it if possible.
 		if ( $image_obj->has_id() ) {
 			$image_url = $this->helpers->image->get_attachment_image_url( $image_obj->get_id(), 'full' );
-			if ( $image_obj !== '' ) {
+			if ( $image_url !== '' ) {
 				$image_obj->set_src( $image_url );
 			}
 		}
