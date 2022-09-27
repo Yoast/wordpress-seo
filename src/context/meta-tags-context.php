@@ -608,12 +608,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return null;
 		}
 
-		$url = $this->image->get_post_content_image( $this->id );
-		if ( $url === '' ) {
+		if ( count( $this->images ) === 0 ) {
 			return null;
 		}
 
-		return $url;
+		return $this->images[0]->get_src();
 	}
 
 	/**
