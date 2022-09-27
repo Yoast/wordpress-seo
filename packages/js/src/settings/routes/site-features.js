@@ -1,10 +1,11 @@
+import { LockOpenIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, ToggleField as PureToggleField, Title, Card } from "@yoast/ui-library";
+import { Alert, Badge, Button, Card, Title, ToggleField as PureToggleField, useSvgAria } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { FormikValueChangeField, FormLayout } from "../components";
 import { withDisabledMessageSupport } from "../hocs";
-import { useSelectSettings, useSelectLink } from "../hooks";
+import { useSelectLink, useSelectSettings } from "../hooks";
 
 const ToggleField = withDisabledMessageSupport( PureToggleField );
 
@@ -15,6 +16,10 @@ const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
 	const sitemapsLink = useSelectSettings( "selectLink", [], "https://yoa.st/2a-" );
+	const getInclusiveLanguageAnalysisLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-inclusive-language" );
+	const getLinkSuggestionsLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-link-suggestions" );
+	const getIndexNowLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-indexnow" );
+	const svgAriaProps = useSvgAria();
 
 	const { values } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
@@ -162,7 +167,7 @@ const SiteFeatures = () => {
 								{ __( "Inclusive language analysis", "wordpress-seo" ) }
 							</Title>
 							<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-								<Badge size="small" variant="upsell">Premium</Badge>
+								{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
 								<Badge size="small" variant="info">Beta</Badge>
 							</div>
 						</Card.Header>
@@ -170,13 +175,23 @@ const SiteFeatures = () => {
 							{ inclusiveLanguageAnalysisLink }
 						</Card.Content>
 						<Card.Footer>
-							<FormikValueChangeField
+							{ isPremium && <FormikValueChangeField
 								as={ ToggleField }
 								type="checkbox"
 								name="wpseo.inclusive_language_analysis_active"
 								data-id="input-wpseo-inclusive_language_analysis_active"
 								label={ __( "Enable feature", "wordpress-seo" ) }
-							/>
+							/> }
+							{ ! isPremium && (
+								<Button as="a" className="yst-gap-2" variant="upsell" href={ getInclusiveLanguageAnalysisLink } rel="noreferrer">
+									<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+									{ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+								</Button>
+							) }
 						</Card.Footer>
 					</Card>
 					<Card id="card-wpseo-enable_metabox_insights">
@@ -184,9 +199,6 @@ const SiteFeatures = () => {
 							<Title as="h4">
 								{ __( "Insights", "wordpress-seo" ) }
 							</Title>
-							<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-								<Badge size="small" variant="upsell">Premium</Badge>
-							</div>
 						</Card.Header>
 						<Card.Content>
 							{ insightsLink }
@@ -255,20 +267,30 @@ const SiteFeatures = () => {
 								{ __( "Link suggestions", "wordpress-seo" ) }
 							</Title>
 							<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-								<Badge size="small" variant="upsell">Premium</Badge>
+								{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
 							</div>
 						</Card.Header>
 						<Card.Content>
 							{ linkSuggestionsLink }
 						</Card.Content>
 						<Card.Footer>
-							<FormikValueChangeField
+							{ isPremium && <FormikValueChangeField
 								as={ ToggleField }
 								type="checkbox"
 								name="wpseo.enable_link_suggestions"
 								data-id="input-wpseo-enable_link_suggestions"
 								label={ __( "Enable feature", "wordpress-seo" ) }
-							/>
+							/> }
+							{ ! isPremium && (
+								<Button as="a" className="yst-gap-2" variant="upsell" href={ getLinkSuggestionsLink } rel="noreferrer">
+									<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+									{ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+								</Button>
+							) }
 						</Card.Footer>
 					</Card>
 				</div>
@@ -423,7 +445,7 @@ const SiteFeatures = () => {
 							<Title as="h4">
 								{ __( "IndexNow", "wordpress-seo" ) }
 								<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-									<Badge size="small" variant="upsell">Premium</Badge>
+									{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
 								</div>
 							</Title>
 						</Card.Header>
@@ -431,13 +453,23 @@ const SiteFeatures = () => {
 							{ indexNowLink }
 						</Card.Content>
 						<Card.Footer>
-							<FormikValueChangeField
+							{ isPremium && <FormikValueChangeField
 								as={ ToggleField }
 								type="checkbox"
 								name="wpseo.enable_index_now"
 								data-id="input-wpseo-enable_index_now"
 								label={ __( "Enable feature", "wordpress-seo" ) }
-							/>
+							/> }
+							{ ! isPremium && (
+								<Button as="a" className="yst-gap-2" variant="upsell" href={ getIndexNowLink } rel="noreferrer">
+									<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+									{ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+								</Button>
+							) }
 						</Card.Footer>
 					</Card>
 				</div>
