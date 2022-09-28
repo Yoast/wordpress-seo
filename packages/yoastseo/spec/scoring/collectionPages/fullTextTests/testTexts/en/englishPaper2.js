@@ -11,7 +11,6 @@ const paper = new Paper( content, {
 		"time travel, parallel universes, and extraterrestrial life.",
 	title: "Science fiction",
 	titleWidth: 450,
-	textTitle: "Science fiction",
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Science_fiction",
 	slug: "https://en.wikipedia.org/wiki/Science_fiction",
@@ -123,11 +122,6 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 17.26% of the words in your text are considered complex. " +
 			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

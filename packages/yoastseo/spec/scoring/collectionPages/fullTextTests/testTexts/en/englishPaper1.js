@@ -11,7 +11,6 @@ const paper = new Paper( content, {
 		"canting, or by printing the resist with a copper stamp called a cap. ",
 	title: "Koleksi Batik",
 	titleWidth: 450,
-	textTitle: "Cat play and toys",
 	locale: "en_US",
 	permalink: "https://en.wikipedia.org/wiki/Batik",
 	slug: "Batik",
@@ -128,11 +127,6 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: " +
 			"You are not using too many complex words, which makes your text easy to read. Good job!",
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify83' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 
