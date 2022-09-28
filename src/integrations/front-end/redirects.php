@@ -102,7 +102,6 @@ class Redirects implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wp', [ $this, 'archive_redirect' ] );
-		\add_action( 'wp', [ $this, 'category_redirect' ] );
 		\add_action( 'wp', [ $this, 'page_redirect' ], 99 );
 		\add_action( 'template_redirect', [ $this, 'attachment_redirect' ], 1 );
 		\add_action( 'template_redirect', [ $this, 'disable_date_queries' ] );
@@ -132,22 +131,6 @@ class Redirects implements Integration_Interface {
 	public function archive_redirect() {
 		if ( $this->need_archive_redirect() ) {
 			$this->redirect->do_safe_redirect( \get_bloginfo( 'url' ), 301 );
-		}
-	}
-
-	/**
-	 * When cat=-1 is in the url we want to strip it and redirect to the destination url.
-	 */
-	public function category_redirect() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
-		if ( isset( $_GET['cat'] ) && $_GET['cat'] === '-1' ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
-			unset( $_GET['cat'] );
-			if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- This is just a replace and the data is never saved.
-				$_SERVER['REQUEST_URI'] = str_replace( 'cat=-1', '', wp_unslash( $_SERVER['REQUEST_URI'] ) );
-			}
-			$this->redirect->do_safe_redirect( $this->url->recreate_current_url(), 301 );
 		}
 	}
 
