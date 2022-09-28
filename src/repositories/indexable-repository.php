@@ -172,8 +172,8 @@ class Indexable_Repository {
 		/**
 		 * Filter: Allow changing and reordering the indexable mapping.
 		 *
-		 * @api array $indexable_mapping The mapping.
-		 * @param Indexable_Repository $this Helper with logic for creating indexables.
+		 * @param array                $indexable_mapping The mapping.
+		 * @param Indexable_Repository $this              Helper with logic for creating indexables.
 		 */
 		$indexable_mapping = \apply_filters( 'wpseo_frontend_indexable_mapping', $indexable_mapping, $this );
 
