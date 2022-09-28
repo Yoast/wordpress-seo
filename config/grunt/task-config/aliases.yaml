@@ -127,10 +127,10 @@ release:
   - 'shell:postcss-release'
   - 'rtlcss:build'
 
-'deploy:master':
+'deploy:main':
   - 'update-version'
   - 'artifact'
-  - 'wp_deploy:master'
+  - 'wp_deploy:main'
 
 'deploy:trunk':
   - 'update-version-trunk'
