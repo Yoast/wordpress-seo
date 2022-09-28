@@ -209,11 +209,6 @@ class Article extends Abstract_Schema_Piece {
 		// Strips all other tags.
 		$post_content = \wp_strip_all_tags( $post_content );
 
-		// Remove Emoji.
-		$pattern      = \implode( '|', \_wp_emoji_list( 'partials' ) );
-		$post_content = \wp_encode_emoji( $post_content );
-		$post_content = \preg_replace( "@$pattern/@i", ' ', $post_content );
-
 		$characters = '';
 
 		if ( \preg_match( '@[а-я]@ui', $post_content ) ) {
