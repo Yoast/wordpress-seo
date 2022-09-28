@@ -2,7 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { Menu, Transition } from "@headlessui/react";
-import { DotsVerticalIcon } from "@heroicons/react/solid";
+import DotsVerticalIcon from "@heroicons/react/solid/DotsVerticalIcon";
 
 /**
  * A notification dots element with menu.

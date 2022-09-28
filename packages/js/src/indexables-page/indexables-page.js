@@ -1,8 +1,8 @@
 /* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
-import { LinkIcon } from "@heroicons/react/outline";
-import { StarIcon } from "@heroicons/react/solid";
+import LinkIcon from "@heroicons/react/outline/LinkIcon";
+import StarIcon from "@heroicons/react/solid/StarIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { createInterpolateElement, useEffect, useState, useCallback, useMemo, Fragment } from "@wordpress/element";
 import { Button, Modal, useMediaQuery, Alert } from "@yoast/ui-library";

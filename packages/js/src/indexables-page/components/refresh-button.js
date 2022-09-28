@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { RefreshIcon } from "@heroicons/react/outline";
+import RefreshIcon from "@heroicons/react/outline/RefreshIcon";
 import { __, _n, sprintf } from "@wordpress/i18n";
 
 /**

@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from "@heroicons/react/outline";
+import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
 import PropTypes from "prop-types";
 
 import { makeOutboundLink } from "@yoast/helpers";

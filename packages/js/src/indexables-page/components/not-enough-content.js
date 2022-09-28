@@ -1,6 +1,7 @@
 /* global wpseoIndexablesPageData */
 import apiFetch from "@wordpress/api-fetch";
-import { ExternalLinkIcon, PlusIcon } from "@heroicons/react/outline";
+import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
+import PlusIcon from "@heroicons/react/outline/PlusIcon";
 import { useEffect, useState, useCallback, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";

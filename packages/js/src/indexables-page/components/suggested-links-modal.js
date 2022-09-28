@@ -5,7 +5,8 @@ import { IndexableTitleLink } from "./indexable-title-link";
 import SvgIcon from "../../../../components/src/SvgIcon";
 import { range } from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
-import { ArrowNarrowRightIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/ArrowNarrowRightIcon";
+import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
 import { Alert, Badge, Button } from "@yoast/ui-library";
 import { addLinkToString } from "../../helpers/stringHelpers";
 
