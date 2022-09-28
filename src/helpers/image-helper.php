@@ -51,13 +51,6 @@ class Image_Helper {
 	private $url_helper;
 
 	/**
-	 * Holds blog charset value for use in DOM parsing.
-	 *
-	 * @var string
-	 */
-	protected $charset = 'UTF-8';
-
-	/**
 	 * Image_Helper constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
