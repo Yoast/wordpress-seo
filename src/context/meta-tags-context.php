@@ -41,7 +41,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property int          $site_user_id
  * @property string       $site_represents
  * @property array|false  $site_represents_reference
- * @property string       schema_page_type
+ * @property array|string $schema_page_type
  * @property string       $main_schema_id
  * @property string|array $main_entity_of_page
  * @property bool         $open_graph_enabled

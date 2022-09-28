@@ -26,7 +26,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function generate() {
 		$data = [
-			'@type'      => $this->context->schema_page_type,
+			'@type'      => $this->get_schema_type(),
 			'@id'        => $this->context->main_schema_id,
 			'url'        => $this->context->canonical,
 			'name'       => $this->helpers->schema->html->smart_strip_tags( $this->context->title ),
@@ -74,6 +74,23 @@ class WebPage extends Abstract_Schema_Piece {
 		$data = $this->add_potential_action( $data );
 
 		return $data;
+	}
+
+	protected function get_schema_type() {
+		$schema_type = $this->context->schema_page_type;
+
+		if ( \is_string( $schema_type ) ) {
+			return $schema_type;
+		}
+
+		// FAQPage will be added in the FAQ schema block so we do not have to add it here.
+		if ( \in_array( 'FAQPage', $schema_type, true ) ) {
+			$schema_type = \array_filter( $schema_type, function( $type ) {
+				return $type !== 'FAQPage';
+			});
+		}
+
+		return $schema_type;
 	}
 
 	/**
