@@ -75,17 +75,24 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
+		const svgAriaProps = useSvgAria();
 
-		return <button
-			className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-slate-600 yst-rounded-md yst-no-underline hover:yst-text-slate-900 hover:yst-bg-slate-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
-			onClick={ toggle }
-			{ ...ariaProps }
-		>
-			<span className="yst-flex yst-items-center yst-gap-2">
-				<ChevronIcon className="yst-flex-shrink-0 yst-h-4 yst-w-4 yst-text-slate-400 group-hover:yst-text-slate-500 yst-stroke-3" />
-				{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
-			</span>
-		</button>;
+		return (
+			<div className="yst-relative">
+				<hr className="yst-absolute yst-inset-x-0 yst-top-1/2 yst-bg-slate-200" />
+				<button
+					className="yst-relative yst-flex yst-items-center yst-gap-2 yst-px-2.5 yst-py-1 yst-mx-auto yst-text-xs yst-font-medium yst-text-slate-700 yst-bg-slate-50 yst-rounded-full yst-border yst-border-slate-300 hover:yst-bg-white hover:yst-text-slate-800 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2"
+					onClick={ toggle }
+					{ ...ariaProps }
+				>
+					{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
+					<ChevronIcon
+						className="yst-h-4 yst-w-4 yst-flex-shrink-0 yst-text-slate-400 group-hover:yst-text-slate-500 yst-stroke-3"
+						{ ...svgAriaProps }
+					/>
+				</button>
+			</div>
+		);
 	}, [] );
 
 	return <>
