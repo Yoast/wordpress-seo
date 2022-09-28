@@ -84,8 +84,8 @@ class Current_Page_Helper {
 		/**
 		 * Filter: Allow changing and reordering the page type mapping.
 		 *
-		 * @api array $page_type_mapping The mapping.
-		 * @param Current_Page_Helper $this Helper with logic to determine current page.
+		 * @param array               $page_type_mapping The mapping.
+		 * @param Current_Page_Helper $this              Helper with logic to determine current page.
 		 */
 		$page_type_mapping = \apply_filters( 'wpseo_frontend_page_type_mapping', $page_type_mapping, $this );
 
