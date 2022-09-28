@@ -373,15 +373,29 @@ import jQuery from "jquery";
 	 * @returns {void}
 	 */
 	function resolveNotificationMismatch() {
-		const $adminbarCount = jQuery( ".yoast-issue-counter .yoast-issues-count" ).first();
-		const $sidebarCount = jQuery( "#toplevel_page_wpseo_dashboard .plugin-count" );
+		const adminbarCount = jQuery( ".yoast-issue-counter .yoast-issues-count" ).first();
+		const sidebarCounts = jQuery( "#toplevel_page_wpseo_dashboard .plugin-count" );
 
-		if ( $adminbarCount.length ) {
-			$sidebarCount.text( $adminbarCount.text() );
+		if ( adminbarCount.text() === sidebarCounts.first().text() ) {
+			console.log('resolveNotificationMismatch1');
 			return;
 		}
 
-		$sidebarCount.text( "0" );
+		const sidebarClass = jQuery( "#toplevel_page_wpseo_dashboard .update-plugins" );
+		const adminbarScreenReader = jQuery( ".yoast-issue-counter .screen-reader-text" ).first();
+		const sidebarScreenReader = jQuery( "#toplevel_page_wpseo_dashboard .update-plugins .screen-reader-text" );
+
+		if ( adminbarCount.length ) {
+			sidebarCounts.text( adminbarCount.text() );
+			sidebarClass.removeClass().addClass( "update-plugins count-" + adminbarCount.text() );
+			sidebarScreenReader.text( adminbarScreenReader.text() );
+
+			return;
+		}
+
+		sidebarCounts.text( "0" );
+		sidebarClass.removeClass().addClass( "update-plugins count-0" );
+		sidebarScreenReader.remove();
 	}
 
 	/*
