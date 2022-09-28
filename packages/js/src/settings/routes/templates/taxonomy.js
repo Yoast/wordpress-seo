@@ -16,7 +16,6 @@ import {
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
 
-const FormikMediaSelectFieldWithDummy = withFormikDummyField( FormikMediaSelectField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
@@ -161,7 +160,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						disabled={ ! opengraph }
 						isDummy={ ! isPremium }
 					/>
-					<FormikReplacementVariableEditorField
+					<FormikReplacementVariableEditorFieldWithDummy
 						type="title"
 						name={ `wpseo_titles.social-title-tax-${ name }` }
 						fieldId={ `input-wpseo_titles-social-title-tax-${ name }` }
@@ -171,7 +170,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						isDisabled={ ! opengraph }
 						isDummy={ ! isPremium }
 					/>
-					<FormikReplacementVariableEditorField
+					<FormikReplacementVariableEditorFieldWithDummy
 						type="description"
 						name={ `wpseo_titles.social-description-tax-${ name }` }
 						fieldId={ `input-wpseo_titles-social-description-tax-${ name }` }

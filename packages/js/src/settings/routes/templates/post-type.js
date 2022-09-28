@@ -18,7 +18,6 @@ import {
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
 
-const FormikMediaSelectFieldWithDummy = withFormikDummyField( FormikMediaSelectField );
 const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
@@ -191,7 +190,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					) }
 				>
 					<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
-					<FormikMediaSelectFieldWithDummy
+					<FormikMediaSelectField
 						id={ `wpseo_titles-social-image-${ name }` }
 						label={ __( "Social image", "wordpress-seo" ) }
 						previewLabel={ recommendedSize }
