@@ -218,13 +218,13 @@ class Article extends Abstract_Schema_Piece {
 				'ua' => 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя',
 			];
 
-			$characters = \implode( '', $alphabet );
-			$characters = \array_unique( \mb_str_split( $characters ) );
-			$characters = \implode( '', $characters );
+			$characters  = \implode( '', $alphabet );
+			$characters  = \array_unique( \mb_str_split( $characters ) );
+			$characters  = \implode( '', $characters );
 			$characters .= \mb_strtoupper( $characters );
 		}
 
-		// Remove characters from HTML entities
+		// Remove characters from HTML entities.
 		$post_content = \preg_replace( '@&[a-z0-9]+;@i', ' ', \htmlentities( $post_content ) );
 
 		return \str_word_count( $post_content, 0, $characters );
