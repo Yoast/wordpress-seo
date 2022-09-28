@@ -377,7 +377,6 @@ import jQuery from "jquery";
 		const sidebarCounts = jQuery( "#toplevel_page_wpseo_dashboard .plugin-count" );
 
 		if ( adminbarCount.text() === sidebarCounts.first().text() ) {
-			console.log('resolveNotificationMismatch1');
 			return;
 		}
 
