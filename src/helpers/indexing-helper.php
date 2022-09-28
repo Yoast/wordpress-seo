@@ -256,6 +256,44 @@ class Indexing_Helper {
 	}
 
 	/**
+	 * Returns the amount of un-indexed posts expressed in percentage, which will be needed to set a threshold.
+	 *
+	 * @return int The amount of unindexed posts expressed in percentage.
+	 */
+	public function get_unindexed_percentage() {
+		// Sets a required value for the $indexing_actions variable.
+		$indexing_actions = 0;
+		// Gets the amount of indexed objects in the site.
+		$indexed_count = $this->$indexing_actions;
+		// Gets the amount of unindexed objects in the site.
+		$unindexed_count = $this->get_unindexed_count();
+		// The total amount af objects in the site.
+		$total_objects_count = $indexed_count + $unindexed_count;
+
+		return ( $total_objects_count * $indexed_count )/100;
+	}
+
+	/**
+	 * Returns whether the SEO optimization button should show.
+	 *
+	 * @return bool Whether the SEO optimization button should show.
+	 */
+	public function should_show_optimization_button() {
+		// Gets the amount of unindexed objects in the site.
+		$unindexed_count = $this->get_unindexed_count();
+
+		// If the amount of unidexed posts is <10 don't show configuration button.
+		if ( $unindexed_count < 10 ) {
+			return false;
+		}
+		// If the amount of unidexed posts is >10, but the total amount of unidexed posts is ≤4% of the total amount of objects in the site, don't show configuration button.
+		else if ( $unindexed_count < $this->get_unindexed_percentage() && $this->get_unindexed_percentage() <= 4 ) {
+			return false;
+		}
+		else return true;
+	}
+
+	/**
 	 * Returns the total number of unindexed objects and applies a filter for third party integrations.
 	 *
 	 * @return int The total number of unindexed objects.
