@@ -215,7 +215,7 @@ const FormikMediaSelectField = ( {
 						type="button"
 						variant="error"
 						onClick={ handleRemoveMediaClick }
-						className={ disabled && "yst-opacity-50 yst-cursor-not-allowed" }
+						className={ classNames( disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }
 						disabled={ disabled }
 					>
 						{ removeLabel }
