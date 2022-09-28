@@ -18,10 +18,7 @@ export function* fetchUsers( queryData ) {
 		// Trigger the fetch users control flow.
 		const users = yield{
 			type: FETCH_USERS_ACTION_NAME,
-			payload: {
-				context: "edit",
-				...queryData,
-			},
+			payload: { ...queryData },
 		};
 		return { type: `${ FETCH_USERS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload: users };
 	} catch ( error ) {
