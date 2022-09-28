@@ -87,6 +87,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_rel_prev() );
 	}
 
@@ -120,6 +124,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->andReturn( 'https://example.com/permalink/page/2/' );
 
 		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
 			->once()
 			->andReturn( false );
 
@@ -199,6 +207,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->andReturn( 'https://example.com/permalink/page/6/' );
 
 		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
 			->once()
 			->andReturn( false );
 
