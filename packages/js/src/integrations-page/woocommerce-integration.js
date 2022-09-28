@@ -1,9 +1,10 @@
 /* eslint-disable complexity */
 import { Button } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
 import { PropTypes } from "prop-types";
-import { LockOpenIcon } from "@heroicons/react/outline";
 import { Fragment } from "@wordpress/element";
 import { SimpleIntegration } from "./simple-integration";
 

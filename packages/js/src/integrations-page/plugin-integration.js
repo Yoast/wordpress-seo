@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import { PropTypes } from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { SimpleIntegration } from "./simple-integration";

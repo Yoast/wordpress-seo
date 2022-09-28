@@ -1,7 +1,8 @@
 import { Card } from "./tailwind-components/card";
 import { Badge, Link } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { ArrowSmRightIcon, CheckIcon } from "@heroicons/react/solid";
+import ArrowSmRightIcon from "@heroicons/react/solid/ArrowSmRightIcon";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import { PropTypes } from "prop-types";
 
 /* eslint-disable complexity */

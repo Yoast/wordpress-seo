@@ -3,8 +3,9 @@ import { Card } from "./tailwind-components/card";
 import { getIsCardActive, getIsFreeIntegrationOrPremiumAvailable, getIsMultisiteAvailable } from "./helper";
 import { Badge, Button, Link, ToggleField } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
-import { ArrowSmRightIcon, XIcon } from "@heroicons/react/solid";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import ArrowSmRightIcon from "@heroicons/react/solid/ArrowSmRightIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
 import { PropTypes } from "prop-types";
 import { Slot } from "@wordpress/components";
 
