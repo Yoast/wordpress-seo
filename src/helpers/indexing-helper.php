@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast_Notification_Center;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * A helper object for indexing.
@@ -48,20 +49,30 @@ class Indexing_Helper {
 	protected $indexing_actions;
 
 	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
 	 * Indexing_Helper constructor.
 	 *
 	 * @param Options_Helper            $options_helper      The options helper.
 	 * @param Date_Helper               $date_helper         The date helper.
 	 * @param Yoast_Notification_Center $notification_center The notification center.
+	 * @param Indexable_Repository 		$indexable_repository The indexable repository.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Date_Helper $date_helper,
-		Yoast_Notification_Center $notification_center
+		Yoast_Notification_Center $notification_center,
+		Indexable_Repository $indexable_repository
 	) {
 		$this->options_helper      = $options_helper;
 		$this->date_helper         = $date_helper;
 		$this->notification_center = $notification_center;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -262,9 +273,9 @@ class Indexing_Helper {
 	 */
 	public function get_unindexed_percentage() {
 		// Sets a required value for the $indexing_actions variable.
-		$indexing_actions = 0;
+		$indexable_repository = 0;
 		// Gets the amount of indexed objects in the site.
-		$indexed_count = $this->$indexing_actions;
+		$indexed_count = $this->$indexable_repository->get_total_indexables_number();
 		// Gets the amount of unindexed objects in the site.
 		$unindexed_count = $this->get_unindexed_count();
 		// The total amount af objects in the site.
@@ -283,14 +294,14 @@ class Indexing_Helper {
 		$unindexed_count = $this->get_unindexed_count();
 
 		// If the amount of unidexed posts is <10 don't show configuration button.
-		if ( $unindexed_count < 10 ) {
+		if ( $unindexed_count <= 10 ) {
 			return false;
 		}
 		// If the amount of unidexed posts is >10, but the total amount of unidexed posts is ≤4% of the total amount of objects in the site, don't show configuration button.
-		else if ( $unindexed_count < $this->get_unindexed_percentage() && $this->get_unindexed_percentage() <= 4 ) {
+		if ( $this->get_unindexed_percentage() <= 4 ) {
 			return false;
 		}
-		else return true;
+		return true;
 	}
 
 	/**
