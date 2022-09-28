@@ -219,10 +219,14 @@ class Article extends Abstract_Schema_Piece {
 			];
 
 			$characters  = \implode( '', $alphabet );
-			$characters  = \array_unique( \mb_str_split( $characters ) );
+//			$characters  = \array_unique( \mb_str_split( $characters ) );
+			$characters  = \array_unique( \preg_split('//u', $characters, -1, PREG_SPLIT_NO_EMPTY) );
 			$characters  = \implode( '', $characters );
 			$characters .= \mb_strtoupper( $characters );
 		}
+
+
+
 
 		// Remove characters from HTML entities.
 		$post_content = \preg_replace( '@&[a-z0-9]+;@i', ' ', \htmlentities( $post_content ) );
