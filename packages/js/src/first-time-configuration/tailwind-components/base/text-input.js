@@ -1,4 +1,5 @@
-import { ExclamationCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
+import ExclamationCircleIcon from "@heroicons/react/solid/ExclamationCircleIcon";
+import CheckCircleIcon from "@heroicons/react/solid/CheckCircleIcon";
 import classNames from "classnames";
 import { PropTypes } from "prop-types";
 import { useMemo } from "@wordpress/element";

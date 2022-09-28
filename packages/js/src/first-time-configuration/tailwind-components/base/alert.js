@@ -2,7 +2,10 @@
 // Addition: "success" case, fade in alert.
 
 import { useCallback, useState } from "@wordpress/element";
-import { InformationCircleIcon, ExclamationIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
+import CheckCircleIcon from "@heroicons/react/solid/CheckCircleIcon";
+import ExclamationIcon from "@heroicons/react/solid/ExclamationIcon";
+import InformationCircleIcon from "@heroicons/react/solid/InformationCircleIcon";
+import XCircleIcon from "@heroicons/react/solid/XCircleIcon";
 import { PropTypes } from "prop-types";
 import classNames from "classnames";
 import AnimateHeight from "react-animate-height";

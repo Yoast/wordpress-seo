@@ -1,4 +1,4 @@
-import { CheckIcon } from "@heroicons/react/solid";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import { useState, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { stepperTimingClasses } from "../stepper-helper";

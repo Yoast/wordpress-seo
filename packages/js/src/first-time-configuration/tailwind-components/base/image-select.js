@@ -1,4 +1,4 @@
-import { PhotographIcon } from "@heroicons/react/outline";
+import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";

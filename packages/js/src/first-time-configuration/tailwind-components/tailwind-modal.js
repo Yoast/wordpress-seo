@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+import XIcon from "@heroicons/react/outline/XIcon";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { noop } from "lodash";
