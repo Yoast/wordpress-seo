@@ -38,7 +38,7 @@ const SiteBasics = () => {
 			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 			"<strong>",
 			"</strong>",
-			"1200x630px"
+			"1200x675px"
 		),
 		{
 			strong: <strong className="yst-font-semibold" />,
