@@ -1,15 +1,13 @@
 /* eslint-disable complexity */
 import { PhotographIcon } from "@heroicons/react/outline";
-import { useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
-import { get, keys, map, join } from "lodash";
+import { get, join, keys, map } from "lodash";
 import PropTypes from "prop-types";
-import { useSelectSettings } from "../hooks";
-import { STORE_NAME } from "../constants";
+import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const classNameMap = {
 	variant: {
@@ -62,7 +60,7 @@ const FormikMediaSelectField = ( {
 	const mediaId = useMemo( () => get( values, mediaIdName, "" ), [ values, mediaIdName ] );
 	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
 	const fallbackMedia = useSelectSettings( "selectMediaById", [ fallbackMediaId ], fallbackMediaId );
-	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
+	const { fetchMedia, addOneMedia } = useDispatchSettings();
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
 	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
 	const previewMedia = useMemo( () => {
@@ -74,7 +72,10 @@ const FormikMediaSelectField = ( {
 		}
 		return null;
 	}, [ mediaId, media, fallbackMediaId, fallbackMedia ] );
-	const previewSrcSet = useMemo( () => join( map( media?.sizes || fallbackMedia?.sizes, size => `${ size?.url } ${size?.width}w` ), ", " ), [ media, fallbackMedia ] );
+	const previewSrcSet = useMemo(
+		() => join( map( media?.sizes || fallbackMedia?.sizes, size => `${ size?.url } ${ size?.width }w` ), ", " ),
+		[ media, fallbackMedia ]
+	);
 
 	const handleSelectMediaClick = useCallback( () => {
 		if ( isDummy ) {
@@ -151,7 +152,11 @@ const FormikMediaSelectField = ( {
 				aria-describedby={ describedBy }
 				disabled={ disabled }
 			/>
-			{ label && <Label as="legend" className={ classNames( "yst-mb-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>{ label }</Label> }
+			{ label && (
+				<Label as="legend" className={ classNames( "yst-mb-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>
+					{ label }
+				</Label>
+			) }
 			<button
 				type="button"
 				id={ `button-${ id }-preview` }
@@ -224,7 +229,9 @@ const FormikMediaSelectField = ( {
 			</div>
 			{ error && <p id={ describedByIds.error } className="yst-mt-2 yst-text-sm yst-text-red-600">{ error }</p> }
 			{ description && (
-				<p id={ describedByIds.description } className={ classNames( "yst-mt-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>{ description }</p>
+				<p id={ describedByIds.description } className={ classNames( "yst-mt-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>
+					{ description }
+				</p>
 			) }
 		</fieldset>
 	);

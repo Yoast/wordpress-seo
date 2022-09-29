@@ -1,18 +1,23 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { dispatch } from "@wordpress/data";
 import { createInterpolateElement, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
-import { STORE_NAME } from "../constants";
+import {
+	FieldsetLayout,
+	FormikMediaSelectField,
+	FormikUserSelectField,
+	FormikValueChangeField,
+	FormikWithErrorField,
+	FormLayout,
+} from "../components";
 import { fetchUserSocialProfiles } from "../helpers";
 import { withFormikError } from "../hocs";
-import { useSelectSettings } from "../hooks";
+import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const TWITTER_URL_REGEXP = /^https?:\/\/(?:www\.)?twitter\.com\/(?<handle>[A-Za-z0-9_]{1,25})\/?$/;
 
@@ -37,10 +42,10 @@ const FormikValueChangeWithErrorField = withFormikError( FormikValueChangeField 
  * @returns {JSX.Element} The person social profiles form.
  */
 const PersonSocialProfiles = () => {
+	const { addNotification } = useDispatchSettings();
 	const { values, status, setStatus, setFieldValue } = useFormikContext();
 	const { company_or_person_user_id: userId } = values.wpseo_titles;
 	const previousUserId = usePrevious( userId );
-	const { addNotification } = dispatch( STORE_NAME );
 
 	useEffect( () => {
 		if ( previousUserId === userId || userId < 1 ) {
@@ -184,7 +189,7 @@ const SiteRepresentation = () => {
 		>
 			<FieldsetLayout
 				title={ __( "Person/organization", "wordpress-seo" ) }
-				description={  __( "Choose wether your site represents an organization or a person.", "wordpress-seo" ) }
+				description={ __( "Choose whether your site represents an organization or a person.", "wordpress-seo" ) }
 			>
 				{ isLocalSeoActive && (
 					<Alert id="alert-local-seo-company-or-person" variant="info">
@@ -232,7 +237,7 @@ const SiteRepresentation = () => {
 							<Alert id="alert-organization-name-logo" variant="warning">
 								{ addLinkToString(
 									sprintf(
-									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+										// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 										__( "An organization name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
 										"<a>",
 										"</a>"
@@ -347,9 +352,9 @@ const SiteRepresentation = () => {
 							<Alert id="alert-person-user-profile">
 								{ createInterpolateElement(
 									sprintf(
-									// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
-									// %3$s and %4$s are replaced by opening and closing <a> tags.
-									// %5$s is replaced by the selected user display name.
+										// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+										// %3$s and %4$s are replaced by opening and closing <a> tags.
+										// %5$s is replaced by the selected user display name.
 										__( "You have selected the user %1$s%5$s%2$s as the person this site represents. Their user profile information will now be used in search results. %3$sUpdate their profile to make sure the information is correct%4$s.", "wordpress-seo" ),
 										"<strong>",
 										"</strong>",

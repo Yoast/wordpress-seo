@@ -1,16 +1,15 @@
 /* eslint-disable complexity */
-import { useState, useMemo, useCallback, useEffect } from "@wordpress/element";
-import PropTypes from "prop-types";
+import apiFetch from "@wordpress/api-fetch";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { buildQueryString } from "@wordpress/url";
-import { useDispatch } from "@wordpress/data";
-import { map, values, debounce, find, isEmpty, trim } from "lodash";
-import apiFetch from "@wordpress/api-fetch";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
-import { useField } from "formik";
 import classNames from "classnames";
-import { ASYNC_ACTION_STATUS, STORE_NAME } from "../constants";
-import { useSelectSettings } from "../hooks";
+import { useField } from "formik";
+import { debounce, find, isEmpty, map, trim, values } from "lodash";
+import PropTypes from "prop-types";
+import { ASYNC_ACTION_STATUS } from "../constants";
+import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 let abortController;
 
@@ -39,7 +38,7 @@ UserSelectOptionsContent.propTypes = {
  */
 const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 	const users = useSelectSettings( "selectUsers", [] );
-	const { addManyUsers } = useDispatch( STORE_NAME );
+	const { addManyUsers } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
 	const [ queriedUserIds, setQueriedUserIds ] = useState( [] );
