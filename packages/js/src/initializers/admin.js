@@ -178,21 +178,6 @@ export default function initAdmin( jQuery ) {
 	 } );
 
 	/**
-	 * Adds select2 for selected fields.
-	 *
-	 * @returns {void}
-	 */
-	function initSelect2() {
-		var select2Width = "400px";
-
-		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( "#breadcrumbs select" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-		} );
-	}
-
-	/**
 	 * Hides or shows the Author without posts toggle.
 	 *
 	 * @param {bool} visible Whether or not the authors without posts toggle should be visible.
@@ -491,7 +476,6 @@ export default function initAdmin( jQuery ) {
 
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
-		initSelect2();
 		initXmlSitemapsWarning();
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();
