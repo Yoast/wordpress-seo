@@ -279,13 +279,13 @@ class Indexing_Helper {
 	/**
 	 * Returns the amount of un-indexed posts expressed in percentage, which will be needed to set a threshold.
 	 *
+	 * @param int $unindexed_count The number of unindexed objects.
+	 *
 	 * @return int The amount of unindexed posts expressed in percentage.
 	 */
-	public function get_unindexed_percentage() {
+	public function get_unindexed_percentage( $unindexed_count ) {
 		// Gets the amount of indexed objects in the site.
 		$indexed_count = $this->indexable_repository->get_total_number_of_indexables();
-		// Gets the amount of unindexed objects in the site.
-		$unindexed_count = $this->get_unindexed_count();
 		// The total amount af objects in the site.
 		$total_objects_count = ( $indexed_count + $unindexed_count );
 
@@ -306,7 +306,7 @@ class Indexing_Helper {
 			return false;
 		}
 		// If the amount of unidexed posts is >10, but the total amount of unidexed posts is ≤4% of the total amount of objects in the site, don't show configuration button.
-		if ( $this->get_unindexed_percentage() <= 4 ) {
+		if ( $this->get_unindexed_percentage( $unindexed_count ) <= 4 ) {
 			return false;
 		}
 		return true;
