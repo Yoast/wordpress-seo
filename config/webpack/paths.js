@@ -69,6 +69,5 @@ function flattenVersionForFile( version ) {
 module.exports = {
 	entry: getEntries(),
 	jsDist: jsDistPath,
-	select2: path.resolve( "node_modules", "select2", "dist" ),
 	flattenVersionForFile,
 };

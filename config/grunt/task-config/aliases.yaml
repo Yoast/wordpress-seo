@@ -29,13 +29,11 @@
 # Build JavaScript from assets to development
 'build:js':
   - 'clean:build-assets-js'
-  - 'copy:js-dependencies'
   - 'shell:webpack'
 
 # Build CSS for development
 'build:css':
   - 'clean:build-assets-css'
-  - 'copy:css-dependencies'
   - 'copy:css-files'
   - 'shell:postcss-dev'
   - 'rtlcss:build'
@@ -116,13 +114,11 @@ release:
 'release:packages':
   - 'shell:build-ui-library'
 'release:js':
-  - 'copy:js-dependencies'
   - 'shell:webpack-prod'
 
 # Build CSS for production
 'release:css':
   - 'clean:build-assets-css'
-  - 'copy:css-dependencies'
   - 'copy:css-files'
   - 'shell:postcss-release'
   - 'rtlcss:build'
