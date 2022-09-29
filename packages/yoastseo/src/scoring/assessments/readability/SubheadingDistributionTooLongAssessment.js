@@ -10,6 +10,7 @@ import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
 import {stripIncompleteTags as stripTags} from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import subheadingsTooLong from "../../../languageProcessing/languages/ja/config/subheadingsTooLong";
+import countWords from "../../../languageProcessing/helpers/word/countWords";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -275,9 +276,17 @@ class SubheadingsDistributionTooLong extends Assessment {
 			};
 		}
 
+		// Give specific feedback for cases where the post starts with a long text without subheadings
+		// Find first subheading
+		const firstSubheading = [ ...text.matchAll( new RegExp( "<h([1])(?:[^>]+)?>(.*?)<\\/h\\1>", "ig" ) ) ];
+		// Retrieve text preceding first subheading
+		const textPrecedingH1 = firstSubheading[ i - 1];
+		// Return length of the text preceding first subheading
+		const textPrecedingH1Length = [];
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		customCountLength ? customCountLength( textPrecedingH1 ) : countWords( textPrecedingH1 )
 
-		const textPrecedingFirstSubheading = str.substring(0, str.indexOf('<h1></h1>'));
-		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
+		if ( textPrecedingH1Length > this._config.applicableIfTextLongerThan ) {
 			// Red indicator.
 			return {
 				score: this._config.scores.badLongTextBeforeSubheadings,
