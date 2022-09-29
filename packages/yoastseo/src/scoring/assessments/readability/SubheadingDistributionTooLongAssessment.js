@@ -1,15 +1,14 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { filter, map, merge } from "lodash-es";
-import marker from "../../../../src/markers/addMark";
-import Mark from "../../../../src/values/Mark";
+import marker from "../../../markers/addMark";
+import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
-import addMark from "../../../markers/addMark";
-import {stripIncompleteTags as stripTags} from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -88,7 +87,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		if ( calculatedResult.score > 2 && calculatedResult.score < 7 ) {
 			assessmentResult.setHasMarks( true );
-			assessmentResult.setMarker( this.getMarks() );
 		}
 
 		return assessmentResult;
@@ -155,18 +153,20 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 	/**
 	 * Creates a marker for each subheading that precedes a text that is too long.
+	 *
 	 * @returns {Array} All markers for the current text.
 	 */
-	getMarks( paper, researcher ) {
-		const subheadingsCount = researcher.getResearch( "getSubheadingTextLength" );
-		return map( subheadingsCount.getTooLongSubheadingTexts(), function( subheadings ) {
-			const marked = marker( subheadings );
+	getMarks() {
+		return map( this.getTooLongSubheadingTexts(), function( { text } ) {
+			text = stripTags( text );
+			const marked = marker( text );
 			return new Mark( {
-				original: subheadings,
+				original: text,
 				marked: marked,
 			} );
 		} );
 	}
+
 	/**
 	 * Counts the number of subheading texts that are too long.
 	 *
