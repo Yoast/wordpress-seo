@@ -1,14 +1,15 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { filter, map, merge } from "lodash-es";
+import {filter, map, merge} from "lodash-es";
 import marker from "../../../markers/addMark";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
+import {stripIncompleteTags as stripTags} from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+import subheadingsTooLong from "../../../languageProcessing/languages/ja/config/subheadingsTooLong";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -40,6 +41,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				okSubheadings: 6,
 				badSubheadings: 3,
 				badLongTextNoSubheadings: 2,
+				badLongTextBeforeSubheadings: 2,
 			},
 			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
@@ -157,11 +159,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks() {
-		return map( this.getTooLongSubheadingTexts(), function( { text } ) {
-			text = stripTags( text );
-			const marked = marker( text );
+		console.log( this.getTooLongSubheadingTexts() );
+		return map( this.getTooLongSubheadingTexts(), function( { subheading } ) {
+			subheading = stripTags( subheading );
+			const marked = marker( subheading );
 			return new Mark( {
-				original: text,
+				original: subheading,
 				marked: marked,
 			} );
 		} );
@@ -262,7 +265,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
 						// eslint-disable-next-line max-len
-						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
+						"%1$sSubheading distribution%2$s: fYou are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -271,6 +274,27 @@ class SubheadingsDistributionTooLong extends Assessment {
 				),
 			};
 		}
+
+
+		const textPrecedingFirstSubheading = str.substring(0, str.indexOf('<h1></h1>'));
+		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
+			// Red indicator.
+			return {
+				score: this._config.scores.badLongTextBeforeSubheadings,
+				resultText: sprintf(
+					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+					__(
+						// eslint-disable-next-line max-len
+						"The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>",
+					this._config.urlCallToAction
+				),
+			};
+		}
+
 		if ( this._hasSubheadings ) {
 			// Green indicator.
 			return {
