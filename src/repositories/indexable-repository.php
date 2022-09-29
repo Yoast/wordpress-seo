@@ -541,7 +541,7 @@ class Indexable_Repository {
 	 *
 	 * @return int The total number of stored indexables.
 	 */
-	public function get_total_indexables_number() {
+	public function get_total_number_of_indexables() {
 		return $this->query()->count();
 	}
 }
