@@ -15,14 +15,17 @@ export default function( paper, researcher ) {
 	const text = excludeTableOfContentsTag( paper.getText() );
 	const matches = getSubheadingTexts( text );
 
+	//return an array of objecs with subheading and text
+
 	// An optional custom helper to count length to use instead of countWords.
 	const customCountLength = researcher.getHelper( "customCountLength" );
 
 	const subHeadingTexts = [];
-	forEach( matches, function( subHeading ) {
+	forEach( matches, function( match) {
 		subHeadingTexts.push( {
-			text: subHeading,
-			countLength: customCountLength ? customCountLength( subHeading ) : countWords( subHeading ),
+			subheading: match.subheading,
+			text: match.text,
+			countLength: customCountLength ? customCountLength( match.text ) : countWords( match.text ),
 		} );
 	} );
 	return subHeadingTexts;

@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash-es";
+import { isEmpty, isUndefined } from "lodash-es";
 
 /**
  * Returns all texts per subheading.
@@ -16,15 +16,29 @@ export default function( text ) {
 	 then replace all headings with a | and split on a |.
 	 */
 	text = text.replace( /\|/ig, "" );
-	text = text.replace( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig, "|" );
+	const subheadingBlocks = [ ...text.matchAll( new RegExp( "<h([1-6])(?:[^>]+)?>(.*?)<\\/h\\1>", "ig" ) ) ];
 
-	const subheadingsTexts = text.split( "|" );
+	const foundSubheadings = [];
 
-	if ( isEmpty( subheadingsTexts[ 0 ] ) ) {
-		subheadingsTexts.shift();
-	}
+	subheadingBlocks.forEach( ( block, i ) => {
+		const subheading = block[ 0 ];
+		const currentMatchIndex = block.index;
+		const nextBlock = subheadingBlocks[ i + 1 ];
+		let nextMatchIndex;
+		if ( isUndefined( nextBlock ) ) {
+			nextMatchIndex = block.input.length;
+		} else {
+			nextMatchIndex = nextBlock.index;
+		}
 
-	return subheadingsTexts;
+		const currentBlockText = block.input.slice( currentMatchIndex + subheading.length, nextMatchIndex );
+		foundSubheadings.push( {
+			subheading: subheading,
+			text: currentBlockText,
+		} );
+	} );
+
+	return foundSubheadings;
 }
 
 
