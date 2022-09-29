@@ -265,7 +265,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
 						// eslint-disable-next-line max-len
-						"%1$sSubheading distribution%2$s: fYou are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
+						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
