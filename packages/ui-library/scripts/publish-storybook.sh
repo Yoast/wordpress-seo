@@ -17,4 +17,4 @@ echo ui-library.yoast.com > CNAME
 # Commit files and push to Storybook GitHub Pages repo
 git add -A
 git commit -m "Publish storybook"
-git push origin master
+git push origin main
