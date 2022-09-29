@@ -158,7 +158,7 @@ class Curl_Runner implements Runner_Interface {
 	 * @return bool True if all the routines for this health check were successful.
 	 */
 	public function is_successful() {
-		return $this->has_installed_addons && $this->curl_is_recent && $this->got_my_yoast_api_response;
+		return $this->has_installed_addons && $this->got_my_yoast_api_response;
 	}
 
 	/**
