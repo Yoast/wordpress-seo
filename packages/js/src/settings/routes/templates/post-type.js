@@ -367,7 +367,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								"Premium"
 							) }
 						>
-							<FormikMediaSelectFieldWithDummy
+							<FormikMediaSelectField
 								id={ `wpseo_titles-social-image-ptarchive-${ name }` }
 								label={ __( "Social image", "wordpress-seo" ) }
 								previewLabel={ recommendedSize }
