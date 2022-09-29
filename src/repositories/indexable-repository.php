@@ -535,4 +535,9 @@ class Indexable_Repository {
 
 		return $query->update_many();
 	}
+
+	// Get the total number of indexables.
+	public function get_total_indexables_number() {
+		return $this->query()->count();
+	}
 }
