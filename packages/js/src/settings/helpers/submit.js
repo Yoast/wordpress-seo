@@ -1,6 +1,6 @@
 import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import { forEach, get, isArray, isObject } from "lodash";
+import { forEach, get, isArray, isObject, omit } from "lodash";
 import { STORE_NAME } from "../constants";
 import { submitUserSocialProfiles } from "./user-social-profiles";
 
@@ -54,12 +54,14 @@ const submitSettings = async( values ) => {
 export const handleSubmit = async( values, { resetForm } ) => {
 	const { addNotification } = dispatch( STORE_NAME );
 	const { selectCanEditUser, selectPreference } = select( STORE_NAME );
+	const canManageOptions = selectPreference( "canManageOptions", false );
 	const { person_social_profiles: personSocialProfiles } = values;
 	const { company_or_person_user_id: userId } = values.wpseo_titles;
 
 	try {
 		await Promise.all( [
-			submitSettings( values ),
+			// Ensure we do not save WP options when the user is not allowed to.
+			submitSettings( canManageOptions ? values : omit( values, [ "blogname", "blogdescription" ] ) ),
 			selectCanEditUser( userId ) && submitUserSocialProfiles( userId, personSocialProfiles ),
 		] );
 

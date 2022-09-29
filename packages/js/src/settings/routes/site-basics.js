@@ -12,6 +12,7 @@ import { useSelectLink, useSelectSettings } from "../hooks";
 const SiteBasics = () => {
 	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
 	const generalSettingsUrl = useSelectSettings( "selectPreference", [], "generalSettingsUrl" );
+	const canManageOptions = useSelectSettings( "selectPreference", [], "canManageOptions", false );
 
 	const usageTrackingLink = useSelectLink( {
 		link: "https://yoa.st/usage-tracking-2",
@@ -23,6 +24,15 @@ const SiteBasics = () => {
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
 			__( "You can use %1$sSite title%2$s, %1$sTagline%2$s and %1$sSeparator%2$s as variables when configuring the search appearance of your content.", "wordpress-seo" ),
+			"<em>",
+			"</em>"
+		),
+		{ em: <em /> }
+	), [] );
+	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
+			__( "We're sorry, you're not allowed to edit the %1$sSite title%2$s and %1$sTagline%2$s.", "wordpress-seo" ),
 			"<em>",
 			"</em>"
 		),
@@ -87,7 +97,10 @@ const SiteBasics = () => {
 				title={ __( "Site info", "wordpress-seo" ) }
 				description={ __( "Set the basic info for your website. Note that some of these values can be used as variables when configuring the search appearance of your content.", "wordpress-seo" ) }
 			>
-				<Alert variant="info" id="alert-site-defaults-variables">{ infoAlertText }</Alert>
+				<Alert variant="info" id="alert-site-defaults-variables">
+					{ infoAlertText }
+					{ ! canManageOptions && <>&nbsp;{ canNotManageOptionsAlertText }</> }
+				</Alert>
 				<fieldset className="yst-min-width-0 yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<Field
 						as={ TextField }
@@ -95,7 +108,8 @@ const SiteBasics = () => {
 						name="blogname"
 						id="input-blogname"
 						label={ __( "Site title", "wordpress-seo" ) }
-						description={ siteTitleDescription }
+						description={ canManageOptions && siteTitleDescription }
+						readOnly={ ! canManageOptions }
 					/>
 					<Field
 						as={ TextField }
@@ -103,7 +117,8 @@ const SiteBasics = () => {
 						name="blogdescription"
 						id="input-blogdescription"
 						label={ __( "Tagline", "wordpress-seo" ) }
-						description={ taglineDescription }
+						description={ canManageOptions && taglineDescription }
+						readOnly={ ! canManageOptions }
 					/>
 				</fieldset>
 				<RadioGroup label={ __( "Title separator", "wordpress-seo" ) } variant="inline-block">

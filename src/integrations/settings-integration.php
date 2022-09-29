@@ -234,8 +234,11 @@ class Settings_Integration implements Integration_Interface {
 				\register_setting( self::PAGE, $name );
 			}
 		}
-		foreach ( self::WP_OPTIONS as $name ) {
-			\register_setting( self::PAGE, $name );
+		// Only register WP options when the user is allowed to manage them.
+		if ( \current_user_can( 'manage_options' ) ) {
+			foreach ( self::WP_OPTIONS as $name ) {
+				\register_setting( self::PAGE, $name );
+			}
 		}
 	}
 
@@ -386,6 +389,7 @@ class Settings_Integration implements Integration_Interface {
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
+			'canManageOptions'              => \current_user_can( 'manage_options' ),
 		];
 	}
 
