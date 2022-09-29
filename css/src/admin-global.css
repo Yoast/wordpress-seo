@@ -55,36 +55,6 @@
   height: auto;
 }
 
-/* Select2 specific fixes for WordPress: they generally need high specificity */
-.select2-container .select2-search--dropdown .select2-search__field {
-  margin: 0;
-  padding: 0 8px;
-  min-height: 30px;
-}
-
-.select2-results__option,
-.select2-selection__choice,
-.select2-search--inline {
-  margin-bottom: 0;
-}
-
-.select2-container .select2-search--inline .select2-search__field {
-  margin-top: 6px !important;
-  line-height: inherit;
-  min-height: 0;
-}
-
-/* Turn off select2 fixed height */
-.wpseo-metabox .select2-container .select2-selection--single,
-.wpseo-admin-page .select2-container .select2-selection--single {
-  height: auto;
-}
-
-.wpseo-metabox .select2-container .select2-selection--single .select2-selection__arrow,
-.wpseo-admin-page .select2-container .select2-selection--single .select2-selection__arrow {
-  height: 100%;
-}
-
 .yoast-label-strong {
   font-weight: 600;
 }
