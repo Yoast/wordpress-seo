@@ -289,7 +289,7 @@ class Indexing_Helper {
 		// The total amount af objects in the site.
 		$total_objects_count = ( $indexed_count + $unindexed_count );
 
-		return ( $unindexed_count / $total_objects_count ) * 100;
+		return ( ( $unindexed_count / $total_objects_count ) * 100 );
 	}
 
 	/**
