@@ -299,7 +299,7 @@ class Indexing_Helper {
 	 */
 	public function should_show_optimization_button() {
 		// Gets the amount of unindexed objects in the site.
-		$unindexed_count = $this->get_unindexed_count();
+		$unindexed_count = $this->get_filtered_unindexed_count();
 
 		// If the amount of unidexed posts is <10 don't show configuration button.
 		if ( $unindexed_count <= 10 ) {
