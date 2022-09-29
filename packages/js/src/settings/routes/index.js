@@ -12,4 +12,4 @@ export { default as SiteBasics } from "./site-basics";
 export { default as SiteFeatures } from "./site-features";
 export { default as SiteRepresentation } from "./site-representation";
 export { default as SpecialPages } from "./special-pages";
-export { default as WebmasterTools } from "./webmaster-tools";
+export { default as SiteConnections } from "./site-connections";

@@ -30,11 +30,11 @@ import {
 	PostType,
 	Rss,
 	SiteBasics,
+	SiteConnections,
 	SiteFeatures,
 	SiteRepresentation,
 	SpecialPages,
 	Taxonomy,
-	WebmasterTools,
 } from "./routes";
 
 /**
@@ -117,7 +117,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					label={ __( "Site representation", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
 				/>
-				<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
@@ -277,10 +277,10 @@ const App = () => {
 									<Route path="media" element={ <Media /> } />
 									<Route path="rss" element={ <Rss /> } />
 									<Route path="site-basics" element={ <SiteBasics /> } />
+									<Route path="site-connections" element={ <SiteConnections /> } />
 									<Route path="site-representation" element={ <SiteRepresentation /> } />
 									<Route path="site-features" element={ <SiteFeatures /> } />
 									<Route path="special-pages" element={ <SpecialPages /> } />
-									<Route path="webmaster-tools" element={ <WebmasterTools /> } />
 									<Route path="post-type">
 										{ map( postTypes, postType => (
 											<Route

@@ -26,15 +26,15 @@ const transformContentTag = event => {
 const FormikValueChangeWithErrorField = withFormikError( FormikValueChangeField );
 
 /**
- * @returns {JSX.Element} The webmaster tools route.
+ * @returns {JSX.Element} The site connections route.
  */
-const WebmasterTools = () => {
+const SiteConnections = () => {
 	const siteUrl = useSelectSettings( "selectPreference", [], "siteUrl" );
 
 	return (
 		<FormLayout
-			title={ __( "Webmaster tools", "wordpress-seo" ) }
-			description={ __( "Verify your site with different webmaster tools. This will add a verification meta tag on your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
+			title={ __( "Site connections", "wordpress-seo" ) }
+			description={ __( "Verify your site with different tools. This will add a verification meta tag on your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
 		>
 			<fieldset className="yst-min-width-0 yst-max-w-screen-sm yst-space-y-8">
 				<FormikValueChangeWithErrorField
@@ -132,4 +132,4 @@ const WebmasterTools = () => {
 	);
 };
 
-export default WebmasterTools;
+export default SiteConnections;
