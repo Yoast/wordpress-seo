@@ -384,6 +384,8 @@ class Settings_Integration implements Integration_Interface {
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
+			'currentUserId'                 => \get_current_user_id(),
+			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 		];
 	}
 

@@ -45,16 +45,18 @@ const FormikValueChangeWithErrorField = withFormikError( FormikValueChangeField 
 const PersonSocialProfiles = () => {
 	const { addNotification } = useDispatchSettings();
 	const { values, status, setStatus, setFieldValue } = useFormikContext();
-	const { company_or_person_user_id: userId } = values.wpseo_titles;
-	const previousUserId = usePrevious( userId );
+	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
+	const previousUserId = usePrevious( companyOrPersonId );
+	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
+	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
 
 	useEffect( () => {
-		if ( previousUserId === userId || userId < 1 ) {
+		if ( previousUserId === companyOrPersonId || companyOrPersonId < 1 ) {
 			return;
 		}
 
 		setStatus( { ...status, isFetchingPersonSocialProfiles: true } );
-		fetchUserSocialProfiles( userId )
+		fetchUserSocialProfiles( companyOrPersonId )
 			.then( socialProfiles => {
 				setFieldValue( "person_social_profiles", socialProfiles );
 			} )
@@ -69,83 +71,107 @@ const PersonSocialProfiles = () => {
 			.finally( () => {
 				setStatus( { ...status, isFetchingPersonSocialProfiles: false } );
 			} );
-	}, [ previousUserId, userId, setFieldValue, setStatus, addNotification ] );
+	}, [ previousUserId, companyOrPersonId, setFieldValue, setStatus, addNotification ] );
 
 	return (
 		<FieldsetLayout
 			title={ __( "Other profiles", "wordpress-seo" ) }
 			description={ __( "Tell us about the other profiles on the web that belong to the person.", "wordpress-seo" ) }
 		>
+			{ ! canEditUser && <Alert variant="info">
+				{ ! isEmpty( personUser ) && createInterpolateElement(
+					sprintf(
+						// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+						// %3$s is replaced by the selected user display name.
+						__( "We're sorry, you're not allowed to edit the other profiles of %1$s%3$s%2$s.", "wordpress-seo" ),
+						"<strong>",
+						"</strong>",
+						personUser?.name
+					), {
+						strong: <strong className="yst-font-medium" />,
+					} ) }
+				{ isEmpty( personUser ) && __( "We're sorry, you're not allowed to edit the other profiles of the selected user.", "wordpress-seo" ) }
+			</Alert> }
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.facebook"
 				id="input-person_social_profiles-facebook"
 				label={ __( "Facebook", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.instagram"
 				id="input-person_social_profiles-instagram"
 				label={ __( "Instagram", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.linkedin"
 				id="input-person_social_profiles-linkedin"
 				label={ __( "LinkedIn", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://linkedin.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://linkedin.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.myspace"
 				id="input-person_social_profiles-myspace"
 				label={ __( "MySpace", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://myspace.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://myspace.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.pinterest"
 				id="input-person_social_profiles-pinterest"
 				label={ __( "Pinterest", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://pinterest.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://pinterest.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.soundcloud"
 				id="input-person_social_profiles-soundcloud"
 				label={ __( "SoundCloud", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://soundcloud.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://soundcloud.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.tumblr"
 				id="input-person_social_profiles-tumblr"
 				label={ __( "Tumblr", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://tumblr.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://tumblr.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikValueChangeWithErrorField
 				as={ TextField }
 				name="person_social_profiles.twitter"
 				id="input-person_social_profiles-twitter"
 				label={ __( "Twitter", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
 				transformValue={ transformTwitterUrl }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.youtube"
 				id="input-person_social_profiles-youtube"
 				label={ __( "YouTube", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://youtube.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://youtube.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
 				name="person_social_profiles.wikipedia"
 				id="input-person_social_profiles-wikipedia"
 				label={ __( "Wikipedia", "wordpress-seo" ) }
-				placeholder={ __( "E.g. https://wikipedia.com/yoast", "wordpress-seo" ) }
+				placeholder={ canEditUser && __( "E.g. https://wikipedia.com/yoast", "wordpress-seo" ) }
+				readOnly={ ! canEditUser }
 			/>
 		</FieldsetLayout>
 	);
@@ -173,6 +199,7 @@ const SiteRepresentation = () => {
 	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
+	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
 
 	return (
 		<FormLayout
@@ -351,7 +378,7 @@ const SiteRepresentation = () => {
 						/>
 						{ ! isEmpty( personUser ) && (
 							<Alert id="alert-person-user-profile">
-								{ createInterpolateElement(
+								{ canEditUser && createInterpolateElement(
 									sprintf(
 										// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
 										// %3$s and %4$s are replaced by opening and closing <a> tags.
@@ -369,6 +396,17 @@ const SiteRepresentation = () => {
 											id="link-person-user-profile" href={ `${ editUserUrl }?user_id=${ personUser?.id }` } target="_blank"
 											rel="noopener noreferrer"
 										/>,
+									} ) }
+								{ ! canEditUser && createInterpolateElement(
+									sprintf(
+										// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+										// %3$s is replaced by the selected user display name.
+										__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile.", "wordpress-seo" ),
+										"<strong>",
+										"</strong>",
+										personUser?.name
+									), {
+										strong: <strong className="yst-font-medium" />,
 									} ) }
 							</Alert>
 						) }

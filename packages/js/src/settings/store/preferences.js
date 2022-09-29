@@ -23,6 +23,14 @@ preferencesSelectors.selectHasPageForPosts = createSelector(
 	],
 	( homepageIsLatestPosts, homepagePostsEditUrl ) => ! homepageIsLatestPosts && ! isEmpty( homepagePostsEditUrl )
 );
+preferencesSelectors.selectCanEditUser = createSelector(
+	[
+		state => preferencesSelectors.selectPreference( state, "currentUserId", -1 ),
+		state => preferencesSelectors.selectPreference( state, "canEditUsers", false ),
+		( state, userId ) => userId,
+	],
+	( currentUserId, canEditUsers, userId ) => currentUserId === userId || canEditUsers
+);
 
 export const preferencesActions = slice.actions;
 

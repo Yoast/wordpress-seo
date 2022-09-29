@@ -1,4 +1,4 @@
-import { dispatch } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { forEach, get, isArray, isObject } from "lodash";
 import { STORE_NAME } from "../constants";
@@ -53,11 +53,14 @@ const submitSettings = async( values ) => {
  */
 export const handleSubmit = async( values, { resetForm } ) => {
 	const { addNotification } = dispatch( STORE_NAME );
+	const { selectCanEditUser, selectPreference } = select( STORE_NAME );
+	const { person_social_profiles: personSocialProfiles } = values;
+	const { company_or_person_user_id: userId } = values.wpseo_titles;
 
 	try {
 		await Promise.all( [
 			submitSettings( values ),
-			submitUserSocialProfiles( values ),
+			selectCanEditUser( userId ) && submitUserSocialProfiles( userId, personSocialProfiles ),
 		] );
 
 		addNotification( {
