@@ -247,6 +247,7 @@ Release Date: October 4th, 2022
 
 
 
+
 Enhancements:
 
 * Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them from being indexed, reducing duplicate content.
@@ -255,6 +256,7 @@ Enhancements:
 
 Bugfixes:
 
+* Fixes a bug where a fatal error would be thrown on WordPress.com using PHP 8.0 in connection with the Debug Bar.
 * Fixes a bug where a fatal error would be thrown when the `php_uname()` function is disabled by the web hosting provider and usage tracking is enabled.
 * Fixes a bug where changes in the replacement variables (e.g. the value of the `%%title%%` replacement variable when the post title changes) would not be reflected in the Meta description length, the SEO title width, and the Keyphrase in SEO title assessments.
 * Fixes a bug where `ListItem` entries would be output in a `BreadcrumbList` even if their text was empty, resulting in Schema validation errors.
@@ -262,6 +264,7 @@ Bugfixes:
 * Fixes a bug where robots meta tags would be unintentionally synchronized between pages in different languages when using multilingual plugins like WPML or Polylang.
 * Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
 * Fixes a bug where Yoast would conflict with Elementor, when Yoast Premium or Yoast News or Yoast Video is active, throwing console errors.
+* Fixes a bug where the sidebar issue counter would show a wrong number of issues, on the first page load after an issue was resolved.
 
 Other:
 
