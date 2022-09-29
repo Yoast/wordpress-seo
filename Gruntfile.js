@@ -13,7 +13,7 @@ module.exports = function( grunt ) {
 
 	/* Used to switch between development and release builds.
 	Switches based on the grunt command (which is the third 'argv', after node and grunt,  so index 2).*/
-	const developmentBuild = ! [ "create-rc", "release", "release:js", "artifact", "deploy:trunk", "deploy:main" ].includes( process.argv[ 2 ] );
+	const developmentBuild = ! [ "create-rc", "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
 
 	// Define project configuration.
 	const project = {
