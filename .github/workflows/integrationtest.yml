@@ -4,7 +4,7 @@ on:
   # Run on pushes to select branches and on all pull requests.
   push:
     branches:
-      - master
+      - main
       - trunk
       - "release/**"
       - "hotfix/[0-9]+.[0-9]+*"
