@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";

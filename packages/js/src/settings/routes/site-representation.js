@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
