@@ -286,7 +286,7 @@ class Indexing_Helper {
 	public function get_unindexed_percentage( $unindexed_count ) {
 		// Gets the amount of indexed objects in the site.
 		$indexed_count = $this->indexable_repository->get_total_number_of_indexables();
-		// The total amount af objects in the site.
+		// The total amount of objects in the site.
 		$total_objects_count = ( $indexed_count + $unindexed_count );
 
 		return ( ( $unindexed_count / $total_objects_count ) * 100 );
