@@ -20,7 +20,7 @@ import RefreshButton from "./components/refresh-button";
  * @returns {WPElement} A div containing the empty state page.
  */
 function LandingPage() {
-	const [ indexingState, setIndexingState ] = useState( () => parseInt( yoastIndexingData.amount, 10 ) === 0 ? "already_done" : "idle" );
+	const [ indexingState, setIndexingState ] = useState( () => yoastIndexingData.showButton === false ? "already_done" : "idle" );
 	const [ setupInfo, setSetupInfo ] = useState( null );
 	const [ errorMessage, setErrorMessage ] = useState( null );
 
