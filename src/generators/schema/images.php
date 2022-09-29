@@ -196,3 +196,8 @@ class Images extends Abstract_Schema_Piece {
 		return $graph;
 	}
 }
+
+/**
+ * @deprecated 20.0 Please use new class Images.
+ */
+\class_alias( Images::class, '\Yoast\WP\SEO\Generators\Schema\Main_Images' );
