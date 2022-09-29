@@ -46,6 +46,7 @@ class WebPage extends Abstract_Schema_Piece {
 			}
 		}
 
+		$data = $this->add_primary_image( $data );
 		$data = $this->add_images( $data );
 
 		if ( $this->context->indexable->object_type === 'post' ) {
@@ -94,14 +95,13 @@ class WebPage extends Abstract_Schema_Piece {
 	}
 
 	/**
-	 * If we have an image, make it the primary image of the page.
+	 * Add all content images to the `image` schema.
 	 *
 	 * @param array $data WebPage schema data.
 	 *
 	 * @return array $graph The new graph with added image content.
 	 */
 	public function add_images( $data ) {
-		$data = $this->add_primary_image( $data );
 		$data = $this->add_content_images( $data );
 
 		return $this->add_social_images( $data );
