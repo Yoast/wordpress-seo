@@ -24,21 +24,21 @@ export default function( text ) {
 		const subheading = block[ 0 ];
 		const currentMatchIndex = block.index;
 		const nextBlock = subheadingBlocks[ i + 1 ];
+		// Find the first subheading in the text
 		let nextMatchIndex;
 		if ( isUndefined( nextBlock ) ) {
 			nextMatchIndex = block.input.length;
 		} else {
 			nextMatchIndex = nextBlock.index;
 		}
-
 		const currentBlockText = block.input.slice( currentMatchIndex + subheading.length, nextMatchIndex );
 		foundSubheadings.push( {
 			subheading: subheading,
 			text: currentBlockText,
+			index: currentMatchIndex,
 		} );
 	} );
-
-	return foundSubheadings;
+	return {foundSubheadings: foundSubheadings, text: text }
 }
 
 
