@@ -1,4 +1,4 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
+/* global wpseoAdminGlobalL10n, ajaxurl, ClipboardJS */
 
 import { __ } from "@wordpress/i18n";
 import a11ySpeak from "a11y-speak";
