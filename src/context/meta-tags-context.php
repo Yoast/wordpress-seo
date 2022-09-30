@@ -224,6 +224,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return Image[] the images.
 	 */
 	public function generate_images() {
+		if ( $this->post instanceof WP_Post === false ) {
+			return [];
+		}
+
 		return $this->image->get_images_from_post_content( $this->post->post_content );
 	}
 
