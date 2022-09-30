@@ -1,0 +1,18 @@
+@layer components {
+	.yst-root {
+		.yst-autocomplete-field__options {
+			@apply
+			yst-flex
+			yst-flex-col
+			yst-gap-3;
+		}
+
+		.yst-autocomplete-field__description {
+			@apply yst-mt-2;
+		}
+
+		.yst-autocomplete-field__error {
+			@apply yst-mt-2 yst-text-red-600;
+		}
+	}
+}

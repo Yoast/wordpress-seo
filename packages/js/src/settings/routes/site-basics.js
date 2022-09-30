@@ -57,10 +57,10 @@ Radio.propTypes = {
 /**
  * @returns {JSX.Element} The site defaults route.
  */
-const SiteDefaults = () => {
+const SiteBasics = () => {
 	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
 	const generalSettingsUrl = useSelectSettings( "selectPreference", [], "generalSettingsUrl" );
-	const siteDefaultsInfoAlertText = useMemo( () => createInterpolateElement(
+	const infoAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
 			__( "You can use %1$sSite title%2$s, %1$sTagline%2$s and %1$sSeparator%2$s as variables when configuring the search appearance of your content.", "wordpress-seo" ),
@@ -79,7 +79,7 @@ const SiteDefaults = () => {
 			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 			"<strong>",
 			"</strong>",
-			"1200x675px"
+			"1200x630px"
 		),
 		{
 			strong: <strong className="yst-font-semibold" />,
@@ -121,13 +121,13 @@ const SiteDefaults = () => {
 
 	return (
 		<FormLayout
-			title={ __( "Site defaults", "wordpress-seo" ) }
+			title={ __( "Site basics", "wordpress-seo" ) }
 			description={ __( "Configure the basics for your website.", "wordpress-seo" ) }
 		>
 			<div className="yst-max-w-screen-sm">
-				<Alert variant="info" id="alert-site-defaults-variables">{ siteDefaultsInfoAlertText }</Alert>
+				<Alert variant="info" id="alert-site-defaults-variables">{ infoAlertText }</Alert>
 				<hr className="yst-my-8" />
-				<fieldset className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+				<fieldset className="yst-min-width-0 yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<Field
 						as={ TextField }
 						type="text"
@@ -182,4 +182,4 @@ const SiteDefaults = () => {
 	);
 };
 
-export default SiteDefaults;
+export default SiteBasics;

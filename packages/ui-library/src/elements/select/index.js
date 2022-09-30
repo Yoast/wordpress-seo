@@ -17,22 +17,20 @@ const optionPropType = {
  */
 const Option = ( { value, label } ) => {
 	const svgAriaProps = useSvgAria();
-	const getClassName = useCallback( ( { active } ) => classNames(
+	const getClassName = useCallback( ( { active, selected } ) => classNames(
 		"yst-select__option",
 		active && "yst-select__option--active",
+		selected && "yst-select__option--selected",
 	), [] );
 
 	return (
 		<Listbox.Option value={ value } className={ getClassName }>
-			{ ( { selected, active } ) => <>
-				<span className={ classNames( "yst-select__option-label", selected && "yst-select__option-label--selected" ) }>
+			{ ( { selected } ) => <>
+				<span className={ classNames( "yst-select__option-label", selected && "yst-font-semibold" ) }>
 					{ label }
 				</span>
 				{ selected && (
-					<CheckIcon
-						className={ classNames( "yst-select__option-icon", active && "yst-select__option-icon--active" ) }
-						{ ...svgAriaProps }
-					/>
+					<CheckIcon className="yst-select__option-check" { ...svgAriaProps } />
 				) }
 			</> }
 		</Listbox.Option>
@@ -105,9 +103,12 @@ const Select = ( {
 			</Listbox.Button>
 			<Transition
 				as={ Fragment }
-				leave="yst-transition yst-ease-in yst-duration-100"
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0"
+				enter="yst-transition yst-duration-100 yst-ease-out"
+				enterFrom="yst-transform yst-scale-95 yst-opacity-0"
+				enterTo="yst-transform yst-scale-100 yst-opacity-100"
+				leave="yst-transition yst-duration-75 yst-ease-out"
+				leaveFrom="yst-transform yst-scale-100 yst-opacity-100"
+				leaveTo="yst-transform yst-scale-95 yst-opacity-0"
 			>
 				<Listbox.Options className="yst-select__options">
 					{ children || options.map( option => <Option key={ option.value } { ...option } /> ) }

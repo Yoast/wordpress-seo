@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Curl_Runner
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Curl_Runner
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Health_Check\Curl_Runner
  */
 class Curl_Runner_Test extends TestCase {
 
@@ -141,7 +141,7 @@ class Curl_Runner_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the health check quits early when the installed cURL version is unknown.
+	 * Checks that the health check doesn't quit early when the installed cURL version is unknown but the API could be reached.
 	 *
 	 * @covers ::__construct
 	 * @covers ::run
@@ -177,7 +177,7 @@ class Curl_Runner_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->has_recent_curl_version_installed() );
 		$this->assertTrue( $this->instance->can_reach_my_yoast_api() );
-		$this->assertFalse( $this->instance->is_successful() );
+		$this->assertTrue( $this->instance->is_successful() );
 	}
 
 	/**

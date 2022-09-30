@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Curl_Check
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Curl_Check
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Health_Check\Curl_Check
  */
 class Curl_Check_Test extends TestCase {
 
@@ -97,6 +97,12 @@ class Curl_Check_Test extends TestCase {
 			->shouldReceive( 'get_success_result' )
 			->once()
 			->andReturn( $expected_result );
+		$this->runner_mock
+			->shouldReceive( 'has_recent_curl_version_installed' )
+			->never();
+		$this->reports_mock
+			->shouldReceive( 'get_no_recent_curl_version_installed_result' )
+			->never();
 
 		$actual_result = $this->instance->run_and_get_result();
 
@@ -130,7 +136,7 @@ class Curl_Check_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the health check returns the correct report when the health check's runner didn't find a recent cURL verison.
+	 * Checks if the health check returns the correct report when the health check's runner failed and didn't find a recent cURL version.
 	 *
 	 * @covers ::__construct
 	 * @covers ::run_and_get_result

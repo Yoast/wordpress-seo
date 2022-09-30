@@ -131,17 +131,24 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 	} );
 } );
 
-// Ignore the shopify specs as long as it is not yet implemented for shopify.
-xdescribe( "a test for Product identifiers assessment for Shopify", () => {
+describe( "a test for Product identifiers assessment for Shopify", () => {
 	const assessment = new ProductIdentifiersAssessment( { urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
 		assessVariants: false,
 		productIdentifierOrBarcode: "Barcode" } );
 
 	it( "returns with score 9 when the product has global identifier and no variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
 			hasGlobalIdentifier: true,
 			hasVariants: false,
+			productType: "simple",
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData, Factory.buildMockResearcher( {
+			hasGlobalIdentifier: true,
+			hasVariants: false,
+			productType: "simple",
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
@@ -150,9 +157,19 @@ xdescribe( "a test for Product identifiers assessment for Shopify", () => {
 	} );
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+		const customData = {
+
 			hasGlobalIdentifier: false,
 			hasVariants: false,
+			productType: "simple",
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+
+		const assessmentResult = assessment.getResult( paperWithCustomData, Factory.buildMockResearcher( {
+			hasGlobalIdentifier: false,
+			hasVariants: false,
+			productType: "simple",
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
@@ -160,30 +177,40 @@ xdescribe( "a test for Product identifiers assessment for Shopify", () => {
 			" Your product is missing a barcode (like a GTIN code). <a href='https://yoa.st/shopify82' target='_blank'>Include" +
 			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
-
-	it( "should not return a score if the product has variants", () => {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
-			hasGlobalIdentifier: false,
-			hasVariants: true,
-		} ) );
-
-		expect( assessmentResult.hasScore() ).toEqual( false );
-	} );
 } );
 
 describe( "a test for the applicability of the assessment", function() {
 	it( "is applicable when the assessVariants variable is set to true", function() {
-		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
+		const assessment = new ProductIdentifiersAssessment();
 		const isApplicable = assessment.isApplicable( paper );
 
 		expect( isApplicable ).toBe( true );
 	} );
 
-	it( "is not applicable when the assessVariants variable is set to false", function() {
-		const assessment = new ProductIdentifiersAssessment();
-		const isApplicable = assessment.isApplicable( paper );
+	it( "is not applicable when the assessVariants variable is set to false and the product has variants", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: false } );
+		const customData = {
+			hasGlobalIdentifier: false,
+			hasVariants: true,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
 
 		expect( isApplicable ).toBe( false );
+	} );
+
+	it( "is applicable when the assessVariants variable is set to false and the product doesn't have variants", function() {
+		const assessment = new ProductIdentifiersAssessment();
+		const customData = {
+			hasGlobalIdentifier: false,
+			hasVariants: false,
+			productType: "simple",
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
 	} );
 
 	it( "is applicable when the global identifier of a simple product can be detected", function() {
@@ -299,4 +326,3 @@ describe( "a test for the applicability of the assessment", function() {
 		expect( isApplicable ).toBe( true );
 	} );
 } );
-

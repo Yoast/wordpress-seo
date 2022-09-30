@@ -14,12 +14,12 @@ const ErrorFallback = ( { error } ) => {
 
 	return (
 		<div role="alert" className="yst-max-w-screen-sm yst-p-8 yst-space-y-4">
-			<Title>{ __( "Oops! An unexpected error has occured.", "wordpress-seo" ) }</Title>
-			<p>{ __( "We're very sorry, but it seems the following error has halted our application:", "wordpress-seo" ) }</p>
+			<Title>{ __( "Something went wrong. An unexpected error occurred.", "wordpress-seo" ) }</Title>
+			<p>{ __( "We're very sorry, but it seems like the following error has interrupted our application:", "wordpress-seo" ) }</p>
 			<Alert variant="error">{ error?.message || "Undefined error message." }</Alert>
-			<p>{ __( "You can refresh to try again, but all your unsaved changes will be lost. If this error occurs again, please contact our support team and we'll get you sorted.", "wordpress-seo" ) }</p>
+			<p>{ __( "Unfortunately, this means that all your unsaved changes will be lost. You can try and refresh this page to resolve the problem. If this error still occurs, please get in touch with our support team, and we'll get you all the help you need!", "wordpress-seo" ) }</p>
 			<div className="yst-flex yst-gap-2">
-				<Button onClick={ handleRefreshClick }>{ __( "Refresh", "wordpress-seo" ) }</Button>
+				<Button onClick={ handleRefreshClick }>{ __( "Refresh this page", "wordpress-seo" ) }</Button>
 				<Button variant="secondary" as="a" href={ supportLink } target="blank" rel="noreferrer">
 					{ __( "Contact support", "wordpress-seo" ) }
 				</Button>

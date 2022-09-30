@@ -140,14 +140,14 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
 		$this->assertSame(
-			'# START YOAST INTERNAL SEARCH BLOCK
+			'# START YOAST BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 Sitemap: http://basic.wordpress.test/sitemap_index.xml
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK',
+# END YOAST BLOCK',
 			$this->instance->filter_robots( '' )
 		);
 	}
@@ -233,14 +233,14 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
 		$this->assertSame(
-			'# START YOAST INTERNAL SEARCH BLOCK
+			'# START YOAST BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 Sitemap: http://basic.wordpress.test/sitemap_index.xml
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK',
+# END YOAST BLOCK',
 			$this->instance->filter_robots( '' )
 		);
 	}
@@ -316,14 +316,14 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
 		$this->assertSame(
-			'# START YOAST INTERNAL SEARCH BLOCK
+			'# START YOAST BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 Sitemap: http://basic.wordpress.test/sitemap_index.xml
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK',
+# END YOAST BLOCK',
 			$this->instance->filter_robots( '' )
 		);
 	}
@@ -398,14 +398,14 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
 		$this->assertSame(
-			'# START YOAST INTERNAL SEARCH BLOCK
+			'# START YOAST BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 Sitemap: http://basic.wordpress.test/sitemap_index.xml
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK',
+# END YOAST BLOCK',
 			$this->instance->filter_robots( '' )
 		);
 	}
@@ -433,13 +433,13 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->andReturn( [] );
 
 		$this->assertSame(
-			'# START YOAST INTERNAL SEARCH BLOCK
+			'# START YOAST BLOCK
 # ---------------------------
 User-agent: *
 Disallow:
 
 # ---------------------------
-# END YOAST INTERNAL SEARCH BLOCK',
+# END YOAST BLOCK',
 			$this->instance->filter_robots( '' )
 		);
 	}

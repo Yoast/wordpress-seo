@@ -42,6 +42,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'admin.php';
 
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
+
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( false );
 
@@ -63,6 +66,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'update-core.php';
 
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
+
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( false );
 
@@ -80,6 +86,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		// We are on the plugins page.
 		global $pagenow;
 		$pagenow = 'plugins.php';
+
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
 
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( false );
@@ -99,12 +108,35 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'index.php';
 
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
+
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( false );
 
 		$is_met = $this->instance->is_met();
 
 		$this->assertEquals( true, $is_met );
+	}
+
+	/**
+	 * Tests that the conditional is not met when on the front-end.
+	 *
+	 * @covers ::is_met
+	 */
+	public function test_is_not_met_on_the_frontend() {
+		global $pagenow;
+		$pagenow = 'index.php';
+
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( false );
+
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
+		$is_met = $this->instance->is_met();
+
+		$this->assertEquals( false, $is_met );
 	}
 
 	/**
@@ -116,6 +148,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		// We are on the update core page.
 		global $pagenow;
 		$pagenow = 'some-other-page.php';
+
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
 
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( false );
@@ -134,6 +169,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		// We are on an admin page.
 		global $pagenow;
 		$pagenow = 'admin.php';
+
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
 
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( false );
@@ -156,6 +194,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'admin.php';
 
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
+
 		// But WordPress is currently installing.
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( true );
@@ -175,6 +216,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		// We are on an admin page.
 		global $pagenow;
 		$pagenow = 'admin.php';
+
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
 
 		// But WordPress is currently installing.
 		Monkey\Functions\expect( 'wp_installing' )
@@ -198,6 +242,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'admin.php';
 
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
+
 		// But WordPress is currently installing.
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( false );
@@ -220,6 +267,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'admin.php';
 
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
+
 		// But WordPress is currently installing.
 		Monkey\Functions\expect( 'wp_installing' )
 			->andReturn( false );
@@ -241,6 +291,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		// We are on an admin page.
 		global $pagenow;
 		$pagenow = 'admin.php';
+
+		Monkey\Functions\when( 'is_admin' )
+			->justReturn( true );
 
 		// But WordPress is currently installing.
 		Monkey\Functions\expect( 'wp_installing' )

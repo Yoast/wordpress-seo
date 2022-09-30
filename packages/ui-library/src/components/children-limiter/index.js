@@ -10,14 +10,15 @@ import { useToggleState } from "../../hooks";
  * @param {JSX.node[]} children The children.
  * @param {function} renderButton Render the more/less button. Receives `show`, `toggle` and `ariaProps`.
  * @param {boolean} [initialShow] Whether to initially show all the children. Defaults to false.
+ * @param {string} [id] Optional ID.
  * @returns {JSX.Element|JSX.node[]} The children or the limited children with more/less.
  */
-const ChildrenLimiter = ( { limit, children, renderButton, initialShow = false } ) => {
+const ChildrenLimiter = ( { limit, children, renderButton, initialShow = false, id: requestedId = "" } ) => {
 	const [ show, toggle ] = useToggleState( initialShow );
 	const flattened = useMemo( () => flatten( children ), [ children ] );
 	const before = useMemo( () => slice( flattened, 0, limit ), [ flattened ] );
 	const after = useMemo( () => slice( flattened, limit ), [ flattened ] );
-	const id = useMemo( () => `yst-animate-height-${ nanoid() }`, [] );
+	const id = useMemo( () => requestedId || `yst-animate-height-${ nanoid() }`, [ requestedId ] );
 	const ariaProps = useMemo( () => ( {
 		"aria-expanded": ! show,
 		"aria-controls": id,
@@ -47,6 +48,7 @@ ChildrenLimiter.propTypes = {
 	children: PropTypes.arrayOf( PropTypes.node ).isRequired,
 	renderButton: PropTypes.func.isRequired,
 	initialShow: PropTypes.bool,
+	id: PropTypes.string,
 };
 
 export default ChildrenLimiter;
