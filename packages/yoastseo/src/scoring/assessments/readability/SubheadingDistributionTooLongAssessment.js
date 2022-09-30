@@ -10,7 +10,7 @@ import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
 import {stripIncompleteTags as stripTags} from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import subheadingsTooLong from "../../../languageProcessing/languages/ja/config/subheadingsTooLong";
-import countWords from "../../../languageProcessing/helpers/word/countWords";
+import wordCount from "../../../languageProcessing/helpers/word/countWords";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -70,7 +70,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
-		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
+		this._subheadingTextsLength.subHeadingTexts = this._subheadingTextsLength.subHeadingTexts.sort( function( a, b ) {
 			return b.countLength - a.countLength;
 		} );
 
@@ -81,9 +81,22 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
+		// Give specific feedback for cases where the post starts with a long text without subheadings
+		// Find first subheading
 		const customCountLength = researcher.getHelper( "customCountLength" );
+		let textPrecedingSubheading1Length = "";
+		if ( this._subheadingTextsLength.subHeadingTexts.length > 0 ){
+			// Find first subheading
+			const firstSubheading =  this._subheadingTextsLength.subHeadingTexts[0]
+			// Retrieve text preceding first subheading
+			const textPrecedingSubheading1 = this._subheadingTextsLength.text.slice( 0, firstSubheading.index );
+			textPrecedingSubheading1Length = customCountLength ? customCountLength( textPrecedingSubheading1 ) : wordCount( textPrecedingSubheading1 );
+			console.log( textPrecedingSubheading1, "text before subheading" );
+			console.log( textPrecedingSubheading1Length, "length of text" );
+		}
 		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( textPrecedingSubheading1Length );
+
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -177,7 +190,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Array} The array containing subheading texts that are too long.
 	 */
 	getTooLongSubheadingTexts() {
-		return filter( this._subheadingTextsLength, function( subheading ) {
+		return filter( this._subheadingTextsLength.subHeadingTexts, function( subheading ) {
 			return subheading.countLength > this._config.parameters.recommendedMaximumLength;
 		}.bind( this ) );
 	}
@@ -187,10 +200,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult() {
+	calculateResult( textPrecedingSubheading1Length ) {
 		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
-				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].countLength;
+				const longestSubheadingTextLength = this._subheadingTextsLength.subHeadingTexts[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
 					// Green indicator.
 					return {
@@ -234,6 +247,24 @@ class SubheadingsDistributionTooLong extends Assessment {
 						),
 					};
 				}
+				if ( textPrecedingSubheading1Length > this._config.applicableIfTextLongerThan ) {
+					console.log( "test 1" );
+					// Red indicator.
+					return {
+						score: this._config.scores.badLongTextBeforeSubheadings,
+						resultText: sprintf(
+							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+							__(
+								// eslint-disable-next-line max-len
+								"The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.",
+								"wordpress-seo"
+							),
+							this._config.urlTitle,
+							"</a>",
+							this._config.urlCallToAction
+						),
+					};
+				}
 
 				// Red indicator.
 				return {
@@ -267,34 +298,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 					__(
 						// eslint-disable-next-line max-len
 						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					"</a>",
-					this._config.urlCallToAction
-				),
-			};
-		}
-
-		// Give specific feedback for cases where the post starts with a long text without subheadings
-		// Find first subheading
-		const firstSubheading = [ ...text.matchAll( new RegExp( "<h([1])(?:[^>]+)?>(.*?)<\\/h\\1>", "ig" ) ) ];
-		// Retrieve text preceding first subheading
-		const textPrecedingH1 = firstSubheading[ i - 1];
-		// Return length of the text preceding first subheading
-		const textPrecedingH1Length = [];
-		const customCountLength = researcher.getHelper( "customCountLength" );
-		customCountLength ? customCountLength( textPrecedingH1 ) : countWords( textPrecedingH1 )
-
-		if ( textPrecedingH1Length > this._config.applicableIfTextLongerThan ) {
-			// Red indicator.
-			return {
-				score: this._config.scores.badLongTextBeforeSubheadings,
-				resultText: sprintf(
-					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
-					__(
-						// eslint-disable-next-line max-len
-						"The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
