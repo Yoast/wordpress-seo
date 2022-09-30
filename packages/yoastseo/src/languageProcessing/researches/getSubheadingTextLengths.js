@@ -21,12 +21,13 @@ export default function( paper, researcher ) {
 	const customCountLength = researcher.getHelper( "customCountLength" );
 
 	const subHeadingTexts = [];
-	forEach( matches, function( match) {
+	forEach( matches.foundSubheadings, function( match) {
 		subHeadingTexts.push( {
 			subheading: match.subheading,
 			text: match.text,
 			countLength: customCountLength ? customCountLength( match.text ) : countWords( match.text ),
+			index: match.index,
 		} );
 	} );
-	return subHeadingTexts;
+	return { subHeadingTexts: subHeadingTexts, text: matches.text };
 }
