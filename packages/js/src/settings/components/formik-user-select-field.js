@@ -100,7 +100,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 			value={ selectedUser ? value : 0 }
 			onChange={ handleChange }
 			placeholder={ __( "Select a user...", "wordpress-seo" ) }
-			selectedLabel={ selectedUser?.name }
+			selectedLabel={ trim( selectedUser?.name ) || selectedUser?.username }
 			onQueryChange={ handleQueryChange }
 			className={ className }
 		>
