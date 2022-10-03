@@ -16,7 +16,7 @@ import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { ErrorFallback, Notifications, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
+import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
 import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
@@ -101,6 +101,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				<Link to="/site-features">
 					<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 				</Link>
+				<Search />
 			</div>
 			<div className="yst-h-8 yst-bg-gradient-to-b yst-from-slate-100" />
 		</header>
