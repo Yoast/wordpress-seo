@@ -280,7 +280,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_shortlinks"
 						data-id="input-wpseo-remove_shortlinks"
-						label={ __( "Shortlinks", "wordpress-seo" ) }
+						label={ __( "Remove shortlinks", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove links to WordPress' internal 'shortlink' URLs for your posts.", "wordpress-seo" ) }
@@ -292,7 +292,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_rest_api_links"
 						data-id="input-wpseo-remove_rest_api_links"
-						label={ __( "Rest API links", "wordpress-seo" ) }
+						label={ __( "Remove REST API links", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove links to the location of your site’s REST API endpoints.", "wordpress-seo" ) }
@@ -304,7 +304,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_rsd_wlw_links"
 						data-id="input-wpseo-remove_rsd_wlw_links"
-						label={ __( "RSD / WLW links", "wordpress-seo" ) }
+						label={ __( "Remove RSD / WLW links", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove links used by external systems for publishing content to your blog.", "wordpress-seo" ) }
@@ -316,7 +316,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_oembed_links"
 						data-id="input-wpseo-remove_oembed_links"
-						label={ __( "oEmbed links", "wordpress-seo" ) }
+						label={ __( "Remove oEmbed links", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove links used for embedding your content on other sites.", "wordpress-seo" ) }
@@ -328,7 +328,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_generator"
 						data-id="input-wpseo-remove_generator"
-						label={ __( "Generator tag", "wordpress-seo" ) }
+						label={ __( "Remove generator tag", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove information about the plugins and software used by your site.", "wordpress-seo" ) }
@@ -352,7 +352,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_powered_by_header"
 						data-id="input-wpseo-remove_powered_by_header"
-						label={ __( "Powered by HTTP header", "wordpress-seo" ) }
+						label={ __( "Remove powered by HTTP header", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove information about the plugins and software used by your site.", "wordpress-seo" ) }
@@ -370,7 +370,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_global"
 						data-id="input-wpseo-remove_feed_global"
-						label={ __( "Global feed", "wordpress-seo" ) }
+						label={ __( "Remove global feed", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide an overview of your recent posts.", "wordpress-seo" ) }
@@ -382,7 +382,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_global_comments"
 						data-id="input-wpseo-remove_feed_global_comments"
-						label={ __( "Global comment feeds", "wordpress-seo" ) }
+						label={ __( "Remove global comment feeds", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide an overview of recent comments on your site.", "wordpress-seo" ) }
@@ -395,7 +395,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_post_comments"
 						data-id="input-wpseo-remove_feed_post_comments"
-						label={ __( "Post comments feeds", "wordpress-seo" ) }
+						label={ __( "Remove post comments feeds", "wordpress-seo" ) }
 						disabled={ removeFeedGlobalComments }
 						checked={ removeFeedGlobalComments || removeFeedPostComments }
 						isDummy={ ! isPremium }
@@ -409,7 +409,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_authors"
 						data-id="input-wpseo-remove_feed_authors"
-						label={ __( "Post authors feeds", "wordpress-seo" ) }
+						label={ __( "Remove post authors feeds", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide information about recent posts by specific authors.", "wordpress-seo" ) }
@@ -421,7 +421,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_post_types"
 						data-id="input-wpseo-remove_feed_post_types"
-						label={ __( "Post type feeds", "wordpress-seo" ) }
+						label={ __( "Remove post type feeds", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide information about your recent posts, for each post type.", "wordpress-seo" ) }
@@ -433,7 +433,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_categories"
 						data-id="input-wpseo-remove_feed_categories"
-						label={ __( "Category feeds", "wordpress-seo" ) }
+						label={ __( "Remove category feeds", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide information about your recent posts, for each category.", "wordpress-seo" ) }
@@ -445,7 +445,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_tags"
 						data-id="input-wpseo-remove_feed_tags"
-						label={ __( "Tag feeds", "wordpress-seo" ) }
+						label={ __( "Remove tag feeds", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide information about your recent posts, for each tag.", "wordpress-seo" ) }
@@ -457,7 +457,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_custom_taxonomies"
 						data-id="input-wpseo-remove_feed_custom_taxonomies"
-						label={ __( "Custom taxonomy feeds", "wordpress-seo" ) }
+						label={ __( "Remove custom taxonomy feeds", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide information about your recent posts, for each custom taxonomy.", "wordpress-seo" ) }
@@ -469,7 +469,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_feed_search"
 						data-id="input-wpseo-remove_feed_search"
-						label={ __( "Search results feeds", "wordpress-seo" ) }
+						label={ __( "Remove search results feeds", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide information about your search results.", "wordpress-seo" ) }
@@ -481,7 +481,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_atom_rdf_feeds"
 						data-id="input-wpseo-remove_atom_rdf_feeds"
-						label={ __( "Atom/RDF feeds", "wordpress-seo" ) }
+						label={ __( "Remove Atom / RDF feeds", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Remove URLs which provide alternative (legacy) formats of all of the above.", "wordpress-seo" ) }
@@ -499,7 +499,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.remove_emoji_scripts"
 						data-id="input-wpseo-remove_emoji_scripts"
-						label={ __( "Emoji scripts", "wordpress-seo" ) }
+						label={ __( "Remove emoji scripts", "wordpress-seo" ) }
 						description={ __( "Remove JavaScript used for converting emoji characters in older browsers.", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					/>
@@ -508,7 +508,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.deny_wp_json_crawling"
 						data-id="input-wpseo-deny_wp_json_crawling"
-						label={ __( "WP-JSON API", "wordpress-seo" ) }
+						label={ __( "Remove WP-JSON API", "wordpress-seo" ) }
 						isDummy={ ! isPremium }
 					>
 						{ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of WordPress' JSON API endpoints.", "wordpress-seo" ) }
@@ -592,7 +592,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.clean_campaign_tracking_urls"
 						data-id="input-wpseo-clean_campaign_tracking_urls"
-						label={ __( "Google Analytics utm tracking parameters", "wordpress-seo" ) }
+						label={ __( "Optimize Google Analytics utm tracking parameters", "wordpress-seo" ) }
 						description={ descriptions.cleanCampaignTrackingUrls }
 						isDummy={ ! isPremium }
 					/>
@@ -601,7 +601,7 @@ const CrawlOptimization = () => {
 						type="checkbox"
 						name="wpseo.clean_permalinks"
 						data-id="input-wpseo-clean_permalinks"
-						label={ __( "Unregistered URL parameters", "wordpress-seo" ) }
+						label={ __( "Remove unregistered URL parameters", "wordpress-seo" ) }
 						description={ descriptions.cleanPermalinks }
 						isDummy={ ! isPremium }
 					/>
