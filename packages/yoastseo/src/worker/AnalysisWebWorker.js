@@ -445,8 +445,8 @@ export default class AnalysisWebWorker {
 			}
 		}
 
-		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
-			if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( isUndefined( assessor.getAssessment( name ) ) ) {
 				assessor.addAssessment( name, assessment );
 			}
 		} );
@@ -503,8 +503,8 @@ export default class AnalysisWebWorker {
 			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
 		}
 
-		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
-			if ( isUndefined( assessor.getAssessment( name ) ) && type === "seo" ) {
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( isUndefined( assessor.getAssessment( name ) ) ) {
 				assessor.addAssessment( name, assessment );
 			}
 		} );
@@ -555,8 +555,8 @@ export default class AnalysisWebWorker {
 			}
 		}
 
-		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
-			if ( isUndefined( assessor.getAssessment( name ) ) && type === "relatedKeyphrase" ) {
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( isUndefined( assessor.getAssessment( name ) ) ) {
 				assessor.addAssessment( name, assessment );
 			}
 		} );
@@ -734,11 +734,10 @@ export default class AnalysisWebWorker {
 	 * @param {string}   name       The name of the assessment.
 	 * @param {function} assessment The function to run as an assessment.
 	 * @param {string}   pluginName The name of the plugin associated with the assessment.
-	 * @param {string}   type       The type of the assessment. The default type is seo.
 	 *
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
-	registerAssessment( name, assessment, pluginName, type = "seo" ) {
+	registerAssessment( name, assessment, pluginName ) {
 		if ( ! isString( name ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 		}
@@ -756,17 +755,10 @@ export default class AnalysisWebWorker {
 		// Prefix the name with the pluginName so the test name is always unique.
 		const combinedName = pluginName + "-" + name;
 
-		if ( this._seoAssessor !== null && type === "seo" ) {
+		if ( this._seoAssessor !== null ) {
 			this._seoAssessor.addAssessment( combinedName, assessment );
 		}
-		if ( this._contentAssessor !== null && type === "readability" ) {
-			this._contentAssessor.addAssessment( combinedName, assessment );
-		}
-		if ( this._relatedKeywordAssessor !== null && type === "relatedKeyphrase" ) {
-			this._relatedKeywordAssessor.addAssessment( combinedName, assessment );
-		}
-
-		this._registeredAssessments.push( { combinedName, assessment, type } );
+		this._registeredAssessments.push( { combinedName, assessment } );
 
 		this.refreshAssessment( name, pluginName );
 
