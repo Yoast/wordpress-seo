@@ -46,10 +46,6 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 	 * @return string The list item HTML.
 	 */
 	public function present() {
-		$should_show_button = $this->indexing_helper->should_show_optimization_button();
-//		if ( ! $should_show_button ){
-//			return "";
-//		};
 
 		$output  = \sprintf( '<li><strong>%s</strong><br/>', \esc_html__( 'Optimize SEO Data', 'wordpress-seo' ) );
 		$output .= \sprintf(
@@ -58,8 +54,8 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 			\esc_url( $this->short_link_helper->get( 'https://yoa.st/3-z' ) ),
 			\esc_html__( 'Learn more about the benefits of optimized SEO data.', 'wordpress-seo' )
 		);
-		if ( ! $should_show_button ){
-			$output .= '<div id="yoast-seo-indexing-action" style="margin: 13px 0;"></div>';
+		if ( $this->indexing_helper->should_show_optimization_button() ){
+			$output .= '<div id="yoast-seo-indexing-action" style="margin: 13px 0;" msg="should_show"></div>';
 			$output .= '</li>';
 		}
 
