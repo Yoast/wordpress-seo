@@ -11,7 +11,7 @@ const useRouterScrollRestore = () => {
 	useEffect( () => {
 		// Auto-scroll to hash or root element.
 		const targetId = hash.replace( "#", "" );
-		const target = document.getElementById( targetId ) || document.querySelectorAll( `[data-id="${ targetId }]"` )?.[ 0 ];
+		const target = document.getElementById( targetId ) || document.querySelectorAll( `[data-id="${ targetId }"]` )?.[ 0 ];
 
 		if ( target ) {
 			window.scrollTo( {
