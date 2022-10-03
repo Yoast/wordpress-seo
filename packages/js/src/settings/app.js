@@ -99,7 +99,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		<header className="yst-sticky yst-top-0">
 			<div className="yst-p-4 yst-bg-slate-100">
 				<Link to="/site-features">
-					<YoastLogo className="yst-w-44 yst-px-3" { ...svgAriaProps } />
+					<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 				</Link>
 			</div>
 			<div className="yst-h-8 yst-bg-gradient-to-b yst-from-slate-100" />
