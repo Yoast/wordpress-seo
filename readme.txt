@@ -249,6 +249,7 @@ Release Date: October 4th, 2022
 
 
 
+
 Enhancements:
 
 * Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them from being indexed, reducing duplicate content.
