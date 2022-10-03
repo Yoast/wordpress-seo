@@ -7,6 +7,7 @@ import imageInText from "../helpers/image/imageInText";
 import findEmptyDivisions from "../helpers/html/findEmptyDivisions";
 import getAnchorsFromText from "../helpers/link/getAnchorsFromText";
 import matchStringWithRegex from "../helpers/regex/matchStringWithRegex";
+import excludeEstimatedReadingTime from "../helpers/sanitize/excludeEstimatedReadingTime";
 
 import { reject } from "lodash-es";
 import { isEmpty } from "lodash-es";
@@ -112,7 +113,7 @@ export default function( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const locale = paper.getLocale();
 
-	let paragraphs = matchParagraphs( paper.getText() );
+	let paragraphs = matchParagraphs( excludeEstimatedReadingTime( paper.getText() ) );
 	paragraphs = reject( paragraphs, isEmpty );
 	paragraphs = reject( paragraphs, paragraphHasNoText )[ 0 ] || "";
 

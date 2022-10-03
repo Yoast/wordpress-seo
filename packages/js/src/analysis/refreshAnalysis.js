@@ -1,3 +1,4 @@
+import { doAction } from "@wordpress/hooks";
 import { actions } from "@yoast/externals/redux";
 import { Paper } from "yoastseo";
 import handleWorkerError from "./handleWorkerError";
@@ -44,7 +45,8 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 	const paper = Paper.parse( collectData() );
 
 	worker.analyze( paper )
-		.then( ( { result: { seo, readability } } ) => {
+		.then( results => {
+			const { result: { seo, readability } } = results;
 			if ( seo ) {
 				// Only update the main results, which are located under the empty string key.
 				const seoResults = seo[ "" ];
@@ -75,6 +77,8 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 
 				dataCollector.saveContentScore( readability.score );
 			}
+
+			doAction( "yoast.analysis.refresh", results, { paper, worker, collectData, applyMarks, store, dataCollector } );
 		} )
 		.catch( handleWorkerError );
 }

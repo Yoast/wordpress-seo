@@ -556,6 +556,15 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   display: inline;
 }
 
+.yoast-zapier-text {
+  display: flex;
+}
+
+.yoast-zapier-text .yoast-logo.svg {
+  max-width: 18px;
+  width: 100% !important;
+}
+
 /**
 * Content and SEO score in publish bar
 */
@@ -714,6 +723,14 @@ ul.yoast-seo-social-share-buttons a {
 	align-items: center;
 }
 
+.yoast.yoast-zapier {
+  margin: 8px 0 25px;
+}
+
+.yoast-field-group.yoast-wincher-post-publish {
+  margin-bottom: 10px;
+}
+
 div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
 div.interface-pinned-items button.components-button[aria-label="Yoast SEO Premium"] > svg,
 .edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,
@@ -821,7 +838,9 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 .yoast .yoast-insights-card__description {
 	line-height: 1.4em;
 }
-.yoast .yoast-prominent-words p, .yoast .yoast-prominent-words ul {
+.yoast .yoast-prominent-words p,
+.yoast .yoast-prominent-words ul,
+.yoast .yoast-text-formality p {
 	margin-block: 1.2em;
 }
 .yoast #wpseo-metabox-root .yoast-prominent-words {

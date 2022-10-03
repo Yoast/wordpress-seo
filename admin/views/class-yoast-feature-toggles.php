@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
@@ -87,6 +88,20 @@ class Yoast_Feature_Toggles {
 				'order'           => 20,
 			],
 			(object) [
+				'name'                => __( 'Inclusive language analysis', 'wordpress-seo' ),
+				'premium'             => true,
+				'premium_version'     => '19.2.1-RC0',
+				'in_beta'             => true,
+				'supported_languages' => Language_Helper::$languages_with_inclusive_language_support,
+				'setting'             => 'inclusive_language_analysis_active',
+				'label'               => __( 'The inclusive language analysis offers suggestions to write more inclusive copy.', 'wordpress-seo' ),
+				'read_more_label'     => __( 'Discover why inclusive language is important for SEO.', 'wordpress-seo' ),
+				'read_more_url'       => 'https://yoa.st/inclusive-language-features-free',
+				'premium_url'         => 'https://yoa.st/inclusive-language-features-premium',
+				'premium_upsell_url'  => 'https://yoa.st/get-inclusive-language',
+				'order'               => 25,
+			],
+			(object) [
 				'name'            => __( 'Cornerstone content', 'wordpress-seo' ),
 				'setting'         => 'enable_cornerstone_content',
 				'label'           => __( 'The cornerstone content feature lets you to mark and filter cornerstone content on your website.', 'wordpress-seo' ),
@@ -115,7 +130,7 @@ class Yoast_Feature_Toggles {
 				'name'               => __( 'Link suggestions', 'wordpress-seo' ),
 				'premium'            => true,
 				'setting'            => 'enable_link_suggestions',
-				'label'              => __( 'Get relevant internal linking suggestions  — while you’re writing! The link suggestions metabox shows a list of posts on your blog with similar content that might be interesting to link to. ', 'wordpress-seo' ),
+				'label'              => __( 'Get relevant internal linking suggestions — while you’re writing! The link suggestions metabox shows a list of posts on your blog with similar content that might be interesting to link to. ', 'wordpress-seo' ),
 				'read_more_label'    => __( 'Read more about how internal linking can improve your site structure.', 'wordpress-seo' ),
 				'read_more_url'      => 'https://yoa.st/4ev',
 				'premium_url'        => 'https://yoa.st/17g',

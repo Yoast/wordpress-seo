@@ -5,8 +5,28 @@ module.exports = {
 	content: [
 		"./packages/ui-library/src/**/!(stories).js",
 		"./packages/js/src/**/*.js",
+		"./src/integrations/settings-integration.php",
 	],
-	safelist: process.env.NODE_ENV === "development" ? [ { pattern: /.*/, variants: [ 'sm', 'md', 'lg', 'xl', '2xl' ] } ] : [
+	theme: {
+		extend: {
+			keyframes: {
+				slideRight: {
+					"0%": {
+						transform: "translate(0, 0)",
+						opacity: 1,
+					},
+					"100%": {
+						transform: "translate(100%, 0)",
+						opacity: 0,
+					},
+				},
+			},
+			animation: {
+				slideRight: "slideRight .5s ease-in-out forwards",
+			},
+		},
+	},
+	safelist: process.env.NODE_ENV === "development" ? [ { pattern: /.*/, variants: [ "sm", "md", "lg", "xl", "2xl" ] } ] : [
 		"yst-border-l",
 		"yst-space-x-8",
 		"yst-pb-10",

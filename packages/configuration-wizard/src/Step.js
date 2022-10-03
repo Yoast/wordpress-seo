@@ -32,12 +32,25 @@ class Step extends React.Component {
 			HTML,
 		};
 
+		this.setStepContainerRef = this.setStepContainerRef.bind( this );
+
 		// Make the components available.
 		this.components = Object.assign( components, props.customComponents );
 
 		this.state = {
 			fieldValues: {},
 		};
+	}
+
+	/**
+	 * Sets the step container ref.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	setStepContainerRef( ref ) {
+		this.stepContainer = ref;
 	}
 
 	/**
@@ -72,22 +85,26 @@ class Step extends React.Component {
 	 */
 	setFieldValues( fields, currentStep ) {
 		const fieldNames = Object.keys( fields );
-		const fieldValues = this.state.fieldValues;
 
-		if ( typeof fieldValues[ currentStep ] === "undefined" ) {
-			fieldValues[ currentStep ] = {};
-		}
+		this.setState( prevState => {
+			const fieldValues = prevState.fieldValues;
 
-		fieldNames.forEach(
-			( fieldName ) => {
-				if ( typeof fieldValues[ currentStep ][ fieldName ] === "undefined" ) {
-					fieldValues[ currentStep ][ fieldName ] = ( typeof fields[ fieldName ].data === "undefined" ) ? "" : fields[ fieldName ].data;
-				}
+			if ( typeof fieldValues[ currentStep ] === "undefined" ) {
+				fieldValues[ currentStep ] = {};
 			}
-		);
 
-		this.setState( {
-			currentStep, fieldValues,
+			fieldNames.forEach(
+				( fieldName ) => {
+					if ( typeof fieldValues[ currentStep ][ fieldName ] === "undefined" ) {
+						fieldValues[ currentStep ][ fieldName ] = ( typeof fields[ fieldName ].data === "undefined" ) ? "" : fields[ fieldName ].data;
+					}
+				}
+			);
+
+			return {
+				currentStep,
+				fieldValues,
+			};
 		} );
 	}
 
@@ -99,16 +116,18 @@ class Step extends React.Component {
 	 * @returns {void}
 	 */
 	onChange( evt ) {
-		const fieldValues = this.state.fieldValues;
-		const fieldName = evt.target.name;
+		this.setState( prevState => {
+			const fieldValues = prevState.fieldValues;
+			const fieldName = evt.target.name;
 
-		// If the field value is undefined, add the fields to the field values.
-		if ( this.hasFieldValue( this.state.currentStep, fieldName ) ) {
-			fieldValues[ this.state.currentStep ][ fieldName ] = evt.target.value;
-		}
+			// If the field value is undefined, add the fields to the field values.
+			if ( this.hasFieldValue( prevState.currentStep, fieldName ) ) {
+				fieldValues[ prevState.currentStep ][ fieldName ] = evt.target.value;
+			}
 
-		this.setState( {
-			fieldValues,
+			return {
+				fieldValues,
+			};
 		} );
 	}
 
@@ -272,9 +291,7 @@ class Step extends React.Component {
 		return (
 			<div
 				className={ `${ this.props.classPrefix }--step--container` }
-				ref={ stepContainer => {
-					this.stepContainer = stepContainer;
-				} }
+				ref={ this.setStepContainerRef }
 				tabIndex="-1"
 				aria-labelledby="step-title"
 			>

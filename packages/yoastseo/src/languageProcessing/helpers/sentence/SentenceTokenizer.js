@@ -459,7 +459,7 @@ export default class SentenceTokenizer {
 						"sentence-delimiter" !== nextToken.type &&
 						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
 						// Don't split on quotation marks unless they're preceded by a full stop.
-						if ( this.isQuotation( token.src ) && previousToken.src !== "." ) {
+						if ( this.isQuotation( token.src ) && previousToken && previousToken.src !== "." ) {
 							break;
 						}
 						/*

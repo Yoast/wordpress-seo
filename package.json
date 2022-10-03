@@ -47,8 +47,8 @@
     "@wordproof/uikit": "1.0.41",
     "@yoast/babel-preset": "^1.0.1",
     "@yoast/browserslist-config": "^1.2.2",
-    "@yoast/postcss-preset": "^1.0.1",
     "@yoast/grunt-plugin-tasks": "^2.3",
+    "@yoast/postcss-preset": "^1.0.1",
     "@yoast/tailwindcss-preset": "^2.0.0",
     "@yoast/ui-library": "^2.0.0",
     "autoprefixer": "^10.4.7",
@@ -75,6 +75,8 @@
     "node-fetch": "^2.6.1",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-test-renderer": "^16.14.0",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
@@ -82,7 +84,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "19.4-RC14"
+    "pluginVersion": "19.8-RC9"
   },
   "version": "0.0.0"
 }

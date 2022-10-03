@@ -233,6 +233,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->current_page->get_date_archive_permalink();
 		}
 
+		if ( \is_attachment() ) {
+			global $wp;
+			return \trailingslashit( \home_url( $wp->request ) );
+		}
+
 		return $this->model->permalink;
 	}
 
@@ -339,6 +344,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 			}
 
 			$robots = $robots_new;
+		}
+
+		if ( \is_bool( $robots_filtered ) && ( $robots_filtered === false ) ) {
+			return [
+				'index'  => 'noindex',
+				'follow' => 'nofollow',
+			];
 		}
 
 		if ( ! $robots_filtered ) {

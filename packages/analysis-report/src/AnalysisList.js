@@ -1,6 +1,6 @@
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
-import React from "react";
+import React from "@wordpress/element";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import noop from "lodash/noop";

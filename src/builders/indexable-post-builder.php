@@ -413,15 +413,15 @@ class Indexable_Post_Builder {
 	/**
 	 * Transforms an empty string into null. Leaves non-empty strings intact.
 	 *
-	 * @param string $string The string.
+	 * @param string $text The string.
 	 *
 	 * @return string|null The input string or null.
 	 */
-	protected function empty_string_to_null( $string ) {
-		if ( ! is_string( $string ) || $string === '' ) {
+	protected function empty_string_to_null( $text ) {
+		if ( ! \is_string( $text ) || $text === '' ) {
 			return null;
 		}
 
-		return $string;
+		return $text;
 	}
 }

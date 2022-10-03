@@ -127,3 +127,8 @@ overrides:
       react/forbid-foreign-prop-types: 1
     env:
       jest: true
+  - files:
+      - "packages/**/tests/**/*Test.js"
+    rules:
+      no-console: 0
+      react/jsx-no-bind: 0

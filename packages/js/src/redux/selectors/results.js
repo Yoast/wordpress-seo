@@ -1,7 +1,7 @@
 import { get, isEmpty } from "lodash";
 
+const emptyArray = [];
 const emptyObject = {};
-const emptyArray  = [];
 
 /**
  * Gets the SEO results.
@@ -31,7 +31,7 @@ export function getResultsForKeyword( state, keyword ) {
 }
 
 /**
- * Gets the readability results for the focus keyword.
+ * Gets the readability results.
  *
  * @param {object} state The state.
  *

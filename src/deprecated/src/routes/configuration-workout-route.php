@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Routes;
 use WP_REST_Request;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+
 /**
  * Configuration_Workout_Route class.
  *

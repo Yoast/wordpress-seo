@@ -165,11 +165,9 @@ async function saveFinishedSteps( finishedSteps ) {
 function calculateInitialState( windowObject, isStepFinished ) {
 	let { companyOrPerson, companyName, companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
 
-	if ( shouldForceCompany ) {
+	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
+		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "company";
-	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) {
-		// Set the stage for an empty step 2 in case the customer does seem to have consciously finished step 2 without setting data.
-		companyOrPerson = "emptyChoice";
 	}
 
 	return {
@@ -572,6 +570,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isIndexationStepFinished }
 						>
 							<EditButton
+								id={ `button-${ STEPS.optimizeSeoData }-edit` }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -582,6 +581,7 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
 							<ContinueButton
+								id={ `button-${ STEPS.optimizeSeoData }-continue` }
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
 								destination={ stepperFinishedOnce ? "last" : 1 }
@@ -596,6 +596,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep2Finished }
 						>
 							<EditButton
+								id={ `button-${ STEPS.siteRepresentation }-edit` }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -612,6 +613,7 @@ export default function FirstTimeConfigurationSteps() {
 							/>
 							<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
 							<ConfigurationStepButtons
+								stepId={ STEPS.siteRepresentation }
 								stepperFinishedOnce={ stepperFinishedOnce }
 								saveFunction={ updateOnFinishSiteRepresentation }
 								setEditState={ setIsStepBeingEdited }
@@ -624,6 +626,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep3Finished }
 						>
 							<EditButton
+								id={ `button-${ STEPS.socialProfiles }-edit` }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -634,7 +637,12 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
 							<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
-							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
+							<ConfigurationStepButtons
+								stepId={ STEPS.socialProfiles }
+								stepperFinishedOnce={ stepperFinishedOnce }
+								saveFunction={ updateOnFinishSocialProfiles }
+								setEditState={ setIsStepBeingEdited }
+							/>
 						</Step.Content>
 					</Step>
 					<Step>
@@ -643,6 +651,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep4Finished }
 						>
 							<EditButton
+								id={ `button-${ STEPS.personalPreferences }-edit` }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -653,7 +662,12 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
 							<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
-							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishPersonalPreferences } setEditState={ setIsStepBeingEdited } />
+							<ConfigurationStepButtons
+								stepId={ STEPS.personalPreferences }
+								stepperFinishedOnce={ stepperFinishedOnce }
+								saveFunction={ updateOnFinishPersonalPreferences }
+								setEditState={ setIsStepBeingEdited }
+							/>
 						</Step.Content>
 					</Step>
 					<Step>

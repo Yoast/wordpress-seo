@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
@@ -154,7 +155,16 @@ class Results extends Component {
 			// Wait for the input field elements to become available, then focus on the relevant field.
 			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
 		} else {
-			this.focusOnGooglePreviewField( id, inputFieldLocation );
+			const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
+			// Check if the collapsible is closed before clicking on it.
+			if ( googlePreviewCollapsible && googlePreviewCollapsible.getAttribute( "aria-expanded" ) === "false" ) {
+				// If it is closed, click on it to open it, and wait a bit before focusing on the edit field.
+				googlePreviewCollapsible.click();
+				setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
+			} else {
+				// Collapsible already open, we can click on the field directly.
+				this.focusOnGooglePreviewField( id, inputFieldLocation );
+			}
 		}
 	}
 
@@ -182,7 +192,17 @@ class Results extends Component {
 			problemsResults,
 		} = mappedResults;
 
-		const { upsellResults } = this.props;
+		const { upsellResults, resultCategoryLabels } = this.props;
+
+		const defaultLabels = {
+			errors: __( "Errors", "wordpress-seo" ),
+			problems: __( "Problems", "wordpress-seo" ),
+			improvements: __( "Improvements", "wordpress-seo" ),
+			considerations: __( "Considerations", "wordpress-seo" ),
+			goodResults: __( "Good results", "wordpress-seo" ),
+		};
+
+		const labels = Object.assign( defaultLabels, resultCategoryLabels );
 
 		return (
 			<Fragment>
@@ -202,6 +222,7 @@ class Results extends Component {
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
 					isPremium={ this.props.isPremium }
+					resultCategoryLabels={ labels }
 				/>
 			</Fragment>
 		);
@@ -220,6 +241,13 @@ Results.propTypes = {
 	keywordKey: PropTypes.string,
 	location: PropTypes.string,
 	isPremium: PropTypes.bool,
+	resultCategoryLabels: PropTypes.shape( {
+		errors: PropTypes.string,
+		problems: PropTypes.string,
+		improvements: PropTypes.string,
+		considerations: PropTypes.string,
+		goodResults: PropTypes.string,
+	} ),
 };
 
 Results.defaultProps = {
@@ -232,6 +260,7 @@ Results.defaultProps = {
 	keywordKey: "",
 	location: "",
 	isPremium: false,
+	resultCategoryLabels: {},
 };
 
 export default Results;

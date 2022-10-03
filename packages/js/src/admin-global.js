@@ -6,26 +6,37 @@ import jQuery from "jquery";
 
 ( function( $ ) {
 	/**
-	 * Used to remove the admin notices for several purposes, dies on exit.
+	 * Used to remove the admin notices for several purposes.
 	 *
 	 * @param {string} option The option to ignore.
 	 * @param {string} hide   The target element to hide.
 	 * @param {string} nonce  Nonce for verification.
 	 *
-	 * @returns {void}
+	 * @returns {Promise<Response>} The promise resulting from the fetch() call.
 	 */
 	function wpseoSetIgnore( option, hide, nonce ) {
-		jQuery.post( ajaxurl, {
+		const formData = new FormData();
+		const postData = {
 			action: "wpseo_set_ignore",
 			option: option,
 			_wpnonce: nonce,
-		}, function( data ) {
-			if ( data ) {
+		};
+		for ( const [ key, value ] of Object.entries( postData ) ) {
+			formData.append( key, value );
+		}
+		return fetch(
+			ajaxurl,
+			{
+				method: "POST",
+				body: formData,
+			}
+		).then( response => {
+			if ( response ) {
 				jQuery( "#" + hide ).hide();
 				jQuery( "#hidden_ignore_" + option ).val( "ignore" );
 			}
-		}
-		);
+			return response;
+		} );
 	}
 
 	/**
@@ -87,8 +98,13 @@ import jQuery from "jquery";
 		} );
 
 		// Dismiss the "search engines discouraged" admin notice.
-		jQuery( "#robotsmessage button" ).on( "click", function() {
-			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) );
+		jQuery( "button#robotsmessage-dismiss-button" ).on( "click", function() {
+			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) ).then( () => {
+				// If we are on the dashboard, reload because we need to reload notifications as well.
+				if ( window.location.href.includes( "page=wpseo_dashboard" ) ) {
+					window.location.reload();
+				}
+			} );
 		} );
 	} );
 
@@ -351,6 +367,36 @@ import jQuery from "jquery";
 		} );
 	}
 
+	/**
+	 * Resolves potential mismatches in the notification counts between the sidebar and the adminbar.
+	 *
+	 * @returns {void}
+	 */
+	function resolveNotificationMismatch() {
+		const adminbarCount = jQuery( ".yoast-issue-counter .yoast-issues-count" ).first();
+		const sidebarCounts = jQuery( "#toplevel_page_wpseo_dashboard .plugin-count" );
+
+		if ( adminbarCount.text() === sidebarCounts.first().text() ) {
+			return;
+		}
+
+		const sidebarClass = jQuery( "#toplevel_page_wpseo_dashboard .update-plugins" );
+		const adminbarScreenReader = jQuery( ".yoast-issue-counter .screen-reader-text" ).first();
+		const sidebarScreenReader = jQuery( "#toplevel_page_wpseo_dashboard .update-plugins .screen-reader-text" );
+
+		if ( adminbarCount.length ) {
+			sidebarCounts.text( adminbarCount.text() );
+			sidebarClass.removeClass().addClass( "update-plugins count-" + adminbarCount.text() );
+			sidebarScreenReader.text( adminbarScreenReader.text() );
+
+			return;
+		}
+
+		sidebarCounts.text( "0" );
+		sidebarClass.removeClass().addClass( "update-plugins count-0" );
+		sidebarScreenReader.remove();
+	}
+
 	/*
 	 * When the viewport size changes, check again the scrollable tables width.
 	 * About the events: technically `wp-window-resized` is triggered on the
@@ -393,5 +439,6 @@ import jQuery from "jquery";
 		hookDismissRestoreButtons();
 		setPremiumIndicatorColor();
 		createScrollableTables();
+		resolveNotificationMismatch();
 	} );
 }( jQuery ) );

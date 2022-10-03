@@ -57,6 +57,7 @@ class Indexable_Builder_Versions_Test extends TestCase {
 	 * @dataProvider data_get_latest_version_for_type
 	 *
 	 * @covers ::get_latest_version_for_type
+	 *
 	 * @param mixed $key      The key of the indexable builder to check.
 	 * @param mixed $expected The expected result.
 	 */

@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useState } from "@wordpress/element";
 import { noop } from "lodash";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import RawModal from ".";
 import Button from "../../elements/button";
 
@@ -75,7 +75,7 @@ export const WithTitleAndDescription = {
 				"\t<Modal.Title as=\"h2\">\n" +
 				"\t\tTitle\n" +
 				"\t</Modal.Title>\n" +
-				"\t<Modal.Description className=\"yst-mt-3 yst-text-sm yst-text-gray-500\">\n" +
+				"\t<Modal.Description className=\"yst-mt-3 yst-text-sm yst-text-gray-600\">\n" +
 				"\t\tDescription\n" +
 				"\t</Modal.Description>\n" +
 				"</Modal>\n"
@@ -88,7 +88,7 @@ export const WithTitleAndDescription = {
 				<RawModal.Title as="h2">
 					Title
 				</RawModal.Title>
-				<RawModal.Description className="yst-mt-3 yst-text-sm yst-text-gray-500">
+				<RawModal.Description className="yst-mt-3 yst-text-sm yst-text-gray-600">
 					Description
 				</RawModal.Description>
 			</Fragment>

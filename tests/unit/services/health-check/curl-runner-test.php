@@ -2,19 +2,18 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_MyYoast_Api_Request;
 use Yoast\WP\SEO\Helpers\Curl_Helper;
+use Yoast\WP\SEO\Services\Health_Check\Curl_Runner;
 use Yoast\WP\SEO\Services\Health_Check\MyYoast_Api_Request_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Services\Health_Check\Curl_Runner;
 
 /**
  * Curl_Runner
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Curl_Runner
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Health_Check\Curl_Runner
  */
 class Curl_Runner_Test extends TestCase {
 
@@ -142,7 +141,7 @@ class Curl_Runner_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the health check quits early when the installed cURL version is unknown.
+	 * Checks that the health check doesn't quit early when the installed cURL version is unknown but the API could be reached.
 	 *
 	 * @covers ::__construct
 	 * @covers ::run
@@ -178,7 +177,7 @@ class Curl_Runner_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->has_recent_curl_version_installed() );
 		$this->assertTrue( $this->instance->can_reach_my_yoast_api() );
-		$this->assertFalse( $this->instance->is_successful() );
+		$this->assertTrue( $this->instance->is_successful() );
 	}
 
 	/**

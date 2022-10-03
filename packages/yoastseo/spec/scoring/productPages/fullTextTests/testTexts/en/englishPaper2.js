@@ -14,6 +14,14 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Monstera_deliciosa",
 	slug: "Monstera_deliciosa",
+	customData: {
+		canRetrieveGlobalSku: true,
+		hasGlobalSKU: false,
+		hasGlobalIdentifier: false,
+		hasVariants: false,
+		productType: "simple",
+	},
+
 } );
 
 const expectedResults = {
@@ -87,6 +95,22 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
+	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product is missing an identifier " +
+			"(like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab in the Product data box." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it will " +
+			"help search engines to better understand your content.</a>",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product is missing a SKU. " +
+			"You can add a SKU via the \"Inventory\" tab in the Product data box. " +
+			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will " +
+			"help search engines to better understand your content.</a>",
 	},
 	imageKeyphrase: {
 		isApplicable: true,

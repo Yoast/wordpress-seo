@@ -5,15 +5,28 @@
 			yst-flex
 			yst-items-center
 			yst-justify-between
+			yst-gap-6
 			yst-max-w-sm;
 		}
 
-		.yst-toggle-field__text {
-			@apply yst-mr-6;
+		.yst-toggle-field--disabled {
+			.yst-toggle-field__text,
+			.yst-toggle-field__label {
+				@apply yst-cursor-not-allowed;
+			}
+
+			.yst-toggle-field__label,
+			.yst-toggle-field__description {
+				@apply yst-opacity-50;
+			}
 		}
 
-		.yst-toggle-field__label {
-			@apply yst-mb-1;
+		.yst-toggle-field__text {
+			@apply yst-grow-0 yst-overflow-auto;
+		}
+
+		.yst-toggle-field__description {
+			@apply yst-mt-1;
 		}
 
 		.yst-toggle-field__options {

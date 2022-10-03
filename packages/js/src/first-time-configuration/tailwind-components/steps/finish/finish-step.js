@@ -9,8 +9,7 @@ import { ReactComponent as ConfigurationFinishImage } from "../../../../../image
  * @returns {void}
  */
 function goToSEODashboard() {
-	document.getElementById( "dashboard-tab" ).click();
-	window.scrollTo( 0, 0 );
+	window.location.href = "admin.php?page=wpseo_dashboard";
 }
 
 /**
@@ -22,6 +21,7 @@ function regularContent() {
 			<p className="yst-text-sm yst-mb-6">{ __( "That’s it! By providing this information our indexables squad has been able to do a lot of optimization for your site already. Now, let's have a look at the SEO fitness of your site!", "wordpress-seo" ) }</p>
 			<button
 				type="button"
+				id="button-seo-dashboard"
 				onClick={ goToSEODashboard }
 				className={ "yst-button yst-button--primary" }
 			>{ __( "Go to your SEO dashboard", "wordpress-seo" ) }</button>
@@ -43,11 +43,12 @@ function webinarPromoContent() {
 			<p className="yst-text-sm yst-mb-6">
 				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our free weekly webinar!", "wordpress-seo" ) }
 			</p>
-			<a href={ webinarIntroSettingsUrl } target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
+			<a href={ webinarIntroSettingsUrl } id="link-webinar-register" target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
 			<button
 				type="button"
+				id="button-webinar-seo-dashboard"
 				onClick={ goToSEODashboard }
 				className={ "yst-ml-4 yst-text-indigo-600 hover:yst-text-indigo-500" }
 			>{ __( "Or visit your SEO dashboard", "wordpress-seo" ) }</button>

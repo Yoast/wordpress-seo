@@ -140,7 +140,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	 *
 	 * @param string $premium_file The premium file.
 	 *
-	 * @return boolean Whether or not premium is installed and not activated.
+	 * @return bool Whether or not premium is installed and not activated.
 	 */
 	protected function premium_is_installed_not_activated( $premium_file ) {
 		return (

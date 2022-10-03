@@ -22,6 +22,8 @@ import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/Ke
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
+import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
+import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
 // Import Readability assessments.
 import SubheadingDistributionTooLongAssessment
@@ -114,6 +116,18 @@ testPapers.forEach( function( testPaper ) {
 		const singleH1Assessment = new SingleH1Assessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
+		} );
+		const productIdentifiersAssessment = new ProductIdentifiersAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
+			assessVariants: true,
+		} );
+		const productSKUAssessment = new ProductSKUAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
+			assessVariants: true,
+			productType: "simple",
+			addSKULocation: true,
 		} );
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
@@ -319,6 +333,28 @@ testPapers.forEach( function( testPaper ) {
 				result.singleH1 = singleH1Assessment.getResult( paper, researcher );
 				expect( result.singleH1.getScore() ).toBe( expectedResults.singleH1.score );
 				expect( result.singleH1.getText() ).toBe( expectedResults.singleH1.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the product identifiers assessment", function() {
+			const isApplicable = productIdentifiersAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.productIdentifiers.isApplicable );
+
+			if ( isApplicable ) {
+				result.productIdentifiers = productIdentifiersAssessment.getResult( paper, researcher );
+				expect( result.productIdentifiers.getScore() ).toBe( expectedResults.productIdentifiers.score );
+				expect( result.productIdentifiers.getText() ).toBe( expectedResults.productIdentifiers.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the SKU assessment", function() {
+			const isApplicable = productSKUAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.productSKU.isApplicable );
+
+			if ( isApplicable ) {
+				result.productSKU = productSKUAssessment.getResult( paper, researcher );
+				expect( result.productSKU.getScore() ).toBe( expectedResults.productSKU.score );
+				expect( result.productSKU.getText() ).toBe( expectedResults.productSKU.resultText );
 			}
 		} );
 
