@@ -98,7 +98,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	return <>
 		<header className="yst-sticky yst-top-0">
 			<div className="yst-p-4 yst-bg-slate-100">
-				<Link to="/site-features">
+				<Link to="/" className="yst-inline-block yst-mb-6">
 					<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 				</Link>
 				<Search />
