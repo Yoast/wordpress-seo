@@ -619,7 +619,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 				// translators: %1$s expands to the post type plural, e.g. Posts.
 				fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), postType.label ),
 			},
-		} ) ),
+		} ), {} ),
 		...reduce( taxonomies, ( acc, taxonomy ) => ( {
 			...acc,
 			[ `taxonomy-${ taxonomy.name }-ptparent` ]: {
@@ -629,7 +629,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 				// translators: %1$s expands to the taxonomy plural, e.g. Categories.
 				fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), taxonomy.label ),
 			},
-		} ) ),
+		} ), {} ),
 		// Author archives
 		"disable-author": {
 			route: "/author-archives",
