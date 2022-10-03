@@ -11,8 +11,6 @@
 	z-index: -1;
 
 	#wpcontent {
-		max-height: calc(100vh - 32px);
-		overflow: auto;
 		padding-left: 0;
 	}
 
