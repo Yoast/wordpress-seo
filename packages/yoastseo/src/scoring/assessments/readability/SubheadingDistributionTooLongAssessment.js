@@ -8,7 +8,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+import { stripFullTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import wordCount from "../../../languageProcessing/helpers/word/countWords";
 
 /**
