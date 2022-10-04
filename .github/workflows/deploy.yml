@@ -44,7 +44,7 @@ concurrency:
 
 env:
   DIST_ORG: 'Yoast-dist'
-  DIST_DEFAULT_BRANCH: 'master'
+  DIST_DEFAULT_BRANCH: 'main'
 
 jobs:
   prepare:
