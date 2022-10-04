@@ -38,6 +38,7 @@ export default compose( [
 			setWincherWebsiteId,
 			setWincherRequestSucceeded,
 			setWincherRequestFailed,
+			setWincherTrackingForKeyphrase,
 			setWincherLoginStatus,
 		} = dispatch( "yoast-seo/editor" );
 
@@ -47,6 +48,9 @@ export default compose( [
 			},
 			setRequestFailed: ( response ) => {
 				setWincherRequestFailed( response );
+			},
+			addTrackedKeyphrase: ( keyphraseObject ) => {
+				setWincherTrackingForKeyphrase( keyphraseObject );
 			},
 			onAuthentication: ( status, newlyAuthenticated, websiteId ) => {
 				setWincherWebsiteId( websiteId );
