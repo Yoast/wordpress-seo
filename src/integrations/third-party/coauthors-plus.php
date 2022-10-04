@@ -2,10 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use WP_User;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Flag_Conditional;
-use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
@@ -103,29 +102,35 @@ class CoAuthors_Plus implements Integration_Interface {
 		/**
 		 * Contains the authors from the CoAuthors Plus plugin.
 		 *
-		 * @var WP_User[] $author_objects
+		 * @var \WP_User[] $author_objects
 		 */
 		$author_objects = \get_coauthors( $context->post->ID );
-		if ( \count( $author_objects ) <= 1 ) {
-			return $data;
-		}
+		//var_dump($author_objects ); die;
+		// if ( \count( $author_objects ) <= 1 ) {
+		// 	return $data;
+		// }
 
 		$ids = [];
 
 		// Add the authors to the schema.
 		foreach ( $author_objects as $author ) {
-			if ( $author->ID === (int) $context->post->post_author ) {
-				continue;
-			}
+			//var_dump($author->ID, $context->post); die;
+			// if ( $author->ID === (int) $context->post->post_author ) {
+			// 	continue;
+			// }
 			$author_generator          = new CoAuthor();
 			$author_generator->context = $context;
 			$author_generator->helpers = $this->helpers;
-			$author_data               = $author_generator->generate_from_user_id( $author->ID );
+			//var_dump($author instanceof \WP_User); die;
+			if ( $author instanceof \WP_User ) {
+				$author_data               = $author_generator->generate_from_user_id( $author->ID );
+			} elseif ( ! empty( $author->type ) && 'guest-author' === $author->type ) {
+				$author_data               = $author_generator->generate_from_guest_author( $author );
+			}
 			if ( ! empty( $author_data ) ) {
 				$ids[] = [ '@id' => $author_data['@id'] ];
 			}
 		}
-
 		$schema_types  = new Schema_Types();
 		$article_types = $schema_types->get_article_type_options_values();
 
@@ -133,7 +138,7 @@ class CoAuthors_Plus implements Integration_Interface {
 		$add_to_graph = false;
 		foreach ( $data as $key => $piece ) {
 			if ( \in_array( $piece['@type'], $article_types, true ) ) {
-				$data[ $key ]['author'] = \array_merge( [ $piece['author'] ], $ids );
+				$data[ $key ]['author'] = $ids; //\array_merge( [ $piece['author'] ], $ids );
 				$add_to_graph           = true;
 				break;
 			}
