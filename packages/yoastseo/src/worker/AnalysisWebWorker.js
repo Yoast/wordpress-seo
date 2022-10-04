@@ -759,10 +759,10 @@ export default class AnalysisWebWorker {
 		if ( this._seoAssessor !== null && type === "seo" ) {
 			this._seoAssessor.addAssessment( combinedName, assessment );
 		}
-		if ( this._seoAssessor !== null && type === "readability" ) {
+		if ( this._contentAssessor !== null && type === "readability" ) {
 			this._contentAssessor.addAssessment( combinedName, assessment );
 		}
-		if ( this._seoAssessor !== null && type === "relatedKeyphrase" ) {
+		if ( this._relatedKeywordAssessor !== null && type === "relatedKeyphrase" ) {
 			this._relatedKeywordAssessor.addAssessment( combinedName, assessment );
 		}
 		this._registeredAssessments.push( { combinedName, assessment, type } );
