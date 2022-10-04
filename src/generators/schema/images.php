@@ -79,7 +79,7 @@ class Images extends Abstract_Schema_Piece {
 	protected function add_image_schema( $graph, $image ) {
 		if ( $image->has_id() ) {
 			if ( $image->has_size() ) {
-				$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id(), '', false, [ $image->get_width(), $image->get_width() ] );
+				$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id(), '', false, [ $image->get_width(), $image->get_height() ] );
 			}
 			else {
 				$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id() );
