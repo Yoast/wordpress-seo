@@ -408,32 +408,25 @@ class Image_Helper {
 	/**
 	 * Generate an Image object from the source of an image.
 	 *
-	 * @param string      $src The src attribute of an img tag.
-	 * @param string|null $class The class attribute of an img tag.
+	 * @param string $src The src attribute of an img tag.
 	 * @return Image|null The generated Image object.
 	 */
-	protected function get_image_object_from_source( $src, $class ) {
-		// Extract image size if present in src.
-		$image_size = $this->get_image_size( $src );
-
+	protected function create_image_object_from_source( $src ) {
 		$width  = null;
 		$height = null;
 
-		$id = null;
+		// Extract image ID.
+		$id = $this->get_attachment_by_url( $src );
 
-		if ( ! \is_null( $image_size ) ) {
-			$width  = $image_size['width'];
-			$height = $image_size['height'];
-		}
+		if ( $id !== 0 ) {
+			// Extract image size if present in src.
+			$image_size = $this->get_image_size( $src );
+			if ( ! \is_null( $image_size ) ) {
+				$width  = $image_size['width'];
+				$height = $image_size['height'];
+			}
 
-		if ( // This detects WP-inserted images, which we need to upsize. R.
-			! empty( $class )
-			&& ( \strpos( $class, 'size-full' ) === false )
-			&& \preg_match( '|wp-image-(?P<id>\d+)|', $class, $matches )
-			&& \get_post_status( $matches['id'] )
-		) {
 			$query_params = \wp_parse_url( $src, PHP_URL_QUERY );
-			$id           = \intval( $matches['id'] );
 			$size         = ! \is_null( $width ) && ! \is_null( $height ) ? [ $width, $height ] : 'full';
 			$src          = $this->get_attachment_image_url( $id, $size );
 
@@ -490,13 +483,7 @@ class Image_Helper {
 				continue;
 			}
 
-			$class = $img->getAttribute( 'class' );
-
-			if ( empty( $class ) ) {
-				$class = null;
-			}
-
-			$image_obj = $this->get_image_object_from_source( $src, $class );
+			$image_obj = $this->create_image_object_from_source( $src );
 
 			if ( ! \is_null( $image_obj ) ) {
 				$images[] = $image_obj;
@@ -506,9 +493,9 @@ class Image_Helper {
 		$gallery_images = $this->get_gallery_images_from_post_content( $content );
 
 		foreach ( $gallery_images as $image ) {
-			$image_src = $this->image_url( $image->ID );
+			$image_src = $this->get_attachment_image_url( $image->ID, 'full' );
 			if ( ! \is_null( $image_src ) ) {
-				$image_obj = $this->get_image_object_from_source( $image_src, null );
+				$image_obj = $this->create_image_object_from_source( $image_src );
 				if ( ! \is_null( $image_obj ) ) {
 					$images[] = $image_obj;
 				}
