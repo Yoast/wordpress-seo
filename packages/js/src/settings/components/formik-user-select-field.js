@@ -6,7 +6,7 @@ import { buildQueryString } from "@wordpress/url";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useField } from "formik";
-import { debounce, find, isEmpty, map, trim, values } from "lodash";
+import { debounce, find, isEmpty, map, values } from "lodash";
 import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS } from "../constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
@@ -114,7 +114,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 							const user = users?.[ userId ];
 							return user ? (
 								<AutocompleteField.Option key={ user?.id } value={ user?.id }>
-									{ trim( user?.name ) || user?.slug }
+									{ user?.name }
 								</AutocompleteField.Option>
 							) : null;
 						} ) }
