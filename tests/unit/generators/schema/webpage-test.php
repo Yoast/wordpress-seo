@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\Schema\Image;
+use Yoast\WP\SEO\Helpers\Schema\Image_Helper as Schema_Image_Helper;
 
 /**
  * Class WebPage_Test
@@ -82,6 +83,13 @@ class WebPage_Test extends TestCase {
 	private $meta_tags_context;
 
 	/**
+	 * The Schema_Image_Helper mock.
+	 *
+	 * @var Schema_Image_Helper|Mockery\MockInterface
+	 */
+	private $schema_image;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -94,6 +102,7 @@ class WebPage_Test extends TestCase {
 		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->image             = Mockery::mock( Image_Helper::class );
 		$this->id                = Mockery::mock( ID_Helper::class );
+		$this->schema_image      = Mockery::mock( Schema_Image_Helper::class );
 
 		$this->instance          = Mockery::mock( WebPage::class )
 			->makePartial();
@@ -105,6 +114,7 @@ class WebPage_Test extends TestCase {
 				'html'     => $this->html,
 				'id'       => $this->id,
 				'language' => $this->language,
+				'image'    => $this->schema_image,
 			],
 			'image'        => $this->image,
 		];
@@ -693,6 +703,13 @@ class WebPage_Test extends TestCase {
 		$this->meta_tags_context->images                          = $content_images;
 		$this->meta_tags_context->presentation->open_graph_images = $open_graph_images;
 		$this->meta_tags_context->presentation->twitter_image     = $twitter_image;
+
+		foreach ( $open_graph_images as $image ) {
+			$this->schema_image
+				->expects( 'convert_open_graph_image' )
+				->with( $image )
+				->andReturn( new Image( $image['url'], $image['id'] ) );
+		}
 
 		$this->assertEquals( $expected, $this->instance->generate() );
 	}

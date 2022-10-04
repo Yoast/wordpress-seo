@@ -242,20 +242,32 @@ class Images_Test extends TestCase {
 		Monkey\Functions\expect( 'home_url' )
 			->andReturn( 'https://example.com' );
 
-		$this->image
-			->expects( 'get_attachment_image_url' )
-			->with( 1, 'full' )
-			->andReturn( 'https://example.com/images/image-1.jpg' );
+		$this->schema_image->expects( 'convert_open_graph_image' )
+			->with(
+				[
+					'id'  => 1,
+					'url' => 'https://example.com/images/image-1.jpg',
+				]
+			)
+			->andReturn( new Image( 'https://example.com/images/image-1.jpg', 1 ) );
 
-		$this->image
-			->expects( 'get_attachment_image_url' )
-			->with( 2, 'full' )
-			->andReturn( 'https://example.com/images/image-2.jpg' );
+		$this->schema_image->expects( 'convert_open_graph_image' )
+			->with(
+				[
+					'id'  => 2,
+					'url' => 'https://example.com/images/image-2.jpg',
+				]
+			)
+			->andReturn( new Image( 'https://example.com/images/image-2.jpg', 2 ) );
 
-		$this->image
-			->expects( 'get_attachment_by_url' )
-			->with( 'https://example.com/images/image-3.jpg' )
-			->andReturn( 0 );
+		$this->schema_image->expects( 'convert_open_graph_image' )
+			->with(
+				[
+					'id'  => null,
+					'url' => 'https://example.com/images/image-3.jpg',
+				]
+			)
+			->andReturn( new Image( 'https://example.com/images/image-3.jpg', null ) );
 
 		$this->schema_image
 			->expects( 'generate_from_attachment_id' )
