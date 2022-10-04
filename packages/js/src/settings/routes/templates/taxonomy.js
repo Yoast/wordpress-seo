@@ -1,8 +1,8 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
+import { Badge, FeatureUpsell, Link, ToggleField, Code } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { map } from "lodash";
+import { map, values, initial, last } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -33,6 +33,10 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
+	const postTypeValues = useMemo( () => values( postTypes ), [ postTypes ] );
+	const initialPostTypeValues = useMemo( () => initial( postTypeValues ), [ postTypeValues ] );
+	const lastPostTypeValue = useMemo( () => last( postTypeValues ), [ postTypeValues ] );
+
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -56,27 +60,58 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 			"<code />"
 		),
 		{
-			code: <code>/category/</code>,
+			code: <Code>/category/</Code>,
 		}
 	), [] );
 
-	const { values } = useFormikContext();
-	const { opengraph } = values.wpseo_social;
+	const { values: formValues } = useFormikContext();
+	const { opengraph } = formValues.wpseo_social;
 
 	return (
 		<FormLayout
-			title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-				<span>{ label }</span>
-				{ map(
-					postTypes,
-					( { name: postTypeName, label: postTypeLabel } ) => <Badge key={ postTypeName } variant="plain">{ postTypeLabel }</Badge>
+			title={  label }
+			description={ <>
+				{ sprintf(
+					/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
+					__( "Choose how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
+					label
 				) }
-			</div> }
-			description={ sprintf(
-				/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
-				__( "Choose how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
-				label
-			) }
+				<br />
+				{ initialPostTypeValues.length > 1 ? createInterpolateElement(
+					sprintf(
+						/**
+						 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
+						 * %2$s and %3$s expand to post type plurals in code blocks, e.g. Posts Pages and Custom Post Type.
+						 */
+						__( "%1$s are used for %2$s and %3$s.", "wordpress-seo" ),
+						label,
+						"<code1 />",
+						"<code2 />"
+					), {
+						code1: <>
+							{ map( initialPostTypeValues, ( postType, index ) => (
+								<>
+									<Code key={ postType?.name }>{ postType?.label }</Code>
+									{ index < initialPostTypeValues.length - 1 && " " }
+								</>
+							) ) }
+						</>,
+						code2: <Code>{ lastPostTypeValue?.label }</Code>,
+					}
+				) : createInterpolateElement(
+					sprintf(
+						/**
+						 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
+						 * %2$s expands to the post type plural in code block, e.g. Posts.
+						 */
+						__( "%1$s are used for %2$s.", "wordpress-seo" ),
+						label,
+						"<code />"
+					), {
+						code: <Code>{ lastPostTypeValue?.label }</Code>,
+					}
+				) }
+			</> }
 		>
 			<FieldsetLayout
 				title={ __( "Search appearance", "wordpress-seo" ) }

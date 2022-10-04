@@ -115,7 +115,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 				/* translators: %1$s expands to the post type plural, e.g. Posts. */
 				__( "Choose how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 				label
-			) }
+			)  }
 		>
 			<FieldsetLayout
 				title={ __( "Search appearance", "wordpress-seo" ) }

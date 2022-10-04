@@ -2,41 +2,9 @@ import { __, sprintf } from "@wordpress/i18n";
 import { SelectField, TextField, ToggleField } from "@yoast/ui-library";
 import { Field } from "formik";
 import { map } from "lodash";
-import PropTypes from "prop-types";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
-import TaxonomyPostTypeBadges from "../components/taxonomy-post-type-badges";
 import { useSelectSettings } from "../hooks";
-
-/**
- * @param {string} name The taxonomy name to represent.
- * @param {string} label The select label.
- * @param {Object[]} options The label and values.
- * @returns {JSX.Element} The TaxonomySelect.
- */
-const TaxonomySelect = ( { name, label, options } ) => {
-	const hasPostTypeBadge = useSelectSettings( "selectTaxonomyHasPostTypeBadge", [ name ], name );
-
-	return <FormikValueChangeField
-		as={ SelectField }
-		name={ `wpseo_titles.taxonomy-${ name }-ptparent` }
-		data-id={ `input-wpseo_titles-taxonomy-${ name }-ptparent` }
-		label={ label }
-		labelSuffix={ hasPostTypeBadge && <div className="yst-flex yst-flex-wrap yst-ml-1.5 yst-gap-1.5">
-			<TaxonomyPostTypeBadges name={ name } />
-		</div> }
-		options={ options }
-	/>;
-};
-
-TaxonomySelect.propTypes = {
-	name: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-	options: PropTypes.arrayOf( PropTypes.shape( {
-		label: PropTypes.string.isRequired,
-		value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-	} ) ).isRequired,
-};
 
 /**
  * @returns {JSX.Element} The breadcrumbs route.
@@ -138,12 +106,16 @@ const Breadcrumbs = () => {
 				title={ __( "Breadcrumbs for Taxonomies", "wordpress-seo" ) }
 				description={ __( "Choose which Post type you wish to show in the breadcrumbs for Taxonomies.", "wordpress-seo" ) }
 			>
-				{ map( breadcrumbsForTaxonomies, ( { label, options }, taxonomyName ) => <TaxonomySelect
-					key={ `input-breadcrumbs-taxonomy-${ taxonomyName }` }
-					name={ taxonomyName }
-					label={ label }
-					options={ options }
-				/> ) }
+				{ map( breadcrumbsForTaxonomies, ( { name, label, options } ) => (
+					<FormikValueChangeField
+						key={ name }
+						as={ SelectField }
+						name={ `wpseo_titles.taxonomy-${ name }-ptparent` }
+						data-id={ `input-wpseo_titles-taxonomy-${ name }-ptparent` }
+						label={ label }
+						options={ options }
+					/>
+				) ) }
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout title={ __( "How to insert breadcrumbs in your theme", "wordpress-seo" ) }>

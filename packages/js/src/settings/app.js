@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
 	AdjustmentsIcon,
 	ArrowNarrowRightIcon,
@@ -17,7 +16,6 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
-import TaxonomyPostTypeBadges from "./components/taxonomy-post-type-badges";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
@@ -38,33 +36,6 @@ import {
 } from "./routes";
 
 /**
- * @param {Object} taxonomy The taxonomy to render submenu item for.
- * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
- * @returns {JSX.Element} The TaxonomySubmenuItem element.
- */
-const TaxonomySubmenuItem = ( { taxonomy, idSuffix = "" } ) => {
-	const hasPostTypeBadge = useSelectSettings( "selectTaxonomyHasPostTypeBadge", [ taxonomy.name ], taxonomy.name );
-
-	return (
-		<SidebarNavigation.SubmenuItem
-			to={ `/taxonomy/${ taxonomy.route }` }
-			label={ <div className="yst-flex yst-w-full yst-justify-between yst-items-center">
-				<span>{ taxonomy.label }</span>
-				{ hasPostTypeBadge && <div className="yst-flex yst-flex-wrap yst-justify-end yst-gap-1.5">
-					<TaxonomyPostTypeBadges name={ taxonomy.name } />
-				</div> }
-			</div> }
-			idSuffix={ idSuffix }
-		/>
-	);
-};
-
-TaxonomySubmenuItem.propTypes = {
-	taxonomy: PropTypes.object.isRequired,
-	idSuffix: PropTypes.string,
-};
-
-/**
  * @param {Object[]} postTypes The post types to present.
  * @param {Object[]} taxonomies The taxonomies to present.
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
@@ -75,7 +46,6 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
-		const svgAriaProps = useSvgAria();
 
 		return (
 			<div className="yst-relative">
@@ -142,7 +112,15 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-					{ map( taxonomies, taxonomy => <TaxonomySubmenuItem key={ `link-taxonomy-${ taxonomy.name }` } taxonomy={ taxonomy } /> ) }
+					{ map( taxonomies, taxonomy => (
+						<SidebarNavigation.SubmenuItem
+							to={ `/taxonomy/${ taxonomy.route }` }
+							label={ <div className="yst-flex yst-w-full yst-justify-between yst-items-center">
+								<span>{ taxonomy.label }</span>
+							</div> }
+							idSuffix={ idSuffix }
+						/>
+					) ) }
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
@@ -190,7 +168,7 @@ const PremiumUpsellList = () => {
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium */
 					__( "Upgrade to %s", "wordpress-seo" ),
-					"Yoast SEO Premium",
+					"Yoast SEO Premium"
 				) }
 			</Title>
 			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside yst-text-slate-800 yst-mt-6">
@@ -220,7 +198,7 @@ const PremiumUpsellList = () => {
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium */
 					__( "Get %s", "wordpress-seo" ),
-					"Yoast SEO Premium",
+					"Yoast SEO Premium"
 				) }
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
 			</Button>
@@ -242,7 +220,7 @@ const App = () => {
 	const { dirty } = useFormikContext();
 	useBeforeUnload(
 		dirty,
-		__( "There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" ),
+		__( "There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" )
 	);
 
 	return (
@@ -255,12 +233,15 @@ const App = () => {
 				>
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
-				<div className={ classNames(
-					"yst-p-4 md:yst-p-8 md:yst-pl-[17rem] lg:yst-pl-[19rem]",
-					! isPremium && "xl:yst-pr-[22rem]",
-				) }>
+				<div
+					className={ classNames(
+						"yst-p-4 md:yst-p-8 md:yst-pl-[17rem] lg:yst-pl-[19rem]",
+						! isPremium && "xl:yst-pr-[22rem]"
+					) }
+				>
 					<aside
-						className="yst-sidebar yst-sidebar-nav yst-overflow-auto yst-hidden md:yst-block yst-fixed yst-pb-8 yst-pr-2 yst-bottom-0 yst-w-56 lg:yst-w-64">
+						className="yst-sidebar yst-sidebar-nav yst-overflow-auto yst-hidden md:yst-block yst-fixed yst-pb-8 yst-pr-2 yst-bottom-0 yst-w-56 lg:yst-w-64"
+					>
 						<SidebarNavigation.Sidebar className="yst-px-0.5">
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
@@ -312,4 +293,3 @@ const App = () => {
 };
 
 export default App;
-/* eslint-enable */
