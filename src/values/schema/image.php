@@ -24,14 +24,32 @@ class Image {
 	private $id;
 
 	/**
+	 * The width of the image (in pixels).
+	 *
+	 * @var int|null
+	 */
+	private $width;
+
+	/**
+	 * The height of the image (in pixels).
+	 *
+	 * @var int|null
+	 */
+	private $height;
+
+	/**
 	 * Construct an Image.
 	 *
 	 * @param string   $src The source of the image.
 	 * @param int|null $id The ID of the image.
+	 * @param int|null $width The width of the image (in pixels).
+	 * @param int|null $height The height of the image (in pixels).
 	 */
-	public function __construct( $src, $id = null ) {
-		$this->src = $src;
-		$this->id  = $id;
+	public function __construct( $src, $id = null, $width = null, $height = null ) {
+		$this->src    = $src;
+		$this->id     = $id;
+		$this->width  = $width;
+		$this->height = $height;
 	}
 
 	/**
@@ -79,5 +97,32 @@ class Image {
 	 */
 	public function has_id() {
 		return isset( $this->id );
+	}
+
+	/**
+	 * Check whether an image has a registered size.
+	 *
+	 * @return bool True if width and height are both set, false otherwise.
+	 */
+	public function has_size() {
+		return ! \is_null( $this->width ) && ! \is_null( $this->height );
+	}
+
+	/**
+	 * Get the image width.
+	 *
+	 * @return int|null The image width, null if it does not exist.
+	 */
+	public function get_width() {
+		return $this->width;
+	}
+
+	/**
+	 * Get the image height.
+	 *
+	 * @return int|null The image height, null if it does not exist.
+	 */
+	public function get_height() {
+		return $this->height;
 	}
 }

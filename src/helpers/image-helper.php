@@ -237,8 +237,8 @@ class Image_Helper {
 	/**
 	 * Retrieves the attachment image url.
 	 *
-	 * @param int    $attachment_id Attachment ID.
-	 * @param string $size          The size to get.
+	 * @param int          $attachment_id Attachment ID.
+	 * @param string|array $size          The size to get.
 	 *
 	 * @return string The url when found, empty string otherwise.
 	 */
@@ -386,6 +386,75 @@ class Image_Helper {
 	}
 
 	/**
+	 * Get the image width and height from the image src attribute (for WordPress images).
+	 *
+	 * @param string $src The image src attribute.
+	 * @return array|null Either an array with a 'width' and 'height' key or null when no image size was found.
+	 */
+	protected function get_image_size( $src ) {
+		$matches = [];
+		$match   = \preg_match( '/^.+-(?<width>\d+)x(?<height>\d+)\.(?<extension>[^.]+)$/', $src, $matches );
+
+		if ( $match !== 1 ) {
+			return null;
+		}
+
+		return [
+			'width'  => intval( $matches['width'] ),
+			'height' => intval( $matches['height'] ),
+		];
+	}
+
+	/**
+	 * Generate an Image object from the source of an image.
+	 *
+	 * @param string      $src The src attribute of an img tag.
+	 * @param string|null $class The class attribute of an img tag.
+	 * @return Image|null The generated Image object.
+	 */
+	protected function get_image_object_from_source( $src, $class ) {
+		// Extract image size if present in src.
+		$image_size = $this->get_image_size( $src );
+
+		$width  = null;
+		$height = null;
+
+		$id = null;
+
+		if ( ! \is_null( $image_size ) ) {
+			$width  = $image_size['width'];
+			$height = $image_size['height'];
+		}
+
+		if ( // This detects WP-inserted images, which we need to upsize. R.
+			! empty( $class )
+			&& ( \strpos( $class, 'size-full' ) === false )
+			&& \preg_match( '|wp-image-(?P<id>\d+)|', $class, $matches )
+			&& \get_post_status( $matches['id'] )
+		) {
+			$query_params = \wp_parse_url( $src, PHP_URL_QUERY );
+			$id           = \intval( $matches['id'] );
+			$size         = ! \is_null( $width ) && ! \is_null( $height ) ? [ $width, $height ] : 'full';
+			$src          = $this->get_attachment_image_url( $id, $size );
+
+			if ( empty( $src ) ) {
+				return null;
+			}
+
+			if ( $query_params ) {
+				$src = $src . '?' . $query_params;
+			}
+		}
+
+		$src = $this->url_helper->ensure_absolute_url( $src );
+		if ( $src !== \esc_url( $src, null, 'attribute' ) ) {
+			return null;
+		}
+
+		return new Image( $src, $id, $width, $height );
+	}
+
+	/**
 	 * Parse `<img />` tags in content.
 	 *
 	 * @param string $content Content string to parse.
@@ -415,9 +484,7 @@ class Image_Helper {
 		libxml_clear_errors();
 
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
-
 			$src = $img->getAttribute( 'src' );
-			$id  = null;
 
 			if ( empty( $src ) ) {
 				continue;
@@ -425,40 +492,26 @@ class Image_Helper {
 
 			$class = $img->getAttribute( 'class' );
 
-			if ( // This detects WP-inserted images, which we need to upsize. R.
-				! empty( $class )
-				&& ( strpos( $class, 'size-full' ) === false )
-				&& preg_match( '|wp-image-(?P<id>\d+)|', $class, $matches )
-				&& get_post_status( $matches['id'] )
-			) {
-				$query_params = wp_parse_url( $src, PHP_URL_QUERY );
-				$id           = intval( $matches['id'] );
-				$src          = $this->image_url( $matches['id'] );
-
-				if ( is_null( $src ) ) {
-					continue;
-				}
-
-				if ( $query_params ) {
-					$src = $src . '?' . $query_params;
-				}
+			if ( empty( $class ) ) {
+				$class = null;
 			}
 
-			$src = $this->url_helper->ensure_absolute_url( $src );
+			$image_obj = $this->get_image_object_from_source( $src, $class );
 
-			if ( $src !== esc_url( $src, null, 'attribute' ) ) {
-				continue;
+			if ( ! \is_null( $image_obj ) ) {
+				$images[] = $image_obj;
 			}
-
-			$images[] = new Image( $src, $id );
 		}
 
 		$gallery_images = $this->get_gallery_images_from_post_content( $content );
 
 		foreach ( $gallery_images as $image ) {
 			$image_src = $this->image_url( $image->ID );
-			if ( ! is_null( $image_src ) ) {
-				$images[] = new Image( $this->url_helper->ensure_absolute_url( $image_src ), $image->ID );
+			if ( ! \is_null( $image_src ) ) {
+				$image_obj = $this->get_image_object_from_source( $image_src, null );
+				if ( ! \is_null( $image_obj ) ) {
+					$images[] = $image_obj;
+				}
 			}
 		}
 
@@ -526,39 +579,6 @@ class Image_Helper {
 		}
 
 		return $galleries;
-	}
-
-	/**
-	 * Get attached image URL with post ID.
-	 *
-	 * @param int $post_id ID of the post.
-	 *
-	 * @return string|null
-	 */
-	public function image_url( $post_id ) {
-		$uploads = \wp_upload_dir();
-
-		if ( $uploads['error'] !== false ) {
-			return null;
-		}
-
-		$file = \get_post_meta( $post_id, '_wp_attached_file', true );
-
-		if ( empty( $file ) ) {
-			return null;
-		}
-
-		// Check that the upload base exists in the file location.
-		if ( \strpos( $file, $uploads['basedir'] ) === 0 ) {
-			return \str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
-		}
-		elseif ( \strpos( $file, 'wp-content/uploads' ) !== false ) {
-			return $uploads['baseurl'] . \substr( $file, ( \strpos( $file, 'wp-content/uploads' ) + 18 ) );
-		}
-		else {
-			// It's a newly uploaded file, therefore $file is relative to the baseurl.
-			return $uploads['baseurl'] . '/' . $file;
-		}
 	}
 
 	/**

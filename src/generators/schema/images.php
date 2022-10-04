@@ -78,7 +78,12 @@ class Images extends Abstract_Schema_Piece {
 	 */
 	protected function add_image_schema( $graph, $image ) {
 		if ( $image->has_id() ) {
-			$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id() );
+			if ( $image->has_size() ) {
+				$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id(), '', false, [ $image->get_width(), $image->get_width() ] );
+			}
+			else {
+				$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id() );
+			}
 		}
 		else {
 			$graph[] = $this->helpers->schema->image->generate_from_url( $image->get_src(), $image->get_src() );
@@ -122,34 +127,6 @@ class Images extends Abstract_Schema_Piece {
 	}
 
 	/**
-	 * Convert an images stored in the open_graph_images array to an Image object.
-	 *
-	 * @param array $open_graph_image Array with at least and image url (and possibly an id).
-	 * @return Image The converted image.
-	 */
-	protected function convert_open_graph_image( $open_graph_image ) {
-		$image_obj = new Image( $open_graph_image['url'], isset( $open_graph_image['id'] ) ? intval( $open_graph_image['id'] ) : null );
-
-		// Try to find the image ID of the image.
-		if ( ! $image_obj->has_id() ) {
-			$found_image_id = $this->helpers->image->get_attachment_by_url( $image_obj->get_src() );
-			if ( $found_image_id !== 0 ) {
-				$image_obj->set_id( $found_image_id );
-			}
-		}
-
-		// $image might include an image url that does not have the correct scheme (e.g. http instead of https).
-		// We will try to convert it if possible.
-		if ( $image_obj->has_id() ) {
-			$image_url = $this->helpers->image->get_attachment_image_url( $image_obj->get_id(), 'full' );
-			if ( $image_url !== '' ) {
-				$image_obj->set_src( $image_url );
-			}
-		}
-		return $image_obj;
-	}
-
-	/**
 	 * Add the opengraph images to the graph.
 	 *
 	 * @param array $graph The current graph.
@@ -158,7 +135,7 @@ class Images extends Abstract_Schema_Piece {
 	 */
 	protected function add_opengraph_images( $graph ) {
 		foreach ( $this->context->presentation->open_graph_images as $image ) {
-			$image_obj = $this->convert_open_graph_image( $image );
+			$image_obj = $this->helpers->schema->image->convert_open_graph_image( $image );
 			$graph     = $this->maybe_add_image_schema( $graph, $image_obj );
 		}
 
