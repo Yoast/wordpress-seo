@@ -43,7 +43,6 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 		$count = wp_count_posts( $post_type );
 		return $count->publish;
 	}
-	
 	/**
 	 * Returns the WordPress version.
 	 *
