@@ -65,9 +65,9 @@ class CoAuthor extends Author {
 	}
 
 	/**
-	 * Generate the Person data given a user ID.
+	 * Generate the Person data given a Guest Author object.
 	 *
-	 * @param int $user_id User ID.
+	 * @param object $guest_author The Guest Author object.
 	 *
 	 * @return array|bool
 	 */
@@ -80,13 +80,11 @@ class CoAuthor extends Author {
 		unset( $data['logo'] );
 
 		// If this is a post and the author archives are enabled, set the author archive url as the author url.
-		// if ( $this->helpers->options->get( 'disable-author' ) !== true ) {
-		// 	$data['url'] = $this->helpers->user->get_the_author_posts_url( $user_id );
-		// }
+		if ( $this->helpers->options->get( 'disable-author' ) !== true ) {
+			 $data['url'] = \get_author_posts_url( $guest_author->ID, $guest_author->user_nicename );
+		}
 
 		return $data;
-
-		//return $this->generate();
 	}
 
 	/**
@@ -99,27 +97,40 @@ class CoAuthor extends Author {
 	}
 
 	/**
-	 * Builds our array of Schema Person data for a given user ID.
+	 * Builds our array of Schema Person data for a given Guest Author.
 	 *
-	 * @param int  $user_id  The user ID to use.
-	 * @param bool $add_hash Wether or not the person's image url hash should be added to the image id.
+	 * @param object $guest_author The Guest Author object.
+	 * @param bool   $add_hash Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array An array of Schema Person data.
 	 */
 	protected function build_person_data_for_guest_author( $guest_author, $add_hash = false ) {
+		$schema_id = $this->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
 		$data      = [
 			'@type' => $this->type,
-			'@id'   => $this->context->site_url . Schema_IDs::PERSON_HASH . \wp_hash( $guest_author->user_login . $guest_author->ID . 'guest' ),
+			'@id'   => $schema_id . \wp_hash( $guest_author->user_login . $guest_author->ID . 'guest' ),
 		];
 
 		$data['name'] = $this->helpers->schema->html->smart_strip_tags( $guest_author->display_name );
-		//$data         = $this->add_image( $data, $guest_author, $add_hash );
+
+		$data = $this->set_image_from_avatar( $data, $guest_author, $schema_id, $add_hash );
+
+		// If local avatar is present, override.
+		$avatar_meta = \wp_get_attachment_image_src( get_post_thumbnail_id( $guest_author->ID ) );
+		if ( $avatar_meta ) {
+			$avatar_meta   = [
+				'url'    => $avatar_meta[0],
+				'width'  => $avatar_meta[1],
+				'height' => $avatar_meta[2],
+			];
+			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $schema_id, $avatar_meta, $data['name'], $add_hash );
+		}
 
 		if ( ! empty( $guest_author->description ) ) {
 			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $guest_author->description );
 		}
 
-		//$data = $this->add_same_as_urls( $data, $guest_author, $user_id );
+		$data = $this->add_same_as_urls( $data, $guest_author, $user_id );
 
 		/**
 		 * Filter: 'wpseo_schema_person_data' - Allows filtering of schema data per user.
@@ -127,7 +138,7 @@ class CoAuthor extends Author {
 		 * @param array $data    The schema data we have for this person.
 		 * @param int   $user_id The current user we're collecting schema data for.
 		 */
-		//$data = \apply_filters( 'wpseo_schema_person_data', $data, $user_id );generate_from_guest_author
+		$data = \apply_filters( 'wpseo_schema_person_data', $data, $user_id );
 
 		return $data;
 	}

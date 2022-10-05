@@ -105,30 +105,26 @@ class CoAuthors_Plus implements Integration_Interface {
 		 * @var \WP_User[] $author_objects
 		 */
 		$author_objects = \get_coauthors( $context->post->ID );
-		//var_dump($author_objects ); die;
-		// if ( \count( $author_objects ) <= 1 ) {
-		// 	return $data;
-		// }
 
-		$ids = [];
+		$ids     = [];
+		$authors = [];
 
 		// Add the authors to the schema.
 		foreach ( $author_objects as $author ) {
-			//var_dump($author->ID, $context->post); die;
-			// if ( $author->ID === (int) $context->post->post_author ) {
-			// 	continue;
-			// }
 			$author_generator          = new CoAuthor();
 			$author_generator->context = $context;
 			$author_generator->helpers = $this->helpers;
-			//var_dump($author instanceof \WP_User); die;
+
 			if ( $author instanceof \WP_User ) {
-				$author_data               = $author_generator->generate_from_user_id( $author->ID );
-			} elseif ( ! empty( $author->type ) && 'guest-author' === $author->type ) {
-				$author_data               = $author_generator->generate_from_guest_author( $author );
+				$author_data = $author_generator->generate_from_user_id( $author->ID );
 			}
+			elseif ( ! empty( $author->type ) && $author->type === 'guest-author' ) {
+				$author_data = $author_generator->generate_from_guest_author( $author );
+			}
+
 			if ( ! empty( $author_data ) ) {
-				$ids[] = [ '@id' => $author_data['@id'] ];
+				$ids[]     = [ '@id' => $author_data['@id'] ];
+				$authors[] = $author_data;
 			}
 		}
 		$schema_types  = new Schema_Types();
@@ -138,16 +134,24 @@ class CoAuthors_Plus implements Integration_Interface {
 		$add_to_graph = false;
 		foreach ( $data as $key => $piece ) {
 			if ( \in_array( $piece['@type'], $article_types, true ) ) {
-				$data[ $key ]['author'] = $ids; //\array_merge( [ $piece['author'] ], $ids );
+				$data[ $key ]['author'] = $ids;
 				$add_to_graph           = true;
 				break;
 			}
 		}
 
 		if ( $add_to_graph ) {
+			// Clean all Persons from the schema, as the user stored as post owner might be incorrectly added if the post post has only guest authors as authors.
+			$data = array_filter(
+				$data,
+				function( $piece ) {
+					return empty( $piece['@type'] ) || $piece['@type'] !== 'Person';
+				}
+			);
+
 			if ( ! empty( $author_data ) ) {
 				if ( $context->site_represents !== 'person' || $author->ID !== $context->site_user_id ) {
-					$data[] = $author_data;
+					$data = array_merge( $data, $authors );
 				}
 			}
 		}
