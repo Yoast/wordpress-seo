@@ -103,6 +103,7 @@ class Redirects_Test extends TestCase {
 
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'archive_redirect' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'page_redirect' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'category_redirect' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'template_redirect', [ $this->instance, 'attachment_redirect' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'template_redirect', [ $this->instance, 'disable_date_queries' ] ) );
 	}
@@ -330,5 +331,37 @@ class Redirects_Test extends TestCase {
 			->with( 'https://example.org/redirect', 301 );
 
 		$this->instance->attachment_redirect();
+	}
+
+	/**
+	 * Tests no redirect when GET parameter is not set.
+	 *
+	 * @covers ::category_redirect
+	 */
+	public function test_attachment_redirect_no_get() {
+		$this->redirect
+			->shouldNotReceive( 'do_safe_redirect' );
+
+		$this->instance->category_redirect();
+	}
+
+	/**
+	 * Tests if there is a redirect when GET parameter is set.
+	 *
+	 * @covers ::category_redirect
+	 */
+	public function test_attachment_redirect_with_get() {
+		$_GET['cat'] = '-1';
+
+		$this->url
+			->expects( 'recreate_current_url' )
+			->andReturn( 'https://example.org' )
+			->once();
+		$this->redirect
+			->expects( 'do_safe_redirect' )
+			->with( 'https://example.org', 301, 'Stripping cat=-1 from the URL' )
+			->once();
+
+		$this->instance->category_redirect();
 	}
 }
