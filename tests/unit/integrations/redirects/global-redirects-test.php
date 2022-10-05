@@ -6,10 +6,8 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Integrations\Front_End\Redirects;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Integrations\Redirects\Global_Redirects;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
  * Class Global_Redirects_Test.
@@ -97,7 +95,7 @@ class Global_Redirects_Test extends TestCase {
 
 		$this->url
 			->expects( 'recreate_current_url' )
-			->andReturn('https://example.org')
+			->andReturn( 'https://example.org' )
 			->once();
 		$this->redirect
 			->expects( 'do_safe_redirect' )
