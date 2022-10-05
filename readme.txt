@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.7.1
+Stable tag: 19.7.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -242,9 +242,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 19.8 =
-Release Date: October 4th, 2022
-
-
+Release Date: October 11th, 2022
 
 
 Enhancements:
@@ -255,18 +253,26 @@ Enhancements:
 
 Bugfixes:
 
+* Fixes a bug where a fatal error would be thrown on WordPress.com using PHP 8.0 in connection with the Debug Bar.
 * Fixes a bug where a fatal error would be thrown when the `php_uname()` function is disabled by the web hosting provider and usage tracking is enabled.
 * Fixes a bug where changes in the replacement variables (e.g. the value of the `%%title%%` replacement variable when the post title changes) would not be reflected in the Meta description length, the SEO title width, and the Keyphrase in SEO title assessments.
 * Fixes a bug where `ListItem` entries would be output in a `BreadcrumbList` even if their text was empty, resulting in Schema validation errors.
 * Fixes a bug where passing `__false` to the `wpseo_robots` filter would result in a `max-image-preview:large` robots meta directive instead of the desired `noindex, nofollow` directive.
 * Fixes a bug where robots meta tags would be unintentionally synchronized between pages in different languages when using multilingual plugins like WPML or Polylang.
 * Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
-* Fixes a bug where Yoast would conflict with Elementor, when Yoast Premium or Yoast News or Yoast Video is active, throwing console errors.
+* Fixes a bug where the sidebar issue counter would show a wrong number of issues, on the first page load after an issue was resolved.
 
 Other:
 
 * Deprecates the `wpseo_twitter_card_type` filter.
 * Outputs `summary_large_image` for all `twitter:card` meta tags, because it's the only supported format by Twitter.
+
+= 19.7.2 =
+Release Date: October 5th, 2022
+
+Other:
+
+* Removes the cURL minimal version check from the Site Health page, as it was causing issues.
 
 = 19.7.1 =
 Release Date: September 20th, 2022
@@ -277,7 +283,7 @@ Bugfixes:
 
 Other:
 
-* Changes the copy in the `robots.txt` comment. 
+* Changes the copy in the `robots.txt` comment.
 
 = 19.7 =
 Release Date: September 20th, 2022
