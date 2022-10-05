@@ -54,10 +54,9 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 			\esc_url( $this->short_link_helper->get( 'https://yoa.st/3-z' ) ),
 			\esc_html__( 'Learn more about the benefits of optimized SEO data.', 'wordpress-seo' )
 		);
-		if ( $this->indexing_helper->should_show_optimization_button() ){
-			$output .= '<div id="yoast-seo-indexing-action" style="margin: 13px 0;" msg="should_show"></div>';
-			$output .= '</li>';
-		}
+
+		$output .= '<div id="yoast-seo-indexing-action" style="margin: 13px 0;" msg="should_show"></div>';
+		$output .= '</li>';
 
 		return $output;
 	}
