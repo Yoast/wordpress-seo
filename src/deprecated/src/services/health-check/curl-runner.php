@@ -14,6 +14,16 @@ use Yoast\WP\SEO\Helpers\Curl_Helper;
 class Curl_Runner implements Runner_Interface {
 
 	/**
+	 * Sets the minimum cURL version for this health check to pass.
+	 */
+	const MINIMUM_CURL_VERSION = '7.34.0';
+
+	/**
+	 * Sets the target URL for testing whether the MyYoast API is reachable.
+	 */
+	const MYYOAST_API_REQUEST_URL = 'sites/current';
+
+	/**
 	 * Constructor.
 	 *
 	 * @deprecated 19.7.2
@@ -71,6 +81,20 @@ class Curl_Runner implements Runner_Interface {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 19.7.2' );
 
 		return false;
+	}
+
+	/**
+	 * Returns whether cURL was able to reach the MyYoast API.
+	 *
+	 * @deprecated 19.7.2
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool True if cURL was able to reach the MyYoast API.
+	 */
+	public function can_reach_my_yoast_api() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.7.2' );
+
+		return true;
 	}
 
 	/**
