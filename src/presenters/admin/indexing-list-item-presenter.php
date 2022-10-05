@@ -21,13 +21,6 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 	protected $short_link_helper;
 
 	/**
-	 * The indexing helper.
-	 *
-	 * @var Indexing_Helper
-	 */
-	protected $indexing_helper;
-
-	/**
 	 * Indexing_List_Item_Presenter constructor.
 	 *
 	 * @param Short_Link_Helper $short_link_helper Represents the short link helper.
