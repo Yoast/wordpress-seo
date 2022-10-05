@@ -242,13 +242,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 19.8 =
-Release Date: October 4th, 2022
-
-
-
-
-
-
+Release Date: October 11th, 2022
 
 Enhancements:
 
@@ -272,6 +266,13 @@ Other:
 * Deprecates the `wpseo_twitter_card_type` filter.
 * Outputs `summary_large_image` for all `twitter:card` meta tags, because it's the only supported format by Twitter.
 
+= 19.7.2 =
+Release Date: October 5th, 2022
+
+Other:
+
+* Removes the cURL minimal version check from the Site Health page, as it was causing issues.
+
 = 19.7.1 =
 Release Date: September 20th, 2022
 
@@ -281,7 +282,7 @@ Bugfixes:
 
 Other:
 
-* Changes the copy in the `robots.txt` comment. 
+* Changes the copy in the `robots.txt` comment.
 
 = 19.7 =
 Release Date: September 20th, 2022
