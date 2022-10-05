@@ -109,7 +109,6 @@ class Curl_Runner_Test extends TestCase {
 		$this->instance->run();
 
 		$this->assertFalse( $this->instance->has_recent_curl_version_installed() );
-		$this->assertFalse( $this->instance->can_reach_my_yoast_api() );
 		$this->assertFalse( $this->instance->is_successful() );
 	}
 
@@ -136,7 +135,6 @@ class Curl_Runner_Test extends TestCase {
 		$this->instance->run();
 
 		$this->assertFalse( $this->instance->has_recent_curl_version_installed() );
-		$this->assertFalse( $this->instance->can_reach_my_yoast_api() );
 		$this->assertFalse( $this->instance->is_successful() );
 	}
 
@@ -176,86 +174,7 @@ class Curl_Runner_Test extends TestCase {
 		$this->instance->run();
 
 		$this->assertFalse( $this->instance->has_recent_curl_version_installed() );
-		$this->assertTrue( $this->instance->can_reach_my_yoast_api() );
 		$this->assertFalse( $this->instance->is_successful() );
-	}
-
-	/**
-	 * Checks if the health check correctly detects when the MyYoast API isn't reachable.
-	 *
-	 * @covers ::__construct
-	 * @covers ::run
-	 * @covers ::has_recent_curl_version_installed
-	 * @covers ::can_reach_my_yoast_api
-	 * @covers ::is_successful
-	 * @covers ::check_has_installed_addons
-	 * @covers ::check_curl_installed
-	 */
-	public function test_my_yoast_not_reachable() {
-		$this->my_yoast_api_request_factory_mock
-			->shouldReceive( 'create' )
-			->andReturn( $this->my_yoast_api_mock );
-
-		$this->my_yoast_api_mock
-			->shouldReceive( 'fire' )
-			->andReturn( false );
-
-		$this->addon_manager_mock
-			->shouldReceive( 'has_installed_addons' )
-			->andReturn( true );
-
-		$this->curl_helper_mock
-			->shouldReceive( 'is_installed' )
-			->andReturn( true );
-
-		$this->curl_helper_mock
-			->shouldReceive( 'get_version' )
-			->andReturn( Curl_Runner::MINIMUM_CURL_VERSION );
-
-		$this->instance->run();
-
-		$this->assertTrue( $this->instance->has_recent_curl_version_installed() );
-		$this->assertFalse( $this->instance->can_reach_my_yoast_api() );
-		$this->assertFalse( $this->instance->is_successful() );
-	}
-
-	/**
-	 * Checks if the health check correctly detects when the MyYoast API isn't reachable.
-	 *
-	 * @covers ::__construct
-	 * @covers ::run
-	 * @covers ::has_recent_curl_version_installed
-	 * @covers ::can_reach_my_yoast_api
-	 * @covers ::is_successful
-	 * @covers ::check_has_installed_addons
-	 * @covers ::check_curl_installed
-	 */
-	public function test_is_successful() {
-		$this->my_yoast_api_request_factory_mock
-			->shouldReceive( 'create' )
-			->andReturn( $this->my_yoast_api_mock );
-
-		$this->my_yoast_api_mock
-			->shouldReceive( 'fire' )
-			->andReturn( true );
-
-		$this->addon_manager_mock
-			->shouldReceive( 'has_installed_addons' )
-			->andReturn( true );
-
-		$this->curl_helper_mock
-			->shouldReceive( 'is_installed' )
-			->andReturn( true );
-
-		$this->curl_helper_mock
-			->shouldReceive( 'get_version' )
-			->andReturn( Curl_Runner::MINIMUM_CURL_VERSION );
-
-		$this->instance->run();
-
-		$this->assertTrue( $this->instance->has_recent_curl_version_installed() );
-		$this->assertTrue( $this->instance->can_reach_my_yoast_api() );
-		$this->assertTrue( $this->instance->is_successful() );
 	}
 
 	/**
