@@ -23,6 +23,8 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
+import LinkSuggestions from "../link-suggestions";
+import getL10nObject from "../../analysis/getL10nObject";
 
 /* eslint-disable complexity */
 /**
@@ -45,6 +47,8 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 			return false;
 		}
 	}, [ wincherKeyphrases, setWincherNoKeyphrase ] );
+
+	const isPremium = getL10nObject().isPremium;
 
 	return (
 		<>
@@ -102,6 +106,11 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						onToggle={ onToggleWincher }
 					>
 						<WincherSEOPerformance />
+					</MetaboxCollapsible>
+				</SidebarItem> }
+				{ ! isPremium && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 27 }>
+					<MetaboxCollapsible id={ "internal-linking-suggestions-upsell" } title={ __( "Internal linking suggestions", "wordpress-seo" ) }>
+						<LinkSuggestions />
 					</MetaboxCollapsible>
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
