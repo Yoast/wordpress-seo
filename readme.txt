@@ -241,6 +241,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.7.2 =
+Release Date: October 5th, 2022
+
+Other:
+
+* Removes the cURL minimal version check from the Site Health page, as it was causing issues.
+
 = 19.7.1 =
 Release Date: September 20th, 2022
 
@@ -250,7 +257,7 @@ Bugfixes:
 
 Other:
 
-* Changes the copy in the `robots.txt` comment. 
+* Changes the copy in the `robots.txt` comment.
 
 = 19.7 =
 Release Date: September 20th, 2022
