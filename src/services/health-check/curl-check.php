@@ -66,10 +66,6 @@ class Curl_Check extends Health_Check {
 			return $this->reports->get_no_recent_curl_version_installed_result();
 		}
 
-		if ( ! $this->runner->can_reach_my_yoast_api() ) {
-			return $this->reports->get_my_yoast_api_not_reachable_result();
-		}
-
 		return [];
 	}
 }

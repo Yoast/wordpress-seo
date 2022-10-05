@@ -102,7 +102,6 @@ class Curl_Runner implements Runner_Interface {
 		}
 
 		$this->check_curl_is_recent();
-		$this->check_can_reach_my_yoast_api();
 	}
 
 	/**
@@ -140,25 +139,12 @@ class Curl_Runner implements Runner_Interface {
 	}
 
 	/**
-	 * Checks if cURL is able to reach the MyYoast API.
-	 *
-	 * @return void
-	 */
-	private function check_can_reach_my_yoast_api() {
-		$api_request  = $this->my_yoast_api_request_factory->create( self::MYYOAST_API_REQUEST_URL );
-		$got_response = $api_request->fire();
-
-
-		$this->got_my_yoast_api_response = $got_response;
-	}
-
-	/**
 	 * Returns whether the health check was successful.
 	 *
 	 * @return bool True if all the routines for this health check were successful.
 	 */
 	public function is_successful() {
-		return $this->has_installed_addons && $this->curl_is_recent && $this->got_my_yoast_api_response;
+		return $this->has_installed_addons && $this->curl_is_recent;
 	}
 
 	/**
@@ -168,15 +154,6 @@ class Curl_Runner implements Runner_Interface {
 	 */
 	public function has_premium_plugins_installed() {
 		return $this->has_installed_addons;
-	}
-
-	/**
-	 * Returns whether cURL was able to reach the MyYoast API.
-	 *
-	 * @return bool True if cURL was able to reach the MyYoast API.
-	 */
-	public function can_reach_my_yoast_api() {
-		return $this->got_my_yoast_api_response;
 	}
 
 	/**
