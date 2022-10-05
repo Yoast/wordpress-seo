@@ -64,7 +64,7 @@ class Global_Redirects implements Integration_Interface {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- This is just a replace and the data is never saved.
 				$_SERVER['REQUEST_URI'] = \str_replace( 'cat=-1', '', \wp_unslash( $_SERVER['REQUEST_URI'] ) );
 			}
-			$this->redirect->do_safe_redirect( $this->url->recreate_current_url(), 301 );
+			$this->redirect->do_safe_redirect( $this->url->recreate_current_url(), 301, 'Stripping cat=-1 from the URL' );
 		}
 	}
 }
