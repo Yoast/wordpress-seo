@@ -41,7 +41,10 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 	 */
 	protected function get_post_count( $post_type ) {
 		$count = wp_count_posts( $post_type );
-		return $count->publish;
+		if ( isset( $count->publish ) ) {
+			return $count->publish;
+		}
+		return 0;
 	}
 
 	/**
