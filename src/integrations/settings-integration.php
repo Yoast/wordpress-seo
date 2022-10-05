@@ -286,6 +286,8 @@ class Settings_Integration implements Integration_Interface {
 			'wpseo_manage_options',
 			self::PAGE . '_saved',
 			static function () {
+				$success = empty( \get_settings_errors() ) ? 'true' : 'false';
+				\header( "yoast-success: $success" );
 			}
 		);
 

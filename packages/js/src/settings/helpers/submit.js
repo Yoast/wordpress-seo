@@ -36,10 +36,17 @@ const submitSettings = async( values ) => {
 	} );
 
 	try {
-		await fetch( endpoint, {
+		const response = await fetch( endpoint, {
 			method: "POST",
 			body: new URLSearchParams( formData ),
 		} );
+
+		if ( response.headers.get( "yoast-success" ) !== "true" ) {
+			throw new Error( "Yoast options invalid." );
+		}
+		if ( ! response.url.endsWith( "settings-updated=true" ) ) {
+			throw new Error( "WordPress options save did not get to the end." );
+		}
 	} catch ( error ) {
 		throw new Error( error.message );
 	}
