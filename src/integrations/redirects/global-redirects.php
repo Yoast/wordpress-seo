@@ -33,8 +33,6 @@ class Global_Redirects implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param Redirect_Helper $redirect The redirect helper.
 	 * @param Url_Helper      $url      The URL helper.
 	 */
@@ -55,7 +53,7 @@ class Global_Redirects implements Integration_Interface {
 	}
 
 	/**
-	 * When cat=-1 is in the url we want to strip it and redirect to the destination url.
+	 * Strips `cat=-1` from the URL and redirects to the resulting URL.
 	 */
 	public function category_redirect() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
@@ -64,7 +62,7 @@ class Global_Redirects implements Integration_Interface {
 			unset( $_GET['cat'] );
 			if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- This is just a replace and the data is never saved.
-				$_SERVER['REQUEST_URI'] = str_replace( 'cat=-1', '', wp_unslash( $_SERVER['REQUEST_URI'] ) );
+				$_SERVER['REQUEST_URI'] = \str_replace( 'cat=-1', '', \wp_unslash( $_SERVER['REQUEST_URI'] ) );
 			}
 			$this->redirect->do_safe_redirect( $this->url->recreate_current_url(), 301 );
 		}
