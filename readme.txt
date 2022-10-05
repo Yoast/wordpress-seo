@@ -246,8 +246,7 @@ Release Date: October 5th, 2022
 
 Other:
 
-* Removes the Curl check in the Site Health page.
-
+* Removes the cURL minimal version check from the Site Health page, as it was causing issues.
 
 = 19.7.1 =
 Release Date: September 20th, 2022
