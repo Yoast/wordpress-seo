@@ -32,7 +32,6 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 	/**
 	 * Presents the list item for the tools menu.
 	 *
-	 * @param $indexing_helper
 	 * @return string The list item HTML.
 	 */
 	public function present() {
