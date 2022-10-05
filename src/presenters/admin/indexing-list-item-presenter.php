@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
-use Yoast\WP\SEO\Helpers\Indexing_Helper;
 
 
 /**
@@ -32,11 +31,9 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 	 * Indexing_List_Item_Presenter constructor.
 	 *
 	 * @param Short_Link_Helper $short_link_helper Represents the short link helper.
-	 * @param Indexing_Helper   $indexing_helper   The indexing helper.
 	 */
-	public function __construct( Short_Link_Helper $short_link_helper, Indexing_Helper $indexing_helper ) {
+	public function __construct( Short_Link_Helper $short_link_helper ) {
 		$this->short_link_helper = $short_link_helper;
-		$this->indexing_helper   = $indexing_helper;
 	}
 
 	/**
