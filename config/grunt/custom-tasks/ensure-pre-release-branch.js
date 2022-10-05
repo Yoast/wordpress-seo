@@ -28,7 +28,7 @@ module.exports = function( grunt ) {
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
 
-			const basebranch = type === "hotfix" ? "master" : "trunk";
+			const basebranch = type === "hotfix" ? "main" : "trunk";
 			const branchForRC = type + "/" + version;
 
 			// Set a grunt branchForRC variable.
