@@ -66,16 +66,13 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	}, [] );
 
 	return <>
-		<header className="yst-sticky yst-top-0">
-			<div className="yst-p-4 yst-bg-slate-100">
-				<Link to="/" className="yst-inline-block yst-mb-6">
-					<YoastLogo className="yst-w-40" { ...svgAriaProps } />
-				</Link>
-				<Search />
-			</div>
-			<div className="yst-h-8 yst-bg-gradient-to-b yst-from-slate-100" />
+		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
+			<Link to="/" className="yst-inline-block">
+				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
+			</Link>
+			<Search />
 		</header>
-		<div className="yst-p-4 yst-pt-0 yst-space-y-6">
+		<div className="yst-px-0.5 yst-space-y-6">
 			<SidebarNavigation.MenuItem
 				id={ `menu-site-settings${ idSuffix && `-${ idSuffix }` }` }
 				icon={ DesktopComputerIcon }
@@ -163,7 +160,7 @@ const PremiumUpsellList = () => {
 	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
 
 	return (
-		<div className="yst-p-6 yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
+		<div className="yst-p-6 xl:yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
 			<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium */
@@ -233,59 +230,56 @@ const App = () => {
 				>
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
-				<div
-					className={ classNames(
-						"yst-p-4 md:yst-p-8 md:yst-pl-[17rem] lg:yst-pl-[19rem]",
-						! isPremium && "xl:yst-pr-[22rem]"
-					) }
-				>
+				<div className="yst-p-4 md:yst-p-8 yst-flex yst-gap-4">
 					<aside
-						className="yst-sidebar yst-sidebar-nav yst-overflow-auto yst-hidden md:yst-block yst-fixed yst-pb-8 yst-pr-2 yst-bottom-0 yst-w-56 lg:yst-w-64"
+						className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64"
 					>
-						<SidebarNavigation.Sidebar className="yst-px-0.5">
+						<SidebarNavigation.Sidebar>
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<div className="yst-flex yst-flex-col yst-gap-4">
-						<main className="yst-rounded-lg yst-bg-white yst-shadow">
-							<ErrorBoundary FallbackComponent={ ErrorFallback }>
-								<Routes>
-									<Route path="author-archives" element={ <AuthorArchives /> } />
-									<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
-									<Route path="crawl-optimization" element={ <CrawlSettings /> } />
-									<Route path="date-archives" element={ <DateArchives /> } />
-									<Route path="homepage" element={ <Homepage /> } />
-									<Route path="formats" element={ <Formats /> } />
-									<Route path="media" element={ <Media /> } />
-									<Route path="rss" element={ <Rss /> } />
-									<Route path="site-basics" element={ <SiteBasics /> } />
-									<Route path="site-connections" element={ <SiteConnections /> } />
-									<Route path="site-representation" element={ <SiteRepresentation /> } />
-									<Route path="site-features" element={ <SiteFeatures /> } />
-									<Route path="special-pages" element={ <SpecialPages /> } />
-									<Route path="post-type">
-										{ map( postTypes, postType => (
-											<Route
-												key={ `route-post-type-${ postType.name }` } path={ postType.route }
-												element={ <PostType { ...postType } /> }
-											/>
-										) ) }
-									</Route>
-									<Route path="taxonomy">
-										{ map( taxonomies, taxonomy => (
-											<Route
-												key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
-												element={ <Taxonomy { ...taxonomy } /> }
-											/>
-										) ) }
-									</Route>
-									<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
-								</Routes>
-							</ErrorBoundary>
-						</main>
-						{ ! isPremium && <PremiumUpsellList /> }
+					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[20.5rem]" ) }>
+						<div className="yst-grow yst-space-y-6 yst-mb-6 xl:yst-mb-0">
+							<main className="yst-rounded-lg yst-bg-white yst-shadow">
+								<ErrorBoundary FallbackComponent={ ErrorFallback }>
+									<Routes>
+										<Route path="author-archives" element={ <AuthorArchives /> } />
+										<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
+										<Route path="crawl-optimization" element={ <CrawlSettings /> } />
+										<Route path="date-archives" element={ <DateArchives /> } />
+										<Route path="homepage" element={ <Homepage /> } />
+										<Route path="formats" element={ <Formats /> } />
+										<Route path="media" element={ <Media /> } />
+										<Route path="rss" element={ <Rss /> } />
+										<Route path="site-basics" element={ <SiteBasics /> } />
+										<Route path="site-connections" element={ <SiteConnections /> } />
+										<Route path="site-representation" element={ <SiteRepresentation /> } />
+										<Route path="site-features" element={ <SiteFeatures /> } />
+										<Route path="special-pages" element={ <SpecialPages /> } />
+										<Route path="post-type">
+											{ map( postTypes, postType => (
+												<Route
+													key={ `route-post-type-${ postType.name }` } path={ postType.route }
+													element={ <PostType { ...postType } /> }
+												/>
+											) ) }
+										</Route>
+										<Route path="taxonomy">
+											{ map( taxonomies, taxonomy => (
+												<Route
+													key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
+													element={ <Taxonomy { ...taxonomy } /> }
+												/>
+											) ) }
+										</Route>
+										<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
+									</Routes>
+								</ErrorBoundary>
+							</main>
+							{ ! isPremium && <PremiumUpsellList /> }
+						</div>
+						{ ! isPremium && <SidebarRecommendations /> }
 					</div>
-					{ ! isPremium && <SidebarRecommendations /> }
 				</div>
 			</SidebarNavigation>
 		</>

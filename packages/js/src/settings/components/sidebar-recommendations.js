@@ -90,9 +90,7 @@ const SidebarRecommendations = () => {
 	), [] );
 
 	return (
-		<div
-			className="yst-sidebar xl:yst-fixed xl:yst-bottom-0 xl:yst-right-6 xl:yst-w-[19rem] yst-mt-6 xl:yst-mt-0"
-		>
+		<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[19rem]">
 			<p className="yst-text-primary-500 yst-leading-loose yst-pb-2 yst-border-b-2 yst-border-primary-300">
 				{ sprintf(
 					/* translators: %1$s expands to Yoast */
