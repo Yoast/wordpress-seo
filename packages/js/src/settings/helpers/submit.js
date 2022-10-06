@@ -1,6 +1,6 @@
 import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import { forEach, get, isArray, isObject, omit } from "lodash";
+import { forEach, get, isArray, isObject, omit, includes } from "lodash";
 import { STORE_NAME } from "../constants";
 import { submitUserSocialProfiles } from "./user-social-profiles";
 
@@ -40,8 +40,9 @@ const submitSettings = async( values ) => {
 			method: "POST",
 			body: new URLSearchParams( formData ),
 		} );
+		const responseText = await response.text();
 
-		if ( response.headers.get( "yoast-success" ) !== "true" ) {
+		if ( includes( responseText, "{{ yoast-success: false }}" ) ) {
 			throw new Error( "Yoast options invalid." );
 		}
 		if ( ! response.url.endsWith( "settings-updated=true" ) ) {
