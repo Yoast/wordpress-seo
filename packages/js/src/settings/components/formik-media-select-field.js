@@ -137,7 +137,7 @@ const FormikMediaSelectField = ( {
 	}, [] );
 
 	return (
-		<fieldset id={ id } className="yst-min-width-0 yst-w-96 yst-max-w-full">
+		<fieldset id={ id } className="yst-min-w-0 yst-w-96 yst-max-w-full">
 			<Field
 				type="hidden"
 				name={ mediaIdName }
