@@ -26,6 +26,7 @@ const groupItemsByRoute = items => reduce( items, ( acc, value ) => ( {
  * @returns {JSX.Element} The element.
  */
 const Search = () => {
+	// eslint-disable-next-line no-unused-vars
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
 	const items = useSelectSettings( "selectFlatSearchIndex" );
