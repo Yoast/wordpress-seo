@@ -31,6 +31,13 @@ preferencesSelectors.selectCanEditUser = createSelector(
 	],
 	( currentUserId, canEditUsers, userId ) => currentUserId === userId || canEditUsers
 );
+preferencesSelectors.selectExampleUrl = createSelector(
+	[
+		state => preferencesSelectors.selectPreference( state, "siteUrl", "https://example.com" ),
+		( state, path ) => path,
+	],
+	( siteUrl, path ) => siteUrl + path
+);
 
 export const preferencesActions = slice.actions;
 
