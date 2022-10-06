@@ -1,13 +1,13 @@
 /* eslint-disable complexity */
 import { ArrowNarrowRightIcon, LockOpenIcon } from "@heroicons/react/outline";
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, Button, Card, Title, ToggleField as PureToggleField, useSvgAria } from "@yoast/ui-library";
+import { Alert, Badge, Button, Card, Link, Title, ToggleField as PureToggleField, useSvgAria } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { FormikValueChangeField, FormLayout } from "../components";
 import { withDisabledMessageSupport } from "../hocs";
-import { useSelectLink, useSelectSettings } from "../hooks";
+import { useSelectSettings } from "../hooks";
 
 const ToggleField = withDisabledMessageSupport( PureToggleField );
 
@@ -19,15 +19,15 @@ const ToggleField = withDisabledMessageSupport( PureToggleField );
  */
 const CardHeader = ( { src, alt, children = null } ) => (
 	<Card.Header className="yst-p-0">
-		<figure className="yst-w-full yst-h-full">
-			<img
-				className="yst-object-cover"
-				src={ src }
-				alt={ alt }
-				width={ 500 }
-				height={ 250 }
-			/>
-		</figure>
+		<img
+			className="yst-w-full yst-h-full yst-object-cover yst-object-center"
+			src={ src }
+			alt={ alt }
+			width={ 500 }
+			height={ 250 }
+			loading="lazy"
+			decoding="async"
+		/>
 		{ children }
 	</Card.Header>
 );
@@ -51,6 +51,7 @@ const LearnMoreLink = ( { id, link } ) => {
 			id={ id }
 			href={ href }
 			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-text-primary-500 hover:yst-text-primary-400"
+			rel="noreferrer"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
 			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:-yst-scale-x-100" />
@@ -69,7 +70,6 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
-	const sitemapsLink = useSelectSettings( "selectLink", [], "https://yoa.st/2a-" );
 	const getInclusiveLanguageAnalysisLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-inclusive-language" );
 	const getLinkSuggestionsLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-link-suggestions" );
 	const getIndexNowLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-indexnow" );
@@ -86,57 +86,18 @@ const SiteFeatures = () => {
 	const textLinkCounterImage = useSelectSettings( "selectPluginUrl", [], "/images/text_link_counter.png" );
 	const linkSuggestionsImage = useSelectSettings( "selectPluginUrl", [], "/images/link_suggestions.png" );
 	const openGraphImage = useSelectSettings( "selectPluginUrl", [], "/images/open_graph.png" );
-	const slackSharingLink = useSelectLink( {
-		link: "https://yoa.st/help-slack-share",
-		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-		content: __( "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack. %1$sFind out how a rich snippet can improve visibility and click-through-rate%2$s.", "wordpress-seo" ),
-		id: "link-slack-sharing",
-	} );
-	const xmlSitemapsLink = useMemo( () => createInterpolateElement(
-		[
-			__( "Enable the XML sitemaps that Yoast SEO generates.", "wordpress-seo" ),
-			enableXmlSitemap ? sprintf(
-				/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-				__( "%1$sSee the XML sitemap%2$s.", "wordpress-seo" ),
-				"<sitemap>",
-				"</sitemap>"
-			) : false,
-			sprintf(
-				/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-				__( "%1$sRead why XML Sitemaps are important for your site%2$s.", "wordpress-seo" ),
-				"<a>",
-				"</a>"
-			),
-		].filter( Boolean ).join( " " ),
-		{
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a
-				id={ "link-xml-sitemaps" }
-				href={ sitemapsLink }
-				target="_blank"
-				rel="noopener noreferrer"
-			/>,
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			sitemap: <a
-				id={ "link-xml-sitemaps" }
-				href={ sitemapUrl }
-				target="_blank" rel="noreferrer"
-			/>,
-		}
-	), [ sitemapsLink, sitemapUrl, enableXmlSitemap ] );
-	const indexNowLink = useSelectLink( {
-		link: "https://yoa.st/index-now-feature",
-		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-		content: __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post. %1$sFind out how IndexNow can help your site%2$s.", "wordpress-seo" ),
-		id: "link-usage-tracking",
-	} );
+	const twitterImage = useSelectSettings( "selectPluginUrl", [], "/images/twitter.png" );
+	const slackSharingImage = useSelectSettings( "selectPluginUrl", [], "/images/slack_sharing.png" );
+	const adminBarImage = useSelectSettings( "selectPluginUrl", [], "/images/admin_bar.png" );
+	const restApiImage = useSelectSettings( "selectPluginUrl", [], "/images/rest_api.png" );
+	const xmlSitemapsImage = useSelectSettings( "selectPluginUrl", [], "/images/xml_sitemaps.png" );
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
 	const gridClassNames = useMemo(
 		() => isPremium
 			? "yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4"
-			: "yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-1 md:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-3",
+			: "yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-1 md:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-3 2xl:yst-grid-cols-4",
 		[ isPremium ]
 	);
 
@@ -381,13 +342,15 @@ const SiteFeatures = () => {
 							</Card.Footer>
 						</Card>
 						<Card id="card-wpseo_social-twitter">
-							<Card.Header className="yst-justify-start">
+							<CardHeader
+								src={ twitterImage }
+								alt={ __( "Twitter card data", "wordpress-seo" ) }
+							/>
+							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 								<Title as="h4">
 									{ __( "Twitter card data", "wordpress-seo" ) }
 								</Title>
-							</Card.Header>
-							<Card.Content>
-								{ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }
+								<p>{ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
 							</Card.Content>
 							<Card.Footer>
 								<FormikValueChangeField
@@ -400,13 +363,16 @@ const SiteFeatures = () => {
 							</Card.Footer>
 						</Card>
 						<Card id="card-wpseo-enable_enhanced_slack_sharing">
-							<Card.Header className="yst-justify-start">
+							<CardHeader
+								src={ slackSharingImage }
+								alt={ __( "Slack sharing", "wordpress-seo" ) }
+							/>
+							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 								<Title as="h4">
 									{ __( "Slack sharing", "wordpress-seo" ) }
 								</Title>
-							</Card.Header>
-							<Card.Content>
-								{ slackSharingLink }
+								<p>{ __( "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-slack-sharing" link="https://yoa.st/help-slack-share" />
 							</Card.Content>
 							<Card.Footer>
 								<FormikValueChangeField
@@ -429,12 +395,14 @@ const SiteFeatures = () => {
 					</div>
 					<div className={ gridClassNames }>
 						<Card id="card-wpseo-enable_admin_bar_menu">
-							<Card.Header className="yst-justify-start">
+							<CardHeader
+								src={ adminBarImage }
+								alt={ __( "Admin bar menu", "wordpress-seo" ) }
+							/>
+							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 								<Title as="h4">
 									{ __( "Admin bar menu", "wordpress-seo" ) }
 								</Title>
-							</Card.Header>
-							<Card.Content>
 								{ __( "The Yoast SEO admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.", "wordpress-seo" ) }
 							</Card.Content>
 							<Card.Footer>
@@ -458,13 +426,15 @@ const SiteFeatures = () => {
 					</div>
 					<div className={ gridClassNames }>
 						<Card id="card-wpseo-enable_headless_rest_endpoints">
-							<Card.Header className="yst-justify-start">
+							<CardHeader
+								src={ restApiImage }
+								alt={ __( "REST API endpoint", "wordpress-seo" ) }
+							/>
+							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 								<Title as="h4">
 									{ __( "REST API endpoint", "wordpress-seo" ) }
 								</Title>
-							</Card.Header>
-							<Card.Content>
-								{ __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ) }
+								<p>{ __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ) }</p>
 							</Card.Content>
 							<Card.Footer>
 								<FormikValueChangeField
@@ -477,13 +447,19 @@ const SiteFeatures = () => {
 							</Card.Footer>
 						</Card>
 						<Card id="card-wpseo-enable_xml_sitemap">
-							<Card.Header className="yst-justify-start">
+							<CardHeader
+								src={ xmlSitemapsImage }
+								alt={ __( "XML sitemaps", "wordpress-seo" ) }
+							/>
+							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 								<Title as="h4">
 									{ __( "XML sitemaps", "wordpress-seo" ) }
 								</Title>
-							</Card.Header>
-							<Card.Content>
-								{ xmlSitemapsLink }
+								<p>{ __( "Enable the XML sitemaps that Yoast SEO generates.", "wordpress-seo" ) }</p>
+								{ enableXmlSitemap && <Link id="link-xml-sitemaps" href={ sitemapUrl } target="_blank">
+									{ __( "See the XML sitemap", "wordpress-seo" ) }
+								</Link> }
+								<LearnMoreLink id="link-xml-sitemaps" link="https://yoa.st/2a-" />
 							</Card.Content>
 							<Card.Footer>
 								<FormikValueChangeField
@@ -496,16 +472,17 @@ const SiteFeatures = () => {
 							</Card.Footer>
 						</Card>
 						<Card id="card-wpseo-enable_index_now">
-							<Card.Header className="yst-justify-start">
+							<Card.Header>
+								<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+									{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
+								</div>
+							</Card.Header>
+							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 								<Title as="h4">
 									{ __( "IndexNow", "wordpress-seo" ) }
-									<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-										{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
-									</div>
 								</Title>
-							</Card.Header>
-							<Card.Content>
-								{ indexNowLink }
+								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" />
 							</Card.Content>
 							<Card.Footer>
 								{ isPremium && <FormikValueChangeField
