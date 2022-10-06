@@ -665,4 +665,37 @@ class Image_Helper {
 		$get_attachments = new WP_Query();
 		return $get_attachments->query( $args );
 	}
+
+	/**
+	 * Get attached image URL with filters applied. Adapted from core (wp_get_attachment_image_url) for speed. Used for the sitemap image parser.
+	 *
+	 * @param int $post_id ID of the post.
+	 *
+	 * @return string|null
+	 */
+	public function image_url( $post_id ) {
+		$uploads = \wp_upload_dir();
+
+		if ( $uploads['error'] !== false ) {
+			return null;
+		}
+
+		$file = \get_post_meta( $post_id, '_wp_attached_file', true );
+
+		if ( empty( $file ) ) {
+			return null;
+		}
+
+		// Check that the upload base exists in the file location.
+		if ( \strpos( $file, $uploads['basedir'] ) === 0 ) {
+			return \str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+		}
+		elseif ( \strpos( $file, 'wp-content/uploads' ) !== false ) {
+			return $uploads['baseurl'] . \substr( $file, ( \strpos( $file, 'wp-content/uploads' ) + 18 ) );
+		}
+		else {
+			// It's a newly uploaded file, therefore $file is relative to the baseurl.
+			return $uploads['baseurl'] . '/' . $file;
+		}
+	}
 }
