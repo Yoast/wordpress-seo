@@ -288,7 +288,7 @@ class Settings_Integration implements Integration_Interface {
 			static function () {
 				// Add success indication to HTML response.
 				$success = empty( \get_settings_errors() ) ? 'true' : 'false';
-				echo "{{ yoast-success: $success }}";
+				echo \esc_html( "{{ yoast-success: $success }}" );
 			}
 		);
 
@@ -413,7 +413,7 @@ class Settings_Integration implements Integration_Interface {
 		}
 		// Add WP settings.
 		foreach ( self::WP_OPTIONS as $option_name ) {
-			$defaults[ $option_name ] = "";
+			$defaults[ $option_name ] = '';
 		}
 		// Add person social profiles.
 		$defaults['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( false );
@@ -616,7 +616,7 @@ class Settings_Integration implements Integration_Interface {
 			return \strnatcmp( $a['label'], $b['label'] );
 		}
 
-		return ( $a['menuPosition'] < $b['menuPosition'] ) ? -1 : 1;
+		return ( ( $a['menuPosition'] < $b['menuPosition'] ) ? -1 : 1 );
 	}
 
 	/**
@@ -644,9 +644,12 @@ class Settings_Integration implements Integration_Interface {
 			];
 		}
 
-		\uasort( $transformed, static function ( $a, $b ) {
-			return \strnatcmp( $a['label'], $b['label'] );
-		} );
+		\uasort(
+			$transformed,
+			static function ( $a, $b ) {
+				return \strnatcmp( $a['label'], $b['label'] );
+			}
+		);
 
 		return $transformed;
 	}

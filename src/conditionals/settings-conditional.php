@@ -24,12 +24,8 @@ class Settings_Conditional implements Conditional {
 	/**
 	 * Constructs Settings_Conditional.
 	 *
-	 * @param New_Settings_Ui_Conditional               $new_settings_ui_conditional               The
-	 *                                                                                             New_Settings_Ui_Conditional.
-	 * @param Premium_Active_Conditional                $premium_active_conditional                The
-	 *                                                                                             Premium_Active_Conditional.
-	 * @param User_Can_Manage_Wpseo_Options_Conditional $user_can_manage_wpseo_options_conditional The
-	 *                                                                                             User_Can_Manage_Wpseo_Options_Conditional.
+	 * @param New_Settings_Ui_Conditional               $new_settings_ui_conditional               The New_Settings_Ui_Conditional.
+	 * @param User_Can_Manage_Wpseo_Options_Conditional $user_can_manage_wpseo_options_conditional The User_Can_Manage_Wpseo_Options_Conditional.
 	 */
 	public function __construct(
 		New_Settings_Ui_Conditional $new_settings_ui_conditional,
