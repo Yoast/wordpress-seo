@@ -53,7 +53,7 @@ const Search = () => {
 	return <>
 		<button
 			className="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
-			onClick={ setOpen }
+			// onClick={ setOpen }
 		>
 			<SearchIcon
 				className="yst-flex-none yst-w-5 yst-h-5 yst-mr-3 yst-text-slate-400"
