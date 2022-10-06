@@ -146,8 +146,10 @@ const Homepage = () => {
 			title={ __( "Homepage", "wordpress-seo" ) }
 			description={ __( "Choose how your Homepage should look in search engines and on social media. Note that this is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
 		>
-			{ homepageIsLatestPosts && <LatestPosts /> }
-			{ ! homepageIsLatestPosts && <PageAndPosts /> }
+			<div className="yst-max-w-5xl">
+				{ homepageIsLatestPosts && <LatestPosts /> }
+				{ ! homepageIsLatestPosts && <PageAndPosts /> }
+			</div>
 		</FormLayout>
 	);
 };

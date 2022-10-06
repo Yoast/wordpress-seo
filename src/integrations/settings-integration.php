@@ -393,6 +393,7 @@ class Settings_Integration implements Integration_Interface {
 			'currentUserId'                 => \get_current_user_id(),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
+			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 		];
 	}
 

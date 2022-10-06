@@ -38,6 +38,13 @@ preferencesSelectors.selectExampleUrl = createSelector(
 	],
 	( siteUrl, path ) => siteUrl + path
 );
+preferencesSelectors.selectPluginUrl = createSelector(
+	[
+		state => preferencesSelectors.selectPreference( state, "pluginUrl", "https://example.com" ),
+		( state, path ) => path,
+	],
+	( pluginUrl, path ) => pluginUrl + path
+);
 
 export const preferencesActions = slice.actions;
 

@@ -35,7 +35,7 @@ const FormLayout = ( {
 					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
 				</div>
 			</header>
-			<div className="yst-flex-grow yst-p-8 yst-max-w-5xl">
+			<div className="yst-flex-grow yst-p-8">
 				{ children }
 			</div>
 			<footer className="yst-sticky yst-bottom-0 yst-z-40">

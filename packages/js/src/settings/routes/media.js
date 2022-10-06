@@ -51,119 +51,121 @@ const Media = () => {
 			) }
 			description={ description }
 		>
-			<fieldset className="yst-min-width-0 yst-space-y-8">
-				<FormikFlippedToggleField
-					name={ `wpseo_titles.disable-${ name }` }
-					data-id={ `input-wpseo_titles-disable-${ name }` }
-					label={ sprintf(
-						/* translators: %1$s expands to the post type plural, e.g. Posts. */
-						__( "%1$s pages", "wordpress-seo" ),
-						label
-					) }
-					description={ sprintf(
-						/* translators: %1$s expands to the post type plural, e.g. Posts. */
-						__( "We recommend disabling %1$s pages. Disabling %1$s pages will cause all attachment URLs to redirect to the media itself.", "wordpress-seo" ),
-						label
-					) }
-				/>
-			</fieldset>
-			<hr className="yst-my-8" />
-			<div className="yst-relative">
-				<AnimateHeight
-					easing="ease-in-out"
-					duration={ 300 }
-					height={ disableAttachment ? 0 : "auto" }
-					animateOpacity={ true }
-				>
-					<FieldsetLayout
-						title={ __( "Search appearance", "wordpress-seo" ) }
-						description={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-							__( "Choose how your %1$s pages should look in search engines. You can always customize this per individual %2$s page.", "wordpress-seo" ),
-							label,
-							singularLabel
+			<div className="yst-max-w-5xl">
+				<fieldset className="yst-min-width-0 yst-space-y-8">
+					<FormikFlippedToggleField
+						name={ `wpseo_titles.disable-${ name }` }
+						data-id={ `input-wpseo_titles-disable-${ name }` }
+						label={ sprintf(
+							/* translators: %1$s expands to the post type plural, e.g. Posts. */
+							__( "%1$s pages", "wordpress-seo" ),
+							label
 						) }
+						description={ sprintf(
+							/* translators: %1$s expands to the post type plural, e.g. Posts. */
+							__( "We recommend disabling %1$s pages. Disabling %1$s pages will cause all attachment URLs to redirect to the media itself.", "wordpress-seo" ),
+							label
+						) }
+					/>
+				</fieldset>
+				<hr className="yst-my-8" />
+				<div className="yst-relative">
+					<AnimateHeight
+						easing="ease-in-out"
+						duration={ 300 }
+						height={ disableAttachment ? 0 : "auto" }
+						animateOpacity={ true }
 					>
-						<FormikFlippedToggleField
-							name={ `wpseo_titles.noindex-${ name }` }
-							data-id={ `input-wpseo_titles-noindex-${ name }` }
-							label={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
-								__( "Show %1$s pages in search results", "wordpress-seo" ),
-								label
+						<FieldsetLayout
+							title={ __( "Search appearance", "wordpress-seo" ) }
+							description={ sprintf(
+								// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
+								__( "Choose how your %1$s pages should look in search engines. You can always customize this per individual %2$s page.", "wordpress-seo" ),
+								label,
+								singularLabel
 							) }
-							description={ <>
-								{ sprintf(
+						>
+							<FormikFlippedToggleField
+								name={ `wpseo_titles.noindex-${ name }` }
+								data-id={ `input-wpseo_titles-noindex-${ name }` }
+								label={ sprintf(
 									// translators: %1$s expands to the post type plural, e.g. Posts.
-									__( "Disabling this means that %1$s pages created by WordPress will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+									__( "Show %1$s pages in search results", "wordpress-seo" ),
 									label
 								) }
-								<br />
-								<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
-									{ __( "Read more about the search results settings", "wordpress-seo" ) }
-								</Link>
-								.
-							</> }
-						/>
-						<FormikReplacementVariableEditorField
-							type="title"
-							name={ `wpseo_titles.title-${ name }` }
-							fieldId={ `input-wpseo_titles-title-${ name }` }
-							label={ __( "SEO title", "wordpress-seo" ) }
-							replacementVariables={ replacementVariables }
-							recommendedReplacementVariables={ recommendedReplacementVariables }
-						/>
-						<FormikReplacementVariableEditorField
-							type="description"
-							name={ `wpseo_titles.metadesc-${ name }` }
-							fieldId={ `input-wpseo_titles-metadesc-${ name }` }
-							label={ __( "Meta description", "wordpress-seo" ) }
-							replacementVariables={ replacementVariables }
-							recommendedReplacementVariables={ recommendedReplacementVariables }
-							className="yst-replacevar--description"
-						/>
-					</FieldsetLayout>
-					<hr className="yst-my-8" />
-					<FieldsetLayout
-						title={ __( "Schema", "wordpress-seo" ) }
-						description={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-							__( "Choose how your %1$s pages should be described by default in your site's Schema.org markup. You can change these setting per individual %2$s page.", "wordpress-seo" ),
-							label,
-							singularLabel
-						) }
-					>
-						<FormikValueChangeField
-							as={ SelectField }
-							type="select"
-							name={ `wpseo_titles.schema-page-type-${ name }` }
-							id={ `input-wpseo_titles-schema-page-type-${ name }` }
-							label={ __( "Page type", "wordpress-seo" ) }
-							options={ pageTypes }
-						/>
-						{ hasSchemaArticleType && <FormikValueChangeField
-							as={ SelectField }
-							type="select"
-							name={ `wpseo_titles.schema-article-type-${ name }` }
-							id={ `input-wpseo_titles-schema-article-type-${ name }` }
-							label={ __( "Article type", "wordpress-seo" ) }
-							options={ articleTypes }
-						/> }
-					</FieldsetLayout>
-					<hr className="yst-my-8" />
-					<FieldsetLayout
-						title={ __( "Additional settings", "wordpress-seo" ) }
-					>
-						<FormikValueChangeField
-							as={ ToggleField }
-							type="checkbox"
-							name={ `wpseo_titles.display-metabox-pt-${ name }` }
-							data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
-							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
-							description={ __( "Show or hide our tools and controls in the attachment editor.", "wordpress-seo" ) }
-						/>
-					</FieldsetLayout>
-				</AnimateHeight>
+								description={ <>
+									{ sprintf(
+										// translators: %1$s expands to the post type plural, e.g. Posts.
+										__( "Disabling this means that %1$s pages created by WordPress will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+										label
+									) }
+									<br />
+									<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+										{ __( "Read more about the search results settings", "wordpress-seo" ) }
+									</Link>
+									.
+								</> }
+							/>
+							<FormikReplacementVariableEditorField
+								type="title"
+								name={ `wpseo_titles.title-${ name }` }
+								fieldId={ `input-wpseo_titles-title-${ name }` }
+								label={ __( "SEO title", "wordpress-seo" ) }
+								replacementVariables={ replacementVariables }
+								recommendedReplacementVariables={ recommendedReplacementVariables }
+							/>
+							<FormikReplacementVariableEditorField
+								type="description"
+								name={ `wpseo_titles.metadesc-${ name }` }
+								fieldId={ `input-wpseo_titles-metadesc-${ name }` }
+								label={ __( "Meta description", "wordpress-seo" ) }
+								replacementVariables={ replacementVariables }
+								recommendedReplacementVariables={ recommendedReplacementVariables }
+								className="yst-replacevar--description"
+							/>
+						</FieldsetLayout>
+						<hr className="yst-my-8" />
+						<FieldsetLayout
+							title={ __( "Schema", "wordpress-seo" ) }
+							description={ sprintf(
+								// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
+								__( "Choose how your %1$s pages should be described by default in your site's Schema.org markup. You can change these setting per individual %2$s page.", "wordpress-seo" ),
+								label,
+								singularLabel
+							) }
+						>
+							<FormikValueChangeField
+								as={ SelectField }
+								type="select"
+								name={ `wpseo_titles.schema-page-type-${ name }` }
+								id={ `input-wpseo_titles-schema-page-type-${ name }` }
+								label={ __( "Page type", "wordpress-seo" ) }
+								options={ pageTypes }
+							/>
+							{ hasSchemaArticleType && <FormikValueChangeField
+								as={ SelectField }
+								type="select"
+								name={ `wpseo_titles.schema-article-type-${ name }` }
+								id={ `input-wpseo_titles-schema-article-type-${ name }` }
+								label={ __( "Article type", "wordpress-seo" ) }
+								options={ articleTypes }
+							/> }
+						</FieldsetLayout>
+						<hr className="yst-my-8" />
+						<FieldsetLayout
+							title={ __( "Additional settings", "wordpress-seo" ) }
+						>
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name={ `wpseo_titles.display-metabox-pt-${ name }` }
+								data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
+								label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
+								description={ __( "Show or hide our tools and controls in the attachment editor.", "wordpress-seo" ) }
+							/>
+						</FieldsetLayout>
+					</AnimateHeight>
+				</div>
 			</div>
 		</FormLayout>
 	);
