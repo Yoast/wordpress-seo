@@ -1,6 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, FeatureUpsell, Link } from "@yoast/ui-library";
+import { Badge, FeatureUpsell, Link, Code } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
 import {
@@ -32,6 +32,7 @@ const Formats = () => {
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
+	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/format/example/" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -52,12 +53,11 @@ const Formats = () => {
 	const description = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-			__( "(e.g., %1$shttps://www.example.com/format/example/%2$s)", "wordpress-seo" ),
-			"<code>",
-			"</code>"
+			__( "(e.g., %1$s", "wordpress-seo" ),
+			"<exampleUrl />"
 		),
 		{
-			code: <code className="yst-text-xs" />,
+			exampleUrl: <Code>{ exampleUrl }</Code>,
 		}
 	) );
 

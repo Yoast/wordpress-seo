@@ -1,6 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, FeatureUpsell, Link } from "@yoast/ui-library";
+import { Badge, FeatureUpsell, Link, Code } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
 import {
@@ -27,6 +27,7 @@ const DateArchives = () => {
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
+	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/2020/" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -44,15 +45,19 @@ const DateArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const descriptionExample = useMemo( () => createInterpolateElement(
+	const description = useMemo( () => createInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-			__( "(e.g., %1$shttps://www.example.com/2020/%2$s)", "wordpress-seo" ),
-			"<code>",
-			"</code>"
+			/**
+			 * translators: %1$s expands to "Date archives".
+			 * %2$s expands to an example URL, e.g. https://example.com/author/example/.
+			 * %3$s and %4$s expand to opening and closing <a> tags.
+			 */
+			__( "%1$s (e.g. %2$s) are based on publication dates. From an SEO perspective, the posts in these archives have no real relation to the other posts except for their publication dates, which doesn’t say much about the content. They could also lead to duplicate content issues. This is why we recommend you to disable %1$s.", "wordpress-seo" ),
+			singularLabel,
+			"<exampleUrl />"
 		),
 		{
-			code: <code className="yst-text-xs" />,
+			exampleUrl: <Code>{ exampleUrl }</Code>,
 		}
 	) );
 
@@ -63,16 +68,7 @@ const DateArchives = () => {
 	return (
 		<FormLayout
 			title={ label }
-			description={ <>
-				<span className="yst-block">{ descriptionExample }</span>
-				<span className="yst-block yst-mt-4">{ sprintf(
-					/* translators: %1$s is replaced by the "Date archives" translation. */
-					__( "Date archives are based on publication dates. From an SEO perspective, the posts in these archives have no real relation to the other posts except for their publication dates, which doesn’t say much about the content. They could also lead to duplicate content issues. This is why we recommend you to disable date archives.", "wordpress-seo" ),
-					"<a>",
-					"</a>",
-					singularLabel
-				) }</span>
-			</> }
+			description={ description }
 		>
 			<fieldset className="yst-min-width-0 yst-space-y-8">
 				<FormikFlippedToggleField

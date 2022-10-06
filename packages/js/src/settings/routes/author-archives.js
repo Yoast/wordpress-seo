@@ -1,6 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Link } from "@yoast/ui-library";
+import { Badge, Code, Link } from "@yoast/ui-library";
 import FeatureUpsell from "@yoast/ui-library/src/components/feature-upsell";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
@@ -28,6 +28,7 @@ const AuthorArchives = () => {
 	const duplicateContentInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/duplicate-content" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/author/example/" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
@@ -46,26 +47,21 @@ const AuthorArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const descriptionExample = useMemo( () => createInterpolateElement(
-		sprintf(
-			/* translators: %1$s and %2$s are replaced by opening and closing <code> tags. */
-			__( "(e.g., %1$shttps://www.example.com/author/example/%2$s)", "wordpress-seo" ),
-			"<code>",
-			"</code>"
-		),
-		{
-			code: <code className="yst-text-xs" />,
-		}
-	) );
 	const description = useMemo( () => createInterpolateElement(
 		sprintf(
-			/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s is replaced by the "Author archive" translation. */
-			__( "If you're running a one author blog, the Author archive will be exactly the same as your homepage. This is what's called a %1$sduplicate content problem%2$s. If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or prevent it from showing up in search results.", "wordpress-seo" ),
+			/**
+			 * translators: %1$s expands to "Author archives".
+			 * %2$s expands to an example URL, e.g. https://example.com/author/example/.
+			 * %3$s and %4$s expand to opening and closing <a> tags.
+			 */
+			__( "If you're running a one author blog, the %1$s (e.g. %2$s) will be exactly the same as your homepage. This is what's called a %3$sduplicate content problem%4$s. If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or prevent it from showing up in search results.", "wordpress-seo" ),
+			singularLabel,
+			"<exampleUrl />",
 			"<a>",
-			"</a>",
-			singularLabel
+			"</a>"
 		),
 		{
+			exampleUrl: <Code>{ exampleUrl }</Code>,
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noreferrer" />,
 		}
@@ -78,10 +74,7 @@ const AuthorArchives = () => {
 	return (
 		<FormLayout
 			title={ label }
-			description={ <>
-				<span className="yst-block">{ descriptionExample }</span>
-				<span className="yst-block yst-mt-4">{ description }</span>
-			</> }
+			description={ description }
 		>
 			<fieldset className="yst-min-width-0 yst-space-y-8">
 				<FormikFlippedToggleField
