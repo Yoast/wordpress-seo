@@ -307,7 +307,7 @@ class Schema_Generator implements Generator_Interface {
 			$schema_pieces = [
 				new Schema\Article(),
 				new Schema\WebPage(),
-				new Schema\Main_Image(),
+				new Schema\Images(),
 				new Schema\Breadcrumb(),
 				new Schema\Website(),
 				new Schema\Organization(),

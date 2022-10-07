@@ -126,7 +126,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 			'main_schema_id'   => 'https://basic.wordpress.test/schema-templates/',
 			'author_id'        => 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
 			'person_id'        => 'https://basic.wordpress.test#/schema/person/',
-			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
+			'primary_image_id' => 'https://basic.wordpress.test/image1.jpg',
 			'webpage_id'       => 'https://basic.wordpress.test/schema-templates/',
 			'website_id'       => 'https://basic.wordpress.test#website',
 			'post_date'        => '2020-10-11T13:00:00+00:00',
@@ -145,6 +145,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/schema-templates/';
 		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
 		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
+		$meta_tags_context->main_image_url = 'https://basic.wordpress.test/image1.jpg';
 
 		$this->id_helper
 			->expects( 'get_user_schema_id' )
@@ -189,7 +190,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 			'main_schema_id'   => 'https://basic.wordpress.test/schema-templates/',
 			'author_id'        => 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
 			'person_id'        => 'https://basic.wordpress.test#/schema/person/',
-			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
+			'primary_image_id' => 'https://basic.wordpress.test/image1.jpg',
 			'webpage_id'       => 'https://basic.wordpress.test/schema-templates/',
 			'website_id'       => 'https://basic.wordpress.test#website',
 			'organization_id'  => 'https://basic.wordpress.test#organization',
@@ -203,6 +204,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/schema-templates/';
 		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
 		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
+		$meta_tags_context->main_image_url = 'https://basic.wordpress.test/image1.jpg';
 
 		$this->id_helper
 			->expects( 'get_user_schema_id' )

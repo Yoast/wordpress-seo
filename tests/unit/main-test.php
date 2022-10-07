@@ -75,6 +75,26 @@ class Main_Test extends TestCase {
 		Monkey\Functions\expect( 'YoastSEO' )
 			->andReturn( $this->instance );
 
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.com' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.com' )
+			->andReturn(
+				[
+					'host'   => 'example.com',
+					'scheme' => 'https',
+				]
+			);
+
+		Monkey\Functions\expect( 'get_bloginfo' )
+			->with( 'charset' )
+			->andReturn( 'UTF-8' );
+
+		Monkey\Functions\expect( 'esc_attr' )
+			->with( 'UTF-8' )
+			->andReturn( 'UTF-8' );
+
 		$container = $this->instance->get_container();
 
 		foreach ( $container->getServiceIds() as $service_id ) {

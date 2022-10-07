@@ -7,11 +7,14 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Schema\WebPage;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Schema\Image;
+use Yoast\WP\SEO\Helpers\Schema\Image_Helper as Schema_Image_Helper;
 
 /**
  * Class WebPage_Test
@@ -52,6 +55,13 @@ class WebPage_Test extends TestCase {
 	private $date;
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper|Mockery\MockInterface
+	 */
+	private $image;
+
+	/**
 	 * The language helper.
 	 *
 	 * @var Language_Helper|Mockery\MockInterface
@@ -73,6 +83,13 @@ class WebPage_Test extends TestCase {
 	private $meta_tags_context;
 
 	/**
+	 * The Schema_Image_Helper mock.
+	 *
+	 * @var Schema_Image_Helper|Mockery\MockInterface
+	 */
+	private $schema_image;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -83,7 +100,9 @@ class WebPage_Test extends TestCase {
 		$this->date              = Mockery::mock( Date_Helper::class );
 		$this->language          = Mockery::mock( Language_Helper::class );
 		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context_Mock::class );
+		$this->image             = Mockery::mock( Image_Helper::class );
 		$this->id                = Mockery::mock( ID_Helper::class );
+		$this->schema_image      = Mockery::mock( Schema_Image_Helper::class );
 
 		$this->instance          = Mockery::mock( WebPage::class )
 			->makePartial();
@@ -95,7 +114,9 @@ class WebPage_Test extends TestCase {
 				'html'     => $this->html,
 				'id'       => $this->id,
 				'language' => $this->language,
+				'image'    => $this->schema_image,
 			],
+			'image'        => $this->image,
 		];
 
 		// Set some values that are used in multiple tests.
@@ -110,11 +131,17 @@ class WebPage_Test extends TestCase {
 			'post_date_gmt'     => '2345-12-12 12:12:12',
 			'post_modified_gmt' => '2345-12-12 23:23:23',
 			'post_author'       => 'the_author',
+			'post_content'      => '',
 		];
 		$this->meta_tags_context->indexable        = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => 'page',
 		];
+		$this->meta_tags_context->presentation     = (object) [
+			'open_graph_images' => [],
+			'twitter_image'     => null,
+		];
+		$this->meta_tags_context->images           = [];
 
 		$this->id->website_hash = '#website';
 	}
@@ -122,18 +149,16 @@ class WebPage_Test extends TestCase {
 	/**
 	 * Sets up the tests that cover the generate function.
 	 *
-	 * @param bool   $is_front_page                          Whether the current page is a front page.
-	 * @param string $schema_page_type                       The Schema page type.
-	 * @param int    $calls_to_format_with_post_date_gmt     The number of function calls to 'format' with
-	 *                                                       'post_date_gmt' as argument.
-	 * @param int    $calls_to_format_with_post_modified_gmt The number of function calls to 'format' with
-	 *                                                       'post_modified_gmt' as argument.
-	 * @param int    $calls_to_filter                        The number of calls to the
-	 *                                                       'wpseo_schema_webpage_potential_action_target' filter.
+	 * @param bool $is_front_page                          Whether the current page is a front page.
+	 * @param int  $calls_to_format_with_post_date_gmt     The number of function calls to 'format' with
+	 *                                                     'post_date_gmt' as argument.
+	 * @param int  $calls_to_format_with_post_modified_gmt The number of function calls to 'format' with
+	 *                                                     'post_modified_gmt' as argument.
+	 * @param int  $calls_to_filter                        The number of calls to the
+	 *                                                     'wpseo_schema_webpage_potential_action_target' filter.
 	 */
 	public function setup_generate_test(
 		$is_front_page,
-		$schema_page_type,
 		$calls_to_format_with_post_date_gmt,
 		$calls_to_format_with_post_modified_gmt,
 		$calls_to_filter
@@ -199,16 +224,26 @@ class WebPage_Test extends TestCase {
 			$this->meta_tags_context->main_image_url = $values_to_test['image_url'];
 		}
 
-		$this->id->primary_image_hash = '#primaryimage';
-		$this->id->breadcrumb_hash    = '#breadcrumb';
+		$this->id->breadcrumb_hash = '#breadcrumb';
 
 		$this->setup_generate_test(
 			false,
-			[ 'WebPage' ],
 			1,
 			1,
 			1
 		);
+
+		if ( isset( $values_to_test['image_url'] ) && ! isset( $values_to_test['image_id'] ) ) {
+			$this->image
+				->expects( 'get_attachment_by_url' )
+				->with( $values_to_test['image_url'] )
+				->andReturn( 1 );
+
+			$this->image
+				->expects( 'get_attachment_image_url' )
+				->with( 1, 'full' )
+				->andReturn( $values_to_test['image_url'] );
+		}
 
 		$this->assertEquals( $expected, $this->instance->generate(), $message );
 	}
@@ -223,7 +258,6 @@ class WebPage_Test extends TestCase {
 	public function test_generate_on_front_page_site_does_not_represents_reference() {
 		$this->setup_generate_test(
 			true,
-			[ 'WebPage' ],
 			1,
 			1,
 			1
@@ -264,7 +298,6 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			true,
-			[ 'WebPage' ],
 			1,
 			1,
 			1
@@ -312,7 +345,6 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			[ 'WebPage' ],
 			1,
 			1,
 			1
@@ -359,7 +391,6 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			[ 'WebPage' ],
 			1,
 			1,
 			1
@@ -407,7 +438,6 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			[ 'WebPage' ],
 			1,
 			1,
 			1
@@ -458,7 +488,6 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			'CollectionPage',
 			0,
 			0,
 			0
@@ -491,7 +520,6 @@ class WebPage_Test extends TestCase {
 
 		$this->setup_generate_test(
 			false,
-			'CollectionPage',
 			1,
 			1,
 			0
@@ -582,8 +610,8 @@ class WebPage_Test extends TestCase {
 					'datePublished'      => '2345-12-12 12:12:12',
 					'dateModified'       => '2345-12-12 23:23:23',
 					'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
-					'primaryImageOfPage' => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
-					'image'              => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
+					'primaryImageOfPage' => [ '@id' => 'https://example.com/image.jpg' ],
+					'image'              => [ [ '@id' => 'https://example.com/image.jpg' ] ],
 					'thumbnailUrl'       => 'https://example.com/image.jpg',
 					'inLanguage'         => 'the-language',
 					'potentialAction'    => [
@@ -648,6 +676,357 @@ class WebPage_Test extends TestCase {
 				'expected'        => false,
 				'message'         => 'Tests is_needed for a system page / 404 page.',
 			],
+		];
+	}
+
+	/**
+	 * Test image schema generation for generate method.
+	 *
+	 * @param array|null  $featured_image The featured image.
+	 * @param Image[]     $content_images The content images on the page.
+	 * @param array       $open_graph_images The open graph images.
+	 * @param string|null $twitter_image The twitter image.
+	 * @param array       $expected The expected schema.
+	 *
+	 * @dataProvider generate_with_images_dataprovider
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_with_images( $featured_image, $content_images, $open_graph_images, $twitter_image, $expected ) {
+		$this->setup_generate_test(
+			false,
+			1,
+			1,
+			1
+		);
+
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.com' );
+
+		if ( isset( $featured_image ) ) {
+			$this->meta_tags_context->has_image      = true;
+			$this->meta_tags_context->main_image_id  = $featured_image['id'];
+			$this->meta_tags_context->main_image_url = $featured_image['url'];
+			$this->image
+				->expects( 'get_attachment_image_url' )
+				->with( $featured_image['id'], 'full' )
+				->andReturn( $featured_image['url'] );
+		}
+		$this->meta_tags_context->images                          = $content_images;
+		$this->meta_tags_context->presentation->open_graph_images = $open_graph_images;
+		$this->meta_tags_context->presentation->twitter_image     = $twitter_image;
+
+		foreach ( $open_graph_images as $image ) {
+			$this->schema_image
+				->expects( 'convert_open_graph_image' )
+				->with( $image )
+				->andReturn( new Image( $image['url'], $image['id'] ) );
+		}
+
+		$this->assertEquals( $expected, $this->instance->generate() );
+	}
+
+	/**
+	 * Dataprovider for test_generate_with_images.
+	 *
+	 * @return array
+	 */
+	public function generate_with_images_dataprovider() {
+		$only_featured_image_set      = [
+			'featured_image'    => [
+				'id'  => 4,
+				'url' => 'https://example.com/images/image-4.jpg',
+			],
+			'content_images'    => [],
+			'open_graph_images' => [],
+			'twitter_image'     => null,
+			'expected'          => [
+				'@type'              => [ 'WebPage' ],
+				'@id'                => 'https://example.com/the-post/',
+				'url'                => 'https://example.com/the-post/',
+				'name'               => 'the-title',
+				'isPartOf'           => [
+					'@id' => 'https://example.com/#website',
+				],
+				'datePublished'      => '2345-12-12 12:12:12',
+				'dateModified'       => '2345-12-12 23:23:23',
+				'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
+				'inLanguage'         => 'the-language',
+				'potentialAction'    => [
+					[
+						'@type'  => 'ReadAction',
+						'target' => [ 'https://example.com/the-post/' ],
+					],
+				],
+				'primaryImageOfPage' => [
+					'@id' => 'https://example.com/images/image-4.jpg',
+				],
+				'image'              => [
+					[
+						'@id' => 'https://example.com/images/image-4.jpg',
+					],
+				],
+				'thumbnailUrl'       => 'https://example.com/images/image-4.jpg',
+			],
+		];
+		$only_image_content_set       = [
+			'featured_image'    => null,
+			'content_images'    => [
+				new Image( 'https://example.com/images/image-1.jpg', 1 ),
+				new Image( 'https://example.com/images/image-2.jpg', 2 ),
+				new Image( 'https://example.com/images/image-3.jpg', 3 ),
+			],
+			'open_graph_images' => [],
+			'twitter_image'     => null,
+			'expected'          => [
+				'@type'           => [ 'WebPage' ],
+				'@id'             => 'https://example.com/the-post/',
+				'url'             => 'https://example.com/the-post/',
+				'name'            => 'the-title',
+				'isPartOf'        => [
+					'@id' => 'https://example.com/#website',
+				],
+				'datePublished'   => '2345-12-12 12:12:12',
+				'dateModified'    => '2345-12-12 23:23:23',
+				'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
+				'inLanguage'      => 'the-language',
+				'potentialAction' => [
+					[
+						'@type'  => 'ReadAction',
+						'target' => [ 'https://example.com/the-post/' ],
+					],
+				],
+				'image'           => [
+					[
+						'@id' => 'https://example.com/images/image-1.jpg',
+					],
+					[
+						'@id' => 'https://example.com/images/image-2.jpg',
+					],
+					[
+						'@id' => 'https://example.com/images/image-3.jpg',
+					],
+				],
+			],
+		];
+		$only_open_graph_images_set   = [
+			'featured_image'    => null,
+			'content_images'    => [],
+			'open_graph_images' => [
+				[
+					'id'  => 1,
+					'url' => 'https://example.com/images/image-1.jpg',
+				],
+				[
+					'id'  => 2,
+					'url' => 'https://example.com/images/image-2.jpg',
+				],
+				[
+					'id'  => 3,
+					'url' => 'https://example.com/images/image-3.jpg',
+				],
+			],
+			'twitter_image'     => null,
+			'expected'          => [
+				'@type'           => [ 'WebPage' ],
+				'@id'             => 'https://example.com/the-post/',
+				'url'             => 'https://example.com/the-post/',
+				'name'            => 'the-title',
+				'isPartOf'        => [
+					'@id' => 'https://example.com/#website',
+				],
+				'datePublished'   => '2345-12-12 12:12:12',
+				'dateModified'    => '2345-12-12 23:23:23',
+				'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
+				'inLanguage'      => 'the-language',
+				'potentialAction' => [
+					[
+						'@type'  => 'ReadAction',
+						'target' => [ 'https://example.com/the-post/' ],
+					],
+				],
+				'image'           => [
+					[
+						'@id' => 'https://example.com/images/image-1.jpg',
+					],
+					[
+						'@id' => 'https://example.com/images/image-2.jpg',
+					],
+					[
+						'@id' => 'https://example.com/images/image-3.jpg',
+					],
+				],
+			],
+		];
+		$only_twitter_image_set       = [
+			'featured_image'    => null,
+			'content_images'    => [],
+			'open_graph_images' => [],
+			'twitter_image'     => 'https://example.com/images/image-4.jpg',
+			'expected'          => [
+				'@type'           => [ 'WebPage' ],
+				'@id'             => 'https://example.com/the-post/',
+				'url'             => 'https://example.com/the-post/',
+				'name'            => 'the-title',
+				'isPartOf'        => [
+					'@id' => 'https://example.com/#website',
+				],
+				'datePublished'   => '2345-12-12 12:12:12',
+				'dateModified'    => '2345-12-12 23:23:23',
+				'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
+				'inLanguage'      => 'the-language',
+				'potentialAction' => [
+					[
+						'@type'  => 'ReadAction',
+						'target' => [ 'https://example.com/the-post/' ],
+					],
+				],
+				'image'           => [
+					[
+						'@id' => 'https://example.com/images/image-4.jpg',
+					],
+				],
+			],
+		];
+		$double_images_in_content     = [
+			'featured_image'    => null,
+			'content_images'    => [
+				new Image( 'https://example.com/images/image-1.jpg', 1 ),
+				new Image( 'https://example.com/images/image-2.jpg', 2 ),
+				new Image( 'https://example.com/images/image-1.jpg', 1 ),
+			],
+			'open_graph_images' => [],
+			'twitter_image'     => null,
+			'expected'          => [
+				'@type'           => [ 'WebPage' ],
+				'@id'             => 'https://example.com/the-post/',
+				'url'             => 'https://example.com/the-post/',
+				'name'            => 'the-title',
+				'isPartOf'        => [
+					'@id' => 'https://example.com/#website',
+				],
+				'datePublished'   => '2345-12-12 12:12:12',
+				'dateModified'    => '2345-12-12 23:23:23',
+				'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
+				'inLanguage'      => 'the-language',
+				'potentialAction' => [
+					[
+						'@type'  => 'ReadAction',
+						'target' => [ 'https://example.com/the-post/' ],
+					],
+				],
+				'image'           => [
+					[
+						'@id' => 'https://example.com/images/image-1.jpg',
+					],
+					[
+						'@id' => 'https://example.com/images/image-2.jpg',
+					],
+				],
+			],
+		];
+		$double_images_featured_image = [
+			'featured_image'    => [
+				'id'  => 1,
+				'url' => 'https://example.com/images/image-1.jpg',
+			],
+			'content_images'    => [
+				new Image( 'https://example.com/images/image-1.jpg', 1 ),
+				new Image( 'https://example.com/images/image-2.jpg', 2 ),
+				new Image( 'https://example.com/images/image-3.jpg', 3 ),
+			],
+			'open_graph_images' => [],
+			'twitter_image'     => null,
+			'expected'          => [
+				'@type'              => [ 'WebPage' ],
+				'@id'                => 'https://example.com/the-post/',
+				'url'                => 'https://example.com/the-post/',
+				'name'               => 'the-title',
+				'isPartOf'           => [
+					'@id' => 'https://example.com/#website',
+				],
+				'datePublished'      => '2345-12-12 12:12:12',
+				'dateModified'       => '2345-12-12 23:23:23',
+				'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
+				'inLanguage'         => 'the-language',
+				'potentialAction'    => [
+					[
+						'@type'  => 'ReadAction',
+						'target' => [ 'https://example.com/the-post/' ],
+					],
+				],
+				'primaryImageOfPage' => [
+					'@id' => 'https://example.com/images/image-1.jpg',
+				],
+				'image'              => [
+					[
+						'@id' => 'https://example.com/images/image-1.jpg',
+					],
+					[
+						'@id' => 'https://example.com/images/image-2.jpg',
+					],
+					[
+						'@id' => 'https://example.com/images/image-3.jpg',
+					],
+				],
+				'thumbnailUrl'       => 'https://example.com/images/image-1.jpg',
+			],
+		];
+		$external_images_in_content   = [
+			'featured_image'    => [
+				'id'  => 1,
+				'url' => 'https://example.com/images/image-1.jpg',
+			],
+			'content_images'    => [
+				new Image( 'https://example.com/images/image-1.jpg', 1 ),
+				new Image( 'https://external.com/images/image-2.jpg' ),
+				new Image( 'https://external.com/images/image-3.jpg' ),
+			],
+			'open_graph_images' => [],
+			'twitter_image'     => null,
+			'expected'          => [
+				'@type'              => [ 'WebPage' ],
+				'@id'                => 'https://example.com/the-post/',
+				'url'                => 'https://example.com/the-post/',
+				'name'               => 'the-title',
+				'isPartOf'           => [
+					'@id' => 'https://example.com/#website',
+				],
+				'datePublished'      => '2345-12-12 12:12:12',
+				'dateModified'       => '2345-12-12 23:23:23',
+				'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
+				'inLanguage'         => 'the-language',
+				'potentialAction'    => [
+					[
+						'@type'  => 'ReadAction',
+						'target' => [ 'https://example.com/the-post/' ],
+					],
+				],
+				'primaryImageOfPage' => [
+					'@id' => 'https://example.com/images/image-1.jpg',
+				],
+				'image'              => [
+					[
+						'@id' => 'https://example.com/images/image-1.jpg',
+					],
+					[
+						'@id' => 'https://external.com/images/image-2.jpg',
+					],
+					[
+						'@id' => 'https://external.com/images/image-3.jpg',
+					],
+				],
+				'thumbnailUrl'       => 'https://example.com/images/image-1.jpg',
+			],
+		];
+		return [
+			'Only featured image set'    => $only_featured_image_set,
+			'Only content images set'    => $only_image_content_set,
+			'Only open graph images set' => $only_open_graph_images_set,
+			'Only twitter image set'     => $only_twitter_image_set,
+			'Double images in content'   => $double_images_in_content,
+			'Double featured image'      => $double_images_featured_image,
+			'External images in content' => $external_images_in_content,
 		];
 	}
 }

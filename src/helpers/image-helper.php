@@ -2,9 +2,13 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use DOMDocument;
+use WP_Post;
+use WP_Query;
 use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Values\Schema\Image;
 
 /**
  * A helper object for images.
@@ -64,11 +68,11 @@ class Image_Helper {
 	}
 
 	/**
-	 * Determines whether or not the wanted attachment is considered valid.
+	 * Determines whether the wanted attachment is considered valid.
 	 *
 	 * @param int $attachment_id The attachment ID to get the attachment by.
 	 *
-	 * @return bool Whether or not the attachment is valid.
+	 * @return bool Whether the attachment is valid.
 	 */
 	public function is_valid_attachment( $attachment_id ) {
 		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
@@ -99,7 +103,7 @@ class Image_Helper {
 	 *
 	 * @param string $mime_type The detected mime type.
 	 *
-	 * @return bool Whether or not the attachment is a valid image type.
+	 * @return bool Whether the attachment is a valid image type.
 	 */
 	public function is_valid_image_type( $mime_type ) {
 		return \in_array( $mime_type, static::$valid_image_types, true );
@@ -233,8 +237,8 @@ class Image_Helper {
 	/**
 	 * Retrieves the attachment image url.
 	 *
-	 * @param int    $attachment_id Attachment ID.
-	 * @param string $size          The size to get.
+	 * @param int          $attachment_id Attachment ID.
+	 * @param string|array $size          The size to get.
 	 *
 	 * @return string The url when found, empty string otherwise.
 	 */
@@ -379,5 +383,319 @@ class Image_Helper {
 	 */
 	protected function get_first_content_image_for_term( $term_id ) {
 		return WPSEO_Image_Utils::get_first_content_image_for_term( $term_id );
+	}
+
+	/**
+	 * Get the image width and height from the image src attribute (for WordPress images).
+	 *
+	 * @param string $src The image src attribute.
+	 * @return array|null Either an array with a 'width' and 'height' key or null when no image size was found.
+	 */
+	protected function get_image_size( $src ) {
+		$matches = [];
+		$match   = \preg_match( '/^.+-(?<width>\d+)x(?<height>\d+)\.(?<extension>[^.]+)$/', $src, $matches );
+
+		if ( $match !== 1 ) {
+			return null;
+		}
+
+		return [
+			'width'  => intval( $matches['width'] ),
+			'height' => intval( $matches['height'] ),
+		];
+	}
+
+	/**
+	 * Generate an Image object from the source of an image.
+	 *
+	 * @param string $src The src attribute of an img tag.
+	 * @return Image|null The generated Image object.
+	 */
+	protected function create_image_object_from_source( $src ) {
+		$width  = null;
+		$height = null;
+
+		// Extract image ID.
+		$id = $this->get_attachment_by_url( $src );
+
+		if ( $id !== 0 ) {
+			// Extract image size if present in src.
+			$image_size = $this->get_image_size( $src );
+			if ( ! \is_null( $image_size ) ) {
+				$width  = $image_size['width'];
+				$height = $image_size['height'];
+			}
+
+			$query_params = \wp_parse_url( $src, PHP_URL_QUERY );
+			$size         = ! \is_null( $width ) && ! \is_null( $height ) ? [ $width, $height ] : 'full';
+			$src          = $this->get_attachment_image_url( $id, $size );
+
+			if ( empty( $src ) ) {
+				return null;
+			}
+
+			if ( $query_params ) {
+				$src = $src . '?' . $query_params;
+			}
+		}
+
+		$src = $this->url_helper->ensure_absolute_url( $src );
+		if ( $src !== \esc_url( $src, null, 'attribute' ) ) {
+			return null;
+		}
+
+		return new Image( $src, $id, $width, $height );
+	}
+
+	/**
+	 * Parse `<img />` tags in content.
+	 *
+	 * @param string $content Content string to parse.
+	 *
+	 * @return Image[]
+	 */
+	public function get_images_from_post_content( $content ) {
+		$images = [];
+
+		if ( ! class_exists( 'DOMDocument' ) ) {
+			return $images;
+		}
+
+		if ( empty( $content ) ) {
+			return $images;
+		}
+
+		// Prevent DOMDocument from bubbling warnings about invalid HTML.
+		libxml_use_internal_errors( true );
+
+		$charset = \esc_attr( \get_bloginfo( 'charset' ) );
+
+		$post_dom = new DOMDocument();
+		$post_dom->loadHTML( '<?xml encoding="' . $charset . '">' . $content );
+
+		// Clear the errors, so they don't get kept in memory.
+		libxml_clear_errors();
+
+		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
+			$src = $img->getAttribute( 'src' );
+
+			if ( empty( $src ) ) {
+				continue;
+			}
+
+			$image_obj = $this->create_image_object_from_source( $src );
+
+			if ( ! \is_null( $image_obj ) ) {
+				$images[] = $image_obj;
+			}
+		}
+
+		$gallery_images = $this->get_gallery_images_from_post_content( $content );
+
+		foreach ( $gallery_images as $image ) {
+			$image_src = $this->get_attachment_image_url( $image->ID, 'full' );
+			if ( ! \is_null( $image_src ) ) {
+				$image_obj = $this->create_image_object_from_source( $image_src );
+				if ( ! \is_null( $image_obj ) ) {
+					$images[] = $image_obj;
+				}
+			}
+		}
+
+		return $images;
+	}
+
+	/**
+	 * Parse gallery shortcodes in a given content.
+	 *
+	 * @param string $content Content string.
+	 * @param int    $post_id Optional. ID of post being parsed.
+	 *
+	 * @return WP_Post[] Set of attachment objects.
+	 */
+	public function get_gallery_images_from_post_content( $content, $post_id = 0 ) {
+		$attachments = [];
+		$galleries   = $this->get_content_galleries( $content );
+
+		foreach ( $galleries as $gallery ) {
+
+			$id = $post_id;
+
+			if ( ! empty( $gallery['id'] ) ) {
+				$id = intval( $gallery['id'] );
+			}
+
+			// Forked from core gallery_shortcode() to have exact same logic. R.
+			if ( ! empty( $gallery['ids'] ) ) {
+				$gallery['include'] = $gallery['ids'];
+			}
+
+			$gallery_attachments = $this->get_gallery_attachments( $id, $gallery );
+
+			$attachments = \array_merge( $attachments, $gallery_attachments );
+		}
+
+		return \array_unique( $attachments, SORT_REGULAR );
+	}
+
+	/**
+	 * Retrieves galleries from the passed content.
+	 *
+	 * Forked from core to skip executing shortcodes for performance.
+	 *
+	 * @param string $content Content to parse for shortcodes.
+	 *
+	 * @return array A list of arrays, each containing gallery data.
+	 */
+	protected function get_content_galleries( $content ) {
+		$galleries = [];
+
+		if ( ! preg_match_all( '/' . get_shortcode_regex( [ 'gallery' ] ) . '/s', $content, $matches, PREG_SET_ORDER ) ) {
+			return $galleries;
+		}
+
+		foreach ( $matches as $shortcode ) {
+
+			$attributes = shortcode_parse_atts( $shortcode[3] );
+
+			if ( $attributes === '' ) { // Valid shortcode without any attributes. R.
+				$attributes = [];
+			}
+
+			$galleries[] = $attributes;
+		}
+
+		return $galleries;
+	}
+
+	/**
+	 * Returns the attachments for a gallery.
+	 *
+	 * @param int   $id      The post ID.
+	 * @param array $gallery The gallery config.
+	 *
+	 * @return array The selected attachments.
+	 */
+	protected function get_gallery_attachments( $id, $gallery ) {
+
+		// When there are attachments to include.
+		if ( ! empty( $gallery['include'] ) ) {
+			return $this->get_gallery_attachments_for_included( $gallery['include'] );
+		}
+
+		// When $id is empty, just return empty array.
+		if ( empty( $id ) ) {
+			return [];
+		}
+
+		return $this->get_gallery_attachments_for_parent( $id, $gallery );
+	}
+
+	/**
+	 * Returns the attachments for the given ID.
+	 *
+	 * @param int   $id      The post ID.
+	 * @param array $gallery The gallery config.
+	 *
+	 * @return array The selected attachments.
+	 */
+	protected function get_gallery_attachments_for_parent( $id, $gallery ) {
+		$query = [
+			'posts_per_page' => -1,
+			'post_parent'    => $id,
+		];
+
+		// When there are posts that should be excluded from result set.
+		if ( ! empty( $gallery['exclude'] ) ) {
+			$query['post__not_in'] = wp_parse_id_list( $gallery['exclude'] );
+		}
+
+		return $this->get_attachments( $query );
+	}
+
+	/**
+	 * Returns an array with attachments for the post IDs that will be included.
+	 *
+	 * @param array $included_ids Array with IDs to include.
+	 *
+	 * @return array The found attachments.
+	 */
+	protected function get_gallery_attachments_for_included( $included_ids ) {
+		$ids_to_include = wp_parse_id_list( $included_ids );
+		$attachments    = $this->get_attachments(
+			[
+				'posts_per_page' => count( $ids_to_include ),
+				'post__in'       => $ids_to_include,
+			]
+		);
+
+		$gallery_attachments = [];
+		foreach ( $attachments as $key => $val ) {
+			$gallery_attachments[ $val->ID ] = $val;
+		}
+
+		return $gallery_attachments;
+	}
+
+	/**
+	 * Returns the attachments.
+	 *
+	 * @param array $args Array with query args.
+	 *
+	 * @return array The found attachments.
+	 */
+	protected function get_attachments( $args ) {
+		$default_args = [
+			'post_status'         => 'inherit',
+			'post_type'           => 'attachment',
+			'post_mime_type'      => 'image',
+
+			// Defaults taken from function get_posts.
+			'orderby'             => 'date',
+			'order'               => 'DESC',
+			'meta_key'            => '',
+			'meta_value'          => '',
+			'suppress_filters'    => true,
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+		];
+
+		$args = wp_parse_args( $args, $default_args );
+
+		$get_attachments = new WP_Query();
+		return $get_attachments->query( $args );
+	}
+
+	/**
+	 * Get attached image URL with filters applied. Adapted from core (wp_get_attachment_image_url) for speed. Used for the sitemap image parser.
+	 *
+	 * @param int $post_id ID of the post.
+	 *
+	 * @return string|null
+	 */
+	public function image_url( $post_id ) {
+		$uploads = \wp_upload_dir();
+
+		if ( $uploads['error'] !== false ) {
+			return null;
+		}
+
+		$file = \get_post_meta( $post_id, '_wp_attached_file', true );
+
+		if ( empty( $file ) ) {
+			return null;
+		}
+
+		// Check that the upload base exists in the file location.
+		if ( \strpos( $file, $uploads['basedir'] ) === 0 ) {
+			return \str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+		}
+		elseif ( \strpos( $file, 'wp-content/uploads' ) !== false ) {
+			return $uploads['baseurl'] . \substr( $file, ( \strpos( $file, 'wp-content/uploads' ) + 18 ) );
+		}
+		else {
+			// It's a newly uploaded file, therefore $file is relative to the baseurl.
+			return $uploads['baseurl'] . '/' . $file;
+		}
 	}
 }

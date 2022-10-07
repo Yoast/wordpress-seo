@@ -49,8 +49,10 @@ class Schema_IDs {
 
 	/**
 	 * Hash used for an Article's primary image `@id`.
+	 *
+	 * @deprecated 19.8
 	 */
-	const PRIMARY_IMAGE_HASH = '#primaryimage';
+	const PRIMARY_IMAGE_HASH = '';
 
 	/**
 	 * Hash used for the WebPage's `@id`.

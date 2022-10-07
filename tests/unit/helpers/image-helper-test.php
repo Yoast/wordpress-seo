@@ -3,8 +3,12 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
+use http\Url;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -15,6 +19,27 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group helpers
  */
 class Image_Helper_Test extends TestCase {
+
+	/**
+	 * The robots txt helper.
+	 *
+	 * @var Indexable_Repository|Mockery\MockInterface
+	 */
+	protected $indexable_repository;
+
+	/**
+	 * The robots txt helper.
+	 *
+	 * @var Options_Helper|Mockery\MockInterface
+	 */
+	protected $options_helper;
+
+	/**
+	 * The robots txt helper.
+	 *
+	 * @var Url_Helper|Mockery\MockInterface
+	 */
+	protected $url_helper;
 
 	/**
 	 * Represents the instance to test.
@@ -29,9 +54,35 @@ class Image_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( Image_Helper::class )
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
+		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->options_helper       = Mockery::mock( Options_Helper::class );
+		$this->url_helper           = Mockery::mock( Url_Helper::class );
+
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.com' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.com' )
+			->andReturn(
+				[
+					'host'   => 'example.com',
+					'scheme' => 'https',
+				]
+			);
+
+		Monkey\Functions\expect( 'get_bloginfo' )
+			->with( 'charset' )
+			->andReturn( 'UTF-8' );
+
+		Monkey\Functions\expect( 'esc_attr' )
+			->with( 'UTF-8' )
+			->andReturn( 'UTF-8' );
+
+		$this->instance = new Image_Helper(
+			$this->indexable_repository,
+			$this->options_helper,
+			$this->url_helper
+		);
 	}
 
 	/**
@@ -141,12 +192,6 @@ class Image_Helper_Test extends TestCase {
 			->with( 100 )
 			->andReturn( 'image/jpeg' );
 
-		$this->instance
-			->expects( 'is_valid_image_type' )
-			->once()
-			->with( 'image/jpeg' )
-			->andReturnTrue();
-
 		$this->assertTrue( $this->instance->is_valid_attachment( 100 ) );
 	}
 
@@ -235,13 +280,17 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_post_content_image
 	 */
 	public function test_get_post_content_image() {
-		$this->instance
-			->expects( 'get_first_usable_content_image_for_post' )
+		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( 'image.jpg' );
+			->andReturn(
+				(object) [
+					'post_content' => 'blablabla<img src=\'https://example.com/images/image.jpg\'>blablabla',
+					'ID'           => 1337,
+				]
+			);
 
-		$this->assertEquals( 'image.jpg', $this->instance->get_post_content_image( 1337 ) );
+		$this->assertEquals( 'https://example.com/images/image.jpg', $this->instance->get_post_content_image( 1337 ) );
 	}
 
 	/**
@@ -250,12 +299,10 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_post_content_image
 	 */
 	public function test_get_post_content_image_with_no_image_found() {
-		$this->instance
-			->expects( 'get_first_usable_content_image_for_post' )
+		Monkey\Functions\expect( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturnNull();
-
+			->andReturn( null );
 		$this->assertEquals( '', $this->instance->get_post_content_image( 1337 ) );
 	}
 
@@ -265,14 +312,12 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_term_content_image
 	 */
 	public function test_get_term_content_image() {
-		$this->instance
-			->expects( 'get_first_content_image_for_term' )
-			->with( 1337 )
+		Monkey\Functions\expect( 'term_description' )
 			->once()
-			->andReturn( 'https://example.com/media/content_image.jpg' );
-
+			->with( 1337 )
+			->andReturn( 'blablabla<img src=\'https://example.com/images/image.jpg\'>blablabla' );
 		$this->assertEquals(
-			'https://example.com/media/content_image.jpg',
+			'https://example.com/images/image.jpg',
 			$this->instance->get_term_content_image( 1337 )
 		);
 	}
@@ -283,12 +328,10 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_term_content_image
 	 */
 	public function test_get_term_content_image_no_image_in_content() {
-		$this->instance
-			->expects( 'get_first_content_image_for_term' )
-			->with( 1337 )
+		Monkey\Functions\expect( 'term_description' )
 			->once()
-			->andReturn( null );
-
+			->with( 1337 )
+			->andReturn( 'blablablablablabla' );
 		$this->assertEmpty( $this->instance->get_term_content_image( 1337 ) );
 	}
 

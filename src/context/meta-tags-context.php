@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Abstract_Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Values\Schema\Image;
 
 /**
  * Class Meta_Tags_Context.
@@ -52,6 +53,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property bool         $has_image
  * @property int          $main_image_id
  * @property string       $main_image_url
+ * @property Image[]      $images
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -214,6 +216,19 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_description() {
 		return $this->replace_vars->replace( $this->presentation->meta_description, $this->presentation->source );
+	}
+
+	/**
+	 * Generates the images.
+	 *
+	 * @return Image[] the images.
+	 */
+	public function generate_images() {
+		if ( $this->post instanceof WP_Post === false ) {
+			return [];
+		}
+
+		return $this->image->get_images_from_post_content( $this->post->post_content );
 	}
 
 	/**
@@ -597,12 +612,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return null;
 		}
 
-		$url = $this->image->get_post_content_image( $this->id );
-		if ( $url === '' ) {
+		if ( count( $this->images ) === 0 ) {
 			return null;
 		}
 
-		return $url;
+		return $this->images[0]->get_src();
 	}
 
 	/**
