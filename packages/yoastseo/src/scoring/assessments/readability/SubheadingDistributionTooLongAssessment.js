@@ -205,7 +205,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 	calculateResult( textPrecedingSubheading1Length ) {
 		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
-				if ( textPrecedingSubheading1Length > this._config.parameters.recommendedMaximumLength ) {
+				const longestSubheadingTextLength = this._subheadingTextsLength.subHeadingTexts[ 0 ].countLength;
+				if ( textPrecedingSubheading1Length > this._config.parameters.recommendedMaximumLength && longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
 					// Red indicator.
 					return {
 						score: this._config.scores.badLongTextBeforeSubheadings,
@@ -223,7 +224,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 						),
 					};
 				}
-				const longestSubheadingTextLength = this._subheadingTextsLength.subHeadingTexts[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
 					// Green indicator.
 					return {
@@ -242,6 +242,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 				if ( inRange( longestSubheadingTextLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ) ) {
 					// Orange indicator.
+					this._tooLongTexts = this.getTooLongSubheadingTexts();
+					if ( textPrecedingSubheading1Length > this._config.parameters.recommendedMaximumLength ){
+						this._tooLongTexts.push( textPrecedingSubheading1Length );
+						this._tooLongTextsNumber = this._tooLongTexts.length;
+					}
 					return {
 						score: this._config.scores.okSubheadings,
 						resultText: sprintf(
