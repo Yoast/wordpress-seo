@@ -110,7 +110,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<MetaboxCollapsible
 							title={ __( "Internal linking suggestions", "wordpress-seo" ) }
 						>
-							<LinkSuggestions />
+							<LinkSuggestions  location="metabox" />
 						</MetaboxCollapsible>
 					</SidebarItem>
 				}

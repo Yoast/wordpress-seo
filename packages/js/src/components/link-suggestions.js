@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { createInterpolateElement } from "@wordpress/element";
@@ -40,10 +42,14 @@ const suggestions = [
  *
  * @returns {void}
  */
-const LinkSuggestions = () => {
+const LinkSuggestions = ( { location } ) => {
+	const additionalStyle = { minHeight: "revert", maxHeight: "30px" };
+	if ( location === "metabox" ) {
+		additionalStyle.marginTop = "8px";
+	}
 	return (
 		<LinkSuggestionsWrapper>
-			<OutboundLink href={ upsellLink } className="yoast-button yoast-button-upsell">
+			<OutboundLink href={ upsellLink } className="yoast-button yoast-button-upsell" style={ additionalStyle }>
 				{ sprintf(
 					// translators: %s expands to `Premium` (part of add-on name).
 					__( "Unlock with %s", "wordpress-seo" ),
@@ -59,6 +65,14 @@ const LinkSuggestions = () => {
 			</div>
 		</LinkSuggestionsWrapper>
 	);
+};
+
+LinkSuggestions.propTypes = {
+	location: PropTypes.string,
+};
+
+LinkSuggestions.defaultProps = {
+	location: "sidebar",
 };
 
 export default LinkSuggestions;

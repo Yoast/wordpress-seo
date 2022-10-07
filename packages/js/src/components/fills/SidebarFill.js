@@ -59,7 +59,7 @@ export default function SidebarFill( { settings } ) {
 						<SidebarCollapsible
 							title={ __( "Internal linking suggestions", "wordpress-seo" ) }
 						>
-							<LinkSuggestions />
+							<LinkSuggestions location="sidebar" />
 						</SidebarCollapsible>
 					</SidebarItem>
 				}
