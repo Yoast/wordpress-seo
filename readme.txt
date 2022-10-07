@@ -226,6 +226,10 @@ The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium i
 
 [Read more on how to get support](https://yoa.st/3r2)
 
+= What happens to my data if I enable usage tracking? =
+
+[This page on yoast.com explains what data we collect to improve Yoast SEO](https://yoa.st/4w7). We only collect data when you explicitly opt in. Read more about how we handle your data in [our Privacy Policy](https://yoa.st/4w8). 
+
 = I have a different question than listed here =
 
 Your question has most likely been answered on our help center: [yoast.com/help/](https://yoa.st/1va).
