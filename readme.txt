@@ -266,6 +266,7 @@ Bugfixes:
 * Fixes a bug where robots meta tags would be unintentionally synchronized between pages in different languages when using multilingual plugins like WPML or Polylang.
 * Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
 * Fixes a bug where the sidebar issue counter would show a wrong number of issues, on the first page load after an issue was resolved.
+* Fixes a bug where Yoast SEO would conflict with Elementor, when Yoast Premium or Yoast News or Yoast Video is active, throwing console errors.
 
 Other:
 
