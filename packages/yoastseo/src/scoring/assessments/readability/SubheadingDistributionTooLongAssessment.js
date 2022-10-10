@@ -186,7 +186,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			subheading = stripTags( subheading );
 			const marked = marker( subheading );
 			return new Mark( {
-				original: text,
+				original: subheading,
 				marked: marked,
 			} );
 		} );
