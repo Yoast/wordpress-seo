@@ -73,30 +73,39 @@ class SubheadingsDistributionTooLong extends Assessment {
 			return b.countLength - a.countLength;
 		} );
 
-		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
-
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setIdentifier( this.identifier );
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
-		// Give specific feedback for cases where the post starts with a long text without subheadings
-		// Find first subheading
+		// Give specific feedback for cases where the post starts with a long text without subheadings.
 		const customCountLength = researcher.getHelper( "customCountLength" );
-		let textPrecedingSubheading1Length = "";
+		let textPrecedingSubheading1Length = 0;
 		if ( this._subheadingTextsLength.subHeadingTexts.length > 0 ) {
-			// Find first subheading
+			// Find first subheading.
 			const firstSubheading =  this._subheadingTextsLength.subHeadingTexts[ 0 ];
-			// Retrieve text preceding first subheading
+			// Retrieve text preceding first subheading.
 			const textPrecedingSubheading1 = this._subheadingTextsLength.text.slice( 0, firstSubheading.index );
 			textPrecedingSubheading1Length = customCountLength
 				? customCountLength( textPrecedingSubheading1 )
 				: wordCount( textPrecedingSubheading1 );
-			console.log( textPrecedingSubheading1, "text before subheading" );
-			console.log( textPrecedingSubheading1Length, "length of text" );
 		}
+
+		this._tooLongTexts = this.getTooLongSubheadingTexts();
+		// Checks if the text preceding the first subheading is longer than the recommended maximum length.
+		const isTextPrecedingFirstHLong = textPrecedingSubheading1Length > this._config.parameters.recommendedMaximumLength;
+		/*
+		 * If the text preceding the first subheading is longer than the recommended maximum length,
+		 * add the text block to the array of too long texts.
+		 */
+		if ( isTextPrecedingFirstHLong ) {
+			this._tooLongTexts.push( textPrecedingSubheading1Length );
+		}
+
+		this._tooLongTextsNumber = this._tooLongTexts.length;
+
 		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
-		const calculatedResult = this.calculateResult( textPrecedingSubheading1Length );
+		const calculatedResult = this.calculateResult( isTextPrecedingFirstHLong );
 
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
@@ -198,16 +207,19 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
-	 * @param {number} textPrecedingSubheading1Length   The length of the text preceding the first subheading.
+	 * @param {boolean} isTextPrecedingFirstHLong   Whether the length of the text preceding the first subheading is longer
+	 *                                              than the recommended maximum length.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( textPrecedingSubheading1Length ) {
+	calculateResult( isTextPrecedingFirstHLong ) {
 		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
-				const longestSubheadingTextLength = this._subheadingTextsLength.subHeadingTexts[ 0 ].countLength;
-				if ( textPrecedingSubheading1Length > this._config.parameters.recommendedMaximumLength && longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
-					// Red indicator.
+				if ( isTextPrecedingFirstHLong && this._tooLongTextsNumber < 2 ) {
+					/*
+					 * Red indicator. Returns this feedback if the text preceding the first subheading is long
+					 * and the total number of too long texts is less than 2.
+					 */
 					return {
 						score: this._config.scores.badLongTextBeforeSubheadings,
 						resultText: sprintf(
@@ -224,6 +236,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 						),
 					};
 				}
+
+				const longestSubheadingTextLength = this._subheadingTextsLength.subHeadingTexts[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
 					// Green indicator.
 					return {
@@ -242,11 +256,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 				if ( inRange( longestSubheadingTextLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ) ) {
 					// Orange indicator.
-					this._tooLongTexts = this.getTooLongSubheadingTexts();
-					if ( textPrecedingSubheading1Length > this._config.parameters.recommendedMaximumLength ){
-						this._tooLongTexts.push( textPrecedingSubheading1Length );
-						this._tooLongTextsNumber = this._tooLongTexts.length;
-					}
 					return {
 						score: this._config.scores.okSubheadings,
 						resultText: sprintf(
