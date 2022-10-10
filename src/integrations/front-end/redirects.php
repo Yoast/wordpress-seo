@@ -250,6 +250,8 @@ class Redirects implements Integration_Interface {
 		 * Allows the developer to keep cat=-1 GET parameters
 		 *
 		 * @since 19.9
+		 *
+		 * @param bool $remove_cat_parameter Whether to remove the `cat=-1` GET parameter. Default true.
 		 */
 		$should_remove_parameter = \apply_filters( 'wpseo_remove_cat_parameter', true );
 
@@ -259,7 +261,7 @@ class Redirects implements Integration_Interface {
 			unset( $_GET['cat'] );
 			if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- This is just a replace and the data is never saved.
-				$_SERVER['REQUEST_URI'] = \str_replace( 'cat=-1', '', \wp_unslash( $_SERVER['REQUEST_URI'] ) );
+				$_SERVER['REQUEST_URI'] = \remove_query_arg( 'cat' );
 			}
 			$this->redirect->do_safe_redirect( $this->url->recreate_current_url(), 301, 'Stripping cat=-1 from the URL' );
 		}
