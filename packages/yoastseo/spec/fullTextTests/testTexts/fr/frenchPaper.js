@@ -8,6 +8,7 @@ const paper = new Paper( content, {
 	synonyms: "syntaxe",
 	description: "La syntaxe est la branche de la linguistique qui étudie la façon dont les mots se combinent pour former des phrases ou des énoncés dans une langue.",
 	title: "Syntaxe en linguistique",
+	textTitle: "Syntaxe en linguistique",
 	titleWidth: 450,
 	locale: "fr_FR",
 	permalink: "https://fr.wikipedia.org/wiki/syntaxe",
@@ -143,6 +144,11 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: You are not using too many complex words, which makes your text easy to read. Good job!",
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

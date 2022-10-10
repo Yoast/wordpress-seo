@@ -4,7 +4,6 @@ import formatNumber from "./formatNumber";
 import { getLanguagesWithWordComplexity } from "./getLanguagesWithWordComplexity";
 import { createAnchorOpeningTag } from "./shortlinker";
 
-
 export {
 	measureTextWidth,
 	getLanguagesWithWordFormSupport,

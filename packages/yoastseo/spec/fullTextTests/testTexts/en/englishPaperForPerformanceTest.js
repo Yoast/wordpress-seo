@@ -14,6 +14,7 @@ const paper = new Paper( content, {
 	synonyms: "путеводитель, the Green Book",
 	description: "Зелёная книга - краткое название ежегодного путеводителя для чернокожих автомобилистов, который издавался в США с 1936 по 1966 год",
 	title: "Зелёная книга (путеводитель)",
+	textTitle: "Зелёная книга (путеводитель)",
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://ru.wikipedia.org/wiki/Зелёная_книга_(путеводитель)",
@@ -150,6 +151,11 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 27.84% of the words in your text are considered complex. " +
 			"<a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

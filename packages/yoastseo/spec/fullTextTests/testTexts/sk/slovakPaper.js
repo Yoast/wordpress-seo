@@ -10,6 +10,7 @@ const paper = new Paper( content, {
 		" a domácich mačiek s mohutnou stavbou tela a zo začiatku ich chovali výhradne v módnej modrej farbe.",
 	title: "Britská mačka",
 	titleWidth: 450,
+	textTitle: "Britská mačka",
 	locale: "sk_SK",
 	permalink: "https://sk.wikipedia.org/wiki/Britsk%C3%A1_ma%C4%8Dka",
 	slug: "Britsk%C3%A1_ma%C4%8Dka",
@@ -152,6 +153,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

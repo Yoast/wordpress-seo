@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "העיר היא עיר הבירה של פרובינציית נאפולי ובירת מחוז קמפניה. בנאפולי מתגוררים " +
 		"כ-959,000 תושבים ובאזור המטרופוליטני, הכולל גם חלקים מנפות קזרטה, אבלינו וסלרנו מתגוררים כ-4,000,000 תושבים.",
 	title: "נאפולי",
+	textTitle: "נאפולי",
 	titleWidth: 450,
 	locale: "he_IL",
 	permalink: "https://he.wikipedia.org/wiki/%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
@@ -151,6 +152,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

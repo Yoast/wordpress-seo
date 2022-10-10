@@ -8,6 +8,7 @@ const paper = new Paper( content, {
 	synonyms: "világegyetem",
 	description: "A világegyetem (latinosan univerzum) csillagászati fogalom, minden létező összességét jelenti.",
 	title: "Világegyetem",
+	textTitle: "Világegyetem",
 	titleWidth: 450,
 	locale: "hu_HU",
 	permalink: "https://hu.wikipedia.org/wiki/Vil%C3%A1gegyetem",
@@ -141,6 +142,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

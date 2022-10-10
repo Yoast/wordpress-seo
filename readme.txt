@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.7.1
+Stable tag: 19.7.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -226,6 +226,10 @@ The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium i
 
 [Read more on how to get support](https://yoa.st/3r2)
 
+= What happens to my data if I enable usage tracking? =
+
+[This page on yoast.com explains what data we collect to improve Yoast SEO](https://yoa.st/4w7). We only collect data when you explicitly opt in. Read more about how we handle your data in [our Privacy Policy](https://yoa.st/4w8). 
+
 = I have a different question than listed here =
 
 Your question has most likely been answered on our help center: [yoast.com/help/](https://yoa.st/1va).
@@ -242,12 +246,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 19.8 =
-Release Date: October 4th, 2022
-
-
-
-
-
+Release Date: October 11th, 2022
 
 
 Enhancements:
@@ -272,6 +271,13 @@ Other:
 * Deprecates the `wpseo_twitter_card_type` filter.
 * Outputs `summary_large_image` for all `twitter:card` meta tags, because it's the only supported format by Twitter.
 
+= 19.7.2 =
+Release Date: October 5th, 2022
+
+Other:
+
+* Removes the cURL minimal version check from the Site Health page, as it was causing issues.
+
 = 19.7.1 =
 Release Date: September 20th, 2022
 
@@ -281,7 +287,7 @@ Bugfixes:
 
 Other:
 
-* Changes the copy in the `robots.txt` comment. 
+* Changes the copy in the `robots.txt` comment.
 
 = 19.7 =
 Release Date: September 20th, 2022
