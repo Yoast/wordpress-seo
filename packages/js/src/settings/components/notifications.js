@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { useEffect, useMemo, useState } from "@wordpress/element";
+import { useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -13,9 +13,8 @@ import { flattenObject } from "../utils";
  * @returns {void}
  */
 const useValidationErrorsNotification = () => {
-	const { submitCount, isValid, errors } = useFormikContext();
+	const { isValid, errors, isSubmitting } = useFormikContext();
 	const { addNotification, removeNotification } = useDispatchSettings();
-	const [ prevSubmitCount, setPrevSubmitCount ] = useState( 0 );
 	const validationErrorsNotification = useSelectSettings( "selectNotification", [], "validation-errors" );
 
 	useEffect( () => {
@@ -25,7 +24,7 @@ const useValidationErrorsNotification = () => {
 	}, [ isValid, validationErrorsNotification ] );
 
 	useEffect( () => {
-		if ( ! isValid && submitCount > prevSubmitCount ) {
+		if ( isSubmitting && ! isValid ) {
 			addNotification( {
 				id: "validation-errors",
 				variant: "error",
@@ -33,10 +32,7 @@ const useValidationErrorsNotification = () => {
 				title: __( "Oh no! It seems your form contains invalid data. Please review the following fields:", "wordpress-seo" ),
 			} );
 		}
-		if ( submitCount > prevSubmitCount ) {
-			setPrevSubmitCount( submitCount );
-		}
-	}, [ submitCount, errors, isValid ] );
+	}, [ isSubmitting, errors, isValid ] );
 };
 
 /**
