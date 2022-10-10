@@ -41,6 +41,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				okSubheadings: 6,
 				badSubheadings: 3,
 				badLongTextNoSubheadings: 2,
+				badLongTextBeforeSubheadings: 2,
 			},
 			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
