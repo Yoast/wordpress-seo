@@ -17,20 +17,6 @@ describe( "A function to get all text blocks from subheadings", function() {
 	} );
 
 	it( "returns 2 blocks of text, one outside subheadings, one following a subheading", function() {
-		result = getSubheadingTexts( "this is some text before the first subheading<h2>fist subheading</h2>" +
-			"more text after the first subheading<h2>second subheading</h2>test test" );
-
-		expect( result ).toEqual( [
-			{
-				subheading: "<h2>fist subheading</h2>",
-				text: "more text after the first subheading",
-			},
-			{ subheading: "<h2>second subheading</h2>",
-				text: "test test" },
-		]  );
-	} );
-
-	it( "returns 2 blocks of text, one outside subheadings, one following a subheading", function() {
 		result = getSubheadingTexts( "this is some text before the first subheading<h2>fist subheading</h2>more text after the first subheading" );
 
 		expect( result.length ).toBe( 2 );
