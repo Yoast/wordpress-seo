@@ -19,7 +19,7 @@ export default function( paper, researcher ) {
 	const customCountLength = researcher.getHelper( "customCountLength" );
 
 	const subHeadingTexts = [];
-	forEach( matches.foundSubheadings, function( match) {
+	forEach( matches.foundSubheadings, function( match ) {
 		subHeadingTexts.push( {
 			subheading: match.subheading,
 			text: match.text,
