@@ -384,7 +384,7 @@ export class Indexation extends Component {
 			return <Alert type={ "success" }>{ __( "SEO data optimization complete", "wordpress-seo" ) }</Alert>;
 		}
 
-		if ( this.settings.showIndexingCompleteMessage ) {
+		if ( this.settings.showAlreadyOptimizedMessage ) {
 			return <Alert type={ "success" }>{ __( "SEO data is already optimized", "wordpress-seo" ) }</Alert>;
 		}
 

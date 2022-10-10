@@ -269,7 +269,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 				],
 				'nonce'               => 'nonce_value',
 			],
-			'showIndexingCompleteMessage' => false,
+			'showAlreadyOptimizedMessage' => false,
 		];
 
 		$injected_data['errorMessage'] = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
