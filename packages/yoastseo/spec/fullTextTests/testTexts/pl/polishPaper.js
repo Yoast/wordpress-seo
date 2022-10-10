@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Google Inc. została założona w 1998 roku przez dwóch doktorantów Uniwersytetu Stanforda, Amerykanina Larry'ego Page'a i Rosjanina Siergieja Brina.",
 	title: "Google Inc",
 	titleWidth: 450,
+	textTitle: "Google Inc",
 	locale: "pl_PL",
 	permalink: "https://pl.wikipedia.org/wiki/Google",
 	slug: "Google",
@@ -143,6 +144,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

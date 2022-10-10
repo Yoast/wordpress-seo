@@ -27,6 +27,8 @@ import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/Pa
 import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
 import WordComplexityAssessment from "../../src/scoring/assessments/readability/WordComplexityAssessment";
+// Import Premium assessments
+import TextTitleAssessment from "../../src/scoring/assessments/premiumAssessments/TextTitleAssessment";
 // Import test papers
 import testPapers from "./testTexts";
 
@@ -116,6 +118,10 @@ testPapers.forEach( function( testPaper ) {
 
 		it( "returns a score and the associated feedback text for the keyphraseDistribution assessment", function() {
 			compare( new KeyphraseDistributionAssessment(), expectedResults.keyphraseDistribution );
+		} );
+
+		it( "returns a score and the associated feedback text for the textTitle assessment", function() {
+			compare( new TextTitleAssessment(), expectedResults.textTitle );
 		} );
 
 		// Readability assessments.

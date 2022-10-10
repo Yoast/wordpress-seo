@@ -10,6 +10,7 @@ const paper = new Paper( content, {
 	synonyms: "un assemblage d'étoiles",
 	description: "Une galaxie est un assemblage d'étoiles, de gaz, de poussières et peut-être essentiellement de matière noire, contenant parfois un trou noir supermassif en son centre.",
 	title: "Galaxies",
+	textTitle: "Galaxies",
 	titleWidth: 450,
 	locale: "fr_FR",
 	permalink: "https://fr.wikipedia.org/wiki/Galaxie",
@@ -145,6 +146,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

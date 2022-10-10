@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Upaya untuk menjalin persekutuan Franka-Mongol melawan kekhalifahan Islam (yang merupakan musuh bersama mereka) telah" +
 		" dilancarkan oleh pemimpin-pemimpin Tentara Salib Franka dan Kekaisaran Mongol pada tahun 1200-an.",
 	title: "Persekutuan Franka-Mongol",
+	textTitle: "Persekutuan Franka-Mongol",
 	titleWidth: 450,
 	locale: "id_ID",
 	permalink: "https://id.wikipedia.org/wiki/Persekutuan_Franka-Mongol",
@@ -143,6 +144,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 
