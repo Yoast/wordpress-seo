@@ -202,6 +202,11 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 112 );
 
+		$this->indexing_helper
+			->expects( 'should_show_optimization_button' )
+			->once()
+			->andReturnTrue();
+
 		$this->asset_manager
 			->expects( 'enqueue_script' )
 			->with( 'indexation' );
@@ -241,10 +246,10 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			->andReturnTrue();
 
 		$injected_data = [
-			'disabled'  => false,
-			'amount'    => 112,
-			'firstTime' => true,
-			'restApi'   => [
+			'disabled'                    => false,
+			'amount'                      => 112,
+			'firstTime'                   => true,
+			'restApi'                     => [
 				'root'                => 'https://example.org/wp-ajax/',
 				'indexing_endpoints'  => [
 					'prepare'            => 'yoast/v1/indexing/prepare',
@@ -264,6 +269,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 				],
 				'nonce'               => 'nonce_value',
 			],
+			'showAlreadyOptimizedMessage' => false,
 		];
 
 		$injected_data['errorMessage'] = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
@@ -293,6 +299,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_indexing_data' )
 			->with( $injected_data );
+
 
 		$this->instance->enqueue_scripts();
 	}

@@ -155,6 +155,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 				'importing_endpoints' => $this->get_importing_endpoints(),
 				'nonce'               => \wp_create_nonce( 'wp_rest' ),
 			],
+			'showAlreadyOptimizedMessage' => ! $this->indexing_helper->should_show_optimization_button(),
 		];
 
 		/**

@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
+
 /**
  * Class Indexing_List_Item_Presenter.
  *
@@ -34,6 +35,7 @@ class Indexing_List_Item_Presenter extends Abstract_Presenter {
 	 * @return string The list item HTML.
 	 */
 	public function present() {
+
 		$output  = \sprintf( '<li><strong>%s</strong><br/>', \esc_html__( 'Optimize SEO Data', 'wordpress-seo' ) );
 		$output .= \sprintf(
 			'%1$s <a href="%2$s" target="_blank">%3$s</a>',
