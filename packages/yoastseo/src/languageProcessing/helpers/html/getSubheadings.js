@@ -37,9 +37,6 @@ function getSubheadingsTopLevel( text ) {
 	return subheadings;
 }
 
-
-// find first reachable subheading
-// slice the text that precedes it
 /**
  * Gets the content of subheadings in the text.
  *
