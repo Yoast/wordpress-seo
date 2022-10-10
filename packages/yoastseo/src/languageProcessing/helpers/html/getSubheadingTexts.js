@@ -1,4 +1,4 @@
-import { isEmpty, isUndefined } from "lodash-es";
+import { isUndefined } from "lodash-es";
 
 /**
  * Returns all texts per subheading.
@@ -38,7 +38,7 @@ export default function( text ) {
 			index: currentMatchIndex,
 		} );
 	} );
-	return {foundSubheadings: foundSubheadings, text: text }
+	return { foundSubheadings: foundSubheadings, text: text };
 }
 
 
