@@ -513,7 +513,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				}
 
 				// Ensure we get only unique values.
-				$type = \array_unique( $type );
+				$type = \array_values( \array_unique( $type ) );
 		}
 
 		/**
