@@ -1,11 +1,11 @@
 import { isUndefined } from "lodash-es";
 
 /**
- * Returns an object containing the original text and the array of found subheadings including the following text.
+ * Returns An array of found subheadings including the following text.
  *
  * @param {string} text The text to analyze from.
  *
- * @returns {Object} An object containing the original text and the array of found subheadings including the following text.
+ * @returns {Array} An array of found subheadings including the following text.
  */
 export default function( text ) {
 	// Match all the subheadings.
@@ -41,7 +41,7 @@ export default function( text ) {
 		} );
 	} );
 
-	return { foundSubheadings: foundSubheadings, text: text };
+	return foundSubheadings;
 }
 
 
