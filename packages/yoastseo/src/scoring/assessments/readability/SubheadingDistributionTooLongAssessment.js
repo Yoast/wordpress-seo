@@ -69,7 +69,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
-		this._subheadingTextsLength.subHeadingTexts = this._subheadingTextsLength.subHeadingTexts.sort( function( a, b ) {
+		this._subheadingTextsLength.foundSubheadings = this._subheadingTextsLength.foundSubheadings.sort( function( a, b ) {
 			return b.countLength - a.countLength;
 		} );
 
@@ -80,29 +80,23 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		// Give specific feedback for cases where the post starts with a long text without subheadings.
 		const customCountLength = researcher.getHelper( "customCountLength" );
-		let textPrecedingSubheading1Length = 0;
-		if ( this._subheadingTextsLength.subHeadingTexts.length > 0 ) {
-			// Find first subheading.
-			const firstSubheading =  this._subheadingTextsLength.subHeadingTexts[ 0 ];
-			// Retrieve text preceding first subheading.
-			const textPrecedingSubheading1 = this._subheadingTextsLength.text.slice( 0, firstSubheading.index );
-			textPrecedingSubheading1Length = customCountLength
-				? customCountLength( textPrecedingSubheading1 )
-				: wordCount( textPrecedingSubheading1 );
-		}
+
+		// Retrieve the length of the text before the first subheading.
+		const textBeforeFirstSubheadingLength = this._subheadingTextsLength.textBeforeFirstSubheadingLength;
+		// Checks if the text preceding the first subheading is longer than the recommended maximum length.
+		const isTextPrecedingFirstHLong = textBeforeFirstSubheadingLength > this._config.parameters.recommendedMaximumLength;
 
 		this._tooLongTexts = this.getTooLongSubheadingTexts();
-		// Checks if the text preceding the first subheading is longer than the recommended maximum length.
-		const isTextPrecedingFirstHLong = textPrecedingSubheading1Length > this._config.parameters.recommendedMaximumLength;
-		/*
-		 * If the text preceding the first subheading is longer than the recommended maximum length,
-		 * add the text block to the array of too long texts.
-		 */
-		if ( isTextPrecedingFirstHLong ) {
-			this._tooLongTexts.push( textPrecedingSubheading1Length );
-		}
 
 		this._tooLongTextsNumber = this._tooLongTexts.length;
+
+		/*
+		 * If the text preceding the first subheading is longer than the recommended maximum length,
+		 * add 1 to the total number of too long texts.
+		 */
+		if ( isTextPrecedingFirstHLong ) {
+			this._tooLongTextsNumber = this._tooLongTextsNumber + 1;
+		}
 
 		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
 		const calculatedResult = this.calculateResult( isTextPrecedingFirstHLong );
@@ -199,7 +193,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Array} The array containing subheading texts that are too long.
 	 */
 	getTooLongSubheadingTexts() {
-		return filter( this._subheadingTextsLength.subHeadingTexts, function( subheading ) {
+		return filter( this._subheadingTextsLength.foundSubheadings, function( subheading ) {
 			return subheading.countLength > this._config.parameters.recommendedMaximumLength;
 		}.bind( this ) );
 	}
@@ -237,7 +231,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					};
 				}
 
-				const longestSubheadingTextLength = this._subheadingTextsLength.subHeadingTexts[ 0 ].countLength;
+				const longestSubheadingTextLength = this._subheadingTextsLength.foundSubheadings[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
 					// Green indicator.
 					return {
