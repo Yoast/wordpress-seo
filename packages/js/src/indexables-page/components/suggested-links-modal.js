@@ -23,7 +23,7 @@ import { addLinkToString } from "../../helpers/stringHelpers";
 const SuggestedLinksModalContent = ( { suggestedLinksModalData, isPremium, children } ) => {
 	return (
 		<div className="yst-grid yst-grid-cols-1">
-			<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">
+			<h3 className="yst-mb-4 yst-text-xl yst-text-slate-900 yst-font-medium">
 				Add incoming links
 				{ ( ! isPremium ) && <Badge
 					variant="upsell"
@@ -32,10 +32,10 @@ const SuggestedLinksModalContent = ( { suggestedLinksModalData, isPremium, child
 					Premium
 				</Badge> }
 			</h3>
-			<h4 className="yst-mb-2 yst-text-base yst-text-gray-900 yst-font-medium">
+			<h4 className="yst-mb-2 yst-text-base yst-text-slate-900 yst-font-medium">
 				To:
 			</h4>
-			<div className="yst-flex yst-text-gray-700 yst-mb-6 yst-items-center">
+			<div className="yst-flex yst-text-slate-700 yst-mb-6 yst-items-center">
 				<IndexableLinkCount count={ parseInt( suggestedLinksModalData.incomingLinksCount, 10 ) } />
 				<IndexableTitleLink
 					indexable={
@@ -48,7 +48,7 @@ const SuggestedLinksModalContent = ( { suggestedLinksModalData, isPremium, child
 					showType={ false }
 				/>
 			</div>
-			<h4 className="yst-mb-2 yst-text-base yst-text-gray-900 yst-font-medium">
+			<h4 className="yst-mb-2 yst-text-base yst-text-slate-900 yst-font-medium">
 				From suggested posts:
 			</h4>
 			{ children }
@@ -133,7 +133,7 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 						as="a"
 						href={ wpseoIndexablesPageData.shortlinks.getPremium }
 						variant="upsell"
-						className="yst-text-gray-800"
+						className="yst-text-slate-800"
 						target="_blank"
 					>
 						{ __( "Unlock with Premium!", "wordpress-seo" ) }
@@ -147,11 +147,11 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 						/>
 					</Button>
 				</div>
-				<ul className="yst-divide-y yst-divide-gray-200">
+				<ul className="yst-divide-y yst-divide-slate-200">
 					{ range( 1, 6 ).map( ( elem, idx ) => {
 						return <li
 							key={ `suggested-${idx}` }
-							className="yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-400 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14"
+							className="yst-my-0 yst-max-w-none yst-font-medium yst-text-slate-400 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14"
 						>
 							<span className=" yst-flex yst-grow">
 								{ `Suggested post to link from ${elem}` }
@@ -174,18 +174,18 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 
 	return (
 		<SuggestedLinksModalContent suggestedLinksModalData={ suggestedLinksModalData } isPremium={ isPremium }>
-			<ul className="yst-divide-y yst-divide-gray-200">
+			<ul className="yst-divide-y yst-divide-slate-200">
 				{
 					suggestedLinksModalData.linksList.map( ( link, idx ) => {
 						return <li
 							key={ `suggested-${idx}` }
-							className="yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14"
+							className="yst-my-0 yst-max-w-none yst-font-medium yst-text-slate-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14"
 						>
 							<span className=" yst-flex yst-grow">
 								<IndexableTitleLink showType={ false } indexable={ link } />
 							</span>
 							<Button
-								className="yst-items-end yst-text-gray-700"
+								className="yst-items-end yst-text-slate-700"
 								type="button"
 								as="a"
 								href={ "/wp-admin/post.php?action=edit&post=" + link.object_id }

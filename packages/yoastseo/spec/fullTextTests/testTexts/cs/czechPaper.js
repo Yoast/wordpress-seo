@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Nikifor Romanovič Černigovskij (rusky Никифор Романович Черниговский; † 1675) byl ruský sibiřský kozák, " +
 		"původem z polsko-litevského státu.",
 	title: "Nikifor Černigovskij",
+	textTitle: "Nikifor Černigovskij",
 	titleWidth: 450,
 	locale: "cs_CZ",
 	permalink: "https://cs.wikipedia.org/wiki/Nikifor_%C4%8Cernigovskij",
@@ -155,6 +156,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

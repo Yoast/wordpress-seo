@@ -16,7 +16,7 @@ function IndexablesPageCard( { title, className, options, children } ) {
 	return <div className={ classNames( "yst-w-full yst-inline-block", className ) }>
 		<div className="yst-bg-white yst-rounded-lg yst-shadow">
 			<div className="yst-w-full yst-flex yst-justify-between yst-p-8 yst-pb-0">
-				<h3 className="yst-mb-4 yst-text-base yst-text-gray-900 yst-font-medium yst-w-full">
+				<h3 className="yst-mb-4 yst-text-base yst-text-slate-900 yst-font-medium yst-w-full">
 					{ title }
 				</h3>
 				{ options.length > 0 && <DotsMenu options={ options } /> }

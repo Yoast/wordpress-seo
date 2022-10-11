@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Με τον όρο αρχαία ελληνική γλώσσα εννοείται μια μορφή της ελληνικής γλώσσας που ομιλείτο κατά τους αρχαϊκούς" +
 		" χρόνους και την κλασική αρχαιότητα.",
 	title: "Ελληνική γλώσσα",
+	textTitle: "Ελληνική γλώσσα",
 	titleWidth: 450,
 	locale: "el",
 	permalink: "https://el.wikipedia.org/wiki/%CE%95%CE%BB%CE%BB%CE%B7%CE%BD%CE%B9%CE%BA%CE%AE_%CE%B3%CE%BB%CF%8E%CF%83%CF%83%CE%B1",
@@ -160,6 +161,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitle: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 
