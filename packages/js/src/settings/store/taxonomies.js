@@ -1,6 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { get, head, indexOf, lastIndexOf, map, omit, reduce, values } from "lodash";
-import { postTypesSelectors } from "./post-types";
+import { get, omit, reduce, values } from "lodash";
 
 /**
  * @returns {Object} The initial state.
@@ -31,31 +30,6 @@ const taxonomiesSelectors = {
 taxonomiesSelectors.selectTaxonomies = createSelector(
 	taxonomiesSelectors.selectAllTaxonomies,
 	taxonomies => omit( taxonomies, [ "post_format" ] )
-);
-taxonomiesSelectors.selectTaxonomyFirstPostType = createSelector(
-	[
-		taxonomiesSelectors.selectTaxonomy,
-		state => postTypesSelectors.selectAllPostTypes( state ),
-	],
-	( taxonomy, postTypes ) => get( postTypes, head( taxonomy?.postTypes ), null )
-);
-taxonomiesSelectors.selectTaxonomyLabels = createSelector(
-	taxonomiesSelectors.selectAllTaxonomies,
-	taxonomies => map( taxonomies, "label" ) || []
-);
-taxonomiesSelectors.selectIsTaxonomyLabelUnique = createSelector(
-	[
-		taxonomiesSelectors.selectTaxonomy,
-		taxonomiesSelectors.selectTaxonomyLabels,
-	],
-	( taxonomy, taxonomyLabels ) => indexOf( taxonomyLabels, taxonomy?.label ) === lastIndexOf( taxonomyLabels, taxonomy?.label )
-);
-taxonomiesSelectors.selectTaxonomyHasPostTypeBadge = createSelector(
-	[
-		taxonomiesSelectors.selectTaxonomyFirstPostType,
-		taxonomiesSelectors.selectIsTaxonomyLabelUnique,
-	],
-	( firstPostType, isLabelUnique ) => ! isLabelUnique && Boolean( firstPostType )
 );
 
 export { taxonomiesSelectors };

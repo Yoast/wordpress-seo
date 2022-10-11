@@ -9,7 +9,7 @@ import { PropTypes } from "prop-types";
  */
 const Header = ( { children } ) => {
 	return (
-		<header className="yst-relative yst-flex yst-items-center yst-justify-center yst-h-24 yst-bg-gray-100 yst--mx-6 yst--mt-6 yst-py-6">
+		<header className="yst-relative yst-flex yst-items-center yst-justify-center yst-h-24 yst-bg-slate-100 yst--mx-6 yst--mt-6 yst-py-6">
 			{ children }
 		</header>
 	);
@@ -48,7 +48,7 @@ Content.propTypes = {
  */
 const Footer = ( { children } ) => {
 	return (
-		<footer className="yst-border-t yst-border-gray-200 yst-pt-6">
+		<footer className="yst-border-t yst-border-slate-200 yst-pt-6">
 			{ children }
 		</footer>
 	);

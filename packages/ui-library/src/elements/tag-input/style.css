@@ -8,13 +8,13 @@
 			yst-px-3
 			yst-gap-1.5
 			yst-border
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-bg-white
 			yst-text-sm
-			yst-text-gray-800
-			yst-placeholder-gray-500
+			yst-text-slate-800
+			yst-placeholder-slate-500
 			yst-leading-6
 			focus-within:yst-ring-1
 			focus-within:yst-ring-primary-500
@@ -26,7 +26,7 @@
 			yst-opacity-50
 			yst-cursor-not-allowed
 			focus-within:yst-ring-0
-			focus-within:yst-border-gray-300;
+			focus-within:yst-border-slate-300;
 
 			.yst-tag-input__tag {
 				@apply
@@ -40,7 +40,7 @@
 			.yst-tag-input__remove-tag {
 				@apply
 				yst-cursor-not-allowed
-				hover:yst-text-gray-400
+				hover:yst-text-slate-400
 				focus:yst-outline-none
 				focus:yst-ring-0;
 			}
@@ -62,8 +62,8 @@
 			yst-text-xs
 			yst-leading-tight
 			yst-font-medium
-			yst-bg-gray-100
-			yst-text-gray-800
+			yst-bg-slate-200
+			yst-text-slate-900
 			yst-cursor-pointer
 			focus:yst-outline-none
 			focus:yst-ring-2
@@ -79,9 +79,9 @@
 			yst-inline-flex
 			yst-ml-0.5
 			yst--mr-1
-			yst-bg-gray-100
-			yst-text-gray-400
-			hover:yst-text-gray-500
+			yst-bg-slate-200
+			yst-text-slate-400
+			hover:yst-text-slate-500
 			focus:yst-outline-none
 			focus:yst-ring-2
 			focus:yst-ring-primary-500;

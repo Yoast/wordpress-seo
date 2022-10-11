@@ -65,11 +65,11 @@ const mediaSlice = createSlice( {
 	reducers: {
 		addOneMedia: {
 			reducer: mediaAdapter.addOne,
-			prepare: ( media ) => ( { payload: prepareMedia( media ) } ),
+			prepare: media => ( { payload: prepareMedia( media ) } ),
 		},
 		addManyMedia: {
 			reducer: mediaAdapter.addMany,
-			prepare: ( media ) => ( { payload: map( media, prepareMedia ) } ),
+			prepare: media => ( { payload: map( media, prepareMedia ) } ),
 		},
 	},
 	extraReducers: ( builder ) => {
