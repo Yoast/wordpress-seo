@@ -16,8 +16,10 @@ import Alert from "../../base/alert";
  *
  * @returns {WPElement} A wrapped Indexation for the first-time configuration.
  */
-export function ConfigurationIndexation( { indexingStateCallback, indexingState, isEnabled, isStepperFinished } ) {
+export function ConfigurationIndexation( { indexingStateCallback, indexingState, isEnabled, shouldShowButton, isStepperFinished } ) {
+	console.log("isenabled", isEnabled, "shouldshowbutton", shouldShowButton )
 	if ( ! isEnabled ) {
+		console.log("TEST", shouldShowButton)
 		if ( indexingState === "completed" ) {
 			return <Alert type="success">
 				{ __( "We've already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }

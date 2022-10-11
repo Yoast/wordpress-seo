@@ -41,6 +41,7 @@ export class Indexation extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+		console.log( { window } );
 
 		this.settings = yoastIndexingData;
 

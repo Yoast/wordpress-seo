@@ -43,6 +43,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 			<ConfigurationIndexation
 				indexingStateCallback={ setIndexingState }
 				isEnabled={ ! window.wpseoFirstTimeConfigurationData.shouldUpdatePremium }
+				shouldShowButton={ window.wpseoFirstTimeConfigurationData.shouldShowButton }
 				indexingState={ indexingState }
 				isStepperFinished={ isStepperFinished }
 			/>

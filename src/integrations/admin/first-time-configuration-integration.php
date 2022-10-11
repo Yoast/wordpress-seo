@@ -9,6 +9,7 @@ use WPSEO_Option_Tab;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -40,6 +41,13 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @var WPSEO_Shortlinker
 	 */
 	private $shortlinker;
+
+	/**
+	 * Represents the indexing helper.
+	 *
+	 * @var Indexing_Helper
+	 */
+	protected $indexing_helper;
 
 	/**
 	 * The options' helper.
@@ -91,6 +99,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		WPSEO_Addon_Manager $addon_manager,
 		WPSEO_Shortlinker $shortlinker,
+		Indexing_Helper $indexing_helper,
 		Options_Helper $options_helper,
 		Social_Profiles_Helper $social_profiles_helper,
 		Product_Helper $product_helper,
@@ -99,6 +108,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->addon_manager          = $addon_manager;
 		$this->shortlinker            = $shortlinker;
+		$this->indexing_helper = $indexing_helper;
 		$this->options_helper         = $options_helper;
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->product_helper         = $product_helper;
@@ -220,6 +230,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 						"configIndexables": "%s",
 						"configIndexablesBenefits": "%s",
 					},
+					"shouldShowOptimizationButton": "%d",
 				};',
 				$this->social_profiles_helper->can_edit_profile( $person_id ),
 				$this->is_company_or_person(),
@@ -248,7 +259,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$knowledge_graph_message,
 				$this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
 				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
-				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' )
+				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' ),
+				$this->indexing_helper->should_show_optimization_button(),
 			),
 			'before'
 		);
