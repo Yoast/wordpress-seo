@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { schemaTypeOptionsPropType } from "./SchemaSettings";
 import { isFeatureEnabled } from "@yoast/feature-flag";
+import { addLinkToString } from "../helpers/stringHelpers";
 
 const NewsLandingPageLink = makeOutboundLink();
 
@@ -204,6 +205,7 @@ const Content = ( props ) => {
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ props.additionalHelpTextLink }
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
+				style={ { margin: "0" } }
 			/>
 			<Select
 				id={ join( [ "yoast-schema-page-type", props.location ] ) }
@@ -212,10 +214,26 @@ const Content = ( props ) => {
 				onChange={ props.schemaPageTypeChange }
 				selected={ props.schemaPageTypeSelected }
 			/>
+			{ props.schemaPageTypeSelected === "FAQPage" && ! props.hasFAQBlock && <Alert
+				type={ "warning" }
+				style={ { margin: "16px 0px 24px 0px" } }
+			>
+				{ addLinkToString(
+					sprintf(
+						/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
+						__( "You have selected 'FAQ page', but you haven't added an FAQ block to your content. Please %1$sadd an FAQ block%2$s or select another page type.", "wordpress-seo" ),
+						"<a>",
+						"</a>"
+					),
+					"https://yoa.st/add-faq-block"
+				)
+				}
+			</Alert>
+			 }
 			{ props.showArticleTypeInput && <Select
 				id={ join( [ "yoast-schema-article-type", props.location ] ) }
 				options={ schemaArticleTypeOptions }
-				label={ __( "Article type", "wordpress-seo" ) }
+				label={ __(  "Article type", "wordpress-seo" ) }
 				onChange={ props.schemaArticleTypeChange }
 				selected={ props.schemaArticleTypeSelected }
 				onOptionFocus={ handleOptionChange }
@@ -247,6 +265,7 @@ Content.propTypes = {
 	defaultArticleType: PropTypes.string.isRequired,
 	location: PropTypes.string.isRequired,
 	isNewsEnabled: PropTypes.bool,
+	hasFAQBlock: PropTypes.bool.isRequired,
 };
 
 Content.defaultProps = {
@@ -294,6 +313,7 @@ SchemaTab.propTypes = {
 	loadSchemaArticleData: PropTypes.func.isRequired,
 	loadSchemaPageData: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
+	hasFAQBlock: PropTypes.bool.isRequired,
 };
 
 SchemaTab.defaultProps = {
