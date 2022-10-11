@@ -163,6 +163,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				'indexing_endpoints' => $this->get_endpoints(),
 				'nonce'              => \wp_create_nonce( 'wp_rest' ),
 			],
+			"shouldShowIndexingButton" => $this->indexing_helper->should_show_optimization_button(),
 		];
 
 		/**

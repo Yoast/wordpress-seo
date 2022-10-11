@@ -1,3 +1,4 @@
+/* global yoastIndexingData */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Transition } from "@headlessui/react";
@@ -17,9 +18,9 @@ import Alert from "../../base/alert";
  * @returns {WPElement} A wrapped Indexation for the first-time configuration.
  */
 export function ConfigurationIndexation( { indexingStateCallback, indexingState, isEnabled, shouldShowButton, isStepperFinished } ) {
-	console.log("isenabled", isEnabled, "shouldshowbutton", shouldShowButton )
+	console.log( "isenabled", isEnabled, "shouldshowbutton", shouldShowButton, "isStepper", isStepperFinished, "indexingState", indexingState );
 	if ( ! isEnabled ) {
-		console.log("TEST", shouldShowButton)
+		console.log( "TEST", shouldShowButton );
 		if ( indexingState === "completed" ) {
 			return <Alert type="success">
 				{ __( "We've already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }
@@ -33,6 +34,9 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
 		</button>;
 	}
+	// eslint-disable-next-line no-negated-condition
+	indexingState = ( ! yoastIndexingData.shouldShowIndexingButton ) ? "already_done" : indexingState;
+	
 	return <Indexation
 		preIndexingActions={ window.yoast.indexing.preIndexingActions }
 		indexingActions={ window.yoast.indexing.indexingActions }
