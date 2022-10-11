@@ -211,20 +211,29 @@ class Image_Helper {
 	 * @return Image The converted image.
 	 */
 	public function convert_open_graph_image( $open_graph_image ) {
-		// Create an Image object from the open graph image.
-		$image_obj = $this->image->create_image_object_from_source( $open_graph_image['url'] );
+		$id     = isset( $open_graph_image['id'] ) ? intval( $open_graph_image['id'] ) : null;
+		$width  = isset( $open_graph_image['width'] ) ? intval( $open_graph_image['width'] ) : null;
+		$height = isset( $open_graph_image['height'] ) ? intval( $open_graph_image['height'] ) : null;
 
-		// Overwrite properties if they exist.
-		if ( isset( $open_graph_image['id'] ) ) {
-			$image_obj->set_id( intval( $open_graph_image['id'] ) );
-		}
-		if ( isset( $open_graph_image['width'] ) ) {
-			$image_obj->set_width( intval( $open_graph_image['width'] ) );
-		}
-		if ( isset( $open_graph_image['height'] ) ) {
-			$image_obj->set_height( intval( $open_graph_image['height'] ) );
+		$image_obj = new Image( $open_graph_image['url'], $id, $width, $height );
+
+		// Try to find the image ID of the image.
+		if ( ! $image_obj->has_id() ) {
+			$found_image_id = $this->image->get_attachment_by_url( $image_obj->get_src() );
+			if ( $found_image_id !== 0 ) {
+				$image_obj->set_id( $found_image_id );
+			}
 		}
 
+		// $image might include an image url that does not have the correct scheme (e.g. http instead of https).
+		// We will try to convert it if possible.
+		if ( $image_obj->has_id() ) {
+			$size      = ! \is_null( $width ) && ! \is_null( $height ) ? [ $width, $height ] : 'full';
+			$image_url = $this->image->get_attachment_image_url( $image_obj->get_id(), $size );
+			if ( $image_url !== '' ) {
+				$image_obj->set_src( $image_url );
+			}
+		}
 		return $image_obj;
 	}
 }
