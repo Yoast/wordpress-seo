@@ -213,10 +213,11 @@ const Content = ( props ) => {
 				label={ __( "Page type", "wordpress-seo" ) }
 				onChange={ props.schemaPageTypeChange }
 				selected={ props.schemaPageTypeSelected }
+				wrapperClassName={ props.schemaPageTypeSelected === "FAQPage" && ! props.hasFAQBlock ? "yoast-field-group yoast-schema-faq-alert-active" : "yoast-field-group" }
 			/>
 			{ props.schemaPageTypeSelected === "FAQPage" && ! props.hasFAQBlock && <Alert
 				type={ "warning" }
-				style={ { margin: "16px 0px 24px 0px" } }
+				className="yoast-schema-faq-alert"
 			>
 				{ addLinkToString(
 					sprintf(

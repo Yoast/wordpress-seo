@@ -1,6 +1,6 @@
 /* global wpseoAdminL10n */
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect, select, subscribe } from "@wordpress/data";
+import { withDispatch, withSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -32,13 +32,6 @@ const getLocationBasedProps = ( location ) => {
 };
 
 /**
- * Function to get blocks from the block editor.
- *
- * @returns {[object]} A list of blocks in the block editor.
- */
-const getBlockList = () => select( "core/block-editor" ).getBlocks();
-
-/**
  * Renders the SchemaComponent.
  *
  * @param {Object} props The props.
@@ -55,11 +48,6 @@ const SchemaTabContainer = ( props ) => {
 		}
 	}, [] );
 
-	let blocks = getBlockList();
-	subscribe( () => {
-		blocks = getBlockList();
-	} );
-
 	const { pageTypeOptions, articleTypeOptions } = window.wpseoScriptData.metabox.schema;
 
 	const baseProps = {
@@ -71,9 +59,7 @@ const SchemaTabContainer = ( props ) => {
 			"This helps search engines understand your website and your content. You can change some of your settings for this page below.",
 			"wordpress-seo"
 		),
-		hasFAQBlock: blocks.filter( ( block ) => {
-			return block.name === "yoast/faq-block";
-		} ).length > 0,
+		hasFAQBlock: props.editorContent.includes( "<!-- wp:yoast/faq-block" ),
 		showArticleTypeInput,
 		pageTypeOptions,
 		articleTypeOptions,
@@ -99,7 +85,7 @@ SchemaTabContainer.propTypes = {
 	schemaPageTypeChange: PropTypes.func.isRequired,
 	schemaArticleTypeChange: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
-	hasFAQBlock: PropTypes.bool,
+	editorContent: PropTypes.string.isRequired,
 };
 
 export default compose( [
@@ -110,6 +96,7 @@ export default compose( [
 			getDefaultPageType,
 			getArticleType,
 			getDefaultArticleType,
+			getEditorDataContent,
 		} = select( "yoast-seo/editor" );
 
 		const { displaySchemaSettingsFooter: displayFooter, isNewsEnabled } = getPreferences();
@@ -121,6 +108,7 @@ export default compose( [
 			schemaArticleTypeSelected: getArticleType(),
 			defaultArticleType: getDefaultArticleType(),
 			defaultPageType: getDefaultPageType(),
+			editorContent: getEditorDataContent(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
