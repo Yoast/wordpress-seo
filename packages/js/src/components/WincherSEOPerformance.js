@@ -20,7 +20,7 @@ import WincherExplanation from "./modals/WincherExplanation";
 import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
 import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
 import LoginPopup from "../helpers/loginPopup";
-import { authenticate, getAuthorizationUrl } from "../helpers/wincherEndpoints";
+import { authenticate, getAuthorizationUrl, trackKeyphrases } from "../helpers/wincherEndpoints";
 import { handleAPIResponse } from "../helpers/api";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
@@ -104,6 +104,9 @@ const performAuthenticationRequest = async( props, data ) => {
 		onAuthentication,
 		setRequestSucceeded,
 		setRequestFailed,
+		keyphrases,
+		addTrackedKeyphrase,
+		setKeyphraseLimitReached,
 	} = props;
 
 	await handleAPIResponse(
@@ -112,6 +115,22 @@ const performAuthenticationRequest = async( props, data ) => {
 			onAuthentication( true, true, data.websiteId.toString() );
 			setRequestSucceeded( response );
 
+			const keyphrasesArray = ( Array.isArray( keyphrases ) ? keyphrases : [ keyphrases ] )
+				.map( k => k.toLowerCase() );
+			await handleAPIResponse(
+				() => trackKeyphrases( keyphrasesArray ),
+				( keyphrasesResponse ) => {
+					setRequestSucceeded( keyphrasesResponse );
+					addTrackedKeyphrase( keyphrasesResponse.results );
+				},
+				( keyphrasesResponse ) => {
+					if ( keyphrasesResponse.status === 400 && keyphrasesResponse.limit ) {
+						setKeyphraseLimitReached( keyphrasesResponse.limit );
+					}
+					setRequestFailed( keyphrasesResponse );
+				},
+				201
+			);
 			// Close the popup if it's been opened again by mistake.
 			const popup = currentPopup.getPopup();
 
@@ -286,6 +305,7 @@ export default function WincherSEOPerformance( props ) {
 }
 
 WincherSEOPerformance.propTypes = {
+	addTrackedKeyphrase: PropTypes.func.isRequired,
 	isLoggedIn: PropTypes.bool,
 	isNewlyAuthenticated: PropTypes.bool,
 	keyphrases: PropTypes.array,
