@@ -1,43 +1,46 @@
 import { isUndefined } from "lodash-es";
 
 /**
- * Returns all texts per subheading.
+ * Returns an object containing the original text and the array of found subheadings including the following text.
  *
  * @param {string} text The text to analyze from.
  *
- * @returns {Array} an array with text blocks per subheading.
+ * @returns {Object} An object containing the original text and the array of found subheadings including the following text.
  */
 export default function( text ) {
-	/*
-	 Matching this in a regex is pretty hard, since we need to find a way for matching the text after a heading, and before the end of the text.
-	 The hard thing capturing this is with a capture, it captures the next subheading as well, so it skips the next part of the text,
-	 since the subheading is already matched.
-	 For now we use this method to be sure we capture the right blocks of text. We remove all | 's from text,
-	 then replace all headings with a | and split on a |.
-	 */
-	text = text.replace( /\|/ig, "" );
-	const subheadingBlocks = [ ...text.matchAll( new RegExp( "<h([1-6])(?:[^>]+)?>(.*?)<\\/h\\1>", "ig" ) ) ];
+	// Match all the subheadings.
+	const subheadings = [ ...text.matchAll( new RegExp( "<h([1-6])(?:[^>]+)?>(.*?)<\\/h\\1>", "ig" ) ) ];
 
 	const foundSubheadings = [];
 
-	subheadingBlocks.forEach( ( block, i ) => {
-		const subheading = block[ 0 ];
-		const currentMatchIndex = block.index;
-		const nextBlock = subheadingBlocks[ i + 1 ];
-		// Find the first subheading in the text
+	subheadings.forEach( ( subheading, i ) => {
+		// Retrieve the current subheading string.
+		const subheadingString = subheading[ 0 ];
+		// Retrieve the current subheading index.
+		const currentMatchIndex = subheading.index;
+		// Retrieve the next subheading.
+		const nextSubheading = subheadings[ i + 1 ];
+
 		let nextMatchIndex;
-		if ( isUndefined( nextBlock ) ) {
-			nextMatchIndex = block.input.length;
+
+		// Check if there is a next subheading.
+		if ( isUndefined( nextSubheading ) ) {
+			// If there is no next subheading, the next match index is the index of the last character in the text.
+			nextMatchIndex = subheading.input.length;
 		} else {
-			nextMatchIndex = nextBlock.index;
+			// Retrieve the index of the next subheading.
+			nextMatchIndex = nextSubheading.index;
 		}
-		const currentBlockText = block.input.slice( currentMatchIndex + subheading.length, nextMatchIndex );
+
+		// Retrieve the text following the current subheading.
+		const textFollowingCurrentSubheading = subheading.input.slice( currentMatchIndex + subheadingString.length, nextMatchIndex );
 		foundSubheadings.push( {
-			subheading: subheading,
-			text: currentBlockText,
+			subheading: subheadingString,
+			text: textFollowingCurrentSubheading,
 			index: currentMatchIndex,
 		} );
 	} );
+
 	return { foundSubheadings: foundSubheadings, text: text };
 }
 
