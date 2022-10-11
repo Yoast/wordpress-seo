@@ -1,8 +1,8 @@
-import { Transition } from "@headlessui/react";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Link, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
+import AnimateHeight from "react-animate-height";
 import { FieldsetLayout, FormikFlippedToggleField, FormikReplacementVariableEditorField, FormikValueChangeField, FormLayout } from "../components";
 import { useSelectSettings } from "../store";
 
@@ -51,7 +51,7 @@ const Media = () => {
 			) }
 			description={ description }
 		>
-			<fieldset className="yst-space-y-8">
+			<fieldset className="yst-min-width-0 yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ `wpseo_titles.disable-${ name }` }
 					data-id={ `input-wpseo_titles-disable-${ name }` }
@@ -69,14 +69,11 @@ const Media = () => {
 			</fieldset>
 			<hr className="yst-my-8" />
 			<div className="yst-relative">
-				<Transition
-					show={ ! disableAttachment }
-					enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
-					enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-					enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leave="yst-transition yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
-					leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
+				<AnimateHeight
+					easing="ease-in-out"
+					duration={ 300 }
+					height={ disableAttachment ? 0 : "auto" }
+					animateOpacity={ true }
 				>
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
@@ -175,7 +172,7 @@ const Media = () => {
 							) }
 						/>
 					</FieldsetLayout>
-				</Transition>
+				</AnimateHeight>
 			</div>
 		</FormLayout>
 	);

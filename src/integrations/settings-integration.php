@@ -20,6 +20,7 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 
 /**
  * Class Settings_Integration.
@@ -132,17 +133,25 @@ class Settings_Integration implements Integration_Interface {
 	protected $article_helper;
 
 	/**
+	 * Holds the Social_Profiles_Helper.
+	 *
+	 * @var Social_Profiles_Helper
+	 */
+	protected $social_profiles_helper;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars        $replace_vars        The WPSEO_Replace_Vars.
-	 * @param Schema_Types              $schema_types        The Schema_Types.
-	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
-	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
-	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
-	 * @param Product_Helper            $product_helper      The Product_Helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper  The Woocommerce_Helper.
-	 * @param Article_Helper            $article_helper      The Article_Helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager          The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars        $replace_vars           The WPSEO_Replace_Vars.
+	 * @param Schema_Types              $schema_types           The Schema_Types.
+	 * @param Current_Page_Helper       $current_page_helper    The Current_Page_Helper.
+	 * @param Post_Type_Helper          $post_type_helper       The Post_Type_Helper.
+	 * @param Taxonomy_Helper           $taxonomy_helper        The Taxonomy_Helper.
+	 * @param Product_Helper            $product_helper         The Product_Helper.
+	 * @param Woocommerce_Helper        $woocommerce_helper     The Woocommerce_Helper.
+	 * @param Article_Helper            $article_helper         The Article_Helper.
+	 * @param Social_Profiles_Helper    $social_profiles_helper The Social_Profiles_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -153,17 +162,19 @@ class Settings_Integration implements Integration_Interface {
 		Taxonomy_Helper $taxonomy_helper,
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
-		Article_Helper $article_helper
+		Article_Helper $article_helper,
+		Social_Profiles_Helper $social_profiles_helper
 	) {
-		$this->asset_manager       = $asset_manager;
-		$this->replace_vars        = $replace_vars;
-		$this->schema_types        = $schema_types;
-		$this->current_page_helper = $current_page_helper;
-		$this->taxonomy_helper     = $taxonomy_helper;
-		$this->post_type_helper    = $post_type_helper;
-		$this->product_helper      = $product_helper;
-		$this->woocommerce_helper  = $woocommerce_helper;
-		$this->article_helper      = $article_helper;
+		$this->asset_manager          = $asset_manager;
+		$this->replace_vars           = $replace_vars;
+		$this->schema_types           = $schema_types;
+		$this->current_page_helper    = $current_page_helper;
+		$this->taxonomy_helper        = $taxonomy_helper;
+		$this->post_type_helper       = $post_type_helper;
+		$this->product_helper         = $product_helper;
+		$this->woocommerce_helper     = $woocommerce_helper;
+		$this->article_helper         = $article_helper;
+		$this->social_profiles_helper = $social_profiles_helper;
 	}
 
 	/**
@@ -183,6 +194,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+		// Add page.
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
 		\add_filter( 'admin_menu', [ $this, 'add_settings_saved_page' ] );
 
@@ -193,6 +205,7 @@ class Settings_Integration implements Integration_Interface {
 
 			if ( $post_action === 'update' && $option_page === 'wpseo_settings' ) {
 				\add_action( 'admin_init', [ $this, 'register_setting' ] );
+				\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 			}
 
 			return;
@@ -202,6 +215,7 @@ class Settings_Integration implements Integration_Interface {
 		if ( $this->current_page_helper->get_current_yoast_seo_page() === 'wpseo_settings' ) {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 		}
 	}
 
@@ -278,7 +292,7 @@ class Settings_Integration implements Integration_Interface {
 	 * Displays the page.
 	 */
 	public function display_page() {
-		echo '<div id="yoast-seo-settings" class="yst--ml-2.5 md:yst--ml-5"></div>';
+		echo '<div id="yoast-seo-settings"></div>';
 	}
 
 	/**
@@ -290,10 +304,21 @@ class Settings_Integration implements Integration_Interface {
 		// Remove the emoji script as it is incompatible with both React and any contenteditable fields.
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		\wp_enqueue_media();
-		\wp_enqueue_script( 'wp-api' );
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
+	}
+
+	/**
+	 * Removes all current WP notices.
+	 *
+	 * @return void
+	 */
+	public function remove_notices() {
+		\remove_all_actions( 'admin_notices' );
+		\remove_all_actions( 'user_admin_notices' );
+		\remove_all_actions( 'network_admin_notices' );
+		\remove_all_actions( 'all_admin_notices' );
 	}
 
 	/**
@@ -302,7 +327,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$settings               = $this->get_settings();
+		$settings               = $this->transform_settings( $this->get_settings() );
 		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
@@ -319,6 +344,7 @@ class Settings_Integration implements Integration_Interface {
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
+			'fallbacks'            => $this->get_fallbacks(),
 		];
 	}
 
@@ -343,6 +369,7 @@ class Settings_Integration implements Integration_Interface {
 			'isNetworkAdmin'                => \is_network_admin(),
 			'isMainSite'                    => \is_main_site(),
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
+			'isLocalSeoActive'              => (bool) \defined( 'WPSEO_LOCAL_FILE' ),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
 			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
@@ -353,6 +380,7 @@ class Settings_Integration implements Integration_Interface {
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
+			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 		];
 	}
 
@@ -377,12 +405,40 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( self::WP_OPTIONS as $option_name ) {
 			$settings[ $option_name ] = \get_option( $option_name );
 		}
+		// Add person social profiles.
+		$person_id                          = ( $settings['wpseo_titles']['company_or_person'] === 'person' ) ? $settings['wpseo_titles']['company_or_person_user_id'] : false;
+		$settings['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( $person_id );
 
 		// Remove disallowed settings.
 		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {
 			foreach ( $disallowed_settings as $disallowed_setting ) {
 				unset( $settings[ $option_name ][ $disallowed_setting ] );
 			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Transforms setting values.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The settings.
+	 */
+	protected function transform_settings( $settings ) {
+		if ( isset( $settings['wpseo_titles']['breadcrumbs-sep'] ) ) {
+			/**
+			 * The breadcrumbs separator default value is the HTML entity `&raquo;`.
+			 * Which does not get decoded in our JS, while it did in our Yoast form. Decode it here as an exception.
+			 */
+			$settings['wpseo_titles']['breadcrumbs-sep'] = \html_entity_decode(
+				$settings['wpseo_titles']['breadcrumbs-sep'],
+				( \ENT_NOQUOTES | \ENT_HTML5 ),
+				'UTF-8'
+			);
+
+			return $settings;
 		}
 
 		return $settings;
@@ -544,5 +600,24 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		return $route;
+	}
+
+	/**
+	 * Retrieves the fallbacks.
+	 *
+	 * @return array The fallbacks.
+	 */
+	protected function get_fallbacks() {
+		$site_logo_id = \get_option( 'site_logo' );
+		if ( ! $site_logo_id ) {
+			$site_logo_id = \get_theme_mod( 'custom_logo' );
+		}
+		if ( ! $site_logo_id ) {
+			$site_logo_id = '0';
+		}
+
+		return [
+			'siteLogoId' => $site_logo_id,
+		];
 	}
 }

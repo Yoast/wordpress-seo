@@ -1,10 +1,12 @@
 import { __, sprintf } from "@wordpress/i18n";
+import { addQueryArgs } from "@wordpress/url";
 import { TextField } from "@yoast/ui-library";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FormikValueChangeField, FormLayout } from "../components";
-import { createLink } from "../helpers";
 import { withFormikError } from "../hocs";
 import { useSelectSettings } from "../store";
+
+const CONTENT_TAG_REGEXP = /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/;
 
 /**
  * Transforms the value to the content of the content tag.
@@ -17,7 +19,7 @@ import { useSelectSettings } from "../store";
  * @returns {string} The original value or the value of the content tag.
  */
 const transformContentTag = event => {
-	const match = event.target.value.match( /content=(['"])?(?<content>[^'"> ]+)(?:\1|[ />])/ );
+	const match = event.target.value.match( CONTENT_TAG_REGEXP );
 	return match?.groups?.content ? match.groups.content : event.target.value;
 };
 
@@ -34,7 +36,7 @@ const WebmasterTools = () => {
 			title={ __( "Webmaster tools", "wordpress-seo" ) }
 			description={ __( "Verify your site with different webmaster tools. This will add a verification meta tag on your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
 		>
-			<fieldset className="yst-max-w-screen-sm yst-space-y-8">
+			<fieldset className="yst-min-width-0 yst-max-w-screen-sm yst-space-y-8">
 				<FormikValueChangeWithErrorField
 					as={ TextField }
 					type="text"
@@ -83,7 +85,7 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						createLink( "https://www.google.com/webmasters/verification/verification", { hl: "en", tid: "alternate", siteUrl } ),
+						addQueryArgs( "https://www.google.com/webmasters/verification/verification", { hl: "en", tid: "alternate", siteUrl } ),
 						"link-google-search-console"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }

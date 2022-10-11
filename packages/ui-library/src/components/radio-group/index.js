@@ -24,29 +24,33 @@ const classNameMap = {
  * @param {{ value: string, label: string, screenReaderLabel: string }[]} options Options to choose from.
  * @param {Function} [onChange] Change handler.
  * @param {string} [variant] Variant.
+ * @param {boolean} [disabled] Disabled state.
  * @param {string} [className] CSS class.
  * @param {Object} [props] Extra Radio props.
  * @returns {JSX.Element} RadioGroup component.
  */
 const RadioGroup = ( {
-	children,
-	id,
-	name,
-	value,
+	children = null,
+	id = "",
+	name = "",
+	value = "",
 	label,
 	description,
 	options,
-	onChange,
-	variant,
-	className,
+	onChange = noop,
+	variant = "default",
+	disabled = false,
+	className = "",
 	...props
 } ) => {
 	const handleChange = useCallback( ( { target } ) => target.checked && onChange( target.value ), [ onChange ] );
 
 	return (
 		<fieldset
+			id={ id }
 			className={ classNames(
 				"yst-radio-group",
+				disabled && "yst-radio-group--disabled",
 				classNameMap.variant[ variant ],
 				className,
 			) }
@@ -66,6 +70,7 @@ const RadioGroup = ( {
 						variant={ variant }
 						checked={ value === option.value }
 						onChange={ handleChange }
+						disabled={ disabled }
 						{ ...props }
 					/>;
 				} ) }
@@ -88,19 +93,8 @@ RadioGroup.propTypes = {
 	} ) ),
 	onChange: PropTypes.func,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
+	disabled: PropTypes.bool,
 	className: PropTypes.string,
-};
-
-RadioGroup.defaultProps = {
-	children: null,
-	id: "",
-	name: "",
-	value: "",
-	label: "",
-	variant: "default",
-	description: "",
-	onChange: noop,
-	className: "",
 };
 
 export default RadioGroup;

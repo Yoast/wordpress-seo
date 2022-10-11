@@ -472,7 +472,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The twitter card type.
 	 */
 	public function generate_twitter_card() {
-		return $this->options->get( 'twitter_card_type' );
+		return 'summary_large_image';
 	}
 
 	/**

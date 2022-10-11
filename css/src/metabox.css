@@ -821,7 +821,9 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 .yoast .yoast-insights-card__description {
 	line-height: 1.4em;
 }
-.yoast .yoast-prominent-words p, .yoast .yoast-prominent-words ul {
+.yoast .yoast-prominent-words p,
+.yoast .yoast-prominent-words ul,
+.yoast .yoast-text-formality p {
 	margin-block: 1.2em;
 }
 .yoast #wpseo-metabox-root .yoast-prominent-words {

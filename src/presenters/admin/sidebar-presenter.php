@@ -17,7 +17,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 */
 	public function present() {
 		$assets_uri              = \trailingslashit( \plugin_dir_url( WPSEO_FILE ) );
-		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
+		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 		\ob_start();
 		?>
 			<div class="wpseo_content_cell" id="sidebar-container">

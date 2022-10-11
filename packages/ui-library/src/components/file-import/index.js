@@ -74,7 +74,7 @@ const createStatusConditionalRender = ( status ) => {
  * @param {string} dropLabel The label for custom drop file functionality.
  * @param {string} screenReaderLabel The screen reader label for the file select.
  * @param {string} abortScreenReaderLabel The screen reader label for the abort button.
- * @param {JSX.Node} selectDescription The selectDescription.
+ * @param {JSX.node} selectDescription The selectDescription.
  * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
  * @param {Function} onChange The callback for when a file is imported.
  * @param {Function} onAbort The callback for when an file import is aborted.

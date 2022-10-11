@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
-import { get, keys } from "lodash";
+import { get, keys, map, join } from "lodash";
 import PropTypes from "prop-types";
 import { useSelectSettings } from "../store";
 import { STORE_NAME } from "../constants";
@@ -29,6 +29,7 @@ const classNameMap = {
  * @param {string} id Id.
  * @param {string} mediaUrlName Name for the hidden media url field.
  * @param {string} mediaIdName Name for the hidden media id field.
+ * @param {string} fallbackMediaId ID for the fallback media.
  * @param {string} previewLabel Label for the preview button.
  * @param {string} [selectLabel] Label for the select button.
  * @param {string} [replaceLabel] Label for the replace button.
@@ -46,6 +47,7 @@ const FormikMediaSelectField = ( {
 	id,
 	mediaUrlName,
 	mediaIdName,
+	fallbackMediaId = "0",
 	previewLabel = "",
 	selectLabel = __( "Select image", "wordpress-seo" ),
 	replaceLabel = __( "Replace image", "wordpress-seo" ),
@@ -56,11 +58,21 @@ const FormikMediaSelectField = ( {
 	const [ wpMediaLibrary, setWpMediaLibrary ] = useState( null );
 	const wpMedia = useMemo( () => get( window, "wp.media", null ), [] );
 	const mediaId = useMemo( () => get( values, mediaIdName, "" ), [ values, mediaIdName ] );
-	const mediaUrl = useMemo( () => get( values, mediaUrlName, "" ), [ values, mediaUrlName ] );
 	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
+	const fallbackMedia = useSelectSettings( "selectMediaById", [ fallbackMediaId ], fallbackMediaId );
 	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
 	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
+	const previewMedia = useMemo( () => {
+		if ( mediaId > 0 ) {
+			return media;
+		}
+		if ( fallbackMediaId > 0 ) {
+			return fallbackMedia;
+		}
+		return null;
+	}, [ mediaId, media, fallbackMediaId, fallbackMedia ] );
+	const previewSrcSet = useMemo( () => join( map( media?.sizes || fallbackMedia?.sizes, size => `${ size?.url } ${size?.width}w` ), ", " ), [ media, fallbackMedia ] );
 
 	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
@@ -105,10 +117,13 @@ const FormikMediaSelectField = ( {
 		if ( mediaId && ! media ) {
 			fetchMedia( [ mediaId ] );
 		}
+		if ( fallbackMediaId && ! fallbackMedia ) {
+			fetchMedia( [ fallbackMediaId ] );
+		}
 	}, [] );
 
 	return (
-		<fieldset id={ id } className={ classNames( "yst-w-96 yst-max-w-full", disabled && "yst-opacity-50" ) }>
+		<fieldset id={ id } className={ classNames( "yst-min-width-0 yst-w-96 yst-max-w-full", disabled && "yst-opacity-50" ) }>
 			<Field
 				type="hidden"
 				name={ mediaIdName }
@@ -128,18 +143,23 @@ const FormikMediaSelectField = ( {
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
 					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-max-w-full yst-rounded-md yst-mb-4 yst-border-gray-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-					mediaUrl ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
+					previewMedia ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
 					disabled && "yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
 					className
 				) }
 				disabled={ disabled }
 			>
-				{ mediaUrl ? (
+				{ previewMedia ? (
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
-							src={ mediaUrl } alt={ media?.alt || "" }
+							src={ previewMedia?.url } alt={ previewMedia?.alt || "" }
+							srcSet={ previewSrcSet }
+							sizes={ variant === "landscape" ? "24rem" : "12rem" }
+							width={ variant === "landscape" ? "24rem" : "12rem" }
+							loading="lazy"
+							decoding="async"
 							className="yst-object-cover yst-object-center yst-min-h-full yst-min-w-full"
 						/>
 					</>
@@ -156,7 +176,7 @@ const FormikMediaSelectField = ( {
 				) }
 			</button>
 			<div className="yst-flex yst-gap-4">
-				{ mediaUrl ? (
+				{ mediaId > 0 ? (
 					<Button
 						id={ `button-${ id }-replace` }
 						variant="secondary" onClick={ handleSelectMediaClick }
@@ -173,7 +193,7 @@ const FormikMediaSelectField = ( {
 						{ selectLabel }
 					</Button>
 				) }
-				{ mediaUrl && (
+				{ mediaId > 0 && (
 					<Link
 						id={ `button-${ id }-remove` }
 						as="button"
@@ -203,6 +223,7 @@ FormikMediaSelectField.propTypes = {
 	id: PropTypes.string.isRequired,
 	mediaUrlName: PropTypes.string.isRequired,
 	mediaIdName: PropTypes.string.isRequired,
+	fallbackMediaId: PropTypes.string,
 	previewLabel: PropTypes.node,
 	selectLabel: PropTypes.string,
 	replaceLabel: PropTypes.string,

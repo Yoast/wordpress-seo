@@ -109,7 +109,7 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 		<Dialog className="yst-root" open={ isOpen } onClose={ toggleOpen }>
 			<div className="yst-mobile-navigation__dialog">
 				<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30" aria-hidden="true" />
-				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-white">
+				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-gray-100">
 					<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
 						<button
 							className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-gray-600"
@@ -150,14 +150,16 @@ Mobile.propTypes = {
 
 /**
  * @param {JSX.node} children The menu items.
+ * @param {string} className The CSS classname.
  * @returns {JSX.Element} The sidebar element.
  */
-const Sidebar = ( { children } ) => (
-	<nav className="yst-space-y-6">{ children }</nav>
+const Sidebar = ( { children, className = "" } ) => (
+	<nav className={ className }>{ children }</nav>
 );
 
 Sidebar.propTypes = {
 	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
 };
 
 /**

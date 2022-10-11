@@ -53,8 +53,8 @@ const Breadcrumbs = () => {
 			description={ __( "Configure the appearance and behavior of your breadcrumbs.", "wordpress-seo" ) }
 		>
 			<FieldsetLayout
-				title={ __( "Basic crawl settings", "wordpress-seo" ) }
-				description={ __( "Remove links added by WordPress to the header and <head>.", "wordpress-seo" ) }
+				title={ __( "Breadcrumb appearance", "wordpress-seo" ) }
+				description={ __( "Choose the general appearance of your breadcrumbs.", "wordpress-seo" ) }
 			>
 				<Field
 					as={ TextField }

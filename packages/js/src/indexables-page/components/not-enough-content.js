@@ -13,24 +13,24 @@ const Link = makeOutboundLink();
 
 const readingList = [
 	{
-		title: "Blogging: The ultimate guide",
-		link: wpseoIndexablesPageData.shortlinks.ultimateGuide,
+		title: "How to write a blog post: A step-by-step guide from preparation to publication",
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingOne,
 	},
 	{
 		title: "10 tips for an awesome and SEO-friendly blog post",
-		link: wpseoIndexablesPageData.shortlinks.friendlyBlogpost,
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingTwo,
 	},
 	{
-		title: "How to optimize a blog post for search engines: a checklist!",
-		link: wpseoIndexablesPageData.shortlinks.blogpostChecklist,
+		title: "Keyword research for SEO: the ultimate guide",
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingThree,
 	},
 	{
-		title: "Why the purpose of your text is important for SEO",
-		link: wpseoIndexablesPageData.shortlinks.textPurpose,
+		title: "How to start a blog",
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingFour,
 	},
 	{
-		title: "How to write an SEO-friendly introduction for a blog post",
-		link: wpseoIndexablesPageData.shortlinks.seoIntroduction,
+		title: "SEO copywriting must-reads",
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingFive,
 	},
 ];
 
@@ -108,7 +108,7 @@ const NotEnoughContent = () => {
 					<PlusIcon className="yst-w-4 yst-h-4 yst-mr-1" />{ __( "Start writing a new post", "wordpress-seo" ) }
 				</Link>
 			</IndexablesPageCard>
-			<IndexablesPageCard title={ __( "Recommended reading list", "wordpress-seo" ) }>
+			<IndexablesPageCard title={ __( "Yoast's recommended reading list", "wordpress-seo" ) }>
 				<ul className="yst-divide-y yst-divide-gray-200">
 					{ readingList.map(
 						( article, index ) => {

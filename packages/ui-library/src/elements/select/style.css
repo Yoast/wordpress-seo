@@ -62,7 +62,6 @@
 			yst-absolute
 			yst-z-10
 			yst-w-full
-			yst-py-1
 			yst-mt-1
 			yst-overflow-auto
 			yst-bg-white
@@ -72,7 +71,8 @@
 			yst-ring-1
 			yst-ring-black
 			yst-ring-opacity-5
-			focus:yst-outline-none sm:yst-text-sm;
+			focus:yst-outline-none
+			yst-text-sm;
 		}
 
 		.yst-select__option {
@@ -83,13 +83,17 @@
 			yst-flex
 			yst-items-center
 			yst-justify-between
-			yst-py-2
 			yst-px-3
-			yst-text-gray-900;
-		}
+			yst-py-2
+			yst-text-gray-700;
 
-		.yst-select__option--active {
-			@apply yst-text-white yst-bg-primary-600;
+			&--active {
+				@apply yst-bg-primary-200;
+			}
+
+			&--selected {
+				@apply yst-text-white yst-bg-primary-600;
+			}
 		}
 
 		.yst-select__option-label,
@@ -97,20 +101,12 @@
 			@apply yst-block yst-truncate;
 		}
 
-		.yst-select__option-label--selected {
-			@apply yst-font-semibold;
-		}
-
-		.yst-select__option-icon {
+		.yst-select__option-check {
 			@apply
 			yst-w-5
 			yst-h-5
-			yst-text-primary-600
+			yst-text-white
 			yst-shrink-0;
-		}
-
-		.yst-select__option-icon--active {
-			@apply yst-text-white;
 		}
 	}
 }

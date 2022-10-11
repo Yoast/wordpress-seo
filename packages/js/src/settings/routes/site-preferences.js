@@ -141,7 +141,7 @@ const SitePreferences = () => {
 			title={ __( "Site preferences", "wordpress-seo" ) }
 			description={ __( "Tell us which features you want to use.", "wordpress-seo" ) }
 		>
-			<FieldsetLayout title={ __( "Copywriting", "wordpress-seo" ) }>
+			<FieldsetLayout title={ __( "Writing", "wordpress-seo" ) }>
 				<FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"

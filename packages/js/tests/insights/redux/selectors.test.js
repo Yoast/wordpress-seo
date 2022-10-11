@@ -5,6 +5,7 @@ import {
 	getFleschReadingEaseScore,
 	getTextLength,
 	isFleschReadingEaseAvailable,
+	isFormalitySupported,
 } from "../../../src/insights/redux/selectors";
 import { DIFFICULTY } from "yoastseo";
 
@@ -54,5 +55,32 @@ describe( "The insights selectors", () => {
 		const state = set( {}, "insights.textLength", { count: 420, unit: "word" } );
 		expect( getTextLength( state ).count ).toEqual( 420 );
 		expect( getTextLength( state ).unit ).toEqual( "word" );
+	} );
+	describe( "the Formality feature availability selector", () => {
+		it( "returns `true` when the language is supported", () => {
+			window.wpseoScriptData = {
+				metabox: {
+					contentLocale: "en_US",
+				},
+			};
+			expect( isFormalitySupported() ).toEqual( true );
+		} );
+		it( "returns `false` when the language is not supported", () => {
+			window.wpseoScriptData = {
+				metabox: {
+					contentLocale: "nl_NL",
+				},
+			};
+			expect( isFormalitySupported() ).toEqual( false );
+		} );
+		it( "returns `true` when Premium is not activated", () => {
+			window.wpseoScriptData = {
+				metabox: {
+					contentLocale: "en_US",
+					isPremium: false,
+				},
+			};
+			expect( isFormalitySupported() ).toEqual( true );
+		} );
 	} );
 } );

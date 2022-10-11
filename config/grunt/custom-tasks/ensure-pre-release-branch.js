@@ -34,13 +34,13 @@ module.exports = function( grunt ) {
 			// Set a grunt branchForRC variable.
 			grunt.config.data.branchForRC = branchForRC;
 
-			// First switch to either trunk or master to make sure we branch from the correct base branch.
+			// First switch to either trunk or main to make sure we branch from the correct base branch.
 			grunt.config( "gitcheckout.baseBranch.options", {
 				branch: basebranch,
 			} );
 			grunt.task.run( "gitcheckout:baseBranch" );
 
-			// Pull master/trunk to have the latest changes.
+			// Pull main/trunk to have the latest changes.
 			grunt.config( "gitpull.pullBaseBranch.options", {
 				branch: basebranch,
 			} );
@@ -60,7 +60,7 @@ module.exports = function( grunt ) {
 
 			// If there is a remote branch, check it out and pull the changes in.
 			if ( existsRemotely && ! existsLocally ) {
-				// First switch to either trunk or master to make sure we branch from the correct base branch.
+				// First switch to either trunk or main to make sure we branch from the correct base branch.
 				grunt.config( "gitcheckout.rcBranch.options", {
 					branch: branchForRC,
 				} );

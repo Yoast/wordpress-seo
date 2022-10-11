@@ -164,6 +164,7 @@ class SnippetEditor extends React.Component {
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
 		this.handleChange = this.handleChange.bind( this );
+		this.haveReplaceVarsChanged = this.haveReplaceVarsChanged.bind( this );
 	}
 
 	/**
@@ -190,11 +191,23 @@ class SnippetEditor extends React.Component {
 		   The replacement variables are converted from an array of objects to a string for easier and more consistent
 		   comparison.
 		 */
-		if ( JSON.stringify( prevProps.replacementVariables ) !== JSON.stringify( nextProps.replacementVariables ) ) {
+		if ( this.haveReplaceVarsChanged( prevProps.replacementVariables, nextProps.replacementVariables ) ) {
 			isDirty = true;
 		}
 
 		return isDirty;
+	}
+
+	/**
+	 * Checks if the replacement variables have changed.
+	 *
+	 * @param {ReplaceVar[]} oldReplaceVars The old replacement variables.
+	 * @param {ReplaceVar[]} newReplaceVars The new replacement variables.
+	 *
+	 * @returns {boolean} If there is a difference between the old replacement variables and the new ones.
+	 */
+	haveReplaceVarsChanged( oldReplaceVars, newReplaceVars ) {
+		return JSON.stringify( oldReplaceVars ) !== JSON.stringify( newReplaceVars );
 	}
 
 	/**
@@ -218,6 +231,14 @@ class SnippetEditor extends React.Component {
 						nextProps.locale ),
 				}
 			);
+
+			if ( this.haveReplaceVarsChanged( this.props.replacementVariables, nextProps.replacementVariables ) ) {
+				/*
+				 * Make sure that changes to the replace vars (e.g. title, category, tags) get reflected on the
+				 * analysis data on the store (used in, among other things, the SEO analysis).
+				 */
+				this.props.onChangeAnalysisData( data );
+			}
 		}
 	}
 
