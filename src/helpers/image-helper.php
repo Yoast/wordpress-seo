@@ -411,14 +411,19 @@ class Image_Helper {
 	 * @param string $src The src attribute of an img tag.
 	 * @return Image|null The generated Image object.
 	 */
-	protected function create_image_object_from_source( $src ) {
+	public function create_image_object_from_source( $src ) {
 		$width  = null;
 		$height = null;
 
 		// Extract image ID.
 		$id = $this->get_attachment_by_url( $src );
 
-		if ( $id !== 0 ) {
+		// Convert a non-existing image ID to null.
+		if ( $id === 0 ) {
+			$id = null;
+		}
+
+		if ( ! \is_null( $id ) ) {
 			// Extract image size if present in src.
 			$image_size = $this->get_image_size( $src );
 			if ( ! \is_null( $image_size ) ) {

@@ -125,4 +125,24 @@ class Image {
 	public function get_height() {
 		return $this->height;
 	}
+
+	/**
+	 * Set the image width.
+	 *
+	 * @param int $width The image width in pixels.
+	 * @return void
+	 */
+	public function set_width( $width ) {
+		$this->width = $width;
+	}
+
+	/**
+	 * Set the image height.
+	 *
+	 * @param int $height The image width in pixels.
+	 * @return void
+	 */
+	public function set_height( $height ) {
+		$this->height = $height;
+	}
 }

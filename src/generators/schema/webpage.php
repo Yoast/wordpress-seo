@@ -123,10 +123,6 @@ class WebPage extends Abstract_Schema_Piece {
 				$this->context->main_image_url = $schema_id;
 			}
 			elseif ( $this->context->main_image_url ) {
-				$image_id = $this->helpers->image->get_attachment_by_url( $this->context->main_image_url );
-				if ( $image_id !== 0 ) {
-					$this->context->main_image_url = $this->helpers->image->get_attachment_image_url( $image_id, 'full' );
-				}
 				$data['primaryImageOfPage'] = [ '@id' => $this->context->main_image_url ];
 				$data['image']              = [ [ '@id' => $this->context->main_image_url ] ];
 			}
