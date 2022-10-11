@@ -233,18 +233,6 @@ class WebPage_Test extends TestCase {
 			1
 		);
 
-		if ( isset( $values_to_test['image_url'] ) && ! isset( $values_to_test['image_id'] ) ) {
-			$this->image
-				->expects( 'get_attachment_by_url' )
-				->with( $values_to_test['image_url'] )
-				->andReturn( 1 );
-
-			$this->image
-				->expects( 'get_attachment_image_url' )
-				->with( 1, 'full' )
-				->andReturn( $values_to_test['image_url'] );
-		}
-
 		$this->assertEquals( $expected, $this->instance->generate(), $message );
 	}
 
