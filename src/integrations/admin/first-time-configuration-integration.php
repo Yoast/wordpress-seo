@@ -108,7 +108,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->addon_manager          = $addon_manager;
 		$this->shortlinker            = $shortlinker;
-		$this->indexing_helper = $indexing_helper;
+		$this->indexing_helper        = $indexing_helper;
 		$this->options_helper         = $options_helper;
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->product_helper         = $product_helper;
@@ -154,16 +154,16 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'disabled'     => ! \YoastSEO()->helpers->indexable->should_index_indexables(),
-			'amount'       => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
-			'firstTime'    => ( \YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
-			'errorMessage' => '',
-			'restApi'      => [
+			'disabled'                 => ! \YoastSEO()->helpers->indexable->should_index_indexables(),
+			'amount'                   => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
+			'firstTime'                => ( \YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
+			'errorMessage'             => '',
+			'restApi'                  => [
 				'root'               => \esc_url_raw( \rest_url() ),
 				'indexing_endpoints' => $this->get_endpoints(),
 				'nonce'              => \wp_create_nonce( 'wp_rest' ),
 			],
-			"shouldShowIndexingButton" => $this->indexing_helper->should_show_optimization_button(),
+			'shouldShowIndexingButton' => $this->indexing_helper->should_show_optimization_button(),
 		];
 
 		/**
