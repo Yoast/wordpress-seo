@@ -39,6 +39,7 @@ export default compose( [
 			setWincherRequestSucceeded,
 			setWincherRequestFailed,
 			setWincherTrackingForKeyphrase,
+			setWincherSetKeyphraseLimitReached,
 			setWincherLoginStatus,
 		} = dispatch( "yoast-seo/editor" );
 
@@ -51,6 +52,9 @@ export default compose( [
 			},
 			addTrackedKeyphrase: ( keyphraseObject ) => {
 				setWincherTrackingForKeyphrase( keyphraseObject );
+			},
+			setKeyphraseLimitReached: ( limit ) => {
+				setWincherSetKeyphraseLimitReached( limit );
 			},
 			onAuthentication: ( status, newlyAuthenticated, websiteId ) => {
 				setWincherWebsiteId( websiteId );
