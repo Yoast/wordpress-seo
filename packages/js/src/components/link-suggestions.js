@@ -24,7 +24,7 @@ const introMessage =  createInterpolateElement(
 );
 
 const OutboundLink = makeOutboundLink();
-const upsellLink = "http://yoa.st/link-suggestions-upsell";
+const upsellLink = "https://yoa.st/link-suggestions-upsell";
 
 const LinkSuggestionsWrapper = styled.div`
 display: table-cell;
