@@ -104,7 +104,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		Options_Helper $options_helper,
 		Social_Profiles_Helper $social_profiles_helper,
 		Product_Helper $product_helper,
-		Meta_Tags_Context $meta_tags_context,
+		Meta_Tags_Context $meta_tags_context
 	) {
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->addon_manager          = $addon_manager;
