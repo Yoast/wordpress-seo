@@ -1,6 +1,6 @@
-import { dispatch, select } from "@wordpress/data";
+import { dispatch } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import { forEach, get, isArray, isObject, omit, includes } from "lodash";
+import { forEach, get, isArray, isObject } from "lodash";
 import { STORE_NAME } from "../constants";
 import { submitUserSocialProfiles } from "./user-social-profiles";
 
@@ -36,18 +36,10 @@ const submitSettings = async( values ) => {
 	} );
 
 	try {
-		const response = await fetch( endpoint, {
+		await fetch( endpoint, {
 			method: "POST",
 			body: new URLSearchParams( formData ),
 		} );
-		const responseText = await response.text();
-
-		if ( includes( responseText, "{{ yoast-success: false }}" ) ) {
-			throw new Error( "Yoast options invalid." );
-		}
-		if ( ! response.url.endsWith( "settings-updated=true" ) ) {
-			throw new Error( "WordPress options save did not get to the end." );
-		}
 	} catch ( error ) {
 		throw new Error( error.message );
 	}
@@ -61,16 +53,11 @@ const submitSettings = async( values ) => {
  */
 export const handleSubmit = async( values, { resetForm } ) => {
 	const { addNotification } = dispatch( STORE_NAME );
-	const { selectCanEditUser, selectPreference } = select( STORE_NAME );
-	const canManageOptions = selectPreference( "canManageOptions", false );
-	const { person_social_profiles: personSocialProfiles } = values;
-	const { company_or_person_user_id: userId } = values.wpseo_titles;
 
 	try {
 		await Promise.all( [
-			// Ensure we do not save WP options when the user is not allowed to.
-			submitSettings( canManageOptions ? values : omit( values, [ "blogname", "blogdescription" ] ) ),
-			selectCanEditUser( userId ) && submitUserSocialProfiles( userId, personSocialProfiles ),
+			submitSettings( values ),
+			submitUserSocialProfiles( values ),
 		] );
 
 		addNotification( {

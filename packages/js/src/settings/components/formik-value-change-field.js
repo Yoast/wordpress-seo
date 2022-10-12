@@ -22,8 +22,8 @@ const FormikValueChangeField = ( { as: Component, transformValue = identity, ...
 	return (
 		<Component
 			{ ...field }
-			onChange={ handleChange }
 			{ ...props }
+			onChange={ handleChange }
 		/>
 	);
 };

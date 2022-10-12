@@ -37,15 +37,12 @@ const CheckboxGroup = ( {
 	}, [ values, onChange ] );
 
 	return (
-		<fieldset
-			id={ `checkbox-group-${ id }` }
-			className={ classNames( "yst-checkbox-group", className ) }
-		>
+		<fieldset className={ classNames( "yst-checkbox-group", className ) }>
 			<Label as="legend" className="yst-checkbox-group__label" label={ label } />
 			{ description && <div className="yst-checkbox-group__description">{ description }</div> }
 			<div className="yst-checkbox-group__options">
 				{ children || options.map( ( option, index ) => {
-					const optionId = `checkbox-${ id }-${ index }`;
+					const optionId = `${ id }-${ index }`;
 					return <Checkbox
 						key={ optionId }
 						id={ optionId }

@@ -14,7 +14,7 @@ const withFormikError = Component => {
 	 */
 	const ComponentWithFormikError = ( { name, ...props } ) => {
 		const { isTouched, error } = useFormikError( { name } );
-		return <Component name={ name } error={ isTouched && error } { ...props } />;
+		return <Component { ...props } name={ name } error={ isTouched && error } />;
 	};
 
 	ComponentWithFormikError.propTypes = {

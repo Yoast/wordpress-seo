@@ -19,7 +19,7 @@ const Label = ( {
 		className={ classNames( "yst-label", className ) }
 		{ ...props }
 	>
-		{ label || children || null }
+		{ label || children }
 	</Component>
 );
 

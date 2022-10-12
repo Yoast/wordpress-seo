@@ -1,10 +1,11 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
+import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikReplacementVariableEditorField, FormLayout, OpenGraphDisabledAlert } from "../components";
-import { useSelectSettings } from "../hooks";
+import { useSelectSettings } from "../store";
 
 /**
  * @returns {JSX.Element} The element.
@@ -23,7 +24,7 @@ const LatestPosts = () => {
 			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 			"<strong>",
 			"</strong>",
-			"1200x675px"
+			"1200x630px"
 		),
 		{
 			strong: <strong className="yst-font-semibold" />,
@@ -64,7 +65,7 @@ const LatestPosts = () => {
 			<OpenGraphDisabledAlert
 				isEnabled={ opengraph }
 				/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-				text={ __( "The %1$sSocial image%2$s, %1$sSocial title%2$s and %1$sSocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" ) }
+				text={ __( "The %1$sSocial image%2$s, %1$sSocial title%2$s and %1$sSocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" ) }
 			/>
 			<FormikMediaSelectField
 				id="wpseo_titles-open_graph_frontpage_image"
@@ -81,6 +82,7 @@ const LatestPosts = () => {
 				label={ __( "Social title", "wordpress-seo" ) }
 				replacementVariables={ replacementVariables }
 				recommendedReplacementVariables={ recommendedReplacementVariables }
+				className={ classNames( ! opengraph && "yst-opacity-50" ) }
 				isDisabled={ ! opengraph }
 			/>
 			<FormikReplacementVariableEditorField
@@ -90,7 +92,7 @@ const LatestPosts = () => {
 				label={ __( "Social description", "wordpress-seo" ) }
 				replacementVariables={ replacementVariables }
 				recommendedReplacementVariables={ recommendedReplacementVariables }
-				className="yst-replacevar--description"
+				className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
 				isDisabled={ ! opengraph }
 			/>
 		</FieldsetLayout>
@@ -146,10 +148,8 @@ const Homepage = () => {
 			title={ __( "Homepage", "wordpress-seo" ) }
 			description={ __( "Choose how your Homepage should look in search engines and on social media. Note that this is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
 		>
-			<div className="yst-max-w-5xl">
-				{ homepageIsLatestPosts && <LatestPosts /> }
-				{ ! homepageIsLatestPosts && <PageAndPosts /> }
-			</div>
+			{ homepageIsLatestPosts && <LatestPosts /> }
+			{ ! homepageIsLatestPosts && <PageAndPosts /> }
 		</FormLayout>
 	);
 };

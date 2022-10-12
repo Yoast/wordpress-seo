@@ -20,7 +20,6 @@ const classNameMap = {
  * @param {string} [variant] Variant.
  * @param {boolean} [disabled] Disabled state.
  * @param {string} [className] CSS class.
- * @param {boolean} [isLabelDangerousHtml] Whether the label should be dangerously set as HTML.
  * @returns {JSX.Element} Radio component.
  */
 const Radio = ( {
@@ -32,7 +31,6 @@ const Radio = ( {
 	variant = "default",
 	disabled = false,
 	className = "",
-	isLabelDangerousHtml = false,
 	...props
 } ) => {
 	const svgAriaProps = useSvgAria();
@@ -58,12 +56,7 @@ const Radio = ( {
 					{ ...props }
 				/>
 				<span className="yst-radio__content">
-					<Label
-						htmlFor={ id }
-						className="yst-radio__label"
-						label={ isLabelDangerousHtml ? null : label }
-						dangerouslySetInnerHTML={ isLabelDangerousHtml ? { __html: label } : null }
-					/>
+					<Label htmlFor={ id } className="yst-radio__label" label={ label } />
 					<CheckCircleIcon className="yst-radio__check" { ...svgAriaProps } />
 				</span>
 			</div>
@@ -87,12 +80,7 @@ const Radio = ( {
 				className="yst-radio__input"
 				{ ...props }
 			/>
-			<Label
-				htmlFor={ id }
-				className="yst-radio__label"
-				label={ isLabelDangerousHtml ? null : label }
-				dangerouslySetInnerHTML={ isLabelDangerousHtml ? { __html: label } : null }
-			/>
+			<Label htmlFor={ id } className="yst-radio__label" label={ label } />
 		</div>
 	);
 };
@@ -102,7 +90,6 @@ Radio.propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
-	isLabelDangerousHtml: PropTypes.bool,
 	screenReaderLabel: PropTypes.string,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	disabled: PropTypes.bool,

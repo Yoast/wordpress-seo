@@ -1,20 +1,23 @@
 /* eslint-disable complexity */
-import { useEffect, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import PropTypes from "prop-types";
+import { useState, useEffect, useMemo } from "@wordpress/element";
+import { map, get } from "lodash";
+import { useDispatch } from "@wordpress/data";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { get, map } from "lodash";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useDispatchSettings, useSelectSettings } from "../hooks";
 import { flattenObject } from "../utils";
+import { useSelectSettings } from "../store";
+import { STORE_NAME } from "../constants";
 
 /**
  * @returns {void}
  */
 const useValidationErrorsNotification = () => {
-	const { isValid, errors, isSubmitting } = useFormikContext();
-	const { addNotification, removeNotification } = useDispatchSettings();
+	const { submitCount, isValid, errors } = useFormikContext();
+	const { addNotification, removeNotification } = useDispatch( STORE_NAME );
+	const [ prevSubmitCount, setPrevSubmitCount ] = useState( 0 );
 	const validationErrorsNotification = useSelectSettings( "selectNotification", [], "validation-errors" );
 
 	useEffect( () => {
@@ -24,7 +27,7 @@ const useValidationErrorsNotification = () => {
 	}, [ isValid, validationErrorsNotification ] );
 
 	useEffect( () => {
-		if ( isSubmitting && ! isValid ) {
+		if ( ! isValid && submitCount > prevSubmitCount ) {
 			addNotification( {
 				id: "validation-errors",
 				variant: "error",
@@ -32,7 +35,10 @@ const useValidationErrorsNotification = () => {
 				title: __( "Oh no! It seems your form contains invalid data. Please review the following fields:", "wordpress-seo" ),
 			} );
 		}
-	}, [ isSubmitting, errors, isValid ] );
+		if ( submitCount > prevSubmitCount ) {
+			setPrevSubmitCount( submitCount );
+		}
+	}, [ submitCount, errors, isValid ] );
 };
 
 /**
@@ -51,7 +57,7 @@ const ValidationErrorsNotification = ( { id, onDismiss, ...props } ) => {
 				{ map( flatErrors, ( error, name ) => error && (
 					<li key={ name }>
 						<Link to={ `${ get( searchIndex, `${ name }.route`, "404" ) }#${ get( searchIndex, `${ name }.fieldId`, "" ) }` }>
-							{ `${ get( searchIndex, `${ name }.routeLabel`, "" ) } - ${ get( searchIndex, `${ name }.fieldLabel`, "" ) }` }
+							{ `${get( searchIndex, `${ name }.routeLabel`, "" )} - ${get( searchIndex, `${ name }.fieldLabel`, "" )}` }
 						</Link>
 						:&nbsp;
 						{ error }
@@ -73,7 +79,7 @@ ValidationErrorsNotification.propTypes = {
  */
 const Notifications = () => {
 	useValidationErrorsNotification();
-	const { removeNotification } = useDispatchSettings();
+	const { removeNotification } = useDispatch( STORE_NAME );
 	const notifications = useSelectSettings( "selectNotifications" );
 	const enrichedNotifications = useMemo( () => map( notifications, notification => ( {
 		...notification,

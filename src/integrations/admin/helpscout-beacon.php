@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
  * Class WPSEO_HelpScout
@@ -66,7 +65,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	 */
 	protected $base_pages = [
 		'wpseo_dashboard',
-		Settings_Integration::PAGE,
+		'wpseo_settings',
 		'wpseo_titles',
 		'wpseo_search_console',
 		'wpseo_social',

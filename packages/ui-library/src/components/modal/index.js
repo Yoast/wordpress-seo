@@ -13,16 +13,15 @@ import { useSvgAria } from "../../hooks";
  * @param {boolean} [hasCloseButton=true] Whether the modal has a close button.
  * @param {boolean} [closeButtonScreenReaderText="Close"] The screenreader text of the close button.
  * @param {string} [className=""] Additional class names.
- * @param {Object} [props] Additional Dialog props.
  * @returns {JSX.Element} The modal.
  */
-const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenReaderText, className, ...props } ) => {
+const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenReaderText, className } ) => {
 	const svgAriaProps = useSvgAria();
 
 	return (
 		<Transition show={ isOpen } as={ Fragment }>
 			{ /* Using the `yst-root` class here to get our styling within the portal. */ }
-			<Dialog as="div" className="yst-root" open={ isOpen } onClose={ onClose } { ...props }>
+			<Dialog as="div" className="yst-root" open={ isOpen } onClose={ onClose }>
 				<div className={ classNames( "yst-modal", className ) }>
 					<div className="yst-modal__body">
 						<Transition.Child
@@ -48,7 +47,9 @@ const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenRe
 							leaveFrom="yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
 							leaveTo="yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-95"
 						>
-							<div className="yst-modal__content">
+							<div
+								className="yst-modal__content"
+							>
 								{ hasCloseButton && <div className="yst-modal__close">
 									<button
 										onClick={ onClose }

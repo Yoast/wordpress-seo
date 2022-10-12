@@ -13,7 +13,6 @@ import { useDescribedBy, useSvgAria } from "../../hooks";
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {boolean} [disabled] The disabled state.
- * @param {boolean} [readOnly] The read-only state.
  * @param {JSX.node} [error] An error "message".
  * @param {Object} [props] Any extra properties for the TextInput.
  * @returns {JSX.Element} The input field.
@@ -24,7 +23,6 @@ const TextField = ( {
 	label,
 	labelSuffix = null,
 	disabled = false,
-	readOnly = false,
 	className = "",
 	description = null,
 	error = null,
@@ -34,14 +32,7 @@ const TextField = ( {
 	const svgAriaProps = useSvgAria();
 
 	return (
-		<div
-			className={ classNames(
-				"yst-text-field",
-				disabled && "yst-text-field--disabled",
-				readOnly && "yst-text-field--read-only",
-				className,
-			) }
-		>
+		<div className={ classNames( "yst-text-field", disabled && "yst-text-field--disabled", className ) }>
 			<div className="yst-flex yst-items-center yst-mb-2">
 				<Label className="yst-text-field__label" htmlFor={ id } label={ label } />
 				{ labelSuffix }
@@ -51,7 +42,6 @@ const TextField = ( {
 					id={ id }
 					onChange={ onChange }
 					disabled={ disabled }
-					readOnly={ readOnly }
 					className={ classNames(
 						"yst-text-field__input",
 						error && "yst-text-field__input--error",
@@ -75,7 +65,6 @@ TextField.propTypes = {
 	label: PropTypes.string.isRequired,
 	labelSuffix: PropTypes.node,
 	disabled: PropTypes.bool,
-	readOnly: PropTypes.bool,
 	className: PropTypes.string,
 	description: PropTypes.node,
 	error: PropTypes.node,

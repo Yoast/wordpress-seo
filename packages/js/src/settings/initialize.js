@@ -1,4 +1,3 @@
-import { SlotFillProvider } from "@wordpress/components";
 import { dispatch, select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
@@ -70,17 +69,15 @@ domReady( () => {
 	render(
 		<Root context={ { isRtl } }>
 			<StyleSheetManager target={ shadowRoot }>
-				<SlotFillProvider>
-					<HashRouter>
-						<Formik
-							initialValues={ settings }
-							validationSchema={ createValidationSchema( postTypes, taxonomies ) }
-							onSubmit={ handleSubmit }
-						>
-							<App />
-						</Formik>
-					</HashRouter>
-				</SlotFillProvider>
+				<HashRouter>
+					<Formik
+						initialValues={ settings }
+						validationSchema={ createValidationSchema( postTypes, taxonomies ) }
+						onSubmit={ handleSubmit }
+					>
+						<App />
+					</Formik>
+				</HashRouter>
 			</StyleSheetManager>
 		</Root>,
 		root
