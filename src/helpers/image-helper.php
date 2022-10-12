@@ -513,23 +513,36 @@ class Image_Helper {
 			}
 		}
 
-		$blocks     = \parse_blocks( $content );
-		$site_logos = $this->get_site_logo_images_from_gutenberg_blocks( $blocks );
-		return \array_merge( $images, $site_logos );
+		$gutenberg_images = $this->get_images_from_gutenberg_blocks( $content );
+		return \array_merge( $images, $gutenberg_images );
+	}
+
+	/**
+	 * Generate an Image object from a site logo block.
+	 *
+	 * @param array $block The site logo block.
+	 * @return Image|null An Image object generated from the site logo block.
+	 */
+	protected function get_image_from_site_logo_block( $block ) {
+		if ( $block['blockName'] !== 'core/site-logo' ) {
+			return null;
+		}
+		$custom_logo_id = \intval( \get_theme_mod( 'custom_logo' ) );
+		return $this->create_image_object_from_id( $custom_logo_id );
 	}
 
 	/**
 	 * Get site logo images from the post content.
 	 *
-	 * @param array $blocks An array of block objects from the parse_blocks function.
+	 * @param string $content The post content.
 	 * @return Image[] Found site logo blocks in the blocks array.
 	 */
-	protected function get_site_logo_images_from_gutenberg_blocks( $blocks ) {
+	protected function get_images_from_gutenberg_blocks( $content ) {
 		$site_logos = [];
+		$blocks     = \parse_blocks( $content );
 		foreach ( $blocks as $block ) {
 			if ( $block['blockName'] === 'core/site-logo' ) {
-				$custom_logo_id = \intval( \get_theme_mod( 'custom_logo' ) );
-				$image_obj      = $this->create_image_object_from_id( $custom_logo_id );
+				$image_obj      = $this->get_image_from_site_logo_block( $block );
 				if ( ! \is_null( $image_obj ) ) {
 					$site_logos[] = $image_obj;
 				}
