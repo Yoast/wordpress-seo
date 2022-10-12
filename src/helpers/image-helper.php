@@ -406,6 +406,17 @@ class Image_Helper {
 	}
 
 	/**
+	 * Generate an Image object from the id of an image.
+	 *
+	 * @param int $id The ID of the image.
+	 * @return Image|null The generated Image object.
+	 */
+	protected function create_image_object_from_id( $id ) {
+		$src = $this->get_attachment_image_url( $id, 'full' );
+		return $this->create_image_object_from_source( $src );
+	}
+
+	/**
 	 * Generate an Image object from the source of an image.
 	 *
 	 * @param string $src The src attribute of an img tag.
@@ -502,7 +513,29 @@ class Image_Helper {
 			}
 		}
 
-		return $images;
+		$blocks     = \parse_blocks( $content );
+		$site_logos = $this->get_site_logo_images_from_gutenberg_blocks( $blocks );
+		return \array_merge( $images, $site_logos );
+	}
+
+	/**
+	 * Get site logo images from the post content.
+	 *
+	 * @param array $blocks An array of block objects from the parse_blocks function.
+	 * @return Image[] Found site logo blocks in the blocks array.
+	 */
+	protected function get_site_logo_images_from_gutenberg_blocks( $blocks ) {
+		$site_logos = [];
+		foreach ( $blocks as $block ) {
+			if ( $block['blockName'] === 'core/site-logo' ) {
+				$custom_logo_id = \intval( \get_theme_mod( 'custom_logo' ) );
+				$image_obj      = $this->create_image_object_from_id( $custom_logo_id );
+				if ( ! \is_null( $image_obj ) ) {
+					$site_logos[] = $image_obj;
+				}
+			}
+		}
+		return $site_logos;
 	}
 
 	/**
