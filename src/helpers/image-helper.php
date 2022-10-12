@@ -411,7 +411,7 @@ class Image_Helper {
 	 * @param string $src The src attribute of an img tag.
 	 * @return Image|null The generated Image object.
 	 */
-	protected function create_image_object_from_source( $src ) {
+	public function create_image_object_from_source( $src ) {
 		$width  = null;
 		$height = null;
 

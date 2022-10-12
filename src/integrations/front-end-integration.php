@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use DOMDocument;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
@@ -13,6 +14,7 @@ use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use Yoast\WP\SEO\Surfaces\Values\Meta;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -171,7 +173,7 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @var string[]
 	 */
-	protected $closing_presenters = [
+	protected $footer_presenters = [
 		'Schema',
 	];
 
@@ -220,6 +222,9 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
+		\add_action( 'wp_print_footer_scripts', [ $this, 'present_footer' ], -9999 );
+		// Filter all image tags in the post content as we want to output these in our schema.
+		\add_filter( 'wp_content_img_tag', [ $this, 'filter_image' ], -9999, 2 );
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 		// Filter the title for compatibility with block-based themes.
@@ -286,6 +291,62 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Parse the image src in an image tag.
+	 *
+	 * @param string $image_tag The full image tag (<img src=''/>).
+	 * @return string|null The image src attribute or null on failure.
+	 */
+	protected function parse_image_src( $image_tag ) {
+		if ( ! class_exists( 'DOMDocument' ) ) {
+			return null;
+		}
+
+		// Prevent DOMDocument from bubbling warnings about invalid HTML.
+		libxml_use_internal_errors( true );
+
+		$charset = \esc_attr( \get_bloginfo( 'charset' ) );
+
+		$post_dom = new DOMDocument();
+		$post_dom->loadHTML( '<?xml encoding="' . $charset . '">' . $image_tag );
+
+		// Clear the errors, so they don't get kept in memory.
+		libxml_clear_errors();
+
+		$images = $post_dom->getElementsByTagName( 'img' );
+		if ( count( $images ) === 1 ) {
+			$image = $images[0];
+			$src   = $image->getAttribute( 'src' );
+			if ( ! empty( $src ) ) {
+				return $src;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Add images to the context.
+	 *
+	 * @param string       $filtered_image The full HTML image tag to add to the context.
+	 * @param string|false $image_context Which function call caused the filter to run.
+	 * @return string The filtered image (non changed).
+	 */
+	public function filter_image( $filtered_image, $image_context ) {
+		if ( $image_context !== 'the_content' ) {
+			// We only want to include images that are in the page content.
+			return $filtered_image;
+		}
+		$image_src = $this->parse_image_src( $filtered_image );
+		if ( ! \is_null( $image_src ) ) {
+			$context = $this->context_memoizer->for_current_page();
+			if ( ! \is_array( $context->images ) ) {
+				$context->images = [];
+			}
+			$context->images[] = $this->helpers->image->create_image_object_from_source( $image_src );
+		}
+		return $filtered_image;
+	}
+
+	/**
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
 	 *
 	 * @codeCoverageIgnore It just calls a WordPress function.
@@ -304,12 +365,13 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Echoes all applicable presenters for a page.
+	 * Present the presenters with a specific context.
+	 *
+	 * @param Abstract_Indexable_Presenter[] $presenters The presenters to present.
+	 * @param Meta_Tags_Context              $context The context to present the presenters with.
+	 * @return void
 	 */
-	public function present_head() {
-		$context    = $this->context_memoizer->for_current_page();
-		$presenters = $this->get_presenters( $context->page_type, $context );
-
+	protected function present_with_context( $presenters, $context ) {
 		/**
 		 * Filter 'wpseo_frontend_presentation' - Allow filtering the presentation used to output our meta values.
 		 *
@@ -333,27 +395,41 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns all presenters for this page.
+	 * Echoes all footer presenters for a page.
 	 *
-	 * @param string                 $page_type The page type.
-	 * @param Meta_Tags_Context|null $context   The meta tags context for the current page.
-	 *
-	 * @return Abstract_Indexable_Presenter[] The presenters.
+	 * @return void
 	 */
-	public function get_presenters( $page_type, $context = null ) {
-		if ( \is_null( $context ) ) {
-			$context = $this->context_memoizer->for_current_page();
-		}
+	public function present_footer() {
+		$context    = $this->context_memoizer->for_current_page();
+		$presenters = $this->map_presenter_name_to_class( $this->footer_presenters );
+		$presenters = $this->convert_presenters_to_callable( $presenters, $context );
+		$this->present_with_context( $presenters, $context );
+	}
 
-		$needed_presenters = $this->get_needed_presenters( $page_type );
+	/**
+	 * Echoes all header presenters for a page.
+	 */
+	public function present_head() {
+		$context    = $this->context_memoizer->for_current_page();
+		$presenters = $this->get_presenters( $context->page_type, $context );
+		$this->present_with_context( $presenters, $context );
+	}
 
+	/**
+	 * Convert a list of strings to presenters.
+	 *
+	 * @param string[]          $presenters The presenters to convert.
+	 * @param Meta_Tags_Context $context The context to use for the wpseo_frontend_presenters filter.
+	 * @return Abstract_Indexable_Presenter[] An array of presenter objects.
+	 */
+	protected function convert_presenters_to_callable( $presenters, $context ) {
 		$callback   = static function( $presenter ) {
 			if ( ! \class_exists( $presenter ) ) {
 				return null;
 			}
 			return new $presenter();
 		};
-		$presenters = \array_filter( \array_map( $callback, $needed_presenters ) );
+		$presenters = \array_filter( \array_map( $callback, $presenters ) );
 
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering the presenter instances in or out of the request.
@@ -382,6 +458,37 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Returns all presenters for this page.
+	 *
+	 * @param string                 $page_type The page type.
+	 * @param Meta_Tags_Context|null $context   The meta tags context for the current page.
+	 *
+	 * @return Abstract_Indexable_Presenter[] The presenters.
+	 */
+	public function get_presenters( $page_type, $context = null ) {
+		if ( \is_null( $context ) ) {
+			$context = $this->context_memoizer->for_current_page();
+		}
+
+		$needed_presenters = $this->get_needed_presenters( $page_type );
+
+		return $this->convert_presenters_to_callable( $needed_presenters, $context );
+	}
+
+	/**
+	 * Map the presenter names to class names.
+	 *
+	 * @param string[] $presenters The presenter names.
+	 * @return string[] Full class names.
+	 */
+	protected function map_presenter_name_to_class( $presenters ) {
+		$callback = static function ( $presenter ) {
+			return "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter";
+		};
+		return \array_map( $callback, $presenters );
+	}
+
+	/**
 	 * Generate the array of presenters we need for the current request.
 	 *
 	 * @param string $page_type The page type we're retrieving presenters for.
@@ -393,10 +500,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		$presenters = $this->maybe_remove_title_presenter( $presenters );
 
-		$callback   = static function ( $presenter ) {
-			return "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter";
-		};
-		$presenters = \array_map( $callback, $presenters );
+		$presenters = $this->map_presenter_name_to_class( $presenters );
 
 		/**
 		 * Filter 'wpseo_frontend_presenter_classes' - Allow filtering presenters in or out of the request.
@@ -421,7 +525,6 @@ class Front_End_Integration implements Integration_Interface {
 			if ( $this->options->get( 'opengraph' ) === true ) {
 				$presenters = \array_merge( $presenters, $this->open_graph_error_presenters );
 			}
-			return \array_merge( $presenters, $this->closing_presenters );
 		}
 
 		$presenters = $this->get_all_presenters();
@@ -454,7 +557,7 @@ class Front_End_Integration implements Integration_Interface {
 			$presenters = \array_merge( $presenters, $this->slack_presenters );
 		}
 
-		return \array_merge( $presenters, $this->closing_presenters );
+		return $presenters;
 	}
 
 	/**
