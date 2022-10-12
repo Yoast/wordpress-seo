@@ -72,7 +72,7 @@ class Image_Helper {
 	 * @param int          $attachment_id The attachment to retrieve data from.
 	 * @param string       $caption       The caption string, if there is one.
 	 * @param bool         $add_hash      Whether a hash will be added as a suffix in the @id.
-	 * @param string|array $size    The size of the image. Either a string or an array with width and height values.
+	 * @param string|array $size          The size of the image. Either a string or an array with width and height values.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
@@ -85,7 +85,7 @@ class Image_Helper {
 		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $url;
 		$data['contentUrl'] = $url;
-		$data               = $this->add_image_size( $data, $attachment_id );
+		$data               = $this->add_image_size( $data, $attachment_id, $size );
 		$data               = $this->add_caption( $data, $attachment_id, $caption );
 
 		return $data;
@@ -188,12 +188,21 @@ class Image_Helper {
 	/**
 	 * Adds image's width and height.
 	 *
-	 * @param array $data          An ImageObject Schema array.
-	 * @param int   $attachment_id Attachment ID.
+	 * @param array        $data          An ImageObject Schema array.
+	 * @param int          $attachment_id Attachment ID.
+	 * @param string|array $size          The size of the image. Either a string or an array with width and height values.
 	 *
 	 * @return array An imageObject with width and height set if available.
 	 */
-	private function add_image_size( $data, $attachment_id ) {
+	private function add_image_size( $data, $attachment_id, $size ) {
+		// If width and height have been specified as img attributes, use them.
+		if ( \is_array( $size ) ) {
+			$data['width']  = $size[0];
+			$data['height'] = $size[1];
+	
+			return $data;
+		}
+
 		$image_meta = $this->image->get_metadata( $attachment_id );
 		if ( empty( $image_meta['width'] ) || empty( $image_meta['height'] ) ) {
 			return $data;
