@@ -103,6 +103,7 @@ class Redirects implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'wp', [ $this, 'archive_redirect' ] );
 		\add_action( 'wp', [ $this, 'page_redirect' ], 99 );
+		\add_action( 'wp', [ $this, 'category_redirect' ] );
 		\add_action( 'template_redirect', [ $this, 'attachment_redirect' ], 1 );
 		\add_action( 'template_redirect', [ $this, 'disable_date_queries' ] );
 	}
@@ -239,5 +240,30 @@ class Redirects implements Integration_Interface {
 		}
 
 		$this->redirect->do_safe_redirect( $url, 301 );
+	}
+
+	/**
+	 * Strips `cat=-1` from the URL and redirects to the resulting URL.
+	 */
+	public function category_redirect() {
+		/**
+		 * Allows the developer to keep cat=-1 GET parameters
+		 *
+		 * @since 19.9
+		 *
+		 * @param bool $remove_cat_parameter Whether to remove the `cat=-1` GET parameter. Default true.
+		 */
+		$should_remove_parameter = \apply_filters( 'wpseo_remove_cat_parameter', true );
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
+		if ( $should_remove_parameter && isset( $_GET['cat'] ) && $_GET['cat'] === '-1' ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
+			unset( $_GET['cat'] );
+			if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- This is just a replace and the data is never saved.
+				$_SERVER['REQUEST_URI'] = \remove_query_arg( 'cat' );
+			}
+			$this->redirect->do_safe_redirect( $this->url->recreate_current_url(), 301, 'Stripping cat=-1 from the URL' );
+		}
 	}
 }

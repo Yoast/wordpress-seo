@@ -1,8 +1,15 @@
 /* eslint-disable camelcase */
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 import { createSearchIndex } from "../helpers";
+import { flattenObject } from "../utils";
 
+/**
+ * Determines if the given value should flatten.
+ * @param {*} value The value.
+ * @returns {boolean} True if the value is an object or an array.
+ */
+export const getShouldFlattenSearchIndex = value =>  ! value?.route;
 
 /**
  * @returns {Object} Initial search state.
@@ -12,7 +19,6 @@ export const createInitialSearchState = () => {
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
 	return {
-		query: "",
 		index: createSearchIndex( postTypes, taxonomies ),
 	};
 };
@@ -25,8 +31,11 @@ const slice = createSlice( {
 
 export const searchSelectors = {
 	selectSearchIndex: ( state ) => get( state, "search.index", {} ),
-	// selectFlatSearchIndex: ( state ) => get( state, "search.ndex", {} ),
 };
+searchSelectors.selectFlatSearchIndex = createSelector(
+	searchSelectors.selectSearchIndex,
+	searchIndex => flattenObject( searchIndex, "", getShouldFlattenSearchIndex )
+);
 
 export const searchActions = slice.actions;
 

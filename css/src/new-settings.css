@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .seo_page_wpseo_settings {
-	@apply yst-bg-gray-100;
+	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
 	z-index: -1;
@@ -31,6 +31,7 @@
 
 @layer base {
 	.yst-root {
+		/* Reset some WP common styles */
 		a {
 			@apply focus:yst-shadow-none;
 		}
@@ -40,6 +41,14 @@
 			yst-transition-none
 			yst-shadow-none
 			checked:before:yst-hidden;
+		}
+
+		.yst-modal {
+			z-index: 100000 !important;
+		}
+
+		li, dd {
+			margin-bottom: 0;
 		}
 	}
 }
@@ -65,6 +74,19 @@
 			@apply yst-relative;
 		}
 
+		.yst-replacevar--disabled {
+			.yst-replacevar__label,
+			.yst-replacevar__editor {
+				@apply yst-opacity-50;
+			}
+
+			.yst-replacevar__button-insert,
+			.yst-replacevar__label,
+			.yst-replacevar__editor {
+				@apply yst-cursor-not-allowed;
+			}
+		}
+
 		.yst-replacevar__label {
 			@apply yst-mb-2;
 
@@ -73,7 +95,7 @@
 			yst-flex
 			yst-text-sm
 			yst-font-medium
-			yst-text-gray-800;
+			yst-text-slate-800;
 		}
 
 		.yst-replacevar__button-insert {
@@ -105,11 +127,11 @@
 
 			/* .yst-button--secondary */
 			@apply
-			yst-text-gray-800
+			yst-text-slate-800
 			yst-bg-white
-			yst-border-gray-300
+			yst-border-slate-300
 
-			hover:yst-bg-gray-50;
+			hover:yst-bg-slate-50;
 		}
 
 		.yst-replacevar__editor {
@@ -119,14 +141,14 @@
 			yst-py-2
 			yst-px-3
 			yst-border
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-bg-white
 			yst-text-sm
 			yst-leading-6
-			yst-text-gray-800
-			yst-placeholder-gray-500
+			yst-text-slate-800
+			yst-placeholder-slate-500
 			focus-within:yst-outline-none
 			focus-within:yst-ring-primary-500
 			focus-within:yst-border-primary-500
@@ -152,14 +174,14 @@
 					yst-px-4
 					yst-py-2
 					yst-text-sm
-					yst-text-gray-800
+					yst-text-slate-800
 					yst-no-underline
-					hover:yst-bg-gray-100
-					hover:yst-text-gray-900
+					hover:yst-bg-slate-100
+					hover:yst-text-slate-900
 					yst-cursor-pointer;
 
 					&[aria-selected] {
-						@apply yst-bg-gray-100 yst-text-gray-900
+						@apply yst-bg-slate-100 yst-text-slate-900
 					}
 				}
 			}
@@ -180,35 +202,8 @@
 			yst-leading-tight
 			yst-text-xs
 			yst-font-medium
-			yst-bg-gray-100
-			yst-text-gray-800;
-		}
-
-		.yst-sidebar {
-			/* WP Admin bar height + some padding. */
-			top: calc(32px + 2rem);
-		}
-
-		.yst-sidebar-nav {
-			/* WP Admin menu width + some padding. */
-			left: calc(160px + 2rem);
-		}
-	}
-
-	.folded .yst-root .yst-sidebar-nav {
-		/* Collapsed WP Admin menu width + some padding. */
-		left: calc(36px + 2rem);
-	}
-
-	.auto-fold .yst-root .yst-sidebar-nav {
-		@media (max-width: 960px) {
-			/* Auto-collapsed WP Admin menu width + some padding. */
-			left: calc(36px + 2rem);
-		}
-
-		@media (min-width: 768px) and (max-width: 782px) {
-			/* Collapsed WP Admin menu, only some padding. */
-			left: 2rem;
+			yst-bg-slate-200
+			yst-text-slate-900;
 		}
 	}
 }

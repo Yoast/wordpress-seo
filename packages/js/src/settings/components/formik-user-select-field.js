@@ -1,16 +1,15 @@
 /* eslint-disable complexity */
-import { useState, useMemo, useCallback, useEffect } from "@wordpress/element";
-import PropTypes from "prop-types";
+import apiFetch from "@wordpress/api-fetch";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { buildQueryString } from "@wordpress/url";
-import { useDispatch } from "@wordpress/data";
-import { map, values, debounce, find, isEmpty, trim } from "lodash";
-import apiFetch from "@wordpress/api-fetch";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
-import { useField } from "formik";
 import classNames from "classnames";
-import { ASYNC_ACTION_STATUS, STORE_NAME } from "../constants";
-import { useSelectSettings } from "../store";
+import { useField } from "formik";
+import { debounce, find, isEmpty, map, values } from "lodash";
+import PropTypes from "prop-types";
+import { ASYNC_ACTION_STATUS } from "../constants";
+import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 let abortController;
 
@@ -39,7 +38,7 @@ UserSelectOptionsContent.propTypes = {
  */
 const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 	const users = useSelectSettings( "selectUsers", [] );
-	const { addManyUsers } = useDispatch( STORE_NAME );
+	const { addManyUsers } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
 	const [ queriedUserIds, setQueriedUserIds ] = useState( [] );
@@ -60,7 +59,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 
 			const response = await apiFetch( {
 				// eslint-disable-next-line camelcase
-				path: `/wp/v2/users?${ buildQueryString( { context: "edit", search, per_page: 20 } ) }`,
+				path: `/wp/v2/users?${ buildQueryString( { search, per_page: 20 } ) }`,
 				signal: abortController?.signal,
 			} );
 
@@ -92,7 +91,6 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 
 	return (
 		<AutocompleteField
-			{ ...props }
 			{ ...field }
 			name={ name }
 			id={ id }
@@ -100,9 +98,10 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 			value={ selectedUser ? value : 0 }
 			onChange={ handleChange }
 			placeholder={ __( "Select a user...", "wordpress-seo" ) }
-			selectedLabel={ trim( selectedUser?.name ) || selectedUser?.username }
+			selectedLabel={ selectedUser?.name }
 			onQueryChange={ handleQueryChange }
 			className={ className }
+			{ ...props }
 		>
 			<>
 				{ status === ASYNC_ACTION_STATUS.idle || status === ASYNC_ACTION_STATUS.success && (
@@ -115,7 +114,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 							const user = users?.[ userId ];
 							return user ? (
 								<AutocompleteField.Option key={ user?.id } value={ user?.id }>
-									{ trim( user?.name ) || user?.username }
+									{ user?.name }
 								</AutocompleteField.Option>
 							) : null;
 						} ) }

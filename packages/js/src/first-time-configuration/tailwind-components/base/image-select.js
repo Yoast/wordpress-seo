@@ -39,7 +39,7 @@ export default function ImageSelect( {
 } ) {
 	const imageClassName = classNames(
 		"yst-relative yst-w-full yst-h-48 yst-mt-2 yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-		error.isVisible ? "yst-border-red-300" : "yst-border-gray-300",
+		error.isVisible ? "yst-border-red-300" : "yst-border-slate-300",
 		// Only add border if no image is selected
 		"yst-border-2 yst-border-dashed"
 	);
@@ -59,12 +59,12 @@ export default function ImageSelect( {
 			return <img src={ fallbackUrl } alt={ imageAltText } className="yst-w-full yst-h-full yst-object-contain" />;
 		}
 
-		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-w-14 yst-h-14 yst-text-gray-500" />;
+		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-w-14 yst-h-14 yst-text-slate-500" />;
 	}, [ status, id, url, imageAltText ] );
 
 	return (
 		<div className={ classNames( "yst-max-w-sm", className ) } { ...getErrorAriaProps( id, error ) }>
-			<label htmlFor={ id } className="yst-block yst-mb-2 yst-font-medium yst-text-gray-700">{ label }</label>
+			<label htmlFor={ id } className="yst-block yst-mb-2 yst-font-medium yst-text-slate-700">{ label }</label>
 			<button
 				id={ id }
 				className={ imageClassName }
