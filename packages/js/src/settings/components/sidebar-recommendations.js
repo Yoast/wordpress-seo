@@ -5,14 +5,14 @@ import { Button, Link, Title } from "@yoast/ui-library";
 import { ReactComponent as StarHalf } from "../../../images/star-rating-half.svg";
 import { ReactComponent as Star } from "../../../images/star-rating-star.svg";
 import { ReactComponent as YoastSeoLogo } from "../../../images/Yoast_SEO_Icon.svg";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 import { ReactComponent as G2Logo } from "./g2-logo-white-rgb.svg";
 
 /**
  * @returns {JSX.Element} The premium upsell card.
  */
 const PremiumUpsellCard = () => {
-	const buyLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
 	const info = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to opening and closing <strong> tags. */
@@ -42,8 +42,8 @@ const PremiumUpsellCard = () => {
 			</h2>
 			<p className="yst-mt-2">{ info }</p>
 			<Button
-				as="a" variant="upsell" href={ buyLink }
-				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-text-base yst-leading-5 yst-py-3 yst-px-4 sm:yst-px-0"
+				as="a" variant="upsell" size="large" href={ getPremiumLink }
+				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-px-4 sm:yst-px-0"
 			>
 				{ getPremium }
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
@@ -90,9 +90,7 @@ const SidebarRecommendations = () => {
 	), [] );
 
 	return (
-		<div
-			className="yst-sidebar xl:yst-fixed xl:yst-bottom-0 xl:yst-right-6 xl:yst-w-[19rem] yst-mt-6 xl:yst-mt-0"
-		>
+		<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[19rem]">
 			<p className="yst-text-primary-500 yst-leading-loose yst-pb-2 yst-border-b-2 yst-border-primary-300">
 				{ sprintf(
 					/* translators: %1$s expands to Yoast */

@@ -1,7 +1,7 @@
 .yst-mobile-navigation__top {
-	@apply yst-sticky yst-top-0 yst-w-full md:yst-hidden yst-z-10;
+	@apply yst-sticky yst-top-0 yst-w-full md:yst-hidden yst-z-50;
 }
 
 .yst-mobile-navigation__dialog {
-	@apply yst-fixed yst-inset-0 yst-flex yst-z-40;
+	@apply yst-fixed yst-inset-0 yst-flex yst-z-50;
 }

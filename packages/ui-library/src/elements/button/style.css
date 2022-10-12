@@ -14,6 +14,7 @@
 			yst-text-sm
 			yst-font-medium
 			yst-leading-4
+			yst-text-center
 
 			focus:yst-outline-none
 			focus:yst-ring-2
@@ -37,14 +38,14 @@
 
 		.yst-button--secondary {
 			@apply
-			yst-text-gray-800
+			yst-text-slate-800
 			yst-bg-white
-			yst-border-gray-300
+			yst-border-slate-300
 
-			hover:yst-text-gray-800
-			hover:yst-bg-gray-50
-			visited:yst-text-gray-800
-			visited:hover:yst-text-gray-800;
+			hover:yst-text-slate-800
+			hover:yst-bg-slate-50
+			visited:yst-text-slate-800
+			visited:hover:yst-text-slate-800;
 		}
 
 		.yst-button--error {
@@ -79,7 +80,8 @@
 			@apply
 			yst-py-3
 			yst-px-6
-			yst-text-base;
+			yst-text-base
+			yst-leading-5;
 		}
 
 		.yst-button--small {
