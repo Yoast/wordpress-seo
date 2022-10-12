@@ -237,7 +237,6 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
 			'Yoast\WP\SEO\Presenters\Slack\Enhanced_Data_Presenter',
-			'Yoast\WP\SEO\Presenters\Schema_Presenter',
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
@@ -291,7 +290,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
-				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
 			$expected
@@ -360,7 +358,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Twitter\Image_Presenter',
 				'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
-				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
 			$expected
@@ -412,7 +409,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
-				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
 			$actual
@@ -458,7 +454,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
-				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
 			$actual
@@ -511,7 +506,6 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
-				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
 			$expected

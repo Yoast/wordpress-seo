@@ -221,14 +221,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Generates the images.
 	 *
+	 * Note that the array returned here will get filled with images in the Front_End_Integration with the
+	 * wp_content_img_tag filter so the array of images is filled only after the page content has been loaded.
+	 *
 	 * @return Image[] the images.
 	 */
 	public function generate_images() {
-		if ( $this->post instanceof WP_Post === false ) {
-			return [];
-		}
-
-		return $this->image->get_images_from_post_content( $this->post->post_content );
+		return [];
 	}
 
 	/**
