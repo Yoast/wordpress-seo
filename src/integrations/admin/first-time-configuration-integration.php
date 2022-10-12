@@ -104,7 +104,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		Options_Helper $options_helper,
 		Social_Profiles_Helper $social_profiles_helper,
 		Product_Helper $product_helper,
-		Meta_Tags_Context $meta_tags_context
+		Meta_Tags_Context $meta_tags_context,
 	) {
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->addon_manager          = $addon_manager;
@@ -262,7 +262,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
 				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
 				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' ),
-				$this->indexing_helper->should_show_optimization_button(),
+				$this->indexing_helper->should_show_optimization_button()
 			),
 			'before'
 		);

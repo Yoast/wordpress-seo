@@ -41,7 +41,6 @@ export class Indexation extends Component {
 	 */
 	constructor( props ) {
 		super( props );
-		console.log( this.props.preIndexingActions );
 
 		this.settings = yoastIndexingData;
 
@@ -54,7 +53,6 @@ export class Indexation extends Component {
 				this.settings.firstTime === "1"
 			),
 		};
-		console.log( this.state )
 
 		this.startIndexing = this.startIndexing.bind( this );
 		this.stopIndexing = this.stopIndexing.bind( this );

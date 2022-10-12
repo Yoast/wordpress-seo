@@ -17,10 +17,8 @@ import Alert from "../../base/alert";
  *
  * @returns {WPElement} A wrapped Indexation for the first-time configuration.
  */
-export function ConfigurationIndexation( { indexingStateCallback, indexingState, isEnabled, shouldShowButton, isStepperFinished } ) {
-	console.log( "isenabled", isEnabled, "shouldshowbutton", shouldShowButton, "isStepper", isStepperFinished, "indexingState", indexingState );
+export function ConfigurationIndexation( { indexingStateCallback, indexingState, isEnabled, isStepperFinished } ) {
 	if ( ! isEnabled ) {
-		console.log( "TEST", shouldShowButton );
 		if ( indexingState === "completed" ) {
 			return <Alert type="success">
 				{ __( "We've already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }
@@ -36,7 +34,7 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 	}
 	// eslint-disable-next-line no-negated-condition
 	indexingState = ( ! yoastIndexingData.shouldShowIndexingButton ) ? "already_done" : indexingState;
-	
+
 	return <Indexation
 		preIndexingActions={ window.yoast.indexing.preIndexingActions }
 		indexingActions={ window.yoast.indexing.indexingActions }
