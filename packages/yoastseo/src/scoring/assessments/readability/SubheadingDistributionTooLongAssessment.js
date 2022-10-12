@@ -9,7 +9,6 @@ import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubh
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { stripFullTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
-import wordCount from "../../../languageProcessing/helpers/word/countWords";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
