@@ -525,6 +525,7 @@ class Front_End_Integration implements Integration_Interface {
 			if ( $this->options->get( 'opengraph' ) === true ) {
 				$presenters = \array_merge( $presenters, $this->open_graph_error_presenters );
 			}
+			return $presenters;
 		}
 
 		$presenters = $this->get_all_presenters();
