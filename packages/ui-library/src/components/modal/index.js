@@ -51,6 +51,7 @@ const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenRe
 							<div className="yst-modal__content">
 								{ hasCloseButton && <div className="yst-modal__close">
 									<button
+										type="button"
 										onClick={ onClose }
 										className="yst-modal__close-button"
 									>
