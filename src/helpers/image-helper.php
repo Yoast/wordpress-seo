@@ -418,7 +418,12 @@ class Image_Helper {
 		// Extract image ID.
 		$id = $this->get_attachment_by_url( $src );
 
-		if ( $id !== 0 ) {
+		// Convert a non-existing image ID to null.
+		if ( $id === 0 ) {
+			$id = null;
+		}
+
+		if ( ! \is_null( $id ) ) {
 			// Extract image size if present in src.
 			$image_size = $this->get_image_size( $src );
 			if ( ! \is_null( $image_size ) ) {
