@@ -411,7 +411,7 @@ class Image_Helper {
 	 * @param string $src The src attribute of an img tag.
 	 * @return Image|null The generated Image object.
 	 */
-	protected function create_image_object_from_source( $src ) {
+	protected function create_image_object_from_source( $src, $img_width="", $img_height="" ) {
 		$width  = null;
 		$height = null;
 
@@ -436,6 +436,11 @@ class Image_Helper {
 
 			if ( $query_params ) {
 				$src = $src . '?' . $query_params;
+			}
+		
+			if ( ! empty( $img_width ) && ! empty( $img_height ) ) {
+				$width  = intval( $img_width );
+				$height = intval( $img_height );
 			}
 		}
 
@@ -477,13 +482,15 @@ class Image_Helper {
 		libxml_clear_errors();
 
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
-			$src = $img->getAttribute( 'src' );
+			$src    = $img->getAttribute( 'src' );
+			$width  = $img->getAttribute( 'width' );
+			$height = $img->getAttribute( 'height' );
 
 			if ( empty( $src ) ) {
 				continue;
 			}
 
-			$image_obj = $this->create_image_object_from_source( $src );
+			$image_obj = $this->create_image_object_from_source( $src, $width, $height );
 
 			if ( ! \is_null( $image_obj ) ) {
 				$images[] = $image_obj;
