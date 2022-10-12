@@ -85,23 +85,23 @@ export default function YoastComboBox( { id, value, label, onChange, onQueryChan
 		{
 			( { open } ) => {
 				return <Fragment>
-					{ label && <Combobox.Label className="yst-block yst-mb-1 yst-max-w-sm yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Combobox.Label> }
+					{ label && <Combobox.Label className="yst-block yst-mb-1 yst-max-w-sm yst-text-sm yst-font-medium yst-text-slate-700">{ label }</Combobox.Label> }
 					<div className="yst-h-[45px] yst-max-w-sm yst-relative">
 						<Combobox.Button
 							data-id={ `button-${ id }` }
 							role="button"
-							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-gray-300 yst-flex yst-items-center yst-rounded-r-md yst-pl-3 yst-pr-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
+							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-slate-300 yst-flex yst-items-center yst-rounded-r-md yst-pl-3 yst-pr-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
 							as="div"
 						>
 							<Combobox.Input
 								data-id={ `input-${ id }` }
-								className="yst-w-full yst-text-gray-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-none sm:yst-text-sm"
+								className="yst-w-full yst-text-slate-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-none sm:yst-text-sm"
 								onChange={ handleInputChange }
 								displayValue={ getDisplayValue }
 								placeholder={ placeholder }
 								onClick={ stopEventPropagation( open ) }
 							/>
-							<SelectorIcon className="yst-h-5 yst-w-5 yst-text-gray-400 yst-inset-y-0 yst-right-0" aria-hidden="true" />
+							<SelectorIcon className="yst-h-5 yst-w-5 yst-text-slate-400 yst-inset-y-0 yst-right-0" aria-hidden="true" />
 						</Combobox.Button>
 						{ ( filteredOptions.length > 0 ) && (
 							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">

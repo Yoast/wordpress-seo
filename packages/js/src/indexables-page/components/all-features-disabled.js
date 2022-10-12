@@ -18,9 +18,9 @@ function AllFeaturesDisabled() {
 			className="yst-flex yst-flex-col yst-max-w-6xl yst-w-full yst-items-center yst-bg-white yst-rounded-lg yst-px-8 yst-py-10 yst-shadow"
 		>
 			<img src={ IconAdjustments } alt="Magnifying lens icon" className="yst-mb-4" />
-			<h4 className="yst-mb-2 yst-text-base yst-text-gray-900 yst-font-medium yst-leading-tight">{ __( "You've disabled features that are needed to show data", "wordpress-seo" ) }</h4>
+			<h4 className="yst-mb-2 yst-text-base yst-text-slate-900 yst-font-medium yst-leading-tight">{ __( "You've disabled features that are needed to show data", "wordpress-seo" ) }</h4>
 			<div className="yst-flex yst-flex-col yst-items-center">
-				<p className="yst-gray-500 yst-font-normal yst-leading-normal yst-px-10 yst-text-center">
+				<p className="yst-slate-500 yst-font-normal yst-leading-normal yst-px-10 yst-text-center">
 					{
 						addLinkToString(
 							// translators: %1$s and %2$s are the opening and closing anchor tags.

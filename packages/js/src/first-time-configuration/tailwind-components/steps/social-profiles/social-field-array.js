@@ -45,7 +45,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 						/>
 						<button
 							type="button"
-							className="yst-mt-[27.5px] yst-ml-2 yst-p-3 yst-text-gray-500 yst-rounded-md hover:yst-text-primary-500 focus:yst-text-primary-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 yst-no-underline;"
+							className="yst-mt-[27.5px] yst-ml-2 yst-p-3 yst-text-slate-500 yst-rounded-md hover:yst-text-primary-500 focus:yst-text-primary-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 yst-no-underline;"
 							id={ `remove-profile-${ index }` }
 							data-index={ index }
 							onClick={ handleRemove }
@@ -62,7 +62,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 				className="yst-button yst-button--secondary yst-items-center yst-mt-8"
 				onClick={ onAddProfile }
 			>
-				<PlusIcon className="yst-w-5 yst-h-5 yst-mr-1 yst-text-gray-400" />
+				<PlusIcon className="yst-w-5 yst-h-5 yst-mr-1 yst-text-slate-400" />
 				{ addButtonChildren }
 			</button>
 		</div>

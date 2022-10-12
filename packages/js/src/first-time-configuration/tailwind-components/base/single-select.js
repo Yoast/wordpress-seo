@@ -30,24 +30,24 @@ export default function Select( { id, value, choices, label, onChange, error, di
 		<Listbox id={ id } as="div" value={ value } onChange={ onChange } disabled={ disabled }>
 			{ ( { open } ) => (
 				<>
-					{ label && <Listbox.Label className="yst-block yst-max-w-sm yst-mb-1 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
+					{ label && <Listbox.Label className="yst-block yst-max-w-sm yst-mb-1 yst-text-sm yst-font-medium yst-text-slate-700">{ label }</Listbox.Label> }
 					<div className="yst-max-w-sm">
 						<div className="yst-relative">
 							<Listbox.Button
 								data-id={ `button-${ id } ` }
 								className={ classNames(
-									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-bg-white yst-border yst-border-gray-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
+									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-bg-white yst-border yst-border-slate-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
 									{
 										"yst-border-red-300": error.isVisible,
 										"yst-opacity-50": disabled,
 									},
-									value === "emptyChoice" ? "yst-text-gray-400" : "yst-text-gray-700"
+									value === "emptyChoice" ? "yst-text-slate-400" : "yst-text-slate-700"
 								) }
 								{ ...getErrorAriaProps( id, error ) }
 							>
 								<span className="yst-block yst-truncate">{ valueLabel }</span>
 								<span className="yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-2 yst-pointer-events-none">
-									<SelectorIcon className="yst-w-5 yst-h-5 yst-text-gray-400" aria-hidden="true" />
+									<SelectorIcon className="yst-w-5 yst-h-5 yst-text-slate-400" aria-hidden="true" />
 								</span>
 								{ error.isVisible &&
 								<div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-8">
