@@ -1,3 +1,4 @@
+/* global yoastIndexingData */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Transition } from "@headlessui/react";
@@ -31,6 +32,10 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
 		</button>;
 	}
+
+	// eslint-disable-next-line no-negated-condition
+	indexingState = ( ! yoastIndexingData.shouldShowIndexingButton ) ? "already_done" : indexingState;
+
 	return <Indexation
 		preIndexingActions={ window.yoast.indexing.preIndexingActions }
 		indexingActions={ window.yoast.indexing.indexingActions }

@@ -45,7 +45,7 @@ export class Indexation extends Component {
 		this.settings = yoastIndexingData;
 
 		this.state = {
-			state: STATE.IDLE,
+			state: ( this.settings.shouldShowIndexingButton ) ? STATE.IDLE : STATE.COMPLETED,
 			processed: 0,
 			error: null,
 			amount: parseInt( this.settings.amount, 10 ),
