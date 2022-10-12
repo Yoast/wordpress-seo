@@ -33,6 +33,7 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 		</button>;
 	}
 
+	// If the 'start indexation' button should be hidden, set the indexingState tot already_done.
 	// eslint-disable-next-line no-negated-condition
 	indexingState = ( ! yoastIndexingData.shouldShowIndexingButton ) ? "already_done" : indexingState;
 

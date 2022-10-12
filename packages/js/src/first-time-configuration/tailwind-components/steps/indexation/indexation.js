@@ -45,6 +45,7 @@ export class Indexation extends Component {
 		this.settings = yoastIndexingData;
 
 		this.state = {
+			// If the 'start indexation' button should be hidden, set STATE tot DONE.
 			state: ( this.settings.shouldShowIndexingButton ) ? STATE.IDLE : STATE.COMPLETED,
 			processed: 0,
 			error: null,
