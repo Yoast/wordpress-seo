@@ -72,6 +72,11 @@
 
 		.yst-replacevar {
 			@apply yst-relative;
+
+			/* This needs additional nesting, specificity wise. */
+			.emoji-select-popover {
+				@apply yst-right-auto yst-left-0;	
+			}
 		}
 
 		.yst-replacevar--disabled {

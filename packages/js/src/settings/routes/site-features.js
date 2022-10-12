@@ -188,7 +188,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2" variant="upsell" href={ getInclusiveLanguageAnalysisLink } rel="noreferrer">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getInclusiveLanguageAnalysisLink } rel="noreferrer">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */
@@ -300,7 +300,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2" variant="upsell" href={ getLinkSuggestionsLink } rel="noreferrer">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getLinkSuggestionsLink } rel="noreferrer">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */
@@ -497,7 +497,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2" variant="upsell" href={ getIndexNowLink } rel="noreferrer">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getIndexNowLink } rel="noreferrer">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */
