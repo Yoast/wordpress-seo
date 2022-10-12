@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
+import { useCallback } from "@wordpress/element";
 import { colors } from "@yoast/style-guide";
 import { ScreenReaderText } from "@yoast/components";
 import { makeOutboundLink, createSvgIconComponent } from "@yoast/helpers";
@@ -151,10 +152,10 @@ const LinkSuggestion = ( { value, url, isActive, labels, isEnabled } ) => {
 	 *
 	 * @returns {void}
 	 */
-	const resetLabels = ( evt ) => {
+	const resetLabels = useCallback( ( evt ) => {
 		evt.nativeEvent.target.setAttribute( "aria-label", ariaLabel );
 		evt.nativeEvent.target.setAttribute( "data-label", label );
-	};
+	} );
 
 	let icon = "copy";
 	let iconColor = colors.$color_black;
