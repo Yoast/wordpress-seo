@@ -542,7 +542,7 @@ class Image_Helper {
 		$blocks     = \parse_blocks( $content );
 		foreach ( $blocks as $block ) {
 			if ( $block['blockName'] === 'core/site-logo' ) {
-				$image_obj      = $this->get_image_from_site_logo_block( $block );
+				$image_obj = $this->get_image_from_site_logo_block( $block );
 				if ( ! \is_null( $image_obj ) ) {
 					$site_logos[] = $image_obj;
 				}
