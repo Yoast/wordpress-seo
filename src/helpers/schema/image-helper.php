@@ -83,8 +83,8 @@ class Image_Helper {
 		$id_suffix = ( $add_hash ) ? \md5( $url ) : '';
 
 		$data['@id']        = $schema_id . $id_suffix;
-		$data['url']        = $url;
-		$data['contentUrl'] = $url;
+		$data['url']        = $schema_id;
+		$data['contentUrl'] = $schema_id;
 		$data               = $this->add_image_size( $data, $attachment_id );
 		$data               = $this->add_caption( $data, $attachment_id, $caption );
 
