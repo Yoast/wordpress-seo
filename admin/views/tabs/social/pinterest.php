@@ -35,4 +35,15 @@ echo '</p>';
 
 $yform->textinput( 'pinterestverify', __( 'Pinterest confirmation', 'wordpress-seo' ) );
 
-do_action( 'wpseo_admin_pinterest_section' );
+/**
+ * Admin Pinterest section hook.
+ *
+ * @deprecated 19.9 No replacement available.
+ */
+do_action_deprecated(
+	'wpseo_admin_pinterest_section',
+	[],
+	'19.9',
+	'',
+	'Deprecated since 19.9. Will be removed in 20.0.'
+);

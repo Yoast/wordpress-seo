@@ -57,4 +57,15 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 </div>
 <?php
 
-do_action( 'wpseo_admin_opengraph_section' );
+/**
+ * Admin OpenGraph section hook.
+ *
+ * @deprecated 19.9 No replacement available.
+ */
+do_action_deprecated(
+	'wpseo_admin_opengraph_section',
+	[],
+	'19.9',
+	'',
+	'Deprecated since 19.9. Will be removed in 20.0.'
+);

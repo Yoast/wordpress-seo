@@ -91,8 +91,16 @@ echo '</div>';
 /**
  * Allow adding custom fields to the admin meta page - Author archives panel in the Archives tab.
  *
+ * @deprecated 19.9 No replacement available.
+ *
  * @param Yoast_Form $yform The Yoast_Form object.
  */
-do_action( 'Yoast\WP\SEO\admin_author_archives_meta', $yform );
+do_action_deprecated(
+	'Yoast\WP\SEO\admin_author_archives_meta',
+	[ $yform ],
+	'19.9',
+	'',
+	'Deprecated since 19.9. Will be removed in 20.0.'
+);
 ?>
 </div>
