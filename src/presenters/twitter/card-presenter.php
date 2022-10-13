@@ -26,13 +26,9 @@ class Card_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter card type.
 		 *
-		 * @deprecated 19.8
-		 *
 		 * @param string $card_type The card type.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		\apply_filters_deprecated( 'wpseo_twitter_card_type', [ $this->presentation->twitter_card, $this->presentation ], 'WPSEO 19.8', '', 'The only supported value is summary_large_image' );
-
-		return $this->presentation->twitter_card;
+		return \trim( \apply_filters( 'wpseo_twitter_card_type', $this->presentation->twitter_card, $this->presentation ) );
 	}
 }
