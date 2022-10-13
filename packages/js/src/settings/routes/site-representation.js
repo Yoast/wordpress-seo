@@ -75,6 +75,7 @@ const PersonSocialProfiles = () => {
 
 	return (
 		<FieldsetLayout
+			id="fieldset-wpseo_social-other_social_urls"
 			title={ __( "Other profiles", "wordpress-seo" ) }
 			description={ __( "Tell us about the other profiles on the web that belong to the person.", "wordpress-seo" ) }
 		>
@@ -306,6 +307,7 @@ const SiteRepresentation = () => {
 						</FieldsetLayout>
 						<hr className="yst-my-8" />
 						<FieldsetLayout
+							id="fieldset-wpseo_social-other_social_urls"
 							title={ __( "Other profiles", "wordpress-seo" ) }
 							description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
 						>
@@ -341,6 +343,7 @@ const SiteRepresentation = () => {
 													className="yst-grow"
 												/>
 												<button
+													type="button"
 													// eslint-disable-next-line react/jsx-no-bind
 													onClick={ arrayHelpers.remove.bind( null, index ) }
 													className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
