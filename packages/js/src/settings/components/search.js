@@ -3,7 +3,7 @@ import { SearchIcon } from "@heroicons/react/outline";
 import { useCallback, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Modal, useSvgAria, useToggleState, TextInput, Title } from "@yoast/ui-library";
-import { debounce, filter, first, isEmpty, map, reduce, trim, toLower, includes } from "lodash";
+import { debounce, filter, first, isEmpty, map, reduce, trim, includes } from "lodash";
 import { Link } from "react-router-dom";
 import { useSelectSettings } from "../hooks";
 
@@ -28,7 +28,8 @@ const Search = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
-	const flatSearchIndex = useSelectSettings( "selectFlatSearchIndex" );
+	const searchIndex = useSelectSettings( "selectSearchIndex" );
+	const queryableSearchIndex = useSelectSettings( "selectQueryableSearchIndex" );
 	const [ results, setResults ] = useState( [] );
 	const ariaSvgProps = useSvgAria();
 	const inputRef = useRef( null );
@@ -43,14 +44,10 @@ const Search = () => {
 
 		if ( trimmedQuery.length > QUERY_MIN_CHARS ) {
 			setResults( groupItemsByRoute(
-				filter( flatSearchIndex, item => (
-					includes( item?.keywords, trimmedQuery ) ||
-					includes( toLower( item?.fieldLabel ), trimmedQuery ) ||
-					includes( toLower( item?.routeLabel ), trimmedQuery )
-				) )
+				filter( queryableSearchIndex, item => includes( item?.keywords, trimmedQuery ) )
 			) );
 		}
-	}, 500 ), [ flatSearchIndex ] );
+	}, 500 ), [ queryableSearchIndex, searchIndex ] );
 
 	const handleQueryChange = useCallback( event => {
 		setQuery( event.target.value );
@@ -76,7 +73,7 @@ const Search = () => {
 			<div className="yst--m-6 yst--mt-5">
 				<div className="yst-relative">
 					<SearchIcon
-						className="yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-3 yst-h-5 yst-w-5 yst-text-slate-400"
+						className="yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400"
 						{ ...ariaSvgProps }
 					/>
 					<TextInput
@@ -85,21 +82,21 @@ const Search = () => {
 						placeholder={ __( "Search...", "wordpress-seo" ) }
 						value={ query }
 						onChange={ handleQueryChange }
-						className="yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-10 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm"
+						className="yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm"
 					/>
 				</div>
 				{ query.length > 2 && ! isEmpty( results ) && (
 					<ul className="yst-max-h-80 yst-scroll-pt-11 yst-scroll-pb-2 yst-overflow-y-auto yst-pb-2">
 						{ map( results, ( groupedItems, route ) => (
 							<li key={ route }>
-								<Title as="h4" size="3" className="yst-bg-slate-100 yst-p-3">{ first( groupedItems ).routeLabel }</Title>
+								<Title as="h4" size="3" className="yst-bg-slate-100 yst-py-3 yst-px-4">{ first( groupedItems ).routeLabel }</Title>
 								<ul>
 									{ map( groupedItems, ( item, name ) => (
 										<li key={ name }>
 											<Link
 												to={ `${ item.route }#${ item.fieldId }` }
 												onClick={ handleNavigate }
-												className="yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-p-3 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white"
+												className="yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white"
 											>
 												{ item.fieldLabel }
 											</Link>
