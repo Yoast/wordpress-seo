@@ -76,7 +76,18 @@ function wpseo_import_external_select( $name, $plugins ) {
 		wpseo_import_external_select( 'import_external_plugin', $import_check->needs_import );
 		?>
 		<?php
-		do_action( 'wpseo_import_other_plugins' );
+		/**
+		 * Hook used to import other plugins.
+		 *
+		 * @deprecated 19.9 No replacement available.
+		 */
+		do_action_deprecated(
+			'wpseo_import_other_plugins',
+			[],
+			'19.9',
+			'',
+			'Deprecated since 19.9. Will be removed in 20.0.'
+		);
 		?>
 		<input type="submit" class="button button-primary" name="import_external"
 			value="<?php esc_attr_e( 'Import', 'wordpress-seo' ); ?>"/>

@@ -35,9 +35,17 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	/**
 	 * Fires when displaying the crawl cleanup tab.
 	 *
+	 * @deprecated 19.9 No replacement available.
+	 *
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
-	do_action( 'wpseo_settings_tab_crawl_cleanup', $yform );
+	do_action_deprecated(
+		'wpseo_settings_tab_crawl_cleanup',
+		[ $yform ],
+		'19.9',
+		'',
+		'Deprecated since 19.9. Will be removed in 20.0.'
+	);
 
 	?>
 </div>
