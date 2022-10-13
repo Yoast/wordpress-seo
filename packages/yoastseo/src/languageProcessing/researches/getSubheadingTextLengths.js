@@ -1,6 +1,5 @@
 import getSubheadingTexts from "../helpers/html/getSubheadingTexts";
 import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
-import wordCount from "../helpers/word/countWords";
 import countWords from "../helpers/word/countWords";
 import { forEach } from "lodash-es";
 
@@ -38,7 +37,7 @@ export default function( paper, researcher ) {
 		const textBeforeFirstSubheading = text.slice( 0, firstSubheading.index );
 		textBeforeFirstSubheadingLength = customCountLength
 			? customCountLength( textBeforeFirstSubheading )
-			: wordCount( textBeforeFirstSubheading );
+			: countWords( textBeforeFirstSubheading );
 	}
 
 	return { foundSubheadings: foundSubheadings, textBeforeFirstSubheadingLength: textBeforeFirstSubheadingLength };
