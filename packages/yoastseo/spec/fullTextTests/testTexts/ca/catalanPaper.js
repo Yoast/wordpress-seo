@@ -10,7 +10,6 @@ const paper = new Paper( content, {
 		"de disciplines artístiques considerades canòniques. El significat és variable segons el país o l'època. Aquest conjunt " +
 		"té sentit en comparació a moviments estètics més recents.",
 	title: "Clàssic",
-	textTitle: "Clàssic",
 	titleWidth: 450,
 	locale: "ca",
 	permalink: "https://ca.wikipedia.org/wiki/Cl%C3%A0ssic",
@@ -142,7 +141,8 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes that reflect" +
-			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
+			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt " +
+			"tags of relevant images</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -151,11 +151,6 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 
