@@ -199,7 +199,7 @@ class Image_Helper {
 		if ( \is_array( $size ) ) {
 			$data['width']  = $size[0];
 			$data['height'] = $size[1];
-	
+
 			return $data;
 		}
 
