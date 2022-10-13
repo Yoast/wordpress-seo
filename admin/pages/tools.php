@@ -61,8 +61,16 @@ if ( $tool_page === '' ) {
 
 	/**
 	 * Action: 'wpseo_tools_overview_list_items' - Hook to add additional tools to the overview.
+	 *
+	 * @deprecated 19.9 No replacement available.
 	 */
-	do_action( 'wpseo_tools_overview_list_items' );
+	do_action_deprecated(
+		'wpseo_tools_overview_list_items',
+		[],
+		'19.9',
+		'',
+		'Deprecated since 19.9. Will be removed in 20.0.'
+	);
 
 	echo '</ul>';
 }

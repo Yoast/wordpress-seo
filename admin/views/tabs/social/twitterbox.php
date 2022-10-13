@@ -27,4 +27,15 @@ echo '<p>';
 esc_html_e( 'Enable this feature if you want Twitter to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
 echo '</p>';
 
-do_action( 'wpseo_admin_twitter_section' );
+/**
+ * Admin Twitter section hook.
+ *
+ * @deprecated 19.9 No replacement available.
+ */
+do_action_deprecated(
+	'wpseo_admin_twitter_section',
+	[],
+	'19.9',
+	'',
+	'Deprecated since 19.9. Will be removed in 20.0.'
+);

@@ -24,4 +24,15 @@ $social_profiles_help = new WPSEO_Admin_Help_Panel(
 echo '<div id="yoast-social-profiles"></div>';
 
 
-do_action( 'wpseo_admin_other_section' );
+/**
+ * Admin other section hook.
+ *
+ * @deprecated 19.9 No replacement available.
+ */
+do_action_deprecated(
+	'wpseo_admin_other_section',
+	[],
+	'19.9',
+	'',
+	'Deprecated since 19.9. Will be removed in 20.0.'
+);
