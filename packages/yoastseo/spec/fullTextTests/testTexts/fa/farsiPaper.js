@@ -6,9 +6,12 @@ const name = "farsiPaper";
 const paper = new Paper( content, {
 	keyword: "فرانکاروم",
 	synonyms: "گشتا فرانکاروم",
-	description: "نویسنده کتاب مؤلفی گمنام و مجهول‌الهویه است که اطلاعاتی از وی جز آنچه که خود در خلال گزارش‌های خویش می‌گوید، وجود ندارد. اما بر اساس متن کتاب می‌توان برداشت کرد که وی یکی از هواداران بوهموند بوده‌است. کتاب وی رایج‌ترین گزارش از جنگ صلیبی اول است که همزمان با وقوع این حادثه به نگارش درآمده‌است. همچنین، نویسندهٔ این کتاب، نخستین مؤلفی است که به‌طور عمیق و تخصصی دربارهٔ جنگ صلیبی اول و در کل پیرامون اندیشهٔ جنبش جنگ‌های صلیبی اظهار نظر کرده‌است؛ چنان‌که ریمون آگیلی در نگارش اثر خود، هیستوریا",
+	description: "نویسنده کتاب مؤلفی گمنام و مجهول‌الهویه است که اطلاعا" +
+		"تی از وی جز آنچه که خود در خلال گزارش‌های خویش می‌گوید، وجود ندارد. اما بر اساس متن کتاب می‌توان برداشت کرد که" +
+		" وی یکی از هواداران بوهموند بوده‌است. کتاب وی رایج‌ترین گزارش از جنگ صلیبی اول است که همزمان با وقوع این حادثه" +
+		" به نگارش درآمده‌است. همچنین، نویسندهٔ این کتاب، نخستین مؤلفی است که به‌طور عمیق و تخصصی دربارهٔ جنگ صلیبی اول " +
+		"و در کل پیرامون اندیشهٔ جنبش جنگ‌های صلیبی اظهار نظر کرده‌است؛ چنان‌که ریمون آگیلی در نگارش اثر خود، هیستوریا",
 	title: "گشتا فرانکاروم",
-	textTitle: "گشتا فرانکاروم",
 	titleWidth: 450,
 	locale: "fa_IR",
 	permalink: "https://fa.wikipedia.org/wiki/%DA%AF%D8%B4%D8%AA%D8%A7_%D9%81%D8%B1%D8%A7%D9%86%DA%A9%D8%A7%D8%B1%D9%88%D9%85",
@@ -144,13 +147,15 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
+			"That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes that reflect" +
-			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
+			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags " +
+			"of relevant images</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -159,11 +164,6 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
-	},
-	textTitle: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 
