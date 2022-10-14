@@ -27,12 +27,12 @@ echo '<div id="yoast-social-profiles"></div>';
 /**
  * Admin other section hook.
  *
- * @deprecated 19.9 No replacement available.
+ * @deprecated 19.10 No replacement available.
  */
 do_action_deprecated(
 	'wpseo_admin_other_section',
 	[],
-	'19.9',
+	'19.10',
 	'',
-	'Deprecated since 19.9. Will be removed in 20.0.'
+	'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
 );

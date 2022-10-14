@@ -16,14 +16,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 /**
  * Fires when displaying the site wide analysis tab.
  *
- * @deprecated 19.9 No replacement available.
+ * @deprecated 19.10 No replacement available.
  *
  * @param Yoast_Form $yform The yoast form object.
  */
 do_action_deprecated(
 	'wpseo_settings_tab_site_analysis',
 	[ $yform ],
-	'19.9',
+	'19.10',
 	'',
-	'Deprecated since 19.9. Will be removed in 20.0.'
+	'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
 );

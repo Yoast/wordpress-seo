@@ -22,7 +22,7 @@ require __DIR__ . '/post_type/post-type.php';
 /**
  * Allow adding custom fields to the admin meta page, just before the archive settings - Content Types tab.
  *
- * @deprecated 19.9 No replacement available.
+ * @deprecated 19.10 No replacement available.
  *
  * @param Yoast_Form $yform The Yoast_Form object.
  * @param string     $name  The post type name.
@@ -30,9 +30,9 @@ require __DIR__ . '/post_type/post-type.php';
 do_action_deprecated(
 	'Yoast\WP\SEO\admin_post_types_beforearchive',
 	[ $yform, $wpseo_post_type->name ],
-	'19.9',
+	'19.10',
 	'',
-	'Deprecated since 19.9. Will be removed in 20.0.'
+	'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
 );
 
 if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->is_active() ) {
@@ -94,7 +94,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	/**
 	 * Allow adding custom fields to the admin meta page at the end of the archive settings for a post type - Content Types tab.
 	 *
-	 * @deprecated 19.9 No replacement available.
+	 * @deprecated 19.10 No replacement available.
 	 *
 	 * @param Yoast_Form $yform The Yoast_Form object.
 	 * @param string     $name  The post type name.
@@ -102,9 +102,9 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	do_action_deprecated(
 		'Yoast\WP\SEO\admin_post_types_archive',
 		[ $yform, $wpseo_post_type->name ],
-		'19.9',
+		'19.10',
 		'',
-		'Deprecated since 19.9. Will be removed in 20.0.'
+		'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
 	);
 }
 

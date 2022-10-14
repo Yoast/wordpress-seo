@@ -62,16 +62,16 @@ $yform->toggle_switch(
 	/**
 	 * Allow adding custom fields to the admin meta page - Date archives panel in the Archives tab.
 	 *
-	 * @deprecated 19.9 No replacement available.
+	 * @deprecated 19.10 No replacement available.
 	 *
 	 * @param Yoast_Form $yform The Yoast_Form object.
 	 */
 	do_action_deprecated(
 		'Yoast\WP\SEO\admin_date_archives_meta',
 		[ $yform ],
-		'19.9',
+		'19.10',
 		'',
-		'Deprecated since 19.9. Will be removed in 20.0.'
+		'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
 	);
 	?>
 </div>
