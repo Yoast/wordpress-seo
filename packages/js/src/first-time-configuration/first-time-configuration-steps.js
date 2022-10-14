@@ -208,7 +208,7 @@ export default function FirstTimeConfigurationSteps() {
 	const [ state, dispatch ] = useReducer( configurationReducer, {
 		...calculateInitialState( window.wpseoFirstTimeConfigurationData, isStepFinished ),
 	} );
-	// If the 'start indexation' button should be hidden, set the indexingState tot already_done.
+	// If the 'start indexation' button should be hidden, set the indexingState to already_done.
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" || ! yoastIndexingData.shouldShowIndexingButton ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
