@@ -31,7 +31,6 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
 		</button>;
 	}
-
 	return <Indexation
 		preIndexingActions={ window.yoast.indexing.preIndexingActions }
 		indexingActions={ window.yoast.indexing.indexingActions }
