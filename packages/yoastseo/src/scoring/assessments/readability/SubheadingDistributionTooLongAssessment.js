@@ -68,9 +68,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
-		this._subheadingTextsLength.foundSubheadings = this._subheadingTextsLength.foundSubheadings.sort( function( a, b ) {
-			return b.countLength - a.countLength;
+		if ( this._subheadingTextsLength.foundSubheadings.length > 0 ) {
+			this._subheadingTextsLength.foundSubheadings = this._subheadingTextsLength.foundSubheadings.sort(function (a, b) { 
 		} );
+		return b.countLength - a.countLength
+		}
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setIdentifier( this.identifier );
