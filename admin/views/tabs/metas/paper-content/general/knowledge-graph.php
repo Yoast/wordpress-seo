@@ -7,8 +7,8 @@
  * @uses    Yoast_Form $yform Form object.
  */
 
-echo '<h3>', __( 'Website', 'wordpress-seo' ),'</h3>';
-echo '<p>', __( 'This name is shown for your site in the search results.', 'wordpress-seo' ), '</p>';
+echo '<h3>', esc_html__( 'Website', 'wordpress-seo' ),'</h3>';
+echo '<p>', esc_html__( 'This name is shown for your site in the search results.', 'wordpress-seo' ), '</p>';
 $yform->textinput(
 	'website_name',
 	__( 'Website name', 'wordpress-seo' ),
@@ -22,7 +22,7 @@ $yform->textinput(
 	__( 'Alternate website name', 'wordpress-seo' )
 );
 
-echo '<h3>', __( 'Organization or Person', 'wordpress-seo' ), '</h3>';
+echo '<h3>', esc_html__( 'Organization or Person', 'wordpress-seo' ), '</h3>';
 echo '<p>', sprintf(
 	/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link, */
 	esc_html__( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either an organization, or a person.', 'wordpress-seo' ),
@@ -101,7 +101,7 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 		'company_alternate_name',
 		__( 'Alternate organization name', 'wordpress-seo' )
 	);
-	echo '<p>', __( 'Use the alternate organization name for acronyms, or a shorter version of your organization\'s name.', 'wordpress-seo' ), '</p>';
+	echo '<p>', esc_html__( 'Use the alternate organization name for acronyms, or a shorter version of your organization\'s name.', 'wordpress-seo' ), '</p>';
 	$yform->hidden( 'company_logo', 'company_logo' );
 	$yform->hidden( 'company_logo_id', 'company_logo_id' );
 	?>
