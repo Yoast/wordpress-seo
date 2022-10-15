@@ -30,11 +30,11 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "::set-output name=NAME::$BASE_REF"
-            echo "::set-output name=REF::origin/$BASE_REF"
+            echo "NAME=$BASE_REF" >> $GITHUB_OUTPUT
+            echo "REF=origin/$BASE_REF" >> $GITHUB_OUTPUT
           else
-            echo '::set-output name=NAME::trunk'
-            echo "::set-output name=REF::origin/trunk"
+            echo 'NAME=trunk' >> $GITHUB_OUTPUT
+            echo "REF=origin/trunk" >> $GITHUB_OUTPUT
           fi
 
       - name: Fetch base branch
