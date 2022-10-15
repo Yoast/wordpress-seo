@@ -31,6 +31,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string       $description
  * @property string       $id
  * @property string       $site_name
+ * @property string       $alternate_site_name
  * @property string       $wordpress_site_name
  * @property string       $site_url
  * @property string       $company_name
@@ -260,6 +261,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return \get_bloginfo( 'name' );
+	}
+
+	/**
+	 * Generates the site name.
+	 *
+	 * @return string The site name.
+	 */
+	public function generate_alternate_site_name() {
+		return (string) $this->options->get( 'alternate_website_name', '' );
 	}
 
 	/**
