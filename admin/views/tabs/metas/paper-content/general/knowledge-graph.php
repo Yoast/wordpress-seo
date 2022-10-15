@@ -81,6 +81,11 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 			'placeholder'  => $yoast_seo_site_name,
 		]
 	);
+	$yform->textinput(
+		'company_alternate_name',
+		__( 'Alternate organization name', 'wordpress-seo' )
+	);
+	echo '<p>', __( 'Use the alternate organization name for acronyms, or a shorter version of your organization\'s name.', 'wordpress-seo' ), '</p>';
 	$yform->hidden( 'company_logo', 'company_logo' );
 	$yform->hidden( 'company_logo_id', 'company_logo_id' );
 	?>

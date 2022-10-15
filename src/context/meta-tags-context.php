@@ -34,6 +34,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string       $wordpress_site_name
  * @property string       $site_url
  * @property string       $company_name
+ * @property string       $company_alternate_name
  * @property int          $company_logo_id
  * @property array        $company_logo_meta
  * @property int          $person_logo_id
@@ -303,6 +304,22 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return $company_name;
+	}
+
+	/**
+	 * Generates the alternate company name.
+	 *
+	 * @return string
+	 */
+	public function generate_company_alternate_name() {
+		/**
+		 * Filter: 'wpseo_schema_company_alternate_name' - Allows filtering the alternate company name
+		 *
+		 * @api string $company_name.
+		 */
+		$company_alt_name = (string) \apply_filters( 'wpseo_schema_company_alternate_name', $this->options->get( 'company_alternate_name' ) );
+
+		return $company_alt_name;
 	}
 
 	/**
