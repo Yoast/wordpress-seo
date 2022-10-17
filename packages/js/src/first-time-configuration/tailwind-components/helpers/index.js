@@ -135,6 +135,10 @@ export function configurationReducer( state, action ) {
 			newState = handleStepEdit( newState, 2 );
 			newState.companyName = action.payload;
 			return newState;
+		case "CHANGE_COMPANY_ALTERNATE_NAME":
+			newState = handleStepEdit( newState, 2 );
+			newState.companyAlternateName = action.payload;
+			return newState;
 		case "SET_COMPANY_LOGO":
 			newState = handleStepEdit( newState, 2 );
 			newState.companyLogo = action.payload.url;
