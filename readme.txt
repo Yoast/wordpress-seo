@@ -250,18 +250,21 @@ Release Date: October 25th, 2022
 
 
 
+
 Enhancements:
 
 * Adds immediate keyphrase tracking after connecting to Wincher.
+* Google introduced new support for [site names in Google Search](https://developers.google.com/search/blog/2022/10/introducing-site-names-on-search). Yoast SEO already outputs this value correctly, using the WordPress site name. With this change we have increased the control site owners have over this value by adding input fields to overwrite the site name, as well as an extra input field for a (potentially shorter) alternate name.
+* If no social profiles have been added for an Organization, we no longer output an empty array.
 
 Bugfixes:
 
 * Fixes a bug where a fatal error would be thrown when using the `wpseo_breadcrumb_links` filter in the wrong way on PHP 8.0+.
 * Fixes a bug where social or canonical URLs containing `@` would lead to encoding issues. Props to [@stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the buttons in the FAQ and in the How-To block would be hardly visible when using a dark theme.
+* Fixes a bug where the number of words would be counted incorrectly when using Cyrillic script.
 * Fixes a bug where the _previously used keyphrase_ assessment would also appear under the readability analysis tab when the cornerstone content toggle would be switched on.
 * Fixes a bug where the wrong canonical URL would be set on attachment pages.
-* Fixes a bug where the number of words would be counted incorrectly when using Cyrillic script.
 
 Other:
 
