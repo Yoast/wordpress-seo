@@ -14,12 +14,12 @@ import { openMedia } from "../../../../helpers/selectMedia";
  * @param {string}   imageUrl                   The image URL.
  * @param {string}   fallbackImageUrl           The fallback image URL for when there is no image.
  * @param {string}   organizationName           The name of the organization.
- * @param {string}   organizationAlternateName  An alternate name of the organization.
+ * @param {string}   alternateOrganizationName  An alternate name of the organization.
  * @param {string}   fallbackOrganizationName   The fallback name of the organization.
  * @param {bool}     isDisabled                 A flag to disable the field.
  * @returns {WPElement} The organization section.
  */
-export function OrganizationSection( { dispatch, imageUrl, fallbackImageUrl, organizationName, organizationAlternateName, fallbackOrganizationName, errorFields } ) {
+export function OrganizationSection( { dispatch, imageUrl, fallbackImageUrl, organizationName, alternateOrganizationName, fallbackOrganizationName, errorFields } ) {
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
 			dispatch( { type: "SET_COMPANY_LOGO", payload: { ...selectedImage } } );
@@ -55,10 +55,10 @@ export function OrganizationSection( { dispatch, imageUrl, fallbackImageUrl, org
 			/>
 			<TextInput
 				className="yst-mt-6"
-				id="organization-alternate-name-input"
-				name="organization-alternate-name"
-				label={ __( "Organization alternate name", "wordpress-seo" ) }
-				value={ organizationAlternateName }
+				id="alternate-organization-name-input"
+				name="alternate-organization-name"
+				label={ __( "Alternate organization name", "wordpress-seo" ) }
+				value={ alternateOrganizationName }
 				onChange={ handleAlternateNameChange }
 				feedback={ {
 					isVisible: errorFields.includes( "company_alternate_name" ),
@@ -86,7 +86,7 @@ OrganizationSection.propTypes = {
 	imageUrl: PropTypes.string,
 	fallbackImageUrl: PropTypes.string,
 	organizationName: PropTypes.string,
-	organizationAlternateName: PropTypes.string,
+	alternateOrganizationName: PropTypes.string,
 	fallbackOrganizationName: PropTypes.string,
 	errorFields: PropTypes.array,
 };
@@ -95,7 +95,7 @@ OrganizationSection.defaultProps = {
 	imageUrl: "",
 	fallbackImageUrl: "",
 	organizationName: "",
-	organizationAlternateName: "",
+	alternateOrganizationName: "",
 	fallbackOrganizationName: "",
 	errorFields: [],
 };
