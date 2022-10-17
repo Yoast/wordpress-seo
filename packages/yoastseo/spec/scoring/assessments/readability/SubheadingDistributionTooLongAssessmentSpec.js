@@ -190,8 +190,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		);
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"The beginning of your text is longer than 300 words and is not separated by any subheadings.Add subheadings to improve readability." +
-			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
+			"The beginning of your text is longer than 300 words and is not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability.</a>" );
 	} );
 
 	it( "Returns false from isApplicable to the paper without text", function() {
