@@ -264,9 +264,9 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the site name.
+	 * Generates the alternate site name.
 	 *
-	 * @return string The site name.
+	 * @return string The alternate site name.
 	 */
 	public function generate_alternate_site_name() {
 		return (string) $this->options->get( 'alternate_website_name', '' );
@@ -325,11 +325,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_schema_company_alternate_name' - Allows filtering the alternate company name
 		 *
-		 * @api string $company_name.
+		 * @api string $company_alternate_name.
 		 */
-		$company_alt_name = (string) \apply_filters( 'wpseo_schema_company_alternate_name', $this->options->get( 'company_alternate_name' ) );
+		$company_alternate_name = (string) \apply_filters( 'wpseo_schema_company_alternate_name', $this->options->get( 'company_alternate_name' ) );
 
-		return $company_alt_name;
+		return $company_alternate_name;
 	}
 
 	/**
