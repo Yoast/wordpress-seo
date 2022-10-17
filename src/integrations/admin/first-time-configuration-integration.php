@@ -192,6 +192,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 					"companyOrPerson": "%s",
 					"companyOrPersonLabel": "%s",
 					"companyName": "%s",
+					"companyAlternateName": "%s",
 					"fallbackCompanyName": "%s",
 					"companyLogo": "%s",
 					"companyLogoFallback": "%s",
@@ -225,6 +226,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$this->is_company_or_person(),
 				$selected_option_label,
 				$this->get_company_name(),
+				$this->get_company_alternate_name(),
 				$this->get_fallback_company_name( $this->get_company_name() ),
 				$this->get_company_logo(),
 				$this->get_company_fallback_logo( $this->get_company_logo() ),
@@ -305,6 +307,15 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function get_company_name() {
 		return $this->options_helper->get( 'company_name', '' );
+	}
+
+	/**
+	 * Gets the company alternate name from the option in the database.
+	 *
+	 * @return string The company alternate name.
+	 */
+	private function get_company_alternate_name() {
+		return $this->options_helper->get( 'company_alternate_name', '' );
 	}
 
 	/**
