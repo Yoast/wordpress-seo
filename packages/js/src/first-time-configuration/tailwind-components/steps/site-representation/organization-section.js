@@ -6,6 +6,7 @@ import ImageSelect from "../../base/image-select";
 
 import { openMedia } from "../../../../helpers/selectMedia";
 
+/* eslint-disable max-len */
 /**
  * The Organization section.
  *
@@ -13,11 +14,12 @@ import { openMedia } from "../../../../helpers/selectMedia";
  * @param {string}   imageUrl                   The image URL.
  * @param {string}   fallbackImageUrl           The fallback image URL for when there is no image.
  * @param {string}   organizationName           The name of the organization.
+ * @param {string}   organizationAlternateName  An alternate name of the organization.
  * @param {string}   fallbackOrganizationName   The fallback name of the organization.
  * @param {bool}     isDisabled                 A flag to disable the field.
  * @returns {WPElement} The organization section.
  */
-export function OrganizationSection( { dispatch, imageUrl, fallbackImageUrl, organizationName, fallbackOrganizationName, errorFields } ) {
+export function OrganizationSection( { dispatch, imageUrl, fallbackImageUrl, organizationName, organizationAlternateName, fallbackOrganizationName, errorFields } ) {
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
 			dispatch( { type: "SET_COMPANY_LOGO", payload: { ...selectedImage } } );
@@ -28,8 +30,12 @@ export function OrganizationSection( { dispatch, imageUrl, fallbackImageUrl, org
 		dispatch( { type: "REMOVE_COMPANY_LOGO" } );
 	} );
 
-	const handleChange = useCallback( ( event ) => {
+	const handleNameChange = useCallback( ( event ) => {
 		dispatch( { type: "CHANGE_COMPANY_NAME", payload: event.target.value } );
+	} );
+
+	const handleAlternateNameChange = useCallback( ( event ) => {
+		dispatch( { type: "CHANGE_COMPANY_ALTERNATE_NAME", payload: event.target.value } );
 	} );
 
 	return (
@@ -40,10 +46,23 @@ export function OrganizationSection( { dispatch, imageUrl, fallbackImageUrl, org
 				name="organization-name"
 				label={ __( "Organization name", "wordpress-seo" ) }
 				value={ ( organizationName === "" ) ? fallbackOrganizationName : organizationName }
-				onChange={ handleChange }
+				onChange={ handleNameChange }
 				feedback={ {
 					isVisible: errorFields.includes( "company_name" ),
 					message: [ __( "We could not save the organization name. Please check the value.", "wordpress-seo" ) ],
+					type: "error",
+				} }
+			/>
+			<TextInput
+				className="yst-mt-6"
+				id="organization-alternate-name-input"
+				name="organization-alternate-name"
+				label={ __( "Organization alternate name", "wordpress-seo" ) }
+				value={ organizationAlternateName }
+				onChange={ handleAlternateNameChange }
+				feedback={ {
+					isVisible: errorFields.includes( "company_alternate_name" ),
+					message: [ __( "We could not save the organization alternate name. Please check the value.", "wordpress-seo" ) ],
 					type: "error",
 				} }
 			/>
@@ -67,6 +86,7 @@ OrganizationSection.propTypes = {
 	imageUrl: PropTypes.string,
 	fallbackImageUrl: PropTypes.string,
 	organizationName: PropTypes.string,
+	organizationAlternateName: PropTypes.string,
 	fallbackOrganizationName: PropTypes.string,
 	errorFields: PropTypes.array,
 };
@@ -75,6 +95,8 @@ OrganizationSection.defaultProps = {
 	imageUrl: "",
 	fallbackImageUrl: "",
 	organizationName: "",
+	organizationAlternateName: "",
 	fallbackOrganizationName: "",
 	errorFields: [],
 };
+/* eslint-enable max-len */

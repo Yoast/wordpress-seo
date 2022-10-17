@@ -105,6 +105,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 					imageUrl={ state.companyLogo }
 					fallbackImageUrl={ state.companyLogoFallback }
 					organizationName={ state.companyName }
+					organizationAlternateName={ state.companyAlternateName }
 					fallbackOrganizationName={ state.fallbackCompanyName }
 					errorFields={ state.errorFields }
 				/> }

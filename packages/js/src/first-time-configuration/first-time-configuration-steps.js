@@ -43,6 +43,7 @@ async function updateSiteRepresentation( state ) {
 		/* eslint-disable camelcase */
 		company_or_person: state.companyOrPerson === "emptyChoice" ? "company" : state.companyOrPerson,
 		company_name: state.companyName,
+		company_alternate_name: state.companyAlternateName,
 		company_logo: state.companyLogo,
 		company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
 		person_logo: state.personLogo,
