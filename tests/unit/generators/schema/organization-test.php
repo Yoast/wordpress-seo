@@ -103,6 +103,7 @@ class Organization_Test extends TestCase {
 	 * @param array $profiles_expected The social profiles expected output.
 	 */
 	public function test_generate( $profiles_input, $profiles_expected ) {
+		$this->context->company_alternate_name      = '';
 		$this->context->site_url                    = 'https://yoast.com/';
 		$this->context->company_name                = 'Yoast';
 		$this->instance->context->company_logo_meta = [
@@ -166,6 +167,7 @@ class Organization_Test extends TestCase {
 	 * @param array $profiles_expected The social profiles expected output.
 	 */
 	public function test_generate_without_logo_meta( $profiles_input, $profiles_expected ) {
+		$this->context->company_alternate_name      = 'Alt Company Name';
 		$this->context->site_url                    = 'https://yoast.com/';
 		$this->context->company_name                = 'Yoast';
 		$this->instance->context->company_logo_meta = false;
@@ -207,13 +209,14 @@ class Organization_Test extends TestCase {
 			->andReturn( $logo );
 
 		$expected = [
-			'@type'  => 'Organization',
-			'@id'    => $schema_id,
-			'name'   => $this->context->company_name,
-			'url'    => $this->context->site_url,
-			'sameAs' => $profiles_expected,
-			'logo'   => $logo,
-			'image'  => [ '@id' => $schema_logo_id ],
+			'@type'         => 'Organization',
+			'@id'           => $schema_id,
+			'name'          => $this->context->company_name,
+			'alternateName' => 'Alt Company Name',
+			'url'           => $this->context->site_url,
+			'sameAs'        => $profiles_expected,
+			'logo'          => $logo,
+			'image'         => [ '@id' => $schema_logo_id ],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );
