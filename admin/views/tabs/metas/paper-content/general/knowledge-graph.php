@@ -21,6 +21,7 @@ $yform->textinput(
 	'alternate_website_name',
 	__( 'Alternate website name', 'wordpress-seo' )
 );
+echo '<p style="margin-bottom: 2em;">', esc_html__( 'Use the alternate website name for acronyms, or a shorter version of your website\'s name.', 'wordpress-seo' ), '</p>';
 
 echo '<h3>', esc_html__( 'Organization or Person', 'wordpress-seo' ), '</h3>';
 echo '<p>', sprintf(
