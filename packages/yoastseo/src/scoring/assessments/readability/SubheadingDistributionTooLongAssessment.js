@@ -40,7 +40,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 				okSubheadings: 6,
 				badSubheadings: 3,
 				badLongTextNoSubheadings: 2,
-				badLongTextBeforeSubheadings: 2,
 			},
 			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
@@ -83,8 +82,6 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		// Retrieve the length of the text before the first subheading.
 		const textBeforeFirstSubheadingLength = this._subheadingTextsLength.textBeforeFirstSubheadingLength;
-		// Checks if the text preceding the first subheading is longer than the recommended maximum length.
-		const isTextPrecedingFirstHLong = textBeforeFirstSubheadingLength > this._config.parameters.recommendedMaximumLength;
 
 		this._tooLongTexts = this.getTooLongSubheadingTexts();
 
@@ -94,12 +91,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 		 * If the text preceding the first subheading is longer than the recommended maximum length,
 		 * add 1 to the total number of too long texts.
 		 */
-		if ( isTextPrecedingFirstHLong ) {
+		if (  textBeforeFirstSubheadingLength > this._config.parameters.recommendedMaximumLength ) {
 			this._tooLongTextsNumber = this._tooLongTextsNumber + 1;
 		}
 
 		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
-		const calculatedResult = this.calculateResult( isTextPrecedingFirstHLong );
+		const calculatedResult = this.calculateResult( textBeforeFirstSubheadingLength );
 
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
@@ -201,21 +198,43 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
-	 * @param {boolean} isTextPrecedingFirstHLong   Whether the length of the text preceding the first subheading is longer
+	 * @param {number} textBeforeFirstSubheadingLength   Whether the length of the text preceding the first subheading is longer
 	 *                                              than the recommended maximum length.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( isTextPrecedingFirstHLong ) {
+	calculateResult( textBeforeFirstSubheadingLength ) {
 		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
-				if ( isTextPrecedingFirstHLong && this._tooLongTextsNumber < 2 ) {
+				if ( inRange( textBeforeFirstSubheadingLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ) &&
+					this._tooLongTextsNumber < 2 ) {
+					/*
+					 * Orange indicator. Returns this feedback if the text preceding the first subheading is long
+					 * and the total number of too long texts is less than 2.
+					 */
+					return {
+						score: this._config.scores.okSubheadings,
+						resultText: sprintf(
+							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+							__(
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s words and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
+								"wordpress-seo"
+							),
+							this._config.urlTitle,
+							"</a>",
+							this._config.urlCallToAction,
+							this._config.parameters.recommendedMaximumLength
+						),
+					};
+				}
+				if ( textBeforeFirstSubheadingLength > this._config.parameters.farTooMany && this._tooLongTextsNumber < 2 ) {
 					/*
 					 * Red indicator. Returns this feedback if the text preceding the first subheading is long
 					 * and the total number of too long texts is less than 2.
 					 */
 					return {
-						score: this._config.scores.badLongTextBeforeSubheadings,
+						score: this._config.scores.badSubheadings,
 						resultText: sprintf(
 							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 							__(
