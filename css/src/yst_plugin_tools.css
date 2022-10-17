@@ -572,6 +572,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .yoast-sidebar__product .product-image {
+	position: relative;
+	z-index: 2;
 	max-width: 75px;
 	max-height: 75px;
 	margin: -50px auto 16px;
@@ -627,6 +629,41 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-size: 20px;
 	line-height: 24px;
 }
+
+.yoast-sidebar__product .sidebar__sale_banner_container {
+	width: calc(100% + 48px);
+	margin-left: -24px;
+	overflow-x: hidden;
+	overflow-y: initial;
+	margin-top: -40px;
+}
+.yoast-sidebar__product .sidebar__sale_banner_container .sidebar__sale_banner {
+	background: #000;
+	width: calc(100% + 60px);
+	line-height: 36px;
+	margin-left: -30px;
+	transform: rotate(-5deg);
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: 0.5px;
+	text-align: center;
+	z-index: 1;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	box-shadow: 0 -1px 4px 0 #fff, 0 1px 4px 0 #fff, 0 -1px 0 0 #fff, 0 1px 0 0 #fff;
+
+}
+
+.yoast-sidebar__product .sidebar__sale_text {
+	text-align: center;
+	border-top: solid 1px #ffffff;
+	font-style: italic;
+}
+.yoast-sidebar__product .sidebar__sale_text p {
+	font-size: 12.5px;
+	margin: 12.5px 0;
+}
+
 
 .yoast-sidebar__section {
 	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
