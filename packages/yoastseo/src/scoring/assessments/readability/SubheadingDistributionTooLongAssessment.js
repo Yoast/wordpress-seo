@@ -69,11 +69,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 		}
 
 		if ( this._subheadingTextsLength.foundSubheadings.length > 0 ) {
-			this._subheadingTextsLength.foundSubheadings = this._subheadingTextsLength.foundSubheadings.sort(function (a, b) { 
-		} );
-		return b.countLength - a.countLength
+			this._subheadingTextsLength.foundSubheadings = this._subheadingTextsLength.foundSubheadings.sort(function (a, b) {
+				return b.countLength - a.countLength}
+			  );
 		}
-
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setIdentifier( this.identifier );
 
