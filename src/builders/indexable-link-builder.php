@@ -304,12 +304,14 @@ class Indexable_Link_Builder {
 
 		if ( $is_image && $model->target_post_id ) {
 			$file = \get_attached_file( $model->target_post_id );
-			if ( $file && \file_exists( $file ) ) {
+			if ( $file ) {
 				list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
 
 				$model->width  = $width;
 				$model->height = $height;
-				$model->size   = \filesize( $file );
+				if ( \file_exists( $file ) ) {
+					$model->size = \filesize( $file );
+				}
 			}
 			else {
 				$model->width  = 0;
