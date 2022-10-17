@@ -13,7 +13,6 @@ import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
-import { Slot } from "@wordpress/components";
 import { actions } from "@yoast/externals/redux";
 import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 
@@ -23,8 +22,10 @@ import SidebarFill from "../containers/SidebarFill";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import SidebarSlot from "../components/slots/SidebarSlot";
+import SlotWithDefault from "../components/slots/SlotWithDefault";
 import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
+import PostPublishZapierUpsell from "../components/PostPublishZapierUpsell";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
 import WincherPostPublish from "../containers/WincherPostPublish";
@@ -98,7 +99,6 @@ function registerFills( store ) {
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
-	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
@@ -133,14 +133,6 @@ function registerFills( store ) {
 			>
 				<PrePublish />
 			</PluginPrePublishPanel> }
-			{ isPremium && showZapierPanel && <PluginPrePublishPanel
-				className="yoast-seo-sidebar-panel"
-				title="Zapier"
-				initialOpen={ true }
-				icon={ <Fragment /> }
-			>
-				<Slot name="YoastZapierPrePublish" />
-			</PluginPrePublishPanel> }
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"
 				title={ __( "Yoast SEO", "wordpress-seo" ) }
@@ -148,6 +140,11 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
+				<SlotWithDefault
+					name="YoastZapierPostPublish"
+				>
+					<PostPublishZapierUpsell />
+				</SlotWithDefault>
 				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel

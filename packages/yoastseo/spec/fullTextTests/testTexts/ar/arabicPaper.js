@@ -6,7 +6,8 @@ const name = "arabicPaper";
 const paper = new Paper( content, {
 	keyword: "العناية بالنباتات",
 	synonyms: "",
-	description: "أنا أحب النباتات. العناية بالنباتات مفيدة للبيئة ومفيدة. يمكنك زراعة الخضار داخل منزلك طوال العام. نبتة واحدة تكفي لجعل المنزل أكثر جمالا, بل وأكثر جمالا إذا وضعت النباتات في أواني داخلية جميلة.",
+	description: "أنا أحب النباتات. العناية بالنباتات مفيدة للبيئة ومفيدة. يمكنك زراعة الخضار داخل منزلك طوال العام" +
+	". نبتة واحدة تكفي لجعل المنزل أكثر جمالا, بل وأكثر جمالا إذا وضعت النباتات في أواني داخلية جميلة.",
 	title: "أفضل النباتات للنمو داخل المنزل وكيفية العناية بالنباتات",
 	titleWidth: 450,
 	locale: "ar",
@@ -33,12 +34,15 @@ const expectedResults = {
 	metaDescriptionKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear in the meta description. Well done!",
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or " +
+			"synonym appear in the meta description. Well done!",
 	},
 	metaDescriptionLength: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description " +
+			"is over 156 characters. To ensure the entire description will be visible, " +
+			"<a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
 		isApplicable: false,
@@ -56,17 +60,21 @@ const expectedResults = {
 	externalLinks: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: No outbound links appear in " +
+			"this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: No internal links appear in " +
+			"this page, <a href='https://yoa.st/34a' target='_blank'>make sure to add some</a>!",
 	},
 	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. <a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the" +
+			" focus keyphrase appears in the SEO title, but not at the beginning." +
+			" <a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -89,12 +97,14 @@ const expectedResults = {
 	keyphraseDistribution: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain " +
+			"the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: You are not using any subheadings, although your text is rather long. <a href='https://yoa.st/34y' target='_blank'>Try and add some subheadings</a>.",
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: You are not using any subheadings, although your " +
+			"text is rather long. <a href='https://yoa.st/34y' target='_blank'>Try and add some subheadings</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
@@ -109,7 +119,8 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 23.5% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 23.5% of the sentences contain transition words, " +
+			"which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
@@ -124,7 +135,8 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
+			"That's great!",
 	},
 	imageKeyphrase: {
 		// This is not applicable to this paper since the text doesn't have any image in it.

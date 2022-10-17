@@ -140,6 +140,10 @@ Textfield.defaultProps = {
 	optionalAttributes: {},
 	multiline: false,
 	hasFocus: false,
+	value: null,
+	"class": null,
+	explanation: false,
+	autoComplete: null,
 };
 
 export default Textfield;

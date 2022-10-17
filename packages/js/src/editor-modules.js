@@ -3,6 +3,8 @@ import * as constants from "./analysis/constants";
 import getContentLocale from "./analysis/getContentLocale";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getL10nObject from "./analysis/getL10nObject";
+import isZapierConnected from "./analysis/isZapierConnected";
+import isZapierIntegrationActive from "./analysis/isZapierIntegrationActive";
 import * as refreshAnalysis from "./analysis/refreshAnalysis";
 import * as mapResults from "./components/contentAnalysis/mapResults";
 import HelpLink from "./components/HelpLink";
@@ -29,6 +31,7 @@ import * as replacementVariableHelpers from "./helpers/replacementVariableHelper
 import { update as updateAdminBar } from "./ui/adminBar";
 import { updateScore, createScoresInPublishBox, scrollToCollapsible } from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
+import LinkSuggestion from "./components/link-suggestion";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -36,6 +39,8 @@ window.yoast.editorModules = {
 		getL10nObject,
 		getContentLocale,
 		getIndicatorForScore,
+		isZapierConnected,
+		isZapierIntegrationActive,
 		constants,
 		refreshAnalysis,
 	},
@@ -64,6 +69,7 @@ window.yoast.editorModules = {
 			ImageSelectPortal,
 			ScoreIconPortal,
 		},
+		LinkSuggestion,
 	},
 	containers: {
 		EditorModal,

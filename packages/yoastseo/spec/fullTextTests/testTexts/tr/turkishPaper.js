@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Nektar, çiçeklerin ürettiği, şekerce zengin, böcek ve kuş benzeri tozlaşmaya yardımcı hayvanları kendine çeken salgıdır.",
 	title: "Nektar",
 	titleWidth: 450,
+	textTitle: "Nektar",
 	locale: "tr_TR",
 	permalink: "https://tr.wikipedia.org/wiki/Nektar",
 	slug: "Nektar",

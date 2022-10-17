@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const rowClassNameMap = {
 	variant: {
-		striped: "even:yst-bg-gray-50 odd:yst-bg-white",
+		striped: "even:yst-bg-slate-50 odd:yst-bg-white",
 		plain: "",
 	},
 };
@@ -53,7 +53,7 @@ Row.propTypes = {
  */
 const Header = ( { children, className = "", ...props } ) => (
 	<th
-		className={ classNames( "yst-px-6 yst-py-3 yst-text-left yst-text-xs yst-font-medium yst-text-gray-600 yst-bg-gray-50 yst-uppercase yst-tracking-wider", className ) }
+		className={ classNames( "yst-px-6 yst-py-3 yst-text-left yst-text-xs yst-font-medium yst-text-slate-600 yst-bg-slate-50 yst-uppercase yst-tracking-wider", className ) }
 		{ ...props }
 	>
 		{ children }
@@ -100,7 +100,7 @@ Body.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const Table = ( { children, className = "", ...props } ) => (
-	<table className={ classNames( "yst-min-w-full yst-divide-y yst-divide-gray-200", className ) } { ...props }>
+	<table className={ classNames( "yst-min-w-full yst-divide-y yst-divide-slate-200", className ) } { ...props }>
 		{ children }
 	</table>
 );

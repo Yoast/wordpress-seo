@@ -222,7 +222,7 @@ class Social_Profiles_Helper {
 	 * @return array An array with the setting that the non-valid url is about to update.
 	 */
 	protected function get_non_valid_url( $url, $url_setting ) {
-		if ( $this->options_helper->validate_social_url( $url ) ) {
+		if ( $this->options_helper->is_social_url_valid( $url ) ) {
 			return [];
 		}
 
@@ -241,7 +241,7 @@ class Social_Profiles_Helper {
 		$non_valid_url_array = [];
 
 		foreach ( $urls as $key => $url ) {
-			if ( ! $this->options_helper->validate_social_url( $url ) ) {
+			if ( ! $this->options_helper->is_social_url_valid( $url ) ) {
 				$non_valid_url_array[] = $urls_setting . '-' . $key;
 			}
 		}
@@ -258,7 +258,7 @@ class Social_Profiles_Helper {
 	 * @return array An array with the setting that the non-valid twitter value is about to update.
 	 */
 	protected function get_non_valid_twitter( $twitter_site, $twitter_setting ) {
-		if ( empty( $twitter_site ) || $this->options_helper->validate_twitter_id( $twitter_site, false ) ) {
+		if ( $this->options_helper->is_twitter_id_valid( $twitter_site, false ) ) {
 			return [];
 		}
 

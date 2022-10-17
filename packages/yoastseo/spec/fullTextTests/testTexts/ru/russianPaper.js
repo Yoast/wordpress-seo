@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Роти-буайя — блюдо индонезийской кухни, традиционный атрибут свадебного застолья в Джакарте и её окрестностях.",
 	title: "Roti buaya",
 	titleWidth: 450,
+	textTitle: "Roti buaya",
 	locale: "ru_RU",
 	permalink: "https://ru.wikipedia.org/wiki/Роти-буайя",
 	slug: "Роти-буайя",

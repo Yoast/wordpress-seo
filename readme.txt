@@ -245,6 +245,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.9 =
+Release Date: October 25th, 2022
+
+
+
+Enhancements:
+
+* Adds immediate keyphrase tracking after connecting to Wincher.
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when using the `wpseo_breadcrumb_links` filter in the wrong way on PHP 8.0+.
+* Fixes a bug where social or canonical URLs containing `@` would lead to encoding issues. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the buttons in the FAQ and in the How-To block would be hardly visible when using a dark theme.
+* Fixes a bug where the _previously used keyphrase_ assessment would also appear under the readability analysis tab when the cornerstone content toggle would be switched on.
+* Fixes a bug where the wrong canonical URL would be set on attachment pages.
+* Fixes a bug where the number of words would be counted incorrectly when using Cyrillic script.
+
+Other:
+
+* Adds taxonomy information to breadcrumbs of type "term" to be able to filter them better with the`wpseo_breadcrumb_links` filter. Props to [@svenvonarx](https://github.com/Yoast/wordpress-seo/pull/18391).
+* Adds a `wpseo_primary_category_admin_pages` filter to enable the use of the primary category in the post URL of additional admin pages besides the default ones. Props to [@ssvet](https://github.com/ssvet).
+* Reinstates the `wpseo_twitter_card_type` filter that was wrongly deprecated in 19.8.
+
 = 19.8 =
 Release Date: October 11th, 2022
 
@@ -266,48 +290,11 @@ Bugfixes:
 * Fixes a bug where robots meta tags would be unintentionally synchronized between pages in different languages when using multilingual plugins like WPML or Polylang.
 * Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
 * Fixes a bug where the sidebar issue counter would show a wrong number of issues, on the first page load after an issue was resolved.
-* Fixes a bug where Yoast SEO would conflict with Elementor, when Yoast Premium or Yoast News or Yoast Video is active, throwing console errors.
+* Fixes a bug where Yoast SEO would conflict with Elementor, when Yoast SEO Premium or Yoast News SEO or Yoast Video SEO is active, throwing console errors.
 
 Other:
 
 * Deprecates the `wpseo_twitter_card_type` filter.
-
-= 19.7.2 =
-Release Date: October 5th, 2022
-
-Other:
-
-* Removes the cURL minimal version check from the Site Health page, as it was causing issues.
-
-= 19.7.1 =
-Release Date: September 20th, 2022
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown in combination with certain plugins that change the standard login page URL.
-
-Other:
-
-* Changes the copy in the `robots.txt` comment.
-
-= 19.7 =
-Release Date: September 20th, 2022
-
-Yoast SEO 19.7 is out today! We’ve rolled out some general enhancements, bug fixes, and security improvements in this release. Go check it out! Read more about what's new in Yoast SEO 19.7 in [our release post in English](https://yoa.st/release-20-9-22) or [our release post in Spanish](https://yoa.st/release-20-9-22-spanish)!
-
-Enhancements:
-
-* Improves the handling of fatal errors in the front-end by preventing Yoast SEO to run in the login page, allowing users to access their dashboard.
-* Excludes empty custom post type sitemaps from `sitemap_index.xml`.
-* Introduces a new filter `wpseo_sitemap_post_type_first_links` that can be used to add links at the start of the first sitemap page for post types. Props to @jamalbou.
-
-Bugfixes:
-
-* Fixes a bug in the default editor where image elements would lead to repeated requests for that image source while editing content.
-
-Other:
-
-* Adds new disabled toggles to the Crawl settings tab in the General page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

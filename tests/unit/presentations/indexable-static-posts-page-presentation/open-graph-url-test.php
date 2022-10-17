@@ -42,6 +42,10 @@ class Open_Graph_URL_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/static-posts-page', $this->instance->generate_open_graph_url() );
 	}
 }

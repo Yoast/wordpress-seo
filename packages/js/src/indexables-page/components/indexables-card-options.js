@@ -16,9 +16,9 @@ export default function DotsMenu( { options } ) {
 				<Menu.Button
 					className={
 						classNames(
-							"yst-bg-white yst-rounded-full yst-flex yst-items-center yst-border-none yst-text-gray-400 yst-p-1",
-							"focus:yst-ring-primary-500 focus:yst-shadow-none focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-offset-white focus:yst-text-gray-500",
-							"hover:yst-shadow-none hover:yst-outline-none hover:yst-text-gray-500"
+							"yst-bg-white yst-rounded-full yst-flex yst-items-center yst-border-none yst-text-slate-400 yst-p-1",
+							"focus:yst-ring-primary-500 focus:yst-shadow-none focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-offset-white focus:yst-text-slate-500",
+							"hover:yst-shadow-none hover:yst-outline-none hover:yst-text-slate-500"
 						)
 					}
 				>
@@ -46,8 +46,8 @@ export default function DotsMenu( { options } ) {
 											type="button"
 											onClick={ option.action }
 											className={ classNames(
-												option.active ? "hover:yst-bg-gray-100 hover:yst-text-gray-900 " : "yst-opacity-50 ",
-												"yst-text-gray-700 yst-w-full yst-block yst-px-4 yst-py-2 yst-text-sm yst-text-left"
+												option.active ? "hover:yst-bg-slate-100 hover:yst-text-slate-900 " : "yst-opacity-50 ",
+												"yst-text-slate-700 yst-w-full yst-block yst-px-4 yst-py-2 yst-text-sm yst-text-left"
 											) }
 											disabled={ ! option.active }
 											{ ...option.menuItemData }

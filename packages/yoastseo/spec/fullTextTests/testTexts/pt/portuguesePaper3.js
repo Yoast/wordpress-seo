@@ -11,6 +11,7 @@ const paper = new Paper( content, {
 	description: "Para indivíduos de muitas culturas, a música está extremamente ligada à sua vida.",
 	title: "Música",
 	titleWidth: 450,
+	textTitle: "Música",
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/M%C3%BAsica",
 	slug: "Música",
