@@ -20,6 +20,12 @@ echo '<h3>' . esc_html( sprintf( __( 'Single %s settings', 'wordpress-seo' ), $w
 require __DIR__ . '/post_type/post-type.php';
 
 /**
+ * WARNING: This hook is intended for internal use only.
+ * Don't use it in your code as it will be removed shortly.
+ */
+do_action( 'Yoast\WP\SEO\admin_post_types_beforearchive_internal', $yform, $wpseo_post_type->name );
+
+/**
  * Allow adding custom fields to the admin meta page, just before the archive settings - Content Types tab.
  *
  * @deprecated 19.10 No replacement available.
