@@ -87,7 +87,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 
 		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_crawl_settings_tab' ] );
 		if ( ! $this->product_helper->is_premium() || ! $this->is_premium_upgraded() ) {
-			\add_action( 'wpseo_settings_tab_crawl_cleanup', [ $this, 'add_crawl_settings_tab_content' ] );
+			\add_action( 'wpseo_settings_tab_crawl_cleanup_internal', [ $this, 'add_crawl_settings_tab_content' ] );
 			\add_action( 'wpseo_settings_tab_crawl_cleanup_network', [ $this, 'add_crawl_settings_tab_content_network' ] );
 		}
 	}

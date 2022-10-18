@@ -33,12 +33,19 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	echo '</p>';
 
 	/**
+	 * WARNING: This hook is intended for internal use only.
+	 * Don't use it in your code as it will be removed shortly.
+	 */
+	do_action( 'wpseo_settings_tab_crawl_cleanup_internal', $yform );
+
+	/**
 	 * Fires when displaying the crawl cleanup tab.
 	 *
 	 * @deprecated 19.10 No replacement available.
 	 *
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
+
 	do_action_deprecated(
 		'wpseo_settings_tab_crawl_cleanup',
 		[ $yform ],
