@@ -58,7 +58,7 @@ class Social_Templates_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'Yoast\WP\SEO\admin_author_archives_meta_internal', [ $this, 'social_author_archives' ] );
-		\add_action( 'Yoast\WP\SEO\admin_date_archives_meta', [ $this, 'social_date_archives' ] );
+		\add_action( 'Yoast\WP\SEO\admin_date_archives_meta_internal', [ $this, 'social_date_archives' ] );
 		\add_action( 'Yoast\WP\SEO\admin_post_types_beforearchive_internal', [ $this, 'social_post_type' ], \PHP_INT_MAX, 2 );
 		\add_action( 'Yoast\WP\SEO\admin_post_types_archive_internal', [ $this, 'social_post_types_archive' ], 10, 2 );
 		\add_action( 'Yoast\WP\SEO\admin_taxonomies_meta_internal', [ $this, 'social_taxonomies' ], 10, 2 );
@@ -143,7 +143,7 @@ class Social_Templates_Integration implements Integration_Interface {
 		$identifier            = 'ptarchive-' . $post_type_name;
 		$page_type_recommended = $this->get_admin_recommended_replace_vars()->determine_for_archive( $post_type_name );
 		$page_type_specific    = $this->get_admin_editor_specific_replace_vars()->determine_for_archive( $post_type_name );
-
+		echo "BRAZLE BRAZLE";
 		$this->build_social_fields( $yform, $identifier, $page_type_recommended, $page_type_specific );
 	}
 
