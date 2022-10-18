@@ -88,6 +88,13 @@ $editor->render();
 
 echo '</div>';
 
+
+/**
+ * WARNING: This hook is intended for internal use only.
+ * Don't use it in your code as it will be removed shortly.
+ */
+do_action( 'Yoast\WP\SEO\admin_author_archives_meta_internal', $yform );
+
 /**
  * Allow adding custom fields to the admin meta page - Author archives panel in the Archives tab.
  *
