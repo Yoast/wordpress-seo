@@ -86,6 +86,7 @@ SchemaTabContainer.propTypes = {
 	schemaArticleTypeChange: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
 	editorContent: PropTypes.string.isRequired,
+	editorType: PropTypes.string.isRequired,
 };
 
 export default compose( [
@@ -97,6 +98,7 @@ export default compose( [
 			getArticleType,
 			getDefaultArticleType,
 			getEditorDataContent,
+			getEditorType,
 		} = select( "yoast-seo/editor" );
 
 		const { displaySchemaSettingsFooter: displayFooter, isNewsEnabled } = getPreferences();
@@ -109,6 +111,7 @@ export default compose( [
 			defaultArticleType: getDefaultArticleType(),
 			defaultPageType: getDefaultPageType(),
 			editorContent: getEditorDataContent(),
+			editorType: getEditorType(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

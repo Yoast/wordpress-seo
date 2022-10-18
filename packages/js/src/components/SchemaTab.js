@@ -215,7 +215,7 @@ const Content = ( props ) => {
 				selected={ props.schemaPageTypeSelected }
 				wrapperClassName={ props.schemaPageTypeSelected === "FAQPage" && ! props.hasFAQBlock ? "yoast-field-group yoast-schema-faq-alert-active" : "yoast-field-group" }
 			/>
-			{ props.schemaPageTypeSelected === "FAQPage" && ! props.hasFAQBlock && <Alert
+			{ props.schemaPageTypeSelected === "FAQPage" && ! props.hasFAQBlock && props.editorType === "blockEditor" && <Alert
 				type={ "warning" }
 				className="yoast-schema-faq-alert"
 			>
@@ -231,10 +231,26 @@ const Content = ( props ) => {
 				}
 			</Alert>
 			 }
+			{ props.schemaPageTypeSelected === "FAQPage" && ! props.hasFAQBlock && props.editorType !== "blockEditor" && <Alert
+				type={ "warning" }
+				className="yoast-schema-faq-alert"
+			>
+				{ addLinkToString(
+					sprintf(
+						/* translators: %1$s and %2$s are replaced by opening and closing <a> tags. */
+						__( "Setting the page type to FAQ Page will not have an effect on the generated schema when you are not using the WordPress Block editor. Please use the WordPress Block editor for this post or select another page type.", "wordpress-seo" ),
+						"<a>",
+						"</a>"
+					),
+					"https://yoa.st/add-faq-block"
+				)
+				}
+			</Alert>
+			}
 			{ props.showArticleTypeInput && <Select
 				id={ join( [ "yoast-schema-article-type", props.location ] ) }
 				options={ schemaArticleTypeOptions }
-				label={ __(  "Article type", "wordpress-seo" ) }
+				label={ __( "Article type", "wordpress-seo" ) }
 				onChange={ props.schemaArticleTypeChange }
 				selected={ props.schemaArticleTypeSelected }
 				onOptionFocus={ handleOptionChange }
@@ -267,6 +283,7 @@ Content.propTypes = {
 	location: PropTypes.string.isRequired,
 	isNewsEnabled: PropTypes.bool,
 	hasFAQBlock: PropTypes.bool.isRequired,
+	editorType: PropTypes.string.isRequired,
 };
 
 Content.defaultProps = {
@@ -315,6 +332,7 @@ SchemaTab.propTypes = {
 	loadSchemaPageData: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
 	hasFAQBlock: PropTypes.bool.isRequired,
+	editorType: PropTypes.string.isRequired,
 };
 
 SchemaTab.defaultProps = {
