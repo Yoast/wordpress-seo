@@ -322,14 +322,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string
 	 */
 	public function generate_company_alternate_name() {
-		/**
-		 * Filter: 'wpseo_schema_company_alternate_name' - Allows filtering the alternate company name
-		 *
-		 * @api string $company_alternate_name.
-		 */
-		$company_alternate_name = (string) \apply_filters( 'wpseo_schema_company_alternate_name', $this->options->get( 'company_alternate_name' ) );
-
-		return $company_alternate_name;
+		return (string) $this->options->get( 'company_alternate_name' );
 	}
 
 	/**
