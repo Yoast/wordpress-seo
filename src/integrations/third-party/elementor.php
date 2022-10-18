@@ -238,8 +238,8 @@ class Elementor implements Integration_Interface {
 
 		$post_id = \filter_input( \INPUT_POST, 'post_id', \FILTER_SANITIZE_NUMBER_INT );
 
-		if ( ! \current_user_can( 'manage_options' ) ) {
-			\wp_send_json_error( 'Unauthorized', 401 );
+		if ( ! \current_user_can( 'edit_post', $post_id ) ) {
+			\wp_send_json_error( 'Forbidden', 403 );
 		}
 
 		\check_ajax_referer( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
