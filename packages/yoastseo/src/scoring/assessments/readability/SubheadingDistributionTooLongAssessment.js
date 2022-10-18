@@ -39,8 +39,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 				goodSubheadings: 9,
 				okSubheadings: 6,
 				badSubheadings: 3,
-				badLongTextNoSubheadings: 2,
-				badLongTextBeforeSubheadings: 2,
+				longTextBeforeSubheadings: 3,
+				veryLongTextBeforeSubheadings: 6,
+
 			},
 			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
@@ -84,6 +85,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 		const textBeforeFirstSubheadingLength = this._subheadingTextsLength.textBeforeFirstSubheadingLength;
 		// Checks if the text preceding the first subheading is longer than the recommended maximum length.
 		const isTextPrecedingFirstHLong = textBeforeFirstSubheadingLength > this._config.parameters.recommendedMaximumLength;
+		// Checks if the text preceding the first subheading is much longer than the recommended maximum length.
+		const isTextPrecedingFirstHVeryLong = textBeforeFirstSubheadingLength > this._config.parameters.farTooMany;
 
 		this._tooLongTexts = this.getTooLongSubheadingTexts();
 
@@ -202,10 +205,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {boolean} isTextPrecedingFirstHLong   Whether the length of the text preceding the first subheading is longer
 	 *                                              than the recommended maximum length.
-	 *
+	 * @param {boolean} isTextPrecedingFirstHLong   Whether the length of the text preceding the first subheadings is much longer
+	 *                                              than the recommended maximum length
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( isTextPrecedingFirstHLong ) {
+	calculateResult( isTextPrecedingFirstHLong, isTextPrecedingFirstHVeryLong ) {
 		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
 				if ( isTextPrecedingFirstHLong && this._tooLongTextsNumber < 2 ) {
@@ -214,7 +218,28 @@ class SubheadingsDistributionTooLong extends Assessment {
 					 * and the total number of too long texts is less than 2.
 					 */
 					return {
-						score: this._config.scores.badLongTextBeforeSubheadings,
+						score: this._config.scores.longTextBeforeSubheadings,
+						resultText: sprintf(
+							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+							__(
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s words and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
+								"wordpress-seo"
+							),
+							this._config.urlTitle,
+							"</a>",
+							this._config.urlCallToAction,
+							this._config.parameters.recommendedMaximumLength
+						),
+					};
+				}
+				if ( isTextPrecedingFirstHVeryLong && this._tooLongTextsNumber < 2 ) {
+					/*
+					 * Orange indicator. Returns this feedback if the text preceding the first subheading is very long
+					 * and the total number of too long texts is less than 2.
+					 */
+					return {
+						score: this._config.scores.veryLongTextBeforeSubheadings,
 						resultText: sprintf(
 							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 							__(
