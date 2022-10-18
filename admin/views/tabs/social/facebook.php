@@ -58,6 +58,12 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 <?php
 
 /**
+ * WARNING: This hook is intended for internal use only.
+ * Don't use it in your code as it will be removed shortly.
+ */
+do_action( 'wpseo_admin_opengraph_section_internal' );
+
+/**
  * Admin OpenGraph section hook.
  *
  * @deprecated 19.10 No replacement available.
