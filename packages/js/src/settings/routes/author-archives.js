@@ -77,18 +77,16 @@ const AuthorArchives = () => {
 			description={ description }
 		>
 			<div className="yst-max-w-5xl">
-				<fieldset className="yst-min-width-0 yst-space-y-8">
-					<FormikFlippedToggleField
-						name={ "wpseo_titles.disable-author" }
-						data-id={ "input-wpseo_titles-disable-author" }
-						label={ label }
-						description={ sprintf(
-							/* translators: %1$s expands to the post type singular, e.g. Post. */
-							__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
-							singularLabel
-						) }
-					/>
-				</fieldset>
+				<FormikFlippedToggleField
+					name={ "wpseo_titles.disable-author" }
+					data-id={ "input-wpseo_titles-disable-author" }
+					label={ label }
+					description={ sprintf(
+						/* translators: %1$s expands to the post type singular, e.g. Post. */
+						__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
+						singularLabel
+					) }
+				/>
 				<hr className="yst-my-8" />
 				<div className="yst-relative">
 					<AnimateHeight

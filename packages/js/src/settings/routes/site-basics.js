@@ -102,7 +102,7 @@ const SiteBasics = () => {
 						{ infoAlertText }
 						{ ! canManageOptions && <>&nbsp;{ canNotManageOptionsAlertText }</> }
 					</Alert>
-					<fieldset className="yst-min-width-0 yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+					<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 						<Field
 							as={ TextField }
 							type="text"
@@ -121,7 +121,7 @@ const SiteBasics = () => {
 							description={ canManageOptions && taglineDescription }
 							readOnly={ ! canManageOptions }
 						/>
-					</fieldset>
+					</div>
 					<RadioGroup label={ __( "Title separator", "wordpress-seo" ) } variant="inline-block">
 						{ map( separators, ( { label, aria_label: ariaLabel }, value ) => (
 							<Field

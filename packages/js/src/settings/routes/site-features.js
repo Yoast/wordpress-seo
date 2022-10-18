@@ -112,8 +112,9 @@ const SiteFeatures = () => {
 		>
 			<div className="yst-max-w-6xl">
 				<fieldset className="yst-min-w-0">
+					<legend className="yst-sr-only">{ __( "Writing", "wordpress-seo" ) }</legend>
 					<div className="yst-max-w-screen-sm yst-mb-8">
-						<Title as="legend" size="2">
+						<Title as="h2" size="2">
 							{ __( "Writing", "wordpress-seo" ) }
 						</Title>
 					</div>
@@ -124,7 +125,7 @@ const SiteFeatures = () => {
 								alt={ __( "SEO analysis", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "SEO analysis", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "The SEO analysis offers suggestions to improve the SEO of your text.", "wordpress-seo" ) }</p>
@@ -146,7 +147,7 @@ const SiteFeatures = () => {
 								alt={ __( "Readability analysis", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Readability analysis", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "The readability analysis offers suggestions to improve the structure and style of your text.", "wordpress-seo" ) }</p>
@@ -173,7 +174,7 @@ const SiteFeatures = () => {
 								</div>
 							</CardHeader>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Inclusive language analysis", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy.", "wordpress-seo" ) }</p>
@@ -205,7 +206,7 @@ const SiteFeatures = () => {
 								alt={ __( "Insights", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Insights", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "Find relevant data about your content right in the Insights section in the Yoast SEO metabox. You’ll see what words you use most often and if they’re a match with your keywords!", "wordpress-seo" ) }</p>
@@ -225,8 +226,9 @@ const SiteFeatures = () => {
 				</fieldset>
 				<hr className="yst-my-8" />
 				<fieldset className="yst-min-w-0">
+					<legend className="yst-sr-only">{ __( "Site structure", "wordpress-seo" ) }</legend>
 					<div className="yst-max-w-screen-sm yst-mb-8">
-						<Title as="legend" size="2">
+						<Title as="h3" size="2">
 							{ __( "Site structure", "wordpress-seo" ) }
 						</Title>
 					</div>
@@ -237,7 +239,7 @@ const SiteFeatures = () => {
 								alt={ __( "Cornerstone content", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Cornerstone content", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "The cornerstone content feature lets you to mark and filter cornerstone content on your website.", "wordpress-seo" ) }</p>
@@ -259,7 +261,7 @@ const SiteFeatures = () => {
 								alt={ __( "Text link counter", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Text link counter", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "The text link counter helps you improve your site structure.", "wordpress-seo" ) }</p>
@@ -285,7 +287,7 @@ const SiteFeatures = () => {
 								</div>
 							</CardHeader>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Link suggestions", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "The link suggestions metabox contains a list of posts on your blog with similar content that might be interesting to link to.", "wordpress-seo" ) }</p>
@@ -315,6 +317,7 @@ const SiteFeatures = () => {
 				</fieldset>
 				<hr className="yst-my-8" />
 				<fieldset id="section-social-sharing" className="yst-min-w-0">
+					<legend className="yst-sr-only">{ __( "Social sharing", "wordpress-seo" ) }</legend>
 					<div className="yst-max-w-screen-sm yst-mb-8">
 						<Title as="legend" size="2" className="yst-mb-2">
 							{ __( "Social sharing", "wordpress-seo" ) }
@@ -330,7 +333,7 @@ const SiteFeatures = () => {
 								alt={ __( "Open Graph data", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Open Graph data", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
@@ -351,7 +354,7 @@ const SiteFeatures = () => {
 								alt={ __( "Twitter card data", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Twitter card data", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
@@ -372,7 +375,7 @@ const SiteFeatures = () => {
 								alt={ __( "Slack sharing", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Slack sharing", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack.", "wordpress-seo" ) }</p>
@@ -392,8 +395,9 @@ const SiteFeatures = () => {
 				</fieldset>
 				<hr className="yst-my-8" />
 				<fieldset className="yst-min-w-0">
+					<legend className="yst-sr-only">{ __( "Tools", "wordpress-seo" ) }</legend>
 					<div className="yst-max-w-screen-sm yst-mb-8">
-						<Title as="legend" size="2">
+						<Title as="h2" size="2">
 							{ __( "Tools", "wordpress-seo" ) }
 						</Title>
 					</div>
@@ -404,7 +408,7 @@ const SiteFeatures = () => {
 								alt={ __( "Admin bar menu", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "Admin bar menu", "wordpress-seo" ) }
 								</Title>
 								{ __( "The Yoast SEO admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.", "wordpress-seo" ) }
@@ -423,8 +427,9 @@ const SiteFeatures = () => {
 				</fieldset>
 				<hr className="yst-my-8" />
 				<fieldset className="yst-min-w-0">
+					<legend className="yst-sr-only">{ __( "APIs", "wordpress-seo" ) }</legend>
 					<div className="yst-max-w-screen-sm yst-mb-8">
-						<Title as="legend" size="2">
+						<Title as="h2" size="2">
 							{ __( "APIs", "wordpress-seo" ) }
 						</Title>
 					</div>
@@ -435,7 +440,7 @@ const SiteFeatures = () => {
 								alt={ __( "REST API endpoint", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "REST API endpoint", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ) }</p>
@@ -456,7 +461,7 @@ const SiteFeatures = () => {
 								alt={ __( "XML sitemaps", "wordpress-seo" ) }
 							/>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "XML sitemaps", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "Enable the XML sitemaps that Yoast SEO generates.", "wordpress-seo" ) }</p>
@@ -482,7 +487,7 @@ const SiteFeatures = () => {
 								</div>
 							</Card.Header>
 							<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-								<Title as="h4">
+								<Title as="h3">
 									{ __( "IndexNow", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
