@@ -64,7 +64,7 @@ $yform->toggle_switch(
 	 * Don't use it in your code as it will be removed shortly.
 	 */
 	// phpcs:ignore Yoast.NamingConventions.ValidHookName.MaxExceeded -- Added _internal suffix for clarity.
-	do_action( 'Yoast\WP\SEO\admin_date_archives_meta_internal' );
+	do_action( 'Yoast\WP\SEO\admin_date_archives_meta_internal', $yform );
 
 	/**
 	 * Allow adding custom fields to the admin meta page - Date archives panel in the Archives tab.
