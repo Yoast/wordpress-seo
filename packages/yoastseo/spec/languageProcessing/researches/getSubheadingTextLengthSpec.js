@@ -4,8 +4,6 @@ import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Res
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher.js";
 
 describe( "gets the length of text segments", function() {
-
-
 	it( "returns an array with text segments for a text with one subheading", function() {
 		const mockPaper = new Paper( "<h1>test</h1>one two three" );
 		const englishResearcher = new EnglishResearcher( mockPaper );
@@ -34,7 +32,9 @@ describe( "gets the length of text segments", function() {
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 0 ].text ).toBe( " two three" );
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 1 ].subheading ).toBe( "<h3>four</h3>" );
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 0 ].countLength ).toBe( 2 );
-		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 1 ].text ).toBe( "this is a text string with a number of words" );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 1 ].text ).toBe(
+			"this is a text string with a number of words"
+		);
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 1 ].countLength ).toBe( 10 );
 	} );
 
@@ -49,7 +49,9 @@ describe( "gets the length of text segments", function() {
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 0 ].text ).toBe( " two three" );
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 0 ].countLength ).toBe( 2 );
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 1 ].subheading ).toBe( "<h3>four</h3>" );
-		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 1 ].text ).toBe( "this is a text string with a number of words" );
+		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 1 ].text ).toBe(
+			"this is a text string with a number of words"
+		);
 		expect( foundSubheadingsTextLength( mockPaper, englishResearcher ).foundSubheadings[ 1 ].countLength ).toBe( 10 );
 	} );
 } );
@@ -96,7 +98,7 @@ describe( "gets the length of text segments expressed in characters " +
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher ).textBeforeFirstSubheadingLength ).toBe( 9 );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher ).foundSubheadings[ 0 ].subheading ).toBe( "<h2>犬</h2>" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher ).foundSubheadings[ 0 ].text ).toBe( "犬はかわいいです。" );
-		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher ).foundSubheadings[ 0 ].countLength ).toBe( 9 )
+		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher ).foundSubheadings[ 0 ].countLength ).toBe( 9 );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher ).foundSubheadings[ 1 ].subheading ).toBe( "<h3>子犬</h3>" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher ).foundSubheadings[ 1 ].text ).toBe( "子犬が特にかわいいです。" );
 		expect( foundSubheadingsTextLength( mockPaper, japaneseResearcher ).foundSubheadings[ 1 ].countLength ).toBe( 12 );
