@@ -143,7 +143,7 @@ class Social_Templates_Integration implements Integration_Interface {
 		$identifier            = 'ptarchive-' . $post_type_name;
 		$page_type_recommended = $this->get_admin_recommended_replace_vars()->determine_for_archive( $post_type_name );
 		$page_type_specific    = $this->get_admin_editor_specific_replace_vars()->determine_for_archive( $post_type_name );
-		echo "BRAZLE BRAZLE";
+
 		$this->build_social_fields( $yform, $identifier, $page_type_recommended, $page_type_specific );
 	}
 

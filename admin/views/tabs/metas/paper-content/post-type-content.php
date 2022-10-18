@@ -23,6 +23,7 @@ require __DIR__ . '/post_type/post-type.php';
  * WARNING: This hook is intended for internal use only.
  * Don't use it in your code as it will be removed shortly.
  */
+// phpcs:ignore Yoast.NamingConventions.ValidHookName.MaxExceeded -- Added _internal suffix for clarity.
 do_action( 'Yoast\WP\SEO\admin_post_types_beforearchive_internal', $yform, $wpseo_post_type->name );
 
 /**
@@ -101,6 +102,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	 * WARNING: This hook is intended for internal use only.
 	 * Don't use it in your code as it will be removed shortly.
 	 */
+	// phpcs:ignore Yoast.NamingConventions.ValidHookName.MaxExceeded -- Added _internal suffix for clarity.
 	do_action( 'Yoast\WP\SEO\admin_post_types_archive_internal', $yform, $wpseo_post_type->name );
 
 	/**
