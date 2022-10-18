@@ -60,6 +60,12 @@ if ( $tool_page === '' ) {
 	}
 
 	/**
+	 * WARNING: This hook is intended for internal use only.
+	 * Don't use it in your code as it will be removed shortly.
+	 */
+	do_action( 'wpseo_tools_overview_list_items_internal' );
+
+	/**
 	 * Action: 'wpseo_tools_overview_list_items' - Hook to add additional tools to the overview.
 	 *
 	 * @deprecated 19.10 No replacement available.
