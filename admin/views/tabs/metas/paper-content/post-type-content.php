@@ -98,6 +98,12 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	}
 
 	/**
+	 * WARNING: This hook is intended for internal use only.
+	 * Don't use it in your code as it will be removed shortly.
+	 */
+	do_action( 'Yoast\WP\SEO\admin_post_types_archive_internal', $yform, $wpseo_post_type->name );
+
+	/**
 	 * Allow adding custom fields to the admin meta page at the end of the archive settings for a post type - Content Types tab.
 	 *
 	 * @deprecated 19.10 No replacement available.
