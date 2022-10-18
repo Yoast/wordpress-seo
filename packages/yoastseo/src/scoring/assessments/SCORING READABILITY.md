@@ -17,6 +17,7 @@
 | Orange     |6                 |Subheading followed by 300-350 words (cornerstone: 250-300)      | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
 | Orange        |6		            |No subheadings in text beginning with more than 300 words (cornerstone: 250-300)    | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
 | Green      |9                 |No subheadings in a text with 300 or less words.                 | **Subheading distribution**: You are not using any subheadings, but your text is short enough and probably doesn't need them.|
+| Green      |9                 |Subheading(s) followed and preceded by less than 300 words.                 | **Subheading distribution**:  Great job!|
 
 ## 2) Paragraph length
 **What it does**: Checks whether the paragraphs exceed the recommended maximum length
