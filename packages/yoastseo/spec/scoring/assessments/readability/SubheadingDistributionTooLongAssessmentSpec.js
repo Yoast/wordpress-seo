@@ -498,27 +498,45 @@ describe( "A test for scoring too long text fragments without a subheading for l
 	} );*/
 } );
 
-describe.skip( "A test for marking too long text segments not separated by a subheading", function() {
+describe( "A test for marking too long text segments not separated by a subheading", function() {
 	it( "returns markers for too long text segments", function() {
 		const paper = new Paper( longText + subheading + veryLongText );
-		const textFragment = Factory.buildMockResearcher( [ { text: "This is a too long fragment. It contains 330 words.",
-			countLength: 330 }, { text: "This is another too long fragment. It contains 360 words.", countLength: 360 } ] );
+		const textFragment = Factory.buildMockResearcher( {
+			foundSubheadings: [
+				{
+					text: "This is a too long fragment. It contains 330 words.",
+					countLength: 360,
+					index: 110,
+					subheading: "<h2>First subheading</h2>",
+				},
+				{
+					text: "This is another too long fragment. It contains 360 words.",
+					countLength: 330,
+					index: 1000,
+					subheading: "<h2>Second subheading</h2>",
+				},
+			],
+			textBeforeFirstSubheadingLength: 100 }
+		);
 		const expected = [
 			new Mark( {
-				original: "This is another too long fragment. It contains 360 words.",
-				marked: "<yoastmark class='yoast-text-mark'>This is another too long fragment. It contains 360 words.</yoastmark>",
+				original: "First subheading",
+				marked: "<yoastmark class='yoast-text-mark'>First subheading</yoastmark>",
 			} ),
 			new Mark( {
-				original: "This is a too long fragment. It contains 330 words.",
-				marked: "<yoastmark class='yoast-text-mark'>This is a too long fragment. It contains 330 words.</yoastmark>",
+				original: "Second subheading",
+				marked: "<yoastmark class='yoast-text-mark'>Second subheading</yoastmark>",
 			} ),
 		];
-		expect( subheadingDistributionTooLong.getResult( paper, textFragment )._marker ).toEqual( expected );
+		subheadingDistributionTooLong.getResult( paper, textFragment );
+		expect( subheadingDistributionTooLong.getMarks() ).toEqual( expected );
 	} );
 
 	it( "returns no markers if no text segments is too long", function() {
 		const paper = new Paper( shortText );
-		const textFragment = Factory.buildMockResearcher( [ { text: "This is a short segment.", countLength: 200 } ] );
+		const textFragment = Factory.buildMockResearcher(  {
+			foundSubheadings: [],
+			textBeforeFirstSubheadingLength: 0 } );
 		expect( subheadingDistributionTooLong.getResult( paper, textFragment )._hasMarks ).toEqual( false );
 	} );
 } );
