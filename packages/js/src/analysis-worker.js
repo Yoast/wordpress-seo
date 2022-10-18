@@ -14,6 +14,10 @@ function loadDependencies( dependencies ) {
 			continue;
 		}
 
+		if ( dependency === "wp-inert-polyfill" ) {
+			continue;
+		}
+
 		self.importScripts( dependencies[ dependency ] );
 
 		if ( dependency === "lodash" ) {
