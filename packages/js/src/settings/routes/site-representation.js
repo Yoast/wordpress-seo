@@ -100,6 +100,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "Facebook", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
@@ -108,6 +109,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "Instagram", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
@@ -116,6 +118,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "LinkedIn", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://linkedin.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
@@ -124,6 +127,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "MySpace", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://myspace.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
@@ -132,6 +136,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "Pinterest", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://pinterest.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
@@ -140,6 +145,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "SoundCloud", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://soundcloud.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
@@ -148,6 +154,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "Tumblr", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://tumblr.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikValueChangeWithErrorField
 				as={ TextField }
@@ -157,6 +164,7 @@ const PersonSocialProfiles = () => {
 				placeholder={ canEditUser && __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
 				transformValue={ transformTwitterUrl }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
@@ -165,6 +173,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "YouTube", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://youtube.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 			<FormikWithErrorField
 				as={ TextField }
@@ -173,6 +182,7 @@ const PersonSocialProfiles = () => {
 				label={ __( "Wikipedia", "wordpress-seo" ) }
 				placeholder={ canEditUser && __( "E.g. https://wikipedia.com/yoast", "wordpress-seo" ) }
 				readOnly={ ! canEditUser }
+				disabled={ ! companyOrPersonId }
 			/>
 		</FieldsetLayout>
 	);
@@ -434,6 +444,7 @@ const SiteRepresentation = () => {
 								mediaUrlName="wpseo_titles.person_logo"
 								mediaIdName="wpseo_titles.person_logo_id"
 								fallbackMediaId={ siteLogoId }
+								disabled={ ! companyOrPersonId }
 							/>
 						</FieldsetLayout>
 						<hr className="yst-my-8" />
