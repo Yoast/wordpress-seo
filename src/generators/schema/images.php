@@ -42,13 +42,14 @@ class Images extends Abstract_Schema_Piece {
 	protected function add_primary_image( $graph ) {
 		if ( $this->context->main_image_id ) {
 			// The main image is set within the featured image.
-			$schema_id        = $this->helpers->image->get_attachment_image_url( $this->context->main_image_id, 'full' );
-			$generated_schema = $this->helpers->schema->image->generate_from_attachment_id( $schema_id, $this->context->main_image_id );
-			$graph[]          = $generated_schema;
+			$schema_id = $this->helpers->image->get_attachment_image_url( $this->context->main_image_id, 'full' );
+			$image_obj = $this->helpers->image->create_image_object_from_source( $schema_id );
+			$this->maybe_add_image_schema( $graph, $image_obj );
 		}
 		elseif ( $this->context->main_image_url ) {
 			// The main image is extracted from the post content.
-			$graph[] = $this->helpers->schema->image->generate_from_url( $this->context->main_image_url, $this->context->main_image_url );
+			$image_obj = $this->helpers->image->create_image_object_from_source( $this->context->main_image_url );
+			$this->maybe_add_image_schema( $graph, $image_obj );
 		}
 
 		return $graph;
@@ -67,7 +68,7 @@ class Images extends Abstract_Schema_Piece {
 			return $graph;
 		}
 
-		return $this->add_image_schema( $graph, $image );
+		return $this->_add_image_schema( $graph, $image );
 	}
 
 	/**
@@ -78,7 +79,7 @@ class Images extends Abstract_Schema_Piece {
 	 *
 	 * @return array $graph The new graph with added image content.
 	 */
-	protected function add_image_schema( $graph, $image ) {
+	private function _add_image_schema( $graph, $image ) {
 		if ( $image->has_id() ) {
 			if ( $image->has_size() ) {
 				$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id(), '', false, [ $image->get_width(), $image->get_height() ] );
