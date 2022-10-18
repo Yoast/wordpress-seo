@@ -39,7 +39,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 				goodSubheadings: 9,
 				okSubheadings: 6,
 				badSubheadings: 3,
-				badLongTextNoSubheadings: 2,
+				longTextBeforeSubheadings: 3,
+				veryLongTextBeforeSubheadings: 6,
+
 			},
 			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
@@ -82,6 +84,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		// Retrieve the length of the text before the first subheading.
 		const textBeforeFirstSubheadingLength = this._subheadingTextsLength.textBeforeFirstSubheadingLength;
+		// Checks if the text preceding the first subheading is longer than the recommended maximum length.
+		const isTextPrecedingFirstHLong = textBeforeFirstSubheadingLength > this._config.parameters.recommendedMaximumLength;
+		// Checks if the text preceding the first subheading is much longer than the recommended maximum length.
+		const isTextPrecedingFirstHVeryLong = textBeforeFirstSubheadingLength > this._config.parameters.farTooMany;
 
 		this._tooLongTexts = this.getTooLongSubheadingTexts();
 
@@ -91,12 +97,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 		 * If the text preceding the first subheading is longer than the recommended maximum length,
 		 * add 1 to the total number of too long texts.
 		 */
-		if (  textBeforeFirstSubheadingLength > this._config.parameters.recommendedMaximumLength ) {
+		if ( isTextPrecedingFirstHLong ) {
 			this._tooLongTextsNumber = this._tooLongTextsNumber + 1;
 		}
 
 		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
-		const calculatedResult = this.calculateResult( textBeforeFirstSubheadingLength );
+		const calculatedResult = this.calculateResult( isTextPrecedingFirstHLong );
 
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
@@ -198,22 +204,22 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
-	 * @param {number} textBeforeFirstSubheadingLength   Whether the length of the text preceding the first subheading is longer
+	 * @param {boolean} isTextPrecedingFirstHLong   Whether the length of the text preceding the first subheading is longer
 	 *                                              than the recommended maximum length.
-	 *
+	 * @param {boolean} isTextPrecedingFirstHLong   Whether the length of the text preceding the first subheadings is much longer
+	 *                                              than the recommended maximum length
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( textBeforeFirstSubheadingLength ) {
+	calculateResult( isTextPrecedingFirstHLong, isTextPrecedingFirstHVeryLong ) {
 		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
-				if ( inRange( textBeforeFirstSubheadingLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ) &&
-					this._tooLongTextsNumber < 2 ) {
+				if ( isTextPrecedingFirstHLong && this._tooLongTextsNumber < 2 ) {
 					/*
-					 * Orange indicator. Returns this feedback if the text preceding the first subheading is long
+					 * Red indicator. Returns this feedback if the text preceding the first subheading is long
 					 * and the total number of too long texts is less than 2.
 					 */
 					return {
-						score: this._config.scores.okSubheadings,
+						score: this._config.scores.longTextBeforeSubheadings,
 						resultText: sprintf(
 							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 							__(
@@ -228,13 +234,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 						),
 					};
 				}
-				if ( textBeforeFirstSubheadingLength > this._config.parameters.farTooMany && this._tooLongTextsNumber < 2 ) {
+				if ( isTextPrecedingFirstHVeryLong && this._tooLongTextsNumber < 2 ) {
 					/*
-					 * Red indicator. Returns this feedback if the text preceding the first subheading is long
+					 * Orange indicator. Returns this feedback if the text preceding the first subheading is very long
 					 * and the total number of too long texts is less than 2.
 					 */
 					return {
-						score: this._config.scores.badSubheadings,
+						score: this._config.scores.veryLongTextBeforeSubheadings,
 						resultText: sprintf(
 							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 							__(
