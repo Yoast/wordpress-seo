@@ -2,6 +2,7 @@
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import { buildQueryString } from "@wordpress/url";
+import { map, trim } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
 const usersAdapter = createEntityAdapter();
@@ -18,10 +19,7 @@ export function* fetchUsers( queryData ) {
 		// Trigger the fetch users control flow.
 		const users = yield{
 			type: FETCH_USERS_ACTION_NAME,
-			payload: {
-				context: "edit",
-				...queryData,
-			},
+			payload: { ...queryData },
 		};
 		return { type: `${ FETCH_USERS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, payload: users };
 	} catch ( error ) {
@@ -37,12 +35,28 @@ export const createInitialUsersState = () => usersAdapter.getInitialState( {
 	error: "",
 } );
 
+/**
+ * @param {Object} user The user.
+ * @returns {Object} The prepared and predictable user.
+ */
+const prepareUser = user => ( {
+	id: user?.id,
+	name: trim( user?.name ) || user?.slug,
+	slug: user?.slug,
+} );
+
 const usersSlice = createSlice( {
 	name: "users",
 	initialState: createInitialUsersState(),
 	reducers: {
-		addOneUser: usersAdapter.addOne,
-		addManyUsers: usersAdapter.addMany,
+		addOneUser: {
+			reducer: usersAdapter.addOne,
+			prepare: user => ( { payload: prepareUser( user ) } ),
+		},
+		addManyUsers: {
+			reducer: usersAdapter.addMany,
+			prepare: users => ( { payload: map( users, prepareUser ) } ),
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${ FETCH_USERS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.request }`, ( state ) => {
@@ -50,7 +64,7 @@ const usersSlice = createSlice( {
 		} );
 		builder.addCase( `${ FETCH_USERS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.success }`, ( state, action ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			usersAdapter.addMany( state, action.payload );
+			usersAdapter.addMany( state, map( action.payload, prepareUser ) );
 		} );
 		builder.addCase( `${ FETCH_USERS_ACTION_NAME }/${ ASYNC_ACTION_NAMES.error }`, ( state, action ) => {
 			state.status = ASYNC_ACTION_STATUS.error;

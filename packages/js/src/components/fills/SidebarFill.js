@@ -21,6 +21,8 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
 import KeywordUpsell from "../KeywordUpsell";
+import LinkSuggestions from "../link-suggestions";
+import getL10nObject from "../../analysis/getL10nObject";
 
 /* eslint-disable complexity */
 /**
@@ -36,6 +38,7 @@ import KeywordUpsell from "../KeywordUpsell";
  */
 export default function SidebarFill( { settings } ) {
 	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
+	const isPremium = getL10nObject().isPremium;
 
 	return (
 		<Fragment>
@@ -51,6 +54,15 @@ export default function SidebarFill( { settings } ) {
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
+				{ ! isPremium &&
+					<SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 24 }>
+						<SidebarCollapsible
+							title={ __( "Internal linking suggestions", "wordpress-seo" ) }
+						>
+							<LinkSuggestions location="sidebar" />
+						</SidebarCollapsible>
+					</SidebarItem>
+				}
 				<SidebarItem key="google-preview" renderPriority={ 25 }>
 					<GooglePreviewModal />
 				</SidebarItem>

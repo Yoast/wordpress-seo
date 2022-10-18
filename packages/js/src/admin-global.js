@@ -367,6 +367,36 @@ import jQuery from "jquery";
 		} );
 	}
 
+	/**
+	 * Resolves potential mismatches in the notification counts between the sidebar and the adminbar.
+	 *
+	 * @returns {void}
+	 */
+	function resolveNotificationMismatch() {
+		const adminbarCount = jQuery( ".yoast-issue-counter .yoast-issues-count" ).first();
+		const sidebarCounts = jQuery( "#toplevel_page_wpseo_dashboard .plugin-count" );
+
+		if ( adminbarCount.text() === sidebarCounts.first().text() ) {
+			return;
+		}
+
+		const sidebarClass = jQuery( "#toplevel_page_wpseo_dashboard .update-plugins" );
+		const adminbarScreenReader = jQuery( ".yoast-issue-counter .screen-reader-text" ).first();
+		const sidebarScreenReader = jQuery( "#toplevel_page_wpseo_dashboard .update-plugins .screen-reader-text" );
+
+		if ( adminbarCount.length ) {
+			sidebarCounts.text( adminbarCount.text() );
+			sidebarClass.removeClass().addClass( "update-plugins count-" + adminbarCount.text() );
+			sidebarScreenReader.text( adminbarScreenReader.text() );
+
+			return;
+		}
+
+		sidebarCounts.text( "0" );
+		sidebarClass.removeClass().addClass( "update-plugins count-0" );
+		sidebarScreenReader.remove();
+	}
+
 	/*
 	 * When the viewport size changes, check again the scrollable tables width.
 	 * About the events: technically `wp-window-resized` is triggered on the
@@ -409,5 +439,6 @@ import jQuery from "jquery";
 		hookDismissRestoreButtons();
 		setPremiumIndicatorColor();
 		createScrollableTables();
+		resolveNotificationMismatch();
 	} );
 }( jQuery ) );

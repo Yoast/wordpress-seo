@@ -48,7 +48,6 @@ function getDifficultyFeedback( difficulty ) {
 function getCallToAction( difficulty ) {
 	switch ( difficulty ) {
 		case DIFFICULTY.FAIRLY_DIFFICULT:
-			return __( "Try to make shorter sentences to improve readability", "wordpress-seo" );
 		case DIFFICULTY.DIFFICULT:
 		case DIFFICULTY.VERY_DIFFICULT:
 			return __( "Try to make shorter sentences, using less difficult words to improve readability", "wordpress-seo" );

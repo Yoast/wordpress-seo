@@ -139,4 +139,14 @@ legend.schema-how-to-duration-legend {
   margin: 8px 0;
 }
 
+body.is-dark-theme button.components-button.schema-faq-section-button,
+body.is-dark-theme button.components-button.schema-faq-add-question,
+body.is-dark-theme button.components-button.schema-how-to-duration-button,
+body.is-dark-theme button.components-button.schema-how-to-step-button,
+body.is-dark-theme button.components-button.schema-how-to-add-step,
+body.is-dark-theme .schema-how-to-step-mover button.components-button,
+body.is-dark-theme .schema-faq-section-mover button.components-button {
+  color: #e8eaed;
+}
+
 /*# sourceMappingURL=structured-data-blocks.css.map */

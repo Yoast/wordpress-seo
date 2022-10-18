@@ -284,7 +284,7 @@ Section.propTypes = {
 export default function IntegrationsGrid() {
 	return (
 		<div className="yst-h-full yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-shadow">
-			<header className="yst-border-b yst-border-gray-200">
+			<header className="yst-border-b yst-border-slate-200">
 				<div className="yst-max-w-screen-sm yst-p-8">
 					<Title
 						as="h1"

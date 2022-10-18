@@ -16,27 +16,25 @@ const FieldsetLayout = ( {
 	children,
 	title,
 	description = null,
-} ) => {
-	return (
-		/**
-		 * Force min-width of 0px on fieldset element to prevent scaling based on min-content-size prop.
-		 * @see https://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content
-		 */
-		<Component id={ id } className="yst-min-w-0 lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
-			<div className="lg:yst-col-span-1">
-				<div className="max-w-screen-sm">
-					<Title as={ Component === "fieldset" ? "legend" : "h4" } size="4">
-						{ title }
-					</Title>
-					{ description && <p className="yst-mt-2">{ description }</p> }
-				</div>
+} ) => (
+	/**
+	 * Force min-width of 0px on fieldset element to prevent scaling based on min-content-size prop.
+	 * @see https://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content
+	 */
+	<Component id={ id } className="yst-min-w-0 lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
+		<div className="lg:yst-col-span-1">
+			<div className="yst-max-w-screen-sm">
+				<Title as={ Component === "fieldset" ? "legend" : "h3" } size="4">
+					{ title }
+				</Title>
+				{ description && <p className="yst-mt-2">{ description }</p> }
 			</div>
-			<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
-				{ children }
-			</div>
-		</Component>
-	);
-};
+		</div>
+		<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+			{ children }
+		</div>
+	</Component>
+);
 
 FieldsetLayout.propTypes = {
 	id: PropTypes.string,

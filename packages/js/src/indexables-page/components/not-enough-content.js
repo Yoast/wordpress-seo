@@ -90,7 +90,7 @@ const NotEnoughContent = () => {
 			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-flow-row yst-gap-6"
 		>
 			<IndexablesPageCard title={ __( "Start writing content!", "wordpress-seo" ) }>
-				<div className="yst-mb-6 yst-text-gray-500">
+				<div className="yst-mb-6 yst-text-slate-500">
 					<p>{ __( "You need to have more content on your site to make your website rank well in the search engines.", "wordpress-seo" ) }</p><br />
 					<p>
 						{ __( "There are three major elements you need to consider when writing good content for SEO:", "wordpress-seo" ) }
@@ -109,12 +109,12 @@ const NotEnoughContent = () => {
 				</Link>
 			</IndexablesPageCard>
 			<IndexablesPageCard title={ __( "Yoast's recommended reading list", "wordpress-seo" ) }>
-				<ul className="yst-divide-y yst-divide-gray-200">
+				<ul className="yst-divide-y yst-divide-slate-200">
 					{ readingList.map(
 						( article, index ) => {
 							return <li
 								key={ `article-${ index }-li` }
-								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-h-14 " }
+								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-slate-700 yst-flex yst-flex-row yst-items-center yst-h-14 " }
 							>
 								<Checkbox
 									id={ `article-${ index }-checkbox` }
@@ -128,8 +128,8 @@ const NotEnoughContent = () => {
 								/>
 								{ ( readingListState[ index ] )
 									? <Fragment>
-										<span className="yst-font-medium yst-text-gray-400 yst-text-sm yst-line-through yst-mr-2">{ article.title }</span>
-										<ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px] yst-text-gray-400" />
+										<span className="yst-font-medium yst-text-slate-400 yst-text-sm yst-line-through yst-mr-2">{ article.title }</span>
+										<ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px] yst-text-slate-400" />
 									</Fragment>
 									: <Link href={ article.link } className="yst-min-w-0 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit hover:yst-text-indigo-500">
 										<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ article.title }</span><ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px]" />
