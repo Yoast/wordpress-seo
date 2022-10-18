@@ -14,6 +14,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 /**
+ * WARNING: This hook is intended for internal use only.
+ * Don't use it in your code as it will be removed shortly.
+ */
+do_action( 'wpseo_settings_tab_site_analysis_internal', $yform );
+
+/**
  * Fires when displaying the site wide analysis tab.
  *
  * @deprecated 19.10 No replacement available.
