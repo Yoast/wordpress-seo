@@ -16,9 +16,9 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 * @return string The sidebar HTML.
 	 */
 	public function present() {
-		$time       = time();
-		$time_start = gmmktime( 10, 00, 00, 11, 22, 2022 );
-		$time_end   = gmmktime( 10, 00, 00, 11, 29, 2022 );
+		$time       = \time();
+		$time_start = \gmmktime( 10, 00, 00, 11, 22, 2022 );
+		$time_end   = \gmmktime( 10, 00, 00, 11, 29, 2022 );
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
@@ -49,7 +49,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
 							<div class="sidebar__sale_banner_container">
 								<div class="sidebar__sale_banner">
-									<?php esc_html_e( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' ); ?>
+									<?php \esc_html_e( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' ); ?>
 								</div>
 							</div>
 						<?php endif; ?>
