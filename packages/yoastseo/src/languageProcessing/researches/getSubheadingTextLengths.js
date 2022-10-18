@@ -30,15 +30,27 @@ export default function( paper, researcher ) {
 	} );
 
 	let textBeforeFirstSubheadingLength = 0;
+	let textBeforeFirstSubheading = "";
 	if ( foundSubheadings.length > 0 ) {
 		// Find first subheading.
 		const firstSubheading =  foundSubheadings[ 0 ];
 		// Retrieve text preceding first subheading.
-		const textBeforeFirstSubheading = text.slice( 0, firstSubheading.index );
+		textBeforeFirstSubheading = text.slice( 0, firstSubheading.index );
 		textBeforeFirstSubheadingLength = customCountLength
 			? customCountLength( textBeforeFirstSubheading )
 			: countWords( textBeforeFirstSubheading );
 	}
 
-	return { foundSubheadings: foundSubheadings, textBeforeFirstSubheadingLength: textBeforeFirstSubheadingLength };
+	// Check if there is a text before the first subheading.
+	if ( textBeforeFirstSubheadingLength > 0 && textBeforeFirstSubheading !== "" ) {
+		// Also add the text before the first subheading to the array.
+		foundSubheadings.unshift( {
+			// Assign an empty string for the subheading for text that comes before the first subheading.
+			subheading: "",
+			text: textBeforeFirstSubheading,
+			countLength: textBeforeFirstSubheadingLength,
+		} );
+	}
+
+	return foundSubheadings;
 }
