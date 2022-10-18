@@ -93,6 +93,7 @@ echo '</div>';
  * WARNING: This hook is intended for internal use only.
  * Don't use it in your code as it will be removed shortly.
  */
+// phpcs:ignore Yoast.NamingConventions.ValidHookName.MaxExceeded -- Added _internal suffix for clarity.
 do_action( 'Yoast\WP\SEO\admin_author_archives_meta_internal', $yform );
 
 /**
