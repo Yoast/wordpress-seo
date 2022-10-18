@@ -31,6 +31,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	public function register_hooks() {
 		\add_filter( 'wpseo_schema_graph', [ $this, 'filter_graph' ], 11, 2 );
 		\add_filter( 'wpseo_schema_author', [ $this, 'filter_author_graph' ], 11, 4 );
+		\add_filter( 'wpseo_meta_author', [ $this, 'filter_author_meta' ], 11, 2 );
 	}
 
 	/**
@@ -157,5 +158,30 @@ class CoAuthors_Plus implements Integration_Interface {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Filters the author meta tag
+	 *
+	 * @param string                 $author_name  The article author's display name. Return empty to disable the tag.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @return string
+	 */
+	public function filter_author_meta( $author_name, $presentation ) {
+		$author_objects = \get_coauthors( $presentation->context->post->id );
+
+		// Fallback in case of error.
+		if ( empty( $author_objects ) ) {
+			return $author_name;
+		}
+
+		$output = '';
+		foreach ( $author_objects as $i => $author ) {
+			$output .= $author->display_name;
+			if ( $i <= ( count( $author_objects ) - 2 ) ) {
+				$output .= ', ';
+			}
+		}
+		return $output;
 	}
 }
