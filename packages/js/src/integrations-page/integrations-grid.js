@@ -16,11 +16,22 @@ import { AcfIntegration } from "./acf-integration";
 import { PluginIntegration } from "./plugin-integration";
 import { ToggleableIntegration } from "./toggleable-integration";
 import { AlgoliaIntegration } from "./algolia-integration";
+import { createInterpolateElement } from "@wordpress/element";
 
 const SEOTools = [
 	{
 		name: "Semrush",
-		claim: __( "Do keyword research without leaving your post", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: Semrush; 3: bold close tag. */
+				__( "Use %1$s%2$s%3$s to do keyword research - without leaving your post", "wordpress-seo" ),
+				"<strong>",
+				"Semrush",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-semrush",
 		logoLink: "http://yoa.st/semrush-prices-wordpress",
 		type: "toggleable",
@@ -37,7 +48,17 @@ const SEOTools = [
 	},
 	{
 		name: "Wincher",
-		claim: __( "Track your rankings through time", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: Wincher; 3: bold close tag. */
+				__( "Track your rankings through time with %1$s%2$s%3$s", "wordpress-seo" ),
+				"<strong>",
+				"Wincher",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-wincher",
 		logoLink: "https://yoa.st/integrations-about-wincher",
 		type: "toggleable",
@@ -54,7 +75,17 @@ const SEOTools = [
 	},
 	{
 		name: "WordProof",
-		claim: __( "Make your terms & privacy pages more trustworthy", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: WordProof; 3: bold close tag. */
+				__( "Make your terms & privacy pages more trustworthy with %1$s%2$s%3$s", "wordpress-seo" ),
+				"<strong>",
+				"WordProof",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-wordproof",
 		logoLink: "https://yoa.st/integrations-about-wordproof",
 		type: "toggleable",
@@ -72,7 +103,17 @@ const SEOTools = [
 	},
 	{
 		name: "Zapier",
-		claim: __( "Upgrade your workflow and automate tasks", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: Zapier; 3: bold close tag. */
+				__( "Upgrade your workflow and automate tasks with %1$s%2$s%3$s", "wordpress-seo" ),
+				"<strong>",
+				"Zapier",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-zapier",
 		logoLink: "https://yoa.st/integrations-about-zapier",
 		type: "toggleable",
@@ -93,11 +134,17 @@ const SEOTools = [
 const pluginIntegrations = [
 	{
 		name: "Elementor",
-		claim: sprintf(
-			/* translators: 1: Yoast SEO, 2: Elementor */
-			__( "Get %1$s tools and functionality in %2$s", "wordpress-seo" ),
-			"Yoast SEO",
-			"Elementor"
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: Yoast SEO; 2: bold open tag; 3: Elementor; 4: bold close tag. */
+				__( "Get %1$s tools and functionality in %2$s%3$s%4$s", "wordpress-seo" ),
+				"Yoast SEO",
+				"<strong>",
+				"Elementor",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-elementor",
 		logoLink: "https://yoa.st/integrations-about-elementor",
@@ -111,11 +158,17 @@ const pluginIntegrations = [
 	},
 	{
 		name: "Jetpack",
-		claim: sprintf(
-			/* translators: 1: Jetpack, 2: Yoast */
-			__( "Get the most out of %1$s and %2$s, together", "wordpress-seo" ),
-			"Jetpack",
-			"Yoast"
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: Jetpack; 3: bold close tag; 4: Yoast. */
+				__( "Get the most out of %1$s%2$s%3$s and %4$s, together", "wordpress-seo" ),
+				"<strong>",
+				"Jetpack",
+				"</strong>",
+				"Yoast"
+			), {
+				strong: <strong />,
+			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-jetpack",
 		logoLink: "https://yoa.st/integrations-about-jetpack",
@@ -129,7 +182,17 @@ const pluginIntegrations = [
 	},
 	{
 		name: "Algolia",
-		claim: __( "Improve internal search results", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: Algolia; 3: bold close tag. */
+				__( "Improve your internal search results with %1$s%2$s%3$s", "wordpress-seo" ),
+				"<strong>",
+				"Algolia",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-algolia",
 		logoLink: "https://yoa.st/integrations-about-algolia",
 		type: "algolia",
@@ -148,10 +211,16 @@ const pluginIntegrations = [
 	},
 	{
 		name: "WooCommerce",
-		claim: sprintf(
-			/* translators: 1: WooCommerce */
-			__( "Upgrade your %s SEO", "wordpress-seo" ),
-			"WooCommerce"
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: WooCommerce; 3: bold close tag. */
+				__( "Upgrade your %1$s%2$s%3$s SEO", "wordpress-seo" ),
+				"<strong>",
+				"WooCommerce",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-woocommerce",
 		logoLink: "https://yoa.st/integrations-about-woocommerce",
@@ -166,7 +235,17 @@ const pluginIntegrations = [
 	},
 	{
 		name: "ACF",
-		claim: __( "Integrate your custom fields and SEO data", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: ACF; 3: bold close tag. */
+				__( "Integrate your custom fields and SEO data from %1$s%2$s%3$s", "wordpress-seo" ),
+				"<strong>",
+				"ACF",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-acf",
 		logoLink: "https://yoa.st/integrations-about-acf",
 		type: "acf",
