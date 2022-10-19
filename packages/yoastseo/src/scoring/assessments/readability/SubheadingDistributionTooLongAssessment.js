@@ -1,5 +1,5 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { filter, map, merge, isEmpty } from "lodash-es";
+import { filter, map, merge } from "lodash-es";
 import marker from "../../../markers/addMark";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
@@ -50,6 +50,31 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
+	 * Checks if the text before the first subheading is long or very long.
+	 *
+	 * @param {array} foundSubheadings  An array contains found subheading objects.
+	 *
+	 * @returns {{isVeryLong: boolean, isLong: boolean}}    An object containing an information
+	 *                                                      whether the text before the first subheading is long or very long.
+	 */
+	checkTextBeforeFirstSubheadingLength( foundSubheadings ) {
+		let textBeforeFirstSubheading = { isLong: false, isVeryLong: false };
+		// There is a text if the subheading string of the first object in foundSubheadings is empty and the text is not empty.
+		if ( foundSubheadings.length > 0 && foundSubheadings[ 0 ].subheading === "" && foundSubheadings[ 0 ].text !== "" ) {
+			// Retrieve the length of the text before the first subheading.
+			const textBeforeFirstSubheadingLength = foundSubheadings[ 0 ].countLength;
+			textBeforeFirstSubheading = {
+				// Checks if the text preceding the first subheading is longer than the recommended maximum length.
+				isLong: inRange( textBeforeFirstSubheadingLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ),
+				// Checks if the text preceding the first subheading is much longer than the recommended maximum length.
+				isVeryLong: textBeforeFirstSubheadingLength > this._config.parameters.farTooMany,
+			};
+		}
+
+		return textBeforeFirstSubheading;
+	}
+
+	/**
 	 * Runs the getSubheadingTextLength research and checks scores based on length.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
@@ -67,19 +92,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
-		// First check if there is text before the first subheading.
-		let textBeforeFirstSubheading = {};
-		// There is a text if the subheading string of the first object in `this._subheadingTextsLength` is empty and the text is not empty.
-		if ( this._subheadingTextsLength[ 0 ].subheading === "" && this._subheadingTextsLength[ 0 ].text !== "" ) {
-			// Retrieve the length of the text before the first subheading.
-			const textBeforeFirstSubheadingLength = this._subheadingTextsLength[ 0 ].countLength;
-			textBeforeFirstSubheading = {
-				// Checks if the text preceding the first subheading is longer than the recommended maximum length.
-				isLong: inRange( textBeforeFirstSubheadingLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ),
-				// Checks if the text preceding the first subheading is much longer than the recommended maximum length.
-				isVeryLong: textBeforeFirstSubheadingLength > this._config.parameters.farTooMany,
-			};
-		}
+		// First check if there is text before the first subheading and check it's length.
+		// It's important that this check is done before we sort the `this._subheadingTextsLength` array.
+		const textBeforeFirstSubheading = this.checkTextBeforeFirstSubheadingLength( this._subheadingTextsLength );
 
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
 			return b.countLength - a.countLength;
@@ -102,10 +117,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-
-		if ( calculatedResult.score > 2 && calculatedResult.score < 7 ) {
-			assessmentResult.setHasMarks( true );
-		}
+		assessmentResult.setHasMarks( calculatedResult.hasMarks );
 
 		return assessmentResult;
 	}
@@ -191,7 +203,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Array} The array containing subheading texts that are too long.
 	 */
 	getTooLongSubheadingTexts() {
-		return filter( this._subheadingTextsLength.foundSubheadings, function( subheading ) {
+		return filter( this._subheadingTextsLength, function( subheading ) {
 			return subheading.countLength > this._config.parameters.recommendedMaximumLength;
 		}.bind( this ) );
 	}
@@ -213,6 +225,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						 */
 					return {
 						score: this._config.scores.okSubheadings,
+						hasMarks: false,
 						resultText: sprintf(
 							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 							__(
@@ -234,6 +247,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						 */
 					return {
 						score: this._config.scores.badSubheadings,
+						hasMarks: false,
 						resultText: sprintf(
 							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 							__(
@@ -254,6 +268,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					// Green indicator.
 					return {
 						score: this._config.scores.goodSubheadings,
+						hasMarks: false,
 						resultText: sprintf(
 							// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 							__(
@@ -270,6 +285,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					// Orange indicator.
 					return {
 						score: this._config.scores.okSubheadings,
+						hasMarks: true,
 						resultText: sprintf(
 							/*
 							 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
@@ -297,6 +313,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				// Red indicator.
 				return {
 					score: this._config.scores.badSubheadings,
+					hasMarks: true,
 					resultText: sprintf(
 						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 						not separated by subheadings, %4$d expands to the recommended number of words or characters following a
@@ -321,6 +338,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			// Red indicator, use '2' so we can differentiate in external analysis.
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
+				hasMarks: false,
 				resultText: sprintf(
 					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
@@ -338,6 +356,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			// Green indicator.
 			return {
 				score: this._config.scores.goodSubheadings,
+				hasMarks: false,
 				resultText: sprintf(
 					/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
@@ -352,6 +371,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		// Green indicator.
 		return {
 			score: this._config.scores.goodShortTextNoSubheadings,
+			hasMarks: false,
 			resultText: sprintf(
 				/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 				__(
