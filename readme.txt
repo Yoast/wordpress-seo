@@ -252,6 +252,7 @@ Release Date: October 25th, 2022
 
 
 
+
 Enhancements:
 
 * Adds immediate keyphrase tracking after connecting to Wincher.
@@ -266,6 +267,7 @@ Bugfixes:
 * Fixes a bug where the buttons in the FAQ and in the How-To block would be hardly visible when using a dark theme.
 * Fixes a bug where the number of words would be counted incorrectly when using Cyrillic script.
 * Fixes a bug where the _previously used keyphrase_ assessment would also appear under the readability analysis tab when the cornerstone content toggle would be switched on.
+* Fixes a bug where the SEO optimization routine would give an error when an image file of an image linked in a post could not be retrieved.
 * Fixes a bug where the wrong canonical URL would be set on attachment pages.
 
 Other:
