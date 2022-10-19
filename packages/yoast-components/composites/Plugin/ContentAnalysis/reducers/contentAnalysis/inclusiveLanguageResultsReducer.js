@@ -84,7 +84,7 @@ export function setOverallInclusiveLanguageScore( state, action ) {
  * @param {Object} action The current action received.
  * @returns {Object} The updated inclusive language results object.
  */
-export default function inclusiveLanguageResultsReducer( state = initialState, action ) {
+export function inclusiveLanguageResultsReducer( state = initialState, action ) {
 	switch ( action.type ) {
 		case SET_INCLUSIVE_LANGUAGE_RESULTS:
 			return setInclusiveLanguageResults( state, action );
