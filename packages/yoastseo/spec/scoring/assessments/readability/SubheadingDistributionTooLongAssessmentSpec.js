@@ -703,6 +703,7 @@ describe( "A test for marking too long text segments not separated by a subheadi
 		];
 		subheadingDistributionTooLong.getResult( paper, textFragment );
 		expect( subheadingDistributionTooLong.getMarks() ).toEqual( expected );
+		expect( subheadingDistributionTooLong.getResult( paper, textFragment )._hasMarks ).toEqual( true );
 	} );
 
 	it( "returns markers for too long text segments: where the text before first subheading is long", function() {
@@ -729,10 +730,6 @@ describe( "A test for marking too long text segments not separated by a subheadi
 		);
 		const expected = [
 			new Mark( {
-				original: "",
-				marked: "<yoastmark class='yoast-text-mark'></yoastmark>",
-			} ),
-			new Mark( {
 				original: "First subheading",
 				marked: "<yoastmark class='yoast-text-mark'>First subheading</yoastmark>",
 			} ),
@@ -743,6 +740,7 @@ describe( "A test for marking too long text segments not separated by a subheadi
 		];
 		subheadingDistributionTooLong.getResult( paper, textFragment );
 		expect( subheadingDistributionTooLong.getMarks() ).toEqual( expected );
+		expect( subheadingDistributionTooLong.getResult( paper, textFragment )._hasMarks ).toEqual( true );
 	} );
 
 	it( "returns no markers if no text segments is too long and no subheadings are found in the text", function() {
