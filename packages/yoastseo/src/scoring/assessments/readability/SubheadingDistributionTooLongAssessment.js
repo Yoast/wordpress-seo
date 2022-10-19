@@ -64,9 +64,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			// Retrieve the length of the text before the first subheading.
 			const textBeforeFirstSubheadingLength = foundSubheadings[ 0 ].countLength;
 			textBeforeFirstSubheading = {
-				// Checks if the text preceding the first subheading is longer than the recommended maximum length.
 				isLong: inRange( textBeforeFirstSubheadingLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ),
-				// Checks if the text preceding the first subheading is much longer than the recommended maximum length.
 				isVeryLong: textBeforeFirstSubheadingLength > this._config.parameters.farTooMany,
 			};
 		}
