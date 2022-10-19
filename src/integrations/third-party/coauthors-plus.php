@@ -31,6 +31,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	public function register_hooks() {
 		\add_filter( 'wpseo_schema_graph', [ $this, 'filter_graph' ], 11, 2 );
 		\add_filter( 'wpseo_schema_author', [ $this, 'filter_author_graph' ], 11, 4 );
+		\add_filter( 'wpseo_schema_profilepage', [ $this, 'filter_schema_profilepage' ], 11, 4 );
 		\add_filter( 'wpseo_meta_author', [ $this, 'filter_author_meta' ], 11, 2 );
 	}
 
@@ -55,6 +56,36 @@ class CoAuthors_Plus implements Integration_Interface {
 	 */
 	public function __construct( Helpers_Surface $helpers ) {
 		$this->helpers = $helpers;
+	}
+
+	/**
+	 * Filters the graph output of authors archive for guest authors.
+	 *
+	 * @param array                   $data                   The schema graph.
+	 * @param Meta_Tags_Context       $context                The context object.
+	 * @param Abstract_Schema_Piece   $graph_piece_generator  The graph piece generator.
+	 * @param Abstract_Schema_Piece[] $graph_piece_generators The graph piece generators.
+	 *
+	 * @return array The (potentially altered) schema graph.
+	 */
+	public function filter_schema_profilepage( $data, $context, $graph_piece_generator, $graph_piece_generators ) {
+
+		if ( ! is_author() ) {
+			return $data;
+		}
+
+		$user = get_queried_object();
+
+		if ( empty( $user->type ) || $user->type !== 'guest-author' ) {
+			return $data;
+		}
+
+		// Fix author URL.
+		$author_url                                     = get_author_posts_url( $user->ID );
+		$graph_piece_generator->context->canonical      = $author_url;
+		$graph_piece_generator->context->main_schema_id = $author_url;
+
+		return $graph_piece_generator->generate();
 	}
 
 	/**
