@@ -1,7 +1,9 @@
 # Overview of the Readability assessments scoring criteria
 
 ## 1) Subheading distribution
-**What it does**: Checks whether long texts are divided by subheadings
+**What it does**: Checks whether long texts are divided by subheadings.
+
+**When applies**: When the text has more than 50 characters.
 
 **Name in code**: SubheadingsDistributionTooLong
 
@@ -11,13 +13,13 @@
 
 | Bullet 	 | Score	| Criterion | Feeedback |
 |------------|------------------	|--------------------- |---------------------
-| Red        |2	|A text with more than 300 words (cornerstone: 250) and no subheading is present | **Subheading distribution**: You are not using any subheadings, although your text is rather long. Try and add some subheadings. |
-| Red        |3	| There is subheading(s) in the text and it is followed and preceded (if applicable) by more than 350 words (cornerstone: 300). | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
-| Red        |3	| There is subheading(s) in the text in which the first one is preceded by a text longer than 350 words (cornerstone: 300). And the texts following the subheading(s) is less than 300 words (cornerstone: 250)  | **Subheading distribution**: The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.|
-| Orange     |6 |Subheading followed by 300-350 words (cornerstone: 250-300) | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
-| Orange     |6	|There is subheading(s) in the text in which the first one is preceded by a text between 300-350 words (cornerstone: 250-300). And the texts following the subheading(s) is less than 300 words (cornerstone: 250)      | **Subheading distribution**: The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.|
-| Green      |9 |A text with 300 or less words and no subheading is present | **Subheading distribution**: You are not using any subheadings, but your text is short enough and probably doesn't need them.|
-| Green      |9 | There is subheading(s) in the text and it is followed and preceded (if applicable) by less than 300 words (cornerstone: 250). | **Subheading distribution**:  Great job!|
+| Red        |2	| **Default**: A text with more than 300 words (cornerstone: 250) and no subheading is present. **Japanese**: A text with more than 600 characters (cornerstone: 500) and no subheading is present. | **Subheading distribution**: You are not using any subheadings, although your text is rather long. Try and add some subheadings. |
+| Red        |3	| **Default**: There is subheading(s) in the text and it is followed and preceded (if applicable) by more than 350 words (cornerstone: 300). **Japanese**: There is subheading(s) in the text and it is followed and preceded (if applicable) by more than 700 characters (cornerstone: 600).| **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
+| Red        |3	| **Default**: There is subheading(s) in the text in which the first one is preceded by a text longer than 350 words (cornerstone: 300). And the texts following the subheading(s) is less than 300 words (cornerstone: 250). **Japanese**: There is subheading(s) in the text in which the first one is preceded by a text longer than 700 characters (cornerstone: 600). And the texts following the subheading(s) is less than 600 characters (cornerstone: 500).  | **Subheading distribution**: The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.|
+| Orange     |6 | **Default**: Subheading followed by 300-350 words (cornerstone: 250-300). **Japanese**: Subheading followed by 600-700 characters (cornerstone: 500-600) | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
+| Orange     |6	| **Default**: There is subheading(s) in the text in which the first one is preceded by a text between 300-350 words (cornerstone: 250-300). And the texts following the subheading(s) is less than 300 words (cornerstone: 250). **Japanese**: There is subheading(s) in the text in which the first one is preceded by a text between 600-700 characters (cornerstone: 500-600). And the texts following the subheading(s) is less than 600 characters (cornerstone: 500).      | **Subheading distribution**: The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.|
+| Green      |9 | **Default**: A text with 300 or less words and no subheading is present. **Japanese**: A text with 600 or less characters and no subheading is present. | **Subheading distribution**: You are not using any subheadings, but your text is short enough and probably doesn't need them.|
+| Green      |9 | **Default**: There is subheading(s) in the text and it is followed and preceded (if applicable) by less than 300 words (cornerstone: 250). **Japanese**: There is subheading(s) in the text and it is followed and preceded (if applicable) by less than 600 characters (cornerstone: 500). | **Subheading distribution**:  Great job!|
 
 ## 2) Paragraph length
 **What it does**: Checks whether the paragraphs exceed the recommended maximum length
