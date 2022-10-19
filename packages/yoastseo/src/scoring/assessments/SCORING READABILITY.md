@@ -11,13 +11,15 @@
 
 | Bullet 	 | Score	| Criterion | Feeedback |
 |------------|------------------	|--------------------- |---------------------
-| Red        |2		            |No subheadings in a text with more than 300 words (cornerstone: 250).   	          | **Subheading distribution**: You are not using any subheadings, although your text is rather long. Try and add some subheadings. |
-| Red        |3		            |Subheading followed by more than 350 words (cornerstone: 300)    | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
-| Red        |3		            |No subheadings in a text beginning with more than 350 words (cornerstone: 300)    | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
-| Orange     |6                 |Subheading followed by 300-350 words (cornerstone: 250-300)      | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
-| Orange        |6		            |No subheadings in text beginning with more than 300 words (cornerstone: 250-300)    | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
-| Green      |9                 |No subheadings in a text with 300 or less words.                 | **Subheading distribution**: You are not using any subheadings, but your text is short enough and probably doesn't need them.|
-| Green      |9                 |Subheading(s) followed and preceded by less than 300 words.                 | **Subheading distribution**:  Great job!|
+| Red        |2	|A text with more than 300 words (cornerstone: 250) and no subheading is present 	          | **Subheading distribution**: You are not using any subheadings, although your text is rather long. Try and add some subheadings. |
+| Red        |3	| There is subheading(s) in the text and it is followed and preceded (if applicable) by more than 350 words (cornerstone: 300).   | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
+| Red        |3	| There is subheading(s) in the text in which the first one is preceded by a text longer than 350 words (cornerstone: 300). And the texts following the subheading(s) is less than 300 words (cornerstone: 250)  | **Subheading distribution**: The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.
+|
+| Orange     |6 |Subheading followed by 300-350 words (cornerstone: 250-300)      | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
+| Orange     |6	|There is subheading(s) in the text in which the first one is preceded by a text between 300-350 words (cornerstone: 250-300). And the texts following the subheading(s) is less than 300 words (cornerstone: 250)      | **Subheading distribution**: The beginning of your text is longer than X words and is not separated by any subheadings. Add subheadings to improve readability.
+|
+| Green      |9 |A text with 300 or less words and no subheading is present                 | **Subheading distribution**: You are not using any subheadings, but your text is short enough and probably doesn't need them.|
+| Green      |9 | There is subheading(s) in the text and it is followed and preceded (if applicable) by less than 300 words (cornerstone: 250). | **Subheading distribution**:  Great job!|
 
 ## 2) Paragraph length
 **What it does**: Checks whether the paragraphs exceed the recommended maximum length
