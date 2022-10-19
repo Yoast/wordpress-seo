@@ -63,8 +63,8 @@ class WPSEO_Taxonomy_Metabox {
 		$this->taxonomy          = $taxonomy;
 		$this->is_social_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
-		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
+		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
 	}
 

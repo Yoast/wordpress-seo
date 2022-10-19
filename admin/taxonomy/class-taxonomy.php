@@ -53,8 +53,8 @@ class WPSEO_Taxonomy {
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
-		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$this->analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
 		$this->analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
 	}
 

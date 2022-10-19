@@ -7,9 +7,9 @@
 
 /**
  * Represents the inclusive language analysis.
- *
  */
 class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysis {
+
 	/**
 	 * Whether this analysis is enabled.
 	 *

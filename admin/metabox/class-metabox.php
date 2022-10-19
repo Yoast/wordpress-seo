@@ -100,8 +100,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new Input_Helper()
 		);
 
-		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
+		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
 		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
 	}
 
