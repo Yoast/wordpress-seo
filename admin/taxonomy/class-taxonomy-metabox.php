@@ -46,6 +46,13 @@ class WPSEO_Taxonomy_Metabox {
 	protected $readability_analysis;
 
 	/**
+	 * Helper to determine whether or not the inclusive language analysis is enabled.
+	 *
+	 * @var WPSEO_Metabox_Analysis_Inclusive_Language
+	 */
+	protected $inclusive_language_analysis;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param string   $taxonomy The taxonomy.
@@ -58,6 +65,7 @@ class WPSEO_Taxonomy_Metabox {
 
 		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
+		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
 	}
 
 	/**
@@ -138,6 +146,10 @@ class WPSEO_Taxonomy_Metabox {
 
 		if ( $this->readability_analysis->is_enabled() ) {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();
+		}
+
+		if ( $this->inclusive_language_analysis->is_enabled() ) {
+			$tabs[] = new WPSEO_Metabox_Section_Inclusive_Language();
 		}
 
 		if ( $this->is_social_enabled ) {
