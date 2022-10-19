@@ -13,6 +13,7 @@ import japaneseConfig from "../../../../src/languageProcessing/languages/ja/conf
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
 
 const shortText = "a ".repeat( 200 );
+const fairlyLongText = "a ".repeat( 260 );
 const longText = "a ".repeat( 330 );
 const veryLongText = "a ".repeat( 360 );
 const shortTextJapanese = "熱".repeat( 599 );
@@ -24,8 +25,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	it( "Scores a short text (<300 words), which does not have subheadings.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText ),
-			Factory.buildMockResearcher( { foundSubheadings: [],
-				textBeforeFirstSubheadingLength: 200 } )
+			Factory.buildMockResearcher( [] )
 		);
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
@@ -35,14 +35,13 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	it( "Scores a short text (<300 words), which has subheadings.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( "a " + subheading + shortText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			Factory.buildMockResearcher(  [
 				{ subheading: subheading,
 					text: shortText,
 					index: 2,
 					countLength: 202,
 				},
-			],
-			textBeforeFirstSubheadingLength: 1 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
@@ -51,8 +50,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	it( "Scores a long text (>300 words), which does not have subheadings.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [],
-				textBeforeFirstSubheadingLength: 330 } )
+			Factory.buildMockResearcher( [] )
 		);
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
@@ -63,14 +61,17 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText + subheading + shortText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: shortText,
+					countLength: 200,
+				},
 				{ subheading: subheading,
 					text: shortText,
 					index: 200,
 					countLength: 200,
 				},
-			],
-			textBeforeFirstSubheadingLength: 200 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
@@ -80,7 +81,11 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		"which is between 300 and 350 words long.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText + subheading + longText + subheading + shortText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: longText,
+					countLength: 200,
+				},
 				{ subheading: subheading,
 					text: longText,
 					index: 200,
@@ -91,8 +96,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 530,
 					countLength: 200,
 				},
-			],
-			textBeforeFirstSubheadingLength: 200 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
@@ -104,7 +108,11 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		"which are between 300 and 350 words long.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText + subheading + longText + subheading + longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: longText,
+					countLength: 200,
+				},
 				{ subheading: subheading,
 					text: longText,
 					index: 200,
@@ -115,8 +123,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 530,
 					countLength: 330,
 				},
-			],
-			textBeforeFirstSubheadingLength: 200 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
@@ -128,7 +135,11 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		"which is above 350 words long.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( shortText + subheading + veryLongText + subheading + shortText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: veryLongText,
+					countLength: 200,
+				},
 				{ subheading: subheading,
 					text: veryLongText,
 					index: 200,
@@ -139,8 +150,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 562,
 					countLength: 200,
 				},
-			],
-			textBeforeFirstSubheadingLength: 200 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
@@ -151,7 +161,11 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	it( "Scores a long text (>300 words), which has subheadings and some sections of the text are above 350 words long.", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
 			new Paper( veryLongText + subheading + veryLongText + subheading + longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: shortText,
+					countLength: 330,
+				},
 				{ subheading: subheading,
 					text: veryLongText,
 					index: 200,
@@ -162,20 +176,23 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 530,
 					countLength: 330,
 				},
-			],
-			textBeforeFirstSubheadingLength: 200 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
+			"3 sections of your text are longer than 300 words and are not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a text with subheadings: When the text before the first subheading is between 300-350," +
 		" and no other texts that come after a subheading is long", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
-			new Paper( veryLongText + subheading + veryLongText + subheading + longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			new Paper( longText + subheading + shortText + subheading + shortText ),
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: longText,
+					countLength: 310,
+				},
 				{ subheading: subheading,
 					text: shortText,
 					index: 330,
@@ -186,8 +203,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 532,
 					countLength: 200,
 				},
-			],
-			textBeforeFirstSubheadingLength: 330 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
@@ -207,11 +223,15 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			cornerstoneContent: true,
 		} );
 		const result = assessment.getResult(
-			new Paper( veryLongText + subheading + veryLongText + subheading + longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			new Paper( fairlyLongText + subheading + shortText + subheading + shortText ),
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: fairlyLongText,
+					countLength: 260,
+				},
 				{ subheading: subheading,
 					text: shortText,
-					index: 330,
+					index: 110,
 					countLength: 200,
 				},
 				{ subheading: subheading,
@@ -219,20 +239,23 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 532,
 					countLength: 200,
 				},
-			],
-			textBeforeFirstSubheadingLength: 270 } )
+			] )
 		);
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"The beginning of your text is longer than 300 words and is not separated by any subheadings." +
+			"The beginning of your text is longer than 250 words and is not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability.</a>" );
 	} );
 
 	it( "Scores a text with subheadings: When the text before the first subheading is more than 350," +
 		" and no other texts that come after a subheading is long", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
-			new Paper( veryLongText + subheading + veryLongText + subheading + longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			new Paper( veryLongText + subheading + shortText + subheading + shortText ),
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: veryLongText,
+					countLength: 380,
+				},
 				{ subheading: subheading,
 					text: shortText,
 					index: 330,
@@ -243,8 +266,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 532,
 					countLength: 200,
 				},
-			],
-			textBeforeFirstSubheadingLength: 380 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
@@ -264,8 +286,12 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			cornerstoneContent: true,
 		} );
 		const result = assessment.getResult(
-			new Paper( veryLongText + subheading + veryLongText + subheading + longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			new Paper( longText + subheading + shortText + subheading + shortText ),
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: longText,
+					countLength: 340,
+				},
 				{ subheading: subheading,
 					text: shortText,
 					index: 330,
@@ -276,22 +302,25 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 532,
 					countLength: 200,
 				},
-			],
-			textBeforeFirstSubheadingLength: 340 } )
+			] )
 		);
 		expect( result.getScore() ).toBe( 3 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"The beginning of your text is longer than 300 words and is not separated by any subheadings." +
+			"The beginning of your text is longer than 250 words and is not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability.</a>" );
 	} );
 
 	it( "Scores a text with subheadings: When the text before the first subheading is more than 300 words" +
 		" and there are other long texts that come after a subheading", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
-			new Paper( veryLongText + subheading + veryLongText + subheading + longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			new Paper( veryLongText + subheading + veryLongText + subheading + shortText ),
+			Factory.buildMockResearcher(  [
+				{ subheading: "",
+					text: veryLongText,
+					countLength: 380,
+				},
 				{ subheading: subheading,
-					text: shortText,
+					text: veryLongText,
 					index: 330,
 					countLength: 400,
 				},
@@ -300,8 +329,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 532,
 					countLength: 250,
 				},
-			],
-			textBeforeFirstSubheadingLength: 380 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
@@ -312,8 +340,12 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	it( "Scores a text with subheadings: When the text before the first subheading is less than 300 words" +
 		" and there are other long texts that come after a subheading", function() {
 		const assessment = subheadingDistributionTooLong.getResult(
-			new Paper( veryLongText + subheading + veryLongText + subheading + longText ),
-			Factory.buildMockResearcher( { foundSubheadings: [
+			new Paper( shortText + subheading + veryLongText + subheading + veryLongText ),
+			Factory.buildMockResearcher( [
+				{ subheading: "",
+					text: shortText,
+					countLength: 200,
+				},
 				{ subheading: subheading,
 					text: shortText,
 					index: 330,
@@ -324,8 +356,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 					index: 532,
 					countLength: 450,
 				},
-			],
-			textBeforeFirstSubheadingLength: 200 } )
+			] )
 		);
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
