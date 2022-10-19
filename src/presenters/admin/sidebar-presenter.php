@@ -17,8 +17,8 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 */
 	public function present() {
 		$time       = \time();
-		$time_start = \gmmktime( 10, 00, 00, 11, 22, 2022 );
-		$time_end   = \gmmktime( 10, 00, 00, 11, 29, 2022 );
+		$time_start = \gmmktime( 11, 00, 00, 11, 22, 2022 );
+		$time_end   = \gmmktime( 11, 00, 00, 11, 29, 2022 );
 
 		$assets_uri              = \trailingslashit( \plugin_dir_url( WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
