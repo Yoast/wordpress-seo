@@ -94,10 +94,10 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	const goodJobFeedback = sprintf(
 		/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 		__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!",
-			"wordpress-seo",
+			"wordpress-seo"
 		),
 		`<a href="${ analysisInfoLink }" target="_blank">`,
-		"</a>",
+		"</a>"
 	);
 
 	/**
@@ -110,7 +110,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		const notice = __(
 			// eslint-disable-next-line max-len
 			"We noticed that you are using a multilingual plugin. Please be aware that this analysis feedback is intended only for texts written in English.",
-			"wordpress-seo",
+			"wordpress-seo"
 		);
 		return <Alert type={ "info" }>
 			{ notice }

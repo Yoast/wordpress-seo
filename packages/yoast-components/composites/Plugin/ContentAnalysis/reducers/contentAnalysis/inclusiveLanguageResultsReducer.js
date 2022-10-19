@@ -1,7 +1,7 @@
 import { findIndex, isUndefined } from "lodash";
 import { SET_INCLUSIVE_LANGUAGE_RESULTS,
-		SET_OVERALL_INCLUSIVE_LANGUAGE_SCORE,
-		UPDATE_INCLUSIVE_LANGUAGE_RESULT
+	SET_OVERALL_INCLUSIVE_LANGUAGE_SCORE,
+	UPDATE_INCLUSIVE_LANGUAGE_RESULT,
 } from "../../actions/contentAnalysis";
 
 /**
@@ -26,7 +26,7 @@ const initialState = {
  */
 function setInclusiveLanguageResults( state, action ) {
 	return Object.assign( {}, state,
-		{ results: action.results },
+		{ results: action.results }
 	);
 }
 
@@ -42,7 +42,7 @@ function updateInclusiveLanguageResult( state, action ) {
 	// Sets a new inclusive language result if there currently are no results.
 	if ( isUndefined( state.results ) ) {
 		return Object.assign( {}, state,
-			{ results: [ action.result ] },
+			{ results: [ action.result ] }
 		);
 	}
 	const resultIndex = findIndex( state.results, { id: action.result.id } );
@@ -52,11 +52,11 @@ function updateInclusiveLanguageResult( state, action ) {
 			return result !== state.results[ resultIndex ];
 		} );
 		return Object.assign( {}, state,
-			{ results: newResults.concat( action.result ) },
+			{ results: newResults.concat( action.result ) }
 		);
 	}
 	return Object.assign( {}, state,
-		{ results: [ ...state.results, action.result ] },
+		{ results: [ ...state.results, action.result ] }
 	);
 }
 
@@ -69,7 +69,7 @@ function updateInclusiveLanguageResult( state, action ) {
  */
 export function setOverallInclusiveLanguageScore( state, action ) {
 	return Object.assign( {}, state,
-		{ overallScore: action.overallScore },
+		{ overallScore: action.overallScore }
 	);
 }
 
