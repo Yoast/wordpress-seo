@@ -190,7 +190,7 @@ export default function initPostScraper( $, store, editorData ) {
 	 *
 	 * @returns {void}
 	 */
-	function initializeReadabilityAnalysis( activePublishBox ) {
+	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
 		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
 
 		const indicator = getIndicatorForScore( savedContentScore );
@@ -322,7 +322,7 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		if ( isInclusiveLanguageAnalysisActive() ) {
-			initializeReadabilityAnalysis( publishBox );
+			initializeInclusiveLanguageAnalysis( publishBox );
 		}
 	}
 
