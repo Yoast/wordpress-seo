@@ -74,7 +74,7 @@ class CoAuthors_Plus implements Integration_Interface {
 			return $data;
 		}
 
-		$user = get_queried_object();
+		$user = \get_queried_object();
 
 		if ( empty( $user->type ) || $user->type !== 'guest-author' ) {
 			return $data;
