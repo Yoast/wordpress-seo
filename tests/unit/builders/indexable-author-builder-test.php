@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -71,54 +72,59 @@ class Indexable_Author_Builder_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_mock      = Mockery::mock( Indexable::class );
-		$this->indexable_mock->orm = Mockery::mock( ORM::class );
-
-		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 1 )->andReturn( 'https://permalink' );
-
-		$this->indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'object_type', 'user' );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'is_cornerstone', false );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_nofollow', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noarchive', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noimageindex', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_nosnippet', null );
-
-		// Resetting the image.
-		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
-
-		$this->indexable_mock->orm->expects( 'set' )->with( 'is_public', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'has_public_posts', true );
-
-		$this->indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
-
-		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
-
-		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
-		$this->author_archive
-			->expects( 'author_has_public_posts' )
-			->with( 1 )
-			->andReturn( true );
-
 		$this->versions = Mockery::mock( Indexable_Builder_Versions::class );
 		$this->versions
-			->expects( 'get_latest_version_for_type' )
+			->shouldReceive( 'get_latest_version_for_type' )
 			->with( 'user' )
 			->andReturn( 2 );
+
+		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
 
 		$this->post_helper = Mockery::mock( Post_Helper::class );
 		$this->wpdb        = Mockery::mock( 'wpdb' );
 		$this->wpdb->posts = 'wp_posts';
 
 		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->post_helper, $this->wpdb );
+	}
+
+	/**
+	 * @return Indexable|Mockery\MockInterface
+	 *
+	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired
+	 */
+	protected function mock_indexable() {
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+
+		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 1 )->andReturn( 'https://permalink' );
+
+		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'user' );
+		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_cornerstone', false );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nofollow', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noarchive', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noimageindex', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nosnippet', null );
+
+		// Resetting the image.
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
+
+		$indexable_mock->orm->expects( 'set' )->with( 'is_public', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'has_public_posts', true );
+
+		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+
+		return $indexable_mock;
 	}
 
 	/**
@@ -131,6 +137,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
+
+		$this->indexable_mock = $this->mock_indexable();
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
@@ -151,6 +159,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
+			->with( 1 )
+			->andReturn( true );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
 			->with( 1 )
@@ -199,6 +211,9 @@ class Indexable_Author_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
+
+		$this->indexable_mock = $this->mock_indexable();
+
 		$this->indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
@@ -213,6 +228,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
+			->with( 1 )
+			->andReturn( true );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
 			->with( 1 )
@@ -269,6 +288,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( '' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( '' );
 
+		$this->indexable_mock = $this->mock_indexable();
+
 		$this->indexable_mock->orm->expects( 'set' )->with( 'title', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
@@ -288,6 +309,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
+			->with( 1 )
+			->andReturn( true );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
 			->with( 1 )
@@ -324,5 +349,78 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->andReturn( 'avatar_image.jpg' );
 
 		$this->instance->build( 1, $this->indexable_mock );
+	}
+
+	/**
+	 * Tests that the building an author throws an exception when author archives
+	 * are disabled in general.
+	 *
+	 * @covers ::build
+	 */
+	public function test_throws_exception_when_author_archives_are_disabled() {
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( true );
+
+		$this->expectException( Author_Not_Built_Exception::class );
+
+		$indexable_mock = Mockery::mock( Indexable::class );
+
+		$this->instance->build( 1, $indexable_mock );
+	}
+
+	/**
+	 * Tests that the building an author throws an exception when author archives
+	 * are disabled for the given user.
+	 *
+	 * @covers ::build
+	 */
+	public function test_throws_exception_when_author_archives_are_disabled_for_a_user() {
+		$user_id = 1;
+
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'is_disabled_for_user' )
+			->with( $user_id )
+			->andReturn( true );
+
+		$this->expectException( Author_Not_Built_Exception::class );
+
+		$indexable_mock = Mockery::mock( Indexable::class );
+
+		$this->instance->build( $user_id, $indexable_mock );
+	}
+
+	/**
+	 * Tests that the building an author throws an exception when author archives
+	 * are disabled for users without posts and the user does not have posts.
+	 *
+	 * @covers ::build
+	 */
+	public function test_throws_exception_when_author_are_disabled_for_users_without_posts_and_user_has_no_posts() {
+		$user_id = 1;
+
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'is_disabled_for_user' )
+			->with( $user_id )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
+			->with( $user_id )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_disabled_for_users_without_posts' )
+			->andReturn( true );
+
+		$this->expectException( Author_Not_Built_Exception::class );
+
+		$indexable_mock = Mockery::mock( Indexable::class );
+
+		$this->instance->build( $user_id, $indexable_mock );
 	}
 }
