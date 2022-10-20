@@ -252,7 +252,7 @@ Enhancements:
 
 * Adds immediate keyphrase tracking after connecting to Wincher.
 * Adds input fields to overwrite the site name, as well as an extra input field for a (potentially shorter) alternate name. Google introduced new support for [site names in Google Search](https://developers.google.com/search/blog/2022/10/introducing-site-names-on-search). Yoast SEO already outputs this value correctly, using the WordPress site name. With these changes, we have increased the control site owners have over this value.
-* No longer outputs an empty array if no social profiles have been added for an Organization.
+* Improves the Schema output for Organization by no longer putting out an empty array if no social profiles have been added for it.
 
 Bugfixes:
 
