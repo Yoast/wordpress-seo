@@ -164,6 +164,11 @@ class Post_Helper {
 	 * @return bool True if the post can be indexed.
 	 */
 	public function is_post_indexable( $post_id ) {
+		// Don't index posts which are not public (i.e. viewable).
+		if( ! \is_post_type_viewable( \get_post_type( $post_id ) ) ) {
+			return false;
+		}
+
 		// Don't index excluded post statuses.
 		if ( \in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses(), true ) ) {
 			return false;

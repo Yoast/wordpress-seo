@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -351,6 +352,12 @@ class Indexable_Builder {
 
 				case 'term':
 					$indexable = $this->term_builder->build( $indexable->object_id, $indexable );
+
+					if ( ! $indexable ) {
+						// Indexable for this term was not built for a reason; e.g. if its post type is excluded.
+						return $indexable;
+					}
+
 					$this->hierarchy_builder->build( $indexable );
 					break;
 
@@ -395,6 +402,9 @@ class Indexable_Builder {
 			$indexable = $this->version_manager->set_latest( $indexable );
 
 			return $this->save_indexable( $indexable, $indexable_before );
+		}
+		catch ( Not_Built_Exception $exception ) {
+			return false;
 		}
 	}
 }
