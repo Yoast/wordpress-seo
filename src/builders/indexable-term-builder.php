@@ -86,11 +86,11 @@ class Indexable_Term_Builder {
 		if ( $term === null ) {
 			throw new Term_Not_Found_Exception();
 		}
-		
+
 		if ( \is_wp_error( $term ) ) {
 			throw new Invalid_Term_Exception( $term->get_error_message() );
 		}
-		
+
 		if ( ! is_taxonomy_viewable( $term->taxonomy ) ) {
 			throw Term_Not_Built_Exception::because_not_viewable( $term_id );
 		}

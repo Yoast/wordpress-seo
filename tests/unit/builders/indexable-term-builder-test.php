@@ -21,8 +21,8 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 /**
  * Class Indexable_Term_Builder_Test.
  *
- * @group indexables
- * @group builders
+ * @group  indexables
+ * @group  builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Term_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Term_Builder
@@ -218,8 +218,12 @@ class Indexable_Term_Builder_Test extends TestCase {
 		];
 
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
-		Monkey\Functions\expect( 'get_term_link' )->once()->with( $term, 'category' )->andReturn( 'https://example.org/category/1' );
+		Monkey\Functions\expect( 'get_term_link' )
+			->once()
+			->with( $term, 'category' )
+			->andReturn( 'https://example.org/category/1' );
 		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )->once()->andReturn( true );
 
 		$this->taxonomy->expects( 'get_term_meta' )
 			->once()
@@ -418,6 +422,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->once()
 			->with( $term, 'tax' )
 			->andReturn( $error );
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->andReturn( true );
 
 		$this->expectException( Invalid_Term_Exception::class );
 

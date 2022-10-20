@@ -353,11 +353,6 @@ class Indexable_Builder {
 				case 'term':
 					$indexable = $this->term_builder->build( $indexable->object_id, $indexable );
 
-					if ( ! $indexable ) {
-						// Indexable for this term was not built for a reason; e.g. if its post type is excluded.
-						return $indexable;
-					}
-
 					$this->hierarchy_builder->build( $indexable );
 					break;
 

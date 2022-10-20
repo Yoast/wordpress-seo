@@ -165,7 +165,7 @@ class Post_Helper {
 	 */
 	public function is_post_indexable( $post_id ) {
 		// Don't index posts which are not public (i.e. viewable).
-		if( ! \is_post_type_viewable( \get_post_type( $post_id ) ) ) {
+		if ( ! \is_post_type_viewable( \get_post_type( $post_id ) ) ) {
 			return false;
 		}
 
