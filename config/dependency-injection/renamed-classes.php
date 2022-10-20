@@ -20,9 +20,6 @@
  * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
  */
 
-use Yoast\WP\SEO\Integrations\Third_Party\Elementor_Exclude_Post_Types;
-use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types as Renamed_To_Exclude_Elementor_Post_Types;
-
 $renamed_classes = [];
 
 foreach ( $renamed_classes as $original_class => $replacement ) {
