@@ -151,6 +151,17 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
+		$this->author_archive
+			->expects( 'is_disabled_for_user' )
+			->with( 1 )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_disabled_for_users_without_posts' )
+			->andReturn( false );
+
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
@@ -201,6 +212,17 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'object_id' );
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->author_archive
+			->expects( 'is_disabled_for_user' )
+			->with( 1 )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_disabled_for_users_without_posts' )
+			->andReturn( false );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
@@ -265,6 +287,17 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
 
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->author_archive
+			->expects( 'is_disabled_for_user' )
+			->with( 1 )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_disabled_for_users_without_posts' )
+			->andReturn( false );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"

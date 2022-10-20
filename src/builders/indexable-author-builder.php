@@ -77,12 +77,12 @@ class Indexable_Author_Builder {
 	 * @throws Author_Not_Built_Exception When author is not built.
 	 */
 	public function build( $user_id, Indexable $indexable ) {
-		if ( $this->author_archive->is_disabled_for_user( $user_id ) ) {
-			throw Author_Not_Built_Exception::author_archives_are_disabled_for_user( $user_id );
-		}
-
 		if ( $this->author_archive->are_disabled() ) {
 			throw Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
+		}
+
+		if ( $this->author_archive->is_disabled_for_user( $user_id ) ) {
+			throw Author_Not_Built_Exception::author_archives_are_disabled_for_user( $user_id );
 		}
 
 		if (

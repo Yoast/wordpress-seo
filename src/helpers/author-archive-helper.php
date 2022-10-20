@@ -27,10 +27,11 @@ class Author_Archive_Helper {
 	 * Creates a new author archive helper.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
+	 * @param User_Helper    $user_helper    The user helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
-		User_helper $user_helper
+		User_Helper $user_helper
 	) {
 		$this->options_helper = $options_helper;
 		$this->user_helper    = $user_helper;
