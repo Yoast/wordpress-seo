@@ -248,11 +248,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.9 =
 Release Date: October 25th, 2022
 
-
-
-
-
-
 Enhancements:
 
 * Adds immediate keyphrase tracking after connecting to Wincher.
@@ -273,7 +268,7 @@ Bugfixes:
 Other:
 
 * Adds taxonomy information to breadcrumbs of type \"term\" to be able to filter them better with the `wpseo_breadcrumb_links` filter. Props to [@svenvonarx](https://github.com/Yoast/wordpress-seo/pull/18391).
-* Adds the possibility to use primary category in post URL at additional admin pages using filter.
+* Adds a `wpseo_primary_category_admin_pages` filter to enable the use of the primary category in the post URL of additional admin pages besides the default ones. Props to [@ssvet](https://github.com/ssvet).
 * Reinstates the `wpseo_twitter_card_type` filter that was wrongly deprecated in 19.8.
 
 = 19.8 =
