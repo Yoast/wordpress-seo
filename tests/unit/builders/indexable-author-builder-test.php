@@ -88,9 +88,9 @@ class Indexable_Author_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * @return Indexable|Mockery\MockInterface
+	 * Mocks an indexable.
 	 *
-	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired
+	 * @return Indexable|Mockery\MockInterface
 	 */
 	protected function mock_indexable() {
 		$indexable_mock      = Mockery::mock( Indexable::class );
@@ -171,7 +171,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'are_disabled_for_users_without_posts' )
+			->expects( 'are_not_indexed' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_not_indexed_for_users_without_posts' )
 			->andReturn( false );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -240,7 +243,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'are_disabled_for_users_without_posts' )
+			->expects( 'are_not_indexed' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_not_indexed_for_users_without_posts' )
 			->andReturn( false );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -318,10 +324,13 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( false );
 		$this->author_archive
+			->expects( 'are_not_indexed' )
+			->andReturn( false );
+		$this->author_archive
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'are_disabled_for_users_without_posts' )
+			->expects( 'are_not_indexed_for_users_without_posts' )
 			->andReturn( false );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -371,6 +380,27 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * Tests that the building an author throws an exception when author archives
+	 * are not indexed in general.
+	 *
+	 * @covers ::build
+	 */
+	public function test_throws_exception_when_author_archives_are_not_indexed() {
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_not_indexed' )
+			->andReturn( true );
+
+		$this->expectException( Author_Not_Built_Exception::class );
+
+		$indexable_mock = Mockery::mock( Indexable::class );
+
+		$this->instance->build( 1, $indexable_mock );
+	}
+
+	/**
+	 * Tests that the building an author throws an exception when author archives
 	 * are disabled for the given user.
 	 *
 	 * @covers ::build
@@ -380,6 +410,9 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->author_archive
 			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_not_indexed' )
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
@@ -399,11 +432,14 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 *
 	 * @covers ::build
 	 */
-	public function test_throws_exception_when_author_are_disabled_for_users_without_posts_and_user_has_no_posts() {
+	public function test_throws_exception_when_author_archives_are_not_indexed_for_users_without_posts_and_user_has_no_posts() {
 		$user_id = 1;
 
 		$this->author_archive
 			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'are_not_indexed' )
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
@@ -414,7 +450,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( $user_id )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'are_disabled_for_users_without_posts' )
+			->expects( 'are_not_indexed_for_users_without_posts' )
 			->andReturn( true );
 
 		$this->expectException( Author_Not_Built_Exception::class );

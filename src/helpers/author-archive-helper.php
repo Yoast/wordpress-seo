@@ -88,9 +88,18 @@ class Author_Archive_Helper {
 	/**
 	 * Checks whether author archives are disabled.
 	 *
-	 * @return bool
+	 * @return bool `true` if author archives are disabled, `false` if not.
 	 */
 	public function are_disabled() {
+		return $this->options_helper->get( 'disable-author' );
+	}
+
+	/**
+	 * Checks whether author archives are not indexed.
+	 *
+	 * @return bool `true` if author archives are not indexed, `false` if author archives are indexed.
+	 */
+	public function are_not_indexed() {
 		return $this->options_helper->get( 'noindex-author-wpseo' );
 	}
 
@@ -99,7 +108,7 @@ class Author_Archive_Helper {
 	 *
 	 * @return bool
 	 */
-	public function are_disabled_for_users_without_posts() {
+	public function are_not_indexed_for_users_without_posts() {
 		return $this->options_helper->get( 'noindex-author-noposts-wpseo' );
 	}
 

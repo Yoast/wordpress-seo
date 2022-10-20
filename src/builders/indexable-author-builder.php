@@ -81,15 +81,19 @@ class Indexable_Author_Builder {
 			throw Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
 		}
 
+		if ( $this->author_archive->are_not_indexed() ) {
+			throw Author_Not_Built_Exception::author_archives_are_not_indexed( $user_id );
+		}
+
 		if ( $this->author_archive->is_disabled_for_user( $user_id ) ) {
 			throw Author_Not_Built_Exception::author_archives_are_disabled_for_user( $user_id );
 		}
 
 		if (
-			$this->author_archive->are_disabled_for_users_without_posts()
+			$this->author_archive->are_not_indexed_for_users_without_posts()
 			&& $this->author_archive->author_has_public_posts( $user_id ) === false
 		) {
-			throw Author_Not_Built_Exception::author_archives_are_disabled_for_users_without_posts( $user_id );
+			throw Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
 		}
 
 		$meta_data = $this->get_meta_data( $user_id );
