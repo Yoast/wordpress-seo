@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 // External dependencies.
 import { autop } from "@wordpress/autop";
 import { enableFeatures } from "@yoast/feature-flag";
@@ -56,7 +57,7 @@ export default class AnalysisWebWorker {
 		this._configuration = {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
-			inclusiveLanguageAnalysisActive: true,
+			inclusiveLanguageAnalysisActive: false,
 			useCornerstone: false,
 			useTaxonomy: false,
 			useKeywordDistribution: false,
@@ -76,6 +77,8 @@ export default class AnalysisWebWorker {
 		this._contentAssessor = null;
 		this._seoAssessor = null;
 		this._relatedKeywordAssessor = null;
+
+		this.additionalAssessors = {};
 
 		/*
 		 * The cached analyses results.
@@ -128,6 +131,7 @@ export default class AnalysisWebWorker {
 		this.setCustomCornerstoneSEOAssessorClass = this.setCustomCornerstoneSEOAssessorClass.bind( this );
 		this.setCustomRelatedKeywordAssessorClass = this.setCustomRelatedKeywordAssessorClass.bind( this );
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
+		this.registerAssessor = this.registerAssessor.bind( this );
 		this.registerResearch = this.registerResearch.bind( this );
 
 		// Bind event handlers to this scope.
@@ -762,6 +766,21 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Registers a custom assessor.
+	 *
+	 * @param {string} name The name of the assessor.
+	 * @param {Function} AssessorClass The assessor class to instantiate.
+	 * @param {Function} shouldUpdate Function that checks whether the assessor should update.
+	 *
+	 * @returns {void}
+	 */
+	registerAssessor( name, AssessorClass, shouldUpdate ) {
+		const assessor = new AssessorClass( this._researcher );
+		this.additionalAssessors[ name ] = { assessor, shouldUpdate };
+	}
+
+
+	/**
 	 * Register an assessment for a specific plugin.
 	 *
 	 * @param {string}   name       The name of the assessment.
@@ -995,6 +1014,13 @@ export default class AnalysisWebWorker {
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 		const shouldInclusiveLanguageUpdate = this.shouldInclusiveLanguageUpdate( paper );
 
+		const shouldCustomAssessorsUpdate = {};
+		Object.keys( this.additionalAssessors ).forEach(
+			assessorName => {
+				shouldCustomAssessorsUpdate[ assessorName ] = this.additionalAssessors[ assessorName ].shouldUpdate( this._paper, paper );
+			}
+		);
+
 		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
 			this._paper = paper;
@@ -1068,6 +1094,19 @@ export default class AnalysisWebWorker {
 				score: this._inclusiveLanguageAssessor.calculateOverallScore(),
 			};
 		}
+
+		Object.keys( this.additionalAssessors ).forEach(
+			assessorName => {
+				const { assessor } = this.additionalAssessors[ assessorName ];
+				if ( ! this._results[ assessorName ] || shouldCustomAssessorsUpdate[ assessorName ] ) {
+					assessor.assess( this._paper );
+					this._results[ assessorName ] = {
+						results: assessor.results,
+						score: assessor.calculateOverallScore(),
+					};
+				}
+			}
+		);
 
 		return this._results;
 	}
