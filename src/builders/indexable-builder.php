@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -394,6 +395,9 @@ class Indexable_Builder {
 			$indexable = $this->version_manager->set_latest( $indexable );
 
 			return $this->save_indexable( $indexable, $indexable_before );
+		}
+		catch ( Not_Built_Exception $exception ) {
+			return false;
 		}
 	}
 }

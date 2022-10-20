@@ -10,6 +10,33 @@ use Yoast\WP\Lib\Model;
 class Author_Archive_Helper {
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * The user helper.
+	 *
+	 * @var User_helper
+	 */
+	private $user_helper;
+
+	/**
+	 * Creates a new author archive helper.
+	 *
+	 * @param Options_Helper $options_helper The options helper.
+	 */
+	public function __construct(
+		Options_Helper $options_helper,
+		User_helper $user_helper
+	) {
+		$this->options_helper = $options_helper;
+		$this->user_helper    = $user_helper;
+	}
+
+	/**
 	 * Gets the array of post types that are shown on an author's archive.
 	 *
 	 * @return array The post types that are shown on an author's archive.
@@ -44,6 +71,35 @@ class Author_Archive_Helper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks if the author archives are disabled for a user with the given id.
+	 *
+	 * @param string $user_id The user id.
+	 *
+	 * @return bool If the user archive is disabled for the given user.
+	 */
+	public function is_disabled_for_user( $user_id ) {
+		return $this->user_helper->get_the_author_meta( 'wpseo_noindex_author', $user_id );
+	}
+
+	/**
+	 * Checks whether author archives are disabled.
+	 *
+	 * @return bool
+	 */
+	public function are_disabled() {
+		return $this->options_helper->get( 'noindex-author-wpseo' );
+	}
+
+	/**
+	 * Checks whether author archives are disabled for users without posts.
+	 *
+	 * @return bool
+	 */
+	public function are_disabled_for_users_without_posts() {
+		return $this->options_helper->get( 'noindex-author-noposts-wpseo' );
 	}
 
 	/**

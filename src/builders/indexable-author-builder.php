@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use wpdb;
+use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -72,8 +73,25 @@ class Indexable_Author_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return Indexable The extended indexable.
+	 *
+	 * @throws Author_Not_Built_Exception When author is not built.
 	 */
 	public function build( $user_id, Indexable $indexable ) {
+		if ( $this->author_archive->is_disabled_for_user( $user_id ) ) {
+			throw Author_Not_Built_Exception::author_archives_are_disabled_for_user( $user_id );
+		}
+
+		if ( $this->author_archive->are_disabled() ) {
+			throw Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
+		}
+
+		if (
+			$this->author_archive->are_disabled_for_users_without_posts()
+			&& $this->author_archive->author_has_public_posts( $user_id ) === false
+		) {
+			throw Author_Not_Built_Exception::author_archives_are_disabled_for_users_without_posts( $user_id );
+		}
+
 		$meta_data = $this->get_meta_data( $user_id );
 
 		$indexable->object_id              = $user_id;
