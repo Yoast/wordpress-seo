@@ -183,7 +183,7 @@ class CoAuthors_Plus implements Integration_Interface {
 
 			if ( ! empty( $author_data ) ) {
 				if ( $context->site_represents !== 'person' || $author->ID !== $context->site_user_id ) {
-					$data = array_merge( $data, $authors );
+					$data = \array_merge( $data, $authors );
 				}
 			}
 		}
