@@ -116,7 +116,7 @@ class CoAuthor extends Author {
 		$data = $this->set_image_from_avatar( $data, $guest_author, $schema_id, $add_hash );
 
 		// If local avatar is present, override.
-		$avatar_meta = \wp_get_attachment_image_src( get_post_thumbnail_id( $guest_author->ID ) );
+		$avatar_meta = \wp_get_attachment_image_src( \get_post_thumbnail_id( $guest_author->ID ) );
 		if ( $avatar_meta ) {
 			$avatar_meta   = [
 				'url'    => $avatar_meta[0],
