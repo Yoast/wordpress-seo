@@ -81,7 +81,7 @@ class CoAuthors_Plus implements Integration_Interface {
 		}
 
 		// Fix author URL.
-		$author_url                                     = \get_author_posts_url( $user->ID );
+		$author_url                                     = \get_author_posts_url( $user->ID, $user->user_nicename );
 		$graph_piece_generator->context->canonical      = $author_url;
 		$graph_piece_generator->context->main_schema_id = $author_url;
 
