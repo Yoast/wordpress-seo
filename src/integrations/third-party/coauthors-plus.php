@@ -174,7 +174,7 @@ class CoAuthors_Plus implements Integration_Interface {
 
 		if ( $add_to_graph ) {
 			// Clean all Persons from the schema, as the user stored as post owner might be incorrectly added if the post post has only guest authors as authors.
-			$data = array_filter(
+			$data = \array_filter(
 				$data,
 				function( $piece ) {
 					return empty( $piece['@type'] ) || $piece['@type'] !== 'Person';
