@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import Alert, { FadeInAlert } from "../../base/alert";
 import SingleSelect from "../../base/single-select";
+import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
 import { PersonSection } from "./person-section";
 
@@ -26,6 +27,10 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 	const [ sectionOpacity, setSectionOpacity ] = useState( state.companyOrPerson === "emptyChoice" ? "yst-opacity-0" : "yst-opacity-100" );
 	const startOpacityTransition = useCallback( () => {
 		setSectionOpacity( "yst-opacity-100" );
+	} );
+
+	const handleWebsiteNameChange = useCallback( ( event ) => {
+		dispatch( { type: "CHANGE_WEBSITE_NAME", payload: event.target.value } );
 	} );
 
 	const richResultsMessage = addLinkToString(
@@ -78,6 +83,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 					</Fragment>
 			}
 		</p>
+
 		<SingleSelect
 			id="organization-person-select"
 			htmlFor="organization-person-select"
@@ -92,6 +98,20 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		{ shouldDisplayDefaultValuesNotice() && <Alert type="info" className="yst-mt-6">
 			{ __( "We took the liberty of using your site title and logo for the organization name and logo. Feel free to change them below.", "wordpress-seo" ) }
 		</Alert> }
+
+		<TextInput
+			className="yst-my-6"
+			id="website-name-input"
+			name="website-name"
+			label={ __( "Website name", "wordpress-seo" ) }
+			value={ ( state.websiteName === "" ) ? state.fallbackWebsiteName : state.websiteName }
+			onChange={ handleWebsiteNameChange }
+			feedback={ {
+				isVisible: state.errorFields.includes( "website_name" ),
+				message: [ __( "We could not save the website name. Please check the value.", "wordpress-seo" ) ],
+				type: "error",
+			} }
+		/>
 
 		<ReactAnimateHeight
 			height={ [ "company", "person" ].includes( state.companyOrPerson ) ? "auto" : 0 }

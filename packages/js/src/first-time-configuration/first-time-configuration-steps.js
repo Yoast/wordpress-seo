@@ -45,6 +45,7 @@ async function updateSiteRepresentation( state ) {
 		company_name: state.companyName,
 		company_logo: state.companyLogo,
 		company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
+		website_name: state.websiteName,
 		person_logo: state.personLogo,
 		person_logo_id: state.personLogoId ? state.personLogoId : 0,
 		company_or_person_user_id: state.personId,
