@@ -22,10 +22,10 @@ describe( "A function to get all text blocks from subheadings", function() {
 
 	it( "returns the subheadings and the following texts from a text with two subheadings" +
 		"and a text preceding the first subheading", function() {
-		result = getSubheadingTexts( "this is some text before the first subheading<h2>fist subheading</h2>more text after the first subheading" +
+		result = getSubheadingTexts( "this is some text before the first subheading<h2>first subheading</h2>more text after the first subheading" +
 			"<h2>second subheading</h2>this is the text after the second subheading." );
 
-		expect( result[ 0 ].subheading ).toEqual( "<h2>fist subheading</h2>" );
+		expect( result[ 0 ].subheading ).toEqual( "<h2>first subheading</h2>" );
 		expect( result[ 0 ].text ).toEqual( "more text after the first subheading" );
 		expect( result[ 0 ].index ).toEqual( 45 );
 		expect( result[ 1 ].subheading ).toEqual( "<h2>second subheading</h2>" );

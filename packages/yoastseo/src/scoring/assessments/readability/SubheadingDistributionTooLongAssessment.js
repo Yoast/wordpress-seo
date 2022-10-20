@@ -85,12 +85,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
+		// The configuration to use for Japanese texts.
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {
 			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
-		// First check if there is text before the first subheading and check it's length.
+		// First check if there is text before the first subheading and check its length.
 		// It's important that this check is done before we sort the `this._subheadingTextsLength` array.
 		const textBeforeFirstSubheading = this.checkTextBeforeFirstSubheadingLength( this._subheadingTextsLength );
 
