@@ -111,10 +111,12 @@ class Results extends Component {
 		// To see a difference between keyphrases: Prepend the keyword key when applicable.
 		const markerId = this.props.keywordKey.length > 0 ? `${this.props.keywordKey}:${id}` : id;
 
-		if ( markerId === this.props.activeMarker && ! hasMarks ) {
-			this.deactivateMarker();
-		} else if ( ! isUndefined( marker ) && hasMarks && markerId === this.props.activeMarker ) {
-			this.activateMarker( markerId, marker );
+		if ( markerId === this.props.activeMarker  ) {
+			if ( ! hasMarks ) {
+				this.deactivateMarker();
+			} else if ( ! isUndefined( marker ) ) {
+				this.activateMarker( markerId, marker );
+			}
 		}
 	}
 
