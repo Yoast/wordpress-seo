@@ -186,10 +186,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Array} All markers for the current text.
 	 */
 	getMarks() {
-		// Don't create marking for an empty subheading.
-		const tooLongTexts = filter( this.getTooLongSubheadingTexts(), ( { subheading } ) => subheading !== "" );
-
-		return map( tooLongTexts, function( { subheading } ) {
+		const marks = map( this.getTooLongSubheadingTexts(), function( { subheading } ) {
 			subheading = stripTags( subheading );
 			const marked = marker( subheading );
 			return new Mark( {
@@ -197,6 +194,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 				marked: marked,
 			} );
 		} );
+
+		return filter( marks, ( mark ) => mark.getOriginal() !== "" );
 	}
 
 	/**
