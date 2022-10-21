@@ -489,16 +489,20 @@ class Indexable_Builder_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'create' )
 			->once()
-			->with( [
-				'object_type' => 'post',
-				'object_id'   => 1337,
-			] )
-			->andReturnUsing( static function () use ( $empty_indexable ) {
-				$empty_indexable->object_type = 'post';
-				$empty_indexable->object_id = '1337';
+			->with(
+				[
+					'object_type' => 'post',
+					'object_id'   => 1337,
+				]
+			)
+			->andReturnUsing(
+				static function () use ( $empty_indexable ) {
+					$empty_indexable->object_type = 'post';
+					$empty_indexable->object_id   = '1337';
 
-				return $empty_indexable;
-			} );
+					return $empty_indexable;
+				}
+			);
 
 		// Force an exception during the build process.
 		$this->post_builder
