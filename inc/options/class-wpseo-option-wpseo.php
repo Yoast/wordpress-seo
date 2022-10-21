@@ -134,7 +134,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'last_known_viewable_post_types'           => [],
 		'last_known_viewable_taxonomies'           => [],
 		'post_type_made_viewable'                  => [],
-		'post_type_made_non_viewable'              => [],
+		'taxonomy_made_viewable'              => [],
 	];
 
 	/**
@@ -407,7 +407,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'last_known_viewable_post_types':
 				case 'last_known_viewable_taxonomies':
 				case 'post_type_made_viewable':
-				case 'post_type_made_non_viewable':
+				case 'taxonomy_made_viewable':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
