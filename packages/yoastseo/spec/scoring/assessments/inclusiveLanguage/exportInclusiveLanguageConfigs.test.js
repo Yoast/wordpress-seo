@@ -4,9 +4,6 @@ import { last } from "lodash-es";
 import inclusiveLanguageAssessmentsConfigs from "../../../../src/scoring/assessments/inclusiveLanguage/configuration";
 import { SCORES } from "../../../../src/scoring/assessments/inclusiveLanguage/configuration/scores";
 import InclusiveLanguageAssessment from "../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
-import ageAssessments from "../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
-import cultureAssessments from "../../../../src/scoring/assessments/inclusiveLanguage/configuration/cultureAssessments";
-import genderAssessments from "../../../../src/scoring/assessments/inclusiveLanguage/configuration/genderAssessments";
 
 const fs = require( "fs" );
 
@@ -81,20 +78,20 @@ describe( "Export of the inclusive language configuration", () => {
 	} );
 
 	it( "should retrieve rules in a more pretty format", () => {
-		let assessment = new InclusiveLanguageAssessment( genderAssessments.find( obj => obj.identifier === "firemen" ) );
+		let assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "firemen" ) );
 		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "" );
 
-		assessment = new InclusiveLanguageAssessment( cultureAssessments.find( obj => obj.identifier === "gypVerb" ) );
+		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "gypVerb" ) );
 		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "NotPrecededBy: \"a\", \"the\"" );
 
-		assessment = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "seniors" ) );
+		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "seniors" ) );
 		expect( retrieveRule( assessment.rule.toString() ) ).
 			toEqual( "NotPrecededBy: \"high school\", \"college\", \"graduating\", \"juniors and\"" +
 			" and NotFollowedBy: \"in high school\", \"in college\", \"who are graduating\"" );
 	} );
 
 	it( "should retrieve the href value for an anchor", () => {
-		const assessment = new InclusiveLanguageAssessment( genderAssessments.find( obj => obj.identifier === "firemen" ) );
+		const assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "firemen" ) );
 		expect( retrieveAnchor( assessment.learnMoreUrl ) ).toEqual( "https://yoa.st/inclusive-language-gender" );
 	} );
 } );
