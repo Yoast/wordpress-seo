@@ -2,6 +2,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
+import { isUndefined } from "lodash-es";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
@@ -34,6 +35,7 @@ class Results extends Component {
 
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
 		this.handleEditButtonClick = this.handleEditButtonClick.bind( this );
+		this.handleResultsChange   = this.handleResultsChange.bind( this );
 	}
 
 	/**
@@ -98,6 +100,43 @@ class Results extends Component {
 			block: "center",
 			inline: "center",
 		} );
+	}
+
+	handleResultsChange( result ) {
+		// const { mappedResults } = this.state;
+		//
+		// const hasmarksList = [];
+		// for ( const resultListKey in mappedResults ) {
+		// 	const resultlist = mappedResults[ resultListKey ];
+		// 	for ( const resultKey in resultlist ) {
+		// 		const result = resultlist[ resultKey ];
+		// 		const whatwewant = result.hasMarks;
+		// 		hasmarksList.push( whatwewant );
+		// 	}
+		// }
+		// console.log( hasmarksList );
+		//
+		// if ( ! hasmarksList.includes( true ) ) {
+		// 	console.log( "TEST" );
+		// 	this.props.setActiveMarker( null );
+		// 	this.props.setMarkerPauseStatus( false );
+		// 	this.removeMarkers();
+		// }
+
+		if ( ! isUndefined( result ) && result.id === this.props.activeMarker && ! result.hasMarks ) {
+			console.log( "TEST" );
+			this.props.setActiveMarker( null );
+			this.props.setMarkerPauseStatus( false );
+			this.removeMarkers();
+		}
+		//
+		// goodResults.forEach( result => {
+		// 	if ( result.id === this.props.activeMarker ) {
+		// 		this.props.setActiveMarker( null );
+		// 		this.props.setMarkerPauseStatus( false );
+		// 		this.removeMarkers();
+		// 	}
+		// } );
 	}
 
 	/**
@@ -192,6 +231,8 @@ class Results extends Component {
 			problemsResults,
 		} = mappedResults;
 
+		console.log( mappedResults, "mappedResult" );
+
 		const { upsellResults, resultCategoryLabels } = this.props;
 
 		const defaultLabels = {
@@ -223,6 +264,7 @@ class Results extends Component {
 					keywordKey={ this.props.keywordKey }
 					isPremium={ this.props.isPremium }
 					resultCategoryLabels={ labels }
+					onResultChange={ this.handleResultsChange }
 				/>
 			</Fragment>
 		);

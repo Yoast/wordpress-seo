@@ -84,6 +84,8 @@ export default function AnalysisList( props ) {
 					   slug or SEO title). */
 					__( "Edit your %1$s", "wordpress-seo" ), editFieldName );
 
+			props.onResultChange( result );
+
 			return <AnalysisResult
 				key={ result.id }
 				text={ result.text }
@@ -117,6 +119,7 @@ AnalysisList.propTypes = {
 	onMarksButtonClick: PropTypes.func,
 	onEditButtonClick: PropTypes.func,
 	isPremium: PropTypes.bool,
+	onResultChange: PropTypes.func,
 };
 
 AnalysisList.defaultProps = {
