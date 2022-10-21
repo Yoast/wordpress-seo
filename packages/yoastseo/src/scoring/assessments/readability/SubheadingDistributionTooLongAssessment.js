@@ -194,7 +194,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 				marked: marked,
 			} );
 		} );
-
+		// This is to ensure that an empty subheading doesn't receive marker tags.
+		// If an empty subheading string receives marker tags, clicking on the eye icon next to the assessment will lead to page crashing.
 		return filter( marks, ( mark ) => mark.getOriginal() !== "" );
 	}
 
@@ -221,9 +222,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 			if ( this._hasSubheadings ) {
 				if ( textBeforeFirstSubheading.isLong && this._tooLongTextsNumber < 2 ) {
 					/*
-						 * Orange indicator. Returns this feedback if the text preceding the first subheading is long
-						 * and the total number of too long texts is less than 2.
-						 */
+					 * Orange indicator. Returns this feedback if the text preceding the first subheading is very long
+					 * and the total number of too long texts is less than 2.
+					 */
 					return {
 						score: this._config.scores.okSubheadings,
 						hasMarks: false,
@@ -243,9 +244,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 				}
 				if ( textBeforeFirstSubheading.isVeryLong && this._tooLongTextsNumber < 2 ) {
 					/*
-						 * Red indicator. Returns this feedback if the text preceding the first subheading is very long
-						 * and the total number of too long texts is less than 2.
-						 */
+					 * Red indicator. Returns this feedback if the text preceding the first subheading is very long
+					 * and the total number of too long texts is less than 2.
+					 */
 					return {
 						score: this._config.scores.badSubheadings,
 						hasMarks: false,
