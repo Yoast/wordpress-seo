@@ -82,10 +82,10 @@ class WPSEO_Upgrade {
 			'19.1-RC0'   => 'upgrade_191',
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
+			'19.10-RC0'  => 'upgrade_1910',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
-
 		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
 			/*
 			 * We have to run this by hook, because otherwise:
@@ -949,6 +949,13 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 19.10 upgrade routine.
+	 */
+	private function upgrade_1910() {
+		$this->deduplicate_unindexed_indexable_rows();
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1340,5 +1347,106 @@ class WPSEO_Upgrade {
 		$wpseo_titles = array_merge( $wpseo_titles, $updated_options );
 
 		update_option( 'wpseo_titles', $wpseo_titles );
+	}
+	/**
+	 * De-duplicates indexables that have more than one "unindexed" rows for the same object. Keeps the newest indexable.
+	 *
+	 * @return void
+	 */
+	private function deduplicate_unindexed_indexable_rows() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		$query = $wpdb->prepare(
+			"SELECT
+				MAX(id) as newest_id,
+				object_id,
+				object_type
+			FROM
+				$indexable_table
+			WHERE
+				post_status = 'unindexed'
+				AND object_type IN ( 'term', 'post', 'user' )
+			GROUP BY
+				object_id,
+				object_type
+			HAVING
+				count(*) > 1"
+		);
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$duplicates = $wpdb->get_results( $query, ARRAY_A );
+		// phpcs:enable
+
+		if ( empty( $duplicates ) ) {
+			$wpdb->show_errors = $show_errors;
+
+			return;
+		}
+
+		// Users, terms and posts may share the same object_id. So delete them in separate, more performant, queries.
+		$delete_queries = [
+			$this->get_indexable_deduplication_query_for_type( 'post', $duplicates, $wpdb ),
+			$this->get_indexable_deduplication_query_for_type( 'term', $duplicates, $wpdb ),
+			$this->get_indexable_deduplication_query_for_type( 'user', $duplicates, $wpdb ),
+		];
+
+		foreach ( $delete_queries as $delete_query ) {
+			if ( ! empty( $delete_query ) ) {
+				$wpdb->query( $delete_query );
+			}
+		}
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Creates a query for de-duplicating indexables for a particular type.
+	 *
+	 * @param string $object_type The object type to deduplicate.
+	 * @param array  $duplicates  The result of the duplicate query.
+	 * @param wpdb   $wpdb        The wpdb object.
+	 *
+	 * @return string The query that removes all but one duplicate for each object of the object type.
+	 */
+	private function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$filtered_duplicates = array_filter(
+			$duplicates,
+			static function ( $duplicate ) use ( $object_type ) {
+				return $duplicate['object_type'] === $object_type;
+			}
+		);
+
+		if ( empty( $filtered_duplicates ) ) {
+			return '';
+		}
+
+		$object_ids           = wp_list_pluck( $filtered_duplicates, 'object_id' );
+		$newest_indexable_ids = wp_list_pluck( $filtered_duplicates, 'newest_id' );
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+		return $wpdb->prepare(
+			"DELETE FROM
+				$indexable_table
+			WHERE
+				object_id IN ( " . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND id NOT IN ( ' . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND object_type = %s',
+			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
+		);
+		// phpcs:enable
 	}
 }
