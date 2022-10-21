@@ -70,14 +70,14 @@ describe( "Export of the inclusive language configuration", () => {
 		const resultLines = results.map( result => result.join( ";" ) );
 		resultLines.unshift( header.join( ";" ) );
 
-		// Creates a temporary directory to store the data (if it not yet exists
+		// Creates a temporary directory to store the data (if it not yet exists)
 		const dir = "tmp/";
 		if ( ! fs.existsSync( dir ) ) {
 			fs.mkdirSync( dir );
 		}
 
 		// Writes the data to this temporary directory (packages/yoastseo/tmp)
-		fs.writeFile( dir + "inclusive-language-database.csv", resultLines.join( "\n" ) );
+		fs.writeFileSync( dir + "inclusive-language-database.csv", resultLines.join( "\n" ) );
 	} );
 
 	it( "should retrieve rules in a more pretty format", () => {
