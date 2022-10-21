@@ -84,7 +84,8 @@ export default function AnalysisList( props ) {
 					   slug or SEO title). */
 					__( "Edit your %1$s", "wordpress-seo" ), editFieldName );
 
-			props.onResultChange( result );
+			// On result change, we also update the status of the marker.
+			props.onResultChange( result.id, result.marker, result.hasMarks );
 
 			return <AnalysisResult
 				key={ result.id }

@@ -57,6 +57,28 @@ class Results extends Component {
 	}
 
 	/**
+	 * Deactivates the marker from the page.
+	 * @returns {void}
+	 */
+	deactivateMarker() {
+		this.props.setActiveMarker( null );
+		this.props.setMarkerPauseStatus( false );
+		this.removeMarkers();
+	}
+
+	/**
+	 * Activates the marker from the page.
+	 *
+	 * @param {string}      id         A unique string representing the result.
+	 * @param {Function}    marker     The marker function, which returns the marks for the current paper.
+	 * @returns {void}
+	 */
+	activateMarker( id, marker ) {
+		this.props.setActiveMarker( id );
+		marker();
+	}
+
+	/**
 	 * Handles a click on a marker button, to mark the text in the editor.
 	 *
 	 * @param {string}   id     Result id, empty if a marker is deselected.
@@ -70,12 +92,26 @@ class Results extends Component {
 
 		// If marker button is clicked while active, disable markers.
 		if ( markerId === this.props.activeMarker ) {
-			this.props.setActiveMarker( null );
-			this.props.setMarkerPauseStatus( false );
-			this.removeMarkers();
+			this.deactivateMarker();
 		} else {
-			this.props.setActiveMarker( markerId );
-			marker();
+			this.activateMarker( markerId, marker );
+		}
+	}
+
+	/**
+	 * Updates or resets the marking on result change.
+	 *
+	 * @param {string}      id         A unique string representing the result, which is the same as the assessment id the result is coming from.
+	 * @param {Function}    marker     The marker function, which returns the marks for the current paper.
+	 * @param {boolean}     hasMarks   Whether the result has marks or not.
+	 *
+	 * @returns {void}
+	 */
+	handleResultsChange( id, marker, hasMarks ) {
+		if ( id === this.props.activeMarker && ! hasMarks ) {
+			this.deactivateMarker();
+		} else if ( ! isUndefined( marker ) && hasMarks && id === this.props.activeMarker ) {
+			this.activateMarker( id, marker );
 		}
 	}
 
@@ -100,43 +136,6 @@ class Results extends Component {
 			block: "center",
 			inline: "center",
 		} );
-	}
-
-	handleResultsChange( result ) {
-		// const { mappedResults } = this.state;
-		//
-		// const hasmarksList = [];
-		// for ( const resultListKey in mappedResults ) {
-		// 	const resultlist = mappedResults[ resultListKey ];
-		// 	for ( const resultKey in resultlist ) {
-		// 		const result = resultlist[ resultKey ];
-		// 		const whatwewant = result.hasMarks;
-		// 		hasmarksList.push( whatwewant );
-		// 	}
-		// }
-		// console.log( hasmarksList );
-		//
-		// if ( ! hasmarksList.includes( true ) ) {
-		// 	console.log( "TEST" );
-		// 	this.props.setActiveMarker( null );
-		// 	this.props.setMarkerPauseStatus( false );
-		// 	this.removeMarkers();
-		// }
-
-		if ( ! isUndefined( result ) && result.id === this.props.activeMarker && ! result.hasMarks ) {
-			console.log( "TEST" );
-			this.props.setActiveMarker( null );
-			this.props.setMarkerPauseStatus( false );
-			this.removeMarkers();
-		}
-		//
-		// goodResults.forEach( result => {
-		// 	if ( result.id === this.props.activeMarker ) {
-		// 		this.props.setActiveMarker( null );
-		// 		this.props.setMarkerPauseStatus( false );
-		// 		this.removeMarkers();
-		// 	}
-		// } );
 	}
 
 	/**
@@ -230,8 +229,6 @@ class Results extends Component {
 			considerationsResults,
 			problemsResults,
 		} = mappedResults;
-
-		console.log( mappedResults, "mappedResult" );
 
 		const { upsellResults, resultCategoryLabels } = this.props;
 
