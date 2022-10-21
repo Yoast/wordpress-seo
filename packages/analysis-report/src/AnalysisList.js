@@ -131,4 +131,5 @@ AnalysisList.defaultProps = {
 	onMarksButtonClick: noop,
 	onEditButtonClick: noop,
 	isPremium: false,
+	onResultChange: noop,
 };
