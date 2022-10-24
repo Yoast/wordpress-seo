@@ -95,6 +95,10 @@ class Indexable_Term_Builder {
 			throw Term_Not_Built_Exception::because_not_viewable( $term_id );
 		}
 
+		if ( $this->taxonomy_helper->is_excluded( $term->taxonomy ) ) {
+			throw Term_Not_Built_Exception::because_excluded( $term_id );
+		}
+
 		$term_link = \get_term_link( $term, $term->taxonomy );
 
 		if ( \is_wp_error( $term_link ) ) {

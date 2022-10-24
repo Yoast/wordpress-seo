@@ -2,14 +2,16 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
  * Indexables_Exclude_Taxonomy_Integration class
  */
 class Indexables_Exclude_Taxonomy_Integration implements Integration_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 * The options helper.
@@ -17,15 +19,6 @@ class Indexables_Exclude_Taxonomy_Integration implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	private $options_helper;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public static function get_conditionals() {
-		return [
-			Admin_Conditional::class,
-		];
-	}
 
 	/**
 	 * Indexables_Exclude_Taxonomy_Integration constructor.

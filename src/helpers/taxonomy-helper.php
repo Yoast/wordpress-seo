@@ -137,4 +137,15 @@ class Taxonomy_Helper {
 
 		return $excluded_taxonomies;
 	}
+
+	/**
+	 * Checks if the taxonomy is excluded.
+	 *
+	 * @param string $taxonomy The taxonomy to check.
+	 *
+	 * @return bool If the taxonomy is excluded.
+	 */
+	public function is_excluded( $taxonomy ) {
+		return \in_array( $taxonomy, $this->get_excluded_taxonomies_for_indexables(), true );
+	}
 }
