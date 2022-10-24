@@ -222,7 +222,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	public function test_adding_yoast_head_to_post_type_without_archive() {
 		$this->post_type_helper->expects( 'has_archive' )->with( 'no-archive' )->andReturnFalse();
 
-		$this->assertEquals('', $this->instance->for_post_type_archive( [ 'slug' => 'no-archive' ] ) );
+		$this->assertEquals( '', $this->instance->for_post_type_archive( [ 'slug' => 'no-archive' ] ) );
 	}
 
 	/**
