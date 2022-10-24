@@ -1522,13 +1522,13 @@ class WPSEO_Upgrade {
 	private function remove_indexable_rows_for_disabled_authors_archive() {
 		global $wpdb;
 
-		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
-		$show_errors       = $wpdb->show_errors;
-		$wpdb->show_errors = false;
-
 		if ( ! \YoastSEO()->helpers->author_archive->are_disabled() ) {
 			return;
 		}
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
