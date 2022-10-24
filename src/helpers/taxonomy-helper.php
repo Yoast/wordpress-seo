@@ -114,4 +114,27 @@ class Taxonomy_Helper {
 	public function get_custom_taxonomies( $output = 'names' ) {
 		return \get_taxonomies( [ '_builtin' => false ], $output );
 	}
+
+	/**
+	 * Returns an array of taxonomies that are excluded from being indexed for the
+	 * indexables.
+	 *
+	 * @return array The excluded taxonomies.
+	 */
+	public function get_excluded_taxonomies_for_indexables() {
+		/**
+		 * Filter: 'wpseo_indexable_excluded_taxonomies' - Allow developers to prevent a certain taxonomy
+		 * from being saved to the indexable table.
+		 *
+		 * @param array $excluded_taxonomies The currently excluded taxonomies.
+		 */
+		$excluded_taxonomies = \apply_filters( 'wpseo_indexable_excluded_taxonomies', [] );
+
+		// Failsafe, to always make sure that `excluded_taxonomies` is an array.
+		if ( ! \is_array( $excluded_taxonomies ) ) {
+			return [];
+		}
+
+		return $excluded_taxonomies;
+	}
 }
