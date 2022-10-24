@@ -84,12 +84,11 @@ export default function AnalysisList( props ) {
 					   slug or SEO title). */
 					__( "Edit your %1$s", "wordpress-seo" ), editFieldName );
 
-			// On result change, we also update the status of the marker.
-			props.onResultChange( result.id, result.marker, result.hasMarks );
-
 			return <AnalysisResult
 				key={ result.id }
+				id={ result.id }
 				text={ result.text }
+				marker={ result.marker }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
 				hasEditButton={ result.hasJumps }
@@ -106,6 +105,7 @@ export default function AnalysisList( props ) {
 				marksButtonStatus={ props.marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
 				isPremium={ props.isPremium }
+				onResultChange={ props.onResultChange }
 			/>;
 		} ) }
 	</AnalysisListBase>;
