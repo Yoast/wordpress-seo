@@ -118,6 +118,11 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
+
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
 			LEFT JOIN wp_yoast_indexable AS I
@@ -172,6 +177,11 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_accessible_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
+
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
@@ -232,6 +242,11 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
+
 		$expected_query = "
 			SELECT P.ID, P.post_content
 			FROM wp_posts AS P
@@ -291,6 +306,10 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
 		$expected_query = "
 			SELECT P.ID, P.post_content
 			FROM wp_posts AS P
@@ -362,6 +381,11 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_accessible_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
+
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
 
 		$expected_query = "
 			SELECT P.ID, P.post_content
