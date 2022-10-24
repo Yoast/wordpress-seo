@@ -122,11 +122,11 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 */
 	public function for_post( $params, $format = self::YOAST_HEAD_ATTRIBUTE_NAME ) {
 		if ( ! isset( $params['id'] ) ) {
-			return null;
+			return "";
 		}
 
 		if ( ! $this->post_helper->is_post_indexable( $params['id'] ) ) {
-			return null;
+			return "";
 		}
 		$obj = $this->head_action->for_post( $params['id'] );
 
@@ -174,7 +174,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 			$obj = $this->head_action->for_posts_page();
 		}
 		elseif ( ! $this->post_type_helper->has_archive( $params['slug'] ) ) {
-			return null;
+			return "";
 		}
 		else {
 			$obj = $this->head_action->for_post_type_archive( $params['slug'] );
