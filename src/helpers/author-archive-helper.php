@@ -17,24 +17,14 @@ class Author_Archive_Helper {
 	private $options_helper;
 
 	/**
-	 * The user helper.
-	 *
-	 * @var User_helper
-	 */
-	private $user_helper;
-
-	/**
 	 * Creates a new author archive helper.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
-	 * @param User_Helper    $user_helper    The user helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
-		User_Helper $user_helper
+		Options_Helper $options_helper
 	) {
 		$this->options_helper = $options_helper;
-		$this->user_helper    = $user_helper;
 	}
 
 	/**
@@ -72,17 +62,6 @@ class Author_Archive_Helper {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Checks if the author archives are disabled for a user with the given id.
-	 *
-	 * @param string $user_id The user id.
-	 *
-	 * @return bool If the user archive is disabled for the given user.
-	 */
-	public function is_disabled_for_user( $user_id ) {
-		return $this->user_helper->get_the_author_meta( 'wpseo_noindex_author', $user_id );
 	}
 
 	/**

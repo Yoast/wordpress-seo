@@ -169,10 +169,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->twice()
 			->andReturn( true );
 		$this->author_archive
-			->expects( 'is_disabled_for_user' )
-			->with( 1 )
-			->andReturn( false );
-		$this->author_archive
 			->expects( 'are_disabled' )
 			->andReturn( false );
 
@@ -238,9 +234,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( true );
 
-		$this->author_archive
-			->expects( 'is_disabled_for_user' )
-			->never();
 		$this->author_archive
 			->expects( 'are_disabled' )
 			->never();
@@ -309,10 +302,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 1 )
 			->twice()
 			->andReturn( true );
-		$this->author_archive
-			->expects( 'is_disabled_for_user' )
-			->with( 1 )
-			->andReturn( false );
 		$this->author_archive
 			->expects( 'are_disabled' )
 			->andReturn( false );
@@ -389,10 +378,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->twice()
 			->andReturn( true );
 		$this->author_archive
-			->expects( 'is_disabled_for_user' )
-			->with( 1 )
-			->andReturn( false );
-		$this->author_archive
 			->expects( 'are_disabled' )
 			->andReturn( false );
 
@@ -443,30 +428,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * Tests that the building an author throws an exception when author archives
-	 * are disabled for the given user.
-	 *
-	 * @covers ::build
-	 */
-	public function test_throws_exception_when_author_archives_are_disabled_for_a_user() {
-		$user_id = 1;
-
-		$this->author_archive
-			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'is_disabled_for_user' )
-			->with( $user_id )
-			->andReturn( true );
-
-		$this->expectException( Author_Not_Built_Exception::class );
-
-		$indexable_mock = Mockery::mock( Indexable::class );
-
-		$this->instance->build( $user_id, $indexable_mock );
-	}
-
-	/**
-	 * Tests that the building an author throws an exception when author archives
 	 * are disabled for users without posts and the user does not have posts.
 	 *
 	 * @covers ::build
@@ -476,10 +437,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'is_disabled_for_user' )
-			->with( $user_id )
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
