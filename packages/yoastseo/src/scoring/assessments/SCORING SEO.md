@@ -324,9 +324,9 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| Meta description (incl. the date) > 120 and < 157		| **Meta description length**: Well done! |
 
 ### 6) Single title
-**What it does**: Checks if there is an H1 heading elsewhere than at the beginning of the text.
+**What it does**: Checks if there are multiple H1 headings present in the text.
 
-**When it applies**: When there is an H1 heading elsewhere than at the beginning of the text.
+**When it applies**: When there are at least two H1 headings in the text.
 
 **Name in code**: SingleH1Assessment
 
@@ -336,7 +336,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
-| Red	| 1	| There is an H1 heading elsewhere than the beginning of the text		| **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
+| Red	| 1	| There are at least two H1 headings in the text		| **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
 
 ### 7) Function words in keyphrase
 **What it does**: Checks if the keyphrase consists of only function words.
