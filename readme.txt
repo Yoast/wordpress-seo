@@ -257,7 +257,6 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where a fatal error would be thrown when using the `wpseo_breadcrumb_links` filter in the wrong way on PHP 8.0+.
-* Fixes a bug where changes in the replacement variables (e.g. the value of the `%%title%%` replacement variable when the post title changes) would not be reflected in the _meta description length_, _SEO title width_, and the _keyphrase in SEO title_ assessments.
 * Fixes a bug where social or canonical URLs containing `@` would lead to encoding issues. Props to [@stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the buttons in the _FAQ_ and in the _how-to_ block would be hardly visible when using a dark theme.
 * Fixes a bug where the number of words would be counted incorrectly when using Cyrillic script. Props to [kudinovfedor](https://github.com/kudinovfedor).
