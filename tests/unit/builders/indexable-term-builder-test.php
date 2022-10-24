@@ -249,7 +249,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_twitter-description'   => 'twitter_description',
 				]
 			);
-
+		$this->taxonomy->expects( 'is_excluded' )->andReturnFalse();
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -409,6 +409,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_build_term_link_error() {
 		$term = (object) [ 'taxonomy' => 'tax' ];
 
+		$this->taxonomy->expects( 'is_excluded' )->andReturnFalse();
 		$error = Mockery::mock( '\WP_Error' );
 		$error
 			->expects( 'get_error_message' )
