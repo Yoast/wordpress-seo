@@ -166,6 +166,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
+			->twice()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
@@ -173,9 +174,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'are_not_indexed_for_users_without_posts' )
 			->andReturn( false );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -246,9 +244,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'are_disabled' )
 			->never();
-		$this->author_archive
-			->expects( 'are_not_indexed_for_users_without_posts' )
-			->never();
 
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
@@ -312,6 +307,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
+			->twice()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
@@ -319,9 +315,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'are_not_indexed_for_users_without_posts' )
 			->andReturn( false );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -393,6 +386,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
+			->twice()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
@@ -400,9 +394,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'are_not_indexed_for_users_without_posts' )
 			->andReturn( false );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -480,7 +471,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 *
 	 * @covers ::build
 	 */
-	public function test_throws_exception_when_author_archives_are_not_indexed_for_users_without_posts_and_user_has_no_posts() {
+	public function test_throws_exception_when_user_has_no_posts() {
 		$user_id = 1;
 
 		$this->author_archive
@@ -494,9 +485,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'author_has_public_posts' )
 			->with( $user_id )
 			->andReturn( false );
-		$this->author_archive
-			->expects( 'are_not_indexed_for_users_without_posts' )
-			->andReturn( true );
 
 		$this->expectException( Author_Not_Built_Exception::class );
 

@@ -95,15 +95,6 @@ class Author_Archive_Helper {
 	}
 
 	/**
-	 * Checks whether author archives are disabled for users without posts.
-	 *
-	 * @return bool
-	 */
-	public function are_not_indexed_for_users_without_posts() {
-		return $this->options_helper->get( 'noindex-author-noposts-wpseo' );
-	}
-
-	/**
 	 * Returns whether the author has at least one public post.
 	 *
 	 * @codeCoverageIgnore It looks for the first ID through the ORM and converts it to a boolean.
