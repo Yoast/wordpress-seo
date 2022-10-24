@@ -230,10 +230,6 @@ class Indexable_Author_Builder {
 			return Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
 		}
 
-		if ( $this->author_archive->are_not_indexed() ) {
-			return Author_Not_Built_Exception::author_archives_are_not_indexed( $user_id );
-		}
-
 		if ( $this->author_archive->is_disabled_for_user( $user_id ) ) {
 			return Author_Not_Built_Exception::author_archives_are_disabled_for_user( $user_id );
 		}

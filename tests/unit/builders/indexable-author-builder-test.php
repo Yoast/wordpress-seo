@@ -175,9 +175,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'are_not_indexed' )
-			->andReturn( false );
-		$this->author_archive
 			->expects( 'are_not_indexed_for_users_without_posts' )
 			->andReturn( false );
 
@@ -248,9 +245,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->never();
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->never();
-		$this->author_archive
-			->expects( 'are_not_indexed' )
 			->never();
 		$this->author_archive
 			->expects( 'are_not_indexed_for_users_without_posts' )
@@ -325,9 +319,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'are_not_indexed' )
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'are_not_indexed_for_users_without_posts' )
@@ -408,9 +399,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'are_not_indexed' )
-			->andReturn( false );
-		$this->author_archive
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
@@ -464,27 +452,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
 	 * Tests that the building an author throws an exception when author archives
-	 * are not indexed in general.
-	 *
-	 * @covers ::build
-	 */
-	public function test_throws_exception_when_author_archives_are_not_indexed() {
-		$this->author_archive
-			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'are_not_indexed' )
-			->andReturn( true );
-
-		$this->expectException( Author_Not_Built_Exception::class );
-
-		$indexable_mock = Mockery::mock( Indexable::class );
-
-		$this->instance->build( 1, $indexable_mock );
-	}
-
-	/**
-	 * Tests that the building an author throws an exception when author archives
 	 * are disabled for the given user.
 	 *
 	 * @covers ::build
@@ -494,9 +461,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'are_not_indexed' )
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )
@@ -521,9 +485,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->andReturn( false );
-		$this->author_archive
-			->expects( 'are_not_indexed' )
 			->andReturn( false );
 		$this->author_archive
 			->expects( 'is_disabled_for_user' )

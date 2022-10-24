@@ -95,15 +95,6 @@ class Author_Archive_Helper {
 	}
 
 	/**
-	 * Checks whether author archives are not indexed.
-	 *
-	 * @return bool `true` if author archives are not indexed, `false` if author archives are indexed.
-	 */
-	public function are_not_indexed() {
-		return $this->options_helper->get( 'noindex-author-wpseo' );
-	}
-
-	/**
 	 * Checks whether author archives are disabled for users without posts.
 	 *
 	 * @return bool
