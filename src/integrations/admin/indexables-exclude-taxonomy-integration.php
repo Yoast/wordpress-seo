@@ -7,9 +7,9 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Indexables_Exclude_Post_Type_Integration class
+ * Indexables_Exclude_Taxonomy_Integration class
  */
-class Indexables_Exclude_Post_Type_Integration implements Integration_Interface {
+class Indexables_Exclude_Taxonomy_Integration implements Integration_Interface {
 
 	/**
 	 * The options helper.
@@ -28,7 +28,7 @@ class Indexables_Exclude_Post_Type_Integration implements Integration_Interface 
 	}
 
 	/**
-	 * Indexables_Page_Integration constructor.
+	 * Indexables_Exclude_Taxonomy_Integration constructor.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
 	 */
