@@ -98,4 +98,42 @@ class WPSEO_Post_Type {
 	public static function has_metabox_enabled( $post_type ) {
 		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type, false );
 	}
+
+	/**
+	 * Resets the option related to the post types which have been made viewable.
+	 *
+	 * @return bool Wether the update succeeded or not.
+	 */
+	public static function reset_post_types_made_viewable() {
+		return WPSEO_Options::set( 'post_types_made_viewable', [] );
+	}
+
+	/**
+	 * Resets the option related to the taxonomies which have been made viewable.
+	 *
+	 * @return bool Wether the update succeeded or not.
+	 */
+	public static function reset_taxonomies_made_viewable() {
+		return WPSEO_Options::set( 'taxonomies_made_viewable', [] );
+	}
+
+	/**
+	 * Dismisses the notification related to the post types which have been made viewable.
+	 *
+	 * @return void
+	 */
+	public static function remove_post_types_made_viewable_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'post-types-made-viewable' );
+	}
+
+	/**
+	 * Dismisses the notification related to the taxonomies which have been made viewable.
+	 *
+	 * @return void
+	 */
+	public static function remove_taxonomies_made_viewable_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'taxonomies-made-viewable' );
+	}
 }
