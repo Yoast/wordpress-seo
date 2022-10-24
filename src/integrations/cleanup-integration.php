@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
  * Adds cleanup hooks.
@@ -24,6 +26,31 @@ class Cleanup_Integration implements Integration_Interface {
 	 * Identifier for starting the cleanup.
 	 */
 	const START_HOOK = 'wpseo_start_cleanup_indexables';
+
+	/**
+	 * A helper for taxonomies.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	private $taxonomy;
+
+	/**
+	 * A helper for post types.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Taxonomy_Helper  $taxonomy A helper for taxonomies.
+	 * @param Post_Type_Helper $post_type A helper for post types.
+	 */
+	public function __construct( Taxonomy_Helper $taxonomy, Post_Type_Helper $post_type ) {
+		$this->taxonomy  = $taxonomy;
+		$this->post_type = $post_type;
+	}
 
 	/**
 	 * Initializes the integration.
@@ -88,6 +115,12 @@ class Cleanup_Integration implements Integration_Interface {
 				},
 				'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
 					return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
+				},
+				'clean_indexables_for_non_publicly_viewable_post' => function ( $limit ) {
+					return $this->clean_indexables_for_non_publicly_viewable_post( $limit );
+				},
+				'clean_indexables_for_non_publicly_viewable_taxonomies' => function ( $limit ) {
+					return $this->clean_indexables_for_non_publicly_viewable_taxonomies( $limit );
 				},
 			],
 			$this->get_additional_tasks(),
@@ -272,6 +305,92 @@ class Cleanup_Integration implements Integration_Interface {
 		$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = 'post' AND post_status = %s ORDER BY id LIMIT %d", $post_status, $limit );
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( $sql );
+	}
+
+	/**
+	 * Cleans up any indexables that belong to post types that are not/no longer publicly viewable.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return bool|int The number of deleted rows, false if the query fails.
+	 */
+	protected function clean_indexables_for_non_publicly_viewable_post( $limit ) {
+		global $wpdb;
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$included_post_types = array_diff( $this->post_type->get_accessible_post_types(), $this->post_type->get_excluded_post_types_for_indexables() );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $included_post_types ) ) {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post'
+				AND object_sub_type IS NOT NULL
+				LIMIT %d",
+				$limit
+			);
+		}
+		else {
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )
+				LIMIT %d',
+				array_merge( $included_post_types, [ $limit ] )
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		return $wpdb->query( $delete_query );
+		// phpcs:enable
+	}
+
+	/**
+	 * Cleans up any indexables that belong to taxonomies that are not/no longer publicly viewable.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return bool|int The number of deleted rows, false if the query fails.
+	 */
+	protected function clean_indexables_for_non_publicly_viewable_taxonomies( $limit ) {
+		global $wpdb;
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$included_taxonomies = $this->taxonomy->get_public_taxonomies();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $included_taxonomies ) ) {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'term'
+				AND object_sub_type IS NOT NULL
+				LIMIT %d",
+				$limit
+			);
+		}
+		else {
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'term'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )
+				LIMIT %d',
+				array_merge( $included_taxonomies, [ $limit ] )
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		return $wpdb->query( $delete_query );
+		// phpcs:enable
 	}
 
 	/**

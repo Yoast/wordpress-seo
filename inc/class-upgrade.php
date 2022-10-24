@@ -6,6 +6,10 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\String_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
  * This code handles the option upgrades.
@@ -952,6 +956,8 @@ class WPSEO_Upgrade {
 	 * Performs the 19.10 upgrade routine.
 	 */
 	private function upgrade_1910() {
+		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
+		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
 		$this->deduplicate_unindexed_indexable_rows();
 	}
 
@@ -1348,6 +1354,99 @@ class WPSEO_Upgrade {
 
 		update_option( 'wpseo_titles', $wpseo_titles );
 	}
+
+	/**
+	 * Removes all indexables for posts that are not publicly viewable.
+	 * This method should be called after init, because post_types can still be registered.
+	 *
+	 * @return void
+	 */
+	public function remove_indexable_rows_for_non_public_post_types() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$post_type_helper = ( new Post_Type_Helper( new Options_Helper() ) );
+
+		$included_post_types = array_diff( $post_type_helper->get_accessible_post_types(), $post_type_helper->get_excluded_post_types_for_indexables() );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $included_post_types ) ) {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post'
+				AND object_sub_type IS NOT NULL"
+			);
+		}
+		else {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )',
+				$included_post_types
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$wpdb->query( $delete_query );
+		// phpcs:enable
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Removes all indexables for terms that are not publicly viewable.
+	 * This method should be called after init, because taxonomies can still be registered.
+	 *
+	 * @return void
+	 */
+	public function remove_indexable_rows_for_non_public_taxonomies() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$included_taxonomies = ( new Taxonomy_Helper( new Options_Helper(), new String_Helper() ) )->get_public_taxonomies();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $included_taxonomies ) ) {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'term'
+				AND object_sub_type IS NOT NULL"
+			);
+		}
+		else {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'term'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )',
+				$included_taxonomies
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$wpdb->query( $delete_query );
+		// phpcs:enable
+
+		$wpdb->show_errors = $show_errors;
+	}
+
 	/**
 	 * De-duplicates indexables that have more than one "unindexed" rows for the same object. Keeps the newest indexable.
 	 *
