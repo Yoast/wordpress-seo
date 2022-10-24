@@ -77,23 +77,9 @@ class Indexable_Author_Builder {
 	 * @throws Author_Not_Built_Exception When author is not built.
 	 */
 	public function build( $user_id, Indexable $indexable ) {
-		if ( $this->author_archive->are_disabled() ) {
-			throw Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
-		}
-
-		if ( $this->author_archive->are_not_indexed() ) {
-			throw Author_Not_Built_Exception::author_archives_are_not_indexed( $user_id );
-		}
-
-		if ( $this->author_archive->is_disabled_for_user( $user_id ) ) {
-			throw Author_Not_Built_Exception::author_archives_are_disabled_for_user( $user_id );
-		}
-
-		if (
-			$this->author_archive->are_not_indexed_for_users_without_posts()
-			&& $this->author_archive->author_has_public_posts( $user_id ) === false
-		) {
-			throw Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
+		$exception = $this->check_if_user_should_be_indexed( $user_id );
+		if ( $exception ) {
+			throw $exception;
 		}
 
 		$meta_data = $this->get_meta_data( $user_id );
@@ -211,5 +197,36 @@ class Indexable_Author_Builder {
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
 		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
+	}
+
+	/**
+	 * Checks if the user should be indexed.
+	 * Returns an exception with an appropriate message if not.
+	 *
+	 * @param string $user_id The user id.
+	 *
+	 * @return Author_Not_Built_Exception|null The exception if it should not be indexed, or `null` if it should.
+	 */
+	protected function check_if_user_should_be_indexed( $user_id ) {
+		if ( $this->author_archive->are_disabled() ) {
+			return Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
+		}
+
+		if ( $this->author_archive->are_not_indexed() ) {
+			return Author_Not_Built_Exception::author_archives_are_not_indexed( $user_id );
+		}
+
+		if ( $this->author_archive->is_disabled_for_user( $user_id ) ) {
+			return Author_Not_Built_Exception::author_archives_are_disabled_for_user( $user_id );
+		}
+
+		if (
+			$this->author_archive->are_not_indexed_for_users_without_posts()
+			&& $this->author_archive->author_has_public_posts( $user_id ) === false
+		) {
+			return Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
+		}
+
+		return null;
 	}
 }
