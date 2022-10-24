@@ -44,6 +44,12 @@ const areButtonsHidden = function( props ) {
 export const AnalysisResult = ( props ) => {
 	const { id, marker, hasMarksButton } = props;
 
+	/*
+	 * Update the marker status when there is a change in the following:
+	 * a) the result's id, or
+	 * b) the objects that need to be marked for the current result, or
+	 * c) the information whether there is an object to be marked for the current result.
+	 */
 	useEffect( () => {
 		props.onResultChange( id, marker, hasMarksButton );
 	}, [ id, marker, hasMarksButton ] );
