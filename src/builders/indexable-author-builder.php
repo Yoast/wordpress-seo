@@ -208,6 +208,24 @@ class Indexable_Author_Builder {
 	 * @return Author_Not_Built_Exception|null The exception if it should not be indexed, or `null` if it should.
 	 */
 	protected function check_if_user_should_be_indexed( $user_id ) {
+		/**
+		 * Filter: Include or exclude a user from being build and saved as an indexable.
+		 * Return `true` if the user with the given ID should be included.
+		 * Return `false` if the user with the given ID should be excluded.
+		 * Return `null` if the standard Yoast SEO logic should apply.
+		 *
+		 * @param string $user_id The ID of the user that should or should not be excluded.
+		 */
+		$user_should_be_indexed = \apply_filters( 'wpseo_should_build_and_save_user_indexable', $user_id );
+
+		if ( $user_should_be_indexed === true ) {
+			return null;
+		}
+
+		if ( $user_should_be_indexed === false ) {
+			return Author_Not_Built_Exception::author_not_built_because_of_filter( $user_id );
+		}
+
 		if ( $this->author_archive->are_disabled() ) {
 			return Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
 		}
