@@ -1373,7 +1373,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$post_type_helper = ( new Post_Type_Helper( new Options_Helper() ) );
+		$post_type_helper = \YoastSEO()->helpers->post_type;
 
 		$included_post_types = array_diff( $post_type_helper->get_accessible_post_types(), $post_type_helper->get_excluded_post_types_for_indexables() );
 
@@ -1420,7 +1420,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_taxonomies = ( new Taxonomy_Helper( new Options_Helper(), new String_Helper() ) )->get_public_taxonomies();
+		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_public_taxonomies();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
@@ -1526,7 +1526,7 @@ class WPSEO_Upgrade {
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
-		if ( ! ( new Author_Archive_Helper() )->are_disabled() ) {
+		if ( ! \YoastSEO()->helpers->author_archive->are_disabled() ) {
 			return;
 		}
 
@@ -1558,10 +1558,11 @@ class WPSEO_Upgrade {
 		$wpdb->show_errors = false;
 
 		$indexable_table           = Model::get_table_name( 'Indexable' );
-		$author_archive_post_types = ( new Author_Archive_Helper() )->get_author_archive_post_types();
+		$author_archive_post_types = \YoastSEO()->helpers->author_archive->get_author_archive_post_types();
 		$viewable_post_stati       = array_filter( get_post_stati(), 'is_post_status_viewable' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
 		$delete_query = $wpdb->prepare(
 			"DELETE FROM $indexable_table
 				WHERE object_type = 'user'
@@ -1610,7 +1611,6 @@ class WPSEO_Upgrade {
 		$object_ids           = wp_list_pluck( $filtered_duplicates, 'object_id' );
 		$newest_indexable_ids = wp_list_pluck( $filtered_duplicates, 'newest_id' );
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
 		return $wpdb->prepare(
