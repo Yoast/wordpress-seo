@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -852,8 +853,8 @@ class WPSEO_Upgrade {
 		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
 		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 
-		if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -962,6 +963,9 @@ class WPSEO_Upgrade {
 		$this->deduplicate_unindexed_indexable_rows();
 		$this->remove_indexable_rows_for_disabled_authors_archive();
 		$this->remove_indexable_rows_for_authors_without_archive();
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
 	}
 
 	/**
