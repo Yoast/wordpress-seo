@@ -101,7 +101,7 @@ class Indexable_Post_Builder {
 	 */
 	public function build( $post_id, $indexable ) {
 		if ( ! $this->post_helper->is_post_indexable( $post_id ) ) {
-			throw Post_Not_Built_Exception::because_not_viewable( $post_id );
+			throw Post_Not_Built_Exception::because_not_indexable( $post_id );
 		}
 
 		$post = $this->post_helper->get_post( $post_id );
@@ -111,7 +111,7 @@ class Indexable_Post_Builder {
 		}
 
 		if ( $this->should_exclude_post( $post ) ) {
-			throw Post_Not_Built_Exception::because_not_viewable( $post_id );
+			throw Post_Not_Built_Exception::because_post_type_excluded( $post_id );
 		}
 
 		$indexable->object_id       = $post_id;

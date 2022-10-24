@@ -9,14 +9,26 @@ namespace Yoast\WP\SEO\Exceptions\Indexable;
 class Post_Not_Built_Exception extends Not_Built_Exception {
 
 	/**
-	 * Throws an exception if the post is not viewable.
+	 * Throws an exception if the post is not indexable.
 	 *
 	 * @param int $post_id ID of the post.
 	 *
-	 * @throws Post_Not_Built_Exception When the post is not found.
+	 * @throws Post_Not_Built_Exception When the post is not indexable.
 	 */
-	public static function because_not_viewable( $post_id ) {
+	public static function because_not_indexable( $post_id ) {
 		/* translators: %s: expands to the post id */
-		return new Post_Not_Built_Exception( sprintf( __( 'The post %s could not be built because it\'s not viewable.', 'wordpress-seo' ), $post_id ) );
+		return new Post_Not_Built_Exception( sprintf( __( 'The post %s could not be indexed because it does not meet indexing requirments.', 'wordpress-seo' ), $post_id ) );
+	}
+
+	/**
+	 * Throws an exception if the post type is excluded from indexing.
+	 *
+	 * @param int $post_id ID of the post.
+	 *
+	 * @throws Post_Not_Built_Exception When the post type is excluded.
+	 */
+	public static function because_post_type_excluded( $post_id ) {
+		/* translators: %s: expands to the post id */
+		return new Post_Not_Built_Exception( sprintf( __( 'The post %s could not be indexed because it\'s post type is excluded from indexing.', 'wordpress-seo' ), $post_id ) );
 	}
 }
