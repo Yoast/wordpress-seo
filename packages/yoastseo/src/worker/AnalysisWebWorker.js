@@ -970,6 +970,22 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Updates the results for the inclusive language assessor.
+	 *
+	 * @param {boolean} shouldInclusiveLanguageUpdate Whether the results of the inclusive language assessor should be updated.
+	 * @returns {void}
+	 */
+	updateInclusiveLanguageAssessor( shouldInclusiveLanguageUpdate ) {
+		if ( this._configuration.inclusiveLanguageAnalysisActive && this._inclusiveLanguageAssessor && shouldInclusiveLanguageUpdate ) {
+			this._inclusiveLanguageAssessor.assess( this._paper );
+			this._results.inclusiveLanguage = {
+				results: this._inclusiveLanguageAssessor.results,
+				score: this._inclusiveLanguageAssessor.calculateOverallScore(),
+			};
+		}
+	}
+
+	/**
 	 * Checks if the related keyword contains changes that are used for seo.
 	 *
 	 * @param {string} key                     The identifier of the related keyword.
@@ -989,6 +1005,44 @@ export default class AnalysisWebWorker {
 		}
 
 		return this._relatedKeywords[ key ].synonyms !== synonyms;
+	}
+
+
+	/**
+	 * Checks whether the additional assessor should be updated.
+	 *
+	 * @param {Paper} paper The paper to check.
+	 * @returns {Object} An object containing the information whether each additional assessor needs to be updated.
+	 */
+	shouldAdditionalAssessorsUpdate( paper ) {
+		const shouldCustomAssessorsUpdate = {};
+		Object.keys( this.additionalAssessors ).forEach(
+			assessorName => {
+				shouldCustomAssessorsUpdate[ assessorName ] = this.additionalAssessors[ assessorName ].shouldUpdate( this._paper, paper );
+			}
+		);
+		return shouldCustomAssessorsUpdate;
+	}
+
+	/**
+	 * Updates the results for the additional assessor.
+	 *
+	 * @param {boolean} shouldCustomAssessorsUpdate Whether the results of the additional assessor should be updated.
+	 * @returns {void}
+	 */
+	updateAdditionalAssessors( shouldCustomAssessorsUpdate ) {
+		Object.keys( this.additionalAssessors ).forEach(
+			assessorName => {
+				const { assessor } = this.additionalAssessors[ assessorName ];
+				if ( ! this._results[ assessorName ] || shouldCustomAssessorsUpdate[ assessorName ] ) {
+					assessor.assess( this._paper );
+					this._results[ assessorName ] = {
+						results: assessor.results,
+						score: assessor.calculateOverallScore(),
+					};
+				}
+			}
+		);
 	}
 
 	/**
@@ -1013,13 +1067,7 @@ export default class AnalysisWebWorker {
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 		const shouldInclusiveLanguageUpdate = this.shouldInclusiveLanguageUpdate( paper );
-
-		const shouldCustomAssessorsUpdate = {};
-		Object.keys( this.additionalAssessors ).forEach(
-			assessorName => {
-				shouldCustomAssessorsUpdate[ assessorName ] = this.additionalAssessors[ assessorName ].shouldUpdate( this._paper, paper );
-			}
-		);
+		const shouldCustomAssessorsUpdate = this.shouldAdditionalAssessorsUpdate( paper );
 
 		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
@@ -1087,26 +1135,9 @@ export default class AnalysisWebWorker {
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
-		if ( this._configuration.inclusiveLanguageAnalysisActive && this._inclusiveLanguageAssessor && shouldInclusiveLanguageUpdate ) {
-			this._inclusiveLanguageAssessor.assess( this._paper );
-			this._results.inclusiveLanguage = {
-				results: this._inclusiveLanguageAssessor.results,
-				score: this._inclusiveLanguageAssessor.calculateOverallScore(),
-			};
-		}
+		this.updateInclusiveLanguageAssessor( shouldInclusiveLanguageUpdate );
 
-		Object.keys( this.additionalAssessors ).forEach(
-			assessorName => {
-				const { assessor } = this.additionalAssessors[ assessorName ];
-				if ( ! this._results[ assessorName ] || shouldCustomAssessorsUpdate[ assessorName ] ) {
-					assessor.assess( this._paper );
-					this._results[ assessorName ] = {
-						results: assessor.results,
-						score: assessor.calculateOverallScore(),
-					};
-				}
-			}
-		);
+		this.updateAdditionalAssessors( shouldCustomAssessorsUpdate );
 
 		return this._results;
 	}
