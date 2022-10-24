@@ -133,8 +133,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_viewable_post_types'           => [],
 		'last_known_viewable_taxonomies'           => [],
-		'post_type_made_viewable'                  => [],
-		'taxonomy_made_viewable'              => [],
+		'post_types_made_viewable'                 => [],
+		'taxonomies_made_viewable'                 => [],
 	];
 
 	/**
@@ -406,8 +406,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'indexables_page_reading_list':
 				case 'last_known_viewable_post_types':
 				case 'last_known_viewable_taxonomies':
-				case 'post_type_made_viewable':
-				case 'taxonomy_made_viewable':
+				case 'post_types_made_viewable':
+				case 'taxonomies_made_viewable':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
