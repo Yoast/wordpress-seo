@@ -208,32 +208,24 @@ class Indexable_Author_Builder {
 	 * @return Author_Not_Built_Exception|null The exception if it should not be indexed, or `null` if it should.
 	 */
 	protected function check_if_user_should_be_indexed( $user_id ) {
-		/**
-		 * Filter: Include or exclude a user from being build and saved as an indexable.
-		 * Return `true` if the user with the given ID should be included.
-		 * Return `false` if the user with the given ID should be excluded.
-		 * Return `null` if the standard Yoast SEO logic should apply.
-		 *
-		 * @param string $user_id The ID of the user that should or should not be excluded.
-		 */
-		$user_should_be_indexed = \apply_filters( 'wpseo_should_build_and_save_user_indexable', $user_id );
-
-		if ( $user_should_be_indexed === true ) {
-			return null;
-		}
-
-		if ( $user_should_be_indexed === false ) {
-			return Author_Not_Built_Exception::author_not_built_because_of_filter( $user_id );
-		}
+		$exception = null;
 
 		if ( $this->author_archive->are_disabled() ) {
-			return Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
+			$exception = Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
 		}
 
 		if ( $this->author_archive->author_has_public_posts( $user_id ) === false ) {
-			return Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
+			$exception = Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
 		}
 
-		return null;
+		/**
+		 * Filter: Include or exclude a user from being build and saved as an indexable.
+		 * Return an `Author_Not_Built_Exception` when the indexable should not be build, with an appropriate message telling why it should not be built.
+		 * Return `null` if the indexable should be build.
+		 *
+		 * @param Author_Not_Built_Exception|null $exception An exception if the indexable is not being built, `null` if the indexable should be built.
+		 * @param string                          $user_id   The ID of the user that should or should not be excluded.
+		 */
+		return \apply_filters( 'wpseo_should_build_and_save_user_indexable', $exception, $user_id );
 	}
 }

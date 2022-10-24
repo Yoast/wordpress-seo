@@ -231,16 +231,15 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_should_build_and_save_user_indexable' )
-			->with( 1 )
-			->andReturn( true );
+			->andReturn( null );
 
 		$this->author_archive
 			->expects( 'are_disabled' )
-			->never();
-
+			->andReturn( false );
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
+			->twice()
 			->andReturn( true );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -419,6 +418,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( true );
 
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
+			->with( 1 )
+			->andReturn( true );
+
 		$this->expectException( Author_Not_Built_Exception::class );
 
 		$indexable_mock = Mockery::mock( Indexable::class );
@@ -458,9 +462,16 @@ class Indexable_Author_Builder_Test extends TestCase {
 	public function test_throws_an_exception_when_user_is_excluded_in_filter() {
 		$user_id = 1;
 
-		Monkey\Filters\expectApplied( 'wpseo_should_build_and_save_user_indexable' )
+		$this->author_archive
+			->expects( 'are_disabled' )
+			->andReturn( false );
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
 			->with( $user_id )
 			->andReturn( false );
+
+		Monkey\Filters\expectApplied( 'wpseo_should_build_and_save_user_indexable' )
+			->andReturn( new Author_Not_Built_Exception( 'Author should not be build.' ) );
 
 		$this->expectException( Author_Not_Built_Exception::class );
 
