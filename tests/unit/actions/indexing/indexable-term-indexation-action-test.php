@@ -111,6 +111,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				'other_taxonomy'  => 'other_taxonomy',
 			]
 		);
+		$this->taxonomy->expects( 'get_excluded_taxonomies_for_indexables' )->once()->andReturn( [] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy' ] )
@@ -154,6 +155,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				'other_taxonomy'  => 'other_taxonomy',
 			]
 		);
+		$this->taxonomy->expects( 'get_excluded_taxonomies_for_indexables' )->once()->andReturn( [] );
+
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy', $limit ] )
@@ -196,7 +199,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			->expects( 'get_public_taxonomies' )
 			->once()
 			->andReturn( [ 'public_taxonomy' => 'public_taxonomy' ] );
-
+		$this->taxonomy->expects( 'get_excluded_taxonomies_for_indexables' )->once()->andReturn( [] );
 		$this->wpdb
 			->expects( 'prepare' )
 			->once()
@@ -237,6 +240,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				'other_taxonomy'  => 'other_taxonomy',
 			]
 		);
+		$this->taxonomy->expects( 'get_excluded_taxonomies_for_indexables' )->once()->andReturn( [] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy', 25 ] )
@@ -263,6 +267,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 'not an integer' );
 
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' => 'public_taxonomy' ] );
+		$this->taxonomy->expects( 'get_excluded_taxonomies_for_indexables' )->once()->andReturn( [] );
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
@@ -303,6 +308,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				'other_taxonomy'  => 'other_taxonomy',
 			]
 		);
+		$this->taxonomy->expects( 'get_excluded_taxonomies_for_indexables' )->once()->andReturn( [] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy', 25 ] )
