@@ -15,9 +15,7 @@
 			}
 
 			.yst-autocomplete__input {
-				@apply
-				yst-text-red-900
-				yst-placeholder-red-300;
+				@apply yst-placeholder-red-300;
 			}
 		}
 
