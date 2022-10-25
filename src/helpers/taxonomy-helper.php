@@ -58,20 +58,9 @@ class Taxonomy_Helper {
 	 *                                The type depends on the specified output variable.
 	 */
 	public function get_public_taxonomies( $output = 'names' ) {
-		return \get_taxonomies( [ 'public' => true ], $output );
-	}
+		$taxonomies = \get_taxonomies( [ 'public' => true ], $output );
 
-	/**
-	 * Returns an array with the accessible taxonomies.
-	 *
-	 * An accessible taxonomies is public and viewable.
-	 *
-	 * @return array Array with all the accessible taxonomies.
-	 */
-	public function get_accessible_taxonomies() {
-		$post_types = \get_taxonomies( [ 'public' => true ] );
-
-		return \array_filter( $post_types, 'is_taxonomy_viewable' );
+		return \array_filter( $taxonomies, 'is_taxonomy_viewable' );
 	}
 
 	/**
@@ -165,10 +154,10 @@ class Taxonomy_Helper {
 	/**
 	 * This builds a list of indexable taxonomies.
 	 *
-	 * @return array The indexable taxnomies.
+	 * @return array The indexable taxonomies.
 	 */
 	public function get_indexable_taxonomies() {
-		$public_taxonomies   = $this->get_accessible_taxonomies();
+		$public_taxonomies   = $this->get_public_taxonomies();
 		$excluded_taxonomies = $this->get_excluded_taxonomies_for_indexables();
 
 		// `array_values`, to make sure that the keys are reset.

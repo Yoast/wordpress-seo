@@ -63,7 +63,9 @@ class Post_Type_Helper {
 	 * @return array Array with all the public post_types.
 	 */
 	public function get_public_post_types( $output = 'names' ) {
-		return \get_post_types( [ 'public' => true ], $output );
+		$post_types = \get_post_types( [ 'public' => true ], $output );
+
+		return \array_filter( $post_types, 'is_post_type_viewable' );
 	}
 
 	/**

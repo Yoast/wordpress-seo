@@ -91,12 +91,9 @@ class Indexable_Term_Builder {
 			throw new Invalid_Term_Exception( $term->get_error_message() );
 		}
 
-		if ( ! is_taxonomy_viewable( $term->taxonomy ) ) {
-			throw Term_Not_Built_Exception::because_not_viewable( $term_id );
-		}
-
-		if ( $this->taxonomy_helper->is_excluded( $term->taxonomy ) ) {
-			throw Term_Not_Built_Exception::because_excluded( $term_id );
+		$indexable_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
+		if ( ! in_array( $term->taxonomy, $indexable_taxonomies, true ) ) {
+			throw Term_Not_Built_Exception::because_not_indexable( $term_id );
 		}
 
 		$term_link = \get_term_link( $term, $term->taxonomy );
