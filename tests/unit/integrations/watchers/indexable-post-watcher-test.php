@@ -407,6 +407,32 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that update_has_public_posts does not update the author archive when
+	 * the author can't be retrieved.
+	 *
+	 * @covers ::update_has_public_posts
+	 */
+	public function test_update_has_public_posts_with_finding_user_returning_false() {
+		$post_indexable                  = Mockery::mock();
+		$post_indexable->object_id       = 33;
+		$post_indexable->object_sub_type = 'post';
+		$post_indexable->author_id       = 1;
+		$post_indexable->is_public       = null;
+
+		$this->repository->expects( 'find_by_id_and_type' )
+			->with( 1, 'user' )
+			->once()
+			->andReturn( false );
+		$this->author_archive->expects( 'author_has_public_posts' )->once()->never();
+		$this->post->expects( 'update_has_public_posts_on_attachments' )
+			->once()
+			->with( 33, null )
+			->andReturnTrue();
+
+		$this->instance->update_has_public_posts( $post_indexable );
+	}
+
+	/**
 	 * Tests the routine for updating the relations.
 	 *
 	 * @covers ::update_relations
