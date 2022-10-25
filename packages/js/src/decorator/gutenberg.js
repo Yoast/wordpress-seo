@@ -2,14 +2,13 @@
 import {
 	isFunction,
 	flatMap,
-	flatten,
-	uniq,
-	isUndefined,
+
 } from "lodash-es";
 // The WP annotations package isn't loaded by default so force loading it.
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
+import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
 
 
 const ANNOTATION_SOURCE = "yoast";
@@ -364,12 +363,7 @@ function fillAnnotationQueue( annotations ) {
 export function applyAsAnnotations( paper, marks ) {
 	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
-	const fieldsToMark = uniq( flatten( marks.map( mark => {
-		if ( ! isUndefined( mark.getFieldsToMark() ) ) {
-			return mark.getFieldsToMark();
-		}
-		// return mark
-	} ) ) );
+	const fieldsToMark = getFieldsToMarkHelper(  marks  );
 
 	if ( marks.length === 0 ) {
 		return;
