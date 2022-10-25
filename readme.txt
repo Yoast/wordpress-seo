@@ -268,7 +268,7 @@ Bugfixes:
 
 Other:
 
-* Adds taxonomy information to breadcrumbs of type \"term\" to be able to filter them better with the `wpseo_breadcrumb_links` filter. Props to [@svenvonarx](https://github.com/svenvonarx).
+* Adds taxonomy information to breadcrumbs of type "term" to be able to filter them better with the `wpseo_breadcrumb_links` filter. Props to [@svenvonarx](https://github.com/svenvonarx).
 * Adds a `wpseo_primary_category_admin_pages` filter to enable the use of the primary category in the post URL of additional admin pages besides the default ones. Props to [@ssvet](https://github.com/ssvet).
 * Reinstates the `wpseo_twitter_card_type` filter that was wrongly deprecated in 19.8.
 
