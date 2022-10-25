@@ -214,8 +214,8 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_with_excluded_post_types() {
-		$public_post_types   = [ 'public_post_type'];
-		$query_params        = [ 'public_post_type', 'auto-draft', 2 ];
+		$public_post_types = [ 'public_post_type' ];
+		$query_params      = [ 'public_post_type', 'auto-draft', 2 ];
 
 		$expected_query = "
 			SELECT COUNT(P.ID)
@@ -331,7 +331,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_post_types
 	 */
 	public function test_index_with_excluded_post_types() {
-		$public_post_types   = [ 'public_post_type' ];
+		$public_post_types = [ 'public_post_type' ];
 
 		$expected_query = "
 			SELECT P.ID

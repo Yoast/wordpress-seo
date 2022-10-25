@@ -223,7 +223,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( $term, 'category' )
 			->andReturn( 'https://example.org/category/1' );
 		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
-		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn(['category']);
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn( [ 'category' ] );
 
 		$this->taxonomy->expects( 'get_term_meta' )
 			->once()
@@ -408,7 +408,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_build_term_link_error() {
 		$term = (object) [ 'taxonomy' => 'tax' ];
 
-		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn(['tax']);
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn( [ 'tax' ] );
 		$error = Mockery::mock( '\WP_Error' );
 		$error
 			->expects( 'get_error_message' )
