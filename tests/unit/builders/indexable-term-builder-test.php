@@ -223,7 +223,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( $term, 'category' )
 			->andReturn( 'https://example.org/category/1' );
 		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
-		Monkey\Functions\expect( 'is_taxonomy_viewable' )->once()->andReturn( true );
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn(['category']);
 
 		$this->taxonomy->expects( 'get_term_meta' )
 			->once()
@@ -249,7 +249,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_twitter-description'   => 'twitter_description',
 				]
 			);
-		$this->taxonomy->expects( 'is_excluded' )->andReturnFalse();
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -409,7 +408,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_build_term_link_error() {
 		$term = (object) [ 'taxonomy' => 'tax' ];
 
-		$this->taxonomy->expects( 'is_excluded' )->andReturnFalse();
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn(['tax']);
 		$error = Mockery::mock( '\WP_Error' );
 		$error
 			->expects( 'get_error_message' )
@@ -423,9 +422,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->once()
 			->with( $term, 'tax' )
 			->andReturn( $error );
-		Monkey\Functions\expect( 'is_taxonomy_viewable' )
-			->once()
-			->andReturn( true );
 
 		$this->expectException( Invalid_Term_Exception::class );
 
