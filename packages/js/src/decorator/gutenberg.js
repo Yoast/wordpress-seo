@@ -10,7 +10,7 @@ import {
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
-import { Mark } from "yoastseo/src/values";
+
 
 const ANNOTATION_SOURCE = "yoast";
 
@@ -377,11 +377,7 @@ export function applyAsAnnotations( paper, marks ) {
 	let blocks = select( "core/block-editor" ).getBlocks();
 
 	if ( fieldsToMark.length > 0 ) {
-		blocks = blocks.filter( block => {
-			return fieldsToMark.some( field => {
-				return field === block.name;
-			} );
-		} );
+		blocks = blocks.filter( block => fieldsToMark.some( field => "core/" + field === block.name ) );
 	}
 
 
