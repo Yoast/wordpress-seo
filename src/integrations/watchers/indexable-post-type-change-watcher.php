@@ -112,6 +112,8 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 		if ( empty( $last_known_viewable_post_types ) ) {
 			$this->options->set( 'last_known_viewable_post_types', $viewable_post_types );
+			$last_known_viewable_post_types = $viewable_post_types;
+			return;
 		}
 
 		$newly_made_viewable_post_types     = \array_diff( $viewable_post_types, $last_known_viewable_post_types );

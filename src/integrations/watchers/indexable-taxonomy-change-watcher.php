@@ -110,6 +110,8 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 
 		if ( empty( $last_known_viewable_taxonomies ) ) {
 			$this->options->get( 'last_known_viewable_taxonomies', $viewable_taxonomies );
+			$last_known_viewable_taxonomies = $viewable_taxonomies;
+			return;
 		}
 
 		$newly_made_viewable_taxonomies     = \array_diff( $viewable_taxonomies, $last_known_viewable_taxonomies );
