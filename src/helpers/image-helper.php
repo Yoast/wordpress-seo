@@ -388,12 +388,10 @@ class Image_Helper {
 	/**
 	 * Get the image width and height from the image src attribute (for WordPress images).
 	 *
-	 * @todo: If the image URL does not contain width and height attributes, add the 'full' size as default.
-	 *
 	 * @param string $src The image src attribute.
 	 * @return array|null Either an array with a 'width' and 'height' key or null when no image size was found.
 	 */
-	protected function get_image_size( $src ) {
+	protected function get_image_size_from_src( $src ) {
 		$matches = [];
 		$match   = \preg_match( '/^.+-(?<width>\d+)x(?<height>\d+)\.(?<extension>[^.]+)$/', $src, $matches );
 
@@ -405,6 +403,36 @@ class Image_Helper {
 			'width'  => intval( $matches['width'] ),
 			'height' => intval( $matches['height'] ),
 		];
+	}
+
+	/**
+	 * Get the image width and height from the image src and image ID.
+	 *
+	 * @param string   $src The image src attribute.
+	 * @param int|null $id The image ID (if known).
+	 * @return array|null Either an array with a 'width' and 'height' key or null when no image size was found.
+	 */
+	protected function get_image_size( $src, $id = null ) {
+		$image_size_from_src = $this->get_image_size_from_src( $src );
+		if ( ! \is_null( $image_size_from_src ) ) {
+			return $image_size_from_src;
+		}
+
+		if ( \is_null( $id ) ) {
+			return null;
+		}
+
+		// The image is not resized, so we can get the data from the 'full' image.
+		$image_src = \wp_get_attachment_image_src( $id, 'full' );
+		if ( $image_src !== false ) {
+			return [
+				'width'  => $image_src[1],
+				'height' => $image_src[2],
+			];
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**
@@ -427,7 +455,7 @@ class Image_Helper {
 
 		if ( ! \is_null( $id ) ) {
 			// Extract image size if present in src.
-			$image_size = $this->get_image_size( $src );
+			$image_size = $this->get_image_size( $src, $id );
 			if ( ! \is_null( $image_size ) ) {
 				$width  = $image_size['width'];
 				$height = $image_size['height'];
