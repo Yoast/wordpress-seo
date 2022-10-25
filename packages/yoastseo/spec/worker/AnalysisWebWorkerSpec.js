@@ -177,11 +177,11 @@ describe( "AnalysisWebWorker", () => {
 		} );
 
 		describe( "shouldAssessorsUpdate", () => {
-			const updateAll = { readability: true, seo: true };
-			const updateNone = { readability: false, seo: false };
-			const updateReadability = { readability: true, seo: false };
-			const updateSEO = { readability: false, seo: true };
-			const updateSEOAndReadability = { readability: true, seo: true };
+			const updateAll = { readability: true, seo: true, inclusiveLanguage: true };
+			const updateNone = { readability: false, seo: false, inclusiveLanguage: false };
+			const updateReadability = { readability: true, seo: false, inclusiveLanguage: false };
+			const updateSEO = { readability: false, seo: true, inclusiveLanguage: false };
+			const updateSEOAndReadability = { readability: true, seo: true, inclusiveLanguage: false };
 
 			test( "update all when an empty configuration is passed", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateAll );
@@ -1730,6 +1730,43 @@ describe( "AnalysisWebWorker", () => {
 		test( "returns false when the keyword and synonyms are the same", () => {
 			worker._relatedKeywords[ key ] = { keyword, synonyms };
 			expect( worker.shouldSeoUpdate( key, { keyword, synonyms } ) ).toBe( false );
+		} );
+	} );
+
+	describe( "shouldInclusiveLanguageUpdate", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+		} );
+
+		test( "returns true when the existing paper is null", () => {
+			const paper = new Paper( "This does not matter here." );
+			worker._paper = null;
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the paper text is different", () => {
+			const paper = new Paper( "This is different content." );
+			worker._paper = new Paper( "This is the content." );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the paper locale is different", () => {
+			const paper = new Paper( "This is the content.", { locale: "en_US" } );
+			worker._paper = new Paper( "This is the content.", { locale: "nl_NL" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the text title of the paper is different", () => {
+			const paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			worker._paper = new Paper( "This is the content.", { textTitle: "A different text title" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns false when the text and text title are the same", () => {
+			const paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			worker._paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( false );
 		} );
 	} );
 
