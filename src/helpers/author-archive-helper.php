@@ -47,6 +47,16 @@ class Author_Archive_Helper {
 	}
 
 	/**
+	 * Checks whether author archives are disabled.
+	 *
+	 * @return bool `true` if author archives are disabled, `false` if not.
+	 */
+	public function are_disabled() {
+		// TODO Use implementation of the PC-853-when-author-archives-are-disabled-we-should-not-store-indexables-for-author-pages branch.
+		return \YoastSeo()->helpers->options->get( 'disable-author' );
+	}
+
+	/**
 	 * Returns whether the author has at least one public post.
 	 *
 	 * @codeCoverageIgnore It looks for the first ID through the ORM and converts it to a boolean.
