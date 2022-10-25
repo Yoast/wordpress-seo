@@ -62,6 +62,19 @@ class Taxonomy_Helper {
 	}
 
 	/**
+	 * Returns an array with the accessible taxonomies.
+	 *
+	 * An accessible taxonomies is public and viewable.
+	 *
+	 * @return array Array with all the accessible taxonomies.
+	 */
+	public function get_accessible_taxonomies() {
+		$post_types = \get_taxonomies( [ 'public' => true ] );
+
+		return \array_filter( $post_types, 'is_taxonomy_viewable' );
+	}
+
+	/**
 	 * Retrieves the term description (without tags).
 	 *
 	 * @param int $term_id Term ID.
@@ -147,5 +160,18 @@ class Taxonomy_Helper {
 	 */
 	public function is_excluded( $taxonomy ) {
 		return \in_array( $taxonomy, $this->get_excluded_taxonomies_for_indexables(), true );
+	}
+
+	/**
+	 * This builds a list of indexable taxonomies.
+	 *
+	 * @return array The indexable taxnomies.
+	 */
+	public function get_indexable_taxonomies() {
+		$public_taxonomies   = $this->get_accessible_taxonomies();
+		$excluded_taxonomies = $this->get_excluded_taxonomies_for_indexables();
+
+		// `array_values`, to make sure that the keys are reset.
+		return \array_values( \array_diff( $public_taxonomies, $excluded_taxonomies ) );
 	}
 }
