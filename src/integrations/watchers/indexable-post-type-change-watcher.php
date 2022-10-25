@@ -6,8 +6,9 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -21,6 +22,13 @@ use Yoast_Notification_Center;
 class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 	/**
+	 * The indexing helper.
+	 *
+	 * @var Indexing_Helper
+	 */
+	protected $indexing_helper;
+
+	/**
 	 * Holds the Options_Helper instance.
 	 *
 	 * @var Options_Helper
@@ -28,19 +36,19 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	private $options;
 
 	/**
+	 * Holds the Post_Type_Helper instance.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
-
-	/**
-	 * The indexing helper.
-	 *
-	 * @var Indexing_Helper
-	 */
-	protected $indexing_helper;
-
+	
 	/**
 	 * The notifications center.
 	 *
@@ -63,17 +71,20 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 * @param Options_Helper            $options             The options helper.
 	 * @param Indexable_Repository      $repository          The Indexables repository.
 	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
+	 * @param Post_Type_Helper          $post_type_helper    The post_typehelper.
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Indexable_Repository $repository,
 		Indexing_Helper $indexing_helper,
+		Post_Type_Helper $post_type_helper,
 		Yoast_Notification_Center $notification_center
 	) {
 		$this->options             = $options;
 		$this->repository          = $repository;
 		$this->indexing_helper     = $indexing_helper;
+		$this->post_type_helper    = $post_type_helper;
 		$this->notification_center = $notification_center;
 	}
 
@@ -100,14 +111,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( ! function_exists( '\is_post_type_viewable' ) ) {
-			return;
-		}
-
-		$post_types = \get_post_types();
-
-
-		$viewable_post_types            = \array_keys( \array_filter( $post_types, '\is_post_type_viewable' ) );
+		$viewable_post_types            = \array_keys( $this->post_type_helper->get_public_post_types() );
 		$last_known_viewable_post_types = $this->options->get( 'last_known_viewable_post_types', [] );
 
 		if ( empty( $last_known_viewable_post_types ) ) {
