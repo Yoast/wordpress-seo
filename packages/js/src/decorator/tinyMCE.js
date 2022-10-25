@@ -1,6 +1,7 @@
 import { markers } from "yoastseo";
-import { flatten, forEach, isUndefined, uniq } from "lodash-es";
+import { forEach } from "lodash-es";
 import { getSubheadings } from "yoastseo/src/languageProcessing/helpers/html/getSubheadings";
+import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
 var MARK_TAG = "yoastmark";
 
 /**
@@ -35,12 +36,7 @@ function markTinyMCE( editor, paper, marks ) {
 	let html = editor.getContent();
 	html = markers.removeMarks( html );
 
-	const fieldsToMark = uniq( flatten( marks.map( mark => {
-		if ( ! isUndefined( mark.getFieldsToMark() ) ) {
-			return mark.getFieldsToMark();
-		}
-		// return mark
-	} ) ) );
+	const fieldsToMark = getFieldsToMarkHelper( marks );
 
 	let selectedHTML = "";
 	fieldsToMark.forEach( field => {
@@ -51,8 +47,6 @@ function markTinyMCE( editor, paper, marks ) {
 			} );
 		}
 	} );
-
-	console.log( fieldsToMark, "FIELDSTOMARK" );
 
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {
