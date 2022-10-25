@@ -138,7 +138,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
-			
+
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_VIEWABLE );
 
 			$this->maybe_add_notification();
