@@ -58,14 +58,19 @@ class Post_Type_Helper {
 	 *
 	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
-	 * @param string $output The output type to use.
+	 * @param string $output               The output type to use.
+	 * @param bool   $exclude_non_viewable Whether to exclude non viewable post types.
 	 *
 	 * @return array Array with all the public post_types.
 	 */
-	public function get_public_post_types( $output = 'names' ) {
+	public function get_public_post_types( $output = 'names', $exclude_non_viewable = true ) {
 		$post_types = \get_post_types( [ 'public' => true ], $output );
 
-		return \array_filter( $post_types, 'is_post_type_viewable' );
+		if ( $exclude_non_viewable ) {
+			$post_types = \array_filter( $post_types, 'is_post_type_viewable' );
+		}
+
+		return $post_types;
 	}
 
 	/**
