@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
  * Class WPSEO_Admin_Pages.
@@ -41,8 +42,8 @@ class WPSEO_Admin_Pages {
 	 */
 	public function init() {
 		$page = filter_input( INPUT_GET, 'page' );
-		if ( $page === 'wpseo_settings' ) {
-			// Bail, this is managed in `Yoast\WP\SEO\Integrations\Settings_Integration`.
+		if ( $page === Settings_Integration::PAGE ) {
+			// Bail, this is managed in the Settings_Integration.
 			return;
 		}
 

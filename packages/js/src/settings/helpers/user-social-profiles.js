@@ -21,18 +21,11 @@ export const fetchUserSocialProfiles = async( userId ) => {
 };
 
 /**
- * @param {Object} values The values.
+ * @param {string} userId The ID of the user.
+ * @param {Object} personSocialProfiles The personSocialProfiles.
  * @returns {Promise<void>} Promise of saving, can reject.
  */
-export const submitUserSocialProfiles = async( values ) => {
-	const { person_social_profiles: personSocialProfiles } = values;
-	const { company_or_person: companyOrPerson, company_or_person_user_id: userId } = values.wpseo_titles;
-
-	if ( companyOrPerson !== "person" || userId < 1 ) {
-		// A person is not represented.
-		return;
-	}
-
+export const submitUserSocialProfiles = async( userId, personSocialProfiles ) => {
 	try {
 		const response = await apiFetch( {
 			path: PERSON_SOCIAL_PROFILES_ROUTE,

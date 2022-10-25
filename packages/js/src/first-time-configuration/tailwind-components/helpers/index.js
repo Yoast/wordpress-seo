@@ -50,8 +50,8 @@ export function getOptionActiveStyles( { active, selected } ) {
 	return classNames(
 		"yst-relative yst-cursor-default yst-select-none yst-py-2 yst-pl-3 yst-pr-9 yst-my-0",
 		selected && "yst-bg-primary-500 yst-text-white",
-		( active && ! selected ) && "yst-bg-primary-200 yst-text-gray-700",
-		( ! active && ! selected ) && "yst-text-gray-700"
+		( active && ! selected ) && "yst-bg-primary-200 yst-text-slate-700",
+		( ! active && ! selected ) && "yst-text-slate-700"
 	);
 }
 

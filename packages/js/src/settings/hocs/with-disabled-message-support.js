@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
 import { get } from "lodash";
 import PropTypes from "prop-types";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 
 /**
  * Adds disabled message support around a component.

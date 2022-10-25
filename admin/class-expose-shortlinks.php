@@ -55,6 +55,8 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
 		'shortlinks.upsell.sidebar.morphology_upsell_metabox'       => 'https://yoa.st/morphology-upsell-metabox',
 		'shortlinks.upsell.sidebar.morphology_upsell_sidebar'       => 'https://yoa.st/morphology-upsell-sidebar',
+		'shortlinks-upsell-postpublish-zapier_upsell_buy_link'      => 'https://yoa.st/get-zapier-postpublish',
+		'shortlinks-upsell-postpublish-zapier_upsell_help_link'     => 'https://yoa.st/about-zapier',
 		'shortlinks.semrush.volume_help'                            => 'https://yoa.st/3-v',
 		'shortlinks.semrush.trend_help'                             => 'https://yoa.st/3-v',
 		'shortlinks.semrush.prices'                                 => 'https://yoa.st/semrush-prices',

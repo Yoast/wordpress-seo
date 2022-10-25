@@ -533,7 +533,7 @@ export default function FirstTimeConfigurationSteps() {
 	}, [ beforeUnloadEventHandler ] );
 
 	return (
-		<div id="yoast-configuration" className="yst-card yst-text-gray-500">
+		<div id="yoast-configuration" className="yst-card yst-text-slate-500">
 			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
 			<p className="yst-py-2">
 				{
@@ -570,6 +570,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isIndexationStepFinished }
 						>
 							<EditButton
+								id={ `button-${ STEPS.optimizeSeoData }-edit` }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -580,6 +581,7 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
 							<ContinueButton
+								id={ `button-${ STEPS.optimizeSeoData }-continue` }
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
 								destination={ stepperFinishedOnce ? "last" : 1 }
@@ -594,6 +596,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep2Finished }
 						>
 							<EditButton
+								id={ `button-${ STEPS.siteRepresentation }-edit` }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -610,6 +613,7 @@ export default function FirstTimeConfigurationSteps() {
 							/>
 							<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
 							<ConfigurationStepButtons
+								stepId={ STEPS.siteRepresentation }
 								stepperFinishedOnce={ stepperFinishedOnce }
 								saveFunction={ updateOnFinishSiteRepresentation }
 								setEditState={ setIsStepBeingEdited }
@@ -622,6 +626,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep3Finished }
 						>
 							<EditButton
+								id={ `button-${ STEPS.socialProfiles }-edit` }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -632,7 +637,12 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
 							<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
-							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
+							<ConfigurationStepButtons
+								stepId={ STEPS.socialProfiles }
+								stepperFinishedOnce={ stepperFinishedOnce }
+								saveFunction={ updateOnFinishSocialProfiles }
+								setEditState={ setIsStepBeingEdited }
+							/>
 						</Step.Content>
 					</Step>
 					<Step>
@@ -641,6 +651,7 @@ export default function FirstTimeConfigurationSteps() {
 							isFinished={ isStep4Finished }
 						>
 							<EditButton
+								id={ `button-${ STEPS.personalPreferences }-edit` }
 								beforeGo={ beforeEditing }
 								isVisible={ showEditButton }
 								additionalClasses={ "yst-ml-auto" }
@@ -651,7 +662,12 @@ export default function FirstTimeConfigurationSteps() {
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
 							<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
-							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishPersonalPreferences } setEditState={ setIsStepBeingEdited } />
+							<ConfigurationStepButtons
+								stepId={ STEPS.personalPreferences }
+								stepperFinishedOnce={ stepperFinishedOnce }
+								saveFunction={ updateOnFinishPersonalPreferences }
+								setEditState={ setIsStepBeingEdited }
+							/>
 						</Step.Content>
 					</Step>
 					<Step>

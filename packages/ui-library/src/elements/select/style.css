@@ -26,10 +26,10 @@
 			yst-py-2
 			yst-px-3
 			yst-text-left
-			yst-text-gray-800
+			yst-text-slate-800
 			yst-bg-white
 			yst-border
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-cursor-default
@@ -49,7 +49,7 @@
 			yst-h-5
 			yst-shrink-0
 			yst-grow-0
-			yst-text-gray-400
+			yst-text-slate-400
 			yst-pointer-events-none;
 		}
 
@@ -85,7 +85,7 @@
 			yst-justify-between
 			yst-px-3
 			yst-py-2
-			yst-text-gray-700;
+			yst-text-slate-700;
 
 			&--active {
 				@apply yst-bg-primary-200;

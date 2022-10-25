@@ -28,8 +28,8 @@ const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props 
 				className={ classNames(
 					"yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-rounded-md yst-no-underline focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500",
 					activePath === props[ pathProp ]
-						? "yst-bg-gray-200 yst-text-gray-900"
-						: "yst-text-gray-600 hover:yst-text-gray-900 hover:yst-bg-gray-50",
+						? "yst-bg-slate-200 yst-text-slate-900"
+						: "yst-text-slate-600 hover:yst-text-slate-900 hover:yst-bg-slate-50",
 				) }
 				{ ...props }
 			>
@@ -61,17 +61,17 @@ const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = tr
 	return (
 		<div>
 			<button
-				className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-gray-800 yst-rounded-md yst-no-underline hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+				className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-slate-800 yst-rounded-md yst-no-underline hover:yst-text-slate-900 hover:yst-bg-slate-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
 				onClick={ toggleOpen }
 				{ ...props }
 			>
 				<span className="yst-flex yst-items-center yst-gap-3">
 					{ Icon &&
-						<Icon className="yst-flex-shrink-0 yst--ml-1 yst-h-6 yst-w-6 yst-text-gray-400 group-hover:yst-text-gray-500" />
+						<Icon className="yst-flex-shrink-0 yst--ml-1 yst-h-6 yst-w-6 yst-text-slate-400 group-hover:yst-text-slate-500" />
 					}
 					{ label }
 				</span>
-				<ChevronIcon className="yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
+				<ChevronIcon className="yst-h-4 yst-w-4 yst-text-slate-400 group-hover:yst-text-slate-500 yst-stroke-3" />
 			</button>
 			{ isOpen && children && <ul className="yst-ml-8 yst-mt-1 yst-space-y-1">
 				{ children }
@@ -108,19 +108,19 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 	return <>
 		<Dialog className="yst-root" open={ isOpen } onClose={ toggleOpen }>
 			<div className="yst-mobile-navigation__dialog">
-				<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30" aria-hidden="true" />
-				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-gray-100">
+				<div className="yst-fixed yst-inset-0 yst-bg-slate-600 yst-bg-opacity-75 yst-z-30" aria-hidden="true" />
+				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-slate-100">
 					<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
 						<button
-							className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-gray-600"
+							className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-slate-600"
 							onClick={ toggleOpen }
 						>
 							<span className="yst-sr-only">{ closeButtonScreenReaderText }</span>
 							<XIcon className="yst-h-6 yst-w-6 yst-text-white" />
 						</button>
 					</div>
-					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto yst-p-4">
-						<div className="yst-h-full yst-flex yst-flex-col yst-space-y-6">
+					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto">
+						<div className="yst-h-full yst-flex yst-flex-col">
 							{ children }
 						</div>
 					</div>
@@ -128,9 +128,9 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 			</div>
 		</Dialog>
 		<div className="yst-mobile-navigation__top">
-			<div className="yst-flex yst-relative yst-flex-shrink-0 yst-h-16 yst-z-10 yst-bg-white yst-border-b yst-border-gray-200">
+			<div className="yst-flex yst-relative yst-flex-shrink-0 yst-h-16 yst-z-10 yst-bg-white yst-border-b yst-border-slate-200">
 				<button
-					className="yst-px-4 yst-border-r yst-border-gray-200 yst-text-gray-400 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
+					className="yst-px-4 yst-border-r yst-border-slate-200 yst-text-slate-400 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
 					onClick={ toggleOpen }
 				>
 					<span className="yst-sr-only">{ openButtonScreenReaderText }</span>

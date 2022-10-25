@@ -23,6 +23,28 @@ preferencesSelectors.selectHasPageForPosts = createSelector(
 	],
 	( homepageIsLatestPosts, homepagePostsEditUrl ) => ! homepageIsLatestPosts && ! isEmpty( homepagePostsEditUrl )
 );
+preferencesSelectors.selectCanEditUser = createSelector(
+	[
+		state => preferencesSelectors.selectPreference( state, "currentUserId", -1 ),
+		state => preferencesSelectors.selectPreference( state, "canEditUsers", false ),
+		( state, userId ) => userId,
+	],
+	( currentUserId, canEditUsers, userId ) => currentUserId === userId || canEditUsers
+);
+preferencesSelectors.selectExampleUrl = createSelector(
+	[
+		state => preferencesSelectors.selectPreference( state, "siteUrl", "https://example.com" ),
+		( state, path ) => path,
+	],
+	( siteUrl, path ) => siteUrl + path
+);
+preferencesSelectors.selectPluginUrl = createSelector(
+	[
+		state => preferencesSelectors.selectPreference( state, "pluginUrl", "https://example.com" ),
+		( state, path ) => path,
+	],
+	( pluginUrl, path ) => pluginUrl + path
+);
 
 export const preferencesActions = slice.actions;
 

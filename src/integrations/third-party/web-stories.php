@@ -46,7 +46,10 @@ class Web_Stories implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'web_stories_enable_metadata', '__return_false' );
+		// If the title presenter was not removed, we will disable the web stories metadata because Yoast SEO will output the title already.
+		if ( ! $this->front_end->should_title_presenter_be_removed() ) {
+			\add_action( 'web_stories_enable_metadata', '__return_false' );
+		}
 		\add_action( 'web_stories_enable_schemaorg_metadata', '__return_false' );
 		\add_action( 'web_stories_enable_open_graph_metadata', '__return_false' );
 		\add_action( 'web_stories_enable_twitter_metadata', '__return_false' );

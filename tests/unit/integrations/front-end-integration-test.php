@@ -610,4 +610,23 @@ class Front_End_Integration_Test extends TestCase {
 			$this->instance->filter_robots_presenter( $presenters )
 		);
 	}
+
+	/**
+	 * Tests the should_title_presenter_be_removed function.
+	 *
+	 * @covers ::should_title_presenter_be_removed
+	 */
+	public function test_should_title_presenter_be_removed() {
+		Monkey\Functions\expect( 'get_theme_support' )
+			->once()
+			->with( 'title-tag' )
+			->andReturn( false );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'forcerewritetitle', false )
+			->andReturn( false );
+
+		$this->assertEquals( true, $this->instance->should_title_presenter_be_removed() );
+	}
 }

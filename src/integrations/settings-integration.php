@@ -27,6 +27,8 @@ use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
  */
 class Settings_Integration implements Integration_Interface {
 
+	const PAGE = 'wpseo_settings';
+
 	/**
 	 * Holds the included WordPress options.
 	 *
@@ -50,13 +52,15 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	const DISALLOWED_SETTINGS = [
 		'wpseo'        => [
-			'myyoast_oauth',
+			'myyoast-oauth',
 			'semrush_tokens',
 			'custom_taxonomy_slugs',
 			'zapier_subscription',
-			'wincher_tokens',
+			'import_cursors',
 			'workouts_data',
 			'configuration_finished_steps',
+			'importing_completed',
+			'wincher_tokens',
 			'least_readability_ignore_list',
 			'least_seo_score_ignore_list',
 			'most_linked_ignore_list',
@@ -203,7 +207,7 @@ class Settings_Integration implements Integration_Interface {
 			$post_action = \filter_input( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING );
 			$option_page = \filter_input( \INPUT_POST, 'option_page', \FILTER_SANITIZE_STRING );
 
-			if ( $post_action === 'update' && $option_page === 'wpseo_settings' ) {
+			if ( $post_action === 'update' && $option_page === self::PAGE ) {
 				\add_action( 'admin_init', [ $this, 'register_setting' ] );
 				\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
 			}
@@ -212,7 +216,7 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		// Are we on the settings page?
-		if ( $this->current_page_helper->get_current_yoast_seo_page() === 'wpseo_settings' ) {
+		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
@@ -227,11 +231,14 @@ class Settings_Integration implements Integration_Interface {
 	public function register_setting() {
 		foreach ( WPSEO_Options::$options as $name => $instance ) {
 			if ( \in_array( $name, self::ALLOWED_OPTION_GROUPS, true ) ) {
-				\register_setting( 'wpseo_settings', $name );
+				\register_setting( self::PAGE, $name );
 			}
 		}
-		foreach ( self::WP_OPTIONS as $name ) {
-			\register_setting( 'wpseo_settings', $name );
+		// Only register WP options when the user is allowed to manage them.
+		if ( \current_user_can( 'manage_options' ) ) {
+			foreach ( self::WP_OPTIONS as $name ) {
+				\register_setting( self::PAGE, $name );
+			}
 		}
 	}
 
@@ -243,9 +250,6 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The pages.
 	 */
 	public function add_page( $pages ) {
-		/* translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag. */
-		$title = \__( 'Settings %1$sBeta%2$s', 'wordpress-seo' );
-
 		\array_splice(
 			$pages,
 			1,
@@ -254,9 +258,9 @@ class Settings_Integration implements Integration_Interface {
 				[
 					'wpseo_dashboard',
 					'',
-					\sprintf( $title, '<span class="yoast-badge yoast-beta-badge">', '</span>' ),
+					\__( 'Settings', 'wordpress-seo' ),
 					'wpseo_manage_options',
-					'wpseo_settings',
+					self::PAGE,
 					[ $this, 'display_page' ],
 				],
 			]
@@ -280,8 +284,11 @@ class Settings_Integration implements Integration_Interface {
 			'',
 			null,
 			'wpseo_manage_options',
-			'wpseo_settings_saved',
+			self::PAGE . '_saved',
 			static function () {
+				// Add success indication to HTML response.
+				$success = empty( \get_settings_errors() ) ? 'true' : 'false';
+				echo \esc_html( "{{ yoast-success: $success }}" );
 			}
 		);
 
@@ -327,16 +334,18 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$settings               = $this->transform_settings( $this->get_settings() );
+		$default_settings       = $this->get_default_settings();
+		$settings               = $this->get_settings( $default_settings );
 		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
 
 		return [
-			'settings'             => $settings,
+			'settings'             => $this->transform_settings( $settings ),
+			'defaultSettings'      => $default_settings,
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
-			'nonce'                => \wp_create_nonce( 'wpseo_settings-options' ),
+			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => $this->get_schema( $transformed_post_types ),
@@ -381,24 +390,59 @@ class Settings_Integration implements Integration_Interface {
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
+			'currentUserId'                 => \get_current_user_id(),
+			'canEditUsers'                  => \current_user_can( 'edit_users' ),
+			'canManageOptions'              => \current_user_can( 'manage_options' ),
+			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 		];
 	}
 
 	/**
-	 * Retrieves the settings and their values.
+	 * Retrieves the default settings.
 	 *
-	 * @return array The settings.
+	 * @return array The default settings.
 	 */
-	protected function get_settings() {
+	protected function get_default_settings() {
 		$defaults = [];
-		$settings = [];
 
 		// Add Yoast settings.
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
 			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
 				$option_instance          = WPSEO_Options::get_option_instance( $option_name );
 				$defaults[ $option_name ] = ( $option_instance ) ? $option_instance->get_defaults() : [];
-				$settings[ $option_name ] = \array_merge( $defaults[ $option_name ], WPSEO_Options::get_option( $option_name ) );
+			}
+		}
+		// Add WP settings.
+		foreach ( self::WP_OPTIONS as $option_name ) {
+			$defaults[ $option_name ] = '';
+		}
+		// Add person social profiles.
+		$defaults['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( false );
+
+		// Remove disallowed settings.
+		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {
+			foreach ( $disallowed_settings as $disallowed_setting ) {
+				unset( $defaults[ $option_name ][ $disallowed_setting ] );
+			}
+		}
+
+		return $defaults;
+	}
+
+	/**
+	 * Retrieves the settings and their values.
+	 *
+	 * @param array $default_settings The default settings.
+	 *
+	 * @return array The settings.
+	 */
+	protected function get_settings( $default_settings ) {
+		$settings = [];
+
+		// Add Yoast settings.
+		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
+			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
+				$settings[ $option_name ] = \array_merge( $default_settings[ $option_name ], WPSEO_Options::get_option( $option_name ) );
 			}
 		}
 		// Add WP settings.
@@ -445,7 +489,7 @@ class Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves the settings and their values.
+	 * Retrieves the disabled settings.
 	 *
 	 * @param array $settings The settings.
 	 *
@@ -543,10 +587,37 @@ class Settings_Integration implements Integration_Interface {
 				'singularLabel'        => $post_type->labels->singular_name,
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
 				'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
+				'menuPosition'         => $post_type->menu_position,
 			];
 		}
 
+		\uasort( $transformed, [ $this, 'compare_post_types' ] );
+
 		return $transformed;
+	}
+
+	/**
+	 * Compares two post types.
+	 *
+	 * @param array $a The first post type.
+	 * @param array $b The second post type.
+	 *
+	 * @return int The order.
+	 */
+	protected function compare_post_types( $a, $b ) {
+		if ( $a['menuPosition'] === null && $b['menuPosition'] !== null ) {
+			return 1;
+		}
+		if ( $a['menuPosition'] !== null && $b['menuPosition'] === null ) {
+			return -1;
+		}
+
+		if ( $a['menuPosition'] === null && $b['menuPosition'] === null ) {
+			// No position specified, order alphabetically by label.
+			return \strnatcmp( $a['label'], $b['label'] );
+		}
+
+		return ( ( $a['menuPosition'] < $b['menuPosition'] ) ? -1 : 1 );
 	}
 
 	/**
@@ -573,6 +644,13 @@ class Settings_Integration implements Integration_Interface {
 				),
 			];
 		}
+
+		\uasort(
+			$transformed,
+			static function ( $a, $b ) {
+				return \strnatcmp( $a['label'], $b['label'] );
+			}
+		);
 
 		return $transformed;
 	}

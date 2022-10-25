@@ -31,7 +31,7 @@ export const WoocommerceIntegration = ( {
 			isActive={ isActive }
 		>
 			{ ! isPrerequisiteActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">
+				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )
 					}
@@ -41,7 +41,7 @@ export const WoocommerceIntegration = ( {
 				/>
 			</Fragment> }
 			{ isPrerequisiteActive && isActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
+				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
@@ -53,7 +53,7 @@ export const WoocommerceIntegration = ( {
 					as="a"
 					variant="secondary"
 					href={ activationLink }
-					className="yst-w-full yst-text-gray-800 yst-text-center"
+					className="yst-w-full yst-text-slate-800 yst-text-center"
 				>
 					{
 						sprintf(
@@ -71,7 +71,7 @@ export const WoocommerceIntegration = ( {
 					as="a"
 					href={ integration.upsellLink }
 					variant="upsell"
-					className="yst-w-full yst-text-gray-800"
+					className="yst-w-full yst-text-slate-800"
 					target="_blank"
 				>
 					<LockOpenIcon

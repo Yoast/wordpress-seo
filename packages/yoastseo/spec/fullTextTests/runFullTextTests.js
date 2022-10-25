@@ -27,6 +27,7 @@ import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/Pa
 import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
 import WordComplexityAssessment from "../../src/scoring/assessments/readability/WordComplexityAssessment";
+
 // Import test papers
 import testPapers from "./testTexts";
 
@@ -119,7 +120,6 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		// Readability assessments.
-
 		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
 			compare( new WordComplexityAssessment(), expectedResults.wordComplexity );
 		} );

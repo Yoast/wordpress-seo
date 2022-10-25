@@ -137,14 +137,12 @@ class SnippetEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 		const measurementData = this.mapDataToMeasurements( props.data );
-		const previewData = this.mapDataToPreview( measurementData );
 
 		this.state = {
 			// Is opened by default when show close button is hidden.
 			isOpen: ! props.showCloseButton,
 			activeField: null,
 			hoveredField: null,
-			mappedData: previewData,
 			titleLengthProgress: getTitleProgress( measurementData.title ),
 			descriptionLengthProgress: getDescriptionProgress(
 				measurementData.description,
@@ -157,6 +155,7 @@ class SnippetEditor extends React.Component {
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
 		this.unsetFieldFocus = this.unsetFieldFocus.bind( this );
+		this.onChangeMode = this.onChangeMode.bind( this );
 		this.onMouseUp = this.onMouseUp.bind( this );
 		this.onMouseEnter = this.onMouseEnter.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
@@ -335,6 +334,17 @@ class SnippetEditor extends React.Component {
 		this.setState( {
 			activeField: null,
 		} );
+	}
+
+	/**
+	 * Calls the onChange handler with the new mode.
+	 *
+	 * @param {string} newMode The new mode.
+	 *
+	 * @returns {void}
+	 */
+	onChangeMode( newMode ) {
+		this.props.onChange( "mode", newMode );
 	}
 
 	/**
@@ -540,7 +550,6 @@ class SnippetEditor extends React.Component {
 	 */
 	render() {
 		const {
-			onChange,
 			data,
 			mode,
 			date,
@@ -572,7 +581,7 @@ class SnippetEditor extends React.Component {
 			<ErrorBoundary>
 				<div>
 					<ModeSwitcher
-						onChange={ ( newMode ) => onChange( "mode", newMode ) }
+						onChange={ this.onChangeMode }
 						active={ mode }
 						mobileModeInputId={ join( [ "yoast-google-preview-mode-mobile", idSuffix ] ) }
 						desktopModeInputId={ join( [ "yoast-google-preview-mode-desktop", idSuffix ] ) }

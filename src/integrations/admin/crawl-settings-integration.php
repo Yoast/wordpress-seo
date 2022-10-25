@@ -138,10 +138,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		];
 
 		$this->search_cleanup_settings = [
-			'search_cleanup'          => \__( 'Filter search terms', 'wordpress-seo' ),
-			'search_cleanup_emoji'    => \__( 'Filter searches with emojis and other special characters', 'wordpress-seo' ),
-			'search_cleanup_patterns' => \__( 'Filter searches with common spam patterns', 'wordpress-seo' ),
-			'deny_search_crawling'    => \__( 'Prevent search engines from crawling site search URLs', 'wordpress-seo' ),
+			'search_cleanup'              => \__( 'Filter search terms', 'wordpress-seo' ),
+			'search_cleanup_emoji'        => \__( 'Filter searches with emojis and other special characters', 'wordpress-seo' ),
+			'search_cleanup_patterns'     => \__( 'Filter searches with common spam patterns', 'wordpress-seo' ),
+			'deny_search_crawling'        => \__( 'Prevent search engines from crawling site search URLs', 'wordpress-seo' ),
+			'redirect_search_pretty_urls' => \__( 'Redirect pretty URLs for search pages to raw format', 'wordpress-seo' ),
 		];
 
 		$this->unused_resources_settings = [

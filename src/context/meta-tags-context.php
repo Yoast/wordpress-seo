@@ -31,9 +31,11 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string       $description
  * @property string       $id
  * @property string       $site_name
+ * @property string       $alternate_site_name
  * @property string       $wordpress_site_name
  * @property string       $site_url
  * @property string       $company_name
+ * @property string       $company_alternate_name
  * @property int          $company_logo_id
  * @property array        $company_logo_meta
  * @property int          $person_logo_id
@@ -262,6 +264,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
+	 * Generates the alternate site name.
+	 *
+	 * @return string The alternate site name.
+	 */
+	public function generate_alternate_site_name() {
+		return (string) $this->options->get( 'alternate_website_name', '' );
+	}
+
+	/**
 	 * Generates the site name from the WordPress options.
 	 *
 	 * @return string The site name from the WordPress options.
@@ -303,6 +314,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return $company_name;
+	}
+
+	/**
+	 * Generates the alternate company name.
+	 *
+	 * @return string
+	 */
+	public function generate_company_alternate_name() {
+		return (string) $this->options->get( 'company_alternate_name' );
 	}
 
 	/**
@@ -622,6 +642,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case \is_date():
 			case \is_post_type_archive():
 				if ( ! empty( $GLOBALS['wp_query']->posts ) ) {
+					if ( $GLOBALS['wp_query']->get( 'fields', 'all' ) === 'ids' ) {
+						return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0] );
+					}
+
 					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
 				}
 				return null;

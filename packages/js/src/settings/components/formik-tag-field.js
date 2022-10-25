@@ -32,10 +32,10 @@ const FormikTagField = props => {
 	return (
 		<TagField
 			{ ...field }
-			{ ...props }
 			tags={ tags }
 			onAddTag={ handleAddTag }
 			onRemoveTag={ handleRemoveTag }
+			{ ...props }
 		/>
 	);
 };

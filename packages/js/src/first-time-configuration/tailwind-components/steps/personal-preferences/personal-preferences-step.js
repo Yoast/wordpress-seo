@@ -20,7 +20,7 @@ const Link = makeOutboundLink();
  */
 export default function PersonalPreferencesStep( { state, setTracking } ) {
 	return <Fragment>
-		<h4 className="yst-text-gray-900 yst-text-base yst-leading-6 yst-font-normal">
+		<h4 className="yst-text-slate-900 yst-text-base yst-leading-6 yst-font-normal">
 			{
 				// translators: %s is replaced by "Yoast SEO"
 				sprintf( __( "%s usage tracking", "wordpress-seo" ), "Yoast SEO" )
