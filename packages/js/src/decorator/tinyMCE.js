@@ -1,6 +1,6 @@
 import { markers } from "yoastseo";
-import { forEach } from "lodash-es";
-
+import { flatten, forEach, isUndefined, uniq } from "lodash-es";
+import { getSubheadings } from "yoastseo/src/languageProcessing/helpers/html/getSubheadings";
 var MARK_TAG = "yoastmark";
 
 /**
@@ -31,13 +31,40 @@ function removeInvalidMarks( editor ) {
  * @returns {void}
  */
 function markTinyMCE( editor, paper, marks ) {
-	var dom = editor.dom;
-	var html = editor.getContent();
+	const dom = editor.dom;
+	let html = editor.getContent();
 	html = markers.removeMarks( html );
+
+	const fieldsToMark = uniq( flatten( marks.map( mark => {
+		if ( ! isUndefined( mark.getFieldsToMark() ) ) {
+			return mark.getFieldsToMark();
+		}
+		// return mark
+	} ) ) );
+
+	let selectedHTML = "";
+	fieldsToMark.forEach( field => {
+		if ( field === "heading" ) {
+			const results = getSubheadings( html );
+			results.forEach( result => {
+				selectedHTML += result[ 0 ];
+			} );
+		}
+	} );
+
+	console.log( fieldsToMark, "FIELDSTOMARK" );
 
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {
-		html = mark.applyWithReplace( html );
+		if ( fieldsToMark.length > 0 ) {
+			// mark._properties.original = selectedHTML;
+			const newHtml = mark.applyWithReplace( selectedHTML );
+			html = html.replace( selectedHTML, newHtml );
+		} else {
+			html = mark.applyWithReplace( html );
+		}
+
+		// console.log(html, "NEWHTML")
 	} );
 
 	// Replace the contents in the editor with the marked HTML.
@@ -45,7 +72,7 @@ function markTinyMCE( editor, paper, marks ) {
 
 	removeInvalidMarks( editor );
 
-	var markElements = dom.select( MARK_TAG );
+	const markElements = dom.select( MARK_TAG );
 	/*
 	 * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
 	 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
