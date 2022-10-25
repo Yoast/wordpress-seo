@@ -119,6 +119,28 @@ class Image_Helper {
 	}
 
 	/**
+	 * Generate image schema from an Image object.
+	 *
+	 * @todo: Add caption to Image object.
+	 *
+	 * @param Image $image The Image object to generate schema data for.
+	 * @return array Schema for an ImageObject.
+	 */
+	public function generate_from_image_object( $image ) {
+		$data = $this->generate_object();
+
+		$data['@id'] = $image->get_src();
+		$data['url'] = $image->get_src();
+		$data['contentUrl'] = $image->get_src();
+		if ( $image->has_size() ) {
+			$data['width'] = $image->get_width();
+			$data['height'] = $image->get_height();
+		}
+
+		return $data;
+	}
+
+	/**
 	 * If we can't find $url in our database, we output a simple ImageObject.
 	 *
 	 * @param string $schema_id The `@id` to use for the returned image.

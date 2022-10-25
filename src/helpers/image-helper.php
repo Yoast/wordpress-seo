@@ -388,6 +388,8 @@ class Image_Helper {
 	/**
 	 * Get the image width and height from the image src attribute (for WordPress images).
 	 *
+	 * @todo: If the image URL does not contain width and height attributes, add the 'full' size as default.
+	 *
 	 * @param string $src The image src attribute.
 	 * @return array|null Either an array with a 'width' and 'height' key or null when no image size was found.
 	 */
