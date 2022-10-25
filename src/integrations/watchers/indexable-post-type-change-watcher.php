@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -48,7 +49,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 * @var Indexable_Repository
 	 */
 	private $repository;
-	
+
 	/**
 	 * The notifications center.
 	 *
@@ -142,9 +143,11 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		if ( ! empty( $newly_made_non_viewable_post_types ) ) {
 			$this->purge_non_viewables_from_post_types_made_viewable( $newly_made_non_viewable_post_types );
 
-			// Delete indexables with the corresponding post type.
-			foreach ( $newly_made_non_viewable_post_types as $non_viewable_post_type ) {
-				$this->delete_indexables_by_post_type( $non_viewable_post_type );
+			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
+				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+				}
 			}
 		}
 	}
@@ -186,20 +189,6 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		);
 
 		return $this->options->set( 'post_types_made_viewable', $updated_post_types_made_viewable );
-	}
-
-	/**
-	 * Deletes the indexable related to post types made non viewable.
-	 *
-	 * @param string $post_type Post type name representing the sub-type of indexables to be deleted.
-	 *
-	 * @return bool|int Response of wpdb::query
-	 */
-	private function delete_indexables_by_post_type( $post_type ) {
-		return $this->repository->query()
-			->where( 'object_type', 'post' )
-			->where( 'object_sub_type', $post_type )
-			->delete_many();
 	}
 
 	/**

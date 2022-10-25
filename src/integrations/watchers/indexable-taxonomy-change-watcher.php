@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -141,9 +142,11 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		if ( ! empty( $newly_made_non_viewable_taxonomies ) ) {
 			$this->purge_non_viewables_from_taxonomies_made_viewable( $newly_made_non_viewable_taxonomies );
 
-			// Delete indexables with the corresponding sub type.
-			foreach ( $newly_made_non_viewable_taxonomies as $non_viewable_taxonomy ) {
-				$this->delete_indexables_by_term( $non_viewable_taxonomy );
+			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
+				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+				}
 			}
 		}
 	}
@@ -185,20 +188,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		);
 
 		return $this->options->set( 'taxonomies_made_viewable', $updated_taxonomies_made_viewable );
-	}
-
-	/**
-	 * Deletes the indexable with sub-type equal to a given taxonomy.
-	 *
-	 * @param string $taxonomy Taxonomy name representing the sub-type of indexables to be deleted.
-	 *
-	 * @return bool|int Response of wpdb::query
-	 */
-	private function delete_indexables_by_term( $taxonomy ) {
-		return $this->repository->query()
-			->where( 'object_type', 'term' )
-			->where( 'object_sub_type', $taxonomy )
-			->delete_many();
 	}
 
 	/**
