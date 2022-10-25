@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
@@ -216,6 +217,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			if ( $author_indexable ) {
 				$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
 				$author_indexable->save();
+
+				$this->reschedule_cleanup_if_author_has_no_posts( $author_indexable );
 			}
 		} catch ( Exception $exception ) {
 			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
@@ -223,6 +226,24 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		// Update possible attachment's has public posts value.
 		$this->post->update_has_public_posts_on_attachments( $indexable->object_id, $indexable->is_public );
+	}
+
+	/**
+	 * Reschedule indexable cleanup if the author does not have any public posts.
+	 * This should remove the author from the indexable table, since we do not
+	 * want to store authors without public facing posts in the table.
+	 *
+	 * @param Indexable $author_indexable The author indexable.
+	 *
+	 * @return void
+	 */
+	protected function reschedule_cleanup_if_author_has_no_posts( $author_indexable ) {
+		if ( $author_indexable->has_public_posts === false ) {
+			$cleanup_not_yet_scheduled = ! \wp_next_scheduled( Cleanup_Integration::START_HOOK );
+			if ( $cleanup_not_yet_scheduled ) {
+				\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+			}
+		}
 	}
 
 	/**
