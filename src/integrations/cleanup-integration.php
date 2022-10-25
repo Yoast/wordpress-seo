@@ -342,7 +342,7 @@ class Cleanup_Integration implements Integration_Interface {
 		global $wpdb;
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_post_types = array_diff( $this->post_type->get_accessible_post_types(), $this->post_type->get_excluded_post_types_for_indexables() );
+		$included_post_types = \array_diff( $this->post_type->get_accessible_post_types(), $this->post_type->get_excluded_post_types_for_indexables() );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
@@ -362,7 +362,7 @@ class Cleanup_Integration implements Integration_Interface {
 				AND object_sub_type IS NOT NULL
 				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )
 				LIMIT %d',
-				array_merge( $included_post_types, [ $limit ] )
+				\array_merge( $included_post_types, [ $limit ] )
 			);
 		}
 		// phpcs:enable
@@ -405,7 +405,7 @@ class Cleanup_Integration implements Integration_Interface {
 				AND object_sub_type IS NOT NULL
 				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )
 				LIMIT %d',
-				array_merge( $included_taxonomies, [ $limit ] )
+				\array_merge( $included_taxonomies, [ $limit ] )
 			);
 		}
 		// phpcs:enable
@@ -456,7 +456,7 @@ class Cleanup_Integration implements Integration_Interface {
 
 		$indexable_table           = Model::get_table_name( 'Indexable' );
 		$author_archive_post_types = $this->author_archive->get_author_archive_post_types();
-		$viewable_post_stati       = array_filter( \get_post_stati(), 'is_post_status_viewable' );
+		$viewable_post_stati       = \array_filter( \get_post_stati(), 'is_post_status_viewable' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
@@ -469,7 +469,7 @@ class Cleanup_Integration implements Integration_Interface {
 					WHERE post_type IN ( " . \implode( ', ', \array_fill( 0, \count( $author_archive_post_types ), '%s' ) ) . ' )
 					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_stati ), '%s' ) ) . ' )
 				) LIMIT %d',
-			array_merge( $author_archive_post_types, $viewable_post_stati, [ $limit ] )
+			\array_merge( $author_archive_post_types, $viewable_post_stati, [ $limit ] )
 		);
 		// phpcs:enable
 

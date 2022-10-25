@@ -958,8 +958,8 @@ class WPSEO_Upgrade {
 	 * Performs the 19.10 upgrade routine.
 	 */
 	private function upgrade_1910() {
-		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
-		add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
+		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
+		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
 		$this->deduplicate_unindexed_indexable_rows();
 		$this->remove_indexable_rows_for_disabled_authors_archive();
 		$this->remove_indexable_rows_for_authors_without_archive();
@@ -1379,7 +1379,7 @@ class WPSEO_Upgrade {
 
 		$post_type_helper = \YoastSEO()->helpers->post_type;
 
-		$included_post_types = array_diff( $post_type_helper->get_accessible_post_types(), $post_type_helper->get_excluded_post_types_for_indexables() );
+		$included_post_types = \array_diff( $post_type_helper->get_accessible_post_types(), $post_type_helper->get_excluded_post_types_for_indexables() );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
@@ -1563,7 +1563,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table           = Model::get_table_name( 'Indexable' );
 		$author_archive_post_types = \YoastSEO()->helpers->author_archive->get_author_archive_post_types();
-		$viewable_post_stati       = array_filter( get_post_stati(), 'is_post_status_viewable' );
+		$viewable_post_stati       = \array_filter( get_post_stati(), 'is_post_status_viewable' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
@@ -1576,7 +1576,7 @@ class WPSEO_Upgrade {
 					WHERE post_type IN ( " . \implode( ', ', \array_fill( 0, \count( $author_archive_post_types ), '%s' ) ) . ' )
 					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_stati ), '%s' ) ) . ' )
 				)',
-			array_merge( $author_archive_post_types, $viewable_post_stati )
+			\array_merge( $author_archive_post_types, $viewable_post_stati )
 		);
 		// phpcs:enable
 
@@ -1601,7 +1601,7 @@ class WPSEO_Upgrade {
 	private function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$filtered_duplicates = array_filter(
+		$filtered_duplicates = \array_filter(
 			$duplicates,
 			static function ( $duplicate ) use ( $object_type ) {
 				return $duplicate['object_type'] === $object_type;
