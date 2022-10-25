@@ -108,6 +108,10 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		$viewable_taxonomies            = \array_keys( \array_filter( $taxonomies, '\is_taxonomy_viewable' ) );
 		$last_known_viewable_taxonomies = $this->options->get( 'last_known_viewable_taxonomies', [] );
 
+		if ( empty( $last_known_viewable_taxonomies ) ) {
+			$this->options->get( 'last_known_viewable_taxonomies', $viewable_taxonomies );
+		}
+
 		$newly_made_viewable_taxonomies     = \array_diff( $viewable_taxonomies, $last_known_viewable_taxonomies );
 		$newly_made_non_viewable_taxonomies = \array_diff( $last_known_viewable_taxonomies, $viewable_taxonomies );
 
@@ -168,7 +172,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		$updated_taxonomies_made_viewable = \array_filter(
 			$previously_made_viewable_taxonomies,
 			function( $taxonomy ) use ( $remove_from_taxonomies_made_viewable ) {
-				return ! in_array( $taxonomy, $remove_from_taxonomies_made_viewable );
+				return ! in_array( $taxonomy, $remove_from_taxonomies_made_viewable, true );
 			}
 		);
 

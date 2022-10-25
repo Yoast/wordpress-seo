@@ -110,6 +110,10 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		$viewable_post_types            = \array_keys( \array_filter( $post_types, '\is_post_type_viewable' ) );
 		$last_known_viewable_post_types = $this->options->get( 'last_known_viewable_post_types', [] );
 
+		if (empty( $last_known_viewable_post_types ) ) {
+			$this->options->set( 'last_known_viewable_post_types', $viewable_post_types );
+		}
+
 		$newly_made_viewable_post_types     = \array_diff( $viewable_post_types, $last_known_viewable_post_types );
 		$newly_made_non_viewable_post_types = \array_diff( $last_known_viewable_post_types, $viewable_post_types );
 
@@ -171,7 +175,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		$updated_post_types_made_viewable = \array_filter(
 			$previously_made_viewable_post_types,
 			function( $post_type ) use ( $remove_from_post_types_made_viewable ) {
-				return ! in_array( $post_type, $remove_from_post_types_made_viewable );
+				return ! in_array( $post_type, $remove_from_post_types_made_viewable, true );
 			}
 		);
 
