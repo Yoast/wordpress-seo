@@ -6,8 +6,9 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -21,6 +22,13 @@ use Yoast_Notification_Center;
 class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 
 	/**
+	 * The indexing helper.
+	 *
+	 * @var Indexing_Helper
+	 */
+	protected $indexing_helper;
+
+	/**
 	 * Holds the Options_Helper instance.
 	 *
 	 * @var Options_Helper
@@ -28,18 +36,18 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	private $options;
 
 	/**
+	 * Holds the Taxonomy_Helper instance.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	private $taxonomy_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
-
-	/**
-	 * The indexing helper.
-	 *
-	 * @var Indexing_Helper
-	 */
-	protected $indexing_helper;
 
 	/**
 	 * The notifications center.
@@ -60,20 +68,23 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Taxonomy_Change_Watcher constructor.
 	 *
-	 * @param Options_Helper            $options             The options helper.
-	 * @param Indexable_Repository      $repository          The Indexables repository.
 	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
+	 * @param Options_Helper            $options             The options helper.
+	 * @param Taxonomy_Helper           $taxonomy_helper     The taxonomy helper.
+	 * @param Indexable_Repository      $repository          The Indexables repository.
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
 	public function __construct(
-		Options_Helper $options,
-		Indexable_Repository $repository,
 		Indexing_Helper $indexing_helper,
+		Options_Helper $options,
+		Taxonomy_Helper $taxonomy_helper,
+		Indexable_Repository $repository,
 		Yoast_Notification_Center $notification_center
 	) {
-		$this->options             = $options;
-		$this->repository          = $repository;
 		$this->indexing_helper     = $indexing_helper;
+		$this->options             = $options;
+		$this->taxonomy_helper     = $taxonomy_helper;
+		$this->repository          = $repository;
 		$this->notification_center = $notification_center;
 	}
 
@@ -100,12 +111,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( ! function_exists( '\is_taxonomy_viewable' ) ) {
-			return;
-		}
-
-		$taxonomies                     = \get_taxonomies();
-		$viewable_taxonomies            = \array_keys( \array_filter( $taxonomies, '\is_taxonomy_viewable' ) );
+		$viewable_taxonomies            = \array_keys( $this->taxonomy_helper->get_public_taxonomies() );
 		$last_known_viewable_taxonomies = $this->options->get( 'last_known_viewable_taxonomies', [] );
 
 		if ( empty( $last_known_viewable_taxonomies ) ) {
