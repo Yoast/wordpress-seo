@@ -234,7 +234,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
-		$this->context->has_image                  = false;
+		$this->context->main_image                 = null;
 		$this->context->schema_page_type           = [ 'WebPage' ];
 		$this->context->presentation->breadcrumbs  = [
 			[
@@ -339,7 +339,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_empty_breadcrumb() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
-		$this->context->has_image                  = false;
+		$this->context->main_image                 = null;
 		$this->context->schema_page_type           = [ 'WebPage' ];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
@@ -430,7 +430,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_modified_gmt' => 'date',
 			'post_content'      => '',
 		];
-		$this->context->has_image                  = false;
+		$this->context->main_image                 = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -623,7 +623,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_modified_gmt' => 'date',
 			'post_content'      => '',
 		];
-		$this->context->has_image                  = false;
+		$this->context->main_image                 = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -686,7 +686,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_modified_gmt' => 'date',
 			'post_content'      => '',
 		];
-		$this->context->has_image                  = false;
+		$this->context->main_image                 = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -784,7 +784,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_modified_gmt' => 'date',
 			'post_content'      => '',
 		];
-		$this->context->has_image                  = false;
+		$this->context->main_image                 = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -877,7 +877,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_modified_gmt' => 'date',
 			'post_content'      => '',
 		];
-		$this->context->has_image                  = false;
+		$this->context->main_image                 = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -985,7 +985,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_search_page() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
-		$this->context->has_image                  = false;
+		$this->context->main_image                 = null;
 		$this->context->site_url                   = 'https://fake.url/';
 		$this->context->main_schema_id             = 'https://fake.url/?s=searchterm';
 

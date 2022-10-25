@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 
 use Mockery;
-use Brain\Monkey;
 use Yoast\WP\SEO\Generators\Schema\Images;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
@@ -92,12 +91,12 @@ class Images_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_generate_main_image_id() {
-		$this->meta_tags_context->canonical     = 'https://example.com/canonical';
-		$this->meta_tags_context->id            = 1337;
-		$this->meta_tags_context->main_image_id = 1338;
-
-		Monkey\Functions\expect( 'home_url' )
-			->andReturn( 'https://example.com' );
+		$this->meta_tags_context->main_image = new Image(
+			'https://example.com/images/image-1338.jpg',
+			null,
+			111,
+			222
+		);
 
 		$image_id = 'https://example.com/images/image-1338.jpg';
 
@@ -111,39 +110,9 @@ class Images_Test extends TestCase {
 			'caption'    => 'test_image',
 		];
 
-		$this->image
-			->expects( 'get_attachment_image_url' )
-			->with( 1338, 'full' )
-			->andReturn( 'https://example.com/images/image-1338.jpg' );
-
-		$this->schema_image->expects( 'generate_from_attachment_id' )
+		$this->schema_image->expects( 'generate_from_image_object' )
 			->once()
-			->with( $image_id, $this->meta_tags_context->main_image_id )
-			->andReturn( $image_schema );
-
-		self::assertEquals( [ $image_schema ], $this->instance->generate() );
-	}
-
-	/**
-	 * Tests that generate call generate from url without a featured image but with a content image.
-	 *
-	 * @covers ::generate
-	 */
-	public function test_generate_from_url() {
-		$this->meta_tags_context->canonical      = 'https://example.com/canonical';
-		$this->meta_tags_context->id             = 1337;
-		$image_url                               = 'https://example.com/content_image';
-		$this->meta_tags_context->main_image_url = $image_url;
-
-		$image_schema = [
-			'@type' => 'ImageObject',
-			'@id'   => $image_url,
-			'url'   => 'image_url',
-		];
-
-		$this->schema_image->expects( 'generate_from_url' )
-			->once()
-			->with( $image_url, $image_url )
+			->with( $this->meta_tags_context->main_image )
 			->andReturn( $image_schema );
 
 		self::assertEquals( [ $image_schema ], $this->instance->generate() );
@@ -155,16 +124,7 @@ class Images_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_generate_no_image() {
-		$this->meta_tags_context->canonical = 'https://example.com/canonical';
-		$this->meta_tags_context->id        = 1337;
-
-		$this->schema_image
-			->expects( 'generate_from_attachment_id' )
-			->never();
-
-		$this->schema_image
-			->expects( 'generate_from_url' )
-			->never();
+		$this->meta_tags_context->main_image = null;
 
 		self::assertEquals( [], $this->instance->generate() );
 	}
@@ -175,23 +135,23 @@ class Images_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_generate_content_images() {
-		$this->meta_tags_context->images = [
+		$this->meta_tags_context->main_image = null;
+		$this->meta_tags_context->images     = [
 			new Image( 'https://example.com/images/image-1.jpg', 1 ),
 			new Image( 'https://example.com/images/image-2.jpg', 2 ),
 			new Image( 'https://example.com/images/image-3.jpg', 3 ),
 		];
 
-		Monkey\Functions\expect( 'home_url' )
-			->andReturn( 'https://example.com' );
-
 		foreach ( $this->meta_tags_context->images as $image ) {
 			$this->schema_image
-				->expects( 'generate_from_attachment_id' )
-				->with( $image->get_src(), $image->get_id() )
+				->expects( 'generate_from_image_object' )
+				->with( $image )
 				->andReturn(
 					[
-						'@type' => 'ImageObject',
-						'@id'   => $image->get_src(),
+						'@type'      => 'ImageObject',
+						'@id'        => $image->get_src(),
+						'url'        => $image->get_src(),
+						'contentUrl' => $image->get_src(),
 					]
 				);
 		}
@@ -202,16 +162,164 @@ class Images_Test extends TestCase {
 		$this->assertEquals(
 			[
 				[
-					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com/images/image-1.jpg',
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-1.jpg',
+					'url'        => 'https://example.com/images/image-1.jpg',
+					'contentUrl' => 'https://example.com/images/image-1.jpg',
 				],
 				[
-					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com/images/image-2.jpg',
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-2.jpg',
+					'url'        => 'https://example.com/images/image-2.jpg',
+					'contentUrl' => 'https://example.com/images/image-2.jpg',
 				],
 				[
-					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com/images/image-3.jpg',
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-3.jpg',
+					'url'        => 'https://example.com/images/image-3.jpg',
+					'contentUrl' => 'https://example.com/images/image-3.jpg',
+				],
+			],
+			$this->instance->generate()
+		);
+	}
+
+	/**
+	 * Test whether content images and main image are correctly generated in schema.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_main_image_and_content_image() {
+		$this->meta_tags_context->main_image = new Image(
+			'https://example.com/images/image-4.jpg',
+			4
+		);
+		$this->meta_tags_context->images     = [
+			new Image( 'https://example.com/images/image-1.jpg', 1 ),
+			new Image( 'https://example.com/images/image-2.jpg', 2 ),
+			new Image( 'https://example.com/images/image-3.jpg', 3 ),
+		];
+
+		$this->schema_image
+			->expects( 'generate_from_image_object' )
+			->with( $this->meta_tags_context->main_image )
+			->andReturn(
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => $this->meta_tags_context->main_image->get_src(),
+					'url'        => $this->meta_tags_context->main_image->get_src(),
+					'contentUrl' => $this->meta_tags_context->main_image->get_src(),
+				]
+			);
+
+		foreach ( $this->meta_tags_context->images as $image ) {
+			$this->schema_image
+				->expects( 'generate_from_image_object' )
+				->with( $image )
+				->andReturn(
+					[
+						'@type'      => 'ImageObject',
+						'@id'        => $image->get_src(),
+						'url'        => $image->get_src(),
+						'contentUrl' => $image->get_src(),
+					]
+				);
+		}
+
+		$this->assertEquals(
+			[
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-4.jpg',
+					'url'        => 'https://example.com/images/image-4.jpg',
+					'contentUrl' => 'https://example.com/images/image-4.jpg',
+				],
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-1.jpg',
+					'url'        => 'https://example.com/images/image-1.jpg',
+					'contentUrl' => 'https://example.com/images/image-1.jpg',
+				],
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-2.jpg',
+					'url'        => 'https://example.com/images/image-2.jpg',
+					'contentUrl' => 'https://example.com/images/image-2.jpg',
+				],
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-3.jpg',
+					'url'        => 'https://example.com/images/image-3.jpg',
+					'contentUrl' => 'https://example.com/images/image-3.jpg',
+				],
+			],
+			$this->instance->generate()
+		);
+	}
+
+	/**
+	 * Test whether content images and duplicate main image are correctly generated in schema.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_main_image_and_content_image_duplicate() {
+		$this->meta_tags_context->main_image = new Image(
+			'https://example.com/images/image-1.jpg',
+			1
+		);
+		$this->meta_tags_context->images     = [
+			new Image( 'https://example.com/images/image-1.jpg', 1 ),
+			new Image( 'https://example.com/images/image-2.jpg', 2 ),
+			new Image( 'https://example.com/images/image-3.jpg', 3 ),
+		];
+
+		$this->schema_image
+			->expects( 'generate_from_image_object' )
+			->with( $this->meta_tags_context->main_image )
+			->andReturn(
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => $this->meta_tags_context->main_image->get_src(),
+					'url'        => $this->meta_tags_context->main_image->get_src(),
+					'contentUrl' => $this->meta_tags_context->main_image->get_src(),
+				]
+			);
+
+		foreach ( $this->meta_tags_context->images as $image ) {
+			if ( $image->get_id() !== 1 ) {
+				$this->schema_image
+					->expects( 'generate_from_image_object' )
+					->with( $image )
+					->andReturn(
+						[
+							'@type'      => 'ImageObject',
+							'@id'        => $image->get_src(),
+							'url'        => $image->get_src(),
+							'contentUrl' => $image->get_src(),
+						]
+					);
+			}
+		}
+
+		$this->assertEquals(
+			[
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-1.jpg',
+					'url'        => 'https://example.com/images/image-1.jpg',
+					'contentUrl' => 'https://example.com/images/image-1.jpg',
+				],
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-2.jpg',
+					'url'        => 'https://example.com/images/image-2.jpg',
+					'contentUrl' => 'https://example.com/images/image-2.jpg',
+				],
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/images/image-3.jpg',
+					'url'        => 'https://example.com/images/image-3.jpg',
+					'contentUrl' => 'https://example.com/images/image-3.jpg',
 				],
 			],
 			$this->instance->generate()
@@ -224,6 +332,7 @@ class Images_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_generate_open_graph_images() {
+		$this->meta_tags_context->main_image                      = null;
 		$this->meta_tags_context->presentation->open_graph_images = [
 			[
 				'id'  => 1,
@@ -238,66 +347,34 @@ class Images_Test extends TestCase {
 				'url' => 'https://example.com/images/image-3.jpg',
 			],
 		];
+		$images = [
+			new Image( 'https://example.com/images/image-1.jpg', 1 ),
+			new Image( 'https://example.com/images/image-2.jpg', 2 ),
+			new Image( 'https://example.com/images/image-3.jpg', null ),
+		];
 
-		Monkey\Functions\expect( 'home_url' )
-			->andReturn( 'https://example.com' );
+		$length_open_graph_images = count( $this->meta_tags_context->presentation->open_graph_images );
 
-		$this->schema_image->expects( 'convert_open_graph_image' )
-			->with(
-				[
-					'id'  => 1,
-					'url' => 'https://example.com/images/image-1.jpg',
-				]
-			)
-			->andReturn( new Image( 'https://example.com/images/image-1.jpg', 1 ) );
+		for ( $i = 0; $i < $length_open_graph_images; $i++ ) {
+			$this->schema_image
+				->expects( 'convert_open_graph_image' )
+				->with( $this->meta_tags_context->presentation->open_graph_images[ $i ] )
+				->andReturn(
+					$images[ $i ]
+				);
+		}
 
-		$this->schema_image->expects( 'convert_open_graph_image' )
-			->with(
-				[
-					'id'  => 2,
-					'url' => 'https://example.com/images/image-2.jpg',
-				]
-			)
-			->andReturn( new Image( 'https://example.com/images/image-2.jpg', 2 ) );
-
-		$this->schema_image->expects( 'convert_open_graph_image' )
-			->with(
-				[
-					'id'  => null,
-					'url' => 'https://example.com/images/image-3.jpg',
-				]
-			)
-			->andReturn( new Image( 'https://example.com/images/image-3.jpg', null ) );
-
-		$this->schema_image
-			->expects( 'generate_from_attachment_id' )
-			->with( 'https://example.com/images/image-1.jpg', 1 )
-			->andReturn(
-				[
-					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com/images/image-1.jpg',
-				]
-			);
-
-		$this->schema_image
-			->expects( 'generate_from_attachment_id' )
-			->with( 'https://example.com/images/image-2.jpg', 2 )
-			->andReturn(
-				[
-					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com/images/image-2.jpg',
-				]
-			);
-
-		$this->schema_image
-			->expects( 'generate_from_url' )
-			->with( 'https://example.com/images/image-3.jpg', 'https://example.com/images/image-3.jpg' )
-			->andReturn(
-				[
-					'@type' => 'ImageObject',
-					'@id'   => 'https://example.com/images/image-3.jpg',
-				]
-			);
+		for ( $i = 0; $i < $length_open_graph_images; $i++ ) {
+			$this->schema_image
+				->expects( 'generate_from_image_object' )
+				->with( $images[ $i ] )
+				->andReturn(
+					[
+						'@type' => 'ImageObject',
+						'@id'   => $images[ $i ]->get_src(),
+					]
+				);
+		}
 
 		$this->assertEquals(
 			[
@@ -324,11 +401,11 @@ class Images_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_generate_twitter_image() {
+		$this->meta_tags_context->main_image                  = null;
 		$this->meta_tags_context->presentation->twitter_image = 'https://example.com/images/image-1.jpg';
 
 		$this->schema_image
-			->expects( 'generate_from_url' )
-			->with( 'https://example.com/images/image-1.jpg', 'https://example.com/images/image-1.jpg' )
+			->expects( 'generate_from_image_object' )
 			->andReturn(
 				[
 					'@type' => 'ImageObject',

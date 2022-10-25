@@ -41,7 +41,7 @@ class Images extends Abstract_Schema_Piece {
 	 */
 	protected function add_primary_image( $graph ) {
 		if ( ! \is_null( $this->context->main_image ) ) {
-			$graph[] = $this->helpers->schema->image->generate_from_image_object($this->context->main_image);
+			$graph[] = $this->helpers->schema->image->generate_from_image_object( $this->context->main_image );
 		}
 		return $graph;
 	}
@@ -59,7 +59,7 @@ class Images extends Abstract_Schema_Piece {
 			return $graph;
 		}
 
-		return $this->_add_image_schema( $graph, $image );
+		return $this->add_image_schema( $graph, $image );
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Images extends Abstract_Schema_Piece {
 	 *
 	 * @return array $graph The new graph with added image content.
 	 */
-	private function _add_image_schema($graph, $image ) {
+	private function add_image_schema( $graph, $image ) {
 		$graph[] = $this->helpers->schema->image->generate_from_image_object( $image );
 		return $graph;
 	}

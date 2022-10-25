@@ -115,18 +115,10 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return array $data The new graph with added image content.
 	 */
 	protected function add_primary_image( $data ) {
-		if ( $this->context->has_image ) {
-			if ( $this->context->main_image_id ) {
-				$schema_id                     = $this->helpers->image->get_attachment_image_url( $this->context->main_image_id, 'full' );
-				$data['primaryImageOfPage']    = [ '@id' => $schema_id ];
-				$data['image']                 = [ [ '@id' => $schema_id ] ];
-				$this->context->main_image_url = $schema_id;
-			}
-			elseif ( $this->context->main_image_url ) {
-				$data['primaryImageOfPage'] = [ '@id' => $this->context->main_image_url ];
-				$data['image']              = [ [ '@id' => $this->context->main_image_url ] ];
-			}
-			$data['thumbnailUrl'] = $this->context->main_image_url;
+		if ( ! \is_null( $this->context->main_image ) ) {
+			$data['primaryImageOfPage'] = [ '@id' => $this->context->main_image->get_src() ];
+			$data['image']              = [ [ '@id' => $this->context->main_image->get_src() ] ];
+			$data['thumbnailUrl']       = $this->context->main_image->get_src();
 		}
 
 		return $data;
