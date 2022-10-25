@@ -126,6 +126,9 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		}
 
 		if ( ! $this->post_helper->is_post_indexable( $params['id'] ) ) {
+			if ( $format === self::YOAST_JSON_HEAD_ATTRIBUTE_NAME ) {
+				return (object) [];
+			}
 			return '';
 		}
 		$obj = $this->head_action->for_post( $params['id'] );
