@@ -669,6 +669,7 @@ describe( "A test for scoring too long text fragments without a subheading for l
 } );
 
 describe( "A test for marking too long text segments not separated by a subheading", function() {
+	const assessment = new SubheadingDistributionTooLong();
 	it( "returns markers for too long text segments: where the text before first subheading is short", function() {
 		const paper = new Paper( shortText + subheading + veryLongText  + subheading + veryLongText );
 		const textFragment = Factory.buildMockResearcher( [
@@ -695,15 +696,17 @@ describe( "A test for marking too long text segments not separated by a subheadi
 			new Mark( {
 				original: "First subheading",
 				marked: "<yoastmark class='yoast-text-mark'>First subheading</yoastmark>",
+				fieldsToMark: [ "heading" ],
 			} ),
 			new Mark( {
 				original: "Second subheading",
 				marked: "<yoastmark class='yoast-text-mark'>Second subheading</yoastmark>",
+				fieldsToMark: [ "heading" ],
 			} ),
 		];
-		subheadingDistributionTooLong.getResult( paper, textFragment );
-		expect( subheadingDistributionTooLong.getMarks() ).toEqual( expected );
-		expect( subheadingDistributionTooLong.getResult( paper, textFragment )._hasMarks ).toEqual( true );
+		assessment.getResult( paper, textFragment );
+		expect( assessment.getMarks() ).toEqual( expected );
+		expect( assessment.getResult( paper, textFragment )._hasMarks ).toEqual( true );
 	} );
 
 	it( "returns markers for too long text segments: where the text before first subheading is long", function() {
@@ -732,21 +735,23 @@ describe( "A test for marking too long text segments not separated by a subheadi
 			new Mark( {
 				original: "First subheading",
 				marked: "<yoastmark class='yoast-text-mark'>First subheading</yoastmark>",
+				fieldsToMark: [ "heading" ],
 			} ),
 			new Mark( {
 				original: "Second subheading",
 				marked: "<yoastmark class='yoast-text-mark'>Second subheading</yoastmark>",
+				fieldsToMark: [ "heading" ],
 			} ),
 		];
-		subheadingDistributionTooLong.getResult( paper, textFragment );
-		expect( subheadingDistributionTooLong.getMarks() ).toEqual( expected );
-		expect( subheadingDistributionTooLong.getResult( paper, textFragment )._hasMarks ).toEqual( true );
+		assessment.getResult( paper, textFragment );
+		expect( assessment.getMarks() ).toEqual( expected );
+		expect( assessment.getResult( paper, textFragment )._hasMarks ).toEqual( true );
 	} );
 
 	it( "returns no markers if no text segments is too long and no subheadings are found in the text", function() {
 		const paper = new Paper( shortText );
 		const textFragment = Factory.buildMockResearcher( [] );
-		expect( subheadingDistributionTooLong.getResult( paper, textFragment )._hasMarks ).toEqual( false );
+		expect( assessment.getResult( paper, textFragment )._hasMarks ).toEqual( false );
 	} );
 
 	it( "returns no markers if no text segments is too long", function() {
@@ -770,7 +775,7 @@ describe( "A test for marking too long text segments not separated by a subheadi
 				subheading: "<h2>Second subheading</h2>",
 			},
 		] );
-		expect( subheadingDistributionTooLong.getResult( paper, textFragment )._hasMarks ).toEqual( false );
+		expect( assessment.getResult( paper, textFragment )._hasMarks ).toEqual( false );
 	} );
 } );
 
