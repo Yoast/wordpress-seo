@@ -9,7 +9,7 @@ import { defaults } from "lodash-es";
  * @constructor
  */
 function Mark( properties ) {
-	defaults( properties, { original: "", marked: "" } );
+	defaults( properties, { original: "", marked: "", fieldsToMark: [] } );
 	this._properties = properties;
 }
 
@@ -30,6 +30,15 @@ Mark.prototype.getOriginal = function() {
  */
 Mark.prototype.getMarked = function() {
 	return this._properties.marked;
+};
+
+/**
+ * Returns the fields to mark
+ *
+ * @returns {array} The replaced text.
+ */
+Mark.prototype.getFieldsToMark = function() {
+	return this._properties.fieldsToMark;
 };
 
 /**
