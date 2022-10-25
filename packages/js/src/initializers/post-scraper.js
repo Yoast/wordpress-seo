@@ -184,7 +184,7 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Initializes readability analysis in the classic-editor publish box.
+	 * Initializes the inclusive languauge analysis.
 	 *
 	 * @param {Object} activePublishBox The publish box object.
 	 *
