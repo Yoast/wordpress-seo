@@ -218,11 +218,7 @@ class WebPage_Test extends TestCase {
 	 * @param string $message        The message to show in case a test fails.
 	 */
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
-		$this->meta_tags_context->has_image = $values_to_test['has_image'];
-
-		if ( $this->meta_tags_context->has_image ) {
-			$this->meta_tags_context->main_image_url = $values_to_test['image_url'];
-		}
+		$this->meta_tags_context->main_image = $values_to_test['image'];
 
 		$this->id->breadcrumb_hash = '#breadcrumb';
 
@@ -232,18 +228,6 @@ class WebPage_Test extends TestCase {
 			1,
 			1
 		);
-
-		if ( isset( $values_to_test['image_url'] ) && ! isset( $values_to_test['image_id'] ) ) {
-			$this->image
-				->expects( 'get_attachment_by_url' )
-				->with( $values_to_test['image_url'] )
-				->andReturn( 1 );
-
-			$this->image
-				->expects( 'get_attachment_image_url' )
-				->with( 1, 'full' )
-				->andReturn( $values_to_test['image_url'] );
-		}
 
 		$this->assertEquals( $expected, $this->instance->generate(), $message );
 	}
@@ -256,6 +240,8 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_on_front_page_site_does_not_represents_reference() {
+		$this->meta_tags_context->main_image = null;
+
 		$this->setup_generate_test(
 			true,
 			1,
@@ -294,6 +280,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_on_front_page_site_represents_reference() {
+		$this->meta_tags_context->main_image                = null;
 		$this->meta_tags_context->site_represents_reference = [ '@id' => $this->meta_tags_context->site_url . '#organization' ];
 
 		$this->setup_generate_test(
@@ -336,6 +323,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_object_post_site_represents_true() {
+		$this->meta_tags_context->main_image      = null;
 		$this->meta_tags_context->site_represents = true;
 
 		$this->meta_tags_context->indexable = (object) [
@@ -382,6 +370,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_object_post_site_represents_false() {
+		$this->meta_tags_context->main_image      = null;
 		$this->meta_tags_context->site_represents = false;
 
 		$this->meta_tags_context->indexable = (object) [
@@ -434,6 +423,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_description_not_empty() {
+		$this->meta_tags_context->main_image  = null;
 		$this->meta_tags_context->description = 'the-description';
 
 		$this->setup_generate_test(
@@ -481,6 +471,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_object_type_home_page() {
+		$this->meta_tags_context->main_image       = null;
 		$this->meta_tags_context->schema_page_type = 'CollectionPage';
 		$this->meta_tags_context->indexable        = (object) [
 			'object_type' => 'home-page',
@@ -516,6 +507,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_home_static_page() {
+		$this->meta_tags_context->main_image       = null;
 		$this->meta_tags_context->schema_page_type = 'CollectionPage';
 
 		$this->setup_generate_test(
@@ -571,7 +563,7 @@ class WebPage_Test extends TestCase {
 		return [
 			[
 				'values_to_test' => [
-					'has_image'           => false,
+					'image'           => null,
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
@@ -596,8 +588,7 @@ class WebPage_Test extends TestCase {
 			],
 			[
 				'values_to_test' => [
-					'has_image'           => true,
-					'image_url'           => 'https://example.com/image.jpg',
+					'image'           => new Image( 'https://example.com/image.jpg' ),
 				],
 				'expected'       => [
 					'@type'              => [ 'WebPage' ],
@@ -625,7 +616,7 @@ class WebPage_Test extends TestCase {
 			],
 			[
 				'values_to_test' => [
-					'has_image'           => false,
+					'image'           => null,
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
@@ -703,15 +694,7 @@ class WebPage_Test extends TestCase {
 		Monkey\Functions\expect( 'home_url' )
 			->andReturn( 'https://example.com' );
 
-		if ( isset( $featured_image ) ) {
-			$this->meta_tags_context->has_image      = true;
-			$this->meta_tags_context->main_image_id  = $featured_image['id'];
-			$this->meta_tags_context->main_image_url = $featured_image['url'];
-			$this->image
-				->expects( 'get_attachment_image_url' )
-				->with( $featured_image['id'], 'full' )
-				->andReturn( $featured_image['url'] );
-		}
+		$this->meta_tags_context->main_image                      = $featured_image;
 		$this->meta_tags_context->images                          = $content_images;
 		$this->meta_tags_context->presentation->open_graph_images = $open_graph_images;
 		$this->meta_tags_context->presentation->twitter_image     = $twitter_image;
@@ -733,10 +716,7 @@ class WebPage_Test extends TestCase {
 	 */
 	public function generate_with_images_dataprovider() {
 		$only_featured_image_set      = [
-			'featured_image'    => [
-				'id'  => 4,
-				'url' => 'https://example.com/images/image-4.jpg',
-			],
+			'featured_image'    => new Image( 'https://example.com/images/image-4.jpg', 4 ),
 			'content_images'    => [],
 			'open_graph_images' => [],
 			'twitter_image'     => null,
@@ -926,10 +906,7 @@ class WebPage_Test extends TestCase {
 			],
 		];
 		$double_images_featured_image = [
-			'featured_image'    => [
-				'id'  => 1,
-				'url' => 'https://example.com/images/image-1.jpg',
-			],
+			'featured_image'    => new Image( 'https://example.com/images/image-1.jpg', 1 ),
 			'content_images'    => [
 				new Image( 'https://example.com/images/image-1.jpg', 1 ),
 				new Image( 'https://example.com/images/image-2.jpg', 2 ),
@@ -973,10 +950,7 @@ class WebPage_Test extends TestCase {
 			],
 		];
 		$external_images_in_content   = [
-			'featured_image'    => [
-				'id'  => 1,
-				'url' => 'https://example.com/images/image-1.jpg',
-			],
+			'featured_image'    => new Image( 'https://example.com/images/image-1.jpg', 1 ),
 			'content_images'    => [
 				new Image( 'https://example.com/images/image-1.jpg', 1 ),
 				new Image( 'https://external.com/images/image-2.jpg' ),

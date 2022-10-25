@@ -53,6 +53,7 @@ use Yoast\WP\SEO\Values\Schema\Image;
  * @property bool         $has_image
  * @property int          $main_image_id
  * @property string       $main_image_url
+ * @property Image|null   $main_image
  * @property Image[]      $images
  */
 class Meta_Tags_Context extends Abstract_Presentation {
@@ -596,6 +597,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_main_schema_id() {
 		return $this->permalink;
+	}
+
+	/**
+	 * Generate the main image from the main image URL.
+	 *
+	 * @return Image|null The Image object if it exists.
+	 */
+	public function generate_main_image() {
+		return $this->image->create_image_object_from_source( $this->main_image_url );
 	}
 
 	/**

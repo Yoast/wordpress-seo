@@ -119,6 +119,26 @@ class Image_Helper {
 	}
 
 	/**
+	 * Generate image schema from an Image object.
+	 *
+	 * @param Image $image The Image object to generate schema data for.
+	 * @return array Schema for an ImageObject.
+	 */
+	public function generate_from_image_object( $image ) {
+		$data = $this->generate_object();
+
+		$data['@id']        = $image->get_src();
+		$data['url']        = $image->get_src();
+		$data['contentUrl'] = $image->get_src();
+		if ( $image->has_size() ) {
+			$data['width']  = $image->get_width();
+			$data['height'] = $image->get_height();
+		}
+
+		return $data;
+	}
+
+	/**
 	 * If we can't find $url in our database, we output a simple ImageObject.
 	 *
 	 * @param string $schema_id The `@id` to use for the returned image.
@@ -211,29 +231,20 @@ class Image_Helper {
 	 * @return Image The converted image.
 	 */
 	public function convert_open_graph_image( $open_graph_image ) {
-		$id     = isset( $open_graph_image['id'] ) ? intval( $open_graph_image['id'] ) : null;
-		$width  = isset( $open_graph_image['width'] ) ? intval( $open_graph_image['width'] ) : null;
-		$height = isset( $open_graph_image['height'] ) ? intval( $open_graph_image['height'] ) : null;
+		// Create an Image object from the open graph image.
+		$image_obj = $this->image->create_image_object_from_source( $open_graph_image['url'] );
 
-		$image_obj = new Image( $open_graph_image['url'], $id, $width, $height );
-
-		// Try to find the image ID of the image.
-		if ( ! $image_obj->has_id() ) {
-			$found_image_id = $this->image->get_attachment_by_url( $image_obj->get_src() );
-			if ( $found_image_id !== 0 ) {
-				$image_obj->set_id( $found_image_id );
-			}
+		// Overwrite properties if they exist.
+		if ( isset( $open_graph_image['id'] ) ) {
+			$image_obj->set_id( intval( $open_graph_image['id'] ) );
+		}
+		if ( isset( $open_graph_image['width'] ) ) {
+			$image_obj->set_width( intval( $open_graph_image['width'] ) );
+		}
+		if ( isset( $open_graph_image['height'] ) ) {
+			$image_obj->set_height( intval( $open_graph_image['height'] ) );
 		}
 
-		// $image might include an image url that does not have the correct scheme (e.g. http instead of https).
-		// We will try to convert it if possible.
-		if ( $image_obj->has_id() ) {
-			$size      = ! \is_null( $width ) && ! \is_null( $height ) ? [ $width, $height ] : 'full';
-			$image_url = $this->image->get_attachment_image_url( $image_obj->get_id(), $size );
-			if ( $image_url !== '' ) {
-				$image_obj->set_src( $image_url );
-			}
-		}
 		return $image_obj;
 	}
 }

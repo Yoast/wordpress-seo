@@ -40,15 +40,9 @@ class Images extends Abstract_Schema_Piece {
 	 * @return array $graph The new graph with added image content.
 	 */
 	protected function add_primary_image( $graph ) {
-		if ( $this->context->main_image_id ) {
-			$schema_id        = $this->helpers->image->get_attachment_image_url( $this->context->main_image_id, 'full' );
-			$generated_schema = $this->helpers->schema->image->generate_from_attachment_id( $schema_id, $this->context->main_image_id );
-			$graph[]          = $generated_schema;
+		if ( ! \is_null( $this->context->main_image ) ) {
+			$graph[] = $this->helpers->schema->image->generate_from_image_object( $this->context->main_image );
 		}
-		elseif ( $this->context->main_image_url ) {
-			$graph[] = $this->helpers->schema->image->generate_from_url( $this->context->main_image_url, $this->context->main_image_url );
-		}
-
 		return $graph;
 	}
 
@@ -76,19 +70,8 @@ class Images extends Abstract_Schema_Piece {
 	 *
 	 * @return array $graph The new graph with added image content.
 	 */
-	protected function add_image_schema( $graph, $image ) {
-		if ( $image->has_id() ) {
-			if ( $image->has_size() ) {
-				$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id(), '', false, [ $image->get_width(), $image->get_height() ] );
-			}
-			else {
-				$graph[] = $this->helpers->schema->image->generate_from_attachment_id( $image->get_src(), $image->get_id() );
-			}
-		}
-		else {
-			$graph[] = $this->helpers->schema->image->generate_from_url( $image->get_src(), $image->get_src() );
-		}
-
+	private function add_image_schema( $graph, $image ) {
+		$graph[] = $this->helpers->schema->image->generate_from_image_object( $image );
 		return $graph;
 	}
 
