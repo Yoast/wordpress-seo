@@ -42,6 +42,38 @@ class Author_Archive_Helper {
 	}
 
 	/**
+	 * Checks whether the user with the given ID has publicly viewable posts.
+	 *
+	 * **Note**: It uses the WordPress tables to determine the number of posts,
+	 * not the indexables table.
+	 *
+	 * @param string $user_id The user ID.
+	 *
+	 * @return bool Whether the author has public posts, according to the WordPress tables.
+	 */
+	public function author_has_public_posts_wp( $user_id ) {
+		global $wpdb;
+
+		$post_types        = $this->get_author_archive_post_types();
+		$public_post_stati = \array_values ( \array_filter( \get_post_stati(), 'is_post_status_viewable' ) );
+
+		$post_type_placeholders         = \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) );
+		$public_post_stati_placeholders = \implode( ', ', \array_fill( 0, \count( $public_post_stati ), '%s' ) );
+
+		$sql = $wpdb->prepare(
+			'SELECT ID FROM ' . $wpdb->posts . ' WHERE ( post_author = %d AND post_type IN (' . $post_type_placeholders .
+			') AND post_status IN (' . $public_post_stati_placeholders . ') )',
+			$user_id,
+			...$post_types,
+			...$public_post_stati
+		);
+
+		$single_public_post = $wpdb->query( $sql );
+
+		return (bool) $single_public_post;
+	}
+
+	/**
 	 * Returns whether the author has at least one public post.
 	 *
 	 * @param int $author_id The author ID.
