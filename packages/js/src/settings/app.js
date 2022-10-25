@@ -168,7 +168,7 @@ const PremiumUpsellList = () => {
 					"Yoast SEO Premium"
 				) }
 			</Title>
-			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside yst-text-slate-800 yst-mt-6">
+			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
 				<li>
 					<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
 					:&nbsp;
