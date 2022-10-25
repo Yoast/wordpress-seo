@@ -110,7 +110,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		$viewable_post_types            = \array_keys( \array_filter( $post_types, '\is_post_type_viewable' ) );
 		$last_known_viewable_post_types = $this->options->get( 'last_known_viewable_post_types', [] );
 
-		if (empty( $last_known_viewable_post_types ) ) {
+		if ( empty( $last_known_viewable_post_types ) ) {
 			$this->options->set( 'last_known_viewable_post_types', $viewable_post_types );
 		}
 
