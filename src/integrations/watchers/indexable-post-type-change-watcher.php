@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
@@ -135,6 +136,9 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		if ( ! empty( $newly_made_viewable_post_types ) ) {
 			$this->add_new_viewables_to_post_types_made_viewable( $newly_made_viewable_post_types );
 
+			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
+			
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_VIEWABLE );
 
 			$this->maybe_add_notification();

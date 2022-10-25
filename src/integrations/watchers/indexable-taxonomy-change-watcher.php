@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
@@ -133,6 +134,9 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 
 		if ( ! empty( $newly_made_viewable_taxonomies ) ) {
 			$this->add_new_viewables_to_taxonomies_made_viewable( $newly_made_viewable_taxonomies );
+
+			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_TAXONOMY_MADE_VIEWABLE );
 
