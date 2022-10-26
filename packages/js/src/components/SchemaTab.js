@@ -236,8 +236,7 @@ const Content = ( props ) => {
 				className="yoast-schema-faq-alert"
 			>
 				{
-					// TODO: Change the text to something that is more clear for the user.
-					__( "Setting the page type to FAQ Page will not have an effect on the generated schema when you are not using the WordPress Block editor. Please use the WordPress Block editor for this post or select another page type.", "wordpress-seo" )
+					__( "You've set the page type to 'FAQ page', but to generate valid FAQPage schema for this page, you need to add a Yoast FAQ block to your content using the WordPress block editor.", "wordpress-seo" )
 				}
 			</Alert>
 			}
