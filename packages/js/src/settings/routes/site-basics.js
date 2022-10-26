@@ -13,6 +13,7 @@ const SiteBasics = () => {
 	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
 	const generalSettingsUrl = useSelectSettings( "selectPreference", [], "generalSettingsUrl" );
 	const canManageOptions = useSelectSettings( "selectPreference", [], "canManageOptions", false );
+	const showForceRewriteTitlesSetting = useSelectSettings( "selectPreference", [], "showForceRewriteTitlesSetting", false );
 
 	const usageTrackingLink = useSelectLink( {
 		link: "https://yoa.st/usage-tracking-2",
@@ -157,7 +158,21 @@ const SiteBasics = () => {
 				</FieldsetLayout>
 
 				<hr className="yst-my-8" />
-				<FieldsetLayout title={ __( "Security & privacy", "wordpress-seo" ) }>
+				<FieldsetLayout title={ __( "Site preferences", "wordpress-seo" ) }>
+					{ showForceRewriteTitlesSetting && (
+						<FormikValueChangeField
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo_titles.forcerewritetitle"
+							data-id="input-wpseo_titles-forcerewritetitle"
+							label={ __( "Force rewrite titles", "wordpress-seo" ) }
+							description={ sprintf(
+								/* translators: %1$s expands to Yoast SEO */
+								__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.", "wordpress-seo" ),
+								"Yoast SEO"
+							) }
+						/>
+					) }
 					<FormikValueChangeField
 						as={ ToggleField }
 						type="checkbox"

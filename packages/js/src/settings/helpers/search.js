@@ -546,6 +546,13 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		},
 	},
 	wpseo_titles: {
+		forcerewritetitles: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-forcerewritetitle",
+			fieldLabel: __( "Force rewrite titles", "wordpress-seo" ),
+			keywords: [],
+		},
 		separator: {
 			route: "/site-basics",
 			routeLabel: __( "Site basics", "wordpress-seo" ),
