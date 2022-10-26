@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.8
+Stable tag: 19.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -248,6 +248,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.9 =
 Release Date: October 25th, 2022
 
+Yoast SEO 19.9 is out today. Yoast SEO already supports the Schema necessary for Google's Site Names update, but we've expanded support for it in this release. In addition, we give users more control over what names they can add, including an alternate title. Of course, there's a lot more, so check it out! Read more about what's new in Yoast SEO 19.9 in [our release post in English](https://yoa.st/release-25-10-22) or [our release post in Spanish](https://yoa.st/release-25-10-22-spanish)!
+
 Enhancements:
 
 * Adds input fields to overwrite the site name, as well as an extra input field for a (potentially shorter) alternate name. Google introduced new support for [site names in Google Search](https://developers.google.com/search/blog/2022/10/introducing-site-names-on-search). Yoast SEO already outputs this value correctly, using the WordPress site name. With these changes, we have increased the control site owners have over this value.
@@ -257,7 +259,6 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where a fatal error would be thrown when using the `wpseo_breadcrumb_links` filter in the wrong way on PHP 8.0+.
-* Fixes a bug where changes in the replacement variables (e.g. the value of the `%%title%%` replacement variable when the post title changes) would not be reflected in the _meta description length_, _SEO title width_, and the _keyphrase in SEO title_ assessments.
 * Fixes a bug where social or canonical URLs containing `@` would lead to encoding issues. Props to [@stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the buttons in the _FAQ_ and in the _how-to_ block would be hardly visible when using a dark theme.
 * Fixes a bug where the number of words would be counted incorrectly when using Cyrillic script. Props to [kudinovfedor](https://github.com/kudinovfedor).
@@ -267,7 +268,7 @@ Bugfixes:
 
 Other:
 
-* Adds taxonomy information to breadcrumbs of type \"term\" to be able to filter them better with the `wpseo_breadcrumb_links` filter. Props to [@svenvonarx](https://github.com/svenvonarx).
+* Adds taxonomy information to breadcrumbs of type "term" to be able to filter them better with the `wpseo_breadcrumb_links` filter. Props to [@svenvonarx](https://github.com/svenvonarx).
 * Adds a `wpseo_primary_category_admin_pages` filter to enable the use of the primary category in the post URL of additional admin pages besides the default ones. Props to [@ssvet](https://github.com/ssvet).
 * Reinstates the `wpseo_twitter_card_type` filter that was wrongly deprecated in 19.8.
 
