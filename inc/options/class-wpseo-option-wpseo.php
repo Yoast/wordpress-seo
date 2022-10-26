@@ -131,10 +131,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'least_linked_ignore_list'                 => [],
 		'indexables_page_reading_list'             => [ false, false, false, false, false ],
 		'indexables_overview_state'                => 'dashboard-not-visited',
-		'last_known_public_post_types'           => [],
-		'last_known_public_taxonomies'           => [],
-		'post_types_made_public'                 => [],
-		'taxonomies_made_public'                 => [],
+		'last_known_public_post_types'             => [],
+		'last_known_public_taxonomies'             => [],
+		'post_types_made_public'                   => [],
+		'taxonomies_made_public'                   => [],
 	];
 
 	/**
