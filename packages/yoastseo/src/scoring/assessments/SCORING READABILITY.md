@@ -9,7 +9,7 @@
 
 **Call to action URL**: [https://yoa.st/34y](https://yoast.com/how-to-use-headings-on-your-site/#utm_source=yoast-seo&utm_medium=software&utm_term=subheading-distributrion-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Bullet 	 | Score	| Criterion | Feeedback |
+| Bullet 	 | Score	| Criterion | Feedback |
 |------------|------------------	|--------------------- |---------------------
 | Red        |2		            |No subheadings in a text with more than 300 words.   	          | **Subheading distribution**: You are not using any subheadings, although your text is rather long. Try and add some subheadings. |
 | Red        |3		            |Subheading followed by more than 350 words (cornerstone: 300)    | **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
@@ -28,7 +28,7 @@
 
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Bullet 	 | Score	| Criterion | Feeedback |
+| Bullet 	 | Score	| Criterion | Feedback |
 |------------|------------------	|--------------------- |---------------------
 | Red        |3	                |> 200 words	   	          |**Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!**|
 | Orange     |6                 |Between 150 and 200 words    |**Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!**|

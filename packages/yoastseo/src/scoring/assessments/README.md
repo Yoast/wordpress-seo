@@ -89,8 +89,33 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### Overview of the Readability assessments scoring criteria
 Information on the scoring criteria for the available Readability assessments can be found [here](SCORING%20READABILITY.md).
 
-## 3. Scoring taxonomy analysis
-Taxonomy analysis has the same SEO and Readability scoring criteria as above except for the SEO assessments below:
+## 3. Scoring inclusive language analysis
+
+The inclusive language analysis checks whether your post contains any (potentially) non-inclusive words or phrases.
+The list of languages for which the inclusive language analysis is available can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#supported-languages).
+
+### How are individual bullets assigned?
+For every (potentially) non-inclusive word or phrase that is found in the text, a red or orange bullet is shown.
+A red bullet means that the targeted word or phrase is never inclusive, regardless of context.
+An orange bullet means that the targeted word of phrase is _potentially_ non-inclusive, depending on the context in which it is used.
+
+| Individual Score | Rating 	       |
+|------------	   |------------------ |
+|3	               |Bad (red bullet)   |
+|6		           |Ok (orange bullet) |
+
+### How is the overall score calculated?
+| Individual scores	 | Total score	| Divide by 10:|
+|------------	         |------------------	|---------------------
+| At least one individual score of 3        |30		            |3	                               |
+| Zero individual scores of 3 and at least one individual score of 6         |60		            |6	                               |
+| Zero individual scores of 3 or 6	     |90                    |9
+
+### Overview of the inclusive language analysis scoring criteria
+More information about the scoring criteria for the inclusive language analysis can be found [here](SCORING%20INCLUSIVE%20LANGUAGE.md).
+
+## 4. Scoring taxonomy analysis
+Taxonomy analysis has the same SEO, Readability, and Inclusive language scoring criteria as above except for the SEO assessments below:
 
 ### 1) Taxonomy text length assessment
 **What it does**: Checks if the taxonomy page has a good length.
