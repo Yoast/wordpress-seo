@@ -1,3 +1,4 @@
+import { useEffect } from "@wordpress/element";
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -41,6 +42,18 @@ const areButtonsHidden = function( props ) {
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
 export const AnalysisResult = ( props ) => {
+	const { id, marker, hasMarksButton } = props;
+
+	/*
+	 * Update the marker status when there is a change in the following:
+	 * a) the result's id, or
+	 * b) the objects that need to be marked for the current result, or
+	 * c) the information whether there is an object to be marked for the current result.
+	 */
+	useEffect( () => {
+		props.onResultChange( id, marker, hasMarksButton );
+	}, [ id, marker, hasMarksButton ] );
+
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
@@ -97,6 +110,9 @@ AnalysisResult.propTypes = {
 	editButtonClassName: PropTypes.string,
 	hasBetaBadgeLabel: PropTypes.bool,
 	isPremium: PropTypes.bool,
+	onResultChange: PropTypes.func,
+	id: PropTypes.string,
+	marker: PropTypes.array,
 };
 
 AnalysisResult.defaultProps = {
@@ -111,6 +127,9 @@ AnalysisResult.defaultProps = {
 	ariaLabelEdit: "",
 	onButtonClickEdit: noop,
 	isPremium: false,
+	onResultChange: noop,
+	id: "",
+	marker: [],
 };
 
 export default AnalysisResult;
