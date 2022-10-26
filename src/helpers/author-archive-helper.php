@@ -52,27 +52,40 @@ class Author_Archive_Helper {
 	 * @return bool Whether the author has public posts, according to the WordPress tables.
 	 */
 	public function author_has_public_posts_wp( $user_id ) {
-		global $wpdb;
+		$cache_key       = 'author_has_a_public_post_wp_' . $user_id;
+		$has_public_post = \wp_cache_get( $cache_key );
 
-		$post_types        = $this->get_author_archive_post_types();
-		$public_post_stati = \array_values( \array_filter( \get_post_stati(), 'is_post_status_viewable' ) );
+		if ( $has_public_post === false ) {
+			global $wpdb;
 
-		$post_type_placeholders         = \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) );
-		$public_post_stati_placeholders = \implode( ', ', \array_fill( 0, \count( $public_post_stati ), '%s' ) );
+			$post_types        = $this->get_author_archive_post_types();
+			$public_post_stati = \array_values( \array_filter( \get_post_stati(), 'is_post_status_viewable' ) );
 
-		$sql = "
-			SELECT ID 
-			FROM $wpdb->posts 
-			WHERE post_author = %d 
-			  AND post_type IN ( $post_type_placeholders ) 
-			  AND post_status IN ( $public_post_stati_placeholders )
-		  LIMIT 1";
+			$post_type_placeholders         = \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) );
+			$public_post_stati_placeholders = \implode( ', ', \array_fill( 0, \count( $public_post_stati ), '%s' ) );
 
-		$replacements = \array_merge( [ $user_id ], $post_types, $public_post_stati );
+			$sql = "
+				SELECT ID 
+				FROM $wpdb->posts 
+				WHERE post_author = %d 
+				  AND post_type IN ( $post_type_placeholders ) 
+				  AND post_status IN ( $public_post_stati_placeholders )
+				LIMIT 1";
 
-		$single_public_post = $wpdb->query( $wpdb->prepare( $sql, $replacements ) );
+			$replacements = \array_merge( [ $user_id ], $post_types, $public_post_stati );
 
-		return (bool) $single_public_post;
+			// phpcs:disable WordPress.DB -- Query is prepared with placeholders above, query is cached.
+			$single_public_post = $wpdb->query( $wpdb->prepare( $sql, $replacements ) );
+
+			$has_public_post = (bool) $single_public_post;
+
+			if ( $has_public_post === false ) {
+				// Cache no results to prevent extra database query.
+				\wp_cache_set( $cache_key, 0, '', \wp_rand( ( 2 * \HOUR_IN_SECONDS ), ( 4 * \HOUR_IN_SECONDS ) ) );
+			}
+		}
+
+		return (bool) $has_public_post;
 	}
 
 	/**
