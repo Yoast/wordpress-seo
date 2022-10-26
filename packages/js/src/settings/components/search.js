@@ -15,7 +15,6 @@ const QUERY_MIN_CHARS = 3;
 const Search = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
-	// const [ isLoading, setIsLoading ] = useState( false );
 	const [ query, setQuery ] = useState( "" );
 	const searchIndex = useSelectSettings( "selectSearchIndex" );
 	const queryableSearchIndex = useSelectSettings( "selectQueryableSearchIndex" );
@@ -29,7 +28,7 @@ const Search = () => {
 		setResults( [] );
 	}, [ setClose, setQuery ] );
 
-	const search = useCallback( newQuery => {
+	const debouncedSearch = useCallback( debounce( newQuery => {
 		const trimmedQuery = trim( newQuery );
 
 		// Bail if query is too short.
@@ -73,12 +72,12 @@ const Search = () => {
 		} );
 
 		setResults( sortedGroupedQueryResults );
-	}, [ queryableSearchIndex, searchIndex ] );
+	}, 100 ), [ queryableSearchIndex, searchIndex ] );
 
 	const handleQueryChange = useCallback( event => {
 		setQuery( event.target.value );
-		search( event.target.value );
-	}, [ setQuery, search ] );
+		debouncedSearch( event.target.value );
+	}, [ setQuery, debouncedSearch ] );
 
 	return <>
 		<button
