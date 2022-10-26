@@ -24,7 +24,7 @@ For all users, the majority of keyphrase-related assessments are now done using 
 All Premium users can also add **synonyms** of their keyphrase. Some of the assessments will then not only consider the keyphrase, but also its synonyms.
 
 #### Group 2: Languages for which we can filter out function words
-A list of those languages can be found [here](https://github.com/Yoast/javascript/blob/master/packages/yoastseo/README.md#supported-languages) - look for the ones with a green tick in the 'function words' cell.
+A list of those languages can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#seo-analysis).
 
 ##### Free
 In addition to per-word matching, we also filter out **function words** from the keyphrase during the keyword-related assessments. For example, if the keyphrase is "how to decorate a room", we filter out the words 'how', 'to', and 'a', and only leave out the meaningful words 'decorate' and 'room'. This means that if we look, for example, if the keyphrase has been used in the introduction of the text, we are only looking for the words 'decorate' and 'room'.
@@ -67,7 +67,7 @@ Information on the scoring criteria for the available SEO assessments can be fou
 
 ## 2. Scoring readability analysis
 
-Readability analysis is a collection of assessments that check how easy it is to read a text. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence and distribution), but many are language-specific (e.g. passive voice, transition words) and are developed on a case-by-case basis. As such, which assessments are currently available will depend on the specific language (an overview of the available language-specific assessments can be found [here](https://github.com/Yoast/javascript/blob/master/packages/yoastseo/README.md#supported-languages).)
+Readability analysis is a collection of assessments that check how easy it is to read a text. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence and distribution), but many are language-specific (e.g. passive voice, transition words) and are developed on a case-by-case basis. As such, which assessments are currently available will depend on the specific language (an overview of the available language-specific assessments can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#readability-analysis).)
 
 Below is a detailed overview of how scores for the readability assessments are calculated, as well as the feedback that each assessment returns. Note: some of the assessment criteria are different for texts marked as cornerstone; these will be indicated when applicable. Also, some assessment criteria (e.g. recommended sentence length) differ depending on the specific language. These are not specified below for the sake of space saving.
 
