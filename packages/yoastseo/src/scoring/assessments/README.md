@@ -92,7 +92,7 @@ Information on the scoring criteria for the available Readability assessments ca
 ## 3. Scoring inclusive language analysis
 
 The inclusive language analysis checks whether your post contains any (potentially) non-inclusive words or phrases.
-The list of languages for which the inclusive language analysis is available can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#supported-languages).
+The list of languages for which the inclusive language analysis is available can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#inclusive-language-analysis).
 
 ### How are individual bullets assigned?
 For every (potentially) non-inclusive word or phrase that is found in the text, a red or orange bullet is shown.
