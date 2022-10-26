@@ -240,6 +240,11 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->once()
 			->with( $indexable_mock, $post_content );
 
+		$this->instance
+			->expects( 'update_has_public_posts' )
+			->with( $indexable_mock )
+			->once();
+
 		$this->instance->build_indexable( $post_id );
 	}
 
@@ -325,6 +330,11 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'get_public_post_statuses' )
 			->once()
 			->andReturn( [ 'publish' ] );
+
+		$this->instance
+			->expects( 'update_has_public_posts' )
+			->with( $indexable_mock )
+			->once();
 
 		$this->instance->build_indexable( $post_id );
 	}

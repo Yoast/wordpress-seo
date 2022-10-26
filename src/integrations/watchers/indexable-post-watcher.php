@@ -169,7 +169,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		$this->update_relations( $post );
-		$this->update_has_public_posts( $indexable );
 
 		$indexable->save();
 	}
@@ -192,6 +191,15 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
 
 			$post = $this->post->get_post( $post_id );
+
+			/*
+			 * Update whether an author has public posts.
+			 * For example this post could be set to Draft or Private,
+			 * which can influence if its author has any public posts at all.
+			 */
+			if ( $indexable ) {
+				$this->update_has_public_posts( $indexable );
+			}
 
 			// Build links for this post.
 			if ( $post && $indexable && \in_array( $post->post_status, $this->post->get_public_post_statuses(), true ) ) {
