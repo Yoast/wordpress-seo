@@ -86,7 +86,7 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 			case Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC:
 				$text = \esc_html__( 'Because of a change in your post types visibility, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
-			case Indexing_Reasons::REASON_TAXONOMY_MADE_VIEWABLE:
+			case Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC:
 				$text = \esc_html__( 'Because of a change in your taxonomies visibility, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
 			default:

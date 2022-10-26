@@ -17,9 +17,9 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast_Notification;
 use Yoast_Notification_Center;
 /**
- * WordPress Post watcher.
+ * Taxonomy watcher.
  *
- * Fills the Indexable according to Post data.
+ * Responds to changes in taxonomies public availability.
  */
 class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 
@@ -98,7 +98,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_init', [ $this, 'check_taxonomy_viewability' ] );
+		\add_action( 'admin_init', [ $this, 'check_taxonomy_public_availability' ] );
 	}
 
 	/**
@@ -106,45 +106,45 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function check_taxonomy_viewability() {
+	public function check_taxonomy_public_availability() {
 
 		// We have to make sure this is just a plain http request, no ajax/REST.
 		if ( \wp_is_json_request() ) {
 			return;
 		}
 
-		$viewable_taxonomies            = \array_keys( $this->taxonomy_helper->get_public_taxonomies() );
-		$last_known_viewable_taxonomies = $this->options->get( 'last_known_viewable_taxonomies', [] );
+		$public_taxonomies            = \array_keys( $this->taxonomy_helper->get_public_taxonomies() );
+		$last_known_public_taxonomies = $this->options->get( 'last_known_public_taxonomies', [] );
 
-		if ( empty( $last_known_viewable_taxonomies ) ) {
-			$this->options->get( 'last_known_viewable_taxonomies', $viewable_taxonomies );
-			$last_known_viewable_taxonomies = $viewable_taxonomies;
+		if ( empty( $last_known_public_taxonomies ) ) {
+			$this->options->get( 'last_known_public_taxonomies', $public_taxonomies );
+			$last_known_public_taxonomies = $public_taxonomies;
 			return;
 		}
 
-		$newly_made_viewable_taxonomies     = \array_diff( $viewable_taxonomies, $last_known_viewable_taxonomies );
-		$newly_made_non_viewable_taxonomies = \array_diff( $last_known_viewable_taxonomies, $viewable_taxonomies );
+		$newly_made_public_taxonomies     = \array_diff( $public_taxonomies, $last_known_public_taxonomies );
+		$newly_made_non_public_taxonomies = \array_diff( $last_known_public_taxonomies, $public_taxonomies );
 
-		if ( empty( $newly_made_viewable_taxonomies ) && ( empty( $newly_made_non_viewable_taxonomies ) ) ) {
+		if ( empty( $newly_made_public_taxonomies ) && ( empty( $newly_made_non_public_taxonomies ) ) ) {
 			return;
 		}
 
-		// Update the list of last known viewable taxonomies in the database.
-		$this->options->set( 'last_known_viewable_taxonomies', $viewable_taxonomies );
+		// Update the list of last known public taxonomies in the database.
+		$this->options->set( 'last_known_public_taxonomies', $public_taxonomies );
 
-		if ( ! empty( $newly_made_viewable_taxonomies ) ) {
-			$this->add_new_viewables_to_taxonomies_made_viewable( $newly_made_viewable_taxonomies );
+		if ( ! empty( $newly_made_public_taxonomies ) ) {
+			$this->add_new_public_taxonomies_to_taxonomies_made_public( $newly_made_public_taxonomies );
 
 			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
-			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_TAXONOMY_MADE_VIEWABLE );
+			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC );
 
 			$this->maybe_add_notification();
 		}
 
-		if ( ! empty( $newly_made_non_viewable_taxonomies ) ) {
-			$this->purge_non_viewables_from_taxonomies_made_viewable( $newly_made_non_viewable_taxonomies );
+		if ( ! empty( $newly_made_non_public_taxonomies ) ) {
+			$this->purge_non_public_taxonomies_from_taxonomies_made_public( $newly_made_non_public_taxonomies );
 
 			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
 				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
@@ -156,42 +156,42 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Adds newly viewable taxonomies in taxonomies_made_viewable.
+	 * Adds newly public taxonomies in taxonomies_made_public.
 	 *
-	 * @param array $newly_made_viewable_taxonomies Array of post type names which have been made viewable.
+	 * @param array $newly_made_public_taxonomies Array of taxonomies names which have been made public.
 	 *
 	 * @return bool Returns true if the option is successfully saved in the database.
 	 */
-	private function add_new_viewables_to_taxonomies_made_viewable( $newly_made_viewable_taxonomies ) {
-		// Fetch the post types that have been made viewable the last time.
-		$previously_made_viewable_taxonomies = $this->options->get( 'taxonomies_made_viewable', [] );
+	private function add_new_public_taxonomies_to_taxonomies_made_public( $newly_made_public_taxonomies ) {
+		// Fetch the taxonomies that have been made public the last time.
+		$previously_made_public_taxonomies = $this->options->get( 'taxonomies_made_public', [] );
 
-		// Merge the previously made viewable post types with the newly made viewable ones.
-		$total_made_viewable_taxonomies = \array_merge( $previously_made_viewable_taxonomies, $newly_made_viewable_taxonomies );
+		// Merge the previously made public taxonomies with the newly made public ones.
+		$total_made_public_taxonomies = \array_merge( $previously_made_public_taxonomies, $newly_made_public_taxonomies );
 
 		// Update the corresponding option in the database.
-		return $this->options->set( 'taxonomies_made_viewable', $total_made_viewable_taxonomies );
+		return $this->options->set( 'taxonomies_made_public', $total_made_public_taxonomies );
 	}
 
 	/**
-	 * Removes taxonomies made non viewable from taxonomies_made_viewable.
+	 * Removes taxonomies made non public from taxonomies_made_public.
 	 *
-	 * @param array $newly_made_non_viewable_taxonomies Array of tzxonomies names which have been made non viewable.
+	 * @param array $newly_made_non_public_taxonomies Array of tzxonomies names which have been made non public.
 	 *
 	 * @return bool Returns true if the option is successfully saved in the database.
 	 */
-	private function purge_non_viewables_from_taxonomies_made_viewable( $newly_made_non_viewable_taxonomies ) {
-		$previously_made_viewable_taxonomies  = $this->options->get( 'post_types_made_viewable', [] );
-		$remove_from_taxonomies_made_viewable = \array_intersect( $newly_made_non_viewable_taxonomies, $previously_made_viewable_taxonomies );
+	private function purge_non_public_taxonomies_from_taxonomies_made_public( $newly_made_non_public_taxonomies ) {
+		$previously_made_public_taxonomies  = $this->options->get( 'taxonomies_made_public', [] );
+		$remove_from_taxonomies_made_public = \array_intersect( $newly_made_non_public_taxonomies, $previously_made_public_taxonomies );
 
-		$updated_taxonomies_made_viewable = \array_filter(
-			$previously_made_viewable_taxonomies,
-			function( $taxonomy ) use ( $remove_from_taxonomies_made_viewable ) {
-				return ! in_array( $taxonomy, $remove_from_taxonomies_made_viewable, true );
+		$updated_taxonomies_made_public = \array_filter(
+			$previously_made_public_taxonomies,
+			function( $taxonomy ) use ( $remove_from_taxonomies_made_public ) {
+				return ! in_array( $taxonomy, $remove_from_taxonomies_made_public, true );
 			}
 		);
 
-		return $this->options->set( 'taxonomies_made_viewable', $updated_taxonomies_made_viewable );
+		return $this->options->set( 'taxonomies_made_public', $updated_taxonomies_made_public );
 	}
 
 	/**
@@ -200,7 +200,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	private function maybe_add_notification() {
-		$notification = $this->notification_center->get_notification_by_id( 'taxonomies-made-viewable' );
+		$notification = $this->notification_center->get_notification_by_id( 'taxonomies-made-public' );
 		if ( is_null( $notification ) ) {
 			$this->add_notification();
 		}
@@ -223,7 +223,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'taxonomies-made-viewable',
+				'id'           => 'taxonomies-made-public',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			]

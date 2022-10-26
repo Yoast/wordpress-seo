@@ -40,5 +40,5 @@ class Indexing_Reasons {
 	/**
 	 * Represents the reason that a post type has been made viewable.
 	 */
-	const REASON_TAXONOMY_MADE_VIEWABLE = 'taxonomy_made_viewable';
+	const REASON_TAXONOMY_MADE_PUBLIC = 'taxonomy_made_public';
 }
