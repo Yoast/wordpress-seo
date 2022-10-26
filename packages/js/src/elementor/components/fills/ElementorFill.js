@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
 import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
@@ -113,6 +113,9 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						shouldUpsell={ settings.shouldUpsell }
 						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
+				</SidebarItem> }
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
+					<InclusiveLanguageAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
