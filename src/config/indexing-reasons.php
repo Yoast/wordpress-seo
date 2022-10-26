@@ -33,9 +33,9 @@ class Indexing_Reasons {
 	const REASON_HOME_URL_OPTION = 'home_url_option_changed';
 
 	/**
-	 * Represents the reason that a post type has been made viewable.
+	 * Represents the reason that a post type has been made public.
 	 */
-	const REASON_POST_TYPE_MADE_VIEWABLE = 'post_type_made_viewable';
+	const REASON_POST_TYPE_MADE_PUBLIC = 'post_type_made_public';
 
 	/**
 	 * Represents the reason that a post type has been made viewable.

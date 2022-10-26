@@ -98,7 +98,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_init', [ $this, 'check_post_types_viewability' ] );
+		\add_action( 'admin_init', [ $this, 'check_post_types_public_availability' ] );
 	}
 
 	/**
@@ -106,93 +106,93 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function check_post_types_viewability() {
+	public function check_post_types_public_availability() {
 
 		// We have to make sure this is just a plain http request, no ajax/REST.
 		if ( \wp_is_json_request() ) {
 			return;
 		}
 
-		$viewable_post_types            = \array_keys( $this->post_type_helper->get_public_post_types() );
-		$last_known_viewable_post_types = $this->options->get( 'last_known_viewable_post_types', [] );
+		$public_post_types            = \array_keys( $this->post_type_helper->get_public_post_types() );
+		$last_known_public_post_types = $this->options->get( 'last_known_public_post_types', [] );
 
-		if ( empty( $last_known_viewable_post_types ) ) {
-			$this->options->set( 'last_known_viewable_post_types', $viewable_post_types );
-			$last_known_viewable_post_types = $viewable_post_types;
+		if ( empty( $last_known_public_post_types ) ) {
+			$this->options->set( 'last_known_public_post_types', $public_post_types );
+			$last_known_public_post_types = $public_post_types;
 			return;
 		}
 
-		$newly_made_viewable_post_types     = \array_diff( $viewable_post_types, $last_known_viewable_post_types );
-		$newly_made_non_viewable_post_types = \array_diff( $last_known_viewable_post_types, $viewable_post_types );
+		$newly_made_public_post_types     = \array_diff( $public_post_types, $last_known_public_post_types );
+		$newly_made_non_public_post_types = \array_diff( $last_known_public_post_types, $public_post_types );
 
-		if ( empty( $newly_made_viewable_post_types ) && ( empty( $newly_made_non_viewable_post_types ) ) ) {
+		if ( empty( $newly_made_public_post_types ) && ( empty( $newly_made_non_public_post_types ) ) ) {
 			return;
 		}
 
-		// Update the list of last known viewable post types in the database.
-		$this->options->set( 'last_known_viewable_post_types', $viewable_post_types );
+		// Update the list of last known public post types in the database.
+		$this->options->set( 'last_known_public_post_types', $public_post_types );
 
-		// There are new post types that have been made viewable.
-		if ( ! empty( $newly_made_viewable_post_types ) ) {
-			$this->add_new_viewables_to_post_types_made_viewable( $newly_made_viewable_post_types );
+		// There are new post types that have been made public.
+		if ( ! empty( $newly_made_public_post_types ) ) {
+			$this->add_new_public_post_types_to_post_types_made_public( $newly_made_public_post_types );
 
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
-			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_VIEWABLE );
+			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
 
 			$this->maybe_add_notification();
 		}
 
-		if ( ! empty( $newly_made_non_viewable_post_types ) ) {
-			$this->purge_non_viewables_from_post_types_made_viewable( $newly_made_non_viewable_post_types );
+		if ( ! empty( $newly_made_non_public_post_types ) ) {
+			$this->purge_non_public_post_types_from_post_types_made_public( $newly_made_non_public_post_types );
 
 			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
 				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
-					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+					\wp_schedule_single_event( ( time() + 5 ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+					\wp_schedule_single_event( ( time() + 5 ), Cleanup_Integration::START_HOOK );
 				}
 			}
 		}
 	}
 
 	/**
-	 * Adds newly viewable post types in post_types_made_viewable.
+	 * Adds newly public post types in post_types_made_public.
 	 *
-	 * @param array $newly_made_viewable_post_types Array of post type names which have been made viewable.
+	 * @param array $newly_made_public_post_types Array of post type names which have been made public.
 	 *
 	 * @return bool Returns true if the option is successfully saved in the database.
 	 */
-	private function add_new_viewables_to_post_types_made_viewable( $newly_made_viewable_post_types ) {
-		// Fetch the post types that have been made viewable the last time.
-		$previously_made_viewable_post_types = $this->options->get( 'post_types_made_viewable', [] );
+	private function add_new_public_post_types_to_post_types_made_public( $newly_made_public_post_types ) {
+		// Fetch the post types that have been made public the last time.
+		$previously_made_public_post_types = $this->options->get( 'post_types_made_public', [] );
 
-		// Merge the previously made viewable post types with the newly made viewable ones.
-		$total_made_viewable_post_types = \array_merge( $previously_made_viewable_post_types, $newly_made_viewable_post_types );
+		// Merge the previously made public post types with the newly made public ones.
+		$total_made_public_post_types = \array_merge( $previously_made_public_post_types, $newly_made_public_post_types );
 
 		// Update the corresponding option in the database.
-		return $this->options->set( 'post_types_made_viewable', $total_made_viewable_post_types );
+		return $this->options->set( 'post_types_made_public', $total_made_public_post_types );
 	}
 
 	/**
-	 * Removes post types made non viewable from post_types_made_viewable.
+	 * Removes post types made non public from post_types_made_public.
 	 *
-	 * @param array $newly_made_non_viewable_post_types Array of post type names which have been made non viewable.
+	 * @param array $newly_made_non_public_post_types Array of post type names which have been made non public.
 	 *
 	 * @return bool Returns true if the option is successfully saved in the database.
 	 */
-	private function purge_non_viewables_from_post_types_made_viewable( $newly_made_non_viewable_post_types ) {
-		$previously_made_viewable_post_types  = $this->options->get( 'post_types_made_viewable', [] );
-		$remove_from_post_types_made_viewable = \array_intersect( $newly_made_non_viewable_post_types, $previously_made_viewable_post_types );
+	private function purge_non_public_post_types_from_post_types_made_public( $newly_made_non_public_post_types ) {
+		$previously_made_public_post_types  = $this->options->get( 'post_types_made_public', [] );
+		$remove_from_post_types_made_public = \array_intersect( $newly_made_non_public_post_types, $previously_made_public_post_types );
 
-		$updated_post_types_made_viewable = \array_filter(
-			$previously_made_viewable_post_types,
-			function( $post_type ) use ( $remove_from_post_types_made_viewable ) {
-				return ! in_array( $post_type, $remove_from_post_types_made_viewable, true );
+		$updated_post_types_made_public = \array_filter(
+			$previously_made_public_post_types,
+			function( $post_type ) use ( $remove_from_post_types_made_public ) {
+				return ! in_array( $post_type, $remove_from_post_types_made_public, true );
 			}
 		);
 
-		return $this->options->set( 'post_types_made_viewable', $updated_post_types_made_viewable );
+		return $this->options->set( 'post_types_made_public', $updated_post_types_made_public );
 	}
 
 	/**
@@ -201,7 +201,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	private function maybe_add_notification() {
-		$notification = $this->notification_center->get_notification_by_id( 'post-types-made-viewable' );
+		$notification = $this->notification_center->get_notification_by_id( 'post-types-made-public' );
 		if ( is_null( $notification ) ) {
 			$this->add_notification();
 		}
@@ -224,7 +224,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'post-types-made-viewable',
+				'id'           => 'post-types-made-public',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			]
