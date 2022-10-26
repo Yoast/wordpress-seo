@@ -52,20 +52,13 @@ class Taxonomy_Helper {
 	/**
 	 * Returns an array with the public taxonomies.
 	 *
-	 * @param string $output               The output type to use.
-	 * @param bool   $exclude_non_viewable Whether to exclude non viewable taxonomies.
+	 * @param string $output The output type to use.
 	 *
 	 * @return string[]|WP_Taxonomy[] Array with all the public taxonomies.
 	 *                                The type depends on the specified output variable.
 	 */
-	public function get_public_taxonomies( $output = 'names', $exclude_non_viewable = true ) {
-		$public_taxonomies = \get_taxonomies( [ 'public' => true ], $output );
-
-		if ( $exclude_non_viewable ) {
-			$public_taxonomies = \array_filter( $public_taxonomies, 'is_taxonomy_viewable' );
-		}
-
-		return $public_taxonomies;
+	public function get_public_taxonomies( $output = 'names' ) {
+		return \get_taxonomies( [ 'public' => true ], $output );
 	}
 
 	/**
