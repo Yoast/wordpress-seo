@@ -1,11 +1,12 @@
 import { defaults } from "lodash-es";
 
 /**
- * Represents a marked piece of text
+ * Represents a marked piece of text.
  *
  * @param {{marked: (string|*), original: Array<string[]>}} properties The properties of this Mark.
  * @param {string} properties.original The original text that should be marked.
  * @param {string} properties.marked The new text including marks.
+ * @param {array}  properties.fieldsToMark The array that contains the information which text section to mark.
  * @constructor
  */
 function Mark( properties ) {
@@ -15,7 +16,7 @@ function Mark( properties ) {
 
 
 /**
- * Returns the original text
+ * Returns the original text.
  *
  * @returns {string} The original text.
  */
@@ -24,7 +25,7 @@ Mark.prototype.getOriginal = function() {
 };
 
 /**
- * Returns the marked text
+ * Returns the marked text.
  *
  * @returns {string} The replaced text.
  */
@@ -33,7 +34,7 @@ Mark.prototype.getMarked = function() {
 };
 
 /**
- * Returns the fields to mark
+ * Returns the fields to mark.
  *
  * @returns {array} The replaced text.
  */
@@ -42,7 +43,7 @@ Mark.prototype.getFieldsToMark = function() {
 };
 
 /**
- * Applies this mark to the given text
+ * Applies this mark to the given text.
  *
  * @param {string} text The original text without the mark applied.
  * @returns {string} The A new text with the mark applied to it.
