@@ -1,7 +1,7 @@
 import { markers } from "yoastseo";
 import { forEach } from "lodash-es";
-import { getSubheadings } from "yoastseo/src/languageProcessing/helpers/html/getSubheadings";
-import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
+import { languageProcessing } from "yoastseo";
+
 var MARK_TAG = "yoastmark";
 
 /**
@@ -36,29 +36,18 @@ function markTinyMCE( editor, paper, marks ) {
 	let html = editor.getContent();
 	html = markers.removeMarks( html );
 
-	const fieldsToMark = getFieldsToMarkHelper( marks );
-
-	let selectedHTML = "";
-	fieldsToMark.forEach( field => {
-		if ( field === "heading" ) {
-			const results = getSubheadings( html );
-			results.forEach( result => {
-				selectedHTML += result[ 0 ];
-			} );
-		}
-	} );
+	const { fieldsToMark, selectedHTML } = languageProcessing.getFieldsToMark( marks, html );
 
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {
 		if ( fieldsToMark.length > 0 ) {
-			// mark._properties.original = selectedHTML;
-			const newHtml = mark.applyWithReplace( selectedHTML );
-			html = html.replace( selectedHTML, newHtml );
+			selectedHTML.forEach( element => {
+				const markedElement = mark.applyWithReplace( element );
+				html = html.replace( element, markedElement );
+			} );
 		} else {
 			html = mark.applyWithReplace( html );
 		}
-
-		// console.log(html, "NEWHTML")
 	} );
 
 	// Replace the contents in the editor with the marked HTML.
