@@ -300,6 +300,29 @@ class Indexable_Builder {
 	}
 
 	/**
+	 * Build and author indexable from an author id if it does not exist yet.
+	 *
+	 * @param int $author_id The author id.
+	 *
+	 * @return false|Indexable
+	 */
+	protected function maybe_build_author_indexable( $author_id ) {
+		$author_indexable = $this->indexable_repository->find_by_id_and_type(
+			$author_id,
+			'user',
+			false
+		);
+		if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
+			$author_defaults  = [
+				'object_type' => 'user',
+				'object_id'   => $author_id,
+			];
+			$author_indexable = $this->build( $author_indexable, $author_defaults );
+		}
+		return $author_indexable;
+	}
+
+	/**
 	 * Rebuilds an Indexable from scratch.
 	 *
 	 * @param Indexable  $indexable The Indexable to (re)build.
@@ -330,18 +353,9 @@ class Indexable_Builder {
 					// Always rebuild the hierarchy; this needs the primary term to run correctly.
 					$this->hierarchy_builder->build( $indexable );
 
-					// Rebuild the author indexable only when necessary.
-					$author_indexable = $this->indexable_repository->find_by_id_and_type(
-						$indexable->author_id,
-						'user',
-						false
-					);
-					if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
-						$author_defaults = [
-							'object_type' => 'user',
-							'object_id'   => $indexable->author_id,
-						];
-						$this->build( $author_indexable, $author_defaults );
+					// Add author indexable when necessary.
+					if ( $indexable->author_id !== 0 ) {
+						$this->maybe_build_author_indexable( $indexable->author_id );
 					}
 					break;
 
