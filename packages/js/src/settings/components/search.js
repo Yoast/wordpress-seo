@@ -7,7 +7,7 @@ import { debounce, filter, first, isEmpty, map, reduce, trim, includes } from "l
 import { Link } from "react-router-dom";
 import { useSelectSettings } from "../hooks";
 
-const QUERY_MIN_CHARS = 2;
+const QUERY_MIN_CHARS = 3;
 
 /**
  * @param {Object} items The search index items.
@@ -85,7 +85,7 @@ const Search = () => {
 						className="yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm"
 					/>
 				</div>
-				{ query.length > 2 && ! isEmpty( results ) && (
+				{ query.length > QUERY_MIN_CHARS && ! isEmpty( results ) && (
 					<ul className="yst-max-h-80 yst-scroll-pt-11 yst-scroll-pb-2 yst-overflow-y-auto yst-pb-2">
 						{ map( results, ( groupedItems, route ) => (
 							<li key={ route }>
