@@ -1,20 +1,16 @@
-const { src, dest, parallel, watch } = require( "gulp" );
+const { src, dest, parallel, watch, series } = require( "gulp" );
 const gulp = require( "gulp" );
 const postcss = require( "gulp-postcss" );
-const autoprefixer = require( "autoprefixer" );
 const rename = require( "gulp-rename" );
 const sourcemaps = require( "gulp-sourcemaps" );
-const importCSS = require( "postcss-import" );
 const rtlcss = require( "gulp-rtlcss" );
-const tailwind = require( "tailwindcss" );
 const fs = require( "fs" );
-const exec = require('child_process').exec
+const exec = require( "child_process" ).exec;
 const del = require( "del" );
 
 const cssFolder = "css/src/";
 const cssDest = "csstest/";
 const cssDestLive = "css/dist/";
-const tailwindConfig = "tailwind.config.js";
 
 const files = fs.readdirSync( "css/src" );
 const json = JSON.parse( fs.readFileSync( "package.json" ) );
@@ -53,6 +49,32 @@ files.forEach( function( task ) {
 	css.push( task + "-rtl" );
 } );
 
+
+/**
+ * Clean up the old js files.
+ */
+gulp.task( "clean", function() {
+	return del(
+		[ "js/dist", cssDestLive + "monorepo*.css" ]
+	);
+} );
+
+/**
+ * Build the js files through webpack.
+ */
+gulp.task( "shell-webpack", function( cb ) {
+	exec( "yarn cross-env NODE_ENV=development", function( err, stdout, stderr ) {
+		console.log( stdout );
+		console.log( stderr );
+		cb( err );
+	} );
+	exec( "yarn run wp-scripts build --config config/webpack/webpack.config.js", function( err, stdout, stderr ) {
+		console.log( stdout );
+		console.log( stderr );
+		cb( err );
+	} );
+} );
+
 /**
  * Setup the watcher.
  */
@@ -63,18 +85,5 @@ gulp.task( "watch", function() {
 	} );
 } );
 
-gulp.task( "clean", function() {
-	return del(
-		[ "js/dist", cssDestLive + "monorepo*.css" ]
-	);
-} );
-
-gulp.task('shell-webpack', function (cb) {
-	exec('cross-env NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js', function (err, stdout, stderr) {
-	  console.log(stdout);
-	  console.log(stderr);
-	  cb(err);
-	});
-  })
-
 gulp.task( "default", gulp.parallel( css ) );
+gulp.task( "build:js", gulp.series( "clean", "shell-webpack" ) );
