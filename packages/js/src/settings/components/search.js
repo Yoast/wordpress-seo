@@ -44,17 +44,19 @@ const Search = () => {
 		const queryResults = reduce( queryableSearchIndex, ( queryResultsAcc, item ) => {
 			const hits = reduce( splitQuery, ( hitsAcc, queryWord ) => includes( item?.keywords, queryWord ) ? ++hitsAcc : hitsAcc, 0 );
 
-			if ( hits > 0 ) {
-				return [
-					...queryResultsAcc,
-					{
-						...item,
-						hits,
-					},
-				];
+			// Bail if no hits found.
+			if ( hits === 0 ) {
+				return queryResultsAcc;
 			}
 
-			return queryResultsAcc;
+			return [
+				...queryResultsAcc,
+				{
+					...item,
+					// Store hits for later sorting.
+					hits,
+				},
+			];
 		}, [] );
 
 		// Sort query results by number of hits on field, highest number of hits first.
