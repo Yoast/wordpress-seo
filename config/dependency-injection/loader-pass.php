@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loader;
 use Yoast\WP\SEO\Routes\Route_Interface;
-
+use Yoast\WP\SEO\Conditionals\Conditional;
 /**
  * A pass is a step in the compilation process of the container.
  *
@@ -53,20 +53,51 @@ class Loader_Pass implements CompilerPassInterface {
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
+		$reflect = new ReflectionClass( $class );
+		$path    = $reflect->getFileName();
+		if( strpos($path, 'wordpress-seo/src/helpers') ||
+			strpos($path, 'wordpress-seo/src/surfaces') ||
+			strpos($path, 'wordpress-seo/src/actions') ||
+			strpos($path, 'wordpress-seo/src/builders') ||
+			strpos($path, 'wordpress-seo/src/config') ||
+			strpos($path, 'wordpress-seo/src/generators') ||
+			strpos($path, 'wordpress-seo/src/integrations') ||
+			strpos($path, 'wordpress-seo/src/logger') ||
+			strpos($path, 'wordpress-seo/src/loader') ||
+			strpos($path, 'wordpress-seo/src/memoizers') ||
+			strpos($path, 'wordpress-seo/src/presentations') ||
+			strpos($path, 'wordpress-seo/src/repositories') ||
+			strpos($path, 'wordpress-seo/src/services') ||
+			strpos($path, 'wordpress-seo/src/schema-templates') ||
+			strpos($path, 'wordpress-seo/src/wrappers') ||
+			strpos($path, 'wordpress-seo/src/context') ||
+			strpos($path, 'wordpress-seo/src/values')
+			) {
+			$definition->setPublic( true );
+		}
+
+		if ( is_subclass_of( $class, Conditional::class ) ) {
+			$definition->setPublic( true );
+		}
+
 		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
+			$definition->setPublic( true );
 		}
 
 		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
+			$definition->setPublic( true );
 		}
 
 		if ( \is_subclass_of( $class, Route_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_route', [ $class ] );
+			$definition->setPublic( true );
 		}
 
 		if ( \is_subclass_of( $class, Command_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_command', [ $class ] );
+			$definition->setPublic( true );
 		}
 
 		if ( \is_subclass_of( $class, Migration::class ) ) {
@@ -76,6 +107,7 @@ class Loader_Pass implements CompilerPassInterface {
 			$version = \explode( '_', $file )[0];
 			$plugin  = $class::$plugin;
 			$loader_definition->addMethodCall( 'register_migration', [ $plugin, $version, $class ] );
+			$definition->setPublic( true );
 		}
 	}
 }
