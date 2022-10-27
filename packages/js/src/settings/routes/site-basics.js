@@ -168,7 +168,7 @@ const SiteBasics = () => {
 							label={ __( "Force rewrite titles", "wordpress-seo" ) }
 							description={ sprintf(
 								/* translators: %1$s expands to Yoast SEO */
-								__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.", "wordpress-seo" ),
+								__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here.", "wordpress-seo" ),
 								"Yoast SEO"
 							) }
 						/>
