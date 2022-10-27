@@ -17,6 +17,7 @@ const defaultAttributes = {
 	date: "",
 	customData: {},
 	textTitle: "",
+	tree: {},
 };
 
 /**
@@ -35,6 +36,8 @@ const defaultAttributes = {
  * @param {string} [attributes.date]        The date.
  * @param {Object} [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
  * @param {Object} [attributes.customData]  Custom data.
+ * @param {string} [attributes.textTitle]	The title of the content (as opposed to the SEO title).
+ * @param {Object} [attributes.tree]		The 'text' being parsed in a tree.
  *
  * @constructor
  */
@@ -273,6 +276,23 @@ Paper.prototype.hasTextTitle = function() {
  */
 Paper.prototype.getTextTitle = function() {
 	return this._attributes.textTitle;
+};
+
+
+/**
+ * Checks whether a parsed html tree is available.
+ * @returns {boolean} Returns true if the Paper has a parsed html tree.
+ */
+Paper.prototype.hasTree = function() {
+	return ! isEmpty( this._attributes.tree );
+};
+
+/**
+ * Returns the parsed html tree, or an empty object if no data is available.
+ * @returns {object} Returns the parsed html tree.
+ */
+Paper.prototype.getTree = function() {
+	return this._attributes.tree;
 };
 
 /**
