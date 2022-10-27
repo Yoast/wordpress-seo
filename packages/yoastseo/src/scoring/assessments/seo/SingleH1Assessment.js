@@ -67,7 +67,8 @@ class SingleH1Assessment extends Assessment {
 	 */
 	calculateResult() {
 		// Returns the default assessment result if the h1 is not more than 1 in the body, regardless of its position.
-		if ( this._h1s.length <= 1 ) {
+
+		if ( this._h1s.length === 1 ) {
 			return;
 		}
 
