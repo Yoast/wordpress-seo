@@ -949,7 +949,8 @@ export default class AnalysisWebWorker {
 	 */
 	async analyze( id, { paper, relatedKeywords = {} } ) {
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
-		paper._text = autop( paper._text );
+		// TODO: Do we still need autop? Because this adds a lot of empty paragraphs!
+		// paper._text = autop( paper._text );
 		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );

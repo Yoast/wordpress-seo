@@ -1,5 +1,5 @@
 // External dependencies.
-import { parse as parse5 } from "parse5";
+import { parseFragment} from "parse5";
 // Internal dependencies.
 import adapt from "./adapt";
 
@@ -12,6 +12,6 @@ import adapt from "./adapt";
  * @returns {Object} The tree representation of the HTML string.
  */
 export default function parse( htmlString ) {
-	return adapt( parse5( htmlString ) );
+	return adapt( parseFragment( htmlString ) );
 }
 
