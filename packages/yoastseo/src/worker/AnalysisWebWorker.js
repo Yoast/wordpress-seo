@@ -16,6 +16,8 @@ import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
 import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 
+import parse from "../parse/parse";
+
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
 import CornerstoneRelatedKeywordAssessor from "../scoring/cornerstone/relatedKeywordAssessor";
@@ -965,18 +967,11 @@ export default class AnalysisWebWorker {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
-			// Try to build the tree, for analysis using the tree assessors.
-			try {
-				/*
-				 * Disabled tree.
-				 * Please not that text here should be the `paper._text` before processing (e.g. autop and more).
-				 * this._tree = this._treeBuilder.build( text );
-				 */
-			} catch ( exception ) {
-				logger.debug( "Yoast SEO and readability analysis: " +
-							  "An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
-				this._tree = null;
-			}
+			this._paper.setTree(
+				parse( this._paper.getText() )
+			);
+
+			console.log( "Paper with tree:", this._paper );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );

@@ -296,6 +296,17 @@ Paper.prototype.getTree = function() {
 };
 
 /**
+ * Sets the parsed html tree on the paper.
+ *
+ * @param {Object} tree The new html tree.
+ *
+ * @returns {void}
+ */
+Paper.prototype.setTree = function( tree ) {
+	this._attributes.tree = tree;
+};
+
+/**
  * Serializes the Paper instance to an object.
  *
  * @returns {Object} The serialized Paper.
