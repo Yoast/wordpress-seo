@@ -11,7 +11,6 @@ const paths = require( "./config/webpack/paths" );
 
 
 const cssFolder = "css/src/";
-const cssDest = "csstest/";
 const cssDestLive = "css/dist/";
 
 const files = fs.readdirSync( "css/src" );
