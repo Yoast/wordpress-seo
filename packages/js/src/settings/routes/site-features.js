@@ -18,27 +18,27 @@ const ToggleField = withDisabledMessageSupport( PureToggleField );
  * @returns {JSX.Element} The card header.
  */
 const CardHeader = ( {
-	// src,
-	// alt,
+	src,
+	alt,
 	children = null,
 } ) => (
-	<Card.Header className="yst-p-0">
-		{ /* <img
-			className="yst-w-full yst-h-full yst-object-cover yst-object-center"
+	<Card.Header className="yst-h-auto yst-p-0">
+		<img
+			className="yst-w-full"
 			src={ src }
 			alt={ alt }
 			width={ 500 }
 			height={ 250 }
 			loading="lazy"
 			decoding="async"
-		/> */ }
+		/>
 		{ children }
 	</Card.Header>
 );
 
 CardHeader.propTypes = {
-	// src: PropTypes.string.isRequired,
-	// alt: PropTypes.string.isRequired,
+	src: PropTypes.string.isRequired,
+	alt: PropTypes.string.isRequired,
 	children: PropTypes.node,
 };
 
@@ -90,7 +90,7 @@ const SiteFeatures = () => {
 	const textLinkCounterImage = useSelectSettings( "selectPluginUrl", [], "/images/text_link_counter.png" );
 	const linkSuggestionsImage = useSelectSettings( "selectPluginUrl", [], "/images/link_suggestions.png" );
 	const openGraphImage = useSelectSettings( "selectPluginUrl", [], "/images/open_graph.png" );
-	const twitterImage = useSelectSettings( "selectPluginUrl", [], "/images/twitter.png" );
+	const twitterImage = useSelectSettings( "selectPluginUrl", [], "/images/twitter_card.png" );
 	const slackSharingImage = useSelectSettings( "selectPluginUrl", [], "/images/slack_sharing.png" );
 	const adminBarImage = useSelectSettings( "selectPluginUrl", [], "/images/admin_bar.png" );
 	const restApiImage = useSelectSettings( "selectPluginUrl", [], "/images/rest_api.png" );
@@ -189,7 +189,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getInclusiveLanguageAnalysisLink } rel="noreferrer">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getInclusiveLanguageAnalysisLink } target="_blank">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */
@@ -302,7 +302,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getLinkSuggestionsLink } rel="noreferrer">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getLinkSuggestionsLink } target="_blank">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */
@@ -518,7 +518,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getIndexNowLink } rel="noreferrer">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getIndexNowLink } target="_blank">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */
