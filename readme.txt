@@ -251,17 +251,16 @@ Release Date: November 8th, 2022
 
 Enhancements:
 
-* Improves the call-to-action feedback string of Flesch Reading Ease insight when the text is recognized as fairly difficult.
+* Improves the call-to-action feedback string of the _Flesch Reading Ease_ insight when the text is recognized as fairly difficult.
 
 Bugfixes:
 
-* Fixes a bug where users with site-wide basic access authentication are prompted to insert their credentials when saving a post in Elementor if they don't have the `manage_options` capability.
-* Fixes a bug where Yoast SEO-related post meta data is not saved if a user without the `manage_options` capability saves a post in Elementor.
+* Fixes a bug where users with site-wide basic access authentication would be prompted to insert their credentials when saving a post in Elementor if they didn't have the `manage_options` capability.
+* Fixes a bug where Yoast SEO-related post meta data would not be saved if a user without the `manage_options` capability would save a post in Elementor.
 
 Other:
 
-* Adds a sale badge to the upsell on our main settings page, that is temporarily shown.
-* Ensures compatibility with the High Performance Order Storage feature in WooCommerce 7.1+.
+* Ensures compatibility with the _High Performance Order Storage_ feature in WooCommerce 7.1+.
 * Sets the WordPress tested up to version to 6.1.
 
 = 19.9 =
