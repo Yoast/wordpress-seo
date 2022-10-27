@@ -107,12 +107,13 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const schemaDescription = useMemo( () => addLinkToString(
 		sprintf(
 			// eslint-disable-next-line max-len
-			// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s and %4$s expand to opening and closing anchor tag.
-			__( "Choose how your %1$s should be described by default in %3$syour site's Schema.org markup%4$s. You can change these setting per individual %2$s.", "wordpress-seo" ),
+			// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s and %4$s expand to opening and closing anchor tag. %5$s expands to Yoast SEO.
+			__( "Determine how your %1$s should be described by default in %3$syour site's Schema.org markup%4$s. You can always change the settings for individual %2$s in the %5$s sidebar.", "wordpress-seo" ),
 			label,
 			singularLabel,
 			"<a>",
-			"</a>"
+			"</a>",
+			"Yoast SEO"
 		),
 		schemaLink,
 		"link-post-type-schema"
@@ -127,7 +128,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 			title={ label }
 			description={ sprintf(
 				/* translators: %1$s expands to the post type plural, e.g. Posts. */
-				__( "Choose how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
+				__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 				label
 			) }
 		>
@@ -137,7 +138,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					description={ sprintf(
 						// eslint-disable-next-line max-len
 						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
-						__( "Choose what your %1$s should look like in the search results by default. You can always customize this per individual %2$s in the %3$s sidebar.", "wordpress-seo" ),
+						__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %2$s in the %3$s sidebar.", "wordpress-seo" ),
 						label,
 						singularLabel,
 						"Yoast SEO"
@@ -158,7 +159,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								label
 							) }
 							<br />
-							<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+							<Link href={ noIndexInfoLink } target="_blank">
 								{ __( "Read more about the search results settings", "wordpress-seo" ) }
 							</Link>
 							.
@@ -190,10 +191,12 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						{ isPremium && <Badge variant="upsell">Premium</Badge> }
 					</div> }
 					description={ sprintf(
-						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-						__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
+						// eslint-disable-next-line max-len
+						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
+						__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %2$s in the %3$s sidebar.", "wordpress-seo" ),
 						label,
-						singularLabel
+						singularLabel,
+						"Yoast SEO"
 					) }
 				>
 					<FeatureUpsell
@@ -320,7 +323,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							title={ __( "Search appearance", "wordpress-seo" ) }
 							description={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. Posts.
-								__( "Choose how your %1$s archive should look in search engines.", "wordpress-seo" ),
+								__( "Determine how your %1$s archive should look in search engines.", "wordpress-seo" ),
 								label
 							) }
 						>
@@ -364,7 +367,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							</div> }
 							description={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. Posts.
-								__( "Choose how your %1$s archive should look on social media.", "wordpress-seo" ),
+								__( "Determine how your %1$s archive should look on social media.", "wordpress-seo" ),
 								label,
 								singularLabel
 							) }

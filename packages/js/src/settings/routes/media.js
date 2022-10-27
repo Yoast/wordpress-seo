@@ -79,10 +79,12 @@ const Media = () => {
 						<FieldsetLayout
 							title={ __( "Search appearance", "wordpress-seo" ) }
 							description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-								__( "Choose how your %1$s pages should look in search engines. You can always customize this per individual %2$s page.", "wordpress-seo" ),
+								// eslint-disable-next-line max-len
+								// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
+								__( "Determine how your %1$s pages should look in search engines. You can always customize the settings for individual %2$s pages in the %3$s metabox.", "wordpress-seo" ),
 								label,
-								singularLabel
+								singularLabel,
+								"Yoast SEO"
 							) }
 						>
 							<FormikFlippedToggleField
@@ -100,7 +102,7 @@ const Media = () => {
 										label
 									) }
 									<br />
-									<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+									<Link href={ noIndexInfoLink } target="_blank">
 										{ __( "Read more about the search results settings", "wordpress-seo" ) }
 									</Link>
 									.
@@ -128,10 +130,12 @@ const Media = () => {
 						<FieldsetLayout
 							title={ __( "Schema", "wordpress-seo" ) }
 							description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-								__( "Choose how your %1$s pages should be described by default in your site's Schema.org markup. You can change these setting per individual %2$s page.", "wordpress-seo" ),
+								// eslint-disable-next-line max-len
+								// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
+								__( "Determine how your %1$s pages should be described by default in your site's Schema.org markup. You can always customize the settings for individual %2$s pages in the %3$s metabox.", "wordpress-seo" ),
 								label,
-								singularLabel
+								singularLabel,
+								"Yoast SEO"
 							) }
 						>
 							<FormikValueChangeField

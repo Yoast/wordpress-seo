@@ -34,7 +34,7 @@ const SiteConnections = () => {
 	return (
 		<FormLayout
 			title={ __( "Site connections", "wordpress-seo" ) }
-			description={ __( "Verify your site with different tools. This will add a verification meta tag on your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
+			description={ __( "Verify your site with different tools. This will add a verification meta tag to your homepage. You can find instructions on how to verify your site for each platform by following the link in the description.", "wordpress-seo" ) }
 		>
 			<div className="yst-max-w-5xl">
 				<fieldset className="yst-min-width-0 yst-max-w-screen-sm yst-space-y-8">

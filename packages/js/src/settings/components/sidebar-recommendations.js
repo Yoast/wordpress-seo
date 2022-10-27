@@ -85,7 +85,7 @@ const SidebarRecommendations = () => {
 			"<link/>"
 		),
 		{
-			link: <a href={ academyLink } target="_blank" rel="noreferrer">Yoast SEO academy</a>,
+			link: <a href={ academyLink } target="_blank">Yoast SEO academy</a>,
 		}
 	), [] );
 

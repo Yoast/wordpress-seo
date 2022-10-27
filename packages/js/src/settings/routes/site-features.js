@@ -209,7 +209,7 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Insights", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "Find relevant data about your content right in the Insights section in the Yoast SEO metabox. You’ll see what words you use most often and if they’re a match with your keywords!", "wordpress-seo" ) }</p>
+								<p>{ __( "Get more insights into what you are writing. What words do you use most often? How much time does it take to read your text? Is your text easy to read?", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-insights" link="https://yoa.st/4ew" />
 							</Card.Content>
 							<Card.Footer>
@@ -242,7 +242,7 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Cornerstone content", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "Mark and filter your cornerstone content to make sure your most important articles get the attention they deserve.", "wordpress-seo" ) }</p>
+								<p>{ __( "Mark and filter your cornerstone content to make sure your most important articles get the attention they deserve. To help you write excellent copy, we’ll assess your text more strictly.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-cornerstone-content" link="https://yoa.st/dashboard-help-cornerstone" />
 							</Card.Content>
 							<Card.Footer>
@@ -474,9 +474,15 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "XML sitemaps", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "Enable the XML sitemaps that Yoast SEO generates.", "wordpress-seo" ) }</p>
+								<p>
+									{ sprintf(
+										// translators: %1$s expands to Yoast SEO.
+										__( "Enable the %1$s XML sitemaps. A sitemap is a file that lists a website's essential pages to make sure search engines can find and crawl them.", "wordpress-seo" ),
+										"Yoast SEO"
+									) }
+								</p>
 								{ enableXmlSitemap && <Link id="link-xml-sitemaps" href={ sitemapUrl } target="_blank">
-									{ __( "See the XML sitemap", "wordpress-seo" ) }
+									{ __( "View the XML sitemap", "wordpress-seo" ) }
 								</Link> }
 								<LearnMoreLink id="link-xml-sitemaps" link="https://yoa.st/2a-" />
 							</Card.Content>
