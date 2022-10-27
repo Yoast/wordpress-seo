@@ -22,8 +22,7 @@ use Yoast\WP\SEO\Conditionals\Conditional;
 class Loader_Pass implements CompilerPassInterface {
 
 	/**
-	 * Checks all definitions to ensure all classes implementing the Integration interface
-	 * are registered with the Loader class.
+	 * Checks all definitions to ensure all classes implementing the Integration interface are registered with the Loader class.
 	 *
 	 * @param ContainerBuilder $container The container.
 	 */
@@ -56,28 +55,28 @@ class Loader_Pass implements CompilerPassInterface {
 		try {
 			$reflect = new ReflectionClass( $class );
 			$path    = $reflect->getFileName();
-			if( strpos($path, 'wordpress-seo/src/helpers') ||
-				strpos($path, 'wordpress-seo/src/surfaces') ||
-				strpos($path, 'wordpress-seo/src/actions') ||
-				strpos($path, 'wordpress-seo/src/builders') ||
-				strpos($path, 'wordpress-seo/src/config') ||
-				strpos($path, 'wordpress-seo/src/generators') ||
-				strpos($path, 'wordpress-seo/src/integrations') ||
-				strpos($path, 'wordpress-seo/src/logger') ||
-				strpos($path, 'wordpress-seo/src/loader') ||
-				strpos($path, 'wordpress-seo/src/memoizers') ||
-				strpos($path, 'wordpress-seo/src/presentations') ||
-				strpos($path, 'wordpress-seo/src/repositories') ||
-				strpos($path, 'wordpress-seo/src/services') ||
-				strpos($path, 'wordpress-seo/src/schema-templates') ||
-				strpos($path, 'wordpress-seo/src/wrappers') ||
-				strpos($path, 'wordpress-seo/src/context') ||
-				strpos($path, 'wordpress-seo/src/values')
+			if ( strpos( $path, 'wordpress-seo/src/helpers' )
+				|| strpos( $path, 'wordpress-seo/src/surfaces' )
+				|| strpos( $path, 'wordpress-seo/src/actions' )
+				|| strpos( $path, 'wordpress-seo/src/builders' )
+				|| strpos( $path, 'wordpress-seo/src/config' )
+				|| strpos( $path, 'wordpress-seo/src/generators' )
+				|| strpos( $path, 'wordpress-seo/src/integrations' )
+				|| strpos( $path, 'wordpress-seo/src/logger' )
+				|| strpos( $path, 'wordpress-seo/src/loader' )
+				|| strpos( $path, 'wordpress-seo/src/memoizers' )
+				|| strpos( $path, 'wordpress-seo/src/presentations' )
+				|| strpos( $path, 'wordpress-seo/src/repositories' )
+				|| strpos( $path, 'wordpress-seo/src/services' )
+				|| strpos( $path, 'wordpress-seo/src/schema-templates' )
+				|| strpos( $path, 'wordpress-seo/src/wrappers' )
+				|| strpos( $path, 'wordpress-seo/src/context' )
+				|| strpos( $path, 'wordpress-seo/src/values' )
 				) {
 				$definition->setPublic( true );
 			}
-		} catch ( \Exception $e){
-			
+		} catch ( \Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// Catch all for non-existing classes.
 		}
 
 		if ( is_subclass_of( $class, Conditional::class ) ) {
