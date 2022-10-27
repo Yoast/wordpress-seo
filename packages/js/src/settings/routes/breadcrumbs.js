@@ -10,6 +10,7 @@ import { useSelectSettings } from "../hooks";
  * @returns {JSX.Element} The breadcrumbs route.
  */
 const Breadcrumbs = () => {
+	const headerBreadcrumbsLink = useSelectSettings( "selectLink", [], "https://yoa.st/header-breadcrumbs" );
 	const breadcrumbsLink = useSelectSettings( "selectLink", [], "https://yoa.st/breadcrumbs" );
 	const breadcrumbsForPostTypes = useSelectSettings( "selectBreadcrumbsForPostTypes" );
 	const breadcrumbsForTaxonomies = useSelectSettings( "selectBreadcrumbsForTaxonomies" );
@@ -18,7 +19,16 @@ const Breadcrumbs = () => {
 	return (
 		<FormLayout
 			title={ __( "Breadcrumbs", "wordpress-seo" ) }
-			description={ __( "Configure the appearance and behavior of your breadcrumbs.", "wordpress-seo" ) }
+			description={ addLinkToString(
+				sprintf(
+					// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+					__( "Configure the appearance and behavior of %1$syour breadcrumbs%2$s.", "wordpress-seo" ),
+					"<a>",
+					"</a>"
+				),
+				headerBreadcrumbsLink,
+				"link-header-breadcrumbs"
+			) }
 		>
 			<div className="yst-max-w-5xl">
 				<FieldsetLayout

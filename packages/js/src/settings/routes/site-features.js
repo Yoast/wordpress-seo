@@ -128,7 +128,7 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "SEO analysis", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "The SEO analysis offers suggestions to improve the SEO of your text.", "wordpress-seo" ) }</p>
+								<p>{ __( "The SEO analysis offers suggestions to improve the findability of your text and makes sure that your content meets best practices.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-seo-analysis" link="https://yoa.st/2ak" />
 							</Card.Content>
 							<Card.Footer>
@@ -177,7 +177,7 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Inclusive language analysis", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy.", "wordpress-seo" ) }</p>
+								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-analysis" />
 							</Card.Content>
 							<Card.Footer>
@@ -242,7 +242,7 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Cornerstone content", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "The cornerstone content feature lets you to mark and filter cornerstone content on your website.", "wordpress-seo" ) }</p>
+								<p>{ __( "Mark and filter your cornerstone content to make sure your most important articles get the attention they deserve.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-cornerstone-content" link="https://yoa.st/dashboard-help-cornerstone" />
 							</Card.Content>
 							<Card.Footer>
@@ -264,7 +264,7 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Text link counter", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "The text link counter helps you improve your site structure.", "wordpress-seo" ) }</p>
+								<p>{ __( "Count the number of internal links from and to your posts to improve your site structure.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-text-link-counter" link="https://yoa.st/2aj" />
 							</Card.Content>
 							<Card.Footer>
@@ -290,7 +290,7 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Link suggestions", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "The link suggestions metabox contains a list of posts on your blog with similar content that might be interesting to link to.", "wordpress-seo" ) }</p>
+								<p>{ __( "Get recommendations for relevant posts to link to and set up a great internal linking structure by connecting related content.", "wordpress-seo" ) }</p>
 								<LearnMoreLink id="link-suggestions-link" link={ isPremium ? "https://yoa.st/17g" : "https://yoa.st/4ev" } />
 							</Card.Content>
 							<Card.Footer>
@@ -337,6 +337,7 @@ const SiteFeatures = () => {
 									{ __( "Open Graph data", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-open-graph-data" link="https://yoa.st/site-features-open-graph-data" />
 							</Card.Content>
 							<Card.Footer>
 								<FormikValueChangeField
@@ -358,6 +359,7 @@ const SiteFeatures = () => {
 									{ __( "Twitter card data", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-twitter-card-data" link="https://yoa.st/site-features-twitter-card-data" />
 							</Card.Content>
 							<Card.Footer>
 								<FormikValueChangeField
@@ -411,7 +413,14 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Admin bar menu", "wordpress-seo" ) }
 								</Title>
-								{ __( "The Yoast SEO admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.", "wordpress-seo" ) }
+								<p>
+									{ sprintf(
+										// translators: %1$s expands to Yoast.
+										__( "The %1$s icon in the top admin bar provides quick access to third-party tools for analyzing pages and makes it easy to see if you have new notifications.", "wordpress-seo" ),
+										"Yoast"
+									) }
+								</p>
+								<LearnMoreLink id="link-admin-bar" link="https://yoa.st/site-features-admin-bar" />
 							</Card.Content>
 							<Card.Footer>
 								<FormikValueChangeField
@@ -444,6 +453,7 @@ const SiteFeatures = () => {
 									{ __( "REST API endpoint", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ) }</p>
+								<LearnMoreLink id="link-rest-api-endpoint" link="https://yoa.st/site-features-rest-api-endpoint" />
 							</Card.Content>
 							<Card.Footer>
 								<FormikValueChangeField

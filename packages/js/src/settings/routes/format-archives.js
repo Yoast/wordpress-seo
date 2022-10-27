@@ -23,9 +23,9 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * - disable toggle at the top, that shows/hides the rest
  * - removed the other exceptions
  *
- * @returns {JSX.Element} The formats element.
+ * @returns {JSX.Element} The format archives element.
  */
-const Formats = () => {
+const FormatArchives = () => {
 	const { name, label, singularLabel } = useSelectSettings( "selectTaxonomy", [], "post_format" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -53,7 +53,7 @@ const Formats = () => {
 	const description = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-			__( "(e.g., %1$s", "wordpress-seo" ),
+			__( "(e.g., %1$s)", "wordpress-seo" ),
 			"<exampleUrl />"
 		),
 		{
@@ -67,7 +67,7 @@ const Formats = () => {
 
 	return (
 		<FormLayout
-			title={ <div className="yst-flex yst-items-center yst-gap-1.5">{ label }</div> }
+			title={ <div className="yst-flex yst-items-center yst-gap-1.5">{ __( "Formats", "wordpress-seo" ) }</div> }
 			description={ description }
 		>
 			<div className="yst-max-w-5xl">
@@ -196,4 +196,4 @@ const Formats = () => {
 	);
 };
 
-export default Formats;
+export default FormatArchives;
