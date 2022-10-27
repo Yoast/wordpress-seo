@@ -218,7 +218,7 @@ const SiteRepresentation = () => {
 			description={ addLinkToString(
 				sprintf(
 					// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-					__( "This info is intended to appear in %1$sGoogle's Knowledge Graph%2$s. You can be either an organization, or a person.", "wordpress-seo" ),
+					__( "This info is intended to appear in %1$sGoogle's Knowledge Graph%2$s.", "wordpress-seo" ),
 					"<a>",
 					"</a>"
 				),
@@ -228,7 +228,7 @@ const SiteRepresentation = () => {
 		>
 			<div className="yst-max-w-5xl">
 				<FieldsetLayout
-					title={ __( "Person/organization", "wordpress-seo" ) }
+					title={ __( "Organization/person", "wordpress-seo" ) }
 					description={ __( "Choose whether your site represents an organization or a person.", "wordpress-seo" ) }
 				>
 					{ isLocalSeoActive && (
@@ -348,7 +348,8 @@ const SiteRepresentation = () => {
 													as={ TextField }
 													name={ `wpseo_social.other_social_urls.${ index }` }
 													id={ `input-wpseo_social-other_social_urls-${ index }` }
-													label={ __( "Add another profile", "wordpress-seo" ) }
+													// translators: %1$s expands to array index + 1.
+													label={ sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ) }
 													placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
 													className="yst-grow"
 												/>

@@ -18,7 +18,7 @@ const SiteBasics = () => {
 	const usageTrackingLink = useSelectLink( {
 		link: "https://yoa.st/usage-tracking-2",
 		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-		content: __( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sAllow us to track some data about your site to improve our plugin%2$s.", "wordpress-seo" ),
+		content: __( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sLearn more about which data we track and why%2$s.", "wordpress-seo" ),
 		id: "link-usage-tracking",
 	} );
 	const infoAlertText = useMemo( () => createInterpolateElement(
@@ -179,7 +179,11 @@ const SiteBasics = () => {
 						name="wpseo.disableadvanced_meta"
 						data-id="input-wpseo-disableadvanced_meta"
 						label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
-						description={ __( "By default only editors and administrators can access the Advanced - and Schema section of the Yoast SEO metabox. Disabling this allows access to all users.", "wordpress-seo" ) }
+						description={ sprintf(
+							/* translators: %1$s expands to Yoast SEO */
+							__( "By default only editors and administrators can access the Advanced - and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
+							"Yoast SEO"
+						) }
 					/>
 					<FormikValueChangeField
 						as={ ToggleField }

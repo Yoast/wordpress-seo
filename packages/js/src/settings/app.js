@@ -22,7 +22,7 @@ import {
 	Breadcrumbs,
 	CrawlSettings,
 	DateArchives,
-	Formats,
+	FormatArchives,
 	Homepage,
 	Media,
 	PostType,
@@ -86,7 +86,6 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					idSuffix={ idSuffix }
 				/>
 				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
 				id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
@@ -136,11 +135,12 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					}
 					idSuffix={ idSuffix }
 				/>
+				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 		</div>
@@ -248,7 +248,7 @@ const App = () => {
 										<Route path="crawl-optimization" element={ <CrawlSettings /> } />
 										<Route path="date-archives" element={ <DateArchives /> } />
 										<Route path="homepage" element={ <Homepage /> } />
-										<Route path="formats" element={ <Formats /> } />
+										<Route path="format-archives" element={ <FormatArchives /> } />
 										<Route path="media" element={ <Media /> } />
 										<Route path="rss" element={ <Rss /> } />
 										<Route path="site-basics" element={ <SiteBasics /> } />

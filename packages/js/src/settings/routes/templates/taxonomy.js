@@ -117,10 +117,12 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 				<FieldsetLayout
 					title={ __( "Search appearance", "wordpress-seo" ) }
 					description={ sprintf(
-						// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g. Category.
-						__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
+						// eslint-disable-next-line max-len
+						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
+						__( "Choose what your %1$s should look like in the search results by default. You can always customize this per individual %2$s in the %3$s metabox.", "wordpress-seo" ),
 						label,
-						singularLabel
+						singularLabel,
+						"Yoast SEO"
 					) }
 				>
 					<FormikFlippedToggleField

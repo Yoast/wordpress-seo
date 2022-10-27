@@ -45,6 +45,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
+	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -103,6 +104,19 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 			em: <em />,
 		}
 	), [] );
+	const schemaDescription = useMemo( () => addLinkToString(
+		sprintf(
+			// eslint-disable-next-line max-len
+			// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s and %4$s expand to opening and closing anchor tag.
+			__( "Choose how your %1$s should be described by default in %3$syour site's Schema.org markup%4$s. You can change these setting per individual %2$s.", "wordpress-seo" ),
+			label,
+			singularLabel,
+			"<a>",
+			"</a>"
+		),
+		schemaLink,
+		"link-post-type-schema"
+	) );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
@@ -121,10 +135,12 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 				<FieldsetLayout
 					title={ __( "Search appearance", "wordpress-seo" ) }
 					description={ sprintf(
-						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-						__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
+						// eslint-disable-next-line max-len
+						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
+						__( "Choose what your %1$s should look like in the search results by default. You can always customize this per individual %2$s in the %3$s sidebar.", "wordpress-seo" ),
 						label,
-						singularLabel
+						singularLabel,
+						"Yoast SEO"
 					) }
 				>
 					<FormikFlippedToggleField
@@ -226,12 +242,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 				<hr className="yst-my-8" />
 				<FieldsetLayout
 					title={ __( "Schema", "wordpress-seo" ) }
-					description={ sprintf(
-						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
-						__( "Choose how your %1$s should be described by default in your site's Schema.org markup. You can change these setting per individual %2$s.", "wordpress-seo" ),
-						label,
-						singularLabel
-					) }
+					description={ schemaDescription }
 				>
 					<FormikValueChangeField
 						as={ SelectField }
