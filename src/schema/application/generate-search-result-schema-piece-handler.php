@@ -18,7 +18,7 @@ class Generate_Search_Result_Schema_Piece_Handler {
 	 *
 	 * @return \Yoast\WP\SEO\Schema\Domain\Search_Result_Schema_Piece
 	 */
-	public function __invoke( Generate_Search_Result_Schema_Piece $command ) {
+	public function handle( Generate_Search_Result_Schema_Piece $command ) {
 		return new Search_Result_Schema_Piece( $command->get_search_term() );
 	}
 }

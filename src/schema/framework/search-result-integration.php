@@ -64,7 +64,7 @@ class Search_Result_Integration implements Integration_Interface {
 	 */
 	public function add_search_result_schema_piece( $graph, $context ) {
 		if ( $this->current_page_helper->is_search_result() ) {
-			$graph[] = ( $this->handler )( new Generate_Search_Result_Schema_Piece( \get_search_query() ) );
+			$graph[] = $this->handler->handle( new Generate_Search_Result_Schema_Piece( \get_search_query() ) );
 		}
 
 		return $graph;
