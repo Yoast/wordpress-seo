@@ -394,7 +394,7 @@ class Settings_Integration implements Integration_Interface {
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
-			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() )
+			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 		];
 	}
 
