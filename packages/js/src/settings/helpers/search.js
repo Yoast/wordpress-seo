@@ -231,10 +231,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site features", "wordpress-seo" ),
 			fieldId: "card-wpseo-keyword_analysis_active",
 			fieldLabel: __( "SEO analysis", "wordpress-seo" ),
-			keywords: [
-				__( "Keyword analysis", "wordpress-seo" ),
-				__( "This also works", "wordpress-seo" ),
-			],
+			keywords: [],
 		},
 		content_analysis_active: {
 			route: "/site-features",
@@ -283,7 +280,9 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site features", "wordpress-seo" ),
 			fieldId: "card-wpseo-enable_enhanced_slack_sharing",
 			fieldLabel: __( "Slack sharing", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		enable_admin_bar_menu: {
 			route: "/site-features",
@@ -332,28 +331,36 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site connections", "wordpress-seo" ),
 			fieldId: "input-wpseo-baiduverify",
 			fieldLabel: __( "Baidu", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Webmaster", "wordpress-seo" ),
+			],
 		},
 		googleverify: {
 			route: "/site-connections",
 			routeLabel: __( "Site connections", "wordpress-seo" ),
 			fieldId: "input-wpseo-googleverify",
 			fieldLabel: __( "Google", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Webmaster", "wordpress-seo" ),
+			],
 		},
 		msverify: {
 			route: "/site-connections",
 			routeLabel: __( "Site connections", "wordpress-seo" ),
 			fieldId: "input-wpseo-msverify",
 			fieldLabel: __( "Bing", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Webmaster", "wordpress-seo" ),
+			],
 		},
 		yandexverify: {
 			route: "/site-connections",
 			routeLabel: __( "Site connections", "wordpress-seo" ),
 			fieldId: "input-wpseo-yandexverify",
 			fieldLabel: __( "Yandex", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Webmaster", "wordpress-seo" ),
+			],
 		},
 		remove_shortlinks: {
 			route: "/crawl-optimization",
@@ -558,7 +565,9 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site basics", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-separator-sc-dash",
 			fieldLabel: __( "Title separator", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Divider", "wordpress-seo" ),
+			],
 		},
 		company_or_person: {
 			route: "/site-representation",
@@ -844,49 +853,85 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-disable-attachment",
 			fieldLabel: __( "Media pages", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Attachment", "wordpress-seo" ),
+				__( "Image", "wordpress-seo" ),
+				__( "Video", "wordpress-seo" ),
+				__( "PDF", "wordpress-seo" ),
+				__( "File", "wordpress-seo" ),
+			],
 		},
-		"noindex--attachment": {
+		"noindex-attachment": {
 			route: "/media",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-noindex-attachment",
 			fieldLabel: __( "Show Media pages in search results", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Image", "wordpress-seo" ),
+				__( "Video", "wordpress-seo" ),
+				__( "PDF", "wordpress-seo" ),
+				__( "File", "wordpress-seo" ),
+			],
 		},
 		"title-attachment": {
 			route: "/media",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-title-attachment",
 			fieldLabel: __( "SEO title", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Image", "wordpress-seo" ),
+				__( "Video", "wordpress-seo" ),
+				__( "PDF", "wordpress-seo" ),
+				__( "File", "wordpress-seo" ),
+			],
 		},
 		"metadesc-attachment": {
 			route: "/media",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-metadesc-attachment",
 			fieldLabel: __( "Meta description", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Image", "wordpress-seo" ),
+				__( "Video", "wordpress-seo" ),
+				__( "PDF", "wordpress-seo" ),
+				__( "File", "wordpress-seo" ),
+			],
 		},
 		"schema-page-type-attachment": {
 			route: "/media",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-schema-page-type-attachment",
 			fieldLabel: __( "Page type", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Image", "wordpress-seo" ),
+				__( "Video", "wordpress-seo" ),
+				__( "PDF", "wordpress-seo" ),
+				__( "File", "wordpress-seo" ),
+			],
 		},
 		"schema-article-type-attachment": {
 			route: "/media",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-schema-article-type-attachment",
 			fieldLabel: __( "Article type", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Image", "wordpress-seo" ),
+				__( "Video", "wordpress-seo" ),
+				__( "PDF", "wordpress-seo" ),
+				__( "File", "wordpress-seo" ),
+			],
 		},
 		"display-metabox-pt-attachment": {
 			route: "/media",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-display-metabox-pt-attachment",
 			fieldLabel: __( "Enable SEO controls and assessments", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Image", "wordpress-seo" ),
+				__( "Video", "wordpress-seo" ),
+				__( "PDF", "wordpress-seo" ),
+				__( "File", "wordpress-seo" ),
+			],
 		},
 		// Format archives
 		"disable-post_format": {
@@ -970,14 +1015,19 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site features", "wordpress-seo" ),
 			fieldId: "card-wpseo_social-opengraph",
 			fieldLabel: __( "Open Graph data", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "OpenGraph", "wordpress-seo" ),
+			],
 		},
 		twitter: {
 			route: "/site-features",
 			routeLabel: __( "Site features", "wordpress-seo" ),
 			fieldId: "card-wpseo_social-twitter",
 			fieldLabel: __( "Twitter card data", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+			],
 		},
 		og_default_image_id: {
 			route: "/site-basics",
@@ -998,21 +1048,31 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site connections", "wordpress-seo" ),
 			fieldId: "input-wpseo_social-pinterestverify",
 			fieldLabel: __( "Pinterest", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Webmaster", "wordpress-seo" ),
+			],
 		},
 		facebook_site: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_social-facebook_site",
 			fieldLabel: __( "Organization Facebook", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Open Graph", "wordpress-seo" ),
+				__( "OpenGraph", "wordpress-seo" ),
+			],
 		},
 		twitter_site: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_social-twitter_site",
 			fieldLabel: __( "Organization Twitter", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+				__( "Tweet", "wordpress-seo" ),
+			],
 		},
 		other_social_urls: {
 			route: "/site-representation",
@@ -1036,70 +1096,101 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-facebook",
 			fieldLabel: __( "Person Facebook", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Open Graph", "wordpress-seo" ),
+				__( "OpenGraph", "wordpress-seo" ),
+			],
 		},
 		instagram: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-instagram",
 			fieldLabel: __( "Person Instagram", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		linkedin: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-linkedin",
 			fieldLabel: __( "Person LinkedIn", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		myspace: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-myspace",
 			fieldLabel: __( "Person MySpace", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		pinterest: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-pinterest",
 			fieldLabel: __( "Person Pinterest", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		soundcloud: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-soundcloud",
 			fieldLabel: __( "Person SoundCloud", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		tumblr: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-tumblr",
 			fieldLabel: __( "Person Tumblr", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		twitter: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-twitter",
 			fieldLabel: __( "Person Twitter", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		youtube: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-youtube",
 			fieldLabel: __( "Person YouTube", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 		wikipedia: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-person_social_profiles-wikipedia",
 			fieldLabel: __( "Person Wikipedia", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
 		},
 	},
 } );
