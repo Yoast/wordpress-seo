@@ -73,7 +73,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 			description={ <>
 				{ sprintf(
 					/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
-					__( "Choose how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
+					__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 					label
 				) }
 				<br />
@@ -119,7 +119,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 					description={ sprintf(
 						// eslint-disable-next-line max-len
 						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
-						__( "Choose what your %1$s should look like in the search results by default. You can always customize this per individual %2$s in the %3$s metabox.", "wordpress-seo" ),
+						__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
 						label,
 						singularLabel,
 						"Yoast SEO"
@@ -140,7 +140,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 								label
 							) }
 							<br />
-							<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+							<Link href={ noIndexInfoLink } target="_blank">
 								{ __( "Read more about the search results settings", "wordpress-seo" ) }
 							</Link>
 							.
@@ -172,10 +172,12 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						{ isPremium && <Badge variant="upsell">Premium</Badge> }
 					</div> }
 					description={ sprintf(
-						// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g. Category.
-						__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
+						// eslint-disable-next-line max-len
+						// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g. Category. %3$s expand to Yoast SEO.
+						__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
 						label,
-						singularLabel
+						singularLabel,
+						"Yoast SEO"
 					) }
 				>
 					<FeatureUpsell

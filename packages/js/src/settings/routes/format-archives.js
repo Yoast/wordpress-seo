@@ -88,10 +88,12 @@ const FormatArchives = () => {
 						<FieldsetLayout
 							title={ __( "Search appearance", "wordpress-seo" ) }
 							description={ sprintf(
-								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag.
-								__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
+								// eslint-disable-next-line max-len
+								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag. %3$s expands to Yoast SEO.
+								__( "Determine how your %1$s should look in search engines. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
 								label,
-								singularLabel
+								singularLabel,
+								"Yoast SEO"
 							) }
 						>
 							<FormikFlippedToggleField
@@ -109,7 +111,7 @@ const FormatArchives = () => {
 										label
 									) }
 									<br />
-									<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+									<Link href={ noIndexInfoLink } target="_blank">
 										{ __( "Read more about the search results settings", "wordpress-seo" ) }
 									</Link>
 									.
@@ -140,10 +142,12 @@ const FormatArchives = () => {
 								{ isPremium && <Badge variant="upsell">Premium</Badge> }
 							</div> }
 							description={ sprintf(
-								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag.
-								__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
+								// eslint-disable-next-line max-len
+								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag. %3$s expands to Yoast SEO.
+								__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
 								label,
-								singularLabel
+								singularLabel,
+								"Yoast SEO"
 							) }
 						>
 							<FeatureUpsell

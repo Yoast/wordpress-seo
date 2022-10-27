@@ -14,6 +14,7 @@ const SiteBasics = () => {
 	const generalSettingsUrl = useSelectSettings( "selectPreference", [], "generalSettingsUrl" );
 	const canManageOptions = useSelectSettings( "selectPreference", [], "canManageOptions", false );
 	const showForceRewriteTitlesSetting = useSelectSettings( "selectPreference", [], "showForceRewriteTitlesSetting", false );
+	const replacementVariablesLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-basics-replacement-variables" );
 
 	const usageTrackingLink = useSelectLink( {
 		link: "https://yoa.st/usage-tracking-2",
@@ -21,19 +22,25 @@ const SiteBasics = () => {
 		content: __( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sLearn more about which data we track and why%2$s.", "wordpress-seo" ),
 		id: "link-usage-tracking",
 	} );
-	const infoAlertText = useMemo( () => createInterpolateElement(
+	const siteInfoDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-			__( "You can use %1$sSite title%2$s, %1$sTagline%2$s and %1$sSeparator%2$s as variables when configuring the search appearance of your content.", "wordpress-seo" ),
+			__( "Set the basic info for your website. You can use %1$ssite title%2$s, %1$stagline%2$s and %1$sseparator%2$s as %3$sreplacement variables%4$s when configuring the search appearance of your content.", "wordpress-seo" ),
 			"<em>",
-			"</em>"
+			"</em>",
+			"<a>",
+			"</a>"
 		),
-		{ em: <em /> }
+		{
+			em: <em />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank" rel="noreferrer" />,
+		}
 	), [] );
 	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-			__( "We're sorry, you're not allowed to edit the %1$sSite title%2$s and %1$sTagline%2$s.", "wordpress-seo" ),
+			__( "We're sorry, you're not allowed to edit the %1$ssite title%2$s and %1$stagline%2$s.", "wordpress-seo" ),
 			"<em>",
 			"</em>"
 		),
@@ -61,7 +68,7 @@ const SiteBasics = () => {
 			 * translators: %1$s expands to an opening anchor tag.
 			 * %2$s expands to a closing anchor tag.
 			 */
-			__( "This field updates the %1$sSite title in your WordPress settings%2$s.", "wordpress-seo" ),
+			__( "This field updates the %1$ssite title in your WordPress settings%2$s.", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),
@@ -76,7 +83,7 @@ const SiteBasics = () => {
 			 * translators: %1$s expands to an opening anchor tag.
 			 * %2$s expands to a closing anchor tag.
 			 */
-			__( "This field updates the %1$sTagline in your WordPress settings%2$s.", "wordpress-seo" ),
+			__( "This field updates the %1$stagline in your WordPress settings%2$s.", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),
@@ -97,12 +104,13 @@ const SiteBasics = () => {
 			<div className="yst-max-w-5xl">
 				<FieldsetLayout
 					title={ __( "Site info", "wordpress-seo" ) }
-					description={ __( "Set the basic info for your website. Note that some of these values can be used as variables when configuring the search appearance of your content.", "wordpress-seo" ) }
+					description={ siteInfoDescription }
 				>
-					<Alert variant="info" id="alert-site-defaults-variables">
-						{ infoAlertText }
-						{ ! canManageOptions && <>&nbsp;{ canNotManageOptionsAlertText }</> }
-					</Alert>
+					{ ! canManageOptions && (
+						<Alert variant="warning" id="alert-site-defaults-variables">
+							{  canNotManageOptionsAlertText }
+						</Alert>
+					) }
 					<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 						<Field
 							as={ TextField }
@@ -181,7 +189,7 @@ const SiteBasics = () => {
 						label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
 						description={ sprintf(
 							/* translators: %1$s expands to Yoast SEO */
-							__( "By default only editors and administrators can access the Advanced - and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
+							__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
 							"Yoast SEO"
 						) }
 					/>

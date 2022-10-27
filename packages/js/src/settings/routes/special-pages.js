@@ -18,7 +18,7 @@ const SpecialPages = () => {
 			<div className="yst-max-w-5xl">
 				<FieldsetLayout
 					title={ __( "Internal search pages", "wordpress-seo" ) }
-					description={ __( "Choose how the title of your internal search pages should look in the browser.", "wordpress-seo" ) }
+					description={ __( "Determine how the title of your internal search pages should look in the browser.", "wordpress-seo" ) }
 				>
 					<FormikReplacementVariableEditorField
 						type="title"
@@ -32,7 +32,7 @@ const SpecialPages = () => {
 				<hr className="yst-my-8" />
 				<FieldsetLayout
 					title={ __( "404 error pages", "wordpress-seo" ) }
-					description={ __( "Choose how the title of your 404 error pages should look in the browser.", "wordpress-seo" ) }
+					description={ __( "Determine how the title of your 404 error pages should look in the browser.", "wordpress-seo" ) }
 				>
 					<FormikReplacementVariableEditorField
 						type="title"

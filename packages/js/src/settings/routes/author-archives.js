@@ -99,7 +99,7 @@ const AuthorArchives = () => {
 							title={ __( "Search appearance", "wordpress-seo" ) }
 							description={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. Posts.
-								__( "Choose how your %1$s should look in search engines.", "wordpress-seo" ),
+								__( "Determine how your %1$s should look in search engines.", "wordpress-seo" ),
 								label
 							) }
 						>
@@ -119,7 +119,7 @@ const AuthorArchives = () => {
 										label
 									) }
 									<br />
-									<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+									<Link href={ noIndexInfoLink } target="_blank">
 										{ __( "Read more about the search results settings", "wordpress-seo" ) }
 									</Link>
 									.
@@ -157,7 +157,7 @@ const AuthorArchives = () => {
 							</div> }
 							description={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. Posts.
-								__( "Choose how your %1$s should look on social media by default.", "wordpress-seo" ),
+								__( "Determine how your %1$s should look on social media by default.", "wordpress-seo" ),
 								label
 							) }
 						>
