@@ -9,18 +9,10 @@ import findAllInTree from "../../parse/findAllTree";
  * @returns {Array} An array with all H1s, their content and position.
  */
 export default function( paper ) {
-	// const text = paper.getText();
-	// const tree = paper.getTree();
-
-
 	const h1Matches = findAllInTree(
 		paper.getTree(),
 		node => node.nodeName === "h1"
 	);
-
-
-	// let blocks = getBlocks( text );
-	// blocks = reject( blocks, emptyBlock );
 
 	const h1s = [];
 	h1Matches.forEach( h1Match => {
