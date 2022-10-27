@@ -1,5 +1,5 @@
 import findAllInTree from "../../parse/findAllTree";
-
+import innerText from "../../parse/helpers/innerText";
 
 /**
  * Gets all H1s in a text, including their content and their position with regards to other HTML blocks.
@@ -14,14 +14,10 @@ export default function( paper ) {
 		node => node.nodeName === "h1"
 	);
 
-	const h1s = [];
-	h1Matches.forEach( h1Match => {
-		h1s.push( {
+	return h1Matches.map( h1 => (
+		{
 			tag: "h1",
-			content: findAllInTree( h1Match, node => node.nodeName === "#text" ).map( textNode => textNode.value ).join( "" ),
-		} );
-	} );
-
-	//  );
-	return h1s;
+			content: innerText( h1 ),
+		}
+	) );
 }

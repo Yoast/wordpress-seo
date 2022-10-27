@@ -51,7 +51,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		this.imageCount = researcher.getResearch( "imageCount" );
-		this.altProperties = researcher.getResearch( "altTagCount" );
+		this.altProperties = researcher.getResearch( "getAltTagProperties" );
 
 		this._minNumberOfKeywordMatches = Math.ceil( this.imageCount * this._config.parameters.lowerBoundary );
 		this._maxNumberOfKeywordMatches = Math.floor( this.imageCount * this._config.parameters.upperBoundary );
