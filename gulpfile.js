@@ -7,6 +7,8 @@ const rtlcss = require( "gulp-rtlcss" );
 const fs = require( "fs" );
 const exec = require( "child_process" ).exec;
 const del = require( "del" );
+const paths = require( "./config/webpack/paths" );
+
 
 const cssFolder = "css/src/";
 const cssDest = "csstest/";
@@ -14,6 +16,8 @@ const cssDestLive = "css/dist/";
 
 const files = fs.readdirSync( "css/src" );
 const json = JSON.parse( fs.readFileSync( "package.json" ) );
+
+const pluginVersion = paths.flattenVersionForFile( json.yoast.pluginVersion );
 
 var css = [];
 
@@ -26,10 +30,10 @@ files.forEach( function( task ) {
 			.pipe( sourcemaps.init() )
 			.pipe( postcss() )
 			.pipe( rename( {
-				suffix: "-" + json.yoast.pluginVersion,
+				suffix: "-" + pluginVersion,
 			} ) )
 			.pipe( sourcemaps.write( "." ) )
-			.pipe( dest( cssDest ) );
+			.pipe( dest( cssDestLive ) );
 	} );
 
 	css.push( task );
@@ -39,21 +43,29 @@ files.forEach( function( task ) {
 			.pipe( sourcemaps.init() )
 			.pipe( postcss() )
 			.pipe( rename( {
-				suffix: "-" + json.yoast.pluginVersion + "-rtl",
+				suffix: "-" + pluginVersion + "-rtl",
 			} ) )
 			.pipe( rtlcss() )
 			.pipe( sourcemaps.write( "." ) )
-			.pipe( dest( cssDest ) );
+			.pipe( dest( cssDestLive ) );
 	} );
 
 	css.push( task + "-rtl" );
 } );
 
+/**
+ * Clean up the old css files.
+ */
+gulp.task( "clean:css", function() {
+	return del(
+		[ cssDestLive + "*.css*", "!" + cssDestLive + "monorepo*.css" ]
+	);
+} );
 
 /**
  * Clean up the old js files.
  */
-gulp.task( "clean", function() {
+gulp.task( "clean:js", function() {
 	return del(
 		[ "js/dist", cssDestLive + "monorepo*.css" ]
 	);
@@ -85,5 +97,6 @@ gulp.task( "watch", function() {
 	} );
 } );
 
-gulp.task( "default", gulp.parallel( css ) );
-gulp.task( "build:js", gulp.series( "clean", "shell-webpack" ) );
+gulp.task( "build:js", gulp.series( "clean:js", "shell-webpack" ) );
+gulp.task( "build:css", gulp.series( "clean:css", gulp.parallel( css ) ) );
+gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
