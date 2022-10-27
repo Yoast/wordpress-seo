@@ -11,8 +11,7 @@ import urlHelper from "../url/url";
  * @returns {string} The link type (other, external or internal).
  */
 export default function( anchor, siteUrlOrDomain ) {
-	const anchorUrl = urlHelper.getFromAnchorTag( anchor );
-
+	const anchorUrl = anchor.attrs.filter( attr => attr.name === "href" )[ 0 ].value;
 	/**
 	 * A link is "Other" if:
 	 * - The protocol is neither null, nor http, nor https.

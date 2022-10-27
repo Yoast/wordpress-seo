@@ -210,7 +210,7 @@ const keywordInAnchor = function( paper, researcher, anchors, siteUrlOrDomain ) 
  */
 const countLinkTypes = function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
-	const anchors = getAnchors( paper.getText() );
+	const anchors = getAnchors( paper.getTree() );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
 	 * In case of WordPress, the variable is a URL. In case of Shopify, it is a domain.
