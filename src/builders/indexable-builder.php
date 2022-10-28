@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -322,6 +323,8 @@ class Indexable_Builder {
 		return $author_indexable;
 	}
 
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.Missing -- Exceptions are handled by the catch statement in the method.
+
 	/**
 	 * Rebuilds an Indexable from scratch.
 	 *
@@ -338,6 +341,9 @@ class Indexable_Builder {
 		$indexable = $this->ensure_indexable( $indexable, $defaults );
 
 		try {
+			if ( $indexable->object_id === 0 ) {
+				throw Not_Built_Exception::invalid_object_id( $indexable->object_id );
+			}
 			switch ( $indexable->object_type ) {
 
 				case 'post':
@@ -353,10 +359,7 @@ class Indexable_Builder {
 					// Always rebuild the hierarchy; this needs the primary term to run correctly.
 					$this->hierarchy_builder->build( $indexable );
 
-					// Add author indexable when necessary.
-					if ( $indexable->author_id !== 0 ) {
-						$this->maybe_build_author_indexable( $indexable->author_id );
-					}
+					$this->maybe_build_author_indexable( $indexable->author_id );
 					break;
 
 				case 'user':
@@ -410,5 +413,10 @@ class Indexable_Builder {
 
 			return $this->save_indexable( $indexable, $indexable_before );
 		}
+		catch ( Not_Built_Exception $exception ) {
+			return false;
+		}
 	}
+
+	// phpcs:enable
 }
