@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use Yoast_Notification;
+use Yoast_Notification_Center;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -14,8 +16,6 @@ use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
-use Yoast_Notification;
-use Yoast_Notification_Center;
 /**
  * Taxonomy watcher.
  *
