@@ -228,8 +228,8 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 
 		$args = [
 			'eventDisplay'   => 'custom',
-			'start_date'     => Tribe__Events__Template__Month::calculate_first_cell_date( $month ),
-			'end_date'       => Tribe__Events__Template__Month::calculate_final_cell_date( $month ),
+			'start_date'     => \Tribe\Events\Views\V2\Views\Month_View::calculate_first_cell_date( $event_date ),
+			'end_date'       => \Tribe\Events\Views\V2\Views\Month_View::calculate_final_cell_date( $event_date ),
 			'posts_per_page' => -1,
 			'hide_upcoming'  => true,
 		];
