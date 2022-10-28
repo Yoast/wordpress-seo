@@ -118,7 +118,7 @@ class WPSEO_Post_Type {
 	}
 
 	/**
-	 * Dismisses the notification related to the post types which have been made public.
+	 * Removes the notification related to the post types which have been made public.
 	 *
 	 * @return void
 	 */
