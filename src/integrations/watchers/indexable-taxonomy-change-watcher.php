@@ -116,6 +116,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		$public_taxonomies            = \array_keys( $this->taxonomy_helper->get_public_taxonomies() );
 		$last_known_public_taxonomies = $this->options->get( 'last_known_public_taxonomies', [] );
 
+		// Initializing the option on the first run.
 		if ( empty( $last_known_public_taxonomies ) ) {
 			$this->options->set( 'last_known_public_taxonomies', $public_taxonomies );
 			return;

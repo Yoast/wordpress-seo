@@ -114,6 +114,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		$public_post_types            = \array_keys( $this->post_type_helper->get_public_post_types() );
 		$last_known_public_post_types = $this->options->get( 'last_known_public_post_types', [] );
 
+		// Initializing the option on the first run.
 		if ( empty( $last_known_public_post_types ) ) {
 			$this->options->set( 'last_known_public_post_types', $public_post_types );
 			return;
