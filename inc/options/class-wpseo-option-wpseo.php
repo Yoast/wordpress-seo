@@ -133,8 +133,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
-		'post_types_made_public'                   => [],
-		'taxonomies_made_public'                   => [],
 	];
 
 	/**

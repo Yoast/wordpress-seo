@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Taxonomy watcher.
@@ -45,13 +44,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	private $taxonomy_helper;
 
 	/**
-	 * The indexable repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	private $repository;
-
-	/**
 	 * The notifications center.
 	 *
 	 * @var Yoast_Notification_Center
@@ -73,7 +65,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
 	 * @param Options_Helper            $options             The options helper.
 	 * @param Taxonomy_Helper           $taxonomy_helper     The taxonomy helper.
-	 * @param Indexable_Repository      $repository          The Indexables repository.
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
 	public function __construct(
@@ -86,7 +77,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		$this->indexing_helper     = $indexing_helper;
 		$this->options             = $options;
 		$this->taxonomy_helper     = $taxonomy_helper;
-		$this->repository          = $repository;
 		$this->notification_center = $notification_center;
 	}
 

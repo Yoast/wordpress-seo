@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Post type change watcher.
@@ -43,13 +42,6 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	private $post_type_helper;
 
 	/**
-	 * The indexable repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	private $repository;
-
-	/**
 	 * The notifications center.
 	 *
 	 * @var Yoast_Notification_Center
@@ -69,20 +61,17 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 * Indexable_Post_Type_Change_Watcher constructor.
 	 *
 	 * @param Options_Helper            $options             The options helper.
-	 * @param Indexable_Repository      $repository          The Indexables repository.
 	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
 	 * @param Post_Type_Helper          $post_type_helper    The post_typehelper.
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
 	public function __construct(
 		Options_Helper $options,
-		Indexable_Repository $repository,
 		Indexing_Helper $indexing_helper,
 		Post_Type_Helper $post_type_helper,
 		Yoast_Notification_Center $notification_center
 	) {
 		$this->options             = $options;
-		$this->repository          = $repository;
 		$this->indexing_helper     = $indexing_helper;
 		$this->post_type_helper    = $post_type_helper;
 		$this->notification_center = $notification_center;
