@@ -100,7 +100,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if one or more post types change visibility
+	 * Checks if one or more post types change visibility.
 	 *
 	 * @return void
 	 */
