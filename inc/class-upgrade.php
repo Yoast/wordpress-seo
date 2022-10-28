@@ -966,8 +966,6 @@ class WPSEO_Upgrade {
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
-		$this->set_last_known_viewable_post_types();
-		$this->set_last_known_viewable_taxonomies();
 	}
 
 	/**
@@ -1629,29 +1627,5 @@ class WPSEO_Upgrade {
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);
 		// phpcs:enable
-	}
-
-	/**
-	 * Sets the last_known_viewable_post_types option for the 19.11 upgrade routine.
-	 *
-	 * @return void
-	 */
-	public function set_last_known_viewable_post_types() {
-		$post_types          = \get_post_types();
-		$viewable_post_types = \array_keys( \array_filter( $post_types, '\is_post_type_viewable' ) );
-
-		WPSEO_Options::set( 'last_known_viewable_post_types', $viewable_post_types );
-	}
-
-	/**
-	 * Sets the last_known_viewable_taxonomies option for the 19.11 upgrade routine.
-	 *
-	 * @return void
-	 */
-	public function set_last_known_viewable_taxonomies() {
-		$taxonomies          = \get_taxonomies();
-		$viewable_taxonomies = \array_keys( \array_filter( $taxonomies, '\is_taxonomy_viewable' ) );
-
-		WPSEO_Options::set( 'last_known_viewable_taxonomies', $viewable_taxonomies );
 	}
 }
