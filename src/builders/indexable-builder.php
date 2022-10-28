@@ -300,7 +300,7 @@ class Indexable_Builder {
 	}
 
 	/**
-	 * Build and author indexable from an author id if it does not exist yet.
+	 * Build and author indexable from an author id if it does not exist yet, or if the author indexable needs to be upgraded.
 	 *
 	 * @param int $author_id The author id.
 	 *
