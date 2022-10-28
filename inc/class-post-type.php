@@ -111,7 +111,7 @@ class WPSEO_Post_Type {
 	/**
 	 * Resets the option related to the taxonomies which have been made public.
 	 *
-	 * @return bool Wether the update succeeded or not.
+	 * @return bool Whether the update succeeded or not.
 	 */
 	public static function reset_taxonomies_made_public() {
 		return WPSEO_Options::set( 'taxonomies_made_public', [] );
