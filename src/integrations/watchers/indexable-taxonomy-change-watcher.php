@@ -102,7 +102,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if one or more taxonomies change visibility
+	 * Checks if one or more taxonomies change visibility.
 	 *
 	 * @return void
 	 */
