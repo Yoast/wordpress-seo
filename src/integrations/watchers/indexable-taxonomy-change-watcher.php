@@ -71,7 +71,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		Indexing_Helper $indexing_helper,
 		Options_Helper $options,
 		Taxonomy_Helper $taxonomy_helper,
-		Indexable_Repository $repository,
 		Yoast_Notification_Center $notification_center
 	) {
 		$this->indexing_helper     = $indexing_helper;
