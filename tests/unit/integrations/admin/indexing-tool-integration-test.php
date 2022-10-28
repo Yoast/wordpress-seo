@@ -183,7 +183,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items' );
+		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items_internal' );
 		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
 
 		$this->instance->register_hooks();
