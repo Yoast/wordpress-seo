@@ -966,8 +966,8 @@ class WPSEO_Upgrade {
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
-		$this->set_last_known_public_post_types();
-		$this->set_last_known_public_taxonomies();
+		$this->set_last_known_viewable_post_types();
+		$this->set_last_known_viewable_taxonomies();
 	}
 
 	/**
@@ -1636,10 +1636,11 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	public function set_last_known_public_post_types() {
-		$public_post_types = \array_keys( \YoastSEO()->helpers->post_type->get_public_post_types() );
+	public function set_last_known_viewable_post_types() {
+		$post_types          = \get_post_types();
+		$viewable_post_types = \array_keys( \array_filter( $post_types, '\is_post_type_viewable' ) );
 
-		WPSEO_Options::set( 'last_known_public_post_types', $public_post_types );
+		WPSEO_Options::set( 'last_known_viewable_post_types', $viewable_post_types );
 	}
 
 	/**
@@ -1647,9 +1648,10 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	public function set_last_known_public_taxonomies() {
-		$public_taxonomies = \array_keys( \YoastSEO()->helpers->taxonomy->get_public_taxonomies() );
+	public function set_last_known_viewable_taxonomies() {
+		$taxonomies          = \get_taxonomies();
+		$viewable_taxonomies = \array_keys( \array_filter( $taxonomies, '\is_taxonomy_viewable' ) );
 
-		WPSEO_Options::set( 'last_known_public_taxonomies', $public_taxonomies );
+		WPSEO_Options::set( 'last_known_viewable_taxonomies', $viewable_taxonomies );
 	}
 }
