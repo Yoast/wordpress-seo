@@ -261,6 +261,7 @@ Bugfixes:
 Other:
 
 * Ensures compatibility with the _High Performance Order Storage_ feature in WooCommerce 7.1+.
+* Deprecates the hooks used to add custom content to the Yoast SEO settings pages, in preparation of future releases.
 * Sets the WordPress tested up to version to 6.1.
 
 = 19.9 =
