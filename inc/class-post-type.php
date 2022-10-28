@@ -100,40 +100,40 @@ class WPSEO_Post_Type {
 	}
 
 	/**
-	 * Resets the option related to the post types which have been made viewable.
+	 * Resets the option related to the post types which have been made public.
 	 *
 	 * @return bool Wether the update succeeded or not.
 	 */
-	public static function reset_post_types_made_viewable() {
-		return WPSEO_Options::set( 'post_types_made_viewable', [] );
+	public static function reset_post_types_made_public() {
+		return WPSEO_Options::set( 'post_types_made_public', [] );
 	}
 
 	/**
-	 * Resets the option related to the taxonomies which have been made viewable.
+	 * Resets the option related to the taxonomies which have been made public.
 	 *
 	 * @return bool Wether the update succeeded or not.
 	 */
-	public static function reset_taxonomies_made_viewable() {
-		return WPSEO_Options::set( 'taxonomies_made_viewable', [] );
+	public static function reset_taxonomies_made_public() {
+		return WPSEO_Options::set( 'taxonomies_made_public', [] );
 	}
 
 	/**
-	 * Dismisses the notification related to the post types which have been made viewable.
+	 * Dismisses the notification related to the post types which have been made public.
 	 *
 	 * @return void
 	 */
-	public static function remove_post_types_made_viewable_notification() {
+	public static function remove_post_types_made_public_notification() {
 		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'post-types-made-viewable' );
+		$notification_center->remove_notification_by_id( 'post-types-made-public' );
 	}
 
 	/**
-	 * Dismisses the notification related to the taxonomies which have been made viewable.
+	 * Dismisses the notification related to the taxonomies which have been made public.
 	 *
 	 * @return void
 	 */
-	public static function remove_taxonomies_made_viewable_notification() {
+	public static function remove_taxonomies_made_public_notification() {
 		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'taxonomies-made-viewable' );
+		$notification_center->remove_notification_by_id( 'taxonomies-made-public' );
 	}
 }
