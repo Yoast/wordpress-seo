@@ -117,7 +117,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		$last_known_public_taxonomies = $this->options->get( 'last_known_public_taxonomies', [] );
 
 		if ( empty( $last_known_public_taxonomies ) ) {
-			$this->options->get( 'last_known_public_taxonomies', $public_taxonomies );
+			$this->options->set( 'last_known_public_taxonomies', $public_taxonomies );
 			$last_known_public_taxonomies = $public_taxonomies;
 			return;
 		}
