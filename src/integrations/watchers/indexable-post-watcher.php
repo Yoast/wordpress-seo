@@ -212,9 +212,11 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	protected function update_has_public_posts( $indexable ) {
 		// Update the author indexable's has public posts value.
 		try {
-			$author_indexable                   = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
-			$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
-			$author_indexable->save();
+			$author_indexable = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
+			if ( $author_indexable ) {
+				$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
+				$author_indexable->save();
+			}
 		} catch ( Exception $exception ) {
 			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
