@@ -88,7 +88,7 @@ class WPSEO_Upgrade {
 			'19.1-RC0'   => 'upgrade_191',
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
-			'19.10-RC0'  => 'upgrade_1910',
+			'19.11-RC0'  => 'upgrade_1911',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -955,9 +955,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 19.10 upgrade routine.
+	 * Performs the 19.11 upgrade routine.
 	 */
-	private function upgrade_1910() {
+	private function upgrade_1911() {
 		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
 		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
 		$this->deduplicate_unindexed_indexable_rows();
