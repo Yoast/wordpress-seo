@@ -121,9 +121,12 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$newly_made_public_taxonomies     = \array_diff( $public_taxonomies, $last_known_public_taxonomies );
+		// We look for new public taxonomies.
+		$newly_made_public_taxonomies = \array_diff( $public_taxonomies, $last_known_public_taxonomies );
+		// We look fortaxonomies that from public have been made private.
 		$newly_made_non_public_taxonomies = \array_diff( $last_known_public_taxonomies, $public_taxonomies );
 
+		// Nothing to be done if no changes has been made to taxonomies.
 		if ( empty( $newly_made_public_taxonomies ) && ( empty( $newly_made_non_public_taxonomies ) ) ) {
 			return;
 		}
@@ -131,8 +134,10 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		// Update the list of last known public taxonomies in the database.
 		$this->options->set( 'last_known_public_taxonomies', $public_taxonomies );
 
+		// There are new taxonomies that have been made public.
 		if ( ! empty( $newly_made_public_taxonomies ) ) {
 
+			// Force a notification requesting to start the SEO data optimization.
 			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
@@ -141,8 +146,9 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			$this->maybe_add_notification();
 		}
 
+		// There are taxonomies that have been made private.
 		if ( ! empty( $newly_made_non_public_taxonomies ) ) {
-
+			// Schedule a cron job to remove all the terms whose taxonomy has been made private.
 			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
 				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
