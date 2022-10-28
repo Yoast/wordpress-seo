@@ -304,7 +304,7 @@ class Indexable_Builder {
 	 *
 	 * @param int $author_id The author id.
 	 *
-	 * @return false|Indexable
+	 * @return Indexable|false The author indexable if it has been built, `false` if it could not be built.
 	 */
 	protected function maybe_build_author_indexable( $author_id ) {
 		$author_indexable = $this->indexable_repository->find_by_id_and_type(
