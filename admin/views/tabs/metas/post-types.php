@@ -11,10 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-WPSEO_Post_Type::reset_post_types_made_public();
 WPSEO_Post_Type::remove_post_types_made_public_notification();
-
-WPSEO_Post_Type::reset_taxonomies_made_public();
 WPSEO_Post_Type::remove_taxonomies_made_public_notification();
 
 /*

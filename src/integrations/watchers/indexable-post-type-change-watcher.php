@@ -116,7 +116,6 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 		if ( empty( $last_known_public_post_types ) ) {
 			$this->options->set( 'last_known_public_post_types', $public_post_types );
-			$last_known_public_post_types = $public_post_types;
 			return;
 		}
 
@@ -132,7 +131,6 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 		// There are new post types that have been made public.
 		if ( ! empty( $newly_made_public_post_types ) ) {
-			$this->add_new_public_post_types_to_post_types_made_public( $newly_made_public_post_types );
 
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
@@ -143,7 +141,6 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		}
 
 		if ( ! empty( $newly_made_non_public_post_types ) ) {
-			$this->purge_non_public_post_types_from_post_types_made_public( $newly_made_non_public_post_types );
 
 			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
 				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
@@ -152,45 +149,6 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Adds newly public post types in post_types_made_public.
-	 *
-	 * @param array $newly_made_public_post_types Array of post type names which have been made public.
-	 *
-	 * @return bool Returns true if the option is successfully saved in the database.
-	 */
-	private function add_new_public_post_types_to_post_types_made_public( $newly_made_public_post_types ) {
-		// Fetch the post types that have been made public the last time.
-		$previously_made_public_post_types = $this->options->get( 'post_types_made_public', [] );
-
-		// Merge the previously made public post types with the newly made public ones.
-		$total_made_public_post_types = \array_merge( $previously_made_public_post_types, $newly_made_public_post_types );
-
-		// Update the corresponding option in the database.
-		return $this->options->set( 'post_types_made_public', $total_made_public_post_types );
-	}
-
-	/**
-	 * Removes post types made non public from post_types_made_public.
-	 *
-	 * @param array $newly_made_non_public_post_types Array of post type names which have been made non public.
-	 *
-	 * @return bool Returns true if the option is successfully saved in the database.
-	 */
-	private function purge_non_public_post_types_from_post_types_made_public( $newly_made_non_public_post_types ) {
-		$previously_made_public_post_types  = $this->options->get( 'post_types_made_public', [] );
-		$remove_from_post_types_made_public = \array_intersect( $newly_made_non_public_post_types, $previously_made_public_post_types );
-
-		$updated_post_types_made_public = \array_filter(
-			$previously_made_public_post_types,
-			function( $post_type ) use ( $remove_from_post_types_made_public ) {
-				return ! in_array( $post_type, $remove_from_post_types_made_public, true );
-			}
-		);
-
-		return $this->options->set( 'post_types_made_public', $updated_post_types_made_public );
 	}
 
 	/**

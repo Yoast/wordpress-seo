@@ -118,7 +118,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 
 		if ( empty( $last_known_public_taxonomies ) ) {
 			$this->options->set( 'last_known_public_taxonomies', $public_taxonomies );
-			$last_known_public_taxonomies = $public_taxonomies;
 			return;
 		}
 
@@ -133,7 +132,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		$this->options->set( 'last_known_public_taxonomies', $public_taxonomies );
 
 		if ( ! empty( $newly_made_public_taxonomies ) ) {
-			$this->add_new_public_taxonomies_to_taxonomies_made_public( $newly_made_public_taxonomies );
 
 			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
@@ -144,7 +142,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		}
 
 		if ( ! empty( $newly_made_non_public_taxonomies ) ) {
-			$this->purge_non_public_taxonomies_from_taxonomies_made_public( $newly_made_non_public_taxonomies );
 
 			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
 				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
@@ -153,45 +150,6 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Adds newly public taxonomies in taxonomies_made_public.
-	 *
-	 * @param array $newly_made_public_taxonomies Array of taxonomies names which have been made public.
-	 *
-	 * @return bool Returns true if the option is successfully saved in the database.
-	 */
-	private function add_new_public_taxonomies_to_taxonomies_made_public( $newly_made_public_taxonomies ) {
-		// Fetch the taxonomies that have been made public the last time.
-		$previously_made_public_taxonomies = $this->options->get( 'taxonomies_made_public', [] );
-
-		// Merge the previously made public taxonomies with the newly made public ones.
-		$total_made_public_taxonomies = \array_merge( $previously_made_public_taxonomies, $newly_made_public_taxonomies );
-
-		// Update the corresponding option in the database.
-		return $this->options->set( 'taxonomies_made_public', $total_made_public_taxonomies );
-	}
-
-	/**
-	 * Removes taxonomies made non public from taxonomies_made_public.
-	 *
-	 * @param array $newly_made_non_public_taxonomies Array of tzxonomies names which have been made non public.
-	 *
-	 * @return bool Returns true if the option is successfully saved in the database.
-	 */
-	private function purge_non_public_taxonomies_from_taxonomies_made_public( $newly_made_non_public_taxonomies ) {
-		$previously_made_public_taxonomies  = $this->options->get( 'taxonomies_made_public', [] );
-		$remove_from_taxonomies_made_public = \array_intersect( $newly_made_non_public_taxonomies, $previously_made_public_taxonomies );
-
-		$updated_taxonomies_made_public = \array_filter(
-			$previously_made_public_taxonomies,
-			function( $taxonomy ) use ( $remove_from_taxonomies_made_public ) {
-				return ! in_array( $taxonomy, $remove_from_taxonomies_made_public, true );
-			}
-		);
-
-		return $this->options->set( 'taxonomies_made_public', $updated_taxonomies_made_public );
 	}
 
 	/**
