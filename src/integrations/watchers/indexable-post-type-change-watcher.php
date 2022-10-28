@@ -17,9 +17,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * WordPress Post watcher.
- *
- * Fills the Indexable according to Post data.
+ * Post type change watcher.
  */
 class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
