@@ -377,6 +377,7 @@ class Indexable_Builder {
 
 				case 'term':
 					$indexable = $this->term_builder->build( $indexable->object_id, $indexable );
+
 					$this->hierarchy_builder->build( $indexable );
 					break;
 

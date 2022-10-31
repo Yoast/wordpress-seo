@@ -15,6 +15,10 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
+		if ( $this->context->indexable->object_type === 'unknown' ) {
+			return false;
+		}
+
 		if ( $this->context->indexable->object_type === 'system-page' && $this->context->indexable->object_sub_type === '404' ) {
 			return false;
 		}
