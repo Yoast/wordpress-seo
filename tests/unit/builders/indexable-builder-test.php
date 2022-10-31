@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -188,7 +189,7 @@ class Indexable_Builder_Test extends TestCase {
 	public function test_build_for_id_and_type_with_post_given_and_no_author_indexable_found() {
 		$this->indexable
 			->expects( 'save' )
-			->once();
+			->twice();
 
 		$this->indexable
 			->expects( 'as_array' )
@@ -224,7 +225,7 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->twice()
+			->times( 3 )
 			->withNoArgs()
 			->andReturnTrue();
 
@@ -308,7 +309,7 @@ class Indexable_Builder_Test extends TestCase {
 		// The test is complex enough in its current state.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->twice()
+			->times( 3 )
 			->withNoArgs()
 			->andReturnFalse();
 
@@ -399,7 +400,7 @@ class Indexable_Builder_Test extends TestCase {
 		// The test is complex enough in its current state.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->twice()
+			->times( 3 )
 			->withNoArgs()
 			->andReturnFalse();
 
@@ -636,6 +637,33 @@ class Indexable_Builder_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'term', $this->indexable ) );
+	}
+
+	/**
+	 * Tests whether an indexable is not being built when the object id is invalid (0).
+	 *
+	 * @covers ::build
+	 */
+	public function test_not_being_built_if_object_id_is_invalid() {
+		$this->indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable->object_id = 0;
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $this->indexable );
+
+		$this->assertFalse( $this->instance->build( $this->indexable ) );
 	}
 
 	/**
