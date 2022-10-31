@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
@@ -6,22 +7,6 @@ import { createInterpolateElement } from "@wordpress/element";
 import { makeOutboundLink } from "@yoast/helpers";
 
 import LinkSuggestion from "./link-suggestion";
-
-const introMessage =  createInterpolateElement(
-	sprintf(
-		/**
-		 * translators: %1$s expands to an opening anchor tag.
-		 * %2$s expands to a closing anchor tag.
-		 */
-		__( "To improve your site structure, consider linking to other relevant posts or pages on your website. %1$sRead our guide on internal linking for SEO%2$s to learn more.", "wordpress-seo" ),
-		"<a>",
-		"</a>"
-	),
-	{
-		// eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid
-		a: <a href="#" target="_blank" rel="noreferrer" style={ { cursor: "default", pointerEvents: "none" } } />,
-	}
-);
 
 const OutboundLink = makeOutboundLink();
 const upsellLink = "https://yoa.st/link-suggestions-upsell";
@@ -43,6 +28,23 @@ const suggestions = [
  * @returns {void}
  */
 const LinkSuggestions = ( { location } ) => {
+	const shortlinkKey = `shortlinks.upsell.${location}.site_structure`;
+	const introMessage =  createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening anchor tag.
+			 * %2$s expands to a closing anchor tag.
+			 */
+			__( "To improve your site structure, consider linking to other relevant posts or pages on your website. %1$sRead our guide on internal linking for SEO%2$s to learn more.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid
+			a: <a href={ wpseoAdminL10n[ shortlinkKey ] } target="_blank" rel="noreferrer" />,
+		}
+	);
+
 	const additionalStyle = { minHeight: "revert", maxHeight: "30px" };
 	if ( location === "metabox" ) {
 		additionalStyle.marginTop = "8px";
@@ -57,11 +59,9 @@ const LinkSuggestions = ( { location } ) => {
 				) }
 				<span aria-hidden="true" className="yoast-button-upsell__caret" />
 			</OutboundLink>
+			<p style={ { marginTop: 10 } }>{ introMessage }</p>
 			<div style={ { opacity: 0.5 } }>
-				<p style={ { marginTop: 10 } }>{ introMessage }</p>
-				<div>
-					{ suggestions.map( ( suggestion, key ) => <LinkSuggestion key={ key } { ...suggestion } /> ) }
-				</div>
+				{ suggestions.map( ( suggestion, key ) => <LinkSuggestion key={ key } { ...suggestion } /> ) }
 			</div>
 		</LinkSuggestionsWrapper>
 	);

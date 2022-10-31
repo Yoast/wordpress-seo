@@ -72,7 +72,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					<SidebarCollapsible
 						title={ __( "Internal linking suggestions", "wordpress-seo" ) }
 					>
-						<LinkSuggestions />
+						<LinkSuggestions location="elementor" />
 					</SidebarCollapsible>
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 25 }>
