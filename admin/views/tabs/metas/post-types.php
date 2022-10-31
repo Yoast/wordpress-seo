@@ -11,6 +11,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+WPSEO_Post_Type::remove_post_types_made_public_notification();
+WPSEO_Post_Type::remove_taxonomies_made_public_notification();
+
 /*
  * WPSEO_Post_Type::get_accessible_post_types() should *not* be used here.
  * Otherwise setting a post-type to `noindex` will remove it from the list,

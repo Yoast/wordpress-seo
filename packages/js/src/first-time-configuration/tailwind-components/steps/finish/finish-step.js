@@ -33,7 +33,7 @@ function regularContent() {
  * @returns {WPElement} The webinar promo content.
  */
 function webinarPromoContent() {
-	const webinarIntroSettingsUrl = get( window, "wpseoScriptData.webinarIntroSettingsUrl", "https://yoa.st/webinar-intro-first-time-config" );
+	const webinarIntroFirstTimeConfigUrl = get( window, "wpseoScriptData.webinarIntroFirstTimeConfigUrl", "https://yoa.st/webinar-intro-first-time-config" );
 
 	return (
 		<>
@@ -43,7 +43,7 @@ function webinarPromoContent() {
 			<p className="yst-text-sm yst-mb-6">
 				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our free weekly webinar!", "wordpress-seo" ) }
 			</p>
-			<a href={ webinarIntroSettingsUrl } id="link-webinar-register" target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
+			<a href={ webinarIntroFirstTimeConfigUrl } id="link-webinar-register" target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
 			<button

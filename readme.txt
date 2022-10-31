@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.0
+Tested up to: 6.1
 Stable tag: 19.9
 Requires PHP: 5.6.20
 
@@ -245,6 +245,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.10 =
+Release Date: November 8th, 2022
+
+
+Enhancements:
+
+* Improves the call-to-action feedback string of Flesch Reading Ease insight when the text is recognized as fairly difficult.
+
+Bugfixes:
+
+* Fixes a bug where users with site-wide basic access authentication are prompted to insert their credentials when saving a post in Elementor if they don't have the `manage_options` capability.
+* Fixes a bug where Yoast SEO-related post meta data is not saved if a user without the `manage_options` capability saves a post in Elementor.
+
+Other:
+
+* Adds a sale badge to the upsell on our main settings page, that is temporarily shown.
+* Ensures compatibility with the High Performance Order Storage feature in WooCommerce 7.1+.
+* Sets the WordPress tested up to version to 6.1.
+
 = 19.9 =
 Release Date: October 25th, 2022
 
@@ -271,33 +290,6 @@ Other:
 * Adds taxonomy information to breadcrumbs of type "term" to be able to filter them better with the `wpseo_breadcrumb_links` filter. Props to [@svenvonarx](https://github.com/svenvonarx).
 * Adds a `wpseo_primary_category_admin_pages` filter to enable the use of the primary category in the post URL of additional admin pages besides the default ones. Props to [@ssvet](https://github.com/ssvet).
 * Reinstates the `wpseo_twitter_card_type` filter that was wrongly deprecated in 19.8.
-
-= 19.8 =
-Release Date: October 11th, 2022
-
-Yoast SEO 19.8 is out now! In this release, we’ve mainly focused on enhancements, fixes, and other improvements. For instance, you’ll find improvements to our structured data implementation. Check it out! Read more about what's new in Yoast SEO 19.8 in [our release post in English](https://yoa.st/release-11-10-22) or [our release post in Spanish](https://yoa.st/release-11-10-22-spanish)!
-
-Enhancements:
-
-* Enhances the Schema breadcrumbs generation to make sure that empty list items are not included, preventing Schema validation errors.
-* Adds a `X-Robots-Tag: noindex, follow` header to all comment feeds to prevent them from being indexed, reducing duplicate content.
-* Removes two notifications from the Yoast SEO dashboard: the one suggesting enabling auto-updates, and the one suggesting activating an add-on that is installed but currently inactive.
-* Forces the `twitter:card` meta tag to the preferred `summary_large_image` value.
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown on WordPress.com using PHP 8.0 in relation with the Debug Bar.
-* Fixes a bug where a fatal error would be thrown when the `php_uname()` function is disabled by the web hosting provider and usage tracking is enabled.
-* Fixes a bug where changes in the replacement variables (e.g. the value of the `%%title%%` replacement variable when the post title changes) would not be reflected in the Meta description length, the SEO title width, and the Keyphrase in SEO title assessments.
-* Fixes a bug where passing `__false` to the `wpseo_robots` filter would result in a `max-image-preview:large` robots meta directive instead of the desired `noindex, nofollow` directive.
-* Fixes a bug where robots meta tags would be unintentionally synchronized between pages in different languages when using multilingual plugins like WPML or Polylang.
-* Fixes a bug where the query parameters from an image URL would be omitted in the sitemap.xml.
-* Fixes a bug where the sidebar issue counter would show a wrong number of issues, on the first page load after an issue was resolved.
-* Fixes a bug where Yoast SEO would conflict with Elementor, when Yoast SEO Premium or Yoast News SEO or Yoast Video SEO is active, throwing console errors.
-
-Other:
-
-* Deprecates the `wpseo_twitter_card_type` filter.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -74,9 +74,6 @@ class Post_Type_Helper {
 	 * @return array Array with all the accessible post_types.
 	 */
 	public function get_accessible_post_types() {
-		if ( ! \did_action( 'init' ) ) {
-			\_doing_it_wrong( __METHOD__, 'is not reliable before the init hook', 'YoastSEO v19.10' );
-		}
 		$post_types = \get_post_types( [ 'public' => true ] );
 		$post_types = \array_filter( $post_types, 'is_post_type_viewable' );
 
