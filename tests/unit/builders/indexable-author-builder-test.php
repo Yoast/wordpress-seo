@@ -166,10 +166,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
-			->andReturn( true );
-		$this->author_archive
-			->expects( 'author_has_public_posts_wp' )
-			->with( 1 )
+			->twice()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'are_disabled' )
@@ -240,12 +237,9 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'author_has_public_posts_wp' )
-			->with( 1 )
-			->andReturn( true );
-		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
+			->twice()
 			->andReturn( true );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -305,10 +299,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
-			->andReturn( true );
-		$this->author_archive
-			->expects( 'author_has_public_posts_wp' )
-			->with( 1 )
+			->twice()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'are_disabled' )
@@ -383,10 +374,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
-			->andReturn( true );
-		$this->author_archive
-			->expects( 'author_has_public_posts_wp' )
-			->with( 1 )
+			->twice()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'are_disabled' )
@@ -431,7 +419,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->andReturn( true );
 
 		$this->author_archive
-			->expects( 'author_has_public_posts_wp' )
+			->expects( 'author_has_public_posts' )
 			->with( 1 )
 			->andReturn( true );
 
@@ -455,7 +443,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'author_has_public_posts_wp' )
+			->expects( 'author_has_public_posts' )
 			->with( $user_id )
 			->andReturn( false );
 
@@ -478,7 +466,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'author_has_public_posts_wp' )
+			->expects( 'author_has_public_posts' )
 			->with( $user_id )
 			->andReturn( false );
 

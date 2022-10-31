@@ -338,11 +338,18 @@ class Indexable_Builder {
 						false
 					);
 					if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
-						$author_defaults = [
+						// Save indexable, to make sure that it can be queried when determining if an author has public posts.
+						$this->save_indexable( $indexable, $indexable_before );
+						// Try to build the author.
+						$author_defaults  = [
 							'object_type' => 'user',
 							'object_id'   => $indexable->author_id,
 						];
-						$this->build( $author_indexable, $author_defaults );
+						$author_indexable = $this->build( $author_indexable, $author_defaults );
+						if ( $author_indexable ) {
+							// Set author ID.
+							$indexable->author_id = $author_indexable->id;
+						}
 					}
 					break;
 

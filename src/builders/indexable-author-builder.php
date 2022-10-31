@@ -214,7 +214,7 @@ class Indexable_Author_Builder {
 			$exception = Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
 		}
 
-		if ( $this->author_archive->author_has_public_posts_wp( $user_id ) === false ) {
+		if ( $this->author_archive->author_has_public_posts( $user_id ) === false ) {
 			$exception = Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
 		}
 
