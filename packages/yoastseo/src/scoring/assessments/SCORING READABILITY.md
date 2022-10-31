@@ -101,6 +101,7 @@
 
 |Bullet	|Score	|Criterion|	Feedback|
 |-------|------	|----- |------- |
+|Red	|3|	No transition words found	   |**Transition words**: None of the sentences contain transition words. **Use some**.|
 |Red	|3|	< 20% of sentences	           |**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
 |Orange	|6|	Between 20 and 30% of sentences|**Transition words**: Only X of the sentences contain them. This is not enough. **Use more transition words**.|
 |Green	|9|	≥ 30% of sentences             |**Transition words**: Well done!|

@@ -230,16 +230,20 @@ class SubheadingsDistributionTooLong extends Assessment {
 						score: this._config.scores.okSubheadings,
 						hasMarks: false,
 						resultText: sprintf(
-							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+							 * %4$s expands to the recommended number of words following a subheading,
+							 * %5$s expands to the word 'words' or 'characters'.
+							 */
 							__(
 								// eslint-disable-next-line max-len
-								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s words and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
+								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s %5$s and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
 								"wordpress-seo"
 							),
 							this._config.urlTitle,
 							"</a>",
 							this._config.urlCallToAction,
-							this._config.parameters.recommendedMaximumLength
+							this._config.parameters.recommendedMaximumLength,
+							this._config.countTextIn
 						),
 					};
 				}
@@ -252,16 +256,20 @@ class SubheadingsDistributionTooLong extends Assessment {
 						score: this._config.scores.badSubheadings,
 						hasMarks: false,
 						resultText: sprintf(
-							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
+							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+							 * %4$s expands to the recommended number of words following a subheading,
+							 * %5$s expands to the word 'words' or 'characters'.
+							 */
 							__(
 								// eslint-disable-next-line max-len
-								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s words and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
+								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s %5$s and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
 								"wordpress-seo"
 							),
 							this._config.urlTitle,
 							"</a>",
 							this._config.urlCallToAction,
-							this._config.parameters.recommendedMaximumLength
+							this._config.parameters.recommendedMaximumLength,
+							this._config.countTextIn
 						),
 					};
 				}
