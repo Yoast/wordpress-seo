@@ -92,7 +92,7 @@ class Indexable_Term_Builder {
 		}
 
 		$indexable_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
-		if ( ! in_array( $term->taxonomy, $indexable_taxonomies, true ) ) {
+		if ( ! \in_array( $term->taxonomy, $indexable_taxonomies, true ) ) {
 			throw Term_Not_Built_Exception::because_not_indexable( $term_id );
 		}
 
