@@ -189,7 +189,7 @@ class Indexable_Builder_Test extends TestCase {
 	public function test_build_for_id_and_type_with_post_given_and_no_author_indexable_found() {
 		$this->indexable
 			->expects( 'save' )
-			->once();
+			->twice();
 
 		$this->indexable
 			->expects( 'as_array' )
@@ -225,7 +225,7 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->twice()
+			->times( 3 )
 			->withNoArgs()
 			->andReturnTrue();
 
@@ -309,7 +309,7 @@ class Indexable_Builder_Test extends TestCase {
 		// The test is complex enough in its current state.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->twice()
+			->times( 3 )
 			->withNoArgs()
 			->andReturnFalse();
 
@@ -400,7 +400,7 @@ class Indexable_Builder_Test extends TestCase {
 		// The test is complex enough in its current state.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->twice()
+			->times( 3 )
 			->withNoArgs()
 			->andReturnFalse();
 

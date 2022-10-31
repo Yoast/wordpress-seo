@@ -314,6 +314,7 @@ class Indexable_Builder {
 			false
 		);
 		if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
+			// Try to build the author.
 			$author_defaults  = [
 				'object_type' => 'user',
 				'object_id'   => $author_id,
@@ -359,7 +360,15 @@ class Indexable_Builder {
 					// Always rebuild the hierarchy; this needs the primary term to run correctly.
 					$this->hierarchy_builder->build( $indexable );
 
-					$this->maybe_build_author_indexable( $indexable->author_id );
+					// Save indexable, to make sure that it can be queried when determining if an author has public posts.
+					$indexable = $this->save_indexable( $indexable, $indexable_before );
+
+					$author_indexable = $this->maybe_build_author_indexable( $indexable->author_id );
+
+					if ( $author_indexable ) {
+						// Set author ID.
+						$indexable->author_id = $author_indexable->id;
+					}
 					break;
 
 				case 'user':
