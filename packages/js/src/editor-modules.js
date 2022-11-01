@@ -3,8 +3,6 @@ import * as constants from "./analysis/constants";
 import getContentLocale from "./analysis/getContentLocale";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
 import getL10nObject from "./analysis/getL10nObject";
-import isZapierConnected from "./analysis/isZapierConnected";
-import isZapierIntegrationActive from "./analysis/isZapierIntegrationActive";
 import * as refreshAnalysis from "./analysis/refreshAnalysis";
 import * as mapResults from "./components/contentAnalysis/mapResults";
 import HelpLink from "./components/HelpLink";
@@ -39,8 +37,6 @@ window.yoast.editorModules = {
 		getL10nObject,
 		getContentLocale,
 		getIndicatorForScore,
-		isZapierConnected,
-		isZapierIntegrationActive,
 		constants,
 		refreshAnalysis,
 	},
