@@ -104,7 +104,7 @@ const expectedResults = {
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
-		score: 2,
+		score: 3,
 		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: The beginning of your " +
 			"text is longer than 300 words and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability.</a>",
 	},

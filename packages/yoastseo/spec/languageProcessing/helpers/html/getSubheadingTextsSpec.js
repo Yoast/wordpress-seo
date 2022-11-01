@@ -30,7 +30,7 @@ describe( "A function to get all text blocks from subheadings", function() {
 		expect( result[ 0 ].index ).toEqual( 45 );
 		expect( result[ 1 ].subheading ).toEqual( "<h2>second subheading</h2>" );
 		expect( result[ 1 ].text ).toEqual( "this is the text after the second subheading." );
-		expect( result[ 1 ].index ).toEqual( 105 );
+		expect( result[ 1 ].index ).toEqual( 106 );
 	} );
 
 	it( "returns an empty array of found subheadings if no subheading is found", function() {
