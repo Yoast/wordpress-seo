@@ -10,6 +10,24 @@ use Yoast\WP\Lib\Model;
 class Author_Archive_Helper {
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * Creates a new author archive helper.
+	 *
+	 * @param Options_Helper $options_helper The options helper.
+	 */
+	public function __construct(
+		Options_Helper $options_helper
+	) {
+		$this->options_helper = $options_helper;
+	}
+
+	/**
 	 * Gets the array of post types that are shown on an author's archive.
 	 *
 	 * @return array The post types that are shown on an author's archive.
@@ -44,6 +62,15 @@ class Author_Archive_Helper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks whether author archives are disabled.
+	 *
+	 * @return bool `true` if author archives are disabled, `false` if not.
+	 */
+	public function are_disabled() {
+		return $this->options_helper->get( 'disable-author' );
 	}
 
 	/**
