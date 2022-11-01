@@ -98,7 +98,6 @@ function registerFills( store ) {
 	};
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
-	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
@@ -133,14 +132,6 @@ function registerFills( store ) {
 			>
 				<PrePublish />
 			</PluginPrePublishPanel> }
-			{ isPremium && showZapierPanel && <PluginPrePublishPanel
-				className="yoast-seo-sidebar-panel"
-				title="Zapier"
-				initialOpen={ true }
-				icon={ <Fragment /> }
-			>
-				<Slot name="YoastZapierPrePublish" />
-			</PluginPrePublishPanel> }
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"
 				title={ __( "Yoast SEO", "wordpress-seo" ) }
@@ -148,6 +139,7 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
+				{ isPremium && <Slot name="YoastZapierPostPublish" /> }
 				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
