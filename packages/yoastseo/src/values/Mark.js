@@ -46,10 +46,10 @@ Mark.prototype.getFieldsToMark = function() {
  * Applies this mark to the given text.
  *
  * @param {string} text The original text without the mark applied.
- * @returns {string} The A new text with the mark applied to it.
+ * @returns {string} A new text with the mark applied to it.
  */
 Mark.prototype.applyWithReplace = function( text ) {
-	// Cute method to replace everything in a string without using regex.
+	// (=^ ◡ ^=) Cute method to replace everything in a string without using regex.
 	return text.split( this._properties.original ).join( this._properties.marked );
 };
 
