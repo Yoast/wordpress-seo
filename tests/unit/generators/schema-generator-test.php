@@ -229,6 +229,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->context->has_image                  = false;
+		$this->context->alternate_site_name        = '';
 		$this->context->schema_page_type           = [ 'WebPage' ];
 		$this->context->presentation->breadcrumbs  = [
 			[
@@ -334,6 +335,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_empty_breadcrumb() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->context->has_image                  = false;
+		$this->context->alternate_site_name        = 'Alt Name';
 		$this->context->schema_page_type           = [ 'WebPage' ];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
@@ -387,6 +389,7 @@ class Schema_Generator_Test extends TestCase {
 						'@id'             => '#website',
 						'url'             => null,
 						'name'            => '',
+						'alternateName'   => 'Alt Name',
 						'description'     => 'description',
 						'potentialAction' => [
 							[
@@ -417,6 +420,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -609,6 +613,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -671,6 +676,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->blocks = [];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -768,6 +774,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->blocks = [];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -860,6 +867,7 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_get_graph_pieces_on_single_post_with_password_required() {
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -973,6 +981,7 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_search_page() {
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->context->has_image                  = false;
 		$this->context->site_url                   = 'https://fake.url/';

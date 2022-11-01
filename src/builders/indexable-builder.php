@@ -380,16 +380,17 @@ class Indexable_Builder {
 			 *
 			 * @var Indexable $indexable
 			 */
-			$indexable = $this->indexable_repository
-				->query()
-				->create(
-					[
-						'object_id'   => $indexable->object_id,
-						'object_type' => $indexable->object_type,
-						'post_status' => 'unindexed',
-						'version'     => 0,
-					]
-				);
+			$indexable = $this->ensure_indexable(
+				$indexable,
+				[
+					'object_id'   => $indexable->object_id,
+					'object_type' => $indexable->object_type,
+					'post_status' => 'unindexed',
+					'version'     => 0,
+				]
+			);
+			// If we already had an existing indexable, mark it as unindexed. We cannot rely on its validity anymore.
+			$indexable->post_status = 'unindexed';
 			// Make sure that the indexing process doesn't get stuck in a loop on this broken indexable.
 			$indexable = $this->version_manager->set_latest( $indexable );
 
