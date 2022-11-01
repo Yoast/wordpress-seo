@@ -23,7 +23,6 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
-import LinkSuggestions from "../link-suggestions";
 
 /* eslint-disable complexity */
 /**
@@ -57,7 +56,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				>
 					<Warning />
 				</SidebarItem>
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 7 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
@@ -105,15 +104,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<WincherSEOPerformance />
 					</MetaboxCollapsible>
 				</SidebarItem> }
-				{ ! window.wpseoScriptData.metabox.isPremium &&
-					<SidebarItem key="internal-linking-suggestions-upsell-metabox" renderPriority={ 26 }>
-						<MetaboxCollapsible
-							title={ __( "Internal linking suggestions", "wordpress-seo" ) }
-						>
-							<LinkSuggestions  location="metabox" />
-						</MetaboxCollapsible>
-					</SidebarItem>
-				}
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }
