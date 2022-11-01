@@ -1,4 +1,5 @@
 /* global wpseoFirstTimeConfigurationData */
+/* global yoastIndexingData */
 import apiFetch from "@wordpress/api-fetch";
 import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -207,7 +208,8 @@ export default function FirstTimeConfigurationSteps() {
 	const [ state, dispatch ] = useReducer( configurationReducer, {
 		...calculateInitialState( window.wpseoFirstTimeConfigurationData, isStepFinished ),
 	} );
-	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
+	// If the 'start indexation' button should be hidden, set the indexingState to already_done.
+	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" || ! yoastIndexingData.shouldShowIndexingButton ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 

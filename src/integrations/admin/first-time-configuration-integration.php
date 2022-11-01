@@ -9,6 +9,7 @@ use WPSEO_Option_Tab;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -40,6 +41,13 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @var WPSEO_Shortlinker
 	 */
 	private $shortlinker;
+
+	/**
+	 * Represents the indexing helper.
+	 *
+	 * @var Indexing_Helper
+	 */
+	protected $indexing_helper;
 
 	/**
 	 * The options' helper.
@@ -82,6 +90,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
 	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
 	 * @param WPSEO_Shortlinker         $shortlinker            The shortlinker.
+	 * @param Indexing_Helper           $indexing_helper The indexing helper.
 	 * @param Options_Helper            $options_helper         The options helper.
 	 * @param Social_Profiles_Helper    $social_profiles_helper The social profile helper.
 	 * @param Product_Helper            $product_helper         The product helper.
@@ -91,6 +100,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		WPSEO_Addon_Manager $addon_manager,
 		WPSEO_Shortlinker $shortlinker,
+		Indexing_Helper $indexing_helper,
 		Options_Helper $options_helper,
 		Social_Profiles_Helper $social_profiles_helper,
 		Product_Helper $product_helper,
@@ -99,6 +109,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->addon_manager          = $addon_manager;
 		$this->shortlinker            = $shortlinker;
+		$this->indexing_helper        = $indexing_helper;
 		$this->options_helper         = $options_helper;
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->product_helper         = $product_helper;
@@ -144,15 +155,16 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'disabled'     => ! \YoastSEO()->helpers->indexable->should_index_indexables(),
-			'amount'       => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
-			'firstTime'    => ( \YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
-			'errorMessage' => '',
-			'restApi'      => [
+			'disabled'                 => ! \YoastSEO()->helpers->indexable->should_index_indexables(),
+			'amount'                   => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
+			'firstTime'                => ( \YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
+			'errorMessage'             => '',
+			'restApi'                  => [
 				'root'               => \esc_url_raw( \rest_url() ),
 				'indexing_endpoints' => $this->get_endpoints(),
 				'nonce'              => \wp_create_nonce( 'wp_rest' ),
 			],
+			'shouldShowIndexingButton' => $this->indexing_helper->should_show_optimization_button(),
 		];
 
 		/**
