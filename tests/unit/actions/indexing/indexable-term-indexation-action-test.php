@@ -105,10 +105,10 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms', '10', \DAY_IN_SECONDS )->andReturnTrue();
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturn(
 			[
-				'public_taxonomy' => 'public_taxonomy',
-				'other_taxonomy'  => 'other_taxonomy',
+				'public_taxonomy',
+				'other_taxonomy',
 			]
 		);
 		$this->wpdb->expects( 'prepare' )
@@ -148,12 +148,13 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited', \count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturn(
 			[
-				'public_taxonomy' => 'public_taxonomy',
-				'other_taxonomy'  => 'other_taxonomy',
+				'public_taxonomy',
+				'other_taxonomy',
 			]
 		);
+
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy', $limit ] )
@@ -193,10 +194,9 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			->andReturn( true );
 
 		$this->taxonomy
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->once()
-			->andReturn( [ 'public_taxonomy' => 'public_taxonomy' ] );
-
+			->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb
 			->expects( 'prepare' )
 			->once()
@@ -231,10 +231,10 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );
 
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturn(
 			[
-				'public_taxonomy' => 'public_taxonomy',
-				'other_taxonomy'  => 'other_taxonomy',
+				'public_taxonomy',
+				'other_taxonomy',
 			]
 		);
 		$this->wpdb->expects( 'prepare' )
@@ -262,7 +262,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	public function test_index_with_limit_filter_no_int() {
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 'not an integer' );
 
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' => 'public_taxonomy' ] );
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
@@ -297,10 +297,10 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );
 
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturn(
 			[
-				'public_taxonomy' => 'public_taxonomy',
-				'other_taxonomy'  => 'other_taxonomy',
+				'public_taxonomy',
+				'other_taxonomy',
 			]
 		);
 		$this->wpdb->expects( 'prepare' )

@@ -123,8 +123,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_type_helper->expects( 'get_indexable_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
@@ -165,8 +164,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_type_helper->expects( 'get_indexable_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->assertEquals( \count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
@@ -198,8 +196,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->with( 'wpseo_total_unindexed_posts', 0, ( \MINUTE_IN_SECONDS * 15 ) )
 			->andReturnFalse();
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_type_helper->expects( 'get_indexable_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
@@ -217,9 +214,8 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_with_excluded_post_types() {
-		$public_post_types   = [ 'public_post_type', 'excluded_post_type' ];
-		$excluded_post_types = [ 'excluded_post_type' ];
-		$query_params        = [ 'public_post_type', 'auto-draft', 2 ];
+		$public_post_types = [ 'public_post_type' ];
+		$query_params      = [ 'public_post_type', 'auto-draft', 2 ];
 
 		$expected_query = "
 			SELECT COUNT(P.ID)
@@ -234,8 +230,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( $public_post_types );
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( $excluded_post_types );
+		$this->post_type_helper->expects( 'get_indexable_post_types' )->once()->andReturn( $public_post_types );
 		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )
@@ -270,13 +265,10 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
 		$this->post_type_helper
-			->expects( 'get_public_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'public_post_type' ] );
-		$this->post_type_helper
-			->expects( 'get_excluded_post_types_for_indexables' )
-			->once()
-			->andReturn( [] );
+
 		$this->post_helper->expects( 'get_excluded_post_statuses' )
 			->once()
 			->andReturn( [ 'auto-draft' ] );
@@ -314,8 +306,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	public function test_index_with_limit_filter_no_int() {
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 'not an integer' );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_type_helper->expects( 'get_indexable_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
@@ -340,8 +331,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_post_types
 	 */
 	public function test_index_with_excluded_post_types() {
-		$public_post_types   = [ 'public_post_type', 'excluded_post_type' ];
-		$excluded_post_types = [ 'excluded_post_type' ];
+		$public_post_types = [ 'public_post_type' ];
 
 		$expected_query = "
 			SELECT P.ID
@@ -357,13 +347,9 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
 		$this->post_type_helper
-			->expects( 'get_public_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( $public_post_types );
-		$this->post_type_helper
-			->expects( 'get_excluded_post_types_for_indexables' )
-			->once()
-			->andReturn( $excluded_post_types );
 		$this->post_helper
 			->expects( 'get_excluded_post_statuses' )
 			->once()
@@ -415,13 +401,9 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
 		$this->post_type_helper
-			->expects( 'get_public_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'public_post_type' ] );
-		$this->post_type_helper
-			->expects( 'get_excluded_post_types_for_indexables' )
-			->once()
-			->andReturn( [] );
 		$this->post_helper
 			->expects( 'get_excluded_post_statuses' )
 			->once()
