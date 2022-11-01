@@ -24,6 +24,7 @@ import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
 import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords";
 import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags";
 import sanitizeString from "./helpers/sanitize/sanitizeString";
+import { unifyAllSpaces } from "./helpers/sanitize/unifyWhitespace";
 import removePunctuation from "./helpers/sanitize/removePunctuation";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
@@ -61,4 +62,5 @@ export {
 	removePunctuation,
 	getLanguage,
 	getSentences,
+	unifyAllSpaces,
 };

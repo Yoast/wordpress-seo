@@ -17,9 +17,13 @@ const ToggleField = withDisabledMessageSupport( PureToggleField );
  * @param {JSX.node} [children] Optional extra content.
  * @returns {JSX.Element} The card header.
  */
-const CardHeader = ( { src, alt, children = null } ) => (
+const CardHeader = ( {
+	// src,
+	// alt,
+	children = null,
+} ) => (
 	<Card.Header className="yst-p-0">
-		<img
+		{ /* <img
 			className="yst-w-full yst-h-full yst-object-cover yst-object-center"
 			src={ src }
 			alt={ alt }
@@ -27,14 +31,14 @@ const CardHeader = ( { src, alt, children = null } ) => (
 			height={ 250 }
 			loading="lazy"
 			decoding="async"
-		/>
+		/> */ }
 		{ children }
 	</Card.Header>
 );
 
 CardHeader.propTypes = {
-	src: PropTypes.string.isRequired,
-	alt: PropTypes.string.isRequired,
+	// src: PropTypes.string.isRequired,
+	// alt: PropTypes.string.isRequired,
 	children: PropTypes.node,
 };
 

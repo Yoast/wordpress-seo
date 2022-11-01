@@ -20,12 +20,27 @@ echo '<h3>' . esc_html( sprintf( __( 'Single %s settings', 'wordpress-seo' ), $w
 require __DIR__ . '/post_type/post-type.php';
 
 /**
+ * WARNING: This hook is intended for internal use only.
+ * Don't use it in your code as it will be removed shortly.
+ */
+// phpcs:ignore Yoast.NamingConventions.ValidHookName.MaxExceeded -- Added _internal suffix for clarity.
+do_action( 'Yoast\WP\SEO\admin_post_types_beforearchive_internal', $yform, $wpseo_post_type->name );
+
+/**
  * Allow adding custom fields to the admin meta page, just before the archive settings - Content Types tab.
+ *
+ * @deprecated 19.10 No replacement available.
  *
  * @param Yoast_Form $yform The Yoast_Form object.
  * @param string     $name  The post type name.
  */
-do_action( 'Yoast\WP\SEO\admin_post_types_beforearchive', $yform, $wpseo_post_type->name );
+do_action_deprecated(
+	'Yoast\WP\SEO\admin_post_types_beforearchive',
+	[ $yform, $wpseo_post_type->name ],
+	'19.10',
+	'',
+	'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
+);
 
 if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->is_active() ) {
 	require __DIR__ . '/post_type/woocommerce-shop-page.php';
@@ -84,12 +99,27 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	}
 
 	/**
+	 * WARNING: This hook is intended for internal use only.
+	 * Don't use it in your code as it will be removed shortly.
+	 */
+	// phpcs:ignore Yoast.NamingConventions.ValidHookName.MaxExceeded -- Added _internal suffix for clarity.
+	do_action( 'Yoast\WP\SEO\admin_post_types_archive_internal', $yform, $wpseo_post_type->name );
+
+	/**
 	 * Allow adding custom fields to the admin meta page at the end of the archive settings for a post type - Content Types tab.
+	 *
+	 * @deprecated 19.10 No replacement available.
 	 *
 	 * @param Yoast_Form $yform The Yoast_Form object.
 	 * @param string     $name  The post type name.
 	 */
-	do_action( 'Yoast\WP\SEO\admin_post_types_archive', $yform, $wpseo_post_type->name );
+	do_action_deprecated(
+		'Yoast\WP\SEO\admin_post_types_archive',
+		[ $yform, $wpseo_post_type->name ],
+		'19.10',
+		'',
+		'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
+	);
 }
 
 /**
