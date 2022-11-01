@@ -229,6 +229,10 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		if ( ! $this->environment_helper->is_production_mode() ) {
 			return false;
 		}
+		// Do not show optimization notification if the number of unindexed objects is less than 10 or less than 4% of the total objects number.
+		if ( ! $this->indexing_helper->should_show_optimization_button() ) {
+			return false;
+		}
 		// Don't show a notification if the indexing has already been started earlier.
 		if ( $this->indexing_helper->get_started() > 0 ) {
 			return false;

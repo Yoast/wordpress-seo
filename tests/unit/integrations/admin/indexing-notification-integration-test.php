@@ -265,6 +265,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		$this->indexing_helper
+			->expects( 'should_show_optimization_button' )
+			->andReturn( true );
+
+		$this->indexing_helper
 			->expects( 'get_started' )
 			->andReturn( 0 );
 
@@ -294,6 +298,11 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		$this->indexing_helper
+			->expects( 'should_show_optimization_button' )
+			->andReturn( true );
+
+
+		$this->indexing_helper
 			->expects( 'get_started' )
 			->andReturn( 123456789 );
 
@@ -318,6 +327,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function test_maybe_create_notification_with_indexing_failed_reason() {
 		$this->environment_helper
 			->expects( 'is_production_mode' )
+			->andReturn( true );
+
+		$this->indexing_helper
+			->expects( 'should_show_optimization_button' )
 			->andReturn( true );
 
 		$this->indexing_helper
@@ -369,6 +382,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function test_maybe_create_notification_with_indexing_reasons( $reason ) {
 		$this->environment_helper
 			->expects( 'is_production_mode' )
+			->andReturn( true );
+
+		$this->indexing_helper
+			->expects( 'should_show_optimization_button' )
 			->andReturn( true );
 
 		$this->indexing_helper
@@ -454,6 +471,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->expects( 'is_production_mode' )
 			->andReturn( true );
 
+		$this->indexing_helper
+			->expects( 'should_show_optimization_button' )
+			->andReturn( true );
+
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
@@ -489,6 +510,11 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->expects( 'is_production_mode' )
 			->andReturn( true );
 
+		$this->indexing_helper
+			->expects( 'should_show_optimization_button' )
+			->andReturn( true );
+
+
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
@@ -519,6 +545,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	public function test_maybe_cleanup_notification() {
 		$this->environment_helper
 			->expects( 'is_production_mode' )
+			->andReturn( true );
+
+		$this->indexing_helper
+			->expects( 'should_show_optimization_button' )
 			->andReturn( true );
 
 		$this->notification_center
@@ -555,6 +585,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->environment_helper
 			->expects( 'is_production_mode' )
 			->andReturn( false );
+
 
 		$this->notification_center
 			->expects( 'add_notification' )
