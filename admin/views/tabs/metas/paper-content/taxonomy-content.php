@@ -63,12 +63,26 @@ $editor->render();
 echo '</div>';
 
 /**
+ * WARNING: This hook is intended for internal use only.
+ * Don't use it in your code as it will be removed shortly.
+ */
+do_action( 'Yoast\WP\SEO\admin_taxonomies_meta_internal', $yform, $wpseo_taxonomy );
+
+/**
  * Allow adding custom checkboxes to the admin meta page - Taxonomies tab.
+ *
+ * @deprecated 19.10 No replacement available.
  *
  * @param Yoast_Form  $yform          The Yoast_Form object.
  * @param WP_Taxonomy $wpseo_taxonomy The taxonomy.
  */
-do_action( 'Yoast\WP\SEO\admin_taxonomies_meta', $yform, $wpseo_taxonomy );
+do_action_deprecated(
+	'Yoast\WP\SEO\admin_taxonomies_meta',
+	[ $yform, $wpseo_taxonomy ],
+	'19.10',
+	'',
+	'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
+);
 
 /**
  * Allow adding custom checkboxes to the admin meta page - Taxonomies tab.

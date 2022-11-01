@@ -73,7 +73,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return string The prepared query string.
 	 */
 	protected function get_count_query() {
-		$public_post_types = $this->post_type_helper->get_accessible_post_types();
+		$public_post_types = $this->get_post_types();
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 
@@ -106,7 +106,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return string The prepared query string.
 	 */
 	protected function get_select_query( $limit = false ) {
-		$public_post_types = $this->post_type_helper->get_accessible_post_types();
+		$public_post_types = $this->get_post_types();
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
@@ -138,5 +138,18 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			$limit_query",
 			$replacements
 		);
+	}
+
+	/**
+	 * Returns the post types that should be indexed.
+	 *
+	 * @return array The post types that should be indexed.
+	 */
+	protected function get_post_types() {
+		$public_post_types   = $this->post_type_helper->get_accessible_post_types();
+		$excluded_post_types = $this->post_type_helper->get_excluded_post_types_for_indexables();
+
+		// `array_values`, to make sure that the keys are reset.
+		return \array_values( \array_diff( $public_post_types, $excluded_post_types ) );
 	}
 }

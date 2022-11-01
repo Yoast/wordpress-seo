@@ -57,11 +57,11 @@ class Social_Templates_Integration implements Integration_Interface {
 	 * Initializes the integration.
 	 */
 	public function register_hooks() {
-		\add_action( 'Yoast\WP\SEO\admin_author_archives_meta', [ $this, 'social_author_archives' ] );
-		\add_action( 'Yoast\WP\SEO\admin_date_archives_meta', [ $this, 'social_date_archives' ] );
-		\add_action( 'Yoast\WP\SEO\admin_post_types_beforearchive', [ $this, 'social_post_type' ], \PHP_INT_MAX, 2 );
-		\add_action( 'Yoast\WP\SEO\admin_post_types_archive', [ $this, 'social_post_types_archive' ], 10, 2 );
-		\add_action( 'Yoast\WP\SEO\admin_taxonomies_meta', [ $this, 'social_taxonomies' ], 10, 2 );
+		\add_action( 'Yoast\WP\SEO\admin_author_archives_meta_internal', [ $this, 'social_author_archives' ] );
+		\add_action( 'Yoast\WP\SEO\admin_date_archives_meta_internal', [ $this, 'social_date_archives' ] );
+		\add_action( 'Yoast\WP\SEO\admin_post_types_beforearchive_internal', [ $this, 'social_post_type' ], \PHP_INT_MAX, 2 );
+		\add_action( 'Yoast\WP\SEO\admin_post_types_archive_internal', [ $this, 'social_post_types_archive' ], 10, 2 );
+		\add_action( 'Yoast\WP\SEO\admin_taxonomies_meta_internal', [ $this, 'social_taxonomies' ], 10, 2 );
 	}
 
 	/**
