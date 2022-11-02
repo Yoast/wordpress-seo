@@ -25,7 +25,6 @@ import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
 import KeywordUpsell from "../../../components/KeywordUpsell";
-import LinkSuggestions from "../../../components/link-suggestions";
 
 /* eslint-disable complexity */
 /**
@@ -67,13 +66,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
-				</SidebarItem> }
-				{ ! window.wpseoScriptData.metabox.isPremium && <SidebarItem renderPriority={ 24 }>
-					<SidebarCollapsible
-						title={ __( "Internal linking suggestions", "wordpress-seo" ) }
-					>
-						<LinkSuggestions />
-					</SidebarCollapsible>
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 25 }>
 					<GooglePreviewModal />

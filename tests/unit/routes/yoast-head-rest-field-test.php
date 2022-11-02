@@ -112,12 +112,12 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 */
 	public function test_register_routes() {
 		$this->post_type_helper
-			->expects( 'get_public_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post_type' ] );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->once()
 			->andReturn( [ 'taxonomy', 'post_tag' ] );
 
@@ -222,7 +222,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	public function test_adding_yoast_head_to_post_type_without_archive() {
 		$this->post_type_helper->expects( 'has_archive' )->with( 'no-archive' )->andReturnFalse();
 
-		$this->assertNull( $this->instance->for_post_type_archive( [ 'slug' => 'no-archive' ] ) );
+		$this->assertEquals( '', $this->instance->for_post_type_archive( [ 'slug' => 'no-archive' ] ) );
 	}
 
 	/**

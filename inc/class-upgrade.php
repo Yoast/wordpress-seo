@@ -88,7 +88,7 @@ class WPSEO_Upgrade {
 			'19.1-RC0'   => 'upgrade_191',
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
-			'19.10-RC0'  => 'upgrade_1910',
+			'19.11-RC0'  => 'upgrade_1911',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -955,9 +955,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 19.10 upgrade routine.
+	 * Performs the 19.11 upgrade routine.
 	 */
-	private function upgrade_1910() {
+	private function upgrade_1911() {
 		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
 		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
 		$this->deduplicate_unindexed_indexable_rows();
@@ -1377,9 +1377,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$post_type_helper = \YoastSEO()->helpers->post_type;
-
-		$included_post_types = \array_diff( $post_type_helper->get_accessible_post_types(), $post_type_helper->get_excluded_post_types_for_indexables() );
+		$included_post_types = \YoastSEO()->helpers->post_type->get_indexable_post_types();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
@@ -1424,7 +1422,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_public_taxonomies();
+		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {

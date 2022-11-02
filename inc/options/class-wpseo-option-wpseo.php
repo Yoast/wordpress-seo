@@ -131,6 +131,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'least_linked_ignore_list'                 => [],
 		'indexables_page_reading_list'             => [ false, false, false, false, false ],
 		'indexables_overview_state'                => 'dashboard-not-visited',
+		'last_known_public_post_types'             => [],
+		'last_known_public_taxonomies'             => [],
 	];
 
 	/**
@@ -400,6 +402,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'most_linked_ignore_list':
 				case 'least_linked_ignore_list':
 				case 'indexables_page_reading_list':
+				case 'last_known_public_post_types':
+				case 'last_known_public_taxonomies':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
