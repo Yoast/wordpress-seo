@@ -814,14 +814,14 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 		$monthnum = \get_query_var( 'monthnum' );
 		$day      = \get_query_var( 'day' );
-		$value    = $this->get_image_for_first_post_in_archive(
+
+		return $this->get_image_for_first_post_in_archive(
 			[
 				'year'     => $year,
 				'monthnum' => ( $monthnum !== 0 ) ? $monthnum : null,
 				'day'      => ( $day !== 0 ) ? $day : null,
 			]
 		);
-		return $value;
 	}
 
 	/**
@@ -830,15 +830,9 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return int|null The ID of the main image of an author archive, null if no image for the archive exists.
 	 */
 	private function get_main_image_for_author_archive() {
-		$author = \get_query_var( 'author' );
-
-		if ( $author === 0 ) {
-			return null;
-		}
-
 		return $this->get_image_for_first_post_in_archive(
 			[
-				'author' => $author,
+				'author' => $this->id,
 			]
 		);
 	}
