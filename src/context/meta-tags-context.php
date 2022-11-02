@@ -718,8 +718,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			}
 		}
 
-		// TODO: If no thumbnail is set, use the first image in the content.
-
+		$post = \get_post( $post_id );
+		if ( ! \is_null( $post ) ) {
+			$post_images = $this->image->get_images_from_post_content( $post->post_content );
+			foreach ( $post_images as $post_image ) {
+				if ( $post_image->has_id() ) {
+					return $post_image->get_id();
+				}
+			}
+		}
 		return null;
 	}
 
@@ -744,23 +751,37 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return int|null The main image ID for the system page that is being loaded.
 	 */
 	private function get_main_image_for_system_page() {
-		// TODO: Use the first image of the search results page.
 		if ( $this->indexable->object_sub_type !== 'search-result' ) {
 			return null;
+		}
+
+		$search_query = \get_search_query();
+
+		if ( $search_query !== '' ) {
+			return $this->get_image_for_first_post_in_archive(
+				[
+					's' => $search_query,
+				]
+			);
 		}
 
 		return null;
 	}
 
+	/**
+	 * Get the main image ID for a term archive page.
+	 *
+	 * @return int|null The main image ID for the first post found on the term archive page, null if no such image exists.
+	 */
 	private function get_main_image_for_term() {
 		$args = [
 			'tax_query' => [
-                                           [
-	                                           'taxonomy'         => $this->indexable->object_sub_type,
-	                                           'field'            => 'term_id',
-	                                           'terms'            => $this->id,
-	                                           'include_children' => true,
-                                           ],
+				[
+					'taxonomy'         => $this->indexable->object_sub_type,
+					'field'            => 'term_id',
+					'terms'            => $this->id,
+					'include_children' => true,
+				],
 			],
 			'post_type' => 'any',
 		];
@@ -785,8 +806,41 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return int|null The ID of the main image of a date archive, null if no image for the archive exists.
 	 */
 	private function get_main_image_for_date_archive() {
-		// TODO: Create function that generates the image ID for a date archive.
-		return null;
+		$year = \get_query_var( 'year' );
+
+		if ( $year === 0 ) {
+			return null;
+		}
+
+		$monthnum = \get_query_var( 'monthnum' );
+		$day      = \get_query_var( 'day' );
+		$value    = $this->get_image_for_first_post_in_archive(
+			[
+				'year'     => $year,
+				'monthnum' => ( $monthnum !== 0 ) ? $monthnum : null,
+				'day'      => ( $day !== 0 ) ? $day : null,
+			]
+		);
+		return $value;
+	}
+
+	/**
+	 * Get the main image for an author archive page.
+	 *
+	 * @return int|null The ID of the main image of an author archive, null if no image for the archive exists.
+	 */
+	private function get_main_image_for_author_archive() {
+		$author = \get_query_var( 'author' );
+
+		if ( $author === 0 ) {
+			return null;
+		}
+
+		return $this->get_image_for_first_post_in_archive(
+			[
+				'author' => $author,
+			]
+		);
 	}
 
 	/**
@@ -809,6 +863,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case 'date-archive':
 				return $this->get_main_image_for_date_archive();
 			case 'user':
+				return $this->get_main_image_for_author_archive();
 			default:
 				return null;
 		}
