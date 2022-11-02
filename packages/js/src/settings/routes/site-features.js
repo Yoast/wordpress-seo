@@ -51,11 +51,12 @@ const LearnMoreLink = ( { id, link } ) => {
 	const href = useSelectSettings( "selectLink", [ link ], link );
 
 	return (
+		// eslint-disable-next-line react/jsx-no-target-blank
 		<a
 			id={ id }
 			href={ href }
 			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-text-primary-500 hover:yst-text-primary-400"
-			rel="noreferrer"
+			target="_blank"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
 			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:-yst-scale-x-100" />

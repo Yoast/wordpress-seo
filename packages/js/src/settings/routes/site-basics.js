@@ -4,7 +4,7 @@ import { Alert, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-libr
 import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
 import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormLayout, OpenGraphDisabledAlert } from "../components";
-import { useSelectLink, useSelectSettings } from "../hooks";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The site defaults route.
@@ -15,16 +15,24 @@ const SiteBasics = () => {
 	const canManageOptions = useSelectSettings( "selectPreference", [], "canManageOptions", false );
 	const showForceRewriteTitlesSetting = useSelectSettings( "selectPreference", [], "showForceRewriteTitlesSetting", false );
 	const replacementVariablesLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-basics-replacement-variables" );
+	const usageTrackingLink = useSelectSettings( "selectLink", [], "https://yoa.st/usage-tracking-2" );
 
-	const usageTrackingLink = useSelectLink( {
-		link: "https://yoa.st/usage-tracking-2",
-		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-		content: __( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sLearn more about which data we track and why%2$s.", "wordpress-seo" ),
-		id: "link-usage-tracking",
-	} );
+	const usageTrackingDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+			__( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sLearn more about which data we track and why%2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a: <a id="link-usage-tracking" href={ usageTrackingLink } target="_blank" />,
+		}
+	), [] );
+
 	const siteInfoDescription = useMemo( () => createInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
+			/* translators: %1$s and %2$s expand to an opening and closing emphasis tag. %3$s and %4$s expand to an opening and closing anchor tag. */
 			__( "Set the basic info for your website. You can use %1$ssite title%2$s, %1$stagline%2$s and %1$sseparator%2$s as %3$sreplacement variables%4$s when configuring the search appearance of your content.", "wordpress-seo" ),
 			"<em>",
 			"</em>",
@@ -33,8 +41,8 @@ const SiteBasics = () => {
 		),
 		{
 			em: <em />,
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank" rel="noreferrer" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a: <a id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank" />,
 		}
 	), [] );
 	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
@@ -199,7 +207,7 @@ const SiteBasics = () => {
 						name="wpseo.tracking"
 						data-id="input-wpseo-tracking"
 						label={ __( "Usage tracking", "wordpress-seo" ) }
-						description={ usageTrackingLink }
+						description={ usageTrackingDescription }
 					/>
 				</FieldsetLayout>
 			</div>

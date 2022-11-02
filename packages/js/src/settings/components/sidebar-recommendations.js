@@ -85,7 +85,8 @@ const SidebarRecommendations = () => {
 			"<link/>"
 		),
 		{
-			link: <a href={ academyLink } target="_blank" rel="noreferrer">Yoast SEO academy</a>,
+			// eslint-disable-next-line react/jsx-no-target-blank
+			link: <a href={ academyLink } target="_blank">Yoast SEO academy</a>,
 		}
 	), [] );
 
