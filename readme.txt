@@ -249,6 +249,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: November 8th, 2022
 
 
+
 Enhancements:
 
 * Improves the call-to-action feedback string of the _Flesch Reading Ease_ insight when the text is recognized as fairly difficult.
@@ -260,8 +261,8 @@ Bugfixes:
 
 Other:
 
-* Ensures compatibility with the _High Performance Order Storage_ feature in WooCommerce 7.1+.
 * Deprecates the hooks used to add custom content to the Yoast SEO settings pages, in preparation for future releases. The following hooks have been deprecated: `wpseo_tools_overview_list_items`, `wpseo_settings_tab_crawl_cleanup`, `wpseo_settings_tab_site_analysis`, `Yoast\WP\SEO\admin_author_archives_meta`, `Yoast\WP\SEO\admin_date_archives_meta`, `Yoast\WP\SEO\admin_post_types_beforearchive`, `Yoast\WP\SEO\admin_post_types_archive`, `Yoast\WP\SEO\admin_taxonomies_meta`, `wpseo_admin_other_section`, `wpseo_admin_opengraph_section`, `wpseo_admin_pinterest_section`, `wpseo_admin_twitter_section`, `wpseo_import_other_plugins`.
+* Ensures compatibility with the _High Performance Order Storage_ feature in WooCommerce 7.1+.
 * Sets the WordPress tested up to version to 6.1.
 
 = 19.9 =
