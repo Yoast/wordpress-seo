@@ -29,7 +29,7 @@ describe( "Export of the inclusive language configuration", () => {
 		return htmlDoc.querySelector( "a" ).href;
 	};
 
-	it( "should export all inclusive language assessments", () => {
+	it( "exports all inclusive language assessments to a csv", () => {
 		// Retrieve all configs
 		const assessments = inclusiveLanguageAssessmentsConfigs.map(
 			config => new InclusiveLanguageAssessment( config )
