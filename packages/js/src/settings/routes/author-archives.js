@@ -62,8 +62,8 @@ const AuthorArchives = () => {
 		),
 		{
 			exampleUrl: <Code>{ exampleUrl }</Code>,
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noreferrer" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a: <a href={ duplicateContentInfoLink } target="_blank" />,
 		}
 	) );
 
