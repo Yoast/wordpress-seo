@@ -907,7 +907,7 @@ class Meta_Tags_Context_Test extends TestCase {
 				'posts_per_page' => 10,
 				'tax_query'      => [
 					[
-						'taxonomy'         => 'custom_post_type',
+						'taxonomy'         => 'custom_term',
 						'field'            => 'term_id',
 						'terms'            => 18,
 						'include_children' => true,
