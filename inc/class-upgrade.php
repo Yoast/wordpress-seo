@@ -1377,9 +1377,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$post_type_helper = \YoastSEO()->helpers->post_type;
-
-		$included_post_types = \array_diff( $post_type_helper->get_accessible_post_types(), $post_type_helper->get_excluded_post_types_for_indexables() );
+		$included_post_types = \YoastSEO()->helpers->post_type->get_indexable_post_types();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
@@ -1424,7 +1422,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_public_taxonomies();
+		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
