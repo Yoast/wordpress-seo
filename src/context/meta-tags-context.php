@@ -56,8 +56,6 @@ use Yoast\WP\SEO\Values\Schema\Image;
  * @property string       $main_image_url
  * @property Image[]      $images
  * @property int|null     $home_page_id
- * @property int          $current_page
- * @property int          $posts_per_page
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -167,13 +165,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	private $indexable_repository;
 
 	/**
-	 * The pagination helper.
-	 *
-	 * @var Pagination_Helper
-	 */
-	private $pagination_helper;
-
-	/**
 	 * Meta_Tags_Context constructor.
 	 *
 	 * @param Options_Helper       $options              The options helper.
@@ -186,7 +177,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param Permalink_Helper     $permalink_helper     The permalink helper.
 	 * @param Indexable_Helper     $indexable_helper     The indexable helper.
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Pagination_Helper    $pagination_helper    The pagination helper.
 	 */
 	public function __construct(
 		Options_Helper $options,
@@ -198,8 +188,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		User_Helper $user,
 		Permalink_Helper $permalink_helper,
 		Indexable_Helper $indexable_helper,
-		Indexable_Repository $indexable_repository,
-		Pagination_Helper $pagination_helper
+		Indexable_Repository $indexable_repository
 	) {
 		$this->options              = $options;
 		$this->url                  = $url;
@@ -211,7 +200,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$this->permalink_helper     = $permalink_helper;
 		$this->indexable_helper     = $indexable_helper;
 		$this->indexable_repository = $indexable_repository;
-		$this->pagination_helper    = $pagination_helper;
 	}
 
 	/**
@@ -643,26 +631,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generate the amount of blog posts per page set.
-	 *
-	 * @return int The amount of blog posts per page set.
-	 */
-	public function generate_posts_per_page() {
-		return \intval( \get_option( 'posts_per_page' ) );
-	}
-
-	/**
-	 * Generate the index of the page that is being rendered.
-	 *
-	 * When no page (or the first page) is being rendered, 1 is returned. This function is useful for determining which page is being rendered for archive pages.
-	 *
-	 * @return int The index of the page being rendered, 1 when no page is being rendered or the first page is being rendered.
-	 */
-	public function generate_current_page() {
-		return $this->pagination_helper->get_current_page_number();
-	}
-
-	/**
 	 * Get the image for the first post that has an image in the current archive.
 	 *
 	 * @param array $args Arguments for get_posts.
@@ -671,18 +639,14 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	private function get_image_for_first_post_in_archive( $args = [] ) {
 		$default = [
-			'paged'          => $this->current_page,
-			'posts_per_page' => $this->posts_per_page,
+			'posts_per_page' => 1,
 		];
 
 		$args  = \array_merge( $default, $args );
 		$posts = \get_posts( $args );
 
-		foreach ( $posts as $post ) {
-			$image_for_post = $this->get_main_image_for_post( $post->ID );
-			if ( ! \is_null( $image_for_post ) ) {
-				return $image_for_post;
-			}
+		if ( count( $posts ) > 0 ) {
+			return $this->get_main_image_for_post( $posts[0]->ID );
 		}
 		return null;
 	}
@@ -741,31 +705,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return $this->get_main_image_for_post( $this->id );
-	}
-
-	/**
-	 * Get the main image ID for a system page.
-	 *
-	 * When object_type = 'system-page', object_sub_type is either search-result or 404.
-	 *
-	 * @return int|null The main image ID for the system page that is being loaded.
-	 */
-	private function get_main_image_for_system_page() {
-		if ( $this->indexable->object_sub_type !== 'search-result' ) {
-			return null;
-		}
-
-		$search_query = \get_search_query();
-
-		if ( $search_query !== '' ) {
-			return $this->get_image_for_first_post_in_archive(
-				[
-					's' => $search_query,
-				]
-			);
-		}
-
-		return null;
 	}
 
 	/**
@@ -846,8 +785,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		switch ( $this->indexable->object_type ) {
 			case 'post':
 				return $this->get_main_image_for_post_or_attachment();
-			case 'system-page':
-				return $this->get_main_image_for_system_page();
 			case 'home-page':
 				return $this->get_main_image_for_home_page();
 			case 'term':
@@ -858,6 +795,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				return $this->get_main_image_for_date_archive();
 			case 'user':
 				return $this->get_main_image_for_author_archive();
+			case 'system-page':
 			default:
 				return null;
 		}

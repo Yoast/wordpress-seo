@@ -555,7 +555,7 @@ class Meta_Tags_Context_Test extends TestCase {
 		Functions\expect( 'has_post_thumbnail' )->once()->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->once()->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -584,7 +584,7 @@ class Meta_Tags_Context_Test extends TestCase {
 			]
 		);
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 4 );
+		$this->assertEquals( 4, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -612,7 +612,7 @@ class Meta_Tags_Context_Test extends TestCase {
 			]
 		);
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), null );
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -631,7 +631,7 @@ class Meta_Tags_Context_Test extends TestCase {
 		Functions\expect( 'get_post' )->once()->with( 5 )->andReturn( (object) [ 'post_content' => 'bla bla bla' ] );
 		$this->image->expects( 'get_images_from_post_content' )->once()->with( 'bla bla bla' )->andReturn( [] );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), null );
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -645,7 +645,7 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_sub_type' => 'attachment',
 		];
 		$this->instance->id        = 5;
-		$this->assertEquals( $this->instance->generate_main_image_id(), 5 );
+		$this->assertEquals( 5, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -663,7 +663,7 @@ class Meta_Tags_Context_Test extends TestCase {
 		Functions\expect( 'has_post_thumbnail' )->once()->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->once()->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -676,7 +676,7 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_type'     => 'system-page',
 			'object_sub_type' => '404',
 		];
-		$this->assertEquals( $this->instance->generate_main_image_id(), null );
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -689,99 +689,7 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_type'     => 'system-page',
 			'object_sub_type' => 'search-result',
 		];
-
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
-
-		Functions\expect( 'get_search_query' )->once()->andReturn( 'bla' );
-
-		Functions\expect( 'get_posts' )->once()->with(
-			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
-				's'              => 'bla',
-			]
-		)->andReturn(
-			[
-				(object) [
-					'ID' => 5,
-				],
-				(object) [
-					'ID' => 6,
-				],
-			]
-		);
-
-		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
-		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
-
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
-	}
-
-	/**
-	 * Test generate_main_image_id for the search page with no results.
-	 *
-	 * @covers ::generate_main_image_id
-	 */
-	public function test_generate_main_image_id_for_search_page_no_results() {
-		$this->instance->indexable = (object) [
-			'object_type'     => 'system-page',
-			'object_sub_type' => 'search-result',
-		];
-
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
-
-		Functions\expect( 'get_search_query' )->once()->andReturn( 'bla' );
-
-		Functions\expect( 'get_posts' )->once()->with(
-			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
-				's'              => 'bla',
-			]
-		)->andReturn( [] );
-
-		$this->assertEquals( $this->instance->generate_main_image_id(), null );
-	}
-
-	/**
-	 * Test generate_main_image_id for the search page on page 4.
-	 *
-	 * @covers ::generate_main_image_id
-	 */
-	public function test_generate_main_image_id_for_search_page_page_4() {
-		$this->instance->indexable = (object) [
-			'object_type'     => 'system-page',
-			'object_sub_type' => 'search-result',
-		];
-
-		$this->instance->current_page   = 4;
-		$this->instance->posts_per_page = 10;
-
-		Functions\expect( 'get_search_query' )->once()->andReturn( 'bla' );
-
-		Functions\expect( 'get_posts' )->once()->with(
-			[
-				'paged'          => 4,
-				'posts_per_page' => 10,
-				's'              => 'bla',
-			]
-		)->andReturn(
-			[
-				(object) [
-					'ID' => 5,
-				],
-				(object) [
-					'ID' => 6,
-				],
-			]
-		);
-
-		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
-		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
-
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -794,22 +702,16 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_type' => 'home-page',
 		];
 
-		$this->instance->home_page_id   = 0;
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
+		$this->instance->home_page_id = 0;
 
 		Functions\expect( 'get_posts' )->once()->with(
 			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
+				'posts_per_page' => 1,
 			]
 		)->andReturn(
 			[
 				(object) [
 					'ID' => 5,
-				],
-				(object) [
-					'ID' => 6,
 				],
 			]
 		);
@@ -817,7 +719,7 @@ class Meta_Tags_Context_Test extends TestCase {
 		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -830,9 +732,7 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_type' => 'home-page',
 		];
 
-		$this->instance->home_page_id   = 19;
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
+		$this->instance->home_page_id = 19;
 
 		Functions\expect( 'has_post_thumbnail' )->with( 19 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->with( 19 )->andReturn( 23 );
@@ -851,14 +751,11 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_sub_type' => 'category',
 		];
 
-		$this->instance->id             = 18;
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
+		$this->instance->id = 18;
 
 		Functions\expect( 'get_posts' )->once()->with(
 			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
+				'posts_per_page' => 1,
 				'tax_query'      => [
 					[
 						'taxonomy'         => 'category',
@@ -874,16 +771,13 @@ class Meta_Tags_Context_Test extends TestCase {
 				(object) [
 					'ID' => 5,
 				],
-				(object) [
-					'ID' => 6,
-				],
 			]
 		);
 
 		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -897,14 +791,11 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_sub_type' => 'custom_term',
 		];
 
-		$this->instance->id             = 18;
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
+		$this->instance->id = 18;
 
 		Functions\expect( 'get_posts' )->once()->with(
 			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
+				'posts_per_page' => 1,
 				'tax_query'      => [
 					[
 						'taxonomy'         => 'custom_term',
@@ -920,16 +811,13 @@ class Meta_Tags_Context_Test extends TestCase {
 				(object) [
 					'ID' => 5,
 				],
-				(object) [
-					'ID' => 6,
-				],
 			]
 		);
 
 		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -943,13 +831,9 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_sub_type' => 'post',
 		];
 
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
-
 		Functions\expect( 'get_posts' )->once()->with(
 			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
+				'posts_per_page' => 1,
 				'post_type'      => 'post',
 			]
 		)->andReturn(
@@ -957,16 +841,13 @@ class Meta_Tags_Context_Test extends TestCase {
 				(object) [
 					'ID' => 5,
 				],
-				(object) [
-					'ID' => 6,
-				],
 			]
 		);
 
 		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -980,13 +861,9 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_sub_type' => 'custom_post_type',
 		];
 
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
-
 		Functions\expect( 'get_posts' )->once()->with(
 			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
+				'posts_per_page' => 1,
 				'post_type'      => 'custom_post_type',
 			]
 		)->andReturn(
@@ -994,16 +871,13 @@ class Meta_Tags_Context_Test extends TestCase {
 				(object) [
 					'ID' => 5,
 				],
-				(object) [
-					'ID' => 6,
-				],
 			]
 		);
 
 		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -1016,9 +890,6 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_type' => 'date-archive',
 		];
 
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
-
 		Functions\expect( 'get_query_var' )->with( 'year' )->once()->andReturn( 2022 );
 		Functions\expect( 'get_query_var' )->with( 'monthnum' )->once()->andReturn( 11 );
 		Functions\expect( 'get_query_var' )->with( 'day' )->once()->andReturn( 2 );
@@ -1026,8 +897,7 @@ class Meta_Tags_Context_Test extends TestCase {
 
 		Functions\expect( 'get_posts' )->once()->with(
 			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
+				'posts_per_page' => 1,
 				'year'           => 2022,
 				'monthnum'       => 11,
 				'day'            => 2,
@@ -1037,16 +907,13 @@ class Meta_Tags_Context_Test extends TestCase {
 				(object) [
 					'ID' => 5,
 				],
-				(object) [
-					'ID' => 6,
-				],
 			]
 		);
 
 		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -1059,14 +926,11 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_type' => 'user',
 		];
 
-		$this->instance->current_page   = 1;
-		$this->instance->posts_per_page = 10;
-		$this->instance->id             = 12;
+		$this->instance->id = 12;
 
 		Functions\expect( 'get_posts' )->once()->with(
 			[
-				'paged'          => 1,
-				'posts_per_page' => 10,
+				'posts_per_page' => 1,
 				'author'         => 12,
 			]
 		)->andReturn(
@@ -1074,16 +938,13 @@ class Meta_Tags_Context_Test extends TestCase {
 				(object) [
 					'ID' => 5,
 				],
-				(object) [
-					'ID' => 6,
-				],
 			]
 		);
 
 		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
 		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
 	}
 
 	/**
@@ -1096,7 +957,7 @@ class Meta_Tags_Context_Test extends TestCase {
 			'object_type' => 'unsupported',
 		];
 
-		$this->assertEquals( $this->instance->generate_main_image_id(), null );
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
 	}
 
 	/**
