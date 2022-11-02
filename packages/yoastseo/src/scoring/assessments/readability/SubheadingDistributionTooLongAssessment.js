@@ -1,12 +1,14 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { filter, merge } from "lodash-es";
-
+import { filter, map, merge } from "lodash-es";
+import marker from "../../../markers/addMark";
+import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
+import { stripFullTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -48,6 +50,29 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
+	 * Checks if the text before the first subheading is long or very long.
+	 *
+	 * @param {array} foundSubheadings  An array contains found subheading objects.
+	 *
+	 * @returns {{isVeryLong: boolean, isLong: boolean}}    An object containing an information
+	 *                                                      whether the text before the first subheading is long or very long.
+	 */
+	checkTextBeforeFirstSubheadingLength( foundSubheadings ) {
+		let textBeforeFirstSubheading = { isLong: false, isVeryLong: false };
+		// There is a text if the subheading string of the first object in foundSubheadings is empty and the text is not empty.
+		if ( foundSubheadings.length > 0 && foundSubheadings[ 0 ].subheading === "" && foundSubheadings[ 0 ].text !== "" ) {
+			// Retrieve the length of the text before the first subheading.
+			const textBeforeFirstSubheadingLength = foundSubheadings[ 0 ].countLength;
+			textBeforeFirstSubheading = {
+				isLong: inRange( textBeforeFirstSubheadingLength, this._config.parameters.slightlyTooMany, this._config.parameters.farTooMany ),
+				isVeryLong: textBeforeFirstSubheadingLength > this._config.parameters.farTooMany,
+			};
+		}
+
+		return textBeforeFirstSubheading;
+	}
+
+	/**
 	 * Runs the getSubheadingTextLength research and checks scores based on length.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
@@ -60,29 +85,38 @@ class SubheadingsDistributionTooLong extends Assessment {
 		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
+		// The configuration to use for Japanese texts.
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {
 			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
+		// First check if there is text before the first subheading and check its length.
+		// It's important that this check is done before we sort the `this._subheadingTextsLength` array.
+		const textBeforeFirstSubheading = this.checkTextBeforeFirstSubheadingLength( this._subheadingTextsLength );
+
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
 			return b.countLength - a.countLength;
 		} );
-
-		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setIdentifier( this.identifier );
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
+		// Give specific feedback for cases where the post starts with a long text without subheadings.
 		const customCountLength = researcher.getHelper( "customCountLength" );
+
+		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
+
 		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
 
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( textBeforeFirstSubheading );
+
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
+		assessmentResult.setHasMarks( calculatedResult.hasMarks );
 
 		return assessmentResult;
 	}
@@ -147,6 +181,25 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
+	 * Creates a marker for each subheading that precedes a text that is too long.
+	 *
+	 * @returns {Array} All markers for the current text.
+	 */
+	getMarks() {
+		const marks = map( this.getTooLongSubheadingTexts(), function( { subheading } ) {
+			subheading = stripTags( subheading );
+			const marked = marker( subheading );
+			return new Mark( {
+				original: subheading,
+				marked: marked,
+			} );
+		} );
+		// This is to ensure that an empty subheading doesn't receive marker tags.
+		// If an empty subheading string receives marker tags, clicking on the eye icon next to the assessment will lead to page crashing.
+		return filter( marks, ( mark ) => mark.getOriginal() !== "" );
+	}
+
+	/**
 	 * Counts the number of subheading texts that are too long.
 	 *
 	 * @returns {Array} The array containing subheading texts that are too long.
@@ -160,16 +213,72 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
+	 * @param {Object} textBeforeFirstSubheading   An object containing information whether the text before the first subheading is long or very long.
+	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult() {
+	calculateResult( textBeforeFirstSubheading ) {
 		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
+				if ( textBeforeFirstSubheading.isLong && this._tooLongTextsNumber < 2 ) {
+					/*
+					 * Orange indicator. Returns this feedback if the text preceding the first subheading is very long
+					 * and the total number of too long texts is less than 2.
+					 */
+					return {
+						score: this._config.scores.okSubheadings,
+						hasMarks: false,
+						resultText: sprintf(
+							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+							 * %4$s expands to the recommended number of words following a subheading,
+							 * %5$s expands to the word 'words' or 'characters'.
+							 */
+							__(
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s %5$s and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
+								"wordpress-seo"
+							),
+							this._config.urlTitle,
+							"</a>",
+							this._config.urlCallToAction,
+							this._config.parameters.recommendedMaximumLength,
+							this._config.countTextIn
+						),
+					};
+				}
+				if ( textBeforeFirstSubheading.isVeryLong && this._tooLongTextsNumber < 2 ) {
+					/*
+					 * Red indicator. Returns this feedback if the text preceding the first subheading is very long
+					 * and the total number of too long texts is less than 2.
+					 */
+					return {
+						score: this._config.scores.badSubheadings,
+						hasMarks: false,
+						resultText: sprintf(
+							/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+							 * %4$s expands to the recommended number of words following a subheading,
+							 * %5$s expands to the word 'words' or 'characters'.
+							 */
+							__(
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$s %5$s and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s",
+								"wordpress-seo"
+							),
+							this._config.urlTitle,
+							"</a>",
+							this._config.urlCallToAction,
+							this._config.parameters.recommendedMaximumLength,
+							this._config.countTextIn
+						),
+					};
+				}
+
 				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
 					// Green indicator.
 					return {
 						score: this._config.scores.goodSubheadings,
+						hasMarks: false,
 						resultText: sprintf(
 							// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
 							__(
@@ -186,6 +295,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					// Orange indicator.
 					return {
 						score: this._config.scores.okSubheadings,
+						hasMarks: true,
 						resultText: sprintf(
 							/*
 							 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
@@ -213,6 +323,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				// Red indicator.
 				return {
 					score: this._config.scores.badSubheadings,
+					hasMarks: true,
 					resultText: sprintf(
 						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 						not separated by subheadings, %4$d expands to the recommended number of words or characters following a
@@ -237,6 +348,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			// Red indicator, use '2' so we can differentiate in external analysis.
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
+				hasMarks: false,
 				resultText: sprintf(
 					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
@@ -254,6 +366,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			// Green indicator.
 			return {
 				score: this._config.scores.goodSubheadings,
+				hasMarks: false,
 				resultText: sprintf(
 					/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
@@ -268,6 +381,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		// Green indicator.
 		return {
 			score: this._config.scores.goodShortTextNoSubheadings,
+			hasMarks: false,
 			resultText: sprintf(
 				/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 				__(
