@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
@@ -54,6 +55,7 @@ use Yoast\WP\SEO\Values\Schema\Image;
  * @property int          $main_image_id
  * @property string       $main_image_url
  * @property Image[]      $images
+ * @property int|null     $home_page_id
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -620,29 +622,180 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
+	 * Generate the ID of the home page.
+	 *
+	 * @return int The post ID of the post set as home page, 0 when the setting is not set (the home page shows the last messages).
+	 */
+	public function generate_home_page_id() {
+		return \intval( \get_option( 'page_on_front' ) );
+	}
+
+	/**
+	 * Get the image for the first post that has an image in the current archive.
+	 *
+	 * @param array $args Arguments for get_posts.
+	 *
+	 * @return int|null The post ID of the first attachment found in the archive of posts, null if no attachment was found.
+	 */
+	private function get_image_for_first_post_in_archive( $args = [] ) {
+		$default = [
+			'posts_per_page' => 1,
+		];
+
+		$args  = \array_merge( $default, $args );
+		$posts = \get_posts( $args );
+
+		if ( count( $posts ) > 0 ) {
+			return $this->get_main_image_for_post( $posts[0]->ID );
+		}
+		return null;
+	}
+
+	/**
+	 * Get the main image for the home page.
+	 *
+	 * Uses the main image from the post when a static homepage is set, otherwise used the first image of the post found in the post archive.
+	 *
+	 * @return int|null The post ID of the main image for the home page, null otherwise.
+	 */
+	private function get_main_image_for_home_page() {
+		if ( $this->home_page_id !== 0 ) {
+			return $this->get_main_image_for_post( $this->home_page_id );
+		}
+
+		return $this->get_image_for_first_post_in_archive();
+	}
+
+	/**
+	 * Get the main image for a post.
+	 *
+	 * @param int $post_id The post id of the post for which to get the main image.
+	 *
+	 * @return int|null The main image ID for a post when it exists, null otherwise.
+	 */
+	private function get_main_image_for_post( $post_id ) {
+		if ( \has_post_thumbnail( $post_id ) ) {
+			$thumbnail_id = \get_post_thumbnail_id( $post_id );
+			// Prevent returning something else than an int or null.
+			if ( \is_int( $thumbnail_id ) && $thumbnail_id > 0 ) {
+				return $thumbnail_id;
+			}
+		}
+
+		$post = \get_post( $post_id );
+		if ( ! \is_null( $post ) ) {
+			$post_images = $this->image->get_images_from_post_content( $post->post_content );
+			foreach ( $post_images as $post_image ) {
+				if ( $post_image->has_id() ) {
+					return $post_image->get_id();
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get the main image ID for a post or an attachment (depending on object_sub_type).
+	 *
+	 * @return int|null The main image ID for a post or attachment when it exists, null otherwise.
+	 */
+	private function get_main_image_for_post_or_attachment() {
+		if ( $this->indexable->object_sub_type === 'attachment' ) {
+			return $this->id;
+		}
+
+		return $this->get_main_image_for_post( $this->id );
+	}
+
+	/**
+	 * Get the main image ID for a term archive page.
+	 *
+	 * @return int|null The main image ID for the first post found on the term archive page, null if no such image exists.
+	 */
+	private function get_main_image_for_term() {
+		$args = [
+			'tax_query' => [
+				[
+					'taxonomy'         => $this->indexable->object_sub_type,
+					'field'            => 'term_id',
+					'terms'            => $this->id,
+					'include_children' => true,
+				],
+			],
+			'post_type' => 'any',
+		];
+		return $this->get_image_for_first_post_in_archive( $args );
+	}
+
+	/**
+	 * Get the main image for the post type archive.
+	 *
+	 * @return int|null The ID of the main image for the archive, null if no image for the archive exists.
+	 */
+	private function get_main_image_for_post_type_archive() {
+		$args = [
+			'post_type' => $this->indexable->object_sub_type,
+		];
+		return $this->get_image_for_first_post_in_archive( $args );
+	}
+
+	/**
+	 * Get the main image for a date archive page.
+	 *
+	 * @return int|null The ID of the main image of a date archive, null if no image for the archive exists.
+	 */
+	private function get_main_image_for_date_archive() {
+		$year = \get_query_var( 'year' );
+
+		if ( $year === 0 ) {
+			return null;
+		}
+
+		$monthnum = \get_query_var( 'monthnum' );
+		$day      = \get_query_var( 'day' );
+
+		return $this->get_image_for_first_post_in_archive(
+			[
+				'year'     => $year,
+				'monthnum' => ( $monthnum !== 0 ) ? $monthnum : null,
+				'day'      => ( $day !== 0 ) ? $day : null,
+			]
+		);
+	}
+
+	/**
+	 * Get the main image for an author archive page.
+	 *
+	 * @return int|null The ID of the main image of an author archive, null if no image for the archive exists.
+	 */
+	private function get_main_image_for_author_archive() {
+		return $this->get_image_for_first_post_in_archive(
+			[
+				'author' => $this->id,
+			]
+		);
+	}
+
+	/**
 	 * Gets the main image ID.
 	 *
 	 * @return int|null The main image ID.
 	 */
 	public function generate_main_image_id() {
-		switch ( true ) {
-			case \is_singular():
-				return $this->get_singular_post_image( $this->id );
-			case \is_author():
-			case \is_tax():
-			case \is_tag():
-			case \is_category():
-			case \is_search():
-			case \is_date():
-			case \is_post_type_archive():
-				if ( ! empty( $GLOBALS['wp_query']->posts ) ) {
-					if ( $GLOBALS['wp_query']->get( 'fields', 'all' ) === 'ids' ) {
-						return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0] );
-					}
-
-					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
-				}
-				return null;
+		switch ( $this->indexable->object_type ) {
+			case 'post':
+				return $this->get_main_image_for_post_or_attachment();
+			case 'home-page':
+				return $this->get_main_image_for_home_page();
+			case 'term':
+				return $this->get_main_image_for_term();
+			case 'post-type-archive':
+				return $this->get_main_image_for_post_type_archive();
+			case 'date-archive':
+				return $this->get_main_image_for_date_archive();
+			case 'user':
+				return $this->get_main_image_for_author_archive();
+			case 'system-page':
 			default:
 				return null;
 		}

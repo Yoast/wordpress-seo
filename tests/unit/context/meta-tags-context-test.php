@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
@@ -18,6 +19,7 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Schema\Image;
 
 /**
  * Class Meta_Tags_Context_Test
@@ -38,65 +40,72 @@ class Meta_Tags_Context_Test extends TestCase {
 	/**
 	 * The URL helper.
 	 *
-	 * @var Url_Helper
+	 * @var Url_Helper|Mockery\Mock
 	 */
 	private $url;
 
 	/**
 	 * The image helper.
 	 *
-	 * @var Image_Helper
+	 * @var Image_Helper|Mockery\Mock
 	 */
 	private $image;
 
 	/**
 	 * The ID helper.
 	 *
-	 * @var ID_Helper
+	 * @var ID_Helper|Mockery\Mock
 	 */
 	private $id_helper;
 
 	/**
 	 * The WPSEO Replace Vars object.
 	 *
-	 * @var WPSEO_Replace_Vars
+	 * @var WPSEO_Replace_Vars|Mockery\Mock
 	 */
 	private $replace_vars;
 
 	/**
 	 * The site helper.
 	 *
-	 * @var Site_Helper
+	 * @var Site_Helper|Mockery\Mock
 	 */
 	private $site;
 
 	/**
 	 * The user helper.
 	 *
-	 * @var User_Helper
+	 * @var User_Helper|Mockery\Mock
 	 */
 	private $user;
 
 	/**
 	 * The permalink helper.
 	 *
-	 * @var Permalink_Helper
+	 * @var Permalink_Helper|Mockery\Mock
 	 */
 	private $permalink_helper;
 
 	/**
 	 * The indexable helper.
 	 *
-	 * @var Indexable_Helper
+	 * @var Indexable_Helper|Mockery\Mock
 	 */
 	private $indexable_helper;
 
 	/**
 	 * The indexable repository.
 	 *
-	 * @var Indexable_Repository
+	 * @var Indexable_Repository|Mockery\Mock
 	 */
 	private $indexable_repository;
+
+	/**
+	 * The pagination helper.
+	 *
+	 * @var Pagination_Helper|Mockery\Mock
+	 */
+	private $pagination_helper;
 
 	/**
 	 * The meta tags context.
@@ -121,6 +130,7 @@ class Meta_Tags_Context_Test extends TestCase {
 		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
 		$this->indexable_helper     = Mockery::mock( Indexable_Helper::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->pagination_helper    = Mockery::mock( Pagination_Helper::class );
 
 		$this->instance = new Meta_Tags_Context(
 			$this->options,
@@ -132,7 +142,8 @@ class Meta_Tags_Context_Test extends TestCase {
 			$this->user,
 			$this->permalink_helper,
 			$this->indexable_helper,
-			$this->indexable_repository
+			$this->indexable_repository,
+			$this->pagination_helper
 		);
 	}
 
@@ -527,6 +538,426 @@ class Meta_Tags_Context_Test extends TestCase {
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'person' );
 
 		$this->assertEquals( 'person', $this->instance->generate_site_represents() );
+	}
+
+	/**
+	 * Test generate_main_image_id for a post with thumbnail.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_post_with_thumbnail() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'post',
+			'object_sub_type' => 'post',
+		];
+		$this->instance->id        = 5;
+
+		Functions\expect( 'has_post_thumbnail' )->once()->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->once()->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for a post without thumbnail but with post content images.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_post_without_thumbnail() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'post',
+			'object_sub_type' => 'post',
+		];
+		$this->instance->id        = 5;
+
+		Functions\expect( 'has_post_thumbnail' )->once()->with( 5 )->andReturn( false );
+		Functions\expect( 'get_post' )->once()->with( 5 )->andReturn( (object) [ 'post_content' => 'bla bla bla' ] );
+		$this->image->expects( 'get_images_from_post_content' )->once()->with( 'bla bla bla' )->andReturn(
+			[
+				new Image(
+					'http://example.com/example1.png'
+				),
+				new Image(
+					'https://example.com/example2.png',
+					4
+				),
+			]
+		);
+
+		$this->assertEquals( 4, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for a post with only external images in the content (so no image ID's).
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_post_with_external_images() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'post',
+			'object_sub_type' => 'post',
+		];
+		$this->instance->id        = 5;
+
+		Functions\expect( 'has_post_thumbnail' )->once()->with( 5 )->andReturn( false );
+		Functions\expect( 'get_post' )->once()->with( 5 )->andReturn( (object) [ 'post_content' => 'bla bla bla' ] );
+		$this->image->expects( 'get_images_from_post_content' )->once()->with( 'bla bla bla' )->andReturn(
+			[
+				new Image(
+					'http://example.com/example1.png'
+				),
+				new Image(
+					'https://example.com/example2.png'
+				),
+			]
+		);
+
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for a post without any image.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_post_without_any_image() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'post',
+			'object_sub_type' => 'post',
+		];
+		$this->instance->id        = 5;
+
+		Functions\expect( 'has_post_thumbnail' )->once()->with( 5 )->andReturn( false );
+		Functions\expect( 'get_post' )->once()->with( 5 )->andReturn( (object) [ 'post_content' => 'bla bla bla' ] );
+		$this->image->expects( 'get_images_from_post_content' )->once()->with( 'bla bla bla' )->andReturn( [] );
+
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for an attachment.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_attachment() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'post',
+			'object_sub_type' => 'attachment',
+		];
+		$this->instance->id        = 5;
+		$this->assertEquals( 5, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for a custom post type.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_custom_post_type() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'post',
+			'object_sub_type' => 'custom_post_type',
+		];
+		$this->instance->id        = 5;
+
+		Functions\expect( 'has_post_thumbnail' )->once()->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->once()->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for the 404 page.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_404_page() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'system-page',
+			'object_sub_type' => '404',
+		];
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for the search page.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_search_page() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'system-page',
+			'object_sub_type' => 'search-result',
+		];
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for the home page with no static blog set.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_home_page_blog() {
+		$this->instance->indexable = (object) [
+			'object_type' => 'home-page',
+		];
+
+		$this->instance->home_page_id = 0;
+
+		Functions\expect( 'get_posts' )->once()->with(
+			[
+				'posts_per_page' => 1,
+			]
+		)->andReturn(
+			[
+				(object) [
+					'ID' => 5,
+				],
+			]
+		);
+
+		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for the home page with a static page set.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_home_page_static() {
+		$this->instance->indexable = (object) [
+			'object_type' => 'home-page',
+		];
+
+		$this->instance->home_page_id = 19;
+
+		Functions\expect( 'has_post_thumbnail' )->with( 19 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->with( 19 )->andReturn( 23 );
+
+		$this->assertEquals( $this->instance->generate_main_image_id(), 23 );
+	}
+
+	/**
+	 * Test generate_main_image_id for the category term archive.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_term_archive() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'term',
+			'object_sub_type' => 'category',
+		];
+
+		$this->instance->id = 18;
+
+		Functions\expect( 'get_posts' )->once()->with(
+			[
+				'posts_per_page' => 1,
+				'tax_query'      => [
+					[
+						'taxonomy'         => 'category',
+						'field'            => 'term_id',
+						'terms'            => 18,
+						'include_children' => true,
+					],
+				],
+				'post_type'      => 'any',
+			]
+		)->andReturn(
+			[
+				(object) [
+					'ID' => 5,
+				],
+			]
+		);
+
+		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for a custom term archive.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_term_archive_custom_post_type() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'term',
+			'object_sub_type' => 'custom_term',
+		];
+
+		$this->instance->id = 18;
+
+		Functions\expect( 'get_posts' )->once()->with(
+			[
+				'posts_per_page' => 1,
+				'tax_query'      => [
+					[
+						'taxonomy'         => 'custom_term',
+						'field'            => 'term_id',
+						'terms'            => 18,
+						'include_children' => true,
+					],
+				],
+				'post_type'      => 'any',
+			]
+		)->andReturn(
+			[
+				(object) [
+					'ID' => 5,
+				],
+			]
+		);
+
+		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for the 'post' post type archive.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_post_type_archive() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'post-type-archive',
+			'object_sub_type' => 'post',
+		];
+
+		Functions\expect( 'get_posts' )->once()->with(
+			[
+				'posts_per_page' => 1,
+				'post_type'      => 'post',
+			]
+		)->andReturn(
+			[
+				(object) [
+					'ID' => 5,
+				],
+			]
+		);
+
+		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for a custom post type archive.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_custom_post_type_archive() {
+		$this->instance->indexable = (object) [
+			'object_type'     => 'post-type-archive',
+			'object_sub_type' => 'custom_post_type',
+		];
+
+		Functions\expect( 'get_posts' )->once()->with(
+			[
+				'posts_per_page' => 1,
+				'post_type'      => 'custom_post_type',
+			]
+		)->andReturn(
+			[
+				(object) [
+					'ID' => 5,
+				],
+			]
+		);
+
+		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for a date archive.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_date_archive() {
+		$this->instance->indexable = (object) [
+			'object_type' => 'date-archive',
+		];
+
+		Functions\expect( 'get_query_var' )->with( 'year' )->once()->andReturn( 2022 );
+		Functions\expect( 'get_query_var' )->with( 'monthnum' )->once()->andReturn( 11 );
+		Functions\expect( 'get_query_var' )->with( 'day' )->once()->andReturn( 2 );
+
+
+		Functions\expect( 'get_posts' )->once()->with(
+			[
+				'posts_per_page' => 1,
+				'year'           => 2022,
+				'monthnum'       => 11,
+				'day'            => 2,
+			]
+		)->andReturn(
+			[
+				(object) [
+					'ID' => 5,
+				],
+			]
+		);
+
+		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for an author archive.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_author_archive() {
+		$this->instance->indexable = (object) [
+			'object_type' => 'user',
+		];
+
+		$this->instance->id = 12;
+
+		Functions\expect( 'get_posts' )->once()->with(
+			[
+				'posts_per_page' => 1,
+				'author'         => 12,
+			]
+		)->andReturn(
+			[
+				(object) [
+					'ID' => 5,
+				],
+			]
+		);
+
+		Functions\expect( 'has_post_thumbnail' )->with( 5 )->andReturn( true );
+		Functions\expect( 'get_post_thumbnail_id' )->with( 5 )->andReturn( 23 );
+
+		$this->assertEquals( 23, $this->instance->generate_main_image_id() );
+	}
+
+	/**
+	 * Test generate_main_image_id for an unsupported indexable object type.
+	 *
+	 * @covers ::generate_main_image_id
+	 */
+	public function test_generate_main_image_id_for_unsupported_object_type() {
+		$this->instance->indexable = (object) [
+			'object_type' => 'unsupported',
+		];
+
+		$this->assertEquals( null, $this->instance->generate_main_image_id() );
 	}
 
 	/**
