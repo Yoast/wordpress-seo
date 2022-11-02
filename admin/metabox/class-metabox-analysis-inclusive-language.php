@@ -45,7 +45,9 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 		/*
 		 * In Premium version 19.7, inclusive language analysis is moved from Premium to Free. If the user has an older
 		 * version of Premium, inclusive language should not be loaded in Free, since it is already loaded in Premium.
+		 * An exception is if the user has the Premium version 19.2.
 		 */
-		return ! $is_premium || \version_compare( $premium_version, '19.7', '>=' );
+		return ! $is_premium || \version_compare( $premium_version, '19.7', '>=' ) ||
+			\version_compare( $premium_version, '19.2', '==' ) ;
 	}
 }
