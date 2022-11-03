@@ -114,7 +114,7 @@ const DateArchives = () => {
 										label
 									) }
 									<br />
-									<Link href={ noIndexInfoLink } target="_blank">
+									<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 										{ __( "Read more about the search results settings", "wordpress-seo" ) }
 									</Link>
 									.

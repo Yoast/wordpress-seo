@@ -100,7 +100,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" />,
+			a: <a id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener" />,
 			em: <em />,
 		}
 	), [] );
@@ -159,7 +159,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								label
 							) }
 							<br />
-							<Link href={ noIndexInfoLink } target="_blank">
+							<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 								{ __( "Read more about the search results settings", "wordpress-seo" ) }
 							</Link>
 							.

@@ -52,7 +52,7 @@ const PremiumUpsellCard = () => {
 				className="yst-block yst-mt-4 yst-no-underline"
 				href="https://www.g2.com/products/yoast-yoast/reviews"
 				target="_blank"
-				rel="noreferrer"
+				rel="noopener noreferrer"
 			>
 				<span className="yst-font-medium yst-text-white hover:yst-underline">
 					{ __( "Read reviews from real users", "wordpress-seo" ) }
@@ -86,7 +86,7 @@ const SidebarRecommendations = () => {
 		),
 		{
 			// eslint-disable-next-line react/jsx-no-target-blank
-			link: <a href={ academyLink } target="_blank">Yoast SEO academy</a>,
+			link: <a href={ academyLink } target="_blank" rel="noopener">Yoast SEO academy</a>,
 		}
 	), [] );
 
