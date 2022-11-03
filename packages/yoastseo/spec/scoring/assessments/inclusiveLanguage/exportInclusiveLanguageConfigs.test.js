@@ -7,11 +7,14 @@ import InclusiveLanguageAssessment from "../../../../src/scoring/assessments/inc
 
 const fs = require( "fs" );
 
+/**
+ * Note: this file is not a regular Jest test, as it exports the inclusive language configuration, rather than testing it.
+ */
 describe( "Export of the inclusive language configuration", () => {
 	/**
-	 * Retrieves the rules from a function call in a more pretty format.
+	 * Retrieves the rules from a function call in a prettier format.
 	 * @param {string} str The function call.
-	 * @returns {string} The more pretty formatted string.
+	 * @returns {string} The prettier formatted string.
 	 */
 	const retrieveRule = ( str ) => {
 		const matches = [ ...str.matchAll( /\.filter.*?_is(.*?)Exception.*?\[(.*?)]/g ) ];
@@ -27,6 +30,24 @@ describe( "Export of the inclusive language configuration", () => {
 		const parser = new DOMParser();
 		const htmlDoc = parser.parseFromString( str, "text/html" );
 		return htmlDoc.querySelector( "a" ).href;
+	};
+
+	/**
+	 * Writes the given contents to the given filename in the temporary directory tmp
+	 * @param {string} filename The name of the file.
+	 * @param {string} content The content of the file.
+	 * @returns {void}
+	 */
+	const writeToTempFile = ( filename, content ) => {
+		// Creates a temporary directory in the current working directory to store the data, if it not yet exists.
+		// (i.e., packages/yoastseo/tmp/ if this function is called from packages/yoastseo/)
+		const dir = "tmp/";
+		if ( ! fs.existsSync( dir ) ) {
+			fs.mkdirSync( dir );
+		}
+
+		// Writes the data to this temporary directory
+		fs.writeFileSync( dir + filename, content );
 	};
 
 	it( "exports all inclusive language assessments to a csv", () => {
@@ -50,31 +71,28 @@ describe( "Export of the inclusive language configuration", () => {
 
 		// Generate the results
 		const results = assessments.map( ( assessment ) =>
-			[
-				last( retrieveAnchor( assessment.learnMoreUrl ).split( "-" ) ),
-				assessment.identifier,
-				assessment.nonInclusivePhrases.join( ", " ),
-				assessment.inclusiveAlternatives.join( ", " ).replace( /<\/?i>/g, "" ),
-				assessment.score === SCORES.POTENTIALLY_NON_INCLUSIVE ? "orange" : "red",
-				assessment.rule.name === "includesConsecutiveWords" ? "" : retrieveRule( assessment.rule.toString() ),
-				assessment.caseSensitive ? "yes" : "no",
-				sprintf( assessment.feedbackFormat, "\"x\"", "\"y\"", "\"z\"" ).replace( /<\/?i>/g, "" ),
-				retrieveAnchor( assessment.learnMoreUrl ),
-			]
+			( {
+				category: last( retrieveAnchor( assessment.learnMoreUrl ).split( "-" ) ),
+				identifier: assessment.identifier,
+				nonInclusivePhrases: assessment.nonInclusivePhrases.join( ", " ),
+				inclusiveAlternatives: assessment.inclusiveAlternatives.join( ", " ).replace( /<\/?i>/g, "" ),
+				score: assessment.score === SCORES.POTENTIALLY_NON_INCLUSIVE ? "orange" : "red",
+				rule: assessment.rule.name === "includesConsecutiveWords" ? "" : retrieveRule( assessment.rule.toString() ),
+				caseSensitive: assessment.caseSensitive ? "yes" : "no",
+				feedbackFormat: sprintf( assessment.feedbackFormat, "\"x\"", "\"y\"", "\"z\"" ).replace( /<\/?i>/g, "" ),
+				learnMoreUrl: retrieveAnchor( assessment.learnMoreUrl ),
+			} )
 		);
 
 		// Collects the results and the header into list of ;-separated rows
-		const resultLines = results.map( result => result.join( ";" ) );
+		const resultLines = results.map( result => Object.values( result ).join( ";" ) );
 		resultLines.unshift( header.join( ";" ) );
 
-		// Creates a temporary directory to store the data (if it not yet exists)
-		const dir = "tmp/";
-		if ( ! fs.existsSync( dir ) ) {
-			fs.mkdirSync( dir );
+		// Set doExport to true to write the results to a temporary file.
+		const doExport = false;
+		if ( doExport ) {
+			writeToTempFile( "inclusive-language-database.csv", resultLines.join( "\n" ) );
 		}
-
-		// Writes the data to this temporary directory (packages/yoastseo/tmp)
-		fs.writeFileSync( dir + "inclusive-language-database.csv", resultLines.join( "\n" ) );
 	} );
 
 	it( "should retrieve rules in a more pretty format", () => {
