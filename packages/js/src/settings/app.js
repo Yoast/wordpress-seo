@@ -96,7 +96,9 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
 					{ map( postTypes, ( { name, route, label } ) => (
 						<SidebarNavigation.SubmenuItem
-							key={ `link-post-type-${ name }` } to={ `/post-type/${ route }` } label={ label }
+							key={ `link-post-type-${ name }` }
+							to={ `/post-type/${ route }` }
+							label={ label }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -111,9 +113,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					{ map( taxonomies, taxonomy => (
 						<SidebarNavigation.SubmenuItem
 							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ <div className="yst-flex yst-w-full yst-justify-between yst-items-center">
-								<span>{ taxonomy.label }</span>
-							</div> }
+							label={ taxonomy.label }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -231,9 +231,7 @@ const App = () => {
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
 				<div className="yst-p-4 md:yst-p-8 yst-flex yst-gap-4">
-					<aside
-						className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64"
-					>
+					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64">
 						<SidebarNavigation.Sidebar>
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
@@ -259,7 +257,8 @@ const App = () => {
 										<Route path="post-type">
 											{ map( postTypes, postType => (
 												<Route
-													key={ `route-post-type-${ postType.name }` } path={ postType.route }
+													key={ `route-post-type-${ postType.name }` }
+													path={ postType.route }
 													element={ <PostType { ...postType } /> }
 												/>
 											) ) }
@@ -267,7 +266,8 @@ const App = () => {
 										<Route path="taxonomy">
 											{ map( taxonomies, taxonomy => (
 												<Route
-													key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
+													key={ `route-taxonomy-${ taxonomy.name }` }
+													path={ taxonomy.route }
 													element={ <Taxonomy { ...taxonomy } /> }
 												/>
 											) ) }
