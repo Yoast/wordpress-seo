@@ -38,7 +38,7 @@ const Media = () => {
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ thinContentProblemsInfoLink } target="_blank" rel="noreferrer" />,
+			a: <a href={ thinContentProblemsInfoLink } target="_blank" rel="noopener noreferrer" />,
 		}
 	) );
 
@@ -102,7 +102,7 @@ const Media = () => {
 										label
 									) }
 									<br />
-									<Link href={ noIndexInfoLink } target="_blank">
+									<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 										{ __( "Read more about the search results settings", "wordpress-seo" ) }
 									</Link>
 									.

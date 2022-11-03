@@ -57,6 +57,7 @@ const LearnMoreLink = ( { id, link } ) => {
 			href={ href }
 			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-text-primary-500 hover:yst-text-primary-400"
 			target="_blank"
+			rel="noopener"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
 			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:-yst-scale-x-100" />
@@ -190,7 +191,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getInclusiveLanguageAnalysisLink } target="_blank">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getInclusiveLanguageAnalysisLink } target="_blank" rel="noopener">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */
@@ -303,7 +304,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getLinkSuggestionsLink } target="_blank">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getLinkSuggestionsLink } target="_blank" rel="noopener">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */
@@ -482,7 +483,7 @@ const SiteFeatures = () => {
 										"Yoast SEO"
 									) }
 								</p>
-								{ enableXmlSitemap && <Link id="link-xml-sitemaps" href={ sitemapUrl } target="_blank">
+								{ enableXmlSitemap && <Link id="link-xml-sitemaps" href={ sitemapUrl } target="_blank" rel="noopener">
 									{ __( "View the XML sitemap", "wordpress-seo" ) }
 								</Link> }
 								<LearnMoreLink id="link-xml-sitemaps" link="https://yoa.st/2a-" />
@@ -519,7 +520,7 @@ const SiteFeatures = () => {
 									label={ __( "Enable feature", "wordpress-seo" ) }
 								/> }
 								{ ! isPremium && (
-									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getIndexNowLink } target="_blank">
+									<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getIndexNowLink } target="_blank" rel="noopener">
 										<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 										{ sprintf(
 											/* translators: %1$s expands to Premium. */

@@ -26,7 +26,7 @@ const SiteBasics = () => {
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a id="link-usage-tracking" href={ usageTrackingLink } target="_blank" />,
+			a: <a id="link-usage-tracking" href={ usageTrackingLink } target="_blank" rel="noopener" />,
 		}
 	), [] );
 
@@ -42,7 +42,7 @@ const SiteBasics = () => {
 		{
 			em: <em />,
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank" />,
+			a: <a id="site-basics-replacement-variables" href={ replacementVariablesLink } target="_blank" rel="noopener" />,
 		}
 	), [] );
 	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
@@ -82,7 +82,7 @@ const SiteBasics = () => {
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ `${ generalSettingsUrl }#blogname` } target="_blank" rel="noreferrer" />,
+			a: <a href={ `${ generalSettingsUrl }#blogname` } target="_blank" rel="noopener noreferrer" />,
 		}
 	), [] );
 	const taglineDescription = useMemo( () => createInterpolateElement(
@@ -97,7 +97,7 @@ const SiteBasics = () => {
 		),
 		{
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ `${ generalSettingsUrl }#blogdescription` } target="_blank" rel="noreferrer" />,
+			a: <a href={ `${ generalSettingsUrl }#blogdescription` } target="_blank" rel="noopener noreferrer" />,
 		}
 	), [] );
 

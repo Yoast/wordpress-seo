@@ -259,7 +259,7 @@ const CrawlOptimization = () => {
 			description={ <>
 				{ descriptions.page }
 				{ ! isPremium && <div className="yst-mt-6">
-					<Button as="a" className="yst-gap-2" variant="upsell" href={ premiumLink } target="_blank">
+					<Button as="a" className="yst-gap-2" variant="upsell" href={ premiumLink } target="_blank" rel="noopener">
 						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 						{ sprintf(
 							/* translators: %1$s expands to Premium. */
