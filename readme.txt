@@ -250,7 +250,7 @@ Release Date: November 15th, 2022
 
 Bugfixes:
 
-* Fixes a bug where an entry to the indexable DB table would be added when saving, or updating or accessing a post (or term) for a non-public post type (or taxonomy).
+* Fixes a bug where an entry would be added to our indexables table when saving, updating, or accessing a post (or term) for a non-public post type (or taxonomy).
 * Fixes a bug where indexables for users did not get removed when a user would not have any publicly viewable posts anymore.
 * Fixes a bug where indexables for users did not get removed when author archives were disabled.
 * Fixes a bug where indexables were created for users when author archives were disabled.
