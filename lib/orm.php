@@ -249,18 +249,31 @@ class ORM implements \ArrayAccess {
 	 * @return bool Success.
 	 */
 	public static function raw_execute( $query, $parameters = [] ) {
-		return self::execute( $query, $parameters );
+		return self::execute( $query, $parameters, '', false );
 	}
 
 	/**
 	 * Internal helper method for executing statements.
 	 *
-	 * @param string $query      The query.
-	 * @param array  $parameters An array of parameters to be bound in to the query.
+	 * @param string $query          The query.
+	 * @param array  $parameters     An array of parameters to be bound in to the query.
+	 * @param string $cache_group_id The cache group ID to use.
+	 * @param bool   $cache_query    Whether to cache the query.
 	 *
 	 * @return bool|int Response of wpdb::query
 	 */
-	protected static function execute( $query, $parameters = [] ) {
+	protected static function execute( $query, $parameters = [], $cache_group_id = '', $cache_query = true ) {
+		if ( $cache_query ) {
+			// Generate a unique cache key for this query.
+			$cache_key = 'query_' . md5( $query . json_encode( $parameters ) ); // phpcs:ignore Yoast.Yoast.AlternativeFunctions
+
+			// Get the cache and bail early if it's set.
+			$cached = self::get_cache( $cache_key, $cache_group_id );
+			if ( $cached !== false ) {
+				return $cached;
+			}
+		}
+
 		/**
 		 * The global WordPress database variable.
 		 *
@@ -287,6 +300,10 @@ class ORM implements \ArrayAccess {
 		$result = $wpdb->query( $query );
 
 		$wpdb->show_errors = $show_errors;
+
+		if ( $cache_query ) {
+			self::set_cache( $cache_key, $result, self::get_cache_group( $cache_group_id ) );
+		}
 
 		return $result;
 	}
@@ -1951,13 +1968,13 @@ class ORM implements \ArrayAccess {
 		global $wpdb;
 
 		$query   = $this->build_select();
-		$success = self::execute( $query, $this->values );
+		$success = self::execute( $query, $this->values, $this->id() );
 
 		if ( $success === false ) {
 			// If the query fails run the migrations and try again.
 			// Action is intentionally undocumented and should not be used by third-parties.
 			\do_action( '_yoast_run_migrations' );
-			$success = self::execute( $query, $this->values );
+			$success = self::execute( $query, $this->values, $this->id() );
 		}
 
 		$this->reset_idiorm_state();
@@ -1970,6 +1987,8 @@ class ORM implements \ArrayAccess {
 		foreach ( $wpdb->last_result as $row ) {
 			$rows[] = \get_object_vars( $row );
 		}
+
+		self::flush_group_caches( $this->id() );
 
 		return $rows;
 	}
@@ -2177,7 +2196,7 @@ class ORM implements \ArrayAccess {
 			// INSERT.
 			$query = $this->build_insert();
 		}
-		$success = self::execute( $query, $values );
+		$success = self::execute( $query, $values, $this->id(), false );
 		// If we've just inserted a new record, set the ID of this object.
 		if ( $this->is_new ) {
 			$this->is_new = false;
@@ -2193,6 +2212,10 @@ class ORM implements \ArrayAccess {
 		}
 		$this->dirty_fields = [];
 		$this->expr_fields  = [];
+
+		if ( $success ) {
+			$this->flush_group_caches( $this->id() );
+		}
 
 		return $success;
 	}
@@ -2285,7 +2308,11 @@ class ORM implements \ArrayAccess {
 
 			// We now have the same set of dirty columns in all our models and also gathered all values.
 			$query   = $this->build_insert_many( $models_chunk, $dirty_column_names );
-			$success = $success && (bool) self::execute( $query, $values );
+			$success = $success && (bool) self::execute( $query, $values, $this->id(), false );
+		}
+
+		if ( $success ) {
+			self::flush_group_caches( $this->id() );
 		}
 
 		return $success;
@@ -2308,9 +2335,14 @@ class ORM implements \ArrayAccess {
 
 		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
-		$success            = self::execute( $query, \array_merge( $values, $this->values ) );
+		$id                 = $this->id();
+		$success            = self::execute( $query, \array_merge( $values, $this->values ), $id, false );
 		$this->dirty_fields = [];
 		$this->expr_fields  = [];
+
+		if ( $success ) {
+			self::flush_group_caches( $id );
+		}
 
 		return $success;
 	}
@@ -2421,7 +2453,13 @@ class ORM implements \ArrayAccess {
 	public function delete() {
 		$query = [ 'DELETE FROM', $this->quote_identifier( $this->table_name ), $this->add_id_column_conditions() ];
 
-		return self::execute( \implode( ' ', $query ), \is_array( $this->id( true ) ) ? \array_values( $this->id( true ) ) : [ $this->id( true ) ] );
+		// Get the ID.
+		$id = $this->id( true );
+
+		// Flush caches.
+		self::flush_group_caches( $id );
+
+		return self::execute( \implode( ' ', $query ), \is_array( $id ) ? \array_values( $id ) : [ $id ], $id, false );
 	}
 
 	/**
@@ -2441,7 +2479,14 @@ class ORM implements \ArrayAccess {
 			]
 		);
 
-		return self::execute( $query, $this->values );
+		// Get the ID.
+		$id = $this->id();
+
+		// Flush caches.
+		self::flush_group_caches( $id );
+
+		// Execute the query.
+		return self::execute( $query, $this->values, $id, false );
 	}
 
 	/*
@@ -2540,5 +2585,71 @@ class ORM implements \ArrayAccess {
 	 */
 	public function __isset( $key ) {
 		return $this->offsetExists( $key );
+	}
+
+	/**
+	 * Get a cache.
+	 *
+	 * @param string $key      Cache key.
+	 * @param mixed  $group_id Cache group ID.
+	 *
+	 * @return mixed The cache value.
+	 */
+	public static function get_cache( $key, $group_id = '' ) {
+		$cache_group = self::get_cache_group( $group_id );
+		return \wp_cache_get( $key, $cache_group );
+	}
+
+	/**
+	 * Set a cache.
+	 *
+	 * @param string $key   Cache key.
+	 * @param mixed  $value Cache value.
+	 * @param mixed  $group Cache group.
+	 *
+	 * @return void
+	 */
+	private static function set_cache( $key, $value, $group = '' ) {
+		/**
+		 * Set the cache, with a timeout of 10 minutes.
+		 *
+		 * The 10-minute is long enough to significantly improve performance,
+		 * but short enough to not cause issues with stale data.
+		 *
+		 * Individual cache-groups are purged when a record is updated or deleted.
+		 */
+		\wp_cache_set( $key, $value, $group, ( 10 * MINUTE_IN_SECONDS ) );
+	}
+
+	/**
+	 * Flushes the cache for the given group IDs.
+	 *
+	 * @param mixed $group_id Cache group ID.
+	 *
+	 * @return void
+	 */
+	public static function flush_group_caches( $group_id = '' ) {
+		if ( is_array( $group_id ) ) {
+			foreach ( $group_id as $id ) {
+				self::flush_group_caches( $id );
+			}
+			\wp_cache_flush_group( self::get_cache_group() );
+			return;
+		}
+		\wp_cache_flush_group( self::get_cache_group( $group_id ) );
+	}
+
+	/**
+	 * Get the cache-group to use in cached queries.
+	 *
+	 * @param string $id The ID to use in the cache-group.
+	 *
+	 * @return mixed
+	 */
+	private static function get_cache_group( $id = '' ) {
+		if ( ! $id || ! \is_scalar( $id ) ) {
+			return 'wp-seo';
+		}
+		return 'wp-seo-' . $id;
 	}
 }
