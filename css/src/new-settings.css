@@ -75,7 +75,7 @@
 
 			/* This needs additional nesting, specificity wise. */
 			.emoji-select-popover {
-				@apply yst-right-auto yst-left-0;	
+				@apply yst-z-20 yst-right-auto yst-left-0;	
 			}
 		}
 
@@ -171,7 +171,7 @@
 				yst-ring-black
 				yst-ring-opacity-5
 				focus:yst-outline-none
-				yst-z-10;
+				yst-z-20;
 
 				div > div {
 					@apply
