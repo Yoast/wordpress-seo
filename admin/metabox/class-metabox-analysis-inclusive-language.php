@@ -16,7 +16,7 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	 * @return bool Whether or not this analysis is enabled.
 	 */
 	public function is_enabled() {
-		return $this->is_globally_enabled() && $this->is_user_enabled()
+		return $this->is_globally_enabled() && $this->is_user_enabled() && $this->is_current_version_supported()
 				&& YoastSEO()->helpers->language->has_inclusive_language_support( \WPSEO_Language_Utils::get_language( \get_locale() ) );
 	}
 
@@ -36,5 +36,22 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	 */
 	public function is_globally_enabled() {
 		return WPSEO_Options::get( 'inclusive_language_analysis_active', false );
+	}
+
+	/**
+	 * Whether the inclusive language analysis should be loaded in Free.
+	 *
+	 * It should always be loaded when Premium is not active. If Premium is active, it depends on the version. Some Premium
+	 * versions also have inclusive language code (when it was still a Premium only feature) which would result in rendering
+	 * the analysis twice. In those cases, the analysis should be only loaded from the Premium side.
+	 *
+	 * @return bool Whether or not the inclusive language analysis should be loaded
+	 */
+	private function is_current_version_supported() {
+		$is_premium      = YoastSEO()->helpers->product->is_premium();
+		$premium_version = YoastSEO()->helpers->product->get_premium_version();
+
+		return ! $is_premium || \version_compare( $premium_version, '19.7', '>=' ) ||
+			\version_compare( $premium_version, '19.2', '==' );
 	}
 }
