@@ -962,7 +962,6 @@ class WPSEO_Upgrade {
 		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
 		$this->deduplicate_unindexed_indexable_rows();
 		$this->remove_indexable_rows_for_disabled_authors_archive();
-		$this->remove_indexable_rows_for_authors_without_archive();
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
@@ -1536,46 +1535,6 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		$delete_query = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = 'user'" );
-		// phpcs:enable
-
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$wpdb->query( $delete_query );
-		// phpcs:enable
-
-		$wpdb->show_errors = $show_errors;
-	}
-
-	/**
-	 * Removes all user indexables rows for users without a publicly viewable author archive.
-	 *
-	 * @return void
-	 */
-	private function remove_indexable_rows_for_authors_without_archive() {
-		global $wpdb;
-
-		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
-		$show_errors       = $wpdb->show_errors;
-		$wpdb->show_errors = false;
-
-		$indexable_table           = Model::get_table_name( 'Indexable' );
-		$author_archive_post_types = \YoastSEO()->helpers->author_archive->get_author_archive_post_types();
-		$viewable_post_stati       = \array_filter( get_post_stati(), 'is_post_status_viewable' );
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
-		$delete_query = $wpdb->prepare(
-			"DELETE FROM $indexable_table
-				WHERE object_type = 'user'
-				AND object_id NOT IN (
-					SELECT DISTINCT post_author
-					FROM $wpdb->posts
-					WHERE post_type IN ( " . \implode( ', ', \array_fill( 0, \count( $author_archive_post_types ), '%s' ) ) . ' )
-					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_stati ), '%s' ) ) . ' )
-				)',
-			\array_merge( $author_archive_post_types, $viewable_post_stati )
-		);
 		// phpcs:enable
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
