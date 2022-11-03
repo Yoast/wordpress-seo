@@ -2,11 +2,14 @@
 import {
 	isFunction,
 	flatMap,
+
 } from "lodash-es";
 // The WP annotations package isn't loaded by default so force loading it.
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
+import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
+
 
 const ANNOTATION_SOURCE = "yoast";
 
@@ -360,11 +363,17 @@ function fillAnnotationQueue( annotations ) {
 export function applyAsAnnotations( paper, marks ) {
 	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
+	const fieldsToMark = getFieldsToMarkHelper(  marks  );
 
 	if ( marks.length === 0 ) {
 		return;
 	}
-	const blocks = select( "core/block-editor" ).getBlocks();
+	let blocks = select( "core/block-editor" ).getBlocks();
+
+	if ( fieldsToMark.length > 0 ) {
+		blocks = blocks.filter( block => fieldsToMark.some( field => "core/" + field === block.name ) );
+	}
+
 
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {

@@ -6,7 +6,7 @@ import Paper from "../../../../src/values/Paper.js";
 let assessment = new WordComplexityAssessment();
 
 describe( "a test for an assessment that checks complex words in a text", function() {
-	it( "should returns with score 9 if the complex words are less than 10% in the text", function() {
+	it( "should return with score 9 if the complex words are less than 10% in the text", function() {
 		const paper = new Paper( "This is short text. This is another short text. This is another short text. " +
 			"This is another short text. This is another short text. This is another short text. This is another short text. " +
 			"This is another short text. This is another short text. This is another short text. This is another short text. " +
@@ -22,11 +22,12 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		expect( result.hasMarks() ).toBe( true );
 		expect( assessment.getMarks( paper, researcher ) ).toEqual( [
 			{ _properties:
-					{ marked: "Torbie cats with a <yoastmark class='yoast-text-mark'>predominantly</yoastmark> white " +
+					{ 	fieldsToMark: [],
+						marked: "Torbie cats with a <yoastmark class='yoast-text-mark'>predominantly</yoastmark> white " +
 							"<yoastmark class='yoast-text-mark'>undercoat</yoastmark> are often referred to as " +
 							"\"caliby\", an <yoastmark class='yoast-text-mark'>amalgamation</yoastmark> of Calico and Tabby.",
-					original: "Torbie cats with a predominantly white undercoat are often referred to as \"caliby\", " +
-							"an amalgamation of Calico and Tabby." },
+						original: "Torbie cats with a predominantly white undercoat are often referred to as \"caliby\", " +
+						"an amalgamation of Calico and Tabby." },
 			} ]
 		);
 		expect( result.hasBetaBadge() ).toBe( true );
@@ -47,7 +48,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		"Torbie cats with a predominantly white undercoat are often referred to as \"caliby\" by their respective owners, " +
 		"an amalgamation of Calico and Tabby." );
 
-	it( "should returns with score 6 if the complex words are more than 10% in the text", function() {
+	it( "should return with score 6 if the complex words are more than 10% in the text", function() {
 		const researcher = new EnglishResearcher( runningPaper );
 		const result = assessment.getResult( runningPaper, researcher );
 
@@ -58,7 +59,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		expect( result.hasMarks() ).toBe( true );
 	} );
 
-	it( "should returns with score 3 if the complex words are more than 10% in the text and the cornerstone toggle is on", function() {
+	it( "should return with score 3 if the complex words are more than 10% in the text and the cornerstone toggle is on", function() {
 		const researcher = new EnglishResearcher( runningPaper );
 
 		assessment = new WordComplexityAssessment( {

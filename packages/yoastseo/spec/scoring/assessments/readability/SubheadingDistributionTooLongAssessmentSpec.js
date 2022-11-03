@@ -696,10 +696,12 @@ describe( "A test for marking too long text segments not separated by a subheadi
 			new Mark( {
 				original: "First subheading",
 				marked: "<yoastmark class='yoast-text-mark'>First subheading</yoastmark>",
+				fieldsToMark: [ "heading" ],
 			} ),
 			new Mark( {
 				original: "Second subheading",
 				marked: "<yoastmark class='yoast-text-mark'>Second subheading</yoastmark>",
+				fieldsToMark: [ "heading" ],
 			} ),
 		];
 		assessment.getResult( paper, textFragment );
@@ -733,10 +735,12 @@ describe( "A test for marking too long text segments not separated by a subheadi
 			new Mark( {
 				original: "First subheading",
 				marked: "<yoastmark class='yoast-text-mark'>First subheading</yoastmark>",
+				fieldsToMark: [ "heading" ],
 			} ),
 			new Mark( {
 				original: "Second subheading",
 				marked: "<yoastmark class='yoast-text-mark'>Second subheading</yoastmark>",
+				fieldsToMark: [ "heading" ],
 			} ),
 		];
 		assessment.getResult( paper, textFragment );

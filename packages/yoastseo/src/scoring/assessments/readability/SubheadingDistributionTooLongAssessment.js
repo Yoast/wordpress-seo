@@ -192,6 +192,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			return new Mark( {
 				original: subheading,
 				marked: marked,
+				fieldsToMark: [ "heading" ],
 			} );
 		} );
 		// This is to ensure that an empty subheading doesn't receive marker tags.
