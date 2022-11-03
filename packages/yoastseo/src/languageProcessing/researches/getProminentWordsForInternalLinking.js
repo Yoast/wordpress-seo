@@ -10,6 +10,7 @@ import {
 } from "../helpers/prominentWords/determineProminentWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../helpers/html/getSubheadings";
 import baseStemmer from "../helpers/morphology/baseStemmer";
+import removeURLs from "../helpers/sanitize/removeURLs.js";
 
 /**
  * Retrieves the prominent words from the given paper.
@@ -32,9 +33,9 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	// An optional custom helper to count length to use instead of countWords.
 	const customCountLength = researcher.getHelper( "customCountLength" );
 
-	const text = paper.getText();
-	const metadescription = paper.getDescription();
-	const title = paper.getTitle();
+	const text = removeURLs( paper.getText() );
+	const metadescription = removeURLs( paper.getDescription() );
+	const title = removeURLs( paper.getTitle() );
 
 	const result = {};
 	result.hasMetaDescription = metadescription !== "";
