@@ -280,7 +280,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function add_settings_saved_page( $pages ) {
 		\add_submenu_page(
-			null,
+			'',
 			'',
 			null,
 			'wpseo_manage_options',
