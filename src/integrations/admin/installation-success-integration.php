@@ -100,7 +100,7 @@ class Installation_Success_Integration implements Integration_Interface {
 	 */
 	public function add_submenu_page( $submenu_pages ) {
 		\add_submenu_page(
-			null,
+			'',
 			\__( 'Installation Successful', 'wordpress-seo' ),
 			null,
 			'manage_options',
