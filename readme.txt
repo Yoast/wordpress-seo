@@ -251,6 +251,7 @@ Release Date: November 8th, 2022
 
 
 
+
 Enhancements:
 
 * Improves the call-to-action feedback string of the _Flesch Reading Ease_ insight when the text is recognized as fairly difficult.
