@@ -31,9 +31,6 @@ jobs:
 
     name: "Lint: PHP ${{ matrix.php_version }}"
 
-    # Allow builds to fail on as-of-yet unreleased PHP versions.
-    continue-on-error: ${{ matrix.php_version == '8.2' }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
