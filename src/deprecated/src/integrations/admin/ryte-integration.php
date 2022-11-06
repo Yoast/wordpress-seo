@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use wfConfig;
 use WP_Error;
 use WPSEO_Ryte_Option;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;

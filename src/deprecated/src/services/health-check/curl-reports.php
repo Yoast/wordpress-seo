@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check;
 
-use WPSEO_Admin_Utils;
 use WPSEO_Shortlinker;
 
 /**

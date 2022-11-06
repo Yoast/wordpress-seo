@@ -23,7 +23,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 		$cyber_monday_start = \gmmktime( 11, 00, 00, 11, 27, 2022 );
 		$title              = ( $time > $cyber_monday_start ) ? \__( 'CYBER MONDAY - 30% OFF', 'wordpress-seo' ) : \__( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' );
 
-		$assets_uri              = \trailingslashit( \plugin_dir_url( WPSEO_FILE ) );
+		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 		\ob_start();
 		?>

@@ -675,8 +675,8 @@ class Settings_Integration implements Integration_Interface {
 			$route = $rest_base;
 		}
 		// Always strip leading slashes.
-		while ( substr( $route, 0, 1 ) === '/' ) {
-			$route = substr( $route, 1 );
+		while ( \substr( $route, 0, 1 ) === '/' ) {
+			$route = \substr( $route, 1 );
 		}
 
 		return $route;

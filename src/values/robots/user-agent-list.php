@@ -37,7 +37,7 @@ class User_Agent_List {
 	 *
 	 * @param string $user_agent The user agent identifier.
 	 *
-	 * @return \Yoast\WP\SEO\Values\Robots\User_Agent
+	 * @return User_Agent
 	 */
 	public function get_user_agent( $user_agent ) {
 		if ( $this->has_user_agent( $user_agent ) ) {
