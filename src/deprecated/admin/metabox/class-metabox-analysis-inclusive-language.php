@@ -35,7 +35,7 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 		_deprecated_function( __METHOD__, 'WPSEO 19.6.1' );
 		return $this->is_globally_enabled() && $this->is_user_enabled() && $this->is_current_version_supported()
 				&& YoastSEO()->helpers->product->is_premium()
-				&& YoastSEO()->helpers->language->has_inclusive_language_support( \WPSEO_Language_Utils::get_language( \get_locale() ) );
+				&& YoastSEO()->helpers->language->has_inclusive_language_support( WPSEO_Language_Utils::get_language( get_locale() ) );
 	}
 
 	/**
@@ -74,6 +74,6 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 		$is_premium      = YoastSEO()->helpers->product->is_premium();
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
 
-		return $is_premium && \version_compare( $premium_version, '19.2-RC1', '>=' );
+		return $is_premium && version_compare( $premium_version, '19.2-RC1', '>=' );
 	}
 }
