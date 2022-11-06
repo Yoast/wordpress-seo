@@ -106,7 +106,7 @@ class Indexables_Page_Action {
 			$is_default_noindex = $this->post_type_helper->is_indexable( $sub_type ) ? ' OR is_robots_noindex IS NULL' : '';
 			$build_where       .= '( object_sub_type = \'' . $sub_type . '\' AND ( is_robots_noindex = FALSE' . $is_default_noindex . ' ) ) OR';
 		}
-		$build_where  = rtrim( $build_where, ' OR' );
+		$build_where  = \rtrim( $build_where, ' OR' );
 		$build_where .= ')';
 
 		return $this->indexable_repository->query()
@@ -158,7 +158,7 @@ class Indexables_Page_Action {
 			->where_not_equal( 'readability_score', 0 )
 			->count();
 
-		$analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
+		$analysed_content = ( \max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
 
 		$enough_content          = $all_posts > $content_threshold;
 		$enough_analysed_content = $analysed_content > $analysis_threshold;

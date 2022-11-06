@@ -76,7 +76,7 @@ class Indexables_Page_Helper {
 			$times = 3;
 		}
 
-		return ( $this->get_indexables_list_size() * intval( $times ) );
+		return ( $this->get_indexables_list_size() * \intval( $times ) );
 	}
 
 	/**
@@ -157,6 +157,6 @@ class Indexables_Page_Helper {
 	public function is_valid_ignore_list_name( $list_name ) {
 		$valid_list_names = $this->get_ignore_list_names();
 
-		return in_array( $list_name, $valid_list_names, true );
+		return \in_array( $list_name, $valid_list_names, true );
 	}
 }

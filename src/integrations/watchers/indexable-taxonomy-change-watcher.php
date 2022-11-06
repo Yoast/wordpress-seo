@@ -141,8 +141,8 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			// Schedule a cron job to remove all the terms whose taxonomy has been made private.
 			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
 				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
-					\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+					\wp_schedule_single_event( ( \time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+					\wp_schedule_single_event( ( \time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 				}
 			}
 		}
@@ -155,7 +155,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 */
 	private function maybe_add_notification() {
 		$notification = $this->notification_center->get_notification_by_id( 'taxonomies-made-public' );
-		if ( is_null( $notification ) ) {
+		if ( \is_null( $notification ) ) {
 			$this->add_notification();
 		}
 	}
@@ -166,7 +166,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	private function add_notification() {
-		$message = sprintf(
+		$message = \sprintf(
 			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
 			\esc_html__( 'It looks like you\'ve added a new taxonomy to your website. We recommend that you review your %1$sSearch appearance settings%2$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) ) . '">',
