@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
-
 /**
  * A helper object for the indexable page.
  */

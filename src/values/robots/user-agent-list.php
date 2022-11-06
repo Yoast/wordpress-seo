@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Values\Robots;
 
-use Yoast\WP\SEO\Values\Robots\User_Agent;
-
 /**
  * Class User_Agent_List
  */

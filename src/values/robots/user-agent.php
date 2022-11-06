@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Values\Robots;
 
-use Yoast\WP\SEO\Values\Robots\Directive;
-
 /**
  * Class Directive
  */
