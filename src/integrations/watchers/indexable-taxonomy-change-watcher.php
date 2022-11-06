@@ -141,8 +141,8 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			// Schedule a cron job to remove all the terms whose taxonomy has been made private.
 			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
 				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-					\wp_schedule_single_event( ( \time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
-					\wp_schedule_single_event( ( \time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+					\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+					\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 				}
 			}
 		}

@@ -23,7 +23,7 @@ class Woocommerce implements Initializer_Interface {
 	 */
 	public function declare_custom_order_tables_compatibility() {
 		if ( \class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
-			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', WPSEO_FILE, true );
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', \WPSEO_FILE, true );
 		}
 	}
 }

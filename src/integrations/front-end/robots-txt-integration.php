@@ -96,7 +96,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 		 */
 		\do_action( 'Yoast\WP\SEO\register_robots_rules', $this->robots_txt_helper );
 
-		return \trim( $robots_txt . PHP_EOL . $this->robots_txt_presenter->present() . PHP_EOL );
+		return \trim( $robots_txt . \PHP_EOL . $this->robots_txt_presenter->present() . \PHP_EOL );
 	}
 
 	/**
