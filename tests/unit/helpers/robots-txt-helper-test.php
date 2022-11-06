@@ -60,8 +60,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 		foreach ( $arguments as $argument ) {
 			$this->instance->add_disallow( $argument[0], $argument[1] );
 		}
-		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Loose array comparison is necessary.
-		$this->assertTrue( $this->instance->get_disallow_directives() == $expected );
+
+		$this->assertEquals( $expected, $this->instance->get_disallow_directives() );
 	}
 
 	/**
@@ -145,8 +145,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 		foreach ( $arguments as $argument ) {
 			$this->instance->add_allow( $argument[0], $argument[1] );
 		}
-		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Loose array comparison is necessary.
-		$this->assertTrue( $this->instance->get_allow_directives() == $expected );
+
+		$this->assertEquals( $expected, $this->instance->get_allow_directives() );
 	}
 
 	/**
@@ -230,8 +230,8 @@ class Robots_Txt_Helper_Test extends TestCase {
 		foreach ( $sitemaps as $sitemap ) {
 			$this->instance->add_sitemap( $sitemap );
 		}
-		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Loose array comparison is necessary.
-		$this->assertTrue( $this->instance->get_sitemap_rules() == $expected );
+
+		$this->assertEquals( $expected, $this->instance->get_sitemap_rules() );
 	}
 
 	/**
