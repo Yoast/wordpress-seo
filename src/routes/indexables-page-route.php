@@ -392,7 +392,7 @@ class Indexables_Page_Route implements Route_Interface {
 		$ignore_list_name = $params['type'] . '_ignore_list';
 
 		$ignored_indexable_ids = \array_map(
-			function ( $ignored_indexable_id ) {
+			static function ( $ignored_indexable_id ) {
 				return \intval( $ignored_indexable_id );
 			},
 			$params['list']
@@ -535,7 +535,7 @@ class Indexables_Page_Route implements Route_Interface {
 	public function set_reading_list( WP_REST_Request $request ) {
 		$params             = $request->get_json_params();
 		$reading_list_state = \array_map(
-			function ( $article ) {
+			static function ( $article ) {
 				return \boolval( $article );
 			},
 			$params['state']

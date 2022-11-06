@@ -178,7 +178,7 @@ class Indexables_Page_Action {
 			'enoughContent'         => $enough_content,
 			'enoughAnalysedContent' => $enough_analysed_content,
 			'postsWithoutKeyphrase' => \array_map(
-				function ( $indexable ) {
+				static function ( $indexable ) {
 					$output = $indexable;
 					if ( $indexable->incoming_link_count === null ) {
 						$output->incoming_link_count = 0;
@@ -280,7 +280,7 @@ class Indexables_Page_Action {
 
 		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
 		return \array_map(
-			function ( $indexable ) {
+			static function ( $indexable ) {
 				$output = $indexable;
 				if ( $indexable->incoming_link_count === null ) {
 					$output->incoming_link_count = 0;
@@ -325,7 +325,7 @@ class Indexables_Page_Action {
 		$ignore_list = \array_values(
 			\array_filter(
 				$ignore_list,
-				function( $indexable ) use ( $indexable_id ) {
+				static function( $indexable ) use ( $indexable_id ) {
 					return $indexable !== $indexable_id;
 				}
 			)
