@@ -10,7 +10,7 @@ class User_Agent_List {
 	/**
 	 * The list of user agents.
 	 *
-	 * @var array $user_agent_list
+	 * @var array
 	 */
 	private $user_agent_list;
 

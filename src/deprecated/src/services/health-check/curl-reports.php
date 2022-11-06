@@ -22,7 +22,6 @@ class Curl_Reports {
 	 *                                                        This class uses the report builder to generate WordPress-friendly
 	 *                                                        health check results.
 	 * @param  WPSEO_Shortlinker      $shortlinker            The WPSEO_Shortlinker object used to generate short links.
-	 * @return void
 	 */
 	public function __construct(
 		Report_Builder_Factory $report_builder_factory,

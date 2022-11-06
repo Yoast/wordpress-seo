@@ -49,12 +49,12 @@ class Robots_Txt_Helper_Test extends TestCase {
 	/**
 	 * Tests if add_disallow works as expected.
 	 *
-	 * @param array $arguments The arguments to be passed to the function.
-	 * @param array $expected The expected result.
-	 *
 	 * @dataProvider add_disallow_dataprovider
 	 *
 	 * @covers ::add_disallow
+	 *
+	 * @param array $arguments The arguments to be passed to the function.
+	 * @param array $expected  The expected result.
 	 */
 	public function test_add_disallow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
@@ -134,12 +134,12 @@ class Robots_Txt_Helper_Test extends TestCase {
 	/**
 	 * Tests if add_allow works as expected.
 	 *
-	 * @param array $arguments The arguments to be passed to the function.
-	 * @param array $expected The expected result.
-	 *
 	 * @dataProvider add_allow_dataprovider
 	 *
 	 * @covers ::add_allow
+	 *
+	 * @param array $arguments The arguments to be passed to the function.
+	 * @param array $expected  The expected result.
 	 */
 	public function test_add_allow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
@@ -219,12 +219,12 @@ class Robots_Txt_Helper_Test extends TestCase {
 	/**
 	 * Tests if add_sitemap works as expected.
 	 *
-	 * @param array $sitemaps The sitemaps to be passed to the function.
-	 * @param array $expected The expected result.
-	 *
 	 * @dataProvider add_sitemap_dataprovider
 	 *
 	 * @covers ::add_allow
+	 *
+	 * @param array $sitemaps The sitemaps to be passed to the function.
+	 * @param array $expected The expected result.
 	 */
 	public function test_add_sitemap( $sitemaps, $expected ) {
 		foreach ( $sitemaps as $sitemap ) {

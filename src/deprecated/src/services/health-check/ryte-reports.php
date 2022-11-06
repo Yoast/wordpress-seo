@@ -20,13 +20,11 @@ class Ryte_Reports {
 	 * @deprecated 19.6
 	 * @codeCoverageIgnore
 	 *
-	 * @param Report_Builder_Factory $report_builder_factory  The factory for result builder objects.
-	 *                                                        This class uses the report builder to generate
-	 *                                                        WordPress-friendly health check results.
-	 * @param WPSEO_Shortlinker      $shortlinker             The WPSEO_Shortlinker object used to generate short
-	 *                                                        links.
-	 *
-	 * @return void
+	 * @param Report_Builder_Factory $report_builder_factory The factory for result builder objects.
+	 *                                                       This class uses the report builder to generate
+	 *                                                       WordPress-friendly health check results.
+	 * @param WPSEO_Shortlinker      $shortlinker            The WPSEO_Shortlinker object used to generate short
+	 *                                                       links.
 	 */
 	public function __construct(
 		Report_Builder_Factory $report_builder_factory,
