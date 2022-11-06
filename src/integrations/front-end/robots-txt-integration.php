@@ -38,7 +38,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @param Options_Helper    $options_helper Options helper.
+	 * @param Options_Helper    $options_helper    Options helper.
 	 * @param Robots_Txt_Helper $robots_txt_helper Robots txt helper.
 	 */
 	public function __construct( Options_Helper $options_helper, Robots_Txt_Helper $robots_txt_helper ) {
