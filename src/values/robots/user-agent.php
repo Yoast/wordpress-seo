@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Values\Robots;
 
+use Yoast\WP\SEO\Values\Robots\Directive;
+
 /**
  * Class Directive
  */
@@ -17,14 +19,14 @@ class User_Agent {
 	/**
 	 * All directives that are allowed for this user agent.
 	 *
-	 * @var \Yoast\WP\SEO\Values\Robots\Directive $allow_directive
+	 * @var Directive $allow_directive
 	 */
 	private $allow_directive;
 
 	/**
 	 * All directives that are disallowed for this user agent.
 	 *
-	 * @var \Yoast\WP\SEO\Values\Robots\Directive $disallow_directive
+	 * @var Directive $disallow_directive
 	 */
 	private $disallow_directive;
 
