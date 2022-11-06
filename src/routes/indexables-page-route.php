@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use WP_Error;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
