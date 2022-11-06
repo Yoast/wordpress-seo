@@ -178,7 +178,7 @@ class Indexables_Page_Action {
 			'enoughContent'         => $enough_content,
 			'enoughAnalysedContent' => $enough_analysed_content,
 			'postsWithoutKeyphrase' => \array_map(
-				function ( $indexable ) {
+				static function ( $indexable ) {
 					$output = $indexable;
 					if ( $indexable->incoming_link_count === null ) {
 						$output->incoming_link_count = 0;
@@ -280,7 +280,7 @@ class Indexables_Page_Action {
 
 		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
 		return \array_map(
-			function ( $indexable ) {
+			static function ( $indexable ) {
 				$output = $indexable;
 				if ( $indexable->incoming_link_count === null ) {
 					$output->incoming_link_count = 0;
@@ -302,7 +302,7 @@ class Indexables_Page_Action {
 	public function update_ignored_indexables( $ignore_list_name, $ignored_indexable_ids ) {
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
-		};
+		}
 
 		return $this->options_helper->set( $ignore_list_name, $ignored_indexable_ids );
 	}
@@ -318,14 +318,14 @@ class Indexables_Page_Action {
 	public function remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) {
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
-		};
+		}
 
 		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
 
 		$ignore_list = \array_values(
 			\array_filter(
 				$ignore_list,
-				function( $indexable ) use ( $indexable_id ) {
+				static function( $indexable ) use ( $indexable_id ) {
 					return $indexable !== $indexable_id;
 				}
 			)
@@ -344,7 +344,7 @@ class Indexables_Page_Action {
 	public function remove_all_indexables_from_ignore_list( $ignore_list_name ) {
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
-		};
+		}
 		return $this->options_helper->set( $ignore_list_name, [] );
 	}
 
