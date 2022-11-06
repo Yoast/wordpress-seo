@@ -319,7 +319,8 @@ class Elementor implements Integration_Interface {
 		}
 
 		// Saving the WP post to save the slug.
-		$slug = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', \FILTER_SANITIZE_STRING );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
+		$slug = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', @\FILTER_SANITIZE_STRING );
 		if ( $post->post_name !== $slug ) {
 			$post_array              = $post->to_array();
 			$post_array['post_name'] = $slug;

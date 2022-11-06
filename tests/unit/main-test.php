@@ -62,12 +62,6 @@ class Main_Test extends TestCase {
 	 * @covers ::get_container
 	 */
 	public function test_surfaces() {
-		// These two expectations should be removed once the underlying issue has been resolved.
-		if ( \PHP_VERSION_ID >= 80100 ) {
-			$this->expectDeprecation();
-			$this->expectDeprecationMessage( 'Constant FILTER_SANITIZE_STRING is deprecated' );
-		}
-
 		// Deprecated classes call _deprecated_function in the constructor, so stub the function to do nothing.
 		Monkey\Functions\stubs( [ '_deprecated_function' => '__return_null' ] );
 
