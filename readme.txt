@@ -248,10 +248,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.10 =
 Release Date: November 8th, 2022
 
-
-
-
-
+Yoast SEO 19.10 is out today. This release mostly consists of bug fixes and enhancements. In addition, we're getting our WordPress plugins ready for the upcoming High Performance Order Storage feature in WooCommerce 7.1+. Update now! Read more about what's new in Yoast SEO 19.9 in [our release post in English](https://yoa.st/release-8-11-22) or [our release post in Spanish](https://yoa.st/release-8-11-22-spanish)!
 
 Enhancements:
 
