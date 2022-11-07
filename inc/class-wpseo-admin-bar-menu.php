@@ -864,7 +864,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	private function add_submenu_items( array $submenu_items, WP_Admin_Bar $wp_admin_bar, $parent_id ): void {
+	private function add_submenu_items( array $submenu_items, WP_Admin_Bar $wp_admin_bar, $parent_id ) {
 		foreach ( $submenu_items as $menu_item ) {
 			$menu_args = [
 				'parent' => $parent_id,
