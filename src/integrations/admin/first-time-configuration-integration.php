@@ -338,7 +338,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	/**
 	 * Gets the fallback website name from the option in the database if there is no website name.
 	 *
-	 * @param string $company_name The given website name by the user, default empty string.
+	 * @param string $website_name The given website name by the user, default empty string.
 	 *
 	 * @return string|false The website name.
 	 */
