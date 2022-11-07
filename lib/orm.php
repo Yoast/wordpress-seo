@@ -50,17 +50,19 @@ use Yoast\WP\SEO\Config\Migration_Status;
  */
 class ORM implements \ArrayAccess {
 
-	/*
-	 * --- CLASS CONSTANTS ---
+	/**
+	 * The condition fragment used for a query.
+	 *
+	 * @param string
 	 */
-
 	const CONDITION_FRAGMENT = 0;
 
-	const CONDITION_VALUES = 1;
-
-	/*
-	 * --- INSTANCE PROPERTIES ---
+	/**
+	 * The value used for a query.
+	 *
+	 * @param array
 	 */
+	const CONDITION_VALUES = 1;
 
 	/**
 	 * Holds the class name. Wrapped find_one and find_many classes will return an instance or instances of this class.
