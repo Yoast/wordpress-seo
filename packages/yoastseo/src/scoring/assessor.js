@@ -170,6 +170,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 	var result;
 
 	try {
+		// console.log(assessment, "SUCCESS")
 		result = assessment.getResult( paper, researcher );
 		result.setIdentifier( assessment.identifier );
 
@@ -183,9 +184,12 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 
 			result.setMarker( this.getMarker( assessment, paper, researcher ) );
 		}
+		if (assessment.identifier === "keywordDensity"){
+			console.log("RESULT", result)
+		}
 	} catch ( assessmentError ) {
 		showTrace( assessmentError );
-
+		console.log("MARKING ERROR")
 		result = new AssessmentResult();
 
 		result.setScore( -1 );

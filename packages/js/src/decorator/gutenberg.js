@@ -260,14 +260,16 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
  * @returns {string[]} The attributes that we can annotate.
  */
 function getAnnotatableAttributes( blockTypeName ) {
+	console.log( "getAnnotatableAttribute", blockTypeName )
 	const activeMarker = select( "yoast-seo/editor" ).getActiveMarker();
 
 	const assessmentAttributes = ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES[ activeMarker ] || ANNOTATION_ATTRIBUTES;
 
 	if ( ! assessmentAttributes.hasOwnProperty( blockTypeName ) ) {
+		console.log("there you are")
 		return [];
 	}
-
+	console.log( "Idontknow", assessmentAttributes[ blockTypeName ] );
 	return assessmentAttributes[ blockTypeName ];
 }
 
@@ -281,6 +283,7 @@ function getAnnotatableAttributes( blockTypeName ) {
  * @returns {Array} The annotations to apply.
  */
 function getAnnotationsForBlockAttribute( attribute, block, marks ) {
+	console.log("getAnnotations....", attribute, block, marks )
 	const attributeKey = attribute.key;
 
 	const { attributes: blockAttributes } = block;
@@ -306,6 +309,7 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 		);
 
 		if ( ! annotations ) {
+			console.log( "no annotations" );
 			return [];
 		}
 
@@ -360,21 +364,37 @@ function fillAnnotationQueue( annotations ) {
 export function applyAsAnnotations( paper, marks ) {
 	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
-
+	// console.log("hello applyasannotations")
 	if ( marks.length === 0 ) {
 		return;
 	}
 	const blocks = select( "core/block-editor" ).getBlocks();
-
+	console.log( "Blokkers", blocks );
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
-		// We go through every annotatable attribute.
-		return flatMap(
-			getAnnotatableAttributes( block.name ),
-			( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
-		);
+		console.log( block, "block" );
+		if ( block.name === "core/list" ) {
+			console.log("hello, im a list! :-) ")
+			const listItems = block.innerBlocks;
+			flatMap( listItems, ( listItemBlock ) => {
+				console.log('hello im a listitem ;.( ', listItemBlock)
+				const annotatableAttributes2 = getAnnotatableAttributes( listItemBlock.name );
+				console.log('and these are my attributes :-)', annotatableAttributes2)
+				return flatMap(
+					annotatableAttributes2,
+					( ( attribute2 ) => getAnnotationsForBlockAttribute( attribute2, block, marks ) )
+				);
+			} );
+		} else {
+			const annotatableAttributes = getAnnotatableAttributes( block.name );
+			// We go through every annotatable attribute.
+			return flatMap(
+				annotatableAttributes,
+				( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
+			);
+		}
 	} ) );
-
+	console.log( annotations, "YEAH" );
 	fillAnnotationQueue( annotations );
 
 	scheduleAnnotationQueueApplication();

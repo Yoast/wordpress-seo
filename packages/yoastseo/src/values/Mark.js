@@ -40,6 +40,7 @@ Mark.prototype.getMarked = function() {
  */
 Mark.prototype.applyWithReplace = function( text ) {
 	// Cute method to replace everything in a string without using regex.
+	console.log(this,"this");
 	return text.split( this._properties.original ).join( this._properties.marked );
 };
 
