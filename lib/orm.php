@@ -658,9 +658,7 @@ class ORM implements \ArrayAccess {
 		if ( \is_array( $this->get_id_column_name() ) ) {
 			return \count( \array_filter( $this->id(), 'is_null' ) );
 		}
-		else {
-			return \is_null( $this->id() ) ? 1 : 0;
-		}
+		return \is_null( $this->id() ) ? 1 : 0;
 	}
 
 	/**
