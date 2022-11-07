@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
-use WP_Error;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
@@ -392,8 +392,8 @@ class Indexables_Page_Route implements Route_Interface {
 		$ignore_list_name = $params['type'] . '_ignore_list';
 
 		$ignored_indexable_ids = \array_map(
-			function ( $ignored_indexable_id ) {
-				return intval( $ignored_indexable_id );
+			static function ( $ignored_indexable_id ) {
+				return \intval( $ignored_indexable_id );
 			},
 			$params['list']
 		);
@@ -426,7 +426,7 @@ class Indexables_Page_Route implements Route_Interface {
 	public function restore_indexable( WP_REST_Request $request ) {
 		$params           = $request->get_json_params();
 		$ignore_list_name = $params['type'] . '_ignore_list';
-		$indexable_id     = intval( $params['id'] );
+		$indexable_id     = \intval( $params['id'] );
 
 		if ( $this->indexables_page_action->remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) ) {
 			return new WP_REST_Response(
@@ -535,8 +535,8 @@ class Indexables_Page_Route implements Route_Interface {
 	public function set_reading_list( WP_REST_Request $request ) {
 		$params             = $request->get_json_params();
 		$reading_list_state = \array_map(
-			function ( $article ) {
-				return boolval( $article );
+			static function ( $article ) {
+				return \boolval( $article );
 			},
 			$params['state']
 		);

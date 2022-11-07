@@ -6,10 +6,6 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 
@@ -21,7 +17,7 @@ class WPSEO_Upgrade {
 	/**
 	 * The taxonomy helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
+	 * @var Taxonomy_Helper
 	 */
 	private $taxonomy_helper;
 

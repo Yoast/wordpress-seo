@@ -134,11 +134,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$this->add_root_menu( $wp_admin_bar );
 
 		/**
-		* Adds a submenu item in the top of the adminbar.
-		*
-		* @param WP_Admin_Bar $wp_admin_bar    Admin bar instance to add the menu to.
-		* @param string       $menu_identifier The menu identifier.
-		*/
+		 * Adds a submenu item in the top of the adminbar.
+		 *
+		 * @param WP_Admin_Bar $wp_admin_bar    Admin bar instance to add the menu to.
+		 * @param string       $menu_identifier The menu identifier.
+		 */
 		do_action( 'wpseo_add_adminbar_submenu', $wp_admin_bar, self::MENU_IDENTIFIER );
 
 		if ( ! is_admin() ) {

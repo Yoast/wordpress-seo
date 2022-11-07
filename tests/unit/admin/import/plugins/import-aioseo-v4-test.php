@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin\Import\Plugins;
 
 use Mockery;
 use wpdb;
-use WPSEO_Import_AIOSEO_V4;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Import\Plugins\WPSEO_Import_AIOSEO_V4_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
  * Indexables_Exclude_Taxonomy_Integration class

@@ -204,8 +204,10 @@ class Settings_Integration implements Integration_Interface {
 
 		// Are we saving the settings?
 		if ( $this->current_page_helper->get_current_admin_page() === 'options.php' ) {
-			$post_action = \filter_input( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING );
-			$option_page = \filter_input( \INPUT_POST, 'option_page', \FILTER_SANITIZE_STRING );
+			// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
+			$post_action = \filter_input( \INPUT_POST, 'action', @\FILTER_SANITIZE_STRING );
+			$option_page = \filter_input( \INPUT_POST, 'option_page', @\FILTER_SANITIZE_STRING );
+			// phpcs:enable
 
 			if ( $post_action === 'update' && $option_page === self::PAGE ) {
 				\add_action( 'admin_init', [ $this, 'register_setting' ] );
@@ -673,8 +675,8 @@ class Settings_Integration implements Integration_Interface {
 			$route = $rest_base;
 		}
 		// Always strip leading slashes.
-		while ( substr( $route, 0, 1 ) === '/' ) {
-			$route = substr( $route, 1 );
+		while ( \substr( $route, 0, 1 ) === '/' ) {
+			$route = \substr( $route, 1 );
 		}
 
 		return $route;
