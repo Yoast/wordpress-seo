@@ -1,4 +1,3 @@
-import { doesWordMatchRegex } from "../../../../../src/languageProcessing/helpers/morphology/regexHelpers";
 import countCharactersFunction from "../../../../../src/languageProcessing/languages/ja/helpers/countCharacters.js";
 
 describe( "counts characters in a string", function() {

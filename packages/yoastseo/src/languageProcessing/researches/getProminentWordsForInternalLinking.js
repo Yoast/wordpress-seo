@@ -14,6 +14,18 @@ import removeURLs from "../helpers/sanitize/removeURLs.js";
 import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses";
 
 /**
+ * Removes URLs and email addresses from the text.
+ *
+ * @param {string}	text	The text to sanitize.
+ *
+ * @returns {string} The text without URLs and email addresses.
+ */
+const sanitizeText = function( text ) {
+	text = removeURLs( text );
+	return removeEmailAddresses( text );
+};
+
+/**
  * Retrieves the prominent words from the given paper.
  *
  * @param {Paper}       paper       The paper to determine the prominent words of.
@@ -34,13 +46,9 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	// An optional custom helper to count length to use instead of countWords.
 	const customCountLength = researcher.getHelper( "customCountLength" );
 
-	let text = paper.getText();
-	// We don't want to include URLs or email addresses in prominent words.
-	text = removeURLs( text );
-	text = removeEmailAddresses( text );
-
-	const metadescription = removeURLs( paper.getDescription() );
-	const title = removeURLs( paper.getTitle() );
+	const text = sanitizeText( paper.getText() );
+	const metadescription = sanitizeText( paper.getDescription() );
+	const title = sanitizeText( paper.getTitle() );
 
 	const result = {};
 	result.hasMetaDescription = metadescription !== "";
