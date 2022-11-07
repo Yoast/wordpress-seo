@@ -2623,6 +2623,10 @@ class ORM implements \ArrayAccess {
 	 * @return void
 	 */
 	public static function flush_group_caches( $group_id = '' ) {
+		// Bail early if the cache doesn't support group-flushing.
+		if ( function_exists( 'wp_cache_supports' ) && ! wp_cache_supports( 'flush_group' ) ) {
+			return;
+		}
 		\wp_cache_flush_group( self::get_cache_group( $group_id ) );
 	}
 
