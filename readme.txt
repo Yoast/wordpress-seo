@@ -248,30 +248,17 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.11 =
 Release Date: November 15th, 2022
 
-
-Enhancements:
-
-* Improves the call-to-action feedback string of the _Flesch Reading Ease_ insight when the text is recognized as fairly difficult.
-
 Bugfixes:
 
-* Fixes a bug where a fatal error would be thrown in the classic editor in combination with certain plugins that misuse metabox hooks.
 * Fixes a bug where an entry would be added to our indexables table when saving, updating, or accessing a post (or term) for a non-public post type (or taxonomy).
 * Fixes a bug where indexables for users did not get removed when a user would not have any publicly viewable posts anymore.
 * Fixes a bug where indexables for users did not get removed when author archives were disabled.
 * Fixes a bug where indexables were created for users when author archives were disabled.
 * Fixes a bug where indexables were created for users who did not have any publicly viewable posts.
 * Fixes a bug where the SEO optimization would error out when a post type is manually excluded via a filter.
-* Fixes a bug where users with site-wide basic access authentication would be prompted to insert their credentials when saving a post in Elementor if they didn't have the `manage_options` capability.
-* Fixes a bug where Yoast SEO-related post meta data would not be saved if a user without the `manage_options` capability would save a post in Elementor.
 * Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
 * Prevent duplicate indexable records for the same object
 
-Other:
-
-* Deprecates the hooks used to add custom content to the Yoast SEO settings pages, in preparation for future releases. The following hooks have been deprecated: `wpseo_tools_overview_list_items`, `wpseo_settings_tab_crawl_cleanup`, `wpseo_settings_tab_site_analysis`, `Yoast\WP\SEO\admin_author_archives_meta`, `Yoast\WP\SEO\admin_date_archives_meta`, `Yoast\WP\SEO\admin_post_types_beforearchive`, `Yoast\WP\SEO\admin_post_types_archive`, `Yoast\WP\SEO\admin_taxonomies_meta`, `wpseo_admin_other_section`, `wpseo_admin_opengraph_section`, `wpseo_admin_pinterest_section`, `wpseo_admin_twitter_section`, `wpseo_import_other_plugins`.
-* Ensures compatibility with the _High Performance Order Storage_ feature in WooCommerce 7.1+.
-* Sets the WordPress tested up to version to 6.1.
 
 = 19.10 =
 Release Date: November 8th, 2022
