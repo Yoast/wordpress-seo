@@ -146,7 +146,7 @@ class Elementor implements Integration_Interface {
 		// We need to delay the post type lookup to give other plugins a chance to register custom post types.
 		\add_action( 'init', [ $this, 'register_elementor_hooks' ], \PHP_INT_MAX );
 
-		// Disable template_library
+		// Disable template_library indexable creation.
 		\add_filter( 'wpseo_indexable_excluded_post_types', [ $this, 'disable_template_library_indexables' ] );
 	}
 
