@@ -1966,13 +1966,13 @@ class ORM implements \ArrayAccess {
 		global $wpdb;
 
 		$query   = $this->build_select();
-		$success = self::execute( $query, $this->values, $this->id() );
+		$success = self::execute( $query, $this->values, $this->table_name );
 
 		if ( $success === false ) {
 			// If the query fails run the migrations and try again.
 			// Action is intentionally undocumented and should not be used by third-parties.
 			\do_action( '_yoast_run_migrations' );
-			$success = self::execute( $query, $this->values, $this->id() );
+			$success = self::execute( $query, $this->values, $this->table_name );
 		}
 
 		$this->reset_idiorm_state();
@@ -1986,7 +1986,7 @@ class ORM implements \ArrayAccess {
 			$rows[] = \get_object_vars( $row );
 		}
 
-		self::flush_group_caches( $this->id() );
+		self::flush_group_caches( $this->table_name );
 
 		return $rows;
 	}
@@ -2194,7 +2194,7 @@ class ORM implements \ArrayAccess {
 			// INSERT.
 			$query = $this->build_insert();
 		}
-		$success = self::execute( $query, $values, $this->id(), false );
+		$success = self::execute( $query, $values, $this->table_name, false );
 		// If we've just inserted a new record, set the ID of this object.
 		if ( $this->is_new ) {
 			$this->is_new = false;
@@ -2212,7 +2212,7 @@ class ORM implements \ArrayAccess {
 		$this->expr_fields  = [];
 
 		if ( $success ) {
-			$this->flush_group_caches( $this->id() );
+			$this->flush_group_caches( $this->table_name );
 		}
 
 		return $success;
@@ -2306,11 +2306,11 @@ class ORM implements \ArrayAccess {
 
 			// We now have the same set of dirty columns in all our models and also gathered all values.
 			$query   = $this->build_insert_many( $models_chunk, $dirty_column_names );
-			$success = $success && (bool) self::execute( $query, $values, $this->id(), false );
+			$success = $success && (bool) self::execute( $query, $values, $this->table_name, false );
 		}
 
 		if ( $success ) {
-			self::flush_group_caches( $this->id() );
+			self::flush_group_caches( $this->table_name );
 		}
 
 		return $success;
@@ -2333,13 +2333,12 @@ class ORM implements \ArrayAccess {
 
 		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
-		$id                 = $this->id();
-		$success            = self::execute( $query, \array_merge( $values, $this->values ), $id, false );
+		$success            = self::execute( $query, \array_merge( $values, $this->values ), $this->table_name, false );
 		$this->dirty_fields = [];
 		$this->expr_fields  = [];
 
 		if ( $success ) {
-			self::flush_group_caches( $id );
+			self::flush_group_caches( $this->table_name );
 		}
 
 		return $success;
@@ -2477,14 +2476,11 @@ class ORM implements \ArrayAccess {
 			]
 		);
 
-		// Get the ID.
-		$id = $this->id();
-
 		// Flush caches.
-		self::flush_group_caches( $id );
+		self::flush_group_caches( $this->table_name );
 
 		// Execute the query.
-		return self::execute( $query, $this->values, $id, false );
+		return self::execute( $query, $this->values, $this->table_name, false );
 	}
 
 	/*
