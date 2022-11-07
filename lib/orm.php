@@ -2454,7 +2454,7 @@ class ORM implements \ArrayAccess {
 		$id = $this->id( true );
 
 		// Flush caches.
-		self::flush_group_caches( $id );
+		self::flush_group_caches( $this->table_name );
 
 		return self::execute( \implode( ' ', $query ), \is_array( $id ) ? \array_values( $id ) : [ $id ], $id, false );
 	}
