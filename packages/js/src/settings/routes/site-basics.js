@@ -3,7 +3,14 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Radio, RadioGroup, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
-import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormLayout, OpenGraphDisabledAlert } from "../components";
+import {
+	FieldsetLayout,
+	FormikMediaSelectField,
+	FormikValueChangeField,
+	FormLayout,
+	OpenGraphDisabledAlert,
+	RouteLayout,
+} from "../components";
 import { useSelectSettings } from "../hooks";
 
 /**
@@ -105,113 +112,115 @@ const SiteBasics = () => {
 	const { opengraph } = values.wpseo_social;
 
 	return (
-		<FormLayout
+		<RouteLayout
 			title={ __( "Site basics", "wordpress-seo" ) }
 			description={ __( "Configure the basics for your website.", "wordpress-seo" ) }
 		>
-			<div className="yst-max-w-5xl">
-				<FieldsetLayout
-					title={ __( "Site info", "wordpress-seo" ) }
-					description={ siteInfoDescription }
-				>
-					{ ! canManageOptions && (
-						<Alert variant="warning" id="alert-site-defaults-variables">
-							{  canNotManageOptionsAlertText }
-						</Alert>
-					) }
-					<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
-						<Field
-							as={ TextField }
-							type="text"
-							name="blogname"
-							id="input-blogname"
-							label={ __( "Site title", "wordpress-seo" ) }
-							description={ canManageOptions && siteTitleDescription }
-							readOnly={ ! canManageOptions }
-						/>
-						<Field
-							as={ TextField }
-							type="text"
-							name="blogdescription"
-							id="input-blogdescription"
-							label={ __( "Tagline", "wordpress-seo" ) }
-							description={ canManageOptions && taglineDescription }
-							readOnly={ ! canManageOptions }
-						/>
-					</div>
-					<RadioGroup label={ __( "Title separator", "wordpress-seo" ) } variant="inline-block">
-						{ map( separators, ( { label, aria_label: ariaLabel }, value ) => (
+			<FormLayout>
+				<div className="yst-max-w-5xl">
+					<FieldsetLayout
+						title={ __( "Site info", "wordpress-seo" ) }
+						description={ siteInfoDescription }
+					>
+						{ ! canManageOptions && (
+							<Alert variant="warning" id="alert-site-defaults-variables">
+								{  canNotManageOptionsAlertText }
+							</Alert>
+						) }
+						<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 							<Field
-								key={ value }
-								as={ Radio }
-								type="radio"
-								variant="inline-block"
-								name="wpseo_titles.separator"
-								id={ `input-wpseo_titles-separator-${ value }` }
-								label={ label }
-								isLabelDangerousHtml={ true }
-								aria-label={ ariaLabel }
-								value={ value }
+								as={ TextField }
+								type="text"
+								name="blogname"
+								id="input-blogname"
+								label={ __( "Site title", "wordpress-seo" ) }
+								description={ canManageOptions && siteTitleDescription }
+								readOnly={ ! canManageOptions }
 							/>
-						) ) }
-					</RadioGroup>
-					<OpenGraphDisabledAlert
-						isEnabled={ opengraph }
-						text={
+							<Field
+								as={ TextField }
+								type="text"
+								name="blogdescription"
+								id="input-blogdescription"
+								label={ __( "Tagline", "wordpress-seo" ) }
+								description={ canManageOptions && taglineDescription }
+								readOnly={ ! canManageOptions }
+							/>
+						</div>
+						<RadioGroup label={ __( "Title separator", "wordpress-seo" ) } variant="inline-block">
+							{ map( separators, ( { label, aria_label: ariaLabel }, value ) => (
+								<Field
+									key={ value }
+									as={ Radio }
+									type="radio"
+									variant="inline-block"
+									name="wpseo_titles.separator"
+									id={ `input-wpseo_titles-separator-${ value }` }
+									label={ label }
+									isLabelDangerousHtml={ true }
+									aria-label={ ariaLabel }
+									value={ value }
+								/>
+							) ) }
+						</RadioGroup>
+						<OpenGraphDisabledAlert
+							isEnabled={ opengraph }
+							text={
 							/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-							__( "The %1$sSite image%2$s requires Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" )
-						}
-					/>
-					<FormikMediaSelectField
-						id="wpseo_social-og_default_image"
-						label={ __( "Site image", "wordpress-seo" ) }
-						description={ __( "This image is used as a fallback for posts/pages that don't have any images set.", "wordpress-seo" ) }
-						previewLabel={ siteImageRecommendedSize }
-						mediaUrlName="wpseo_social.og_default_image"
-						mediaIdName="wpseo_social.og_default_image_id"
-						disabled={ ! opengraph }
-					/>
-				</FieldsetLayout>
+								__( "The %1$sSite image%2$s requires Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" )
+							}
+						/>
+						<FormikMediaSelectField
+							id="wpseo_social-og_default_image"
+							label={ __( "Site image", "wordpress-seo" ) }
+							description={ __( "This image is used as a fallback for posts/pages that don't have any images set.", "wordpress-seo" ) }
+							previewLabel={ siteImageRecommendedSize }
+							mediaUrlName="wpseo_social.og_default_image"
+							mediaIdName="wpseo_social.og_default_image_id"
+							disabled={ ! opengraph }
+						/>
+					</FieldsetLayout>
 
-				<hr className="yst-my-8" />
-				<FieldsetLayout title={ __( "Site preferences", "wordpress-seo" ) }>
-					{ showForceRewriteTitlesSetting && (
+					<hr className="yst-my-8" />
+					<FieldsetLayout title={ __( "Site preferences", "wordpress-seo" ) }>
+						{ showForceRewriteTitlesSetting && (
+							<FormikValueChangeField
+								as={ ToggleField }
+								type="checkbox"
+								name="wpseo_titles.forcerewritetitle"
+								data-id="input-wpseo_titles-forcerewritetitle"
+								label={ __( "Force rewrite titles", "wordpress-seo" ) }
+								description={ sprintf(
+								/* translators: %1$s expands to Yoast SEO */
+									__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here.", "wordpress-seo" ),
+									"Yoast SEO"
+								) }
+							/>
+						) }
 						<FormikValueChangeField
 							as={ ToggleField }
 							type="checkbox"
-							name="wpseo_titles.forcerewritetitle"
-							data-id="input-wpseo_titles-forcerewritetitle"
-							label={ __( "Force rewrite titles", "wordpress-seo" ) }
+							name="wpseo.disableadvanced_meta"
+							data-id="input-wpseo-disableadvanced_meta"
+							label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
 							description={ sprintf(
-								/* translators: %1$s expands to Yoast SEO */
-								__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here.", "wordpress-seo" ),
+							/* translators: %1$s expands to Yoast SEO */
+								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
 								"Yoast SEO"
 							) }
 						/>
-					) }
-					<FormikValueChangeField
-						as={ ToggleField }
-						type="checkbox"
-						name="wpseo.disableadvanced_meta"
-						data-id="input-wpseo-disableadvanced_meta"
-						label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
-						description={ sprintf(
-							/* translators: %1$s expands to Yoast SEO */
-							__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
-							"Yoast SEO"
-						) }
-					/>
-					<FormikValueChangeField
-						as={ ToggleField }
-						type="checkbox"
-						name="wpseo.tracking"
-						data-id="input-wpseo-tracking"
-						label={ __( "Usage tracking", "wordpress-seo" ) }
-						description={ usageTrackingDescription }
-					/>
-				</FieldsetLayout>
-			</div>
-		</FormLayout>
+						<FormikValueChangeField
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.tracking"
+							data-id="input-wpseo-tracking"
+							label={ __( "Usage tracking", "wordpress-seo" ) }
+							description={ usageTrackingDescription }
+						/>
+					</FieldsetLayout>
+				</div>
+			</FormLayout>
+		</RouteLayout>
 	);
 };
 
