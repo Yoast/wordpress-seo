@@ -302,7 +302,7 @@ class ORM implements \ArrayAccess {
 		$wpdb->show_errors = $show_errors;
 
 		if ( $cache_query ) {
-			self::set_cache( $cache_key, $result, self::get_cache_group( $cache_group_id ) );
+			self::set_cache( $cache_key, $result, $cache_group_id );
 		}
 
 		return $result;
@@ -2603,9 +2603,9 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Set a cache.
 	 *
-	 * @param string $key   Cache key.
-	 * @param mixed  $value Cache value.
-	 * @param mixed  $group Cache group.
+	 * @param string $key      Cache key.
+	 * @param mixed  $value    Cache value.
+	 * @param mixed  $group_id Cache group ID
 	 *
 	 * @return void
 	 */
