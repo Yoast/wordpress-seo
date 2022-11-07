@@ -1988,8 +1988,6 @@ class ORM implements \ArrayAccess {
 			$rows[] = \get_object_vars( $row );
 		}
 
-		self::flush_group_caches( $this->table_name );
-
 		return $rows;
 	}
 
