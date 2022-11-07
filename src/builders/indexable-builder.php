@@ -363,12 +363,8 @@ class Indexable_Builder {
 					// Save indexable, to make sure that it can be queried when determining if an author has public posts.
 					$indexable = $this->save_indexable( $indexable, $indexable_before );
 
-					$author_indexable = $this->maybe_build_author_indexable( $indexable->author_id );
+					$this->maybe_build_author_indexable( $indexable->author_id );
 
-					if ( $author_indexable ) {
-						// Set author ID.
-						$indexable->author_id = $author_indexable->id;
-					}
 					break;
 
 				case 'user':
