@@ -11,11 +11,7 @@ import { useSelectSettings } from "../hooks";
 /**
  * @returns {JSX.Element} The form layout component.
  */
-const FormLayout = ( {
-	children,
-	title,
-	description = null,
-} ) => {
+const FormLayout = ( { children } ) => {
 	const { isSubmitting, status, dirty, resetForm, initialValues } = useFormikContext();
 	const isMediaLoading = useSelectSettings( "selectIsMediaLoading" );
 	const isStatusBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
@@ -29,12 +25,6 @@ const FormLayout = ( {
 
 	return (
 		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
-			<header className="yst-p-8 yst-border-b yst-border-slate-200">
-				<div className="yst-max-w-screen-sm">
-					<Title>{ title }</Title>
-					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
-				</div>
-			</header>
 			<div className="yst-flex-grow yst-p-8">
 				{ children }
 			</div>
@@ -99,8 +89,6 @@ const FormLayout = ( {
 
 FormLayout.propTypes = {
 	children: PropTypes.node.isRequired,
-	title: PropTypes.node.isRequired,
-	description: PropTypes.node,
 };
 
 export default FormLayout;

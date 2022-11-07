@@ -10,6 +10,7 @@ import {
 	FormikReplacementVariableEditorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
+	RouteLayout,
 } from "../components";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
@@ -66,137 +67,139 @@ const FormatArchives = () => {
 	const { "disable-post_format": disablePostFormat } = values.wpseo_titles;
 
 	return (
-		<FormLayout
-			title={ <div className="yst-flex yst-items-center yst-gap-1.5">{ __( "Formats", "wordpress-seo" ) }</div> }
+		<RouteLayout
+			title={ __( "Formats", "wordpress-seo" ) }
 			description={ description }
 		>
-			<div className="yst-max-w-5xl">
-				<FormikFlippedToggleField
-					name="wpseo_titles.disable-post_format"
-					data-id="input-wpseo_titles-disable-post_format"
-					label={ __( "Format-based archives", "wordpress-seo" ) }
-					description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
-				/>
-				<hr className="yst-my-8" />
-				<div className="yst-relative">
-					<AnimateHeight
-						easing="ease-in-out"
-						duration={ 300 }
-						height={ disablePostFormat ? 0 : "auto" }
-						animateOpacity={ true }
-					>
-						<FieldsetLayout
-							title={ __( "Search appearance", "wordpress-seo" ) }
-							description={ sprintf(
+			<FormLayout>
+				<div className="yst-max-w-5xl">
+					<FormikFlippedToggleField
+						name="wpseo_titles.disable-post_format"
+						data-id="input-wpseo_titles-disable-post_format"
+						label={ __( "Format-based archives", "wordpress-seo" ) }
+						description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
+					/>
+					<hr className="yst-my-8" />
+					<div className="yst-relative">
+						<AnimateHeight
+							easing="ease-in-out"
+							duration={ 300 }
+							height={ disablePostFormat ? 0 : "auto" }
+							animateOpacity={ true }
+						>
+							<FieldsetLayout
+								title={ __( "Search appearance", "wordpress-seo" ) }
+								description={ sprintf(
 								// eslint-disable-next-line max-len
 								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag. %3$s expands to Yoast SEO.
-								__( "Determine how your %1$s should look in search engines. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
-								label,
-								singularLabel,
-								"Yoast SEO"
-							) }
-						>
-							<FormikFlippedToggleField
-								name={ `wpseo_titles.noindex-tax-${ name }` }
-								data-id={ `input-wpseo_titles-noindex-tax-${ name }` }
-								label={ sprintf(
-									// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-									__( "Show %1$s in search results", "wordpress-seo" ),
-									label
-								) }
-								description={ <>
-									{ sprintf(
-										// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-										__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
-										label
-									) }
-									<br />
-									<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
-										{ __( "Read more about the search results settings", "wordpress-seo" ) }
-									</Link>
-									.
-								</> }
-							/>
-							<FormikReplacementVariableEditorField
-								type="title"
-								name={ `wpseo_titles.title-tax-${ name }` }
-								fieldId={ `input-wpseo_titles-title-tax-${ name }` }
-								label={ __( "SEO title", "wordpress-seo" ) }
-								replacementVariables={ replacementVariables }
-								recommendedReplacementVariables={ recommendedReplacementVariables }
-							/>
-							<FormikReplacementVariableEditorField
-								type="description"
-								name={ `wpseo_titles.metadesc-tax-${ name }` }
-								fieldId={ `input-wpseo_titles-metadesc-tax-${ name }` }
-								label={ __( "Meta description", "wordpress-seo" ) }
-								replacementVariables={ replacementVariables }
-								recommendedReplacementVariables={ recommendedReplacementVariables }
-								className="yst-replacevar--description"
-							/>
-						</FieldsetLayout>
-						<hr className="yst-my-8" />
-						<FieldsetLayout
-							title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-								<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-								{ isPremium && <Badge variant="upsell">Premium</Badge> }
-							</div> }
-							description={ sprintf(
-								// eslint-disable-next-line max-len
-								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag. %3$s expands to Yoast SEO.
-								__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
-								label,
-								singularLabel,
-								"Yoast SEO"
-							) }
-						>
-							<FeatureUpsell
-								shouldUpsell={ ! isPremium }
-								variant="card"
-								cardLink={ socialAppearancePremiumLink }
-								cardText={ sprintf(
-									/* translators: %1$s expands to Premium. */
-									__( "Unlock with %1$s", "wordpress-seo" ),
-									"Premium"
+									__( "Determine how your %1$s should look in search engines. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
+									label,
+									singularLabel,
+									"Yoast SEO"
 								) }
 							>
-								<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
-								<FormikMediaSelectField
-									id={ `wpseo_titles-social-image-tax-${ name }` }
-									label={ __( "Social image", "wordpress-seo" ) }
-									previewLabel={ recommendedSize }
-									mediaUrlName={ `wpseo_titles.social-image-url-tax-${ name }` }
-									mediaIdName={ `wpseo_titles.social-image-id-tax-${ name }` }
-									disabled={ ! opengraph }
-									isDummy={ ! isPremium }
+								<FormikFlippedToggleField
+									name={ `wpseo_titles.noindex-tax-${ name }` }
+									data-id={ `input-wpseo_titles-noindex-tax-${ name }` }
+									label={ sprintf(
+									// translators: %1$s expands to the taxonomy plural, e.g. Categories.
+										__( "Show %1$s in search results", "wordpress-seo" ),
+										label
+									) }
+									description={ <>
+										{ sprintf(
+										// translators: %1$s expands to the taxonomy plural, e.g. Categories.
+											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
+											label
+										) }
+										<br />
+										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
+											{ __( "Read more about the search results settings", "wordpress-seo" ) }
+										</Link>
+										.
+									</> }
 								/>
-								<FormikReplacementVariableEditorFieldWithDummy
+								<FormikReplacementVariableEditorField
 									type="title"
-									name={ `wpseo_titles.social-title-tax-${ name }` }
-									fieldId={ `input-wpseo_titles-social-title-tax-${ name }` }
-									label={ __( "Social title", "wordpress-seo" ) }
+									name={ `wpseo_titles.title-tax-${ name }` }
+									fieldId={ `input-wpseo_titles-title-tax-${ name }` }
+									label={ __( "SEO title", "wordpress-seo" ) }
 									replacementVariables={ replacementVariables }
 									recommendedReplacementVariables={ recommendedReplacementVariables }
-									isDisabled={ ! opengraph }
-									isDummy={ ! isPremium }
 								/>
-								<FormikReplacementVariableEditorFieldWithDummy
+								<FormikReplacementVariableEditorField
 									type="description"
-									name={ `wpseo_titles.social-description-tax-${ name }` }
-									fieldId={ `input-wpseo_titles-social-description-tax-${ name }` }
-									label={ __( "Social description", "wordpress-seo" ) }
+									name={ `wpseo_titles.metadesc-tax-${ name }` }
+									fieldId={ `input-wpseo_titles-metadesc-tax-${ name }` }
+									label={ __( "Meta description", "wordpress-seo" ) }
 									replacementVariables={ replacementVariables }
 									recommendedReplacementVariables={ recommendedReplacementVariables }
 									className="yst-replacevar--description"
-									isDisabled={ ! opengraph }
-									isDummy={ ! isPremium }
 								/>
-							</FeatureUpsell>
-						</FieldsetLayout>
-					</AnimateHeight>
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								title={ <div className="yst-flex yst-items-center yst-gap-1.5">
+									<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
+									{ isPremium && <Badge variant="upsell">Premium</Badge> }
+								</div> }
+								description={ sprintf(
+								// eslint-disable-next-line max-len
+								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag. %3$s expands to Yoast SEO.
+									__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
+									label,
+									singularLabel,
+									"Yoast SEO"
+								) }
+							>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ socialAppearancePremiumLink }
+									cardText={ sprintf(
+									/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+								>
+									<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
+									<FormikMediaSelectField
+										id={ `wpseo_titles-social-image-tax-${ name }` }
+										label={ __( "Social image", "wordpress-seo" ) }
+										previewLabel={ recommendedSize }
+										mediaUrlName={ `wpseo_titles.social-image-url-tax-${ name }` }
+										mediaIdName={ `wpseo_titles.social-image-id-tax-${ name }` }
+										disabled={ ! opengraph }
+										isDummy={ ! isPremium }
+									/>
+									<FormikReplacementVariableEditorFieldWithDummy
+										type="title"
+										name={ `wpseo_titles.social-title-tax-${ name }` }
+										fieldId={ `input-wpseo_titles-social-title-tax-${ name }` }
+										label={ __( "Social title", "wordpress-seo" ) }
+										replacementVariables={ replacementVariables }
+										recommendedReplacementVariables={ recommendedReplacementVariables }
+										isDisabled={ ! opengraph }
+										isDummy={ ! isPremium }
+									/>
+									<FormikReplacementVariableEditorFieldWithDummy
+										type="description"
+										name={ `wpseo_titles.social-description-tax-${ name }` }
+										fieldId={ `input-wpseo_titles-social-description-tax-${ name }` }
+										label={ __( "Social description", "wordpress-seo" ) }
+										replacementVariables={ replacementVariables }
+										recommendedReplacementVariables={ recommendedReplacementVariables }
+										className="yst-replacevar--description"
+										isDisabled={ ! opengraph }
+										isDummy={ ! isPremium }
+									/>
+								</FeatureUpsell>
+							</FieldsetLayout>
+						</AnimateHeight>
+					</div>
 				</div>
-			</div>
-		</FormLayout>
+			</FormLayout>
+		</RouteLayout>
 	);
 };
 

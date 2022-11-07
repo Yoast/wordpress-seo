@@ -380,6 +380,7 @@ class Settings_Integration implements Integration_Interface {
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
 			'isLocalSeoActive'              => (bool) \defined( 'WPSEO_LOCAL_FILE' ),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
+			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
 			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
 			'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),

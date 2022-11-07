@@ -3,7 +3,14 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikReplacementVariableEditorField, FormLayout, OpenGraphDisabledAlert } from "../components";
+import {
+	FieldsetLayout,
+	FormikMediaSelectField,
+	FormikReplacementVariableEditorField,
+	FormLayout,
+	OpenGraphDisabledAlert,
+	RouteLayout,
+} from "../components";
 import { useSelectSettings } from "../hooks";
 
 /**
@@ -142,15 +149,17 @@ const Homepage = () => {
 	const homepageIsLatestPosts = useSelectSettings( "selectPreference", [], "homepageIsLatestPosts" );
 
 	return (
-		<FormLayout
+		<RouteLayout
 			title={ __( "Homepage", "wordpress-seo" ) }
 			description={ __( "Determine how your homepage should look in the search results and on social media. This is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
 		>
-			<div className="yst-max-w-5xl">
-				{ homepageIsLatestPosts && <LatestPosts /> }
-				{ ! homepageIsLatestPosts && <PageAndPosts /> }
-			</div>
-		</FormLayout>
+			<FormLayout>
+				<div className="yst-max-w-5xl">
+					{ homepageIsLatestPosts && <LatestPosts /> }
+					{ ! homepageIsLatestPosts && <PageAndPosts /> }
+				</div>
+			</FormLayout>
+		</RouteLayout>
 	);
 };
 
