@@ -7,6 +7,7 @@ import {
 	sortProminentWords,
 } from "../helpers/prominentWords/determineProminentWords";
 import removeURLs from "../helpers/sanitize/removeURLs.js";
+import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses";
 
 /**
  * Retrieves the prominent words from the given paper.
@@ -24,7 +25,10 @@ function getProminentWordsForInsights( paper, researcher ) {
 	// An optional custom helper to get words from the text.
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
 
-	const text = removeURLs( paper.getText() );
+	let text = paper.getText();
+	// We don't want to include URLs or email addresses in prominent words.
+	text = removeURLs( text );
+	text = removeEmailAddresses( text );
 
 	// If the language has a custom helper to get words from the text, we don't retrieve the abbreviation.
 	const abbreviations = getWordsCustomHelper ? [] : retrieveAbbreviations( text );

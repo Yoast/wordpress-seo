@@ -11,6 +11,7 @@ import {
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../helpers/html/getSubheadings";
 import baseStemmer from "../helpers/morphology/baseStemmer";
 import removeURLs from "../helpers/sanitize/removeURLs.js";
+import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses";
 
 /**
  * Retrieves the prominent words from the given paper.
@@ -33,7 +34,11 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	// An optional custom helper to count length to use instead of countWords.
 	const customCountLength = researcher.getHelper( "customCountLength" );
 
-	const text = removeURLs( paper.getText() );
+	let text = paper.getText();
+	// We don't want to include URLs or email addresses in prominent words.
+	text = removeURLs( text );
+	text = removeEmailAddresses( text );
+
 	const metadescription = removeURLs( paper.getDescription() );
 	const title = removeURLs( paper.getTitle() );
 
