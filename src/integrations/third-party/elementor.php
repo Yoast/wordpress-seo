@@ -145,6 +145,24 @@ class Elementor implements Integration_Interface {
 
 		// We need to delay the post type lookup to give other plugins a chance to register custom post types.
 		\add_action( 'init', [ $this, 'register_elementor_hooks' ], \PHP_INT_MAX );
+
+		// Disable template_library
+		\add_filter( 'wpseo_indexable_excluded_post_types', [ $this, 'disable_template_library_indexables' ] );
+	}
+
+	/**
+	 * Exclude template_library post type from Yoast SEO Indexable creation.
+	 *
+	 * @link https://developer.yoast.com/features/indexables/indexables-filters/#post_types
+	 *
+	 * @param string[] $excluded_post_types Array of excluded post types by name.
+	 *
+	 * @return string[]
+	 */
+	public function disable_template_library_indexables( $excluded_post_types ) {
+		$excluded_post_types[] = 'template_library';
+
+		return $excluded_post_types;
 	}
 
 	/**
