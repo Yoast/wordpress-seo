@@ -2609,7 +2609,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return void
 	 */
-	private static function set_cache( $key, $value, $group = '' ) {
+	private static function set_cache( $key, $value, $group_id = '' ) {
 		/**
 		 * Set the cache, with a timeout of 10 minutes.
 		 *
@@ -2618,7 +2618,7 @@ class ORM implements \ArrayAccess {
 		 *
 		 * Individual cache-groups are purged when a record is updated or deleted.
 		 */
-		\wp_cache_set( $key, $value, $group, ( 10 * MINUTE_IN_SECONDS ) );
+		\wp_cache_set( $key, $value, self::get_cache_group( $group_id ), ( 10 * MINUTE_IN_SECONDS ) );
 	}
 
 	/**
