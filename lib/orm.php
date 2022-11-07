@@ -294,10 +294,10 @@ class ORM implements \ArrayAccess {
 			}
 		);
 		if ( ! empty( $parameters ) ) {
-			$query = $wpdb->prepare( $query, $parameters );
+			$query = $wpdb->prepare( $query, $parameters ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		}
 
-		$result = $wpdb->query( $query );
+		$result = $wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		$wpdb->show_errors = $show_errors;
 
