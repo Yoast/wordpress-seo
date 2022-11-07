@@ -373,7 +373,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_rest_api_links",
-			fieldLabel: __( "Rest API links", "wordpress-seo" ),
+			fieldLabel: __( "REST API links", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_rsd_wlw_links: {
