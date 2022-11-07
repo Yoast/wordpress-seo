@@ -249,7 +249,7 @@ class ORM implements \ArrayAccess {
 	 * @return bool Success.
 	 */
 	public static function raw_execute( $query, $parameters = [] ) {
-		return self::execute( $query, $parameters, '', false );
+		return self::execute( $query, $parameters, false );
 	}
 
 	/**
@@ -257,12 +257,12 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param string $query          The query.
 	 * @param array  $parameters     An array of parameters to be bound in to the query.
-	 * @param string $cache_group_id The cache group ID to use.
 	 * @param bool   $cache_query    Whether to cache the query.
+	 * @param string $cache_group_id The cache group ID to use.
 	 *
 	 * @return bool|int Response of wpdb::query
 	 */
-	protected static function execute( $query, $parameters = [], $cache_group_id = '', $cache_query = true ) {
+	protected static function execute( $query, $parameters = [], $cache_query = true, $cache_group_id = '' ) {
 		if ( $cache_query ) {
 			// Generate a unique cache key for this query.
 			$cache_key = 'query_' . md5( $query . json_encode( $parameters ) ); // phpcs:ignore Yoast.Yoast.AlternativeFunctions
@@ -1966,13 +1966,13 @@ class ORM implements \ArrayAccess {
 		global $wpdb;
 
 		$query   = $this->build_select();
-		$success = self::execute( $query, $this->values, $this->table_name );
+		$success = self::execute( $query, $this->values, true, $this->table_name );
 
 		if ( $success === false ) {
 			// If the query fails run the migrations and try again.
 			// Action is intentionally undocumented and should not be used by third-parties.
 			\do_action( '_yoast_run_migrations' );
-			$success = self::execute( $query, $this->values, $this->table_name );
+			$success = self::execute( $query, $this->values, true, $this->table_name );
 		}
 
 		$this->reset_idiorm_state();
@@ -2194,7 +2194,7 @@ class ORM implements \ArrayAccess {
 			// INSERT.
 			$query = $this->build_insert();
 		}
-		$success = self::execute( $query, $values, $this->table_name, false );
+		$success = self::execute( $query, $values, false );
 		// If we've just inserted a new record, set the ID of this object.
 		if ( $this->is_new ) {
 			$this->is_new = false;
@@ -2306,7 +2306,7 @@ class ORM implements \ArrayAccess {
 
 			// We now have the same set of dirty columns in all our models and also gathered all values.
 			$query   = $this->build_insert_many( $models_chunk, $dirty_column_names );
-			$success = $success && (bool) self::execute( $query, $values, $this->table_name, false );
+			$success = $success && (bool) self::execute( $query, $values, false );
 		}
 
 		if ( $success ) {
@@ -2333,7 +2333,7 @@ class ORM implements \ArrayAccess {
 
 		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
-		$success            = self::execute( $query, \array_merge( $values, $this->values ), $this->table_name, false );
+		$success            = self::execute( $query, \array_merge( $values, $this->values ), false );
 		$this->dirty_fields = [];
 		$this->expr_fields  = [];
 
@@ -2456,7 +2456,7 @@ class ORM implements \ArrayAccess {
 		// Flush caches.
 		self::flush_group_caches( $this->table_name );
 
-		return self::execute( \implode( ' ', $query ), \is_array( $id ) ? \array_values( $id ) : [ $id ], $id, false );
+		return self::execute( \implode( ' ', $query ), \is_array( $id ) ? \array_values( $id ) : [ $id ], false );
 	}
 
 	/**
@@ -2480,7 +2480,7 @@ class ORM implements \ArrayAccess {
 		self::flush_group_caches( $this->table_name );
 
 		// Execute the query.
-		return self::execute( $query, $this->values, $this->table_name, false );
+		return self::execute( $query, $this->values, false );
 	}
 
 	/*
