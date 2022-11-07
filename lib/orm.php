@@ -2623,13 +2623,6 @@ class ORM implements \ArrayAccess {
 	 * @return void
 	 */
 	public static function flush_group_caches( $group_id = '' ) {
-		if ( is_array( $group_id ) ) {
-			foreach ( $group_id as $id ) {
-				self::flush_group_caches( $id );
-			}
-			\wp_cache_flush_group( self::get_cache_group() );
-			return;
-		}
 		\wp_cache_flush_group( self::get_cache_group( $group_id ) );
 	}
 
@@ -2641,7 +2634,7 @@ class ORM implements \ArrayAccess {
 	 * @return mixed
 	 */
 	private static function get_cache_group( $id = '' ) {
-		if ( ! $id || ! \is_scalar( $id ) ) {
+		if ( ! $id ) {
 			return 'wp-seo';
 		}
 		return 'wp-seo-' . $id;
