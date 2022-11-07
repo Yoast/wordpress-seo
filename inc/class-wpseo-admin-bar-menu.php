@@ -179,7 +179,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 							'parent' => self::MENU_IDENTIFIER,
 							'id'     => 'wpseo-frontend-inspector',
 							'href'   => 'https://yoa.st/admin-bar-frontend-inspector',
-							'title'  => __( 'Frontend inspector', 'wordpress-seo' ) . '<span class="yoast-badge yoast-premium-badge">' . 'Premium' . '</span></a>',
+							'title'  => __( 'Frontend inspector', 'wordpress-seo' ) . '<span class="yoast-badge yoast-premium-badge">Premium</span></a>',
 							'meta'   => [ 'tabindex' => '0' ],
 						]
 					);
@@ -856,9 +856,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * @param array        $submenu_items
-	 * @param WP_Admin_Bar $wp_admin_bar
-	 * @param string       $parent_id
+	 * Add submenu items to a menu item.
+	 *
+	 * @param array        $submenu_items Submenu items array.
+	 * @param WP_Admin_Bar $wp_admin_bar  Admin bar object.
+	 * @param string       $parent_id     Parent menu item ID.
 	 *
 	 * @return void
 	 */
