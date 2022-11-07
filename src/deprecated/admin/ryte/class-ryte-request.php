@@ -27,7 +27,7 @@ class WPSEO_Ryte_Request {
 	 * @return array
 	 */
 	public function do_request( $target_url, $parameters = [] ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
 
 		return [];
 	}

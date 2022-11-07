@@ -15,7 +15,6 @@ use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
-use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;

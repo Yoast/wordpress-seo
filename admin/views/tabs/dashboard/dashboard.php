@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
+
 /**
  * Notifications template variables.
  *

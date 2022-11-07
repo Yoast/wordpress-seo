@@ -430,14 +430,15 @@ class Indexables_Page_Route_Test extends TestCase {
 	/**
 	 * Tests the ignore indexable route.
 	 *
-	 * @param array  $request_params the parameters returned for get_json_params().
-	 * @param array  $indexable_action_params the expected parameters passed to update_ignored_indexables().
-	 * @param bool   $indexable_action_return_value the return value for update_ignored_indexables().
-	 * @param array  $params_rest_response the expected parameters passed to the constructor of WP_REST_Response.
-	 * @param string $rest_response_type the type of the response object, WP_REST_Response or WP_Error.
 	 * @covers ::ignore_indexable
 	 *
 	 * @dataProvider ignore_indexables_provider
+	 *
+	 * @param array  $request_params                The parameters returned for get_json_params().
+	 * @param array  $indexable_action_params       The expected parameters passed to update_ignored_indexables().
+	 * @param bool   $indexable_action_return_value The return value for update_ignored_indexables().
+	 * @param array  $params_rest_response          The expected parameters passed to the constructor of WP_REST_Response.
+	 * @param string $rest_response_type            The type of the response object, WP_REST_Response or WP_Error.
 	 */
 	public function test_ignore_indexables( $request_params, $indexable_action_params, $indexable_action_return_value, $params_rest_response, $rest_response_type ) {
 		$wp_rest_request = Mockery::mock( 'WP_REST_Request' );
@@ -521,14 +522,15 @@ class Indexables_Page_Route_Test extends TestCase {
 	/**
 	 * Tests the restore indexable route.
 	 *
-	 * @param array  $request_params the parameters returned for get_json_params().
-	 * @param array  $indexable_action_params the expected parameters passed to remove_indexable_from_ignore_list().
-	 * @param bool   $indexable_action_return_value the return value for remove_indexable_from_ignore_list().
-	 * @param array  $params_rest_response the expected parameters passed to the constructor of WP_REST_Response.
-	 * @param string $rest_response_type the type of the response object, WP_REST_Response or WP_Error.
 	 * @covers ::restore_indexable
 	 *
 	 * @dataProvider restore_indexables_provider
+	 *
+	 * @param array  $request_params                The parameters returned for get_json_params().
+	 * @param array  $indexable_action_params       The expected parameters passed to remove_indexable_from_ignore_list().
+	 * @param bool   $indexable_action_return_value The return value for remove_indexable_from_ignore_list().
+	 * @param array  $params_rest_response          The expected parameters passed to the constructor of WP_REST_Response.
+	 * @param string $rest_response_type            The type of the response object, WP_REST_Response or WP_Error.
 	 */
 	public function test_restore_indexables( $request_params, $indexable_action_params, $indexable_action_return_value, $params_rest_response, $rest_response_type ) {
 		$wp_rest_request = Mockery::mock( 'WP_REST_Request' );

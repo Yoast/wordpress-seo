@@ -89,6 +89,9 @@ jobs:
       # @link https://github.com/marketplace/actions/install-composer-dependencies
       - name: Install Composer dependencies and run the prefixing script
         uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       - name: "Debug info: show directory layout"
         run: tree -dC .
@@ -145,7 +148,7 @@ jobs:
           SHA: ${{ github.sha }}
         run: |
           shortsha=$(echo "$SHA" | cut -b 1-6)
-          echo "::set-output name=SHORTSHA::$shortsha"
+          echo "SHORTSHA=$shortsha" >> $GITHUB_OUTPUT
 
       - name: "Set variables: target branch, commit title"
         id: set_vars
@@ -153,14 +156,14 @@ jobs:
           REF_NAME: ${{ github.ref_name }}
         run: |
           if [[ "${{ github.event_name }}" == 'push' && "${{ github.ref_type }}" == 'branch' && "$REF_NAME" != "${{ env.DIST_DEFAULT_BRANCH }}" ]]; then
-            echo "::set-output name=BRANCH::$REF_NAME"
-            echo "::set-output name=TITLE::Syncing branch $REF_NAME (sha: ${{ steps.set_sha.outputs.SHORTSHA }})"
+            echo "BRANCH=$REF_NAME" >> $GITHUB_OUTPUT
+            echo "TITLE=Syncing branch $REF_NAME (sha: ${{ steps.set_sha.outputs.SHORTSHA }})" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == 'workflow_dispatch' && "$REF_NAME" != "${{ env.DIST_DEFAULT_BRANCH }}" ]]; then
-            echo "::set-output name=BRANCH::$REF_NAME"
-            echo "::set-output name=TITLE::Manual deploy for $REF_NAME (sha: ${{ steps.set_sha.outputs.SHORTSHA }})"
+            echo "BRANCH=$REF_NAME" >> $GITHUB_OUTPUT
+            echo "TITLE=Manual deploy for $REF_NAME (sha: ${{ steps.set_sha.outputs.SHORTSHA }})" >> $GITHUB_OUTPUT
           else # = Pushed tag.
-            echo "::set-output name=BRANCH::${{ env.DIST_DEFAULT_BRANCH }}"
-            echo "::set-output name=TITLE::Release $REF_NAME"
+            echo "BRANCH=${{ env.DIST_DEFAULT_BRANCH }}" >> $GITHUB_OUTPUT
+            echo "TITLE=Release $REF_NAME" >> $GITHUB_OUTPUT
           fi
 
       - name: Checkout Yoast Dist repo

@@ -17,7 +17,7 @@ class Post_Not_Built_Exception extends Not_Built_Exception {
 	 */
 	public static function because_not_indexable( $post_id ) {
 		/* translators: %s: expands to the post id */
-		return new Post_Not_Built_Exception( sprintf( __( 'The post %s could not be indexed because it does not meet indexing requirements.', 'wordpress-seo' ), $post_id ) );
+		return new Post_Not_Built_Exception( \sprintf( \__( 'The post %s could not be indexed because it does not meet indexing requirements.', 'wordpress-seo' ), $post_id ) );
 	}
 
 	/**
@@ -29,6 +29,6 @@ class Post_Not_Built_Exception extends Not_Built_Exception {
 	 */
 	public static function because_post_type_excluded( $post_id ) {
 		/* translators: %s: expands to the post id */
-		return new Post_Not_Built_Exception( sprintf( __( 'The post %s could not be indexed because it\'s post type is excluded from indexing.', 'wordpress-seo' ), $post_id ) );
+		return new Post_Not_Built_Exception( \sprintf( \__( 'The post %s could not be indexed because it\'s post type is excluded from indexing.', 'wordpress-seo' ), $post_id ) );
 	}
 }

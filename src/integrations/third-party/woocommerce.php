@@ -172,7 +172,7 @@ class WooCommerce implements Integration_Interface {
 	public function add_shop_to_breadcrumbs( $indexables ) {
 		$shop_page_id = $this->woocommerce_helper->get_shop_page_id();
 
-		if ( ! is_int( $shop_page_id ) || $shop_page_id < 1 ) {
+		if ( ! \is_int( $shop_page_id ) || $shop_page_id < 1 ) {
 			return $indexables;
 		}
 

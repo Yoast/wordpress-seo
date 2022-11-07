@@ -26,7 +26,6 @@ class Links_Table_Reports {
 	 *                                                        This class uses the report builder to generate WordPress-friendly
 	 *                                                        health check results.
 	 * @param  WPSEO_Shortlinker      $shortlinker            Object used to add short links to the report description.
-	 * @return void
 	 */
 	public function __construct(
 		Report_Builder_Factory $report_builder_factory,

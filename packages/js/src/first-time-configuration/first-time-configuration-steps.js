@@ -533,7 +533,7 @@ export default function FirstTimeConfigurationSteps() {
 	}, [ beforeUnloadEventHandler ] );
 
 	return (
-		<div id="yoast-configuration" className="yst-card yst-text-slate-500">
+		<div id="yoast-configuration" className="yst-max-w-[715px] yst-mt-6 yst-p-8 yst-rounded-lg yst-bg-white yst-shadow yst-text-slate-500">
 			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
 			<p className="yst-py-2">
 				{

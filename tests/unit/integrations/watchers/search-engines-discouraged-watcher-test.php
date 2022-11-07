@@ -297,12 +297,12 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::manage_search_engines_discouraged_notification
 	 *
-	 * @param string $blog_public_option_value   The option value for blog_public.
-	 * @param bool   $ignore_notice              Whether the user ignored the notice before.
-	 * @param bool   $notification_exists        Whether the notification that should be added already is added to the notification helper.
-	 * @param bool   $remove_notification_called Whether the remove notification function should be called.
-	 * @param bool   $maybe_add_notification_called    Whether the add notification function should be called.
-	 * @param bool   $notification_should_be_added     Whether the notification should be added.
+	 * @param string $blog_public_option_value      The option value for blog_public.
+	 * @param bool   $ignore_notice                 Whether the user ignored the notice before.
+	 * @param bool   $notification_exists           Whether the notification that should be added already is added to the notification helper.
+	 * @param bool   $remove_notification_called    Whether the remove notification function should be called.
+	 * @param bool   $maybe_add_notification_called Whether the add notification function should be called.
+	 * @param bool   $notification_should_be_added  Whether the notification should be added.
 	 */
 	public function test_manage_search_engines_discouraged_notification( $blog_public_option_value, $ignore_notice, $notification_exists, $remove_notification_called, $maybe_add_notification_called, $notification_should_be_added ) {
 		Monkey\Functions\expect( 'get_option' )
