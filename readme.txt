@@ -259,6 +259,7 @@ Bugfixes:
 * Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
 * Prevent duplicate indexable records for the same object
 
+
 = 19.10 =
 Release Date: November 8th, 2022
 
