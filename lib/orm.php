@@ -58,7 +58,7 @@ class ORM implements \ArrayAccess {
 	const CONDITION_FRAGMENT = 0;
 
 	/**
-	 * The value used for a query.
+	 * The values used for a query's condition.
 	 *
 	 * @param array
 	 */
