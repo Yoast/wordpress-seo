@@ -2599,7 +2599,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param string $key      Cache key.
 	 * @param mixed  $value    Cache value.
-	 * @param mixed  $group_id Cache group ID
+	 * @param mixed  $group_id Cache group ID.
 	 *
 	 * @return void
 	 */
