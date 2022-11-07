@@ -19,6 +19,12 @@ describe( "a test for removing URLs from a string", function() {
 	it( "removes a URL containing www.", function() {
 		expect( removeURLs( "http://www.blog.example.com/examples" ) ).toBe( "" );
 	} );
+	it( "removes a URL starting with www.", function() {
+		expect( removeURLs( "www.blog.example.com/examples" ) ).toBe( "" );
+	} );
+	it( "removes a URL starting with ftp", function() {
+		expect( removeURLs( "ftp://example.com" ) ).toBe( "" );
+	} );
 	it( "removes a URL containing special characters.", function() {
 		expect( removeURLs( "https://www.example.com/foo/?bar=baz&inga=42&quux" ) ).toBe( "" );
 	} );
@@ -28,7 +34,16 @@ describe( "a test for removing URLs from a string", function() {
 	it( "removes a URL with a different top-level domain", function() {
 		expect( removeURLs( "http://example.co.uk" ) ).toBe( "" );
 	} );
-	it( "does not remove a string if it doesn't start with http(s)://", function() {
-		expect( removeURLs( "example.com" ) ).toBe( "blog.example.com/examples" );
+	it( "removes a URL followed by Japanese characters", function() {
+		expect( removeURLs( "https://example.comこれに対し日本国有鉄道" ) ).toBe( "これに対し日本国有鉄道" );
+	} );
+	it( "does not remove a URL that doesn't start with 'http(s)://', 'ftp://' or 'www'.", function() {
+		expect( removeURLs( "example.com" ) ).toBe( "example.com" );
+	} );
+	it( "does not remove https:// on its own", function() {
+		expect( removeURLs( "https://" ) ).toBe( "https://" );
+	} );
+	it( "does not remove a URL without a top-level domain", function() {
+		expect( removeURLs( "https://example" ) ).toBe( "https://example" );
 	} );
 } );
