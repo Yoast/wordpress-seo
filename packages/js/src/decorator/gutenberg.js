@@ -21,18 +21,18 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "content",
 		},
 	],
-	"core/list": [
-		{
-			key: "values",
-			multilineTag: "li",
-			multilineWrapperTag: [ "ul", "ol" ],
-		},
-	],
+	// "core/list": [
+	// 	{
+	// 		key: "values",
+	// 		multilineTag: "li",
+	// 		multilineWrapperTag: [ "ul", "ol" ],
+	// 	},
+	// ],
 	"core/list-item": [
 		{
 			key: "content",
-			multilineTag: "li",
-			multilineWrapperTag: [ "ul", "ol" ],
+			// multilineTag: "li",
+			// multilineWrapperTag: [ "ul", "ol" ],
 		},
 	],
 	"core/heading": [
@@ -294,23 +294,18 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	}
 
 	// Create a rich text record, because those are easier to work with.
-	console.log(attributeValue, "attributeValue")
 	const record = create( {
 		html: attributeValue,
 		multilineTag: attribute.multilineTag,
 		multilineWrapperTag: attribute.multilineWrapperTag,
 	} );
 	const text = record.text;
-	console.log(record, "this is a record")
-	console.log(text, "this is a text")
-
 	// For each mark see if it applies to this block.
 	return flatMap( marks, ( ( mark ) => {
 		const annotations = calculateAnnotationsForTextFormat(
 			text,
 			mark
 		);
-
 		if ( ! annotations ) {
 			return [];
 		}
@@ -374,22 +369,19 @@ export function applyAsAnnotations( paper, marks ) {
 	const annotations = flatMap( blocks, ( ( block ) => {
 		if ( block.name === "core/list" ) {
 			const listItems = block.innerBlocks;
-			flatMap( listItems, ( listItemBlock ) => {
-				const annotatableAttributes2 = getAnnotatableAttributes( listItemBlock.name );
-				console.log( annotatableAttributes2, "annotatableAttributes2" );
-				return flatMap( annotatableAttributes2, ( ( attribute2 ) => getAnnotationsForBlockAttribute( attribute2, listItemBlock, marks ) )
+			return flatMap( listItems, ( listItemBlock ) => {
+				const annotatableAttributes = getAnnotatableAttributes( listItemBlock.name );
+				return flatMap( annotatableAttributes, ( ( attribute ) => getAnnotationsForBlockAttribute( attribute, listItemBlock, marks ) )
 				);
 			} );
-		} else {
-			const annotatableAttributes = getAnnotatableAttributes( block.name );
-			// We go through every annotatable attribute.
-			return flatMap(
-				annotatableAttributes,
-				( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
-			);
 		}
+		const annotatableAttributes = getAnnotatableAttributes( block.name );
+		// We go through every annotatable attribute.
+		return flatMap(
+			annotatableAttributes,
+			( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
+		);
 	} ) );
-	console.log( annotations, "annotations" );
 	fillAnnotationQueue( annotations );
 
 	scheduleAnnotationQueueApplication();
