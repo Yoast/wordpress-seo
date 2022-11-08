@@ -193,6 +193,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 					"companyOrPersonLabel": "%s",
 					"companyName": "%s",
 					"fallbackCompanyName": "%s",
+					"websiteName": "%s",
+					"fallbackWebsiteName": "%s",
 					"companyLogo": "%s",
 					"companyLogoFallback": "%s",
 					"companyLogoId": %d,
@@ -226,6 +228,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$selected_option_label,
 				$this->get_company_name(),
 				$this->get_fallback_company_name( $this->get_company_name() ),
+				$this->get_website_name(),
+				$this->get_fallback_website_name( $this->get_website_name() ),
 				$this->get_company_logo(),
 				$this->get_company_fallback_logo( $this->get_company_logo() ),
 				$this->get_company_logo_id(),
@@ -316,6 +320,30 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function get_fallback_company_name( $company_name ) {
 		if ( $company_name ) {
+			return false;
+		}
+
+		return \get_bloginfo( 'name' );
+	}
+
+	/**
+	 * Gets the website name from the option in the database.
+	 *
+	 * @return string The website name.
+	 */
+	private function get_website_name() {
+		return $this->options_helper->get( 'website_name', '' );
+	}
+
+	/**
+	 * Gets the fallback website name from the option in the database if there is no website name.
+	 *
+	 * @param string $website_name The given website name by the user, default empty string.
+	 *
+	 * @return string|false The website name.
+	 */
+	private function get_fallback_website_name( $website_name ) {
+		if ( $website_name ) {
 			return false;
 		}
 
