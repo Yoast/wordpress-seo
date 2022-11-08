@@ -81,14 +81,20 @@
 
 		.yst-replacevar--disabled {
 			.yst-replacevar__label,
-			.yst-replacevar__editor {
+			.yst-replacevar__editor,
+			.emoji-select-button {
 				@apply yst-opacity-50;
 			}
 
 			.yst-replacevar__button-insert,
 			.yst-replacevar__label,
-			.yst-replacevar__editor {
+			.yst-replacevar__editor,
+			.emoji-select-button {
 				@apply yst-cursor-not-allowed;
+			}
+			
+			.emoji-select-button {
+				@apply yst-pointer-events-none;
 			}
 		}
 
