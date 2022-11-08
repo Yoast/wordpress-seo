@@ -28,6 +28,9 @@ describe( "a test for removing URLs from a string", function() {
 	it( "removes a URL containing special characters.", function() {
 		expect( removeURLs( "https://www.example.com/foo/?bar=baz&inga=42&quux" ) ).toBe( "" );
 	} );
+	it( "removes a URL containing a semi-colon.", function() {
+		expect( removeURLs( "https://www.example.com/foo/?bar=baz&amp;inga=42&amp;quux" ) ).toBe( "" );
+	} );
 	it( "removes a URL containing more special characters.", function() {
 		expect( removeURLs( "http://foo.com/blah_(wikipedia)_blah#cite-1" ) ).toBe( "" );
 	} );
