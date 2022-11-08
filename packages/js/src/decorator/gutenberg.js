@@ -367,8 +367,10 @@ export function applyAsAnnotations( paper, marks ) {
 	const blocks = select( "core/block-editor" ).getBlocks();
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
+		// If the block is a list, iterate over the listitems, because they contain the content.
 		if ( block.name === "core/list" ) {
 			const listItems = block.innerBlocks;
+			// Iterate over the listitems. A listItems is of type "innerBlock".
 			return flatMap( listItems, ( listItemBlock ) => {
 				return flatMap( getAnnotatableAttributes( listItemBlock.name ), ( ( attribute ) => {
 					return getAnnotationsForBlockAttribute( attribute, listItemBlock, marks );
