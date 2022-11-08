@@ -66,7 +66,7 @@ const Media = () => {
 							data-id={ `input-wpseo_titles-disable-${ name }` }
 							label={ sprintf(
 							/* translators: %1$s expands to the post type plural, e.g. Posts. */
-								__( "%1$s pages", "wordpress-seo" ),
+								__( "Enable %1$s pages", "wordpress-seo" ),
 								label
 							) }
 							description={ sprintf(

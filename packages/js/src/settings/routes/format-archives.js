@@ -27,7 +27,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @returns {JSX.Element} The format archives element.
  */
 const FormatArchives = () => {
-	const { name, label, singularLabel } = useSelectSettings( "selectTaxonomy", [], "post_format" );
+	const { name, label } = useSelectSettings( "selectTaxonomy", [], "post_format" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -76,7 +76,7 @@ const FormatArchives = () => {
 					<FormikFlippedToggleField
 						name="wpseo_titles.disable-post_format"
 						data-id="input-wpseo_titles-disable-post_format"
-						label={ __( "Format-based archives", "wordpress-seo" ) }
+						label={ __( "Enable format-based archives", "wordpress-seo" ) }
 						description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
 					/>
 					<hr className="yst-my-8" />
@@ -91,10 +91,9 @@ const FormatArchives = () => {
 								title={ __( "Search appearance", "wordpress-seo" ) }
 								description={ sprintf(
 								// eslint-disable-next-line max-len
-								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag. %3$s expands to Yoast SEO.
-									__( "Determine how your %1$s should look in search engines. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
+								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to Yoast SEO.
+									__( "Determine how your %1$s should look in search engines. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 									label,
-									singularLabel,
 									"Yoast SEO"
 								) }
 							>
@@ -145,10 +144,9 @@ const FormatArchives = () => {
 								</div> }
 								description={ sprintf(
 								// eslint-disable-next-line max-len
-								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to the taxonomy singular, e.g. Tag. %3$s expands to Yoast SEO.
-									__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
+								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to Yoast SEO.
+									__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 									label,
-									singularLabel,
 									"Yoast SEO"
 								) }
 							>

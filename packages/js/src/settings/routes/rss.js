@@ -60,7 +60,7 @@ const Rss = () => {
 								<Table.Body>
 									<Table.Row>
 										<VariableCell>%%AUTHORLINK%%</VariableCell>
-										<Table.Cell>{ __( "A link to the archive for the post author, with the authors name as anchor text.", "wordpress-seo" ) }</Table.Cell>
+										<Table.Cell>{ __( "A link to the archive for the post author, with the author's name as anchor text.", "wordpress-seo" ) }</Table.Cell>
 									</Table.Row>
 									<Table.Row>
 										<VariableCell>%%POSTLINK%%</VariableCell>

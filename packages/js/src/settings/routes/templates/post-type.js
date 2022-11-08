@@ -92,26 +92,21 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	}, [ hasWooCommerceShopPage, wooCommerceShopPageSettingUrl, editWooCommerceShopPageUrl ] );
 	const customFieldsDescription = useMemo( () => createInterpolateElement(
 		sprintf(
-			// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s and %4$s are replaced by opening and closing <em> tags.
-			__( "You can add multiple custom fields and separate them by using %3$sEnter%4$s or %3$scomma%4$s. %1$sRead more about our custom field analysis%2$s.", "wordpress-seo" ),
-			"<a>",
-			"</a>",
+			// translators: %1$s and %2$s are replaced by opening and closing <em> tags.
+			__( "You can add multiple custom fields and separate them by using %1$senter%2$s or %1$scomma%2$s.", "wordpress-seo" ),
 			"<em>",
 			"</em>"
 		),
 		{
-			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener" />,
 			em: <em />,
 		}
 	), [] );
 	const schemaDescription = useMemo( () => addLinkToString(
 		sprintf(
 			// eslint-disable-next-line max-len
-			// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s and %4$s expand to opening and closing anchor tag. %5$s expands to Yoast SEO.
-			__( "Determine how your %1$s should be described by default in %3$syour site's Schema.org markup%4$s. You can always change the settings for individual %2$s in the %5$s sidebar.", "wordpress-seo" ),
+			// translators: %1$s expands to the post type plural, e.g. Posts. %2$s and %3$s expand to opening and closing anchor tag. %4$s expands to Yoast SEO.
+			__( "Determine how your %1$s should be described by default in %2$syour site's Schema.org markup%3$s. You can always change the settings for individual %1$s in the %4$s sidebar.", "wordpress-seo" ),
 			label,
-			singularLabel,
 			"<a>",
 			"</a>",
 			"Yoast SEO"
@@ -139,10 +134,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
 						// eslint-disable-next-line max-len
-						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
-							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %2$s in the %3$s sidebar.", "wordpress-seo" ),
+						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to Yoast SEO.
+							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s sidebar.", "wordpress-seo" ),
 							label,
-							singularLabel,
 							"Yoast SEO"
 						) }
 					>
@@ -298,6 +292,10 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								description={ customFieldsDescription }
 								isDummy={ ! isPremium }
 							/>
+							<Link id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener">
+								{ __( "Read more about our custom field analysis", "wordpress-seo" ) }
+							</Link>
+							.
 						</FeatureUpsell>
 					</FieldsetLayout>
 					{ hasArchive && <>
