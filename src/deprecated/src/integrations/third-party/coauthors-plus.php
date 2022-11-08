@@ -26,6 +26,9 @@ class CoAuthors_Plus implements Integration_Interface {
 
 	/**
 	 * Initializes the integration.
+	 * 
+	 * @deprecated 19.11
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -48,8 +51,9 @@ class CoAuthors_Plus implements Integration_Interface {
 
 	/**
 	 * CoAuthors_Plus constructor.
-	 *
-	 * @codeCoverageIgnore It only sets dependencies.
+	 * 
+	 * @deprecated 19.11
+	 * @codeCoverageIgnore
 	 *
 	 * @param Helpers_Surface $helpers The helper surface.
 	 */
@@ -59,6 +63,9 @@ class CoAuthors_Plus implements Integration_Interface {
 
 	/**
 	 * Filters the graph output to add authors.
+	 *
+	 * @deprecated 19.11
+	 * @codeCoverageIgnore
 	 *
 	 * @param array                   $data                   The schema graph.
 	 * @param Meta_Tags_Context       $context                The context object.
@@ -85,6 +92,9 @@ class CoAuthors_Plus implements Integration_Interface {
 
 	/**
 	 * Filters the graph output to add authors.
+	 *
+	 * @deprecated 19.11
+	 * @codeCoverageIgnore
 	 *
 	 * @param array             $data    The schema graph.
 	 * @param Meta_Tags_Context $context Context object.
