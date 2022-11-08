@@ -1,3 +1,4 @@
+/* global wpseoAdminGlobalL10n */
 /* External dependencies */
 import {
 	isFunction,
@@ -7,6 +8,7 @@ import {
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
+import ParseError from "../errors/ParseError";
 
 const ANNOTATION_SOURCE = "yoast";
 
@@ -19,6 +21,13 @@ const ANNOTATION_ATTRIBUTES = {
 	"core/paragraph": [
 		{
 			key: "content",
+		},
+	],
+	"core/list": [
+		{
+			key: "values",
+			multilineTag: "li",
+			multilineWrapperTag: [ "ul", "ol" ],
 		},
 	],
 	"core/list-item": [
@@ -374,7 +383,8 @@ export function applyAsAnnotations( paper, marks ) {
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
 		// If the block is a list, iterate over the listitems, because they contain the content.
-		if ( block.name === "core/list" ) {
+		// The layout of the list block has been changed in wordpress version 6.1.
+		if ( block.name === "core/list" && parseFloat( wpseoAdminGlobalL10n.wordPressVersion ) >= 6.1 ) {
 			const listItems = block.innerBlocks;
 			// Iterate over the listitems. A listItems is of type "innerBlock".
 			return flatMap( listItems, ( listItem ) => {

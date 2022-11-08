@@ -327,6 +327,8 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	private function localize_admin_global_script() {
+		$wordpress_helper  = new Wordpress_Helper();
+		$wordpress_version = $wordpress_helper->get_wordpress_version();
 		return array_merge(
 			[
 				'isRtl'                   => is_rtl(),
@@ -340,6 +342,7 @@ class WPSEO_Admin {
 				'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
 				'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 				'wincher_is_logged_in'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
+				'wordPressVersion'		  => $wordpress_version,
 			],
 			YoastSEO()->helpers->wincher->get_admin_global_links()
 		);
