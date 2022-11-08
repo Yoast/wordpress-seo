@@ -1,7 +1,7 @@
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, Modal, Title, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Modal, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { Form, useFormikContext } from "formik";
 import { includes, values } from "lodash";
 import PropTypes from "prop-types";
