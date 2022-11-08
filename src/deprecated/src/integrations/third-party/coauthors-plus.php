@@ -26,7 +26,7 @@ class CoAuthors_Plus implements Integration_Interface {
 
 	/**
 	 * Initializes the integration.
-	 * 
+	 *
 	 * @deprecated 19.11
 	 * @codeCoverageIgnore
 	 *
@@ -51,7 +51,7 @@ class CoAuthors_Plus implements Integration_Interface {
 
 	/**
 	 * CoAuthors_Plus constructor.
-	 * 
+	 *
 	 * @deprecated 19.11
 	 * @codeCoverageIgnore
 	 *
