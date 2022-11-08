@@ -76,14 +76,14 @@ class Author_Archive_Helper {
 	}
 
 	/**
-	 * Checks whether the user with the given ID has publicly viewable posts.
+	 * Returns whether the author has at least one public post.
 	 *
 	 * **Note**: It uses WP_Query to determine the number of posts,
 	 * not the indexables table.
 	 *
 	 * @param string $user_id The user ID.
 	 *
-	 * @return bool Whether the author has public posts, according to the WordPress tables.
+	 * @return bool Whether the author has at least one public post.
 	 */
 	public function author_has_public_posts_wp( $user_id ) {
 		$post_types        = \array_intersect( $this->get_author_archive_post_types(), $this->post_type_helper->get_indexable_post_types() );
