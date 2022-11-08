@@ -170,6 +170,9 @@ class Schema_Types {
 	/**
 	 * Gets the values of the article type options.
 	 *
+	 * @deprecated 19.11
+	 * @codeCoverageIgnore
+	 *
 	 * @return array[] The values of the Schema article type options.
 	 */
 	public function get_article_type_options_values() {
