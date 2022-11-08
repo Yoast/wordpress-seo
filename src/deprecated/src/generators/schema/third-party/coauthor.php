@@ -6,6 +6,9 @@ use Yoast\WP\SEO\Generators\Schema\Author;
 
 /**
  * Returns schema Author data for the CoAuthor Plus assigned user on a post.
+ *
+ * @deprecated 19.11
+ *
  */
 class CoAuthor extends Author {
 
@@ -19,6 +22,9 @@ class CoAuthor extends Author {
 	/**
 	 * Determine whether we should return Person schema.
 	 *
+	 * @deprecated 19.11
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	public function is_needed() {
@@ -27,6 +33,9 @@ class CoAuthor extends Author {
 
 	/**
 	 * Returns Person Schema data.
+	 *
+	 * @deprecated 19.11
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool|array Person data on success, false on failure.
 	 */
@@ -51,6 +60,9 @@ class CoAuthor extends Author {
 
 	/**
 	 * Generate the Person data given a user ID.
+	 *
+	 * @deprecated 19.11
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id User ID.
 	 *
