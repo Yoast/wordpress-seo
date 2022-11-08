@@ -246,7 +246,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 19.11 =
-Release Date: November 15th, 2022
+Release Date: November 29th, 2022
 
 
 Bugfixes:
