@@ -89,11 +89,12 @@ class WPSEO_Admin_Pages {
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
-			'userLanguageCode'        => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'dismissedAlerts'         => $dismissed_alerts,
-			'isRtl'                   => is_rtl(),
-			'isPremium'               => YoastSEO()->helpers->product->is_premium(),
-			'webinarIntroSettingsUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
+			'userLanguageCode'               => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'dismissedAlerts'                => $dismissed_alerts,
+			'isRtl'                          => is_rtl(),
+			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
+			'webinarIntroSettingsUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-settings' ),
+			'webinarIntroFirstTimeConfigUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-first-time-config' ),
 		];
 
 		$page = filter_input( INPUT_GET, 'page' );
