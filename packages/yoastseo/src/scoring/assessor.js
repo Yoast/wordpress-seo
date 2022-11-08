@@ -185,6 +185,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 		}
 	} catch ( assessmentError ) {
 		showTrace( assessmentError );
+
 		result = new AssessmentResult();
 
 		result.setScore( -1 );
