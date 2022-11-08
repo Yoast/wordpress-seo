@@ -351,6 +351,21 @@ function fillAnnotationQueue( annotations ) {
 }
 
 /**
+ * Gets the annotations for a single block.
+ *
+ * @param { Object } block The block for which the annotations need to be determined.
+ * @param { Mark[] } marks A list of marks that could apply to the block.
+ *
+ * @returns { Object[] } All annotations that need to be placed on the block.
+ */
+function getAnnotationsFromBlock( block, marks ) {
+	return flatMap(
+		getAnnotatableAttributes( block.name ),
+		( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
+	);
+}
+
+/**
  * Applies the given marks as annotations in the block editor.
  *
  * @param {Paper} paper The paper that the marks are calculated for.
@@ -371,19 +386,13 @@ export function applyAsAnnotations( paper, marks ) {
 		if ( block.name === "core/list" ) {
 			const listItems = block.innerBlocks;
 			// Iterate over the listitems. A listItems is of type "innerBlock".
-			return flatMap( listItems, ( listItemBlock ) => {
-				return flatMap( getAnnotatableAttributes( listItemBlock.name ), ( ( attribute ) => {
-					return getAnnotationsForBlockAttribute( attribute, listItemBlock, marks );
-				} )
-				);
+			return flatMap( listItems, ( listItem ) => {
+				return getAnnotationsFromBlock( listItem, marks );
 			} );
 		}
 
 		// We go through every annotatable attribute.
-		return flatMap(
-			getAnnotatableAttributes( block.name ),
-			( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
-		);
+		return getAnnotationsFromBlock( block, marks );
 	} ) );
 	fillAnnotationQueue( annotations );
 
