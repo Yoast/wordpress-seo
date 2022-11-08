@@ -483,9 +483,21 @@ class Settings_Integration implements Integration_Interface {
 				( \ENT_NOQUOTES | \ENT_HTML5 ),
 				'UTF-8'
 			);
-
-			return $settings;
 		}
+
+		/**
+		 * Decode some WP options.
+		 */
+		$settings['blogname'] = \html_entity_decode(
+			$settings['blogname'],
+			( \ENT_NOQUOTES | \ENT_HTML5 ),
+			'UTF-8'
+		);
+		$settings['blogdescription'] = \html_entity_decode(
+			$settings['blogdescription'],
+			( \ENT_NOQUOTES | \ENT_HTML5 ),
+			'UTF-8'
+		);
 
 		return $settings;
 	}
