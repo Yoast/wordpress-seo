@@ -63,7 +63,7 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 			facebook_site: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 			twitter_site: string().isValidTwitterUrlOrHandle(),
 			other_social_urls: array().of(
-				string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) )
+				string().required( __( "The profile cannot be empty. Please enter a valid URL or remove this profile.", "wordpress-seo" ) ).url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) )
 			),
 			pinterestverify: string()
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
