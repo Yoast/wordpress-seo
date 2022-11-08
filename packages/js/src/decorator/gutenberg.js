@@ -370,15 +370,16 @@ export function applyAsAnnotations( paper, marks ) {
 		if ( block.name === "core/list" ) {
 			const listItems = block.innerBlocks;
 			return flatMap( listItems, ( listItemBlock ) => {
-				const annotatableAttributes = getAnnotatableAttributes( listItemBlock.name );
-				return flatMap( annotatableAttributes, ( ( attribute ) => getAnnotationsForBlockAttribute( attribute, listItemBlock, marks ) )
+				return flatMap( getAnnotatableAttributes( listItemBlock.name ), ( ( attribute ) => {
+					return getAnnotationsForBlockAttribute( attribute, listItemBlock, marks );
+				} )
 				);
 			} );
 		}
-		const annotatableAttributes = getAnnotatableAttributes( block.name );
+
 		// We go through every annotatable attribute.
 		return flatMap(
-			annotatableAttributes,
+			getAnnotatableAttributes( block.name ),
 			( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
 		);
 	} ) );
