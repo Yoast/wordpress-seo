@@ -382,7 +382,6 @@ export function applyAsAnnotations( paper, marks ) {
 			} );
 		}
 
-		// We go through every annotatable attribute.
 		return getAnnotationsFromBlock( block, marks );
 	} ) );
 	fillAnnotationQueue( annotations );
