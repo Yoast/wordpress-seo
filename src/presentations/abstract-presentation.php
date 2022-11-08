@@ -24,6 +24,13 @@ class Abstract_Presentation {
 	private $is_prototype = true;
 
 	/**
+	 * Collection of properties dynamically set via the magic __get() method.
+	 *
+	 * @var array<string, mixed> Key is the property name for publicly approaching the property.
+	 */
+	private $properties_bin = [];
+
+	/**
 	 * Creates a model presentation.
 	 *
 	 * @param array $data The data that this is a presentation of.
@@ -59,10 +66,15 @@ class Abstract_Presentation {
 		if ( $this->is_prototype() ) {
 			throw new Exception( 'Attempting property access on prototype presentation. Use Presentation::of( $data ) to get a model presentation.' );
 		}
+
+		if ( \array_key_exists( $name, $this->properties_bin ) ) {
+			return $this->properties_bin[ $name ];
+		}
+
 		$generator = "generate_$name";
 		if ( \method_exists( $this, $generator ) ) {
-			$this->{$name} = $this->$generator();
-			return $this->{$name};
+			$this->properties_bin[ $name ] = $this->$generator();
+			return $this->properties_bin[ $name ];
 		}
 		throw new Exception( "Property $name has no generator. Expected function $generator." );
 	}
@@ -77,7 +89,7 @@ class Abstract_Presentation {
 	 * @return bool Whether or not there is a generator for the requested property.
 	 */
 	public function __isset( $name ) {
-		return \method_exists( $this, "generate_$name" );
+		return \array_key_exists( $name, $this->properties_bin ) || \method_exists( $this, "generate_$name" );
 	}
 
 	/**
