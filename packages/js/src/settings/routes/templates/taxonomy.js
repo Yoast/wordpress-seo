@@ -22,11 +22,10 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
 /**
  * @param {string} name The taxonomy name.
  * @param {string} label The taxonomy label (plural).
- * @param {string} singularLabel The taxonomy label (singular).
  * @param {string[]} postTypes The connected post types.
  * @returns {JSX.Element} The taxonomy element.
  */
-const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) => {
+const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -57,7 +56,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 	const stripCategoryBaseDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %s expands to <code>/category/</code> */
-			__( "Category URLs in WordPress contain a prefix, usually %s. This enables that prefix, for categories only.", "wordpress-seo" ),
+			__( "Category URLs in WordPress contain a prefix, usually %s. Show or hide that prefix in category URLs.", "wordpress-seo" ),
 			"<code />"
 		),
 		{
@@ -120,10 +119,9 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
 						// eslint-disable-next-line max-len
-						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
-							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
+						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to Yoast SEO.
+							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 							label,
-							singularLabel,
 							"Yoast SEO"
 						) }
 					>
@@ -175,10 +173,9 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						</div> }
 						description={ sprintf(
 						// eslint-disable-next-line max-len
-						// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expands to the taxonomy singular, e.g. Category. %3$s expand to Yoast SEO.
-							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %2$s in the %3$s metabox.", "wordpress-seo" ),
+						// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expand to Yoast SEO.
+							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 							label,
-							singularLabel,
 							"Yoast SEO"
 						) }
 					>
@@ -240,7 +237,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						{ name === "category" && <FormikFlippedToggleField
 							name="wpseo_titles.stripcategorybase"
 							data-id="input-wpseo_titles-stripcategorybase"
-							label={ __( "Keep the categories prefix in the slug", "wordpress-seo" ) }
+							label={ __( "Show the categories prefix in the slug", "wordpress-seo" ) }
 							description={ stripCategoryBaseDescription }
 						/> }
 					</FieldsetLayout>

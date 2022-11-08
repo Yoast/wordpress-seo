@@ -77,7 +77,11 @@ const DateArchives = () => {
 						<FormikFlippedToggleField
 							name={ "wpseo_titles.disable-date" }
 							data-id={ "input-wpseo_titles-disable-date" }
-							label={ label }
+							label={ sprintf(
+								/* translators: %1$s expands to the post type plural, e.g. Posts. */
+								__( "Enable %1$s", "wordpress-seo" ),
+								label
+							) }
 							description={ sprintf(
 							/* translators: %1$s expands to "Date archives". */
 								__( "%1$s can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ),

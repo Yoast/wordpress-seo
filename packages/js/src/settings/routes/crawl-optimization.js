@@ -50,7 +50,7 @@ const CrawlOptimization = () => {
 		removeUnwantedMetadata: createInterpolateElement(
 			sprintf(
 				/* translators: %1$s expands to `<head>` within a <code> tag. */
-				__( "WordPress adds a lot of links and content to your site's %1$s and HTTP headers. Most people can safely disable all of these, which can help to save bytes, electricity, and trees.", "wordpress-seo" ),
+				__( "WordPress adds a lot of links and content to your site's %1$s and HTTP headers. For most websites you can safely disable all of these, which can help to save bytes, electricity, and trees.", "wordpress-seo" ),
 				"<code/>"
 			),
 			{

@@ -82,9 +82,13 @@ const AuthorArchives = () => {
 					<FormikFlippedToggleField
 						name={ "wpseo_titles.disable-author" }
 						data-id={ "input-wpseo_titles-disable-author" }
-						label={ label }
+						label={ sprintf(
+							/* translators: %1$s expands to the post type plural, e.g. Posts. */
+							__( "Enable %1$s", "wordpress-seo" ),
+							label
+						) }
 						description={ sprintf(
-						/* translators: %1$s expands to the post type singular, e.g. Post. */
+							/* translators: %1$s expands to the post type singular, e.g. Post. */
 							__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
 							singularLabel
 						) }
