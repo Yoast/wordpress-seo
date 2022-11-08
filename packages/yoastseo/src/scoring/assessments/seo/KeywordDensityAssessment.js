@@ -118,7 +118,6 @@ class KeywordDensityAssessment extends Assessment {
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 		assessmentResult.setHasMarks( this._keywordCount.count > 0 );
-		console.log(assessmentResult);
 
 		return assessmentResult;
 	}
@@ -309,7 +308,6 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
 	getMarks() {
-		console.log(this._keywordCount.markings);
 		return this._keywordCount.markings;
 	}
 

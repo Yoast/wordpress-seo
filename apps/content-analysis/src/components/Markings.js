@@ -20,7 +20,6 @@ function createMarkedText( text, markings ) {
 }
 
 function Markings( { results, activeMarker, text } ) {
-	console.log("hello markings")
 	if ( activeMarker === "" ) {
 		return "No marker activated";
 	}
