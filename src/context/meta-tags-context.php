@@ -692,7 +692,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 		if ( \is_null( $additional_type ) ) {
 			// Get the page type as set in the global settings.
-			$additional_type = strval( $this->options->get( 'schema-page-type-' . $this->indexable->object_sub_type ) );
+			$additional_type = (string) $this->options->get( 'schema-page-type-' . $this->indexable->object_sub_type );
 		}
 
 		if ( $additional_type === 'FAQPage' ) {
