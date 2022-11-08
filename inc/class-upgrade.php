@@ -1380,7 +1380,7 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
-			$delete_query = $wpdb->prepare(
+			$delete_query = $wpdb->query(
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'post'
 				AND object_sub_type IS NOT NULL"
@@ -1425,7 +1425,7 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
-			$delete_query = $wpdb->prepare(
+			$delete_query = $wpdb->query(
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'term'
 				AND object_sub_type IS NOT NULL"
@@ -1466,7 +1466,7 @@ class WPSEO_Upgrade {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		$query = $wpdb->prepare(
+		$query = $wpdb->query(
 			"SELECT
 				MAX(id) as newest_id,
 				object_id,
@@ -1534,7 +1534,7 @@ class WPSEO_Upgrade {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		$delete_query = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = 'user'" );
+		$delete_query = $wpdb->query( "DELETE FROM $indexable_table WHERE object_type = 'user'" );
 		// phpcs:enable
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
