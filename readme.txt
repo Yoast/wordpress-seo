@@ -246,7 +246,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 19.11 =
-Release Date: November 15th, 2022
+Release Date: November 29th, 2022
+
 
 Bugfixes:
 
@@ -258,7 +259,6 @@ Bugfixes:
 * Fixes a bug where the SEO optimization would error out when a post type is manually excluded via a filter.
 * Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
 * Prevent duplicate indexable records for the same object
-
 
 = 19.10 =
 Release Date: November 8th, 2022
