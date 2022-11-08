@@ -175,3 +175,42 @@ describe( "test for prominent words research for languages that have custom help
 		expect( words ).toEqual( expected );
 	} );
 } );
+
+describe( "test for filtering out of URLs and email addresses", function() {
+	it( "does not include URLs in prominent words", function() {
+		const paper = new Paper( "http://blog.example.com/examples ".repeat( 180 ) + "cats ".repeat( 50 ) );
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const words = getProminentWordsForInsights( paper, researcher );
+		expect( words ).toEqual( [
+			new ProminentWord( "cats", "cat", 50 ),
+		] );
+	} );
+
+	it( "does not include email addresses in prominent words", function() {
+		const paper = new Paper( "example89@something.com ".repeat( 180 ) + "cats ".repeat( 50 ) );
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const words = getProminentWordsForInsights( paper, researcher );
+		expect( words ).toEqual( [
+			new ProminentWord( "cats", "cat", 50 ),
+		] );
+	} );
+
+	it( "includes domain names in prominent words", function() {
+		const paper = new Paper( "example.com ".repeat( 180 ) + "cats ".repeat( 50 ) );
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const words = getProminentWordsForInsights( paper, researcher );
+		expect( words ).toEqual( [
+			new ProminentWord( "example.com", "example.com", 180 ),
+			new ProminentWord( "cats", "cat", 50 ),
+		] );
+	} );
+} );
