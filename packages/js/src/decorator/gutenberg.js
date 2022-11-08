@@ -21,18 +21,9 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "content",
 		},
 	],
-	// "core/list": [
-	// 	{
-	// 		key: "values",
-	// 		multilineTag: "li",
-	// 		multilineWrapperTag: [ "ul", "ol" ],
-	// 	},
-	// ],
 	"core/list-item": [
 		{
 			key: "content",
-			// multilineTag: "li",
-			// multilineWrapperTag: [ "ul", "ol" ],
 		},
 	],
 	"core/heading": [
