@@ -381,5 +381,57 @@ describe( "test for prominent words research for languages that have custom help
 
 		expect( words ).toEqual( expected );
 	} );
+
+	it( "does not count URLs and email addresses as prominent words", function() {
+		const paper = new Paper( "http://blog.example.com/examples".repeat( 180 ) + " example@something.com".repeat( 180 ),
+			{ title: "example@something.com example@something.com example@something.com" } );
+
+		const researcher = new Researcher( paper );
+
+		const expected = {
+			prominentWords: [],
+			hasMetaDescription: false,
+			hasTitle: true,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "does not return prominent words when the text is longer than 100 words including URLs and emails, but shorter" +
+		"than 100 words when they are excluded", function() {
+		const paper = new Paper( "http://blog.example.com/examples".repeat( 180 ) + " example@something.com".repeat( 180 ) +
+			" cats".repeat( 50 ), { title: "example@something.com example@something.com example@something.com" } );
+
+		const researcher = new Researcher( paper );
+
+		const expected = {
+			prominentWords: [],
+			hasMetaDescription: false,
+			hasTitle: true,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "returns prominent words when the text is longer than 100 words after excluding URLs and emails", function() {
+		const paper = new Paper( "http://blog.example.com/examples".repeat( 180 ) + " example@something.com".repeat( 180 ) +
+			" cats".repeat( 101 ), { title: "example@something.com example@something.com example@something.com" } );
+
+		const researcher = new Researcher( paper );
+
+		const expected = {
+			prominentWords: [ new ProminentWord( "cats", "cats", 101 ) ],
+			hasMetaDescription: false,
+			hasTitle: true,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
 } );
 
