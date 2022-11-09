@@ -14,8 +14,6 @@ class CoAuthors_Plus_Flag_Conditional extends Feature_Flag_Conditional {
 	/**
 	 * Returns the name of the CoAuthors Plus integration feature flag.
 	 *
-	 * @deprecated 19.11
-	 *
 	 * @return string The name of the feature flag.
 	 */
 	protected function get_feature_flag() {
