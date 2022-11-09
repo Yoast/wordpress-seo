@@ -26,18 +26,22 @@ function wpseo_ajax_json_echo_die( $results ) {
  * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
  */
 function wpseo_set_option() {
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! \current_user_can( 'manage_options' ) ) {
 		die( '-1' );
 	}
 
-	check_ajax_referer( 'wpseo-setoption' );
+	\check_ajax_referer( 'wpseo-setoption' );
 
-	$option = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
+	if ( ! isset( $_POST['option'] ) || ! \is_string( $_POST['option'] ) ) {
+		die( '-1' );
+	}
+
+	$option = sanitize_text_field( \wp_unslash( $_POST['option'] ) );
 	if ( $option !== 'page_comments' ) {
 		die( '-1' );
 	}
 
-	update_option( $option, 0 );
+	\update_option( $option, 0 );
 	die( '1' );
 }
 
