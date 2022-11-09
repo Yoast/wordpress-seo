@@ -8,7 +8,6 @@ import {
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
-import ParseError from "../errors/ParseError";
 
 const ANNOTATION_SOURCE = "yoast";
 
