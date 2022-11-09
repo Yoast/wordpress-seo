@@ -191,7 +191,7 @@ const SiteBasics = () => {
 								data-id="input-wpseo_titles-forcerewritetitle"
 								label={ __( "Force rewrite titles", "wordpress-seo" ) }
 								description={ sprintf(
-								/* translators: %1$s expands to Yoast SEO */
+								/* translators: %1$s expands to "Yoast SEO" */
 									__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here.", "wordpress-seo" ),
 									"Yoast SEO"
 								) }
@@ -204,7 +204,7 @@ const SiteBasics = () => {
 							data-id="input-wpseo-disableadvanced_meta"
 							label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
 							description={ sprintf(
-							/* translators: %1$s expands to Yoast SEO */
+							/* translators: %1$s expands to "Yoast SEO" */
 								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
 								"Yoast SEO"
 							) }

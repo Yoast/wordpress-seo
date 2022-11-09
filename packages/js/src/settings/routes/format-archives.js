@@ -3,6 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
+import { toLower } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -28,6 +29,8 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const FormatArchives = () => {
 	const { name, label } = useSelectSettings( "selectTaxonomy", [], "post_format" );
+	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -68,7 +71,7 @@ const FormatArchives = () => {
 
 	return (
 		<RouteLayout
-			title={ __( "Formats", "wordpress-seo" ) }
+			title={ label }
 			description={ description }
 		>
 			<FormLayout>
@@ -90,10 +93,10 @@ const FormatArchives = () => {
 							<FieldsetLayout
 								title={ __( "Search appearance", "wordpress-seo" ) }
 								description={ sprintf(
-								// eslint-disable-next-line max-len
-								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to Yoast SEO.
+									// eslint-disable-next-line max-len
+									// translators: %1$s expands to "formats". %2$s expands to "Yoast SEO".
 									__( "Determine how your %1$s should look in search engines. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
-									label,
+									labelLower,
 									"Yoast SEO"
 								) }
 							>
@@ -101,15 +104,15 @@ const FormatArchives = () => {
 									name={ `wpseo_titles.noindex-tax-${ name }` }
 									data-id={ `input-wpseo_titles-noindex-tax-${ name }` }
 									label={ sprintf(
-									// translators: %1$s expands to the taxonomy plural, e.g. Categories.
+										// translators: %1$s expands to "formats".
 										__( "Show %1$s in search results", "wordpress-seo" ),
-										label
+										labelLower
 									) }
 									description={ <>
 										{ sprintf(
-										// translators: %1$s expands to the taxonomy plural, e.g. Categories.
+											// translators: %1$s expands to "formats".
 											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
-											label
+											labelLower
 										) }
 										<br />
 										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
@@ -144,9 +147,9 @@ const FormatArchives = () => {
 								</div> }
 								description={ sprintf(
 								// eslint-disable-next-line max-len
-								// translators: %1$s expands to the taxonomy plural, e.g. Tags. %2$s expands to Yoast SEO.
+								// translators: %1$s expands to "formats". %2$s expands to "Yoast SEO".
 									__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
-									label,
+									labelLower,
 									"Yoast SEO"
 								) }
 							>

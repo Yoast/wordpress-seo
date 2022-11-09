@@ -163,7 +163,7 @@ const PremiumUpsellList = () => {
 		<div className="yst-p-6 xl:yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
 			<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
 				{ sprintf(
-					/* translators: %s expands to Yoast SEO Premium */
+					/* translators: %s expands to "Yoast SEO" Premium */
 					__( "Upgrade to %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				) }
@@ -193,7 +193,7 @@ const PremiumUpsellList = () => {
 				className="yst-gap-2 yst-mt-4"
 			>
 				{ sprintf(
-					/* translators: %s expands to Yoast SEO Premium */
+					/* translators: %s expands to "Yoast SEO" Premium */
 					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				) }

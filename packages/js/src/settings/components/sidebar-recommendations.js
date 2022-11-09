@@ -25,7 +25,7 @@ const PremiumUpsellCard = () => {
 		}
 	), [] );
 	const getPremium = sprintf(
-		/* translators: %s expands to Yoast SEO Premium */
+		/* translators: %s expands to "Yoast SEO" Premium */
 		__( "Get %s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	);
@@ -80,7 +80,7 @@ const SidebarRecommendations = () => {
 	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
 	const academy = useMemo( () => createInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to Yoast SEO academy, which is a clickable link. */
+			/* translators: %1$s expands to "Yoast SEO" academy, which is a clickable link. */
 			__( "Want to learn SEO from Team Yoast? Check out our %1$s!", "wordpress-seo" ),
 			"<link/>"
 		),
@@ -110,7 +110,7 @@ const SidebarRecommendations = () => {
 					</p>
 					<Link href={ academyLink } className="yst-block">
 						{ sprintf(
-							/* translators: %1$s expands to Yoast SEO academy */
+							/* translators: %1$s expands to "Yoast SEO" academy */
 							__( "Check out %1$s", "wordpress-seo" ),
 							"Yoast SEO academy"
 						) }
