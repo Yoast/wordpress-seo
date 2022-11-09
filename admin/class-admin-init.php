@@ -96,7 +96,8 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		return $this->pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		return isset( $_GET['page'] ) && is_string( $_GET['page'] ) && $this->pagenow === 'admin.php' && strpos( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'wpseo' ) === 0;
 	}
 
 	/**
