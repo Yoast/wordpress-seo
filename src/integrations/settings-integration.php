@@ -334,11 +334,13 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$default_settings       = $this->get_default_settings();
-		$settings               = $this->get_settings( $default_settings );
-		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
-		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
-		$transformed_post_types = $this->transform_post_types( $post_types );
+		$default_settings         = $this->get_default_settings();
+		$settings                 = $this->get_settings( $default_settings );
+		$post_types               = $this->post_type_helper->get_public_post_types( 'objects' );
+		$taxonomies               = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
+		$transformed_post_types   = $this->transform_post_types( $post_types );
+
+		// var_dump( $this->social_profiles_helper->get_supported_person_social_profiles_fields() );
 
 		return [
 			'settings'             => $this->transform_settings( $settings ),
@@ -354,6 +356,7 @@ class Settings_Integration implements Integration_Interface {
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
 			'fallbacks'            => $this->get_fallbacks(),
+			'personSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
 		];
 	}
 

@@ -2,11 +2,11 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useEffect } from "@wordpress/element";
+import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
-import { isEmpty } from "lodash";
+import { isEmpty, get, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import {
 	FieldsetLayout,
@@ -23,12 +23,25 @@ import { useDispatchSettings, useSelectSettings } from "../hooks";
  * @returns {JSX.Element} The person social profiles form.
  */
 const PersonSocialProfiles = () => {
+	const personSocialProfiles = useMemo( () => get( window, "wpseoScriptData.personSocialProfiles", {} ), [] );
 	const { addNotification } = useDispatchSettings();
 	const { values, status, setStatus, setFieldValue } = useFormikContext();
 	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
 	const previousUserId = usePrevious( companyOrPersonId );
 	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
+	const socialProfileFieldLabels = useMemo( () => ( {
+		facebook: __( "Facebook URL", "wordpress-seo" ),
+		instagram: __( "Instagram URL", "wordpress-seo" ),
+		linkedin: __( "LinkedIn URL", "wordpress-seo" ),
+		myspace: __( "MySpace URL", "wordpress-seo" ),
+		pinterest: __( "Pinterest URL", "wordpress-seo" ),
+		soundcloud: __( "SoundCloud URL", "wordpress-seo" ),
+		tumblr: __( "Tumblr URL", "wordpress-seo" ),
+		twitter: __( "Twitter username (without @)", "wordpress-seo" ),
+		youtube: __( "YouTube URL", "wordpress-seo" ),
+		wikipedia: __( "Wikipedia URL", "wordpress-seo" ),
+	} ), [] );
 
 	useEffect( () => {
 		if ( previousUserId === companyOrPersonId || companyOrPersonId < 1 ) {
@@ -44,7 +57,7 @@ const PersonSocialProfiles = () => {
 				addNotification( {
 					id: "social-profiles-error",
 					variant: "error",
-					title: __( "Oops! Something went wrong while retrieving the user social profiles.", "wordpress-seo" ),
+					title: __( "Oops! Something went wrong while retrieving the person social profiles.", "wordpress-seo" ),
 				} );
 				console.error( "Error while fetching the social profiles:", error.message );
 			} )
@@ -73,96 +86,19 @@ const PersonSocialProfiles = () => {
 					} ) }
 				{ isEmpty( personUser ) && __( "We're sorry, you're not allowed to edit the other profiles of the selected user.", "wordpress-seo" ) }
 			</Alert> }
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.facebook"
-				id="input-person_social_profiles-facebook"
-				label={ __( "Facebook", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.instagram"
-				id="input-person_social_profiles-instagram"
-				label={ __( "Instagram", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.linkedin"
-				id="input-person_social_profiles-linkedin"
-				label={ __( "LinkedIn", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://linkedin.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.myspace"
-				id="input-person_social_profiles-myspace"
-				label={ __( "MySpace", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://myspace.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.pinterest"
-				id="input-person_social_profiles-pinterest"
-				label={ __( "Pinterest", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://pinterest.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.soundcloud"
-				id="input-person_social_profiles-soundcloud"
-				label={ __( "SoundCloud", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://soundcloud.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.tumblr"
-				id="input-person_social_profiles-tumblr"
-				label={ __( "Tumblr", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://tumblr.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.twitter"
-				id="input-person_social_profiles-twitter"
-				label={ __( "Twitter", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.youtube"
-				id="input-person_social_profiles-youtube"
-				label={ __( "YouTube", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://youtube.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
-			<FormikWithErrorField
-				as={ TextField }
-				name="person_social_profiles.wikipedia"
-				id="input-person_social_profiles-wikipedia"
-				label={ __( "Wikipedia", "wordpress-seo" ) }
-				placeholder={ canEditUser && __( "E.g. https://wikipedia.com/yoast", "wordpress-seo" ) }
-				readOnly={ ! canEditUser }
-				disabled={ ! companyOrPersonId }
-			/>
+			{ map( personSocialProfiles, socialProfile => (
+				<FormikWithErrorField
+					key={ socialProfile }
+					as={ TextField }
+					name={ `person_social_profiles.${socialProfile}` }
+					id={ `input-person_social_profiles-${socialProfile}` }
+					label={ socialProfileFieldLabels[ socialProfile ] }
+					// translators: %1$s expands to social media example URL, ie. https://facebook.com/yoast.
+					placeholder={ canEditUser && sprintf( __( "E.g. %1$s", "wordpress-seo" ), `https://${ socialProfile }.com/yoast` ) }
+					readOnly={ ! canEditUser }
+					disabled={ ! companyOrPersonId }
+				/>
+			) ) }
 		</FieldsetLayout>
 	);
 };
