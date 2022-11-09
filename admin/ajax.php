@@ -249,12 +249,20 @@ function wpseo_upsert_new( $what, $post_id, $new_value, $original ) {
  * Retrieves the keyword for the keyword doubles.
  */
 function ajax_get_keyword_usage() {
-	$post_id = filter_input( INPUT_POST, 'post_id' );
-	$keyword = filter_input( INPUT_POST, 'keyword' );
+	check_ajax_referer( 'wpseo-keyword-usage', 'nonce' );
 
-	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+	if ( ! isset( $_POST['post_id'], $_POST['keyword'] ) || ! is_string( $_POST['keyword'] ) ) {
 		die( '-1' );
 	}
+
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We are casting to an integer.
+	$post_id = (int) wp_unslash( $_POST['post_id'] );
+
+	if ( $post_id === 0 || ! current_user_can( 'edit_post', $post_id ) ) {
+		die( '-1' );
+	}
+
+	$keyword = sanitize_text_field( wp_unslash( $_POST['keyword'] ) );
 
 	wp_die(
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
