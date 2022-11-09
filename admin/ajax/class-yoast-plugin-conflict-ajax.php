@@ -35,19 +35,19 @@ class Yoast_Plugin_Conflict_Ajax {
 	 * Handles the dismiss notice request.
 	 */
 	public function dismiss_notice() {
-		\check_ajax_referer( 'dismiss-plugin-conflict' );
+		check_ajax_referer( 'dismiss-plugin-conflict' );
 
 		if ( ! isset( $_POST['data'] ) || ! is_array( $_POST['data'] ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: WPSEO_Utils::format_json_encode is considered safe.
-			\wp_die( WPSEO_Utils::format_json_encode( [] ) );
+			wp_die( WPSEO_Utils::format_json_encode( [] ) );
 		}
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $conflict_data is getting sanitized later.
-		$conflict_data = \wp_unslash( $_POST['data'] );
+		$conflict_data = wp_unslash( $_POST['data'] );
 
 		$conflict_data = [
-			'section' => \sanitize_text_field( $conflict_data['section'] ),
-			'plugins' => \sanitize_text_field( $conflict_data['plugins'] ),
+			'section' => sanitize_text_field( $conflict_data['section'] ),
+			'plugins' => sanitize_text_field( $conflict_data['plugins'] ),
 		];
 
 		$this->dismissed_conflicts = $this->get_dismissed_conflicts( $conflict_data['section'] );
@@ -56,7 +56,7 @@ class Yoast_Plugin_Conflict_Ajax {
 
 		$this->save_dismissed_conflicts( $conflict_data['section'] );
 
-		\wp_die( 'true' );
+		wp_die( 'true' );
 	}
 
 	/**
