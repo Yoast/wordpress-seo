@@ -29,6 +29,7 @@ import removePunctuation from "./helpers/sanitize/removePunctuation";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
+import { getSubheadings } from "./helpers/html/getSubheadings";
 
 export {
 	AbstractResearcher,
@@ -63,4 +64,5 @@ export {
 	getLanguage,
 	getSentences,
 	unifyAllSpaces,
+	getSubheadings,
 };
