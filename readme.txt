@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 19.9
+Stable tag: 19.10
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -246,24 +246,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 19.11 =
-Release Date: November 15th, 2022
+Release Date: November 29th, 2022
 
 Bugfixes:
 
 * Fixes a bug where an entry would be added to our indexables table when saving, updating, or accessing a post (or term) for a non-public post type (or taxonomy).
-* Fixes a bug where indexables for users did not get removed when a user would not have any publicly viewable posts anymore.
-* Fixes a bug where indexables for users did not get removed when author archives were disabled.
-* Fixes a bug where indexables were created for users when author archives were disabled.
-* Fixes a bug where indexables were created for users who did not have any publicly viewable posts.
-* Fixes a bug where the SEO optimization would error out when a post type is manually excluded via a filter.
-* Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
-* Prevent duplicate indexable records for the same object
+* Fixes a bug where indexables would be created for users when author archives were disabled.
+* Fixes a bug where indexables would be created for users who did not have any publicly viewable posts.
+* Fixes a bug where indexables for users would not get removed when author archives were disabled.
+* Fixes a bug where indexables for users would not get removed when a user did not have any publicly viewable posts anymore.
+* Fixes a bug where a fatal error would be thrown when the SEO optimization was run after a post type had been manually excluded via a filter.
+* Fixes a bug where duplicate indexable records would be created for the same object.
 
+Other:
+* Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
 
 = 19.10 =
 Release Date: November 8th, 2022
 
-
+Yoast SEO 19.10 is out today. This release mostly consists of bug fixes and enhancements. In addition, we're getting our WordPress plugins ready for the upcoming High Performance Order Storage feature in WooCommerce 7.1+. Update now! Read more about what's new in Yoast SEO 19.9 in [our release post in English](https://yoa.st/release-8-11-22) or [our release post in Spanish](https://yoa.st/release-8-11-22-spanish)!
 
 Enhancements:
 
