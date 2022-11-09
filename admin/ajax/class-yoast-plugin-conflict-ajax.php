@@ -37,15 +37,15 @@ class Yoast_Plugin_Conflict_Ajax {
 	public function dismiss_notice() {
 		\check_ajax_referer( 'dismiss-plugin-conflict' );
 
-		if ( ! isset( $_POST['data']) || ! is_array( $_POST['data'] ) ) {
+		if ( ! isset( $_POST['data'] ) || ! is_array( $_POST['data'] ) ) {
 			\wp_die( WPSEO_Utils::format_json_encode( [] ) );
 		}
 
-		$conflict_data = \wp_unslash( $_POST[ 'data' ] );
+		$conflict_data = \wp_unslash( $_POST['data'] );
 
 		$conflict_data = [
-			'section' => \sanitize_text_field( $conflict_data[ 'section' ] ),
-			'plugins' => \sanitize_text_field( $conflict_data['plugins' ] ),
+			'section' => \sanitize_text_field( $conflict_data['section'] ),
+			'plugins' => \sanitize_text_field( $conflict_data['plugins'] ),
 		];
 
 		$this->dismissed_conflicts = $this->get_dismissed_conflicts( $conflict_data['section'] );
