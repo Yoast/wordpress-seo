@@ -1,8 +1,10 @@
+import getAnchorsFromText from "../link/getAnchorsFromText";
 import matchWords from "../match/matchTextWithArray";
 import arrayToRegex from "../regex/createRegexFromArray";
 import addMark from "../../../markers/addMarkSingleWord";
 import Mark from "../../../values/Mark";
 import { escapeRegExp } from "lodash-es";
+import { stripFullTags } from "../sanitize/stripHTMLTags";
 
 /**
  * Adds marks to a sentence and merges marks if those are only separated by a space
@@ -19,9 +21,29 @@ export const collectMarkingsInSentence = function( sentence, topicFoundInSentenc
 	topicFoundInSentence = topicFoundInSentence.map( word => escapeRegExp( word ) );
 	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
 	const topicRegex = matchWordCustomHelper ? arrayToRegex( topicFoundInSentence, true ) : arrayToRegex( topicFoundInSentence );
-	const markup = sentence.replace( topicRegex, function( x ) {
+
+	// Retrieve the anchors.
+	const anchors = getAnchorsFromText( sentence );
+	// For every anchor, apply the markings only to the anchor tag. Replace the unmarked anchor in the sentence with the marked anchor
+	const markedAnchors = anchors.map( anchor => {
+		// Get the anchor text
+		const anchorText = stripFullTags( anchor );
+		// Apply the marking to the anchor text
+		const markedAnchorText = anchorText.replace( topicRegex, ( x ) => addMark( x ) );
+		// Replace the original anchor text with the marked anchor text
+		return anchor.replace( anchorText, markedAnchorText );
+	} );
+
+	let markup = sentence.replace( topicRegex, function( x ) {
 		return addMark( x );
 	} );
+
+	if ( anchors.length > 0 ) {
+		const markupAnchors = getAnchorsFromText( markup );
+		for ( let i = 0; i < markupAnchors.length; i++ ) {
+			markup = markup.replace( markupAnchors[ i ], markedAnchors[ i ] );
+		}
+	}
 
 	return ( markup.replace( new RegExp( "</yoastmark> <yoastmark class='yoast-text-mark'>", "ig" ), " " ) );
 };
