@@ -35,9 +35,18 @@ class Yoast_Plugin_Conflict_Ajax {
 	 * Handles the dismiss notice request.
 	 */
 	public function dismiss_notice() {
-		check_ajax_referer( 'dismiss-plugin-conflict' );
+		\check_ajax_referer( 'dismiss-plugin-conflict' );
 
-		$conflict_data = filter_input( INPUT_POST, 'data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! isset( $_POST['data']) || ! is_array( $_POST['data'] ) ) {
+			\wp_die( WPSEO_Utils::format_json_encode( [] ) );
+		}
+
+		$conflict_data = \wp_unslash( $_POST[ 'data' ] );
+
+		$conflict_data = [
+			'section' => \sanitize_text_field( $conflict_data[ 'section' ] ),
+			'plugins' => \sanitize_text_field( $conflict_data['plugins' ] ),
+		];
 
 		$this->dismissed_conflicts = $this->get_dismissed_conflicts( $conflict_data['section'] );
 
@@ -45,7 +54,7 @@ class Yoast_Plugin_Conflict_Ajax {
 
 		$this->save_dismissed_conflicts( $conflict_data['section'] );
 
-		wp_die( 'true' );
+		\wp_die( 'true' );
 	}
 
 	/**
