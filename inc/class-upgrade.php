@@ -1497,11 +1497,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		$query = $wpdb->query(
+		$query =
 			"SELECT
 				MAX(id) as newest_id,
 				object_id,
@@ -1515,9 +1511,7 @@ class WPSEO_Upgrade {
 				object_id,
 				object_type
 			HAVING
-				count(*) > 1"
-		);
-		// phpcs:enable
+				count(*) > 1";
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
