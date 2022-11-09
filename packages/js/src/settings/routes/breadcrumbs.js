@@ -134,7 +134,7 @@ const Breadcrumbs = () => {
 						<p>
 							{ addLinkToString(
 								sprintf(
-								// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s expands to Yoast SEO.
+								// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s expands to "Yoast SEO".
 									__( "Not sure how to implement the %3$s breadcrumbs on your site? Read %1$sour help article on breadcrumbs implementation%2$s.", "wordpress-seo" ),
 									"<a>",
 									"</a>",

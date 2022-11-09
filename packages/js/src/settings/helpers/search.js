@@ -157,7 +157,7 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 		routeLabel: label,
 		fieldId: `input-wpseo_titles-display-metabox-tax-${ name }`,
 		fieldLabel: sprintf(
-			/* translators: %1$s expands to Yoast SEO. %2$s expands to the taxonomy plural, e.g. Categories. */
+			/* translators: %1$s expands to "Yoast SEO". %2$s expands to the taxonomy plural, e.g. Categories. */
 			__( "Enable %1$s for %2$s", "wordpress-seo" ),
 			"Yoast SEO",
 			label

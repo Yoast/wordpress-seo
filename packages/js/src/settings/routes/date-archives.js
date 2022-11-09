@@ -3,6 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
+import { toLower } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -22,7 +23,8 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const DateArchives = () => {
 	const label = __( "Date archives", "wordpress-seo" );
-	const singularLabel = __( "Date archive", "wordpress-seo" );
+	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -51,11 +53,12 @@ const DateArchives = () => {
 			/**
 			 * translators: %1$s expands to "Date archives".
 			 * %2$s expands to an example URL, e.g. https://example.com/author/example/.
-			 * %3$s and %4$s expand to opening and closing <a> tags.
+			 * %3$s expands to "Date archives".
 			 */
-			__( "%1$s (e.g. %2$s) are based on publication dates. From an SEO perspective, the posts in these archives have no real relation to the other posts except for their publication dates, which doesn’t say much about the content. They could also lead to duplicate content issues. This is why we recommend you to disable %1$s.", "wordpress-seo" ),
-			singularLabel,
-			"<exampleUrl />"
+			__( "%1$s (e.g. %2$s) are based on publication dates. From an SEO perspective, the posts in these archives have no real relation to the other posts except for their publication dates, which doesn’t say much about the content. They could also lead to duplicate content issues. This is why we recommend you to disable %3$s.", "wordpress-seo" ),
+			label,
+			"<exampleUrl />",
+			labelLower
 		),
 		{
 			exampleUrl: <Code>{ exampleUrl }</Code>,
@@ -78,12 +81,12 @@ const DateArchives = () => {
 							name={ "wpseo_titles.disable-date" }
 							data-id={ "input-wpseo_titles-disable-date" }
 							label={ sprintf(
-								/* translators: %1$s expands to the post type plural, e.g. Posts. */
+								// translators: %1$s expands to "date archives".
 								__( "Enable %1$s", "wordpress-seo" ),
-								label
+								labelLower
 							) }
 							description={ sprintf(
-							/* translators: %1$s expands to "Date archives". */
+								// translators: %1$s expands to "Date archives".
 								__( "%1$s can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ),
 								label
 							) }
@@ -100,24 +103,24 @@ const DateArchives = () => {
 							<FieldsetLayout
 								title={ __( "Search appearance", "wordpress-seo" ) }
 								description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to "date archives".
 									__( "Determine how your %1$s should look in search engines.", "wordpress-seo" ),
-									label
+									labelLower
 								) }
 							>
 								<FormikFlippedToggleField
 									name="wpseo_titles.noindex-archive-wpseo"
 									data-id="input-wpseo_titles-noindex-archive-wpseo"
 									label={ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. Posts.
+										// translators: %1$s expands to "date archives".
 										__( "Show %1$s in search results", "wordpress-seo" ),
-										label
+										labelLower
 									) }
 									description={ <>
 										{ sprintf(
-										// translators: %1$s expands to the post type plural, e.g. Posts.
+											// translators: %1$s expands to "date archives".
 											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
-											label
+											labelLower
 										) }
 										<br />
 										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
@@ -151,9 +154,9 @@ const DateArchives = () => {
 									{ isPremium && <Badge variant="upsell">Premium</Badge> }
 								</div> }
 								description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to "date archives".
 									__( "Determine how your %1$s should look on social media by default.", "wordpress-seo" ),
-									label
+									labelLower
 								) }
 							>
 								<FeatureUpsell
@@ -161,7 +164,7 @@ const DateArchives = () => {
 									variant="card"
 									cardLink={ socialAppearancePremiumLink }
 									cardText={ sprintf(
-									/* translators: %1$s expands to Premium. */
+										// translators: %1$s expands to Premium.
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }

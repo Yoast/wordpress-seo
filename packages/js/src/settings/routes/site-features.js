@@ -479,7 +479,7 @@ const SiteFeatures = () => {
 									</Title>
 									<p>
 										{ sprintf(
-										// translators: %1$s expands to Yoast SEO.
+										// translators: %1$s expands to "Yoast SEO".
 											__( "Enable the %1$s XML sitemaps. A sitemap is a file that lists a website's essential pages to make sure search engines can find and crawl them.", "wordpress-seo" ),
 											"Yoast SEO"
 										) }

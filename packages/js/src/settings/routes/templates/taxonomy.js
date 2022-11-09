@@ -2,7 +2,7 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { initial, last, map, values } from "lodash";
+import { initial, last, map, values, toLower } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -33,6 +33,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
+	const labelLower = useMemo( () => toLower( label ), [ label ] );
 	const postTypeValues = useMemo( () => values( postTypes ), [ postTypes ] );
 	const initialPostTypeValues = useMemo( () => initial( postTypeValues ), [ postTypeValues ] );
 	const lastPostTypeValue = useMemo( () => last( postTypeValues ), [ postTypeValues ] );
@@ -63,6 +64,41 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 			code: <Code>/category/</Code>,
 		}
 	), [] );
+	const taxonomyMultiplePostTypesMessage = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
+			 * %2$s and %3$s expand to post type plurals in code blocks, e.g. Posts Pages and Custom Post Type.
+			 */
+			__( "%1$s are used for %2$s and %3$s.", "wordpress-seo" ),
+			label,
+			"<code1 />",
+			"<code2 />"
+		), {
+			code1: <>
+				{ map( initialPostTypeValues, ( postType, index ) => (
+					<>
+						<Code key={ postType?.name }>{ toLower( postType?.label ) }</Code>
+						{ index < initialPostTypeValues.length - 1 && " " }
+					</>
+				) ) }
+			</>,
+			code2: <Code>{ toLower( lastPostTypeValue?.label ) }</Code>,
+		}
+	), [ label, initialPostTypeValues, lastPostTypeValue ] );
+	const taxonomySinglePostTypeMessage = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
+			 * %2$s expands to the post type plural in code block, e.g. Posts.
+			 */
+			__( "%1$s are used for %2$s.", "wordpress-seo" ),
+			label,
+			"<code />"
+		), {
+			code: <Code>{ toLower( lastPostTypeValue?.label ) }</Code>,
+		}
+	), [ label, lastPostTypeValue ] );
 
 	const { values: formValues } = useFormikContext();
 	const { opengraph } = formValues.wpseo_social;
@@ -72,45 +108,12 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 			title={ label }
 			description={ <>
 				{ sprintf(
-					/* translators: %1$s expands to the taxonomy plural, e.g. Categories. */
+					/* translators: %1$s expands to the taxonomy plural, e.g. categories. */
 					__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
-					label
+					labelLower
 				) }
 				<br />
-				{ initialPostTypeValues.length > 1 ? createInterpolateElement(
-					sprintf(
-						/**
-						 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
-						 * %2$s and %3$s expand to post type plurals in code blocks, e.g. Posts Pages and Custom Post Type.
-						 */
-						__( "%1$s are used for %2$s and %3$s.", "wordpress-seo" ),
-						label,
-						"<code1 />",
-						"<code2 />"
-					), {
-						code1: <>
-							{ map( initialPostTypeValues, ( postType, index ) => (
-								<>
-									<Code key={ postType?.name }>{ postType?.label }</Code>
-									{ index < initialPostTypeValues.length - 1 && " " }
-								</>
-							) ) }
-						</>,
-						code2: <Code>{ lastPostTypeValue?.label }</Code>,
-					}
-				) : createInterpolateElement(
-					sprintf(
-						/**
-						 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
-						 * %2$s expands to the post type plural in code block, e.g. Posts.
-						 */
-						__( "%1$s are used for %2$s.", "wordpress-seo" ),
-						label,
-						"<code />"
-					), {
-						code: <Code>{ lastPostTypeValue?.label }</Code>,
-					}
-				) }
+				{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
 			</> }
 		>
 			<FormLayout>
@@ -118,10 +121,10 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-						// eslint-disable-next-line max-len
-						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to Yoast SEO.
+							// eslint-disable-next-line max-len
+							// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to "Yoast SEO".
 							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
-							label,
+							labelLower,
 							"Yoast SEO"
 						) }
 					>
@@ -131,13 +134,13 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 							label={ sprintf(
 							// translators: %1$s expands to the taxonomy plural, e.g. Categories.
 								__( "Show %1$s in search results", "wordpress-seo" ),
-								label
+								labelLower
 							) }
 							description={ <>
 								{ sprintf(
 								// translators: %1$s expands to the taxonomy plural, e.g. Categories.
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-									label
+									labelLower
 								) }
 								<br />
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
@@ -175,7 +178,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 						// eslint-disable-next-line max-len
 						// translators: %1$s expands to the taxonomy plural, e.g. Categories. %2$s expand to Yoast SEO.
 							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
-							label,
+							labelLower,
 							"Yoast SEO"
 						) }
 					>
@@ -250,7 +253,6 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 Taxonomy.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
-	singularLabel: PropTypes.string.isRequired,
 	postTypes: PropTypes.arrayOf( PropTypes.string ).isRequired,
 };
 

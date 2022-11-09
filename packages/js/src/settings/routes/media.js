@@ -3,6 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Link, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
+import { toLower } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -17,7 +18,9 @@ import { useSelectSettings } from "../hooks";
  * @returns {JSX.Element} The media route.
  */
 const Media = () => {
-	const { name, label, singularLabel, hasSchemaArticleType } = useSelectSettings( "selectPostType", [], "attachment" );
+	const { name, label, hasSchemaArticleType } = useSelectSettings( "selectPostType", [], "attachment" );
+	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
@@ -32,14 +35,14 @@ const Media = () => {
 		sprintf(
 			/**
 			 * translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-			 * %3$s expands to the post type singular, e.g. Post.
+			 * %3$s expands to "media".
 			 * %4$s expand to "Yoast SEO".
 			 * %5$s expand to "WordPress".
 			 */
 			__( "When you upload media (e.g. an image or video), %5$s automatically creates a %3$s page (attachment URL) for it. These pages are quite empty and could cause %1$sthin content problems and lead to excess pages on your site%2$s. Therefore, %4$s disables them by default (and redirects the attachment URL to the media itself).", "wordpress-seo" ),
 			"<a>",
 			"</a>",
-			singularLabel,
+			labelLower,
 			"Yoast SEO",
 			"WordPress"
 		),
@@ -52,7 +55,7 @@ const Media = () => {
 	return (
 		<RouteLayout
 			title={ sprintf(
-				/* translators: %1$s expands to the post type plural, e.g. Posts. */
+				// translators: %1$s expands to "Media".
 				__( "%1$s pages", "wordpress-seo" ),
 				label
 			) }
@@ -65,14 +68,14 @@ const Media = () => {
 							name={ `wpseo_titles.disable-${ name }` }
 							data-id={ `input-wpseo_titles-disable-${ name }` }
 							label={ sprintf(
-							/* translators: %1$s expands to the post type plural, e.g. Posts. */
+								// translators: %1$s expands to "media".
 								__( "Enable %1$s pages", "wordpress-seo" ),
-								label
+								labelLower
 							) }
 							description={ sprintf(
-							/* translators: %1$s expands to the post type plural, e.g. Posts. */
+								// translators: %1$s expands to "media".
 								__( "We recommend disabling %1$s pages. Disabling %1$s pages will cause all attachment URLs to redirect to the media itself.", "wordpress-seo" ),
-								label
+								labelLower
 							) }
 						/>
 					</fieldset>
@@ -87,11 +90,10 @@ const Media = () => {
 							<FieldsetLayout
 								title={ __( "Search appearance", "wordpress-seo" ) }
 								description={ sprintf(
-								// eslint-disable-next-line max-len
-								// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
-									__( "Determine how your %1$s pages should look in search engines. You can always customize the settings for individual %2$s pages in the %3$s metabox.", "wordpress-seo" ),
-									label,
-									singularLabel,
+									// eslint-disable-next-line max-len
+									// translators: %1$s expands to "media". %3$s expands to "Yoast SEO".
+									__( "Determine how your %1$s pages should look in search engines. You can always customize the settings for individual %1$s pages in the %2$s metabox.", "wordpress-seo" ),
+									labelLower,
 									"Yoast SEO"
 								) }
 							>
@@ -99,15 +101,15 @@ const Media = () => {
 									name={ `wpseo_titles.noindex-${ name }` }
 									data-id={ `input-wpseo_titles-noindex-${ name }` }
 									label={ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. Posts.
+										// translators: %1$s expands to "media".
 										__( "Show %1$s pages in search results", "wordpress-seo" ),
-										label
+										labelLower
 									) }
 									description={ <>
 										{ sprintf(
-										// translators: %1$s expands to the post type plural, e.g. Posts.
+											// translators: %1$s expands to "media".
 											__( "Disabling this means that %1$s pages created by WordPress will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-											label
+											labelLower
 										) }
 										<br />
 										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
@@ -138,11 +140,10 @@ const Media = () => {
 							<FieldsetLayout
 								title={ __( "Schema", "wordpress-seo" ) }
 								description={ sprintf(
-								// eslint-disable-next-line max-len
-								// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
-									__( "Determine how your %1$s pages should be described by default in your site's Schema.org markup. You can always customize the settings for individual %2$s pages in the %3$s metabox.", "wordpress-seo" ),
-									label,
-									singularLabel,
+									// eslint-disable-next-line max-len
+									// translators: %1$s expands to "media". %3$s expands to "Yoast SEO".
+									__( "Determine how your %1$s pages should be described by default in your site's Schema.org markup. You can always customize the settings for individual %1$s pages in the %2$s metabox.", "wordpress-seo" ),
+									labelLower,
 									"Yoast SEO"
 								) }
 							>
@@ -164,9 +165,7 @@ const Media = () => {
 								/> }
 							</FieldsetLayout>
 							<hr className="yst-my-8" />
-							<FieldsetLayout
-								title={ __( "Additional settings", "wordpress-seo" ) }
-							>
+							<FieldsetLayout title={ __( "Additional settings", "wordpress-seo" ) }>
 								<FormikValueChangeField
 									as={ ToggleField }
 									type="checkbox"

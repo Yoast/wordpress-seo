@@ -4,6 +4,7 @@ import { Badge, Code, Link } from "@yoast/ui-library";
 import FeatureUpsell from "@yoast/ui-library/src/components/feature-upsell";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
+import { toLower } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -24,6 +25,9 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
 const AuthorArchives = () => {
 	const label = __( "Author archives", "wordpress-seo" );
 	const singularLabel = __( "Author archive", "wordpress-seo" );
+	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+	const singularLabelLower = useMemo( ()=> toLower( singularLabel ), [ singularLabel ] );
+
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const duplicateContentInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/duplicate-content" );
@@ -51,12 +55,12 @@ const AuthorArchives = () => {
 	const description = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
-			 * translators: %1$s expands to "Author archives".
+			 * translators: %1$s expands to "author archive".
 			 * %2$s expands to an example URL, e.g. https://example.com/author/example/.
 			 * %3$s and %4$s expand to opening and closing <a> tags.
 			 */
 			__( "If you're running a one author blog, the %1$s (e.g. %2$s) will be exactly the same as your homepage. This is what's called a %3$sduplicate content problem%4$s. If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or prevent it from showing up in search results.", "wordpress-seo" ),
-			singularLabel,
+			singularLabelLower,
 			"<exampleUrl />",
 			"<a>",
 			"</a>"
@@ -83,14 +87,14 @@ const AuthorArchives = () => {
 						name={ "wpseo_titles.disable-author" }
 						data-id={ "input-wpseo_titles-disable-author" }
 						label={ sprintf(
-							/* translators: %1$s expands to the post type plural, e.g. Posts. */
+							// translators: %1$s expands to "author archives".
 							__( "Enable %1$s", "wordpress-seo" ),
-							label
+							labelLower
 						) }
 						description={ sprintf(
-							/* translators: %1$s expands to the post type singular, e.g. Post. */
+							// translators: %1$s expands to "author archive".
 							__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
-							singularLabel
+							singularLabelLower
 						) }
 					/>
 					<hr className="yst-my-8" />
@@ -104,25 +108,24 @@ const AuthorArchives = () => {
 							<FieldsetLayout
 								title={ __( "Search appearance", "wordpress-seo" ) }
 								description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to "author archives".
 									__( "Determine how your %1$s should look in search engines.", "wordpress-seo" ),
-									label
+									labelLower
 								) }
 							>
 								<FormikFlippedToggleField
 									name="wpseo_titles.noindex-author-wpseo"
 									data-id="input-wpseo_titles-noindex-author-wpseo"
 									label={ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. Posts.
+										// translators: %1$s expands to "author archives".
 										__( "Show %1$s in search results", "wordpress-seo" ),
-										label
+										labelLower
 									) }
 									description={ <>
 										{ sprintf(
-										// translators: %1$s expands to the post type plural, e.g. Posts.
-											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.",
-												"wordpress-seo" ),
-											label
+											// translators: %1$s expands to "author archives".
+											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+											labelLower
 										) }
 										<br />
 										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
@@ -134,8 +137,16 @@ const AuthorArchives = () => {
 								{ ! isAuthorNoIndex && <FormikFlippedToggleField
 									name="wpseo_titles.noindex-author-noposts-wpseo"
 									data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
-									label={ __( "Show archives for authors without posts in search results", "wordpress-seo" ) }
-									description={ __( "Disabling this means that archives for authors without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ) }
+									label={ sprintf(
+										// translators: %1$s expands to "author archives".
+										__( "Show %1$s without posts in search results", "wordpress-seo" ),
+										labelLower
+									) }
+									description={ sprintf(
+										// translators: %1$s expands to "author archives".
+										__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+										labelLower
+									) }
 								/> }
 								<FormikReplacementVariableEditorField
 									type="title"
@@ -162,9 +173,9 @@ const AuthorArchives = () => {
 									{ isPremium && <Badge variant="upsell">Premium</Badge> }
 								</div> }
 								description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to "author archives".
 									__( "Determine how your %1$s should look on social media by default.", "wordpress-seo" ),
-									label
+									labelLower
 								) }
 							>
 								<FeatureUpsell
@@ -172,7 +183,7 @@ const AuthorArchives = () => {
 									variant="card"
 									cardLink={ socialAppearancePremiumLink }
 									cardText={ sprintf(
-									/* translators: %1$s expands to Premium. */
+										/* translators: %1$s expands to Premium. */
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }

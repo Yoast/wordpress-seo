@@ -4,6 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import PropTypes from "prop-types";
+import { toLower } from "lodash";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
 	FieldsetLayout,
@@ -48,6 +49,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
 
+	const labelLower = useMemo( () => toLower( label ), [] );
+	const singularLabelLower = useMemo( () => toLower( singularLabel ), [] );
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -104,9 +107,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const schemaDescription = useMemo( () => addLinkToString(
 		sprintf(
 			// eslint-disable-next-line max-len
-			// translators: %1$s expands to the post type plural, e.g. Posts. %2$s and %3$s expand to opening and closing anchor tag. %4$s expands to Yoast SEO.
+			// translators: %1$s expands to the post type plural, e.g. posts. %2$s and %3$s expand to opening and closing anchor tag. %4$s expands to "Yoast SEO".
 			__( "Determine how your %1$s should be described by default in %2$syour site's Schema.org markup%3$s. You can always change the settings for individual %1$s in the %4$s sidebar.", "wordpress-seo" ),
-			label,
+			labelLower,
 			"<a>",
 			"</a>",
 			"Yoast SEO"
@@ -123,9 +126,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		<RouteLayout
 			title={ label }
 			description={ sprintf(
-			/* translators: %1$s expands to the post type plural, e.g. Posts. */
+			/* translators: %1$s expands to the post type plural, e.g. posts. */
 				__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
-				label
+				labelLower
 			) }
 		>
 			<FormLayout>
@@ -134,9 +137,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
 						// eslint-disable-next-line max-len
-						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to Yoast SEO.
+						// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
 							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s sidebar.", "wordpress-seo" ),
-							label,
+							labelLower,
 							"Yoast SEO"
 						) }
 					>
@@ -144,15 +147,15 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							name={ `wpseo_titles.noindex-${ name }` }
 							data-id={ `input-wpseo_titles-noindex-${ name }` }
 							label={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Posts.
+							// translators: %1$s expands to the post type plural, e.g. posts.
 								__( "Show %1$s in search results", "wordpress-seo" ),
-								label
+								labelLower
 							) }
 							description={ <>
 								{ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
+								// translators: %1$s expands to the post type plural, e.g. posts.
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-									label
+									labelLower
 								) }
 								<br />
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
@@ -188,10 +191,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						</div> }
 						description={ sprintf(
 						// eslint-disable-next-line max-len
-						// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post. %3$s expands to Yoast SEO.
-							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %2$s in the %3$s sidebar.", "wordpress-seo" ),
-							label,
-							singularLabel,
+						// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
+							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s sidebar.", "wordpress-seo" ),
+							labelLower,
 							"Yoast SEO"
 						) }
 					>
@@ -303,7 +305,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						<div className="yst-mb-8">
 							<Title as="h2" className="yst-mb-2">
 								{ sprintf(
-								/* translators: %1$s expands to the post type plural, e.g. Posts. */
+									// translators: %1$s expands to the post type plural, e.g. Posts.
 									__( "%1$s archive", "wordpress-seo" ),
 									label
 								) }
@@ -311,9 +313,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							<p className="yst-text-tiny">
 								{ isWooCommerceProduct && wooCommerceArchiveDescription }
 								{ ! isWooCommerceProduct && sprintf(
-								/* translators: %1$s expands to the post type plural, e.g. Posts. */
+									// translators: %1$s expands to the post type singular, e.g. post.
 									__( "These settings are specifically for optimizing your %1$s archive.", "wordpress-seo" ),
-									label
+									singularLabelLower
 								) }
 							</p>
 						</div>
@@ -322,23 +324,23 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							<FieldsetLayout
 								title={ __( "Search appearance", "wordpress-seo" ) }
 								description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to the post type plural, e.g. posts.
 									__( "Determine how your %1$s archive should look in search engines.", "wordpress-seo" ),
-									label
+									labelLower
 								) }
 							>
 								<FormikFlippedToggleField
 									name={ `wpseo_titles.noindex-ptarchive-${ name }` }
 									data-id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
 									label={ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to the post type plural, e.g. posts.
 										__( "Show the archive for %1$s in search results", "wordpress-seo" ),
-										label
+										labelLower
 									) }
 									description={ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to the post type plural, e.g. posts.
 										__( "Disabling this means that the archive for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-										label
+										labelLower
 									) }
 								/>
 								<FormikReplacementVariableEditorField
@@ -366,10 +368,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 									{ isPremium && <Badge variant="upsell">Premium</Badge> }
 								</div> }
 								description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to the post type plural, e.g. posts.
 									__( "Determine how your %1$s archive should look on social media.", "wordpress-seo" ),
-									label,
-									singularLabel
+									labelLower
 								) }
 							>
 								<FeatureUpsell
@@ -377,7 +378,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 									variant="card"
 									cardLink={ socialAppearancePremiumLink }
 									cardText={ sprintf(
-									/* translators: %1$s expands to Premium. */
+										// translators: %1$s expands to Premium.
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }
