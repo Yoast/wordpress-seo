@@ -3,6 +3,46 @@ import Mark from "../../../../src/values/Mark";
 import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
 describe( "Adds Yoast marks to specific words in a sentence", function() {
+	it( "should add Yoast marks to all instances of specified words in a sentence, except when there is an anchor," +
+		" the marking should not be applied to the anchor tag attribute", function() {
+		expect( markWordsInSentences(
+			[ "picket", "tile" ],
+			[ "Introducing Palisades Ceramic Picket Tile — the latest trend in <a href=\"https://www.tileclub.com/collections/ceramic-tile\"" +
+			" target=\"_blank\" rel=\"noopener\">ceramic tile</a>!" ],
+			"en_EN"
+		) ).toEqual( [
+			new Mark( {
+				marked: "Introducing Palisades Ceramic <yoastmark class='yoast-text-mark'>Picket Tile</yoastmark> — the latest trend in " +
+						"<a href=\"https://www.tileclub.com/" +
+						"collections/ceramic-tile\" target=\"_blank\" rel=\"noopener\">ceramic " +
+						"<yoastmark class='yoast-text-mark'>tile</yoastmark></a>!",
+				original: "Introducing Palisades Ceramic Picket Tile — the latest trend in " +
+						"<a href=\"https://www.tileclub.com/collections/ceramic-tile\"" +
+						" target=\"_blank\" rel=\"noopener\">ceramic tile</a>!" } ),
+		]
+		);
+	} );
+	it( "should add Yoast marks to all instances of specified words in a sentence, except when there are multiple anchors," +
+		" the marking should not be applied to the anchor tag attribute", function() {
+		expect( markWordsInSentences(
+			[ "picket", "tile" ],
+			[ "Introducing Palisades Ceramic <a href=\"https://www.tileclub.com/ceramic-tile\">Picket Tile</a> — " +
+			"the latest trend in <a href=\"https://www.tileclub.com/collections/ceramic-tile\"" +
+			" target=\"_blank\" rel=\"noopener\">ceramic tile</a>!" ],
+			"en_EN"
+		) ).toEqual( [
+			new Mark( {
+				marked: "Introducing Palisades Ceramic <a href=\"https://www.tileclub.com/ceramic-tile\"><yoastmark class='yoast-text-mark'>" +
+					"Picket Tile</yoastmark></a> — the latest trend in " +
+						"<a href=\"https://www.tileclub.com/" +
+						"collections/ceramic-tile\" target=\"_blank\" rel=\"noopener\">ceramic " +
+						"<yoastmark class='yoast-text-mark'>tile</yoastmark></a>!",
+				original: "Introducing Palisades Ceramic <a href=\"https://www.tileclub.com/ceramic-tile\">Picket Tile</a> — " +
+					"the latest trend in <a href=\"https://www.tileclub.com/collections/ceramic-tile\"" +
+					" target=\"_blank\" rel=\"noopener\">ceramic tile</a>!" } ),
+		]
+		);
+	} );
 	it( "should add Yoast marks to all instances of specified words in a sentence", function() {
 		expect( markWordsInSentences(
 			[ "turtle", "hamster" ],
@@ -73,7 +113,7 @@ describe( "Adds Yoast marks to specific words in a sentence for languages with c
 			new Mark( {
 				marked: "<yoastmark class='yoast-text-mark'>小さい花の刺繍</yoastmark>しかし、それは在庫切れでしたマキシドレス。",
 				original: "小さい花の刺繍しかし、それは在庫切れでしたマキシドレス。" } ),
-		 ]
+		]
 		);
 	} );
 
