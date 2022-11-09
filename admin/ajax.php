@@ -90,11 +90,19 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
  * @param string $what Type of item to save (title, description).
  */
 function wpseo_save_what( $what ) {
-	check_ajax_referer( 'wpseo-bulk-editor' );
+	\check_ajax_referer( 'wpseo-bulk-editor' );
 
-	$new      = filter_input( INPUT_POST, 'new_value' );
-	$post_id  = intval( filter_input( INPUT_POST, 'wpseo_post_id' ) );
-	$original = filter_input( INPUT_POST, 'existing_value' );
+	if ( ! isset( $_POST['new_value'] ) || ! isset( $_POST['wpseo_post_id'] ) || ! isset( $_POST['existing_value'] ) || ! \is_string( $_POST['new_value'] ) || ! \is_string( $_POST['existing_value'] ) ) {
+		die( '-1' );
+	}
+
+	$new      = \sanitize_text_field( \wp_unslash( $_POST['new_value'] ) );
+	$post_id  = \intval( \wp_unslash( $_POST['wpseo_post_id'] ) );
+	$original = \sanitize_text_field( \wp_unslash( $_POST['existing_value'] ) );
+
+	if ( $post_id === 0 ) {
+		die( '-1' );
+	}
 
 	$results = wpseo_upsert_new( $what, $post_id, $new, $original );
 
