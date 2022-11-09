@@ -518,6 +518,7 @@ class WPSEO_Upgrade {
 		global $wpdb;
 		// We've moved the cornerstone checkbox to our proper namespace.
 		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_yoast_wpseo_is_cornerstone' WHERE meta_key = '_yst_is_cornerstone'" );
+
 		// Remove the previous Whip dismissed message, as this is a new one regarding PHP 5.2.
 		delete_option( 'whip_dismiss_timestamp' );
 	}
@@ -587,6 +588,7 @@ class WPSEO_Upgrade {
 
 		// Removes all scheduled tasks for hitting the sitemap index.
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
+
 		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%"' );
 	}
 
@@ -658,7 +660,6 @@ class WPSEO_Upgrade {
 		}
 
 		global $wpdb;
-
 		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'wp_yoast_promo_hide_premium_upsell_admin_block'" );
 
 		// Removes the WordPress update notification, because it is no longer necessary when WordPress 5.3 is released.
