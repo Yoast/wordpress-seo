@@ -9,7 +9,6 @@ use WP_Rewrite;
 use WPSEO_Options;
 use WPSEO_Sitemaps_Admin;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
-use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Options\Options_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -84,11 +83,10 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( false );
 
-		$helper_surface              = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->environment = $environment_helper;
+		$container = $this->create_container_with( [ Environment_Helper::class => $environment_helper ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
 	}
@@ -138,11 +136,10 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( true );
 
-		$helper_surface              = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->environment = $environment_helper;
+		$container = $this->create_container_with( [ Environment_Helper::class => $environment_helper ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
 	}

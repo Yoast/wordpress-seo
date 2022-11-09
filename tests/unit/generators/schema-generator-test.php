@@ -20,7 +20,6 @@ use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Indexable_Presentation_Mock;
@@ -50,13 +49,6 @@ class Schema_Generator_Test extends TestCase {
 	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	protected $context;
-
-	/**
-	 * The schema id helper.
-	 *
-	 * @var ID_Helper|Mockery\MockInterface
-	 */
-	protected $id;
 
 	/**
 	 * The current page helper.
@@ -113,26 +105,22 @@ class Schema_Generator_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->id           = Mockery::mock( ID_Helper::class );
-		$this->current_page = Mockery::mock( Current_Page_Helper::class );
-
-		$this->html    = Mockery::mock( HTML_Helper::class )->makePartial();
-		$this->article = Mockery::mock( Article_Helper::class );
-		$this->date    = Mockery::mock( Date_Helper::class );
-
-		$helpers = Mockery::mock( Helpers_Surface::class );
-
-		$helpers->current_page = $this->current_page;
-		$helpers->options      = Mockery::mock( Options_Helper::class )->makePartial();
-		$helpers->schema       = (object) [
-			'id'       => $this->id,
-			'html'     => $this->html,
-			'language' => Mockery::mock( Language_Helper::class )->makePartial(),
-			'article'  => $this->article,
-		];
-		$helpers->date         = $this->date;
-
+		$this->current_page        = Mockery::mock( Current_Page_Helper::class );
+		$this->html                = Mockery::mock( HTML_Helper::class )->makePartial();
+		$this->article             = Mockery::mock( Article_Helper::class );
+		$this->date                = Mockery::mock( Date_Helper::class );
 		$this->replace_vars_helper = Mockery::mock( Replace_Vars_Helper::class );
+
+		$container = $this->create_container_with(
+			[
+				Current_Page_Helper::class => $this->current_page,
+				HTML_Helper::class         => $this->html,
+				Article_Helper::class      => $this->article,
+				Date_Helper::class         => $this->date,
+				Language_Helper::class     => new Language_Helper(),
+			]
+		);
+		$helpers   = $this->create_helper_surface( $container );
 
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
@@ -142,7 +130,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context = Mockery::mock(
 			Meta_Tags_Context_Mock::class,
 			[
-				$helpers->options,
+				Mockery::mock( Options_Helper::class ),
 				Mockery::mock( Url_Helper::class ),
 				Mockery::mock( Image_Helper::class ),
 				Mockery::mock( ID_Helper::class ),
@@ -233,12 +221,12 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->schema_page_type           = [ 'WebPage' ];
 		$this->context->presentation->breadcrumbs  = [
 			[
-				'url'   => 'https://example.com',
-				'text'  => 'Home',
+				'url'  => 'https://example.com',
+				'text' => 'Home',
 			],
 			[
-				'url'   => 'https://example.com/post1',
-				'text'  => 'Post 1',
+				'url'  => 'https://example.com/post1',
+				'text' => 'Post 1',
 			],
 		];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
@@ -357,8 +345,8 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->context->presentation->breadcrumbs = [
 			[
-				'url'   => 'https://example.com',
-				'text'  => 'Home',
+				'url'  => 'https://example.com',
+				'text' => 'Home',
 			],
 		];
 
@@ -1018,18 +1006,18 @@ class Schema_Generator_Test extends TestCase {
 				'@context' => 'https://schema.org',
 				'@graph'   => [
 					[
-						'@type'           => [
+						'@type'      => [
 							'CollectionPage',
 							'SearchResultsPage',
 						],
-						'@id'             => 'https://fake.url/?s=searchterm',
-						'url'             => 'https://fake.url/?s=searchterm',
-						'name'            => '',
-						'isPartOf'        => [
+						'@id'        => 'https://fake.url/?s=searchterm',
+						'url'        => 'https://fake.url/?s=searchterm',
+						'name'       => '',
+						'isPartOf'   => [
 							'@id' => 'https://fake.url/#website',
 						],
-						'inLanguage'      => 'English',
-						'breadcrumb'      => [ '@id' => '#breadcrumb' ],
+						'inLanguage' => 'English',
+						'breadcrumb' => [ '@id' => '#breadcrumb' ],
 					],
 					[
 						'@type'           => 'WebSite',
