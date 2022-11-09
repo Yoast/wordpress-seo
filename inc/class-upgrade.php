@@ -287,7 +287,12 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		// Between 3.2 and 3.4 the sitemap options were saved with autoloading enabled.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%" AND autoload = "yes"' );
+		// phpcs:enable
 	}
 
 	/**
@@ -318,12 +323,16 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		// The meta key has to be private, so prefix it.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$wpdb->query(
 			$wpdb->prepare(
 				'UPDATE ' . $wpdb->postmeta . ' SET meta_key = %s WHERE meta_key = "yst_is_cornerstone"',
 				WPSEO_Cornerstone_Filter::META_NAME
 			)
 		);
+		//phpcs:enable
 	}
 
 	/**
@@ -395,8 +404,12 @@ class WPSEO_Upgrade {
 	private function upgrade_50() {
 		global $wpdb;
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		// Deletes the post meta value, which might created in the RC.
 		$wpdb->query( 'DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_key = "_yst_content_links_processed"' );
+		//phpcs:enable
 	}
 
 	/**
@@ -488,7 +501,11 @@ class WPSEO_Upgrade {
 
 		// Moves the user meta for excluding from the XML sitemap to a noindex.
 		global $wpdb;
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$wpdb->query( "UPDATE $wpdb->usermeta SET meta_key = 'wpseo_noindex_author' WHERE meta_key = 'wpseo_excludeauthorsitemap'" );
+		//phpcs:enable
 	}
 
 	/**
@@ -517,8 +534,11 @@ class WPSEO_Upgrade {
 	private function upgrade_73() {
 		global $wpdb;
 		// We've moved the cornerstone checkbox to our proper namespace.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_yoast_wpseo_is_cornerstone' WHERE meta_key = '_yst_is_cornerstone'" );
-
+		// phpcs:enable
 		// Remove the previous Whip dismissed message, as this is a new one regarding PHP 5.2.
 		delete_option( 'whip_dismiss_timestamp' );
 	}
@@ -588,8 +608,11 @@ class WPSEO_Upgrade {
 
 		// Removes all scheduled tasks for hitting the sitemap index.
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
-
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%"' );
+		// phpcs:enable
 	}
 
 	/**
@@ -660,8 +683,11 @@ class WPSEO_Upgrade {
 		}
 
 		global $wpdb;
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'wp_yoast_promo_hide_premium_upsell_admin_block'" );
-
+		// phpcs:enable
 		// Removes the WordPress update notification, because it is no longer necessary when WordPress 5.3 is released.
 		$center = Yoast_Notification_Center::get();
 		$center->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
@@ -1380,6 +1406,9 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 			$delete_query = $wpdb->query(
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'post'
@@ -1425,6 +1454,9 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 			$delete_query = $wpdb->query(
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'term'
@@ -1465,7 +1497,10 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$query = $wpdb->query(
 			"SELECT
 				MAX(id) as newest_id,
@@ -1509,6 +1544,7 @@ class WPSEO_Upgrade {
 				// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 				// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 				$wpdb->query( $delete_query );
+				// phpcs:enable
 			}
 		}
 
@@ -1533,6 +1569,9 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		$delete_query = $wpdb->query( "DELETE FROM $indexable_table WHERE object_type = 'user'" );
 		// phpcs:enable
