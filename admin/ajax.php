@@ -52,17 +52,17 @@ add_action( 'wp_ajax_yoast_dismiss_notification', [ 'Yoast_Notification_Center',
  * Function used to remove the admin notices for several purposes, dies on exit.
  */
 function wpseo_set_ignore() {
-	if ( ! \current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 		die( '-1' );
 	}
 
-	\check_ajax_referer( 'wpseo-ignore' );
+	check_ajax_referer( 'wpseo-ignore' );
 
-	if ( ! isset( $_POST['option'] ) || ! \is_string( $_POST['option'] ) ) {
+	if ( ! isset( $_POST['option'] ) || ! is_string( $_POST['option'] ) ) {
 		die( '-1' );
 	}
 
-	$ignore_key = \sanitize_text_field( \wp_unslash( $_POST['option'] ) );
+	$ignore_key = sanitize_text_field( wp_unslash( $_POST['option'] ) );
 	WPSEO_Options::set( 'ignore_' . $ignore_key, true );
 
 	die( '1' );
