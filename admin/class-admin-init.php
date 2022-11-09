@@ -103,9 +103,8 @@ class WPSEO_Admin_Init {
 	 * Determine whether we should load the meta box class and if so, load it.
 	 */
 	private function load_meta_boxes() {
-
 		$is_editor      = WPSEO_Metabox::is_post_overview( $this->pagenow ) || WPSEO_Metabox::is_post_edit( $this->pagenow );
-		$is_inline_save = filter_input( INPUT_POST, 'action' ) === 'inline-save';
+		$is_inline_save = check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) && isset( $_POST['action'] ) && $_POST['action'] === 'inline-save';
 
 		/**
 		 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
