@@ -54,7 +54,8 @@ class Twitter_Helpers_Surface {
 	}
 
 	/**
-	 * Prevents setting dynamic properties.
+	 * Prevents setting dynamic properties and unsetting declared properties
+	 * from an inaccessible context.
 	 *
 	 * @param string $name  The property name.
 	 * @param mixed  $value The property value.
@@ -68,7 +69,8 @@ class Twitter_Helpers_Surface {
 	}
 
 	/**
-	 * Prevents unsetting dynamic properties.
+	 * Prevents unsetting dynamic properties and unsetting declared properties
+	 * from an inaccessible context.
 	 *
 	 * @param string $name The property name.
 	 *
