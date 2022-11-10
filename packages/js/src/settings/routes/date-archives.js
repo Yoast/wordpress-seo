@@ -53,7 +53,7 @@ const DateArchives = () => {
 			/**
 			 * translators: %1$s expands to "Date archives".
 			 * %2$s expands to an example URL, e.g. https://example.com/author/example/.
-			 * %3$s expands to "Date archives".
+			 * %3$s expands to "date archives".
 			 */
 			__( "%1$s (e.g. %2$s) are based on publication dates. From an SEO perspective, the posts in these archives have no real relation to the other posts except for their publication dates, which doesn’t say much about the content. They could also lead to duplicate content issues. This is why we recommend you to disable %3$s.", "wordpress-seo" ),
 			label,

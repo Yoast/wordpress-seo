@@ -70,11 +70,14 @@ class Social_Profiles_Helper {
 	 */
 	public function get_supported_person_social_profile_fields() {
 		$social_profile_fields = $this->get_person_social_profile_fields();
-		$contact_method_fields  = \array_keys( \wp_get_user_contact_methods() );
+		$contact_method_fields = \array_keys( \wp_get_user_contact_methods() );
 
-		return \array_filter( $contact_method_fields, function( $contact_method_field ) use ( $social_profile_fields ) {
-			return \in_array( $contact_method_field, $social_profile_fields );
-		} );
+		return \array_filter(
+			$contact_method_fields,
+			function( $contact_method_field ) use ( $social_profile_fields ) {
+				return \in_array( $contact_method_field, $social_profile_fields, true );
+			}
+		);
 	}
 
 	/**
@@ -85,7 +88,7 @@ class Social_Profiles_Helper {
 	 * @return array The person's social profiles.
 	 */
 	public function get_person_social_profiles( $person_id ) {
-		$social_profile_fields = $this->get_person_social_profile_fields();
+		$social_profile_fields  = $this->get_person_social_profile_fields();
 		$person_social_profiles = \array_combine( $social_profile_fields, \array_fill( 0, \count( $social_profile_fields ), '' ) );
 
 		// If no person has been selected, $person_id is set to false.
