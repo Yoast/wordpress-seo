@@ -87,4 +87,9 @@ This PR affects the following parts of the plugin, which may require extra testi
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 * [ ] I have written this PR in accordance with my team's definition of done.
 
+## WBSO
+
+* [ ] No WBSO project is applicable for this PR.
+* [ ] This PR falls under a WBSO project. I have attached the `innovation` label and noted the work hours.
+
 Fixes #
