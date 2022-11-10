@@ -246,6 +246,42 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 	}
 
 	/**
+	 * Provides the test with multisite data.
+	 *
+	 * @return array The multisite to test.
+	 */
+	public function multisite_provider() {
+		return [
+			'Multisite subdomain' => [
+				'multisite' => [
+					'is_subdirectory' => false,
+					'sites'           => [
+						1 => 'https://example.com/',
+					],
+				],
+			],
+			'Multisite subdirectory' => [
+				'multisite' => [
+					'is_subdirectory' => true,
+					'sites'           => [
+						1 => 'https://example.com/',
+						2 => 'https://example.com/test/',
+					],
+				],
+			],
+			'Multisite subdirectory with only 1 active' => [
+				'multisite' => [
+					'is_subdirectory' => true,
+					'sites'           => [
+						1 => 'https://example.com/',
+						2 => false,
+					],
+				],
+			],
+		];
+	}
+
+	/**
 	 * Tests the robots filter for multisite installations, other site without Yoast SEO activated.
 	 *
 	 * @covers ::filter_robots
@@ -442,44 +478,5 @@ Disallow:
 # END YOAST BLOCK',
 			$this->instance->filter_robots( '' )
 		);
-	}
-
-	/**
-	 * Provides the test with multisite data.
-	 *
-	 * @return array The multisite to test.
-	 */
-	public function multisite_provider() {
-		return [
-			'Multisite subdomain' => [
-				'data' => [
-					'is_subdirectory' => false,
-					'sitemap'         => "Input\n",
-					'sites'           => [
-						1 => 'https://example.com/',
-					],
-				],
-			],
-			'Multisite subdirectory' => [
-				'data' => [
-					'is_subdirectory' => true,
-					'sitemap'         => "Input\n",
-					'sites'           => [
-						1 => 'https://example.com/',
-						2 => 'https://example.com/test/',
-					],
-				],
-			],
-			'Multisite subdirectory with only 1 active' => [
-				'data' => [
-					'is_subdirectory' => true,
-					'sitemap'         => "Input\n",
-					'sites'           => [
-						1 => 'https://example.com/',
-						2 => false,
-					],
-				],
-			],
-		];
 	}
 }
