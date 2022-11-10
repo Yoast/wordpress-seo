@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 use Brain\Monkey;
 use Exception;
 use Mockery;
-use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
@@ -499,10 +498,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'post_modified_gmt' => '1234-12-12 12:12:12',
 		];
 
-		$indexable      = Mockery::mock( Indexable_Mock::class );
-		$indexable->orm = Mockery::mock( ORM::class );
-		$indexable->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
-		$indexable->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable                       = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_last_modified = '1234-12-12 00:00:00';
 		$indexable->expects( 'save' )->once();
 
 		$this->instance
@@ -512,6 +509,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->andReturn( [ $indexable ] );
 
 		$this->instance->update_relations( $post );
+
+		$this->assertSame( '1234-12-12 12:12:12', $indexable->object_last_modified );
 	}
 
 	/**
