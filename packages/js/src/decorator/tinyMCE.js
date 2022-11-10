@@ -1,4 +1,4 @@
-import { markers } from "yoastseo";
+import { markers, languageProcessing } from "yoastseo";
 import { forEach } from "lodash-es";
 
 var MARK_TAG = "yoastmark";
@@ -21,12 +21,6 @@ function removeInvalidMarks( editor ) {
 	editor.setContent( html );
 }
 
-function replaceSingleQuotesInTags( str ) {
-	const element = document.createElement( "body" );
-	element.innerHTML = str;
-	return element.innerHTML;
-}
-
 /**
  * Puts a list of marks into the given tinyMCE editor
  *
@@ -43,8 +37,8 @@ function markTinyMCE( editor, paper, marks ) {
 
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {
-		mark._properties.marked = replaceSingleQuotesInTags( mark._properties.marked );
-		mark._properties.original = replaceSingleQuotesInTags( mark._properties.original );
+		mark._properties.marked = languageProcessing.replaceSingleQuotesInTags( mark._properties.marked );
+		mark._properties.original = languageProcessing.replaceSingleQuotesInTags( mark._properties.original );
 
 		html = mark.applyWithReplace( html );
 	} );
