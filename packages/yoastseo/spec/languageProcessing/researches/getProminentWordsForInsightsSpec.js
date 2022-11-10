@@ -176,7 +176,7 @@ describe( "test for prominent words research for languages that have custom help
 	} );
 } );
 
-describe( "test for filtering out of URLs and email addresses", function() {
+describe( "test for filtering out URLs and email addresses", function() {
 	it( "does not include URLs in prominent words", function() {
 		const paper = new Paper( "http://blog.example.com/examples ".repeat( 180 ) + "cats ".repeat( 50 ) );
 
