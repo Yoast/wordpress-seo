@@ -139,17 +139,16 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-Sitemap: http://basic.wordpress.test/sitemap_index.xml
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 
 	/**
@@ -232,17 +231,16 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-Sitemap: http://basic.wordpress.test/sitemap_index.xml
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 
 	/**
@@ -351,17 +349,16 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-Sitemap: http://basic.wordpress.test/sitemap_index.xml
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 
 	/**
@@ -433,17 +430,16 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-Sitemap: http://basic.wordpress.test/sitemap_index.xml
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 
 	/**
@@ -468,15 +464,14 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 }
