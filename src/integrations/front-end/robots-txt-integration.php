@@ -108,8 +108,8 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return string
 	 */
 	protected function remove_default_robots( $robots_txt ) {
-		return \str_replace(
-			"User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n",
+		return \preg_replace(
+			'`User-agent: \*[\r\n]+Disallow: /wp-admin/[\r\n]+Allow: /wp-admin/admin-ajax\.php[\r\n]+`',
 			'',
 			$robots_txt
 		);

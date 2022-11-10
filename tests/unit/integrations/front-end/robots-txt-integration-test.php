@@ -482,4 +482,65 @@ class Robots_Txt_Integration_Test extends TestCase {
 
 		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
+
+	/**
+	 * Tests that the default robots text string is correctly removed when applicable.
+	 *
+	 * @dataProvider data_remove_default_robots
+	 * @covers       ::remove_default_robots
+	 *
+	 * @param string $input    The input string which should be filtered.
+	 * @param string $expected The expected output after filtering.
+	 *
+	 * @return void
+	 */
+	public function test_remove_default_robots( $input, $expected ) {
+		// Turn off everything else, so this will only test the remove_default_robots() method.
+		\add_filter(
+			'wpseo_should_add_subdirectory_multisite_xml_sitemaps',
+			static function() {
+				return false;
+			}
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'enable_xml_sitemap', false )
+			->andReturnFalse();
+
+		$this->robots_txt_presenter
+			->expects( 'present' )
+			->once()
+			->andReturn( '' );
+
+		// Test it.
+		$this->assertSame( $expected, $this->instance->filter_robots( $input ) );
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_remove_default_robots() {
+		return [
+			'Original input doesn\'t contain default string' => [
+				'input'    => 'User-agent: \*Disallow: /wp-admin/',
+				'expected' => 'User-agent: \*Disallow: /wp-admin/',
+			],
+			'Original input contains default string; line endings linux' => [
+				'input'    => "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n",
+				'expected' => '',
+			],
+			'Original input contains default string; line endings windows' => [
+				'input'    => "User-agent: *\r\nDisallow: /wp-admin/\r\nAllow: /wp-admin/admin-ajax.php\r\n",
+				'expected' => '',
+			],
+			'Original input contains default string; line endings mixed' => [
+				'input'    => "User-agent: *\nDisallow: /wp-admin/\rAllow: /wp-admin/admin-ajax.php\r\n",
+				'expected' => '',
+			],
+		];
+	}
 }
