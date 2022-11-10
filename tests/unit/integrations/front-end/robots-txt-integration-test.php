@@ -36,6 +36,13 @@ class Robots_Txt_Integration_Test extends TestCase {
 	protected $robots_txt_helper;
 
 	/**
+	 * Holds the robots txt presenter.
+	 *
+	 * @var Mockery\MockInterface|Robots_Txt_Presenter
+	 */
+	protected $robots_txt_presenter;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Robots_Txt_Integration
@@ -49,9 +56,10 @@ class Robots_Txt_Integration_Test extends TestCase {
 		parent::set_up();
 		$this->stubEscapeFunctions();
 
-		$this->options_helper    = Mockery::mock( Options_Helper::class );
-		$this->robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
-		$this->instance          = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper );
+		$this->options_helper       = Mockery::mock( Options_Helper::class );
+		$this->robots_txt_helper    = Mockery::mock( Robots_Txt_Helper::class );
+		$this->robots_txt_presenter = Mockery::mock( Robots_Txt_Presenter::class, [ $this->robots_txt_helper ] )->makePartial();
+		$this->instance             = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper, $this->robots_txt_presenter );
 	}
 
 	/**
