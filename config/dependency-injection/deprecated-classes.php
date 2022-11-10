@@ -17,7 +17,7 @@
 /**
  * Holds the dependency injection container.
  *
- * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
+ * @var \Symfony\Component\DependencyInjection\ContainerBuilder $container
  */
 
 use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;

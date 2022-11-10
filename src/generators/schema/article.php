@@ -219,7 +219,7 @@ class Article extends Abstract_Schema_Piece {
 			];
 
 			$characters  = \implode( '', $alphabet );
-			$characters  = \preg_split( '//u', $characters, -1, PREG_SPLIT_NO_EMPTY );
+			$characters  = \preg_split( '//u', $characters, -1, \PREG_SPLIT_NO_EMPTY );
 			$characters  = \array_unique( $characters );
 			$characters  = \implode( '', $characters );
 			$characters .= \mb_strtoupper( $characters );

@@ -60,7 +60,7 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_redirect() {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		if ( \defined( 'DOING_AJAX' ) && \DOING_AJAX ) {
 			return;
 		}
 

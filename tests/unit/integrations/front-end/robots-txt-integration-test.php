@@ -216,7 +216,7 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 				->times( 1 )
 				->with( $blog_id, 'sitemap_index.xml' )
 				->andReturn( $site . 'sitemap_index.xml' );
-			if ( $multisite['is_subdirectory'] && ! in_array( false, $multisite['sites'], true ) ) {
+			if ( $multisite['is_subdirectory'] && ! \in_array( false, $multisite['sites'], true ) ) {
 				$this->robots_txt_helper
 					->expects( 'add_sitemap' )
 					->with( $site . 'sitemap_index.xml' )

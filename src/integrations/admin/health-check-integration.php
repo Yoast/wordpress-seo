@@ -22,7 +22,6 @@ class Health_Check_Integration implements Integration_Interface {
 	 * Uses the dependency injection container to obtain all available implementations of the Health_Check interface.
 	 *
 	 * @param  Health_Check ...$health_checks The available health checks implementations.
-	 * @return void
 	 */
 	public function __construct( Health_Check ...$health_checks ) {
 		$this->health_checks = $health_checks;

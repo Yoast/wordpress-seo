@@ -43,9 +43,9 @@ class Indexables_Page_Action {
 	/**
 	 * Indexable_Action constructor.
 	 *
-	 * @param Indexable_Repository   $indexable_repository The indexable repository.
-	 * @param Post_Type_Helper       $post_type_helper The post type helper.
-	 * @param Options_Helper         $options_helper The options helper.
+	 * @param Indexable_Repository   $indexable_repository   The indexable repository.
+	 * @param Post_Type_Helper       $post_type_helper       The post type helper.
+	 * @param Options_Helper         $options_helper         The options helper.
 	 * @param Indexables_Page_Helper $indexables_page_helper The indexables page helper.
 	 */
 	public function __construct(
@@ -106,7 +106,7 @@ class Indexables_Page_Action {
 			$is_default_noindex = $this->post_type_helper->is_indexable( $sub_type ) ? ' OR is_robots_noindex IS NULL' : '';
 			$build_where       .= '( object_sub_type = \'' . $sub_type . '\' AND ( is_robots_noindex = FALSE' . $is_default_noindex . ' ) ) OR';
 		}
-		$build_where  = rtrim( $build_where, ' OR' );
+		$build_where  = \rtrim( $build_where, ' OR' );
 		$build_where .= ')';
 
 		return $this->indexable_repository->query()
@@ -118,7 +118,7 @@ class Indexables_Page_Action {
 	/**
 	 * Gets the neccessary information to set up the indexables page.
 	 *
-	 * @param int $content_threshold The threshold to check against for enough content.
+	 * @param int $content_threshold  The threshold to check against for enough content.
 	 * @param int $analysis_threshold The threshold to check against for enough analyzed content.
 	 *
 	 * @return array The neccessary information to set up the indexables page.
@@ -158,7 +158,7 @@ class Indexables_Page_Action {
 			->where_not_equal( 'readability_score', 0 )
 			->count();
 
-		$analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
+		$analysed_content = ( \max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
 
 		$enough_content          = $all_posts > $content_threshold;
 		$enough_analysed_content = $analysed_content > $analysis_threshold;
@@ -178,7 +178,7 @@ class Indexables_Page_Action {
 			'enoughContent'         => $enough_content,
 			'enoughAnalysedContent' => $enough_analysed_content,
 			'postsWithoutKeyphrase' => \array_map(
-				function ( $indexable ) {
+				static function ( $indexable ) {
 					$output = $indexable;
 					if ( $indexable->incoming_link_count === null ) {
 						$output->incoming_link_count = 0;
@@ -220,7 +220,7 @@ class Indexables_Page_Action {
 	 * @return array The posts with the lowest seo scores as an array.
 	 */
 	public function get_least_seo_score( $limit ) {
-		// where_not_equal needs the set to check against not to be empty.
+		// Where_not_equal needs the set to check against not to be empty.
 		$least_seo_score_ignore_list = $this->options_helper->get( 'least_seo_score_ignore_list', [] );
 		$ignore_list                 = empty( $least_seo_score_ignore_list ) ? [ -1 ] : $least_seo_score_ignore_list;
 
@@ -243,7 +243,7 @@ class Indexables_Page_Action {
 	 * @return array The most linked posts as an array.
 	 */
 	public function get_most_linked( $limit ) {
-		// where_not_equal needs the set to check against not to be empty.
+		// Where_not_equal needs the set to check against not to be empty.
 		$most_linked_ignore_list = $this->options_helper->get( 'most_linked_ignore_list', [] );
 		$ignore_list             = empty( $most_linked_ignore_list ) ? [ -1 ] : $most_linked_ignore_list;
 
@@ -267,7 +267,7 @@ class Indexables_Page_Action {
 	 * @return array The most linked posts as an array.
 	 */
 	public function get_least_linked( $limit ) {
-		// where_not_equal needs the set to check against not to be empty.
+		// Where_not_equal needs the set to check against not to be empty.
 		$least_linked_ignore_list = $this->options_helper->get( 'least_linked_ignore_list', [] );
 		$ignore_list              = empty( $least_linked_ignore_list ) ? [ -1 ] : $least_linked_ignore_list;
 
@@ -280,7 +280,7 @@ class Indexables_Page_Action {
 
 		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
 		return \array_map(
-			function ( $indexable ) {
+			static function ( $indexable ) {
 				$output = $indexable;
 				if ( $indexable->incoming_link_count === null ) {
 					$output->incoming_link_count = 0;
@@ -297,12 +297,12 @@ class Indexables_Page_Action {
 	 * @param string $ignore_list_name      The name of the ignore-list.
 	 * @param array  $ignored_indexable_ids The IDs of the updated ignored indexables.
 	 *
-	 * @return boolean Whether saving the ignore-list to the database succeeded.
+	 * @return bool Whether saving the ignore-list to the database succeeded.
 	 */
 	public function update_ignored_indexables( $ignore_list_name, $ignored_indexable_ids ) {
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
-		};
+		}
 
 		return $this->options_helper->set( $ignore_list_name, $ignored_indexable_ids );
 	}
@@ -311,21 +311,21 @@ class Indexables_Page_Action {
 	 * Removes an indexable from its ignore-list.
 	 *
 	 * @param string $ignore_list_name The name of the ignore-list.
-	 * @param int    $indexable_id The ID of the indexable to store in the ignore-list.
+	 * @param int    $indexable_id     The ID of the indexable to store in the ignore-list.
 	 *
-	 * @return boolean Whether saving the ignore-list to the database succeeded.
+	 * @return bool Whether saving the ignore-list to the database succeeded.
 	 */
 	public function remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) {
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
-		};
+		}
 
 		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
 
 		$ignore_list = \array_values(
 			\array_filter(
 				$ignore_list,
-				function( $indexable ) use ( $indexable_id ) {
+				static function( $indexable ) use ( $indexable_id ) {
 					return $indexable !== $indexable_id;
 				}
 			)
@@ -339,12 +339,12 @@ class Indexables_Page_Action {
 	 *
 	 * @param string $ignore_list_name The name of the ignore-list.
 	 *
-	 * @return boolean Whether saving the ignore-list to the database succeeded.
+	 * @return bool Whether saving the ignore-list to the database succeeded.
 	 */
 	public function remove_all_indexables_from_ignore_list( $ignore_list_name ) {
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
-		};
+		}
 		return $this->options_helper->set( $ignore_list_name, [] );
 	}
 
@@ -362,7 +362,7 @@ class Indexables_Page_Action {
 	 *
 	 * @param array $state The state to be saved.
 	 *
-	 * @return boolean Whether saving the reading list state succeeded.
+	 * @return bool Whether saving the reading list state succeeded.
 	 */
 	public function set_reading_list( $state ) {
 		return $this->options_helper->set( 'indexables_page_reading_list', $state );
@@ -373,7 +373,7 @@ class Indexables_Page_Action {
 	 *
 	 * @param string $state The state to be saved.
 	 *
-	 * @return boolean Whether saving the indexables overview state succeeded.
+	 * @return bool Whether saving the indexables overview state succeeded.
 	 */
 	public function set_indexables_state( $state ) {
 		return $this->options_helper->set( 'indexables_overview_state', $state );
