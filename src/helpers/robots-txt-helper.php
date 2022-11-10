@@ -12,7 +12,7 @@ class Robots_Txt_Helper {
 	/**
 	 * Holds a list of user agents with directives.
 	 *
-	 * @var User_Agent_List $robots_txt_user_agents
+	 * @var User_Agent_List
 	 */
 	protected $robots_txt_user_agents;
 

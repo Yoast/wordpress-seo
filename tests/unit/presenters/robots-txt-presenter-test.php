@@ -45,13 +45,13 @@ class Robots_Txt_Presenter_Test extends TestCase {
 	/**
 	 * Test the present function.
 	 *
-	 * @param array  $robots_txt_user_agents Output for the registered user agents.
-	 * @param array  $sitemaps               Output for the registered sitemaps.
-	 * @param string $expected               The expected output to be written to robots.txt.
-	 *
 	 * @dataProvider present_dataprovider
 	 *
 	 * @covers ::present
+	 *
+	 * @param array  $robots_txt_user_agents Output for the registered user agents.
+	 * @param array  $sitemaps               Output for the registered sitemaps.
+	 * @param string $expected               The expected output to be written to robots.txt.
 	 */
 	public function test_present( $robots_txt_user_agents, $sitemaps, $expected ) {
 		$this->robots_txt_helper

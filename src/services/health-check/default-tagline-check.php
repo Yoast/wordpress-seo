@@ -26,7 +26,6 @@ class Default_Tagline_Check extends Health_Check {
 	 *
 	 * @param  Default_Tagline_Runner  $runner  The object that implements the actual health check.
 	 * @param  Default_Tagline_Reports $reports The object that generates WordPress-friendly results.
-	 * @return void
 	 */
 	public function __construct(
 		Default_Tagline_Runner $runner,
