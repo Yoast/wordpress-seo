@@ -1,9 +1,7 @@
-/* global wpseoAdminGlobalL10n */
 /* External dependencies */
 import {
 	isFunction,
 	flatMap,
-	isEmpty,
 } from "lodash-es";
 // The WP annotations package isn't loaded by default so force loading it.
 import "@wordpress/annotations";
