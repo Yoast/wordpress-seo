@@ -110,7 +110,7 @@ final class Cleanup_Command implements Command_Interface {
 	 *
 	 * @param array|null $assoc_args The associative arguments.
 	 *
-	 * @return int
+	 * @return int The number of cleaned up records.
 	 */
 	private function cleanup_network( $assoc_args ) {
 		$criteria      = [
@@ -135,17 +135,25 @@ final class Cleanup_Command implements Command_Interface {
 	 *
 	 * @param array|null $assoc_args The associative arguments.
 	 *
-	 * @return int
+	 * @return int The number of cleaned up records.
 	 */
 	private function cleanup_current_site( $assoc_args ) {
+		$site_url      = \site_url();
+		$total_removed = 0;
+
+		if ( ! is_plugin_active( WPSEO_BASENAME ) ) {
+			/* translators: %1$s is the site url of the site that is skipped. %2$s is Yoast SEO. */
+			\WP_CLI::warning( sprintf( __( 'Skipping %1$s. %2$s is not active on this site.', 'wordpress-seo' ), $site_url, 'Yoast SEO' ) );
+
+			return $total_removed;
+		}
+
 		// Make sure the DB is up to date first.
 		\do_action( '_yoast_run_migrations' );
 
-		$total_removed = 0;
-		$site_url      = \site_url();
-		$tasks         = $this->cleanup_integration->get_cleanup_tasks();
-		$limit         = (int) $assoc_args['batch-size'];
-		$interval      = (int) $assoc_args['interval'];
+		$tasks    = $this->cleanup_integration->get_cleanup_tasks();
+		$limit    = (int) $assoc_args['batch-size'];
+		$interval = (int) $assoc_args['interval'];
 
 		/* translators: %1$s is the site url of the site that is cleaned up. %2$s is the name of the cleanup task that is currently running. */
 		$progress_bar_title_format = __( 'Cleaning up %1$s [%2$s]', 'wordpress-seo' );
