@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Hierarchy_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -189,7 +190,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::add_ancestor
 	 */
 	public function test_add_ancestor() {
-		$hierarchy               = Mockery::mock();
+		$hierarchy               = Mockery::mock( Indexable_Hierarchy_Mock::class );
 		$hierarchy->indexable_id = 1;
 		$hierarchy->ancestor_id  = 2;
 		$hierarchy->depth        = 1;
