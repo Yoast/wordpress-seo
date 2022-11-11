@@ -394,12 +394,11 @@ function getAnnotationsForBlocks( blocks, marks ) {
 /**
  * Applies the given marks as annotations in the block editor.
  *
- * @param {Paper} paper The paper that the marks are calculated for.
  * @param {Mark[]} marks The marks to annotate in the text.
  *
  * @returns {void}
  */
-export function applyAsAnnotations( paper, marks ) {
+export function applyAsAnnotations( marks ) {
 	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
 	if ( marks.length === 0 ) {
