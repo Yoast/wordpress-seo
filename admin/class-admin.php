@@ -327,8 +327,6 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	private function localize_admin_global_script() {
-		$wordpress_helper  = new Wordpress_Helper();
-		$wordpress_version = $wordpress_helper->get_wordpress_version();
 		return array_merge(
 			[
 				'isRtl'                   => is_rtl(),
