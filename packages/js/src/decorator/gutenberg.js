@@ -387,16 +387,6 @@ function getAnnotationsForBlocks( blocks, marks ) {
 		// If a block has innerblocks, get annotations for those blocks aswell.
 		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
 
-		// The layout of the list block has been changed in wordpress version 6.1.
-		if ( [ "core/list", "core/list-item" ].includes( block.name ) && parseFloat( wpseoAdminGlobalL10n.wordPressVersion ) >= 6.1 ) {
-			const listItems = block.innerBlocks;
-			// Iterate over the listitems. A listItems is of type "innerBlock".
-
-			return flatMap( listItems, ( listItem ) => {
-				return getAnnotationsFromBlock( listItem, marks );
-			} ).concat( innerBlockAnnotations );
-		}
-
 		return getAnnotationsFromBlock( block, marks ).concat( innerBlockAnnotations );
 	} ) );
 }
