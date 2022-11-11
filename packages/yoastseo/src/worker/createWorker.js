@@ -89,8 +89,8 @@ function createWorkerFallback( url ) {
  * @returns 	{Worker} 					The worker.
  */
 function createWorker( url ) {
-	// If we are not on the same domain, we require a fallback worker.
-	if ( ! isSameOrigin( window.location, url ) ) {
+	// If we are not on the same domain, or we are editing a post in the Web Stories plug-in integration, we require a fallback worker.
+	if ( ! isSameOrigin( window.location, url ) || !! window.wpseoAdminL10n.isWebStoriesIntegrationActive ) {
 		return createWorkerFallback( url );
 	}
 
