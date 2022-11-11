@@ -54,7 +54,11 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Not_Admin_Ajax_Conditional::class, Admin_Conditional::class, Migrations_Conditional::class ];
+		return [
+			Not_Admin_Ajax_Conditional::class,
+			Admin_Conditional::class,
+			Migrations_Conditional::class
+		];
 	}
 
 	/**
