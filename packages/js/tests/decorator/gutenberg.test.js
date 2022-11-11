@@ -5,6 +5,7 @@ import {
 	getIndicesOf,
 	calculateAnnotationsForTextFormat,
 	getAnnotationsFromBlock,
+	hasInnerBlocks,
 } from "../../src/decorator/gutenberg";
 
 jest.mock( "@wordpress/rich-text", () => {
@@ -232,5 +233,21 @@ describe( "test getAnnotationsFromBlock", () => {
 		  ];
 
 		expect( annotations ).toEqual( resultWithAnnotation );
+	} );
+} );
+
+describe( "tests for the hasInnerBlocks helper", () => {
+	it( "returns true is a block has inner blocks", () => {
+		const mockblockWithInnerblocks = {
+			innerBlocks: [ { fakeData: "fakeData" } ],
+		};
+		expect( hasInnerBlocks( mockblockWithInnerblocks ) ).toBeTruthy();
+	} );
+	it( "returns false if a block has no inner blocks", () =>{
+		const mockblockWithoutInnerblocks = {
+			innerBlocks: [],
+			fakeData: "fakeData",
+		};
+		expect( hasInnerBlocks( mockblockWithoutInnerblocks ) ).toBeFalsy();
 	} );
 } );

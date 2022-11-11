@@ -3,6 +3,7 @@
 import {
 	isFunction,
 	flatMap,
+	isEmpty,
 } from "lodash-es";
 // The WP annotations package isn't loaded by default so force loading it.
 import "@wordpress/annotations";
@@ -365,6 +366,42 @@ export function getAnnotationsFromBlock( block, marks ) {
 }
 
 /**
+ * Checks if a block has innerblocks.
+ * @param {Object} block The block with potential inner blocks
+ * @returns {boolean} True if the block has innerblocks, False otherwise.
+ */
+export function hasInnerBlocks( block ) {
+	return block.innerBlocks.length > 0;
+}
+
+/**
+ * Takes a list of blocks and matches those with a list of marks, in order to create an array of annotations.
+ *
+ * NOTE: This is an recursive function! If a block has innerBlocks (childs) it will recurse over them.
+ * @param {Object[]} blocks An array of block objects (or innerBlock objects) from the gutenberg editor.
+ * @param {Object[]} marks An array of Mark objects.
+ * @returns {Object[]} An array of annotation objects.
+ */
+function getAnnotationsForBlocks( blocks, marks ) {
+	return flatMap( blocks, ( ( block ) => {
+		// If a block has innerblocks, get annotations for those blocks aswell.
+		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
+
+		// The layout of the list block has been changed in wordpress version 6.1.
+		if ( [ "core/list", "core/list-item" ].includes( block.name ) && parseFloat( wpseoAdminGlobalL10n.wordPressVersion ) >= 6.1 ) {
+			const listItems = block.innerBlocks;
+			// Iterate over the listitems. A listItems is of type "innerBlock".
+
+			return flatMap( listItems, ( listItem ) => {
+				return getAnnotationsFromBlock( listItem, marks );
+			} ).concat( innerBlockAnnotations );
+		}
+
+		return getAnnotationsFromBlock( block, marks ).concat( innerBlockAnnotations );
+	} ) );
+}
+
+/**
  * Applies the given marks as annotations in the block editor.
  *
  * @param {Paper} paper The paper that the marks are calculated for.
@@ -379,21 +416,9 @@ export function applyAsAnnotations( paper, marks ) {
 		return;
 	}
 	const blocks = select( "core/block-editor" ).getBlocks();
-	// For every block...
 
-	const annotations = flatMap( blocks, ( ( block ) => {
-		// If the block is a list, iterate over the listitems, because they contain the content.
-		// The layout of the list block has been changed in wordpress version 6.1.
-		if ( block.name === "core/list" && parseFloat( wpseoAdminGlobalL10n.wordPressVersion ) >= 6.1 ) {
-			const listItems = block.innerBlocks;
-			// Iterate over the listitems. A listItems is of type "innerBlock".
-			return flatMap( listItems, ( listItem ) => {
-				return getAnnotationsFromBlock( listItem, marks );
-			} );
-		}
+	const annotations = getAnnotationsForBlocks( blocks, marks );
 
-		return getAnnotationsFromBlock( block, marks );
-	} ) );
 	fillAnnotationQueue( annotations );
 
 	scheduleAnnotationQueueApplication();
