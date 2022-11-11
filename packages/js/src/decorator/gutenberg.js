@@ -357,7 +357,7 @@ function fillAnnotationQueue( annotations ) {
  *
  * @returns { Object[] } All annotations that need to be placed on the block.
  */
-function getAnnotationsFromBlock( block, marks ) {
+export function getAnnotationsFromBlock( block, marks ) {
 	return flatMap(
 		getAnnotatableAttributes( block.name ),
 		( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
@@ -380,6 +380,7 @@ export function applyAsAnnotations( paper, marks ) {
 	}
 	const blocks = select( "core/block-editor" ).getBlocks();
 	// For every block...
+
 	const annotations = flatMap( blocks, ( ( block ) => {
 		// If the block is a list, iterate over the listitems, because they contain the content.
 		// The layout of the list block has been changed in wordpress version 6.1.
