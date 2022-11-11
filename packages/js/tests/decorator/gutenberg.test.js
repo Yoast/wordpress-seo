@@ -4,9 +4,27 @@ import {
 	getYoastmarkOffsets,
 	getIndicesOf,
 	calculateAnnotationsForTextFormat,
+	getAnnotationsFromBlock,
 } from "../../src/decorator/gutenberg";
 
-jest.setMock( "@wordpress/rich-text", null );
+jest.mock( "@wordpress/rich-text", () => {
+	// const originalModule = jest.requireActual( "@wordpress/rich-text" );
+
+	// Mock the default export and named export 'foo'
+	return {
+	  __esModule: true,
+		//   ...originalModule,
+		//   default: jest.fn(() => 'mocked baz'),
+	  create: () => ( { text: "An item about lingo" } ),
+	};
+} );
+
+import { select } from "@wordpress/data";
+
+
+jest.mock( "@wordpress/data" );
+// jest.mock( "@wordpress/rich-text" );
+// jest.setMock( "@wordpress/rich-text", null );
 
 /**
  * Mocks a YoastSEO.js Mark object.
@@ -170,5 +188,49 @@ describe( "calculateAnnotationsForTextFormat", () => {
 		);
 
 		expect( actual ).toEqual( expected );
+	} );
+} );
+
+
+describe( "test getAnnotationsFromBlock", () => {
+	it( "returns an annotation if there is an applicable marker for the text", () => {
+		const mockblock = {
+			clientId: "34f61542-0902-44f7-ab48-d9f88a022b43",
+			name: "core/list-item",
+			isValid: true,
+			attributes: {
+				content: "An item about lingo",
+			},
+			innerBlocks: [],
+		};
+
+		const myMockMark1 = mockMark(
+			"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. lingo",
+			"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
+		);
+
+		const myMockMark2 = mockMark(
+			"An item about lingo",
+			"An item about <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
+		);
+
+		const mockmarks = [ myMockMark1, myMockMark2 ];
+
+		select.mockReturnValue( {
+			getActiveMarker: jest.fn( () => "keyphraseDensity" ),
+		} );
+
+		const annotations = getAnnotationsFromBlock( mockblock, mockmarks );
+
+		const resultWithAnnotation =     [
+			{
+			  startOffset: 14,
+			  endOffset: 19,
+			  block: "34f61542-0902-44f7-ab48-d9f88a022b43",
+			  richTextIdentifier: "content",
+			},
+		  ];
+
+		expect( annotations ).toEqual( resultWithAnnotation );
 	} );
 } );
