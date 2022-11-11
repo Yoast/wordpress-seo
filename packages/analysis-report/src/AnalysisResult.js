@@ -71,7 +71,8 @@ const createMarkButton = ( {
  *
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
-export const AnalysisResult = ( { markButtonFactory = createMarkButton, ...props } ) => {
+export const AnalysisResult = ( { markButtonFactory = null, ...props } ) => {
+	markButtonFactory = markButtonFactory || createMarkButton;
 	let marksButton = null;
 	if ( props.hasMarksButton && ! areButtonsHidden( props ) ) {
 		marksButton = markButtonFactory(
