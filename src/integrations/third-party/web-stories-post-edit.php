@@ -39,7 +39,7 @@ class Web_Stories_Post_Edit implements Integration_Interface {
 	 * @return array The passed array with the additional isWebStoriesIntegrationActive variable set to 1 if we are editing a web story.
 	 */
 	public function add_admin_l10n( $input ) {
-		if ( get_post_type() === 'web-story' ) {
+		if ( \get_post_type() === 'web-story' ) {
 			$input['isWebStoriesIntegrationActive'] = 1;
 		}
 		return $input;
