@@ -92,9 +92,9 @@ final class Cleanup_Command implements Command_Interface {
 		}
 
 		\WP_CLI::success(
-			sprintf(
+			\sprintf(
 			/* translators: %1$d is the number of records that are removed. */
-				_n(
+				\_n(
 					'Cleaned up %1$d record.',
 					'Cleaned up %1$d records.',
 					$total_removed,
@@ -119,7 +119,7 @@ final class Cleanup_Command implements Command_Interface {
 			'deleted'  => 0,
 			'archived' => 0,
 		];
-		$blog_ids      = get_sites( $criteria );
+		$blog_ids      = \get_sites( $criteria );
 		$total_removed = 0;
 		foreach ( $blog_ids as $blog_id ) {
 			\switch_to_blog( $blog_id );
@@ -141,9 +141,9 @@ final class Cleanup_Command implements Command_Interface {
 		$site_url      = \site_url();
 		$total_removed = 0;
 
-		if ( ! is_plugin_active( WPSEO_BASENAME ) ) {
+		if ( ! \is_plugin_active( WPSEO_BASENAME ) ) {
 			/* translators: %1$s is the site url of the site that is skipped. %2$s is Yoast SEO. */
-			\WP_CLI::warning( sprintf( __( 'Skipping %1$s. %2$s is not active on this site.', 'wordpress-seo' ), $site_url, 'Yoast SEO' ) );
+			\WP_CLI::warning( \sprintf( \__( 'Skipping %1$s. %2$s is not active on this site.', 'wordpress-seo' ), $site_url, 'Yoast SEO' ) );
 
 			return $total_removed;
 		}
@@ -156,15 +156,15 @@ final class Cleanup_Command implements Command_Interface {
 		$interval = (int) $assoc_args['interval'];
 
 		/* translators: %1$s is the site url of the site that is cleaned up. %2$s is the name of the cleanup task that is currently running. */
-		$progress_bar_title_format = __( 'Cleaning up %1$s [%2$s]', 'wordpress-seo' );
-		$progress                  = make_progress_bar( sprintf( $progress_bar_title_format, $site_url, \key( $tasks ) ), count( $tasks ) );
+		$progress_bar_title_format = \__( 'Cleaning up %1$s [%2$s]', 'wordpress-seo' );
+		$progress                  = make_progress_bar( \sprintf( $progress_bar_title_format, $site_url, \key( $tasks ) ), count( $tasks ) );
 
 		foreach ( $tasks as $task_name => $task ) {
 			// Update the progressbar title with the current task name.
-			$progress->tick( 0, sprintf( $progress_bar_title_format, $site_url, $task_name ) );
+			$progress->tick( 0, \sprintf( $progress_bar_title_format, $site_url, $task_name ) );
 			do {
 				$items_cleaned = $task( $limit );
-				if ( is_int( $items_cleaned ) ) {
+				if ( \is_int( $items_cleaned ) ) {
 					$total_removed += $items_cleaned;
 				}
 				\usleep( $interval );
@@ -178,9 +178,9 @@ final class Cleanup_Command implements Command_Interface {
 
 		$this->cleanup_integration->reset_cleanup();
 		\WP_CLI::log(
-			sprintf(
+			\sprintf(
 			/* translators: %1$d is the number of records that were removed. %2$s is the site url. */
-				_n(
+				\_n(
 					'Cleaned up %1$d record from %2$s.',
 					'Cleaned up %1$d records from %2$s.',
 					$total_removed,
