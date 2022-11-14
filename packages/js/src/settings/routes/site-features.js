@@ -97,6 +97,7 @@ const SiteFeatures = () => {
 	const adminBarImage = useSelectSettings( "selectPluginUrl", [], "/images/admin_bar.png" );
 	const restApiImage = useSelectSettings( "selectPluginUrl", [], "/images/rest_api.png" );
 	const xmlSitemapsImage = useSelectSettings( "selectPluginUrl", [], "/images/xml_sitemaps.png" );
+	const indexNowImage = useSelectSettings( "selectPluginUrl", [], "/images/indexnow.png" );
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
@@ -500,11 +501,14 @@ const SiteFeatures = () => {
 								</Card.Footer>
 							</Card>
 							<Card id="card-wpseo-enable_index_now">
-								<Card.Header>
+								<CardHeader
+									src={ indexNowImage }
+									alt={ __( "IndexNow", "wordpress-seo" ) }
+								>
 									<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
 										{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
 									</div>
-								</Card.Header>
+								</CardHeader>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
 										{ __( "IndexNow", "wordpress-seo" ) }
