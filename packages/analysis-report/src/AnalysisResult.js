@@ -24,13 +24,15 @@ const AnalysisResultText = styled.p`
 `;
 
 /**
- * Determines whether the buttons should be hidden.
+ * Determines whether the mark buttons should be hidden.
  *
  * @param {Object} props The component's props.
- * @returns {boolean} True if buttons should be hidden.
+ * @param {String} props.marksButtonStatus The status for the mark buttons.
+ * @param {boolean} props.hasMarksButton Whether a mark button exists.
+ * @returns {boolean} True if mark buttons should be hidden.
  */
-const areButtonsHidden = function( props ) {
-	return props.marksButtonStatus === "hidden";
+const areMarkButtonsHidden = function( props ) {
+	return ( ! props.hasMarksButton ) || props.marksButtonStatus === "hidden";
 };
 
 /**
@@ -71,10 +73,10 @@ const createMarkButton = ( {
  *
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
-export const AnalysisResult = ( { markButtonFactory = null, ...props } ) => {
+export const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	markButtonFactory = markButtonFactory || createMarkButton;
 	let marksButton = null;
-	if ( props.hasMarksButton && ! areButtonsHidden( props ) ) {
+	if ( ! areMarkButtonsHidden( props ) ) {
 		marksButton = markButtonFactory(
 			{
 				onClick: props.onButtonClickMarks,
