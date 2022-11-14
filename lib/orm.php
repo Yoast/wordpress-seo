@@ -2643,8 +2643,8 @@ class ORM implements \ArrayAccess {
 	 */
 	private static function get_cache_group( $id = '' ) {
 		if ( ! $id ) {
-			return 'wp-seo';
+			return 'yoast-seo';
 		}
-		return 'wp-seo-' . $id;
+		return 'yoast-seo-' . $id;
 	}
 }
