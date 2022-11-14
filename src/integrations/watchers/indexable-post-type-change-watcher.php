@@ -137,11 +137,9 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		// There are post types that have been made private.
 		if ( ! empty( $newly_made_non_public_post_types ) ) {
 			// Schedule a cron job to remove all the posts whose post type has been made private.
-			if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
-				if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-					\wp_schedule_single_event( ( time() + 5 ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
-					\wp_schedule_single_event( ( time() + 5 ), Cleanup_Integration::START_HOOK );
-				}
+			$cleanup_not_yet_scheduled = ! \wp_next_scheduled( Cleanup_Integration::START_HOOK );
+			if ( $cleanup_not_yet_scheduled ) {
+				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
 		}
 	}
