@@ -20,3 +20,20 @@ export function isFollowedByException( words, consecutiveWords, exceptions ) {
 		return false;
 	} );
 }
+
+/**
+ * Checks whether the given list of words contains another list of words in the given order,
+ * but not when they are followed by one of the exceptions.
+ *
+ * @param {string[]} words The list of words.
+ * @param {string[]} consecutiveWords The list of words to find.
+ * @param {string[]} exceptions The list of exception phrases.
+ *
+ * @returns {function} A function that checks whether the given list of words is contained in another list of words in the given order.
+ */
+export function isNotFollowedByException( words, consecutiveWords, exceptions ) {
+	// console.log(words, consecutiveWords, exceptions, "isFollowedByException")
+
+	return index => ! isFollowedByException( words, consecutiveWords, exceptions )( index );
+}
+
