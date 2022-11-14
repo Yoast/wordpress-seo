@@ -219,6 +219,13 @@ class ORM implements \ArrayAccess {
 	 */
 	protected $instance_id_column = null;
 
+	/**
+	 * The cache-group prefix.
+	 *
+	 * @var string
+	 */
+	protected static $cache_group_prefix = 'yoast-seo';
+
 	/*
 	 * --- STATIC METHODS ---
 	 */
@@ -2643,8 +2650,8 @@ class ORM implements \ArrayAccess {
 	 */
 	private static function get_cache_group( $id = '' ) {
 		if ( ! $id ) {
-			return 'yoast-seo';
+			return static::$cache_group_prefix;
 		}
-		return 'yoast-seo-' . $id;
+		return static::$cache_group_prefix . '-' . $id;
 	}
 }
