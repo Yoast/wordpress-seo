@@ -21,9 +21,15 @@
  */
 
 use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;
+use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
+use Yoast\WP\SEO\Generators\Schema\Third_Party\Events_Calendar_Schema;
+use Yoast\WP\SEO\Integrations\Third_Party\The_Events_Calendar;
 
 $deprecated_classes = [
 	Front_End_Inspector_Conditional::class => '19.5',
+	The_Events_Calendar_Conditional::class => '19.12',
+	Events_Calendar_Schema::class          => '19.12',
+	The_Events_Calendar::class             => '19.12',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {

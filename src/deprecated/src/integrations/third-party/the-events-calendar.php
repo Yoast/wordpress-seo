@@ -23,6 +23,7 @@ class The_Events_Calendar implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
+		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
 		return [ Front_End_Conditional::class, The_Events_Calendar_Conditional::class, Open_Graph_Conditional::class ];
 	}
 
