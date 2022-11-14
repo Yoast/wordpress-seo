@@ -20,8 +20,8 @@ const cultureAssessments = [
 		feedbackFormat: overgeneralizing,
 		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Assembly", "assembly" ] ) ),
+		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
+			.filter( isFollowedByException( words, nonInclusivePhrases, [ "War", "war", "Assembly", "assembly" ] ) ),
 	},
 	{
 		identifier: "thirdWorld",
@@ -31,8 +31,8 @@ const cultureAssessments = [
 		feedbackFormat: overgeneralizing,
 		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
+		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
+			.filter( isFollowedByException( words, nonInclusivePhrases, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
 	},
 	{
 		identifier: "tribe",
@@ -136,8 +136,8 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( isPrecededByException( words, [ "a", "the" ] ) );
 		},
 	},

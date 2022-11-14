@@ -58,10 +58,10 @@ const assessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( isPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
-				.filter( isFollowedByException( words, inclusivePhrases, [ "in high school", "in college", "who are graduating" ] ) );
+				.filter( isFollowedByException( words, nonInclusivePhrases, [ "in high school", "in college", "who are graduating" ] ) );
 		},
 	},
 ];

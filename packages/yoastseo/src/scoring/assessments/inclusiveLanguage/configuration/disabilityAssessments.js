@@ -49,8 +49,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( isPrecededByException( words, [ "mentally" ] ) );
 		},
 	},
@@ -61,8 +61,8 @@ const disabilityAssessments =  [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "drink", "beverage" ] ) ),
+		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
+			.filter( isFollowedByException( words, nonInclusivePhrases, [ "drink", "beverage" ] ) ),
 	},
 	{
 		identifier: "alcoholics",
@@ -71,8 +71,8 @@ const disabilityAssessments =  [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "anonymous" ] ) ),
+		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
+			.filter( isFollowedByException( words, nonInclusivePhrases, [ "anonymous" ] ) ),
 	},
 	{
 		identifier: "cripple",
@@ -113,8 +113,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "toilet", "toilets", "parking", "bathroom",
+		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
+			.filter( isFollowedByException( words, nonInclusivePhrases, [ "toilet", "toilets", "parking", "bathroom",
 				"bathrooms", "stall", "stalls" ] ) ),
 	},
 	{
@@ -166,8 +166,8 @@ const disabilityAssessments =  [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "autism" ] ) ),
+		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
+			.filter( isFollowedByException( words, nonInclusivePhrases, [ "autism" ] ) ),
 	},
 	{
 		identifier: "autismHigh",
@@ -266,8 +266,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( isPrecededByException( words, [ "deaf and" ] ) );
 		},
 	},
