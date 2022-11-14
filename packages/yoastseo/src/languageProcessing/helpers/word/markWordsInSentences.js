@@ -17,13 +17,13 @@ import { stripFullTags } from "../sanitize/stripHTMLTags";
 const getMarkedAnchors = function( sentence, topicRegex ) {
 	// Retrieve the anchors.
 	const anchors = getAnchorsFromText( sentence );
-	// For every anchor, apply the markings only to the anchor tag. Replace the unmarked anchor in the sentence with the marked anchor
+	// For every anchor, apply the markings only to the anchor tag. Replace the unmarked anchor in the sentence with the marked anchor.
 	const markedAnchors = anchors.map( anchor => {
-		// Get the anchor text
+		// Get the anchor text.
 		const anchorText = stripFullTags( anchor );
-		// Apply the marking to the anchor text
+		// Apply the marking to the anchor text.
 		const markedAnchorText = anchorText.replace( topicRegex, ( x ) => addMark( x ) );
-		// Replace the original anchor text with the marked anchor text
+		// Replace the original anchor text with the marked anchor text.
 		return anchor.replace( anchorText, markedAnchorText );
 	} );
 	return { anchors, markedAnchors };
