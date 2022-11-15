@@ -453,37 +453,57 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Retrieves the post type from the $_GET variable.
 	 *
-	 * @return string The current post type.
+	 * @return string The sanitized current post type or an empty string when the variable is not set in $_GET.
 	 */
 	public function get_current_post_type() {
-		return filter_input( INPUT_GET, 'post_type' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['post_type'] ) && is_string( $_GET['post_type'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
+		}
+		return '';
 	}
 
 	/**
 	 * Retrieves the SEO filter from the $_GET variable.
 	 *
-	 * @return string The current post type.
+	 * @return string The sanitized seo filter or an empty string when the variable is not set in $_GET.
 	 */
 	public function get_current_seo_filter() {
-		return filter_input( INPUT_GET, 'seo_filter' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['seo_filter'] ) && is_string( $_GET['seo_filter'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET['seo_filter'] ) );
+		}
+		return '';
 	}
 
 	/**
 	 * Retrieves the Readability filter from the $_GET variable.
 	 *
-	 * @return string The current post type.
+	 * @return string The sanitized readability filter or an empty string when the variable is not set in $_GET.
 	 */
 	public function get_current_readability_filter() {
-		return filter_input( INPUT_GET, 'readability_filter' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['readability_filter'] ) && is_string( $_GET['readability_filter'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET['readability_filter'] ) );
+		}
+		return '';
 	}
 
 	/**
 	 * Retrieves the keyword filter from the $_GET variable.
 	 *
-	 * @return string The current post type.
+	 * @return string The sanitized seo keyword filter or an empty string when the variable is not set in $_GET.
 	 */
 	public function get_current_keyword_filter() {
-		return filter_input( INPUT_GET, 'seo_kw_filter' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['seo_kw_filter'] ) && is_string( $_GET['seo_kw_filter'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET['seo_kw_filter'] ) );
+		}
+		return '';
 	}
 
 	/**
@@ -720,7 +740,7 @@ class WPSEO_Meta_Columns {
 	 * @return bool Whether or not the meta box (and associated columns etc) should be hidden.
 	 */
 	private function display_metabox( $post_type = null ) {
-		$current_post_type = sanitize_text_field( $this->get_current_post_type() );
+		$current_post_type = $this->get_current_post_type();
 
 		if ( ! isset( $post_type ) && ! empty( $current_post_type ) ) {
 			$post_type = $current_post_type;
