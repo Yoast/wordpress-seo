@@ -56,6 +56,7 @@ Yoast\WPTestUtils\BrainMonkey\makeDoublesForUnavailableClasses(
 	[
 		'WP_Post',
 		'WP_Query',
+		'WP_Rewrite',
 		'WP_Roles',
 		'WP_Term',
 		'WP_User',

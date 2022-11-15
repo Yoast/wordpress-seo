@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc\Sitemaps;
 use Brain\Monkey;
 use Mockery;
 use WP_Post;
+use WP_Rewrite;
 use WPSEO_Options;
 use WPSEO_Sitemaps_Admin;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
@@ -100,7 +101,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	public function test_status_transition_on_production() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\stubs(

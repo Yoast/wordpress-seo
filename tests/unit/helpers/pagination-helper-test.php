@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Brain\Monkey;
 use Mockery;
 use WP_Query;
+use WP_Rewrite;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -254,7 +255,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @param bool $using_permalinks Returns value of $wp_rewrite->using_permalinks.
 	 */
 	private function using_permalinks( $using_permalinks ) {
-		$wp_rewrite_mock                  = Mockery::mock( 'WP_Rewrite' );
+		$wp_rewrite_mock                  = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite_mock->pagination_base = 'page';
 
 		$wp_rewrite_mock
