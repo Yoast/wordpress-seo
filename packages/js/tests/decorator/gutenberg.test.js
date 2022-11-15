@@ -9,23 +9,16 @@ import {
 } from "../../src/decorator/gutenberg";
 
 jest.mock( "@wordpress/rich-text", () => {
-	// const originalModule = jest.requireActual( "@wordpress/rich-text" );
-
-	// Mock the default export and named export 'foo'
+	// Mock the import of the `create` function.
 	return {
 	  __esModule: true,
-		//   ...originalModule,
-		//   default: jest.fn(() => 'mocked baz'),
 	  create: () => ( { text: "An item about lingo" } ),
 	};
 } );
 
 import { select } from "@wordpress/data";
 
-
 jest.mock( "@wordpress/data" );
-// jest.mock( "@wordpress/rich-text" );
-// jest.setMock( "@wordpress/rich-text", null );
 
 /**
  * Mocks a YoastSEO.js Mark object.
