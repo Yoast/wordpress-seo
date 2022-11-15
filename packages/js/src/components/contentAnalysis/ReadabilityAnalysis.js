@@ -174,32 +174,22 @@ ReadabilityAnalysis.propTypes = {
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
 	isYoastSEOWooActive: PropTypes.bool,
-	isInsightsEnabled: PropTypes.bool,
-	isElementorEditor: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
 	isYoastSEOWooActive: false,
-	isInsightsEnabled: false,
-	isElementorEditor: false,
 };
 
 export default withSelect( select => {
 	const {
 		getReadabilityResults,
 		getMarkButtonStatus,
-		getPreference,
-		getIsElementorEditor,
 	} = select( "yoast-seo/editor" );
-
-	const isInsightsEnabled = getPreference( "isInsightsEnabled", false );
 
 	return {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
-		isInsightsEnabled,
-		isElementorEditor: getIsElementorEditor(),
 	};
 } )( ReadabilityAnalysis );
