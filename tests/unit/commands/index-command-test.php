@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Commands;
 
 use Brain\Monkey;
 use Mockery;
+use WP_CLI;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
@@ -227,7 +228,7 @@ class Index_Command_Test extends TestCase {
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 6 );
 
-		$cli = Mockery::mock( 'overload:WP_CLI' );
+		$cli = Mockery::mock( 'overload:' . WP_CLI::class );
 		$cli
 			->expects( 'confirm' )
 			->with( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
