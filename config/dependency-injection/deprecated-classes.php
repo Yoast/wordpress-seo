@@ -40,7 +40,10 @@ foreach ( $deprecated_classes as $original_class => $version ) {
 		->setDeprecated( true, "%service_id% is deprecated since version $version!" );
 }
 
-// If the DI container is built by Composer this WordPress function will not exist.
+// If the DI container is built by Composer these WordPress functions will not exist.
 if ( ! function_exists( '_deprecated_file' ) ) {
 	function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {}
+}
+if ( ! function_exists( '_deprecated_function' ) ) {
+	function _deprecated_function( $function, $version, $replacement = '' ) {}
 }
