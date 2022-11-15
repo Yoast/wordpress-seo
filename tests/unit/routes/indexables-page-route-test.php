@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Error;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -47,7 +48,7 @@ class Indexables_Page_Route_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		Mockery::mock( '\WP_Error' );
+		Mockery::mock( WP_Error::class );
 
 		$this->indexable_action       = Mockery::mock( Indexables_Page_Action::class );
 		$this->indexables_page_helper = Mockery::mock( Indexables_Page_Helper::class );

@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Exception;
 use Mockery;
+use WP_Error;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
@@ -486,7 +487,7 @@ class Indexing_Route_Test extends TestCase {
 
 		$this->indexing_helper->expects( 'indexing_failed' )->withNoArgs();
 
-		Mockery::mock( '\WP_Error' );
+		Mockery::mock( WP_Error::class );
 
 		$this->instance->index_general();
 	}

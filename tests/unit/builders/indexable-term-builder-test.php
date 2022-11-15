@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey;
 use Mockery;
 use wpdb;
+use WP_Error;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
@@ -386,7 +387,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_term_error() {
-		$error = Mockery::mock( '\WP_Error' );
+		$error = Mockery::mock( WP_Error::class );
 		$error
 			->expects( 'get_error_message' )
 			->andReturn( 'An error message' );
@@ -410,7 +411,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$term = (object) [ 'taxonomy' => 'tax' ];
 
 		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn( [ 'tax' ] );
-		$error = Mockery::mock( '\WP_Error' );
+		$error = Mockery::mock( WP_Error::class );
 		$error
 			->expects( 'get_error_message' )
 			->andReturn( 'An error message' );
