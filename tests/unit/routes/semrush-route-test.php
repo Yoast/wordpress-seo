@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_REST_Request;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
@@ -219,7 +220,7 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'code' )
@@ -241,7 +242,7 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::set_country_code_option
 	 */
 	public function test_country_code() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'country_code' )
@@ -263,7 +264,7 @@ class SEMrush_Route_Test extends TestCase {
 	 * @covers ::get_related_keyphrases
 	 */
 	public function test_get_related_keyphrases() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'keyphrase' )

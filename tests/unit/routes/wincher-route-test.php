@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_REST_Request;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
@@ -259,7 +260,7 @@ class Wincher_Route_Test extends TestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'code' )
@@ -293,7 +294,7 @@ class Wincher_Route_Test extends TestCase {
 			'status'    => 200,
 		];
 
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'keyphrases' )
@@ -322,7 +323,7 @@ class Wincher_Route_Test extends TestCase {
 	 * @covers ::get_tracked_keyphrases
 	 */
 	public function test_get_tracked_keyphrases() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'permalink' )
@@ -352,7 +353,7 @@ class Wincher_Route_Test extends TestCase {
 	 * @covers ::get_tracked_keyphrases
 	 */
 	public function test_get_tracked_keyphrases_without_permalink() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'permalink' )
@@ -382,7 +383,7 @@ class Wincher_Route_Test extends TestCase {
 	 * @covers ::untrack_keyphrase
 	 */
 	public function test_untrack_keyphrase() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'keyphraseID' )

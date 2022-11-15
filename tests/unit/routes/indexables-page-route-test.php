@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Mockery;
 use WP_Error;
+use WP_REST_Request;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -442,7 +443,7 @@ class Indexables_Page_Route_Test extends TestCase {
 	 * @param string $rest_response_type            The type of the response object, WP_REST_Response or WP_Error.
 	 */
 	public function test_ignore_indexables( $request_params, $indexable_action_params, $indexable_action_return_value, $params_rest_response, $rest_response_type ) {
-		$wp_rest_request = Mockery::mock( 'WP_REST_Request' );
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
 		$wp_rest_request
 			->expects( 'get_json_params' )
 			->once()
@@ -534,7 +535,7 @@ class Indexables_Page_Route_Test extends TestCase {
 	 * @param string $rest_response_type            The type of the response object, WP_REST_Response or WP_Error.
 	 */
 	public function test_restore_indexables( $request_params, $indexable_action_params, $indexable_action_return_value, $params_rest_response, $rest_response_type ) {
-		$wp_rest_request = Mockery::mock( 'WP_REST_Request' );
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
 		$wp_rest_request
 			->expects( 'get_json_params' )
 			->once()

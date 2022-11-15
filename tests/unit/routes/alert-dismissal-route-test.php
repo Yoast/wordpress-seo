@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_REST_Request;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Routes\Alert_Dismissal_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -100,7 +101,7 @@ class Alert_Dismissal_Route_Test extends TestCase {
 	 * @covers ::dismiss
 	 */
 	public function test_dismiss() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'key' )
