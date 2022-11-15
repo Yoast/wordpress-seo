@@ -140,7 +140,8 @@ class WPSEO_Admin {
 	 * Register assets needed on admin pages.
 	 */
 	public function enqueue_assets() {
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_licenses' ) {
+		$page = isset( $_GET['page'] ) ? wp_unslash( $_GET['page'] ) : '';
+		if ( $page === 'wpseo_licenses' ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_style( 'extensions' );
 		}
