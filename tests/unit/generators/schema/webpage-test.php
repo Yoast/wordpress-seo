@@ -115,8 +115,6 @@ class WebPage_Test extends TestCase {
 			'object_type'     => 'post',
 			'object_sub_type' => 'page',
 		];
-
-		$this->id->website_hash = '#website';
 	}
 
 	/**
