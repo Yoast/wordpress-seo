@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Commands;
 
 use Brain\Monkey;
+use cli\progress\Bar;
 use Mockery;
 use WP_CLI;
 use wpdb;
@@ -174,7 +175,7 @@ class Index_Command_Test extends TestCase {
 
 		$this->complete_indexation_action->expects( 'complete' )->once();
 
-		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
+		$progress_bar_mock = Mockery::mock( Bar::class );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
@@ -217,7 +218,7 @@ class Index_Command_Test extends TestCase {
 
 		$this->prepare_indexing_action->expects( 'prepare' )->once();
 
-		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
+		$progress_bar_mock = Mockery::mock( Bar::class );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
@@ -330,7 +331,7 @@ class Index_Command_Test extends TestCase {
 		$this->complete_indexation_action->expects( 'complete' )->twice();
 		$this->prepare_indexing_action->expects( 'prepare' )->twice();
 
-		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
+		$progress_bar_mock = Mockery::mock( Bar::class );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 12 )
 			->with( Mockery::type( 'string' ), 30 )
