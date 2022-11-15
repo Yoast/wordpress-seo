@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { UserAddIcon } from "@heroicons/react/outline";
 import apiFetch from "@wordpress/api-fetch";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -42,6 +43,8 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
 	const [ queriedUserIds, setQueriedUserIds ] = useState( [] );
+	const canCreateUsers = useSelectSettings( "selectPreference", [], "canCreateUsers", false );
+	const createUserUrl = useSelectSettings( "selectPreference", [], "createUserUrl", "" );
 
 	const selectedUser = useMemo( () => {
 		const userObjects = values( users );
@@ -118,6 +121,20 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 								</AutocompleteField.Option>
 							) : null;
 						} ) }
+						{ canCreateUsers && (
+							<li className="yst-sticky yst-inset-0 yst--bottom-[1px] yst-group">
+								<a
+									id={ `link-create_user-${ id }` }
+									href={ createUserUrl }
+									target="_blank"
+									rel="noreferrer"
+									className="yst-relative yst-w-full yst-flex yst-items-center yst-py-4 yst-px-3 yst-gap-2 yst-no-underline yst-text-sm yst-text-left yst-bg-white yst-text-slate-700 group-hover:yst-text-white group-hover:yst-bg-primary-500 yst-border-t yst-border-slate-200"
+								>
+									<UserAddIcon className="yst-w-5 yst-h-5 yst-text-slate-400 group-hover:yst-text-white" />
+									<span>{ __( "Add new user...", "wordpress-seo" ) }</span>
+								</a>
+							</li>
+						) }
 					</>
 				) }
 				{ status === ASYNC_ACTION_STATUS.loading && (
