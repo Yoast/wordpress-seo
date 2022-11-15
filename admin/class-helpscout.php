@@ -100,11 +100,11 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 * @return string The current page.
 	 */
 	private function get_current_page() {
-		$page = filter_input( INPUT_GET, 'page' );
-		if ( isset( $page ) && $page !== false ) {
-			return $page;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are still not processing form information.
+			return sanitize_text_field( wp_unslash( $_GET['page'] ) );
 		}
-
 		return '';
 	}
 
