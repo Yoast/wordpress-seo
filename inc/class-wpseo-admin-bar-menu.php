@@ -351,7 +351,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'    => 'wpseo-kwdensity',
 				'title' => __( 'Check Keyphrase Density', 'wordpress-seo' ),
-				// HTTPS not available.
 				'href'  => 'https://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . rawurlencode( $focus_keyword ),
 			],
 			[
