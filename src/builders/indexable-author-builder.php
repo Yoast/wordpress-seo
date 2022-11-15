@@ -214,7 +214,8 @@ class Indexable_Author_Builder {
 			$exception = Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
 		}
 
-		if ( $this->author_archive->author_has_public_posts( $user_id ) === false ) {
+		// We will check if the author has public posts the WP way, instead of the indexable way, to make sure we get proper results even if SEO optimization is not run.
+		if ( $this->author_archive->author_has_public_posts_wp( $user_id ) === false ) {
 			$exception = Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
 		}
 

@@ -1376,11 +1376,10 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
-			$delete_query = $wpdb->prepare(
+			$delete_query =
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'post'
-				AND object_sub_type IS NOT NULL"
-			);
+				AND object_sub_type IS NOT NULL";
 		}
 		else {
 			$delete_query = $wpdb->prepare(
@@ -1421,11 +1420,9 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
-			$delete_query = $wpdb->prepare(
-				"DELETE FROM $indexable_table
+			$delete_query = "DELETE FROM $indexable_table
 				WHERE object_type = 'term'
-				AND object_sub_type IS NOT NULL"
-			);
+				AND object_sub_type IS NOT NULL";
 		}
 		else {
 			$delete_query = $wpdb->prepare(
@@ -1461,8 +1458,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		$query = $wpdb->prepare(
+		$query =
 			"SELECT
 				MAX(id) as newest_id,
 				object_id,
@@ -1476,9 +1472,7 @@ class WPSEO_Upgrade {
 				object_id,
 				object_type
 			HAVING
-				count(*) > 1"
-		);
-		// phpcs:enable
+				count(*) > 1";
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
@@ -1505,6 +1499,7 @@ class WPSEO_Upgrade {
 				// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 				// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 				$wpdb->query( $delete_query );
+				// phpcs:enable
 			}
 		}
 
@@ -1529,8 +1524,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		$delete_query = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = 'user'" );
+		$delete_query = "DELETE FROM $indexable_table WHERE object_type = 'user'";
 		// phpcs:enable
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
