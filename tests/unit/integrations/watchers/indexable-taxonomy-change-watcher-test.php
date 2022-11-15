@@ -173,12 +173,12 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 			->andReturn( 'not_null' );
 
 		Functions\expect( 'wp_next_scheduled' )
-			->times( $schedule_cleanup_times * 2 )
+			->times( $schedule_cleanup_times )
 			->with( Cleanup_Integration::START_HOOK )
 			->andReturn( false );
 
 		Functions\expect( 'wp_schedule_single_event' )
-			->times( $schedule_cleanup_times * 2 );
+			->times( $schedule_cleanup_times );
 
 		$this->instance->check_taxonomy_public_availability();
 	}
