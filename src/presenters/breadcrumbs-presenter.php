@@ -143,7 +143,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
-			
+
 			if ( $this->helpers->options->get( 'breadcrumbs-boldlast' ) === true ) {
 				$text = '<strong>' . $text . '</strong>';
 			}
