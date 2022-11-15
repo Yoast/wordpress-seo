@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Integrations\Third_Party\Elementor;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
@@ -53,7 +54,7 @@ class Main_Test extends TestCase {
 		$this->instance->load();
 
 		global $wpdb;
-		$wpdb = Mockery::mock( '\wpdb' );
+		$wpdb = Mockery::mock( wpdb::class );
 	}
 
 	/**

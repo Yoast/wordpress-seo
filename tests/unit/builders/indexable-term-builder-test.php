@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
@@ -103,7 +104,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->taxonomy                 = Mockery::mock( Taxonomy_Helper::class );
 		$this->versions                 = Mockery::mock( Indexable_Builder_Versions::class );
 		$this->post_helper              = Mockery::mock( Post_Helper::class );
-		$this->wpdb                     = Mockery::mock( 'wpdb' );
+		$this->wpdb                     = Mockery::mock( wpdb::class );
 		$this->wpdb->posts              = 'wp_posts';
 		$this->wpdb->term_relationships = 'wp_term_relationships';
 		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';

@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Brain\Monkey\Functions;
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Models\Indexable_Hierarchy;
@@ -226,7 +227,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::query
 	 */
 	public function test_query() {
-		$wpdb         = Mockery::mock();
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'wp_';
 
 		$GLOBALS['wpdb'] = $wpdb;
