@@ -49,6 +49,15 @@ if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
 	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/promises/src/functions_include.php';
 }
 
+/* ********************* LOAD TEST DOUBLES FOR WP NATIVE CLASSES ********************* */
+
+// Create the necessary test doubles for WP native classes on which properties are being set (PHP 8.2 compat).
+Yoast\WPTestUtils\BrainMonkey\makeDoublesForUnavailableClasses(
+	[
+		'WP_Query',
+	]
+);
+
 /* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
 
 /**

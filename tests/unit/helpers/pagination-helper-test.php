@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Query;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -168,7 +169,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @covers ::get_number_of_archive_pages
 	 */
 	public function test_get_number_of_archive_pages() {
-		$wp_query                = Mockery::mock( 'WP_Query' );
+		$wp_query                = Mockery::mock( WP_Query::class );
 		$wp_query->max_num_pages = '6';
 
 		$this->wp_query_wrapper
@@ -185,7 +186,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @covers ::get_current_archive_page_number
 	 */
 	public function test_get_current_archive_page() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query->expects( 'get' )->with( 'paged' )->once()->andReturn( '2' );
 
 		$this->wp_query_wrapper
@@ -202,7 +203,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @covers ::get_current_post_page_number
 	 */
 	public function test_get_current_post_page() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query->expects( 'get' )->with( 'page' )->once()->andReturn( '2' );
 
 		$this->wp_query_wrapper
