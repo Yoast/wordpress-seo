@@ -262,13 +262,6 @@ Release date: November 29th, 2022
 * Fixes a bug where indexables for users would not get removed when author archives were disabled.
 * Fixes a bug where indexables would be created for users when author archives were disabled.
 * Fixes a bug where indexables would be created for users who did not have any publicly viewable posts.
-* Fixes a bug where indexables for users would not get removed when author archives were disabled.
-* Fixes a bug where indexables for users would not get removed when a user did not have any publicly viewable posts anymore.
-* Fixes a bug where a fatal error would be thrown when the SEO optimization was run after a post type had been manually excluded via a filter.
-* Fixes a bug where duplicate indexable records would be created for the same object.
-
-#### Other
-
 * Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
 
 ## 19.10
