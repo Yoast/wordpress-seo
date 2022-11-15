@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc\Sitemaps;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Post;
 use WPSEO_Options;
 use WPSEO_Sitemaps_Admin;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
@@ -49,7 +50,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 
 		$this->instance             = new WPSEO_Sitemaps_Admin();
 		$this->options_mock         = Mockery::mock( WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
-		$this->mock_post            = Mockery::mock( '\WP_Post' )->makePartial();
+		$this->mock_post            = Mockery::mock( WP_Post::class )->makePartial();
 		$this->mock_post->post_type = 'post';
 	}
 
