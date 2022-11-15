@@ -195,7 +195,7 @@ describe( "calculateAnnotationsForTextFormat", () => {
 
 describe( "test getAnnotationsFromBlock", () => {
 	it( "returns an annotation if there is an applicable marker for the text", () => {
-		const mockblock = {
+		const mockBlock = {
 			clientId: "34f61542-0902-44f7-ab48-d9f88a022b43",
 			name: "core/list-item",
 			isValid: true,
@@ -215,13 +215,13 @@ describe( "test getAnnotationsFromBlock", () => {
 			"An item about <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
 		);
 
-		const mockmarks = [ myMockMark1, myMockMark2 ];
+		const mockMarks = [ myMockMark1, myMockMark2 ];
 
 		select.mockReturnValue( {
 			getActiveMarker: jest.fn( () => "keyphraseDensity" ),
 		} );
 
-		const annotations = getAnnotationsFromBlock( mockblock, mockmarks );
+		const annotations = getAnnotationsFromBlock( mockBlock, mockMarks );
 
 		const resultWithAnnotation =     [
 			{
@@ -237,17 +237,17 @@ describe( "test getAnnotationsFromBlock", () => {
 } );
 
 describe( "tests for the hasInnerBlocks helper", () => {
-	it( "returns true is a block has inner blocks", () => {
-		const mockblockWithInnerblocks = {
+	it( "returns true if a block has inner blocks", () => {
+		const mockBlockWithInnerblocks = {
 			innerBlocks: [ { fakeData: "fakeData" } ],
 		};
-		expect( hasInnerBlocks( mockblockWithInnerblocks ) ).toBeTruthy();
+		expect( hasInnerBlocks( mockBlockWithInnerblocks ) ).toBeTruthy();
 	} );
 	it( "returns false if a block has no inner blocks", () =>{
-		const mockblockWithoutInnerblocks = {
+		const mockBlockWithoutInnerblocks = {
 			innerBlocks: [],
 			fakeData: "fakeData",
 		};
-		expect( hasInnerBlocks( mockblockWithoutInnerblocks ) ).toBeFalsy();
+		expect( hasInnerBlocks( mockBlockWithoutInnerblocks ) ).toBeFalsy();
 	} );
 } );

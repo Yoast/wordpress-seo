@@ -365,7 +365,9 @@ export function getAnnotationsFromBlock( block, marks ) {
 
 /**
  * Checks if a block has innerblocks.
+ *
  * @param {Object} block The block with potential inner blocks
+ *
  * @returns {boolean} True if the block has innerblocks, False otherwise.
  */
 export function hasInnerBlocks( block ) {
@@ -375,9 +377,11 @@ export function hasInnerBlocks( block ) {
 /**
  * Takes a list of blocks and matches those with a list of marks, in order to create an array of annotations.
  *
- * NOTE: This is an recursive function! If a block has innerBlocks (childs) it will recurse over them.
+ * NOTE: This is a recursive function! If a block has innerBlocks (children) it will recurse over them.
+ *
  * @param {Object[]} blocks An array of block objects (or innerBlock objects) from the gutenberg editor.
- * @param {Object[]} marks An array of Mark objects.
+ * @param {Mark[]} marks An array of Mark objects.
+ *
  * @returns {Object[]} An array of annotation objects.
  */
 function getAnnotationsForBlocks( blocks, marks ) {
