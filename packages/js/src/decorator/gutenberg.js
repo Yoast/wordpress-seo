@@ -28,6 +28,11 @@ const ANNOTATION_ATTRIBUTES = {
 			multilineWrapperTag: [ "ul", "ol" ],
 		},
 	],
+	"core/list-item": [
+		{
+			key: "content",
+		},
+	],
 	"core/heading": [
 		{
 			key: "content",
@@ -261,13 +266,10 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
  */
 function getAnnotatableAttributes( blockTypeName ) {
 	const activeMarker = select( "yoast-seo/editor" ).getActiveMarker();
-
 	const assessmentAttributes = ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES[ activeMarker ] || ANNOTATION_ATTRIBUTES;
-
 	if ( ! assessmentAttributes.hasOwnProperty( blockTypeName ) ) {
 		return [];
 	}
-
 	return assessmentAttributes[ blockTypeName ];
 }
 
@@ -282,7 +284,6 @@ function getAnnotatableAttributes( blockTypeName ) {
  */
 function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const attributeKey = attribute.key;
-
 	const { attributes: blockAttributes } = block;
 	const attributeValue = blockAttributes[ attributeKey ];
 
@@ -297,14 +298,12 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 		multilineWrapperTag: attribute.multilineWrapperTag,
 	} );
 	const text = record.text;
-
 	// For each mark see if it applies to this block.
 	return flatMap( marks, ( ( mark ) => {
 		const annotations = calculateAnnotationsForTextFormat(
 			text,
 			mark
 		);
-
 		if ( ! annotations ) {
 			return [];
 		}
@@ -350,30 +349,66 @@ function fillAnnotationQueue( annotations ) {
 }
 
 /**
+ * Gets the annotations for a single block.
+ *
+ * @param { Object } block The block for which the annotations need to be determined.
+ * @param { Mark[] } marks A list of marks that could apply to the block.
+ *
+ * @returns { Object[] } All annotations that need to be placed on the block.
+ */
+export function getAnnotationsFromBlock( block, marks ) {
+	return flatMap(
+		getAnnotatableAttributes( block.name ),
+		( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
+	);
+}
+
+/**
+ * Checks if a block has innerblocks.
+ *
+ * @param {Object} block The block with potential inner blocks
+ *
+ * @returns {boolean} True if the block has innerblocks, False otherwise.
+ */
+export function hasInnerBlocks( block ) {
+	return block.innerBlocks.length > 0;
+}
+
+/**
+ * Takes a list of blocks and matches those with a list of marks, in order to create an array of annotations.
+ *
+ * NOTE: This is a recursive function! If a block has innerBlocks (children) it will recurse over them.
+ *
+ * @param {Object[]} blocks An array of block objects (or innerBlock objects) from the gutenberg editor.
+ * @param {Mark[]} marks An array of Mark objects.
+ *
+ * @returns {Object[]} An array of annotation objects.
+ */
+function getAnnotationsForBlocks( blocks, marks ) {
+	return flatMap( blocks, ( ( block ) => {
+		// If a block has innerblocks, get annotations for those blocks aswell.
+		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
+
+		return getAnnotationsFromBlock( block, marks ).concat( innerBlockAnnotations );
+	} ) );
+}
+
+/**
  * Applies the given marks as annotations in the block editor.
  *
- * @param {Paper} paper The paper that the marks are calculated for.
  * @param {Mark[]} marks The marks to annotate in the text.
  *
  * @returns {void}
  */
-export function applyAsAnnotations( paper, marks ) {
+export function applyAsAnnotations( marks ) {
 	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
-
 	if ( marks.length === 0 ) {
 		return;
 	}
 	const blocks = select( "core/block-editor" ).getBlocks();
 
-	// For every block...
-	const annotations = flatMap( blocks, ( ( block ) => {
-		// We go through every annotatable attribute.
-		return flatMap(
-			getAnnotatableAttributes( block.name ),
-			( ( attribute ) => getAnnotationsForBlockAttribute( attribute, block, marks ) )
-		);
-	} ) );
+	const annotations = getAnnotationsForBlocks( blocks, marks );
 
 	fillAnnotationQueue( annotations );
 
