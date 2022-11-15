@@ -197,9 +197,6 @@ class WebPage_Test extends TestCase {
 			$this->meta_tags_context->main_image_url = $values_to_test['image_url'];
 		}
 
-		$this->id->primary_image_hash = '#primaryimage';
-		$this->id->breadcrumb_hash    = '#breadcrumb';
-
 		$this->setup_generate_test(
 			false,
 			[ 'WebPage' ],
