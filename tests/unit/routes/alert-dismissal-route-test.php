@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Mockery;
 use WP_REST_Request;
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Routes\Alert_Dismissal_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -112,11 +113,11 @@ class Alert_Dismissal_Route_Test extends TestCase {
 			->with( 'alert_key' )
 			->andReturn( true );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
 		$response = $this->instance->dismiss( $request );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $response );
+		$this->assertInstanceOf( WP_REST_Response::class, $response );
 	}
 
 	/**

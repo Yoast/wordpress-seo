@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_Error;
 use WP_REST_Request;
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -290,7 +291,7 @@ class Indexables_Page_Route_Test extends TestCase {
 			->once()
 			->andReturn( 20 );
 
-		$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
+		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$wp_rest_response_mock
 			->expects( '__construct' )
 			->with(
@@ -330,7 +331,7 @@ class Indexables_Page_Route_Test extends TestCase {
 			->once()
 			->andReturn( 20 );
 
-		$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
+		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$wp_rest_response_mock
 			->expects( '__construct' )
 			->with(
@@ -370,7 +371,7 @@ class Indexables_Page_Route_Test extends TestCase {
 			->once()
 			->andReturn( 20 );
 
-		$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
+		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$wp_rest_response_mock
 			->expects( '__construct' )
 			->with(
@@ -410,7 +411,7 @@ class Indexables_Page_Route_Test extends TestCase {
 			->once()
 			->andReturn( 20 );
 
-		$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
+		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
 		$wp_rest_response_mock
 			->expects( '__construct' )
 			->with(
@@ -458,7 +459,7 @@ class Indexables_Page_Route_Test extends TestCase {
 			);
 
 		if ( $rest_response_type === 'WP_REST_Response' ) {
-			$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
+			$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
 			$wp_rest_response_mock
 				->expects( '__construct' )
 				->with(
@@ -550,7 +551,7 @@ class Indexables_Page_Route_Test extends TestCase {
 			);
 
 		if ( $rest_response_type === 'WP_REST_Response' ) {
-			$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
+			$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
 			$wp_rest_response_mock
 				->expects( '__construct' )
 				->with(

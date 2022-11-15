@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Mockery;
 use WP_REST_Request;
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
@@ -231,9 +232,9 @@ class SEMrush_Route_Test extends TestCase {
 			->with( '123456' )
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->authenticate( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->authenticate( $request ) );
 	}
 
 	/**
@@ -253,9 +254,9 @@ class SEMrush_Route_Test extends TestCase {
 			->with( 'nl' )
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->set_country_code_option( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->set_country_code_option( $request ) );
 	}
 
 	/**
@@ -280,8 +281,8 @@ class SEMrush_Route_Test extends TestCase {
 			->with( 'seo', 'us' )
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_related_keyphrases( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_related_keyphrases( $request ) );
 	}
 }
