@@ -55,6 +55,7 @@ if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
 Yoast\WPTestUtils\BrainMonkey\makeDoublesForUnavailableClasses(
 	[
 		'WP_Query',
+		'WP_User',
 	]
 );
 
