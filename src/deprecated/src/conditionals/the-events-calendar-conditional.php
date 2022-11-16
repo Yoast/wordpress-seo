@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Conditionals;
  * Conditional that is only met when The Events Calendar exists.
  *
  * @deprecated 19.12
+ * @codeCoverageIgnore
  */
 class The_Events_Calendar_Conditional implements Conditional {
 

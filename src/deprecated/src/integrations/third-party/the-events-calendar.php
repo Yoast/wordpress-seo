@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * Class The_Events_Calendar
  *
  * @deprecated 19.12
+ * @codeCoverageIgnore
  */
 class The_Events_Calendar implements Integration_Interface {
 
