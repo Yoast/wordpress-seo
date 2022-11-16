@@ -7,6 +7,8 @@ import {
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
+import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
+
 
 const ANNOTATION_SOURCE = "yoast";
 
@@ -266,10 +268,13 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
  */
 function getAnnotatableAttributes( blockTypeName ) {
 	const activeMarker = select( "yoast-seo/editor" ).getActiveMarker();
+
 	const assessmentAttributes = ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES[ activeMarker ] || ANNOTATION_ATTRIBUTES;
+
 	if ( ! assessmentAttributes.hasOwnProperty( blockTypeName ) ) {
 		return [];
 	}
+
 	return assessmentAttributes[ blockTypeName ];
 }
 
@@ -284,6 +289,7 @@ function getAnnotatableAttributes( blockTypeName ) {
  */
 function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const attributeKey = attribute.key;
+
 	const { attributes: blockAttributes } = block;
 	const attributeValue = blockAttributes[ attributeKey ];
 
@@ -298,12 +304,14 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 		multilineWrapperTag: attribute.multilineWrapperTag,
 	} );
 	const text = record.text;
+
 	// For each mark see if it applies to this block.
 	return flatMap( marks, ( ( mark ) => {
 		const annotations = calculateAnnotationsForTextFormat(
 			text,
 			mark
 		);
+
 		if ( ! annotations ) {
 			return [];
 		}
@@ -403,10 +411,16 @@ function getAnnotationsForBlocks( blocks, marks ) {
 export function applyAsAnnotations( marks ) {
 	// Do this always to allow people to select a different eye marker while another one is active.
 	removeAllAnnotations();
+	const fieldsToMark = getFieldsToMarkHelper(  marks  );
+
 	if ( marks.length === 0 ) {
 		return;
 	}
-	const blocks = select( "core/block-editor" ).getBlocks();
+	let blocks = select( "core/block-editor" ).getBlocks();
+
+	if ( fieldsToMark.length > 0 ) {
+		blocks = blocks.filter( block => fieldsToMark.some( field => "core/" + field === block.name ) );
+	}
 
 	const annotations = getAnnotationsForBlocks( blocks, marks );
 
