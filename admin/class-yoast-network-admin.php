@@ -100,8 +100,17 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	 * @return void
 	 */
 	public function handle_update_options_request() {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
-		$option_group = filter_input( INPUT_POST, 'network_option_group', @FILTER_SANITIZE_STRING );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce verification will happen in verify_request below.
+		if ( ! isset( $_POST['network_option_group'] ) && ! is_string( $_POST['network_option_group'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce verification will happen in verify_request below.
+		$option_group = sanitize_text_field( wp_unslash( $_POST['network_option_group'] ) );
+
+		if ( empty( $option_group ) ) {
+			return;
+		}
 
 		$this->verify_request( "{$option_group}-network-options" );
 
