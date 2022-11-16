@@ -14,7 +14,7 @@ class Environment_Helper {
 	 */
 	public function is_production_mode() {
 		// phpcs:ignore Yoast.NamingConventions.ValidHookName.WrongPrefix -- existing hook.
-		$override = apply_filters( 'yoast_seo_development_mode', false );
+		$override = \apply_filters( 'yoast_seo_development_mode', false );
 		if ( $override ) {
 			return true;
 		}
