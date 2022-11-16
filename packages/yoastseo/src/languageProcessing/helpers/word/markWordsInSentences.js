@@ -65,6 +65,10 @@ export const collectMarkingsInSentence = function( sentence, topicFoundInSentenc
 		}
 	}
 
+	/*
+	 * If two marks are separated by only a space, remove the closing tag of the first mark and the opening tag of the
+	 * second mark so that the two marks can be combined into one.
+	 */
 	return ( markup.replace( new RegExp( "</yoastmark> <yoastmark class='yoast-text-mark'>", "ig" ), " " ) );
 };
 
