@@ -80,7 +80,7 @@ It may help us a lot if you can provide a backtrace of the error encountered. Yo
 
 Anyone is welcome to contribute to Yoast SEO. Please
 [read the guidelines](.github/CONTRIBUTING.md) for contributing to this
-repository.
+repository
 
 There are various ways you can contribute:
 
