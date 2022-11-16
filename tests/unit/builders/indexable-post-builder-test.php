@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
@@ -18,7 +19,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Post_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
-use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Built_Exception;
 
 /**
  * Class Indexable_Post_Builder_Test.

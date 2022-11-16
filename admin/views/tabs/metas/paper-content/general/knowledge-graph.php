@@ -7,7 +7,7 @@
  * @uses    Yoast_Form $yform Form object.
  */
 
-echo '<h3>', esc_html__( 'Website', 'wordpress-seo' ),'</h3>';
+echo '<h3>', esc_html__( 'Website', 'wordpress-seo' ), '</h3>';
 echo '<p>', esc_html__( 'This name is shown for your site in the search results.', 'wordpress-seo' ), '</p>';
 $yform->textinput(
 	'website_name',
