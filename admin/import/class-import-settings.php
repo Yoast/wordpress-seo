@@ -52,7 +52,12 @@ class WPSEO_Import_Settings {
 			return;
 		}
 
-		$content = filter_input( INPUT_POST, 'settings_import' );
+		if ( ! isset( $_POST['settings_import'] ) || ! is_string( $_POST['settings_import'] ) ) {
+			return;
+		}
+
+		$content = sanitize_text_field( wp_unslash( $_POST['settings_import'] ) );
+
 		if ( empty( $content ) ) {
 			return;
 		}
