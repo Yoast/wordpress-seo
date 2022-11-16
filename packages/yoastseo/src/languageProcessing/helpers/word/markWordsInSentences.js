@@ -7,14 +7,14 @@ import { escapeRegExp } from "lodash-es";
 import { stripFullTags } from "../sanitize/stripHTMLTags";
 
 /**
- * Gets the anchors and mark the anchors' text if the topic is found in the anchors' text.
+ * Gets the anchors and marks the anchors' text if the words are found in it.
  *
  * @param {string} sentence The sentence to retrieve the anchors from.
- * @param {RegExp} topicRegex The regex of the topic.
+ * @param {RegExp} wordsRegex The regex of the words.
  *
  * @returns {Object} The anchors and the marked anchors.
  */
-const getMarkedAnchors = function( sentence, topicRegex ) {
+const getMarkedAnchors = function( sentence, wordsRegex ) {
 	// Retrieve the anchors.
 	const anchors = getAnchorsFromText( sentence );
 	// For every anchor, apply the markings only to the anchor tag. Replace the unmarked anchor in the sentence with the marked anchor.
@@ -22,7 +22,7 @@ const getMarkedAnchors = function( sentence, topicRegex ) {
 		// Get the anchor text.
 		const anchorText = stripFullTags( anchor );
 		// Apply the marking to the anchor text.
-		const markedAnchorText = anchorText.replace( topicRegex, ( x ) => addMark( x ) );
+		const markedAnchorText = anchorText.replace( wordsRegex, ( x ) => addMark( x ) );
 		// Replace the original anchor text with the marked anchor text.
 		return anchor.replace( anchorText, markedAnchorText );
 	} );
@@ -35,20 +35,20 @@ const getMarkedAnchors = function( sentence, topicRegex ) {
  * the marks will be put around "ballet shoes" together, not "`ballet` `shoes`".)
  *
  * @param {string}    sentence               The sentence to mark words in.
- * @param {[string]}  topicFoundInSentence   The words to mark in the sentence.
+ * @param {[string]}  wordsFoundInSentence   The words to mark in the sentence.
  * @param {function}  matchWordCustomHelper  The language-specific helper function to match word in text.
  *
  * @returns {string} The sentence with marks.
  */
-export const collectMarkingsInSentence = function( sentence, topicFoundInSentence, matchWordCustomHelper ) {
-	topicFoundInSentence = topicFoundInSentence.map( word => escapeRegExp( word ) );
+export const collectMarkingsInSentence = function( sentence, wordsFoundInSentence, matchWordCustomHelper ) {
+	wordsFoundInSentence = wordsFoundInSentence.map( word => escapeRegExp( word ) );
 	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
-	const topicRegex = matchWordCustomHelper ? arrayToRegex( topicFoundInSentence, true ) : arrayToRegex( topicFoundInSentence );
+	const wordsRegex = matchWordCustomHelper ? arrayToRegex( wordsFoundInSentence, true ) : arrayToRegex( wordsFoundInSentence );
 
-	// Retrieve the anchors and mark the anchors' text if the topic is found in the anchors' text.
-	const { anchors, markedAnchors } = getMarkedAnchors( sentence, topicRegex );
+	// Retrieve the anchors and mark the anchors' text if the words are found in the anchors' text.
+	const { anchors, markedAnchors } = getMarkedAnchors( sentence, wordsRegex );
 
-	let markup = sentence.replace( topicRegex, function( x ) {
+	let markup = sentence.replace( wordsRegex, function( x ) {
 		return addMark( x );
 	} );
 
@@ -83,16 +83,16 @@ export const collectMarkingsInSentence = function( sentence, topicFoundInSentenc
  * @returns {[string]} The sentences with marks.
  */
 export function markWordsInSentences( wordsToMark, sentences, locale, matchWordCustomHelper ) {
-	let topicFoundInSentence = [];
+	let wordsFoundInSentence = [];
 	let markings = [];
 
 	sentences.forEach( function( sentence ) {
-		topicFoundInSentence = matchWords( sentence, wordsToMark, locale, matchWordCustomHelper ).matches;
+		wordsFoundInSentence = matchWords( sentence, wordsToMark, locale, matchWordCustomHelper ).matches;
 
-		if ( topicFoundInSentence.length > 0 ) {
+		if ( wordsFoundInSentence.length > 0 ) {
 			markings = markings.concat( new Mark( {
 				original: sentence,
-				marked: collectMarkingsInSentence( sentence, topicFoundInSentence, matchWordCustomHelper ),
+				marked: collectMarkingsInSentence( sentence, wordsFoundInSentence, matchWordCustomHelper ),
 			} ) );
 		}
 	} );
