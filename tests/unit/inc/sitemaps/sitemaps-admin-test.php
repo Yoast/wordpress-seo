@@ -82,7 +82,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( false );
 
-		$helper_surface               = Mockery::mock( Helpers_Surface::class );
+		$helper_surface              = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->environment = $environment_helper;
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -136,7 +136,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( true );
 
-		$helper_surface               = Mockery::mock( Helpers_Surface::class );
+		$helper_surface              = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->environment = $environment_helper;
 
 		Monkey\Functions\expect( 'YoastSEO' )

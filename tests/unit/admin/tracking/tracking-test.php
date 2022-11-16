@@ -18,15 +18,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class WPSEO_Tracking_Test extends TestCase {
 
 	/**
-	 * Set up the class which will be tested.
-	 *
-	 * @return void
-	 */
-	protected function set_up() {
-		parent::set_up();
-	}
-
-	/**
 	 * Tests the constructor on a non-production setup.
 	 *
 	 * @covers WPSEO_Tracking::__construct
@@ -43,7 +34,7 @@ class WPSEO_Tracking_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( false );
 
-		$helper_surface               = Mockery::mock( Helpers_Surface::class );
+		$helper_surface              = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->environment = $environment_helper;
 
 		Monkey\Functions\expect( 'YoastSEO' )
@@ -74,7 +65,7 @@ class WPSEO_Tracking_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( true );
 
-		$helper_surface               = Mockery::mock( Helpers_Surface::class );
+		$helper_surface              = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->environment = $environment_helper;
 
 		Monkey\Functions\expect( 'YoastSEO' )
