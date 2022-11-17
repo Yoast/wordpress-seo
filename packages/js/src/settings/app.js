@@ -239,7 +239,7 @@ const App = () => {
 					</aside>
 					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[20.5rem]" ) }>
 						<div className="yst-grow yst-space-y-6 yst-mb-6 xl:yst-mb-0">
-							<main className="yst-relative yst-rounded-lg yst-bg-white yst-shadow">
+							<main className="yst-rounded-lg yst-bg-white yst-shadow">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
 									<Transition
 										key={ pathname }
