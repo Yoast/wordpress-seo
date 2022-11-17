@@ -120,7 +120,7 @@ UpsellBox.propTypes = {
 	infoParagraphs: PropTypes.array,
 	upsellButton: PropTypes.object,
 	upsellButtonAction: PropTypes.string,
-	upsellButtonCtbId: PropTypes.object,
+	upsellButtonCtbId: PropTypes.string,
 	upsellButtonText: PropTypes.string.isRequired,
 	upsellButtonLabel: PropTypes.string,
 	upsellButtonHasCaret: PropTypes.bool,
