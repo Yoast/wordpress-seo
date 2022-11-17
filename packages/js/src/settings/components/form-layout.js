@@ -1,7 +1,7 @@
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, Modal, Title, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Modal, useSvgAria, useToggleState } from "@yoast/ui-library";
 import { Form, useFormikContext } from "formik";
 import { includes, values } from "lodash";
 import PropTypes from "prop-types";
@@ -11,11 +11,7 @@ import { useSelectSettings } from "../hooks";
 /**
  * @returns {JSX.Element} The form layout component.
  */
-const FormLayout = ( {
-	children,
-	title,
-	description = null,
-} ) => {
+const FormLayout = ( { children } ) => {
 	const { isSubmitting, status, dirty, resetForm, initialValues } = useFormikContext();
 	const isMediaLoading = useSelectSettings( "selectIsMediaLoading" );
 	const isStatusBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
@@ -29,16 +25,10 @@ const FormLayout = ( {
 
 	return (
 		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
-			<header className="yst-p-8 yst-border-b yst-border-slate-200">
-				<div className="yst-max-w-screen-sm">
-					<Title>{ title }</Title>
-					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
-				</div>
-			</header>
 			<div className="yst-flex-grow yst-p-8">
 				{ children }
 			</div>
-			<footer className="yst-sticky yst-bottom-0 yst-z-40">
+			<footer className="yst-sticky yst-bottom-0 yst-z-10">
 				<AnimateHeight
 					easing="ease-in-out"
 					duration={ 300 }
@@ -99,8 +89,6 @@ const FormLayout = ( {
 
 FormLayout.propTypes = {
 	children: PropTypes.node.isRequired,
-	title: PropTypes.node.isRequired,
-	description: PropTypes.node,
 };
 
 export default FormLayout;

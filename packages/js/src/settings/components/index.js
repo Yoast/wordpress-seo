@@ -9,6 +9,7 @@ export { default as FormikValueChangeField } from "./formik-value-change-field";
 export { default as FormikWithErrorField } from "./formik-with-error-field";
 export { default as Notifications } from "./notifications";
 export { default as OpenGraphDisabledAlert } from "./open-graph-disabled-alert";
+export { default as RouteLayout } from "./route-layout";
 export { default as Search } from "./search";
 export { default as SidebarNavigation } from "./sidebar-navigation";
 export { default as SidebarRecommendations } from "./sidebar-recommendations";

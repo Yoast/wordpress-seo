@@ -1,7 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Code, Link } from "@yoast/ui-library";
-import FeatureUpsell from "@yoast/ui-library/src/components/feature-upsell";
+import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import AnimateHeight from "react-animate-height";
 import { toLower } from "lodash";
@@ -20,21 +19,24 @@ import { useSelectSettings } from "../hooks";
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
- * @returns {JSX.Element} The author archives route.
+ * Presents the `post_format` taxonomy.
+ *
+ * Mostly a copy from the taxonomy template, differences:
+ * - disable toggle at the top, that shows/hides the rest
+ * - removed the other exceptions
+ *
+ * @returns {JSX.Element} The format archives element.
  */
-const AuthorArchives = () => {
-	const label = __( "Author archives", "wordpress-seo" );
-	const singularLabel = __( "Author archive", "wordpress-seo" );
+const FormatArchives = () => {
+	const { name, label } = useSelectSettings( "selectTaxonomy", [], "post_format" );
 	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
-	const singularLabelLower = useMemo( ()=> toLower( singularLabel ), [ singularLabel ] );
 
-	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
-	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
-	const duplicateContentInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/duplicate-content" );
+	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
+	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/author/example/" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
+	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/format/example/" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -54,27 +56,18 @@ const AuthorArchives = () => {
 	), [] );
 	const description = useMemo( () => createInterpolateElement(
 		sprintf(
-			/**
-			 * translators: %1$s expands to "author archive".
-			 * %2$s expands to an example URL, e.g. https://example.com/author/example/.
-			 * %3$s and %4$s expand to opening and closing <a> tags.
-			 */
-			__( "If you're running a one author blog, the %1$s (e.g. %2$s) will be exactly the same as your homepage. This is what's called a %3$sduplicate content problem%4$s. If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or prevent it from showing up in search results.", "wordpress-seo" ),
-			singularLabelLower,
-			"<exampleUrl />",
-			"<a>",
-			"</a>"
+			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+			__( "(e.g., %1$s)", "wordpress-seo" ),
+			"<exampleUrl />"
 		),
 		{
 			exampleUrl: <Code>{ exampleUrl }</Code>,
-			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noopener" />,
 		}
 	) );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-author": isAuthorDisabled, "noindex-author-wpseo": isAuthorNoIndex } = values.wpseo_titles;
+	const { "disable-post_format": disablePostFormat } = values.wpseo_titles;
 
 	return (
 		<RouteLayout
@@ -84,47 +77,41 @@ const AuthorArchives = () => {
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<FormikFlippedToggleField
-						name={ "wpseo_titles.disable-author" }
-						data-id={ "input-wpseo_titles-disable-author" }
-						label={ sprintf(
-							// translators: %1$s expands to "author archives".
-							__( "Enable %1$s", "wordpress-seo" ),
-							labelLower
-						) }
-						description={ sprintf(
-							// translators: %1$s expands to "author archive".
-							__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
-							singularLabelLower
-						) }
+						name="wpseo_titles.disable-post_format"
+						data-id="input-wpseo_titles-disable-post_format"
+						label={ __( "Enable format-based archives", "wordpress-seo" ) }
+						description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
 					/>
 					<hr className="yst-my-8" />
 					<div className="yst-relative">
 						<AnimateHeight
 							easing="ease-in-out"
 							duration={ 300 }
-							height={ isAuthorDisabled ? 0 : "auto" }
+							height={ disablePostFormat ? 0 : "auto" }
 							animateOpacity={ true }
 						>
 							<FieldsetLayout
 								title={ __( "Search appearance", "wordpress-seo" ) }
 								description={ sprintf(
-									// translators: %1$s expands to "author archives".
-									__( "Determine how your %1$s should look in search engines.", "wordpress-seo" ),
-									labelLower
+									// eslint-disable-next-line max-len
+									// translators: %1$s expands to "formats". %2$s expands to "Yoast SEO".
+									__( "Determine how your %1$s should look in search engines. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
+									labelLower,
+									"Yoast SEO"
 								) }
 							>
 								<FormikFlippedToggleField
-									name="wpseo_titles.noindex-author-wpseo"
-									data-id="input-wpseo_titles-noindex-author-wpseo"
+									name={ `wpseo_titles.noindex-tax-${ name }` }
+									data-id={ `input-wpseo_titles-noindex-tax-${ name }` }
 									label={ sprintf(
-										// translators: %1$s expands to "author archives".
+										// translators: %1$s expands to "formats".
 										__( "Show %1$s in search results", "wordpress-seo" ),
 										labelLower
 									) }
 									description={ <>
 										{ sprintf(
-											// translators: %1$s expands to "author archives".
-											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+											// translators: %1$s expands to "formats".
+											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 											labelLower
 										) }
 										<br />
@@ -134,32 +121,18 @@ const AuthorArchives = () => {
 										.
 									</> }
 								/>
-								{ ! isAuthorNoIndex && <FormikFlippedToggleField
-									name="wpseo_titles.noindex-author-noposts-wpseo"
-									data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
-									label={ sprintf(
-										// translators: %1$s expands to "author archives".
-										__( "Show %1$s without posts in search results", "wordpress-seo" ),
-										labelLower
-									) }
-									description={ sprintf(
-										// translators: %1$s expands to "author archives".
-										__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-										labelLower
-									) }
-								/> }
 								<FormikReplacementVariableEditorField
 									type="title"
-									name="wpseo_titles.title-author-wpseo"
-									fieldId="input-wpseo_titles-title-author-wpseo"
+									name={ `wpseo_titles.title-tax-${ name }` }
+									fieldId={ `input-wpseo_titles-title-tax-${ name }` }
 									label={ __( "SEO title", "wordpress-seo" ) }
 									replacementVariables={ replacementVariables }
 									recommendedReplacementVariables={ recommendedReplacementVariables }
 								/>
 								<FormikReplacementVariableEditorField
 									type="description"
-									name="wpseo_titles.metadesc-author-wpseo"
-									fieldId="input-wpseo_titles-metadesc-author-wpseo"
+									name={ `wpseo_titles.metadesc-tax-${ name }` }
+									fieldId={ `input-wpseo_titles-metadesc-tax-${ name }` }
 									label={ __( "Meta description", "wordpress-seo" ) }
 									replacementVariables={ replacementVariables }
 									recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -173,9 +146,11 @@ const AuthorArchives = () => {
 									{ isPremium && <Badge variant="upsell">Premium</Badge> }
 								</div> }
 								description={ sprintf(
-									// translators: %1$s expands to "author archives".
-									__( "Determine how your %1$s should look on social media by default.", "wordpress-seo" ),
-									labelLower
+								// eslint-disable-next-line max-len
+								// translators: %1$s expands to "formats". %2$s expands to "Yoast SEO".
+									__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
+									labelLower,
+									"Yoast SEO"
 								) }
 							>
 								<FeatureUpsell
@@ -183,25 +158,25 @@ const AuthorArchives = () => {
 									variant="card"
 									cardLink={ socialAppearancePremiumLink }
 									cardText={ sprintf(
-										/* translators: %1$s expands to Premium. */
+									/* translators: %1$s expands to Premium. */
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }
 								>
 									<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 									<FormikMediaSelectField
-										id="wpseo_titles-social-image-author-wpseo"
+										id={ `wpseo_titles-social-image-tax-${ name }` }
 										label={ __( "Social image", "wordpress-seo" ) }
 										previewLabel={ recommendedSize }
-										mediaUrlName="wpseo_titles.social-image-url-author-wpseo"
-										mediaIdName="wpseo_titles.social-image-id-author-wpseo"
+										mediaUrlName={ `wpseo_titles.social-image-url-tax-${ name }` }
+										mediaIdName={ `wpseo_titles.social-image-id-tax-${ name }` }
 										disabled={ ! opengraph }
 										isDummy={ ! isPremium }
 									/>
 									<FormikReplacementVariableEditorFieldWithDummy
 										type="title"
-										name="wpseo_titles.social-title-author-wpseo"
-										fieldId="input-wpseo_titles-social-title-author-wpseo"
+										name={ `wpseo_titles.social-title-tax-${ name }` }
+										fieldId={ `input-wpseo_titles-social-title-tax-${ name }` }
 										label={ __( "Social title", "wordpress-seo" ) }
 										replacementVariables={ replacementVariables }
 										recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -210,8 +185,8 @@ const AuthorArchives = () => {
 									/>
 									<FormikReplacementVariableEditorFieldWithDummy
 										type="description"
-										name="wpseo_titles.social-description-author-wpseo"
-										fieldId="input-wpseo_titles-social-description-author-wpseo"
+										name={ `wpseo_titles.social-description-tax-${ name }` }
+										fieldId={ `input-wpseo_titles-social-description-tax-${ name }` }
 										label={ __( "Social description", "wordpress-seo" ) }
 										replacementVariables={ replacementVariables }
 										recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -229,4 +204,4 @@ const AuthorArchives = () => {
 	);
 };
 
-export default AuthorArchives;
+export default FormatArchives;

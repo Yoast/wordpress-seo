@@ -22,7 +22,7 @@ import {
 	Breadcrumbs,
 	CrawlSettings,
 	DateArchives,
-	Formats,
+	FormatArchives,
 	Homepage,
 	Media,
 	PostType,
@@ -86,7 +86,6 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					idSuffix={ idSuffix }
 				/>
 				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
 				id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
@@ -97,7 +96,9 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
 					{ map( postTypes, ( { name, route, label } ) => (
 						<SidebarNavigation.SubmenuItem
-							key={ `link-post-type-${ name }` } to={ `/post-type/${ route }` } label={ label }
+							key={ `link-post-type-${ name }` }
+							to={ `/post-type/${ route }` }
+							label={ label }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -112,9 +113,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					{ map( taxonomies, taxonomy => (
 						<SidebarNavigation.SubmenuItem
 							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ <div className="yst-flex yst-w-full yst-justify-between yst-items-center">
-								<span>{ taxonomy.label }</span>
-							</div> }
+							label={ taxonomy.label }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
@@ -136,11 +135,12 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					}
 					idSuffix={ idSuffix }
 				/>
+				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 		</div>
@@ -163,12 +163,12 @@ const PremiumUpsellList = () => {
 		<div className="yst-p-6 xl:yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
 			<Title as="h2" size="4" className="yst-text-xl yst-text-primary-500">
 				{ sprintf(
-					/* translators: %s expands to Yoast SEO Premium */
+					/* translators: %s expands to "Yoast SEO" Premium */
 					__( "Upgrade to %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				) }
 			</Title>
-			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-list-disc yst-list-inside yst-text-slate-800 yst-mt-6">
+			<ul className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 yst-gap-x-6 yst-list-disc yst-pl-[1em] yst-list-outside yst-text-slate-800 yst-mt-6">
 				<li>
 					<span className="yst-font-semibold">{ __( "Multiple keyphrases", "wordpress-seo" ) }</span>
 					:&nbsp;
@@ -193,7 +193,7 @@ const PremiumUpsellList = () => {
 				className="yst-gap-2 yst-mt-4"
 			>
 				{ sprintf(
-					/* translators: %s expands to Yoast SEO Premium */
+					/* translators: %s expands to "Yoast SEO" Premium */
 					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				) }
@@ -231,9 +231,7 @@ const App = () => {
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
 				<div className="yst-p-4 md:yst-p-8 yst-flex yst-gap-4">
-					<aside
-						className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64"
-					>
+					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64">
 						<SidebarNavigation.Sidebar>
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
@@ -248,7 +246,7 @@ const App = () => {
 										<Route path="crawl-optimization" element={ <CrawlSettings /> } />
 										<Route path="date-archives" element={ <DateArchives /> } />
 										<Route path="homepage" element={ <Homepage /> } />
-										<Route path="formats" element={ <Formats /> } />
+										<Route path="format-archives" element={ <FormatArchives /> } />
 										<Route path="media" element={ <Media /> } />
 										<Route path="rss" element={ <Rss /> } />
 										<Route path="site-basics" element={ <SiteBasics /> } />
@@ -259,7 +257,8 @@ const App = () => {
 										<Route path="post-type">
 											{ map( postTypes, postType => (
 												<Route
-													key={ `route-post-type-${ postType.name }` } path={ postType.route }
+													key={ `route-post-type-${ postType.name }` }
+													path={ postType.route }
 													element={ <PostType { ...postType } /> }
 												/>
 											) ) }
@@ -267,7 +266,8 @@ const App = () => {
 										<Route path="taxonomy">
 											{ map( taxonomies, taxonomy => (
 												<Route
-													key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
+													key={ `route-taxonomy-${ taxonomy.name }` }
+													path={ taxonomy.route }
 													element={ <Taxonomy { ...taxonomy } /> }
 												/>
 											) ) }
