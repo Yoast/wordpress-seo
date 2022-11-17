@@ -158,6 +158,7 @@ Menu.propTypes = {
  */
 const PremiumUpsellList = () => {
 	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
 
 	return (
 		<div className="yst-p-6 xl:yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
@@ -190,6 +191,7 @@ const PremiumUpsellList = () => {
 			</ul>
 			<Button
 				as="a" variant="upsell" size="large" href={ getPremiumLink }
+				data-action={ getPremiumUpsellConfig.actionId } data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
 				className="yst-gap-2 yst-mt-4"
 			>
 				{ sprintf(

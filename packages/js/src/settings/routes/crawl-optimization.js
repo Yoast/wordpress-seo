@@ -17,6 +17,7 @@ const FormikValueChangeFieldWithDummy = withFormikDummyField( FormikValueChangeF
  */
 const CrawlOptimization = () => {
 	const crawlSettingsLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings" );
+	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
 	const permalinkCleanupLink = useSelectSettings( "selectLink", [], "https://yoa.st/permalink-cleanup" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings-upsell" );
@@ -259,7 +260,10 @@ const CrawlOptimization = () => {
 			description={ <>
 				{ descriptions.page }
 				{ ! isPremium && <div className="yst-mt-6">
-					<Button as="a" className="yst-gap-2" variant="upsell" href={ premiumLink } target="_blank" rel="noopener">
+					<Button
+						as="a" className="yst-gap-2" variant="upsell" href={ premiumLink } target="_blank" rel="noopener"
+						data-action={ getPremiumUpsellConfig.actionId } data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
+					>
 						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 						{ sprintf(
 						/* translators: %1$s expands to Premium. */

@@ -33,6 +33,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType } ) => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
+	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const replacementVariablesArchives = useSelectSettings( "selectReplacementVariablesFor", [ name ], `${ name }_archive`, "custom-post-type_archive" );
 	const recommendedReplacementVariablesArchives = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], `${ name }_archive`, "custom-post-type_archive" );
@@ -201,6 +202,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							shouldUpsell={ ! isPremium }
 							variant="card"
 							cardLink={ socialAppearancePremiumLink }
+							upsellButtonAction={ getPremiumUpsellConfig.actionId }
+							upsellButtonCtbId={ getPremiumUpsellConfig.premiumCtbId }
 							cardText={ sprintf(
 							/* translators: %1$s expands to Premium. */
 								__( "Unlock with %1$s", "wordpress-seo" ),
@@ -280,6 +283,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							shouldUpsell={ ! isPremium }
 							variant="card"
 							cardLink={ pageAnalysisPremiumLink }
+							upsellButtonAction={ getPremiumUpsellConfig.actionId }
+							upsellButtonCtbId={ getPremiumUpsellConfig.premiumCtbId }
 							cardText={ sprintf(
 							/* translators: %1$s expands to Premium. */
 								__( "Unlock with %1$s", "wordpress-seo" ),
@@ -377,6 +382,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 									shouldUpsell={ ! isPremium }
 									variant="card"
 									cardLink={ socialAppearancePremiumLink }
+									upsellButtonAction={ getPremiumUpsellConfig.actionId }
+									upsellButtonCtbId={ getPremiumUpsellConfig.premiumCtbId }
 									cardText={ sprintf(
 										// translators: %1$s expands to Premium.
 										__( "Unlock with %1$s", "wordpress-seo" ),
