@@ -6,16 +6,9 @@ import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
-import { isEmpty, get, map } from "lodash";
+import { get, isEmpty, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import {
-	FieldsetLayout,
-	FormikMediaSelectField,
-	FormikUserSelectField,
-	FormikWithErrorField,
-	FormLayout,
-	RouteLayout,
-} from "../components";
+import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
 import { fetchUserSocialProfiles } from "../helpers";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
@@ -90,8 +83,8 @@ const PersonSocialProfiles = () => {
 				<FormikWithErrorField
 					key={ socialProfile }
 					as={ TextField }
-					name={ `person_social_profiles.${socialProfile}` }
-					id={ `input-person_social_profiles-${socialProfile}` }
+					name={ `person_social_profiles.${ socialProfile }` }
+					id={ `input-person_social_profiles-${ socialProfile }` }
 					label={ socialProfileFieldLabels[ socialProfile ] }
 					// translators: %1$s expands to social media example URL, ie. https://facebook.com/yoast.
 					placeholder={ canEditUser && sprintf( __( "E.g. %1$s", "wordpress-seo" ), `https://${ socialProfile }.com/yoast` ) }
@@ -193,7 +186,7 @@ const SiteRepresentation = () => {
 									<Alert id="alert-organization-name-logo" variant="warning">
 										{ addLinkToString(
 											sprintf(
-											// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+												// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 												__( "An organization name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
 												"<a>",
 												"</a>"
@@ -216,9 +209,9 @@ const SiteRepresentation = () => {
 									variant="square"
 									previewLabel={ createInterpolateElement(
 										sprintf(
-										// translators: %1$s expands to an opening strong tag.
-										// %2$s expands to a closing strong tag.
-										// %3$s expands to the recommended image size.
+											// translators: %1$s expands to an opening strong tag.
+											// %2$s expands to a closing strong tag.
+											// %3$s expands to the recommended image size.
 											__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 											"<strong>",
 											"</strong>",
@@ -310,9 +303,9 @@ const SiteRepresentation = () => {
 									<Alert id="alert-person-user-profile">
 										{ canEditUser && createInterpolateElement(
 											sprintf(
-											// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
-											// %3$s and %4$s are replaced by opening and closing <a> tags.
-											// %5$s is replaced by the selected user display name.
+												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+												// %3$s and %4$s are replaced by opening and closing <a> tags.
+												// %5$s is replaced by the selected user display name.
 												__( "You have selected the user %1$s%5$s%2$s as the person this site represents. Their user profile information will now be used in search results. %3$sUpdate their profile to make sure the information is correct%4$s.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
@@ -322,12 +315,15 @@ const SiteRepresentation = () => {
 											), {
 												strong: <strong className="yst-font-medium" />,
 												// eslint-disable-next-line jsx-a11y/anchor-has-content
-												a: <a id="link-person-user-profile" href={ `${ editUserUrl }?user_id=${ personUser?.id }` } target="_blank" rel="noopener noreferrer" />,
+												a: <a
+													id="link-person-user-profile" href={ `${ editUserUrl }?user_id=${ personUser?.id }` }
+													target="_blank" rel="noopener noreferrer"
+												/>,
 											} ) }
 										{ ! canEditUser && createInterpolateElement(
 											sprintf(
-											// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
-											// %3$s is replaced by the selected user display name.
+												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+												// %3$s is replaced by the selected user display name.
 												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
@@ -344,9 +340,9 @@ const SiteRepresentation = () => {
 									variant="square"
 									previewLabel={ createInterpolateElement(
 										sprintf(
-										// translators: %1$s expands to an opening strong tag.
-										// %2$s expands to a closing strong tag.
-										// %3$s expands to the recommended image size.
+											// translators: %1$s expands to an opening strong tag.
+											// %2$s expands to a closing strong tag.
+											// %3$s expands to the recommended image size.
 											__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 											"<strong>",
 											"</strong>",
