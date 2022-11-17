@@ -11,7 +11,10 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
+import { withDisabledMessageSupport } from "../hocs";
 import { useSelectSettings } from "../hooks";
+
+const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
 
 /**
  * @returns {JSX.Element} The site defaults route.
@@ -210,7 +213,7 @@ const SiteBasics = () => {
 							) }
 						/>
 						<FormikValueChangeField
-							as={ ToggleField }
+							as={ ToggleFieldWithDisabledMessageSupport }
 							type="checkbox"
 							name="wpseo.tracking"
 							data-id="input-wpseo-tracking"
