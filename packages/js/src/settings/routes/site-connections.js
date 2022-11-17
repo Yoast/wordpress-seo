@@ -51,11 +51,7 @@ const SiteConnections = () => {
 									"<a>",
 									"</a>"
 								),
-<<<<<<< HEAD
-								"https://ziyuan.baidu.com/site/siteadd",
-=======
 								"https://ziyuan.baidu.com/site",
->>>>>>> origin/trunk
 								"link-baidu-webmaster-tools"
 							) }
 							placeholder={ __( "Add verification code", "wordpress-seo" ) }

@@ -501,13 +501,6 @@ const SiteFeatures = () => {
 								</Card.Footer>
 							</Card>
 							<Card id="card-wpseo-enable_index_now">
-<<<<<<< HEAD
-								<Card.Header>
-									<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-										{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
-									</div>
-								</Card.Header>
-=======
 								<CardHeader
 									src={ indexNowImage }
 									alt={ __( "IndexNow", "wordpress-seo" ) }
@@ -516,7 +509,6 @@ const SiteFeatures = () => {
 										{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
 									</div>
 								</CardHeader>
->>>>>>> origin/trunk
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
 										{ __( "IndexNow", "wordpress-seo" ) }

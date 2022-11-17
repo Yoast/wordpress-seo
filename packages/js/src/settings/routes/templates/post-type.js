@@ -51,7 +51,6 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 
 	const labelLower = useMemo( () => toLower( label ), [ label ] );
 	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
-
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
