@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fbf8c6bbee880bf6156f98b25347bbe",
+    "content-hash": "1c8dd773aa8b21aeac290e909ed29f8c",
     "packages": [
         {
             "name": "composer/installers",
@@ -4427,16 +4427,16 @@
         },
         {
             "name": "yoast/phpunit-polyfills",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/PHPUnit-Polyfills.git",
-                "reference": "5ea3536428944955f969bc764bbe09738e151ada"
+                "reference": "3c621ff5429d2b1ff96dc5808ad6cde99d31ea4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/PHPUnit-Polyfills/zipball/5ea3536428944955f969bc764bbe09738e151ada",
-                "reference": "5ea3536428944955f969bc764bbe09738e151ada",
+                "url": "https://api.github.com/repos/Yoast/PHPUnit-Polyfills/zipball/3c621ff5429d2b1ff96dc5808ad6cde99d31ea4c",
+                "reference": "3c621ff5429d2b1ff96dc5808ad6cde99d31ea4c",
                 "shasum": ""
             },
             "require": {
@@ -4444,7 +4444,7 @@
                 "phpunit/phpunit": "^4.8.36 || ^5.7.21 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
             "require-dev": {
-                "yoast/yoastcs": "^2.2.0"
+                "yoast/yoastcs": "^2.2.1"
             },
             "type": "library",
             "extra": {
@@ -4484,29 +4484,29 @@
                 "issues": "https://github.com/Yoast/PHPUnit-Polyfills/issues",
                 "source": "https://github.com/Yoast/PHPUnit-Polyfills"
             },
-            "time": "2021-11-23T01:37:03+00:00"
+            "time": "2022-11-16T09:07:52+00:00"
         },
         {
             "name": "yoast/wp-test-utils",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/wp-test-utils.git",
-                "reference": "21df3a08974ee62f489f64e34be7f26a32ec872c"
+                "reference": "f955f6a6bd8c625f3ae47b2c19fff1caa648896a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/wp-test-utils/zipball/21df3a08974ee62f489f64e34be7f26a32ec872c",
-                "reference": "21df3a08974ee62f489f64e34be7f26a32ec872c",
+                "url": "https://api.github.com/repos/Yoast/wp-test-utils/zipball/f955f6a6bd8c625f3ae47b2c19fff1caa648896a",
+                "reference": "f955f6a6bd8c625f3ae47b2c19fff1caa648896a",
                 "shasum": ""
             },
             "require": {
-                "brain/monkey": "^2.6.0",
+                "brain/monkey": "^2.6.1",
                 "php": ">=5.6",
-                "yoast/phpunit-polyfills": "^1.0.1"
+                "yoast/phpunit-polyfills": "^1.0.4"
             },
             "require-dev": {
-                "yoast/yoastcs": "^2.2.0"
+                "yoast/yoastcs": "^2.2.1"
             },
             "type": "library",
             "extra": {
@@ -4545,6 +4545,7 @@
                 "brainmonkey",
                 "integration-testing",
                 "phpunit",
+                "testing",
                 "unit-testing",
                 "wordpress"
             ],
@@ -4552,7 +4553,7 @@
                 "issues": "https://github.com/Yoast/wp-test-utils/issues",
                 "source": "https://github.com/Yoast/wp-test-utils"
             },
-            "time": "2021-09-27T05:50:36+00:00"
+            "time": "2022-11-17T14:06:19+00:00"
         },
         {
             "name": "yoast/yoastcs",
