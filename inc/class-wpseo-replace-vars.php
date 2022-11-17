@@ -406,7 +406,7 @@ class WPSEO_Replace_Vars {
 				$content = strip_shortcodes( $this->args->post_content );
 				$content = wp_strip_all_tags( $content );
 
-				if ( strlen( utf8_decode( $content ) ) <= $limit ) {
+				if ( mb_strlen( $content ) <= $limit ) {
 					return $content;
 				}
 
