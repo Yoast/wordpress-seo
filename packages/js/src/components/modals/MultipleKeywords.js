@@ -67,6 +67,8 @@ const MultipleKeywords = ( props ) => {
 				rel: null,
 			} }
 			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
+			upsellButtonCtbId={ "57d6a568-783c-45e2-a388-847cff155897" }
+			upsellButtonAction={ "load-nfd-ctb" }
 		/>
 	);
 };

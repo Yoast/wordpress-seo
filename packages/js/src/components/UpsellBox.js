@@ -101,6 +101,8 @@ class UpsellBox extends Component {
 				{ this.createBenefitsList( this.props.benefits ) }
 				<UpsellButton
 					{ ...this.props.upsellButton }
+					data-ctb-id={ this.props.upsellButtonCtbId }
+					data-action={ this.props.upsellButtonAction }
 				>
 					{ this.props.upsellButtonText }
 					{ this.props.upsellButtonHasCaret && <span aria-hidden="true" className="yoast-button-upsell__caret" /> }
@@ -117,6 +119,8 @@ UpsellBox.propTypes = {
 	benefits: PropTypes.array,
 	infoParagraphs: PropTypes.array,
 	upsellButton: PropTypes.object,
+	upsellButtonAction: PropTypes.string,
+	upsellButtonCtbId: PropTypes.object,
 	upsellButtonText: PropTypes.string.isRequired,
 	upsellButtonLabel: PropTypes.string,
 	upsellButtonHasCaret: PropTypes.bool,
@@ -130,6 +134,8 @@ UpsellBox.defaultProps = {
 		className: "button button-primary",
 	},
 	upsellButtonLabel: "",
+	upsellButtonAction: "",
+	upsellButtonCtbId: "",
 	upsellButtonHasCaret: true,
 };
 
