@@ -1,4 +1,4 @@
-import { includes } from "lodash-es";
+import { includes, isNull } from "lodash-es";
 
 import { irregularParticiples } from  "../../../../languageProcessing/languages/en/config/internal/passiveVoiceIrregulars";
 
@@ -15,12 +15,14 @@ console.log( regularParticiplesRegex, "THEREGEX" );
  * @returns {boolean} True if the words is a participle, false otherwise.
  */
 function isParticiple( word ) {
-	if ( word.match( regularParticiplesRegex )[ 0 ].length > 0 || includes( irregularParticiples, word ) ) {
+	console.log( "xxxxxxxxx", word, word.match( regularParticiplesRegex ) );
+	if ( word.match( regularParticiplesRegex ) || includes( irregularParticiples, word ) ) {
 		console.log( "MATCH isparticiple1" );
 	}
 	console.log( "isparticiple, regex", regularParticiplesRegex );
-	console.log( word.match( regularParticiplesRegex )[ 0 ] === word || includes( irregularParticiples, word ), word, "isparticiple2" );
-	return  word.match( regularParticiplesRegex )[ 0 ] === word || includes( irregularParticiples, word );
+	console.log( word.match( regularParticiplesRegex ) || includes( irregularParticiples, word ), word, "isparticiple2" );
+	const participleMatch = word.match( regularParticiplesRegex );
+	return ( ! isNull( participleMatch ) && participleMatch[ 0 ] === word ) || includes( irregularParticiples, word );
 	// return matchRegularParticiples( word, participleRegex ).length !== 0 || includes( irregularParticiples, word );
 }
 
@@ -32,13 +34,16 @@ function isParticiple( word ) {
  * @returns {function} a callback function that checks if the word after a non inclusive phrase is a participle.
  */
 export function isFollowedByParticiple( words, nonInclusivePhrase ) {
+	console.log( "haaaaaa" );
 	return index => {
+		console.log( "hiiiiiiiii" );
 		const followingWordIndex = index + nonInclusivePhrase.length;
 		if ( followingWordIndex < words.length ) {
 			const followingWord = words[ followingWordIndex ];
-
+			console.log( "qqqqqqqqqq", followingWord );
 			return isParticiple( followingWord );
 		}
+		console.log( "rrrrrrrrr" );
 		return false;
 	};
 }
@@ -51,5 +56,6 @@ export function isFollowedByParticiple( words, nonInclusivePhrase ) {
  * @returns {function} a callback function that checks if the word after a non inclusive phrase is a participle.
  */
 export function isNotFollowedByParticiple( words, nonInclusivePhrase ) {
+	console.log( "hoooooo" );
 	return index => ! isFollowedByParticiple( words, nonInclusivePhrase )( index );
 }
