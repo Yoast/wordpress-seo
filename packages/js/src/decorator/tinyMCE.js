@@ -31,16 +31,25 @@ function removeInvalidMarks( editor ) {
  * @returns {void}
  */
 function markTinyMCE( editor, paper, marks ) {
-	var dom = editor.dom;
-	var html = editor.getContent();
+	const dom = editor.dom;
+	let html = editor.getContent();
 	html = markers.removeMarks( html );
+
+	const { fieldsToMark, selectedHTML } = languageProcessing.getFieldsToMark( marks, html );
 
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {
 		mark._properties.marked = languageProcessing.replaceSingleQuotesInTags( mark._properties.marked );
 		mark._properties.original = languageProcessing.replaceSingleQuotesInTags( mark._properties.original );
 
-		html = mark.applyWithReplace( html );
+		if ( fieldsToMark.length > 0 ) {
+			selectedHTML.forEach( element => {
+				const markedElement = mark.applyWithReplace( element );
+				html = html.replace( element, markedElement );
+			} );
+		} else {
+			html = mark.applyWithReplace( html );
+		}
 	} );
 
 	// Replace the contents in the editor with the marked HTML.
@@ -48,7 +57,7 @@ function markTinyMCE( editor, paper, marks ) {
 
 	removeInvalidMarks( editor );
 
-	var markElements = dom.select( MARK_TAG );
+	const markElements = dom.select( MARK_TAG );
 	/*
 	 * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
 	 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.

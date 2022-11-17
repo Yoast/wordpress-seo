@@ -30,6 +30,7 @@ import replaceSingleQuotesInTags from "./helpers/html/replaceQuotes";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
+import { getFieldsToMark } from "./helpers/html/getFieldsToMark";
 
 export {
 	AbstractResearcher,
@@ -63,6 +64,7 @@ export {
 	removePunctuation,
 	getLanguage,
 	getSentences,
+	getFieldsToMark,
 	unifyAllSpaces,
 	replaceSingleQuotesInTags,
 };

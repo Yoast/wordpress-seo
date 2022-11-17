@@ -118,7 +118,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @return Closure[] The cleanup tasks.
 	 */
-	protected function get_cleanup_tasks() {
+	public function get_cleanup_tasks() {
 		return \array_merge(
 			[
 				'clean_indexables_with_object_type_and_object_sub_type_shop_order' => function( $limit ) {
