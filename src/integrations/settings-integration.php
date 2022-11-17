@@ -74,6 +74,18 @@ class Settings_Integration implements Integration_Interface {
 	];
 
 	/**
+	 * Holds the disabled on multisite settings, per option group.
+	 *
+	 * @var array
+	 */
+	const DISABLED_ON_MULTISITE_SETTINGS = [
+		'wpseo' => [
+			'deny_search_crawling',
+			'deny_wp_json_crawling',
+		],
+	];
+
+	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
@@ -527,7 +539,16 @@ class Settings_Integration implements Integration_Interface {
 			}
 			foreach ( $settings[ $option_name ] as $setting_name => $setting_value ) {
 				if ( $option_instance->is_disabled( $setting_name ) ) {
-					$disabled_settings[ $option_name ][ $setting_name ] = true;
+					$disabled_settings[ $option_name ][ $setting_name ] = 'network';
+				}
+			}
+		}
+
+		// Remove disabled on multisite settings.
+		foreach ( self::DISABLED_ON_MULTISITE_SETTINGS as $option_name => $disabled_ms_settings ) {
+			if ( \array_key_exists( $option_name, $disabled_settings ) ) {
+				foreach ( $disabled_ms_settings as $disabled_ms_setting ) {
+					$disabled_settings[ $option_name ][ $disabled_ms_setting ] = 'multisite';
 				}
 			}
 		}

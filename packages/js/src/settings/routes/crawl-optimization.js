@@ -5,12 +5,12 @@ import { Alert, Button, Code, FeatureUpsell, TextField, ToggleField, useSvgAria 
 import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
-import { withFormikDummyField } from "../hocs";
+import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikFieldWithDummy = withFormikDummyField( Field );
 const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
-const FormikValueChangeFieldWithDummy = withFormikDummyField( FormikValueChangeField );
+const FormikValueChangeFieldWithDummy = withFormikDummyField( withDisabledMessageSupport( FormikValueChangeField ) );
 
 /**
  * @returns {JSX.Element} The crawl optimization route.
