@@ -1,4 +1,3 @@
-import { Transition } from "@headlessui/react";
 import {
 	AdjustmentsIcon,
 	ArrowNarrowRightIcon,
@@ -8,9 +7,9 @@ import {
 	DesktopComputerIcon,
 	NewspaperIcon,
 } from "@heroicons/react/outline";
-import { Fragment, useCallback, useEffect, useMemo } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, usePrevious, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -205,37 +204,6 @@ const PremiumUpsellList = () => {
 };
 
 /**
- * @returns {JSX.Element} The Route Transition Effect.
- */
-const RouteTransitionEffect = () => {
-	const { pathname } = useLocation();
-	const previousPathname = usePrevious( pathname );
-	const [ hasRouteChanged, , , setHasRouteChangedTrue, setHasRouteChangedFalse ] = useToggleState( false );
-
-	useEffect( () => {
-		if ( pathname !== previousPathname ) {
-			setHasRouteChangedTrue();
-		}
-	}, [ pathname, previousPathname, setHasRouteChangedTrue ] );
-
-	return (
-		<Transition
-			as={ Fragment }
-			show={ hasRouteChanged }
-			afterEnter={ setHasRouteChangedFalse }
-			enter="yst-transition-opacity yst-duration-150"
-			enterFrom="yst-opacity-0"
-			enterTo="yst-opacity-50"
-			leave="yst-transition-opacity yst-duration-150"
-			leaveFrom="yst-opacity-50"
-			leaveTo="yst-opacity-0"
-		>
-			<div className="yst-absolute yst-inset-0 yst-bg-white yst-select-none yst-rounded-lg" />
-		</Transition>
-	);
-};
-
-/**
  * @returns {JSX.Element} The app component.
  */
 const App = () => {
@@ -306,7 +274,6 @@ const App = () => {
 										</Route>
 										<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
 									</Routes>
-									<RouteTransitionEffect />
 								</ErrorBoundary>
 							</main>
 							{ ! isPremium && <PremiumUpsellList /> }
