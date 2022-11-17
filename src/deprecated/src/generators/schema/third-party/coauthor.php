@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Generators\Schema\Author;
  * Returns schema Author data for the CoAuthor Plus assigned user on a post.
  *
  * @deprecated 19.12
+ * @codeCoverageIgnore
  */
 class CoAuthor extends Author {
 
