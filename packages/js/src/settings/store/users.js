@@ -41,7 +41,8 @@ export const createInitialUsersState = () => usersAdapter.getInitialState( {
  */
 const prepareUser = user => ( {
 	id: user?.id,
-	name: trim( user?.name ) || user?.slug,
+	// Fallbacks for user name, because we always need something to show.
+	name: trim( user?.name ) || user?.slug || user?.id,
 	slug: user?.slug,
 } );
 
