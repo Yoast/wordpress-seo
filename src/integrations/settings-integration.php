@@ -46,8 +46,6 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Holds the disallowed settings, per option group.
 	 *
-	 * Note: these are the settings that hold Objects.
-	 *
 	 * @var array
 	 */
 	const DISALLOWED_SETTINGS = [
