@@ -17,12 +17,16 @@ describe('Search test', () => {
 
     it('Should not search under 3 characters', async () => {
         wrapper.find('#input-search').at(0).simulate('change', { target: {value: 'se' } });
-        expect(wrapper.find('#error-message').text()).toContain("Please enter a search term that is longer than 3 characters.");
+        expect(wrapper.find('SearchNoResultsContent').find('p').text()).toContain("Please enter a search term that is longer than 3 characters.");
     });
 
     it('Results not found', async () => {
         wrapper.find('#input-search').at(0).simulate('change', { target: {value: 'random' } });
-        expect(wrapper.find('#error-message').text()).toContain("We couldn’t find anything with that term.");
+        expect(wrapper.find('SearchNoResultsContent').find('p').text()).toContain("We couldn’t find anything with that term.");
+    });
+
+    it('should match search snapshot', () => {
+        expect(wrapper.debug()).toMatchSnapshot();
     });
 
 });
