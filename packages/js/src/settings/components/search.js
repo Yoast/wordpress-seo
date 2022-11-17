@@ -1,5 +1,6 @@
 /* eslint-disable complexity */
 import { SearchIcon } from "@heroicons/react/outline";
+import PropTypes from "prop-types";
 import { useCallback, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Modal, useSvgAria, useToggleState, TextInput, Title } from "@yoast/ui-library";
@@ -8,6 +9,23 @@ import { Link } from "react-router-dom";
 import { useSelectSettings } from "../hooks";
 
 const QUERY_MIN_CHARS = 3;
+
+/**
+ * @param {string} props.title The title.
+ * @param {JSX.node} props.children The children nodes.
+ * @returns {JSX.Element} The SearchNoResultsContent component.
+ */
+const SearchNoResultsContent = ( { title, children } ) => (
+	<div className="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm">
+		<span className="yst-block yst-font-semibold yst-text-slate-900">{ title }</span>
+		{ children }
+	</div>
+);
+
+SearchNoResultsContent.propTypes = {
+	title: PropTypes.node.isRequired,
+	children: PropTypes.node.isRequired,
+};
 
 /**
  * @returns {JSX.Element} The element.
@@ -135,16 +153,14 @@ const Search = () => {
 					</ul>
 				) }
 				{ query.length < QUERY_MIN_CHARS && (
-					<div className="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm">
-						<p className="yst-font-semibold yst-text-slate-900">{ __( "Search", "wordpress-seo" ) }</p>
+					<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
 						<p className="yst-text-slate-500">{ __( "Please enter a search term that is longer than 3 characters.", "wordpress-seo" ) }</p>
-					</div>
+					</SearchNoResultsContent>
 				) }
 				{ query.length >= QUERY_MIN_CHARS && isEmpty( results ) && (
-					<div className="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm">
-						<p className="yst-font-semibold yst-text-slate-900">{ __( "No results found", "wordpress-seo" ) }</p>
+					<SearchNoResultsContent title={ __( "No results found", "wordpress-seo" ) }>
 						<p className="yst-text-slate-500">{ __( "We couldn’t find anything with that term.", "wordpress-seo" ) }</p>
-					</div>
+					</SearchNoResultsContent>
 				) }
 			</div>
 		</Modal>
