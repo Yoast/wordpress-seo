@@ -493,9 +493,7 @@ class Settings_Integration implements Integration_Interface {
 		/**
 		 * Decode some WP options.
 		 */
-
 		$settings['blogname']        = \html_entity_decode(
-
 			$settings['blogname'],
 			( \ENT_NOQUOTES | \ENT_HTML5 ),
 			'UTF-8'

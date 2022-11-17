@@ -49,13 +49,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
 
-<<<<<<< HEAD
-	const labelLower = useMemo( () => toLower( label ), [] );
-	const singularLabelLower = useMemo( () => toLower( singularLabel ), [] );
-=======
 	const labelLower = useMemo( () => toLower( label ), [ label ] );
 	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
->>>>>>> origin/trunk
+
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -121,11 +117,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		),
 		schemaLink,
 		"link-post-type-schema"
-<<<<<<< HEAD
-	) );
-=======
 	), [ labelLower, schemaLink ] );
->>>>>>> origin/trunk
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
@@ -145,13 +137,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-<<<<<<< HEAD
-						// eslint-disable-next-line max-len
-						// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
-=======
 							// eslint-disable-next-line max-len
 							// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
->>>>>>> origin/trunk
 							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s sidebar.", "wordpress-seo" ),
 							labelLower,
 							"Yoast SEO"
@@ -161,21 +148,13 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							name={ `wpseo_titles.noindex-${ name }` }
 							data-id={ `input-wpseo_titles-noindex-${ name }` }
 							label={ sprintf(
-<<<<<<< HEAD
-							// translators: %1$s expands to the post type plural, e.g. posts.
-=======
 								// translators: %1$s expands to the post type plural, e.g. posts.
->>>>>>> origin/trunk
 								__( "Show %1$s in search results", "wordpress-seo" ),
 								labelLower
 							) }
 							description={ <>
 								{ sprintf(
-<<<<<<< HEAD
-								// translators: %1$s expands to the post type plural, e.g. posts.
-=======
 									// translators: %1$s expands to the post type plural, e.g. posts.
->>>>>>> origin/trunk
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
