@@ -122,7 +122,7 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 							) : null;
 						} ) }
 						{ canCreateUsers && (
-							<li className="yst-sticky yst-inset-0 yst--bottom-[1px] yst-group">
+							<li className="yst-sticky yst-inset-x-0 yst-bottom-0 yst-group">
 								<a
 									id={ `link-create_user-${ id }` }
 									href={ createUserUrl }
