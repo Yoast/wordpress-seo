@@ -56,7 +56,10 @@ const AnalysisUpsell = ( props ) => {
 				) }
 			</TextContainer>
 			<div>
-				<OutboundLinkButton href={ url } className={ "UpsellLinkButton" }>
+				<OutboundLinkButton href={ url } className={ "UpsellLinkButton" }
+				                    data-action="load-nfd-ctb"
+				                    data-ctb-id="57d6a568-783c-45e2-a388-847cff155897"
+				>
 					{ sprintf(
 						/* translators: %s expands to Premium */
 						__( "Go %s!", "wordpress-seo" ),
