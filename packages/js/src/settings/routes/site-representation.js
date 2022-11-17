@@ -21,7 +21,6 @@ const PersonSocialProfiles = () => {
 	const { values, status, setStatus, setFieldValue } = useFormikContext();
 	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
 	const previousUserId = usePrevious( companyOrPersonId );
-	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
 	const socialProfileFieldLabels = useMemo( () => ( {
 		facebook: __( "Facebook URL", "wordpress-seo" ),
@@ -65,20 +64,6 @@ const PersonSocialProfiles = () => {
 			title={ __( "Other profiles", "wordpress-seo" ) }
 			description={ __( "Tell us about the other profiles on the web that belong to the person.", "wordpress-seo" ) }
 		>
-			{ ! canEditUser && <Alert variant="info">
-				{ ! isEmpty( personUser ) && createInterpolateElement(
-					sprintf(
-						// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
-						// %3$s is replaced by the selected user display name.
-						__( "We're sorry, you're not allowed to edit the other profiles of %1$s%3$s%2$s.", "wordpress-seo" ),
-						"<strong>",
-						"</strong>",
-						personUser?.name
-					), {
-						strong: <strong className="yst-font-medium" />,
-					} ) }
-				{ isEmpty( personUser ) && __( "We're sorry, you're not allowed to edit the other profiles of the selected user.", "wordpress-seo" ) }
-			</Alert> }
 			{ map( personSocialProfiles, socialProfile => (
 				<FormikWithErrorField
 					key={ socialProfile }
@@ -324,7 +309,7 @@ const SiteRepresentation = () => {
 											sprintf(
 												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
 												// %3$s is replaced by the selected user display name.
-												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile.", "wordpress-seo" ),
+												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the information below.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
 												personUser?.name
