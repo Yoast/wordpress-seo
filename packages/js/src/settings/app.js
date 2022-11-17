@@ -1,3 +1,4 @@
+import { Transition } from "@headlessui/react";
 import {
 	AdjustmentsIcon,
 	ArrowNarrowRightIcon,
@@ -240,40 +241,49 @@ const App = () => {
 						<div className="yst-grow yst-space-y-6 yst-mb-6 xl:yst-mb-0">
 							<main className="yst-relative yst-rounded-lg yst-bg-white yst-shadow">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
-									<Routes>
-										<Route path="author-archives" element={ <AuthorArchives /> } />
-										<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
-										<Route path="crawl-optimization" element={ <CrawlSettings /> } />
-										<Route path="date-archives" element={ <DateArchives /> } />
-										<Route path="homepage" element={ <Homepage /> } />
-										<Route path="format-archives" element={ <FormatArchives /> } />
-										<Route path="media" element={ <Media /> } />
-										<Route path="rss" element={ <Rss /> } />
-										<Route path="site-basics" element={ <SiteBasics /> } />
-										<Route path="site-connections" element={ <SiteConnections /> } />
-										<Route path="site-representation" element={ <SiteRepresentation /> } />
-										<Route path="site-features" element={ <SiteFeatures /> } />
-										<Route path="special-pages" element={ <SpecialPages /> } />
-										<Route path="post-type">
-											{ map( postTypes, postType => (
-												<Route
-													key={ `route-post-type-${ postType.name }` }
-													path={ postType.route }
-													element={ <PostType { ...postType } /> }
-												/>
-											) ) }
-										</Route>
-										<Route path="taxonomy">
-											{ map( taxonomies, taxonomy => (
-												<Route
-													key={ `route-taxonomy-${ taxonomy.name }` }
-													path={ taxonomy.route }
-													element={ <Taxonomy { ...taxonomy } /> }
-												/>
-											) ) }
-										</Route>
-										<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
-									</Routes>
+									<Transition
+										key={ pathname }
+										appear={ true }
+										show={ true }
+										enter="yst-transition-opacity yst-delay-100 yst-duration-300"
+										enterFrom="yst-opacity-0"
+										enterTo="yst-opacity-100"
+									>
+										<Routes>
+											<Route path="author-archives" element={ <AuthorArchives /> } />
+											<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
+											<Route path="crawl-optimization" element={ <CrawlSettings /> } />
+											<Route path="date-archives" element={ <DateArchives /> } />
+											<Route path="homepage" element={ <Homepage /> } />
+											<Route path="format-archives" element={ <FormatArchives /> } />
+											<Route path="media" element={ <Media /> } />
+											<Route path="rss" element={ <Rss /> } />
+											<Route path="site-basics" element={ <SiteBasics /> } />
+											<Route path="site-connections" element={ <SiteConnections /> } />
+											<Route path="site-representation" element={ <SiteRepresentation /> } />
+											<Route path="site-features" element={ <SiteFeatures /> } />
+											<Route path="special-pages" element={ <SpecialPages /> } />
+											<Route path="post-type">
+												{ map( postTypes, postType => (
+													<Route
+														key={ `route-post-type-${ postType.name }` }
+														path={ postType.route }
+														element={ <PostType { ...postType } /> }
+													/>
+												) ) }
+											</Route>
+											<Route path="taxonomy">
+												{ map( taxonomies, taxonomy => (
+													<Route
+														key={ `route-taxonomy-${ taxonomy.name }` }
+														path={ taxonomy.route }
+														element={ <Taxonomy { ...taxonomy } /> }
+													/>
+												) ) }
+											</Route>
+											<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
+										</Routes>
+									</Transition>
 								</ErrorBoundary>
 							</main>
 							{ ! isPremium && <PremiumUpsellList /> }
