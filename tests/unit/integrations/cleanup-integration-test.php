@@ -6,6 +6,9 @@ use Brain\Monkey;
 use Mockery;
 use wpdb;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -26,6 +29,27 @@ class Cleanup_Integration_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * A helper for taxonomies.
+	 *
+	 * @var Mockery\MockInterface|Taxonomy_Helper
+	 */
+	private $taxonomy;
+
+	/**
+	 * A helper for post types.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	private $post_type;
+
+	/**
+	 * A helper for author archives.
+	 *
+	 * @var Mockery\MockInterface|Author_Archive_Helper
+	 */
+	private $author_archive;
+
+	/**
 	 * The WPDB mock.
 	 *
 	 * @var Mockery\MockInterface|wpdb
@@ -38,7 +62,15 @@ class Cleanup_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Cleanup_Integration();
+		$this->taxonomy       = Mockery::mock( Taxonomy_Helper::class );
+		$this->post_type      = Mockery::mock( Post_Type_Helper::class );
+		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
+
+		$this->instance = new Cleanup_Integration(
+			$this->taxonomy,
+			$this->post_type,
+			$this->author_archive
+		);
 
 		global $wpdb;
 
@@ -55,7 +87,6 @@ class Cleanup_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_start_cleanup_indexables', [ $this->instance, 'run_cleanup' ] ), 'Does not have expected wpseo_cleanup filter' );
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_cron', [ $this->instance, 'run_cleanup_cron' ] ), 'Does not have expected run_cleanup_cron filter' );
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_deactivate', [ $this->instance, 'reset_cleanup' ] ), 'Does not have expected reset_cleanup filter' );
@@ -100,6 +131,18 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of indexables with post_status auto-draft */
 		$this->setup_clean_indexables_with_post_status_mocks( 50, 'auto-draft', $query_limit );
+
+		/* Clean up of indexables where post type is not publicly viewable */
+		$this->setup_clean_indexables_for_non_publicly_viewable_post( 50, $query_limit );
+
+		/* Clean up of indexables where taxonomy is not publicly viewable */
+		$this->setup_clean_indexables_for_non_publicly_viewable_taxonomies( 50, $query_limit );
+
+		/* Clean up of indexables that belong to users while the author archives are disabled */
+		$this->setup_clean_indexables_for_authors_archive_disabled( 50, $query_limit );
+
+		/* Clean up of indexables of users without an author archive */
+		$this->setup_clean_indexables_for_authors_without_archive( 50, $query_limit );
 
 		/* Clean up of indexable hierarchy for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'Indexable_Hierarchy', 'indexable_id', $query_limit );
@@ -450,5 +493,124 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->with( "DELETE FROM {$table} WHERE {$column} IN( " . \implode( ',', $ids ) . ' )' )
 			->andReturn( 50 );
+	}
+
+	/**
+	 * Sets up expectations for the clean_indexables_for_non_publicly_viewable_post cleanup task.
+	 *
+	 * @param int $return_value The number of deleted items to return.
+	 * @param int $limit        The query limit.
+	 *
+	 * @return void
+	 */
+	private function setup_clean_indexables_for_non_publicly_viewable_post( $return_value, $limit ) {
+		$this->post_type->expects( 'get_indexable_post_types' )->once()->andReturns( [ 'my_cpt', 'post', 'attachment' ] );
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				'DELETE FROM wp_yoast_indexable
+				WHERE object_type = \'post\'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( %s, %s, %s )
+				LIMIT %d',
+				[ 'my_cpt', 'post', 'attachment', $limit ]
+			)
+			->andReturn( 'prepared_clean_query' );
+
+		$this->wpdb->expects( 'query' )
+			->once()
+			->with( 'prepared_clean_query' )
+			->andReturn( $return_value );
+	}
+
+	/**
+	 * Sets up expectations for the clean_indexables_for_non_publicly_viewable_taxonomies cleanup task.
+	 *
+	 * @param int $return_value The number of deleted items to return.
+	 * @param int $limit        The query limit.
+	 *
+	 * @return void
+	 */
+	private function setup_clean_indexables_for_non_publicly_viewable_taxonomies( $return_value, $limit ) {
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturns( [ 'category', 'post_tag', 'my_custom_tax' ] );
+
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				'DELETE FROM wp_yoast_indexable
+				WHERE object_type = \'term\'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( %s, %s, %s )
+				LIMIT %d',
+				[ 'category', 'post_tag', 'my_custom_tax', $limit ]
+			)
+			->andReturn( 'prepared_clean_query' );
+
+		$this->wpdb->expects( 'query' )
+			->once()
+			->with( 'prepared_clean_query' )
+			->andReturn( $return_value );
+	}
+
+	/**
+	 * Sets up expectations for the clean_indexables_for_authors_archive_disabled cleanup task.
+	 *
+	 * @param int $return_value The number of deleted items to return.
+	 * @param int $limit        The query limit.
+	 *
+	 * @return void
+	 */
+	private function setup_clean_indexables_for_authors_archive_disabled( $return_value, $limit ) {
+		$this->author_archive->expects( 'are_disabled' )->once()->andReturnTrue();
+
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with( 'DELETE FROM wp_yoast_indexable WHERE object_type = \'user\' LIMIT %d', $limit )
+			->andReturn( 'prepared_clean_query' );
+
+		$this->wpdb->expects( 'query' )
+			->once()
+			->with( 'prepared_clean_query' )
+			->andReturn( $return_value );
+	}
+
+	/**
+	 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
+	 *
+	 * @param int $return_value The number of deleted items to return.
+	 * @param int $limit        The query limit.
+	 *
+	 * @return void
+	 */
+	private function setup_clean_indexables_for_authors_without_archive( $return_value, $limit ) {
+		$this->author_archive->expects( 'get_author_archive_post_types' )->once()->andReturns( [ 'post' ] );
+
+		Monkey\Functions\expect( 'get_post_stati' )->once()->andReturns( [ 'publish', 'draft' ] );
+		Monkey\Functions\expect( 'is_post_status_viewable' )->twice()->andReturnUsing(
+			static function ( $value ) {
+				return $value === 'publish';
+			}
+		);
+		$this->wpdb->posts = 'wp_posts';
+
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				'DELETE FROM wp_yoast_indexable
+				WHERE object_type = \'user\'
+				AND object_id NOT IN (
+					SELECT DISTINCT post_author
+					FROM wp_posts
+					WHERE post_type IN ( %s )
+					AND post_status IN ( %s )
+				) LIMIT %d',
+				[ 'post', 'publish', $limit ]
+			)
+			->andReturn( 'prepared_clean_query' );
+
+		$this->wpdb->expects( 'query' )
+			->once()
+			->with( 'prepared_clean_query' )
+			->andReturn( $return_value );
 	}
 }

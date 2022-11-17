@@ -140,4 +140,17 @@ class Post_Type_Helper {
 
 		return ( ! empty( $post_type->has_archive ) );
 	}
+
+	/**
+	 * Returns the post types that should be indexed.
+	 *
+	 * @return array The post types that should be indexed.
+	 */
+	public function get_indexable_post_types() {
+		$public_post_types   = $this->get_public_post_types();
+		$excluded_post_types = $this->get_excluded_post_types_for_indexables();
+
+		// `array_values`, to make sure that the keys are reset.
+		return \array_values( \array_diff( $public_post_types, $excluded_post_types ) );
+	}
 }

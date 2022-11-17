@@ -188,7 +188,6 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		$collector->add_collection( new WPSEO_Tracking_Theme_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Plugin_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
-		$collector->add_collection( new WPSEO_Tracking_Addon_Data() );
 
 		return $collector;
 	}
@@ -222,7 +221,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
-		if ( wp_get_environment_type() !== 'production' ) {
+		if ( ! YoastSEO()->helpers->environment->is_production_mode() ) {
 			return false;
 		}
 

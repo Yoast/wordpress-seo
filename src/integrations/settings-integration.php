@@ -204,8 +204,10 @@ class Settings_Integration implements Integration_Interface {
 
 		// Are we saving the settings?
 		if ( $this->current_page_helper->get_current_admin_page() === 'options.php' ) {
-			$post_action = \filter_input( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING );
-			$option_page = \filter_input( \INPUT_POST, 'option_page', \FILTER_SANITIZE_STRING );
+			// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
+			$post_action = \filter_input( \INPUT_POST, 'action', @\FILTER_SANITIZE_STRING );
+			$option_page = \filter_input( \INPUT_POST, 'option_page', @\FILTER_SANITIZE_STRING );
+			// phpcs:enable
 
 			if ( $post_action === 'update' && $option_page === self::PAGE ) {
 				\add_action( 'admin_init', [ $this, 'register_setting' ] );
@@ -280,9 +282,9 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function add_settings_saved_page( $pages ) {
 		\add_submenu_page(
-			null,
 			'',
-			null,
+			'',
+			'',
 			'wpseo_manage_options',
 			self::PAGE . '_saved',
 			static function () {
@@ -391,10 +393,12 @@ class Settings_Integration implements Integration_Interface {
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
+			'createUserUrl'                 => \admin_url( 'user-new.php' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
+			'canCreateUsers'                => \current_user_can( 'create_users' ),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
@@ -491,7 +495,11 @@ class Settings_Integration implements Integration_Interface {
 		/**
 		 * Decode some WP options.
 		 */
+<<<<<<< HEAD
 		$settings['blogname'] = \html_entity_decode(
+=======
+		$settings['blogname']        = \html_entity_decode(
+>>>>>>> origin/trunk
 			$settings['blogname'],
 			( \ENT_NOQUOTES | \ENT_HTML5 ),
 			'UTF-8'
@@ -690,8 +698,8 @@ class Settings_Integration implements Integration_Interface {
 			$route = $rest_base;
 		}
 		// Always strip leading slashes.
-		while ( substr( $route, 0, 1 ) === '/' ) {
-			$route = substr( $route, 1 );
+		while ( \substr( $route, 0, 1 ) === '/' ) {
+			$route = \substr( $route, 1 );
 		}
 
 		return $route;

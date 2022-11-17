@@ -114,9 +114,10 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( true );
 
 		$this->post_type_helper
-			->expects( 'get_accessible_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
+
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
@@ -169,9 +170,10 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( true );
 
 		$this->post_type_helper
-			->expects( 'get_accessible_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
+
 
 		$expected_query = "SELECT COUNT(P.ID)
 			FROM wp_posts AS P
@@ -228,7 +230,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		];
 
 		$this->post_type_helper
-			->expects( 'get_accessible_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 
@@ -287,7 +289,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
 		$this->post_type_helper
-			->expects( 'get_accessible_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 
@@ -359,7 +361,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
 		$this->post_type_helper
-			->expects( 'get_accessible_post_types' )
+			->expects( 'get_indexable_post_types' )
 			->once()
 			->andReturn( [ 'post', 'page' ] );
 

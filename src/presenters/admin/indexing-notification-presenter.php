@@ -83,6 +83,12 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 			case Indexing_Reasons::REASON_TAG_BASE_PREFIX:
 				$text = \esc_html__( 'Because of a change in your tag base setting, some of your SEO data needs to be reprocessed.', 'wordpress-seo' );
 				break;
+			case Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC:
+				$text = \esc_html__( 'We need to re-analyze some of your SEO data because of a change in the visibility of your post types. Please help us do that by running the SEO data optimization. ', 'wordpress-seo' );
+				break;
+			case Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC:
+				$text = \esc_html__( 'We need to re-analyze some of your SEO data because of a change in the visibility of your taxonomies. Please help us do that by running the SEO data optimization. ', 'wordpress-seo' );
+				break;
 			default:
 				$text = \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );
 		}

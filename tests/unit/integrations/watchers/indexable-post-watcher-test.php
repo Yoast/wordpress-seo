@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -239,6 +240,11 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->once()
 			->with( $indexable_mock, $post_content );
 
+		$this->instance
+			->expects( 'update_has_public_posts' )
+			->with( $indexable_mock )
+			->once();
+
 		$this->instance->build_indexable( $post_id );
 	}
 
@@ -325,6 +331,11 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->once()
 			->andReturn( [ 'publish' ] );
 
+		$this->instance
+			->expects( 'update_has_public_posts' )
+			->with( $indexable_mock )
+			->once();
+
 		$this->instance->build_indexable( $post_id );
 	}
 
@@ -402,6 +413,75 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( 33, null )
 			->andReturnTrue();
 		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
+
+		$this->instance->update_has_public_posts( $post_indexable );
+	}
+
+	/**
+	 * Tests that update_has_public_posts does not update the author archive when
+	 * the author can't be retrieved.
+	 *
+	 * @covers ::update_has_public_posts
+	 */
+	public function test_update_has_public_posts_with_finding_user_returning_false() {
+		$post_indexable                  = Mockery::mock();
+		$post_indexable->object_id       = 33;
+		$post_indexable->object_sub_type = 'post';
+		$post_indexable->author_id       = 1;
+		$post_indexable->is_public       = null;
+
+		$this->repository->expects( 'find_by_id_and_type' )
+			->with( 1, 'user' )
+			->once()
+			->andReturn( false );
+		$this->author_archive->expects( 'author_has_public_posts' )->once()->never();
+		$this->post->expects( 'update_has_public_posts_on_attachments' )
+			->once()
+			->with( 33, null )
+			->andReturnTrue();
+
+		$this->instance->update_has_public_posts( $post_indexable );
+	}
+
+	/**
+	 * Checks whether a cleanup is rescheduled when updating a post
+	 * leads to an author not having any public posts anymore.
+	 *
+	 * (When an author does not have any publicly viewable posts, it should
+	 * be removed from the indexable table).
+	 *
+	 * @covers ::reschedule_cleanup_if_author_has_no_posts
+	 */
+	public function test_reschedule_cleanup_when_author_does_not_have_posts() {
+		$post_indexable                  = Mockery::mock();
+		$post_indexable->object_id       = 33;
+		$post_indexable->object_sub_type = 'post';
+		$post_indexable->author_id       = 11;
+		$post_indexable->is_public       = false;
+
+		$author_indexable            = Mockery::mock( Indexable_Mock::class );
+		$author_indexable->object_id = 11;
+
+		$author_indexable->expects( 'save' );
+
+		$this->repository->expects( 'find_by_id_and_type' )
+			->with( 11, 'user' )
+			->once()
+			->andReturn( $author_indexable );
+		$this->author_archive->expects( 'author_has_public_posts' )
+			->with( 11 )
+			->andReturnFalse();
+		$this->post->expects( 'update_has_public_posts_on_attachments' )
+			->once()
+			->with( 33, null )
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->with( Cleanup_Integration::START_HOOK )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'wp_schedule_single_event' )
+			->once();
 
 		$this->instance->update_has_public_posts( $post_indexable );
 	}
