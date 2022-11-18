@@ -72,9 +72,6 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->stubEscapeFunctions();
-		$this->stubTranslationFunctions();
-
 		$this->options             = Mockery::mock( Options_Helper::class );
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 		$this->post_type_helper    = Mockery::mock( Post_Type_Helper::class );

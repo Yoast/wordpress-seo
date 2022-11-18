@@ -72,9 +72,6 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->stubEscapeFunctions();
-		$this->stubTranslationFunctions();
-
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 		$this->options             = Mockery::mock( Options_Helper::class );
 		$this->taxonomy_helper     = Mockery::mock( Taxonomy_Helper::class );
