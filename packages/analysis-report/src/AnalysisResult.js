@@ -77,7 +77,7 @@ const createMarkButton = ( {
 export const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	markButtonFactory = markButtonFactory || createMarkButton;
 	const { id, marker, hasMarksButton } = props;
-  
+
 	let marksButton = null;
 	if ( ! areMarkButtonsHidden( props ) ) {
 		marksButton = markButtonFactory(
