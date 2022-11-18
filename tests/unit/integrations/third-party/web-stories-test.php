@@ -84,6 +84,7 @@ class Web_Stories_Test extends TestCase {
 
 		$this->assertNotFalse( \has_filter( 'web_stories_enable_document_title', '__return_false' ), 'The enable document title filter is registered.' );
 		$this->assertNotFalse( \has_filter( 'web_stories_enable_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
+		$this->assertNotFalse( \has_filter( 'wpseo_frontend_presenters', [ $this->instance, 'filter_frontend_presenters' ] ), 'The frontend presenters filter is registered.' );
 		$this->assertNotFalse( \has_action( 'web_stories_enable_schemaorg_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
 		$this->assertNotFalse( \has_action( 'web_stories_enable_open_graph_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
 		$this->assertNotFalse( \has_action( 'web_stories_enable_twitter_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
