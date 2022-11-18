@@ -20,10 +20,10 @@ use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Indexable_Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -178,7 +178,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->context->main_schema_id            = 'https://example.com/the-post/';
 		$this->context->indexable                 = Mockery::mock( Indexable_Mock::class );
-		$this->context->presentation              = Mockery::mock( Indexable_Presentation::class );
+		$this->context->presentation              = Mockery::mock( Indexable_Presentation_Mock::class );
 		$this->context->presentation->source      = Mockery::mock();
 		$this->context->presentation->breadcrumbs = [
 			'item' => [

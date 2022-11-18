@@ -33,6 +33,8 @@ use Yoast\WP\SEO\Models\Indexable;
  * @property string       $open_graph_title
  * @property string       $open_graph_description
  * @property array        $open_graph_images
+ * @property int          $open_graph_image_id
+ * @property string       $open_graph_image
  * @property string       $open_graph_url
  * @property string       $open_graph_site_name
  * @property string       $open_graph_article_publisher
@@ -52,6 +54,8 @@ use Yoast\WP\SEO\Models\Indexable;
  * @property object|array $source
  * @property array        $breadcrumbs
  * @property int          $estimated_reading_time_minutes
+ * @property array        $googlebot
+ * @property array        $bingbot
  */
 class Indexable_Presentation extends Abstract_Presentation {
 
