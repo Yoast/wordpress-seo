@@ -22,36 +22,6 @@ use Yoast\WP\SEO\Models\Indexable;
  * Class Indexable_Presentation.
  *
  * Presentation object for indexables.
- *
- * @property string $title
- * @property string $meta_description
- * @property array  $robots
- * @property string $canonical
- * @property string $rel_next
- * @property string $rel_prev
- * @property string $open_graph_type
- * @property string $open_graph_title
- * @property string $open_graph_description
- * @property array  $open_graph_images
- * @property string $open_graph_url
- * @property string $open_graph_site_name
- * @property string $open_graph_article_publisher
- * @property string $open_graph_article_author
- * @property string $open_graph_article_published_time
- * @property string $open_graph_article_modified_time
- * @property string $open_graph_locale
- * @property string $open_graph_fb_app_id
- * @property string $permalink
- * @property array  $schema
- * @property string $twitter_card
- * @property string $twitter_title
- * @property string $twitter_description
- * @property string $twitter_image
- * @property string $twitter_creator
- * @property string $twitter_site
- * @property array  $source
- * @property array  $breadcrumbs
- * @property int    $estimated_reading_time_minutes
  */
 class Indexable_Presentation extends Abstract_Presentation {
 
@@ -160,6 +130,65 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	protected $values_helper;
 
+	/** @var string */
+	protected $title;
+	/** @var string */
+	protected $meta_description;
+	/** @var array */
+	protected $robots;
+	/** @var string */
+	protected $canonical;
+	/** @var string */
+	protected $rel_next;
+	/** @var string */
+	protected $rel_prev;
+	/** @var string */
+	protected $open_graph_type;
+	/** @var string */
+	protected $open_graph_title;
+	/** @var string */
+	protected $open_graph_description;
+	/** @var array */
+	protected $open_graph_images;
+	/** @var string */
+	protected $open_graph_url;
+	/** @var string */
+	protected $open_graph_site_name;
+	/** @var string */
+	protected $open_graph_article_publisher;
+	/** @var string */
+	protected $open_graph_article_author;
+	/** @var string */
+	protected $open_graph_article_published_time;
+	/** @var string */
+	protected $open_graph_article_modified_time;
+	/** @var string */
+	protected $open_graph_locale;
+	/** @var string */
+	protected $open_graph_fb_app_id;
+	/** @var string */
+	protected $permalink;
+	/** @var array */
+	protected $schema;
+	/** @var string */
+	protected $twitter_card;
+	/** @var string */
+	protected $twitter_title;
+	/** @var string */
+	protected $twitter_description;
+	/** @var string */
+	protected $twitter_image;
+	/** @var string */
+	protected $twitter_creator;
+	/** @var string */
+	protected $twitter_site;
+	/** @var array */
+	protected $source;
+	/** @var array */
+	protected $breadcrumbs;
+	/** @var int */
+	protected $estimated_reading_time_minutes;
+
 	/**
 	 * Sets the generator dependencies.
 	 *
@@ -235,6 +264,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 
 		if ( \is_attachment() ) {
 			global $wp;
+
 			return \trailingslashit( \home_url( $wp->request ) );
 		}
 
@@ -316,9 +346,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
 		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 *
 		 * @api string $robots The meta robots directives to be echoed.
 		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
 
@@ -360,9 +391,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 		/**
 		 * Filter: 'wpseo_robots_array' - Allows filtering of the meta robots output array of Yoast SEO.
 		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 *
 		 * @api array $robots The meta robots directives to be used.
 		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return \apply_filters( 'wpseo_robots_array', \array_filter( $robots ), $this );
 	}
@@ -370,10 +402,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the robots value for the googlebot tag.
 	 *
+	 * @return array The robots value with opt-in snippets.
 	 * @deprecated 14.9 Values merged into the robots meta tag.
 	 * @codeCoverageIgnore
 	 *
-	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_googlebot() {
 		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
@@ -384,10 +416,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the value for the bingbot tag.
 	 *
+	 * @return array The robots value with opt-in snippets.
 	 * @deprecated 14.9 Values merged into the robots meta tag.
 	 * @codeCoverageIgnore
 	 *
-	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_bingbot() {
 		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
@@ -583,10 +615,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the open graph Facebook app ID.
 	 *
+	 * @return string The open graph Facebook app ID.
 	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
-	 * @return string The open graph Facebook app ID.
 	 */
 	public function generate_open_graph_fb_app_id() {
 		return $this->options->get( 'fbadminapp', '' );
@@ -784,6 +816,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		// 200 is the approximate estimated words per minute across languages.
 		$words_per_minute = 200;
 		$words            = \str_word_count( \wp_strip_all_tags( $this->context->post->post_content ) );
+
 		return (int) \round( $words / $words_per_minute );
 	}
 
