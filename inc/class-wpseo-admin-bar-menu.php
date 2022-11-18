@@ -362,16 +362,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			],
 		];
 
-		foreach ( $submenu_items as $menu_item ) {
-			$menu_args = [
-				'parent' => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
-				'id'     => $menu_item['id'],
-				'title'  => $menu_item['title'],
-				'href'   => $menu_item['href'],
-				'meta'   => [ 'target' => '_blank' ],
-			];
-			$wp_admin_bar->add_menu( $menu_args );
-		}
+		$this->add_submenu_items( $submenu_items, $wp_admin_bar, self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER );
 	}
 
 	/**
@@ -867,7 +858,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	private function add_submenu_items( array $submenu_items, WP_Admin_Bar $wp_admin_bar, $parent_id ) {
+	protected function add_submenu_items( array $submenu_items, WP_Admin_Bar $wp_admin_bar, $parent_id ) {
 		foreach ( $submenu_items as $menu_item ) {
 			$menu_args = [
 				'parent' => $parent_id,
