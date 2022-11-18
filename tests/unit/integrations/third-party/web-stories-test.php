@@ -64,10 +64,6 @@ class Web_Stories_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$this->front_end
-			->expects( 'should_title_presenter_be_removed' )
-			->andReturn( false );
-
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_filter( 'web_stories_enable_document_title', '__return_false' ), 'The enable document title filter is registered.' );
