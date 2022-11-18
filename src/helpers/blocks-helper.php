@@ -81,7 +81,7 @@ class Blocks_Helper {
 	 */
 	private function collect_blocks( $blocks, $collection ) {
 		foreach ( $blocks as $block ) {
-			if ( is_null( $block['blockName'] ) ) {
+			if ( \is_null( $block['blockName'] ) ) {
 				continue;
 			}
 			
