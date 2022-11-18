@@ -7,6 +7,7 @@
 
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -143,10 +144,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		do_action( 'wpseo_add_adminbar_submenu', $wp_admin_bar, self::MENU_IDENTIFIER );
 
 		if ( ! is_admin() ) {
-			$indexable     = $this->indexable_repository->for_current_page();
-			$focus_keyword = ( is_null( $indexable->primary_focus_keyword ) ) ? __( 'not set', 'wordpress-seo' ) : $indexable->primary_focus_keyword;
 
 			if ( is_singular() || is_tag() || is_tax() || is_category() ) {
+				$indexable     = $this->indexable_repository->for_current_page();
+				$focus_keyword = ( ! is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) || is_null( $indexable->primary_focus_keyword ) ) ? __( 'not set', 'wordpress-seo' ) : $indexable->primary_focus_keyword;
+
 				$wp_admin_bar->add_menu(
 					[
 						'parent' => self::MENU_IDENTIFIER,
@@ -180,7 +182,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 							'parent' => self::MENU_IDENTIFIER,
 							'id'     => 'wpseo-frontend-inspector',
 							'href'   => 'https://yoa.st/admin-bar-frontend-inspector',
-							'title'  => __( 'Frontend inspector', 'wordpress-seo' ) . '<span class="yoast-badge yoast-premium-badge">Premium</span></a>',
 							'meta'   => [ 'tabindex' => '0' ],
 							'title'  => __( 'Front-end SEO inspector', 'wordpress-seo' ) . new Premium_Badge_Presenter( 'wpseo-frontend-inspector-badge' ),
 						]
