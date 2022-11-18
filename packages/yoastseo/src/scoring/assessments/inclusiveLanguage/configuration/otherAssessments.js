@@ -1,5 +1,12 @@
 import { SCORES } from "./scores";
 import { potentiallyHarmful, potentiallyHarmfulCareful } from "./feedbackStrings";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
+import { isNotFollowedByException } from "../helpers/isFollowedByException";
+import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
+import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
+import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
+
+const punctuationList = punctuationRegexString.split( "" );
 
 const learnMoreUrl = "https://yoa.st/inclusive-language-other";
 
@@ -21,6 +28,23 @@ const otherAssessments = [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially overgeneralizing. " +
 						"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
 		learnMoreUrl: learnMoreUrl,
+	},
+	{
+		identifier: "theMinority",
+		nonInclusivePhrases: [ "the minority" ],
+		inclusiveAlternatives: [ "<i>marginalized groups</i>", "<i>underrepresented groups</i>", "<i>gender and sexuality minorities</i>" ],
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially overgeneralizing. " +
+		"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
+		learnMoreUrl: learnMoreUrl,
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
+				.filter( ( ( index ) => {
+					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
+					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+				} ) );
+		},
 	},
 	{
 		identifier: "ex-con",

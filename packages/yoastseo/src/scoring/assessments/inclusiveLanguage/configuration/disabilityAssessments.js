@@ -3,12 +3,16 @@ import {
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 } from "./feedbackStrings";
-import { isFollowedByException } from "../helpers/isFollowedByException";
+import { isFollowedByException, isNotFollowedByException } from "../helpers/isFollowedByException";
+import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
+import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
+import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
 
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
+const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
 
 const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition. " +
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.";
@@ -16,6 +20,8 @@ const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is pote
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
 const learnMoreUrl = "https://yoa.st/inclusive-language-disability";
+
+const punctuationList = punctuationRegexString.split( "" );
 
 const disabilityAssessments =  [
 	{
@@ -413,7 +419,38 @@ const disabilityAssessments =  [
 			" alternatives to describe the trait or behavior, such as %3$s.",
 		learnMoreUrl: learnMoreUrl,
 	},
+	{
+		identifier: "theMentallyIll",
+		nonInclusivePhrases: [ "the mentally ill" ],
+		inclusiveAlternatives: "<i>people who are mentally ill/ mentally ill people </i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ generalizing ].join( " " ),
+		learnMoreUrl: learnMoreUrl,
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
+				.filter( ( ( index ) => {
+					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
+					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+				} ) );
+		},
+	},
+	{
+		identifier: "theDisabled",
+		nonInclusivePhrases: [ "the disabled" ],
+		inclusiveAlternatives: "<i>people who have a disability/ disabled people </i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ potentiallyHarmful ].join( " " ),
+		learnMoreUrl: learnMoreUrl,
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
+				.filter( ( ( index ) => {
+					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
+					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+				} ) );
+		},
+	},
 ];
 
 export default disabilityAssessments;
-

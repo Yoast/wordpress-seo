@@ -1,5 +1,12 @@
 import { alternative, potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
+import { isNotFollowedByException } from "../helpers/isFollowedByException";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
+import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
+import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
+import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
+
+const punctuationList = punctuationRegexString.split( "" );
 
 const exclusionary = "Avoid using <i>%1$s</i> as it is exclusionary. " +
 	"Consider using an alternative, such as %2$s.";
@@ -275,6 +282,22 @@ const genderAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: learnMoreUrl,
+	},
+	{
+		identifier: "aTransgender",
+		nonInclusivePhrases: [ "a transgender", "the transgender" ],
+		inclusiveAlternatives: "<i>transgender person</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: learnMoreUrl,
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
+				.filter( ( ( index ) => {
+					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
+					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+				} ) );
+		},
 	},
 ];
 

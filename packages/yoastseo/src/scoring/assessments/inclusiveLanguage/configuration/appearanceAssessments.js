@@ -1,16 +1,38 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless, preferredDescriptorIfKnown } from "./feedbackStrings";
 import { SCORES } from "./scores";
+import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
+import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
+import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
+import { isNotFollowedByException } from "../helpers/isFollowedByException";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 
+const punctuationList = punctuationRegexString.split( "" );
 const learnMoreUrl = "https://yoa.st/inclusive-language-appearance";
 
 const appearanceAssessments = [
 	{
 		identifier: "albinos",
 		nonInclusivePhrases: [ "albinos" ],
-		inclusiveAlternatives: "people with albinism, albino people",
+		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: learnMoreUrl,
+	},
+	{
+		identifier: "anAlbino",
+		nonInclusivePhrases: [ "an albino" ],
+		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: learnMoreUrl,
+		rule: ( words, nonInclusivePhrases ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrases )
+				.filter( ( ( index ) => {
+					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
+					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+				} ) );
+		},
 	},
 	{
 		identifier: "obese",
