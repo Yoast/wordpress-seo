@@ -283,8 +283,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$score = $this->get_term_score( $term );
 		}
 
-		$focus_kw = YoastSEO()->meta->for_current_page()->indexable->primary_focus_keyword;
-
 		$can_manage_options = $this->can_manage_options();
 
 		if ( $can_manage_options ) {
