@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexables;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
+use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -68,7 +69,7 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * @param string|int $input  The data to pass.
 	 */
 	public function test_retrieving_meta( $method, $input ) {
-		$meta = Mockery::mock();
+		$meta = Mockery::mock( Meta::class );
 		$meta
 			->expects( 'get_head' )
 			->andReturn( $this->get_head() );
@@ -96,7 +97,7 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * @covers ::for_posts_page
 	 */
 	public function test_retrieving_meta_for_posts_page() {
-		$meta = Mockery::mock();
+		$meta = Mockery::mock( Meta::class );
 		$meta
 			->expects( 'get_head' )
 			->andReturn( $this->get_head() );
@@ -131,7 +132,7 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * @param string|int $input  The data to pass.
 	 */
 	public function test_retrieving_meta_with_meta_not_found( $method, $input ) {
-		$meta = Mockery::mock();
+		$meta = Mockery::mock( Meta::class );
 		$meta
 			->expects( 'get_head' )
 			->andReturn(
@@ -166,7 +167,7 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * @covers ::for_posts_page
 	 */
 	public function test_retrieving_meta_for_posts_page_with_meta_not_found() {
-		$meta = Mockery::mock();
+		$meta = Mockery::mock( Meta::class );
 		$meta
 			->expects( 'get_head' )
 			->andReturn(
