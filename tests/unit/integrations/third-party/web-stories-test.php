@@ -10,6 +10,10 @@ use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\Web_Stories;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Meta_Description_Presenter;
+use Yoast\WP\SEO\Presenters\Title_Presenter;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -59,6 +63,18 @@ class Web_Stories_Test extends TestCase {
 	}
 
 	/**
+	 * Tests constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$this->assertInstanceOf(
+			Front_End_Integration::class,
+			$this->getPropertyValue( $this->instance, 'front_end' )
+		);
+	}
+
+	/**
 	 * Tests register hooks.
 	 *
 	 * @covers ::register_hooks
@@ -74,6 +90,79 @@ class Web_Stories_Test extends TestCase {
 		$this->assertNotFalse( \has_action( 'web_stories_story_head', [ $this->instance, 'web_stories_story_head' ] ), 'The web-story head action is not registered' );
 		$this->assertNotFalse( \has_filter( 'wpseo_schema_article_type', [ $this->instance, 'filter_schema_article_type' ] ), 'The filter schema article type function is registered.' );
 		$this->assertNotFalse( \has_filter( 'wpseo_metadesc', [ $this->instance, 'filter_meta_description' ] ), 'The metadesc action is registered.' );
+	}
+
+	/**
+	 * Tests filter_frontend_presenters method for stories.
+	 *
+	 * @covers ::filter_frontend_presenters
+	 */
+	public function test_filter_frontend_presenters_stories() {
+		$context                             = new Meta_Tags_Context_Mock();
+		$context->indexable                  = new Indexable_Mock();
+		$context->indexable->object_sub_type = 'web-story';
+
+		$title_presenter = Mockery::mock( Title_Presenter::class );
+		$other_presenter = Mockery::mock( Meta_Description_Presenter::class );
+
+
+		// First case: a title presenter is already there.
+		$presenters = [
+			$title_presenter,
+			$other_presenter,
+		];
+
+		$return_presenters = $this->instance->filter_frontend_presenters( $presenters, $context );
+
+		$title_presenter_found = false;
+
+		foreach ( $return_presenters as $item ) {
+			if ( $item instanceof Title_Presenter ) {
+				$title_presenter_found = true;
+				$this->assertInstanceOf( Title_Presenter::class, $item );
+			}
+		}
+
+		$this->assertTrue( $title_presenter_found );
+
+		// Second case: a title presenter is not there yet, will be added.
+		$presenters_no_title = [
+			$other_presenter,
+		];
+
+		$return_presenters = $this->instance->filter_frontend_presenters( $presenters_no_title, $context );
+
+		$title_presenter_found = false;
+
+		foreach ( $return_presenters as $item ) {
+			if ( $item instanceof Title_Presenter ) {
+				$title_presenter_found = true;
+				$this->assertInstanceOf( Title_Presenter::class, $item );
+			}
+		}
+
+		$this->assertTrue( $title_presenter_found );
+	}
+
+	/**
+	 * Tests filter_frontend_presenters method for other types.
+	 *
+	 * @covers ::filter_frontend_presenters
+	 */
+	public function test_filter_frontend_presenters_other() {
+		$context                             = new Meta_Tags_Context_Mock();
+		$context->indexable                  = new Indexable_Mock();
+		$context->indexable->object_sub_type = 'post';
+
+		$title_presenter = Mockery::mock( Title_Presenter::class );
+		$other_presenter = Mockery::mock( Meta_Description_Presenter::class );
+
+		$presenters = [
+			$title_presenter,
+			$other_presenter,
+		];
+
+		$this->assertSame( $presenters, $this->instance->filter_frontend_presenters( $presenters, $context ) );
 	}
 
 	/**
