@@ -1,6 +1,6 @@
+import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
-import { Title } from "@yoast/ui-library";
 import { useDocumentTitle } from "../hooks";
 
 /**
@@ -16,6 +16,7 @@ const RouteLayout = ( {
 	description,
 } ) => {
 	const documentTitle = useDocumentTitle( { prefix: `${ title } ‹ ` } );
+
 	return (
 		<>
 			<Helmet>
