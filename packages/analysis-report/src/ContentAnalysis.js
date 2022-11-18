@@ -66,6 +66,7 @@ class ContentAnalysis extends React.Component {
 					onMarksButtonClick={ this.props.onMarkButtonClick }
 					onEditButtonClick={ this.props.onEditButtonClick }
 					isPremium={ this.props.isPremium }
+					onResultChange={ this.props.onResultChange }
 				/>
 			</StyledCollapsible>
 		);
@@ -150,6 +151,7 @@ ContentAnalysis.propTypes = {
 		considerations: PropTypes.string,
 		goodResults: PropTypes.string,
 	} ),
+	onResultChange: PropTypes.func,
 };
 
 ContentAnalysis.defaultProps = {
@@ -169,6 +171,7 @@ ContentAnalysis.defaultProps = {
 	activeMarker: "",
 	isPremium: false,
 	resultCategoryLabels: {},
+	onResultChange: () => {},
 };
 
 export default ContentAnalysis;

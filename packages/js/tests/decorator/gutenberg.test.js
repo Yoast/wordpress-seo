@@ -4,9 +4,21 @@ import {
 	getYoastmarkOffsets,
 	getIndicesOf,
 	calculateAnnotationsForTextFormat,
+	getAnnotationsFromBlock,
+	hasInnerBlocks,
 } from "../../src/decorator/gutenberg";
 
-jest.setMock( "@wordpress/rich-text", null );
+jest.mock( "@wordpress/rich-text", () => {
+	// Mock the import of the `create` function.
+	return {
+	  __esModule: true,
+	  create: () => ( { text: "An item about lingo" } ),
+	};
+} );
+
+import { select } from "@wordpress/data";
+
+jest.mock( "@wordpress/data" );
 
 /**
  * Mocks a YoastSEO.js Mark object.
@@ -170,5 +182,65 @@ describe( "calculateAnnotationsForTextFormat", () => {
 		);
 
 		expect( actual ).toEqual( expected );
+	} );
+} );
+
+
+describe( "test getAnnotationsFromBlock", () => {
+	it( "returns an annotation if there is an applicable marker for the text", () => {
+		const mockBlock = {
+			clientId: "34f61542-0902-44f7-ab48-d9f88a022b43",
+			name: "core/list-item",
+			isValid: true,
+			attributes: {
+				content: "An item about lingo",
+			},
+			innerBlocks: [],
+		};
+
+		const myMockMark1 = mockMark(
+			"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. lingo",
+			"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
+		);
+
+		const myMockMark2 = mockMark(
+			"An item about lingo",
+			"An item about <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
+		);
+
+		const mockMarks = [ myMockMark1, myMockMark2 ];
+
+		select.mockReturnValue( {
+			getActiveMarker: jest.fn( () => "keyphraseDensity" ),
+		} );
+
+		const annotations = getAnnotationsFromBlock( mockBlock, mockMarks );
+
+		const resultWithAnnotation =     [
+			{
+			  startOffset: 14,
+			  endOffset: 19,
+			  block: "34f61542-0902-44f7-ab48-d9f88a022b43",
+			  richTextIdentifier: "content",
+			},
+		  ];
+
+		expect( annotations ).toEqual( resultWithAnnotation );
+	} );
+} );
+
+describe( "tests for the hasInnerBlocks helper", () => {
+	it( "returns true if a block has inner blocks", () => {
+		const mockBlockWithInnerblocks = {
+			innerBlocks: [ { fakeData: "fakeData" } ],
+		};
+		expect( hasInnerBlocks( mockBlockWithInnerblocks ) ).toBeTruthy();
+	} );
+	it( "returns false if a block has no inner blocks", () =>{
+		const mockBlockWithoutInnerblocks = {
+			innerBlocks: [],
+			fakeData: "fakeData",
+		};
+		expect( hasInnerBlocks( mockBlockWithoutInnerblocks ) ).toBeFalsy();
 	} );
 } );

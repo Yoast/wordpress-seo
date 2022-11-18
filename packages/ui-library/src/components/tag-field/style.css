@@ -7,7 +7,7 @@
 		}
 
 		.yst-tag-field__input--error {
-			@apply yst-pr-9 yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500;
+			@apply yst-pr-9 yst-border-red-300 focus:yst-ring-red-500 focus:yst-border-red-500;
 		}
 
 		.yst-tag-field__label {
