@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Query;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -147,7 +148,7 @@ class Front_End_Integration_Test extends TestCase {
 	public function test_call_wpseo_head() {
 		global $wp_query;
 
-		$initial_wp_query = Mockery::mock( 'WP_Query' );
+		$initial_wp_query = Mockery::mock( WP_Query::class );
 		$wp_query         = $initial_wp_query;
 		Monkey\Functions\expect( 'wp_reset_query' )->once();
 

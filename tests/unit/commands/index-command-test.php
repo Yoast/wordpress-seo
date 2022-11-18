@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Commands;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
@@ -231,7 +232,7 @@ class Index_Command_Test extends TestCase {
 			->expects( 'confirm' )
 			->with( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
 
-		$wpdb            = Mockery::mock();
+		$wpdb            = Mockery::mock( wpdb::class );
 		$wpdb->prefix    = 'wp_';
 		$GLOBALS['wpdb'] = $wpdb; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intended override for test purpose.
 
