@@ -7,6 +7,7 @@
 
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
+use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -181,6 +182,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 							'href'   => 'https://yoa.st/admin-bar-frontend-inspector',
 							'title'  => __( 'Frontend inspector', 'wordpress-seo' ) . '<span class="yoast-badge yoast-premium-badge">Premium</span></a>',
 							'meta'   => [ 'tabindex' => '0' ],
+							'title'  => __( 'Front-end SEO inspector', 'wordpress-seo' ) . new Premium_Badge_Presenter( 'wpseo-frontend-inspector-badge' ),
 						]
 					);
 				}
