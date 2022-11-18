@@ -182,8 +182,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 							'parent' => self::MENU_IDENTIFIER,
 							'id'     => 'wpseo-frontend-inspector',
 							'href'   => 'https://yoa.st/admin-bar-frontend-inspector',
-							'meta'   => [ 'tabindex' => '0' ],
 							'title'  => __( 'Front-end SEO inspector', 'wordpress-seo' ) . new Premium_Badge_Presenter( 'wpseo-frontend-inspector-badge' ),
+							'meta'   => [
+								'tabindex' => '0',
+								'target'   => '_blank',
+							],
 						]
 					);
 				}
@@ -552,7 +555,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'id'     => 'wpseo-get-premium',
 				'title'  => __( 'Get Yoast SEO Premium', 'wordpress-seo' ) . ' &raquo;',
 				'href'   => 'https://yoa.st/admin-bar-get-premium',
-				'meta'   => [ 'tabindex' => '0' ],
+				'meta'   => [
+					'tabindex' => '0',
+					'target'   => '_blank',
+				],
 			]
 		);
 	}
