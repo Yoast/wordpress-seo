@@ -84,7 +84,7 @@ class Blocks_Helper {
 			if ( \is_null( $block['blockName'] ) ) {
 				continue;
 			}
-			
+
 			if ( ! isset( $collection[ $block['blockName'] ] ) || ! \is_array( $collection[ $block['blockName'] ] ) ) {
 				$collection[ $block['blockName'] ] = [];
 			}
