@@ -162,7 +162,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 					[
 						'parent' => self::MENU_IDENTIFIER,
 						'id'     => 'wpseo-seo-score',
-						'title'  => 'SEO Score: ' . $this->score_icon_helper->for_seo( $indexable, 'adminbar-sub-menu-score' )->present(),
+						'title'  => __( 'SEO score', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_seo( $indexable, 'adminbar-sub-menu-score' )->present(),
 						'meta'   => [ 'tabindex' => '0' ],
 					]
 				);
@@ -171,7 +171,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 					[
 						'parent' => self::MENU_IDENTIFIER,
 						'id'     => 'wpseo-readability-score',
-						'title'  => 'Readability: ' . $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-sub-menu-score' )->present(),
+						'title'  => __( 'Readability', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-sub-menu-score' )->present(),
 						'meta'   => [ 'tabindex' => '0' ],
 					]
 				);
