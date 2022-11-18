@@ -8,6 +8,14 @@
   margin: 8px 0 0 4px !important;
 }
 
+#wp-admin-bar-wpseo-menu-default .ab-item {
+  line-height: 2.46153846 !important;
+}
+
+#wp-admin-bar-wpseo-menu .ab-submenu {
+  margin-bottom: 5px;
+}
+
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium a {
 	font-weight: bold !important;
 	color: #fff !important;
@@ -16,7 +24,10 @@
 #wpadminbar .quicklinks #wp-admin-bar-wpseo-menu .wpseo-focus-keyword {
 	max-width: 100px !important;
 	display: inline-block !important;
-	text-overflow: ellipsis !important;                                                                               
+	text-overflow: ellipsis !important;
+	white-space: nowrap;
+	overflow: hidden;
+	vertical-align: bottom;                                                                       
 }
 
 #wpadminbar .yoast-badge {
