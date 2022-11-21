@@ -27,7 +27,7 @@ use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
  */
 class Settings_Integration implements Integration_Interface {
 
-	const PAGE = 'wpseo_settings';
+	const PAGE = 'wpseo_page_settings';
 
 	/**
 	 * Holds the included WordPress options.
