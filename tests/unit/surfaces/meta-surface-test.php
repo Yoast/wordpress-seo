@@ -27,35 +27,35 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 class Meta_Surface_Test extends TestCase {
 
 	/**
-	 * The container
+	 * The container.
 	 *
 	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
-	 * The context memoizer
+	 * The context memoizer.
 	 *
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	protected $context_memoizer;
 
 	/**
-	 * The repository
+	 * The repository.
 	 *
 	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
-	 * The context
+	 * The context.
 	 *
 	 * @var Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
 	/**
-	 * The indexable
+	 * The indexable.
 	 *
 	 * @var Indexable_Mock
 	 */
@@ -76,7 +76,7 @@ class Meta_Surface_Test extends TestCase {
 	private $indexable_helper;
 
 	/**
-	 * The instance
+	 * The instance.
 	 *
 	 * @var Meta_Surface
 	 */
