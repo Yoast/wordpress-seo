@@ -60,14 +60,13 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param string $home_url The home URL to set.
 	 * @param string $expected The expected test result.
-	 * @param string $message  Message to show when test fails.
 	 *
 	 * @covers WPSEO_Sitemaps_Router::get_base_url
 	 * @dataProvider data_get_base_url
 	 */
-	public function test_get_base_url( $home_url, $expected, $message ) {
+	public function test_get_base_url( $home_url, $expected ) {
 		update_option( 'home', $home_url );
-		$this->assertSame( $expected, WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ), $message );
+		$this->assertSame( $expected, WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
 	}
 
 	/**
@@ -77,20 +76,17 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	 */
 	public function data_get_base_url() {
 		return [
-			[
+			'Tests the base URL of the sitemap for an http home url' => [
 				'home_url' => 'http://example.org',
 				'expected' => 'http://example.org/sitemap.xml',
-				'message'  => 'Tests the base URL of the sitemap for an http home url',
 			],
-			[
+			'Tests the base URL of the sitemap for an https home url' => [
 				'home_url' => 'https://example.org',
 				'expected' => 'https://example.org/sitemap.xml',
-				'message'  => 'Tests the base URL of the sitemap for an https home url',
 			],
-			[
+			'Tests the base URL of the sitemap for a home url with no http schema' => [
 				'home_url' => 'example.org',
 				'expected' => 'http://example.org/sitemap.xml',
-				'message'  => 'Tests the base URL of the sitemap for a home url with no http schema',
 			],
 		];
 	}
