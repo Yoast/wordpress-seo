@@ -57,4 +57,3 @@ If possible, please provide a screenshot, a screen recording or a code snippet w
 * <!-- If relevant -->Elementor plugin version: 
 * <!-- If relevant -->Classic Editor plugin version: 
 * Relevant plugins in case of a bug: 
-<!-- Please make sure you can reproduce this bug with a default theme such as Twenty Seventeen. Sometimes issues may occur due to theme conflicts. -->
