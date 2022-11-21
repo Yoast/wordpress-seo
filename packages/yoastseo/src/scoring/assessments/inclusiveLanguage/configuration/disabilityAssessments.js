@@ -55,8 +55,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, [ "mentally" ] ) );
 		},
 	},
@@ -67,8 +67,8 @@ const disabilityAssessments =  [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "drink", "beverage" ] ) ),
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "beverage" ] ) ),
 	},
 	{
 		identifier: "alcoholics",
@@ -77,8 +77,8 @@ const disabilityAssessments =  [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "anonymous" ] ) ),
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "anonymous" ] ) ),
 	},
 	{
 		identifier: "cripple",
@@ -119,8 +119,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "toilet", "toilets", "parking", "bathroom",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "toilet", "toilets", "parking", "bathroom",
 				"bathrooms", "stall", "stalls" ] ) ),
 	},
 	{
@@ -172,8 +172,8 @@ const disabilityAssessments =  [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "autism" ] ) ),
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "autism" ] ) ),
 	},
 	{
 		identifier: "autismHigh",
@@ -272,8 +272,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, [ "deaf and" ] ) );
 		},
 	},
@@ -426,12 +426,12 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ generalizing ].join( " " ),
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
+					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
 				} ) );
 		},
 	},
@@ -442,12 +442,12 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmful ].join( " " ),
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
+					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
 				} ) );
 		},
 	},

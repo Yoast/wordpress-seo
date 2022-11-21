@@ -37,12 +37,12 @@ const otherAssessments = [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially overgeneralizing. " +
 		"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
+					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
 				} ) );
 		},
 	},

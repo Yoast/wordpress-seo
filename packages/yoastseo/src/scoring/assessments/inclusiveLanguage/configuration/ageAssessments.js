@@ -63,10 +63,10 @@ const assessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
-				.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "in high school", "in college", "who are graduating" ] ) );
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "in high school", "in college", "who are graduating" ] ) );
 		},
 	},
 	{
@@ -76,12 +76,12 @@ const assessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmful, specificAgeGroup ].join( " " ),
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
+					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
 				} ) );
 		},
 	},

@@ -25,12 +25,12 @@ const appearanceAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: learnMoreUrl,
-		rule: ( words, nonInclusivePhrases ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
+					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
+					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
 				} ) );
 		},
 	},
