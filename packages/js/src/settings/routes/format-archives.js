@@ -31,6 +31,7 @@ const FormatArchives = () => {
 	const { name, label } = useSelectSettings( "selectTaxonomy", [], "post_format" );
 	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
 
+	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -157,6 +158,8 @@ const FormatArchives = () => {
 									shouldUpsell={ ! isPremium }
 									variant="card"
 									cardLink={ socialAppearancePremiumLink }
+									upsellButtonAction={ getPremiumUpsellConfig.actionId }
+									upsellButtonCtbId={ getPremiumUpsellConfig.premiumCtbId }
 									cardText={ sprintf(
 									/* translators: %1$s expands to Premium. */
 										__( "Unlock with %1$s", "wordpress-seo" ),

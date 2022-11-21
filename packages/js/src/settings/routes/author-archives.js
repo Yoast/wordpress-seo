@@ -28,6 +28,7 @@ const AuthorArchives = () => {
 	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
 	const singularLabelLower = useMemo( ()=> toLower( singularLabel ), [ singularLabel ] );
 
+	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const duplicateContentInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/duplicate-content" );
@@ -182,6 +183,8 @@ const AuthorArchives = () => {
 									shouldUpsell={ ! isPremium }
 									variant="card"
 									cardLink={ socialAppearancePremiumLink }
+									upsellButtonAction={ getPremiumUpsellConfig.actionId }
+									upsellButtonCtbId={ getPremiumUpsellConfig.premiumCtbId }
 									cardText={ sprintf(
 										/* translators: %1$s expands to Premium. */
 										__( "Unlock with %1$s", "wordpress-seo" ),

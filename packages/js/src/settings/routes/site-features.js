@@ -76,6 +76,7 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
+	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
 	const getInclusiveLanguageAnalysisLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-inclusive-language" );
 	const getLinkSuggestionsLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-link-suggestions" );
 	const getIndexNowLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-indexnow" );
@@ -193,7 +194,10 @@ const SiteFeatures = () => {
 										label={ __( "Enable feature", "wordpress-seo" ) }
 									/> }
 									{ ! isPremium && (
-										<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getInclusiveLanguageAnalysisLink } target="_blank" rel="noopener">
+										<Button
+											as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getInclusiveLanguageAnalysisLink } target="_blank" rel="noopener"
+											data-action={ getPremiumUpsellConfig.actionId } data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
+										>
 											<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 											{ sprintf(
 											/* translators: %1$s expands to Premium. */
@@ -306,7 +310,10 @@ const SiteFeatures = () => {
 										label={ __( "Enable feature", "wordpress-seo" ) }
 									/> }
 									{ ! isPremium && (
-										<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getLinkSuggestionsLink } target="_blank" rel="noopener">
+										<Button
+											as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getLinkSuggestionsLink } target="_blank" rel="noopener"
+											data-action={ getPremiumUpsellConfig.actionId } data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
+										>
 											<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 											{ sprintf(
 											/* translators: %1$s expands to Premium. */
@@ -525,7 +532,10 @@ const SiteFeatures = () => {
 										label={ __( "Enable feature", "wordpress-seo" ) }
 									/> }
 									{ ! isPremium && (
-										<Button as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getIndexNowLink } target="_blank" rel="noopener">
+										<Button
+											as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getIndexNowLink } target="_blank" rel="noopener"
+											data-action={ getPremiumUpsellConfig.actionId } data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
+										>
 											<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 											{ sprintf(
 											/* translators: %1$s expands to Premium. */

@@ -13,6 +13,8 @@ import { ReactComponent as G2Logo } from "./g2-logo-white-rgb.svg";
  */
 const PremiumUpsellCard = () => {
 	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
+	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
+
 	const info = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to opening and closing <strong> tags. */
@@ -44,6 +46,8 @@ const PremiumUpsellCard = () => {
 			<Button
 				as="a" variant="upsell" size="large" href={ getPremiumLink }
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-px-4 sm:yst-px-0"
+				data-action={ getPremiumUpsellConfig.actionId }
+				data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
 			>
 				{ getPremium }
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
