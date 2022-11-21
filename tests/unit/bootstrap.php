@@ -27,6 +27,10 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', 'wpseo_basename' );
 }
 
+if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
+	define( 'YOAST_ENVIRONMENT', 'development' );
+}
+
 /*
  * {@internal The prefix constants are used to build prefixed versions of dependencies.
  *            These should not be changed on run-time, thus missing the ! defined() check.}}
