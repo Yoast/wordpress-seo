@@ -34,9 +34,10 @@ If possible, please provide a screenshot, a screen recording or a code snippet w
 - If you are using Gutenberg, Elementor or the Classic Editor plugin, please make sure you have updated to the latest version.
  -->
 * If relevant, which editor is affected (or editors): 
-- [ ] Gutenberg
-- [ ] Classic Editor plugin
-- [ ] Elementor plugin
+- [ ] Block Editor
+- [ ] Gutenberg Edior
+- [ ] Elementor Editor
+- [ ] Classic Editor 
 - [ ] Other: <!-- please specify -->
 
 <!-- You can check these boxes once you've created the issue. -->
