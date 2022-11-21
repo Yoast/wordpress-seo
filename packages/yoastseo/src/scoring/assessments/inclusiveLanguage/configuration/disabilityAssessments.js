@@ -422,7 +422,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "theMentallyIll",
 		nonInclusivePhrases: [ "the mentally ill" ],
-		inclusiveAlternatives: "<i>people who are mentally ill/ mentally ill people </i>",
+		inclusiveAlternatives: "<i>people who are mentally ill</i>, <i>mentally ill people </i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ generalizing ].join( " " ),
 		learnMoreUrl: learnMoreUrl,
@@ -438,7 +438,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "theDisabled",
 		nonInclusivePhrases: [ "the disabled" ],
-		inclusiveAlternatives: "<i>people who have a disability/ disabled people </i>",
+		inclusiveAlternatives: "<i>people who have a disability</i>, <i>disabled people </i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmful ].join( " " ),
 		learnMoreUrl: learnMoreUrl,

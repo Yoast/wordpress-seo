@@ -13,7 +13,6 @@ import { regularParticiplesRegex } from "../../../../languageProcessing/language
 function isParticiple( word ) {
 	const participleMatch = word.match( regularParticiplesRegex );
 	return ( ! isNull( participleMatch ) && participleMatch[ 0 ] === word ) || includes( irregularParticiples, word );
-	// return matchRegularParticiples( word, participleRegex ).length !== 0 || includes( irregularParticiples, word );
 }
 
 

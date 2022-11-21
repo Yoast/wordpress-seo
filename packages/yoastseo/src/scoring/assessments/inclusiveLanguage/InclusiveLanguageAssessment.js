@@ -74,7 +74,7 @@ export default class InclusiveLanguageAssessment {
 			if ( ! this.caseSensitive ) {
 				words = words.map( word => word.toLocaleLowerCase() );
 			}
-			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, phrase.split( " " ), sentence ).length >= 1 );
+			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, phrase.split( " " ) ).length >= 1 );
 
 			if ( foundPhrase ) {
 				this.foundPhrases.push( {
@@ -83,7 +83,6 @@ export default class InclusiveLanguageAssessment {
 				} );
 			}
 		} );
-
 		return this.foundPhrases.length >= 1;
 	}
 

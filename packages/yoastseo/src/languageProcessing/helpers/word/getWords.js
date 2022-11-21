@@ -30,6 +30,7 @@ export default function( text, doRemovePunctuation = true ) {
 			return removePunctuation( word );
 		} );
 	} else {
+		// If punctuation is not removed, punctuation marks are tokenized as if they were words.
 		words = flatMap( words, ( word ) => {
 			const newWord = word.replace( interJectionRegex, " $1 " );
 			return newWord.split( " " );
