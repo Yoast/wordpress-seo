@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c8dd773aa8b21aeac290e909ed29f8c",
+    "content-hash": "143a8d1d08eaf6aa8a4d6be0316997c8",
     "packages": [
         {
             "name": "composer/installers",
@@ -4382,48 +4382,6 @@
                 "wiki": "https://github.com/WordPress/WordPress-Coding-Standards/wiki"
             },
             "time": "2020-05-13T23:57:56+00:00"
-        },
-        {
-            "name": "yoast/php-development-environment",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Yoast/php-development-environment.git",
-                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/php-development-environment/zipball/d53b054d96b688a96e47d4c2e4306983375efd75",
-                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "define.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Team Yoast",
-                    "email": "support@yoast.com",
-                    "homepage": "https://yoast.com"
-                }
-            ],
-            "description": "Yoast PHP development environment.",
-            "homepage": "https://github.com/Yoast/php-development-environment",
-            "keywords": [
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/Yoast/php-development-environment/issues",
-                "source": "https://github.com/Yoast/php-development-environment/tree/1.0.1"
-            },
-            "time": "2016-06-16T10:12:26+00:00"
         },
         {
             "name": "yoast/phpunit-polyfills",
