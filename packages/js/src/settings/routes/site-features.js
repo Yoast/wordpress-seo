@@ -3,6 +3,7 @@ import { ArrowNarrowRightIcon, LockOpenIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Badge, Button, Card, Link, Title, ToggleField as PureToggleField, useSvgAria } from "@yoast/ui-library";
+import classNames from "classnames";
 import { useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { FormikValueChangeField, FormLayout, RouteLayout } from "../components";
@@ -15,16 +16,18 @@ const ToggleField = withDisabledMessageSupport( PureToggleField );
  * @param {string} src The image source.
  * @param {string} alt The image alt text.
  * @param {JSX.node} [children] Optional extra content.
+ * @param {boolean} [disabled] Whether to use the disabled style.
  * @returns {JSX.Element} The card header.
  */
 const CardHeader = ( {
 	src,
 	alt,
 	children = null,
+	disabled = false,
 } ) => (
 	<Card.Header className="yst-h-auto yst-p-0">
 		<img
-			className="yst-w-full"
+			className={ classNames( "yst-w-full", disabled && "yst-opacity-50 yst-filter yst-grayscale" ) }
 			src={ src }
 			alt={ alt }
 			width={ 500 }
@@ -40,6 +43,7 @@ CardHeader.propTypes = {
 	src: PropTypes.string.isRequired,
 	alt: PropTypes.string.isRequired,
 	children: PropTypes.node,
+	disabled: PropTypes.bool,
 };
 
 /**
@@ -76,7 +80,7 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
-	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
+	const getPremiumUpsellConfig = useSelectSettings( "selectUpsellSetting", [] );
 	const getInclusiveLanguageAnalysisLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-inclusive-language" );
 	const getLinkSuggestionsLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-link-suggestions" );
 	const getIndexNowLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-indexnow" );
@@ -128,6 +132,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ seoAnalysisImage }
 									alt={ __( "SEO analysis", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.keyword_analysis_active }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -150,6 +155,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ readabilityAnalysisImage }
 									alt={ __( "Readability analysis", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.content_analysis_active }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -172,6 +178,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ inclusiveLanguageAnalysisImage }
 									alt={ __( "Inclusive language analysis", "wordpress-seo" ) }
+									disabled={ isPremium && ! values.wpseo.inclusive_language_analysis_active }
 								>
 									<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
 										{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
@@ -195,12 +202,18 @@ const SiteFeatures = () => {
 									/> }
 									{ ! isPremium && (
 										<Button
-											as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getInclusiveLanguageAnalysisLink } target="_blank" rel="noopener"
-											data-action={ getPremiumUpsellConfig.actionId } data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
+											as="a"
+											className="yst-gap-2 yst-w-full"
+											variant="upsell"
+											href={ getInclusiveLanguageAnalysisLink }
+											target="_blank"
+											rel="noopener"
+											data-action={ getPremiumUpsellConfig.actionId }
+											data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
 										>
 											<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 											{ sprintf(
-											/* translators: %1$s expands to Premium. */
+												/* translators: %1$s expands to Premium. */
 												__( "Unlock with %1$s", "wordpress-seo" ),
 												"Premium"
 											) }
@@ -212,6 +225,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ insightsImage }
 									alt={ __( "Insights", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.enable_metabox_insights }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -245,6 +259,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ cornerstoneContentImage }
 									alt={ __( "Cornerstone content", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.enable_cornerstone_content }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -267,6 +282,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ textLinkCounterImage }
 									alt={ __( "Text link counter", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.enable_text_link_counter }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -289,6 +305,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ linkSuggestionsImage }
 									alt={ __( "Link suggestions", "wordpress-seo" ) }
+									disabled={ isPremium && ! values.wpseo.enable_link_suggestions }
 								>
 									<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
 										{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
@@ -311,12 +328,18 @@ const SiteFeatures = () => {
 									/> }
 									{ ! isPremium && (
 										<Button
-											as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getLinkSuggestionsLink } target="_blank" rel="noopener"
-											data-action={ getPremiumUpsellConfig.actionId } data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
+											as="a"
+											className="yst-gap-2 yst-w-full"
+											variant="upsell"
+											href={ getLinkSuggestionsLink }
+											target="_blank"
+											rel="noopener"
+											data-action={ getPremiumUpsellConfig.actionId }
+											data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
 										>
 											<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 											{ sprintf(
-											/* translators: %1$s expands to Premium. */
+												/* translators: %1$s expands to Premium. */
 												__( "Unlock with %1$s", "wordpress-seo" ),
 												"Premium"
 											) }
@@ -342,6 +365,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ openGraphImage }
 									alt={ __( "Open Graph data", "wordpress-seo" ) }
+									disabled={ ! values.wpseo_social.opengraph }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -364,6 +388,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ twitterImage }
 									alt={ __( "Twitter card data", "wordpress-seo" ) }
+									disabled={ ! values.wpseo_social.twitter }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -386,6 +411,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ slackSharingImage }
 									alt={ __( "Slack sharing", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.enable_enhanced_slack_sharing }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -419,6 +445,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ adminBarImage }
 									alt={ __( "Admin bar menu", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.enable_admin_bar_menu }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -426,7 +453,7 @@ const SiteFeatures = () => {
 									</Title>
 									<p>
 										{ sprintf(
-										// translators: %1$s expands to Yoast.
+											// translators: %1$s expands to Yoast.
 											__( "The %1$s icon in the top admin bar provides quick access to third-party tools for analyzing pages and makes it easy to see if you have new notifications.", "wordpress-seo" ),
 											"Yoast"
 										) }
@@ -458,6 +485,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ restApiImage }
 									alt={ __( "REST API endpoint", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.enable_headless_rest_endpoints }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -480,6 +508,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ xmlSitemapsImage }
 									alt={ __( "XML sitemaps", "wordpress-seo" ) }
+									disabled={ ! values.wpseo.enable_xml_sitemap }
 								/>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">
@@ -487,7 +516,7 @@ const SiteFeatures = () => {
 									</Title>
 									<p>
 										{ sprintf(
-										// translators: %1$s expands to "Yoast SEO".
+											// translators: %1$s expands to "Yoast SEO".
 											__( "Enable the %1$s XML sitemaps. A sitemap is a file that lists a website's essential pages to make sure search engines can find and crawl them.", "wordpress-seo" ),
 											"Yoast SEO"
 										) }
@@ -511,6 +540,7 @@ const SiteFeatures = () => {
 								<CardHeader
 									src={ indexNowImage }
 									alt={ __( "IndexNow", "wordpress-seo" ) }
+									disabled={ isPremium && ! values.wpseo.enable_index_now }
 								>
 									<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
 										{ isPremium && <Badge size="small" variant="upsell">Premium</Badge> }
@@ -533,12 +563,18 @@ const SiteFeatures = () => {
 									/> }
 									{ ! isPremium && (
 										<Button
-											as="a" className="yst-gap-2 yst-w-full" variant="upsell" href={ getIndexNowLink } target="_blank" rel="noopener"
-											data-action={ getPremiumUpsellConfig.actionId } data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
+											as="a"
+											className="yst-gap-2 yst-w-full"
+											variant="upsell"
+											href={ getIndexNowLink }
+											target="_blank"
+											rel="noopener"
+											data-action={ getPremiumUpsellConfig.actionId }
+											data-ctb-id={ getPremiumUpsellConfig.premiumCtbId }
 										>
 											<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 											{ sprintf(
-											/* translators: %1$s expands to Premium. */
+												/* translators: %1$s expands to Premium. */
 												__( "Unlock with %1$s", "wordpress-seo" ),
 												"Premium"
 											) }
