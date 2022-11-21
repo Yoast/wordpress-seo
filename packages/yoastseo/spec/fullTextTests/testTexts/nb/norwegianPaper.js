@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Maine coon (MCO) er en storvokst semi-langhåret rasekatt med opprinnelse fra delstaten Maine, " +
 		"i det nord-østligste hjørnet av USA. Katterasen regnes i dag som verdens største tamkattrase, men selve opprinnelsen er uklar.",
 	title: "Maine coon",
+	textTitle: "Maine coon",
 	titleWidth: 450,
 	locale: "nb_NO",
 	permalink: "https://no.wikipedia.org/wiki/Maine_coon",

@@ -9,7 +9,7 @@
 		}
 
 		.yst-modal__overlay {
-			@apply yst-fixed yst-inset-0 yst-bg-gray-500 yst-bg-opacity-75 yst-transition-opacity;
+			@apply yst-fixed yst-inset-0 yst-bg-slate-500 yst-bg-opacity-75 yst-transition-opacity;
 		}
 
 		.yst-modal__center {
@@ -38,10 +38,12 @@
 
 		.yst-modal__close-button {
 			@apply
+			yst-relative
+			yst-z-10
 			yst-bg-white
-			yst-text-gray-400
+			yst-text-slate-400
 			yst-rounded-md
-			hover:yst-text-gray-500
+			hover:yst-text-slate-500
 			focus:yst-outline-none
 			focus:yst-ring-2
 			focus:yst-ring-offset-2

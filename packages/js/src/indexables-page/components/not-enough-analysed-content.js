@@ -59,12 +59,12 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 				title={ title }
 			>
 				{ description }
-				<ul className="yst-divide-y yst-divide-gray-200">
+				<ul className="yst-divide-y yst-divide-slate-200">
 					{ indexablesList.slice( 0, numberOfVisibleIndexables ).map(
 						( indexable, index ) => {
 							return <li
 								key={ `article-${ index }-li` }
-								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-h-14 last:yst-border-b-gray-200 last:yst-border-b-1" }
+								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-slate-700 yst-flex yst-flex-row yst-items-center yst-h-14 last:yst-border-b-slate-200 last:yst-border-b-1" }
 							>
 								<IndexableLinkCount key={ `no-keyphrase-indexable-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
 								<IndexableTitleLink
@@ -79,7 +79,7 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 									target="_blank"
 									rel="noopener noreferrer"
 									variant="secondary"
-									className="yst-button yst-button--secondary yst-text-gray-700 yst-shrink-0"
+									className="yst-button yst-button--secondary yst-text-slate-700 yst-shrink-0"
 								>
 									{ seoEnabled ? __( "Add focus keyphrase", "wordpress-seo" ) : __( "Open editor", "wordpress-seo" ) }
 								</Button>

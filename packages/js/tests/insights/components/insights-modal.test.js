@@ -5,7 +5,7 @@ import FleschReadingEase from "../../../src/insights/components/flesch-reading-e
 import InsightsModal from "../../../src/insights/components/insights-modal";
 import TextFormality from "../../../src/insights/components/text-formality";
 import TextLength from "../../../src/insights/components/text-length";
-
+import { enableFeatures } from "@yoast/feature-flag";
 
 jest.mock( "@wordpress/data", () => (
 	{
@@ -58,7 +58,14 @@ describe( "The insights collapsible component", () => {
 
 		expect( render.find( TextLength ) ).toHaveLength( 1 );
 	} );
-	it( "renders the Text formality component", () => {
+	it( "does not render the Text formality component when the feature is disabled", () => {
+		mockSelect( true, true );
+		const render = shallow( <InsightsModal location={ "sidebar" } /> );
+
+		expect( render.find( TextFormality ) ).toHaveLength( 0 );
+	} );
+	it( "renders the Text formality component when the feature is enabled", () => {
+		enableFeatures( [ "TEXT_FORMALITY" ] );
 		mockSelect( true, true );
 		const render = shallow( <InsightsModal location={ "sidebar" } /> );
 

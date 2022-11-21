@@ -5,17 +5,6 @@ var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
 var $ = jQuery;
 
-/* eslint-disable no-extend-native */
-/**
- * Converts the first letter to uppercase in a string.
- *
- * @returns {string} The string with the first letter uppercased.
- */
-String.prototype.ucfirst = function() {
-	return this.charAt( 0 ).toUpperCase() + this.substr( 1 );
-};
-/* eslint-enable no-extend-native */
-
 /**
  * Creates a text with the label and description for a seo score.
  *

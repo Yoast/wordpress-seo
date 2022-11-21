@@ -1,6 +1,6 @@
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
-import React from "react";
+import React from "@wordpress/element";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import noop from "lodash/noop";
@@ -86,7 +86,9 @@ export default function AnalysisList( props ) {
 
 			return <AnalysisResult
 				key={ result.id }
+				id={ result.id }
 				text={ result.text }
+				marker={ result.marker }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
 				hasEditButton={ result.hasJumps }
@@ -103,6 +105,7 @@ export default function AnalysisList( props ) {
 				marksButtonStatus={ props.marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
 				isPremium={ props.isPremium }
+				onResultChange={ props.onResultChange }
 			/>;
 		} ) }
 	</AnalysisListBase>;
@@ -117,6 +120,7 @@ AnalysisList.propTypes = {
 	onMarksButtonClick: PropTypes.func,
 	onEditButtonClick: PropTypes.func,
 	isPremium: PropTypes.bool,
+	onResultChange: PropTypes.func,
 };
 
 AnalysisList.defaultProps = {
@@ -127,4 +131,5 @@ AnalysisList.defaultProps = {
 	onMarksButtonClick: noop,
 	onEditButtonClick: noop,
 	isPremium: false,
+	onResultChange: noop,
 };

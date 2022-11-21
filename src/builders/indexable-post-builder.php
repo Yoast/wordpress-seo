@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use WP_Error;
 use WP_Post;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -96,10 +97,11 @@ class Indexable_Post_Builder {
 	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 *
 	 * @throws Post_Not_Found_Exception When the post could not be found.
+	 * @throws Post_Not_Built_Exception When the post should not be indexed.
 	 */
 	public function build( $post_id, $indexable ) {
 		if ( ! $this->post_helper->is_post_indexable( $post_id ) ) {
-			return false;
+			throw Post_Not_Built_Exception::because_not_indexable( $post_id );
 		}
 
 		$post = $this->post_helper->get_post( $post_id );
@@ -109,7 +111,7 @@ class Indexable_Post_Builder {
 		}
 
 		if ( $this->should_exclude_post( $post ) ) {
-			return false;
+			throw Post_Not_Built_Exception::because_post_type_excluded( $post_id );
 		}
 
 		$indexable->object_id       = $post_id;

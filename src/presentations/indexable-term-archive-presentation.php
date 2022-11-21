@@ -100,7 +100,11 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return array The source.
 	 */
 	public function generate_source() {
-		return \get_term( $this->model->object_id, $this->model->object_sub_type );
+		if ( ! empty( $this->model->object_id ) ) {
+			return \get_term( $this->model->object_id, $this->model->object_sub_type );
+		}
+
+		return \get_term( \get_queried_object()->term_id, \get_queried_object()->taxonomy );
 	}
 
 	/**

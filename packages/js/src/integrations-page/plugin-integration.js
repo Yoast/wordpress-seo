@@ -20,13 +20,13 @@ export const PluginIntegration = ( { integration, isActive } ) => {
 			isActive={ isActive }
 		>
 			{ isActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
+				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
 			</Fragment> }
 			{ ! isActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">
+				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )
 					}

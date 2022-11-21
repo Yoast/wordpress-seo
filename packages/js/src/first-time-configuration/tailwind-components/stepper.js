@@ -135,7 +135,7 @@ export function Step( { children } ) {
 		{ stepIndex !== lastStepIndex &&
 			<Fragment>
 				<div
-					className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
+					className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-slate-300 yst--bottom-6" }
 					aria-hidden="true"
 				/>
 				<div

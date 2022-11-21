@@ -7,12 +7,29 @@
  * @uses    Yoast_Form $yform Form object.
  */
 
-echo sprintf(
+echo '<h3>', esc_html__( 'Website', 'wordpress-seo' ), '</h3>';
+echo '<p>', esc_html__( 'This name is shown for your site in the search results.', 'wordpress-seo' ), '</p>';
+$yform->textinput(
+	'website_name',
+	__( 'Website name', 'wordpress-seo' ),
+	[
+		'placeholder'  => \get_bloginfo( 'name' ),
+	]
+);
+
+$yform->textinput(
+	'alternate_website_name',
+	__( 'Alternate website name', 'wordpress-seo' )
+);
+echo '<p style="margin-bottom: 2em;">', esc_html__( 'Use the alternate website name for acronyms, or a shorter version of your website\'s name.', 'wordpress-seo' ), '</p>';
+
+echo '<h3>', esc_html__( 'Organization or Person', 'wordpress-seo' ), '</h3>';
+echo '<p>', sprintf(
 	/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link, */
 	esc_html__( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either an organization, or a person.', 'wordpress-seo' ),
 	'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1-p' ) ) . '" target="_blank" rel="noopener noreferrer">',
 	'</a>'
-);
+), '</p>';
 
 /**
  * Retrieve the site logo ID from WordPress settings.
@@ -81,6 +98,11 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 			'placeholder'  => $yoast_seo_site_name,
 		]
 	);
+	$yform->textinput(
+		'company_alternate_name',
+		__( 'Alternate organization name', 'wordpress-seo' )
+	);
+	echo '<p>', esc_html__( 'Use the alternate organization name for acronyms, or a shorter version of your organization\'s name.', 'wordpress-seo' ), '</p>';
 	$yform->hidden( 'company_logo', 'company_logo' );
 	$yform->hidden( 'company_logo_id', 'company_logo_id' );
 	?>

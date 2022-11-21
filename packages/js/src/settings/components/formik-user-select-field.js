@@ -1,16 +1,16 @@
 /* eslint-disable complexity */
-import { useState, useMemo, useCallback, useEffect } from "@wordpress/element";
-import PropTypes from "prop-types";
+import { UserAddIcon } from "@heroicons/react/outline";
+import apiFetch from "@wordpress/api-fetch";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { buildQueryString } from "@wordpress/url";
-import { useDispatch } from "@wordpress/data";
-import { map, values, debounce, find, isEmpty } from "lodash";
-import apiFetch from "@wordpress/api-fetch";
 import { AutocompleteField, Spinner } from "@yoast/ui-library";
-import { useField } from "formik";
 import classNames from "classnames";
-import { ASYNC_ACTION_STATUS, STORE_NAME } from "../constants";
-import { useSelectSettings } from "../store";
+import { useField } from "formik";
+import { debounce, find, isEmpty, map, values } from "lodash";
+import PropTypes from "prop-types";
+import { ASYNC_ACTION_STATUS } from "../constants";
+import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 let abortController;
 
@@ -39,10 +39,12 @@ UserSelectOptionsContent.propTypes = {
  */
 const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 	const users = useSelectSettings( "selectUsers", [] );
-	const { addManyUsers } = useDispatch( STORE_NAME );
+	const { addManyUsers } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
 	const [ queriedUserIds, setQueriedUserIds ] = useState( [] );
+	const canCreateUsers = useSelectSettings( "selectPreference", [], "canCreateUsers", false );
+	const createUserUrl = useSelectSettings( "selectPreference", [], "createUserUrl", "" );
 
 	const selectedUser = useMemo( () => {
 		const userObjects = values( users );
@@ -92,16 +94,17 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 
 	return (
 		<AutocompleteField
-			{ ...props }
 			{ ...field }
 			name={ name }
 			id={ id }
 			// Hack to force re-render of Headless UI Combobox.Input component when selectedUser changes.
 			value={ selectedUser ? value : 0 }
 			onChange={ handleChange }
-			selectedLabel={ selectedUser?.name || __( "Select a user...", "wordpress-seo" ) }
+			placeholder={ __( "Select a user...", "wordpress-seo" ) }
+			selectedLabel={ selectedUser?.name }
 			onQueryChange={ handleQueryChange }
 			className={ className }
+			{ ...props }
 		>
 			<>
 				{ status === ASYNC_ACTION_STATUS.idle || status === ASYNC_ACTION_STATUS.success && (
@@ -110,14 +113,28 @@ const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
 							<UserSelectOptionsContent>
 								{ __( "No users found.", "wordpress-seo" ) }
 							</UserSelectOptionsContent>
-						) : map( queriedUserIds, id => {
-							const user = users?.[ id ];
+						) : map( queriedUserIds, userId => {
+							const user = users?.[ userId ];
 							return user ? (
 								<AutocompleteField.Option key={ user?.id } value={ user?.id }>
 									{ user?.name }
 								</AutocompleteField.Option>
 							) : null;
 						} ) }
+						{ canCreateUsers && (
+							<li className="yst-sticky yst-inset-x-0 yst-bottom-0 yst-group">
+								<a
+									id={ `link-create_user-${ id }` }
+									href={ createUserUrl }
+									target="_blank"
+									rel="noreferrer"
+									className="yst-relative yst-w-full yst-flex yst-items-center yst-py-4 yst-px-3 yst-gap-2 yst-no-underline yst-text-sm yst-text-left yst-bg-white yst-text-slate-700 group-hover:yst-text-white group-hover:yst-bg-primary-500 yst-border-t yst-border-slate-200"
+								>
+									<UserAddIcon className="yst-w-5 yst-h-5 yst-text-slate-400 group-hover:yst-text-white" />
+									<span>{ __( "Add new user...", "wordpress-seo" ) }</span>
+								</a>
+							</li>
+						) }
 					</>
 				) }
 				{ status === ASYNC_ACTION_STATUS.loading && (

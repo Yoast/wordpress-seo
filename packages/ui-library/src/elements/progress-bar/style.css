@@ -1,7 +1,7 @@
 @layer components {
 	.yst-root {
 		.yst-progress-bar {
-			@apply yst-block yst-w-full yst-bg-gray-200 yst-rounded-full yst-overflow-hidden;
+			@apply yst-block yst-w-full yst-bg-slate-200 yst-rounded-full yst-overflow-hidden;
 		}
 
 		.yst-progress-bar__progress {

@@ -1,15 +1,13 @@
 /* eslint-disable complexity */
 import { PhotographIcon } from "@heroicons/react/outline";
-import { useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
-import { get, keys, map, join } from "lodash";
+import { get, join, keys, map } from "lodash";
 import PropTypes from "prop-types";
-import { useSelectSettings } from "../store";
-import { STORE_NAME } from "../constants";
+import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 const classNameMap = {
 	variant: {
@@ -24,6 +22,7 @@ const classNameMap = {
  * @param {string} [description] Description.
  * @param {JSX.Element} [icon] Icon to show in select.
  * @param {boolean} [disabled] Disabled.
+ * @param {boolean} [isDummy] Wether component should be in dummy state.
  * @param {string} [libraryType] Media type that should show in WP library, ie. "image" or "video".
  * @param {string} [variant] Variant.
  * @param {string} id Id.
@@ -42,6 +41,7 @@ const FormikMediaSelectField = ( {
 	description = "",
 	icon: Icon = PhotographIcon,
 	disabled = false,
+	isDummy = false,
 	libraryType = "image",
 	variant = "landscape",
 	id,
@@ -60,7 +60,7 @@ const FormikMediaSelectField = ( {
 	const mediaId = useMemo( () => get( values, mediaIdName, "" ), [ values, mediaIdName ] );
 	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
 	const fallbackMedia = useSelectSettings( "selectMediaById", [ fallbackMediaId ], fallbackMediaId );
-	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
+	const { fetchMedia, addOneMedia } = useDispatchSettings();
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
 	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
 	const previewMedia = useMemo( () => {
@@ -72,18 +72,32 @@ const FormikMediaSelectField = ( {
 		}
 		return null;
 	}, [ mediaId, media, fallbackMediaId, fallbackMedia ] );
-	const previewSrcSet = useMemo( () => join( map( media?.sizes || fallbackMedia?.sizes, size => `${ size?.url } ${size?.width}w` ), ", " ), [ media, fallbackMedia ] );
+	const previewSrcSet = useMemo(
+		() => join( map( media?.sizes || fallbackMedia?.sizes, size => `${ size?.url } ${ size?.width }w` ), ", " ),
+		[ media, fallbackMedia ]
+	);
 
-	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
+	const handleSelectMediaClick = useCallback( () => {
+		if ( isDummy ) {
+			return;
+		}
+		wpMediaLibrary?.open();
+	}, [ isDummy, wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
+		if ( isDummy ) {
+			return;
+		}
 		// Update Formik state, but only validate on type.
 		setFieldTouched( mediaUrlName, true, false );
 		setFieldValue( mediaUrlName, "", false );
 
 		setFieldTouched( mediaIdName, true, false );
 		setFieldValue( mediaIdName, "" );
-	}, [ setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
+	}, [ isDummy, setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
 	const handleSelectMedia = useCallback( () => {
+		if ( isDummy ) {
+			return;
+		}
 		const selectedMedia = wpMediaLibrary.state()?.get( "selection" )?.first()?.toJSON() || {};
 
 		// Update Formik state, but only validate on type.
@@ -95,7 +109,7 @@ const FormikMediaSelectField = ( {
 
 		// Update Redux state, note that this entity structure is different from what WP API returns.
 		addOneMedia( selectedMedia );
-	}, [ wpMediaLibrary, setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
+	}, [ isDummy, wpMediaLibrary, setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
 
 	useEffect( () => {
 		if ( wpMedia ) {
@@ -123,34 +137,40 @@ const FormikMediaSelectField = ( {
 	}, [] );
 
 	return (
-		<fieldset id={ id } className={ classNames( "yst-min-width-0 yst-w-96 yst-max-w-full", disabled && "yst-opacity-50" ) }>
+		<fieldset id={ id } className="yst-min-w-0 yst-w-96 yst-max-w-full">
 			<Field
 				type="hidden"
 				name={ mediaIdName }
-				id={ `field-${ id }-id` }
+				id={ `input-${ id }-id` }
 				aria-describedby={ describedBy }
+				disabled={ disabled }
 			/>
 			<Field
 				type="hidden"
 				name={ mediaUrlName }
-				id={ `field-${ id }-url` }
+				id={ `input-${ id }-url` }
 				aria-describedby={ describedBy }
+				disabled={ disabled }
 			/>
-			{ label && <Label as="legend" className="yst-mb-2">{ label }</Label> }
+			{ label && (
+				<Label as="legend" className={ classNames( "yst-mb-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>
+					{ label }
+				</Label>
+			) }
 			<button
 				type="button"
 				id={ `button-${ id }-preview` }
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
-					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-max-w-full yst-rounded-md yst-mb-4 yst-border-gray-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-					previewMedia ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
-					disabled && "yst-cursor-not-allowed",
+					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-max-w-full yst-rounded-md yst-mb-4 yst-border-slate-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
+					! isDummy && previewMedia ? "yst-bg-slate-50 yst-border" : "yst-border-2 yst-border-dashed",
+					disabled && "yst-opacity-50 yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
 					className
 				) }
 				disabled={ disabled }
 			>
-				{ previewMedia ? (
+				{ ! isDummy && previewMedia ? (
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
@@ -166,9 +186,9 @@ const FormikMediaSelectField = ( {
 				) : (
 					<div className="yst-w-48 yst-max-w-full">
 						<span className="yst-sr-only">{ selectLabel }</span>
-						<Icon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-gray-400 yst-stroke-1" />
+						<Icon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-slate-400 yst-stroke-1" />
 						{ previewLabel && (
-							<p className="yst-text-xs yst-text-gray-600 yst-text-center yst-mt-1 yst-px-8">
+							<p className="yst-text-xs yst-text-slate-600 yst-text-center yst-mt-1 yst-px-8">
 								{ previewLabel }
 							</p>
 						) }
@@ -176,7 +196,7 @@ const FormikMediaSelectField = ( {
 				) }
 			</button>
 			<div className="yst-flex yst-gap-4">
-				{ mediaId > 0 ? (
+				{ ! isDummy && ( mediaId > 0 ) ? (
 					<Button
 						id={ `button-${ id }-replace` }
 						variant="secondary" onClick={ handleSelectMediaClick }
@@ -193,14 +213,14 @@ const FormikMediaSelectField = ( {
 						{ selectLabel }
 					</Button>
 				) }
-				{ mediaId > 0 && (
+				{ ! isDummy && ( mediaId > 0 ) && (
 					<Link
 						id={ `button-${ id }-remove` }
 						as="button"
 						type="button"
 						variant="error"
 						onClick={ handleRemoveMediaClick }
-						className={ disabled ? "yst-cursor-not-allowed" : "" }
+						className={ classNames( disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }
 						disabled={ disabled }
 					>
 						{ removeLabel }
@@ -208,7 +228,11 @@ const FormikMediaSelectField = ( {
 				) }
 			</div>
 			{ error && <p id={ describedByIds.error } className="yst-mt-2 yst-text-sm yst-text-red-600">{ error }</p> }
-			{ description && <p id={ describedByIds.description } className="yst-mt-2">{ description }</p> }
+			{ description && (
+				<p id={ describedByIds.description } className={ classNames( "yst-mt-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>
+					{ description }
+				</p>
+			) }
 		</fieldset>
 	);
 };
@@ -218,6 +242,7 @@ FormikMediaSelectField.propTypes = {
 	description: PropTypes.node,
 	icon: PropTypes.elementType,
 	disabled: PropTypes.bool,
+	isDummy: PropTypes.bool,
 	libraryType: PropTypes.string,
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
 	id: PropTypes.string.isRequired,

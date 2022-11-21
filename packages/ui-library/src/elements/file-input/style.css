@@ -14,7 +14,7 @@
 			yst-ease-out
 			yst-duration-300
 			yst-bg-white
-			yst-border-gray-300;
+			yst-border-slate-300;
 
 			&.yst-is-drag-over {
 				@apply yst-bg-primary-50 yst-border-primary-300;
@@ -52,7 +52,7 @@
 			yst-mx-auto
 			yst-h-12
 			yst-w-12
-			yst-text-gray-400
+			yst-text-slate-400
 			yst-stroke-1
 			yst-transition-all
 			yst-ease-out
@@ -73,7 +73,7 @@
 		}
 
 		.yst-file-input__labels {
-			@apply yst-flex yst-font-normal yst-text-gray-800;
+			@apply yst-flex yst-font-normal yst-text-slate-800;
 		}
 
 		.yst-file-input__select-label {

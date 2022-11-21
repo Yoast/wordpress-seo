@@ -8,6 +8,8 @@ export default {
 	component: ToggleField,
 	argTypes: {
 		children: { control: "text" },
+		description: { control: "text" },
+		labelSuffix: { control: "text" },
 	},
 	parameters: {
 		docs: {
@@ -39,8 +41,8 @@ Factory.args = {
 export const WithLabelAndDescription = Template.bind( {} );
 WithLabelAndDescription.args = {
 	name: "name-1",
-	label: "Toggle field with a label",
-	children: "Toggle field with a description.",
+	label: "Toggle field with a label that spans multiple lines is still centered nicely with the toggle",
+	children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse a nisi egestas, accumsan ante quis, accumsan nisi. Duis lacinia pharetra luctus. Aliquam nisi orci, mattis quis lacus tristique, tempus pulvinar lectus. Nam rutrum vitae arcu at ullamcorper. Sed in felis blandit, consectetur nulla eu, congue justo. Suspendisse a augue a arcu lacinia tristique. Integer finibus dui sit amet pulvinar placerat. Phasellus a erat nec odio aliquet maximus id viverra nunc. Aliquam finibus malesuada est id dapibus. Curabitur suscipit lorem vitae sodales malesuada.",
 };
 
 export const Checked = Template.bind( {} );

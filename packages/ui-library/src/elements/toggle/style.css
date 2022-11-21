@@ -13,7 +13,7 @@
 			yst-transition-colors
 			yst-ease-in-out
 			yst-duration-200
-			yst-bg-gray-200
+			yst-bg-slate-200
 			yst-cursor-pointer
 			focus:yst-outline-none
 			focus:yst-ring-2
@@ -78,7 +78,7 @@
 		}
 
 		.yst-toggle__icon--x {
-			@apply yst-text-gray-400;
+			@apply yst-text-slate-400;
 		}
 	}
 

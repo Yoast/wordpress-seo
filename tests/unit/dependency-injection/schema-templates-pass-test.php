@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Dependency_Injection;
 
 use Mockery;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Yoast\WP\SEO\Dependency_Injection\Schema_Templates_Loader;
 use Yoast\WP\SEO\Dependency_Injection\Schema_Templates_Pass;
 use Yoast\WP\SEO\Integrations\Schema_Blocks;
@@ -56,7 +57,7 @@ class Schema_Templates_Pass_Test extends TestCase {
 	 * @covers ::process
 	 */
 	public function test_process() {
-		$schema_blocks_definition = Mockery::mock();
+		$schema_blocks_definition = Mockery::mock( Definition::class );
 
 		$this->container_builder
 			->expects( 'hasDefinition' )

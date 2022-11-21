@@ -9,10 +9,11 @@ describe( "a mark value object", function() {
 	} );
 
 	it( "should allow new value via the constructor", function() {
-		var mark = new Mark( { original: "original", marked: "marked" } );
+		var mark = new Mark( { original: "original", marked: "marked", fieldsToMark: [ "heading" ] } );
 
 		expect( mark.getOriginal() ).toBe( "original" );
 		expect( mark.getMarked() ).toBe( "marked" );
+		expect( mark.getFieldsToMark() ).toEqual( [ "heading" ] );
 	} );
 
 	describe( "a simple application function", function() {

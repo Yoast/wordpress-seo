@@ -77,7 +77,7 @@ SavedCircle.defaultProps = {
  */
 export function UpcomingCircle( { isVisible } ) {
 	return <span
-		className={ `yst-bg-white yst-border-gray-300 ${ getCommonClasses( isVisible ) }` }
+		className={ `yst-bg-white yst-border-slate-300 ${ getCommonClasses( isVisible ) }` }
 	>
 		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-transparent" } />
 	</span>;

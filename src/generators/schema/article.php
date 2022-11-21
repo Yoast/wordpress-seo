@@ -203,9 +203,34 @@ class Article extends Abstract_Schema_Piece {
 		// Strip pre/code blocks and their content.
 		$post_content = \preg_replace( '@<(pre|code)[^>]*?>.*?</\\1>@si', '', $post_content );
 
+		// Add space between tags that don't have it.
+		$post_content = \preg_replace( '@><@', '> <', $post_content );
+
 		// Strips all other tags.
 		$post_content = \wp_strip_all_tags( $post_content );
 
-		return \str_word_count( $post_content, 0 );
+		$characters = '';
+
+		if ( \preg_match( '@[а-я]@ui', $post_content ) ) {
+			// Correct counting of the number of words in the Russian and Ukrainian languages.
+			$alphabet = [
+				'ru' => 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя',
+				'ua' => 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя',
+			];
+
+			$characters  = \implode( '', $alphabet );
+			$characters  = \preg_split( '//u', $characters, -1, \PREG_SPLIT_NO_EMPTY );
+			$characters  = \array_unique( $characters );
+			$characters  = \implode( '', $characters );
+			$characters .= \mb_strtoupper( $characters );
+		}
+
+
+
+
+		// Remove characters from HTML entities.
+		$post_content = \preg_replace( '@&[a-z0-9]+;@i', ' ', \htmlentities( $post_content ) );
+
+		return \str_word_count( $post_content, 0, $characters );
 	}
 }

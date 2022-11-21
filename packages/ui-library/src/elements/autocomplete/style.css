@@ -15,9 +15,7 @@
 			}
 
 			.yst-autocomplete__input {
-				@apply
-				yst-text-red-900
-				yst-placeholder-red-300;
+				@apply yst-placeholder-red-300;
 			}
 		}
 
@@ -27,7 +25,7 @@
 			yst-h-full
 			yst-rounded-md
 			yst-border
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-flex
 			yst-items-center
 			yst-px-3
@@ -41,7 +39,7 @@
 			@apply
 			yst-h-5
 			yst-w-5
-			yst-text-gray-400
+			yst-text-slate-400
 			yst-inset-y-0
 			yst-right-0;
 		}
@@ -87,7 +85,7 @@
 			yst-justify-between
 			yst-px-3
 			yst-py-2
-			yst-text-gray-700;
+			yst-text-slate-700;
 
 			&--active {
 				@apply yst-bg-primary-200;

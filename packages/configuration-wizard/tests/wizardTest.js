@@ -17,7 +17,6 @@ jest.mock( "@yoast/helpers", () => {
 	 *
 	 * @returns {promise} A test promise.
 	 */
-
 	const ajaxHelper = () => {
 		return new Promise( ( resolve ) => {
 			resolve( "test" );

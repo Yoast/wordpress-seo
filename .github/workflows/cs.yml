@@ -1,10 +1,10 @@
 name: CS
 
 on:
-  # Run on all pushes (except to master) and on all pull requests.
+  # Run on all pushes (except to main) and on all pull requests.
   push:
     branches-ignore:
-      - 'master'
+      - 'main'
   pull_request:
   # Allow manually triggering the workflow.
   workflow_dispatch:
@@ -30,11 +30,11 @@ jobs:
           BASE_REF: ${{ github.base_ref }}
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "::set-output name=NAME::$BASE_REF"
-            echo "::set-output name=REF::origin/$BASE_REF"
+            echo "NAME=$BASE_REF" >> $GITHUB_OUTPUT
+            echo "REF=origin/$BASE_REF" >> $GITHUB_OUTPUT
           else
-            echo '::set-output name=NAME::trunk'
-            echo "::set-output name=REF::origin/trunk"
+            echo 'NAME=trunk' >> $GITHUB_OUTPUT
+            echo "REF=origin/trunk" >> $GITHUB_OUTPUT
           fi
 
       - name: Fetch base branch
@@ -56,6 +56,9 @@ jobs:
       # @link https://github.com/marketplace/actions/install-composer-dependencies
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       # Check the codestyle of the files against a threshold of expected errors and warnings.
       - name: Check PHP code style against the threshold
@@ -67,9 +70,9 @@ jobs:
       # @link https://github.com/staabm/annotate-pull-request-from-checkstyle/
       - name: Check PHP code style for the changes made in the branch only
         if: ${{ failure() }}
-        continue-on-error: true
+        id: phpcs
         run: composer check-branch-cs -- ${{ steps.base_branch.outputs.REF }}
 
       - name: Show PHPCS results in PR
-        if: ${{ failure() }}
+        if: ${{ always() && steps.phpcs.outcome == 'failure' }}
         run: cs2pr ./phpcs-report.xml

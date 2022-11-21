@@ -1,8 +1,56 @@
 /* eslint-disable camelcase */
-import { createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { get, reduce, join, filter, toLower, isArray } from "lodash";
 import { createSearchIndex } from "../helpers";
 
+/**
+ * @param {Object} item Search index entry.
+ * @returns {string} The keywords string with added route and field labels.
+ */
+const createSearchItemKeywords = item => toLower( join( [
+	...( isArray( item?.keywords ) ? item.keywords : [] ),
+	item?.routeLabel,
+	item?.fieldLabel,
+], " " ) );
+
+/**
+ * Flattens the search index and lowercases some props for easy querying.
+ * @param {Object} searchIndex The search index.
+ * @param {string} parentPath The parent object path.
+ * @returns {Object} The flattened search index.
+ */
+const flattenAndLowerSearchIndex = ( searchIndex, parentPath = "" ) => reduce(
+	searchIndex,
+	( acc, item, key ) => {
+		const flatKey = join( filter( [ parentPath, key ], Boolean ), "." );
+
+		// Exception for other social URLs: only have one entry in queryable search index.
+		if ( key === "other_social_urls" ) {
+			return {
+				...acc,
+				[ flatKey ]: {
+					route: item?.route,
+					routeLabel: item?.routeLabel,
+					fieldId: item?.fieldId,
+					fieldLabel: item?.fieldLabel,
+					keywords: createSearchItemKeywords( item ),
+				},
+			};
+		}
+
+		return item?.route ? {
+			...acc,
+			[ flatKey ]: {
+				...item,
+				keywords: createSearchItemKeywords( item ),
+			},
+		} : {
+			...acc,
+			...flattenAndLowerSearchIndex( item, flatKey ),
+		};
+	},
+	{}
+);
 
 /**
  * @returns {Object} Initial search state.
@@ -12,7 +60,6 @@ export const createInitialSearchState = () => {
 	const taxonomies = get( window, "wpseoScriptData.taxonomies", {} );
 
 	return {
-		query: "",
 		index: createSearchIndex( postTypes, taxonomies ),
 	};
 };
@@ -25,8 +72,11 @@ const slice = createSlice( {
 
 export const searchSelectors = {
 	selectSearchIndex: ( state ) => get( state, "search.index", {} ),
-	// selectFlatSearchIndex: ( state ) => get( state, "search.ndex", {} ),
 };
+searchSelectors.selectQueryableSearchIndex = createSelector(
+	searchSelectors.selectSearchIndex,
+	searchIndex => flattenAndLowerSearchIndex( searchIndex )
+);
 
 export const searchActions = slice.actions;
 

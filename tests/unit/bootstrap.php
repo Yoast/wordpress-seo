@@ -36,7 +36,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
-define( 'YOAST_SEO_WP_TESTED', '6.0.2' );
+define( 'YOAST_SEO_WP_TESTED', '6.1' );
 define( 'YOAST_SEO_WP_REQUIRED', '5.9' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
@@ -48,6 +48,22 @@ if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
 	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/psr7/src/functions_include.php';
 	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/promises/src/functions_include.php';
 }
+
+/* ********************* LOAD TEST DOUBLES FOR WP NATIVE CLASSES ********************* */
+
+// Create the necessary test doubles for WP native classes on which properties are being set (PHP 8.2 compat).
+Yoast\WPTestUtils\BrainMonkey\makeDoublesForUnavailableClasses(
+	[
+		'WP',
+		'WP_Post',
+		'WP_Query',
+		'WP_Rewrite',
+		'WP_Roles',
+		'WP_Term',
+		'WP_User',
+		'wpdb',
+	]
+);
 
 /* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
 

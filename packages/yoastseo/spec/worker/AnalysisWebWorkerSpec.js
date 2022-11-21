@@ -1528,13 +1528,34 @@ describe( "AnalysisWebWorker", () => {
 			expect( actualAssessment ).toBe( assessment );
 		} );
 
-		test( "add the assessment to the registered assessments", () => {
+		test( "add the seo assessment to the registered assessments", () => {
 			scope.onmessage( createMessage( "initialize" ) );
 			expect( worker._seoAssessor ).not.toBeNull();
 
 			worker.registerAssessment( assessmentName, assessment, pluginName );
 			expect( worker._registeredAssessments.length ).toBe( 1 );
 			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "seo" );
+		} );
+
+		test( "add the readability assessment to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._contentAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "readability" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "readability" );
+		} );
+
+		test( "add the related keyphrase assessment to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._relatedKeywordAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "relatedKeyphrase" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "relatedKeyphrase" );
 		} );
 
 		test( "call refresh assessment", () => {

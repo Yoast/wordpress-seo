@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Term_Archive_Presentation;
 
 use Mockery;
+use WP_Query;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -186,7 +187,7 @@ class Robots_Test extends TestCase {
 	 * Setup default WP_Query_Wrapper.
 	 */
 	private function setup_wp_query_wrapper() {
-		$wp_query = Mockery::mock( '\WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query
 			->expects( 'get_queried_object' )
 			->zeroOrMoreTimes()

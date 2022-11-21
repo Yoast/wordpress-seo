@@ -324,9 +324,9 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| Meta description (incl. the date) > 120 and < 157		| **Meta description length**: Well done! |
 
 ### 6) Single title
-**What it does**: Checks if there is an H1 heading elsewhere than at the beginning of the text.
+**What it does**: Checks if there are multiple H1 headings present in the text.
 
-**When it applies**: When there is an H1 heading elsewhere than at the beginning of the text.
+**When it applies**: When there are at least two H1 headings in the text.
 
 **Name in code**: SingleH1Assessment
 
@@ -336,7 +336,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
-| Red	| 1	| There is an H1 heading elsewhere than the beginning of the text		| **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
+| Red	| 1	| There are at least two H1 headings in the text		| **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
 
 ### 7) Function words in keyphrase
 **What it does**: Checks if the keyphrase consists of only function words.
@@ -368,3 +368,19 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |------------	|------------------	|---------------------	|---------------	|
 | Red	| 3	| No images		| **Images**: No images appear on this page. **Add some!** |
 | Green	| 9	| There are at least 1 image		| **Images**: Good job! |
+
+### 9) Title (only in Premium)
+**What it does**: Checks for the presence of a title.
+
+**When it applies**: Always. Does not apply to taxonomies.
+
+**Name in code**: TextTitleAssessment
+
+**Title URL**: [https://yoa.st/4nh]() (link placement is in bold in the feedback strings)
+
+**Call to action URL**: [https://yoa.st/4ni]() (link placement is in bold in the feedback strings)
+
+| Bullet  | Score	     | Criterion             | Feedback |
+|---------|-------------|---------------------	|---------------	|
+| Red	  | -10000	    | No title		        | **Title**: Your page does not have a title yet. **Add one!** |
+| Green	  | 9	        | There is a title		| **Title**: Your page has a title. Well done! |

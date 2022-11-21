@@ -19,6 +19,9 @@ const ErrorContainer = styled.div`
 	margin: 16px 0 8px;
 `;
 
+/**
+ * A component for filtering a primary taxonomy term.
+ */
 class PrimaryTaxonomyFilter extends Component {
 	constructor() {
 		super();

@@ -70,7 +70,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'breadcrumbs-home'                 => '', // Text field.
 		'breadcrumbs-prefix'               => '', // Text field.
 		'breadcrumbs-searchprefix'         => '', // Text field.
-		'breadcrumbs-sep'                  => '&raquo;', // Text field.
+		'breadcrumbs-sep'                  => '»', // Text field.
 
 		'website_name'                     => '',
 		'person_name'                      => '',
@@ -82,6 +82,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'company_logo_meta'                => false,
 		'person_logo_meta'                 => false,
 		'company_name'                     => '',
+		'company_alternate_name'           => '',
 		'company_or_person'                => 'company',
 		'company_or_person_user_id'        => false,
 
@@ -469,6 +470,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
 				case 'company_name':
+				case 'company_alternate_name':
 				case 'person_name':
 				case 'social-description-':
 				case 'open_graph_frontpage_desc':

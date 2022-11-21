@@ -114,7 +114,7 @@ export const ToggleableIntegration = ( {
 					as="a"
 					href={ integration.upsellLink }
 					variant="upsell"
-					className="yst-w-full yst-text-gray-800"
+					className="yst-w-full yst-text-slate-800"
 					target="_blank"
 				>
 					<LockOpenIcon
@@ -129,7 +129,7 @@ export const ToggleableIntegration = ( {
 				</Button>
 				}
 				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && ! getIsMultisiteAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
-					<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration unavailable for multisites", "wordpress-seo" ) }</span>
+					<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration unavailable for multisites", "wordpress-seo" ) }</span>
 					<XIcon
 						className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
 					/>

@@ -31,13 +31,11 @@ export default class TextPresenceAssessment extends Assessment {
 	/**
 	 * Assesses that the paper has at least a little bit of content.
 	 *
-	 * @param {Paper}       paper       The paper to assess.
-	 * @param {Researcher}  researcher  The researcher.
+	 * @param {Paper} paper The paper to assess.
 	 *
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
-	// eslint-disable-next-line no-unused-vars
-	getResult( paper, researcher ) {
+	getResult( paper ) {
 		if ( ! this.hasEnoughContentForAssessment( paper ) ) {
 			const result = new AssessmentResult();
 

@@ -5,18 +5,18 @@ import { Button, Link, Title } from "@yoast/ui-library";
 import { ReactComponent as StarHalf } from "../../../images/star-rating-half.svg";
 import { ReactComponent as Star } from "../../../images/star-rating-star.svg";
 import { ReactComponent as YoastSeoLogo } from "../../../images/Yoast_SEO_Icon.svg";
-import { useSelectSettings } from "../store";
+import { useSelectSettings } from "../hooks";
 import { ReactComponent as G2Logo } from "./g2-logo-white-rgb.svg";
 
 /**
  * @returns {JSX.Element} The premium upsell card.
  */
 const PremiumUpsellCard = () => {
-	const buyLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/jj" );
 	const info = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to opening and closing <strong> tags. */
-			__( "Be the first to %1$sget new features & tools%2$s, before everyone else. Get %1$s24/7 support%2$s and boost your website’s visibility.", "wordpress-seo" ),
+			__( "Be the first to get %1$snew features & tools%2$s, before everyone else. Get %1$s24/7 support%2$s and boost your website’s visibility.", "wordpress-seo" ),
 			"<strong>",
 			"</strong>"
 		),
@@ -25,7 +25,7 @@ const PremiumUpsellCard = () => {
 		}
 	), [] );
 	const getPremium = sprintf(
-		/* translators: %s expands to Yoast SEO Premium */
+		/* translators: %s expands to "Yoast SEO" Premium */
 		__( "Get %s", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	);
@@ -42,8 +42,8 @@ const PremiumUpsellCard = () => {
 			</h2>
 			<p className="yst-mt-2">{ info }</p>
 			<Button
-				as="a" variant="upsell" href={ buyLink }
-				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-text-base yst-leading-5 yst-py-3 yst-px-4 sm:yst-px-0"
+				as="a" variant="upsell" size="large" href={ getPremiumLink }
+				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-px-4 sm:yst-px-0"
 			>
 				{ getPremium }
 				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
@@ -52,7 +52,7 @@ const PremiumUpsellCard = () => {
 				className="yst-block yst-mt-4 yst-no-underline"
 				href="https://www.g2.com/products/yoast-yoast/reviews"
 				target="_blank"
-				rel="noreferrer"
+				rel="noopener noreferrer"
 			>
 				<span className="yst-font-medium yst-text-white hover:yst-underline">
 					{ __( "Read reviews from real users", "wordpress-seo" ) }
@@ -80,19 +80,18 @@ const SidebarRecommendations = () => {
 	const academyLink = useSelectSettings( "selectLink", [], "https://yoa.st/3t6" );
 	const academy = useMemo( () => createInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to Yoast SEO academy, which is a clickable link. */
+			/* translators: %1$s expands to "Yoast SEO" academy, which is a clickable link. */
 			__( "Want to learn SEO from Team Yoast? Check out our %1$s!", "wordpress-seo" ),
 			"<link/>"
 		),
 		{
-			link: <a href={ academyLink } target="_blank" rel="noreferrer">Yoast SEO academy</a>,
+			// eslint-disable-next-line react/jsx-no-target-blank
+			link: <a href={ academyLink } target="_blank" rel="noopener">Yoast SEO academy</a>,
 		}
 	), [] );
 
 	return (
-		<div
-			className="yst-sidebar xl:yst-fixed xl:yst-bottom-0 xl:yst-right-6 xl:yst-w-[19rem] yst-mt-6 xl:yst-mt-0"
-		>
+		<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[19rem]">
 			<p className="yst-text-primary-500 yst-leading-loose yst-pb-2 yst-border-b-2 yst-border-primary-300">
 				{ sprintf(
 					/* translators: %1$s expands to Yoast */
@@ -111,7 +110,7 @@ const SidebarRecommendations = () => {
 					</p>
 					<Link href={ academyLink } className="yst-block">
 						{ sprintf(
-							/* translators: %1$s expands to Yoast SEO academy */
+							/* translators: %1$s expands to "Yoast SEO" academy */
 							__( "Check out %1$s", "wordpress-seo" ),
 							"Yoast SEO academy"
 						) }

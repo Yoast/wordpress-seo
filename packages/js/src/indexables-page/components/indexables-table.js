@@ -19,7 +19,7 @@ function PlaceholderRows( { columnCount, listSize } ) {
 	const cells = [];
 	const rows = [];
 	for ( let i = 0; i < columnCount; i++ ) {
-		cells.push( <div key={ `placeholder-column-${ i }` } className="yst-inline-block yst-animate-pulse"><div className="yst-w-full yst-bg-gray-200 yst-h-3 yst-rounded" /></div> );
+		cells.push( <div key={ `placeholder-column-${ i }` } className="yst-inline-block yst-animate-pulse"><div className="yst-w-full yst-bg-slate-200 yst-h-3 yst-rounded" /></div> );
 	}
 	for ( let i = 0; i < listSize; i++ ) {
 		rows.push( <li key={ `placeholder-row-${ i }` } className="yst-w-full yst-my-0 yst-h-14 yst-max-w-none yst-grid yst-gap-2 yst-items-center yst-grid-cols-[0.5fr_7.5fr_1fr_2fr_1fr]">{ cells }</li> );
@@ -88,7 +88,7 @@ const IndexableRow = ( { indexable, children, type, setIgnoredIndexable, ignored
 
 	return <li
 		key={ `indexable-${ indexable.id }-row` }
-		className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14 " + rowAnimationClasses }
+		className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-slate-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14 " + rowAnimationClasses }
 		onAnimationEnd={ setIgnoredIndexableCallback }
 	>
 		{ children }
@@ -120,7 +120,7 @@ IndexableRow.propTypes = {
  */
 function IndexablesTable( { isLoading, children } ) {
 	return (
-		<ul className="yst-divide-y yst-divide-gray-200">
+		<ul className="yst-divide-y yst-divide-slate-200">
 			{ isLoading &&
 				<PlaceholderRows columnCount={ 5 } listSize={ 5 } />
 			}

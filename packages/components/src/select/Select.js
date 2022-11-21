@@ -1,3 +1,4 @@
+import { noop } from "lodash";
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupProps, FieldGroupDefaultProps } from "../field-group/FieldGroup";
@@ -5,8 +6,6 @@ import { default as ReactSelect } from "react-select";
 
 // Import required CSS.
 import "./select.css";
-
-const noop = () => {};
 
 /**
  * Defines how a select option should look.

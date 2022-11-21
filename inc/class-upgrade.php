@@ -6,6 +6,8 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -15,7 +17,7 @@ class WPSEO_Upgrade {
 	/**
 	 * The taxonomy helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
+	 * @var Taxonomy_Helper
 	 */
 	private $taxonomy_helper;
 
@@ -82,10 +84,10 @@ class WPSEO_Upgrade {
 			'19.1-RC0'   => 'upgrade_191',
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
+			'19.11-RC0'  => 'upgrade_1911',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
-
 		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
 			/*
 			 * We have to run this by hook, because otherwise:
@@ -847,8 +849,8 @@ class WPSEO_Upgrade {
 		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
 		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 
-		if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
 
@@ -946,6 +948,19 @@ class WPSEO_Upgrade {
 		WPSEO_Options::set( 'ryte_indexability', false );
 		WPSEO_Options::set( 'allow_ryte_indexability', false );
 		wp_clear_scheduled_hook( 'wpseo_ryte_fetch' );
+	}
+
+	/**
+	 * Performs the 19.11 upgrade routine.
+	 */
+	private function upgrade_1911() {
+		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_post_types' ] );
+		\add_action( 'shutdown', [ $this, 'remove_indexable_rows_for_non_public_taxonomies' ] );
+		$this->deduplicate_unindexed_indexable_rows();
+		$this->remove_indexable_rows_for_disabled_authors_archive();
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
 	}
 
 	/**
@@ -1340,5 +1355,224 @@ class WPSEO_Upgrade {
 		$wpseo_titles = array_merge( $wpseo_titles, $updated_options );
 
 		update_option( 'wpseo_titles', $wpseo_titles );
+	}
+
+	/**
+	 * Removes all indexables for posts that are not publicly viewable.
+	 * This method should be called after init, because post_types can still be registered.
+	 *
+	 * @return void
+	 */
+	public function remove_indexable_rows_for_non_public_post_types() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$included_post_types = \YoastSEO()->helpers->post_type->get_indexable_post_types();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $included_post_types ) ) {
+			$delete_query =
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post'
+				AND object_sub_type IS NOT NULL";
+		}
+		else {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )',
+				$included_post_types
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$wpdb->query( $delete_query );
+		// phpcs:enable
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Removes all indexables for terms that are not publicly viewable.
+	 * This method should be called after init, because taxonomies can still be registered.
+	 *
+	 * @return void
+	 */
+	public function remove_indexable_rows_for_non_public_taxonomies() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$included_taxonomies = \YoastSEO()->helpers->taxonomy->get_indexable_taxonomies();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $included_taxonomies ) ) {
+			$delete_query = "DELETE FROM $indexable_table
+				WHERE object_type = 'term'
+				AND object_sub_type IS NOT NULL";
+		}
+		else {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'term'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )',
+				$included_taxonomies
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$wpdb->query( $delete_query );
+		// phpcs:enable
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * De-duplicates indexables that have more than one "unindexed" rows for the same object. Keeps the newest indexable.
+	 *
+	 * @return void
+	 */
+	private function deduplicate_unindexed_indexable_rows() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$query =
+			"SELECT
+				MAX(id) as newest_id,
+				object_id,
+				object_type
+			FROM
+				$indexable_table
+			WHERE
+				post_status = 'unindexed'
+				AND object_type IN ( 'term', 'post', 'user' )
+			GROUP BY
+				object_id,
+				object_type
+			HAVING
+				count(*) > 1";
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$duplicates = $wpdb->get_results( $query, ARRAY_A );
+		// phpcs:enable
+
+		if ( empty( $duplicates ) ) {
+			$wpdb->show_errors = $show_errors;
+
+			return;
+		}
+
+		// Users, terms and posts may share the same object_id. So delete them in separate, more performant, queries.
+		$delete_queries = [
+			$this->get_indexable_deduplication_query_for_type( 'post', $duplicates, $wpdb ),
+			$this->get_indexable_deduplication_query_for_type( 'term', $duplicates, $wpdb ),
+			$this->get_indexable_deduplication_query_for_type( 'user', $duplicates, $wpdb ),
+		];
+
+		foreach ( $delete_queries as $delete_query ) {
+			if ( ! empty( $delete_query ) ) {
+				// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+				// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+				// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+				$wpdb->query( $delete_query );
+				// phpcs:enable
+			}
+		}
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Removes all user indexable rows when the author archive is disabled.
+	 *
+	 * @return void
+	 */
+	private function remove_indexable_rows_for_disabled_authors_archive() {
+		global $wpdb;
+
+		if ( ! \YoastSEO()->helpers->author_archive->are_disabled() ) {
+			return;
+		}
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$delete_query = "DELETE FROM $indexable_table WHERE object_type = 'user'";
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$wpdb->query( $delete_query );
+		// phpcs:enable
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Creates a query for de-duplicating indexables for a particular type.
+	 *
+	 * @param string $object_type The object type to deduplicate.
+	 * @param array  $duplicates  The result of the duplicate query.
+	 * @param wpdb   $wpdb        The wpdb object.
+	 *
+	 * @return string The query that removes all but one duplicate for each object of the object type.
+	 */
+	private function get_indexable_deduplication_query_for_type( $object_type, $duplicates, $wpdb ) {
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$filtered_duplicates = \array_filter(
+			$duplicates,
+			static function ( $duplicate ) use ( $object_type ) {
+				return $duplicate['object_type'] === $object_type;
+			}
+		);
+
+		if ( empty( $filtered_duplicates ) ) {
+			return '';
+		}
+
+		$object_ids           = wp_list_pluck( $filtered_duplicates, 'object_id' );
+		$newest_indexable_ids = wp_list_pluck( $filtered_duplicates, 'newest_id' );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+		return $wpdb->prepare(
+			"DELETE FROM
+				$indexable_table
+			WHERE
+				object_id IN ( " . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND id NOT IN ( ' . \implode( ', ', \array_fill( 0, \count( $filtered_duplicates ), '%d' ) ) . ' )
+				AND object_type = %s',
+			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
+		);
+		// phpcs:enable
 	}
 }

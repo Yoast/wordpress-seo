@@ -21,6 +21,7 @@ function regularContent() {
 			<p className="yst-text-sm yst-mb-6">{ __( "That’s it! By providing this information our indexables squad has been able to do a lot of optimization for your site already. Now, let's have a look at the SEO fitness of your site!", "wordpress-seo" ) }</p>
 			<button
 				type="button"
+				id="button-seo-dashboard"
 				onClick={ goToSEODashboard }
 				className={ "yst-button yst-button--primary" }
 			>{ __( "Go to your SEO dashboard", "wordpress-seo" ) }</button>
@@ -32,7 +33,7 @@ function regularContent() {
  * @returns {WPElement} The webinar promo content.
  */
 function webinarPromoContent() {
-	const webinarIntroSettingsUrl = get( window, "wpseoScriptData.webinarIntroSettingsUrl", "https://yoa.st/webinar-intro-first-time-config" );
+	const webinarIntroFirstTimeConfigUrl = get( window, "wpseoScriptData.webinarIntroFirstTimeConfigUrl", "https://yoa.st/webinar-intro-first-time-config" );
 
 	return (
 		<>
@@ -42,11 +43,12 @@ function webinarPromoContent() {
 			<p className="yst-text-sm yst-mb-6">
 				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our free weekly webinar!", "wordpress-seo" ) }
 			</p>
-			<a href={ webinarIntroSettingsUrl } target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
+			<a href={ webinarIntroFirstTimeConfigUrl } id="link-webinar-register" target="_blank" className="yst-button yst-button--primary yst-text-white" rel="noreferrer">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
 			<button
 				type="button"
+				id="button-webinar-seo-dashboard"
 				onClick={ goToSEODashboard }
 				className={ "yst-ml-4 yst-text-indigo-600 hover:yst-text-indigo-500" }
 			>{ __( "Or visit your SEO dashboard", "wordpress-seo" ) }</button>

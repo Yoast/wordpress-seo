@@ -6,7 +6,6 @@ import React from "react";
 import { noop } from "lodash";
 
 window.jQuery = () => ( {
-	select2: () => {},
 	on: () => {},
 } );
 
