@@ -120,5 +120,71 @@ describe( "Disability assessments", function() {
 
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 	} );
+
+	it( "correctly identifies 'the disabled' which is only recognized when followed by participle or simple past tense", () => {
+		const mockPaper = new Paper( "the disabled worked, the better they are." );
+		const mockResearcher = Factory.buildMockResearcher( [ "The disabled worked, the better they are." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theDisabled" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>the disabled</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>people who have a disability</i>, <i>disabled people </i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "The disabled worked, the better they are.",
+			marked: "<yoastmark class='yoast-text-mark'>The disabled worked, the better they are.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies 'The disabled', which is only recognized when followed by a function word", () => {
+		const mockPaper = new Paper( "The disabled however, did not go to the zoo." );
+		const mockResearcher = Factory.buildMockResearcher( [ "The disabled however, did not go to the zoo." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theDisabled" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>the disabled</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>people who have a disability</i>, <i>disabled people </i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "The disabled however, did not go to the zoo.",
+			marked: "<yoastmark class='yoast-text-mark'>The disabled however, did not go to the zoo.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies 'The disabled', which is only recognized when followed by a punctuation mark", () => {
+		const mockPaper = new Paper( "I have always loved the disabled!" );
+		const mockResearcher = Factory.buildMockResearcher( [ "I have always loved the disabled!" ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theDisabled" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>the disabled</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>people who have a disability</i>, <i>disabled people </i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "I have always loved the disabled!",
+			marked: "<yoastmark class='yoast-text-mark'>I have always loved the disabled!</yoastmark>",
+		} ) ] );
+	} );
+	it( "does not identify 'the disabled' when not followed by punctuation, function word or participle", () => {
+		const mockPaper = new Paper( "The disabled person walks on the street." );
+		const mockResearcher = Factory.buildMockResearcher( [ "The disabled person walks on the street." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theDisabled" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+	} );
 } );
 
