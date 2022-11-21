@@ -100,7 +100,7 @@ class ReadabilityAnalysis extends Component {
 			),
 			"<span style='text-decoration: underline'>",
 			"</span>",
-			`<a href="${ link }">`,
+			`<a href="${ link }" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897">`,
 			"</a>"
 		);
 
