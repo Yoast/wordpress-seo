@@ -11,43 +11,49 @@ about: Create a report to help us improve
 * [ ] I've read and understood the [contribution guidelines](https://github.com/Yoast/wordpress-seo/blob/trunk/.github/CONTRIBUTING.md).
 * [ ] I've searched for any related issues and avoided creating a duplicate issue.
 
-### Please give us a description of what happened.
+### Please give us a description of what happened
+
+### To Reproduce
+#### Step-by-step reproduction instructions
+1. 
+2. 
+3. 
+
+#### Expected results
+1. 
+
+#### Actual results
+1. 
 
 
-
-
-### Please describe what you expected to happen and why.
-
-
-
-
-### How can we reproduce this behavior?
-1.
-2.
-3.
+### Screenshots, screen recording, code snippet
+If possible, please provide a screenshot, a screen recording or a code snippet which demonstrates the bug.
 
 ### Technical info
-
 <!-- You can check these boxes once you've created the issue.
-- If you are using Gutenberg or the Classic Editor plugin, please make sure you have updated to the latest version.
+- If you are using Gutenberg, Elementor or the Classic Editor plugin, please make sure you have updated to the latest version.
  -->
 * If relevant, which editor is affected (or editors): 
-- [ ] Classic Editor
 - [ ] Gutenberg
 - [ ] Classic Editor plugin
+- [ ] Elementor plugin
+- [ ] Other: <!-- please specify -->
 
 <!-- You can check these boxes once you've created the issue. -->
 * Which browser is affected (or browsers): 
 - [ ] Chrome
 - [ ] Firefox
 - [ ] Safari
-- [ ] Other <!-- please specify -->
+- [ ] Other: <!-- please specify -->
 
 #### Used versions
+* Device you are using:
+* Operating system:
 * WordPress version: 
+* WordPress Theme:
 * Yoast SEO version: 
 * <!-- If relevant -->Gutenberg plugin version: 
+* <!-- If relevant -->Elementor plugin version: 
 * <!-- If relevant -->Classic Editor plugin version: 
 * Relevant plugins in case of a bug: 
 <!-- Please make sure you can reproduce this bug with a default theme such as Twenty Seventeen. Sometimes issues may occur due to theme conflicts. -->
-* Tested with theme: 
