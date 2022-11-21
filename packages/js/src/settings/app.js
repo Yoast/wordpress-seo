@@ -8,7 +8,7 @@ import {
 	DesktopComputerIcon,
 	NewspaperIcon,
 } from "@heroicons/react/outline";
-import { useCallback, useMemo } from "@wordpress/element";
+import { useCallback, useMemo, StrictMode } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -110,15 +110,18 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-					{ map( taxonomies, taxonomy => (
-						<SidebarNavigation.SubmenuItem
-							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ taxonomy.label }
-							idSuffix={ idSuffix }
-						/>
-					) ) }
-				</ChildrenLimiter>
+				<StrictMode>
+					<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+						{ map( taxonomies, taxonomy => (
+							<SidebarNavigation.SubmenuItem
+								to={ `/taxonomy/${ taxonomy.route }` }
+								label={ taxonomy.label }
+								idSuffix={ idSuffix }
+							/>
+						) ) }
+					</ChildrenLimiter>
+				</StrictMode>
+
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
 				id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
@@ -237,12 +240,12 @@ const App = () => {
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
 				<div className="yst-p-4 md:yst-p-8 yst-flex yst-gap-4">
-					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64">
+					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
 						<SidebarNavigation.Sidebar>
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[20.5rem]" ) }>
+					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
 						<div className="yst-grow yst-space-y-6 yst-mb-6 xl:yst-mb-0">
 							<main className="yst-rounded-lg yst-bg-white yst-shadow">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
