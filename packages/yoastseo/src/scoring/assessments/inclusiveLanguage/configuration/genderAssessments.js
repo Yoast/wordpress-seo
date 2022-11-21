@@ -1,6 +1,6 @@
 import { alternative, potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
-import { isNotFollowedByException } from "../helpers/isFollowedByException";
+import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
 import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
@@ -293,9 +293,9 @@ const genderAssessments = [
 		rule: ( words, nonInclusivePhrases ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( ( ( index ) => {
-					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
 					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
 				} ) );
 		},
 	},

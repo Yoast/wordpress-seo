@@ -68,7 +68,7 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isFollowedByException( words, nonInclusivePhrases, [ "drink", "beverage" ] ) ),
+			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "drink", "beverage" ] ) ),
 	},
 	{
 		identifier: "alcoholics",
@@ -78,7 +78,7 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isFollowedByException( words, nonInclusivePhrases, [ "anonymous" ] ) ),
+			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "anonymous" ] ) ),
 	},
 	{
 		identifier: "cripple",
@@ -120,7 +120,7 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isFollowedByException( words, nonInclusivePhrases, [ "toilet", "toilets", "parking", "bathroom",
+			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "toilet", "toilets", "parking", "bathroom",
 				"bathrooms", "stall", "stalls" ] ) ),
 	},
 	{
@@ -173,7 +173,7 @@ const disabilityAssessments =  [
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isFollowedByException( words, nonInclusivePhrases, [ "autism" ] ) ),
+			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "autism" ] ) ),
 	},
 	{
 		identifier: "autismHigh",
@@ -429,9 +429,9 @@ const disabilityAssessments =  [
 		rule: ( words, nonInclusivePhrases ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( ( ( index ) => {
-					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
 					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
 				} ) );
 		},
 	},
@@ -445,9 +445,9 @@ const disabilityAssessments =  [
 		rule: ( words, nonInclusivePhrases ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( ( ( index ) => {
-					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
 					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
 				} ) );
 		},
 	},

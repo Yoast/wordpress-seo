@@ -66,7 +66,7 @@ const assessments = [
 		rule: ( words, nonInclusivePhrases ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( isPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
-				.filter( isFollowedByException( words, nonInclusivePhrases, [ "in high school", "in college", "who are graduating" ] ) );
+				.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "in high school", "in college", "who are graduating" ] ) );
 		},
 	},
 	{
@@ -79,9 +79,9 @@ const assessments = [
 		rule: ( words, nonInclusivePhrases ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( ( ( index ) => {
-					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
 					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
 				} ) );
 		},
 	},

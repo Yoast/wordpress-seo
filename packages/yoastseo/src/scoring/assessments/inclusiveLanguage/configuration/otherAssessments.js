@@ -1,7 +1,7 @@
 import { SCORES } from "./scores";
 import { potentiallyHarmful, potentiallyHarmfulCareful } from "./feedbackStrings";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { isNotFollowedByException } from "../helpers/isFollowedByException";
+import { isFollowedByException } from "../helpers/isFollowedByException";
 import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
 import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
 import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
@@ -40,9 +40,9 @@ const otherAssessments = [
 		rule: ( words, nonInclusivePhrases ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrases )
 				.filter( ( ( index ) => {
-					return isNotFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
+					return isFollowedByException( words, nonInclusivePhrases, nonNouns )( index ) ||
 					isFollowedByParticiple( words, nonInclusivePhrases )( index ) ||
-					isNotFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
+					isFollowedByException( words, nonInclusivePhrases, punctuationList )( index );
 				} ) );
 		},
 	},

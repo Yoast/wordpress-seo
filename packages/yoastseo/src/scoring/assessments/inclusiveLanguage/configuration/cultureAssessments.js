@@ -1,6 +1,6 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { isFollowedByException } from "../helpers/isFollowedByException";
+import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 
@@ -21,7 +21,7 @@ const cultureAssessments = [
 		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isFollowedByException( words, nonInclusivePhrases, [ "War", "war", "Assembly", "assembly" ] ) ),
+			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "War", "war", "Assembly", "assembly" ] ) ),
 	},
 	{
 		identifier: "thirdWorld",
@@ -32,7 +32,7 @@ const cultureAssessments = [
 		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 		rule: ( words, nonInclusivePhrases ) => includesConsecutiveWords( words, nonInclusivePhrases )
-			.filter( isFollowedByException( words, nonInclusivePhrases, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
+			.filter( isNotFollowedByException( words, nonInclusivePhrases, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
 	},
 	{
 		identifier: "tribe",

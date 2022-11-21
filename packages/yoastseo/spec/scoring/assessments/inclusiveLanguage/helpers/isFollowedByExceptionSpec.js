@@ -11,8 +11,8 @@ describe( "Test isFollowedByException and isFollowedByException", () => {
 		const index = 1;
 
 		// eslint-disable-next-line callback-return
-		expect( callback( index ) ).toEqual( false );
-		expect( notCallback( index ) ).toEqual( true );
+		expect( callback( index ) ).toEqual( true );
+		expect( notCallback( index ) ).toEqual( false );
 	} );
 	it( "returns the right value when term is not followed by an exception", () => {
 		const words = "this is a cat".split( " " );
@@ -23,7 +23,7 @@ describe( "Test isFollowedByException and isFollowedByException", () => {
 		const index = 1;
 
 		// eslint-disable-next-line callback-return
-		expect( callback( index ) ).toEqual( true );
-		expect( notCallback( index ) ).toEqual( false );
+		expect( callback( index ) ).toEqual( false );
+		expect( notCallback( index ) ).toEqual( true );
 	} );
 } );
