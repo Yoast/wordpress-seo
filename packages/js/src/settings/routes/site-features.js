@@ -159,8 +159,8 @@ const SiteFeatures = () => {
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
 	const gridClassNames = useMemo(
 		() => isPremium
-			? "yst-grid yst-gap-6 yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 min-[880px]:yst-grid-cols-2 xl:yst-grid-cols-3 2xl:yst-grid-cols-4"
-			: "yst-grid yst-gap-6 yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 min-[880px]:yst-grid-cols-2 2xl:yst-grid-cols-3 min-[1800px]:yst-grid-cols-4",
+			? "yst-grid yst-gap-6 yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-3 2xl:yst-grid-cols-4"
+			: "yst-grid yst-gap-6 yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 2xl:yst-grid-cols-3 min-[1800px]:yst-grid-cols-4",
 		[ isPremium ]
 	);
 
