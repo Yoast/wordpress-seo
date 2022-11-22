@@ -188,7 +188,7 @@ const schemaAPIIntegrations = [
 		name: "The Events Calendar",
 		claim: "TBD",
 		learnMoreLink: "https://yoa.st/integrations-about-tec",
-		logoLink: "https://yoa.st/integrations-about-tec",
+		logoLink: "https://yoa.st/integrations-logo-tec",
 		type: "plugin",
 		slug: "tec",
 		description: "TBD",
