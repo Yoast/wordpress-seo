@@ -79,7 +79,7 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 			return $this->current_post_type;
 		}
 		else {
-			return $this->get_current_post_type();
+			return parent::get_current_post_type();
 		}
 	}
 
