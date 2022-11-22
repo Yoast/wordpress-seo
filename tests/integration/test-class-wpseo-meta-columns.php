@@ -538,4 +538,120 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $is_indexable );
 	}
+
+	/**
+	 * Test get_current_post_type function.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_post_type
+	 */
+	public function test_get_current_post_type() {
+		$_GET['post_type'] = 'test-post-type';
+		$this->assertEquals( 'test-post-type', self::$class_instance->get_current_post_type() );
+	}
+
+	/**
+	 * Test get_current_post_type function when the post type is not set.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_post_type
+	 */
+	public function test_get_current_post_type_not_set() {
+		$this->assertEquals( null, self::$class_instance->get_current_post_type() );
+	}
+
+	/**
+	 * Test get_current_post_type function when the post type is set to something else than a string.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_post_type
+	 */
+	public function test_get_current_post_type_not_a_string() {
+		$_GET['post_type'] = 13;
+		$this->assertEquals( null, self::$class_instance->get_current_post_type() );
+	}
+
+	/**
+	 * Test get_current_seo_filter function.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_seo_filter
+	 */
+	public function test_get_current_seo_filter() {
+		$_GET['seo_filter'] = 'test-filter';
+		$this->assertEquals( 'test-filter', self::$class_instance->get_current_seo_filter() );
+	}
+
+	/**
+	 * Test get_current_seo_filter function when the post type is not set.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_seo_filter
+	 */
+	public function test_get_current_seo_filter_not_set() {
+		$this->assertEquals( null, self::$class_instance->get_current_seo_filter() );
+	}
+
+	/**
+	 * Test get_current_seo_filter function when the post type is set to something else than a string.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_seo_filter
+	 */
+	public function test_get_current_seo_filter_not_a_string() {
+		$_GET['seo_filter'] = 13;
+		$this->assertEquals( null, self::$class_instance->get_current_seo_filter() );
+	}
+
+	/**
+	 * Test get_current_readability_filter function.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_readability_filter
+	 */
+	public function test_get_current_readability_filter() {
+		$_GET['readability_filter'] = 'test-readability-filter';
+		$this->assertEquals( 'test-readability-filter', self::$class_instance->get_current_readability_filter() );
+	}
+
+	/**
+	 * Test get_current_readability_filter function when the post type is not set.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_readability_filter
+	 */
+	public function test_get_current_readability_filter_not_set() {
+		$this->assertEquals( null, self::$class_instance->get_current_readability_filter() );
+	}
+
+	/**
+	 * Test get_current_readability_filter function when the post type is set to something else than a string.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_readability_filter
+	 */
+	public function test_get_current_readability_filter_not_a_string() {
+		$_GET['readability_filter'] = 13;
+		$this->assertEquals( null, self::$class_instance->get_current_readability_filter() );
+	}
+
+	/**
+	 * Test get_current_keyword_filter function.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_keyword_filter
+	 */
+	public function test_get_current_keyword_filter() {
+		$_GET['seo_kw_filter'] = 'test-kw-filter';
+		$this->assertEquals( 'test-kw-filter', self::$class_instance->get_current_keyword_filter() );
+	}
+
+	/**
+	 * Test get_current_keyword_filter function when the post type is not set.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_keyword_filter
+	 */
+	public function test_get_current_keyword_filter_not_set() {
+		$this->assertEquals( null, self::$class_instance->get_current_keyword_filter() );
+	}
+
+	/**
+	 * Test get_current_keyword_filter function when the post type is set to something else than a string.
+	 *
+	 * @covers WPSEO_Meta_Columns::get_current_keyword_filter
+	 */
+	public function test_get_current_keyword_filter_not_a_string() {
+		$_GET['seo_kw_filter'] = 13;
+		$this->assertEquals( null, self::$class_instance->get_current_keyword_filter() );
+	}
 }

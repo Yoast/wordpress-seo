@@ -356,7 +356,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param mixed $filter The filter to check against.
 	 *
-	 * @return bool Whether or not the filter is considered valid.
+	 * @return bool Whether the filter is considered valid.
 	 */
 	protected function is_valid_filter( $filter ) {
 		return ! empty( $filter ) && is_string( $filter );
@@ -453,7 +453,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Retrieves the post type from the $_GET variable.
 	 *
-	 * @return string The sanitized current post type or an empty string when the variable is not set in $_GET.
+	 * @return string|null The sanitized current post type or null when the variable is not set in $_GET.
 	 */
 	public function get_current_post_type() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -461,13 +461,13 @@ class WPSEO_Meta_Columns {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
 		}
-		return '';
+		return null;
 	}
 
 	/**
 	 * Retrieves the SEO filter from the $_GET variable.
 	 *
-	 * @return string The sanitized seo filter or an empty string when the variable is not set in $_GET.
+	 * @return string|null The sanitized seo filter or null when the variable is not set in $_GET.
 	 */
 	public function get_current_seo_filter() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -475,13 +475,13 @@ class WPSEO_Meta_Columns {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['seo_filter'] ) );
 		}
-		return '';
+		return null;
 	}
 
 	/**
 	 * Retrieves the Readability filter from the $_GET variable.
 	 *
-	 * @return string The sanitized readability filter or an empty string when the variable is not set in $_GET.
+	 * @return string|null The sanitized readability filter or null when the variable is not set in $_GET.
 	 */
 	public function get_current_readability_filter() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -489,13 +489,13 @@ class WPSEO_Meta_Columns {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['readability_filter'] ) );
 		}
-		return '';
+		return null;
 	}
 
 	/**
 	 * Retrieves the keyword filter from the $_GET variable.
 	 *
-	 * @return string The sanitized seo keyword filter or an empty string when the variable is not set in $_GET.
+	 * @return string|null The sanitized seo keyword filter or null when the variable is not set in $_GET.
 	 */
 	public function get_current_keyword_filter() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
@@ -503,7 +503,7 @@ class WPSEO_Meta_Columns {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['seo_kw_filter'] ) );
 		}
-		return '';
+		return null;
 	}
 
 	/**
