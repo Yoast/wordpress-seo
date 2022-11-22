@@ -326,13 +326,15 @@ class WPSEO_Taxonomy {
 	/**
 	 * Function to get the labels for the current taxonomy.
 	 *
-	 * @return object Labels for the current taxonomy.
+	 * @return object|null Labels for the current taxonomy or null if the taxonomy is not set.
 	 */
 	public static function get_labels() {
-		$term     = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
-		$taxonomy = get_taxonomy( $term );
-
-		return $taxonomy->labels;
+		if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
+			$term = sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
+			$taxonomy = get_taxonomy( $term );
+			return $taxonomy->labels;
+		}
+		return null;
 	}
 
 	/**
