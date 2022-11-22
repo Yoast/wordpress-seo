@@ -65,7 +65,7 @@ export const handleSubmit = async( values, { resetForm } ) => {
 	const canManageOptions = selectPreference( "canManageOptions", false );
 	const { person_social_profiles: personSocialProfiles } = values;
 	const { company_or_person_user_id: userId } = values.wpseo_titles;
-	const canSaveUserProfiles = selectCanEditUser( userId ) && isNumber( userId ) && userId > 0;
+	const canSaveUserProfiles = isNumber( userId ) && userId > 0 && selectCanEditUser( userId );
 
 	try {
 		await Promise.all( [
