@@ -111,8 +111,11 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
 
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$container = $this->create_container_with( [ Product_Helper::class => $product_helper_mock ] );
+
+		Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$instance = new Yoast_Feature_Toggles();
 		$result   = $instance->get_all();
@@ -175,8 +178,11 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
 
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$container = $this->create_container_with( [ Product_Helper::class => $product_helper_mock ] );
+
+		Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		Filters\expectApplied( 'wpseo_feature_toggles' )
 			->once()

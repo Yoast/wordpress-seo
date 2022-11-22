@@ -1,10 +1,13 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { get, isEmpty } from "lodash";
+import { get, isEmpty, defaultTo } from "lodash";
 
 /**
  * @returns {Object} The initial state.
  */
-export const createInitialPreferencesState = () => get( window, "wpseoScriptData.preferences", {} );
+export const createInitialPreferencesState = () => ( {
+	...get( window, "wpseoScriptData.preferences", {} ),
+	documentTitle: defaultTo( document?.title, "" ),
+} );
 
 const slice = createSlice( {
 	name: "preferences",

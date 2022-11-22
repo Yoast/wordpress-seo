@@ -174,7 +174,7 @@ $new_tab_message         = sprintf(
 
 			<?php else : ?>
 
-				<a target="_blank" href="<?php echo esc_url( $premium_extension['buyUrl'] ); ?>"
+				<a target="_blank" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" href="<?php echo esc_url( $premium_extension['buyUrl'] ); ?>"
 					class="yoast-button-upsell">
 					<?php
 					printf(
@@ -188,7 +188,7 @@ $new_tab_message         = sprintf(
 					?>
 				</a>
 
-				<a target="_blank" href="<?php echo esc_url( $premium_extension['infoUrl'] ); ?>"
+				<a target="_blank"  href="<?php echo esc_url( $premium_extension['infoUrl'] ); ?>"
 					class="yoast-link--more-info">
 					<?php
 					printf(

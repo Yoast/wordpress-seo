@@ -103,14 +103,11 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
 		$conditional->expects( 'is_met' )->once()->andReturnFalse();
 
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Indexables_Page_Conditional::class )->andReturn( $conditional );
+		$container = $this->create_container_with( [ Indexables_Page_Conditional::class => $conditional ] );
 
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $container ) ] );
 
 		// Output should contain the nonce URL.
 		$this->expectOutputContains( 'plugins.php?action=activate&plugin=' . $premium_file );

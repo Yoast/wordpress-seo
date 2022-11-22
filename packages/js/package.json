@@ -40,6 +40,7 @@
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
     "react-animate-height": "^2.0.23",
+    "react-helmet": "^6.1.0",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
     "react-select": "^3.1.0",
