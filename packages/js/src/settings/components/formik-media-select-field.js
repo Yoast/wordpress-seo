@@ -141,14 +141,14 @@ const FormikMediaSelectField = ( {
 			<Field
 				type="hidden"
 				name={ mediaIdName }
-				id={ `field-${ id }-id` }
+				id={ `input-${ id }-id` }
 				aria-describedby={ describedBy }
 				disabled={ disabled }
 			/>
 			<Field
 				type="hidden"
 				name={ mediaUrlName }
-				id={ `field-${ id }-url` }
+				id={ `input-${ id }-url` }
 				aria-describedby={ describedBy }
 				disabled={ disabled }
 			/>

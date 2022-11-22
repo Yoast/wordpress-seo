@@ -1,15 +1,56 @@
 /* eslint-disable camelcase */
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
+import { get, reduce, join, filter, toLower, isArray } from "lodash";
 import { createSearchIndex } from "../helpers";
-import { flattenObject } from "../utils";
 
 /**
- * Determines if the given value should flatten.
- * @param {*} value The value.
- * @returns {boolean} True if the value is an object or an array.
+ * @param {Object} item Search index entry.
+ * @returns {string} The keywords string with added route and field labels.
  */
-export const getShouldFlattenSearchIndex = value =>  ! value?.route;
+const createSearchItemKeywords = item => toLower( join( [
+	...( isArray( item?.keywords ) ? item.keywords : [] ),
+	item?.routeLabel,
+	item?.fieldLabel,
+], " " ) );
+
+/**
+ * Flattens the search index and lowercases some props for easy querying.
+ * @param {Object} searchIndex The search index.
+ * @param {string} parentPath The parent object path.
+ * @returns {Object} The flattened search index.
+ */
+const flattenAndLowerSearchIndex = ( searchIndex, parentPath = "" ) => reduce(
+	searchIndex,
+	( acc, item, key ) => {
+		const flatKey = join( filter( [ parentPath, key ], Boolean ), "." );
+
+		// Exception for other social URLs: only have one entry in queryable search index.
+		if ( key === "other_social_urls" ) {
+			return {
+				...acc,
+				[ flatKey ]: {
+					route: item?.route,
+					routeLabel: item?.routeLabel,
+					fieldId: item?.fieldId,
+					fieldLabel: item?.fieldLabel,
+					keywords: createSearchItemKeywords( item ),
+				},
+			};
+		}
+
+		return item?.route ? {
+			...acc,
+			[ flatKey ]: {
+				...item,
+				keywords: createSearchItemKeywords( item ),
+			},
+		} : {
+			...acc,
+			...flattenAndLowerSearchIndex( item, flatKey ),
+		};
+	},
+	{}
+);
 
 /**
  * @returns {Object} Initial search state.
@@ -32,9 +73,9 @@ const slice = createSlice( {
 export const searchSelectors = {
 	selectSearchIndex: ( state ) => get( state, "search.index", {} ),
 };
-searchSelectors.selectFlatSearchIndex = createSelector(
+searchSelectors.selectQueryableSearchIndex = createSelector(
 	searchSelectors.selectSearchIndex,
-	searchIndex => flattenObject( searchIndex, "", getShouldFlattenSearchIndex )
+	searchIndex => flattenAndLowerSearchIndex( searchIndex )
 );
 
 export const searchActions = slice.actions;
