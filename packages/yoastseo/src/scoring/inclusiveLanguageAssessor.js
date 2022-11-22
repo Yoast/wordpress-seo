@@ -16,21 +16,18 @@ class InclusiveLanguageAssessor extends Assessor {
 	constructor( researcher, options ) {
 		super( researcher, options );
 		this.type  = "inclusiveLanguageAssessor";
-		this._assessments = [];
-		inclusiveLanguageAssessmentsConfigs.forEach(
+		const infoLinks = options.infoLinks;
+
+		this._assessments = inclusiveLanguageAssessmentsConfigs.map(
 			config => {
-				const infoLinks = options.infoLinks;
 				// For each info link, retrieve the id.
-				infoLinks.forEach( infoLink => {
-					// If the info link id matches the config id, override the learnMoreURL of the config
-					if ( infoLink.id === config.id ) {
-						config.learnMoreUrl = infoLink.link;
-					}
-					this._assessments.push( new InclusiveLanguageAssessment( config ) );
-				} );
+				// If the info link id matches the config id, override the learnMoreURL of the config
+				if ( infoLinks[ config.category ] ) {
+					config.learnMoreUrl = infoLinks[ config.category ];
+				}
+				return new InclusiveLanguageAssessment( config );
 			}
 		);
-		this._assessments = flatten( this._assessments );
 	}
 
 	/**

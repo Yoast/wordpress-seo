@@ -59,7 +59,7 @@ const assessments = [
 ];
 
 assessments.forEach( assessment => {
-	assessment.id = "age";
+	assessment.category = "age";
 	assessment.learnMoreUrl = "https://yoa.st/inclusive-language-age";
 } );
 
