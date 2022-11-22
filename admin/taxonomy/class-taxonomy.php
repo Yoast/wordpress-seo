@@ -125,7 +125,11 @@ class WPSEO_Taxonomy {
 		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
-		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
+		$tag_id = null;
+		if ( isset( $_GET['tag_ID'] ) && is_string( $_GET['tag_ID'] ) ) {
+			$tag_id = (int) wp_unslash( $_GET['tag_ID'] );
+		}
+
 		if (
 			self::is_term_edit( $pagenow )
 			&& ! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
