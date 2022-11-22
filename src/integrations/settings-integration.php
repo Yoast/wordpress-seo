@@ -355,7 +355,6 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'settings'             => $this->transform_settings( $settings ),
 			'defaultSettings'      => $default_settings,
-			'upsellSettings'       => $this->get_upsell_settings(),
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
 			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
@@ -412,11 +411,12 @@ class Settings_Integration implements Integration_Interface {
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
+			'upsellSettings'                => $this->get_upsell_settings(),
 		];
 	}
 
 	/**
-	 * Returns settings for the CTB buttons.
+	 * Returns settings for the Call to Buy (CTB) buttons.
 	 *
 	 * @return string[] The array of CTB settings.
 	 */

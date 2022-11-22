@@ -38,7 +38,7 @@ const FeatureCard = ( {
 	const { isDisabled, message } = useDisabledMessage( { name } );
 	const { values } = useFormikContext();
 	const isPremiumHref = useSelectSettings( "selectLink", [ isPremiumLink ], isPremiumLink );
-	const premiumUpsellConfig = useSelectSettings( "selectUpsellSetting", [] );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const svgAriaProps = useSvgAria();
 	const value = useMemo( () => get( values, name, false ), [ values, name ] );
 	const shouldUpsell = useMemo( () => ! isPremium && isPremiumFeature, [ isPremium, isPremiumFeature ] );
@@ -91,8 +91,7 @@ const FeatureCard = ( {
 						href={ isPremiumHref }
 						target="_blank"
 						rel="noopener"
-						data-action={ premiumUpsellConfig.actionId }
-						data-ctb-id={ premiumUpsellConfig.premiumCtbId }
+						{ ...premiumUpsellConfig }
 					>
 						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 						{ sprintf(

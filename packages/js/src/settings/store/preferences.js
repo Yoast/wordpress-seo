@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { get, isEmpty, defaultTo } from "lodash";
+import { defaultTo, get, isEmpty } from "lodash";
 
 /**
  * @returns {Object} The initial state.
@@ -47,6 +47,16 @@ preferencesSelectors.selectPluginUrl = createSelector(
 		( state, path ) => path,
 	],
 	( pluginUrl, path ) => pluginUrl + path
+);
+preferencesSelectors.selectUpsellSettingsAsProps = createSelector(
+	[
+		state => preferencesSelectors.selectPreference( state, "upsellSettings", {} ),
+		( state, ctbName = "premiumCtbId" ) => ctbName,
+	],
+	( upsellSettings, ctbName ) => ( {
+		"data-action": upsellSettings?.actionId,
+		"data-ctb-id": upsellSettings?.[ ctbName ],
+	} )
 );
 
 export const preferencesActions = slice.actions;
