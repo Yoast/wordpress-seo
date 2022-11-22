@@ -27,6 +27,10 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', 'wpseo_basename' );
 }
 
+if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
+	define( 'YOAST_ENVIRONMENT', 'development' );
+}
+
 /*
  * {@internal The prefix constants are used to build prefixed versions of dependencies.
  *            These should not be changed on run-time, thus missing the ! defined() check.}}
@@ -48,6 +52,22 @@ if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
 	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/psr7/src/functions_include.php';
 	require_once WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/guzzlehttp/promises/src/functions_include.php';
 }
+
+/* ********************* LOAD TEST DOUBLES FOR WP NATIVE CLASSES ********************* */
+
+// Create the necessary test doubles for WP native classes on which properties are being set (PHP 8.2 compat).
+Yoast\WPTestUtils\BrainMonkey\makeDoublesForUnavailableClasses(
+	[
+		'WP',
+		'WP_Post',
+		'WP_Query',
+		'WP_Rewrite',
+		'WP_Roles',
+		'WP_Term',
+		'WP_User',
+		'wpdb',
+	]
+);
 
 /* ********************* DEFINES DEPENDING ON AUTOLOADED CODE ********************* */
 

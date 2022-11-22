@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters\Open_Graph;
 
 use Brain\Monkey;
 use Mockery;
+use WP;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -179,7 +180,7 @@ class Image_Presenter_Test extends TestCase {
 	 */
 	public function test_present_with_attachment_page() {
 		$this->stubEscapeFunctions();
-		$wp          = Mockery::mock();
+		$wp          = Mockery::mock( WP::class );
 		$wp->request = 'https://example.com/image';
 
 		$GLOBALS['wp'] = $wp;

@@ -56,8 +56,7 @@ class Wincher_Helper_Test extends TestCase {
 		parent::set_up();
 
 		$this->options                         = Mockery::mock( Options_Helper::class );
-		$this->instance                        = Mockery::mock( Wincher_Helper::class, [ $this->options ] )
-			->makePartial();
+		$this->instance                        = Mockery::mock( Wincher_Helper::class, [ $this->options ] )->makePartial();
 		$this->token                           = Mockery::mock( OAuth_Token::class );
 		$this->authentication_failed_exception = Mockery::mock( Authentication_Failed_Exception::class );
 	}
@@ -124,14 +123,7 @@ class Wincher_Helper_Test extends TestCase {
 		$wincher_client->expects( 'get_tokens' )->once()->andReturn( $this->token );
 		$wincher_client->expects( 'has_valid_tokens' )->once()->andReturnTrue();
 
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Wincher_Client::class )->andReturn( $wincher_client );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
+		$this->setup_wincher_client_in_classes_surface( $wincher_client );
 
 		$this->assertTrue( $this->instance->login_status() );
 	}
@@ -146,14 +138,7 @@ class Wincher_Helper_Test extends TestCase {
 		$wincher_client->expects( 'get_tokens' )->once()->andReturnNull();
 		$wincher_client->expects( 'has_valid_tokens' )->once()->andReturnFalse();
 
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Wincher_Client::class )->andReturn( $wincher_client );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
+		$this->setup_wincher_client_in_classes_surface( $wincher_client );
 
 		$this->assertFalse( $this->instance->login_status() );
 	}
@@ -169,14 +154,8 @@ class Wincher_Helper_Test extends TestCase {
 		$wincher_client->expects( 'get_tokens' )->once()->andThrow( $this->authentication_failed_exception );
 		$wincher_client->expects( 'has_valid_tokens' )->never();
 
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Wincher_Client::class )->andReturn( $wincher_client );
+		$this->setup_wincher_client_in_classes_surface( $wincher_client );
 
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
 		$this->assertFalse( $this->instance->login_status() );
 	}
 
@@ -190,15 +169,23 @@ class Wincher_Helper_Test extends TestCase {
 		$wincher_client->expects( 'get_tokens' )->once()->andThrow( Empty_Token_Exception::class );
 		$wincher_client->expects( 'has_valid_tokens' )->never();
 
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Wincher_Client::class )->andReturn( $wincher_client );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
+		$this->setup_wincher_client_in_classes_surface( $wincher_client );
 
 		$this->assertFalse( $this->instance->login_status() );
+	}
+
+	/**
+	 * Makes a wincher_client available through YoastSEO->classes->get( Wincher_Client::class ) in the SUT.
+	 *
+	 * @param Wincher_Client $wincher_client The client to expose during the test.
+	 *
+	 * @return void
+	 */
+	private function setup_wincher_client_in_classes_surface( $wincher_client ) {
+		$container = $this->create_container_with( [ Wincher_Client::class => $wincher_client ] );
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $container ) ] );
 	}
 }

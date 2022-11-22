@@ -46,8 +46,6 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Holds the disallowed settings, per option group.
 	 *
-	 * Note: these are the settings that hold Objects.
-	 *
 	 * @var array
 	 */
 	const DISALLOWED_SETTINGS = [
@@ -70,6 +68,18 @@ class Settings_Integration implements Integration_Interface {
 		'wpseo_titles' => [
 			'company_logo_meta',
 			'person_logo_meta',
+		],
+	];
+
+	/**
+	 * Holds the disabled on multisite settings, per option group.
+	 *
+	 * @var array
+	 */
+	const DISABLED_ON_MULTISITE_SETTINGS = [
+		'wpseo' => [
+			'deny_search_crawling',
+			'deny_wp_json_crawling',
 		],
 	];
 
@@ -282,9 +292,9 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function add_settings_saved_page( $pages ) {
 		\add_submenu_page(
-			null,
 			'',
-			null,
+			'',
+			'',
 			'wpseo_manage_options',
 			self::PAGE . '_saved',
 			static function () {
@@ -345,6 +355,7 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'settings'             => $this->transform_settings( $settings ),
 			'defaultSettings'      => $default_settings,
+			'upsellSettings'       => $this->get_upsell_settings(),
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
 			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
@@ -356,6 +367,7 @@ class Settings_Integration implements Integration_Interface {
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
 			'fallbacks'            => $this->get_fallbacks(),
+			'personSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
 		];
 	}
 
@@ -382,6 +394,7 @@ class Settings_Integration implements Integration_Interface {
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
 			'isLocalSeoActive'              => (bool) \defined( 'WPSEO_LOCAL_FILE' ),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
+			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
 			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
 			'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
@@ -389,13 +402,28 @@ class Settings_Integration implements Integration_Interface {
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
+			'createUserUrl'                 => \admin_url( 'user-new.php' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
+			'canCreateUsers'                => \current_user_can( 'create_users' ),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
+			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
+		];
+	}
+
+	/**
+	 * Returns settings for the CTB buttons.
+	 *
+	 * @return string[] The array of CTB settings.
+	 */
+	public function get_upsell_settings() {
+		return [
+			'actionId'     => 'load-nfd-ctb',
+			'premiumCtbId' => '57d6a568-783c-45e2-a388-847cff155897',
 		];
 	}
 
@@ -483,9 +511,21 @@ class Settings_Integration implements Integration_Interface {
 				( \ENT_NOQUOTES | \ENT_HTML5 ),
 				'UTF-8'
 			);
-
-			return $settings;
 		}
+
+		/**
+		 * Decode some WP options.
+		 */
+		$settings['blogname']        = \html_entity_decode(
+			$settings['blogname'],
+			( \ENT_NOQUOTES | \ENT_HTML5 ),
+			'UTF-8'
+		);
+		$settings['blogdescription'] = \html_entity_decode(
+			$settings['blogdescription'],
+			( \ENT_NOQUOTES | \ENT_HTML5 ),
+			'UTF-8'
+		);
 
 		return $settings;
 	}
@@ -512,7 +552,16 @@ class Settings_Integration implements Integration_Interface {
 			}
 			foreach ( $settings[ $option_name ] as $setting_name => $setting_value ) {
 				if ( $option_instance->is_disabled( $setting_name ) ) {
-					$disabled_settings[ $option_name ][ $setting_name ] = true;
+					$disabled_settings[ $option_name ][ $setting_name ] = 'network';
+				}
+			}
+		}
+
+		// Remove disabled on multisite settings.
+		foreach ( self::DISABLED_ON_MULTISITE_SETTINGS as $option_name => $disabled_ms_settings ) {
+			if ( \array_key_exists( $option_name, $disabled_settings ) ) {
+				foreach ( $disabled_ms_settings as $disabled_ms_setting ) {
+					$disabled_settings[ $option_name ][ $disabled_ms_setting ] = 'multisite';
 				}
 			}
 		}

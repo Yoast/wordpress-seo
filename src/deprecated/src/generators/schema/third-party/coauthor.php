@@ -6,6 +6,9 @@ use Yoast\WP\SEO\Generators\Schema\Author;
 
 /**
  * Returns schema Author data for the CoAuthor Plus assigned user on a post.
+ *
+ * @deprecated 19.12
+ * @codeCoverageIgnore
  */
 class CoAuthor extends Author {
 
@@ -19,18 +22,26 @@ class CoAuthor extends Author {
 	/**
 	 * Determine whether we should return Person schema.
 	 *
+	 * @deprecated 19.12
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	public function is_needed() {
+		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
 		return true;
 	}
 
 	/**
 	 * Returns Person Schema data.
 	 *
+	 * @deprecated 19.12
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool|array Person data on success, false on failure.
 	 */
 	public function generate() {
+		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
 		$user_id = $this->determine_user_id();
 		if ( ! $user_id ) {
 			return false;
@@ -52,11 +63,15 @@ class CoAuthor extends Author {
 	/**
 	 * Generate the Person data given a user ID.
 	 *
+	 * @deprecated 19.12
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $user_id User ID.
 	 *
 	 * @return array|bool
 	 */
 	public function generate_from_user_id( $user_id ) {
+		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
 		$this->user_id = $user_id;
 
 		return $this->generate();

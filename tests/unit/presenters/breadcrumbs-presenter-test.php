@@ -269,11 +269,11 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		];
 
 		$this->instance->expects( 'get_element' )
-			->once()
+			->twice()
 			->withNoArgs()
 			->andReturn( 'span' );
 
-		$link = '<span><a href="home_url">home_text</a>';
+		$link = '<span><a href="home_url">home_text</a></span>';
 
 		$this->assertEquals(
 			$link,
@@ -293,11 +293,11 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		];
 
 		$this->instance->expects( 'get_element' )
-			->once()
+			->twice()
 			->withNoArgs()
 			->andReturn( 'span' );
 
-		$link = '<span><a href="home_url">home_text</a>';
+		$link = '<span><a href="home_url">home_text</a></span>';
 
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_single_link' )
 			->once()
@@ -324,11 +324,11 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		];
 
 		$this->instance->expects( 'get_element' )
-			->once()
+			->twice()
 			->withNoArgs()
 			->andReturn( 'span' );
 
-		$link = '<span><a href="home_url" title="home_title">home_text</a>';
+		$link = '<span><a href="home_url" title="home_title">home_text</a></span>';
 
 		$this->assertEquals(
 			$link,
@@ -353,10 +353,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			->with( 'breadcrumbs-boldlast' )
 			->andReturnTrue();
 
-		$link = '<strong class="breadcrumb_last" aria-current="page">page_text</strong>';
+		$link = '<span class="breadcrumb_last" aria-current="page"><strong>page_text</strong>';
 
 		$this->instance->expects( 'get_element' )
-			->once()
+			->twice()
 			->withNoArgs()
 			->andReturn( 'span' );
 
@@ -385,10 +385,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			->with( 'breadcrumbs-boldlast' )
 			->andReturnFalse();
 
-		$link = '<span class="breadcrumb_last" aria-current="page">page_text</span>';
+		$link = '<span class="breadcrumb_last" aria-current="page">page_text';
 
 		$this->instance->expects( 'get_element' )
-			->once()
+			->twice()
 			->withNoArgs()
 			->andReturn( 'span' );
 
@@ -417,14 +417,14 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			->with( 'breadcrumbs-boldlast' )
 			->andReturnTrue();
 
-		$link = '<strong class="breadcrumb_last" aria-current="page">page_text</strong>';
+		$link = '<span class="breadcrumb_last" aria-current="page"><strong>page_text</strong>';
 
 		$this->instance->expects( 'get_element' )
-			->times( 3 )
+			->times( 2 )
 			->withNoArgs()
 			->andReturn( 'span' );
 
-		$link .= '</span></span></span>';
+		$link .= '</span>';
 
 		$this->assertEquals(
 			$link,
