@@ -47,8 +47,13 @@ class Abstract_Presentation {
 		// Clone self to allow stateful services that do benefit from DI.
 		$presentation = clone $this;
 		foreach ( $data as $key => $value ) {
-			$presentation->{$key} = $value;
+			if ( \property_exists( \get_class( $presentation ), $key ) ) {
+				$presentation->{$key} = $value;
+			} else {
+				$presentation->properties_bin[ $key ] = $value;
+			}
 		}
+
 		$presentation->is_prototype = false;
 		return $presentation;
 	}
