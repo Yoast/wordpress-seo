@@ -169,7 +169,7 @@ class WPSEO_Taxonomy {
 					// @todo replace this translation with JavaScript translations.
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
-				'metabox'          => $this->localize_term_scraper_script(),
+				'metabox'          => $this->localize_term_scraper_script( $tag_id ),
 				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 				'isTerm'           => true,
 				'postId'           => $tag_id,
@@ -252,10 +252,11 @@ class WPSEO_Taxonomy {
 	/**
 	 * Pass variables to js for use with the term-scraper.
 	 *
+	 * @param int $term_id The ID of the term to localize the script for.
+	 *
 	 * @return array
 	 */
-	public function localize_term_scraper_script() {
-		$term_id  = filter_input( INPUT_GET, 'tag_ID' );
+	public function localize_term_scraper_script( $term_id ) {
 		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$taxonomy = get_taxonomy( $term->taxonomy );
 
