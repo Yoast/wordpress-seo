@@ -71,7 +71,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		$this->link_builder     = Mockery::mock( Indexable_Link_Builder::class );
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$this->repository       = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb             = Mockery::mock( 'wpdb' );
+		$this->wpdb             = Mockery::mock( wpdb::class );
 		$this->wpdb->posts      = 'wp_posts';
 
 		$this->instance = new Post_Link_Indexing_Action(

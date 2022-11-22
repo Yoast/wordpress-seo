@@ -256,8 +256,15 @@ class Addon_Manager_Test extends TestCase {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
 
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[
@@ -362,8 +369,15 @@ class Addon_Manager_Test extends TestCase {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
 
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[
@@ -502,8 +516,16 @@ class Addon_Manager_Test extends TestCase {
 		if ( ! empty( $addons ) ) {
 			$product_helper_mock = Mockery::mock( Product_Helper::class );
 			$product_helper_mock->shouldReceive( 'is_premium' )->atMost()->times( 2 )->andReturn( false );
-			$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-			Monkey\Functions\expect( 'YoastSEO' )->atMost()->times( 2 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+			$container = $this->create_container_with(
+				[
+					Product_Helper::class => $product_helper_mock,
+				]
+			);
+
+			Monkey\Functions\expect( 'YoastSEO' )
+				->atMost()->times( 2 )
+				->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 		}
 
 		Monkey\Functions\expect( 'get_plugin_updates' )
@@ -539,8 +561,16 @@ class Addon_Manager_Test extends TestCase {
 	public function test_is_yoast_addon() {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->twice()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertTrue( $this->instance->is_yoast_addon( 'wp-seo-premium.php' ) );
 		$this->assertFalse( $this->instance->is_yoast_addon( 'non-wp-seo-addon.php' ) );
@@ -554,8 +584,16 @@ class Addon_Manager_Test extends TestCase {
 	public function test_get_slug_by_plugin_file() {
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->twice()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals( 'yoast-seo-wordpress-premium', $this->instance->get_slug_by_plugin_file( 'wp-seo-premium.php' ) );
 		$this->assertEquals( '', $this->instance->get_slug_by_plugin_file( 'non-wp-seo-addon.php' ) );
@@ -631,8 +669,16 @@ class Addon_Manager_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[],
@@ -679,8 +725,16 @@ class Addon_Manager_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[
@@ -716,8 +770,16 @@ class Addon_Manager_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->times( 3 )->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->times( 3 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with(
+			[
+				Product_Helper::class => $product_helper_mock,
+			]
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->times( 3 )
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$this->assertEquals(
 			[
