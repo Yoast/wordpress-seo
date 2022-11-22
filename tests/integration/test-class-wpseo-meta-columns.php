@@ -546,6 +546,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_current_post_type() {
 		$_GET['post_type'] = 'test-post-type';
+		self::$class_instance->set_current_post_type( null );
 		$this->assertEquals( 'test-post-type', self::$class_instance->get_current_post_type() );
 	}
 
@@ -555,6 +556,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::get_current_post_type
 	 */
 	public function test_get_current_post_type_not_set() {
+		self::$class_instance->set_current_post_type( null );
 		$this->assertEquals( null, self::$class_instance->get_current_post_type() );
 	}
 
@@ -565,6 +567,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_current_post_type_not_a_string() {
 		$_GET['post_type'] = 13;
+		self::$class_instance->set_current_post_type( null );
 		$this->assertEquals( null, self::$class_instance->get_current_post_type() );
 	}
 

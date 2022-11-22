@@ -13,7 +13,7 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	/**
 	 * The current post type.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	private $current_post_type;
 
@@ -65,7 +65,7 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	/**
 	 * Sets the current post type.
 	 *
-	 * @param string $post_type The post type.
+	 * @param string|null $post_type The post type.
 	 */
 	public function set_current_post_type( $post_type ) {
 		$this->current_post_type = $post_type;
@@ -75,7 +75,12 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	 * Gets the current post type.
 	 */
 	public function get_current_post_type() {
-		return $this->current_post_type;
+		if ( ! is_null( $this->current_post_type ) ) {
+			return $this->current_post_type;
+		}
+		else {
+			return $this->get_current_post_type();
+		}
 	}
 
 	/**
