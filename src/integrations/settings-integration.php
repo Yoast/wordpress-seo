@@ -346,15 +346,15 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$default_settings       = $this->get_default_settings();
-		$settings               = $this->get_settings( $default_settings );
+		$default_setting_values = $this->get_default_setting_values();
+		$settings               = $this->get_settings( $default_setting_values );
 		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
 
 		return [
 			'settings'             => $this->transform_settings( $settings ),
-			'defaultSettings'      => $default_settings,
+			'defaultSettingValues' => $default_setting_values,
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
 			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
@@ -428,11 +428,14 @@ class Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves the default settings.
+	 * Retrieves the default setting values.
 	 *
-	 * @return array The default settings.
+	 * These default values are currently being used in the UI for dummy fields.
+	 * Dummy fields should not expose or reflect the actual data.
+	 *
+	 * @return array The default setting values.
 	 */
-	protected function get_default_settings() {
+	protected function get_default_setting_values() {
 		$defaults = [];
 
 		// Add Yoast settings.
@@ -462,17 +465,17 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Retrieves the settings and their values.
 	 *
-	 * @param array $default_settings The default settings.
+	 * @param array $default_setting_values The default setting values.
 	 *
 	 * @return array The settings.
 	 */
-	protected function get_settings( $default_settings ) {
+	protected function get_settings( $default_setting_values ) {
 		$settings = [];
 
 		// Add Yoast settings.
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
 			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
-				$settings[ $option_name ] = \array_merge( $default_settings[ $option_name ], WPSEO_Options::get_option( $option_name ) );
+				$settings[ $option_name ] = \array_merge( $default_setting_values[ $option_name ], WPSEO_Options::get_option( $option_name ) );
 			}
 		}
 		// Add WP settings.
