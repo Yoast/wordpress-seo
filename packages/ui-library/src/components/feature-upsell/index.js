@@ -18,11 +18,10 @@ const classNameMap = {
  * @param {string} [variant] The variant. See `classNameMap.variant`.
  * @param {string} [cardLink] The card' URL to link to. Required if the variant is `card`.
  * @param {string} [cardText] The card' button text. Used when the variant is `card`.
- * @param {string} [upsellButtonAction] The value for the data-action attribute.
- * @param {string} [upsellButtonCtbId] The value for the data-ctb-id attribute.
+ * @param {Object} [cardProps] Any extra card/button props.
  * @returns {JSX.Element} The feature or the upsell around the feature.
  */
-const FeatureUpsell = ( { children, shouldUpsell = true, className = "", variant = "default", cardLink = "", cardText = "", upsellButtonAction = "", upsellButtonCtbId = "" } ) => {
+const FeatureUpsell = ( { children, shouldUpsell = true, className = "", variant = "default", cardLink = "", cardText = "", ...cardProps } ) => {
 	const svgAriaProps = useSvgAria();
 
 	if ( ! shouldUpsell ) {
@@ -40,8 +39,13 @@ const FeatureUpsell = ( { children, shouldUpsell = true, className = "", variant
 				/>
 				<div className="yst-absolute yst-inset-0 yst-z-20 yst-flex yst-items-center yst-justify-center">
 					<Button
-						as="a" className="yst-gap-2 yst-shadow-lg yst-shadow-amber-700/30" variant="upsell" href={ cardLink } target="_blank" rel="noopener"
-						data-action={ upsellButtonAction } data-ctb-id={ upsellButtonCtbId }
+						as="a"
+						className="yst-gap-2 yst-shadow-lg yst-shadow-amber-700/30"
+						variant="upsell"
+						href={ cardLink }
+						target="_blank"
+						rel="noopener"
+						{ ...cardProps }
 					>
 						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 						{ cardText }
@@ -66,8 +70,6 @@ FeatureUpsell.propTypes = {
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	cardLink: PropTypes.string,
 	cardText: PropTypes.string,
-	upsellButtonAction: PropTypes.string,
-	upsellButtonCtbId: PropTypes.string,
 };
 
 export default FeatureUpsell;

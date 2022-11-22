@@ -25,7 +25,7 @@ const DateArchives = () => {
 	const label = __( "Date archives", "wordpress-seo" );
 	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
 
-	const getPremiumUpsellConfig =  useSelectSettings( "selectUpsellSetting", [] );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -164,13 +164,12 @@ const DateArchives = () => {
 									shouldUpsell={ ! isPremium }
 									variant="card"
 									cardLink={ socialAppearancePremiumLink }
-									upsellButtonAction={ getPremiumUpsellConfig.actionId }
-									upsellButtonCtbId={ getPremiumUpsellConfig.premiumCtbId }
 									cardText={ sprintf(
 										// translators: %1$s expands to Premium.
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }
+									{ ...premiumUpsellConfig }
 								>
 									<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 									<FormikMediaSelectField
