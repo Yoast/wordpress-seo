@@ -56,7 +56,7 @@ class WPSEO_Import_Settings {
 			return;
 		}
 
-		$content = sanitize_text_field( wp_unslash( $_POST['settings_import'] ) );
+		$content = wp_unslash( $_POST['settings_import'] );
 
 		if ( empty( $content ) ) {
 			return;
