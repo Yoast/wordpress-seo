@@ -28,6 +28,6 @@ Factory.args = {
 	dropLabel: "drag and drop label",
 	screenReaderLabel: "Select a file",
 	selectDescription: "File input description",
-	isDisabled: false,
+	disabled: false,
 	onChange: noop,
 };

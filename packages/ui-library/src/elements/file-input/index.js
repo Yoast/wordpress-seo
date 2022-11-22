@@ -14,7 +14,7 @@ import Link from "../link";
  * @param {string} dropLabel Label for drop area.
  * @param {string} screenReaderLabel Screen reader label.
  * @param {string} selectDescription Description for select area.
- * @param {boolean} isDisabled Disabled state.
+ * @param {boolean} disabled Disabled state.
  * @param {JSX.Element} iconAs Icon to show in select area.
  * @param {Function} onChange The callback for when a file is uploaded.
  * @param {string} className Classname.
@@ -28,7 +28,7 @@ const FileInput = ( {
 	dropLabel,
 	screenReaderLabel,
 	selectDescription = "",
-	isDisabled = false,
+	disabled = false,
 	iconAs: IconComponent = DocumentAddIcon,
 	onChange,
 	className = "",
@@ -68,7 +68,7 @@ const FileInput = ( {
 			onDrop={ handleDrop }
 			className={ classNames( "yst-file-input", {
 				"yst-is-drag-over": isDragOver,
-				"yst-is-disabled": isDisabled,
+				"yst-is-disabled": disabled,
 				className,
 			} ) }
 		>
@@ -83,7 +83,7 @@ const FileInput = ( {
 						onChange={ onChange }
 						className="yst-file-input__input"
 						aria-labelledby={ screenReaderLabel }
-						disabled={ isDisabled }
+						disabled={ disabled }
 						{ ...props }
 					/>
 					<Link as="label" htmlFor={ id } className="yst-file-input__select-label">{ selectLabel }</Link>
@@ -104,7 +104,7 @@ FileInput.propTypes = {
 	dropLabel: PropTypes.string.isRequired,
 	screenReaderLabel: PropTypes.string.isRequired,
 	selectDescription: PropTypes.string,
-	isDisabled: PropTypes.bool,
+	disabled: PropTypes.bool,
 	iconAs: PropTypes.elementType,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
