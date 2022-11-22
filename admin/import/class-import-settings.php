@@ -56,6 +56,7 @@ class WPSEO_Import_Settings {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: The raw content will be parsed afterwards.
 		$content = wp_unslash( $_POST['settings_import'] );
 
 		if ( empty( $content ) ) {
