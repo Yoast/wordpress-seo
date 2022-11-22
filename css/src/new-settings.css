@@ -4,14 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.seo_page_wpseo_settings {
+.seo_page_wpseo_page_settings {
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
 	z-index: -1;
 
 	#wpcontent {
-		padding-left: 0;
+		padding-left: 0 !important;
 	}
 
 	#wpfooter {
