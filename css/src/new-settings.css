@@ -64,6 +64,10 @@
 			@media (min-width: 601px) and (max-width: 768px) {
 				top: 46px;
 			}
+
+			@media (min-width: 783px) {
+				@apply yst-hidden;
+			}
 		}
 
 		.yst-mobile-navigation__dialog {

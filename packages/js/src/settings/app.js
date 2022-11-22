@@ -240,7 +240,7 @@ const App = () => {
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
 				<div className="yst-p-4 md:yst-p-8 yst-flex yst-gap-4">
-					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
+					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden min-[783px]:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
 						<SidebarNavigation.Sidebar>
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
