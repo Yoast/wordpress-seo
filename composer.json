@@ -23,8 +23,7 @@
 	},
 	"require": {
 		"php": "^5.6.20 || ^7.0 || ^8.0",
-		"composer/installers": "^1.12 || ^2.0",
-		"yoast/i18n-module": "^3.1.1"
+		"composer/installers": "^1.12 || ^2.0"
 	},
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
@@ -34,8 +33,7 @@
 		"psr/log": "^1.0",
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
-		"yoast/php-development-environment": "^1.0",
-		"yoast/wp-test-utils": "^1.0.0",
+		"yoast/wp-test-utils": "^1.1.1",
 		"yoast/yoastcs": "^2.2.1",
 		"guzzlehttp/guzzle": "6.5.8",
 		"symfony/polyfill-intl-idn": "1.19.0",
