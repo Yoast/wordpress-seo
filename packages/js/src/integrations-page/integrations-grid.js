@@ -11,6 +11,7 @@ import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { ReactComponent as ZapierLogo } from "../../images/zapier-logo.svg";
 import { ReactComponent as WordproofLogo } from "../../images/wordproof-logo.svg";
 import { ReactComponent as WoocommerceLogo } from "../../images/woocommerce-logo.svg";
+import { ReactComponent as TECLogo } from "../../images/tec-logo.svg";
 import { WoocommerceIntegration } from "./woocommerce-integration";
 import { AcfIntegration } from "./acf-integration";
 import { PluginIntegration } from "./plugin-integration";
@@ -182,6 +183,21 @@ const pluginIntegrations = [
 	},
 ];
 
+const schemaAPIIntegrations = [
+	{
+		name: "The Events Calendar",
+		claim: "TBD",
+		learnMoreLink: "https://yoa.st/integrations-about-tec",
+		logoLink: "https://yoa.st/integrations-about-tec",
+		type: "plugin",
+		slug: "tec",
+		description: "TBD",
+		isPremium: false,
+		isNew: false,
+		isMultisiteAvailable: true,
+		logo: TECLogo,
+	},
+];
 /**
  * Renders a section.
  *
@@ -317,6 +333,13 @@ export default function IntegrationsGrid() {
 				<Section
 					title={ __( "Plugin integrations", "wordpress-seo" ) }
 					elements={ pluginIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "Schema API", "wordpress-seo" ) }
+					elements={ schemaAPIIntegrations }
 				/>
 
 			</div>
