@@ -453,11 +453,11 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_site_represents
 	 */
 	public function test_generate_site_represents_company_without_name() {
-		$this->instance->company_name = '';
+		$presentation = $this->instance->of( [ 'company_name' => '' ] );
 
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
 
-		$this->assertFalse( $this->instance->generate_site_represents() );
+		$this->assertFalse( $presentation->generate_site_represents() );
 	}
 
 	/**
@@ -466,12 +466,16 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_site_represents
 	 */
 	public function test_generate_site_represents_company_without_logo() {
-		$this->instance->company_name    = 'Company';
-		$this->instance->company_logo_id = 0;
+		$presentation = $this->instance->of(
+			[
+				'company_name'    => 'Company',
+				'company_logo_id' => 0,
+			]
+		);
 
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
 
-		$this->assertFalse( $this->instance->generate_site_represents() );
+		$this->assertFalse( $presentation->generate_site_represents() );
 	}
 
 	/**
@@ -480,23 +484,27 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_site_represents
 	 */
 	public function test_generate_site_represents_company_with_name_and_logo() {
-		$this->instance->company_name      = 'Company';
-		$this->instance->company_logo_id   = 12;
-		$this->instance->company_logo_meta = [
-			'width'  => 640,
-			'height' => 480,
-			'url'    => 'https://basic.wordpress.test/wp-content/uploads/2021/04/WordPress4.jpg',
-			'path'   => '/var/www/html/wp-content/uploads/2021/04/WordPress4.jpg',
-			'size'   => 'full',
-			'id'     => 12,
-			'alt'    => 'Alt. Text',
-			'pixels' => 307200,
-			'type'   => 'image/jpeg',
-		];
+		$presentation = $this->instance->of(
+			[
+				'company_name'      => 'Company',
+				'company_logo_id'   => 12,
+				'company_logo_meta' => [
+					'width'  => 640,
+					'height' => 480,
+					'url'    => 'https://basic.wordpress.test/wp-content/uploads/2021/04/WordPress4.jpg',
+					'path'   => '/var/www/html/wp-content/uploads/2021/04/WordPress4.jpg',
+					'size'   => 'full',
+					'id'     => 12,
+					'alt'    => 'Alt. Text',
+					'pixels' => 307200,
+					'type'   => 'image/jpeg',
+				],
+			]
+		);
 
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
 
-		$this->assertEquals( 'company', $this->instance->generate_site_represents() );
+		$this->assertEquals( 'company', $presentation->generate_site_represents() );
 	}
 
 	/**
@@ -505,13 +513,13 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_site_represents
 	 */
 	public function test_generate_site_represents_person_without_user() {
-		$this->instance->site_user_id = 1;
+		$presentation = $this->instance->of( [ 'site_user_id' => 1 ] );
 
 		Functions\expect( 'get_user_by' )->once()->with( 'id', 1 )->andReturn( false );
 
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'person' );
 
-		$this->assertFalse( $this->instance->generate_site_represents() );
+		$this->assertFalse( $presentation->generate_site_represents() );
 	}
 
 	/**
@@ -520,13 +528,13 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_site_represents
 	 */
 	public function test_generate_site_represents_person() {
-		$this->instance->site_user_id = 1;
+		$presentation = $this->instance->of( [ 'site_user_id' => 1 ] );
 
 		Functions\expect( 'get_user_by' )->once()->with( 'id', 1 )->andReturn( true );
 
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'person' );
 
-		$this->assertEquals( 'person', $this->instance->generate_site_represents() );
+		$this->assertEquals( 'person', $presentation->generate_site_represents() );
 	}
 
 	/**
