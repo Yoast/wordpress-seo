@@ -52,5 +52,11 @@ export const States = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
 		<Button isLoading={ true }>Loading</Button>
 		<Button disabled={ true }>Disabled</Button>
+		<Button disabled={ true } className="yst-pointer-events-none">Disabled & without pointer-events</Button>
 	</div>
 );
+States.parameters = {
+	controls: { disable: true },
+	actions: { disable: true },
+	docs: { description: { story: "Please note that the disabled state does not remove pointer-events. If you want to remove pointer-events, do it manually using a `className`." } },
+};
