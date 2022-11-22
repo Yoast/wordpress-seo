@@ -85,7 +85,7 @@ class Settings_Integration_Test extends TestCase {
 	public function test_add_submenu_page() {
 
 		Monkey\Functions\expect( 'add_submenu_page' )
-			->with( '', '', '', 'wpseo_manage_options', 'wpseo_settings_saved', Mockery::type( 'Closure' ) );
+			->with( '', '', '', 'wpseo_manage_options', 'wpseo_page_settings_saved', Mockery::type( 'Closure' ) );
 
 		$submenu_pages = [
 			'array',
