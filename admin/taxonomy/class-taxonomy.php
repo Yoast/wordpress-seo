@@ -199,9 +199,8 @@ class WPSEO_Taxonomy {
 		/* Create post array with only our values. */
 		$new_meta_data = [];
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
-			$posted_value = filter_input( INPUT_POST, $key );
-			if ( isset( $posted_value ) && $posted_value !== false ) {
-				$new_meta_data[ $key ] = $posted_value;
+			if ( isset( $_POST[$key] ) && is_string( $_POST[$key] ) ) {
+				$new_meta_data[ $key ] = sanitize_text_field( wp_unslash( $_POST[$key] ) );
 			}
 
 			// If analysis is disabled remove that analysis score value from the DB.
