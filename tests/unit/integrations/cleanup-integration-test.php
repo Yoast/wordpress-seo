@@ -74,7 +74,7 @@ class Cleanup_Integration_Test extends TestCase {
 
 		global $wpdb;
 
-		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'wp_';
 
 		$this->wpdb = $wpdb;

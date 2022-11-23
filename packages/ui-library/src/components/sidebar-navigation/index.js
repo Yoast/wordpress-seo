@@ -120,9 +120,9 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 						</button>
 					</div>
 					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto">
-						<div className="yst-h-full yst-flex yst-flex-col">
+						<nav className="yst-h-full yst-flex yst-flex-col yst-py-6 yst-px-2">
 							{ children }
-						</div>
+						</nav>
 					</div>
 				</Dialog.Panel>
 			</div>

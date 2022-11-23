@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Language_Utils;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Shortlinker_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -66,8 +67,12 @@ class Language_Utils_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with( [ Product_Helper::class => $product_helper_mock ] );
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->twice()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$shortlinker = new Shortlinker_Double();
 
