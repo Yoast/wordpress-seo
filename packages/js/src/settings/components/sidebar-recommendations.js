@@ -95,7 +95,7 @@ const SidebarRecommendations = () => {
 
 	return (
 		<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
-			<div className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 md:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-1 yst-gap-4">
+			<div className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-1 yst-gap-4">
 				<PremiumUpsellCard />
 				<div className="yst-p-6 yst-space-y-3 yst-rounded-lg yst-bg-white yst-shadow">
 					<Title as="h2" size="4" className="yst-text-base yst-text-primary-500">{ __( "Learn SEO", "wordpress-seo" ) }</Title>
