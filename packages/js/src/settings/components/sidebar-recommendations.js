@@ -44,7 +44,7 @@ const PremiumUpsellCard = () => {
 			</Title>
 			<p className="yst-mt-2">{ info }</p>
 			<Button
-				as="a" variant="upsell" size="large" href={ premiumLink }
+				as="a" variant="upsell" href={ premiumLink }
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-px-4 sm:yst-px-0"
 				{ ...premiumUpsellConfig }
 			>
