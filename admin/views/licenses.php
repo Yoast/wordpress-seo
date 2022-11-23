@@ -28,39 +28,41 @@ $extensions = [
 		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
 		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
 		'title'         => 'Local SEO',
-		'display_title' => __( 'Stop losing customers to other local businesses', 'wordpress-seo' ),
+		'display_title' => __( 'Reach new customers near your business', 'wordpress-seo' ),
 		'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 		'image'         => plugins_url( 'images/local_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits'      => [
-			__( 'Get better search results in local search', 'wordpress-seo' ),
+			__( 'Improve your local findability', 'wordpress-seo' ),
 			__( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
 			/* translators: %1$s expands to WooCommerce  */
 			sprintf( __( 'Allow customers to pick up their %s order locally', 'wordpress-seo' ), 'WooCommerce' ),
+			__( 'Reach the right audience by defining your organization type', 'wordpress-seo' ),
 		],
 	],
 	WPSEO_Addon_Manager::VIDEO_SLUG => [
 		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zx/' ),
 		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zw/' ),
 		'title'         => 'Video SEO',
-		'display_title' => __( 'Start ranking better for your videos', 'wordpress-seo' ),
+		'display_title' => __( 'Drive more traffic with your videos', 'wordpress-seo' ),
 		'desc'          => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
 		'image'         => plugins_url( 'images/video_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits'      => [
-			__( 'Show your videos in Google Videos', 'wordpress-seo' ),
-			__( 'Enhance the experience of sharing posts with videos', 'wordpress-seo' ),
-			__( 'Make videos responsive through enabling fitvids.js', 'wordpress-seo' ),
+			__( 'Help Google discover your videos', 'wordpress-seo' ),
+			__( 'Load pages fast that include videos', 'wordpress-seo' ),
+			__( 'Make your videos responsive for all screen sizes', 'wordpress-seo' ),
+			__( 'Creates XML Video Sitemaps', 'wordpress-seo' ),
 		],
 	],
 	WPSEO_Addon_Manager::NEWS_SLUG  => [
 		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zv/' ),
 		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zu/' ),
 		'title'         => 'News SEO',
-		'display_title' => __( 'Everything you need for Google News', 'wordpress-seo' ),
+		'display_title' => __( 'Rank first in Google\'s news carousel', 'wordpress-seo' ),
 		'desc'          => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
 		'image'         => plugins_url( 'images/news_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits'      => [
 			__( 'Optimize your site for Google News', 'wordpress-seo' ),
-			__( 'Immediately pings Google on the publication of a new post', 'wordpress-seo' ),
+			__( 'Pings Google on publication of a new post', 'wordpress-seo' ),
 			__( 'Creates XML News Sitemaps', 'wordpress-seo' ),
 		],
 	],
@@ -121,16 +123,28 @@ $new_tab_message         = sprintf(
 				?>
 				<ul class="yoast-seo-premium-benefits yoast-list--usp">
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Redirect manager', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'create and manage redirects from within your WordPress install.', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Reach bigger audiences', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Optimize a single post for synonyms and related keyphrases and get extra checks with the Premium SEO analysis', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Synonyms & related keyphrases', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'optimize a single post for synonyms and related keyphrases.', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Save time on doing SEO', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'The Yoast SEO workouts guide you through important routine SEO tasks.', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
-						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Social previews', 'wordpress-seo' ); ?></span>
-						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'check what your Facebook or Twitter post will look like.', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Improve your internal linking structure', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Get tools that tell you where and how to improve internal linking.', 'wordpress-seo' ); ?></span>
+					</li>
+					<li class="yoast-seo-premium-benefits__item">
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Reduce your site\'s carbon footprint', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Save energy by reducing the crawlability of your site without hurting your rankings!', 'wordpress-seo' ); ?></span>
+					</li>
+					<li class="yoast-seo-premium-benefits__item">
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Prevents 404s', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Easily create and manager redirects when you move or delete content.', 'wordpress-seo' ); ?></span>
+					</li>
+					<li class="yoast-seo-premium-benefits__item">
+						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Stand out on social media', 'wordpress-seo' ); ?></span>
+						<span class="yoast-seo-premium-benefits__description"><?php esc_html_e( 'Check what your Facebook or Twitter post will look like.', 'wordpress-seo' ); ?></span>
 					</li>
 					<li class="yoast-seo-premium-benefits__item">
 						<span class="yoast-seo-premium-benefits__title"><?php esc_html_e( 'Premium support', 'wordpress-seo' ); ?></span>
@@ -216,15 +230,18 @@ $new_tab_message         = sprintf(
 		<section class="yoast-promo-extensions">
 			<h2>
 				<?php
-				/* translators: 1: expands to Yoast SEO */
-				$yoast_seo_extensions = sprintf( esc_html__( '%1$s extensions', 'wordpress-seo' ), 'Yoast SEO' );
-				$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
+				$yoast_outrank_copy = sprintf( esc_html__( 'Outrank your competitors even further', 'wordpress-seo' ) );
+				$yoast_outrank_copy = '<span class="yoast-heading-highlight">' . $yoast_outrank_copy . '</span>';
 
 				printf(
-					/* translators: 1: expands to Yoast SEO extensions */
-					esc_html__( '%1$s to optimize your site even further', 'wordpress-seo' ),
+				/*
+				 *  translators: 1: expands to Outrank your competitors even further
+				 *  translators: 2: expands to Yoast SEO
+				 */
+					esc_html__( '%1$s with %2$s extensions', 'wordpress-seo' ),
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $yoast_seo_extensions is properly escaped.
-					$yoast_seo_extensions
+					$yoast_outrank_copy,
+					'Yoast SEO'
 				);
 				?>
 			</h2>
