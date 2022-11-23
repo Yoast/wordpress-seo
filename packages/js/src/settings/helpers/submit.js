@@ -70,7 +70,7 @@ export const handleSubmit = async( values, { resetForm } ) => {
 	try {
 		await Promise.all( [
 			// Ensure we do not save WP options when the user is not allowed to.
-			submitSettings( canManageOptions ? values : omit( values, [ "blogname", "blogdescription" ] ) ),
+			submitSettings( canManageOptions ? values : omit( values, [ "blogdescription" ] ) ),
 			// Only save the user profiles when allowed and when the user ID is a number of 1 or higher.
 			canSaveUserProfiles && submitUserSocialProfiles( userId, personSocialProfiles ),
 		] );
