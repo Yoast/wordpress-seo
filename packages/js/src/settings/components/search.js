@@ -6,7 +6,8 @@ import { __ } from "@wordpress/i18n";
 import { Modal, useSvgAria, useToggleState, TextInput, Title } from "@yoast/ui-library";
 import { debounce, max, first, isEmpty, map, reduce, trim, includes, split, values, groupBy } from "lodash";
 import { Link } from "react-router-dom";
-import { useSelectSettings } from "../hooks";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useSelectSettings, useUserAgentParser } from "../hooks";
 
 const QUERY_MIN_CHARS = 3;
 
@@ -38,6 +39,10 @@ const Search = () => {
 	const [ results, setResults ] = useState( [] );
 	const ariaSvgProps = useSvgAria();
 	const inputRef = useRef( null );
+	const { platform, os } = useUserAgentParser();
+
+	// Only bind hotkeys when platform type is desktop.
+	useHotkeys( "ctrl+k, meta+k", () => platform?.type === "desktop" && ! isOpen && setOpen(), [ isOpen, setOpen ] );
 
 	const handleNavigate = useCallback( () => {
 		setClose();
@@ -108,6 +113,11 @@ const Search = () => {
 				{ ...ariaSvgProps }
 			/>
 			<span>{ query || __( "Quick search...", "wordpress-seo" ) }</span>
+			{ platform?.type === "desktop" && (
+				<span className="yst-ml-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400">
+					{ os?.name === "macOS" ? __( "⌘K", "wordpress-seo" ) : __( "CtrlK", "wordpress-seo" ) }
+				</span>
+			) }
 		</button>
 		<Modal
 			onClose={ setClose }

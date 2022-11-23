@@ -52,7 +52,9 @@
     "formik": "^2.2.9",
     "@reduxjs/toolkit": "^1.8.3",
     "react-router-dom": "^6.3.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "bowser": "^2.11.0",
+    "react-hotkeys-hook": "^4.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
