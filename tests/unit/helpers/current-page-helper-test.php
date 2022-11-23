@@ -753,4 +753,88 @@ class Current_Page_Helper_Test extends TestCase {
 
 		$this->assertTrue( $this->instance->is_multiple_terms_page() );
 	}
+
+	/**
+	 * Test is_yoast_seo_page function.
+	 *
+	 * @covers ::is_yoast_seo_page
+	 */
+	public function test_is_yoast_seo_page() {
+		$_GET['page'] = 'wpseo_something';
+
+		$this->assertEquals( true, $this->instance->is_yoast_seo_page() );
+	}
+
+	/**
+	 * Test is_yoast_seo_page function when page is not set.
+	 *
+	 * @covers ::is_yoast_seo_page
+	 */
+	public function test_is_yoast_seo_page_page_not_set() {
+		$this->assertEquals( false, $this->instance->is_yoast_seo_page() );
+	}
+
+	/**
+	 * Test is_yoast_seo_page function when page is null.
+	 *
+	 * @covers ::is_yoast_seo_page
+	 */
+	public function test_is_yoast_seo_page_page_is_null() {
+		$_GET['page'] = null;
+
+		$this->assertEquals( false, $this->instance->is_yoast_seo_page() );
+	}
+
+	/**
+	 * Test is_yoast_seo_page function when page is something else than a string.
+	 *
+	 * @covers ::is_yoast_seo_page
+	 */
+	public function test_is_yoast_seo_page_page_is_int() {
+		$_GET['page'] = 13;
+
+		$this->assertEquals( false, $this->instance->is_yoast_seo_page() );
+	}
+
+	/**
+	 * Test get_current_yoast_seo_page function.
+	 *
+	 * @covers ::get_current_yoast_seo_page
+	 */
+	public function test_get_current_yoast_seo_page() {
+		$_GET['page'] = 'wpseo_something';
+
+		$this->assertEquals( 'wpseo_something', $this->instance->get_current_yoast_seo_page() );
+	}
+
+	/**
+	 * Test get_current_yoast_seo_page function when page is not set.
+	 *
+	 * @covers ::get_current_yoast_seo_page
+	 */
+	public function test_get_current_yoast_seo_page_page_not_set() {
+		$this->assertEquals( null, $this->instance->get_current_yoast_seo_page() );
+	}
+
+	/**
+	 * Test get_current_yoast_seo_page function when page is null.
+	 *
+	 * @covers ::get_current_yoast_seo_page
+	 */
+	public function test_get_current_yoast_seo_page_page_is_null() {
+		$_GET['page'] = null;
+
+		$this->assertEquals( null, $this->instance->get_current_yoast_seo_page() );
+	}
+
+	/**
+	 * Test get_current_yoast_seo_page function when page is something else than a string.
+	 *
+	 * @covers ::get_current_yoast_seo_page
+	 */
+	public function test_get_current_yoast_seo_page_page_is_int() {
+		$_GET['page'] = 13;
+
+		$this->assertEquals( null, $this->instance->get_current_yoast_seo_page() );
+	}
 }
