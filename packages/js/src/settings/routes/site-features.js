@@ -86,7 +86,7 @@ const FeatureCard = ( {
 				{ shouldUpsell && (
 					<Button
 						as="a"
-						className="yst-gap-2 yst-w-full yst-px-0"
+						className="yst-gap-2 yst-w-full yst-px-2"
 						variant="upsell"
 						href={ isPremiumHref }
 						target="_blank"
