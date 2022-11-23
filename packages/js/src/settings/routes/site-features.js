@@ -53,7 +53,7 @@ const FeatureCard = ( {
 			<Card.Header className="yst-h-auto yst-p-0">
 				<img
 					className={ classNames(
-						"yst-w-full",
+						"yst-w-full yst-transition yst-duration-200",
 						shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
 					) }
 					src={ imageSrc }
@@ -86,7 +86,7 @@ const FeatureCard = ( {
 				{ shouldUpsell && (
 					<Button
 						as="a"
-						className="yst-gap-2 yst-w-full"
+						className="yst-gap-2 yst-w-full yst-px-2"
 						variant="upsell"
 						href={ isPremiumHref }
 						target="_blank"
@@ -136,7 +136,7 @@ const LearnMoreLink = ( { id, link } ) => {
 			rel="noopener"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 rtl:-yst-scale-x-100" />
+			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
 		</a>
 	);
 };
@@ -159,8 +159,8 @@ const SiteFeatures = () => {
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
 	const gridClassNames = useMemo(
 		() => isPremium
-			? "yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4"
-			: "yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-1 md:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-3 2xl:yst-grid-cols-4",
+			? "yst-grid yst-gap-6 yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-3 2xl:yst-grid-cols-4"
+			: "yst-grid yst-gap-6 yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 2xl:yst-grid-cols-3 min-[1800px]:yst-grid-cols-4",
 		[ isPremium ]
 	);
 

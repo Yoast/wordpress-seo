@@ -35,16 +35,16 @@ const PremiumUpsellCard = () => {
 	return (
 		<div className="yst-p-6 yst-rounded-lg yst-text-white yst-bg-primary-500 yst-shadow">
 			<figure
-				className="yst-logo-square yst-w-20 yst-h-20 yst-mt-[-3rem] yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none"
+				className="yst-logo-square yst-w-16 yst-h-16 yst-mt-[-2rem] yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none"
 			>
 				<YoastSeoLogo />
 			</figure>
-			<h2 className="yst-mt-6 yst-text-xl yst-font-black yst-text-white">
+			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
 				{ getPremium }
-			</h2>
+			</Title>
 			<p className="yst-mt-2">{ info }</p>
 			<Button
-				as="a" variant="upsell" size="large" href={ premiumLink }
+				as="a" variant="upsell" href={ premiumLink }
 				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-px-4 sm:yst-px-0"
 				{ ...premiumUpsellConfig }
 			>
@@ -69,7 +69,7 @@ const PremiumUpsellCard = () => {
 						<Star className="yst-w-5 yst-h-5" />
 						<StarHalf className="yst-w-5 yst-h-5" />
 					</span>
-					<span className="yst-text-base yst-font-semibold yst-text-white">4.6 / 5</span>
+					<span className="yst-text-sm yst-font-semibold yst-text-white">4.6 / 5</span>
 				</span>
 			</a>
 		</div>
@@ -94,15 +94,8 @@ const SidebarRecommendations = () => {
 	), [] );
 
 	return (
-		<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[19rem]">
-			<p className="yst-text-primary-500 yst-leading-loose yst-pb-2 yst-border-b-2 yst-border-primary-300">
-				{ sprintf(
-					/* translators: %1$s expands to Yoast */
-					__( "%1$s recommendations for you", "wordpress-seo" ),
-					"Yoast"
-				) }
-			</p>
-			<div className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 md:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-1 yst-gap-4 yst-mt-9">
+		<div className="xl:yst-max-w-3xl xl:yst-fixed xl:yst-right-8 xl:yst-w-[16rem]">
+			<div className="yst-grid yst-grid-cols-1 sm:yst-grid-cols-2 min-[783px]:yst-grid-cols-1 lg:yst-grid-cols-2 xl:yst-grid-cols-1 yst-gap-4">
 				<PremiumUpsellCard />
 				<div className="yst-p-6 yst-space-y-3 yst-rounded-lg yst-bg-white yst-shadow">
 					<Title as="h2" size="4" className="yst-text-base yst-text-primary-500">{ __( "Learn SEO", "wordpress-seo" ) }</Title>

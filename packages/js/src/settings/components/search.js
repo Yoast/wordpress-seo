@@ -34,7 +34,6 @@ const Search = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
-	const searchIndex = useSelectSettings( "selectSearchIndex" );
 	const queryableSearchIndex = useSelectSettings( "selectQueryableSearchIndex" );
 	const [ results, setResults ] = useState( [] );
 	const ariaSvgProps = useSvgAria();
@@ -92,7 +91,7 @@ const Search = () => {
 		} );
 
 		setResults( sortedGroupedQueryResults );
-	}, 100 ), [ queryableSearchIndex, searchIndex ] );
+	}, 100 ), [ queryableSearchIndex ] );
 
 	const handleQueryChange = useCallback( event => {
 		setQuery( event.target.value );
