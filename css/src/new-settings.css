@@ -22,10 +22,6 @@
 
 			padding-left: 17rem;
 		}
-
-		@media (min-width: 1024px) {
-			padding-left: 19rem;
-		}
 	}
 }
 
@@ -34,6 +30,10 @@
 		/* Reset some WP common styles */
 		a {
 			@apply focus:yst-shadow-none;
+		}
+
+		p {
+			font-size: inherit;
 		}
 
 		.yst-radio__input {
