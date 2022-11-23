@@ -1,7 +1,6 @@
 import Assessor from "./assessor";
 import inclusiveLanguageAssessmentsConfigs from	"./assessments/inclusiveLanguage/configuration";
 import InclusiveLanguageAssessment from "./assessments/inclusiveLanguage/InclusiveLanguageAssessment";
-import { flatten } from "lodash-es";
 
 /**
  * An assessor that assesses a paper for potentially non-inclusive language.
@@ -10,8 +9,8 @@ class InclusiveLanguageAssessor extends Assessor {
 	/**
 	 * Creates a new inclusive language assessor.
 	 *
-	 * @param {Researcher} researcher The researcher to use.
-	 * @param {Object} options The assessor options.
+	 * @param {Researcher}  	researcher 		The researcher to use.
+	 * @param {Object}      	options 		The assessor options.
 	 */
 	constructor( researcher, options ) {
 		super( researcher, options );
@@ -20,8 +19,8 @@ class InclusiveLanguageAssessor extends Assessor {
 
 		this._assessments = inclusiveLanguageAssessmentsConfigs.map(
 			config => {
-				// For each info link, retrieve the id.
-				// If the info link id matches the config id, override the learnMoreURL of the config
+				// For each info link (the shortlinks for Shopify), retrieve the category.
+				// If the info link category matches the config category, override the learnMoreURL of the config.
 				if ( infoLinks[ config.category ] ) {
 					config.learnMoreUrl = infoLinks[ config.category ];
 				}

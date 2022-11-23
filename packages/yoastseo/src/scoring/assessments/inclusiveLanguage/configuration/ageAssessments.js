@@ -8,7 +8,7 @@ const specificAgeGroup = "Or, if possible, be specific about the group you are r
 const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known" +
 	" (e.g. <i>has Alzheimer's</i>).";
 
-const assessments = [
+const ageAssessments = [
 	{
 		identifier: "seniorCitizens",
 		nonInclusivePhrases: [ "senior citizen", "senior citizens" ],
@@ -58,9 +58,9 @@ const assessments = [
 	},
 ];
 
-assessments.forEach( assessment => {
+ageAssessments.forEach( assessment => {
 	assessment.category = "age";
 	assessment.learnMoreUrl = "https://yoa.st/inclusive-language-age";
 } );
 
-export default assessments;
+export default ageAssessments;
