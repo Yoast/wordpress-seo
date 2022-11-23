@@ -8,7 +8,7 @@ import {
 	DesktopComputerIcon,
 	NewspaperIcon,
 } from "@heroicons/react/outline";
-import { useCallback, useMemo, StrictMode } from "@wordpress/element";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -110,17 +110,15 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 			>
-				<StrictMode>
-					<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-						{ map( taxonomies, taxonomy => (
-							<SidebarNavigation.SubmenuItem
-								to={ `/taxonomy/${ taxonomy.route }` }
-								label={ taxonomy.label }
-								idSuffix={ idSuffix }
-							/>
-						) ) }
-					</ChildrenLimiter>
-				</StrictMode>
+				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+					{ map( taxonomies, taxonomy => (
+						<SidebarNavigation.SubmenuItem
+							to={ `/taxonomy/${ taxonomy.route }` }
+							label={ taxonomy.label }
+							idSuffix={ idSuffix }
+						/>
+					) ) }
+				</ChildrenLimiter>
 
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
