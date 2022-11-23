@@ -590,6 +590,13 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldLabel: __( "Organization name", "wordpress-seo" ),
 			keywords: [],
 		},
+		company_alternate_name: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-company_alternate_name",
+			fieldLabel: __( "Alternate organization name", "wordpress-seo" ),
+			keywords: [],
+		},
 		company_logo_id: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
