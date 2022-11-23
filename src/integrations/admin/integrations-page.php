@@ -104,7 +104,6 @@ class Integrations_Page implements Integration_Interface {
 		$acf_seo_file_github  = 'yoast-acf-analysis/yoast-acf-analysis.php';
 		$algolia_file         = 'wp-search-with-algolia/algolia.php';
 		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
-		$tec_file             = 'the-events-calendar/the-events-calendar.php';
 
 		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
 		$woocommerce_seo_installed         = \file_exists( \WP_PLUGIN_DIR . '/' . $woocommerce_seo_file );
@@ -117,7 +116,7 @@ class Integrations_Page implements Integration_Interface {
 		$acf_active                        = \class_exists( 'acf' );
 		$algolia_active                    = $wpseo_plugin_availability_checker->is_active( $algolia_file );
 		$old_algolia_active                = $wpseo_plugin_availability_checker->is_active( $old_algolia_file );
-		$tec_active                        = $wpseo_plugin_availability_checker->is_active( $tec_file );
+		$tec_active                        = \class_exists( \TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema::class );
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
