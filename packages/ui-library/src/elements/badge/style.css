@@ -32,8 +32,8 @@
 
 		.yst-badge--plain {
 			@apply
-			yst-bg-slate-100
-			yst-text-slate-800;
+			yst-bg-slate-200
+			yst-text-slate-900;
 		}
 
 		/* Sizes */

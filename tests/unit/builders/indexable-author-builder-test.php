@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
@@ -81,7 +82,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
 
 		$this->post_helper = Mockery::mock( Post_Helper::class );
-		$this->wpdb        = Mockery::mock( 'wpdb' );
+		$this->wpdb        = Mockery::mock( wpdb::class );
 		$this->wpdb->posts = 'wp_posts';
 
 		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->post_helper, $this->wpdb );
@@ -134,6 +135,12 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
+		$this->author_archive
+			->expects( 'author_has_public_posts_wp' )
+			->with( 1 )
+			->once()
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
@@ -166,7 +173,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
-			->twice()
+			->once()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'are_disabled' )
@@ -205,6 +212,12 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_when_user_is_explicitly_included_by_filter() {
+		$this->author_archive
+			->expects( 'author_has_public_posts_wp' )
+			->with( 1 )
+			->once()
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
@@ -239,7 +252,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
-			->twice()
+			->once()
 			->andReturn( true );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -276,6 +289,12 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_without_alternative_image() {
+		$this->author_archive
+			->expects( 'author_has_public_posts_wp' )
+			->with( 1 )
+			->once()
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
@@ -299,7 +318,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
-			->twice()
+			->once()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'are_disabled' )
@@ -346,6 +365,12 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_with_undefined_author_meta() {
+		$this->author_archive
+			->expects( 'author_has_public_posts_wp' )
+			->with( 1 )
+			->once()
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( '' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( '' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( '' );
@@ -374,7 +399,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive
 			->expects( 'author_has_public_posts' )
 			->with( 1 )
-			->twice()
+			->once()
 			->andReturn( true );
 		$this->author_archive
 			->expects( 'are_disabled' )
@@ -419,7 +444,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->andReturn( true );
 
 		$this->author_archive
-			->expects( 'author_has_public_posts' )
+			->expects( 'author_has_public_posts_wp' )
 			->with( 1 )
 			->andReturn( true );
 
@@ -443,7 +468,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'author_has_public_posts' )
+			->expects( 'author_has_public_posts_wp' )
 			->with( $user_id )
 			->andReturn( false );
 
@@ -466,7 +491,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->expects( 'are_disabled' )
 			->andReturn( false );
 		$this->author_archive
-			->expects( 'author_has_public_posts' )
+			->expects( 'author_has_public_posts_wp' )
 			->with( $user_id )
 			->andReturn( false );
 

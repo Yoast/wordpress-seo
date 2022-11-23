@@ -8,7 +8,6 @@ module.exports = {
 		"css/dist/*.css",
 		"!<%= paths.css %>monorepo*.css",
 		"<%= files.cssMap %>",
-		"<%= paths.css %>/select2",
 	],
 	artifact: [
 		"<%= files.artifact %>",

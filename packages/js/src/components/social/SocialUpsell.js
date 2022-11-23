@@ -47,6 +47,8 @@ const SocialUpsell = ( props ) => {
 				}
 				<br />
 				<YoastShortLink
+					data-action="load-nfd-ctb"
+					data-ctb-id="57d6a568-783c-45e2-a388-847cff155897"
 					href={ wpseoAdminL10n[ "shortlinks.upsell.social_previews" ] }
 				>
 					<p>{ upgradeText }</p>
