@@ -53,7 +53,7 @@ const FeatureCard = ( {
 			<Card.Header className="yst-h-auto yst-p-0">
 				<img
 					className={ classNames(
-						"yst-w-full yst-transition-all yst-duration-200",
+						"yst-w-full yst-transition yst-duration-200",
 						shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
 					) }
 					src={ imageSrc }
