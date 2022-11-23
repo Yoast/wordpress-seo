@@ -14,7 +14,7 @@ const withFormikDummyField = Component => {
 	 * @returns {JSX.Element} The element.
 	 */
 	const ComponentWithFormikDummyField = ( { name, isDummy = false, ...props } ) => {
-		const defaultValue = useSelectSettings( "selectDefaultSetting", [ name ], name );
+		const defaultValue = useSelectSettings( "selectDefaultSettingValue", [ name ], name );
 
 		if ( isDummy ) {
 			return <Component
