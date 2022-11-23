@@ -1,9 +1,6 @@
-import { useMemo } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
-import { get, isEmpty } from "lodash";
 import PropTypes from "prop-types";
-import { useSelectSettings } from "../hooks";
+import { useDisabledMessage } from "../hooks";
 
 /**
  * Adds disabled message support around a component.
@@ -17,31 +14,14 @@ const withDisabledMessageSupport = ( Component ) => {
 	 * @returns {JSX.Element} The element.
 	 */
 	const WithDisabledMessageSupport = ( { name, ...props } ) => {
-		const isNetworkAdmin = useSelectSettings( "selectPreference", [], "isNetworkAdmin" );
-		const isMainSite = useSelectSettings( "selectPreference", [], "isMainSite" );
-		const disabledSetting = useMemo( () => get( window, `wpseoScriptData.disabledSettings.${ name }`, "" ), [] );
-		const isDisabledTracking = useMemo(
-			() => name === "wpseo.tracking" && ! isNetworkAdmin && ! isMainSite,
-			[ name, isNetworkAdmin, isMainSite ]
-		);
-		const text = useMemo( () => {
-			if ( isDisabledTracking ) {
-				return __( "Unavailable for sub-sites", "wordpress-seo" );
-			}
-			switch ( disabledSetting ) {
-				case "multisite":
-					return __( "Unavailable for multi-sites", "wordpress-seo" );
-				default:
-					return __( "Network disabled", "wordpress-seo" );
-			}
-		}, [ disabledSetting, isDisabledTracking ] );
+		const { isDisabled, message } = useDisabledMessage( { name } );
 
-		if ( ! isEmpty( disabledSetting ) || isDisabledTracking ) {
+		if ( isDisabled ) {
 			return <Component
 				name={ name }
 				{ ...props }
 				disabled={ true }
-				labelSuffix={ <Badge variant="plain" size="small" className="yst-ml-1.5">{ text }</Badge> }
+				labelSuffix={ <Badge variant="plain" size="small" className="yst-ml-1.5">{ message }</Badge> }
 			/>;
 		}
 		return <Component name={ name } { ...props } />;
