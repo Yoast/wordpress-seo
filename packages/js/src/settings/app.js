@@ -119,7 +119,6 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 						/>
 					) ) }
 				</ChildrenLimiter>
-
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
 				id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
