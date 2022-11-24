@@ -77,12 +77,12 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 			code1: <>
 				{ map( initialPostTypeValues, ( postType, index ) => (
 					<>
-						<Code key={ postType?.name }>{ toLower( postType?.label ) }</Code>
+						<Code key={ postType?.name }>{ postType?.label }</Code>
 						{ index < initialPostTypeValues.length - 1 && " " }
 					</>
 				) ) }
 			</>,
-			code2: <Code>{ toLower( lastPostTypeValue?.label ) }</Code>,
+			code2: <Code>{ lastPostTypeValue?.label }</Code>,
 		}
 	), [ label, initialPostTypeValues, lastPostTypeValue ] );
 	const taxonomySinglePostTypeMessage = useMemo( () => createInterpolateElement(
@@ -94,7 +94,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 			label,
 			"<code />"
 		), {
-			code: <Code>{ toLower( lastPostTypeValue?.label ) }</Code>,
+			code: <Code>{ lastPostTypeValue?.label }</Code>,
 		}
 	), [ label, lastPostTypeValue ] );
 
@@ -110,7 +110,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 					__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 					labelLower
 				) }
-				{ ! isEmpty( initialPostTypeValues ) && (
+				{ ! isEmpty( postTypeValues ) && (
 					<>
 						<br />
 						{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
