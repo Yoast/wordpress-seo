@@ -7,7 +7,7 @@ import { Modal, useSvgAria, useToggleState, TextInput, Title } from "@yoast/ui-l
 import { debounce, max, first, isEmpty, map, reduce, trim, includes, split, values, groupBy } from "lodash";
 import { Link } from "react-router-dom";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useSelectSettings, useUserAgentParser } from "../hooks";
+import { useSelectSettings, useParsedUserAgent } from "../hooks";
 
 const QUERY_MIN_CHARS = 3;
 
@@ -39,7 +39,7 @@ const Search = () => {
 	const [ results, setResults ] = useState( [] );
 	const ariaSvgProps = useSvgAria();
 	const inputRef = useRef( null );
-	const { platform, os } = useUserAgentParser();
+	const { platform, os } = useParsedUserAgent();
 
 	// Only bind hotkeys when platform type is desktop.
 	useHotkeys( "ctrl+k, meta+k", () => platform?.type === "desktop" && ! isOpen && setOpen(), [ isOpen, setOpen ] );
