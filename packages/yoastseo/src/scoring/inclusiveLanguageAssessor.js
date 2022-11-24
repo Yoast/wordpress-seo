@@ -1,6 +1,7 @@
 import Assessor from "./assessor";
 import inclusiveLanguageAssessmentsConfigs from	"./assessments/inclusiveLanguage/configuration";
 import InclusiveLanguageAssessment from "./assessments/inclusiveLanguage/InclusiveLanguageAssessment";
+import { isUndefined } from "lodash-es";
 
 /**
  * An assessor that assesses a paper for potentially non-inclusive language.
@@ -15,11 +16,11 @@ class InclusiveLanguageAssessor extends Assessor {
 	constructor( researcher, options ) {
 		super( researcher, options );
 		this.type  = "inclusiveLanguageAssessor";
-		const infoLinks = options.infoLinks;
+		const infoLinks = isUndefined( options ) ? {} : options.infoLinks;
 
 		this._assessments = inclusiveLanguageAssessmentsConfigs.map(
 			config => {
-				// For each info link (the shortlinks for Shopify), retrieve the category.
+				// Retrieve the categories for each key in the infoLinks object (it exists in the Shopify repo).
 				// If the info link category matches the config category, override the learnMoreURL of the config.
 				if ( infoLinks[ config.category ] ) {
 					config.learnMoreUrl = infoLinks[ config.category ];
