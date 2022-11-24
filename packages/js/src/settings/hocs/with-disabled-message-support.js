@@ -17,12 +17,17 @@ const withDisabledMessageSupport = ( Component ) => {
 		const { isDisabled, message } = useDisabledMessage( { name } );
 
 		if ( isDisabled ) {
-			return <Component
-				name={ name }
-				{ ...props }
-				disabled={ true }
-				labelSuffix={ <Badge variant="plain" size="small" className="yst-ml-1.5">{ message }</Badge> }
-			/>;
+			return (
+				<div>
+					<Badge variant="plain" size="small" className="yst-mb-2">{ message }</Badge>
+					<Component
+						name={ name }
+						{ ...props }
+						disabled={ true }
+					/>
+				</div>
+
+			);
 		}
 		return <Component name={ name } { ...props } />;
 	};
