@@ -50,7 +50,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
-
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
