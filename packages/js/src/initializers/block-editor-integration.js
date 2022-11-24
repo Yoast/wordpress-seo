@@ -102,8 +102,8 @@ function registerFills( store ) {
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
-	const sidebarLocationContext = { locationContext: "block-sidebar" };
-	const metaboxLocationContext = { locationContext: "block-metabox" };
+	const blockSidebarContext = { locationContext: "block-sidebar" };
+	const blockMetaboxContext = { locationContext: "block-metabox" };
 
 	/**
 	 * Renders the yoast editor fills.

@@ -51,7 +51,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
-	const locationContext = { locationContext: "elementor-sidebar" };
+	const elementorSidebarContext = { locationContext: "elementor-sidebar" };
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }

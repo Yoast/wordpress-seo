@@ -68,7 +68,7 @@ class RegisteredComponentsContainer extends wpComponent {
 export function renderClassicEditorMetabox( store ) {
 	const localizedData = getL10nObject();
 	containerRef = createRef();
-	const metaboxLocationContext = { locationContext: "classic-metabox" };
+	const classicMetaboxContext = { locationContext: "classic-metabox" };
 	const theme = {
 		isRtl: localizedData.isRtl,
 	};
