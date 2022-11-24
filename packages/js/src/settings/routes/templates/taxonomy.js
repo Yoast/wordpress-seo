@@ -113,7 +113,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 					__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 					labelLower
 				) }
-				<br />
+				&nbsp;
 				{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
 			</> }
 		>

@@ -2,7 +2,7 @@
 import { ArrowNarrowRightIcon, LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, Button, Card, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Card, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
@@ -154,7 +154,6 @@ const SiteFeatures = () => {
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
 	const { values } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
-	const { opengraph } = values.wpseo_social;
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4

@@ -115,7 +115,7 @@ const FormatArchives = () => {
 											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 											labelLower
 										) }
-										<br />
+										&nbsp;
 										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 											{ __( "Read more about the search results settings", "wordpress-seo" ) }
 										</Link>
