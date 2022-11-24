@@ -17,7 +17,7 @@ const Checkbox = ( {
 	name,
 	value,
 	label,
-	disabled = false,
+	disabled,
 	className,
 	...props
 } ) => (
