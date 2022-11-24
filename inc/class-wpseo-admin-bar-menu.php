@@ -210,7 +210,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 				if ( $is_seo_enabled ) {
 					$focus_keyword = ( ! is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) || is_null( $indexable->primary_focus_keyword ) ) ? __( 'not set', 'wordpress-seo' ) : $indexable->primary_focus_keyword;
-	
+
 					$wp_admin_bar->add_menu(
 						[
 							'parent' => self::MENU_IDENTIFIER,
