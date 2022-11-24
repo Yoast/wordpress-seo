@@ -163,7 +163,7 @@ const Search = () => {
 				) }
 				{ query.length < QUERY_MIN_CHARS && (
 					<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
-						<p className="yst-text-slate-500">{ __( "Please enter a search term that is longer than 3 characters.", "wordpress-seo" ) }</p>
+						<p className="yst-text-slate-500">{ __( "Please enter a search term with at leat 3 characters.", "wordpress-seo" ) }</p>
 					</SearchNoResultsContent>
 				) }
 				{ query.length >= QUERY_MIN_CHARS && isEmpty( results ) && (
