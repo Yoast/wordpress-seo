@@ -1,7 +1,7 @@
+import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 
 import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
-
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { ReactComponent as ZapierLogo } from "../../images/zapier-logo.svg";
@@ -11,7 +11,17 @@ import { ToggleableIntegration } from "./toggleable-integration";
 const integrations = [
 	{
 		name: "Semrush",
-		claim: __( "Do keyword research without leaving your post", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: Semrush; 3: bold close tag. */
+				__( "Use %1$s%2$s%3$s to do keyword research - without leaving your post", "wordpress-seo" ),
+				"<strong>",
+				"Semrush",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-semrush",
 		logoLink: "http://yoa.st/semrush-prices-wordpress",
 		slug: "semrush",
@@ -27,9 +37,19 @@ const integrations = [
 	},
 	{
 		name: "Wincher",
-		claim: __( "Track your rankings through time", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: Wincher; 3: bold close tag. */
+				__( "Track your rankings through time with %1$s%2$s%3$s", "wordpress-seo" ),
+				"<strong>",
+				"Wincher",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-wincher",
-		logoLink: "https://yoa.st/integrations-about-wincher",
+		logoLink: "https://yoa.st/integrations-logo-wincher",
 		slug: "wincher",
 		description: sprintf(
 			/* translators: 1: Wincher */
@@ -43,9 +63,19 @@ const integrations = [
 	},
 	{
 		name: "WordProof",
-		claim: __( "Make your terms & privacy pages more trustworthy", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: WordProof; 3: bold close tag. */
+				__( "Make your terms & privacy pages more trustworthy with %1$s%2$s%3$s", "wordpress-seo" ),
+				"<strong>",
+				"WordProof",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-wordproof",
-		logoLink: "https://yoa.st/integrations-about-wordproof",
+		logoLink: "https://yoa.st/integrations-logo-wordproof",
 		slug: "wordproof",
 		description: sprintf(
 			/* translators: 1: WordProof */
@@ -60,9 +90,19 @@ const integrations = [
 	},
 	{
 		name: "Zapier",
-		claim: __( "Upgrade your workflow and automate tasks", "wordpress-seo" ),
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: Zapier; 3: bold close tag. */
+				__( "Upgrade your workflow and automate tasks with %1$s%2$s%3$s", "wordpress-seo" ),
+				"<strong>",
+				"Zapier",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
 		learnMoreLink: "https://yoa.st/integrations-about-zapier",
-		logoLink: "https://yoa.st/integrations-about-zapier",
+		logoLink: "https://yoa.st/integrations-logo-zapier",
 		slug: "zapier",
 		description: sprintf(
 			/* translators: 1: Zapier */
