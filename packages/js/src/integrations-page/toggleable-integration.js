@@ -153,7 +153,6 @@ ToggleableIntegration.propTypes = {
 		claim: PropTypes.string,
 		learnMoreLink: PropTypes.string,
 		logoLink: PropTypes.string,
-		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,
