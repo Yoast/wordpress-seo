@@ -80,6 +80,27 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected $product_helper;
 
 	/**
+	 * Whether SEO Score is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_seo_enabled = null;
+
+	/**
+	 * Whether readability is enabled.
+	 *
+	 * @var bool
+	 */
+	protected $is_readability_enabled = null;
+
+	/**
+	 * The indexable for the current WordPress page.
+	 *
+	 * @var Indexable
+	 */
+	protected $current_indexable = null;
+
+	/**
 	 * Constructs the WPSEO_Admin_Bar_Menu.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager        Optional. Asset manager to use.
@@ -110,6 +131,42 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$this->asset_manager        = $asset_manager;
 		$this->indexable_repository = $indexable_repository;
 		$this->score_icon_helper    = $score_icon_helper;
+	}
+
+	/**
+	 * Gets whether SEO score is enabled, with cache applied.
+	 *
+	 * @return bool True if SEO score is enabled, false otherwise.
+	 */
+	protected function get_is_seo_enabled() {
+		if ( is_null( $this->is_seo_enabled ) ) {
+			$this->is_seo_enabled = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
+		}
+		return $this->is_seo_enabled;
+	}
+
+	/**
+	 * Gets whether readability is enabled, with cache applied.
+	 *
+	 * @return bool True if SEO score is enabled, false otherwise.
+	 */
+	protected function get_is_readability_enabled() {
+		if ( is_null( $this->is_readability_enabled ) ) {
+			$this->is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
+		}
+		return $this->is_readability_enabled;
+	}
+
+	/**
+	 * Returns the indexable for the current WordPress page, with cache applied.
+	 *
+	 * @return Indexable True if SEO score is enabled, false otherwise.
+	 */
+	protected function get_current_indexable() {
+		if ( is_null( $this->current_indexable ) ) {
+			$this->current_indexable = $this->indexable_repository->for_current_page();
+		}
+		return $this->current_indexable;
 	}
 
 	/**
@@ -146,35 +203,42 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		if ( ! is_admin() ) {
 
 			if ( is_singular() || is_tag() || is_tax() || is_category() ) {
-				$indexable     = $this->indexable_repository->for_current_page();
-				$focus_keyword = ( ! is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) || is_null( $indexable->primary_focus_keyword ) ) ? __( 'not set', 'wordpress-seo' ) : $indexable->primary_focus_keyword;
+				$is_seo_enabled         = $this->get_is_seo_enabled();
+				$is_readability_enabled = $this->get_is_readability_enabled();
 
-				$wp_admin_bar->add_menu(
-					[
-						'parent' => self::MENU_IDENTIFIER,
-						'id'     => 'wpseo-seo-focus-keyword',
-						'title'  => __( 'Focus keyphrase: ', 'wordpress-seo' ) . '<span class="wpseo-focus-keyword">' . $focus_keyword . '</span>',
-						'meta'   => [ 'tabindex' => '0' ],
-					]
-				);
+				$indexable = $this->get_current_indexable();
 
-				$wp_admin_bar->add_menu(
-					[
-						'parent' => self::MENU_IDENTIFIER,
-						'id'     => 'wpseo-seo-score',
-						'title'  => __( 'SEO score', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_seo( $indexable, 'adminbar-sub-menu-score' )->present(),
-						'meta'   => [ 'tabindex' => '0' ],
-					]
-				);
+				if ( $is_seo_enabled ) {
+					$focus_keyword = ( ! is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) || is_null( $indexable->primary_focus_keyword ) ) ? __( 'not set', 'wordpress-seo' ) : $indexable->primary_focus_keyword;
+	
+					$wp_admin_bar->add_menu(
+						[
+							'parent' => self::MENU_IDENTIFIER,
+							'id'     => 'wpseo-seo-focus-keyword',
+							'title'  => __( 'Focus keyphrase: ', 'wordpress-seo' ) . '<span class="wpseo-focus-keyword">' . $focus_keyword . '</span>',
+							'meta'   => [ 'tabindex' => '0' ],
+						]
+					);
+					$wp_admin_bar->add_menu(
+						[
+							'parent' => self::MENU_IDENTIFIER,
+							'id'     => 'wpseo-seo-score',
+							'title'  => __( 'SEO score', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_seo( $indexable, 'adminbar-sub-menu-score' )->present(),
+							'meta'   => [ 'tabindex' => '0' ],
+						]
+					);
+				}
 
-				$wp_admin_bar->add_menu(
-					[
-						'parent' => self::MENU_IDENTIFIER,
-						'id'     => 'wpseo-readability-score',
-						'title'  => __( 'Readability', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-sub-menu-score' )->present(),
-						'meta'   => [ 'tabindex' => '0' ],
-					]
-				);
+				if ( $is_readability_enabled ) {
+					$wp_admin_bar->add_menu(
+						[
+							'parent' => self::MENU_IDENTIFIER,
+							'id'     => 'wpseo-readability-score',
+							'title'  => __( 'Readability', 'wordpress-seo' ) . ': ' . $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-sub-menu-score' )->present(),
+							'meta'   => [ 'tabindex' => '0' ],
+						]
+					);
+				}
 
 				if ( ! $this->product_helper->is_premium() ) {
 					$wp_admin_bar->add_menu(
@@ -315,55 +379,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			];
 			$wp_admin_bar->add_menu( $admin_bar_menu_args );
 		}
-	}
-
-	/**
-	 * Adds the admin bar keyword research submenu.
-	 *
-	 * @param WP_Admin_Bar $wp_admin_bar Admin bar instance to add the menu to.
-	 *
-	 * @return void
-	 */
-	protected function add_keyword_research_submenu( WP_Admin_Bar $wp_admin_bar ) {
-		$adwords_url = 'https://yoa.st/keywordplanner';
-		$trends_url  = 'https://yoa.st/google-trends';
-
-		$post = $this->get_singular_post();
-		if ( $post ) {
-			$focus_keyword = $this->get_post_focus_keyword( $post );
-
-			if ( ! empty( $focus_keyword ) ) {
-				$trends_url .= '#q=' . rawurlencode( $focus_keyword );
-			}
-		}
-
-		$menu_args = [
-			'parent' => self::MENU_IDENTIFIER,
-			'id'     => self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER,
-			'title'  => __( 'Keyword Research', 'wordpress-seo' ),
-			'meta'   => [ 'tabindex' => '0' ],
-		];
-		$wp_admin_bar->add_menu( $menu_args );
-
-		$submenu_items = [
-			[
-				'id'    => 'wpseo-kwresearchtraining',
-				'title' => __( 'Keyword research training', 'wordpress-seo' ),
-				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
-			],
-			[
-				'id'    => 'wpseo-adwordsexternal',
-				'title' => __( 'Google Ads', 'wordpress-seo' ),
-				'href'  => $adwords_url,
-			],
-			[
-				'id'    => 'wpseo-googleinsights',
-				'title' => __( 'Google Trends', 'wordpress-seo' ),
-				'href'  => $trends_url,
-			],
-		];
-
-		$this->add_submenu_items( $submenu_items, $wp_admin_bar, self::KEYWORD_RESEARCH_SUBMENU_IDENTIFIER );
 	}
 
 	/**
@@ -772,10 +787,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return string The score icon, or empty string.
 	 */
 	protected function get_score_icon() {
-		$is_seo_enabled         = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
-		$is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
+		$is_seo_enabled         = $this->get_is_seo_enabled();
+		$is_readability_enabled = $this->get_is_readability_enabled();
 
-		$indexable = $this->indexable_repository->for_current_page();
+		$indexable = $this->get_current_indexable();
 
 		if ( $is_seo_enabled ) {
 			return $this->score_icon_helper->for_seo( $indexable, 'adminbar-seo-score' )->present();
