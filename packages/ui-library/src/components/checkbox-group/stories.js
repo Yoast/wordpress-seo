@@ -1,5 +1,5 @@
-import { useState, useCallback } from "@wordpress/element";
-
+import { useCallback, useState } from "@wordpress/element";
+import { Checkbox } from "../../index";
 import CheckboxGroup from ".";
 
 export default {
@@ -54,7 +54,7 @@ WithLabelAndDescription.args = {
 		{ value: "3", label: "Option 3" },
 		{ value: "4", label: "Option 4" },
 	],
-	children: "Checkbox group with a description.",
+	description: "Checkbox group with a description.",
 };
 
 export const WithValues = Template.bind();
