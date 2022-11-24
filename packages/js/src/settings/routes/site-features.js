@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
-import { ArrowNarrowRightIcon, LockOpenIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon, LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, Button, Card, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
+import { Alert, Badge, Button, Card, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
@@ -413,9 +413,18 @@ const SiteFeatures = () => {
 										"Yoast SEO"
 									) }
 								</p>
-								{ enableXmlSitemap && <Link id="link-xml-sitemaps" href={ sitemapUrl } target="_blank" rel="noopener">
+								{ enableXmlSitemap && <Button
+									as="a"
+									id="link-xml-sitemaps"
+									href={ sitemapUrl }
+									variant="secondary"
+									target="_blank"
+									rel="noopener"
+									className="yst-self-start"
+								>
 									{ __( "View the XML sitemap", "wordpress-seo" ) }
-								</Link> }
+									<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+								</Button> }
 								<LearnMoreLink id="link-xml-sitemaps" link="https://yoa.st/2a-" />
 							</FeatureCard>
 							<FeatureCard
