@@ -835,7 +835,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		"title-search-wpseo": {
 			route: "/search-pages",
 			routeLabel: __( "Search pages", "wordpress-seo" ),
-			fieldId: "input-wpseo_titles.title-search-wpseo",
+			fieldId: "input-wpseo_titles-title-search-wpseo",
 			fieldLabel: __( "SEO title", "wordpress-seo" ),
 			keywords: [],
 		},
@@ -843,7 +843,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		"title-404-wpseo": {
 			route: "/not-found-pages",
 			routeLabel: __( "404 pages", "wordpress-seo" ),
-			fieldId: "input-wpseo_titles.title-404-wpseo",
+			fieldId: "input-wpseo_titles-title-404-wpseo",
 			fieldLabel: __( "SEO title", "wordpress-seo" ),
 			keywords: [],
 		},
