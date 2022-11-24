@@ -122,13 +122,13 @@ function registerFills( store ) {
 				name="seo-sidebar"
 				title={ pluginTitle }
 			>
-				<Root context={ sidebarLocationContext }>
+				<Root context={ blockSidebarContext }>
 					<SidebarSlot store={ store } theme={ theme } />
 				</Root>
 			</PluginSidebar>
 			<Fragment>
 				<SidebarFill store={ store } theme={ theme } />
-				<Root context={ metaboxLocationContext }>
+				<Root context={ blockMetaboxContext }>
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 				</Root>
 			</Fragment>

@@ -76,7 +76,7 @@ export function renderClassicEditorMetabox( store ) {
 	render(
 		(
 			<SlotFillProvider>
-				<Root context={ metaboxLocationContext }>
+				<Root context={ classicMetaboxContext }>
 					<MetaboxPortal
 						target="wpseo-metabox-root"
 						store={ store }
