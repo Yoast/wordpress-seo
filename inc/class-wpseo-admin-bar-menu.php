@@ -94,9 +94,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected $is_readability_enabled = null;
 
 	/**
-	 * The indexable for the current WordPress page.
+	 * The indexable for the current WordPress page, if found.
 	 *
-	 * @var Indexable
+	 * @var bool|Indexable
 	 */
 	protected $current_indexable = null;
 
@@ -148,7 +148,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets whether readability is enabled, with cache applied.
 	 *
-	 * @return bool True if SEO score is enabled, false otherwise.
+	 * @return bool True if readability is enabled, false otherwise.
 	 */
 	protected function get_is_readability_enabled() {
 		if ( is_null( $this->is_readability_enabled ) ) {
@@ -160,7 +160,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the indexable for the current WordPress page, with cache applied.
 	 *
-	 * @return Indexable True if SEO score is enabled, false otherwise.
+	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	protected function get_current_indexable() {
 		if ( is_null( $this->current_indexable ) ) {
