@@ -408,7 +408,7 @@ const CrawlOptimization = () => {
 								{ __( "Remove URLs which provide an overview of recent comments on your site.", "wordpress-seo" ) }
 								&nbsp;
 								{ descriptions.removeFeedGlobalComments }
-								{ __( "Also disables Post comment feeds.", "wordpress-seo" ) }
+								{ __( "Also disables post comment feeds.", "wordpress-seo" ) }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
 								as={ ToggleField }
