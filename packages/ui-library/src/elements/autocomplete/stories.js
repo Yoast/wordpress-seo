@@ -69,4 +69,29 @@ Factory.parameters = {
 };
 Factory.args = {
 	id: "autocomplete",
+	value: "",
+};
+
+export const WithError = Template.bind( {} );
+
+WithError.parameters = {
+	controls: { disable: false },
+};
+WithError.args = {
+	id: "autocomplete",
+	value: "",
+	label: "Auto complete with error and label",
+	isError: true,
+};
+
+export const WithPlaceholder = Template.bind( {} );
+
+WithPlaceholder.parameters = {
+	controls: { disable: false },
+};
+
+WithPlaceholder.args = {
+	id: "autocomplete",
+	value: "",
+	placeholder: "Search a value...",
 };
