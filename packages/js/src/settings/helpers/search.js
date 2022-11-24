@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { __, sprintf } from "@wordpress/i18n";
-import { reduce, times, omit } from "lodash";
+import { omit, reduce, times } from "lodash";
 
 /**
  * @param {Object} postType The post type.
@@ -211,13 +211,6 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
  * @returns {Object} The search index.
  */
 export const createSearchIndex = ( postTypes, taxonomies ) => ( {
-	blogname: {
-		route: "/site-basics",
-		routeLabel: __( "Site basics", "wordpress-seo" ),
-		fieldId: "input-blogname",
-		fieldLabel: __( "Site title", "wordpress-seo" ),
-		keywords: [],
-	},
 	blogdescription: {
 		route: "/site-basics",
 		routeLabel: __( "Site basics", "wordpress-seo" ),
@@ -553,6 +546,20 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		},
 	},
 	wpseo_titles: {
+		website_name: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-website_name",
+			fieldLabel: __( "Website name", "wordpress-seo" ),
+			keywords: [],
+		},
+		alternate_website_name: {
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-alternate_website_name",
+			fieldLabel: __( "Alternate website name", "wordpress-seo" ),
+			keywords: [],
+		},
 		forcerewritetitles: {
 			route: "/site-basics",
 			routeLabel: __( "Site basics", "wordpress-seo" ),
@@ -581,6 +588,13 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-company_name",
 			fieldLabel: __( "Organization name", "wordpress-seo" ),
+			keywords: [],
+		},
+		company_alternate_name: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-company_alternate_name",
+			fieldLabel: __( "Alternate organization name", "wordpress-seo" ),
 			keywords: [],
 		},
 		company_logo_id: {

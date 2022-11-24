@@ -86,9 +86,9 @@ const PersonSocialProfiles = () => {
  */
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
-	const { blogname } = values;
 	// eslint-disable-next-line camelcase
 	const {
+		website_name: websiteName,
 		company_or_person: companyOrPerson,
 		company_or_person_user_id: companyOrPersonId,
 		company_name: companyName,
@@ -168,11 +168,11 @@ const SiteRepresentation = () => {
 								description={ __( "Please tell us more about your organization. This information will help Google to understand your website, and improve your chance of getting rich results.", "wordpress-seo" ) }
 							>
 								{ ( ! companyName || companyLogoId < 1 ) && (
-									<Alert id="alert-organization-name-logo" variant="warning">
+									<Alert id="alert-organization-name-logo" variant="info">
 										{ addLinkToString(
 											sprintf(
 												// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-												__( "An organization name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
+												__( "An organization name and logo need to be set for structured data to work properly. Since you haven’t set these yet, we are using the site name and logo as default values. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
 												"<a>",
 												"</a>"
 											),
@@ -186,7 +186,14 @@ const SiteRepresentation = () => {
 									name="wpseo_titles.company_name"
 									id="input-wpseo_titles-company_name"
 									label={ __( "Organization name", "wordpress-seo" ) }
-									placeholder={ blogname }
+									placeholder={ websiteName }
+								/>
+								<Field
+									as={ TextField }
+									name="wpseo_titles.company_alternate_name"
+									id="input-wpseo_titles-company_alternate_name"
+									label={ __( "Alternate organization name", "wordpress-seo" ) }
+									description={ __( "Use the alternate organization name for acronyms, or a shorter version of your organization's name.", "wordpress-seo" ) }
 								/>
 								<FormikMediaSelectField
 									id="wpseo_titles-company_logo"
