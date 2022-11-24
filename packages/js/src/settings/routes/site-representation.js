@@ -253,14 +253,14 @@ const SiteRepresentation = () => {
 														placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
 														className="yst-grow"
 													/>
-													<button
-														type="button"
+													<Button
+														variant="secondary"
 														// eslint-disable-next-line react/jsx-no-bind
 														onClick={ arrayHelpers.remove.bind( null, index ) }
-														className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+														className="yst-mt-7 yst-p-2.5"
 													>
 														<TrashIcon className="yst-h-5 yst-w-5" />
-													</button>
+													</Button>
 												</div>
 											) ) }
 											{ /* eslint-disable-next-line react/jsx-no-bind */ }
