@@ -44,6 +44,7 @@ Factory.args = {
 };
 
 export const WithLabelAndDescription = Template.bind();
+
 WithLabelAndDescription.args = {
 	id: "checkbox-group-1",
 	name: "name-1",
@@ -58,6 +59,7 @@ WithLabelAndDescription.args = {
 };
 
 export const WithValues = Template.bind();
+
 WithValues.args = {
 	id: "checkbox-group-2",
 	name: "name-2",
@@ -72,6 +74,7 @@ WithValues.args = {
 };
 
 export const ChildrenProp = Template.bind();
+
 ChildrenProp.args = {
 	id: "checkbox-group-3",
 	name: "name-3",
