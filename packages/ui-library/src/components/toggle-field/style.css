@@ -4,6 +4,7 @@
 			@apply
 			yst-flex
 			yst-flex-col
+			yst-gap-2
 			yst-max-w-sm;
 		}
 
