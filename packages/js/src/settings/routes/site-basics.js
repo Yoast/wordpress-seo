@@ -11,7 +11,10 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
+import { withDisabledMessageSupport } from "../hocs";
 import { useSelectSettings } from "../hooks";
+
+const ToggleFieldWithDisabledMessageSupport = withDisabledMessageSupport( ToggleField );
 
 /**
  * @returns {JSX.Element} The site defaults route.
@@ -123,11 +126,11 @@ const SiteBasics = () => {
 						description={ siteInfoDescription }
 					>
 						{ ! canManageOptions && (
-							<Alert variant="warning" id="alert-site-defaults-variables">
+							<Alert variant="warning" id="alert-site-defaults-variables" className="yst-mb-8">
 								{  canNotManageOptionsAlertText }
 							</Alert>
 						) }
-						<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+						<div className="lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 							<Field
 								as={ TextField }
 								type="text"
@@ -210,7 +213,7 @@ const SiteBasics = () => {
 							) }
 						/>
 						<FormikValueChangeField
-							as={ ToggleField }
+							as={ ToggleFieldWithDisabledMessageSupport }
 							type="checkbox"
 							name="wpseo.tracking"
 							data-id="input-wpseo-tracking"

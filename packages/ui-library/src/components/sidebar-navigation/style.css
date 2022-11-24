@@ -1,5 +1,5 @@
 .yst-mobile-navigation__top {
-	@apply yst-sticky yst-top-0 yst-w-full md:yst-hidden yst-z-50;
+	@apply yst-sticky yst-top-0 yst-w-full yst-z-50;
 }
 
 .yst-mobile-navigation__dialog {

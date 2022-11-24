@@ -27,6 +27,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -191,6 +192,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 								__( "Unlock with %1$s", "wordpress-seo" ),
 								"Premium"
 							) }
+							{ ...premiumUpsellConfig }
 						>
 							<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 							<FormikMediaSelectField

@@ -25,6 +25,7 @@ const DateArchives = () => {
 	const label = __( "Date archives", "wordpress-seo" );
 	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
 
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -168,6 +169,7 @@ const DateArchives = () => {
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }
+									{ ...premiumUpsellConfig }
 								>
 									<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 									<FormikMediaSelectField

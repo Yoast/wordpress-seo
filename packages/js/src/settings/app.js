@@ -1,3 +1,4 @@
+import { Transition } from "@headlessui/react";
 import {
 	AdjustmentsIcon,
 	ArrowNarrowRightIcon,
@@ -157,7 +158,8 @@ Menu.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const PremiumUpsellList = () => {
-	const getPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/17h" );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 
 	return (
 		<div className="yst-p-6 xl:yst-max-w-3xl yst-rounded-lg yst-bg-white yst-shadow">
@@ -189,8 +191,12 @@ const PremiumUpsellList = () => {
 				<li><span className="yst-font-semibold">{ __( "No ads!", "wordpress-seo" ) }</span></li>
 			</ul>
 			<Button
-				as="a" variant="upsell" size="large" href={ getPremiumLink }
+				as="a"
+				variant="upsell"
+				size="large"
+				href={ premiumLink }
 				className="yst-gap-2 yst-mt-4"
+				{ ...premiumUpsellConfig }
 			>
 				{ sprintf(
 					/* translators: %s expands to "Yoast SEO" Premium */
@@ -230,50 +236,61 @@ const App = () => {
 				>
 					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
-				<div className="yst-p-4 md:yst-p-8 yst-flex yst-gap-4">
-					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden md:yst-block yst-pb-6 yst-bottom-0 yst-w-56 lg:yst-w-64">
+				<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-gap-4">
+					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden min-[783px]:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
 						<SidebarNavigation.Sidebar>
 							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
-					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[20.5rem]" ) }>
+					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
 						<div className="yst-grow yst-space-y-6 yst-mb-6 xl:yst-mb-0">
 							<main className="yst-rounded-lg yst-bg-white yst-shadow">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
-									<Routes>
-										<Route path="author-archives" element={ <AuthorArchives /> } />
-										<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
-										<Route path="crawl-optimization" element={ <CrawlSettings /> } />
-										<Route path="date-archives" element={ <DateArchives /> } />
-										<Route path="homepage" element={ <Homepage /> } />
-										<Route path="format-archives" element={ <FormatArchives /> } />
-										<Route path="media" element={ <Media /> } />
-										<Route path="rss" element={ <Rss /> } />
-										<Route path="site-basics" element={ <SiteBasics /> } />
-										<Route path="site-connections" element={ <SiteConnections /> } />
-										<Route path="site-representation" element={ <SiteRepresentation /> } />
-										<Route path="site-features" element={ <SiteFeatures /> } />
-										<Route path="special-pages" element={ <SpecialPages /> } />
-										<Route path="post-type">
-											{ map( postTypes, postType => (
-												<Route
-													key={ `route-post-type-${ postType.name }` }
-													path={ postType.route }
-													element={ <PostType { ...postType } /> }
-												/>
-											) ) }
-										</Route>
-										<Route path="taxonomy">
-											{ map( taxonomies, taxonomy => (
-												<Route
-													key={ `route-taxonomy-${ taxonomy.name }` }
-													path={ taxonomy.route }
-													element={ <Taxonomy { ...taxonomy } /> }
-												/>
-											) ) }
-										</Route>
-										<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
-									</Routes>
+									<Transition
+										key={ pathname }
+										appear={ true }
+										show={ true }
+										enter="yst-transition-opacity yst-delay-100 yst-duration-300"
+										enterFrom="yst-opacity-0"
+										enterTo="yst-opacity-100"
+									>
+										{ /* eslint-disable react/jsx-max-depth */ }
+										<Routes>
+											<Route path="author-archives" element={ <AuthorArchives /> } />
+											<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
+											<Route path="crawl-optimization" element={ <CrawlSettings /> } />
+											<Route path="date-archives" element={ <DateArchives /> } />
+											<Route path="homepage" element={ <Homepage /> } />
+											<Route path="format-archives" element={ <FormatArchives /> } />
+											<Route path="media" element={ <Media /> } />
+											<Route path="rss" element={ <Rss /> } />
+											<Route path="site-basics" element={ <SiteBasics /> } />
+											<Route path="site-connections" element={ <SiteConnections /> } />
+											<Route path="site-representation" element={ <SiteRepresentation /> } />
+											<Route path="site-features" element={ <SiteFeatures /> } />
+											<Route path="special-pages" element={ <SpecialPages /> } />
+											<Route path="post-type">
+												{ map( postTypes, postType => (
+													<Route
+														key={ `route-post-type-${ postType.name }` }
+														path={ postType.route }
+														element={ <PostType { ...postType } /> }
+													/>
+												) ) }
+											</Route>
+											<Route path="taxonomy">
+												{ map( taxonomies, taxonomy => (
+													<Route
+														key={ `route-taxonomy-${ taxonomy.name }` }
+														path={ taxonomy.route }
+														element={ <Taxonomy { ...taxonomy } /> }
+													/>
+												) ) }
+											</Route>
+											<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
+										</Routes>
+										{ /* eslint-enable react/jsx-max-depth */ }
+									</Transition>
 								</ErrorBoundary>
 							</main>
 							{ ! isPremium && <PremiumUpsellList /> }

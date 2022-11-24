@@ -3,8 +3,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, Link } from "@yoast/ui-library";
 import FeatureUpsell from "@yoast/ui-library/src/components/feature-upsell";
 import { useFormikContext } from "formik";
-import AnimateHeight from "react-animate-height";
 import { toLower } from "lodash";
+import AnimateHeight from "react-animate-height";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -25,9 +25,10 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
 const AuthorArchives = () => {
 	const label = __( "Author archives", "wordpress-seo" );
 	const singularLabel = __( "Author archive", "wordpress-seo" );
-	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
-	const singularLabelLower = useMemo( ()=> toLower( singularLabel ), [ singularLabel ] );
+	const labelLower = useMemo( () => toLower( label ), [ label ] );
+	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
 
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const duplicateContentInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/duplicate-content" );
@@ -187,6 +188,7 @@ const AuthorArchives = () => {
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }
+									{ ...premiumUpsellConfig }
 								>
 									<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 									<FormikMediaSelectField

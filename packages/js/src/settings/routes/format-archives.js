@@ -31,6 +31,7 @@ const FormatArchives = () => {
 	const { name, label } = useSelectSettings( "selectTaxonomy", [], "post_format" );
 	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
 
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
@@ -162,6 +163,7 @@ const FormatArchives = () => {
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }
+									{ ...premiumUpsellConfig }
 								>
 									<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 									<FormikMediaSelectField

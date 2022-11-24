@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec2fcd65b8abd1685931aed43affc557",
+    "content-hash": "547cd9c05b8752223aa703f8e206660e",
     "packages": [
         {
             "name": "composer/installers",
@@ -158,53 +158,55 @@
             "time": "2021-09-13T08:19:44+00:00"
         },
         {
-            "name": "yoast/i18n-module",
-            "version": "3.1.1",
+            "name": "yoast/whip",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "9d0a2f6daea6fb42376b023e7778294d19edd85d"
+                "url": "https://github.com/Yoast/whip.git",
+                "reference": "49a6120d89a53874391d1451be8ef279feec0eae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/9d0a2f6daea6fb42376b023e7778294d19edd85d",
-                "reference": "9d0a2f6daea6fb42376b023e7778294d19edd85d",
+                "url": "https://api.github.com/repos/Yoast/whip/zipball/49a6120d89a53874391d1451be8ef279feec0eae",
+                "reference": "49a6120d89a53874391d1451be8ef279feec0eae",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2"
+                "php": ">=5.3"
             },
             "require-dev": {
+                "php-parallel-lint/php-console-highlighter": "^0.5",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpunit/phpunit": "^4.5 || ^5.7 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
                 "roave/security-advisories": "dev-master",
-                "yoast/yoastcs": "^1.2.2"
+                "yoast/yoastcs": "^2.1.0"
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/facades/wordpress.php"
+                ],
                 "classmap": [
                     "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0-or-later"
+                "GPL-3.0-or-later"
             ],
             "authors": [
                 {
                     "name": "Team Yoast",
-                    "email": "support@yoast.com",
-                    "homepage": "https://yoast.com"
+                    "email": "support@yoast.com"
                 }
             ],
-            "description": "Handle i18n for WordPress plugins.",
-            "homepage": "https://github.com/Yoast/i18n-module",
-            "keywords": [
-                "wordpress"
-            ],
+            "description": "A WordPress package to nudge users to upgrade their software versions (starting with PHP)",
+            "homepage": "https://github.com/Yoast/whip",
             "support": {
-                "issues": "https://github.com/Yoast/i18n-module/issues",
-                "source": "https://github.com/Yoast/i18n-module"
+                "issues": "https://github.com/Yoast/whip/issues",
+                "source": "https://github.com/Yoast/whip"
             },
-            "time": "2019-05-07T06:45:05+00:00"
+            "time": "2021-07-20T11:22:45+00:00"
         }
     ],
     "packages-dev": [
@@ -4433,59 +4435,17 @@
             "time": "2020-05-13T23:57:56+00:00"
         },
         {
-            "name": "yoast/php-development-environment",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Yoast/php-development-environment.git",
-                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/php-development-environment/zipball/d53b054d96b688a96e47d4c2e4306983375efd75",
-                "reference": "d53b054d96b688a96e47d4c2e4306983375efd75",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "define.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Team Yoast",
-                    "email": "support@yoast.com",
-                    "homepage": "https://yoast.com"
-                }
-            ],
-            "description": "Yoast PHP development environment.",
-            "homepage": "https://github.com/Yoast/php-development-environment",
-            "keywords": [
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/Yoast/php-development-environment/issues",
-                "source": "https://github.com/Yoast/php-development-environment/tree/1.0.1"
-            },
-            "time": "2016-06-16T10:12:26+00:00"
-        },
-        {
             "name": "yoast/phpunit-polyfills",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/PHPUnit-Polyfills.git",
-                "reference": "5ea3536428944955f969bc764bbe09738e151ada"
+                "reference": "3c621ff5429d2b1ff96dc5808ad6cde99d31ea4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/PHPUnit-Polyfills/zipball/5ea3536428944955f969bc764bbe09738e151ada",
-                "reference": "5ea3536428944955f969bc764bbe09738e151ada",
+                "url": "https://api.github.com/repos/Yoast/PHPUnit-Polyfills/zipball/3c621ff5429d2b1ff96dc5808ad6cde99d31ea4c",
+                "reference": "3c621ff5429d2b1ff96dc5808ad6cde99d31ea4c",
                 "shasum": ""
             },
             "require": {
@@ -4493,7 +4453,7 @@
                 "phpunit/phpunit": "^4.8.36 || ^5.7.21 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
             "require-dev": {
-                "yoast/yoastcs": "^2.2.0"
+                "yoast/yoastcs": "^2.2.1"
             },
             "type": "library",
             "extra": {
@@ -4533,29 +4493,29 @@
                 "issues": "https://github.com/Yoast/PHPUnit-Polyfills/issues",
                 "source": "https://github.com/Yoast/PHPUnit-Polyfills"
             },
-            "time": "2021-11-23T01:37:03+00:00"
+            "time": "2022-11-16T09:07:52+00:00"
         },
         {
             "name": "yoast/wp-test-utils",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/wp-test-utils.git",
-                "reference": "21df3a08974ee62f489f64e34be7f26a32ec872c"
+                "reference": "f955f6a6bd8c625f3ae47b2c19fff1caa648896a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/wp-test-utils/zipball/21df3a08974ee62f489f64e34be7f26a32ec872c",
-                "reference": "21df3a08974ee62f489f64e34be7f26a32ec872c",
+                "url": "https://api.github.com/repos/Yoast/wp-test-utils/zipball/f955f6a6bd8c625f3ae47b2c19fff1caa648896a",
+                "reference": "f955f6a6bd8c625f3ae47b2c19fff1caa648896a",
                 "shasum": ""
             },
             "require": {
-                "brain/monkey": "^2.6.0",
+                "brain/monkey": "^2.6.1",
                 "php": ">=5.6",
-                "yoast/phpunit-polyfills": "^1.0.1"
+                "yoast/phpunit-polyfills": "^1.0.4"
             },
             "require-dev": {
-                "yoast/yoastcs": "^2.2.0"
+                "yoast/yoastcs": "^2.2.1"
             },
             "type": "library",
             "extra": {
@@ -4594,6 +4554,7 @@
                 "brainmonkey",
                 "integration-testing",
                 "phpunit",
+                "testing",
                 "unit-testing",
                 "wordpress"
             ],
@@ -4601,7 +4562,7 @@
                 "issues": "https://github.com/Yoast/wp-test-utils/issues",
                 "source": "https://github.com/Yoast/wp-test-utils"
             },
-            "time": "2021-09-27T05:50:36+00:00"
+            "time": "2022-11-17T14:06:19+00:00"
         },
         {
             "name": "yoast/yoastcs",

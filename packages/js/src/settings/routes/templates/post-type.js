@@ -3,8 +3,8 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
-import PropTypes from "prop-types";
 import { toLower } from "lodash";
+import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
 	FieldsetLayout,
@@ -33,6 +33,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType } ) => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const replacementVariablesArchives = useSelectSettings( "selectReplacementVariablesFor", [ name ], `${ name }_archive`, "custom-post-type_archive" );
 	const recommendedReplacementVariablesArchives = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], `${ name }_archive`, "custom-post-type_archive" );
@@ -126,7 +127,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		<RouteLayout
 			title={ label }
 			description={ sprintf(
-			/* translators: %1$s expands to the post type plural, e.g. posts. */
+				/* translators: %1$s expands to the post type plural, e.g. posts. */
 				__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 				labelLower
 			) }
@@ -190,8 +191,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
-						// eslint-disable-next-line max-len
-						// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
+							// eslint-disable-next-line max-len
+							// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
 							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s sidebar.", "wordpress-seo" ),
 							labelLower,
 							"Yoast SEO"
@@ -202,10 +203,11 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							variant="card"
 							cardLink={ socialAppearancePremiumLink }
 							cardText={ sprintf(
-							/* translators: %1$s expands to Premium. */
+								/* translators: %1$s expands to Premium. */
 								__( "Unlock with %1$s", "wordpress-seo" ),
 								"Premium"
 							) }
+							{ ...premiumUpsellConfig }
 						>
 							<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
 							<FormikMediaSelectField
@@ -281,10 +283,11 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							variant="card"
 							cardLink={ pageAnalysisPremiumLink }
 							cardText={ sprintf(
-							/* translators: %1$s expands to Premium. */
+								/* translators: %1$s expands to Premium. */
 								__( "Unlock with %1$s", "wordpress-seo" ),
 								"Premium"
 							) }
+							{ ...premiumUpsellConfig }
 						>
 							<FormikTagFieldWithDummy
 								name={ `wpseo_titles.page-analyse-extra-${ name }` }
@@ -333,12 +336,12 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 									name={ `wpseo_titles.noindex-ptarchive-${ name }` }
 									data-id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
 									label={ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. posts.
+										// translators: %1$s expands to the post type plural, e.g. posts.
 										__( "Show the archive for %1$s in search results", "wordpress-seo" ),
 										labelLower
 									) }
 									description={ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. posts.
+										// translators: %1$s expands to the post type plural, e.g. posts.
 										__( "Disabling this means that the archive for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 										labelLower
 									) }
@@ -382,6 +385,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 										__( "Unlock with %1$s", "wordpress-seo" ),
 										"Premium"
 									) }
+									{ ...premiumUpsellConfig }
 								>
 									<FormikMediaSelectField
 										id={ `wpseo_titles-social-image-ptarchive-${ name }` }

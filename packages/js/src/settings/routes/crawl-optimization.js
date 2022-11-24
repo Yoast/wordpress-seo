@@ -5,17 +5,18 @@ import { Alert, Button, Code, FeatureUpsell, TextField, ToggleField, useSvgAria 
 import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
-import { withFormikDummyField } from "../hocs";
+import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikFieldWithDummy = withFormikDummyField( Field );
 const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
-const FormikValueChangeFieldWithDummy = withFormikDummyField( FormikValueChangeField );
+const FormikValueChangeFieldWithDummy = withFormikDummyField( withDisabledMessageSupport( FormikValueChangeField ) );
 
 /**
  * @returns {JSX.Element} The crawl optimization route.
  */
 const CrawlOptimization = () => {
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const crawlSettingsLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings" );
 	const permalinkCleanupLink = useSelectSettings( "selectLink", [], "https://yoa.st/permalink-cleanup" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
@@ -259,10 +260,18 @@ const CrawlOptimization = () => {
 			description={ <>
 				{ descriptions.page }
 				{ ! isPremium && <div className="yst-mt-6">
-					<Button as="a" className="yst-gap-2" variant="upsell" href={ premiumLink } target="_blank" rel="noopener">
+					<Button
+						as="a"
+						className="yst-gap-2"
+						variant="upsell"
+						href={ premiumLink }
+						target="_blank"
+						rel="noopener"
+						{ ...premiumUpsellConfig }
+					>
 						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
 						{ sprintf(
-						/* translators: %1$s expands to Premium. */
+							/* translators: %1$s expands to Premium. */
 							__( "Unlock with %1$s", "wordpress-seo" ),
 							"Premium"
 						) }
@@ -286,7 +295,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove links to WordPress' internal 'shortlink' URLs for your posts.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeShortlinks }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -298,7 +307,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove links to the location of your site’s REST API endpoints.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeRestApiLinks }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -310,7 +319,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove links used by external systems for publishing content to your blog.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeRsdWlwLinks }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -322,7 +331,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove links used for embedding your content on other sites.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeOembedLinks }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -334,7 +343,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove information about the plugins and software used by your site.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeGenerator }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -346,7 +355,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove links which allow others sites to ‘ping’ yours when they link to you.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removePingbackHeader }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -358,7 +367,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove information about the plugins and software used by your site.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removePoweredByHeader }
 							</FormikValueChangeFieldWithDummy>
 						</FieldsetLayout>
@@ -376,7 +385,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide an overview of your recent posts.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedGlobal }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -388,7 +397,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide an overview of recent comments on your site.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedGlobalComments }
 								{ __( "Also disables Post comment feeds.", "wordpress-seo" ) }
 							</FormikValueChangeFieldWithDummy>
@@ -403,7 +412,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide information about recent comments on each post.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedPostComments }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -415,7 +424,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide information about recent posts by specific authors.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedAuthors }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -427,7 +436,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide information about your recent posts, for each post type.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedPostTypes }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -439,7 +448,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide information about your recent posts, for each category.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedCategories }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -451,7 +460,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide information about your recent posts, for each tag.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedTags }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -463,7 +472,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide information about your recent posts, for each custom taxonomy.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedCustomTaxonomies }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -475,7 +484,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide information about your search results.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeFeedSearch }
 							</FormikValueChangeFieldWithDummy>
 							<FormikValueChangeFieldWithDummy
@@ -487,7 +496,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Remove URLs which provide alternative (legacy) formats of all of the above.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.removeAtomRdfFeeds }
 							</FormikValueChangeFieldWithDummy>
 						</FieldsetLayout>
@@ -514,7 +523,7 @@ const CrawlOptimization = () => {
 								isDummy={ ! isPremium }
 							>
 								{ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of WordPress' JSON API endpoints.", "wordpress-seo" ) }
-							&nbsp;
+								&nbsp;
 								{ descriptions.denyWpJsonCrawling }
 							</FormikValueChangeFieldWithDummy>
 						</FieldsetLayout>
@@ -580,7 +589,7 @@ const CrawlOptimization = () => {
 							<Alert id="alert-permalink-cleanup-settings" variant="warning">
 								{ addLinkToString(
 									sprintf(
-									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+										// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 										__( "These are expert features, so make sure you know what you're doing before removing the parameters. %1$sRead more about how your site can be affected%2$s.", "wordpress-seo" ),
 										"<a>",
 										"</a>"

@@ -79,7 +79,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							</div>
 						<?php endif; ?>
 						<p class="plugin-buy-button">
-							<a class="yoast-button-upsell" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
+							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
 								/* translators: %s expands to Yoast SEO Premium */
 								\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
