@@ -203,6 +203,7 @@ const SiteBasics = () => {
 								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
 								"Yoast SEO"
 							) }
+							className="yst-max-w-sm"
 						/>
 						<FormikValueChangeField
 							as={ ToggleFieldWithDisabledMessageSupport }
@@ -211,6 +212,7 @@ const SiteBasics = () => {
 							data-id="input-wpseo-tracking"
 							label={ __( "Usage tracking", "wordpress-seo" ) }
 							description={ usageTrackingDescription }
+							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>
 				</div>

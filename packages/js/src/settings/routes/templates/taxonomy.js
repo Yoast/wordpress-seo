@@ -150,6 +150,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 								</Link>
 								.
 							</> }
+							className="yst-max-w-sm"
 						/>
 						<hr className="yst-my-8" />
 						<FormikReplacementVariableEditorField
@@ -239,12 +240,14 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 							data-id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
 							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 							description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/>
 						{ name === "category" && <FormikFlippedToggleField
 							name="wpseo_titles.stripcategorybase"
 							data-id="input-wpseo_titles-stripcategorybase"
 							label={ __( "Show the categories prefix in the slug", "wordpress-seo" ) }
 							description={ stripCategoryBaseDescription }
+							className="yst-max-w-sm"
 						/> }
 					</FieldsetLayout>
 				</div>

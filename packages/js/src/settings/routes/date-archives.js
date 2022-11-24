@@ -91,6 +91,7 @@ const DateArchives = () => {
 								__( "%1$s can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ),
 								label
 							) }
+							className="yst-max-w-sm"
 						/>
 					</fieldset>
 					<hr className="yst-my-8" />
@@ -129,6 +130,7 @@ const DateArchives = () => {
 										</Link>
 										.
 									</> }
+									className="yst-max-w-sm"
 								/>
 								<FormikReplacementVariableEditorField
 									type="title"

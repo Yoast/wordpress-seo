@@ -97,6 +97,7 @@ const AuthorArchives = () => {
 							__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
 							singularLabelLower
 						) }
+						className="yst-max-w-sm"
 					/>
 					<hr className="yst-my-8" />
 					<div className="yst-relative">
@@ -134,6 +135,7 @@ const AuthorArchives = () => {
 										</Link>
 										.
 									</> }
+									className="yst-max-w-sm"
 								/>
 								{ ! isAuthorNoIndex && <FormikFlippedToggleField
 									name="wpseo_titles.noindex-author-noposts-wpseo"
@@ -148,6 +150,7 @@ const AuthorArchives = () => {
 										__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 										labelLower
 									) }
+									className="yst-max-w-sm"
 								/> }
 								<FormikReplacementVariableEditorField
 									type="title"

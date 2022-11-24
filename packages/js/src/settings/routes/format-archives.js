@@ -82,6 +82,7 @@ const FormatArchives = () => {
 						data-id="input-wpseo_titles-disable-post_format"
 						label={ __( "Enable format-based archives", "wordpress-seo" ) }
 						description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
+						className="yst-max-w-sm"
 					/>
 					<hr className="yst-my-8" />
 					<div className="yst-relative">
@@ -121,6 +122,7 @@ const FormatArchives = () => {
 										</Link>
 										.
 									</> }
+									className="yst-max-w-sm"
 								/>
 								<FormikReplacementVariableEditorField
 									type="title"
