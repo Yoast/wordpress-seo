@@ -49,7 +49,7 @@ const integrations = [
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-wincher",
-		logoLink: "https://yoa.st/integrations-about-wincher",
+		logoLink: "https://yoa.st/integrations-logo-wincher",
 		slug: "wincher",
 		description: sprintf(
 			/* translators: 1: Wincher */
@@ -75,7 +75,7 @@ const integrations = [
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-wordproof",
-		logoLink: "https://yoa.st/integrations-about-wordproof",
+		logoLink: "https://yoa.st/integrations-logo-wordproof",
 		slug: "wordproof",
 		description: sprintf(
 			/* translators: 1: WordProof */
@@ -102,7 +102,7 @@ const integrations = [
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-zapier",
-		logoLink: "https://yoa.st/integrations-about-zapier",
+		logoLink: "https://yoa.st/integrations-logo-zapier",
 		slug: "zapier",
 		description: sprintf(
 			/* translators: 1: Zapier */

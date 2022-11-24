@@ -27,7 +27,7 @@ const integrations = {
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-elementor",
-		logoLink: "https://yoa.st/integrations-about-elementor",
+		logoLink: "https://yoa.st/integrations-logo-elementor",
 		slug: "elementor",
 		description: __( "Take advantage of your favorite SEO & content analysis tools with your favorite page builder.", "wordpress-seo" ),
 		isPremium: false,
@@ -50,7 +50,7 @@ const integrations = {
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-jetpack",
-		logoLink: "https://yoa.st/integrations-about-jetpack",
+		logoLink: "https://yoa.st/integrations-logo-jetpack",
 		slug: "jetpack",
 		description: __( "Upgrade your meta tags and social previews and manage your SEO settings in one place.", "wordpress-seo" ),
 		isPremium: false,
@@ -72,7 +72,7 @@ const integrations = {
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-algolia",
-		logoLink: "https://yoa.st/integrations-about-algolia",
+		logoLink: "https://yoa.st/integrations-logo-algolia",
 		slug: "algolia",
 		description: sprintf(
 			/* translators: 1: Algolia, 2: Yoast SEO */
@@ -100,7 +100,7 @@ const integrations = {
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-woocommerce",
-		logoLink: "https://yoa.st/integrations-about-woocommerce",
+		logoLink: "https://yoa.st/integrations-logo-woocommerce",
 		slug: "woocommerce",
 		description: __( "Improve your technical SEO, meta tags and unlock more SEO ecommerce tools.", "wordpress-seo" ),
 		isPremium: false,
@@ -123,7 +123,7 @@ const integrations = {
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-acf",
-		logoLink: "https://yoa.st/integrations-about-acf",
+		logoLink: "https://yoa.st/integrations-logo-acf",
 		slug: "acf",
 		description: sprintf(
 			/* translators: 1: ACF */
