@@ -154,6 +154,7 @@ const SiteFeatures = () => {
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
 	const { values } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
+	const { opengraph } = values.wpseo_social;
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
@@ -295,9 +296,6 @@ const SiteFeatures = () => {
 							<Title as="legend" size="2" className="yst-mb-2">
 								{ __( "Social sharing", "wordpress-seo" ) }
 							</Title>
-							<Alert id="alert-social-sharing">
-								{ __( "Facebook, Twitter and Pinterest all use Facebook's Open Graph data, so be sure to keep the 'Open Graph data' setting below enabled if you want to optimize your site for these social platforms.", "wordpress-seo" ) }
-							</Alert>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -311,6 +309,12 @@ const SiteFeatures = () => {
 									{ __( "Open Graph data", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
+								{ ! opengraph && (
+									<Alert id="alert-social-sharing">
+										{ __( "Facebook, Twitter and Pinterest all use Facebook's Open Graph data, so be sure to keep the 'Open Graph data' setting below enabled if you want to optimize your site for these social platforms.", "wordpress-seo" ) }
+									</Alert>
+
+								) }
 								<LearnMoreLink id="link-open-graph-data" link="https://yoa.st/site-features-open-graph-data" />
 
 							</FeatureCard>
