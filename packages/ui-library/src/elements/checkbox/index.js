@@ -17,6 +17,7 @@ const Checkbox = ( {
 	name,
 	value,
 	label,
+	disabled = false,
 	className,
 	...props
 } ) => (
@@ -31,6 +32,7 @@ const Checkbox = ( {
 			id={ id }
 			name={ name }
 			value={ value }
+			disabled={ disabled }
 			className="yst-checkbox__input"
 			{ ...props }
 		/>
@@ -48,6 +50,7 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
 	className: "",
+	disabled: PropTypes.bool,
 };
 
 export default Checkbox;
