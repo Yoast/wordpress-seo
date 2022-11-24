@@ -137,7 +137,7 @@ const AuthorArchives = () => {
 									</> }
 									className="yst-max-w-sm"
 								/>
-								{ ! isAuthorNoIndex && <FormikFlippedToggleField
+								<FormikFlippedToggleField
 									name="wpseo_titles.noindex-author-noposts-wpseo"
 									data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
 									label={ sprintf(
@@ -151,7 +151,8 @@ const AuthorArchives = () => {
 										labelLower
 									) }
 									className="yst-max-w-sm"
-								/> }
+									disabled={ isAuthorNoIndex }
+								/>
 								<FormikReplacementVariableEditorField
 									type="title"
 									name="wpseo_titles.title-author-wpseo"
