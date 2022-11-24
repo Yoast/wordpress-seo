@@ -296,11 +296,6 @@ const SiteFeatures = () => {
 							<Title as="legend" size="2" className="yst-mb-2">
 								{ __( "Social sharing", "wordpress-seo" ) }
 							</Title>
-							{ ! opengraph && (
-								<Alert id="alert-social-sharing">
-									{ __( "Facebook, Twitter and Pinterest all use Facebook's Open Graph data, so be sure to keep the 'Open Graph data' setting below enabled if you want to optimize your site for these social platforms.", "wordpress-seo" ) }
-								</Alert>
-							) }
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -313,7 +308,9 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Open Graph data", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
+								<p>
+									{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared. Keep this feature enabled to optimize your site for social media.", "wordpress-seo" ) }
+								</p>
 								<LearnMoreLink id="link-open-graph-data" link="https://yoa.st/site-features-open-graph-data" />
 							</FeatureCard>
 							<FeatureCard
