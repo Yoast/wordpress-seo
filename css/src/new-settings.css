@@ -187,12 +187,12 @@
 					yst-text-sm
 					yst-text-slate-800
 					yst-no-underline
-					hover:yst-bg-slate-100
+					hover:yst-bg-slate-200
 					hover:yst-text-slate-900
 					yst-cursor-pointer;
 
 					&[aria-selected] {
-						@apply yst-bg-slate-100 yst-text-slate-900
+						@apply yst-bg-slate-200 yst-text-slate-900
 					}
 				}
 			}
