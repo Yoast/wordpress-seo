@@ -4,6 +4,8 @@ import { Title  } from "@yoast/ui-library";
 import { SEOToolsIntegrations } from "./seo-tools-integrations";
 import { pluginIntegrations } from "./plugin-integrations";
 import { schemaAPIIntegrations } from "./schema-api-integrations";
+import { createInterpolateElement } from "@wordpress/element";
+import { addLinkToString } from "../helpers/stringHelpers";
 
 /**
  * Renders a section.
@@ -66,8 +68,27 @@ export default function IntegrationsGrid() {
 			<div className="yst-flex-grow yst-max-w-6xl yst-p-8">
 
 				<Section
-					title={ __( "Recommended integrations", "wordpress-seo" ) }
+					title={ __( "SaaS integrations", "wordpress-seo" ) }
 					elements={ SEOToolsIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "Schema API integrations", "wordpress-seo" ) }
+					description={
+						addLinkToString(
+							sprintf(
+								/* translators: 1: anchor tag linking to our schema API docs; 2: closing anchor tag. */
+								__( "Many plugins integrate with our %1$sSchema API%2$s to help you get the best results in Google search!", "wordpress-seo" ),
+								"<a>",
+								"</a>"
+							),
+							'https://developer.yoast.com/features/schema/api/',
+							'schema-api-link',
+						)
+					}
+					elements={ schemaAPIIntegrations }
 				/>
 
 				<hr className="yst-my-12" />
@@ -75,13 +96,6 @@ export default function IntegrationsGrid() {
 				<Section
 					title={ __( "Plugin integrations", "wordpress-seo" ) }
 					elements={ pluginIntegrations }
-				/>
-
-				<hr className="yst-my-12" />
-
-				<Section
-					title={ __( "Schema API", "wordpress-seo" ) }
-					elements={ schemaAPIIntegrations }
 				/>
 
 			</div>
