@@ -87,7 +87,7 @@
 			yst-text-slate-700;
 
 			&--active {
-				@apply yst-bg-primary-200;
+				@apply yst-bg-slate-200;
 			}
 
 			&--selected {
