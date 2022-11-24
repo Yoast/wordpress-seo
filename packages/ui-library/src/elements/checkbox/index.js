@@ -46,11 +46,11 @@ Checkbox.propTypes = {
 	value: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	className: PropTypes.string,
+	disabled: PropTypes.bool,
 };
 
 Checkbox.defaultProps = {
 	className: "",
-	disabled: PropTypes.bool,
 };
 
 export default Checkbox;
