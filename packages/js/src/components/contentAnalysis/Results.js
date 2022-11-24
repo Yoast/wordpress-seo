@@ -2,6 +2,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
+import { isUndefined } from "lodash-es";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
@@ -34,6 +35,7 @@ class Results extends Component {
 
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
 		this.handleEditButtonClick = this.handleEditButtonClick.bind( this );
+		this.handleResultsChange   = this.handleResultsChange.bind( this );
 	}
 
 	/**
@@ -55,6 +57,28 @@ class Results extends Component {
 	}
 
 	/**
+	 * Deactivates the marker from the page.
+	 * @returns {void}
+	 */
+	deactivateMarker() {
+		this.props.setActiveMarker( null );
+		this.props.setMarkerPauseStatus( false );
+		this.removeMarkers();
+	}
+
+	/**
+	 * Activates the marker from the page.
+	 *
+	 * @param {string}      id         A unique string representing the result.
+	 * @param {Function}    marker     The marker function, which returns the marks for the current paper.
+	 * @returns {void}
+	 */
+	activateMarker( id, marker ) {
+		this.props.setActiveMarker( id );
+		marker();
+	}
+
+	/**
 	 * Handles a click on a marker button, to mark the text in the editor.
 	 *
 	 * @param {string}   id     Result id, empty if a marker is deselected.
@@ -68,12 +92,31 @@ class Results extends Component {
 
 		// If marker button is clicked while active, disable markers.
 		if ( markerId === this.props.activeMarker ) {
-			this.props.setActiveMarker( null );
-			this.props.setMarkerPauseStatus( false );
-			this.removeMarkers();
+			this.deactivateMarker();
 		} else {
-			this.props.setActiveMarker( markerId );
-			marker();
+			this.activateMarker( markerId, marker );
+		}
+	}
+
+	/**
+	 * Updates or resets the marking on result change.
+	 *
+	 * @param {string}      id         A unique string representing the result, which is the same as the assessment id the result is coming from.
+	 * @param {Function}    marker     The marker function, which returns the marks for the current paper.
+	 * @param {boolean}     hasMarks   Whether the result has marks or not.
+	 *
+	 * @returns {void}
+	 */
+	handleResultsChange( id, marker, hasMarks ) {
+		// To see a difference between keyphrases: Prepend the keyword key when applicable.
+		const markerId = this.props.keywordKey.length > 0 ? `${this.props.keywordKey}:${id}` : id;
+
+		if ( markerId === this.props.activeMarker  ) {
+			if ( ! hasMarks ) {
+				this.deactivateMarker();
+			} else if ( ! isUndefined( marker ) ) {
+				this.activateMarker( markerId, marker );
+			}
 		}
 	}
 
@@ -223,6 +266,7 @@ class Results extends Component {
 					keywordKey={ this.props.keywordKey }
 					isPremium={ this.props.isPremium }
 					resultCategoryLabels={ labels }
+					onResultChange={ this.handleResultsChange }
 				/>
 			</Fragment>
 		);

@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
+use WP_Error;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
@@ -21,8 +23,8 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 /**
  * Class Indexable_Term_Builder_Test.
  *
- * @group indexables
- * @group builders
+ * @group  indexables
+ * @group  builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Term_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Term_Builder
@@ -103,7 +105,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->taxonomy                 = Mockery::mock( Taxonomy_Helper::class );
 		$this->versions                 = Mockery::mock( Indexable_Builder_Versions::class );
 		$this->post_helper              = Mockery::mock( Post_Helper::class );
-		$this->wpdb                     = Mockery::mock( 'wpdb' );
+		$this->wpdb                     = Mockery::mock( wpdb::class );
 		$this->wpdb->posts              = 'wp_posts';
 		$this->wpdb->term_relationships = 'wp_term_relationships';
 		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';
@@ -218,8 +220,12 @@ class Indexable_Term_Builder_Test extends TestCase {
 		];
 
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
-		Monkey\Functions\expect( 'get_term_link' )->once()->with( $term, 'category' )->andReturn( 'https://example.org/category/1' );
+		Monkey\Functions\expect( 'get_term_link' )
+			->once()
+			->with( $term, 'category' )
+			->andReturn( 'https://example.org/category/1' );
 		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn( [ 'category' ] );
 
 		$this->taxonomy->expects( 'get_term_meta' )
 			->once()
@@ -245,7 +251,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_twitter-description'   => 'twitter_description',
 				]
 			);
-
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
@@ -382,7 +387,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_term_error() {
-		$error = Mockery::mock( '\WP_Error' );
+		$error = Mockery::mock( WP_Error::class );
 		$error
 			->expects( 'get_error_message' )
 			->andReturn( 'An error message' );
@@ -405,7 +410,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_build_term_link_error() {
 		$term = (object) [ 'taxonomy' => 'tax' ];
 
-		$error = Mockery::mock( '\WP_Error' );
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->andReturn( [ 'tax' ] );
+		$error = Mockery::mock( WP_Error::class );
 		$error
 			->expects( 'get_error_message' )
 			->andReturn( 'An error message' );

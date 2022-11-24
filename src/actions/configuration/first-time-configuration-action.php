@@ -16,6 +16,7 @@ class First_Time_Configuration_Action {
 	const SITE_REPRESENTATION_FIELDS = [
 		'company_or_person',
 		'company_name',
+		'website_name',
 		'company_logo',
 		'company_logo_id',
 		'person_logo',

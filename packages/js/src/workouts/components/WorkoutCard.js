@@ -92,7 +92,7 @@ export default function WorkoutCard( {
 				{ /* eslint-disable-next-line max-len */ }
 				{ workout && <Button id={ `${ id }-action-button` } className={ `yoast-button yoast-button--${ isToggle ? "secondary" : "primary" }` } onClick={ onClick }>{ buttonText }</Button> }
 				{ ! workout &&
-					<UpsellButton id={ `${ id }-upsell-button` } href={ upsellLink } className="yoast-button yoast-button-upsell">
+					<UpsellButton id={ `${ id }-upsell-button` } href={ upsellLink } className="yoast-button yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897">
 						{ actualUpsellText }
 						<span aria-hidden="true" className="yoast-button-upsell__caret" />
 					</UpsellButton>

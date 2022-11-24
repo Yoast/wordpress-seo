@@ -114,6 +114,8 @@ export const ToggleableIntegration = ( {
 					as="a"
 					href={ integration.upsellLink }
 					variant="upsell"
+					data-action="load-nfd-ctb"
+					data-ctb-id="57d6a568-783c-45e2-a388-847cff155897"
 					className="yst-w-full yst-text-slate-800"
 					target="_blank"
 				>
@@ -151,7 +153,6 @@ ToggleableIntegration.propTypes = {
 		claim: PropTypes.string,
 		learnMoreLink: PropTypes.string,
 		logoLink: PropTypes.string,
-		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,

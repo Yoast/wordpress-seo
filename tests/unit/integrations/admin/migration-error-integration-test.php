@@ -7,6 +7,7 @@ use Mockery;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -116,8 +117,12 @@ class Migration_Error_Integration_Test extends TestCase {
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
+		$container = $this->create_container_with( [ Product_Helper::class => $product_helper_mock ] );
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->twice()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$expected  = '<div class="notice notice-error">';
 		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';

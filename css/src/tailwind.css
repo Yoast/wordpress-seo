@@ -58,16 +58,6 @@
 			@apply yst-py-2 yst-px-3 yst-border yst-bg-white yst-rounded-md yst-shadow-sm yst-text-sm yst-placeholder-gray-400 !important;
 		}
 
-		.yst-card {
-			@apply
-				yst-max-w-[715px]
-				yst-mt-6
-				yst-p-8
-				yst-rounded-lg
-				yst-bg-white
-				yst-shadow;
-		}
-
 		.yst-radio {
 			@apply
 				yst-flex

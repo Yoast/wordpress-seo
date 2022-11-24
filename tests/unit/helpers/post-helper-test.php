@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -32,6 +33,13 @@ class Post_Helper_Test extends TestCase {
 	private $string;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
@@ -39,8 +47,9 @@ class Post_Helper_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->string   = Mockery::mock( String_Helper::class );
-		$this->instance = new Post_Helper( $this->string );
+		$this->string           = Mockery::mock( String_Helper::class );
+		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->instance         = new Post_Helper( $this->string, $this->post_type_helper );
 	}
 
 	/**

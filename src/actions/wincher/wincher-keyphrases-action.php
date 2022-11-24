@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Actions\Wincher;
 
 use Exception;
 use WP_Post;
-use WPSEO_Meta;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;

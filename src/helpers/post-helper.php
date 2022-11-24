@@ -18,6 +18,13 @@ class Post_Helper {
 	private $string;
 
 	/**
+	 * Holds the Post_Type_Helper instance.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type;
+
+	/**
 	 * Represents the indexables repository.
 	 *
 	 * @var Indexable_Repository
@@ -29,10 +36,15 @@ class Post_Helper {
 	 *
 	 * @codeCoverageIgnore It only sets dependencies.
 	 *
-	 * @param String_Helper $string_helper The string helper.
+	 * @param String_Helper    $string_helper    The string helper.
+	 * @param Post_Type_Helper $post_type_helper The string helper.
 	 */
-	public function __construct( String_Helper $string_helper ) {
-		$this->string = $string_helper;
+	public function __construct(
+		String_Helper $string_helper,
+		Post_Type_Helper $post_type_helper
+	) {
+		$this->string    = $string_helper;
+		$this->post_type = $post_type_helper;
 	}
 
 	/**
@@ -164,6 +176,13 @@ class Post_Helper {
 	 * @return bool True if the post can be indexed.
 	 */
 	public function is_post_indexable( $post_id ) {
+		// Don't index posts which are not public (i.e. viewable).
+		$post_type    = \get_post_type( $post_id );
+		$public_types = $this->post_type->get_indexable_post_types();
+		if ( ! \in_array( $post_type, $public_types, true ) ) {
+			return false;
+		}
+
 		// Don't index excluded post statuses.
 		if ( \in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses(), true ) ) {
 			return false;

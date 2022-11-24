@@ -74,7 +74,7 @@ class Cleanup_Integration_Test extends TestCase {
 
 		global $wpdb;
 
-		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'wp_';
 
 		$this->wpdb = $wpdb;
@@ -504,8 +504,7 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	private function setup_clean_indexables_for_non_publicly_viewable_post( $return_value, $limit ) {
-		$this->post_type->expects( 'get_accessible_post_types' )->once()->andReturns( [ 'my_cpt', 'post', 'page', 'attachment' ] );
-		$this->post_type->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturns( [ 'page', 'something else' ] );
+		$this->post_type->expects( 'get_indexable_post_types' )->once()->andReturns( [ 'my_cpt', 'post', 'attachment' ] );
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()
 			->with(
@@ -533,7 +532,7 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	private function setup_clean_indexables_for_non_publicly_viewable_taxonomies( $return_value, $limit ) {
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturns( [ 'category', 'post_tag', 'my_custom_tax' ] );
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturns( [ 'category', 'post_tag', 'my_custom_tax' ] );
 
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()

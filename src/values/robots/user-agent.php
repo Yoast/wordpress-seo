@@ -10,21 +10,21 @@ class User_Agent {
 	/**
 	 * The user agent identifier.
 	 *
-	 * @var string $user_agent
+	 * @var string
 	 */
 	private $user_agent;
 
 	/**
 	 * All directives that are allowed for this user agent.
 	 *
-	 * @var \Yoast\WP\SEO\Values\Robots\Directive $allow_directive
+	 * @var Directive
 	 */
 	private $allow_directive;
 
 	/**
 	 * All directives that are disallowed for this user agent.
 	 *
-	 * @var \Yoast\WP\SEO\Values\Robots\Directive $disallow_directive
+	 * @var Directive
 	 */
 	private $disallow_directive;
 

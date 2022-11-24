@@ -2,19 +2,19 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use WPSEO_Admin_Asset_Manager;
 use WPSEO_Addon_Manager;
-
+use WPSEO_Admin_Asset_Manager;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
 use Yoast\WP\SEO\Routes\Indexing_Route;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+
 /**
  * Indexables_Page_Integration class
  */

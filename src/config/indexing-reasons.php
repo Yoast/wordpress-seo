@@ -31,4 +31,14 @@ class Indexing_Reasons {
 	 * Represents the reason that the home url option is changed.
 	 */
 	const REASON_HOME_URL_OPTION = 'home_url_option_changed';
+
+	/**
+	 * Represents the reason that a post type has been made public.
+	 */
+	const REASON_POST_TYPE_MADE_PUBLIC = 'post_type_made_public';
+
+	/**
+	 * Represents the reason that a post type has been made viewable.
+	 */
+	const REASON_TAXONOMY_MADE_PUBLIC = 'taxonomy_made_public';
 }

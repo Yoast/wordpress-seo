@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use wpdb;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -75,7 +76,8 @@ class Indexable_Term_Builder {
 	 *
 	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 *
-	 * @throws Invalid_Term_Exception When the term is invalid.
+	 * @throws Invalid_Term_Exception   When the term is invalid.
+	 * @throws Term_Not_Built_Exception When the term is not viewable.
 	 * @throws Term_Not_Found_Exception When the term is not found.
 	 */
 	public function build( $term_id, $indexable ) {
@@ -87,6 +89,11 @@ class Indexable_Term_Builder {
 
 		if ( \is_wp_error( $term ) ) {
 			throw new Invalid_Term_Exception( $term->get_error_message() );
+		}
+
+		$indexable_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
+		if ( ! \in_array( $term->taxonomy, $indexable_taxonomies, true ) ) {
+			throw Term_Not_Built_Exception::because_not_indexable( $term_id );
 		}
 
 		$term_link = \get_term_link( $term, $term->taxonomy );

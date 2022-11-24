@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -47,7 +48,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		$post_helper = Mockery::mock( Post_Helper::class );
 		$post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
-		$wpdb        = Mockery::mock( 'wpdb' );
+		$wpdb        = Mockery::mock( wpdb::class );
 		$wpdb->posts = 'wp_posts';
 		$wpdb->expects( 'prepare' )->once()->with(
 			"
