@@ -570,7 +570,7 @@ class Settings_Integration implements Integration_Interface {
 				}
 			}
 		}
-		
+
 		return $disabled_settings;
 	}
 
