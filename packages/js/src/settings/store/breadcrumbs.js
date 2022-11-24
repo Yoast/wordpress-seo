@@ -45,7 +45,7 @@ export const breadcrumbsSelectors = {
 			const filteredPostTypes = filter( postTypes, ( { hasArchive } ) => hasArchive );
 			options = options.concat( map( filteredPostTypes, ( { name, label } ) => ( { value: name, label } ) ) );
 
-			return mapValues( taxonomies, taxonomy => ( { label: taxonomy.label, options } ) );
+			return mapValues( taxonomies, taxonomy => ( { name: taxonomy.name, label: taxonomy.label, options } ) );
 		}
 	),
 };

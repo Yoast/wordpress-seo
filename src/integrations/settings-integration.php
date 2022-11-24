@@ -556,10 +556,12 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		// Remove disabled on multisite settings.
-		foreach ( self::DISABLED_ON_MULTISITE_SETTINGS as $option_name => $disabled_ms_settings ) {
-			if ( \array_key_exists( $option_name, $disabled_settings ) ) {
-				foreach ( $disabled_ms_settings as $disabled_ms_setting ) {
-					$disabled_settings[ $option_name ][ $disabled_ms_setting ] = 'multisite';
+		if ( \is_multisite() ) {
+			foreach ( self::DISABLED_ON_MULTISITE_SETTINGS as $option_name => $disabled_ms_settings ) {
+				if ( \array_key_exists( $option_name, $disabled_settings ) ) {
+					foreach ( $disabled_ms_settings as $disabled_ms_setting ) {
+						$disabled_settings[ $option_name ][ $disabled_ms_setting ] = 'multisite';
+					}
 				}
 			}
 		}
