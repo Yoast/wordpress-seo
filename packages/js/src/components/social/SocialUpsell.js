@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
+import { addQueryArgs } from "@wordpress/url";
+import useRootContext from "../contexts/use-root-context";
 
 const PremiumInfoText = styled( Alert )`
 	p {
@@ -18,7 +20,7 @@ const YoastShortLink = makeOutboundLink();
 /**
  *
  * @param {Object} props The properties passed to this component.
- * @param {string} props.socialMedium The socialmedium platform.
+ * @param {string} props.socialMediumName The social medium platform.
  *
  * @returns {wp.Element} The FacebookView Component.
  */
@@ -36,6 +38,8 @@ const SocialUpsell = ( props ) => {
 		), "Yoast SEO Premium"
 	);
 
+	const { locationContext } = useRootContext();
+
 	return (
 		<Fragment>
 			<PremiumInfoText type={ "info" }>
@@ -49,7 +53,7 @@ const SocialUpsell = ( props ) => {
 				<YoastShortLink
 					data-action="load-nfd-ctb"
 					data-ctb-id="57d6a568-783c-45e2-a388-847cff155897"
-					href={ wpseoAdminL10n[ "shortlinks.upsell.social_previews" ] }
+					href={ addQueryArgs( wpseoAdminL10n[ "shortlinks.upsell.social_preview." + props.socialMediumName.toLowerCase() ], { context: locationContext } ) }
 				>
 					<p>{ upgradeText }</p>
 				</YoastShortLink>

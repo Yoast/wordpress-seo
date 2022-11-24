@@ -2,6 +2,7 @@ import { render, Component as wpComponent, createRef } from "@wordpress/element"
 import { SlotFillProvider } from "@wordpress/components";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
 import getL10nObject from "../analysis/getL10nObject";
+import Root from "../components/contexts/root";
 
 const registeredComponents = [];
 let containerRef = null;
@@ -67,7 +68,7 @@ class RegisteredComponentsContainer extends wpComponent {
 export function renderClassicEditorMetabox( store ) {
 	const localizedData = getL10nObject();
 	containerRef = createRef();
-
+	const metaboxLocationContext = { locationContext: "classic-metabox" };
 	const theme = {
 		isRtl: localizedData.isRtl,
 	};
@@ -75,11 +76,13 @@ export function renderClassicEditorMetabox( store ) {
 	render(
 		(
 			<SlotFillProvider>
-				<MetaboxPortal
-					target="wpseo-metabox-root"
-					store={ store }
-					theme={ theme }
-				/>
+				<Root context={ metaboxLocationContext }>
+					<MetaboxPortal
+						target="wpseo-metabox-root"
+						store={ store }
+						theme={ theme }
+					/>
+				</Root>
 				<RegisteredComponentsContainer ref={ containerRef } />
 			</SlotFillProvider>
 		),
