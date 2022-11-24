@@ -2,7 +2,7 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { initial, last, map, values, toLower } from "lodash";
+import { initial, last, map, values, toLower, isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -68,11 +68,9 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 	const taxonomyMultiplePostTypesMessage = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
-			 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
-			 * %2$s and %3$s expand to post type plurals in code blocks, e.g. Posts Pages and Custom Post Type.
+			 * translators: %1$s and %2$s expand to post type plurals in code blocks, e.g. Posts Pages and Custom Post Type.
 			 */
-			__( "%1$s are used for %2$s and %3$s.", "wordpress-seo" ),
-			label,
+			__( "This taxonomy is used for %1$s and %2$s.", "wordpress-seo" ),
 			"<code1 />",
 			"<code2 />"
 		), {
@@ -90,10 +88,9 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 	const taxonomySinglePostTypeMessage = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
-			 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
-			 * %2$s expands to the post type plural in code block, e.g. Posts.
+			 * translators: %1$s expands to the post type plural in code block, e.g. Posts.
 			 */
-			__( "%1$s are used for %2$s.", "wordpress-seo" ),
+			__( "This taxonomy is used for %2$s.", "wordpress-seo" ),
 			label,
 			"<code />"
 		), {
@@ -113,8 +110,12 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 					__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 					labelLower
 				) }
-				&nbsp;
-				{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
+				{ ! isEmpty( initialPostTypeValues ) && (
+					<>
+						<br />
+						{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
+					</>
+				) }
 			</> }
 		>
 			<FormLayout>
