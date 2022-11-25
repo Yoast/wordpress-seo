@@ -161,6 +161,7 @@ class Integrations_Page implements Integration_Interface {
 				'woocommerce_seo_installed'      => $woocommerce_seo_installed,
 				'woocommerce_seo_active'         => $woocommerce_seo_active,
 				'woocommerce_active'             => $woocommerce_active,
+				'woocommerce_integration_active' => $woocommerce_active,
 				'woocommerce_seo_activate_url'   => $woocommerce_seo_activate_url,
 				'acf_seo_installed'              => $acf_seo_installed || $acf_seo_github_installed,
 				'acf_seo_active'                 => $acf_seo_active || $acf_seo_github_active,
