@@ -249,7 +249,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: November 29th, 2022
 
-Read more about what's new in Yoast SEO 19.11 in [our release post](https://yoa.st/release-29-11-22)!
+Yoast SEO 19.11 is out now. We're optimizing the Yoast SEO plugin to use fewer resources. This helps make your site faster and more efficient. In this release, we're doing this by streamlining your database. Find out more about what's new in Yoast SEO 19.11 in [our release post](https://yoa.st/release-29-11-22)!
  
 #### Enhancements
 
