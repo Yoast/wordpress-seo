@@ -1,6 +1,5 @@
 import { useState, useCallback } from "@wordpress/element";
 import { noop, values } from "lodash";
-
 import Alert from "../../elements/alert";
 
 import FileImport, { FILE_IMPORT_STATUS } from ".";
@@ -11,6 +10,7 @@ export default {
 	argTypes: {
 		children: { control: "text" },
 		status: { options: values( FILE_IMPORT_STATUS ) },
+		endStatus: { options: values( FILE_IMPORT_STATUS ), type: "select", description: "The status to end the import with (only for testing)." },
 	},
 	parameters: {
 		docs: {
@@ -19,6 +19,19 @@ export default {
 			},
 		},
 	},
+};
+
+const defaultArgs = {
+	selectLabel: "Select a file",
+	dropLabel: "or drag and drop",
+	screenReaderLabel: "Import a file",
+	abortScreenReaderLabel: "Abort import",
+	selectDescription: "CSV files only, up to 10MB",
+	feedbackTitle: "file.csv",
+	progressMin: 0,
+	progressMax: 100,
+	onChange: noop,
+	onAbort: noop,
 };
 
 const Template = ( { endStatus, ...args } ) => {
@@ -72,7 +85,9 @@ const Template = ( { endStatus, ...args } ) => {
 	);
 };
 
-export const Factory = ( args ) => <FileImport { ...args } />;
+const FeedbackTemplate = ( args ) => <FileImport { ...args } />;
+
+export const Factory = Template.bind( {} );
 Factory.controls = { disable: false };
 Factory.args = {
 	children: (
@@ -87,20 +102,37 @@ Factory.args = {
 	),
 	id: "file-import-1",
 	name: "file-import-1",
-	selectLabel: "Select label",
-	dropLabel: "drag an drop label",
-	screenReaderLabel: "Screen reader label",
-	abortScreenReaderLabel: "Abort screen reader label",
-	selectDescription: "Select description",
-	feedbackTitle: "Progress title",
-	feedbackDescription: "Progress description",
-	progressMin: 0,
-	progressMax: 100,
-	onChange: noop,
-	onAbort: noop,
+	...defaultArgs,
+	endStatus: FILE_IMPORT_STATUS.success,
 };
 
-export const EndingInSuccess = Template.bind( {} );
+
+export const Loading = FeedbackTemplate.bind( {} );
+
+Loading.parameters = { docs: { description: { story: "When file in loading." } } };
+
+Loading.args = {
+	id: "file-import-loading",
+	name: "file-import-loading",
+	...defaultArgs,
+	progress: 60,
+	status: FILE_IMPORT_STATUS.loading,
+};
+
+export const Aborted = FeedbackTemplate.bind( {} );
+
+Aborted.parameters = { docs: { description: { story: "When file loading is aborted." } } };
+
+Aborted.args = {
+	id: "file-import-aborted",
+	name: "file-import-aborted",
+	...defaultArgs,
+	progress: 60,
+	status: FILE_IMPORT_STATUS.aborted,
+};
+
+
+export const EndingInSuccess = FeedbackTemplate.bind( {} );
 EndingInSuccess.args = {
 	children: (
 		<>
@@ -119,19 +151,17 @@ EndingInSuccess.args = {
 			</FileImport.Error>
 		</>
 	),
-	id: "file-import-2",
-	name: "file-import-2",
-	selectLabel: "Select a file",
-	dropLabel: "or drag and drop",
-	screenReaderLabel: "Import a file",
-	abortScreenReaderLabel: "Abort import",
-	selectDescription: "CSV files only, up to 10MB",
-	progressMin: 0,
-	progressMax: 100,
-	endStatus: FILE_IMPORT_STATUS.success,
+	id: "file-import-success",
+	name: "file-import-success",
+	...defaultArgs,
+	progress: 100,
+	status: FILE_IMPORT_STATUS.success,
 };
 
-export const EndingInError = Template.bind( {} );
+export const EndingInError = FeedbackTemplate.bind( {} );
+
+EndingInError.parameters = { docs: { description: { story: "Error will appear when `status` prop is error." } } };
+
 EndingInError.args = {
 	children: (
 		<>
@@ -150,14 +180,9 @@ EndingInError.args = {
 			</FileImport.Error>
 		</>
 	),
-	id: "file-import-3",
-	name: "file-import-3",
-	selectLabel: "Select a file",
-	dropLabel: "or drag and drop",
-	screenReaderLabel: "Import a file",
-	abortScreenReaderLabel: "Abort import",
-	selectDescription: "CSV files only, up to 10MB",
-	progressMin: 0,
-	progressMax: 100,
-	endStatus: FILE_IMPORT_STATUS.error,
+	id: "file-import-error",
+	name: "file-import-error",
+	...defaultArgs,
+	progress: 60,
+	status: FILE_IMPORT_STATUS.error,
 };
