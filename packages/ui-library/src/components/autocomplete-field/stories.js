@@ -1,18 +1,17 @@
+import AutocompleteField from ".";
 import { useCallback, useMemo, useState } from "@wordpress/element";
 import { filter, find, includes, toLower } from "lodash";
-import Autocomplete from ".";
 
 export default {
-	title: "1. Elements/Autocomplete",
-	component: Autocomplete,
+	title: "2. Components/AutocompleteField",
+	component: AutocompleteField,
 	argTypes: {
-		children: { control: "text" },
-		as: { options: [ "span", "div" ] },
+		id: "1",
 	},
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple autocomplete select component.",
+				component: "A simple autocomplete select component with error message and description message.",
 			},
 		},
 	},
@@ -31,7 +30,7 @@ const dummyOptions = [
 	},
 ];
 
-const Template = ( args ) => {
+const Template = ( { ...args } ) => {
 	const [ value, setValue ] = useState( "" );
 	const [ query, setQuery ] = useState( "" );
 	const selectedOption = useMemo( () => find( dummyOptions, [ "value", value ] ), [ value ] );
@@ -43,9 +42,9 @@ const Template = ( args ) => {
 	const handleQueryChange = useCallback( event => setQuery( event.target.value ), [ setQuery ] );
 
 	return (
-		// Min height to make room for options dropdown.
+	// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<Autocomplete
+			<AutocompleteField
 				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
@@ -53,14 +52,15 @@ const Template = ( args ) => {
 				onQueryChange={ handleQueryChange }
 			>
 				{ filteredOptions.map( option => (
-					<Autocomplete.Option key={ option.value } value={ option.value }>
+					<AutocompleteField.Option key={ option.value } value={ option.value }>
 						{ option.label }
-					</Autocomplete.Option>
+					</AutocompleteField.Option>
 				) ) }
-			</Autocomplete>
+			</AutocompleteField>
 		</div>
 	);
 };
+
 
 export const Factory = Template.bind( {} );
 Factory.parameters = {
@@ -68,48 +68,39 @@ Factory.parameters = {
 };
 Factory.args = {
 	id: "factory",
-	value: "",
-	placeholder: "Type to autocomplete options",
-};
-
-export const WithLabel = Template.bind( {} );
-
-WithLabel.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: "An example with a label using `label` prop." } },
-};
-
-WithLabel.args = {
-	id: "with-label",
-	value: "",
-	label: "Example label",
+	name: "factory",
+	label: "AutocompleteField label",
+	description: "AutocompleteField description",
+	placeholder: "Search an option...",
 };
 
 export const WithError = Template.bind( {} );
 
 WithError.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "An exampe with error using `isError` prop." } },
+	docs: { description: { story: "An exampe with error message using `error` prop." } },
 };
+
 WithError.args = {
 	id: "with-error",
-	value: "",
+	name: "with-error",
 	label: "Example label",
 	labelProps: { className: "yoast-field-group__label" },
 	isError: true,
+	error: "This is an error message",
 };
 
-export const WithPlaceholder = Template.bind( {} );
+export const WithDescription = Template.bind( {} );
 
-WithPlaceholder.parameters = {
+WithDescription.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "An example with placeholder using `placeholder` prop." } },
+	docs: { description: { story: "An exampe with description message using `description`." } },
 };
-
-WithPlaceholder.args = {
-	id: "with-placeholder",
-	value: "",
-	placeholder: "Search a value...",
+WithDescription.args = {
+	id: "with-description",
+	name: "with-description",
+	label: "Example label",
+	description: "This is a description message",
 };
 
 export const WithSelectedLabel = Template.bind( {} );
@@ -120,7 +111,23 @@ WithSelectedLabel.parameters = {
 };
 
 WithSelectedLabel.args = {
-	value: "option-1",
 	id: "selected-label",
+	name: "selected-label",
+	label: "Example label",
 	selectedLabel: "Option 1",
 };
+
+export const WithPlaceholder = Template.bind( {} );
+
+WithPlaceholder.parameters = {
+	controls: { disable: false },
+	docs: { description: { story: "An example with placeholder." } },
+};
+
+WithPlaceholder.args = {
+	id: "with-placeholder",
+	name: "with-placeholder",
+	label: "Example label",
+	placeholder: "Search a value...",
+};
+
