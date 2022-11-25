@@ -22,7 +22,8 @@ describe( "SES assessments", function() {
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
 			expect( assessor.getMarks() ).toEqual( [
 				{ _properties:
-						{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at illegal immigrants</yoastmark>",
+						{ fieldsToMark: [],
+							marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at illegal immigrants</yoastmark>",
 							original: "This ad is aimed at illegal immigrants",
 						} } ] );
 		} );
@@ -44,7 +45,8 @@ describe( "SES assessments", function() {
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(  [
 			{ _properties:
-					{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at poverty stricken.</yoastmark>",
+					{ fieldsToMark: [],
+						marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at poverty stricken.</yoastmark>",
 						original: "This ad is aimed at poverty stricken.",
 					} } ] );
 	} );
