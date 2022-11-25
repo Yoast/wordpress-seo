@@ -3,6 +3,8 @@
 import { __, sprintf } from "@wordpress/i18n";
 import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
+import useRootContext from "../contexts/use-root-context";
+import { addQueryArgs } from "@wordpress/url";
 
 /**
  * Creates the content for a PremiumSEOAnalysisUpsell modal.
@@ -12,14 +14,16 @@ import PropTypes from "prop-types";
  * @returns {wp.Element} The PremiumSEOAnalysisUpsell component.
  */
 const PremiumSEOAnalysisUpsell = ( props ) => {
-	const intro =  __( "Get extra, smarter recommendations about your site’s structure, content, and SEO opportunities.", "wordpress-seo" );
+	const intro = __( "Get extra, smarter recommendations about your site’s structure, content, and SEO opportunities.", "wordpress-seo" );
 
 	const benefits = [
 		__( "Target multiple focus keyphrases", "wordpress-seo" ),
 		__( "Use synonyms, plurals, and variations", "wordpress-seo" ),
 		__( "Unlock expert workouts and workflows", "wordpress-seo" ),
 	];
-	const buyLink = wpseoAdminL10n[ props.buyLink ];
+
+	const { locationContext } = useRootContext();
+	const buyLink = addQueryArgs( wpseoAdminL10n[ props.buyLink ], { context: locationContext } );
 
 	return (
 		<UpsellBox
