@@ -249,9 +249,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: November 29th, 2022
 
+Read more about what's new in Yoast SEO 19.11 in [our release post](https://yoa.st/release-29-11-22)!
+ 
 #### Enhancements
 
 * Adds a WP-CLI command to clean up unused data from our custom database tables: `wp yoast cleanup`.
+* Performs a cleanup of indexables when a public post type (or taxonomy) becomes non-public.
+* Notifies users to run the SEO optimization when a non-public post type (or taxonomy) becomes public.
 
 #### Bugfixes
 
@@ -271,7 +275,7 @@ Release date: November 29th, 2022
 
 Release date: November 8th, 2022
 
-Yoast SEO 19.10 is out today. This release mostly consists of bug fixes and enhancements. In addition, we’re getting our WordPress plugins ready for the upcoming High Performance Order Storage feature in WooCommerce 7.1+. Update now! Read more about what’s new in Yoast SEO 19.9 in our release post in English or our release post in Spanish!
+Yoast SEO 19.10 is out today. This release mostly consists of bug fixes and enhancements. In addition, we're getting our WordPress plugins ready for the upcoming High Performance Order Storage feature in WooCommerce 7.1+. Update now! Read more about what's new in Yoast SEO 19.10 in [our release post in English](https://yoa.st/release-8-11-22) or [our release post in Spanish](https://yoa.st/release-8-11-22-spanish)!
 
 #### Enhancements
 
