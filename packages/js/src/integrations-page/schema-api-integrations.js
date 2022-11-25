@@ -16,7 +16,7 @@ const integrations = [
 				"<strong>",
 				"</strong>"
 			), {
-				strong: <strong/>,
+				strong: <strong />,
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-tec",
@@ -37,7 +37,7 @@ const integrations = [
 				"<strong>",
 				"</strong>"
 			), {
-				strong: <strong/>,
+				strong: <strong />,
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-ssp",
@@ -58,7 +58,7 @@ const integrations = [
 				"<strong>",
 				"</strong>"
 			), {
-				strong: <strong/>,
+				strong: <strong />,
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-woocommerce",
@@ -77,9 +77,9 @@ export const schemaAPIIntegrations = [
 	integrations.map( ( integration, index ) => {
 		return (
 			<PluginIntegration
-				key={index}
-				integration={integration}
-				isActive={getInitialState( integration )}
+				key={ index }
+				integration={ integration }
+				isActive={ getInitialState( integration ) }
 			/>
 		);
 	} ),

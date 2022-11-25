@@ -4,7 +4,6 @@ import { Title  } from "@yoast/ui-library";
 import { SEOToolsIntegrations } from "./seo-tools-integrations";
 import { pluginIntegrations } from "./plugin-integrations";
 import { schemaAPIIntegrations } from "./schema-api-integrations";
-import { createInterpolateElement } from "@wordpress/element";
 import { addLinkToString } from "../helpers/stringHelpers";
 
 /**
@@ -84,8 +83,8 @@ export default function IntegrationsGrid() {
 								"<a>",
 								"</a>"
 							),
-							'https://developer.yoast.com/features/schema/api/',
-							'schema-api-link',
+							"https://developer.yoast.com/features/schema/api/",
+							"schema-api-link"
 						)
 					}
 					elements={ schemaAPIIntegrations }
