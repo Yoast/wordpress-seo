@@ -6,6 +6,34 @@ import Mark from "../../../values/Mark";
 import { escapeRegExp } from "lodash-es";
 import { stripFullTags } from "../sanitize/stripHTMLTags";
 
+// Regex to deconstruct an anchor into opentag, content an
+const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)(.+?)(<\/a>)/;
+
+/**
+ * Deconstructs an anchor in the opening tag, the content and the closing tag.
+ * @param {string} anchor An anchor of the shape <a ...>...</a>
+ * @returns {object} An object containing the opening tag, the content and the closing tag of the anchor.
+ */
+const deConstructAnchor = function( anchor ) {
+	const [ , openTag, content, closeTag ] = anchor.match( anchorDeconstructionRegex );
+	return {
+		openTag: openTag,
+		content: content,
+		closeTag: closeTag,
+	};
+};
+
+/**
+ * Reconstructs an anchor from an openTag, the content, and the closing tag.
+ * @param {string} openTag The opening tag of the anchor. Must be of the shape <a ...>
+ * @param {string} content The text of the anchor.
+ * @returns {string} An anchor.
+ */
+const reConstructAnchor = function( openTag, content ) {
+	return `${openTag}${content}</a>`;
+};
+
+
 /**
  * Gets the anchors and marks the anchors' text if the words are found in it.
  *
@@ -21,10 +49,17 @@ const getMarkedAnchors = function( sentence, wordsRegex ) {
 	const markedAnchors = anchors.map( anchor => {
 		// Get the anchor text.
 		const anchorText = stripFullTags( anchor );
+
 		// Apply the marking to the anchor text.
 		const markedAnchorText = anchorText.replace( wordsRegex, ( x ) => addMark( x ) );
 		// Replace the original anchor text with the marked anchor text.
-		return anchor.replace( anchorText, markedAnchorText );
+
+		const { openTag, content, closeTag }  = deConstructAnchor( anchor );
+		const newContent = content.replace( anchorText, markedAnchorText );
+		const newAnchor = reConstructAnchor( openTag, newContent, closeTag );
+
+		return newAnchor;
+		// return anchor.replace( anchorText, markedAnchorText );
 	} );
 	return { anchors, markedAnchors };
 };
