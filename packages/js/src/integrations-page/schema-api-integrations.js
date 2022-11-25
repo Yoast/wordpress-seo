@@ -22,7 +22,12 @@ const integrations = [
 		learnMoreLink: "https://yoa.st/integrations-about-tec",
 		logoLink: "https://yoa.st/integrations-logo-tec",
 		slug: "tec",
-		description: "The Events Calendar integrates with Yoast SEO's Schema API to get rich snippets for your events!",
+		description: sprintf(
+			/* translators: 1: The Events Calendar, 2: Yoast SEO */
+			__( "%1$s integrates with %2$s's Schema API to get rich snippets for your events!", "wordpress-seo" ),
+			"The Events Calendar",
+			"Yoast SEO"
+		),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -43,7 +48,12 @@ const integrations = [
 		learnMoreLink: "https://yoa.st/integrations-about-ssp",
 		logoLink: "https://yoa.st/integrations-logo-ssp",
 		slug: "ssp",
-		description: "Seriously Simple Podcasting integrates with Yoast SEO's Schema API to get rich snippets for your podcasts!",
+		description: sprintf(
+			/* translators: 1: Seriously Simple Podcasting, 2: Yoast SEO */
+			__( "%1$s integrates with %2$s's Schema API to get rich snippets for your podcasts!", "wordpress-seo" ),
+			"Seriously Simple Podcasting",
+			"Yoast SEO"
+		),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
