@@ -22,10 +22,6 @@
 
 			padding-left: 17rem;
 		}
-
-		@media (min-width: 1024px) {
-			padding-left: 19rem;
-		}
 	}
 }
 
@@ -208,17 +204,23 @@
 
 		.yst-replacevar__mention {
 			@apply
-			yst-inline-flex
+			yst-inline-block
 			yst-py-0.5
 			yst-px-2
 			yst-mx-0.5
 			yst-rounded-full
-			yst-items-center
 			yst-leading-tight
 			yst-text-xs
 			yst-font-medium
 			yst-bg-slate-200
 			yst-text-slate-900;
+		}
+	}
+
+	/* RTL */
+	.rtl {
+		.yst-root .yst-replacevar .emoji-select-popover {
+			@apply yst-left-0 yst-right-auto;
 		}
 	}
 }
