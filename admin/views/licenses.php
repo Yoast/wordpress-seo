@@ -280,7 +280,7 @@ $new_tab_message         = sprintf(
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license">
 									<?php
 									printf(
-									/* translators: %s expands to the extension title */
+										/* translators: %s expands to the extension title */
 										esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
 										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 										$extension['title']
@@ -294,7 +294,7 @@ $new_tab_message         = sprintf(
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license">
 									<?php
 									printf(
-									/* translators: %s expands to the extension title */
+										/* translators: %s expands to the extension title */
 										esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ),
 										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 										$extension['title']
@@ -308,7 +308,7 @@ $new_tab_message         = sprintf(
 							<a target="_blank" class="yoast-button-upsell" href="<?php echo esc_url( $extension['buyUrl'] ); ?>">
 								<?php
 								printf(
-								/* translators: %s expands to the product name */
+									/* translators: %s expands to the product name */
 									esc_html__( 'Buy %s', 'wordpress-seo' ),
 									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The possible `get_buy_button` values are hardcoded (buy_button or title); only passed through the WPSEO_Extensions class.
 									( isset( $extension['buy_button'] ) ) ? $extension['buy_button'] : $extension['title']
@@ -322,7 +322,7 @@ $new_tab_message         = sprintf(
 							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension['infoUrl'] ); ?>">
 								<?php
 								printf(
-								/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
+									/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
 									esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 									'<span class="screen-reader-text">',
 									'</span>',
