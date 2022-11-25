@@ -80,7 +80,7 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 		'image'         => plugins_url( 'images/woo_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits'      => [
 			__( 'Write product pages that rank with the enhanced SEO analysis', 'wordpress-seo' ),
-			__( 'Increase clicks of search results with rich results', 'wordpress-seo' ),
+			__( 'Increase clicks of Google search with rich results', 'wordpress-seo' ),
 			__( 'Add global identifiers for variable products', 'wordpress-seo' ),
 			/* translators: %1$s expands to Yoast SEO, %2$s expands to WooCommerce */
 			sprintf( __( 'Seamless integration between %1$s and %2$s', 'wordpress-seo' ), 'Yoast SEO', 'WooCommerce' ),
