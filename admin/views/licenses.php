@@ -92,7 +92,7 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 $extensions['yoast-seo-plugin-subscription'] = [
 	'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zr' ),
 	'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zq' ),
-	'title'         => 'Cover all your SEO bases',
+	'title'         => 'all Yoast plugins',
 	'display_title' => __( 'Cover all your SEO bases', 'wordpress-seo' ),
 	'desc'          => '',
 	'image'         => plugins_url( 'images/plugin_subscription.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
@@ -104,7 +104,7 @@ $extensions['yoast-seo-plugin-subscription'] = [
 		__( 'Drive more traffic to your online store', 'wordpress-seo' ),
 
 	],
-	'buy_button'    => 'Buy all Yoast plugins',
+	'buy_button'    => 'all Yoast plugins',
 ];
 
 $addon_manager                  = new WPSEO_Addon_Manager();
@@ -128,10 +128,12 @@ $new_tab_message         = sprintf(
 			<h2>
 				<?php
 				printf(
-					/* translators: 1: expands to Yoast SEO Premium */
-					esc_html__( '%1$s, take your optimization to the next level!', 'wordpress-seo' ),
+					/* translators: 1: expands to a opening span tag, 2: expands to a closing span tag, 3: expands to Yoast SEO Premium */
+					esc_html__( '%1$sDrive more traffic to your site%2$s with %3$s', 'wordpress-seo' ),
+					'<span class="yoast-heading-highlight">',
+					'</span>',
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
-					'<span class="yoast-heading-highlight">' . $premium_extension['title'] . '</span>'
+					$premium_extension['title']
 				);
 				?>
 			</h2>
@@ -234,7 +236,7 @@ $new_tab_message         = sprintf(
 			<?php endif; ?>
 			<?php if ( ! $has_valid_premium_subscription ) { ?>
 				<p>
-					<small class="yoast-money-back-guarantee"><?php esc_html_e( 'Comes with our 30-day no questions asked money back guarantee', 'wordpress-seo' ); ?></small>
+					<small class="yoast-money-back-guarantee"><?php esc_html_e( 'With 30-day money-back guarantee. No questions asked.', 'wordpress-seo' ); ?></small>
 				</p>
 			<?php } ?>
 		</section>
@@ -308,7 +310,7 @@ $new_tab_message         = sprintf(
 							<a target="_blank" class="yoast-button-upsell" href="<?php echo esc_url( $extension['buyUrl'] ); ?>">
 								<?php
 								printf(
-									/* translators: %s expands to the product name */
+									/* translators: %s expands to the product name, e.g. "News SEO" or "all Yoast Plugins" */
 									esc_html__( 'Buy %s', 'wordpress-seo' ),
 									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The possible `get_buy_button` values are hardcoded (buy_button or title); only passed through the WPSEO_Extensions class.
 									( isset( $extension['buy_button'] ) ) ? $extension['buy_button'] : $extension['title']
@@ -322,7 +324,7 @@ $new_tab_message         = sprintf(
 							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension['infoUrl'] ); ?>">
 								<?php
 								printf(
-									/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
+									/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name, e.g. "News SEO" or "all Yoast Plugins" */
 									esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 									'<span class="screen-reader-text">',
 									'</span>',
