@@ -157,10 +157,16 @@ class WPSEO_Admin_Init {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
 
-			$page = filter_input( INPUT_GET, 'page' );
+			$page = null;
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+				$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+			}
+
 			// Only register the yoast i18n when the page is a Yoast SEO page.
-			if ( WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
-				$this->register_i18n_promo_class();
+			if ( $page !== null && WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
 				if ( $page !== 'wpseo_titles' ) {
 					$this->register_premium_upsell_admin_block();
 				}
@@ -186,47 +192,6 @@ class WPSEO_Admin_Init {
 			$upsell_block = new WPSEO_Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
 			$upsell_block->register_hooks();
 		}
-	}
-
-	/**
-	 * Registers the promotion class for our GlotPress instance, then creates a notification with the i18n promo.
-	 *
-	 * @link https://github.com/Yoast/i18n-module
-	 */
-	private function register_i18n_promo_class() {
-		// BC, because an older version of the i18n-module didn't have this class.
-		$i18n_module = new Yoast_I18n_WordPressOrg_v3(
-			[
-				'textdomain'  => 'wordpress-seo',
-				'plugin_name' => 'Yoast SEO',
-				'hook'        => 'wpseo_admin_promo_footer',
-			],
-			false
-		);
-
-		$message = $i18n_module->get_promo_message();
-
-		if ( $message !== '' ) {
-			$message .= $i18n_module->get_dismiss_i18n_message_button();
-		}
-
-		$notification_center = Yoast_Notification_Center::get();
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type' => Yoast_Notification::WARNING,
-				'id'   => 'i18nModuleTranslationAssistance',
-			]
-		);
-
-		if ( $message ) {
-			$notification_center->add_notification( $notification );
-
-			return;
-		}
-
-		$notification_center->remove_notification( $notification );
 	}
 
 	/**

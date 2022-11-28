@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -154,7 +155,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_new_link_url, $parsed_home_url, $is_image )->andReturn( $link_type );
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_existing_link_url, $parsed_home_url, $is_image )->andReturn( $link_type );
 
-		$query_mock                 = Mockery::mock();
+		$query_mock                 = Mockery::mock( ORM::class );
 		$new_seo_link               = Mockery::mock( SEO_Links_Mock::class );
 		$new_seo_link->type         = $link_type;
 		$new_seo_link->url          = 'https://link.com/newly-added-in-post';
@@ -269,7 +270,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, false )->andReturn( $link_type );
 		$this->url_helper->expects( 'is_relative' )->with( $target_permalink )->andReturnFalse();
 
-		$query_mock                    = Mockery::mock();
+		$query_mock                    = Mockery::mock( ORM::class );
 		$seo_link                      = Mockery::mock( SEO_Links_Mock::class );
 		$seo_link->type                = $link_type;
 		$seo_link->url                 = $target_indexable->permalink;

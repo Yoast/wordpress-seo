@@ -249,7 +249,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		if ( $author_indexable->has_public_posts === false ) {
 			$cleanup_not_yet_scheduled = ! \wp_next_scheduled( Cleanup_Integration::START_HOOK );
 			if ( $cleanup_not_yet_scheduled ) {
-				\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
 		}
 	}

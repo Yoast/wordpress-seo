@@ -2,7 +2,11 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { STORE_NAME } from "../constants";
 import { breadcrumbsSelectors } from "./breadcrumbs";
-import defaultSettings, { createInitialDefaultSettingsState, defaultSettingsActions, defaultSettingsSelectors } from "./default-settings";
+import defaultSettingValues, {
+	createInitialDefaultSettingValuesState,
+	defaultSettingValuesActions,
+	defaultSettingValuesSelectors,
+} from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
 import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
@@ -28,7 +32,7 @@ import users, { createInitialUsersState, usersActions, usersControls, usersSelec
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
-			...defaultSettingsActions,
+			...defaultSettingValuesActions,
 			...fallbacksActions,
 			...linkParamsActions,
 			...mediaActions,
@@ -43,7 +47,7 @@ const createStore = ( { initialState } ) => {
 		},
 		selectors: {
 			...breadcrumbsSelectors,
-			...defaultSettingsSelectors,
+			...defaultSettingValuesSelectors,
 			...fallbacksSelectors,
 			...linkParamsSelectors,
 			...mediaSelectors,
@@ -59,7 +63,7 @@ const createStore = ( { initialState } ) => {
 		initialState: merge(
 			{},
 			{
-				defaultSettings: createInitialDefaultSettingsState(),
+				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
 				linkParams: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
@@ -75,7 +79,7 @@ const createStore = ( { initialState } ) => {
 			initialState
 		),
 		reducer: combineReducers( {
-			defaultSettings,
+			defaultSettingValues,
 			fallbacks,
 			linkParams,
 			media,

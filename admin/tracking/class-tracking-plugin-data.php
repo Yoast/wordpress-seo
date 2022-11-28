@@ -13,7 +13,7 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 	/**
 	 * Plugins with auto updating enabled.
 	 *
-	 * @var array $auto_update_plugin_list
+	 * @var array
 	 */
 	private $auto_update_plugin_list;
 

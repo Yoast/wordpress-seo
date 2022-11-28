@@ -18,6 +18,7 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	public function is_enabled() {
 		return $this->is_globally_enabled() && $this->is_user_enabled() && $this->is_current_version_supported()
 				&& YoastSEO()->helpers->language->has_inclusive_language_support( \WPSEO_Language_Utils::get_language( \get_locale() ) );
+
 	}
 
 	/**
@@ -50,7 +51,6 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	private function is_current_version_supported() {
 		$is_premium      = YoastSEO()->helpers->product->is_premium();
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
-
 		return ! $is_premium || \version_compare( $premium_version, '19.7', '>=' ) ||
 			\version_compare( $premium_version, '19.2', '==' );
 	}

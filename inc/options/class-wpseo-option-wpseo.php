@@ -171,6 +171,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $environment_types = [
 		'',
+		'local',
 		'production',
 		'staging',
 		'development',

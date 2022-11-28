@@ -7,7 +7,6 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher;
-use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -63,11 +62,12 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 		$options_helper = Mockery::mock( Options_Helper::class );
 		$options_helper->expects( 'set' )->once()->andReturn( true );
 
-		$helper_surface          = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->options = $options_helper;
+		$container = $this->create_container_with( [ Options_Helper::class => $options_helper ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+			->once()
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+
 
 		$this->assertTrue( $this->instance->check_semrush_option_disabled( null, [ 'semrush_integration_active' => false ] ) );
 	}

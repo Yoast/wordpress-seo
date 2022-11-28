@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Rewrite;
 use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Txt_Helper;
@@ -36,6 +37,13 @@ class Robots_Txt_Integration_Test extends TestCase {
 	protected $robots_txt_helper;
 
 	/**
+	 * Holds the robots txt presenter.
+	 *
+	 * @var Mockery\MockInterface|Robots_Txt_Presenter
+	 */
+	protected $robots_txt_presenter;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Robots_Txt_Integration
@@ -49,9 +57,10 @@ class Robots_Txt_Integration_Test extends TestCase {
 		parent::set_up();
 		$this->stubEscapeFunctions();
 
-		$this->options_helper    = Mockery::mock( Options_Helper::class );
-		$this->robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
-		$this->instance          = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper );
+		$this->options_helper       = Mockery::mock( Options_Helper::class );
+		$this->robots_txt_helper    = Mockery::mock( Robots_Txt_Helper::class );
+		$this->robots_txt_presenter = Mockery::mock( Robots_Txt_Presenter::class, [ $this->robots_txt_helper ] )->makePartial();
+		$this->instance             = new Robots_Txt_Integration( $this->options_helper, $this->robots_txt_helper, $this->robots_txt_presenter );
 	}
 
 	/**
@@ -108,7 +117,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	public function test_public_site_with_sitemaps() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -139,17 +148,16 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-Sitemap: http://basic.wordpress.test/sitemap_index.xml
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 
 	/**
@@ -179,7 +187,7 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -216,7 +224,7 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 				->times( 1 )
 				->with( $blog_id, 'sitemap_index.xml' )
 				->andReturn( $site . 'sitemap_index.xml' );
-			if ( $multisite['is_subdirectory'] && ! in_array( false, $multisite['sites'], true ) ) {
+			if ( $multisite['is_subdirectory'] && ! \in_array( false, $multisite['sites'], true ) ) {
 				$this->robots_txt_helper
 					->expects( 'add_sitemap' )
 					->with( $site . 'sitemap_index.xml' )
@@ -232,17 +240,52 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-Sitemap: http://basic.wordpress.test/sitemap_index.xml
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
+	}
+
+	/**
+	 * Provides the test with multisite data.
+	 *
+	 * @return array The multisite to test.
+	 */
+	public function multisite_provider() {
+		return [
+			'Multisite subdomain' => [
+				'multisite' => [
+					'is_subdirectory' => false,
+					'sites'           => [
+						1 => 'https://example.com/',
+					],
+				],
+			],
+			'Multisite subdirectory' => [
+				'multisite' => [
+					'is_subdirectory' => true,
+					'sites'           => [
+						1 => 'https://example.com/',
+						2 => 'https://example.com/test/',
+					],
+				],
+			],
+			'Multisite subdirectory with only 1 active' => [
+				'multisite' => [
+					'is_subdirectory' => true,
+					'sites'           => [
+						1 => 'https://example.com/',
+						2 => false,
+					],
+				],
+			],
+		];
 	}
 
 	/**
@@ -262,7 +305,7 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 	public function test_multisite_sitemaps_without_yoast_seo_active() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -315,17 +358,16 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-Sitemap: http://basic.wordpress.test/sitemap_index.xml
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 
 	/**
@@ -345,7 +387,7 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 	public function test_multisite_sitemaps_option_not_found() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -397,17 +439,16 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [ 'http://basic.wordpress.test/sitemap_index.xml' ] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. 'Sitemap: http://basic.wordpress.test/sitemap_index.xml' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-Sitemap: http://basic.wordpress.test/sitemap_index.xml
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 
 	/**
@@ -432,53 +473,74 @@ Sitemap: http://basic.wordpress.test/sitemap_index.xml
 			->expects( 'get_sitemap_rules' )
 			->andReturn( [] );
 
-		$this->assertSame(
-			'# START YOAST BLOCK
-# ---------------------------
-User-agent: *
-Disallow:
+		$expected = '# START YOAST BLOCK' . \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. 'User-agent: *' . \PHP_EOL
+			. 'Disallow:' . \PHP_EOL
+			. \PHP_EOL
+			. '# ---------------------------' . \PHP_EOL
+			. '# END YOAST BLOCK';
 
-# ---------------------------
-# END YOAST BLOCK',
-			$this->instance->filter_robots( '' )
-		);
+		$this->assertSame( $expected, $this->instance->filter_robots( '' ) );
 	}
 
 	/**
-	 * Provides the test with multisite data.
+	 * Tests that the default robots text string is correctly removed when applicable.
 	 *
-	 * @return array The multisite to test.
+	 * @dataProvider data_remove_default_robots
+	 * @covers       ::remove_default_robots
+	 *
+	 * @param string $input    The input string which should be filtered.
+	 * @param string $expected The expected output after filtering.
+	 *
+	 * @return void
 	 */
-	public function multisite_provider() {
+	public function test_remove_default_robots( $input, $expected ) {
+		// Turn off everything else, so this will only test the remove_default_robots() method.
+		\add_filter(
+			'wpseo_should_add_subdirectory_multisite_xml_sitemaps',
+			static function() {
+				return false;
+			}
+		);
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'enable_xml_sitemap', false )
+			->andReturnFalse();
+
+		$this->robots_txt_presenter
+			->expects( 'present' )
+			->once()
+			->andReturn( '' );
+
+		// Test it.
+		$this->assertSame( $expected, $this->instance->filter_robots( $input ) );
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_remove_default_robots() {
 		return [
-			'Multisite subdomain' => [
-				'data' => [
-					'is_subdirectory' => false,
-					'sitemap'         => "Input\n",
-					'sites'           => [
-						1 => 'https://example.com/',
-					],
-				],
+			'Original input doesn\'t contain default string' => [
+				'input'    => 'User-agent: \*Disallow: /wp-admin/',
+				'expected' => 'User-agent: \*Disallow: /wp-admin/',
 			],
-			'Multisite subdirectory' => [
-				'data' => [
-					'is_subdirectory' => true,
-					'sitemap'         => "Input\n",
-					'sites'           => [
-						1 => 'https://example.com/',
-						2 => 'https://example.com/test/',
-					],
-				],
+			'Original input contains default string; line endings linux' => [
+				'input'    => "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n",
+				'expected' => '',
 			],
-			'Multisite subdirectory with only 1 active' => [
-				'data' => [
-					'is_subdirectory' => true,
-					'sitemap'         => "Input\n",
-					'sites'           => [
-						1 => 'https://example.com/',
-						2 => false,
-					],
-				],
+			'Original input contains default string; line endings windows' => [
+				'input'    => "User-agent: *\r\nDisallow: /wp-admin/\r\nAllow: /wp-admin/admin-ajax.php\r\n",
+				'expected' => '',
+			],
+			'Original input contains default string; line endings mixed' => [
+				'input'    => "User-agent: *\nDisallow: /wp-admin/\rAllow: /wp-admin/admin-ajax.php\r\n",
+				'expected' => '',
 			],
 		];
 	}

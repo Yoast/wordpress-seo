@@ -174,7 +174,8 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 * @return string The sanitized file request parameter.
 	 */
 	protected function get_proxy_file() {
-		return filter_input( INPUT_GET, 'file', FILTER_SANITIZE_STRING );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
+		return filter_input( INPUT_GET, 'file', @FILTER_SANITIZE_STRING );
 	}
 
 	/**
@@ -185,7 +186,8 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 * @return string The sanitized plugin_version request parameter.
 	 */
 	protected function get_plugin_version() {
-		$plugin_version = filter_input( INPUT_GET, 'plugin_version', FILTER_SANITIZE_STRING );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
+		$plugin_version = filter_input( INPUT_GET, 'plugin_version', @FILTER_SANITIZE_STRING );
 		// Replace slashes to secure against requiring a file from another path.
 		$plugin_version = str_replace( [ '/', '\\' ], '_', $plugin_version );
 
