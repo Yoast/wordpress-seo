@@ -16,9 +16,19 @@ export default {
 	},
 	args: {
 		tags: [
-			"tags1",
-			"tags2",
-			"tags3",
+			"These are",
+			"hopefully",
+			"enough",
+			"tags",
+			"to show",
+			"that",
+			"this component",
+			"will",
+			"wrap around",
+			"and",
+			"continue",
+			"on the next line.",
+			"This is a longer tag that includes spaces!",
 		],
 	},
 };
@@ -42,25 +52,3 @@ export const Factory = Template.bind( {} );
 Factory.parameters = {
 	controls: { disable: false },
 };
-
-export const TagsInLines = Template.bind( {} );
-
-TagsInLines.args = {
-	tags: [
-		"These are",
-		"hopefully",
-		"enough",
-		"tags",
-		"to show",
-		"that",
-		"this component",
-		"will",
-		"wrap around",
-		"and",
-		"continue",
-		"on the next line.",
-		"This is a longer tag that includes spaces!",
-	],
-};
-
-TagsInLines.parameters = { docs: { description: { story: "The line grows to contain more than one line of tags, and shrinks back to one line when tags are removed." } } };
