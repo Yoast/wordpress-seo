@@ -53,10 +53,10 @@ const getMarkedAnchors = function( sentence, wordsRegex ) {
 		// Retrieve the open tag and the content/anchor text.
 		const { openTag, content } = deConstructAnchor( anchor );
 
-		// Apply the marking to the anchor text.
+		// Apply the marking to the anchor text if there is a match.
 		const markedAnchorText = content.replace( wordsRegex, ( x ) => addMark( x ) );
 
-		// Create a new anchor tag with a marked anchor text if there is a match.
+		// Create a new anchor tag with a (marked) anchor text.
 		return reConstructAnchor( openTag, markedAnchorText );
 	} );
 
