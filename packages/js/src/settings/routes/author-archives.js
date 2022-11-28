@@ -5,7 +5,6 @@ import { Badge, Code, Link } from "@yoast/ui-library";
 import FeatureUpsell from "@yoast/ui-library/src/components/feature-upsell";
 import { useFormikContext } from "formik";
 import { toLower } from "lodash";
-import AnimateHeight from "react-animate-height";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -76,7 +75,7 @@ const AuthorArchives = () => {
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-author": isAuthorDisabled, "noindex-author-wpseo": isAuthorNoIndex } = values.wpseo_titles;
+	const { "disable-author": isAuthorArchivesDisabled, "noindex-author-wpseo": isAuthorNoIndex } = values.wpseo_titles;
 
 	return (
 		<RouteLayout
@@ -129,7 +128,7 @@ const AuthorArchives = () => {
 								</Link>
 								.
 							</> }
-							disabled={ isAuthorDisabled }
+							disabled={ isAuthorArchivesDisabled }
 							className="yst-max-w-sm"
 						/>
 						<FormikFlippedToggleField
@@ -145,7 +144,7 @@ const AuthorArchives = () => {
 								__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 								labelLower
 							) }
-							disabled={ isAuthorDisabled || isAuthorNoIndex }
+							disabled={ isAuthorArchivesDisabled || isAuthorNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikReplacementVariableEditorField
@@ -155,7 +154,7 @@ const AuthorArchives = () => {
 							label={ __( "SEO title", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isAuthorDisabled }
+							isDisabled={ isAuthorArchivesDisabled }
 						/>
 						<FormikReplacementVariableEditorField
 							type="description"
@@ -164,7 +163,7 @@ const AuthorArchives = () => {
 							label={ __( "Meta description", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isAuthorDisabled }
+							isDisabled={ isAuthorArchivesDisabled }
 							className="yst-replacevar--description"
 						/>
 					</FieldsetLayout>
@@ -198,7 +197,7 @@ const AuthorArchives = () => {
 								previewLabel={ recommendedSize }
 								mediaUrlName="wpseo_titles.social-image-url-author-wpseo"
 								mediaIdName="wpseo_titles.social-image-id-author-wpseo"
-								disabled={ isAuthorDisabled || ! opengraph }
+								disabled={ isAuthorArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -208,7 +207,7 @@ const AuthorArchives = () => {
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ isAuthorDisabled || ! opengraph }
+								isDisabled={ isAuthorArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -219,7 +218,7 @@ const AuthorArchives = () => {
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ isAuthorDisabled || ! opengraph }
+								isDisabled={ isAuthorArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>
