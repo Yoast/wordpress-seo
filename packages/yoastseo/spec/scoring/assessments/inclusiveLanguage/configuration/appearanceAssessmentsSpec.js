@@ -22,7 +22,8 @@ describe( "Appearance assessments", function() {
 				"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
 			expect( assessor.getMarks() ).toEqual( [ { _properties:
-					{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at albinos</yoastmark>",
+					{ fieldsToMark: [],
+						marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at albinos</yoastmark>",
 						original: "This ad is aimed at albinos",
 					} } ] );
 		} );
@@ -46,6 +47,7 @@ describe( "Appearance assessments", function() {
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [
 			{ _properties: {
+				fieldsToMark: [],
 				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at obese citizens.</yoastmark>",
 				original: "This ad is aimed at obese citizens.",
 			} } ] );
@@ -61,6 +63,7 @@ describe( "Appearance assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(  [
 			{ _properties: {
+				fieldsToMark: [],
 				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at high vertically challenged.</yoastmark>",
 				original: "This ad is aimed at high vertically challenged." } } ] );
 	} );

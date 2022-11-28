@@ -22,6 +22,7 @@ describe( "Other assessments", function() {
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
 			expect( assessor.getMarks() ).toEqual( [
 				{ _properties: {
+					fieldsToMark: [],
 					marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at homosexuals</yoastmark>",
 					original: "This ad is aimed at homosexuals",
 				} } ] );
@@ -45,6 +46,7 @@ describe( "Other assessments", function() {
 		expect( assessor.getMarks() ).toEqual(  [
 			{ _properties:
 					{
+						fieldsToMark: [],
 						marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at minorities.</yoastmark>",
 						original: "This ad is aimed at minorities.",
 					} } ] );
