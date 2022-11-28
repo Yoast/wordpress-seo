@@ -71,8 +71,8 @@ $extensions = [
 // Add Yoast WooCommerce SEO when WooCommerce is active.
 if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 	$extensions[ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ] = [
-		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/premium-page-bundle-buy' ),
-		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/premium-page-bundle-info' ),
+		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zr' ),
+		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zq' ),
 		'title'         => 'Yoast WooCommerce SEO',
 		'display_title' => __( 'Drive more traffic to your online store', 'wordpress-seo' ),
 		/* translators: %1$s expands to Yoast SEO */
@@ -275,7 +275,7 @@ $new_tab_message         = sprintf(
 
 					<div class="yoast-button-container">
 						<?php if ( $addon_manager->is_installed( $slug ) ) : ?>
-							<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
+							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
 							<?php if ( $addon_manager->has_valid_subscription( $slug ) ) : ?>
 								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
@@ -292,7 +292,7 @@ $new_tab_message         = sprintf(
 									?>
 								</a>
 							<?php else : ?>
-								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
+								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>" class="yoast-link--license">
 									<?php
 									printf(
