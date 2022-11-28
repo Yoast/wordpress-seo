@@ -4,6 +4,7 @@ import { SearchIcon } from "@heroicons/react/outline";
 import { useCallback, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Modal, Title, useSvgAria, useToggleState } from "@yoast/ui-library";
+import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
 import PropTypes from "prop-types";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -111,6 +112,11 @@ const Search = () => {
 		debouncedSearch( event.target.value );
 	}, [ setQuery, debouncedSearch ] );
 
+	const handleOptionActiveState = useCallback( ( { active } ) => classNames(
+		"yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white",
+		active && "yst-text-white yst-bg-primary-600"
+	), [] );
+
 	return <>
 		<button
 			type="button"
@@ -162,7 +168,7 @@ const Search = () => {
 										<Combobox.Option
 											key={ name }
 											value={ item }
-											className="yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white"
+											className={ handleOptionActiveState }
 										>
 											{ item.fieldLabel }
 										</Combobox.Option>
@@ -188,3 +194,4 @@ const Search = () => {
 };
 
 export default Search;
+
