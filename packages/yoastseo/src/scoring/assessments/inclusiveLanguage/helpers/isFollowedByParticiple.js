@@ -32,14 +32,3 @@ export function isFollowedByParticiple( words, nonInclusivePhrase ) {
 		return false;
 	};
 }
-
-
-/**
- * Generates a callback that checks if a non-inclusive phrase is NOT followed by a participle.
- * @param {string[]} words an array of the words that form the text that contains the non inclusive phrase.
- * @param {string[]} nonInclusivePhrase a list of words that are a non inclusive phrase.
- * @returns {function} a callback function that checks if the word after a non inclusive phrase is a participle.
- */
-export function isNotFollowedByParticiple( words, nonInclusivePhrase ) {
-	return index => ! isFollowedByParticiple( words, nonInclusivePhrase )( index );
-}
