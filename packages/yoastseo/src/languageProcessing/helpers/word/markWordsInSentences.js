@@ -9,14 +9,14 @@ import arrayToRegex from "../regex/createRegexFromArray";
 const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)(.+?)(<\/a>)/;
 
 /**
- * Deconstructs an anchor in the opening tag and the content. The content is the anchor text.
+ * Deconstructs an anchor to the opening tag and the content. The content is the anchor text.
  * We don't return the closing tag since the value would always be the same, i.e. </a>.
  *
  * @param {string} anchor An anchor of the shape <a ...>...</a>.
  *
  * @returns {object} An object containing the opening tag and the content.
  */
-const deConstructAnchor = function( anchor ) {
+export const deConstructAnchor = function( anchor ) {
 	const [ , openTag, content ] = anchor.match( anchorDeconstructionRegex );
 	return {
 		openTag: openTag,
@@ -32,7 +32,7 @@ const deConstructAnchor = function( anchor ) {
  *
  * @returns {string} An anchor.
  */
-const reConstructAnchor = function( openTag, content ) {
+export const reConstructAnchor = function( openTag, content ) {
 	return `${openTag}${content}</a>`;
 };
 

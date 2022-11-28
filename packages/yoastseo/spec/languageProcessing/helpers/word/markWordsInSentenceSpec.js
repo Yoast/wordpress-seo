@@ -150,10 +150,9 @@ describe( "test the deconstructAnchor and reconstructAnchor helper", () => {
 		expect( deconstructedAnchor ).toEqual( {
 			openTag: "<a href=\"https://yoast.com\">",
 			content: "This is yoast.",
-			closeTag: "</a>",
 		} );
 
-		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content, deconstructedAnchor.closeTag );
+		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content );
 		expect( reconstructedAnchor ).toEqual( testAnchor );
 	} );
 
@@ -164,10 +163,9 @@ describe( "test the deconstructAnchor and reconstructAnchor helper", () => {
 		expect( deconstructedAnchor ).toEqual( {
 			openTag: "<a href=\"https://yoast.com\">",
 			content: "This <i>is</i> <b>yoast</b>.",
-			closeTag: "</a>",
 		} );
 
-		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content, deconstructedAnchor.closeTag );
+		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content );
 		expect( reconstructedAnchor ).toEqual( testAnchor );
 	} );
 } );
