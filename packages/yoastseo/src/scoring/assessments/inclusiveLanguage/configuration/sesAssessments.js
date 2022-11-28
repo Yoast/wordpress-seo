@@ -5,6 +5,7 @@ import { isFollowedByException } from "../helpers/isFollowedByException";
 import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
 import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
 import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 const punctuationList = punctuationRegexString.split( "" );
 
@@ -52,11 +53,7 @@ const sesAssessments = [
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
-					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
-				} ) );
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
 	},
 	{

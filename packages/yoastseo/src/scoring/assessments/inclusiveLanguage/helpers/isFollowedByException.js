@@ -32,8 +32,6 @@ export function isFollowedByException( words, consecutiveWords, exceptions ) {
  * @returns {function} A function that checks whether the given list of words is contained in another list of words in the given order.
  */
 export function isNotFollowedByException( words, consecutiveWords, exceptions ) {
-	// console.log(words, consecutiveWords, exceptions, "isFollowedByException")
-
 	return index => ! isFollowedByException( words, consecutiveWords, exceptions )( index );
 }
 

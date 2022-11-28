@@ -11,6 +11,13 @@ export const punctuationRegexString = "\\–\\-\\(\\)_\\[\\]’‘“”〝〞�
 "\uff5d\uff5c\uff5e\uff5f\uff60\uff62\uff63\uff64\uff3b\uff3d\uff65\uffe5\uff04\uff05\uff20\uff06\uff07\uff08\uff09\uff0a\uff0f\uff1a" +
 "\uff1b\uff1c\uff1e\uff3c\\<>";
 
+/**
+ * Array containing all the characters that we consider punctuation.
+ * Characters that can also be used as control characters in regular expressions (like `-` and `(`) are escaped.
+ * @type {string[]}
+ */
+export const punctuationList = punctuationRegexString.split( "" );
+
 /*
  * \u2014 - em-dash
  * \u00d7 - multiplication sign
