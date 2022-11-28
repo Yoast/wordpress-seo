@@ -1,7 +1,7 @@
 /** @module stringProcessing/countWords */
 import sanitizeString from "../sanitize/sanitizeString";
 import removePunctuation from "../sanitize/removePunctuation.js";
-import { map, filter, flatMap } from "lodash-es";
+import { filter, flatMap } from "lodash-es";
 import { punctuationRegexString } from "../sanitize/removePunctuation.js";
 
 const interJectionRegexString = `([${punctuationRegexString}])`;
@@ -15,7 +15,7 @@ const interJectionRegex = new RegExp( interJectionRegexString, "g" );
  *
  * @returns {Array} The array with all words.
  */
-export default function( text, doRemovePunctuation = true ) {
+export default function( text, shouldRemovePunctuation = true ) {
 	// Unify whitespaces and non-breaking spaces, remove table of content and strip the tags and multiple spaces.
 	text = sanitizeString( text );
 
@@ -25,7 +25,7 @@ export default function( text, doRemovePunctuation = true ) {
 
 	let words = text.split( /\s/g );
 
-	if ( doRemovePunctuation ) {
+	if ( shouldRemovePunctuation ) {
 		words = words.map( removePunctuation );
 	} else {
 		// If punctuation is not removed, punctuation marks are tokenized as if they were words.

@@ -1,7 +1,8 @@
 import { unifyNonBreakingSpace } from "./unifyWhitespace";
 
 /**
- * String containing all the characters that we consider punctuation. Characters that can also be used as control characters in regular expressions (like `-` and `(`) are escaped.
+ * String containing all the characters that we consider punctuation.
+ * Characters that can also be used as control characters in regular expressions (like `-` and `(`) are escaped.
  * @type {string}
  */
 export const punctuationRegexString = "\\–\\-\\(\\)_\\[\\]’‘“”〝〞〟‟„\"'.?!:;,¿¡«»‹›\u2014\u00d7\u002b\u0026\u06d4\u061f\u060C\u061B\u3002\uff61" +
