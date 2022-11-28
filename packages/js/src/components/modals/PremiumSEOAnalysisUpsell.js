@@ -3,7 +3,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
-import useRootContext from "../contexts/use-root-context";
+import { useRootContext }  from "@yoast/externals/contexts";
 import { addQueryArgs } from "@wordpress/url";
 
 /**
