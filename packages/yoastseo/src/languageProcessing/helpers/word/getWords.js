@@ -11,7 +11,7 @@ const interJectionRegex = new RegExp( interJectionRegexString, "g" );
  * Returns an array with words used in the text.
  *
  * @param {string} text The text to be counted.
- * @param {boolean} doRemovePunctuation A
+ * @param {boolean} [shouldRemovePunctuation=true] If punctuation should be removed. Defaults to `true`.
  *
  * @returns {Array} The array with all words.
  */
