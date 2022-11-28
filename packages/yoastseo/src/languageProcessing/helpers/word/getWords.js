@@ -26,9 +26,7 @@ export default function( text, doRemovePunctuation = true ) {
 	let words = text.split( /\s/g );
 
 	if ( doRemovePunctuation ) {
-		words = map( words, function( word ) {
-			return removePunctuation( word );
-		} );
+		words = words.map( removePunctuation );
 	} else {
 		// If punctuation is not removed, punctuation marks are tokenized as if they were words.
 		words = flatMap( words, ( word ) => {
