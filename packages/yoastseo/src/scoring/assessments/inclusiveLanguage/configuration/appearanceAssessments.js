@@ -1,7 +1,6 @@
 import {
 	potentiallyHarmful,
 	potentiallyHarmfulUnless,
-	potentiallyHarmfulUnlessReclaimed,
 	preferredDescriptorIfKnown,
 } from "./feedbackStrings";
 import { SCORES } from "./scores";
