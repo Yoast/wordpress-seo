@@ -6,7 +6,8 @@ import { __ } from "@wordpress/i18n";
 import { Modal, useSvgAria, useToggleState, TextInput, Title } from "@yoast/ui-library";
 import { debounce, max, first, isEmpty, map, reduce, trim, includes, split, values, groupBy } from "lodash";
 import { Link } from "react-router-dom";
-import { useSelectSettings } from "../hooks";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useSelectSettings, useParsedUserAgent } from "../hooks";
 
 const QUERY_MIN_CHARS = 3;
 
@@ -34,11 +35,19 @@ const Search = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
-	const searchIndex = useSelectSettings( "selectSearchIndex" );
 	const queryableSearchIndex = useSelectSettings( "selectQueryableSearchIndex" );
 	const [ results, setResults ] = useState( [] );
 	const ariaSvgProps = useSvgAria();
 	const inputRef = useRef( null );
+	const { platform, os } = useParsedUserAgent();
+
+	// Only bind hotkeys when platform type is desktop.
+	useHotkeys( "ctrl+k, meta+k", event => {
+		event.preventDefault();
+		if ( platform?.type === "desktop" && ! isOpen ) {
+			setOpen();
+		}
+	}, [ isOpen, setOpen ] );
 
 	const handleNavigate = useCallback( () => {
 		setClose();
@@ -92,7 +101,7 @@ const Search = () => {
 		} );
 
 		setResults( sortedGroupedQueryResults );
-	}, 100 ), [ queryableSearchIndex, searchIndex ] );
+	}, 100 ), [ queryableSearchIndex ] );
 
 	const handleQueryChange = useCallback( event => {
 		setQuery( event.target.value );
@@ -109,6 +118,11 @@ const Search = () => {
 				{ ...ariaSvgProps }
 			/>
 			<span>{ query || __( "Quick search...", "wordpress-seo" ) }</span>
+			{ platform?.type === "desktop" && (
+				<span className="yst-ml-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400">
+					{ os?.name === "macOS" ? __( "⌘K", "wordpress-seo" ) : __( "CtrlK", "wordpress-seo" ) }
+				</span>
+			) }
 		</button>
 		<Modal
 			onClose={ setClose }
@@ -154,7 +168,7 @@ const Search = () => {
 				) }
 				{ query.length < QUERY_MIN_CHARS && (
 					<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
-						<p className="yst-text-slate-500">{ __( "Please enter a search term that is longer than 3 characters.", "wordpress-seo" ) }</p>
+						<p className="yst-text-slate-500">{ __( "Please enter a search term with at least 3 characters.", "wordpress-seo" ) }</p>
 					</SearchNoResultsContent>
 				) }
 				{ query.length >= QUERY_MIN_CHARS && isEmpty( results ) && (

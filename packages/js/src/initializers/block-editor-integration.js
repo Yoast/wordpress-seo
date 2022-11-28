@@ -31,6 +31,7 @@ import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
 import { isWordProofIntegrationActive } from "../helpers/wordproof";
+import Root from "../components/contexts/root";
 
 
 /**
@@ -101,6 +102,9 @@ function registerFills( store ) {
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
+	const blockSidebarContext = { locationContext: "block-sidebar" };
+	const blockMetaboxContext = { locationContext: "block-metabox" };
+
 	/**
 	 * Renders the yoast editor fills.
 	 *
@@ -118,11 +122,15 @@ function registerFills( store ) {
 				name="seo-sidebar"
 				title={ pluginTitle }
 			>
-				<SidebarSlot store={ store } theme={ theme } />
+				<Root context={ blockSidebarContext }>
+					<SidebarSlot store={ store } theme={ theme } />
+				</Root>
 			</PluginSidebar>
 			<Fragment>
 				<SidebarFill store={ store } theme={ theme } />
-				<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				<Root context={ blockMetaboxContext }>
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Root>
 			</Fragment>
 			{ analysesEnabled && <PluginPrePublishPanel
 				className="yoast-seo-sidebar-panel"

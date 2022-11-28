@@ -4,14 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.seo_page_wpseo_settings {
+.seo_page_wpseo_page_settings {
 	@apply yst-bg-slate-100;
 
 	/* Move WP footer behind our content. */
 	z-index: -1;
 
 	#wpcontent {
-		padding-left: 0;
+		padding-left: 0 !important;
 	}
 
 	#wpfooter {
@@ -21,10 +21,6 @@
 			@apply yst-pr-8;
 
 			padding-left: 17rem;
-		}
-
-		@media (min-width: 1024px) {
-			padding-left: 19rem;
 		}
 	}
 }
@@ -63,6 +59,10 @@
 		.yst-mobile-navigation__top {
 			@media (min-width: 601px) and (max-width: 768px) {
 				top: 46px;
+			}
+
+			@media (min-width: 783px) {
+				@apply yst-hidden;
 			}
 		}
 
@@ -187,12 +187,12 @@
 					yst-text-sm
 					yst-text-slate-800
 					yst-no-underline
-					hover:yst-bg-slate-100
+					hover:yst-bg-slate-200
 					hover:yst-text-slate-900
 					yst-cursor-pointer;
 
 					&[aria-selected] {
-						@apply yst-bg-slate-100 yst-text-slate-900
+						@apply yst-bg-slate-200 yst-text-slate-900
 					}
 				}
 			}
@@ -204,17 +204,23 @@
 
 		.yst-replacevar__mention {
 			@apply
-			yst-inline-flex
+			yst-inline-block
 			yst-py-0.5
 			yst-px-2
 			yst-mx-0.5
 			yst-rounded-full
-			yst-items-center
 			yst-leading-tight
 			yst-text-xs
 			yst-font-medium
 			yst-bg-slate-200
 			yst-text-slate-900;
+		}
+	}
+
+	/* RTL */
+	.rtl {
+		.yst-root .yst-replacevar .emoji-select-popover {
+			@apply yst-left-0 yst-right-auto;
 		}
 	}
 }

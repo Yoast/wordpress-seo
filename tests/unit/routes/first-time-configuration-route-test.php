@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_REST_Request;
 use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Routes\First_Time_Configuration_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -273,7 +274,7 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	 * @param object $expected The expected result object.
 	 */
 	public function test_can_edit_user( $can_edit, $expected ) {
-		$request = Mockery::mock( 'WP_Rest_Request' );
+		$request = Mockery::mock( WP_REST_Request::class );
 		$request
 			->shouldReceive( 'get_param' )
 			->with( 'user_id' )

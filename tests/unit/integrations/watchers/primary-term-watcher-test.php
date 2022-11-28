@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Primary_Term_Watcher;
+use Yoast\WP\SEO\Models\Primary_Term;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -116,7 +117,7 @@ class Primary_Term_Watcher_Test extends TestCase {
 			->with( 1 )
 			->andReturn( [ (object) [ 'name' => 'category' ] ] );
 
-		$primary_term = Mockery::mock();
+		$primary_term = Mockery::mock( Primary_Term::class );
 		$primary_term->expects( 'delete' )->once();
 
 		$this->repository

@@ -26,7 +26,7 @@ module.exports = {
 			},
 		},
 	},
-	safelist: process.env.NODE_ENV === "development" ? [ { pattern: /.*/, variants: [ "sm", "md", "lg", "xl", "2xl" ] } ] : [
+	safelist: [
 		"yst-border-l",
 		"yst-space-x-8",
 		"yst-pb-10",

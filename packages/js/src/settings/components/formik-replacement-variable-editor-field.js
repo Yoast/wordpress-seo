@@ -4,12 +4,13 @@ import { useField } from "formik";
 import PropTypes from "prop-types";
 
 /**
- * @param {string} className The wrapper class.
  * @param {Object} props The props to pass down to the component.
  * @param {string} props.name The field name.
+ * @param {string} props.name The field name.
+ * @param {boolean} props.disabled Disabled state.
  * @returns {JSX.Element} The Formik compatible element.
  */
-const FormikReplacementVariableEditorField = ( { className = "", ...props } ) => {
+const FormikReplacementVariableEditorField = ( { className = "", disabled = false, ...props } ) => {
 	const [ editorRef, setEditorRef ] = useState( null );
 	const [ field, , { setTouched, setValue } ] = useField( props );
 
@@ -39,6 +40,7 @@ const FormikReplacementVariableEditorField = ( { className = "", ...props } ) =>
 				onChange={ handleChange }
 				editorRef={ setEditorRef }
 				onFocus={ handleFocus }
+				isDisabled={ disabled }
 				{ ...props }
 			/>
 		</div>
@@ -47,6 +49,7 @@ const FormikReplacementVariableEditorField = ( { className = "", ...props } ) =>
 
 FormikReplacementVariableEditorField.propTypes = {
 	name: PropTypes.string.isRequired,
+	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
 

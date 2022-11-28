@@ -2,7 +2,7 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
+import { createInterpolateElement, Fragment, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
@@ -21,7 +21,6 @@ const PersonSocialProfiles = () => {
 	const { values, status, setStatus, setFieldValue } = useFormikContext();
 	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
 	const previousUserId = usePrevious( companyOrPersonId );
-	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
 	const socialProfileFieldLabels = useMemo( () => ( {
 		facebook: __( "Facebook URL", "wordpress-seo" ),
@@ -65,20 +64,6 @@ const PersonSocialProfiles = () => {
 			title={ __( "Other profiles", "wordpress-seo" ) }
 			description={ __( "Tell us about the other profiles on the web that belong to the person.", "wordpress-seo" ) }
 		>
-			{ ! canEditUser && <Alert variant="info">
-				{ ! isEmpty( personUser ) && createInterpolateElement(
-					sprintf(
-						// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
-						// %3$s is replaced by the selected user display name.
-						__( "We're sorry, you're not allowed to edit the other profiles of %1$s%3$s%2$s.", "wordpress-seo" ),
-						"<strong>",
-						"</strong>",
-						personUser?.name
-					), {
-						strong: <strong className="yst-font-medium" />,
-					} ) }
-				{ isEmpty( personUser ) && __( "We're sorry, you're not allowed to edit the other profiles of the selected user.", "wordpress-seo" ) }
-			</Alert> }
 			{ map( personSocialProfiles, socialProfile => (
 				<FormikWithErrorField
 					key={ socialProfile }
@@ -101,9 +86,9 @@ const PersonSocialProfiles = () => {
  */
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
-	const { blogname } = values;
 	// eslint-disable-next-line camelcase
 	const {
+		website_name: websiteName,
 		company_or_person: companyOrPerson,
 		company_or_person_user_id: companyOrPersonId,
 		company_name: companyName,
@@ -183,11 +168,11 @@ const SiteRepresentation = () => {
 								description={ __( "Please tell us more about your organization. This information will help Google to understand your website, and improve your chance of getting rich results.", "wordpress-seo" ) }
 							>
 								{ ( ! companyName || companyLogoId < 1 ) && (
-									<Alert id="alert-organization-name-logo" variant="warning">
+									<Alert id="alert-organization-name-logo" variant="info">
 										{ addLinkToString(
 											sprintf(
 												// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-												__( "An organization name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
+												__( "An organization name and logo need to be set for structured data to work properly. Since you haven’t set these yet, we are using the site name and logo as default values. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
 												"<a>",
 												"</a>"
 											),
@@ -201,7 +186,14 @@ const SiteRepresentation = () => {
 									name="wpseo_titles.company_name"
 									id="input-wpseo_titles-company_name"
 									label={ __( "Organization name", "wordpress-seo" ) }
-									placeholder={ blogname }
+									placeholder={ websiteName }
+								/>
+								<Field
+									as={ TextField }
+									name="wpseo_titles.company_alternate_name"
+									id="input-wpseo_titles-company_alternate_name"
+									label={ __( "Alternate organization name", "wordpress-seo" ) }
+									description={ __( "Use the alternate organization name for acronyms, or a shorter version of your organization's name.", "wordpress-seo" ) }
 								/>
 								<FormikMediaSelectField
 									id="wpseo_titles-company_logo"
@@ -248,28 +240,38 @@ const SiteRepresentation = () => {
 									{ arrayHelpers => (
 										<>
 											{ otherSocialUrls.map( ( _, index ) => (
-												<div
+												<Transition
 													key={ `wpseo_social.other_social_urls.${ index }` }
-													className="yst-w-full yst-flex yst-items-start yst-gap-2"
+													as={ Fragment }
+													appear={ true }
+													show={ true }
+													enter="yst-transition yst-ease-out yst-duration-300"
+													enterFrom="yst-transform yst-opacity-0"
+													enterTo="yst-transform yst-opacity-100"
+													leave="yst-transition yst-ease-out yst-duration-300"
+													leaveFrom="yst-transform yst-opacity-100"
+													leaveTo="yst-transform yst-opacity-0"
 												>
-													<FormikWithErrorField
-														as={ TextField }
-														name={ `wpseo_social.other_social_urls.${ index }` }
-														id={ `input-wpseo_social-other_social_urls-${ index }` }
-														// translators: %1$s expands to array index + 1.
-														label={ sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ) }
-														placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
-														className="yst-grow"
-													/>
-													<button
-														type="button"
-														// eslint-disable-next-line react/jsx-no-bind
-														onClick={ arrayHelpers.remove.bind( null, index ) }
-														className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
-													>
-														<TrashIcon className="yst-h-5 yst-w-5" />
-													</button>
-												</div>
+													<div className="yst-w-full yst-flex yst-items-start yst-gap-2">
+														<FormikWithErrorField
+															as={ TextField }
+															name={ `wpseo_social.other_social_urls.${ index }` }
+															id={ `input-wpseo_social-other_social_urls-${ index }` }
+															// translators: %1$s expands to array index + 1.
+															label={ sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ) }
+															placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
+															className="yst-grow"
+														/>
+														<Button
+															variant="secondary"
+															// eslint-disable-next-line react/jsx-no-bind
+															onClick={ arrayHelpers.remove.bind( null, index ) }
+															className="yst-mt-7 yst-p-2.5"
+														>
+															<TrashIcon className="yst-h-5 yst-w-5" />
+														</Button>
+													</div>
+												</Transition>
 											) ) }
 											{ /* eslint-disable-next-line react/jsx-no-bind */ }
 											<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
@@ -324,7 +326,7 @@ const SiteRepresentation = () => {
 											sprintf(
 												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
 												// %3$s is replaced by the selected user display name.
-												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile.", "wordpress-seo" ),
+												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the information below.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
 												personUser?.name

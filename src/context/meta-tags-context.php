@@ -25,35 +25,36 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  *
  * Class that contains all relevant data for rendering the meta tags.
  *
- * @property string       $canonical
- * @property string       $permalink
- * @property string       $title
- * @property string       $description
- * @property string       $id
- * @property string       $site_name
- * @property string       $alternate_site_name
- * @property string       $wordpress_site_name
- * @property string       $site_url
- * @property string       $company_name
- * @property string       $company_alternate_name
- * @property int          $company_logo_id
- * @property array        $company_logo_meta
- * @property int          $person_logo_id
- * @property array        $person_logo_meta
- * @property int          $site_user_id
- * @property string       $site_represents
- * @property array|false  $site_represents_reference
- * @property string       schema_page_type
- * @property string       $main_schema_id
- * @property string|array $main_entity_of_page
- * @property bool         $open_graph_enabled
- * @property string       $open_graph_publisher
- * @property string       $twitter_card
- * @property string       $page_type
- * @property bool         $has_article
- * @property bool         $has_image
- * @property int          $main_image_id
- * @property string       $main_image_url
+ * @property string          $canonical
+ * @property string          $permalink
+ * @property string          $title
+ * @property string          $description
+ * @property string          $id
+ * @property string          $site_name
+ * @property string          $alternate_site_name
+ * @property string          $wordpress_site_name
+ * @property string          $site_url
+ * @property string          $company_name
+ * @property string          $company_alternate_name
+ * @property int             $company_logo_id
+ * @property array           $company_logo_meta
+ * @property int             $person_logo_id
+ * @property array           $person_logo_meta
+ * @property int             $site_user_id
+ * @property string          $site_represents
+ * @property array|false     $site_represents_reference
+ * @property string          $schema_page_type
+ * @property string|string[] $schema_article_type      Represents the type of article.
+ * @property string          $main_schema_id
+ * @property string|array    $main_entity_of_page
+ * @property bool            $open_graph_enabled
+ * @property string          $open_graph_publisher
+ * @property string          $twitter_card
+ * @property string          $page_type
+ * @property bool            $has_article
+ * @property bool            $has_image
+ * @property int             $main_image_id
+ * @property string          $main_image_url
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 

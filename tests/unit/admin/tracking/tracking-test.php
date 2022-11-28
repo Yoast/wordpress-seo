@@ -7,7 +7,6 @@ use Mockery;
 use WPSEO_Options;
 use WPSEO_Tracking;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
-use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -34,11 +33,10 @@ class WPSEO_Tracking_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( false );
 
-		$helper_surface              = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->environment = $environment_helper;
+		$container = $this->create_container_with( [ Environment_Helper::class => $environment_helper ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
 
@@ -65,11 +63,10 @@ class WPSEO_Tracking_Test extends TestCase {
 		$environment_helper = Mockery::mock( Environment_Helper::class );
 		$environment_helper->expects( 'is_production_mode' )->once()->andReturn( true );
 
-		$helper_surface              = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->environment = $environment_helper;
+		$container = $this->create_container_with( [ Environment_Helper::class => $environment_helper ] );
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 
 		$instance = new WPSEO_Tracking( 'https://tracking.yoast.com/stats', ( \WEEK_IN_SECONDS * 2 ) );
 
