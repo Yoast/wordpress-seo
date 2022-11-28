@@ -152,8 +152,11 @@ the sentence part is not passive.
 */
 export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( otherAuxiliaries, copula, interviewVerbs, delexicalizedVerbs );
 
-// These categories consist of function words that are not nouns.
-// They are used in the inclusive language to recognize overgeneralizing phrases such as "the aged".
+/**
+  * These categories consist of function words that are not nouns.
+  * They are used in the inclusive language to recognize overgeneralizing phrases such as "the aged".
+  * @type{string}
+  */
 export const nonNouns = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 	personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
 	indefinitePronounsPossessive, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
