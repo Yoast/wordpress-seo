@@ -118,7 +118,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @return Closure[] The cleanup tasks.
 	 */
-	protected function get_cleanup_tasks() {
+	public function get_cleanup_tasks() {
 		return \array_merge(
 			[
 				'clean_indexables_with_object_type_and_object_sub_type_shop_order' => function( $limit ) {
@@ -342,7 +342,7 @@ class Cleanup_Integration implements Integration_Interface {
 		global $wpdb;
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_post_types = \array_diff( $this->post_type->get_accessible_post_types(), $this->post_type->get_excluded_post_types_for_indexables() );
+		$included_post_types = $this->post_type->get_indexable_post_types();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
@@ -385,7 +385,7 @@ class Cleanup_Integration implements Integration_Interface {
 		global $wpdb;
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_taxonomies = $this->taxonomy->get_public_taxonomies();
+		$included_taxonomies = $this->taxonomy->get_indexable_taxonomies();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {

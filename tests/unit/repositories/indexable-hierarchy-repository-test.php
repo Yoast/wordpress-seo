@@ -4,9 +4,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Brain\Monkey\Functions;
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\Models\Indexable_Hierarchy;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Hierarchy_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -69,7 +72,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$ancestors = [ 2 ];
 
-		$orm_object = Mockery::mock();
+		$orm_object = Mockery::mock( ORM::class );
 
 		$orm_object
 			->expects( 'select' )
@@ -118,7 +121,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$ancestors = [ 2 ];
 
-		$orm_object = Mockery::mock();
+		$orm_object = Mockery::mock( ORM::class );
 
 		$orm_object
 			->expects( 'select' )
@@ -167,7 +170,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::clear_ancestors
 	 */
 	public function test_clear_ancestors() {
-		$orm_object = Mockery::mock()->makePartial();
+		$orm_object = Mockery::mock( ORM::class )->makePartial();
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
 		$orm_object
@@ -189,7 +192,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::add_ancestor
 	 */
 	public function test_add_ancestor() {
-		$hierarchy               = Mockery::mock();
+		$hierarchy               = Mockery::mock( Indexable_Hierarchy_Mock::class );
 		$hierarchy->indexable_id = 1;
 		$hierarchy->ancestor_id  = 2;
 		$hierarchy->depth        = 1;
@@ -199,7 +202,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$hierarchy->expects( 'save' )->once()->andReturn( true );
 
-		$orm_object = Mockery::mock()->makePartial();
+		$orm_object = Mockery::mock( ORM::class )->makePartial();
 
 		$orm_object
 			->expects( 'create' )
@@ -224,7 +227,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::query
 	 */
 	public function test_query() {
-		$wpdb         = Mockery::mock();
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'wp_';
 
 		$GLOBALS['wpdb'] = $wpdb;
@@ -244,7 +247,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$indexable     = Mockery::mock( Indexable_Mock::class );
 		$indexable->id = 1;
 
-		$orm_object = Mockery::mock();
+		$orm_object = Mockery::mock( ORM::class );
 
 		$orm_object
 			->expects( 'select' )
@@ -291,7 +294,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$indexable     = Mockery::mock( Indexable_Mock::class );
 		$indexable->id = 1;
 
-		$orm_object = Mockery::mock();
+		$orm_object = Mockery::mock( ORM::class );
 
 		$orm_object
 			->expects( 'select' )

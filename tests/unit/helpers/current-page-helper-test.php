@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Brain\Monkey;
 use Mockery;
 use WP_Post;
+use WP_Query;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -46,7 +47,7 @@ class Current_Page_Helper_Test extends TestCase {
 		parent::set_up();
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
-		$this->wp_query         = Mockery::mock();
+		$this->wp_query         = Mockery::mock( WP_Query::class );
 
 		$this->instance = Mockery::mock( Current_Page_Helper::class, [ $this->wp_query_wrapper ] )
 			->makePartial()

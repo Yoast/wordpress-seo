@@ -3,6 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, Link } from "@yoast/ui-library";
 import FeatureUpsell from "@yoast/ui-library/src/components/feature-upsell";
 import { useFormikContext } from "formik";
+import { toLower } from "lodash";
 import AnimateHeight from "react-animate-height";
 import {
 	FieldsetLayout,
@@ -11,6 +12,7 @@ import {
 	FormikReplacementVariableEditorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
+	RouteLayout,
 } from "../components";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
@@ -23,6 +25,10 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
 const AuthorArchives = () => {
 	const label = __( "Author archives", "wordpress-seo" );
 	const singularLabel = __( "Author archive", "wordpress-seo" );
+	const labelLower = useMemo( () => toLower( label ), [ label ] );
+	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
+
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
 	const duplicateContentInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/duplicate-content" );
@@ -50,20 +56,20 @@ const AuthorArchives = () => {
 	const description = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
-			 * translators: %1$s expands to "Author archives".
+			 * translators: %1$s expands to "author archive".
 			 * %2$s expands to an example URL, e.g. https://example.com/author/example/.
 			 * %3$s and %4$s expand to opening and closing <a> tags.
 			 */
 			__( "If you're running a one author blog, the %1$s (e.g. %2$s) will be exactly the same as your homepage. This is what's called a %3$sduplicate content problem%4$s. If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or prevent it from showing up in search results.", "wordpress-seo" ),
-			singularLabel,
+			singularLabelLower,
 			"<exampleUrl />",
 			"<a>",
 			"</a>"
 		),
 		{
 			exampleUrl: <Code>{ exampleUrl }</Code>,
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noreferrer" />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
+			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noopener" />,
 		}
 	) );
 
@@ -72,144 +78,160 @@ const AuthorArchives = () => {
 	const { "disable-author": isAuthorDisabled, "noindex-author-wpseo": isAuthorNoIndex } = values.wpseo_titles;
 
 	return (
-		<FormLayout
+		<RouteLayout
 			title={ label }
 			description={ description }
 		>
-			<div className="yst-max-w-5xl">
-				<fieldset className="yst-min-width-0 yst-space-y-8">
+			<FormLayout>
+				<div className="yst-max-w-5xl">
 					<FormikFlippedToggleField
 						name={ "wpseo_titles.disable-author" }
 						data-id={ "input-wpseo_titles-disable-author" }
-						label={ label }
-						description={ sprintf(
-							/* translators: %1$s expands to the post type singular, e.g. Post. */
-							__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
-							singularLabel
+						label={ sprintf(
+							// translators: %1$s expands to "author archives".
+							__( "Enable %1$s", "wordpress-seo" ),
+							labelLower
 						) }
+						description={ sprintf(
+							// translators: %1$s expands to "author archive".
+							__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
+							singularLabelLower
+						) }
+						className="yst-max-w-sm"
 					/>
-				</fieldset>
-				<hr className="yst-my-8" />
-				<div className="yst-relative">
-					<AnimateHeight
-						easing="ease-in-out"
-						duration={ 300 }
-						height={ isAuthorDisabled ? 0 : "auto" }
-						animateOpacity={ true }
-					>
-						<FieldsetLayout
-							title={ __( "Search appearance", "wordpress-seo" ) }
-							description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
-								__( "Choose how your %1$s should look in search engines.", "wordpress-seo" ),
-								label
-							) }
+					<hr className="yst-my-8" />
+					<div className="yst-relative">
+						<AnimateHeight
+							easing="ease-in-out"
+							duration={ 300 }
+							height={ isAuthorDisabled ? 0 : "auto" }
+							animateOpacity={ true }
 						>
-							<FormikFlippedToggleField
-								name="wpseo_titles.noindex-author-wpseo"
-								data-id="input-wpseo_titles-noindex-author-wpseo"
-								label={ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. Posts.
-									__( "Show %1$s in search results", "wordpress-seo" ),
-									label
-								) }
-								description={ <>
-									{ sprintf(
-										// translators: %1$s expands to the post type plural, e.g. Posts.
-										__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.",
-											"wordpress-seo" ),
-										label
-									) }
-									<br />
-									<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
-										{ __( "Read more about the search results settings", "wordpress-seo" ) }
-									</Link>
-									.
-								</> }
-							/>
-							{ ! isAuthorNoIndex && <FormikFlippedToggleField
-								name="wpseo_titles.noindex-author-noposts-wpseo"
-								data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
-								label={ __( "Show archives for authors without posts in search results", "wordpress-seo" ) }
-								description={ __( "Disabling this means that archives for authors without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ) }
-							/> }
-							<FormikReplacementVariableEditorField
-								type="title"
-								name="wpseo_titles.title-author-wpseo"
-								fieldId="input-wpseo_titles-title-author-wpseo"
-								label={ __( "SEO title", "wordpress-seo" ) }
-								replacementVariables={ replacementVariables }
-								recommendedReplacementVariables={ recommendedReplacementVariables }
-							/>
-							<FormikReplacementVariableEditorField
-								type="description"
-								name="wpseo_titles.metadesc-author-wpseo"
-								fieldId="input-wpseo_titles-metadesc-author-wpseo"
-								label={ __( "Meta description", "wordpress-seo" ) }
-								replacementVariables={ replacementVariables }
-								recommendedReplacementVariables={ recommendedReplacementVariables }
-								className="yst-replacevar--description"
-							/>
-						</FieldsetLayout>
-						<hr className="yst-my-8" />
-						<FieldsetLayout
-							title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-								<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-								{ isPremium && <Badge variant="upsell">Premium</Badge> }
-							</div> }
-							description={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
-								__( "Choose how your %1$s should look on social media by default.", "wordpress-seo" ),
-								label
-							) }
-						>
-							<FeatureUpsell
-								shouldUpsell={ ! isPremium }
-								variant="card"
-								cardLink={ socialAppearancePremiumLink }
-								cardText={ sprintf(
-									/* translators: %1$s expands to Premium. */
-									__( "Unlock with %1$s", "wordpress-seo" ),
-									"Premium"
+							<FieldsetLayout
+								title={ __( "Search appearance", "wordpress-seo" ) }
+								description={ sprintf(
+									// translators: %1$s expands to "author archives".
+									__( "Determine how your %1$s should look in search engines.", "wordpress-seo" ),
+									labelLower
 								) }
 							>
-								<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
-								<FormikMediaSelectField
-									id="wpseo_titles-social-image-author-wpseo"
-									label={ __( "Social image", "wordpress-seo" ) }
-									previewLabel={ recommendedSize }
-									mediaUrlName="wpseo_titles.social-image-url-author-wpseo"
-									mediaIdName="wpseo_titles.social-image-id-author-wpseo"
-									disabled={ ! opengraph }
-									isDummy={ ! isPremium }
+								<FormikFlippedToggleField
+									name="wpseo_titles.noindex-author-wpseo"
+									data-id="input-wpseo_titles-noindex-author-wpseo"
+									label={ sprintf(
+										// translators: %1$s expands to "author archives".
+										__( "Show %1$s in search results", "wordpress-seo" ),
+										labelLower
+									) }
+									description={ <>
+										{ sprintf(
+											// translators: %1$s expands to "author archives".
+											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+											labelLower
+										) }
+										&nbsp;
+										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
+											{ __( "Read more about the search results settings", "wordpress-seo" ) }
+										</Link>
+										.
+									</> }
+									className="yst-max-w-sm"
 								/>
-								<FormikReplacementVariableEditorFieldWithDummy
+								<FormikFlippedToggleField
+									name="wpseo_titles.noindex-author-noposts-wpseo"
+									data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
+									label={ sprintf(
+										// translators: %1$s expands to "author archives".
+										__( "Show %1$s without posts in search results", "wordpress-seo" ),
+										labelLower
+									) }
+									description={ sprintf(
+										// translators: %1$s expands to "author archives".
+										__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+										labelLower
+									) }
+									className="yst-max-w-sm"
+									disabled={ isAuthorNoIndex }
+								/>
+								<FormikReplacementVariableEditorField
 									type="title"
-									name="wpseo_titles.social-title-author-wpseo"
-									fieldId="input-wpseo_titles-social-title-author-wpseo"
-									label={ __( "Social title", "wordpress-seo" ) }
+									name="wpseo_titles.title-author-wpseo"
+									fieldId="input-wpseo_titles-title-author-wpseo"
+									label={ __( "SEO title", "wordpress-seo" ) }
 									replacementVariables={ replacementVariables }
 									recommendedReplacementVariables={ recommendedReplacementVariables }
-									isDisabled={ ! opengraph }
-									isDummy={ ! isPremium }
 								/>
-								<FormikReplacementVariableEditorFieldWithDummy
+								<FormikReplacementVariableEditorField
 									type="description"
-									name="wpseo_titles.social-description-author-wpseo"
-									fieldId="input-wpseo_titles-social-description-author-wpseo"
-									label={ __( "Social description", "wordpress-seo" ) }
+									name="wpseo_titles.metadesc-author-wpseo"
+									fieldId="input-wpseo_titles-metadesc-author-wpseo"
+									label={ __( "Meta description", "wordpress-seo" ) }
 									replacementVariables={ replacementVariables }
 									recommendedReplacementVariables={ recommendedReplacementVariables }
 									className="yst-replacevar--description"
-									isDisabled={ ! opengraph }
-									isDummy={ ! isPremium }
 								/>
-							</FeatureUpsell>
-						</FieldsetLayout>
-					</AnimateHeight>
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								title={ <div className="yst-flex yst-items-center yst-gap-1.5">
+									<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
+									{ isPremium && <Badge variant="upsell">Premium</Badge> }
+								</div> }
+								description={ sprintf(
+									// translators: %1$s expands to "author archives".
+									__( "Determine how your %1$s should look on social media by default.", "wordpress-seo" ),
+									labelLower
+								) }
+							>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ socialAppearancePremiumLink }
+									cardText={ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+									{ ...premiumUpsellConfig }
+								>
+									<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
+									<FormikMediaSelectField
+										id="wpseo_titles-social-image-author-wpseo"
+										label={ __( "Social image", "wordpress-seo" ) }
+										previewLabel={ recommendedSize }
+										mediaUrlName="wpseo_titles.social-image-url-author-wpseo"
+										mediaIdName="wpseo_titles.social-image-id-author-wpseo"
+										disabled={ ! opengraph }
+										isDummy={ ! isPremium }
+									/>
+									<FormikReplacementVariableEditorFieldWithDummy
+										type="title"
+										name="wpseo_titles.social-title-author-wpseo"
+										fieldId="input-wpseo_titles-social-title-author-wpseo"
+										label={ __( "Social title", "wordpress-seo" ) }
+										replacementVariables={ replacementVariables }
+										recommendedReplacementVariables={ recommendedReplacementVariables }
+										isDisabled={ ! opengraph }
+										isDummy={ ! isPremium }
+									/>
+									<FormikReplacementVariableEditorFieldWithDummy
+										type="description"
+										name="wpseo_titles.social-description-author-wpseo"
+										fieldId="input-wpseo_titles-social-description-author-wpseo"
+										label={ __( "Social description", "wordpress-seo" ) }
+										replacementVariables={ replacementVariables }
+										recommendedReplacementVariables={ recommendedReplacementVariables }
+										className="yst-replacevar--description"
+										isDisabled={ ! opengraph }
+										isDummy={ ! isPremium }
+									/>
+								</FeatureUpsell>
+							</FieldsetLayout>
+						</AnimateHeight>
+					</div>
 				</div>
-			</div>
-		</FormLayout>
+			</FormLayout>
+		</RouteLayout>
 	);
 };
 

@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
  * Class Post_Helper_Test
