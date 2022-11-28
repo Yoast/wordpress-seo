@@ -216,15 +216,6 @@ const cultureAssessments = [
 		learnMoreUrl: learnMoreUrl,
 	},
 	{
-		identifier: "africanAmericanVernacularEnglish",
-		nonInclusivePhrases: [ "African American Vernacular English" ],
-		inclusiveAlternatives: "<i>African American English, African American Language</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulCareful,
-		learnMoreUrl: learnMoreUrl,
-		caseSensitive: true,
-	},
-	{
 		identifier: "ebonics",
 		nonInclusivePhrases: [ "Ebonics" ],
 		inclusiveAlternatives: "<i>African American English, African American Language</i>",
