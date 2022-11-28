@@ -144,7 +144,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
-								<br />
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
@@ -213,7 +213,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -224,7 +224,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>

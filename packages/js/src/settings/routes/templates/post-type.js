@@ -227,7 +227,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -238,7 +238,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>
@@ -296,13 +296,16 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 								label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
 								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-								description={ customFieldsDescription }
+								description={ <>
+									{ customFieldsDescription }
+									<br />
+									<Link id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener">
+										{ __( "Read more about our custom field analysis", "wordpress-seo" ) }
+									</Link>
+									.
+								</> }
 								isDummy={ ! isPremium }
 							/>
-							<Link id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener">
-								{ __( "Read more about our custom field analysis", "wordpress-seo" ) }
-							</Link>
-							.
 						</FeatureUpsell>
 					</FieldsetLayout>
 					{ hasArchive && <>
@@ -406,7 +409,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 										label={ __( "Social title", "wordpress-seo" ) }
 										replacementVariables={ replacementVariablesArchives }
 										recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-										isDisabled={ ! opengraph }
+										disabled={ ! opengraph }
 										isDummy={ ! isPremium }
 									/>
 									<FormikReplacementVariableEditorFieldWithDummy
@@ -417,7 +420,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 										replacementVariables={ replacementVariablesArchives }
 										recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
 										className="yst-replacevar--description"
-										isDisabled={ ! opengraph }
+										disabled={ ! opengraph }
 										isDummy={ ! isPremium }
 									/>
 								</FeatureUpsell>

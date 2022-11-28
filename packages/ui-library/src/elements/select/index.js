@@ -49,6 +49,7 @@ Option.propTypes = optionPropType;
  * @param {Object} [labelProps] Extra label props.
  * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {Function} onChange Change callback.
+ * @param {boolean} [disabled] Disabled state.
  * @param {boolean} [isError] Error message.
  * @param {string} [className] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
@@ -65,6 +66,7 @@ const Select = ( {
 	labelProps = {},
 	labelSuffix = null,
 	onChange,
+	disabled = false,
 	isError = false,
 	className = "",
 	buttonProps,
@@ -84,6 +86,7 @@ const Select = ( {
 			onChange={ onChange }
 			className={ classNames(
 				"yst-select",
+				disabled && "yst-select--disabled",
 				isError && "yst-select--error",
 				className,
 			) }
@@ -128,6 +131,7 @@ Select.propTypes = {
 	labelProps: PropTypes.object,
 	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
 	isError: PropTypes.bool,
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
