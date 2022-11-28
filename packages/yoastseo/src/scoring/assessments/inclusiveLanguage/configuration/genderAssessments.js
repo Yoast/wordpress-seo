@@ -1,12 +1,7 @@
 import { alternative, potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
-import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
-import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
-import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
-
-const punctuationList = punctuationRegexString.split( "" );
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 const exclusionary = "Avoid using <i>%1$s</i> as it is exclusionary. " +
 	"Consider using an alternative, such as %2$s.";
@@ -292,11 +287,7 @@ const genderAssessments = [
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
-					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
-				} ) );
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
 	},
 ];

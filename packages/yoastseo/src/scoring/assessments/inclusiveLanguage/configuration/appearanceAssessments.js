@@ -1,12 +1,8 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless, preferredDescriptorIfKnown } from "./feedbackStrings";
 import { SCORES } from "./scores";
-import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
-import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
-import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
-import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
-const punctuationList = punctuationRegexString.split( "" );
 const learnMoreUrl = "https://yoa.st/inclusive-language-appearance";
 
 const appearanceAssessments = [
@@ -27,11 +23,7 @@ const appearanceAssessments = [
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
-					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
-				} ) );
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
 	},
 	{

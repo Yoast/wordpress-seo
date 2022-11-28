@@ -3,13 +3,11 @@ import {
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 } from "./feedbackStrings";
-import { isFollowedByException, isNotFollowedByException } from "../helpers/isFollowedByException";
-import { isFollowedByParticiple } from "../helpers/isFollowedByParticiple";
 import { isPrecededByException } from "../helpers/isPrecededByException";
+import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
-import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
-import { punctuationRegexString } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
@@ -20,8 +18,6 @@ const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is pote
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
 const learnMoreUrl = "https://yoa.st/inclusive-language-disability";
-
-const punctuationList = punctuationRegexString.split( "" );
 
 const disabilityAssessments =  [
 	{
@@ -428,11 +424,7 @@ const disabilityAssessments =  [
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
-					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
-				} ) );
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
 	},
 	{
@@ -444,11 +436,7 @@ const disabilityAssessments =  [
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( ( ( index ) => {
-					return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
-					isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
-					isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
-				} ) );
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
 		},
 	},
 ];

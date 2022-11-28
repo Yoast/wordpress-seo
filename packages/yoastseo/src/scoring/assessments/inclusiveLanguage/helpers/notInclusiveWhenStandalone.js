@@ -3,6 +3,7 @@ import { isFollowedByParticiple } from "./isFollowedByParticiple";
 import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
 import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
 
+
 /**
  * A
  * @param {string[]} words A
