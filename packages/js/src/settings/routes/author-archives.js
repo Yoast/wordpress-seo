@@ -154,7 +154,7 @@ const AuthorArchives = () => {
 							label={ __( "SEO title", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isAuthorArchivesDisabled }
+							disabled={ isAuthorArchivesDisabled }
 						/>
 						<FormikReplacementVariableEditorField
 							type="description"
@@ -163,7 +163,7 @@ const AuthorArchives = () => {
 							label={ __( "Meta description", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isAuthorArchivesDisabled }
+							disabled={ isAuthorArchivesDisabled }
 							className="yst-replacevar--description"
 						/>
 					</FieldsetLayout>
@@ -207,7 +207,7 @@ const AuthorArchives = () => {
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ isAuthorArchivesDisabled || ! opengraph }
+								disabled={ isAuthorArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -218,7 +218,7 @@ const AuthorArchives = () => {
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ isAuthorArchivesDisabled || ! opengraph }
+								disabled={ isAuthorArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>

@@ -213,7 +213,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -224,7 +224,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>

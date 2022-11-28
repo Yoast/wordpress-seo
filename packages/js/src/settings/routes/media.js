@@ -120,7 +120,7 @@ const Media = () => {
 							label={ __( "SEO title", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isAttachmentPagesDisabled }
+							disabled={ isAttachmentPagesDisabled }
 						/>
 						<FormikReplacementVariableEditorField
 							type="description"
@@ -129,7 +129,7 @@ const Media = () => {
 							label={ __( "Meta description", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isAttachmentPagesDisabled }
+							disabled={ isAttachmentPagesDisabled }
 							className="yst-replacevar--description"
 						/>
 					</FieldsetLayout>

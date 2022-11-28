@@ -294,7 +294,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_shortlinks"
 							label={ __( "Remove shortlinks", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links to WordPress' internal 'shortlink' URLs for your posts.", "wordpress-seo" ) }
@@ -308,7 +307,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_rest_api_links"
 							label={ __( "Remove REST API links", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links to the location of your site’s REST API endpoints.", "wordpress-seo" ) }
@@ -322,7 +320,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_rsd_wlw_links"
 							label={ __( "Remove RSD / WLW links", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links used by external systems for publishing content to your blog.", "wordpress-seo" ) }
@@ -336,7 +333,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_oembed_links"
 							label={ __( "Remove oEmbed links", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links used for embedding your content on other sites.", "wordpress-seo" ) }
@@ -350,7 +346,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_generator"
 							label={ __( "Remove generator tag", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove information about the plugins and software used by your site.", "wordpress-seo" ) }
@@ -364,7 +359,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_pingback_header"
 							label={ __( "Pingback HTTP header", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links which allow others sites to ‘ping’ yours when they link to you.", "wordpress-seo" ) }
@@ -378,7 +372,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_powered_by_header"
 							label={ __( "Remove powered by HTTP header", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove information about the plugins and software used by your site.", "wordpress-seo" ) }
@@ -398,7 +391,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_feed_global"
 							label={ __( "Remove global feed", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide an overview of your recent posts.", "wordpress-seo" ) }
@@ -412,7 +404,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_feed_global_comments"
 							label={ __( "Remove global comment feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide an overview of recent comments on your site.", "wordpress-seo" ) }
@@ -426,7 +417,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_post_comments"
 							data-id="input-wpseo-remove_feed_post_comments"
 							label={ __( "Remove post comments feeds", "wordpress-seo" ) }
-							disabled={ ! isPremium || removeFeedGlobalComments }
+							disabled={ removeFeedGlobalComments }
 							checked={ removeFeedGlobalComments || removeFeedPostComments }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -442,7 +433,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_feed_authors"
 							label={ __( "Remove post authors feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about recent posts by specific authors.", "wordpress-seo" ) }
@@ -456,7 +446,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_feed_post_types"
 							label={ __( "Remove post type feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your recent posts, for each post type.", "wordpress-seo" ) }
@@ -470,7 +459,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_feed_categories"
 							label={ __( "Remove category feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your recent posts, for each category.", "wordpress-seo" ) }
@@ -484,7 +472,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_feed_tags"
 							label={ __( "Remove tag feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your recent posts, for each tag.", "wordpress-seo" ) }
@@ -498,7 +485,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_feed_custom_taxonomies"
 							label={ __( "Remove custom taxonomy feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your recent posts, for each custom taxonomy.", "wordpress-seo" ) }
@@ -512,7 +498,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_feed_search"
 							label={ __( "Remove search results feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your search results.", "wordpress-seo" ) }
@@ -526,7 +511,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-remove_atom_rdf_feeds"
 							label={ __( "Remove Atom / RDF feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide alternative (legacy) formats of all of the above.", "wordpress-seo" ) }
@@ -547,7 +531,6 @@ const CrawlOptimization = () => {
 							label={ __( "Remove emoji scripts", "wordpress-seo" ) }
 							description={ __( "Remove JavaScript used for converting emoji characters in older browsers.", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
 						<FormikValueChangeFieldWithDummy
@@ -557,7 +540,6 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-deny_wp_json_crawling"
 							label={ __( "Remove WP-JSON API", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						>
 							{ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of WordPress' JSON API endpoints.", "wordpress-seo" ) }
@@ -578,7 +560,6 @@ const CrawlOptimization = () => {
 							label={ __( "Filter search terms", "wordpress-seo" ) }
 							description={ __( "Enables advanced settings for protecting your internal site search URLs.", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
 						<FormikFieldWithDummy
@@ -588,7 +569,7 @@ const CrawlOptimization = () => {
 							id="input-wpseo-search_character_limit"
 							label={ __( "Max number of characters to allow in searches", "wordpress-seo" ) }
 							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs.", "wordpress-seo" ) }
-							disabled={ ! isPremium || ! searchCleanup }
+							disabled={ ! searchCleanup }
 							isDummy={ ! isPremium }
 						/>
 						<FormikValueChangeFieldWithDummy
@@ -598,7 +579,7 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-search_cleanup_emoji"
 							label={ __( "Filter searches with emojis and other special characters", "wordpress-seo" ) }
 							description={ __( "Block internal site searches which contain complex and non-alphanumeric characters, as they may be part of a spam attack.", "wordpress-seo" ) }
-							disabled={ ! isPremium || ! searchCleanup }
+							disabled={ ! searchCleanup }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
@@ -609,7 +590,7 @@ const CrawlOptimization = () => {
 							data-id="input-wpseo-search_cleanup_patterns"
 							label={ __( "Filter searches with common spam patterns", "wordpress-seo" ) }
 							description={ __( "Block internal site searches which match the patterns of known spam attacks.", "wordpress-seo" ) }
-							disabled={ ! isPremium || ! searchCleanup }
+							disabled={ ! searchCleanup }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
@@ -621,7 +602,6 @@ const CrawlOptimization = () => {
 							label={ __( "Prevent crawling of internal site search URLs", "wordpress-seo" ) }
 							description={ descriptions.denySearchCrawling }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
 					</FieldsetLayout>
@@ -651,7 +631,6 @@ const CrawlOptimization = () => {
 							label={ __( "Optimize Google Analytics utm tracking parameters", "wordpress-seo" ) }
 							description={ descriptions.cleanCampaignTrackingUrls }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
 						<FormikValueChangeFieldWithDummy
@@ -662,7 +641,6 @@ const CrawlOptimization = () => {
 							label={ __( "Remove unregistered URL parameters", "wordpress-seo" ) }
 							description={ descriptions.cleanPermalinks }
 							isDummy={ ! isPremium }
-							disabled={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
 						<FormikTagFieldWithDummy
@@ -670,7 +648,7 @@ const CrawlOptimization = () => {
 							id="input-wpseo-clean_permalinks_extra_variables"
 							label={ __( "Additional URL parameters to allow", "wordpress-seo" ) }
 							description={ descriptions.cleanPermalinksExtraVariables }
-							disabled={ ! isPremium || ! cleanPermalinks }
+							disabled={ ! cleanPermalinks }
 							isDummy={ ! isPremium }
 						/>
 					</FieldsetLayout>
