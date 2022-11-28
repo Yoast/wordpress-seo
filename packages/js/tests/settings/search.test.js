@@ -24,7 +24,7 @@ describe( "Search test", () => {
 	it( "Should not search under 3 characters", () => {
 		wrapper.find( "button" ).at( 0 ).simulate( "click" );
 		wrapper.find( "#input-search" ).at( 0 ).simulate( "change", { target: { value: "se" } } );
-		expect( wrapper.find( "SearchNoResultsContent" ).find( "p" ).text() ).toContain( "Please enter a search term that is longer than 3 characters." );
+		expect( wrapper.find( "SearchNoResultsContent" ).find( "p" ).text() ).toContain( "Please enter a search term with at least 3 characters." );
 	} );
 
 	it( "should match button text to input value", () => {
