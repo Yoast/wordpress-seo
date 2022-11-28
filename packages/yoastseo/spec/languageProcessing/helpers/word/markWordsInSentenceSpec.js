@@ -143,7 +143,7 @@ describe( "Adds Yoast marks to specific words in a sentence for languages with c
 } );
 
 describe( "test the deconstructAnchor and reconstructAnchor helper", () => {
-	it( "correctly deconstructs and reconstructs an anchor.", () => {
+	it( "correctly deconstructs and reconstructs an anchor", () => {
 		const testAnchor = "<a href=\"https://yoast.com\">This is yoast.</a>";
 		const deconstructedAnchor = deConstructAnchor( testAnchor );
 
@@ -156,7 +156,7 @@ describe( "test the deconstructAnchor and reconstructAnchor helper", () => {
 		expect( reconstructedAnchor ).toEqual( testAnchor );
 	} );
 
-	it( "it correctly deconstructs and reconstructs an anchor that contains html elements itself", () => {
+	it( "correctly deconstructs and reconstructs an anchor that contains html elements itself", () => {
 		const testAnchor = "<a href=\"https://yoast.com\">This <i>is</i> <b>yoast</b>.</a>";
 		const deconstructedAnchor = deConstructAnchor( testAnchor );
 
