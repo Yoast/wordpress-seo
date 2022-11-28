@@ -4,24 +4,23 @@ import Mark from "../../../values/Mark";
 import getAnchorsFromText from "../link/getAnchorsFromText";
 import matchWords from "../match/matchTextWithArray";
 import arrayToRegex from "../regex/createRegexFromArray";
-import { stripFullTags } from "../sanitize/stripHTMLTags";
 
 // Regex to deconstruct an anchor into open tag, content and close tag.
 const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)(.+?)(<\/a>)/;
 
 /**
- * Deconstructs an anchor in the opening tag, the content and the closing tag.
+ * Deconstructs an anchor in the opening tag and the content. The content is the anchor text.
+ * We don't return the closing tag since the value would always be the same, i.e. </a>.
  *
  * @param {string} anchor An anchor of the shape <a ...>...</a>.
  *
- * @returns {object} An object containing the opening tag, the content and the closing tag of the anchor.
+ * @returns {object} An object containing the opening tag and the content.
  */
 const deConstructAnchor = function( anchor ) {
-	const [ , openTag, content, closeTag ] = anchor.match( anchorDeconstructionRegex );
+	const [ , openTag, content ] = anchor.match( anchorDeconstructionRegex );
 	return {
 		openTag: openTag,
 		content: content,
-		closeTag: closeTag,
 	};
 };
 
@@ -30,12 +29,11 @@ const deConstructAnchor = function( anchor ) {
  *
  * @param {string} openTag The opening tag of the anchor. Must be of the shape <a ...>.
  * @param {string} content The text of the anchor.
- * @param {string} closeTag The closing tag of the anchor. Must be the shape of </a>.
  *
  * @returns {string} An anchor.
  */
-const reConstructAnchor = function( openTag, content, closeTag ) {
-	return `${openTag}${content}${closeTag}`;
+const reConstructAnchor = function( openTag, content ) {
+	return `${openTag}${content}</a>`;
 };
 
 
@@ -50,20 +48,18 @@ const reConstructAnchor = function( openTag, content, closeTag ) {
 const getMarkedAnchors = function( sentence, wordsRegex ) {
 	// Retrieve the anchors.
 	const anchors = getAnchorsFromText( sentence );
-	// For every anchor, apply the markings only to the anchor tag. Replace the unmarked anchor in the sentence with the marked anchor.
+	// For every anchor, apply the markings only to the anchor tag.
 	const markedAnchors = anchors.map( anchor => {
-		// Get the anchor text.
-		const anchorText = stripFullTags( anchor );
+		// Retrieve the open tag and the content/anchor text.
+		const { openTag, content } = deConstructAnchor( anchor );
 
 		// Apply the marking to the anchor text.
-		const markedAnchorText = anchorText.replace( wordsRegex, ( x ) => addMark( x ) );
-		// Replace the original anchor text with the marked anchor text.
+		const markedAnchorText = content.replace( wordsRegex, ( x ) => addMark( x ) );
 
-		const { openTag, content, closeTag } = deConstructAnchor( anchor );
-		const newContent = content.replace( anchorText, markedAnchorText );
-
-		return reConstructAnchor( openTag, newContent, closeTag );
+		// Create a new anchor tag with a marked anchor text if there is a match.
+		return reConstructAnchor( openTag, markedAnchorText );
 	} );
+
 	return { anchors, markedAnchors };
 };
 
