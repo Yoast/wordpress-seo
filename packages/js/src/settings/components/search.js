@@ -129,6 +129,7 @@ const Search = () => {
 			) }
 		</button>
 		<Modal
+			className="yst-modal--top"
 			onClose={ setClose }
 			isOpen={ isOpen }
 			initialFocus={ inputRef }
@@ -151,7 +152,7 @@ const Search = () => {
 				{ query.length >= QUERY_MIN_CHARS && ! isEmpty( results ) && (
 					<Combobox.Options
 						static={ true }
-						className="yst-max-h-80 yst-scroll-pt-11 yst-scroll-pb-2 yst-space-y-2 yst-overflow-y-auto yst-pb-2"
+						className="yst-max-h-[calc(90vh-10rem)] yst-scroll-pt-11 yst-scroll-pb-2 yst-space-y-2 yst-overflow-y-auto yst-pb-2"
 					>
 						{ map( results, ( groupedItems, index ) => (
 							<li key={ groupedItems?.[ 0 ]?.route || `group-${ index }` }>
