@@ -45,13 +45,13 @@ class Robots_Txt_Presenter_Test extends TestCase {
 	/**
 	 * Test the present function.
 	 *
-	 * @param array  $robots_txt_user_agents Output for the registered user agents.
-	 * @param array  $sitemaps               Output for the registered sitemaps.
-	 * @param string $expected               The expected output to be written to robots.txt.
-	 *
 	 * @dataProvider present_dataprovider
 	 *
 	 * @covers ::present
+	 *
+	 * @param array  $robots_txt_user_agents Output for the registered user agents.
+	 * @param array  $sitemaps               Output for the registered sitemaps.
+	 * @param string $expected               The expected output to be written to robots.txt.
 	 */
 	public function test_present( $robots_txt_user_agents, $sitemaps, $expected ) {
 		$this->robots_txt_helper
@@ -62,7 +62,7 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			->expects( 'get_sitemap_rules' )
 			->andReturn( $sitemaps );
 
-		$this->assertEquals(
+		$this->assertSame(
 			$expected,
 			$this->instance->present()
 		);
@@ -79,7 +79,14 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST BLOCK",
+			'expected'               => '# START YOAST BLOCK' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. 'User-agent: *' . \PHP_EOL
+				. 'Disallow:' . \PHP_EOL
+				. \PHP_EOL
+				. 'Sitemap: http://example.com/sitemap_index.html' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. '# END YOAST BLOCK',
 		];
 		$user_agent_list                         = new User_Agent_List();
 		$user_agent                              = $user_agent_list->get_user_agent( '*' );
@@ -90,7 +97,14 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST BLOCK",
+			'expected'               => '# START YOAST BLOCK' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. 'User-agent: *' . \PHP_EOL
+				. 'Disallow: /wp-json/' . \PHP_EOL
+				. \PHP_EOL
+				. 'Sitemap: http://example.com/sitemap_index.html' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. '# END YOAST BLOCK',
 		];
 
 		$user_agent_list = new User_Agent_List();
@@ -105,7 +119,18 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nDisallow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST BLOCK",
+			'expected'               => '# START YOAST BLOCK' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. 'User-agent: *' . \PHP_EOL
+				. 'Disallow: /wp-json/' . \PHP_EOL
+				. 'Disallow: /search/' . \PHP_EOL
+				. \PHP_EOL
+				. 'User-agent: Googlebot' . \PHP_EOL
+				. 'Disallow: /disallowed/for/googlebot' . \PHP_EOL
+				. \PHP_EOL
+				. 'Sitemap: http://example.com/sitemap_index.html' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. '# END YOAST BLOCK',
 		];
 		$user_agent_list              = new User_Agent_List();
 		$user_agent                   = $user_agent_list->get_user_agent( '*' );
@@ -117,7 +142,15 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST BLOCK",
+			'expected'               => '# START YOAST BLOCK' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. 'User-agent: *' . \PHP_EOL
+				. 'Disallow: /wp-json/' . \PHP_EOL
+				. 'Allow: /search/' . \PHP_EOL
+				. \PHP_EOL
+				. 'Sitemap: http://example.com/sitemap_index.html' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. '# END YOAST BLOCK',
 		];
 
 		$user_agent_list = new User_Agent_List();
@@ -136,7 +169,22 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow: /wp-json/\nAllow: /search/\n\nUser-agent: Googlebot\nDisallow: /disallowed/for/googlebot\nDisallow: /wp-admin\n\nUser-agent: Yahoobot\nAllow: /allowed/for/yahoo\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST BLOCK",
+			'expected'               => '# START YOAST BLOCK' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. 'User-agent: *' . \PHP_EOL
+				. 'Disallow: /wp-json/' . \PHP_EOL
+				. 'Allow: /search/' . \PHP_EOL
+				. \PHP_EOL
+				. 'User-agent: Googlebot' . \PHP_EOL
+				. 'Disallow: /disallowed/for/googlebot' . \PHP_EOL
+				. 'Disallow: /wp-admin' . \PHP_EOL
+				. \PHP_EOL
+				. 'User-agent: Yahoobot' . \PHP_EOL
+				. 'Allow: /allowed/for/yahoo' . \PHP_EOL
+				. \PHP_EOL
+				. 'Sitemap: http://example.com/sitemap_index.html' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. '# END YOAST BLOCK',
 		];
 
 		$user_agent_list = new User_Agent_List();
@@ -148,7 +196,14 @@ class Robots_Txt_Presenter_Test extends TestCase {
 			'sitemaps'               => [
 				'http://example.com/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nAllow: /search/\n\nSitemap: http://example.com/sitemap_index.html\n# ---------------------------\n# END YOAST BLOCK",
+			'expected'               => '# START YOAST BLOCK' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. 'User-agent: *' . \PHP_EOL
+				. 'Allow: /search/' . \PHP_EOL
+				. \PHP_EOL
+				. 'Sitemap: http://example.com/sitemap_index.html' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. '# END YOAST BLOCK',
 		];
 		$multiple_sitemaps      = [
 			'robots_txt_user_agents' => ( new User_Agent_List() )->get_user_agents(),
@@ -156,7 +211,15 @@ class Robots_Txt_Presenter_Test extends TestCase {
 				'http://example.com/sitemap_index.html',
 				'http://example.com/subsite/sitemap_index.html',
 			],
-			'expected'               => "# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://example.com/sitemap_index.html\nSitemap: http://example.com/subsite/sitemap_index.html\n# ---------------------------\n# END YOAST BLOCK",
+			'expected'               => '# START YOAST BLOCK' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. 'User-agent: *' . \PHP_EOL
+				. 'Disallow:' . \PHP_EOL
+				. \PHP_EOL
+				. 'Sitemap: http://example.com/sitemap_index.html' . \PHP_EOL
+				. 'Sitemap: http://example.com/subsite/sitemap_index.html' . \PHP_EOL
+				. '# ---------------------------' . \PHP_EOL
+				. '# END YOAST BLOCK',
 		];
 
 		return [

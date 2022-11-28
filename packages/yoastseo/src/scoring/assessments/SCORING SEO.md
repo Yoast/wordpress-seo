@@ -376,9 +376,9 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 **Name in code**: TextTitleAssessment
 
-**Title URL**: [https://yoa.st/4nh]() (link placement is in bold in the feedback strings)
+**Title URL**: [https://yoa.st/4nh](https://yoast.com/help/title-check/#utm_source=yoast-seo&utm_medium=software&utm_term=text-title-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-**Call to action URL**: [https://yoa.st/4ni]() (link placement is in bold in the feedback strings)
+**Call to action URL**: [https://yoa.st/4ni](https://yoast.com/how-to-add-a-title/#utm_source=yoast-seo&utm_medium=software&utm_term=text-title-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
 | Bullet  | Score	     | Criterion             | Feedback |
 |---------|-------------|---------------------	|---------------	|

@@ -49,19 +49,19 @@ class Robots_Txt_Helper_Test extends TestCase {
 	/**
 	 * Tests if add_disallow works as expected.
 	 *
-	 * @param array $arguments The arguments to be passed to the function.
-	 * @param array $expected The expected result.
-	 *
 	 * @dataProvider add_disallow_dataprovider
 	 *
 	 * @covers ::add_disallow
+	 *
+	 * @param array $arguments The arguments to be passed to the function.
+	 * @param array $expected  The expected result.
 	 */
 	public function test_add_disallow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
 			$this->instance->add_disallow( $argument[0], $argument[1] );
 		}
-		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Loose array comparison is necessary.
-		$this->assertTrue( $this->instance->get_disallow_directives() == $expected );
+
+		$this->assertEquals( $expected, $this->instance->get_disallow_directives() );
 	}
 
 	/**
@@ -134,19 +134,19 @@ class Robots_Txt_Helper_Test extends TestCase {
 	/**
 	 * Tests if add_allow works as expected.
 	 *
-	 * @param array $arguments The arguments to be passed to the function.
-	 * @param array $expected The expected result.
-	 *
 	 * @dataProvider add_allow_dataprovider
 	 *
 	 * @covers ::add_allow
+	 *
+	 * @param array $arguments The arguments to be passed to the function.
+	 * @param array $expected  The expected result.
 	 */
 	public function test_add_allow( $arguments, $expected ) {
 		foreach ( $arguments as $argument ) {
 			$this->instance->add_allow( $argument[0], $argument[1] );
 		}
-		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Loose array comparison is necessary.
-		$this->assertTrue( $this->instance->get_allow_directives() == $expected );
+
+		$this->assertEquals( $expected, $this->instance->get_allow_directives() );
 	}
 
 	/**
@@ -219,19 +219,19 @@ class Robots_Txt_Helper_Test extends TestCase {
 	/**
 	 * Tests if add_sitemap works as expected.
 	 *
-	 * @param array $sitemaps The sitemaps to be passed to the function.
-	 * @param array $expected The expected result.
-	 *
 	 * @dataProvider add_sitemap_dataprovider
 	 *
 	 * @covers ::add_allow
+	 *
+	 * @param array $sitemaps The sitemaps to be passed to the function.
+	 * @param array $expected The expected result.
 	 */
 	public function test_add_sitemap( $sitemaps, $expected ) {
 		foreach ( $sitemaps as $sitemap ) {
 			$this->instance->add_sitemap( $sitemap );
 		}
-		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison -- Loose array comparison is necessary.
-		$this->assertTrue( $this->instance->get_sitemap_rules() == $expected );
+
+		$this->assertEquals( $expected, $this->instance->get_sitemap_rules() );
 	}
 
 	/**

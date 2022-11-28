@@ -104,10 +104,11 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @param Migration_Status          $migration_status The migrations status.
 	 */
 	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager, Migration_Status $migration_status ) {
-		$this->options          = $options;
-		$this->asset_manager    = $asset_manager;
-		$this->ask_consent      = ! $this->options->get( 'tracking' );
-		$this->page             = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
+		$this->options       = $options;
+		$this->asset_manager = $asset_manager;
+		$this->ask_consent   = ! $this->options->get( 'tracking' );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
+		$this->page             = \filter_input( \INPUT_GET, 'page', @\FILTER_SANITIZE_STRING );
 		$this->migration_status = $migration_status;
 
 		foreach ( $this->base_pages as $page ) {

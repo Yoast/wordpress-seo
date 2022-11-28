@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
-
 /**
  * A helper object for the indexable page.
  */
@@ -36,6 +34,13 @@ class Indexables_Page_Helper {
 	 * @var float
 	 */
 	const ANALYSED_POSTS_THRESHOLD = 0.5;
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options;
 
 	/**
 	 * Indexables_Page_Helper constructor.
@@ -76,7 +81,7 @@ class Indexables_Page_Helper {
 			$times = 3;
 		}
 
-		return ( $this->get_indexables_list_size() * intval( $times ) );
+		return ( $this->get_indexables_list_size() * \intval( $times ) );
 	}
 
 	/**
@@ -157,6 +162,6 @@ class Indexables_Page_Helper {
 	public function is_valid_ignore_list_name( $list_name ) {
 		$valid_list_names = $this->get_ignore_list_names();
 
-		return in_array( $list_name, $valid_list_names, true );
+		return \in_array( $list_name, $valid_list_names, true );
 	}
 }

@@ -116,6 +116,7 @@ class Integrations_Page implements Integration_Interface {
 		$acf_active                        = \class_exists( 'acf' );
 		$algolia_active                    = $wpseo_plugin_availability_checker->is_active( $algolia_file );
 		$old_algolia_active                = $wpseo_plugin_availability_checker->is_active( $old_algolia_file );
+		$tec_active                        = \class_exists( \TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema::class );
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
@@ -166,6 +167,7 @@ class Integrations_Page implements Integration_Interface {
 				'acf_seo_activate_url'           => $acf_seo_activate_url,
 				'acf_seo_install_url'            => $acf_seo_install_url,
 				'algolia_active'                 => $algolia_active || $old_algolia_active,
+				'tec_integration_active'         => $tec_active,
 				'is_multisite'                   => \is_multisite(),
 				'plugin_url'                     => \plugins_url( '', \WPSEO_FILE ),
 			]

@@ -13,6 +13,7 @@ import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
+import { Slot } from "@wordpress/components";
 import { actions } from "@yoast/externals/redux";
 import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 
@@ -22,16 +23,15 @@ import SidebarFill from "../containers/SidebarFill";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import SidebarSlot from "../components/slots/SidebarSlot";
-import SlotWithDefault from "../components/slots/SlotWithDefault";
 import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
-import PostPublishZapierUpsell from "../components/PostPublishZapierUpsell";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
 import { isWordProofIntegrationActive } from "../helpers/wordproof";
+import Root from "../components/contexts/root";
 
 
 /**
@@ -102,6 +102,9 @@ function registerFills( store ) {
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
+	const blockSidebarContext = { locationContext: "block-sidebar" };
+	const blockMetaboxContext = { locationContext: "block-metabox" };
+
 	/**
 	 * Renders the yoast editor fills.
 	 *
@@ -119,11 +122,15 @@ function registerFills( store ) {
 				name="seo-sidebar"
 				title={ pluginTitle }
 			>
-				<SidebarSlot store={ store } theme={ theme } />
+				<Root context={ blockSidebarContext }>
+					<SidebarSlot store={ store } theme={ theme } />
+				</Root>
 			</PluginSidebar>
 			<Fragment>
 				<SidebarFill store={ store } theme={ theme } />
-				<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				<Root context={ blockMetaboxContext }>
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Root>
 			</Fragment>
 			{ analysesEnabled && <PluginPrePublishPanel
 				className="yoast-seo-sidebar-panel"
@@ -140,11 +147,7 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
-				<SlotWithDefault
-					name="YoastZapierPostPublish"
-				>
-					<PostPublishZapierUpsell />
-				</SlotWithDefault>
+				{ isPremium && <Slot name="YoastZapierPostPublish" /> }
 				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel

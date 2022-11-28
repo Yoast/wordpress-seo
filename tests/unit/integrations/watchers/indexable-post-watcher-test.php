@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 use Brain\Monkey;
 use Exception;
 use Mockery;
-use Yoast\WP\Lib\ORM;
+use WP_Post;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
@@ -154,7 +154,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 0,
 		];
 
-		$indexable              = Mockery::mock();
+		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->id          = 1;
 		$indexable->is_public   = true;
 		$indexable->object_type = 'post';
@@ -349,7 +349,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'update_relations' )
 			->never();
 
-		$post                   = Mockery::mock( 'WP_Post' );
+		$post                   = Mockery::mock( WP_Post::class );
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'term';
 
@@ -362,7 +362,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::update_has_public_posts
 	 */
 	public function test_update_has_public_posts_with_post() {
-		$post_indexable                  = Mockery::mock();
+		$post_indexable                  = Mockery::mock( Indexable_Mock::class );
 		$post_indexable->object_id       = 33;
 		$post_indexable->object_sub_type = 'post';
 		$post_indexable->author_id       = 1;
@@ -397,7 +397,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::update_has_public_posts
 	 */
 	public function test_update_has_public_posts_with_post_throwing_exceptions() {
-		$post_indexable                  = Mockery::mock();
+		$post_indexable                  = Mockery::mock( Indexable_Mock::class );
 		$post_indexable->object_id       = 33;
 		$post_indexable->object_sub_type = 'post';
 		$post_indexable->author_id       = 1;
@@ -424,7 +424,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::update_has_public_posts
 	 */
 	public function test_update_has_public_posts_with_finding_user_returning_false() {
-		$post_indexable                  = Mockery::mock();
+		$post_indexable                  = Mockery::mock( Indexable_Mock::class );
 		$post_indexable->object_id       = 33;
 		$post_indexable->object_sub_type = 'post';
 		$post_indexable->author_id       = 1;
@@ -453,7 +453,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::reschedule_cleanup_if_author_has_no_posts
 	 */
 	public function test_reschedule_cleanup_when_author_does_not_have_posts() {
-		$post_indexable                  = Mockery::mock();
+		$post_indexable                  = Mockery::mock( Indexable_Mock::class );
 		$post_indexable->object_id       = 33;
 		$post_indexable->object_sub_type = 'post';
 		$post_indexable->author_id       = 11;
@@ -499,10 +499,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'post_modified_gmt' => '1234-12-12 12:12:12',
 		];
 
-		$indexable      = Mockery::mock( Indexable_Mock::class );
-		$indexable->orm = Mockery::mock( ORM::class );
-		$indexable->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
-		$indexable->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable                       = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_last_modified = '1234-12-12 00:00:00';
 		$indexable->expects( 'save' )->once();
 
 		$this->instance
@@ -512,6 +510,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->andReturn( [ $indexable ] );
 
 		$this->instance->update_relations( $post );
+
+		$this->assertSame( '1234-12-12 12:12:12', $indexable->object_last_modified );
 	}
 
 	/**

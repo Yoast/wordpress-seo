@@ -31,8 +31,10 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	 */
 	private $mock_wpseo_admin_bar_menu_methods = [
 		'add_root_menu',
-		'add_keyword_research_submenu',
 		'add_analysis_submenu',
+		'add_seo_tools_submenu',
+		'add_how_to_submenu',
+		'add_get_help_submenu',
 		'add_settings_submenu',
 		'add_network_settings_submenu',
 	];
@@ -88,11 +90,19 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
 		$admin_bar_menu
 			->expects( $this->never() )
-			->method( 'add_keyword_research_submenu' );
+			->method( 'add_seo_tools_submenu' );
 
 		$admin_bar_menu
 			->expects( $this->never() )
-			->method( 'add_analysis_submenu' );
+			->method( 'add_how_to_submenu' );
+
+		$admin_bar_menu
+			->expects( $this->never() )
+			->method( 'add_how_to_submenu' );
+
+		$admin_bar_menu
+			->expects( $this->never() )
+			->method( 'add_get_help_submenu' );
 
 		$admin_bar_menu
 			->expects( $this->never() )
@@ -131,12 +141,22 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
 		$admin_bar_menu
 			->expects( $this->once() )
-			->method( 'add_keyword_research_submenu' )
+			->method( 'add_analysis_submenu' )
 			->with( $wp_admin_bar );
 
 		$admin_bar_menu
 			->expects( $this->once() )
-			->method( 'add_analysis_submenu' )
+			->method( 'add_seo_tools_submenu' )
+			->with( $wp_admin_bar );
+
+		$admin_bar_menu
+			->expects( $this->once() )
+			->method( 'add_how_to_submenu' )
+			->with( $wp_admin_bar );
+
+		$admin_bar_menu
+			->expects( $this->once() )
+			->method( 'add_get_help_submenu' )
 			->with( $wp_admin_bar );
 
 		$admin_bar_menu
