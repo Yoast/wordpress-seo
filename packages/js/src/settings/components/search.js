@@ -42,7 +42,12 @@ const Search = () => {
 	const { platform, os } = useParsedUserAgent();
 
 	// Only bind hotkeys when platform type is desktop.
-	useHotkeys( "ctrl+k, meta+k", () => platform?.type === "desktop" && ! isOpen && setOpen(), [ isOpen, setOpen ] );
+	useHotkeys( "ctrl+k, meta+k", event => {
+		event.preventDefault();
+		if ( platform?.type === "desktop" && ! isOpen ) {
+			setOpen();
+		}
+	}, [ isOpen, setOpen ] );
 
 	const handleNavigate = useCallback( () => {
 		setClose();
@@ -163,7 +168,7 @@ const Search = () => {
 				) }
 				{ query.length < QUERY_MIN_CHARS && (
 					<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
-						<p className="yst-text-slate-500">{ __( "Please enter a search term with at leat 3 characters.", "wordpress-seo" ) }</p>
+						<p className="yst-text-slate-500">{ __( "Please enter a search term with at least 3 characters.", "wordpress-seo" ) }</p>
 					</SearchNoResultsContent>
 				) }
 				{ query.length >= QUERY_MIN_CHARS && isEmpty( results ) && (
