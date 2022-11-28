@@ -91,6 +91,7 @@ const DateArchives = () => {
 								__( "%1$s can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ),
 								label
 							) }
+							className="yst-max-w-sm"
 						/>
 					</fieldset>
 					<hr className="yst-my-8" />
@@ -123,12 +124,13 @@ const DateArchives = () => {
 											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 											labelLower
 										) }
-										<br />
+										&nbsp;
 										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 											{ __( "Read more about the search results settings", "wordpress-seo" ) }
 										</Link>
 										.
 									</> }
+									className="yst-max-w-sm"
 								/>
 								<FormikReplacementVariableEditorField
 									type="title"

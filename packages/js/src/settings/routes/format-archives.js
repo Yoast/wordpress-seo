@@ -82,6 +82,7 @@ const FormatArchives = () => {
 						data-id="input-wpseo_titles-disable-post_format"
 						label={ __( "Enable format-based archives", "wordpress-seo" ) }
 						description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
+						className="yst-max-w-sm"
 					/>
 					<hr className="yst-my-8" />
 					<div className="yst-relative">
@@ -115,12 +116,13 @@ const FormatArchives = () => {
 											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 											labelLower
 										) }
-										<br />
+										&nbsp;
 										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 											{ __( "Read more about the search results settings", "wordpress-seo" ) }
 										</Link>
 										.
 									</> }
+									className="yst-max-w-sm"
 								/>
 								<FormikReplacementVariableEditorField
 									type="title"

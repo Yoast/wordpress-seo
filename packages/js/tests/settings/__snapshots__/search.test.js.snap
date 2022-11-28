@@ -16,7 +16,7 @@ exports[`Search test should match search snapshot 1`] = `
       </div>
       <SearchNoResultsContent title=\\"Search\\">
         <p className=\\"yst-text-slate-500\\">
-          Please enter a search term that is longer than 3 characters.
+          Please enter a search term with at least 3 characters.
         </p>
       </SearchNoResultsContent>
     </div>

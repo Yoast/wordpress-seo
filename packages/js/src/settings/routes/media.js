@@ -77,6 +77,7 @@ const Media = () => {
 								__( "We recommend disabling %1$s pages. Disabling %1$s pages will cause all attachment URLs to redirect to the media itself.", "wordpress-seo" ),
 								labelLower
 							) }
+							className="yst-max-w-sm"
 						/>
 					</fieldset>
 					<hr className="yst-my-8" />
@@ -117,6 +118,7 @@ const Media = () => {
 										</Link>
 										.
 									</> }
+									className="yst-max-w-sm"
 								/>
 								<FormikReplacementVariableEditorField
 									type="title"
@@ -173,6 +175,7 @@ const Media = () => {
 									data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
 									label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 									description={ __( "Show or hide our tools and controls in the attachment editor.", "wordpress-seo" ) }
+									className="yst-max-w-sm"
 								/>
 							</FieldsetLayout>
 						</AnimateHeight>

@@ -44,14 +44,20 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 		routeLabel: label,
 		fieldId: `input-wpseo_titles-schema-page-type-${ name }`,
 		fieldLabel: __( "Page type", "wordpress-seo" ),
-		keywords: [],
+		keywords: [
+			__( "Schema", "wordpress-seo" ),
+			__( "Structured data", "wordpress-seo" ),
+		],
 	},
 	[ `schema-article-type-${ name }` ]: {
 		route: `/post-type/${ route }`,
 		routeLabel: label,
 		fieldId: `input-wpseo_titles-schema-article-type-${ name }`,
 		fieldLabel: __( "Article type", "wordpress-seo" ),
-		keywords: [],
+		keywords: [
+			__( "Schema", "wordpress-seo" ),
+			__( "Structured data", "wordpress-seo" ),
+		],
 	},
 	...( name !== "attachment" && {
 		[ `social-title-${ name }` ]: {
@@ -916,6 +922,8 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldId: "input-wpseo_titles-schema-page-type-attachment",
 			fieldLabel: __( "Page type", "wordpress-seo" ),
 			keywords: [
+				__( "Schema", "wordpress-seo" ),
+				__( "Structured data", "wordpress-seo" ),
 				__( "Image", "wordpress-seo" ),
 				__( "Video", "wordpress-seo" ),
 				__( "PDF", "wordpress-seo" ),
@@ -928,6 +936,8 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldId: "input-wpseo_titles-schema-article-type-attachment",
 			fieldLabel: __( "Article type", "wordpress-seo" ),
 			keywords: [
+				__( "Schema", "wordpress-seo" ),
+				__( "Structured data", "wordpress-seo" ),
 				__( "Image", "wordpress-seo" ),
 				__( "Video", "wordpress-seo" ),
 				__( "PDF", "wordpress-seo" ),

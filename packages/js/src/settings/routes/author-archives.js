@@ -97,6 +97,7 @@ const AuthorArchives = () => {
 							__( "Disabling this will redirect the %1$s to your site's homepage.", "wordpress-seo" ),
 							singularLabelLower
 						) }
+						className="yst-max-w-sm"
 					/>
 					<hr className="yst-my-8" />
 					<div className="yst-relative">
@@ -128,14 +129,15 @@ const AuthorArchives = () => {
 											__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 											labelLower
 										) }
-										<br />
+										&nbsp;
 										<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 											{ __( "Read more about the search results settings", "wordpress-seo" ) }
 										</Link>
 										.
 									</> }
+									className="yst-max-w-sm"
 								/>
-								{ ! isAuthorNoIndex && <FormikFlippedToggleField
+								<FormikFlippedToggleField
 									name="wpseo_titles.noindex-author-noposts-wpseo"
 									data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
 									label={ sprintf(
@@ -148,7 +150,9 @@ const AuthorArchives = () => {
 										__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 										labelLower
 									) }
-								/> }
+									className="yst-max-w-sm"
+									disabled={ isAuthorNoIndex }
+								/>
 								<FormikReplacementVariableEditorField
 									type="title"
 									name="wpseo_titles.title-author-wpseo"

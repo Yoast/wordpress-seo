@@ -90,6 +90,7 @@ const Breadcrumbs = () => {
 							name="wpseo_titles.breadcrumbs-display-blog-page"
 							data-id="input-wpseo_titles-breadcrumbs-display-blog-page"
 							label={ __( "Show Blog page in breadcrumbs", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/> }
 						<FormikValueChangeField
 							as={ ToggleField }
@@ -97,6 +98,7 @@ const Breadcrumbs = () => {
 							name="wpseo_titles.breadcrumbs-boldlast"
 							data-id="input-wpseo_titles-breadcrumbs-boldlast"
 							label={ __( "Bold the last page", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
@@ -153,6 +155,7 @@ const Breadcrumbs = () => {
 							name="wpseo_titles.breadcrumbs-enable"
 							id="input-wpseo_titles-breadcrumbs-enable"
 							label={ __( "Enable breadcrumbs for your theme", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>
 				</div>

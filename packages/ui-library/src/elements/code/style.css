@@ -14,6 +14,9 @@
 		.yst-code--block {
 			@apply
 			yst-block
+			yst-my-2
+			yst-px-2
+			yst-py-1
 			yst-whitespace-nowrap
 			yst-max-w-full
 			yst-overflow-x-auto;

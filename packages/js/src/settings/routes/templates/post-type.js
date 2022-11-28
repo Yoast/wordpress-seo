@@ -158,12 +158,13 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
-								<br />
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
+							className="yst-max-w-sm"
 						/>
 						<hr className="yst-my-8" />
 						<FormikReplacementVariableEditorField
@@ -277,6 +278,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
 							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 							description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/>
 						<FeatureUpsell
 							shouldUpsell={ ! isPremium }
@@ -345,6 +347,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 										__( "Disabling this means that the archive for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 										labelLower
 									) }
+									className="yst-max-w-sm"
 								/>
 								<FormikReplacementVariableEditorField
 									type="title"

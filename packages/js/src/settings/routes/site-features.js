@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
-import { ArrowNarrowRightIcon, LockOpenIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon, LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Badge, Button, Card, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Card, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
@@ -295,9 +295,6 @@ const SiteFeatures = () => {
 							<Title as="legend" size="2" className="yst-mb-2">
 								{ __( "Social sharing", "wordpress-seo" ) }
 							</Title>
-							<Alert id="alert-social-sharing">
-								{ __( "Facebook, Twitter and Pinterest all use Facebook's Open Graph data, so be sure to keep the 'Open Graph data' setting below enabled if you want to optimize your site for these social platforms.", "wordpress-seo" ) }
-							</Alert>
 						</div>
 						<div className={ gridClassNames }>
 							<FeatureCard
@@ -310,9 +307,10 @@ const SiteFeatures = () => {
 								<Title as="h3">
 									{ __( "Open Graph data", "wordpress-seo" ) }
 								</Title>
-								<p>{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
+								<p>
+									{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared. Keep this feature enabled to optimize your site for social media.", "wordpress-seo" ) }
+								</p>
 								<LearnMoreLink id="link-open-graph-data" link="https://yoa.st/site-features-open-graph-data" />
-
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo_social.twitter"
@@ -411,9 +409,18 @@ const SiteFeatures = () => {
 										"Yoast SEO"
 									) }
 								</p>
-								{ enableXmlSitemap && <Link id="link-xml-sitemaps" href={ sitemapUrl } target="_blank" rel="noopener">
+								{ enableXmlSitemap && <Button
+									as="a"
+									id="link-xml-sitemaps"
+									href={ sitemapUrl }
+									variant="secondary"
+									target="_blank"
+									rel="noopener"
+									className="yst-self-start"
+								>
 									{ __( "View the XML sitemap", "wordpress-seo" ) }
-								</Link> }
+									<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+								</Button> }
 								<LearnMoreLink id="link-xml-sitemaps" link="https://yoa.st/2a-" />
 							</FeatureCard>
 							<FeatureCard
