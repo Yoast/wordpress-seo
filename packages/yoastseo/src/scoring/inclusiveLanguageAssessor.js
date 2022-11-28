@@ -1,7 +1,16 @@
 import Assessor from "./assessor";
 import inclusiveLanguageAssessmentsConfigs from	"./assessments/inclusiveLanguage/configuration";
 import InclusiveLanguageAssessment from "./assessments/inclusiveLanguage/InclusiveLanguageAssessment";
-import { isUndefined } from "lodash-es";
+
+/**
+ * Default options for the Inclusive language assessor.
+ * The infoLinks object includes the shortlinks to be used in WordPress.
+ *
+ * @type {{infoLinks: {}}}
+ */
+const defaultOptions = {
+	infoLinks: {},
+};
 
 /**
  * An assessor that assesses a paper for potentially non-inclusive language.
@@ -11,17 +20,21 @@ class InclusiveLanguageAssessor extends Assessor {
 	 * Creates a new inclusive language assessor.
 	 *
 	 * @param {Researcher}  	researcher 		The researcher to use.
-	 * @param {Object}      	options 		The assessor options.
+	 * @param {Object}      	[options] 		The assessor options.
 	 */
-	constructor( researcher, options ) {
+	constructor( researcher, options = {} ) {
 		super( researcher, options );
 		this.type  = "inclusiveLanguageAssessor";
-		const infoLinks = isUndefined( options ) ? {} : options.infoLinks;
+		// Assign the options, fall back to a default value for options that are not set.
+		// The "options" object will be populated with shortlinks for Shopify in the Shopify repository.
+		this._options = Object.assign( {}, defaultOptions, options );
+
+		const infoLinks = this._options.infoLinks;
 
 		this._assessments = inclusiveLanguageAssessmentsConfigs.map(
 			config => {
-				// Retrieve the categories for each key in the infoLinks object (it exists in the Shopify repo).
-				// If the info link category matches the config category, override the learnMoreURL of the config.
+				// The if statement is a safety check to assure that the infoLinks object includes keys for all assessments.
+				// If the category keys match the config categories, the infoLinks shortlinks are saved as the learnMoreURL of the config.
 				if ( infoLinks[ config.category ] ) {
 					config.learnMoreUrl = infoLinks[ config.category ];
 				}

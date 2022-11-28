@@ -51,7 +51,6 @@ const appearanceAssessments = [
 appearanceAssessments.forEach( assessment => {
 	assessment.category = "appearance";
 	assessment.learnMoreUrl = "https://yoa.st/inclusive-language-appearance";
-}
-);
+} );
 
 export default appearanceAssessments;
