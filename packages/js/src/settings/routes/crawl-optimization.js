@@ -5,7 +5,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Code, TextField, ToggleField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
-import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
 import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";

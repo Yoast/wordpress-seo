@@ -2,7 +2,6 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Link, SelectField, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import AnimateHeight from "react-animate-height";
 import { toLower } from "lodash";
 import {
 	FieldsetLayout,
