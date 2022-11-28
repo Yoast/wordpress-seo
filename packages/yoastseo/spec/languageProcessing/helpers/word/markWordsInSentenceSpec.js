@@ -1,4 +1,4 @@
-import { markWordsInSentences } from "../../../../src/languageProcessing/helpers/word/markWordsInSentences";
+import { deConstructAnchor, markWordsInSentences, reConstructAnchor } from "../../../../src/languageProcessing/helpers/word/markWordsInSentences";
 import Mark from "../../../../src/values/Mark";
 import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
@@ -142,3 +142,32 @@ describe( "Adds Yoast marks to specific words in a sentence for languages with c
 	} );
 } );
 
+describe( "test the deconstructAnchor and reconstructAnchor helper", () => {
+	it( "correctly deconstructs and reconstructs an anchor.", () => {
+		const testAnchor = "<a href=\"https://yoast.com\">This is yoast.</a>";
+		const deconstructedAnchor = deConstructAnchor( testAnchor );
+
+		expect( deconstructedAnchor ).toEqual( {
+			openTag: "<a href=\"https://yoast.com\">",
+			content: "This is yoast.",
+			closeTag: "</a>",
+		} );
+
+		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content, deconstructedAnchor.closeTag );
+		expect( reconstructedAnchor ).toEqual( testAnchor );
+	} );
+
+	it( "it correctly deconstructs and reconstructs an anchor that contains html elements itself", () => {
+		const testAnchor = "<a href=\"https://yoast.com\">This <i>is</i> <b>yoast</b>.</a>";
+		const deconstructedAnchor = deConstructAnchor( testAnchor );
+
+		expect( deconstructedAnchor ).toEqual( {
+			openTag: "<a href=\"https://yoast.com\">",
+			content: "This <i>is</i> <b>yoast</b>.",
+			closeTag: "</a>",
+		} );
+
+		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content, deconstructedAnchor.closeTag );
+		expect( reconstructedAnchor ).toEqual( testAnchor );
+	} );
+} );

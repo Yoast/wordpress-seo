@@ -10,13 +10,13 @@ import { stripFullTags } from "../sanitize/stripHTMLTags";
 const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)(.+?)(<\/a>)/;
 
 /**
- * Deconstructs an anchor in the opening tag, the content and the closing tag.
+ * Deconstructs an anchor to the opening tag, the content and the closing tag.
  *
  * @param {string} anchor An anchor of the shape <a ...>...</a>.
  *
  * @returns {object} An object containing the opening tag, the content and the closing tag of the anchor.
  */
-const deConstructAnchor = function( anchor ) {
+export const deConstructAnchor = function( anchor ) {
 	const [ , openTag, content, closeTag ] = anchor.match( anchorDeconstructionRegex );
 	return {
 		openTag: openTag,
@@ -34,7 +34,7 @@ const deConstructAnchor = function( anchor ) {
  *
  * @returns {string} An anchor.
  */
-const reConstructAnchor = function( openTag, content, closeTag ) {
+export const reConstructAnchor = function( openTag, content, closeTag = "</a>" ) {
 	return `${openTag}${content}${closeTag}`;
 };
 
