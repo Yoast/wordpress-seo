@@ -26,6 +26,7 @@ describe( "SES assessments", function() {
 				{ _properties:
 						{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at illegal immigrants</yoastmark>",
 							original: "This ad is aimed at illegal immigrants",
+							fieldsToMark: [],
 						} } ] );
 		} );
 
@@ -48,6 +49,7 @@ describe( "SES assessments", function() {
 			{ _properties:
 					{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at poverty stricken.</yoastmark>",
 						original: "This ad is aimed at poverty stricken.",
+						fieldsToMark: [],
 					} } ] );
 	} );
 

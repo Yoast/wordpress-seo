@@ -26,6 +26,7 @@ describe( "Appearance assessments", function() {
 			expect( assessor.getMarks() ).toEqual( [ { _properties:
 					{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at albinos</yoastmark>",
 						original: "This ad is aimed at albinos",
+						fieldsToMark: [],
 					} } ] );
 		} );
 
@@ -50,6 +51,7 @@ describe( "Appearance assessments", function() {
 			{ _properties: {
 				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at obese citizens.</yoastmark>",
 				original: "This ad is aimed at obese citizens.",
+				fieldsToMark: [],
 			} } ] );
 	} );
 
@@ -64,7 +66,9 @@ describe( "Appearance assessments", function() {
 		expect( assessor.getMarks() ).toEqual(  [
 			{ _properties: {
 				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at high vertically challenged.</yoastmark>",
-				original: "This ad is aimed at high vertically challenged." } } ] );
+				original: "This ad is aimed at high vertically challenged.",
+				fieldsToMark: [],
+			} } ] );
 	} );
 
 	it( "should not target phrases followed by by certain words", function() {

@@ -26,6 +26,7 @@ describe( "Other assessments", function() {
 				{ _properties: {
 					marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at homosexuals</yoastmark>",
 					original: "This ad is aimed at homosexuals",
+					fieldsToMark: [],
 				} } ] );
 		} );
 
@@ -49,6 +50,7 @@ describe( "Other assessments", function() {
 					{
 						marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at minorities.</yoastmark>",
 						original: "This ad is aimed at minorities.",
+						fieldsToMark: [],
 					} } ] );
 	} );
 
