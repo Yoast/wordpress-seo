@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Conditionals;
  * Class Settings_Conditional.
  */
 class Settings_Conditional implements Conditional {
+
 	/**
 	 * Holds User_Can_Manage_Wpseo_Options_Conditional.
 	 *
