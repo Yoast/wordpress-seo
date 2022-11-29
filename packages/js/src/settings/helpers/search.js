@@ -886,16 +886,16 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		// Special pages
 		"title-search-wpseo": {
 			route: "/special-pages",
-			routeLabel: __( "Search pages", "wordpress-seo" ),
+			routeLabel: __( "Special pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-title-search-wpseo",
-			fieldLabel: __( "SEO title", "wordpress-seo" ),
+			fieldLabel: __( "Search pages title", "wordpress-seo" ),
 			keywords: [],
 		},
 		"title-404-wpseo": {
 			route: "/special-pages",
-			routeLabel: __( "404 pages", "wordpress-seo" ),
+			routeLabel: __( "Special pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-title-404-wpseo",
-			fieldLabel: __( "SEO title", "wordpress-seo" ),
+			fieldLabel: __( "404 pages title", "wordpress-seo" ),
 			keywords: [],
 		},
 		// Media pages
