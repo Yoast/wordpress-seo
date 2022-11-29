@@ -4,6 +4,9 @@ namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
  * Adds cleanup hooks.
@@ -24,6 +27,40 @@ class Cleanup_Integration implements Integration_Interface {
 	 * Identifier for starting the cleanup.
 	 */
 	const START_HOOK = 'wpseo_start_cleanup_indexables';
+
+	/**
+	 * A helper for taxonomies.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	private $taxonomy;
+
+	/**
+	 * A helper for post types.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type;
+
+	/**
+	 * A helper for author archives.
+	 *
+	 * @var Author_Archive_Helper
+	 */
+	private $author_archive;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param Taxonomy_Helper       $taxonomy       A helper for taxonomies.
+	 * @param Post_Type_Helper      $post_type      A helper for post types.
+	 * @param Author_Archive_Helper $author_archive A helper for author archives.
+	 */
+	public function __construct( Taxonomy_Helper $taxonomy, Post_Type_Helper $post_type, Author_Archive_Helper $author_archive ) {
+		$this->taxonomy       = $taxonomy;
+		$this->post_type      = $post_type;
+		$this->author_archive = $author_archive;
+	}
 
 	/**
 	 * Initializes the integration.
@@ -71,6 +108,7 @@ class Cleanup_Integration implements Integration_Interface {
 
 			// There are more items to delete for the current cleanup job, start a cronjob at the specified job.
 			$this->start_cron_job( $name );
+
 			return;
 		}
 	}
@@ -80,7 +118,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @return Closure[] The cleanup tasks.
 	 */
-	protected function get_cleanup_tasks() {
+	public function get_cleanup_tasks() {
 		return \array_merge(
 			[
 				'clean_indexables_with_object_type_and_object_sub_type_shop_order' => function( $limit ) {
@@ -88,6 +126,18 @@ class Cleanup_Integration implements Integration_Interface {
 				},
 				'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
 					return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
+				},
+				'clean_indexables_for_non_publicly_viewable_post' => function ( $limit ) {
+					return $this->clean_indexables_for_non_publicly_viewable_post( $limit );
+				},
+				'clean_indexables_for_non_publicly_viewable_taxonomies' => function ( $limit ) {
+					return $this->clean_indexables_for_non_publicly_viewable_taxonomies( $limit );
+				},
+				'clean_indexables_for_authors_archive_disabled' => function ( $limit ) {
+					return $this->clean_indexables_for_authors_archive_disabled( $limit );
+				},
+				'clean_indexables_for_authors_without_archive' => function ( $limit ) {
+					return $this->clean_indexables_for_authors_without_archive( $limit );
 				},
 			],
 			$this->get_additional_tasks(),
@@ -192,6 +242,7 @@ class Cleanup_Integration implements Integration_Interface {
 
 		if ( $current_task_name === false ) {
 			$this->reset_cleanup();
+
 			return;
 		}
 
@@ -216,6 +267,7 @@ class Cleanup_Integration implements Integration_Interface {
 
 			if ( $items_cleaned === false ) {
 				$this->reset_cleanup();
+
 				return;
 			}
 
@@ -223,13 +275,16 @@ class Cleanup_Integration implements Integration_Interface {
 				// Check if we are finished with all tasks.
 				if ( \next( $tasks ) === false ) {
 					$this->reset_cleanup();
+
 					return;
 				}
 
 				// Continue with the next task next time the cron job is run.
 				\update_option( self::CURRENT_TASK_OPTION, \key( $tasks ) );
+
 				return;
 			}
+
 			// There were items deleted for the current task, continue with the same task next cron call.
 			return;
 		}
@@ -251,6 +306,7 @@ class Cleanup_Integration implements Integration_Interface {
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = %s AND object_sub_type = %s ORDER BY id LIMIT %d", $object_type, $object_sub_type, $limit );
+
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( $sql );
 	}
@@ -270,8 +326,158 @@ class Cleanup_Integration implements Integration_Interface {
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = 'post' AND post_status = %s ORDER BY id LIMIT %d", $post_status, $limit );
+
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( $sql );
+	}
+
+	/**
+	 * Cleans up any indexables that belong to post types that are not/no longer publicly viewable.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return bool|int The number of deleted rows, false if the query fails.
+	 */
+	protected function clean_indexables_for_non_publicly_viewable_post( $limit ) {
+		global $wpdb;
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$included_post_types = $this->post_type->get_indexable_post_types();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $included_post_types ) ) {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post'
+				AND object_sub_type IS NOT NULL
+				LIMIT %d",
+				$limit
+			);
+		}
+		else {
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'post'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )
+				LIMIT %d',
+				\array_merge( $included_post_types, [ $limit ] )
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		return $wpdb->query( $delete_query );
+		// phpcs:enable
+	}
+
+	/**
+	 * Cleans up any indexables that belong to taxonomies that are not/no longer publicly viewable.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return bool|int The number of deleted rows, false if the query fails.
+	 */
+	protected function clean_indexables_for_non_publicly_viewable_taxonomies( $limit ) {
+		global $wpdb;
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$included_taxonomies = $this->taxonomy->get_indexable_taxonomies();
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		if ( empty( $included_taxonomies ) ) {
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'term'
+				AND object_sub_type IS NOT NULL
+				LIMIT %d",
+				$limit
+			);
+		}
+		else {
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+			$delete_query = $wpdb->prepare(
+				"DELETE FROM $indexable_table
+				WHERE object_type = 'term'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_taxonomies ), '%s' ) ) . ' )
+				LIMIT %d',
+				\array_merge( $included_taxonomies, [ $limit ] )
+			);
+		}
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		return $wpdb->query( $delete_query );
+		// phpcs:enable
+	}
+
+	/**
+	 * Cleans up any user indexables when the author archives have been disabled.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return bool|int The number of deleted rows, false if the query fails.
+	 */
+	protected function clean_indexables_for_authors_archive_disabled( $limit ) {
+		global $wpdb;
+
+		if ( ! $this->author_archive->are_disabled() ) {
+			return 0;
+		}
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		$delete_query = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = 'user' LIMIT %d", $limit );
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		return $wpdb->query( $delete_query );
+		// phpcs:enable
+	}
+
+	/**
+	 * Cleans up any indexables that belong to users that have their author archives disabled.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return bool|int The number of deleted rows, false if the query fails.
+	 */
+	protected function clean_indexables_for_authors_without_archive( $limit ) {
+		global $wpdb;
+
+		$indexable_table           = Model::get_table_name( 'Indexable' );
+		$author_archive_post_types = $this->author_archive->get_author_archive_post_types();
+		$viewable_post_stati       = \array_filter( \get_post_stati(), 'is_post_status_viewable' );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
+		$delete_query = $wpdb->prepare(
+			"DELETE FROM $indexable_table
+				WHERE object_type = 'user'
+				AND object_id NOT IN (
+					SELECT DISTINCT post_author
+					FROM $wpdb->posts
+					WHERE post_type IN ( " . \implode( ', ', \array_fill( 0, \count( $author_archive_post_types ), '%s' ) ) . ' )
+					AND post_status IN ( ' . \implode( ', ', \array_fill( 0, \count( $viewable_post_stati ), '%s' ) ) . ' )
+				) LIMIT %d',
+			\array_merge( $author_archive_post_types, $viewable_post_stati, [ $limit ] )
+		);
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		return $wpdb->query( $delete_query );
+		// phpcs:enable
 	}
 
 	/**

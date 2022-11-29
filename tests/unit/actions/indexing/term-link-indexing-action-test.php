@@ -119,7 +119,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( false );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
@@ -167,9 +167,10 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( false );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
+
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -222,7 +223,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->andReturn( true );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
@@ -276,7 +277,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		];
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
@@ -328,10 +329,9 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
-
 		$expected_query = "
 			SELECT T.term_id, T.description
 			FROM wp_term_taxonomy AS T
@@ -393,10 +393,9 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
+			->expects( 'get_indexable_taxonomies' )
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
-
 		$expected_query = "
 			SELECT T.term_id, T.description
 			FROM wp_term_taxonomy AS T

@@ -55,7 +55,7 @@ if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
  * Defaults to production, for safety.
  */
 if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
-	define( 'YOAST_ENVIRONMENT', 'production' );
+	define( 'YOAST_ENVIRONMENT', 'development' );
 }
 
 /**
