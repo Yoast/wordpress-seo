@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
+namespace Yoast\WP\SEO\Tests\Unit\Conditionals\Admin;
 
 use Brain\Monkey;
 use Mockery;
@@ -60,6 +60,44 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	}
 
 	/**
+	 * Tests is_met when the action is null.
+	 *
+	 * @covers ::is_met
+	 */
+	public function test_ajax_elementor_save_action_null() {
+		// We are in an Ajax request.
+		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( true );
+
+		$_POST['action'] = null;
+
+		$this->post_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		$this->assertEquals( false, $this->instance->is_met() );
+	}
+
+	/**
+	 * Tests is_met when the action is not a string.
+	 *
+	 * @covers ::is_met
+	 */
+	public function test_ajax_elementor_save_action_not_a_string() {
+		// We are in an Ajax request.
+		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( true );
+
+		$_POST['action'] = 9;
+
+		$this->post_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		$this->assertEquals( false, $this->instance->is_met() );
+	}
+
+	/**
 	 * Tests that the conditional is not met when we are not on a post, and also not in an Elementor save.
 	 *
 	 * @covers ::is_met
@@ -102,6 +140,66 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 			->andReturn( 'attachment' );
 
 		$this->assertEquals( false, $this->instance->is_met() );
+	}
+
+	/**
+	 * Tests is_met when post is null.
+	 *
+	 * @covers ::is_met
+	 */
+	public function test_post_is_null() {
+		// We are not in an Ajax request.
+		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( false );
+
+		// We are on a post according to the post conditional.
+		$this->post_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$_GET['post'] = null;
+
+		$this->assertEquals( true, $this->instance->is_met() );
+	}
+
+	/**
+	 * Tests is_met when post is not a string.
+	 *
+	 * @covers ::is_met
+	 */
+	public function test_post_is_not_string() {
+		// We are not in an Ajax request.
+		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( false );
+
+		// We are on a post according to the post conditional.
+		$this->post_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$_GET['post'] = 5;
+
+		$this->assertEquals( true, $this->instance->is_met() );
+	}
+
+	/**
+	 * Tests is_met when post can not be converted to an integer.
+	 *
+	 * @covers ::is_met
+	 */
+	public function test_post_can_not_be_converted_to_int() {
+		// We are not in an Ajax request.
+		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( false );
+
+		// We are on a post according to the post conditional.
+		$this->post_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$_GET['post'] = 'this_is_not_an_int';
+
+		$this->assertEquals( true, $this->instance->is_met() );
 	}
 
 	/**
