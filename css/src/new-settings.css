@@ -70,12 +70,20 @@
 			z-index: 99999;
 		}
 
+		.yst-modal.yst-modal--top {
+			@apply yst-p-4 sm:yst-p-6 md:yst-p-20;
+
+			.yst-modal__center {
+				@apply yst-hidden;
+			}
+		}
+
 		.yst-replacevar {
 			@apply yst-relative;
 
 			/* This needs additional nesting, specificity wise. */
 			.emoji-select-popover {
-				@apply yst-z-20 yst-right-auto yst-left-0;	
+				@apply yst-z-20 yst-right-auto yst-left-0;
 			}
 		}
 
@@ -92,7 +100,7 @@
 			.emoji-select-button {
 				@apply yst-cursor-not-allowed;
 			}
-			
+
 			.emoji-select-button {
 				@apply yst-pointer-events-none;
 			}

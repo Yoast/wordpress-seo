@@ -5,7 +5,7 @@
 		}
 
 		.yst-modal__body {
-			@apply yst-min-h-screen yst-px-4 yst-text-center;
+			@apply yst-min-h-screen yst-text-center;
 		}
 
 		.yst-modal__overlay {
