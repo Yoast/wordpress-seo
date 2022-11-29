@@ -2,7 +2,7 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { initial, last, map, values, toLower } from "lodash";
+import { initial, last, map, values, toLower, isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -68,36 +68,33 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 	const taxonomyMultiplePostTypesMessage = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
-			 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
-			 * %2$s and %3$s expand to post type plurals in code blocks, e.g. Posts Pages and Custom Post Type.
+			 * translators: %1$s and %2$s expand to post type plurals in code blocks, e.g. Posts Pages and Custom Post Type.
 			 */
-			__( "%1$s are used for %2$s and %3$s.", "wordpress-seo" ),
-			label,
+			__( "This taxonomy is used for %1$s and %2$s.", "wordpress-seo" ),
 			"<code1 />",
 			"<code2 />"
 		), {
 			code1: <>
 				{ map( initialPostTypeValues, ( postType, index ) => (
 					<>
-						<Code key={ postType?.name }>{ toLower( postType?.label ) }</Code>
+						<Code key={ postType?.name }>{ postType?.label }</Code>
 						{ index < initialPostTypeValues.length - 1 && " " }
 					</>
 				) ) }
 			</>,
-			code2: <Code>{ toLower( lastPostTypeValue?.label ) }</Code>,
+			code2: <Code>{ lastPostTypeValue?.label }</Code>,
 		}
 	), [ label, initialPostTypeValues, lastPostTypeValue ] );
 	const taxonomySinglePostTypeMessage = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
-			 * translators: %1$s expands to the taxonomy plural, e.g. Categories.
-			 * %2$s expands to the post type plural in code block, e.g. Posts.
+			 * translators: %1$s expands to the post type plural in code block, e.g. Posts.
 			 */
-			__( "%1$s are used for %2$s.", "wordpress-seo" ),
+			__( "This taxonomy is used for %2$s.", "wordpress-seo" ),
 			label,
 			"<code />"
 		), {
-			code: <Code>{ toLower( lastPostTypeValue?.label ) }</Code>,
+			code: <Code>{ lastPostTypeValue?.label }</Code>,
 		}
 	), [ label, lastPostTypeValue ] );
 
@@ -113,8 +110,12 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 					__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 					labelLower
 				) }
-				<br />
-				{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
+				{ ! isEmpty( postTypeValues ) && (
+					<>
+						<br />
+						{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
+					</>
+				) }
 			</> }
 		>
 			<FormLayout>
@@ -131,7 +132,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 					>
 						<FormikFlippedToggleField
 							name={ `wpseo_titles.noindex-tax-${ name }` }
-							data-id={ `input-wpseo_titles-noindex-tax-${ name }` }
+							id={ `input-wpseo_titles-noindex-tax-${ name }` }
 							label={ sprintf(
 							// translators: %1$s expands to the taxonomy plural, e.g. Categories.
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -143,12 +144,13 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
-								<br />
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
+							className="yst-max-w-sm"
 						/>
 						<hr className="yst-my-8" />
 						<FormikReplacementVariableEditorField
@@ -211,7 +213,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -222,7 +224,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>
@@ -235,15 +237,17 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 							as={ ToggleField }
 							type="checkbox"
 							name={ `wpseo_titles.display-metabox-tax-${ name }` }
-							data-id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
+							id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
 							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 							description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/>
 						{ name === "category" && <FormikFlippedToggleField
 							name="wpseo_titles.stripcategorybase"
-							data-id="input-wpseo_titles-stripcategorybase"
+							id="input-wpseo_titles-stripcategorybase"
 							label={ __( "Show the categories prefix in the slug", "wordpress-seo" ) }
 							description={ stripCategoryBaseDescription }
+							className="yst-max-w-sm"
 						/> }
 					</FieldsetLayout>
 				</div>

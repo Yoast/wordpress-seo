@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search test should match search snapshot 1`] = `
+"<Fragment>
+  <button className=\\"yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500\\" onClick={[Function (anonymous)]}>
+    <ForwardRef(SearchIcon) className=\\"yst-flex-none yst-w-5 yst-h-5 yst-mr-3 yst-text-slate-400\\" role=\\"img\\" aria-hidden=\\"true\\" />
+    <span>
+      Quick search...
+    </span>
+  </button>
+  <Modal className=\\"yst-modal--top\\" onClose={[Function (anonymous)]} isOpen={false} initialFocus={{...}} hasCloseButton={true} closeButtonScreenReaderText=\\"Close\\">
+    <ComboboxFn as=\\"div\\" className=\\"yst--m-6 yst--mt-5\\" onChange={[Function (anonymous)]}>
+      <div className=\\"yst-relative\\">
+        <ForwardRef(SearchIcon) className=\\"yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400\\" role=\\"img\\" aria-hidden=\\"true\\" />
+        <Input2 id=\\"input-search\\" placeholder=\\"Search...\\" value=\\"\\" onChange={[Function (anonymous)]} className=\\"yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm\\" />
+      </div>
+      <SearchNoResultsContent title=\\"Search\\">
+        <p className=\\"yst-text-slate-500\\">
+          Please enter a search term with at least 3 characters.
+        </p>
+      </SearchNoResultsContent>
+    </ComboboxFn>
+  </Modal>
+</Fragment>"
+`;

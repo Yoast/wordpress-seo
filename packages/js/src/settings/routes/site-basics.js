@@ -183,7 +183,7 @@ const SiteBasics = () => {
 								as={ ToggleField }
 								type="checkbox"
 								name="wpseo_titles.forcerewritetitle"
-								data-id="input-wpseo_titles-forcerewritetitle"
+								id="input-wpseo_titles-forcerewritetitle"
 								label={ __( "Force rewrite titles", "wordpress-seo" ) }
 								description={ sprintf(
 									/* translators: %1$s expands to "Yoast SEO" */
@@ -196,21 +196,23 @@ const SiteBasics = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.disableadvanced_meta"
-							data-id="input-wpseo-disableadvanced_meta"
+							id="input-wpseo-disableadvanced_meta"
 							label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
 							description={ sprintf(
 								/* translators: %1$s expands to "Yoast SEO" */
 								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
 								"Yoast SEO"
 							) }
+							className="yst-max-w-sm"
 						/>
 						<FormikValueChangeField
 							as={ ToggleFieldWithDisabledMessageSupport }
 							type="checkbox"
 							name="wpseo.tracking"
-							data-id="input-wpseo-tracking"
+							id="input-wpseo-tracking"
 							label={ __( "Usage tracking", "wordpress-seo" ) }
 							description={ usageTrackingDescription }
+							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>
 				</div>

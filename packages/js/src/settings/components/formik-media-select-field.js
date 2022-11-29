@@ -40,7 +40,7 @@ const FormikMediaSelectField = ( {
 	label = "",
 	description = "",
 	icon: Icon = PhotographIcon,
-	disabled = false,
+	disabled: isDisabled = false,
 	isDummy = false,
 	libraryType = "image",
 	variant = "landscape",
@@ -62,6 +62,7 @@ const FormikMediaSelectField = ( {
 	const fallbackMedia = useSelectSettings( "selectMediaById", [ fallbackMediaId ], fallbackMediaId );
 	const { fetchMedia, addOneMedia } = useDispatchSettings();
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
+	const disabled = useMemo( () => isDisabled || isDummy, [ isDummy, isDisabled ] );
 	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
 	const previewMedia = useMemo( () => {
 		if ( mediaId > 0 ) {
