@@ -245,7 +245,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-## 19.11
+= 19.11 =
 
 Release date: November 29th, 2022
 
@@ -271,7 +271,7 @@ Yoast SEO 19.11 is out now. We're optimizing the Yoast SEO plugin to use fewer r
 
 * Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
 
-## 19.10
+= 19.10 =
 
 Release date: November 8th, 2022
 
