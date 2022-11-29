@@ -251,7 +251,6 @@ const genderAssessments = [
 		inclusiveAlternatives: "<i>transgender person</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );

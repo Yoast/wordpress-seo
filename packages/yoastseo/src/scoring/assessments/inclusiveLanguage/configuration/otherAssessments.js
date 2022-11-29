@@ -27,7 +27,6 @@ const otherAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially overgeneralizing. " +
 		"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
-		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );

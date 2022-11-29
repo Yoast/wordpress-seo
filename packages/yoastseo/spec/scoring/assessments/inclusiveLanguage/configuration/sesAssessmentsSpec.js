@@ -4,7 +4,6 @@ import EnglishResearcher from "../../../../../src/languageProcessing/languages/e
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
 import Factory from "../../../../specHelpers/factory";
-import Mark from "../../../../../src/values/Mark";
 
 describe( "SES assessments", function() {
 	it( "should target non-inclusive phrases",
@@ -33,7 +32,7 @@ describe( "SES assessments", function() {
 		} );
 
 	it( "should target non-inclusive phrases", function() {
-		const mockText = "This ad is aimed at poverty stricken people";
+		const mockText = "This ad is aimed at poverty stricken people.";
 		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "povertyStricken" )  );
@@ -50,8 +49,8 @@ describe( "SES assessments", function() {
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(  [
 			{ _properties:
-					{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at poverty stricken.</yoastmark>",
-						original: "This ad is aimed at poverty stricken.",
+					{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at poverty stricken people.</yoastmark>",
+						original: "This ad is aimed at poverty stricken people.",
 						fieldsToMark: [],
 					} } ] );
 	} );

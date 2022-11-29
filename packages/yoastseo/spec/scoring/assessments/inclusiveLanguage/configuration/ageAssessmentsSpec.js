@@ -86,7 +86,7 @@ describe( "Age assessments", function() {
 	it( "correctly identifies a phrase that is only recognized when followed by participle or simple past tense", () => {
 		const mockPaper = new Paper( "The aged worked, the better they are." );
 		const mockResearcher = Factory.buildMockResearcher( [ "The aged worked, the better they are." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theAged" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "theAged" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();
 
@@ -105,7 +105,7 @@ describe( "Age assessments", function() {
 	it( "correctly identifies a phrase that is only recognized when followed by a function word", () => {
 		const mockPaper = new Paper( "The aged however, did not go to the zoo." );
 		const mockResearcher = Factory.buildMockResearcher( [ "The aged however, did not go to the zoo." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theAged" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "theAged" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();
 
@@ -124,7 +124,7 @@ describe( "Age assessments", function() {
 	it( "correctly identifies a phrase that is only recognized when followed by a punctuation mark", () => {
 		const mockPaper = new Paper( "I have always loved the aged!" );
 		const mockResearcher = Factory.buildMockResearcher( [ "I have always loved the aged!" ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theAged" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "theAged" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();
 
@@ -143,7 +143,7 @@ describe( "Age assessments", function() {
 	it( "does not identify 'the aged' when not followed by punctuation, function word or participle", () => {
 		const mockPaper = new Paper( "The aged cheese is the best." );
 		const mockResearcher = Factory.buildMockResearcher( [ "The aged cheese is the best." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theAged" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "theAged" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeFalsy();

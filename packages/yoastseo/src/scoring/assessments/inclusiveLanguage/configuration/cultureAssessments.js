@@ -1,7 +1,7 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
-import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 
 const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
@@ -120,7 +120,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>to cheat someone</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, [ "a", "the" ] ) );

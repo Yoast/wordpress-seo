@@ -32,7 +32,7 @@ describe( "Appearance assessments", function() {
 		} );
 
 	it( "should target potentially non-inclusive phrases", function() {
-		const mockText = "This ad is aimed at obese citizens";
+		const mockText = "This ad is aimed at obese citizens.";
 		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "obese" )  );
@@ -58,7 +58,7 @@ describe( "Appearance assessments", function() {
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
-		const mockText = "This ad is aimed at vertically challenged people";
+		const mockText = "This ad is aimed at vertically challenged people.";
 		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "verticallyChallenged" )  );
@@ -68,8 +68,8 @@ describe( "Appearance assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(  [
 			{ _properties: {
-				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at high vertically challenged.</yoastmark>",
-				original: "This ad is aimed at high vertically challenged.",
+				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at vertically challenged people.</yoastmark>",
+				original: "This ad is aimed at vertically challenged people.",
 				fieldsToMark: [],
 			} } ] );
 	} );

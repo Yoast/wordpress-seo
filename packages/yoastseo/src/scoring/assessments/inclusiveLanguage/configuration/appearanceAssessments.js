@@ -17,7 +17,6 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );

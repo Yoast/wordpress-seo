@@ -51,7 +51,6 @@ const ageAssessments = [
 		inclusiveAlternatives: "<i>older people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
-		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
@@ -64,7 +63,6 @@ const ageAssessments = [
 		inclusiveAlternatives: "<i>older people</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmful, specificAgeGroup ].join( " " ),
-		learnMoreUrl: learnMoreUrl,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );

@@ -32,7 +32,7 @@ describe( "Other assessments", function() {
 		} );
 
 	it( "should target potentially non-inclusive phrases", function() {
-		const mockText = "This ad is aimed at minorities";
+		const mockText = "This ad is aimed at minorities.";
 		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "minorities" )  );
