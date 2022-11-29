@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Attachment_Redirections_Enabled_Conditional;
 
 /**
  * Excludes Attachment post types from the indexable table.
@@ -11,7 +11,14 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
  */
 class Exclude_Attachment_Post_Type extends Abstract_Exclude_Post_Type {
 
-	use No_Conditionals;
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ Attachment_Redirections_Enabled_Conditional::class ];
+	}
 
 	/**
 	 * Returns the names of the post types to be excluded.
