@@ -29,7 +29,6 @@ class Redirects_Integration implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		return [
-			Admin_Conditional::class,
 			Premium_Inactive_Conditional::class,
 		];
 	}

@@ -34,7 +34,7 @@ class Integrations_Page implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [];
 	}
 
 	/**

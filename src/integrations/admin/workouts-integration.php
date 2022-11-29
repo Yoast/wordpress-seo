@@ -47,7 +47,7 @@ class Workouts_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [];
 	}
 
 	/**
