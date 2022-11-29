@@ -8,18 +8,18 @@ exports[`Search test should match search snapshot 1`] = `
       Quick search...
     </span>
   </button>
-  <Modal onClose={[Function (anonymous)]} isOpen={false} initialFocus={{...}} hasCloseButton={true} closeButtonScreenReaderText=\\"Close\\" className=\\"\\">
-    <div className=\\"yst--m-6 yst--mt-5\\">
+  <Modal className=\\"yst-modal--top\\" onClose={[Function (anonymous)]} isOpen={false} initialFocus={{...}} hasCloseButton={true} closeButtonScreenReaderText=\\"Close\\">
+    <ComboboxFn as=\\"div\\" className=\\"yst--m-6 yst--mt-5\\" onChange={[Function (anonymous)]}>
       <div className=\\"yst-relative\\">
         <ForwardRef(SearchIcon) className=\\"yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400\\" role=\\"img\\" aria-hidden=\\"true\\" />
-        <ForwardRef id=\\"input-search\\" placeholder=\\"Search...\\" value=\\"\\" onChange={[Function (anonymous)]} className=\\"yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm\\" />
+        <Input2 id=\\"input-search\\" placeholder=\\"Search...\\" value=\\"\\" onChange={[Function (anonymous)]} className=\\"yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm\\" />
       </div>
       <SearchNoResultsContent title=\\"Search\\">
         <p className=\\"yst-text-slate-500\\">
           Please enter a search term with at least 3 characters.
         </p>
       </SearchNoResultsContent>
-    </div>
+    </ComboboxFn>
   </Modal>
 </Fragment>"
 `;

@@ -80,7 +80,6 @@ const Autocomplete = ( {
 
 	return (
 		<Combobox
-			id={ id }
 			as="div"
 			value={ value }
 			onChange={ onChange }
@@ -98,6 +97,7 @@ const Autocomplete = ( {
 			<div className="yst-relative">
 				<div className="yst-relative">
 					<Combobox.Button
+						data-id={ id }
 						className="yst-autocomplete__button"
 						{ ...buttonProps }
 						as="div"
