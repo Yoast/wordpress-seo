@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use WPSEO_Image_Utils;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -276,7 +277,8 @@ class Indexable_Link_Builder {
 
 		$model->parsed_url = $parsed_url;
 
-		if ( $model->type === SEO_Links::TYPE_INTERNAL || $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
+		// For internal links, we store the target indexable ids as well.
+		if ( $model->type === SEO_Links::TYPE_INTERNAL ) {
 			$permalink = $this->get_permalink( $url, $home_url );
 			if ( $this->url_helper->is_relative( $permalink ) ) {
 				// Make sure we're checking against the absolute URL, and add a trailing slash if the site has a trailing slash in its permalink settings.
@@ -299,6 +301,21 @@ class Indexable_Link_Builder {
 			$model->target_indexable_id = $target->id;
 			if ( $target->object_type === 'post' ) {
 				$model->target_post_id = $target->object_id;
+			}
+		}
+
+		// For internal images, we store just the ids, as attachments dont have indexables.
+		if ( $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
+			$permalink = $this->get_permalink( $url, $home_url );
+			if ( $this->url_helper->is_relative( $permalink ) ) {
+				// Make sure we're checking against the absolute URL, and add a trailing slash if the site has a trailing slash in its permalink settings.
+				$permalink = $this->url_helper->ensure_absolute_url( \user_trailingslashit( $permalink ) );
+			}
+
+			$target_post_id = WPSEO_Image_Utils::get_attachment_by_url( $permalink );
+
+			if ( ! empty( $target_post_id ) ) {
+				$model->target_post_id = $target_post_id;
 			}
 		}
 
