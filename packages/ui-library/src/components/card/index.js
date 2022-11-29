@@ -16,7 +16,7 @@ const Header = ( { as: Component = "header", children, className = "", ...props 
 Header.propTypes = {
 	as: PropTypes.element,
 	children: PropTypes.node.isRequired,
-	className: PropTypes.node,
+	className: PropTypes.string,
 };
 
 /**
@@ -34,7 +34,7 @@ const Content = ( { as: Component = "div", children, className = "", ...props } 
 Content.propTypes = {
 	as: PropTypes.element,
 	children: PropTypes.node.isRequired,
-	className: PropTypes.node,
+	className: PropTypes.string,
 };
 
 
@@ -53,7 +53,7 @@ const Footer = ( { as: Component = "footer", children, className = "", ...props 
 Footer.propTypes = {
 	as: PropTypes.element,
 	children: PropTypes.node.isRequired,
-	className: PropTypes.node,
+	className: PropTypes.string,
 };
 
 /**
@@ -71,7 +71,7 @@ const Card = ( { as: Component = "div", children, className = "", ...props } ) =
 Card.propTypes = {
 	as: PropTypes.element,
 	children: PropTypes.node.isRequired,
-	className: PropTypes.node,
+	className: PropTypes.string,
 };
 
 Card.Header = Header;
