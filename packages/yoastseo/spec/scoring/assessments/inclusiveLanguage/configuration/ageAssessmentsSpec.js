@@ -1,7 +1,7 @@
 import Paper from "../../../../../src/values/Paper";
 import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
-import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
+import ageAssessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
 import Factory from "../../../../specHelpers/factory.js";
 
 describe( "Age assessments", function() {
@@ -9,7 +9,7 @@ describe( "Age assessments", function() {
 		const mockText = "This ad is aimed at aging dependants";
 		const mockPaper = new Paper( mockText );
 		const mockResearcher = Factory.buildMockResearcher( [ mockText ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "agingDependants" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "agingDependants" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();
@@ -31,7 +31,7 @@ describe( "Age assessments", function() {
 	it( "should target potentially non-inclusive phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at senior citizens. But this ad is aimed at the youth." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This ad is aimed at senior citizens.", "But this ad is aimed at the youth." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "seniorCitizens" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "seniorCitizens" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();
@@ -53,7 +53,7 @@ describe( "Age assessments", function() {
 	it( "should not target phrases preceded by certain words", function() {
 		const mockPaper = new Paper( "This ad is aimed at high school seniors." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This ad is aimed at high school seniors." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "seniors" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "seniors" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
@@ -64,7 +64,7 @@ describe( "Age assessments", function() {
 	it( "should not target phrases followed by by certain words", function() {
 		const mockPaper = new Paper( "This ad is aimed at seniors who are graduating." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This ad is aimed at seniors who are graduating." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "seniors" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "seniors" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
@@ -75,7 +75,7 @@ describe( "Age assessments", function() {
 	it( "should not target other phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at the youth" );
 		const mockResearcher = Factory.buildMockResearcher( [ "This ad is aimed at the youth" ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "seniorCitizens" ) );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "seniorCitizens" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
