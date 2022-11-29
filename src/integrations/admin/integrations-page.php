@@ -130,7 +130,8 @@ class Integrations_Page implements Integration_Interface {
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file ),
 				'activate-plugin_' . $acf_seo_file
 			);
-		} else {
+		}
+		else {
 			$acf_seo_activate_url = \wp_nonce_url(
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file_github ),
 				'activate-plugin_' . $acf_seo_file_github
@@ -161,7 +162,6 @@ class Integrations_Page implements Integration_Interface {
 				'woocommerce_seo_installed'      => $woocommerce_seo_installed,
 				'woocommerce_seo_active'         => $woocommerce_seo_active,
 				'woocommerce_active'             => $woocommerce_active,
-				'woocommerce_integration_active' => $woocommerce_active,
 				'woocommerce_seo_activate_url'   => $woocommerce_seo_activate_url,
 				'acf_seo_installed'              => $acf_seo_installed || $acf_seo_github_installed,
 				'acf_seo_active'                 => $acf_seo_active || $acf_seo_github_active,
