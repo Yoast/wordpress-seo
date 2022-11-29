@@ -9,6 +9,9 @@
         .yst-notifications--bottom-center {
             @apply yst-bottom-8 yst-items-center;
         }
+        .yst-notifications--inherit {
+            position: inherit;
+        }
 
         .yst-notifications--bottom-left {
             @apply yst-bottom-8 yst-left-8;
