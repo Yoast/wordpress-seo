@@ -71,3 +71,18 @@ WithValues.args = {
 	],
 };
 
+export const ChildrenProp = Template.bind();
+ChildrenProp.args = {
+	id: "checkbox-group-2",
+	name: "name-2",
+	values: [ "2", "3" ],
+	label: "Checkbox group label.",
+	children: <>
+		<CheckboxGroup.Option value="child 1" label="Option 1" />
+		<CheckboxGroup.Option value="child 2" label="Option 2" />
+		<CheckboxGroup.Option value="child 3" label="Option 3" />
+	</>,
+};
+
+ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`CheckboxGroup.Option` is equal to `Checkbox` component)." } } };
+
