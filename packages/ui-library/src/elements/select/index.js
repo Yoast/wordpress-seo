@@ -80,7 +80,6 @@ const Select = ( {
 
 	return (
 		<Listbox
-			id={ id }
 			as="div"
 			value={ value }
 			onChange={ onChange }
@@ -96,7 +95,7 @@ const Select = ( {
 				<Listbox.Label { ...labelProps }>{ label }</Listbox.Label>
 				{ labelSuffix }
 			</div> }
-			<Listbox.Button className="yst-select__button" { ...buttonProps }>
+			<Listbox.Button data-id={ id } className="yst-select__button" { ...buttonProps }>
 				<span className="yst-select__button-label">{ selectedLabel || selectedOption?.label || "" }</span>
 				{ isError ? (
 					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" { ...svgAriaProps } />

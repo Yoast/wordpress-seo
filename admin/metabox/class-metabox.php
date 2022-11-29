@@ -35,6 +35,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $readability_analysis;
 
 	/**
+	 * Helper to determine whether the inclusive language analysis is enabled.
+	 *
+	 * @var WPSEO_Metabox_Analysis_Inclusive_Language
+	 */
+	protected $inclusive_language_analysis;
+
+	/**
 	 * The metabox editor object.
 	 *
 	 * @var WPSEO_Metabox_Editor
@@ -78,8 +85,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
 
-		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
+		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
+		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
 	}
 
 	/**
@@ -408,6 +416,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $this->readability_analysis->is_enabled() ) {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();
+		}
+
+		if ( $this->inclusive_language_analysis->is_enabled() ) {
+			$tabs[] = new WPSEO_Metabox_Section_Inclusive_Language();
 		}
 
 		if ( $this->is_advanced_metadata_enabled ) {
@@ -799,6 +811,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $key === 'content_score' && ! $this->readability_analysis->is_enabled() ) {
+			return true;
+		}
+
+		if ( $key === 'inclusive_language_score' && ! $this->inclusive_language_analysis->is_enabled() ) {
 			return true;
 		}
 

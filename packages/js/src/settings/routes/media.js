@@ -65,7 +65,7 @@ const Media = () => {
 					<fieldset className="yst-min-width-0 yst-space-y-8">
 						<FormikFlippedToggleField
 							name={ `wpseo_titles.disable-${ name }` }
-							data-id={ `input-wpseo_titles-disable-${ name }` }
+							id={ `input-wpseo_titles-disable-${ name }` }
 							label={ sprintf(
 								// translators: %1$s expands to "media".
 								__( "Enable %1$s pages", "wordpress-seo" ),
@@ -92,7 +92,7 @@ const Media = () => {
 					>
 						<FormikFlippedToggleField
 							name={ `wpseo_titles.noindex-${ name }` }
-							data-id={ `input-wpseo_titles-noindex-${ name }` }
+							id={ `input-wpseo_titles-noindex-${ name }` }
 							label={ sprintf(
 								// translators: %1$s expands to "media".
 								__( "Show %1$s pages in search results", "wordpress-seo" ),
@@ -169,7 +169,7 @@ const Media = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name={ `wpseo_titles.display-metabox-pt-${ name }` }
-							data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
+							id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
 							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 							description={ __( "Show or hide our tools and controls in the attachment editor.", "wordpress-seo" ) }
 							disabled={ isAttachmentPagesDisabled }

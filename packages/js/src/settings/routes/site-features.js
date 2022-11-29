@@ -79,7 +79,7 @@ const FeatureCard = ( {
 					as={ ToggleField }
 					type="checkbox"
 					name={ name }
-					data-id={ inputId }
+					id={ inputId }
 					label={ __( "Enable feature", "wordpress-seo" ) }
 					disabled={ isDisabled }
 				/> }
