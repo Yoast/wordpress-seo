@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { SelectField, TextField, ToggleField } from "@yoast/ui-library";
+import { SelectField, TextField, ToggleField, Code } from "@yoast/ui-library";
 import { Field } from "formik";
 import { map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
@@ -103,7 +103,7 @@ const Breadcrumbs = () => {
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
-						title={ __( "Breadcrumbs for Post types", "wordpress-seo" ) }
+						title={ __( "Breadcrumbs for post types", "wordpress-seo" ) }
 						description={ __( "Choose which Taxonomy you wish to show in the breadcrumbs for Post types.", "wordpress-seo" ) }
 					>
 						{ map( breadcrumbsForPostTypes, ( postTypes, postTypeName ) => <FormikValueChangeField
@@ -117,7 +117,7 @@ const Breadcrumbs = () => {
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
-						title={ __( "Breadcrumbs for Taxonomies", "wordpress-seo" ) }
+						title={ __( "Breadcrumbs for taxonomies", "wordpress-seo" ) }
 						description={ __( "Choose which Post type you wish to show in the breadcrumbs for Taxonomies.", "wordpress-seo" ) }
 					>
 						{ map( breadcrumbsForTaxonomies, ( { name, label, options } ) => (
@@ -126,7 +126,11 @@ const Breadcrumbs = () => {
 								as={ SelectField }
 								name={ `wpseo_titles.taxonomy-${ name }-ptparent` }
 								data-id={ `input-wpseo_titles-taxonomy-${ name }-ptparent` }
-								label={ label }
+								label={ <>
+									{ label }
+									&nbsp;
+									(<Code>{ name }</Code>)
+								</> }
 								options={ options }
 							/>
 						) ) }

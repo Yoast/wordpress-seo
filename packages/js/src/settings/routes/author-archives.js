@@ -75,7 +75,11 @@ const AuthorArchives = () => {
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-author": isAuthorArchivesDisabled, "noindex-author-wpseo": isAuthorNoIndex } = values.wpseo_titles;
+	const {
+		"disable-author": isAuthorArchivesDisabled,
+		"noindex-author-wpseo": isAuthorNoIndex,
+		"noindex-author-noposts-wpseo": isAuthorNoIndexNoPosts,
+	} = values.wpseo_titles;
 
 	return (
 		<RouteLayout
@@ -144,6 +148,7 @@ const AuthorArchives = () => {
 								__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 								labelLower
 							) }
+							checked={ ! isAuthorNoIndex && ! isAuthorNoIndexNoPosts }
 							disabled={ isAuthorArchivesDisabled || isAuthorNoIndex }
 							className="yst-max-w-sm"
 						/>

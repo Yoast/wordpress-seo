@@ -253,6 +253,8 @@ const CrawlOptimization = () => {
 		remove_feed_global_comments: removeFeedGlobalComments,
 		remove_feed_post_comments: removeFeedPostComments,
 		search_cleanup: searchCleanup,
+		search_cleanup_emoji: searchCleanupEmoji,
+		search_cleanup_patterns: searchCleanupPatterns,
 		clean_permalinks: cleanPermalinks,
 	} = values.wpseo;
 
@@ -580,6 +582,7 @@ const CrawlOptimization = () => {
 							label={ __( "Filter searches with emojis and other special characters", "wordpress-seo" ) }
 							description={ __( "Block internal site searches which contain complex and non-alphanumeric characters, as they may be part of a spam attack.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
+							checked={ searchCleanup && searchCleanupEmoji }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
@@ -591,6 +594,7 @@ const CrawlOptimization = () => {
 							label={ __( "Filter searches with common spam patterns", "wordpress-seo" ) }
 							description={ __( "Block internal site searches which match the patterns of known spam attacks.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
+							checked={ searchCleanup && searchCleanupPatterns }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
