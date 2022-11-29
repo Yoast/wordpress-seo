@@ -196,6 +196,8 @@ const PremiumUpsellList = () => {
 				size="large"
 				href={ premiumLink }
 				className="yst-gap-2 yst-mt-4"
+				target="_blank"
+				rel="noopener"
 				{ ...premiumUpsellConfig }
 			>
 				{ sprintf(
