@@ -751,7 +751,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 					fieldId: `input-wpseo_titles-post_types-${ postType.name }-maintax`,
 					fieldLabel: createInterpolateElement(
 						// translators: %1$s expands to the post type plural, e.g. posts.
-						sprintf( __( "Breadcrumbs for %1$s <code />", "wordpress-seo" ), toLower( postType.label ) ),
+						sprintf( __( "Breadcrumbs for %1$s<code />", "wordpress-seo" ), toLower( postType.label ) ),
 						{
 							code: <Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ postType.name }</Code>,
 						}
@@ -768,7 +768,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 				fieldId: `input-wpseo_titles-taxonomy-${ taxonomy.name }-ptparent`,
 				fieldLabel: createInterpolateElement(
 					// translators: %1$s expands to the taxonomy plural, e.g. categories.
-					sprintf( __( "Breadcrumbs for %1$s <code />", "wordpress-seo" ), toLower( taxonomy.label ) ),
+					sprintf( __( "Breadcrumbs for %1$s<code />", "wordpress-seo" ), toLower( taxonomy.label ) ),
 					{
 						code: <Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ taxonomy.name }</Code>,
 					}

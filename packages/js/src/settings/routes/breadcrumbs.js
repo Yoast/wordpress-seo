@@ -113,7 +113,6 @@ const Breadcrumbs = () => {
 							id={ `input-wpseo_titles-post_types-${ postTypeName }-maintax` }
 							label={ <>
 								{ postType.label }
-								{ " " }
 								<Code className="yst-ml-2">{ postTypeName }</Code>
 							</> }
 							options={ postType.options }
@@ -132,7 +131,6 @@ const Breadcrumbs = () => {
 								id={ `input-wpseo_titles-taxonomy-${ taxonomy.name }-ptparent` }
 								label={ <>
 									{ taxonomy.label }
-									{ " " }
 									<Code className="yst-ml-2">{ taxonomy.name }</Code>
 								</> }
 								options={ taxonomy.options }
