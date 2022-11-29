@@ -251,25 +251,14 @@ Release date: November 29th, 2022
 
 Yoast SEO 19.11 is out now. We're optimizing the Yoast SEO plugin to use fewer resources. This helps make your site faster and more efficient. In this release, we're doing this by streamlining your database. Find out more about what's new in Yoast SEO 19.11 in [our release post](https://yoa.st/release-29-11-22)!
 
-#### Enhancements
-
-* Adds a WP-CLI command to clean up unused data from our custom database tables: `wp yoast cleanup`.
-* Performs a cleanup of indexables when a public post type (or taxonomy) becomes non-public.
-* Notifies users to run the SEO optimization when a non-public post type (or taxonomy) becomes public.
-
 #### Bugfixes
 
-* Fixes a bug where a fatal error would be thrown when the SEO optimization was run after a post type had been manually excluded via a filter.
-* Fixes a bug where an entry would be added to our indexables table when saving, updating, or accessing a post (or term) for a non-public post type (or taxonomy).
-* Fixes a bug where duplicate indexable records would be created for the same object.
-* Fixes a bug where indexables for users would not get removed when a user did not have any publicly viewable posts anymore.
-* Fixes a bug where indexables for users would not get removed when author archives were disabled.
-* Fixes a bug where indexables would be created for users when author archives were disabled.
-* Fixes a bug where indexables would be created for users who did not have any publicly viewable posts.
+* Fixes a bug where the word 'minute/minutes' would be in the user language, instead of the site language, for the estimated reading time block in the frontend.
 
 #### Other
 
-* Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
+* Bumps the minimum required Yoast SEO version to 18.4.
+* Sets minimum required WordPress version to 5.8. 
 
 = 19.10 =
 
