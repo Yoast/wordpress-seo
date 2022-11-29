@@ -604,7 +604,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-company_or_person-company",
-			fieldLabel: __( "Organization or a person", "wordpress-seo" ),
+			fieldLabel: __( "Organization/person", "wordpress-seo" ),
 			keywords: [],
 		},
 		company_name: {
@@ -1085,13 +1085,6 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			],
 		},
 		og_default_image_id: {
-			route: "/site-basics",
-			routeLabel: __( "Site basics", "wordpress-seo" ),
-			fieldId: "button-wpseo_social-og_default_image-preview",
-			fieldLabel: __( "Site image", "wordpress-seo" ),
-			keywords: [],
-		},
-		og_default_image: {
 			route: "/site-basics",
 			routeLabel: __( "Site basics", "wordpress-seo" ),
 			fieldId: "button-wpseo_social-og_default_image-preview",
