@@ -83,5 +83,5 @@ ChildrenProp.args = {
 	</>,
 };
 
-ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`CheckboxGroup.Option` is equal to `Checkbox` component). Default values should be set inside the child component and not the `value` prop." } } };
+ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`CheckboxGroup.Option` is equal to `Checkbox` element). Default values should be set inside the child component and not the `value` prop." } } };
 
