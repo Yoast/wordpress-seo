@@ -1,5 +1,4 @@
-import {
-	potentiallyHarmful,
+import { potentiallyHarmful,
 	potentiallyHarmfulUnless,
 	preferredDescriptorIfKnown,
 } from "./feedbackStrings";
@@ -8,8 +7,7 @@ import { SCORES } from "./scores";
 const learnMoreUrl = "https://yoa.st/inclusive-language-appearance";
 
 // This string says "Alternatively, if talking about a specific person, use their preferred descriptor if known, for example <i>plus-size</i>.
-const preferredDescriptorIfKnownPlusSize = [ preferredDescriptorIfKnown( 0, -1 ) + ", for example <i>plus-size</i>" ];
-
+const preferredDescriptorIfKnownPlusSize = [ preferredDescriptorIfKnown.slice( 0, -1 ) + ", for example <i>plus-size</i>." ];
 
 const appearanceAssessments = [
 	{
