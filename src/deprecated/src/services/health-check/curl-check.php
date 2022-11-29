@@ -18,7 +18,6 @@ class Curl_Check extends Health_Check {
 	 *
 	 * @param Curl_Runner  $runner  The object that implements the actual health check.
 	 * @param Curl_Reports $reports The object that generates WordPress-friendly results.
-	 * @return void
 	 */
 	public function __construct(
 		Curl_Runner $runner,

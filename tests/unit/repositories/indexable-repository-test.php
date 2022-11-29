@@ -285,7 +285,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @return Mockery\Mock The mocked ORM object.
 	 */
 	private function mock_orm( $indexable_ids, $indexables ) {
-		$orm_object = Mockery::mock()->makePartial();
+		$orm_object = Mockery::mock( ORM::class )->makePartial();
 		$orm_object
 			->expects( 'where_in' )
 			->with( 'id', $indexable_ids )
@@ -309,7 +309,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::query
 	 */
 	public function test_query() {
-		$wpdb         = Mockery::mock();
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'wp_';
 
 		$GLOBALS['wpdb'] = $wpdb;
@@ -329,7 +329,7 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'post';
 
-		$orm_object = Mockery::mock();
+		$orm_object = Mockery::mock( ORM::class );
 
 		$this->instance
 			->expects( 'query' )
@@ -359,7 +359,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::reset_permalink
 	 */
 	public function test_reset_permalink() {
-		$orm_object = Mockery::mock();
+		$orm_object = Mockery::mock( ORM::class );
 
 		$this->instance
 			->expects( 'query' )
@@ -391,7 +391,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::reset_permalink
 	 */
 	public function test_reset_permalink_with_args() {
-		$orm_object = Mockery::mock();
+		$orm_object = Mockery::mock( ORM::class );
 
 		$this->instance
 			->expects( 'query' )
@@ -433,7 +433,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::reset_permalink
 	 */
 	public function test_reset_permalink_with_invalid_args() {
-		$orm_object = Mockery::mock();
+		$orm_object = Mockery::mock( ORM::class );
 
 		$this->instance
 			->expects( 'query' )

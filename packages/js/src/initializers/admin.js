@@ -1,4 +1,4 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
+/* global wpseoAdminGlobalL10n, ajaxurl, ClipboardJS */
 
 import { __ } from "@wordpress/i18n";
 import a11ySpeak from "a11y-speak";
@@ -176,21 +176,6 @@ export default function initAdmin( jQuery ) {
 		setInitialActiveTab();
 		wpseoSetTabHash();
 	 } );
-
-	/**
-	 * Adds select2 for selected fields.
-	 *
-	 * @returns {void}
-	 */
-	function initSelect2() {
-		var select2Width = "400px";
-
-		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( "#breadcrumbs select" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-		} );
-	}
 
 	/**
 	 * Hides or shows the Author without posts toggle.
@@ -491,7 +476,6 @@ export default function initAdmin( jQuery ) {
 
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
-		initSelect2();
 		initXmlSitemapsWarning();
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();

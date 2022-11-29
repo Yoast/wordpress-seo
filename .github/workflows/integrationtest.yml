@@ -52,6 +52,11 @@ jobs:
             wp_version: "latest"
             multisite: true
 
+          # WP 6.1 is the earliest version which supports PHP 8.2.
+          - php_version: "8.2"
+            wp_version: "6.1"
+            multisite: true
+
     name: "Integration Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
 
     # Allow builds to fail on as-of-yet unreleased WordPress versions.
@@ -81,6 +86,9 @@ jobs:
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
         uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
       # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
@@ -113,6 +121,8 @@ jobs:
           dependency-versions: "highest"
           # But make it selective.
           composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       - name: Install WP
         shell: bash

@@ -110,6 +110,7 @@ describe( "serialize", () => {
 
 		expect( serialize( thing ) ).toEqual( {
 			_parseClass: "Mark",
+			fieldsToMark: [],
 			original: "<h1>A heading</h1>",
 			marked: "<yoastmark class='yoast-text-mark'><h1>A heading</h1></yoastmark>",
 		} );

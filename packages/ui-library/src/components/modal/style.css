@@ -5,7 +5,7 @@
 		}
 
 		.yst-modal__body {
-			@apply yst-min-h-screen yst-px-4 yst-text-center;
+			@apply yst-min-h-screen yst-text-center;
 		}
 
 		.yst-modal__overlay {
@@ -38,6 +38,8 @@
 
 		.yst-modal__close-button {
 			@apply
+			yst-relative
+			yst-z-10
 			yst-bg-white
 			yst-text-slate-400
 			yst-rounded-md

@@ -11,9 +11,11 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Primary_Category_Quick_Edit_Watcher;
+use Yoast\WP\SEO\Models\Primary_Term;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Primary_Term_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -316,7 +318,7 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 			->never()
 			->with( 1337, WPSEO_Meta::$meta_prefix . 'primary_category', true );
 
-		$primary_term          = Mockery::mock();
+		$primary_term          = Mockery::mock( Primary_Term_Mock::class );
 		$primary_term->term_id = 2;
 
 		$this->primary_term_repository
@@ -354,7 +356,7 @@ class Primary_Category_Quick_Edit_Watcher_Test extends TestCase {
 			->never()
 			->with( 1337, WPSEO_Meta::$meta_prefix . 'primary_category', true );
 
-		$primary_term          = Mockery::mock();
+		$primary_term          = Mockery::mock( Primary_Term_Mock::class );
 		$primary_term->term_id = 3;
 
 		$this->primary_term_repository

@@ -23,7 +23,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 		$cyber_monday_start = \gmmktime( 11, 00, 00, 11, 27, 2022 );
 		$title              = ( $time > $cyber_monday_start ) ? \__( 'CYBER MONDAY - 30% OFF', 'wordpress-seo' ) : \__( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' );
 
-		$assets_uri              = \trailingslashit( \plugin_dir_url( WPSEO_FILE ) );
+		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 		\ob_start();
 		?>
@@ -65,7 +65,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<p>
 							<?php
 							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-							\printf( \esc_html__( 'Be the first to %1$s get new features & tools%2$s, before everyone else. Get %1$s 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
+							\printf( \esc_html__( 'Be the first to get %1$snew features & tools%2$s, before everyone else. Get %1$s 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
 							?>
 						</p>
 						<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
@@ -79,7 +79,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							</div>
 						<?php endif; ?>
 						<p class="plugin-buy-button">
-							<a class="yoast-button-upsell" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
+							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
 								/* translators: %s expands to Yoast SEO Premium */
 								\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );

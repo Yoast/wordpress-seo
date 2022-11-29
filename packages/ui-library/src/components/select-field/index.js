@@ -7,6 +7,7 @@ import { useDescribedBy } from "../../hooks";
  * @param {string} id Identifier.
  * @param {JSX.Element} error Error node.
  * @param {string} [className] Optional CSS class.
+ * @param {boolean} [disabled] Disabled state.
  * @param {string} label Label.
  * @param {JSX.node} [description] Optional description.
  * @param {Object} [props] Any extra props.
@@ -16,6 +17,7 @@ const SelectField = ( {
 	id,
 	label,
 	description,
+	disabled = false,
 	error = null,
 	className = "",
 	...props
@@ -23,7 +25,7 @@ const SelectField = ( {
 	const { ids, describedBy } = useDescribedBy( id, { error, description } );
 
 	return (
-		<div className={ classNames( "yst-select-field", className ) }>
+		<div className={ classNames( "yst-select-field", disabled && "yst-select-field--disabled", className ) }>
 			<Select
 				id={ id }
 				label={ label }
@@ -31,6 +33,7 @@ const SelectField = ( {
 					as: "label",
 					className: "yst-label yst-select-field__label",
 				} }
+				disabled={ disabled }
 				isError={ Boolean( error ) }
 				className="yst-select-field__select"
 				buttonProps={ { "aria-describedby": describedBy } }
@@ -47,6 +50,7 @@ SelectField.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
+	disabled: PropTypes.bool,
 	error: PropTypes.node,
 	className: PropTypes.string,
 };

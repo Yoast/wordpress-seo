@@ -3,7 +3,6 @@ import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isFollowedByException } from "../helpers/isFollowedByException";
 import {
 	potentiallyHarmful,
-	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 	harmfulNonInclusive,
 	harmfulPotentiallyNonInclusive,
@@ -15,8 +14,6 @@ const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it
 										"in which this term originated.";
 const overgeneralizing = "Avoid using <i>%1$s</i> as it is overgeneralizing. Consider using %2$s instead. ";
 
-const learnMoreUrl = "https://yoa.st/inclusive-language-culture";
-
 const cultureAssessments = [
 	{
 		identifier: "firstWorld",
@@ -24,7 +21,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: overgeneralizing,
-		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
 			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Assembly", "assembly" ] ) ),
@@ -35,7 +31,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: overgeneralizing,
-		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
 			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
@@ -50,7 +45,6 @@ const cultureAssessments = [
 		 * referring to...' part of the potentiallyHarmfulUnlessCulture string.
 		 */
 		feedbackFormat: potentiallyHarmfulUnlessCulture.slice( 0, -42 ) + "a culture that uses this term.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "exotic",
@@ -58,7 +52,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "sherpa",
@@ -66,7 +59,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>commander, coach, mastermind, coach, mentor</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "guru",
@@ -74,7 +66,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>mentor, doyen, coach, mastermind, virtuoso</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "nonWhite",
@@ -82,7 +73,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>people of color, POC, BIPOC</i> or specifying the racial groups mentioned",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "oriental",
@@ -91,7 +81,6 @@ const cultureAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: harmfulPotentiallyNonInclusive + " Unless you are referring to objects or animals, " +
 			"consider using an alternative, such as %2$s.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "asianAmerican",
@@ -99,7 +88,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>Asian American</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 	},
 	{
@@ -108,7 +96,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>African American, Black, Americans of African descent</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 	},
 	{
@@ -117,7 +104,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: harmfulNonInclusive,
-		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 	},
 	{
@@ -126,7 +112,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>allowlist</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "blacklist",
@@ -134,7 +119,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>blocklist, denylist, faillist, redlist</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "gypVerb",
@@ -142,7 +126,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>to cheat someone</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
 				.filter( isPrecededByException( words, [ "a", "the" ] ) );
@@ -154,7 +137,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>a fraud</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "gypsy",
@@ -163,7 +145,6 @@ const cultureAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
 						"their music, consider using an alternative such as <i>%3$s</i>." ].join( " " ),
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "eskimo",
@@ -171,7 +152,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "the specific name of the Indigenous community (for example, <i>Inuit</i>)",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "coloredPeople",
@@ -179,7 +159,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>people of color, POC, BIPOC</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "americanIndians",
@@ -187,7 +166,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>Native American(s), Indigenous peoples of America</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 	},
 	{
@@ -196,7 +174,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>mixed, biracial, multiracial</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "savage",
@@ -204,7 +181,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>severe, dreadful, untamed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "civilized",
@@ -212,7 +188,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>proper, well-mannered, enlightened, respectful</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "primitive",
@@ -220,16 +195,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>early, rudimentary</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
-	},
-	{
-		identifier: "africanAmericanVernacularEnglish",
-		nonInclusivePhrases: [ "African American Vernacular English" ],
-		inclusiveAlternatives: "<i>African American English, African American Language</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulCareful,
-		learnMoreUrl: learnMoreUrl,
-		caseSensitive: true,
 	},
 	{
 		identifier: "ebonics",
@@ -237,7 +202,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>African American English, African American Language</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 		caseSensitive: true,
 	},
 	{
@@ -246,7 +210,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>chat, brief conversation, brainstorm, huddle</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "lowManOnTheTotemPole",
@@ -254,7 +217,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>person of lower rank, junior-level</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "spiritAnimal",
@@ -262,7 +224,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>inspiration, hero, icon, idol</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "firstWorldCountries",
@@ -270,7 +231,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "specific name for the countries or regions",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: overgeneralizing,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "firstWorld",
@@ -278,7 +238,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "specific name for the country or region",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: overgeneralizing,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "third-worldCountry",
@@ -286,7 +245,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>low-income country, developing country</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "third-worldCountry",
@@ -294,7 +252,6 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>low-income country, developing country</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "underdevelopedCountry",
@@ -303,8 +260,12 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, " +
 						"such as <i>%2$s</i> instead or be more specific about what aspect this word refers to.",
-		learnMoreUrl: learnMoreUrl,
 	},
 ];
+
+cultureAssessments.forEach( assessment => {
+	assessment.category = "culture";
+	assessment.learnMoreUrl = "https://yoa.st/inclusive-language-culture";
+} );
 
 export default cultureAssessments;

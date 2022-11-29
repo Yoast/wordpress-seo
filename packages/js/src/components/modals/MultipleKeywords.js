@@ -65,6 +65,8 @@ const MultipleKeywords = ( props ) => {
 				href: props.buyLink,
 				className: "yoast-button-upsell",
 				rel: null,
+				"data-ctb-id": "57d6a568-783c-45e2-a388-847cff155897",
+				"data-action": "load-nfd-ctb",
 			} }
 			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
 		/>

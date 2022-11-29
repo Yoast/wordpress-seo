@@ -20,4 +20,8 @@ class Primary_Term_Mock extends Primary_Term {
 	public $taxonomy;
 
 	public $blog_id;
+
+	public $created_at;
+
+	public $updated_at;
 }
