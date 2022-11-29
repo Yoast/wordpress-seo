@@ -245,6 +245,51 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.12 =
+
+Release date: December 13th, 2022
+
+#### Enhancements
+
+* Adds a new `Schema API` section to the `Integrations` page.
+* Adds a new `Website name` text field in the `Site Representation` step of the `First-time configuration`.
+* Adds an integration card for `The Events Calendar`.
+* Adds highlighting for the _subheading distribution_ assessment.
+* Improves the first time configuration styling.
+* Improves the _subheading distribution_ assessment by also targeting long content before the first subheading.
+* Improves the _transition words_ assessment for Arabic by removing some transition words.
+* Improve the Yoast admin bar menu with more functionality and better links.
+* Moves the _inclusive language_ analysis from Premium to Free.
+* Removes a notification that prompts users to help with translating the plugin in the language of the site.
+
+#### Bugfixes
+
+* Fixes a bug that would affect users managing the cron jobs with a plugin on PHP 8.1 after they have performed a core upgrade.
+* Fixes a bug where blocks with a NULL `blockName` would trigger deprecation errors with PHP 8.1 and cause performance issues. Props to [@dustyf](https://github.com/dustyf).
+* Fixes a bug where breadcrumbs markup would not validate due to improper nesting and closing of span tags. Props to [@michaelbourne](https://github.com/michaelbourne).
+* Fixes a bug where highlighting would not be removed from the text after the analysis is updated and the present highlighting has become irrelevant.
+* Fixes a bug where the Baidu Webmaster Tools link would go to the wrong page. Props to [@SavPhill](https://github.com/SavPhill).
+* Fixes a bug where the content analysis would not load when editing web stories in the Web Stories plug-in.
+* Fixes a bug where the highlighting functionality would not be working when highlighting content in lists items in the Block editor in WordPress 6.1.
+* Fixes a bug where the `<title>` tag could be missing when publishing a story with the Web Stories plugin. Props to [@swissspidy](https://github.com/swissspidy).
+* Improved line ending handling for robots.txt contents.
+
+#### Other
+
+* Adds documentation on GitHub about the inclusive language analysis.
+* Allow using the `yoast_seo_development_mode` to override the `wp_get_environment_type()` result to `production`.
+* Corrects the documentation on GitHub about morphology support.
+* Deprecates the integration with The Events Calendar plugin, following the release of its version 6.0.4 which integrates with Yoast SEO.
+* Disallow setting or unsetting any dynamic properties on Abstract_Main.
+* Improve compatibility with PHP 8.2
+* Improved PHP 8.2 compatibility
+* Improve PHP 8.2 compatibility
+* Introduces a notice on the WordPress dashboard and the Yoast SEO dashboard to let users know we're dropping support for PHP < 7.2 starting March 1st, 2023.
+* Reduce noise from PHP 8.1 deprecations
+* Removes the note in the readability analysis results that tells users that the _Flesch reading ease_ score has moved to the _Insights_ section.
+* Removes the Yoast i18n package.
+* Resolves a typo in the feedback string for the phrase `exotic` in the inclusive language analysis.
+
 = 19.11 =
 
 Release date: November 29th, 2022
@@ -270,28 +315,6 @@ Yoast SEO 19.11 is out now. We're optimizing the Yoast SEO plugin to use fewer r
 #### Other
 
 * Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
-
-= 19.10 =
-
-Release date: November 8th, 2022
-
-Yoast SEO 19.10 is out today. This release mostly consists of bug fixes and enhancements. In addition, we're getting our WordPress plugins ready for the upcoming High Performance Order Storage feature in WooCommerce 7.1+. Update now! Read more about what's new in Yoast SEO 19.10 in [our release post in English](https://yoa.st/release-8-11-22) or [our release post in Spanish](https://yoa.st/release-8-11-22-spanish)!
-
-#### Enhancements
-
-* Improves the call-to-action feedback string of the Flesch Reading Ease insight when the text is recognized as fairly difficult.
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would be thrown in the classic editor in combination with certain plugins that misuse metabox hooks.
-* Fixes a bug where users with site-wide basic access authentication would be prompted to insert their credentials when saving a post in Elementor if they didn’t have the manage_options capability.
-* Fixes a bug where Yoast SEO-related post meta data would not be saved if a user without the manage_options capability would save a post in Elementor.
-
-#### Other
-
-* Deprecates the hooks used to add custom content to the Yoast SEO settings pages, in preparation for future releases. The following hooks have been deprecated: wpseo_tools_overview_list_items, wpseo_settings_tab_crawl_cleanup, wpseo_settings_tab_site_analysis, Yoast\WP\SEOdmin_author_archives_meta, Yoast\WP\SEOdmin_date_archives_meta, Yoast\WP\SEOdmin_post_types_beforearchive, Yoast\WP\SEOdmin_post_types_archive, Yoast\WP\SEOdmin_taxonomies_meta, wpseo_admin_other_section, wpseo_admin_opengraph_section, wpseo_admin_pinterest_section, wpseo_admin_twitter_section, wpseo_import_other_plugins.
-* Ensures compatibility with the High Performance Order Storage feature in WooCommerce 7.1+.
-* Sets the WordPress tested up to version to 6.1.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
