@@ -2,7 +2,6 @@
 	.yst-root {
 		.yst-label {
 			@apply
-			yst-flex
 			yst-text-sm
 			yst-font-medium
 			yst-text-slate-800;

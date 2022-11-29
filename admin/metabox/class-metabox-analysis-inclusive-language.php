@@ -50,7 +50,6 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	private function is_current_version_supported() {
 		$is_premium      = YoastSEO()->helpers->product->is_premium();
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
-
 		return ! $is_premium || \version_compare( $premium_version, '19.7', '>=' ) ||
 			\version_compare( $premium_version, '19.2', '==' );
 	}

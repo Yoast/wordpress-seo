@@ -95,7 +95,7 @@ class Schema_Generator implements Generator_Interface {
 		$pieces_to_generate = [];
 		foreach ( $graph_pieces as $piece ) {
 			$identifier = \strtolower( \str_replace( 'Yoast\WP\SEO\Generators\Schema\\', '', \get_class( $piece ) ) );
-			if ( \property_exists( $piece, 'identifier' ) ) {
+			if ( isset( $piece->identifier ) ) {
 				$identifier = $piece->identifier;
 			}
 

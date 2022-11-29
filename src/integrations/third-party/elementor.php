@@ -328,7 +328,8 @@ class Elementor implements Integration_Interface {
 		}
 
 		// Saving the WP post to save the slug.
-		$slug = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', \FILTER_SANITIZE_STRING );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
+		$slug = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', @\FILTER_SANITIZE_STRING );
 		if ( $post->post_name !== $slug ) {
 			$post_array              = $post->to_array();
 			$post_array['post_name'] = $slug;
@@ -394,7 +395,6 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'admin-global' );
 		$this->asset_manager->enqueue_style( 'metabox-css' );
 		$this->asset_manager->enqueue_style( 'scoring' );
-		$this->asset_manager->enqueue_style( 'select2' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
 		$this->asset_manager->enqueue_style( 'elementor' );
@@ -719,15 +719,15 @@ class Elementor implements Integration_Interface {
 		$custom_fields = \get_post_custom( $post->ID );
 
 		// Simply concatenate all fields containing replace vars so we can handle them all with a single regex find.
-		$replace_vars_fields = implode(
+		$replace_vars_fields = \implode(
 			' ',
 			[
-				YoastSEO()->meta->for_post( $post->ID )->presentation->title,
-				YoastSEO()->meta->for_post( $post->ID )->presentation->meta_description,
+				\YoastSEO()->meta->for_post( $post->ID )->presentation->title,
+				\YoastSEO()->meta->for_post( $post->ID )->presentation->meta_description,
 			]
 		);
 
-		preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
+		\preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
 		$fields_to_include = $matches[1];
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.
@@ -736,7 +736,7 @@ class Elementor implements Integration_Interface {
 			}
 
 			// Skip custom fields that are not used, new ones will be fetched dynamically.
-			if ( ! in_array( $custom_field_name, $fields_to_include, true ) ) {
+			if ( ! \in_array( $custom_field_name, $fields_to_include, true ) ) {
 				continue;
 			}
 

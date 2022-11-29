@@ -3,8 +3,10 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

@@ -1,7 +1,7 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isFollowedByException } from "../helpers/isFollowedByException";
-import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 
 const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
@@ -214,15 +214,6 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
-	},
-	{
-		identifier: "africanAmericanVernacularEnglish",
-		nonInclusivePhrases: [ "African American Vernacular English" ],
-		inclusiveAlternatives: "<i>African American English, African American Language</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulCareful,
-		learnMoreUrl: learnMoreUrl,
-		caseSensitive: true,
 	},
 	{
 		identifier: "ebonics",

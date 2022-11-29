@@ -71,7 +71,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		$this->link_builder        = Mockery::mock( Indexable_Link_Builder::class );
 		$this->taxonomy_helper     = Mockery::mock( Taxonomy_Helper::class );
 		$this->repository          = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb                = Mockery::mock( 'wpdb' );
+		$this->wpdb                = Mockery::mock( wpdb::class );
 		$this->wpdb->term_taxonomy = 'wp_term_taxonomy';
 
 		$this->instance = new Term_Link_Indexing_Action(

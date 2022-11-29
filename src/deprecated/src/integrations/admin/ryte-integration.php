@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use wfConfig;
-use WP_Error;
 use WPSEO_Ryte_Option;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -155,7 +153,7 @@ class Ryte_Integration implements Integration_Interface {
 	 * @deprecated 19.6
 	 * @codeCoverageIgnore
 	 *
-	 * @return array|WP_Error The response or WP_Error on failure.
+	 * @return array The response or WP_Error on failure.
 	 */
 	public function get_response() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
