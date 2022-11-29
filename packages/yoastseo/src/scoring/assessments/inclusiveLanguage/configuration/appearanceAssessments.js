@@ -1,8 +1,6 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless, preferredDescriptorIfKnown } from "./feedbackStrings";
 import { SCORES } from "./scores";
 
-const learnMoreUrl = "https://yoa.st/inclusive-language-appearance";
-
 const appearanceAssessments = [
 	{
 		identifier: "albinos",
@@ -10,7 +8,6 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "people with albinism, albino people",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "obese",
@@ -19,7 +16,6 @@ const appearanceAssessments = [
 			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmful, preferredDescriptorIfKnown ].join( " " ),
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "obesity",
@@ -28,7 +24,6 @@ const appearanceAssessments = [
 			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmful, preferredDescriptorIfKnown ].join( " " ),
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "verticallyChallenged",
@@ -36,7 +31,6 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>little person, has short stature, someone with dwarfism</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "midget",
@@ -44,7 +38,6 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>little person, has short stature, someone with dwarfism</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "harelip",
@@ -52,8 +45,12 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>cleft lip, cleft palate</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 ];
+
+appearanceAssessments.forEach( assessment => {
+	assessment.category = "appearance";
+	assessment.learnMoreUrl = "https://yoa.st/inclusive-language-appearance";
+} );
 
 export default appearanceAssessments;

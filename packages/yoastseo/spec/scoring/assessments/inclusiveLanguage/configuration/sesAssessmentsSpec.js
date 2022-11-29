@@ -1,4 +1,5 @@
 import Paper from "../../../../../src/values/Paper";
+import Mark from "../../../../../src/values/Mark";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
@@ -6,7 +7,8 @@ import assessments from "../../../../../src/scoring/assessments/inclusiveLanguag
 describe( "SES assessments", function() {
 	it( "should target non-inclusive phrases",
 		function() {
-			const mockPaper = new Paper( "This ad is aimed at illegal immigrants" );
+			const mockText = "This ad is aimed at illegal immigrants";
+			const mockPaper = new Paper( mockText );
 			const mockResearcher = new EnglishResearcher( mockPaper );
 			const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "illegalImmigrants" ) );
 
@@ -20,16 +22,15 @@ describe( "SES assessments", function() {
 				"Consider using an alternative, such as <i>undocumented people</i>. " +
 				"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
-			expect( assessor.getMarks() ).toEqual( [
-				{ _properties:
-						{ fieldsToMark: [],
-							marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at illegal immigrants</yoastmark>",
-							original: "This ad is aimed at illegal immigrants",
-						} } ] );
+			expect( assessor.getMarks() ).toEqual( [ new Mark( {
+				original: mockText,
+				marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+			} ) ] );
 		} );
 
 	it( "should target non-inclusive phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at poverty stricken." );
+		const mockText = "This ad is aimed at poverty stricken people";
+		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "povertyStricken" )  );
 
@@ -43,12 +44,10 @@ describe( "SES assessments", function() {
 			"Consider using an alternative, such as <i>people whose income is below the poverty threshold, people with low-income</i>. " +
 			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(  [
-			{ _properties:
-					{ fieldsToMark: [],
-						marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at poverty stricken.</yoastmark>",
-						original: "This ad is aimed at poverty stricken.",
-					} } ] );
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: mockText,
+			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+		} ) ] );
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
