@@ -1,7 +1,13 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isFollowedByException } from "../helpers/isFollowedByException";
-import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
+import {
+	potentiallyHarmful,
+	potentiallyHarmfulCareful,
+	potentiallyHarmfulUnless,
+	harmfulNonInclusive,
+	harmfulPotentiallyNonInclusive,
+} from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 
 const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
@@ -82,8 +88,9 @@ const cultureAssessments = [
 		identifier: "oriental",
 		nonInclusivePhrases: [ "oriental" ],
 		inclusiveAlternatives: "<i>Asian</i>. When possible, be more specific (e.g. <i>East Asian</i>)",
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: harmfulPotentiallyNonInclusive + " Unless you are referring to objects or animals, " +
+			"consider using an alternative, such as %2$s.",
 		learnMoreUrl: learnMoreUrl,
 	},
 	{
