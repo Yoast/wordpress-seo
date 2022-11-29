@@ -4,8 +4,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
-import { ReactComponent as ZapierLogo } from "../../images/zapier-logo.svg";
-import { ReactComponent as WordproofLogo } from "../../images/wordproof-logo.svg";
 import { ToggleableIntegration } from "./toggleable-integration";
 
 const integrations = [

@@ -17,7 +17,7 @@ const integrations = [
 				"<strong>",
 				"</strong>"
 			), {
-				strong: <strong/>,
+				strong: <strong />,
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-tec",
@@ -43,7 +43,7 @@ const integrations = [
 				"<strong>",
 				"</strong>"
 			), {
-				strong: <strong/>,
+				strong: <strong />,
 			}
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-ssp",
@@ -59,7 +59,7 @@ const integrations = [
 		isNew: false,
 		isMultisiteAvailable: true,
 		logo: SSPLogo,
-	}
+	},
 ];
 const wooIntegration = {
 	name: "WooCommerce",
@@ -70,7 +70,7 @@ const wooIntegration = {
 			"<strong>",
 			"</strong>"
 		), {
-			strong: <strong/>,
+			strong: <strong />,
 		}
 	),
 	learnMoreLink: "https://yoa.st/integrations-about-woocommerce",
@@ -99,6 +99,7 @@ const SchemaAPIIntegrations = [
 		);
 	} ),
 ];
+/* eslint-disable dot-notation */
 SchemaAPIIntegrations.push(
 	<WoocommerceIntegration
 		integration={ wooIntegration }
@@ -109,4 +110,5 @@ SchemaAPIIntegrations.push(
 		activationLink={ window.wpseoIntegrationsData[ "woocommerce_seo_activate_url" ] }
 	/>
 );
+/* eslint-enable dot-notation */
 export const schemaAPIIntegrations = SchemaAPIIntegrations;
