@@ -16,7 +16,6 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "people with albinism, albino people",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "obese",
@@ -34,7 +33,6 @@ const appearanceAssessments = [
 			"higher-weight person, person in higher weight body, heavier person</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnownPlusSize ].join( " " ),
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "obesityPlural",
@@ -43,7 +41,6 @@ const appearanceAssessments = [
 			"higher-weight people, people in higher weight bodies, heavier people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless ].join( " " ),
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "verticallyChallenged",
@@ -51,7 +48,6 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>little person, has short stature, someone with dwarfism</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "midget",
@@ -59,7 +55,6 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>little person, has short stature, someone with dwarfism</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "harelip",
@@ -67,8 +62,12 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>cleft lip, cleft palate</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 ];
+
+appearanceAssessments.forEach( assessment => {
+	assessment.category = "appearance";
+	assessment.learnMoreUrl = "https://yoa.st/inclusive-language-appearance";
+} );
 
 export default appearanceAssessments;

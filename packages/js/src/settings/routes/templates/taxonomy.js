@@ -132,7 +132,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 					>
 						<FormikFlippedToggleField
 							name={ `wpseo_titles.noindex-tax-${ name }` }
-							data-id={ `input-wpseo_titles-noindex-tax-${ name }` }
+							id={ `input-wpseo_titles-noindex-tax-${ name }` }
 							label={ sprintf(
 							// translators: %1$s expands to the taxonomy plural, e.g. Categories.
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -237,14 +237,14 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 							as={ ToggleField }
 							type="checkbox"
 							name={ `wpseo_titles.display-metabox-tax-${ name }` }
-							data-id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
+							id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
 							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 							description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
 							className="yst-max-w-sm"
 						/>
 						{ name === "category" && <FormikFlippedToggleField
 							name="wpseo_titles.stripcategorybase"
-							data-id="input-wpseo_titles-stripcategorybase"
+							id="input-wpseo_titles-stripcategorybase"
 							label={ __( "Show the categories prefix in the slug", "wordpress-seo" ) }
 							description={ stripCategoryBaseDescription }
 							className="yst-max-w-sm"
