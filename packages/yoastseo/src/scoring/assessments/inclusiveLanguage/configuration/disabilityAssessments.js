@@ -17,8 +17,6 @@ const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the spec
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
-const learnMoreUrl = "https://yoa.st/inclusive-language-disability";
-
 const disabilityAssessments =  [
 	{
 		identifier: "binge",
@@ -26,7 +24,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>indulging, satuating, wallowing</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "wheelchairBound",
@@ -34,7 +31,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>uses a wheelchair, is a wheelchair user</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "mentallyRetarded",
@@ -42,7 +38,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with an intellectual disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "retarded",
@@ -82,7 +77,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with a physical disability, a physically disabled person</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "crippled",
@@ -90,7 +84,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>has a physical disability, is physically disabled</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "daft",
@@ -98,7 +91,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>dense, ignorant, foolish</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapped",
@@ -106,7 +98,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>disabled, person with a disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicap",
@@ -126,7 +117,6 @@ const disabilityAssessments =  [
 			"unbelievable, incomprehensible, irrational, nonsensical, outrageous, ridiculous</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "imbecile",
@@ -134,7 +124,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>uninformed, ignorant, foolish</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "specialNeeds",
@@ -142,7 +131,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: [ "<i>functional needs, support needs</i>", "<i>disabled, person with a disability</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulTwoAlternatives,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "hardOfHearing",
@@ -150,7 +138,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>hard of hearing, partially deaf, has partial hearing loss</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "hearingImpaired",
@@ -158,7 +145,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>deaf or hard of hearing, partially deaf, has partial hearing loss</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "functioning",
@@ -178,7 +164,6 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "autismLow",
@@ -187,7 +172,6 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "lame",
@@ -195,7 +179,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>boring, lousy, unimpressive, sad, corny</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "suicide",
@@ -203,7 +186,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>took their life, died by suicide, killed themself</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapParking",
@@ -211,7 +193,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>accessible parking</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "fellOnDeafEars",
@@ -219,7 +200,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>was not addressed, was ignored, was disregarded</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "turnOnBlindEye",
@@ -227,7 +207,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>ignore, pretend not to notice</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "blindLeadingBlind",
@@ -235,7 +214,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>ignorant, misguided, incompetent, unqualified, insensitive, unaware</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapBathroom",
@@ -243,7 +221,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>accessible bathroom(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapToilet",
@@ -251,7 +228,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>accessible toilet(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapStall",
@@ -259,7 +235,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>accessible stall(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "dumb",
@@ -279,7 +254,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>deaf</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "addict",
@@ -287,7 +261,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with a (drug, alcohol, ...) addiction, person with substance abuse disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "addicts",
@@ -295,7 +268,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>people with a (drug, alcohol, ...) addiction, people with substance abuse disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "brainDamaged",
@@ -303,7 +275,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with a (traumatic) brain injury</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "differentlyAbled",
@@ -311,7 +282,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>disabled, person with a disability</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "epilepticFit",
@@ -319,7 +289,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>epileptic seizure</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "sanityCheck",
@@ -327,7 +296,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>final check, confidence check, rationality check, soundness check</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "crazy",
@@ -335,7 +303,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "psychopathic",
@@ -343,7 +310,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>toxic, manipulative, unpredictable, impulsive, reckless, out of control</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "schizophrenic",
@@ -351,7 +317,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>of two minds, chaotic, confusing</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "paranoid",
@@ -359,7 +324,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>overly suspicious, unreasonable, defensive</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "manic",
@@ -367,7 +331,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>excited, raving, unbalanced, wild</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "hysterical",
@@ -375,7 +338,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>intense, vehement, piercing, chaotic</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "psycho",
@@ -383,7 +345,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>toxic, distraught, unpredictable, reckless, out of control</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "neurotic",
@@ -391,7 +352,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>distraught, unstable, startling, confusing, baffling</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "sociopath",
@@ -402,7 +362,6 @@ const disabilityAssessments =  [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
 			"medical condition, use %2$s instead, unless referring to someone who explicitly wants to be referred to with this term. " +
 			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "narcissistic",
@@ -413,7 +372,6 @@ const disabilityAssessments =  [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
 			"medical condition, use %2$s instead. If you are not referencing the medical condition, consider other" +
 			" alternatives to describe the trait or behavior, such as %3$s.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "theMentallyIll",
@@ -440,5 +398,10 @@ const disabilityAssessments =  [
 		},
 	},
 ];
+
+disabilityAssessments.forEach( assessment => {
+	assessment.category = "disability";
+	assessment.learnMoreUrl = "https://yoa.st/inclusive-language-disability";
+} );
 
 export default disabilityAssessments;

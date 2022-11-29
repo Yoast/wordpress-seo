@@ -1,4 +1,5 @@
 import Paper from "../../../../../src/values/Paper";
+import Mark from "../../../../../src/values/Mark";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
@@ -8,7 +9,8 @@ import Mark from "../../../../../src/values/Mark";
 describe( "SES assessments", function() {
 	it( "should target non-inclusive phrases",
 		function() {
-			const mockPaper = new Paper( "This ad is aimed at illegal immigrants" );
+			const mockText = "This ad is aimed at illegal immigrants";
+			const mockPaper = new Paper( mockText );
 			const mockResearcher = new EnglishResearcher( mockPaper );
 			const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "illegalImmigrants" ) );
 
@@ -31,7 +33,8 @@ describe( "SES assessments", function() {
 		} );
 
 	it( "should target non-inclusive phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at poverty stricken." );
+		const mockText = "This ad is aimed at poverty stricken people";
+		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "povertyStricken" )  );
 

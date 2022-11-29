@@ -1,6 +1,8 @@
 import Search from "../../src/settings/components/search";
 import { shallow } from "enzyme";
 
+jest.mock( "react-router-dom" );
+
 describe( "Search test", () => {
 	let wrapper;
 	beforeEach( () => {

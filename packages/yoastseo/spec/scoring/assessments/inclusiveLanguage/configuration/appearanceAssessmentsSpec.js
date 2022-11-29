@@ -8,7 +8,8 @@ import Mark from "../../../../../src/values/Mark";
 describe( "Appearance assessments", function() {
 	it( "should target non-inclusive phrases",
 		function() {
-			const mockPaper = new Paper( "This ad is aimed at albinos" );
+			const mockText = "This ad is aimed at albinos";
+			const mockPaper = new Paper( mockText );
 			const mockResearcher = new EnglishResearcher( mockPaper );
 			const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "albinos" ) );
 
@@ -31,7 +32,8 @@ describe( "Appearance assessments", function() {
 		} );
 
 	it( "should target potentially non-inclusive phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at obese citizens." );
+		const mockText = "This ad is aimed at obese citizens";
+		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "obese" )  );
 
@@ -56,7 +58,8 @@ describe( "Appearance assessments", function() {
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
-		const mockPaper = new Paper( "This ad is aimed at high vertically challenged." );
+		const mockText = "This ad is aimed at vertically challenged people";
+		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "verticallyChallenged" )  );
 
