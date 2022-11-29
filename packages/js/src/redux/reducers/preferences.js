@@ -1,6 +1,7 @@
 import { isUndefined, get } from "lodash";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
+import isInclusiveLanguageAnalysisActive from "../../analysis/isInclusiveLanguageAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
 import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionActive";
 import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
@@ -20,6 +21,7 @@ function getDefaultState() {
 	return {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
+		isInclusiveLanguageAnalysisActive: isInclusiveLanguageAnalysisActive(),
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
 		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,

@@ -24,7 +24,7 @@ For all users, the majority of keyphrase-related assessments are now done using 
 All Premium users can also add **synonyms** of their keyphrase. Some of the assessments will then not only consider the keyphrase, but also its synonyms.
 
 #### Group 2: Languages for which we can filter out function words
-A list of those languages can be found [here](https://github.com/Yoast/javascript/blob/master/packages/yoastseo/README.md#supported-languages) - look for the ones with a green tick in the 'function words' cell.
+A list of those languages can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#seo-analysis).
 
 ##### Free
 In addition to per-word matching, we also filter out **function words** from the keyphrase during the keyword-related assessments. For example, if the keyphrase is "how to decorate a room", we filter out the words 'how', 'to', and 'a', and only leave out the meaningful words 'decorate' and 'room'. This means that if we look, for example, if the keyphrase has been used in the introduction of the text, we are only looking for the words 'decorate' and 'room'.
@@ -32,10 +32,11 @@ In addition to per-word matching, we also filter out **function words** from the
 ##### Premium
 In addition to the above, Premium users can add **synonyms** of their keyphrase.
 
-#### Group 3: English language
+#### Group 3: Languages with morphology support
+A list of those languages can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/MORPHOLOGY.md).
 
 ##### Free
-Free users with English as their language have access to the same functionalities as Free users of group 2 (filtering out **function words** and **per-word matching**)
+Free users with languages that have morphology support have access to the same functionalities as Free users of group 2 (filtering out **function words** and **per-word matching**)
 
 ##### Premium
 Premium users have access to **full morphological support**. This means that in addition to all other functionalities mentioned above, **all possible forms of their keyphrase and all possible forms of their synonyms** are generated. It depends on the assessment whether synonym forms will be taken into consideration or not (see per-assessment specifications below). For example, if the keyphrase is "room decorating ideas" and the synonym is "apartment decorating ideas" all the possible forms of each word are generated: 'apartments', 'rooms', 'room's', 'decorate', 'decorates', 'decorated', 'idea', etc. These are then taken into account during the keyword-related assessments, after possible function words have been filtered out.
@@ -67,7 +68,7 @@ Information on the scoring criteria for the available SEO assessments can be fou
 
 ## 2. Scoring readability analysis
 
-Readability analysis is a collection of assessments that check how easy it is to read a text. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence and distribution), but many are language-specific (e.g. passive voice, transition words) and are developed on a case-by-case basis. As such, which assessments are currently available will depend on the specific language (an overview of the available language-specific assessments can be found [here](https://github.com/Yoast/javascript/blob/master/packages/yoastseo/README.md#supported-languages).)
+Readability analysis is a collection of assessments that check how easy it is to read a text. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence and distribution), but many are language-specific (e.g. passive voice, transition words) and are developed on a case-by-case basis. As such, which assessments are currently available will depend on the specific language (an overview of the available language-specific assessments can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#readability-analysis).)
 
 Below is a detailed overview of how scores for the readability assessments are calculated, as well as the feedback that each assessment returns. Note: some of the assessment criteria are different for texts marked as cornerstone; these will be indicated when applicable. Also, some assessment criteria (e.g. recommended sentence length) differ depending on the specific language. These are not specified below for the sake of space saving.
 
@@ -89,8 +90,33 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### Overview of the Readability assessments scoring criteria
 Information on the scoring criteria for the available Readability assessments can be found [here](SCORING%20READABILITY.md).
 
-## 3. Scoring taxonomy analysis
-Taxonomy analysis has the same SEO and Readability scoring criteria as above except for the SEO assessments below:
+## 3. Scoring inclusive language analysis
+
+The inclusive language analysis checks whether your post contains any (potentially) non-inclusive words or phrases.
+The list of languages for which the inclusive language analysis is available can be found [here](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/README.md#inclusive-language-analysis).
+
+### How are individual bullets assigned?
+For every (potentially) non-inclusive word or phrase that is found in the text, a red or orange bullet is shown.
+A red bullet means that the targeted word or phrase is never inclusive, regardless of context.
+An orange bullet means that the targeted word of phrase is _potentially_ non-inclusive, depending on the context in which it is used.
+
+| Individual Score | Rating 	       |
+|------------	   |------------------ |
+|3	               |Bad (red bullet)   |
+|6		           |Ok (orange bullet) |
+
+### How is the overall score calculated?
+| Individual scores	 | Total score	| Divide by 10:|
+|------------	         |------------------	|---------------------
+| At least one individual score of 3        |30		            |3	                               |
+| Zero individual scores of 3 and at least one individual score of 6         |60		            |6	                               |
+| Zero individual scores of 3 or 6	     |90                    |9
+
+### Overview of the inclusive language analysis scoring criteria
+More information about the scoring criteria for the inclusive language analysis can be found [here](SCORING%20INCLUSIVE%20LANGUAGE.md).
+
+## 4. Scoring taxonomy analysis
+Taxonomy analysis has the same SEO, Readability, and Inclusive language scoring criteria as above except for the SEO assessments below:
 
 ### 1) Taxonomy text length assessment
 **What it does**: Checks if the taxonomy page has a good length.
