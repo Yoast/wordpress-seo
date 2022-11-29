@@ -11,7 +11,7 @@
 
 **Call to action URL**: [https://yoa.st/34y](https://yoast.com/how-to-use-headings-on-your-site/#utm_source=yoast-seo&utm_medium=software&utm_term=subheading-distributrion-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Bullet 	 | Score	| Criterion | Feeedback |
+| Bullet 	 | Score	| Criterion | Feedback |
 |------------|------------------	|--------------------- |---------------------
 | Red        |2	| **Default**: A text with more than 300 words (cornerstone: 250) and no subheading is present. **Japanese**: A text with more than 600 characters (cornerstone: 500) and no subheading is present. | **Subheading distribution**: You are not using any subheadings, although your text is rather long. Try and add some subheadings. |
 | Red        |3	| **Default**: There is subheading(s) in the text and it is followed and preceded (if applicable) by more than 350 words (cornerstone: 300). **Japanese**: There is subheading(s) in the text and it is followed and preceded (if applicable) by more than 700 characters (cornerstone: 600).| **Subheading distribution**: X sections of your text are longer than X words and are not separated by any subheadings. Add subheadings to improve readability.|
@@ -32,7 +32,7 @@
 
 **Call to action URL**: [https://yoa.st/35e](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-cta&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Bullet 	 | Score	| Criterion | Feeedback |
+| Bullet 	 | Score	| Criterion | Feedback |
 |------------|------------------	|--------------------- |---------------------
 | Red        |3	                |> 200 words	   	          |**Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!**|
 | Orange     |6                 |Between 150 and 200 words    |**Paragraph length**: X of the paragraphs contain more than the recommended maximum of X words. **Shorten your paragraphs!**|

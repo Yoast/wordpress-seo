@@ -8,7 +8,7 @@ import { FieldsetLayout, FormLayout, RouteLayout } from "../components";
  * @param {JSX.node} children The content.
  * @returns {JSX.Element} The element.
  */
-const VariableCell = ( { children } ) => <Table.Cell className="yst-whitespace-nowrap yst-font-medium yst-text-slate-800">{ children }</Table.Cell>;
+const VariableCell = ( { children } ) => <Table.Cell className="yst-font-medium"><span className="yst-text-slate-900">{ children }</span></Table.Cell>;
 
 VariableCell.propTypes = {
 	children: PropTypes.node.isRequired,
@@ -49,34 +49,32 @@ const Rss = () => {
 						title={ __( "Available variables", "wordpress-seo" ) }
 						description={ __( "You can use the following variables within the content, they will be replaced by the value on the right.", "wordpress-seo" ) }
 					>
-						<div className="yst-overflow-hidden yst-border yst-border-slate-200 yst-shadow-sm yst-rounded-lg">
-							<Table>
-								<Table.Head>
-									<Table.Row>
-										<Table.Header>{ __( "Variable", "wordpress-seo" ) }</Table.Header>
-										<Table.Header>{ __( "Description", "wordpress-seo" ) }</Table.Header>
-									</Table.Row>
-								</Table.Head>
-								<Table.Body>
-									<Table.Row>
-										<VariableCell>%%AUTHORLINK%%</VariableCell>
-										<Table.Cell>{ __( "A link to the archive for the post author, with the author's name as anchor text.", "wordpress-seo" ) }</Table.Cell>
-									</Table.Row>
-									<Table.Row>
-										<VariableCell>%%POSTLINK%%</VariableCell>
-										<Table.Cell>{ __( "A link to the post, with the title as anchor text.", "wordpress-seo" ) }</Table.Cell>
-									</Table.Row>
-									<Table.Row>
-										<VariableCell>%%BLOGLINK%%</VariableCell>
-										<Table.Cell>{ __( "A link to your site, with your site's name as anchor text.", "wordpress-seo" ) }</Table.Cell>
-									</Table.Row>
-									<Table.Row>
-										<VariableCell>%%BLOGDESCLINK%%</VariableCell>
-										<Table.Cell>{ __( "A link to your site, with your site's name and description as anchor text.", "wordpress-seo" ) }</Table.Cell>
-									</Table.Row>
-								</Table.Body>
-							</Table>
-						</div>
+						<Table>
+							<Table.Head>
+								<Table.Row>
+									<Table.Header scope="col">{ __( "Variable", "wordpress-seo" ) }</Table.Header>
+									<Table.Header scope="col">{ __( "Description", "wordpress-seo" ) }</Table.Header>
+								</Table.Row>
+							</Table.Head>
+							<Table.Body>
+								<Table.Row>
+									<VariableCell>%%AUTHORLINK%%</VariableCell>
+									<Table.Cell>{ __( "A link to the archive for the post author, with the author's name as anchor text.", "wordpress-seo" ) }</Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<VariableCell>%%POSTLINK%%</VariableCell>
+									<Table.Cell>{ __( "A link to the post, with the title as anchor text.", "wordpress-seo" ) }</Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<VariableCell>%%BLOGLINK%%</VariableCell>
+									<Table.Cell>{ __( "A link to your site, with your site's name as anchor text.", "wordpress-seo" ) }</Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<VariableCell>%%BLOGDESCLINK%%</VariableCell>
+									<Table.Cell>{ __( "A link to your site, with your site's name and description as anchor text.", "wordpress-seo" ) }</Table.Cell>
+								</Table.Row>
+							</Table.Body>
+						</Table>
 					</FieldsetLayout>
 				</div>
 			</FormLayout>

@@ -4,6 +4,13 @@
 			@apply yst-max-w-sm yst-relative;
 		}
 
+		.yst-select--disabled {
+			.yst-select__label,
+			.yst-select__button {
+				@apply yst-opacity-50 yst-cursor-not-allowed;
+			}
+		}
+
 		.yst-select--error {
 			.yst-select__button {
 				@apply
@@ -87,7 +94,7 @@
 			yst-text-slate-700;
 
 			&--active {
-				@apply yst-bg-primary-200;
+				@apply yst-bg-slate-200;
 			}
 
 			&--selected {

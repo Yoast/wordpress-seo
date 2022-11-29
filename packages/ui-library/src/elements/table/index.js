@@ -15,7 +15,7 @@ const rowClassNameMap = {
  * @returns {JSX.Element} The element.
  */
 const Cell = ( { children, className = "", ...props } ) => (
-	<td className={ classNames( "yst-px-6 yst-py-4 yst-text-sm", className ) } { ...props }>
+	<td className={ classNames( "yst-whitespace-nowrap yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500", className ) } { ...props }>
 		{ children }
 	</td>
 );
@@ -33,7 +33,7 @@ Cell.propTypes = {
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
-const Row = ( { children, variant = "striped", className = "", ...props } ) => (
+const Row = ( { children, variant = "plain", className = "", ...props } ) => (
 	<tr className={ classNames( rowClassNameMap.variant[ variant ], className ) } { ...props }>
 		{ children }
 	</tr>
@@ -53,7 +53,7 @@ Row.propTypes = {
  */
 const Header = ( { children, className = "", ...props } ) => (
 	<th
-		className={ classNames( "yst-px-6 yst-py-3 yst-text-left yst-text-xs yst-font-medium yst-text-slate-600 yst-bg-slate-50 yst-uppercase yst-tracking-wider", className ) }
+		className={ classNames( "yst-px-3 yst-py-4 yst-text-left yst-text-sm yst-font-semibold yst-text-slate-900", className ) }
 		{ ...props }
 	>
 		{ children }
@@ -67,15 +67,17 @@ Header.propTypes = {
 
 /**
  * @param {JSX.node} children The content.
+ * @param {string} [className] Optional class name.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
-const Head = ( { children, ...props } ) => (
-	<thead { ...props }>{ children }</thead>
+const Head = ( { children, className = "", ...props } ) => (
+	<thead className={ classNames( "yst-bg-slate-50", className ) } { ...props }>{ children }</thead>
 );
 
 Head.propTypes = {
 	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
 };
 
 /**
@@ -84,8 +86,8 @@ Head.propTypes = {
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
-const Body = ( { children, ...props } ) => (
-	<tbody { ...props }>{ children }</tbody>
+const Body = ( { children, className = "", ...props } ) => (
+	<tbody className={ classNames( "yst-divide-y yst-divide-gray-200 yst-bg-white", className ) } { ...props }>{ children }</tbody>
 );
 
 Body.propTypes = {
@@ -100,9 +102,11 @@ Body.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const Table = ( { children, className = "", ...props } ) => (
-	<table className={ classNames( "yst-min-w-full yst-divide-y yst-divide-slate-200", className ) } { ...props }>
-		{ children }
-	</table>
+	<div className="yst-overflow-hidden yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-rounded-lg">
+		<table className={ classNames( "yst-min-w-full yst-divide-y yst-divide-slate-300", className ) } { ...props }>
+			{ children }
+		</table>
+	</div>
 );
 
 Table.propTypes = {

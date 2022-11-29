@@ -2,7 +2,7 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
+import { createInterpolateElement, Fragment, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
@@ -240,28 +240,38 @@ const SiteRepresentation = () => {
 									{ arrayHelpers => (
 										<>
 											{ otherSocialUrls.map( ( _, index ) => (
-												<div
+												<Transition
 													key={ `wpseo_social.other_social_urls.${ index }` }
-													className="yst-w-full yst-flex yst-items-start yst-gap-2"
+													as={ Fragment }
+													appear={ true }
+													show={ true }
+													enter="yst-transition yst-ease-out yst-duration-300"
+													enterFrom="yst-transform yst-opacity-0"
+													enterTo="yst-transform yst-opacity-100"
+													leave="yst-transition yst-ease-out yst-duration-300"
+													leaveFrom="yst-transform yst-opacity-100"
+													leaveTo="yst-transform yst-opacity-0"
 												>
-													<FormikWithErrorField
-														as={ TextField }
-														name={ `wpseo_social.other_social_urls.${ index }` }
-														id={ `input-wpseo_social-other_social_urls-${ index }` }
-														// translators: %1$s expands to array index + 1.
-														label={ sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ) }
-														placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
-														className="yst-grow"
-													/>
-													<button
-														type="button"
-														// eslint-disable-next-line react/jsx-no-bind
-														onClick={ arrayHelpers.remove.bind( null, index ) }
-														className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
-													>
-														<TrashIcon className="yst-h-5 yst-w-5" />
-													</button>
-												</div>
+													<div className="yst-w-full yst-flex yst-items-start yst-gap-2">
+														<FormikWithErrorField
+															as={ TextField }
+															name={ `wpseo_social.other_social_urls.${ index }` }
+															id={ `input-wpseo_social-other_social_urls-${ index }` }
+															// translators: %1$s expands to array index + 1.
+															label={ sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ) }
+															placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
+															className="yst-grow"
+														/>
+														<Button
+															variant="secondary"
+															// eslint-disable-next-line react/jsx-no-bind
+															onClick={ arrayHelpers.remove.bind( null, index ) }
+															className="yst-mt-7 yst-p-2.5"
+														>
+															<TrashIcon className="yst-h-5 yst-w-5" />
+														</Button>
+													</div>
+												</Transition>
 											) ) }
 											{ /* eslint-disable-next-line react/jsx-no-bind */ }
 											<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>

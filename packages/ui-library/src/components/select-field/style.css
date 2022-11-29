@@ -1,5 +1,14 @@
 @layer components {
 	.yst-root {
+		.yst-select-field {}
+
+		.yst-select-field--disabled {
+			.yst-select-field__label,
+			.yst-select-field__description {
+				@apply yst-opacity-50 yst-cursor-not-allowed;
+			}
+		}
+
 		.yst-select-field__options {
 			@apply
 			yst-flex
