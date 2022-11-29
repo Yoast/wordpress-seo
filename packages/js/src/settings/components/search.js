@@ -110,6 +110,7 @@ const Search = () => {
 
 	return <>
 		<button
+			type="button"
 			className="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 			onClick={ setOpen }
 		>
@@ -117,7 +118,7 @@ const Search = () => {
 				className="yst-flex-none yst-w-5 yst-h-5 yst-mr-3 yst-text-slate-400"
 				{ ...ariaSvgProps }
 			/>
-			<span>{ query || __( "Quick search...", "wordpress-seo" ) }</span>
+			<span className="yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis">{ query || __( "Quick search...", "wordpress-seo" ) }</span>
 			{ platform?.type === "desktop" && (
 				<span className="yst-ml-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400">
 					{ os?.name === "macOS" ? __( "⌘K", "wordpress-seo" ) : __( "CtrlK", "wordpress-seo" ) }
@@ -155,7 +156,7 @@ const Search = () => {
 											<Link
 												to={ `${ item.route }#${ item.fieldId }` }
 												onClick={ handleNavigate }
-												className="yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white"
+												className="yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white"
 											>
 												{ item.fieldLabel }
 											</Link>

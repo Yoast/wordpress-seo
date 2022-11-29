@@ -79,7 +79,7 @@ const DateArchives = () => {
 					<fieldset className="yst-min-width-0 yst-space-y-8">
 						<FormikFlippedToggleField
 							name={ "wpseo_titles.disable-date" }
-							data-id={ "input-wpseo_titles-disable-date" }
+							id={ "input-wpseo_titles-disable-date" }
 							label={ sprintf(
 								// translators: %1$s expands to "date archives".
 								__( "Enable %1$s", "wordpress-seo" ),
@@ -104,7 +104,7 @@ const DateArchives = () => {
 					>
 						<FormikFlippedToggleField
 							name="wpseo_titles.noindex-archive-wpseo"
-							data-id="input-wpseo_titles-noindex-archive-wpseo"
+							id="input-wpseo_titles-noindex-archive-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to "date archives".
 								__( "Show %1$s in search results", "wordpress-seo" ),

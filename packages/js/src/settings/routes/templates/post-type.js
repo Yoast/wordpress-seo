@@ -146,7 +146,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					>
 						<FormikFlippedToggleField
 							name={ `wpseo_titles.noindex-${ name }` }
-							data-id={ `input-wpseo_titles-noindex-${ name }` }
+							id={ `input-wpseo_titles-noindex-${ name }` }
 							label={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. posts.
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -275,7 +275,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							as={ ToggleField }
 							type="checkbox"
 							name={ `wpseo_titles.display-metabox-pt-${ name }` }
-							data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
+							id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
 							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 							description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
 							className="yst-max-w-sm"
@@ -339,7 +339,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							>
 								<FormikFlippedToggleField
 									name={ `wpseo_titles.noindex-ptarchive-${ name }` }
-									data-id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
+									id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
 									label={ sprintf(
 										// translators: %1$s expands to the post type plural, e.g. posts.
 										__( "Show the archive for %1$s in search results", "wordpress-seo" ),

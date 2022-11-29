@@ -27,8 +27,9 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @returns {JSX.Element} The format archives element.
  */
 const FormatArchives = () => {
-	const { name, label } = useSelectSettings( "selectTaxonomy", [], "post_format" );
+	const { name, label, singularLabel } = useSelectSettings( "selectTaxonomy", [], "post_format" );
 	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
 
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -78,7 +79,7 @@ const FormatArchives = () => {
 				<div className="yst-max-w-5xl">
 					<FormikFlippedToggleField
 						name="wpseo_titles.disable-post_format"
-						data-id="input-wpseo_titles-disable-post_format"
+						id="input-wpseo_titles-disable-post_format"
 						label={ __( "Enable format-based archives", "wordpress-seo" ) }
 						description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
 						className="yst-max-w-sm"
@@ -96,11 +97,11 @@ const FormatArchives = () => {
 					>
 						<FormikFlippedToggleField
 							name={ `wpseo_titles.noindex-tax-${ name }` }
-							data-id={ `input-wpseo_titles-noindex-tax-${ name }` }
+							id={ `input-wpseo_titles-noindex-tax-${ name }` }
 							label={ sprintf(
-								// translators: %1$s expands to "formats".
-								__( "Show %1$s in search results", "wordpress-seo" ),
-								labelLower
+								// translators: %1$s expands to "format".
+								__( "Show %1$s archives in search results", "wordpress-seo" ),
+								singularLabelLower
 							) }
 							description={ <>
 								{ sprintf(
