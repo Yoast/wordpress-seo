@@ -132,3 +132,17 @@ WithPlaceholder.args = {
 	placeholder: "Search a value...",
 };
 
+export const ChildrenProp = Template.bind();
+ChildrenProp.args = {
+	id: "with-children-prop",
+	name: "with-children-prop",
+	children: <>
+		<AutocompleteField.Option value="child 1" label="Option 1" id="option-1" name="option-1" />
+		<AutocompleteField.Option value="child 2" label="Option 2" id="option-2" name="option-2" />
+		<AutocompleteField.Option value="child 3" label="Option 3" id="option-3" name="option-3" />
+	</>,
+};
+
+ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`AutocompleteField.Option` is equal to `Autocomplete` element). Default values should be set inside the child component and not the `selectedLabel` prop." } } };
+
+
