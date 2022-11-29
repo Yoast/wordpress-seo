@@ -114,7 +114,7 @@ const Breadcrumbs = () => {
 							label={ <>
 								{ postType.label }
 								{ " " }
-								(<Code>{ postTypeName }</Code>)
+								<Code className="yst-ml-2">{ postTypeName }</Code>
 							</> }
 							options={ postType.options }
 						/> ) }
@@ -133,7 +133,7 @@ const Breadcrumbs = () => {
 								label={ <>
 									{ taxonomy.label }
 									{ " " }
-									(<Code>{ taxonomy.name }</Code>)
+									<Code className="yst-ml-2">{ taxonomy.name }</Code>
 								</> }
 								options={ taxonomy.options }
 							/>

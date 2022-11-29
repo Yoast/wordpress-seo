@@ -44,7 +44,7 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 	[ `schema-page-type-${ name }` ]: {
 		route: `/post-type/${ route }`,
 		routeLabel: label,
-		fieldId: `input-wpseo_titles-schema-page-type-${ name }-button`,
+		fieldId: `input-wpseo_titles-schema-page-type-${ name }`,
 		fieldLabel: __( "Page type", "wordpress-seo" ),
 		keywords: [
 			__( "Schema", "wordpress-seo" ),
@@ -54,7 +54,7 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 	[ `schema-article-type-${ name }` ]: {
 		route: `/post-type/${ route }`,
 		routeLabel: label,
-		fieldId: `input-wpseo_titles-schema-article-type-${ name }-button`,
+		fieldId: `input-wpseo_titles-schema-article-type-${ name }`,
 		fieldLabel: __( "Article type", "wordpress-seo" ),
 		keywords: [
 			__( "Schema", "wordpress-seo" ),
@@ -753,7 +753,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 						// translators: %1$s expands to the post type plural, e.g. posts.
 						sprintf( __( "Breadcrumbs for %1$s <code />", "wordpress-seo" ), toLower( postType.label ) ),
 						{
-							code: <Code>{ postType.name }</Code>,
+							code: <Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ postType.name }</Code>,
 						}
 					),
 					keywords: [],
@@ -770,7 +770,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 					// translators: %1$s expands to the taxonomy plural, e.g. categories.
 					sprintf( __( "Breadcrumbs for %1$s <code />", "wordpress-seo" ), toLower( taxonomy.label ) ),
 					{
-						code: <Code>{ taxonomy.name }</Code>,
+						code: <Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ taxonomy.name }</Code>,
 					}
 				),
 				keywords: [],

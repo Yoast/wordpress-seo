@@ -156,7 +156,7 @@ const Search = () => {
 											<Link
 												to={ `${ item.route }#${ item.fieldId }` }
 												onClick={ handleNavigate }
-												className="yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white"
+												className="yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white"
 											>
 												{ item.fieldLabel }
 											</Link>
