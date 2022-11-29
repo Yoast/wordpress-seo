@@ -12,9 +12,9 @@ describe( "counts characters in a string", function() {
 			"東京オリンピック開会直前の1964年（昭和39年）10月1日に開業した。" ) ).toBe( 136 );
 	} );
 	it( "makes sure the countCharacters function still works when the input is a non-Japanese string", function() {
-		expect( countCharactersFunction( "this is a string" ) ).toBe( 16 );
+		expect( countCharactersFunction( "this is a string" ) ).toBe( 13 );
 		expect( countCharactersFunction( "Низът в компютърните науки е крайна поредица от символи " +
-			"(представляващи краен брой знаци)." ) ).toBe( 90 );
+			"(представляващи краен брой знаци)." ) ).toBe( 78 );
 	} );
 	it( "makes sure that the table of contents is excluded from the calculation", function() {
 		const text = "<div class=\"wp-block-yoast-seo-table-of-contents yoast-table-of-contents\"><h2>目次</h2><ul><li><a " +
@@ -35,7 +35,7 @@ describe( "counts characters in a string", function() {
 			"<p>戦後においては一般に広義の<a href=\"https://ja.wikipedia.org/wiki/%E7%AB%A5%E8%AC%A1\">童謡</a>にカテゴライズされる本作品は、" +
 			"初出本の題名にもあるとおり青木自身は「唱歌」であるとし、「学校や家庭で」歌ってもらえれば本懐であるとしている。しかし発表当時の教育現場では、" +
 			"本作品を歌うことは原則上はできなかった。</p>";
-		expect( countCharactersFunction( text ) ).toBe( 757 );
+		expect( countCharactersFunction( text ) ).toBe( 744 );
 	} );
 	it( "makes sure that no characters are counted when a URL is embedded in video tags", function() {
 		const text = "<!-- wp:embed {\"url\":\"https://www.youtube.com/watch?v=cbP2N1BQdYc\",\"type\":\"video\"," +
