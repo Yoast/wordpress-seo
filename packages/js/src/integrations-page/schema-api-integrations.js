@@ -14,7 +14,7 @@ const integrations = [
 		claim: createInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
-				__( "Get %1$senhanced listings for your events%2$s in Google search", "wordpress-seo" ),
+				__( "Get %1$srich results for your events%2$s in Google search", "wordpress-seo" ),
 				"<strong>",
 				"</strong>"
 			), {
@@ -40,7 +40,7 @@ const integrations = [
 		claim: createInterpolateElement(
 			sprintf(
 				/* translators: 1: bold open tag; 2: bold close tag. */
-				__( "Get %1$senhanced listings for your podcast%2$s in Google search", "wordpress-seo" ),
+				__( "Get %1$srich results for your podcast%2$s in Google search", "wordpress-seo" ),
 				"<strong>",
 				"</strong>"
 			), {
@@ -93,7 +93,7 @@ const wooIntegration = {
 	claim: createInterpolateElement(
 		sprintf(
 			/* translators: 1: bold open tag; 2: bold close tag. */
-			__( "Get %1$senhanced product results%2$s in Google search", "wordpress-seo" ),
+			__( "Get %1$srich product results%2$s in Google search", "wordpress-seo" ),
 			"<strong>",
 			"</strong>"
 		), {
@@ -105,7 +105,7 @@ const wooIntegration = {
 	slug: "woocommerce",
 	description: sprintf(
 		/* translators: 1: Yoast WooCommerce SEO */
-		__( "Unlock rich results for your product pages by using %1$s.", "wordpress-seo" ),
+		__( "Unlock rich snippets for your product pages by using %1$s.", "wordpress-seo" ),
 		"Yoast WooCommerce SEO"
 	),
 	isPremium: false,
