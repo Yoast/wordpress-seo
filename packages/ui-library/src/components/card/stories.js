@@ -6,7 +6,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A card component.",
+				component: "A card component. It has sub components for header, content and footer.",
 			},
 		},
 	},
