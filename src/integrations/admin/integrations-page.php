@@ -77,6 +77,7 @@ class Integrations_Page implements Integration_Interface {
 		];
 
 		\array_splice( $submenu_pages, 1, 0, [ $integrations_page ] );
+
 		return $submenu_pages;
 	}
 
@@ -129,8 +130,7 @@ class Integrations_Page implements Integration_Interface {
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file ),
 				'activate-plugin_' . $acf_seo_file
 			);
-		}
-		else {
+		} else {
 			$acf_seo_activate_url = \wp_nonce_url(
 				\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file_github ),
 				'activate-plugin_' . $acf_seo_file_github

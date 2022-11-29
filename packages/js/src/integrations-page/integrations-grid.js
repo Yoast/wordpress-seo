@@ -4,6 +4,7 @@ import { Title  } from "@yoast/ui-library";
 import { SEOToolsIntegrations } from "./seo-tools-integrations";
 import { pluginIntegrations } from "./plugin-integrations";
 import { schemaAPIIntegrations } from "./schema-api-integrations";
+import { RecommendedIntegrations } from "./recommended-integrations";
 import { addLinkToString } from "../helpers/stringHelpers";
 
 /**
@@ -57,7 +58,7 @@ export default function IntegrationsGrid() {
 						{
 							sprintf(
 								/* translators: 1: Yoast SEO */
-								__( "%s can integrate with third party products. You can enable or disable these integrations below.", "wordpress-seo" ),
+								__( "%s can integrate with other products, to help you further improve your website. You can enable or disable these integrations below.", "wordpress-seo" ),
 								"Yoast SEO"
 							)
 						}
@@ -67,8 +68,8 @@ export default function IntegrationsGrid() {
 			<div className="yst-flex-grow yst-max-w-6xl yst-p-8">
 
 				<Section
-					title={ __( "SaaS integrations", "wordpress-seo" ) }
-					elements={ SEOToolsIntegrations }
+					title={ __( "Recommended integrations", "wordpress-seo" ) }
+					elements={ RecommendedIntegrations }
 				/>
 
 				<hr className="yst-my-12" />
@@ -79,7 +80,7 @@ export default function IntegrationsGrid() {
 						addLinkToString(
 							sprintf(
 								/* translators: 1: anchor tag linking to our schema API docs; 2: closing anchor tag. */
-								__( "Many plugins integrate with our %1$sSchema API%2$s to help you get the best results in Google search!", "wordpress-seo" ),
+								__( "Unlock rich results in Google search by using plugins that integrate with the %1$sYoast Schema API%2$s.", "wordpress-seo" ),
 								"<a>",
 								"</a>"
 							),
@@ -95,6 +96,13 @@ export default function IntegrationsGrid() {
 				<Section
 					title={ __( "Plugin integrations", "wordpress-seo" ) }
 					elements={ pluginIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "SEO Tool integrations", "wordpress-seo" ) }
+					elements={ SEOToolsIntegrations }
 				/>
 
 			</div>
