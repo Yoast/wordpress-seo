@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
-use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -27,13 +26,6 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	protected $post_conditional;
 
 	/**
-	 * Holds the Input_Helper instance.
-	 *
-	 * @var Input_Helper|Mockery\MockInterface
-	 */
-	protected $input_helper;
-
-	/**
 	 * The estimated reading time conditional.
 	 *
 	 * @var Estimated_Reading_Time_Conditional
@@ -47,11 +39,9 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		parent::set_up();
 
 		$this->post_conditional = Mockery::mock( Post_Conditional::class );
-		$this->input_helper     = Mockery::mock( Input_Helper::class );
 
 		$this->instance = new Estimated_Reading_Time_Conditional(
-			$this->post_conditional,
-			$this->input_helper
+			$this->post_conditional
 		);
 	}
 
@@ -64,12 +54,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// We are in an Ajax request.
 		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( true );
 
-		// We are saving in Elementor with Ajax.
-		$this->input_helper
-			->expects( 'filter' )
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This whole expectation will probably be removed/changed when the underlying deprecation is fixed..
-			->with( \INPUT_POST, 'action', @\FILTER_SANITIZE_STRING )
-			->andReturn( 'wpseo_elementor_save' );
+		$_POST['action'] = 'wpseo_elementor_save';
 
 		$this->assertEquals( true, $this->instance->is_met() );
 	}
@@ -83,12 +68,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// We are in an Ajax request.
 		Monkey\Functions\expect( 'wp_doing_ajax' )->andReturn( true );
 
-		// The Ajax action is not for saving Elementor.
-		$this->input_helper
-			->expects( 'filter' )
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This whole expectation will probably be removed/changed when the underlying deprecation is fixed..
-			->with( \INPUT_POST, 'action', @\FILTER_SANITIZE_STRING )
-			->andReturn( 'some_other_value' );
+		$_POST['action'] = 'some_other_value';
 
 		// We are not on a post according to the post conditional.
 		$this->post_conditional
@@ -114,11 +94,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		// Returns the post id.
-		$this->input_helper
-			->expects( 'filter' )
-			->with( \INPUT_GET, 'post', \FILTER_SANITIZE_NUMBER_INT )
-			->andReturn( '1' );
+		$_GET['post'] = '1';
 
 		// Returns the attachment post type.
 		Monkey\Functions\expect( 'get_post_type' )
@@ -143,11 +119,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		// Returns the post id.
-		$this->input_helper
-			->expects( 'filter' )
-			->with( \INPUT_GET, 'post', \FILTER_SANITIZE_NUMBER_INT )
-			->andReturn( '1' );
+		$_GET['post'] = '1';
 
 		// Returns post type.
 		Monkey\Functions\expect( 'get_post_type' )
