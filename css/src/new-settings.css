@@ -70,12 +70,8 @@
 			z-index: 99999;
 		}
 
-		.yst-modal.yst-modal--top {
-			@apply yst-p-4 sm:yst-p-6 md:yst-p-20;
-
-			.yst-modal__center {
-				@apply yst-hidden;
-			}
+		.yst-modal.yst-modal--top .yst-modal__center {
+			@apply yst-hidden;
 		}
 
 		.yst-replacevar {
