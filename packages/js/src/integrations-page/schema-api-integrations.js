@@ -2,6 +2,7 @@ import { getInitialState } from "./helper";
 import { PluginIntegration } from "./plugin-integration";
 import { ReactComponent as SSPLogo } from "../../images/ssp-logo.svg";
 import { ReactComponent as TECLogo } from "../../images/tec-logo.svg";
+import { ReactComponent as RecipeMakerLogo } from "../../images/wp-recipemaker-logo.svg";
 import { ReactComponent as WoocommerceLogo } from "../../images/woocommerce-logo.svg";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -59,6 +60,32 @@ const integrations = [
 		isNew: false,
 		isMultisiteAvailable: true,
 		logo: SSPLogo,
+	},
+	{
+		name: "WP Recipe Maker",
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: bold close tag. */
+				__( "Get %1$srich results for your recipes%2$s in Google search", "wordpress-seo" ),
+				"<strong>",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
+		learnMoreLink: "https://yoa.st/integrations-about-wp-recipemaker",
+		logoLink: "https://yoa.st/integrations-logo-wp-recipemaker",
+		slug: "wp-recipe-maker",
+		description: sprintf(
+			/* translators: 1: Seriously Simple Podcasting, 2: Yoast SEO */
+			__( "%1$s integrates with %2$s's Schema API to get rich snippets for your recipes!", "wordpress-seo" ),
+			"WP Recipe Maker",
+			"Yoast SEO"
+		),
+		isPremium: false,
+		isNew: false,
+		isMultisiteAvailable: true,
+		logo: RecipeMakerLogo,
 	},
 ];
 const wooIntegration = {
