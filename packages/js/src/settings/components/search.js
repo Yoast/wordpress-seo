@@ -46,6 +46,7 @@ const Search = () => {
 
 	// Only bind hotkeys when platform type is desktop.
 	useHotkeys(
+		// Note: Update the `"ctrl+k, cmd+k"` hotkeys to `"ctrl+k, meta+k"` when switching `react-hotkeys-hook` to v4.
 		"ctrl+k, cmd+k",
 		event => {
 			event.preventDefault();
@@ -58,7 +59,7 @@ const Search = () => {
 			enableOnTags: [ "INPUT", "TEXTAREA", "SELECT" ],
 			enableOnContentEditable: true,
 		},
-		[ isOpen, setOpen ]
+		[ isOpen, setOpen, platform ]
 	);
 
 	const handleNavigate = useCallback( ( { route, fieldId } ) => {
