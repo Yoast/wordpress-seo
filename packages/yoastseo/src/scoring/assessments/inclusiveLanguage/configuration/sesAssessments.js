@@ -8,7 +8,7 @@ const sesAssessments = [
 	{
 		identifier: "illegalImmigrants",
 		nonInclusivePhrases: [ "illegal immigrants", "illegal aliens" ],
-		inclusiveAlternatives: "<i>undocumented people</i>",
+		inclusiveAlternatives: "<i>undocumented people, people without papers, immigrants without papers</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
