@@ -49,7 +49,7 @@ class SEO_Links_Repository {
 	/**
 	 * Retrieves an SEO Link by url.
 	 *
-	 * @param string $permalink The SEO Link's url.
+	 * @param string $url The SEO Link's url.
 	 *
 	 * @return SEO_Links The SEO Link.
 	 */

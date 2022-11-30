@@ -312,18 +312,18 @@ class Image_Helper {
 			$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
 
 			$indexable = $this->indexable_repository->find_by_permalink( $url );
-	
+
 			if ( $indexable && $indexable->object_type === 'post' && $indexable->object_sub_type === 'attachment' ) {
 				return $indexable->object_id;
 			}
-	
+
 			$post_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
-	
+
 			if ( $post_id !== 0 ) {
 				// Find the indexable, this triggers creating it so it can be found next time.
 				$this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 			}
-	
+
 			return $post_id;
 		}
 
