@@ -172,7 +172,7 @@ const cultureAssessments = [
 	{
 		identifier: "savage",
 		nonInclusivePhrases: [ "savage" ],
-		inclusiveAlternatives: "<i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant, culture</i>",
+		inclusiveAlternatives: "<i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant, amazing</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
