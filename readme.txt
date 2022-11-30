@@ -254,8 +254,10 @@ Release date: December 13th, 2022
 * Adds a new `Schema API` section to the `Integrations` page.
 * Adds a new `Website name` text field in the `Site Representation` step of the `First-time configuration`.
 * Adds an integration card for `The Events Calendar`.
+* Adds a Schema integration card for the [Seriously Simple Podcasting](https://wordpress.org/plugins/seriously-simple-podcasting/) and the [WP Recipe Maker](https://it.wordpress.org/plugins/wp-recipe-maker/) plugins.
 * Adds highlighting for the _subheading distribution_ assessment.
 * Improves the `First-time configuration` styling.
+* Improves the Integrations page to explain more clearly the different types of integrations.
 * Improves the _subheading distribution_ assessment by also targeting long content before the first subheading.
 * Improves the _transition words_ assessment for Arabic by removing some transition words.
 * Improves the Yoast admin bar menu with more functionality and better links.
@@ -272,6 +274,7 @@ Release date: December 13th, 2022
 * Fixes a bug where the content analysis would not load when editing web stories in the Web Stories plug-in.
 * Fixes a bug where the highlighting functionality would not be working when highlighting content in lists items in the Block editor in WordPress 6.1.
 * Fixes a bug where the `<title>` tag would potentially be missing when publishing a story with the Web Stories plugin. Props to [@swissspidy](https://github.com/swissspidy).
+* Improves line ending handling for `robots.txt` contents.
 
 #### Other
 
@@ -280,8 +283,8 @@ Release date: December 13th, 2022
 * Corrects the documentation on GitHub about morphology support.
 * Deprecates the integration with the `The Events Calendar` plugin, following the release of its version 6.0.4 which integrates with Yoast SEO.
 * Disallows setting or unsetting any dynamic properties on `Abstract_Main`.
+* Improve PHP 8.2 compatibility
 * Improves compatibility with PHP 8.2.
-* Improves line ending handling for `robots.txt` contents.
 * Introduces a notice on the WordPress dashboard and the Yoast SEO dashboard to let users know we are dropping support for PHP < 7.2 starting March 1st, 2023.
 * Reduces noise from PHP 8.1 deprecations.
 * Removes the note in the readability analysis results that tells users that the _Flesch reading ease_ score has moved to the _Insights_ section.
