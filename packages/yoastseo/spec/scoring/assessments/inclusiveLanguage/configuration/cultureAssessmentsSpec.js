@@ -99,7 +99,7 @@ describe( "a test for targetting non-inclusive phrases in culture assessments", 
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
 		expect( assessment.getResult().score ).toBe( 3 );
 		expect( assessment.getResult().text ).toBe( "Avoid using <i>savage</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant</i>." +
+			"Consider using an alternative, such as <i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant, amazing</i>." +
 			" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>" );
 	} );
 } );
