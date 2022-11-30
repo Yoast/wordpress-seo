@@ -47,6 +47,23 @@ class SEO_Links_Repository {
 	}
 
 	/**
+	 * Retrieves an SEO Link by url.
+	 *
+	 * @param string $permalink The SEO Link's url.
+	 *
+	 * @return SEO_Links The SEO Link.
+	 */
+	public function find_one_by_url( $url ) {
+		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
+
+		// @TODO: Consider adding an index on the url field.
+		return $this->query()
+			->select( 'target_post_id' )
+			->where( 'url', $url )
+			->find_one();
+	}
+
+	/**
 	 * Clears all SEO Links by post ID.
 	 *
 	 * @param int $post_id The post ID.
