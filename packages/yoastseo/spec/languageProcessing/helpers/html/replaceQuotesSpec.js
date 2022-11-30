@@ -12,7 +12,7 @@ describe( "replace-quotes", function() {
 				.toEqual( "<yoastmark class=\"yoast-text-mark\">This is a test</yoastmark>" );
 		} );
 
-		it( "should not replace single quotes outside HTML tags", function() {
+		it( "should not replace single quotes (or apostrophes) outside HTML tags", function() {
 			expect( replaceSingleQuotesInTags( "This is a test, let's go!" ) )
 				.toEqual( "This is a test, let's go!" );
 		} );

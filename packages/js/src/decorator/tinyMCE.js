@@ -37,7 +37,7 @@ function markTinyMCE( editor, paper, marks ) {
 
 	/*
 	 * Get the information whether we want to mark a specific part of the HTML. If we do, `fieldsToMark` should return an array with that information.
-	 * For example, [ "subehading" ] means that we only want to apply the markings in subheadings only, and not the other parts.
+	 * For example, [ "subehading" ] means that we want to apply the markings in subheadings only, and not the other parts.
 	 * `selectedHTML` is an array of the HTML parts that we want to apply the marking to.
 	 */
 	const { fieldsToMark, selectedHTML } = languageProcessing.getFieldsToMark( marks, html );
@@ -46,7 +46,7 @@ function markTinyMCE( editor, paper, marks ) {
 	forEach( marks, function( mark ) {
 		/*
 		 * Classic editor uses double quotes for HTML attribute values. However, in `yoastseo`, we use single quotes for the attribute values
-		 * when we create the marked object. As the result, the replacement did not work, as the marks passed by `yoastseo` did not match anything
+		 * when we create the marked object. As a result, the replacement did not work, as the marks passed by `yoastseo` did not match anything
 		 * in the original text. This step is replacing the single quotes in the marked object output by `yoastseo` with double quotes.
 		 * This way, we make sure that the replacement can find a match between the original text of the marked object and the text in the page.
 		 */
