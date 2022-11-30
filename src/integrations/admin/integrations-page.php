@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Plugin_Availability;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * Integrations_Page class
  */
 class Integrations_Page implements Integration_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 * The admin asset manager.
@@ -29,13 +31,6 @@ class Integrations_Page implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	private $options_helper;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public static function get_conditionals() {
-		return [];
-	}
 
 	/**
 	 * Workouts_Integration constructor.
