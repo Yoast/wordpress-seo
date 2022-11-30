@@ -18,7 +18,7 @@ export const StyledTitle = styled.span`
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	color: ${props => props.color || colors.$color_headings};
+	color: ${ colors.$color_headings };
 `;
 
 export const StyledSubTitle = styled.span`
@@ -40,9 +40,7 @@ export const StyledSubTitle = styled.span`
 export const SectionTitle = ( props ) => {
 	return (
 		<StyledTitleContainer>
-			<StyledTitle
-				color={ props.color }
-			>
+			<StyledTitle>
 				{ props.title }
 				{ props.titleScreenReaderText && <ScreenReaderText>{ " " + props.titleScreenReaderText }</ScreenReaderText> }
 			</StyledTitle>
@@ -51,13 +49,8 @@ export const SectionTitle = ( props ) => {
 	);
 };
 
-SectionTitle.defaultProps = {
-	color: colors.$color_headings,
-};
-
 SectionTitle.propTypes = {
 	title: PropTypes.string.isRequired,
 	titleScreenReaderText: PropTypes.string,
 	subTitle: PropTypes.string,
-	color: PropTypes.string,
 };
