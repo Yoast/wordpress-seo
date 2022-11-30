@@ -45,7 +45,7 @@ const Search = () => {
 	const { platform, os } = useParsedUserAgent();
 
 	// Only bind hotkeys when platform type is desktop.
-	useHotkeys( "ctrl+k, meta+k", event => {
+	useHotkeys( "ctrl+k, cmd+k", event => {
 		event.preventDefault();
 		if ( platform?.type === "desktop" && ! isOpen ) {
 			setOpen();
