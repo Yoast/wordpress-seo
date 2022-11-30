@@ -15,6 +15,19 @@ const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the spec
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
+/**
+ * A
+ * @param {string[]} words A
+ * @param {string[]} nonInclusivePhrases A
+ * @returns {function} A
+ */
+function checkOCD( words, nonInclusivePhrases ) {
+	return ( index ) =>{
+		console.log( index );
+	};
+}
+
+
 const disabilityAssessments =  [
 	{
 		identifier: "binge",
@@ -365,7 +378,21 @@ const disabilityAssessments =  [
 			"medical condition, use %2$s instead. If you are not referencing the medical condition, consider other" +
 			" alternatives to describe the trait or behavior, such as %3$s.",
 	},
+	{
+		identifier: "OCD",
+		nonInclusivePhrases: [ "OCD" ],
+		inclusiveAlternatives: "<i>pedantic, obsessed, perfectionist</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: [ medicalCondition,
+			"If you are referring to someone who has the medical condition, then state that they have OCD rather than that they are OCD." ]
+			.join( " " ),
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( checkOCD( words ) );
+		},
+	},
 ];
+
 
 disabilityAssessments.forEach( assessment => {
 	assessment.category = "disability";
