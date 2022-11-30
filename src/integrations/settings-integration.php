@@ -366,7 +366,6 @@ class Settings_Integration implements Integration_Interface {
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
 			'fallbacks'            => $this->get_fallbacks(),
-			'personSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
 		];
 	}
 
@@ -412,6 +411,7 @@ class Settings_Integration implements Integration_Interface {
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
+			'supportedPersonSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
 		];
 	}
 
