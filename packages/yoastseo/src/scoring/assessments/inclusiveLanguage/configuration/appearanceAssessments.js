@@ -1,13 +1,26 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless, preferredDescriptorIfKnown } from "./feedbackStrings";
 import { SCORES } from "./scores";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 const appearanceAssessments = [
 	{
 		identifier: "albinos",
 		nonInclusivePhrases: [ "albinos" ],
-		inclusiveAlternatives: "people with albinism, albino people",
+		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
+		identifier: "anAlbino",
+		nonInclusivePhrases: [ "an albino" ],
+		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
+		},
 	},
 	{
 		identifier: "obese",
