@@ -120,6 +120,7 @@ export function CollapsibleStateless( props ) {
 		suffixIcon,
 		suffixIconCollapsed,
 		subTitle,
+		subtitleColor,
 		title,
 		titleScreenReaderText,
 	} = props;
@@ -147,6 +148,7 @@ export function CollapsibleStateless( props ) {
 					title={ title }
 					titleScreenReaderText={ titleScreenReaderText }
 					subTitle={ subTitle }
+					color={ subtitleColor }
 				/>
 			</Heading>
 			{ wrappedChildren }
@@ -240,7 +242,7 @@ export class Collapsible extends React.Component {
 			 */
 			Heading: wrapInHeading( StyledIconsButton, props.headingProps ),
 		};
-
+		this.subtitleColor2 = props.headingProps.color;
 		this.toggleCollapse = this.toggleCollapse.bind( this );
 	}
 
@@ -292,7 +294,7 @@ export class Collapsible extends React.Component {
 	render() {
 		const { isOpen } = this.state;
 		const { children } = this.props;
-
+		const subtitleColor2 = this.subtitleColor2 || "green";
 		const newProps = omit( this.props, [ "children", "onToggle" ] );
 
 		return (
@@ -300,6 +302,7 @@ export class Collapsible extends React.Component {
 				Heading={ this.state.Heading }
 				isOpen={ isOpen }
 				onToggle={ this.toggleCollapse }
+				subtitleColor={ subTitleColor2 }
 				{ ...newProps }
 			>
 				{ isOpen && children }
