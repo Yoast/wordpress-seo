@@ -121,18 +121,3 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 		'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
 	);
 }
-
-/**
- * Allow adding a custom checkboxes to the admin meta page - Post Types tab.
- *
- * @deprecated 16.3 Use the {@see 'Yoast\WP\SEO\admin_post_types_beforearchive'} action instead.
- *
- * @param Yoast_Form $yform The Yoast_Form object.
- * @param string     $name  The post type name.
- */
-do_action_deprecated(
-	'wpseo_admin_page_meta_post_types',
-	[ $yform, $wpseo_post_type->name ],
-	'16.3',
-	'Yoast\WP\SEO\admin_post_types_beforearchive'
-);

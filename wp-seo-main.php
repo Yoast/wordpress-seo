@@ -561,28 +561,6 @@ function yoast_wpseo_self_deactivate() {
 	}
 }
 
-/* ********************* DEPRECATED METHODS ********************* */
-
-/**
- * Instantiate the different social classes on the frontend.
- *
- * @deprecated 14.0
- * @codeCoverageIgnore
- */
-function wpseo_frontend_head_init() {
-	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-}
-
-/**
- * Used to load the required files on the plugins_loaded hook, instead of immediately.
- *
- * @deprecated 14.0
- * @codeCoverageIgnore
- */
-function wpseo_frontend_init() {
-	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-}
-
 /**
  * Aliasses added in order to keep compatibility with Yoast SEO: Local.
  */
