@@ -45,12 +45,21 @@ const Search = () => {
 	const { platform, os } = useParsedUserAgent();
 
 	// Only bind hotkeys when platform type is desktop.
-	useHotkeys( "ctrl+k, cmd+k", event => {
-		event.preventDefault();
-		if ( platform?.type === "desktop" && ! isOpen ) {
-			setOpen();
-		}
-	}, [ isOpen, setOpen ] );
+	useHotkeys(
+		"ctrl+k, cmd+k",
+		event => {
+			event.preventDefault();
+			if ( platform?.type === "desktop" && ! isOpen ) {
+				setOpen();
+			}
+		},
+		{
+			// Note: Update the `enableOnTags: [],` option to `enableOnFormTags: true,` when switching `react-hotkeys-hook` to v4.
+			enableOnTags: [ "INPUT", "TEXTAREA", "SELECT" ],
+			enableOnContentEditable: true,
+		},
+		[ isOpen, setOpen ]
+	);
 
 	const handleNavigate = useCallback( ( { route, fieldId } ) => {
 		setClose();
