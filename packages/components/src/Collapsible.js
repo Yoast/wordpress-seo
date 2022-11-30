@@ -70,6 +70,7 @@ export function wrapInHeading( Component, props ) {
 		padding: 0 !important;
 		font-size: ${ props.fontSize } !important;
 		font-weight: ${ props.fontWeight } !important;
+		color: ${ props.color } !important;
 	`;
 
 	return function Wrapped( componentProps ) {
@@ -255,7 +256,8 @@ export class Collapsible extends React.Component {
 		if (
 			props.headingProps.level !== state.headingProps.level ||
 			props.headingProps.fontSize !== state.headingProps.fontSize ||
-			props.headingProps.fontWeight !== state.headingProps.fontWeight
+			props.headingProps.fontWeight !== state.headingProps.fontWeight || 
+			props.headingProps.color !== state.headingProps.color
 		) {
 			return {
 				...state,
@@ -342,6 +344,7 @@ Collapsible.propTypes = {
 		level: PropTypes.number,
 		fontSize: PropTypes.string,
 		fontWeight: PropTypes.string,
+		color: PropTypes.string,
 	} ),
 	onToggle: PropTypes.func,
 };
@@ -370,6 +373,7 @@ Collapsible.defaultProps = {
 		level: 2,
 		fontSize: "1rem",
 		fontWeight: "normal",
+		color: "#1e1e1e",
 	},
 	onToggle: null,
 };
