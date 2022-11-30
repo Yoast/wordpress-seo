@@ -71,7 +71,7 @@ export default class InclusiveLanguageAssessment {
 		this.foundPhrases = [];
 
 		sentences.forEach( sentence => {
-			let words = getWords( sentence );
+			let words = getWords( sentence, false );
 			if ( ! this.caseSensitive ) {
 				words = words.map( word => word.toLocaleLowerCase() );
 			}
@@ -84,7 +84,6 @@ export default class InclusiveLanguageAssessment {
 				} );
 			}
 		} );
-
 		return this.foundPhrases.length >= 1;
 	}
 
