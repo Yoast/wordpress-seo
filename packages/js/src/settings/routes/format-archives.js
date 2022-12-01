@@ -28,7 +28,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const FormatArchives = () => {
 	const { name, label, singularLabel } = useSelectSettings( "selectTaxonomy", [], "post_format" );
-	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+	const labelLower = useMemo( () => toLower( label ), [ label ] );
 	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
 
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
@@ -75,7 +75,7 @@ const FormatArchives = () => {
 
 	return (
 		<RouteLayout
-			title={ label }
+			title={ __( "Format archives", "wordpress-seo" ) }
 			description={ description }
 		>
 			<FormLayout>
@@ -112,7 +112,7 @@ const FormatArchives = () => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 									labelLower
 								) }
-										&nbsp;
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
