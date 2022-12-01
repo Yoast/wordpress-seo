@@ -146,30 +146,30 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 	 * @return array[] Data to use for test_detect_deactivating_conflicting_plugins_plugin_is_int.
 	 */
 	public function detect_deactivating_conflicting_plugins_dataprovider() {
-		$action_is_null = [
-			'action' => null,
-			'plugin' => 'xml-sitemaps/xml-sitemaps.php',
-			'expected' => ['xml-sitemaps/xml-sitemaps.php']
+		$action_is_null       = [
+			'action'   => null,
+			'plugin'   => 'xml-sitemaps/xml-sitemaps.php',
+			'expected' => [ 'xml-sitemaps/xml-sitemaps.php' ],
 		];
 		$action_is_not_string = [
-			'action' => 13,
-			'plugin' => 'xml-sitemaps/xml-sitemaps.php',
-			'expected' => ['xml-sitemaps/xml-sitemaps.php']
+			'action'   => 13,
+			'plugin'   => 'xml-sitemaps/xml-sitemaps.php',
+			'expected' => [ 'xml-sitemaps/xml-sitemaps.php' ],
 		];
-		$plugin_is_null = [
-			'action' => 'deactivate',
-			'plugin' => null,
-			'expected' => ['xml-sitemaps/xml-sitemaps.php']
+		$plugin_is_null       = [
+			'action'   => 'deactivate',
+			'plugin'   => null,
+			'expected' => [ 'xml-sitemaps/xml-sitemaps.php' ],
 		];
 		$plugin_is_not_string = [
-			'action' => 'deactivate',
-			'plugin' => 13,
-			'expected' => ['xml-sitemaps/xml-sitemaps.php']
+			'action'   => 'deactivate',
+			'plugin'   => 13,
+			'expected' => [ 'xml-sitemaps/xml-sitemaps.php' ],
 		];
 		return [
-			'Action is null' => $action_is_null,
+			'Action is null'       => $action_is_null,
 			'Action is not string' => $action_is_not_string,
-			'Plugin is null' => $plugin_is_null,
+			'Plugin is null'       => $plugin_is_null,
 			'Plugin is not string' => $plugin_is_not_string,
 		];
 	}
