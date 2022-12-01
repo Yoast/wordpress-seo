@@ -17,6 +17,7 @@ const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)(.+?)(<\/a>)/;
  * @returns {object} An object containing the opening tag and the content.
  */
 export const deConstructAnchor = function( anchor ) {
+	// The const array mirrors the anchorDeconstructionRegex, using a comma to access the first element without a name.
 	const [ , openTag, content ] = anchor.match( anchorDeconstructionRegex );
 	return {
 		openTag: openTag,

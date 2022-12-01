@@ -45,9 +45,10 @@ function markTinyMCE( editor, paper, marks ) {
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {
 		/*
-		 * Classic editor uses double quotes for HTML attribute values. However, in `yoastseo`, we use single quotes for the attribute values
-		 * when we create the marked object. As a result, the replacement did not work, as the marks passed by `yoastseo` did not match anything
-		 * in the original text. This step is replacing the single quotes in the marked object output by `yoastseo` with double quotes.
+		 * Classic editor uses double quotes for HTML attribute values. However, Block editor uses single quotes for HTML tag attributes,
+		 * and that's why in `yoastseo`, we use single quotes for the attribute values when we create the marked object. As a result,
+		 * the replacement did not work, as the marks passed by `yoastseo` did not match anything in the original text.
+		 * This step is replacing the single quotes in the marked object output by `yoastseo` with double quotes.
 		 * This way, we make sure that the replacement can find a match between the original text of the marked object and the text in the page.
 		 */
 		mark._properties.marked = languageProcessing.replaceSingleQuotesInTags( mark._properties.marked );
