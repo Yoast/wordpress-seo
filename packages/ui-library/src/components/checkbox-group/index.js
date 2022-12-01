@@ -88,4 +88,6 @@ CheckboxGroup.defaultProps = {
 	className: "",
 };
 
+CheckboxGroup.Checkbox = Checkbox;
+
 export default CheckboxGroup;

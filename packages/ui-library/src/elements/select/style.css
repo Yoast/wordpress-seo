@@ -1,7 +1,7 @@
 @layer components {
 	.yst-root {
 		.yst-select {
-			@apply yst-max-w-sm yst-relative;
+			@apply yst-relative;
 		}
 
 		.yst-select--disabled {
