@@ -190,8 +190,8 @@ describe( "Disability assessments", function() {
 
 describe( "Test the OCD assessment", () => {
 	it( "correctly identifies 'OCD', which is only recognized when preceded by a verb to be", () => {
-		const mockPaper = new Paper( "You're OCD." );
-		const mockResearcher = Factory.buildMockResearcher( [ "You're OCD." ] );
+		const mockPaper = new Paper( "I am OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am OCD." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		expect( isApplicable ).toBeTruthy();
@@ -207,13 +207,13 @@ describe( "Test the OCD assessment", () => {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "You're OCD.",
-			marked: "<yoastmark class='yoast-text-mark'>You're OCD.</yoastmark>",
+			original: "I am OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>I am OCD.</yoastmark>",
 		} ) ] );
 	} );
 	it( "correctly identifies 'OCD', which is only recognized when preceded by a verb to be + quantifier", () => {
-		const mockPaper = new Paper( "You're so OCD." );
-		const mockResearcher = Factory.buildMockResearcher( [ "You're so OCD." ] );
+		const mockPaper = new Paper( "I am so OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am so OCD." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		expect( isApplicable ).toBeTruthy();
@@ -229,8 +229,8 @@ describe( "Test the OCD assessment", () => {
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "You're so OCD.",
-			marked: "<yoastmark class='yoast-text-mark'>You're so OCD.</yoastmark>",
+			original: "I am so OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>I am so OCD.</yoastmark>",
 		} ) ] );
 	} );
 	it( "does not identify 'the disabled' when not followed by punctuation, function word or participle", () => {
