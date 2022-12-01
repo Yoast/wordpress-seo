@@ -106,7 +106,7 @@ $extensions['yoast-seo-plugin-subscription'] = [
 
 	],
 	/* translators: used in phrases such as "Buy all the Yoast plugins" */
-	'buy_button'    => __( 'all the Yoast plugins', 'wordpress-seo' )
+	'buy_button'    => __( 'all the Yoast plugins', 'wordpress-seo' ),
 ];
 
 $addon_manager                  = new WPSEO_Addon_Manager();
