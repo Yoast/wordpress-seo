@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
