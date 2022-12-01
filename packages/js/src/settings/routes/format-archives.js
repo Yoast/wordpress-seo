@@ -68,7 +68,10 @@ const FormatArchives = () => {
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-post_format": isFormatArchivesDisabled } = values.wpseo_titles;
+	const {
+		"disable-post_format": isFormatArchivesDisabled,
+		"noindex-tax-post_format": isFormatArchivesNoIndex,
+	} = values.wpseo_titles;
 
 	return (
 		<RouteLayout
@@ -116,6 +119,8 @@ const FormatArchives = () => {
 								.
 							</> }
 							disabled={ isFormatArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isFormatArchivesDisabled ? false : ! isFormatArchivesNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikReplacementVariableEditorField
