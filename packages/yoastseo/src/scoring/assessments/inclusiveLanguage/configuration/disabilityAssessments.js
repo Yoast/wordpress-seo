@@ -3,11 +3,13 @@ import {
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 } from "./feedbackStrings";
-import { isPrecededByException } from "../helpers/isPrecededByException";
+import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { all as verbsToBe } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
+import { flatMap } from "lodash-es";
 
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
@@ -17,18 +19,11 @@ const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the spec
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
-/**
- * A
- * @param {string[]} words A
- * @param {string[]} nonInclusivePhrases A
- * @returns {function} A
- */
-function checkOCD( words, nonInclusivePhrases ) {
-	return ( index ) =>{
-		console.log( index );
-	};
-}
-
+// Create a list of all possible combinations of a verb to be and a quantifier.
+const toBeQuantifier = flatMap( [ "so", "very", "a bit", "really", "pretty", "kind of" ], quantifier => flatMap(
+	verbsToBe, verbToBe => `${verbToBe} ${quantifier}` ) );
+// A list of requirements: words that need to be in front of "OCD" for it to be non inclusive.
+const ocdRequirements =  verbsToBe.concat( toBeQuantifier );
 
 const disabilityAssessments =  [
 	{
@@ -382,16 +377,16 @@ const disabilityAssessments =  [
 	},
 	{
 		identifier: "OCD",
-		nonInclusivePhrases: [ "OCD" ],
+		nonInclusivePhrases: [ "ocd" ],
 		inclusiveAlternatives: "<i>pedantic, obsessed, perfectionist</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ medicalCondition,
-			"If you are referring to someone who has the medical condition, then state that they have OCD rather than that they are OCD." ]
-			.join( " " ),
+		feedbackFormat: "Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
+		"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s. " +
+			"If you are referring to someone who has the medical condition, then state that they have OCD rather than that they are OCD.",
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( checkOCD( words ) );
-		}
+				.filter( isNotPrecededByException( words, ocdRequirements ) );
+		},
 	},
 	{
 		identifier: "theMentallyIll",

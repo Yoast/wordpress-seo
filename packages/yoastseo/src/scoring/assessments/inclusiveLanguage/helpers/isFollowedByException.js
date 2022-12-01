@@ -23,7 +23,7 @@ export function isFollowedByException( words, consecutiveWords, exceptions ) {
 
 /**
  * Checks whether the given list of words contains another list of words in the given order,
- * but not when they are followed by one of the exceptions.
+ * but only when they are followed by one of the exceptions.
  *
  * @param {string[]} words The list of words.
  * @param {string[]} consecutiveWords The list of words to find.
