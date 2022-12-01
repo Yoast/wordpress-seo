@@ -109,4 +109,68 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 		// Assert.
 		$this->assertEquals( [], $result );
 	}
+
+	/**
+	 * Test the ignore_deactivating_plugin when GET variables are not set correctly.
+	 *
+	 * @param mixed $action The value of $_GET['action'].
+	 * @param mixed $plugin The value of $_GET['plugin'].
+	 * @param array $expected The expected return value of detect_conflicting_plugins.
+	 *
+	 * @dataProvider detect_deactivating_conflicting_plugins_dataprovider
+	 *
+	 * @covers ::ignore_deactivating_plugin
+	 */
+	public function test_detect_deactivating_conflicting_plugins_plugin_is_int( $action, $plugin, $expected ) {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'active_plugins' )
+			->once()
+			->andReturn(
+				[
+					'xml-sitemaps/xml-sitemaps.php',
+					'not-conflicting/plugin.php',
+				]
+			);
+
+		$_GET['action'] = $action;
+		$_GET['plugin'] = $plugin;
+
+		$result = $this->conflicting_plugins_service->detect_conflicting_plugins();
+
+		$this->assertEquals( $expected, $result );
+	}
+
+	/**
+	 * Data provider for test_detect_deactivating_conflicting_plugins_plugin_is_int.
+	 *
+	 * @return array[] Data to use for test_detect_deactivating_conflicting_plugins_plugin_is_int.
+	 */
+	public function detect_deactivating_conflicting_plugins_dataprovider() {
+		$action_is_null = [
+			'action' => null,
+			'plugin' => 'xml-sitemaps/xml-sitemaps.php',
+			'expected' => ['xml-sitemaps/xml-sitemaps.php']
+		];
+		$action_is_not_string = [
+			'action' => 13,
+			'plugin' => 'xml-sitemaps/xml-sitemaps.php',
+			'expected' => ['xml-sitemaps/xml-sitemaps.php']
+		];
+		$plugin_is_null = [
+			'action' => 'deactivate',
+			'plugin' => null,
+			'expected' => ['xml-sitemaps/xml-sitemaps.php']
+		];
+		$plugin_is_not_string = [
+			'action' => 'deactivate',
+			'plugin' => 13,
+			'expected' => ['xml-sitemaps/xml-sitemaps.php']
+		];
+		return [
+			'Action is null' => $action_is_null,
+			'Action is not string' => $action_is_not_string,
+			'Plugin is null' => $plugin_is_null,
+			'Plugin is not string' => $plugin_is_not_string,
+		];
+	}
 }
