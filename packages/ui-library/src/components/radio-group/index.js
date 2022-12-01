@@ -97,4 +97,6 @@ RadioGroup.propTypes = {
 	className: PropTypes.string,
 };
 
+RadioGroup.Radio = Radio;
+
 export default RadioGroup;
