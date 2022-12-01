@@ -6,8 +6,8 @@ import PropTypes from "prop-types";
 /**
  * @param {Object} props The props to pass down to the component.
  * @param {string} props.name The field name.
- * @param {string} props.name The field name.
- * @param {boolean} props.disabled Disabled state.
+ * @param {string} [props.className] The field className.
+ * @param {boolean} [props.disabled] Disabled state.
  * @returns {JSX.Element} The Formik compatible element.
  */
 const FormikReplacementVariableEditorField = ( { className = "", disabled = false, ...props } ) => {
