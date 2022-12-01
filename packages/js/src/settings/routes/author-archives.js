@@ -71,7 +71,7 @@ const AuthorArchives = () => {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
 			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noopener" />,
 		}
-	) );
+	), [] );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
@@ -126,7 +126,7 @@ const AuthorArchives = () => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
-										&nbsp;
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
