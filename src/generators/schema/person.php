@@ -124,17 +124,18 @@ class Person extends Abstract_Schema_Piece {
 	}
 
 	/**
-	 * Builds our array of Schema Person data for a given user ID.
+	 * Build a Person Schema object.
 	 *
-	 * @param int  $user_id  The user ID to use.
-	 * @param bool $add_hash Wether or not the person's image url hash should be added to the image id.
+	 * @param int    $user_id  The user ID to use.
+	 * @param string $type     The Schema type, defaults to 'Person'.
+	 * @param bool   $add_hash Whether the person's image url hash should be added to the image id. Defaults to false.
 	 *
-	 * @return array An array of Schema Person data.
+	 * @return array A person Schema object.
 	 */
-	protected function build_person_data( $user_id, $add_hash = false ) {
+	public function build_object( $user_id, $type = 'Person', $add_hash = false ) {
 		$user_data = \get_userdata( $user_id );
 		$data      = [
-			'@type' => $this->type,
+			'@type' => $type,
 			'@id'   => $this->helpers->schema->id->get_user_schema_id( $user_id, $this->context ),
 		];
 
@@ -158,9 +159,19 @@ class Person extends Abstract_Schema_Piece {
 		 * @param array $data    The schema data we have for this person.
 		 * @param int   $user_id The current user we're collecting schema data for.
 		 */
-		$data = \apply_filters( 'wpseo_schema_person_data', $data, $user_id );
+		return \apply_filters( 'wpseo_schema_person_data', $data, $user_id );
+	}
 
-		return $data;
+	/**
+	 * Builds our array of a Schema "Representational" Person data for a given user ID.
+	 *
+	 * @param int  $user_id  The user ID to use.
+	 * @param bool $add_hash Whether the person's image url hash should be added to the image id.
+	 *
+	 * @return array An array of Schema Person data.
+	 */
+	protected function build_person_data( $user_id, $add_hash = false ) {
+		return $this->build_object( $user_id, $this->context, $this->type, $add_hash );
 	}
 
 	/**
@@ -193,7 +204,7 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @param array   $data      The Person schema.
 	 * @param string  $schema_id The string used in the `@id` for the schema.
-	 * @param bool    $add_hash  Whether or not the person's image url hash should be added to the image id.
+	 * @param bool    $add_hash  Whether the person's image url hash should be added to the image id.
 	 * @param WP_User $user_data User data.
 	 *
 	 * @return array The Person schema.
@@ -215,7 +226,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @param array   $data      The Person schema.
 	 * @param WP_User $user_data User data.
 	 * @param string  $schema_id The string used in the `@id` for the schema.
-	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
+	 * @param bool    $add_hash  Whether the person's image url hash should be added to the image id.
 	 *
 	 * @return array The Person schema.
 	 */
@@ -240,7 +251,7 @@ class Person extends Abstract_Schema_Piece {
 	 * Returns an author's social site URL.
 	 *
 	 * @param string $social_site The social site to retrieve the URL for.
-	 * @param mixed  $user_id     The user ID to use function outside of the loop.
+	 * @param mixed  $user_id     The user ID to use to function outside the loop.
 	 *
 	 * @return string
 	 */
