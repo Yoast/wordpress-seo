@@ -6,7 +6,7 @@ export { default as CrawlSettings } from "./crawl-optimization";
 export { default as DateArchives } from "./date-archives";
 export { default as FormatArchives } from "./format-archives";
 export { default as Homepage } from "./homepage";
-export { default as Media } from "./media";
+export { default as MediaPages } from "./media-pages";
 export { default as Rss } from "./rss";
 export { default as SiteBasics } from "./site-basics";
 export { default as SiteFeatures } from "./site-features";

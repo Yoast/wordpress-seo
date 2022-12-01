@@ -14,9 +14,9 @@ import {
 import { useSelectSettings } from "../hooks";
 
 /**
- * @returns {JSX.Element} The media route.
+ * @returns {JSX.Element} The media pages route.
  */
-const Media = () => {
+const MediaPages = () => {
 	const { name, label, hasSchemaArticleType } = useSelectSettings( "selectPostType", [], "attachment" );
 	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
 
@@ -182,4 +182,4 @@ const Media = () => {
 	);
 };
 
-export default Media;
+export default MediaPages;
