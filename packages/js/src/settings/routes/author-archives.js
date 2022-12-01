@@ -133,6 +133,8 @@ const AuthorArchives = () => {
 								.
 							</> }
 							disabled={ isAuthorArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isAuthorArchivesDisabled ? false : ! isAuthorNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikFlippedToggleField
@@ -148,7 +150,7 @@ const AuthorArchives = () => {
 								__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 								labelLower
 							) }
-							checked={ ! isAuthorNoIndex && ! isAuthorNoIndexNoPosts }
+							checked={ isAuthorArchivesDisabled ? false : ! isAuthorNoIndex && ! isAuthorNoIndexNoPosts }
 							disabled={ isAuthorArchivesDisabled || isAuthorNoIndex }
 							className="yst-max-w-sm"
 						/>
