@@ -107,11 +107,37 @@ Factory.args = {
 };
 
 
+export const Selected = FeedbackTemplate.bind( {} );
+
+Selected.parameters = { docs: { description: { story: "When file is selected." } } };
+
+Selected.args = {
+	children: (
+		<FileImport.Selected>
+			<Alert variant="info" role="alert">
+				A file has been selected for import.
+			</Alert>
+		</FileImport.Selected>
+	),
+	id: "file-import-selected",
+	name: "file-import-selected",
+	...defaultArgs,
+	progress: 60,
+	status: FILE_IMPORT_STATUS.selected,
+};
+
 export const Loading = FeedbackTemplate.bind( {} );
 
 Loading.parameters = { docs: { description: { story: "When file in loading." } } };
 
 Loading.args = {
+	children: (
+		<FileImport.Loading>
+			<Alert variant="info" role="alert">
+				The import is loading.
+			</Alert>
+		</FileImport.Loading>
+	),
 	id: "file-import-loading",
 	name: "file-import-loading",
 	...defaultArgs,
@@ -124,6 +150,13 @@ export const Aborted = FeedbackTemplate.bind( {} );
 Aborted.parameters = { docs: { description: { story: "When file loading is aborted." } } };
 
 Aborted.args = {
+	children: (
+		<FileImport.Aborted>
+			<Alert variant="info" role="alert">
+				The import was aborted.
+			</Alert>
+		</FileImport.Aborted>
+	),
 	id: "file-import-aborted",
 	name: "file-import-aborted",
 	...defaultArgs,
@@ -132,24 +165,19 @@ Aborted.args = {
 };
 
 
-export const EndingInSuccess = FeedbackTemplate.bind( {} );
-EndingInSuccess.args = {
+export const Success = FeedbackTemplate.bind( {} );
+Success.args = {
 	children: (
-		<>
-			<FileImport.Success>
-				<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
-				<Alert variant="warning" role="alert">
-					However, there were some slight problems with the following data:
-					<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
-						<li>This went wrong</li>
-						<li>This also went wrong</li>
-					</ul>
-				</Alert>
-			</FileImport.Success>
-			<FileImport.Error>
-				<Alert variant="error" role="alert">Whoops! Something went terribly wrong.</Alert>
-			</FileImport.Error>
-		</>
+		<FileImport.Success>
+			<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
+			<Alert variant="warning" role="alert">
+				However, there were some slight problems with the following data:
+				<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
+					<li>This went wrong</li>
+					<li>This also went wrong</li>
+				</ul>
+			</Alert>
+		</FileImport.Success>
 	),
 	id: "file-import-success",
 	name: "file-import-success",
@@ -158,27 +186,15 @@ EndingInSuccess.args = {
 	status: FILE_IMPORT_STATUS.success,
 };
 
-export const EndingInError = FeedbackTemplate.bind( {} );
+export const Error = FeedbackTemplate.bind( {} );
 
-EndingInError.parameters = { docs: { description: { story: "Error will appear when `status` prop is error." } } };
+Error.parameters = { docs: { description: { story: "Error will appear when `status` prop is error." } } };
 
-EndingInError.args = {
+Error.args = {
 	children: (
-		<>
-			<FileImport.Success>
-				<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
-				<Alert variant="warning" role="alert">
-					However, there were some slight problems with the following data:
-					<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
-						<li>This went wrong</li>
-						<li>This also went wrong</li>
-					</ul>
-				</Alert>
-			</FileImport.Success>
-			<FileImport.Error>
-				<Alert variant="error" role="alert">Whoops! Something went terribly wrong.</Alert>
-			</FileImport.Error>
-		</>
+		<FileImport.Error>
+			<Alert variant="error" role="alert">Whoops! Something went terribly wrong.</Alert>
+		</FileImport.Error>
 	),
 	id: "file-import-error",
 	name: "file-import-error",
