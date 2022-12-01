@@ -44,9 +44,14 @@ const cultureAssessments = [
 	{
 		identifier: "exotic",
 		nonInclusivePhrases: [ "exotic" ],
-		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre</i>",
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, nonnative, introduced</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless + " Unless you are referring to animals, " +
+			"consider using an alternative, such as %2$s.",
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isPrecededByException( words, [ "pet", "pets", "animals" ] ) );
+		},
 	},
 	{
 		identifier: "sherpa",
