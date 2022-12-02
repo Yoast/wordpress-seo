@@ -111,7 +111,17 @@ describe( "Disability assessments", function() {
 		} );
 	} );
 
-	it( "should not dumb if preceded by 'deaf and'.", () => {
+	it( "should target 'stupid'.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "stupid" ) );
+
+		const testSentence = "Stupid, that's just how they're acting.";
+		const mockPaper = new Paper( testSentence );
+		const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+
+		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
+	} );
+
+	it( "should not target 'dumb' if preceded by 'deaf and'.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "dumb" ) );
 
 		const testSentence = "He is deaf and dumb.";
