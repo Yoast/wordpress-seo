@@ -6,6 +6,8 @@ import { get } from "lodash";
 import PropTypes from "prop-types";
 import createInterpolateElement from "../../helpers/createInterpolateElement";
 import DataModel from "./data-model";
+import { addQueryArgs } from "@wordpress/url";
+import { useRootContext }  from "@yoast/externals/contexts";
 
 const OutboundLink = makeOutboundLink();
 
@@ -64,6 +66,8 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 		return null;
 	}
 
+	const { locationContext } = useRootContext();
+
 	return (
 		<div className="yoast-prominent-words">
 			<div className="yoast-field-group__title">
@@ -82,7 +86,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 				}
 			</p> }
 			{ shouldUpsell && <p>{ upsellDescription }</p> }
-			{ shouldUpsell && <OutboundLink href={ upsellLink } data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" className="yoast-button yoast-button-upsell">
+			{ shouldUpsell && <OutboundLink href={ addQueryArgs( upsellLink, { context: locationContext } ) } data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" className="yoast-button yoast-button-upsell">
 				{ sprintf(
 					// translators: %s expands to `Premium` (part of add-on name).
 					__( "Unlock with %s", "wordpress-seo" ),

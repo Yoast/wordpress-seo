@@ -13,10 +13,11 @@ import Results from "../../containers/Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
-import { LocationConsumer } from "@yoast/externals/contexts";
+import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
+import { addQueryArgs } from "@wordpress/url";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -72,20 +73,23 @@ class ReadabilityAnalysis extends Component {
 	 * Returns the list of results used to upsell the user to Premium.
 	 *
 	 * @param {string} location Where this component is rendered (metabox or sidebar).
+	 * @param {string} locationContext In which editor this component is rendered.
 	 *
 	 * @returns {Array} The upsell results.
 	 */
-	getUpsellResults( location ) {
+	getUpsellResults( location, locationContext ) {
 		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.word_complexity" ];
 		if ( location === "sidebar" ) {
 			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.word_complexity" ];
 		}
 
+		link = addQueryArgs( link, { context: locationContext } );
+
 		/*
 		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
 		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
 		 * Additionally, we also don't show the upsell for Word complexity assessment if it's not supported for the current locale.
-		*/
+		 */
 		const contentType = wpseoAdminL10n.postType;
 		if ( ( this.props.isYoastSEOWooActive && contentType === "product" ) || ! isWordComplexitySupported() ) {
 			return [];
@@ -131,37 +135,43 @@ class ReadabilityAnalysis extends Component {
 		return (
 			<LocationConsumer>
 				{ location => {
-					let upsellResults = [];
-					if ( this.props.shouldUpsell ) {
-						upsellResults = this.getUpsellResults( location );
-					}
-					if ( location === "sidebar" ) {
-						return (
-							<Collapsible
-								title={ __( "Readability analysis", "wordpress-seo" ) }
-								titleScreenReaderText={ score.screenReaderReadabilityText }
-								prefixIcon={ getIconForScore( score.className ) }
-								prefixIconCollapsed={ getIconForScore( score.className ) }
-								id={ `yoast-readability-analysis-collapsible-${ location }` }
-							>
-								{ this.renderResults( upsellResults ) }
-							</Collapsible>
-						);
-					}
+					return (
+						<RootContext.Consumer>
+							{ ( { locationContext } ) => {
+								let upsellResults = [];
+								if ( this.props.shouldUpsell ) {
+									upsellResults = this.getUpsellResults( location, locationContext );
+								}
+								if ( location === "sidebar" ) {
+									return (
+										<Collapsible
+											title={ __( "Readability analysis", "wordpress-seo" ) }
+											titleScreenReaderText={ score.screenReaderReadabilityText }
+											prefixIcon={ getIconForScore( score.className ) }
+											prefixIconCollapsed={ getIconForScore( score.className ) }
+											id={ `yoast-readability-analysis-collapsible-${ location }` }
+										>
+											{ this.renderResults( upsellResults ) }
+										</Collapsible>
+									);
+								}
 
-					if ( location === "metabox" ) {
-						return (
-							<ReadabilityResultsPortal target="wpseo-metabox-readability-root">
-								<ReadabilityResultsTabContainer>
-									<ScoreIconPortal
-										target="wpseo-readability-score-icon"
-										scoreIndicator={ score.className }
-									/>
-									{ this.renderResults( upsellResults ) }
-								</ReadabilityResultsTabContainer>
-							</ReadabilityResultsPortal>
-						);
-					}
+								if ( location === "metabox" ) {
+									return (
+										<ReadabilityResultsPortal target="wpseo-metabox-readability-root">
+											<ReadabilityResultsTabContainer>
+												<ScoreIconPortal
+													target="wpseo-readability-score-icon"
+													scoreIndicator={ score.className }
+												/>
+												{ this.renderResults( upsellResults ) }
+											</ReadabilityResultsTabContainer>
+										</ReadabilityResultsPortal>
+									);
+								}
+							} }
+						</RootContext.Consumer>
+					);
 				} }
 			</LocationConsumer>
 		);

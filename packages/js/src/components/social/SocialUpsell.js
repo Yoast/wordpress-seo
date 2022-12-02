@@ -7,7 +7,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { addQueryArgs } from "@wordpress/url";
-import useRootContext from "../contexts/use-root-context";
+import { useRootContext }  from "@yoast/externals/contexts";
 
 const PremiumInfoText = styled( Alert )`
 	p {
