@@ -8,6 +8,7 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
@@ -57,6 +58,13 @@ class Indexable_Link_Builder_Test extends TestCase {
 	protected $post_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
@@ -81,11 +89,13 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image_helper         = Mockery::mock( Image_Helper::class );
 		$this->post_helper          = Mockery::mock( Post_Helper::class );
+		$this->options_helper       = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Indexable_Link_Builder(
 			$this->seo_links_repository,
 			$this->url_helper,
-			$this->post_helper
+			$this->post_helper,
+			$this->options_helper
 		);
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
 
