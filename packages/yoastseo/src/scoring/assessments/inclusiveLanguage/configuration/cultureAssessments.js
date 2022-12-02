@@ -50,7 +50,7 @@ const cultureAssessments = [
 			"consider using an alternative, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isPrecededByException( words, [ "pet", "pets", "animal", "animals" ] ) );
+				.filter( isPrecededByException( words, [ "longhair", "shorthair" ] ) );
 		},
 	},
 	{
