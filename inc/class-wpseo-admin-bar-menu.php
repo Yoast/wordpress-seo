@@ -5,6 +5,7 @@
  * @package WPSEO
  */
 
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -460,17 +461,17 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'    => 'wpseo-semrush',
 				'title' => 'Semrush',
-				'href'  => 'https://yoa.st/admin-bar-semrush',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-semrush' ),
 			],
 			[
 				'id'    => 'wpseo-wincher',
 				'title' => 'Wincher',
-				'href'  => 'https://yoa.st/admin-bar-wincher',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-wincher' ),
 			],
 			[
 				'id'    => 'wpseo-google-trends',
 				'title' => 'Google trends',
-				'href'  => 'https://yoa.st/admin-bar-gtrends',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-gtrends' ),
 			],
 		];
 
@@ -497,17 +498,17 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'    => 'wpseo-learn-seo',
 				'title' => __( 'Learn more SEO', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-learn-more-seo',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-learn-more-seo' ),
 			],
 			[
 				'id'    => 'wpseo-improve-blogpost',
 				'title' => __( 'Improve your blog post', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-improve-blog-post',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-improve-blog-post' ),
 			],
 			[
 				'id'    => 'wpseo-write-better-content',
 				'title' => __( 'Write better content', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-write-better',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-write-better' ),
 			],
 		];
 
@@ -534,22 +535,22 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'    => 'wpseo-yoast-help',
 				'title' => __( 'Yoast.com help section', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-yoast-help',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-yoast-help' ),
 			],
 			[
 				'id'    => 'wpseo-premium-support',
 				'title' => __( 'Yoast Premium support', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-premium-support',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-premium-support' ),
 			],
 			[
 				'id'    => 'wpseo-wp-support-forums',
 				'title' => __( 'WordPress.org support forums', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-wp-support-forums',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-wp-support-forums' ),
 			],
 			[
 				'id'    => 'wpseo-learn-seo-2',
 				'title' => __( 'Learn more SEO', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-learn-more-seo-help',
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-learn-more-seo-help' ),
 			],
 		];
 
@@ -569,7 +570,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-get-premium',
 				'title'  => __( 'Get Yoast SEO Premium', 'wordpress-seo' ) . ' &raquo;',
-				'href'   => 'https://yoa.st/admin-bar-get-premium',
+				'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-get-premium' ),
 				'meta'   => [
 					'tabindex' => '0',
 					'target'   => '_blank',
