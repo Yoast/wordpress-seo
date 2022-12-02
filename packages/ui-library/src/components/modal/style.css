@@ -1,11 +1,11 @@
 @layer components {
 	.yst-root {
 		.yst-modal {
-			@apply yst-fixed yst-inset-0 yst-z-10 yst-overflow-y-auto;
+			@apply yst-fixed yst-inset-0 yst-z-10 yst-overflow-y-auto yst-p-4 sm:yst-p-8 md:yst-p-20;;
 		}
 
 		.yst-modal__body {
-			@apply yst-min-h-screen yst-px-4 yst-text-center;
+			@apply yst-min-h-screen yst-text-center;
 		}
 
 		.yst-modal__overlay {

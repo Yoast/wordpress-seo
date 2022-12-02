@@ -90,7 +90,7 @@ const AuthorArchives = () => {
 				<div className="yst-max-w-5xl">
 					<FormikFlippedToggleField
 						name={ "wpseo_titles.disable-author" }
-						data-id={ "input-wpseo_titles-disable-author" }
+						id={ "input-wpseo_titles-disable-author" }
 						label={ sprintf(
 							// translators: %1$s expands to "author archives".
 							__( "Enable %1$s", "wordpress-seo" ),
@@ -114,7 +114,7 @@ const AuthorArchives = () => {
 					>
 						<FormikFlippedToggleField
 							name="wpseo_titles.noindex-author-wpseo"
-							data-id="input-wpseo_titles-noindex-author-wpseo"
+							id="input-wpseo_titles-noindex-author-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to "author archives".
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -137,7 +137,7 @@ const AuthorArchives = () => {
 						/>
 						<FormikFlippedToggleField
 							name="wpseo_titles.noindex-author-noposts-wpseo"
-							data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
+							id="input-wpseo_titles-noindex-author-noposts-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to "author archives".
 								__( "Show %1$s without posts in search results", "wordpress-seo" ),

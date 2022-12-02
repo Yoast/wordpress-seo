@@ -18,7 +18,7 @@ export const breadcrumbsSelectors = {
 				const linkedTaxonomies = filter( taxonomies, taxonomy => includes( taxonomy.postTypes, postTypeName ) );
 				if ( ! isEmpty( linkedTaxonomies ) ) {
 					options[ postTypeName ] = {
-						label: postType.label,
+						...postType,
 						options: [
 							none,
 							...map( linkedTaxonomies, ( { name, label } ) => ( { value: name, label } ) ),

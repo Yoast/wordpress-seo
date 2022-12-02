@@ -53,10 +53,11 @@ class WPSEO_Metabox_Formatter {
 	 * @return array Default settings for the metabox.
 	 */
 	private function get_defaults() {
-		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
-		$schema_types         = new Schema_Types();
-		$is_wincher_active    = YoastSEO()->helpers->wincher->is_active();
+		$analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
+		$analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
+		$analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
+		$schema_types                = new Schema_Types();
+		$is_wincher_active           = YoastSEO()->helpers->wincher->is_active();
 
 		return [
 			'author_name'                     => get_the_author_meta( 'display_name' ),
@@ -76,6 +77,7 @@ class WPSEO_Metabox_Formatter {
 			'metadesc_template'               => '',
 			'contentAnalysisActive'           => $analysis_readability->is_enabled() ? 1 : 0,
 			'keywordAnalysisActive'           => $analysis_seo->is_enabled() ? 1 : 0,
+			'inclusiveLanguageAnalysisActive' => $analysis_inclusive_language->is_enabled() ? 1 : 0,
 			'cornerstoneActive'               => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'semrushIntegrationActive'        => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
 			'intl'                            => $this->get_content_analysis_component_translations(),
@@ -160,6 +162,36 @@ class WPSEO_Metabox_Formatter {
 						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the readability score. */
 							__( '%1$sReadability%2$s: %3$s', 'wordpress-seo' ),
 							'<a href="#yoast-readability-analysis-collapsible-metabox">',
+							'</a>',
+							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
+						),
+					],
+					'inclusive-language' => [
+						'na'   => sprintf(
+						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
+							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
+							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
+							'</a>',
+							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
+						),
+						'bad'  => sprintf(
+						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
+							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
+							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
+							'</a>',
+							'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
+						),
+						'ok'   => sprintf(
+						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
+							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
+							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
+							'</a>',
+							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
+						),
+						'good' => sprintf(
+						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
+							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
+							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
 							'</a>',
 							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
 						),
@@ -288,45 +320,5 @@ class WPSEO_Metabox_Formatter {
 		$translatepress_active = YoastSEO()->classes->get( TranslatePress_Conditional::class )->is_met();
 
 		return ( $wpml_active || $polylang_active || $translatepress_active );
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Returns the translations for the Add Keyword modal.
-	 *
-	 * These strings are not escaped because they're meant to be used with React
-	 * which already takes care of that. If used in PHP, they should be escaped.
-	 *
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return array Translated text strings for the Add Keyword modal.
-	 */
-	public function get_add_keyword_upsell_translations() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		return [
-			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
-			'intro'                    => sprintf(
-			/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-				__( 'Great news: you can, with %s!', 'wordpress-seo' ),
-				'{{link}}Yoast SEO Premium{{/link}}'
-			),
-			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-			'other'                    => sprintf(
-			/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Other benefits of %s for you:', 'wordpress-seo' ),
-				'Yoast SEO Premium'
-			),
-			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
-			'buy'                      => sprintf(
-			/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Get %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
-			),
-			'small'                    => __( '1 year free support and updates included!', 'wordpress-seo' ),
-			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-		];
 	}
 }
