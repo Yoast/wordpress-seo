@@ -189,7 +189,7 @@ describe( "Disability assessments", function() {
 } );
 
 describe( "Test the OCD assessment", () => {
-	it( "correctly identifies 'OCD', which is only recognized when preceded by a verb to be", () => {
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a form of 'to be'", () => {
 		const mockPaper = new Paper( "I am OCD." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am OCD." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
@@ -211,7 +211,7 @@ describe( "Test the OCD assessment", () => {
 			marked: "<yoastmark class='yoast-text-mark'>I am OCD.</yoastmark>",
 		} ) ] );
 	} );
-	it( "correctly identifies 'OCD', which is only recognized when preceded by a contracted verb to be", () => {
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a contracted form of 'to be'", () => {
 		const mockPaper = new Paper( "You're OCD." );
 		const mockResearcher = Factory.buildMockResearcher( [ "You're OCD." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
@@ -233,7 +233,7 @@ describe( "Test the OCD assessment", () => {
 			marked: "<yoastmark class='yoast-text-mark'>You're OCD.</yoastmark>",
 		} ) ] );
 	} );
-	it( "correctly identifies 'OCD', which is only recognized when preceded by a verb to be + quantifier", () => {
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a form of 'to be' + quantifier", () => {
 		const mockPaper = new Paper( "I am so OCD." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am so OCD." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
@@ -255,7 +255,7 @@ describe( "Test the OCD assessment", () => {
 			marked: "<yoastmark class='yoast-text-mark'>I am so OCD.</yoastmark>",
 		} ) ] );
 	} );
-	it( "does not identify 'OCD' when not followed by punctuation, function word or participle", () => {
+	it( "does not identify 'OCD' when not preceded by a form of 'to be'", () => {
 		const mockPaper = new Paper( "This person has OCD" );
 		const mockResearcher = Factory.buildMockResearcher( [ "This person has OCD" ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
