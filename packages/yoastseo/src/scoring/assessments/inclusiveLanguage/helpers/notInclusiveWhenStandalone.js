@@ -4,6 +4,7 @@ import { nonNouns } from "../../../../languageProcessing/languages/en/config/fun
 import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
 import { getWords } from "../../../../languageProcessing";
 
+// Filter tokens from the exception lists that cause trouble when passed to getWords.
 const filteredPunctuationList = punctuationList.filter( punctMark => getWords( punctMark, false ).length > 0  );
 const filteredFunctionWords = nonNouns.filter( functionWord => getWords( functionWord, false ).length > 0 );
 
