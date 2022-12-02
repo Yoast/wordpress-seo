@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '19.11' );
+define( 'WPSEO_VERSION', '19.12-RC3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -559,28 +559,6 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
-}
-
-/* ********************* DEPRECATED METHODS ********************* */
-
-/**
- * Instantiate the different social classes on the frontend.
- *
- * @deprecated 14.0
- * @codeCoverageIgnore
- */
-function wpseo_frontend_head_init() {
-	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-}
-
-/**
- * Used to load the required files on the plugins_loaded hook, instead of immediately.
- *
- * @deprecated 14.0
- * @codeCoverageIgnore
- */
-function wpseo_frontend_init() {
-	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }
 
 /**

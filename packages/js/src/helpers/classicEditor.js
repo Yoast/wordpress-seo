@@ -2,7 +2,7 @@ import { render, Component as wpComponent, createRef } from "@wordpress/element"
 import { SlotFillProvider } from "@wordpress/components";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
 import getL10nObject from "../analysis/getL10nObject";
-import Root from "../components/contexts/root";
+import { Root } from "@yoast/externals/contexts";
 
 const registeredComponents = [];
 let containerRef = null;

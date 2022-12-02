@@ -7,7 +7,7 @@ import { registerElementorDataHookAfter } from "../helpers/elementorHook";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
-import Root from "../components/contexts/root";
+import { Root } from "@yoast/externals/contexts";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
