@@ -90,7 +90,7 @@ class Unsupported_PHP_Version implements Integration_Interface, Whip_Message {
 					'Upgrading your PHP version is something your hosting provider can help you out with. If they can’t upgrade your PHP version, we advise you to consider %1$sswitching to a hosting provider%2$s that can provide the security and features a modern host should provide.',
 					'wordpress-seo'
 				),
-				'<a href="' . WPSEO_Shortlinker::get( 'http://yoa.st/whip-hosting' ) . '">',
+				'<a href="' . WPSEO_Shortlinker::get( 'http://yoa.st/whip-hosting' ) . '" target="_blank">',
 				'</a>'
 			)
 		) . '<br />';
