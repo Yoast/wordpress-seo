@@ -92,7 +92,8 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 $extensions['yoast-seo-plugin-subscription'] = [
 	'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/premium-page-bundle-buy' ),
 	'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/premium-page-bundle-info' ),
-	'title'         => 'all Yoast plugins',
+	/* translators: used in phrases such as "More information about all the Yoast plugins" */
+	'title'         => __( 'all the Yoast plugins', 'wordpress-seo' ),
 	'display_title' => __( 'Cover all your SEO bases', 'wordpress-seo' ),
 	'desc'          => '',
 	'image'         => plugins_url( 'images/plugin_subscription.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
@@ -104,7 +105,8 @@ $extensions['yoast-seo-plugin-subscription'] = [
 		__( 'Drive more traffic to your online store', 'wordpress-seo' ),
 
 	],
-	'buy_button'    => 'all Yoast plugins',
+	/* translators: used in phrases such as "Buy all the Yoast plugins" */
+	'buy_button'    => __( 'all the Yoast plugins', 'wordpress-seo' ),
 ];
 
 $addon_manager                  = new WPSEO_Addon_Manager();
@@ -310,7 +312,7 @@ $new_tab_message         = sprintf(
 							<a target="_blank" class="yoast-button-upsell" href="<?php echo esc_url( $extension['buyUrl'] ); ?>">
 								<?php
 								printf(
-									/* translators: %s expands to the product name, e.g. "News SEO" or "all Yoast Plugins" */
+									/* translators: %s expands to the product name, e.g. "News SEO" or "all the Yoast Plugins" */
 									esc_html__( 'Buy %s', 'wordpress-seo' ),
 									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The possible `get_buy_button` values are hardcoded (buy_button or title); only passed through the WPSEO_Extensions class.
 									( isset( $extension['buy_button'] ) ) ? $extension['buy_button'] : $extension['title']
@@ -324,7 +326,7 @@ $new_tab_message         = sprintf(
 							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension['infoUrl'] ); ?>">
 								<?php
 								printf(
-									/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name, e.g. "News SEO" or "all Yoast Plugins" */
+									/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name, e.g. "News SEO" or "all the Yoast Plugins" */
 									esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 									'<span class="screen-reader-text">',
 									'</span>',

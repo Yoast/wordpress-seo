@@ -51,6 +51,7 @@ export function renderRatingToColor( rating ) {
  * @param {string}          props.marksButtonStatus             The overall status of the mark buttons.
  * @param {string}          props.marksButtonClassName          A class name to set on the mark buttons.
  * @param {string}          props.editButtonClassName           A class name to set on the edit buttons.
+ * @param {Function}        [props.markButtonFactory]           Injectable factory to create custom mark buttons.
  * @param {Function}        props.onMarksButtonClick            Function that is called when the user
  *                                                              clicks one of the mark buttons.
  * @param {Function}        props.onEditButtonClick             Function that is called when the user
@@ -106,6 +107,7 @@ export default function AnalysisList( props ) {
 				hasBetaBadgeLabel={ result.hasBetaBadge }
 				isPremium={ props.isPremium }
 				onResultChange={ props.onResultChange }
+				markButtonFactory={ props.markButtonFactory }
 			/>;
 		} ) }
 	</AnalysisListBase>;
@@ -117,6 +119,7 @@ AnalysisList.propTypes = {
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
 	editButtonClassName: PropTypes.string,
+	markButtonFactory: PropTypes.func,
 	onMarksButtonClick: PropTypes.func,
 	onEditButtonClick: PropTypes.func,
 	isPremium: PropTypes.bool,
