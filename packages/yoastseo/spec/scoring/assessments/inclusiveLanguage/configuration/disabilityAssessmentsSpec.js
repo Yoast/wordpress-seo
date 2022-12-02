@@ -211,6 +211,28 @@ describe( "Test the OCD assessment", () => {
 			marked: "<yoastmark class='yoast-text-mark'>I am OCD.</yoastmark>",
 		} ) ] );
 	} );
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a contracted verb to be", () => {
+		const mockPaper = new Paper( "You're OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "You're OCD." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "You're OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>You're OCD.</yoastmark>",
+		} ) ] );
+	} );
 	it( "correctly identifies 'OCD', which is only recognized when preceded by a verb to be + quantifier", () => {
 		const mockPaper = new Paper( "I am so OCD." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am so OCD." ] );
@@ -233,7 +255,7 @@ describe( "Test the OCD assessment", () => {
 			marked: "<yoastmark class='yoast-text-mark'>I am so OCD.</yoastmark>",
 		} ) ] );
 	} );
-	it( "does not identify 'the disabled' when not followed by punctuation, function word or participle", () => {
+	it( "does not identify 'OCD' when not followed by punctuation, function word or participle", () => {
 		const mockPaper = new Paper( "This person has OCD" );
 		const mockResearcher = Factory.buildMockResearcher( [ "This person has OCD" ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
