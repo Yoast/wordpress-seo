@@ -14,11 +14,11 @@ import {
 import { useSelectSettings } from "../hooks";
 
 /**
- * @returns {JSX.Element} The media route.
+ * @returns {JSX.Element} The media pages route.
  */
-const Media = () => {
+const MediaPages = () => {
 	const { name, label, hasSchemaArticleType } = useSelectSettings( "selectPostType", [], "attachment" );
-	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+	const labelLower = useMemo( () => toLower( label ), [ label ] );
 
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
@@ -28,7 +28,10 @@ const Media = () => {
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const { values } = useFormikContext();
-	const { "disable-attachment": isAttachmentPagesDisabled } = values.wpseo_titles;
+	const {
+		"disable-attachment": isAttachmentPagesDisabled,
+		"noindex-attachment": isAttachmentPagesNoIndex,
+	} = values.wpseo_titles;
 
 	const description = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -111,6 +114,8 @@ const Media = () => {
 								.
 							</> }
 							disabled={ isAttachmentPagesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isAttachmentPagesDisabled ? false : ! isAttachmentPagesNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikReplacementVariableEditorField
@@ -182,4 +187,4 @@ const Media = () => {
 	);
 };
 
-export default Media;
+export default MediaPages;
