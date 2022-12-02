@@ -49,7 +49,6 @@ describe( "Culture Assessments", () => {
 			const testSentence = `It is common to have exotic ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
-
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 		} );
 	} );
