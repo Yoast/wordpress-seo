@@ -5,6 +5,7 @@
  * @package WPSEO
  */
 
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -569,7 +570,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-get-premium',
 				'title'  => __( 'Get Yoast SEO Premium', 'wordpress-seo' ) . ' &raquo;',
-				'href'   => 'https://yoa.st/admin-bar-get-premium',
+				'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-get-premium' ),
 				'meta'   => [
 					'tabindex' => '0',
 					'target'   => '_blank',
