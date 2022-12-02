@@ -2,6 +2,10 @@ import { isFollowedByException } from "./isFollowedByException";
 import { isFollowedByParticiple } from "./isFollowedByParticiple";
 import { nonNouns } from "../../../../languageProcessing/languages/en/config/functionWords";
 import { punctuationList } from "../../../../languageProcessing/helpers/sanitize/removePunctuation";
+import { getWords } from "../../../../languageProcessing";
+
+const filteredPunctuationList = punctuationList.filter( punctMark => getWords( punctMark, false ).length > 0  );
+const filteredFunctionWords = nonNouns.filter( functionWord => getWords( functionWord, false ).length > 0 );
 
 
 /**
@@ -14,8 +18,8 @@ import { punctuationList } from "../../../../languageProcessing/helpers/sanitize
  */
 export default function notInclusiveWhenStandalone( words, nonInclusivePhrase ) {
 	return ( index ) => {
-		return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
+		return isFollowedByException( words, nonInclusivePhrase, filteredFunctionWords )( index ) ||
         isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
-        isFollowedByException( words, nonInclusivePhrase, punctuationList )( index );
+        isFollowedByException( words, nonInclusivePhrase, filteredPunctuationList )( index );
 	};
 }
