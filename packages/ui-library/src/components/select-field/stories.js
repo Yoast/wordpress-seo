@@ -11,7 +11,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple select field component.",
+				component: "A simple select field component. Any extra props are passed on to the inner `Select` element, please refer to its own documentation.",
 			},
 		},
 	},
