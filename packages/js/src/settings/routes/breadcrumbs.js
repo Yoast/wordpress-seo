@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { SelectField, TextField, ToggleField } from "@yoast/ui-library";
+import { SelectField, TextField, ToggleField, Code } from "@yoast/ui-library";
 import { Field } from "formik";
 import { map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
@@ -65,7 +65,7 @@ const Breadcrumbs = () => {
 							type="text"
 							name="wpseo_titles.breadcrumbs-archiveprefix"
 							id="input-wpseo_titles-breadcrumbs-archiveprefix"
-							label={ __( "Prefix for Archive breadcrumbs", "wordpress-seo" ) }
+							label={ __( "Prefix for archive breadcrumbs", "wordpress-seo" ) }
 							placeholder={ __( "Add prefix", "wordpress-seo" ) }
 						/>
 						<Field
@@ -73,7 +73,7 @@ const Breadcrumbs = () => {
 							type="text"
 							name="wpseo_titles.breadcrumbs-searchprefix"
 							id="input-wpseo_titles-breadcrumbs-searchprefix"
-							label={ __( "Prefix for Search page breadcrumbs", "wordpress-seo" ) }
+							label={ __( "Prefix for search page breadcrumbs", "wordpress-seo" ) }
 							placeholder={ __( "Add prefix", "wordpress-seo" ) }
 						/>
 						<Field
@@ -88,44 +88,52 @@ const Breadcrumbs = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo_titles.breadcrumbs-display-blog-page"
-							data-id="input-wpseo_titles-breadcrumbs-display-blog-page"
-							label={ __( "Show Blog page in breadcrumbs", "wordpress-seo" ) }
+							id="input-wpseo_titles-breadcrumbs-display-blog-page"
+							label={ __( "Show blog page in breadcrumbs", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/> }
 						<FormikValueChangeField
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo_titles.breadcrumbs-boldlast"
-							data-id="input-wpseo_titles-breadcrumbs-boldlast"
+							id="input-wpseo_titles-breadcrumbs-boldlast"
 							label={ __( "Bold the last page", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
-						title={ __( "Breadcrumbs for Post types", "wordpress-seo" ) }
+						title={ __( "Breadcrumbs for post types", "wordpress-seo" ) }
 						description={ __( "Choose which Taxonomy you wish to show in the breadcrumbs for Post types.", "wordpress-seo" ) }
 					>
-						{ map( breadcrumbsForPostTypes, ( postTypes, postTypeName ) => <FormikValueChangeField
+						{ map( breadcrumbsForPostTypes, ( postType, postTypeName ) => <FormikValueChangeField
 							key={ postTypeName }
 							as={ SelectField }
 							name={ `wpseo_titles.post_types-${ postTypeName }-maintax` }
-							data-id={ `input-wpseo_titles-post_types-${ postTypeName }-maintax` }
-							label={ postTypes.label }
-							options={ postTypes.options }
+							id={ `input-wpseo_titles-post_types-${ postTypeName }-maintax` }
+							label={ <>
+								{ postType.label }
+								<Code className="yst-ml-2">{ postTypeName }</Code>
+							</> }
+							options={ postType.options }
 						/> ) }
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
-						title={ __( "Breadcrumbs for Taxonomies", "wordpress-seo" ) }
+						title={ __( "Breadcrumbs for taxonomies", "wordpress-seo" ) }
 						description={ __( "Choose which Post type you wish to show in the breadcrumbs for Taxonomies.", "wordpress-seo" ) }
 					>
-						{ map( breadcrumbsForTaxonomies, ( { name, label, options } ) => (
+						{ map( breadcrumbsForTaxonomies, ( taxonomy ) => (
 							<FormikValueChangeField
-								key={ name }
+								key={ taxonomy.name }
 								as={ SelectField }
-								name={ `wpseo_titles.taxonomy-${ name }-ptparent` }
-								data-id={ `input-wpseo_titles-taxonomy-${ name }-ptparent` }
-								label={ label }
-								options={ options }
+								name={ `wpseo_titles.taxonomy-${ taxonomy.name }-ptparent` }
+								id={ `input-wpseo_titles-taxonomy-${ taxonomy.name }-ptparent` }
+								label={ <>
+									{ taxonomy.label }
+									<Code className="yst-ml-2">{ taxonomy.name }</Code>
+								</> }
+								options={ taxonomy.options }
 							/>
 						) ) }
 					</FieldsetLayout>
@@ -153,6 +161,7 @@ const Breadcrumbs = () => {
 							name="wpseo_titles.breadcrumbs-enable"
 							id="input-wpseo_titles-breadcrumbs-enable"
 							label={ __( "Enable breadcrumbs for your theme", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>
 				</div>

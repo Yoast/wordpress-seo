@@ -176,20 +176,6 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Builds the hierarchy for a post.
-	 *
-	 * @deprecated 16.4
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $object_id The post id.
-	 * @param int $post_type The post type.
-	 */
-	public function build_post_hierarchy( $object_id, $post_type ) {
-		\_deprecated_function( __METHOD__, '16.4', 'Primary_Category_Quick_Edit_Watcher::build_post_hierarchy' );
-	}
-
-	/**
 	 * Updates the indexable hierarchy and indexable permalink.
 	 *
 	 * @param Indexable $indexable The indexable to update the hierarchy and permalink for.

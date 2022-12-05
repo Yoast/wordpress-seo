@@ -34,7 +34,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @var string[]
 	 */
-	const WP_OPTIONS = [ 'blogname', 'blogdescription' ];
+	const WP_OPTIONS = [ 'blogdescription' ];
 
 	/**
 	 * Holds the allowed option groups.
@@ -366,7 +366,6 @@ class Settings_Integration implements Integration_Interface {
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
 			'fallbacks'            => $this->get_fallbacks(),
-			'personSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
 		];
 	}
 
@@ -412,6 +411,7 @@ class Settings_Integration implements Integration_Interface {
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
+			'supportedPersonSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
 		];
 	}
 
@@ -519,11 +519,6 @@ class Settings_Integration implements Integration_Interface {
 		/**
 		 * Decode some WP options.
 		 */
-		$settings['blogname']        = \html_entity_decode(
-			$settings['blogname'],
-			( \ENT_NOQUOTES | \ENT_HTML5 ),
-			'UTF-8'
-		);
 		$settings['blogdescription'] = \html_entity_decode(
 			$settings['blogdescription'],
 			( \ENT_NOQUOTES | \ENT_HTML5 ),
@@ -561,10 +556,12 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		// Remove disabled on multisite settings.
-		foreach ( self::DISABLED_ON_MULTISITE_SETTINGS as $option_name => $disabled_ms_settings ) {
-			if ( \array_key_exists( $option_name, $disabled_settings ) ) {
-				foreach ( $disabled_ms_settings as $disabled_ms_setting ) {
-					$disabled_settings[ $option_name ][ $disabled_ms_setting ] = 'multisite';
+		if ( \is_multisite() ) {
+			foreach ( self::DISABLED_ON_MULTISITE_SETTINGS as $option_name => $disabled_ms_settings ) {
+				if ( \array_key_exists( $option_name, $disabled_settings ) ) {
+					foreach ( $disabled_ms_settings as $disabled_ms_setting ) {
+						$disabled_settings[ $option_name ][ $disabled_ms_setting ] = 'multisite';
+					}
 				}
 			}
 		}

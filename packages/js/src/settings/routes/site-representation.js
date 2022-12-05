@@ -2,44 +2,35 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
+import { createInterpolateElement, Fragment, useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
-import { get, isEmpty, map } from "lodash";
+import { isEmpty, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
 import { fetchUserSocialProfiles } from "../helpers";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
- * @returns {JSX.Element} The person social profiles form.
+ * Syncs the person social profiles if needed.
+ *
+ * This is needed when:
+ * - Changed to represent a (valid) person.
+ * - Changed the (valid) person.
+ *
+ * To check the above this hook can not be called inside the PersonSocialProfiles.
+ *
+ * @returns {void}
  */
-const PersonSocialProfiles = () => {
-	const personSocialProfiles = useMemo( () => get( window, "wpseoScriptData.personSocialProfiles", {} ), [] );
+const useSyncPersonSocialProfiles = () => {
 	const { addNotification } = useDispatchSettings();
 	const { values, status, setStatus, setFieldValue } = useFormikContext();
-	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
-	const previousUserId = usePrevious( companyOrPersonId );
-	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
-	const socialProfileFieldLabels = useMemo( () => ( {
-		facebook: __( "Facebook URL", "wordpress-seo" ),
-		instagram: __( "Instagram URL", "wordpress-seo" ),
-		linkedin: __( "LinkedIn URL", "wordpress-seo" ),
-		myspace: __( "MySpace URL", "wordpress-seo" ),
-		pinterest: __( "Pinterest URL", "wordpress-seo" ),
-		soundcloud: __( "SoundCloud URL", "wordpress-seo" ),
-		tumblr: __( "Tumblr URL", "wordpress-seo" ),
-		twitter: __( "Twitter username (without @)", "wordpress-seo" ),
-		youtube: __( "YouTube URL", "wordpress-seo" ),
-		wikipedia: __( "Wikipedia URL", "wordpress-seo" ),
-	} ), [] );
+	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
+	const previousCompanyOrPerson = usePrevious( companyOrPerson );
+	const previousCompanyOrPersonId = usePrevious( companyOrPersonId );
 
-	useEffect( () => {
-		if ( previousUserId === companyOrPersonId || companyOrPersonId < 1 ) {
-			return;
-		}
-
+	const updateUserSocialProfiles = useCallback( () => {
 		setStatus( { ...status, isFetchingPersonSocialProfiles: true } );
 		fetchUserSocialProfiles( companyOrPersonId )
 			.then( socialProfiles => {
@@ -56,7 +47,40 @@ const PersonSocialProfiles = () => {
 			.finally( () => {
 				setStatus( { ...status, isFetchingPersonSocialProfiles: false } );
 			} );
-	}, [ previousUserId, companyOrPersonId, setFieldValue, setStatus, addNotification ] );
+	}, [ companyOrPersonId, status, setStatus, addNotification ] );
+
+	useEffect( () => {
+		if (
+			// Changed to represent a (valid) person?
+			( previousCompanyOrPerson !== companyOrPerson && companyOrPerson === "person" && companyOrPersonId > 0 ) ||
+			// Changed the (valid) person?
+			previousCompanyOrPersonId !== companyOrPersonId && companyOrPersonId > 0
+		) {
+			updateUserSocialProfiles();
+		}
+	}, [ previousCompanyOrPerson, companyOrPerson, previousCompanyOrPersonId, companyOrPersonId, updateUserSocialProfiles ] );
+};
+
+/**
+ * @returns {JSX.Element} The person social profiles form.
+ */
+const PersonSocialProfiles = () => {
+	const { values } = useFormikContext();
+	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
+	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
+	const supportedPersonSocialProfiles = useSelectSettings( "selectPreference", [], "supportedPersonSocialProfiles", {} );
+	const socialProfileFieldLabels = useMemo( () => ( {
+		facebook: __( "Facebook URL", "wordpress-seo" ),
+		instagram: __( "Instagram URL", "wordpress-seo" ),
+		linkedin: __( "LinkedIn URL", "wordpress-seo" ),
+		myspace: __( "MySpace URL", "wordpress-seo" ),
+		pinterest: __( "Pinterest URL", "wordpress-seo" ),
+		soundcloud: __( "SoundCloud URL", "wordpress-seo" ),
+		tumblr: __( "Tumblr URL", "wordpress-seo" ),
+		twitter: __( "Twitter username (without @)", "wordpress-seo" ),
+		youtube: __( "YouTube URL", "wordpress-seo" ),
+		wikipedia: __( "Wikipedia URL", "wordpress-seo" ),
+	} ), [] );
 
 	return (
 		<FieldsetLayout
@@ -64,7 +88,7 @@ const PersonSocialProfiles = () => {
 			title={ __( "Other profiles", "wordpress-seo" ) }
 			description={ __( "Tell us about the other profiles on the web that belong to the person.", "wordpress-seo" ) }
 		>
-			{ map( personSocialProfiles, socialProfile => (
+			{ map( supportedPersonSocialProfiles, socialProfile => (
 				<FormikWithErrorField
 					key={ socialProfile }
 					as={ TextField }
@@ -86,9 +110,9 @@ const PersonSocialProfiles = () => {
  */
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
-	const { blogname } = values;
 	// eslint-disable-next-line camelcase
 	const {
+		website_name: websiteName,
 		company_or_person: companyOrPerson,
 		company_or_person_user_id: companyOrPersonId,
 		company_name: companyName,
@@ -104,6 +128,8 @@ const SiteRepresentation = () => {
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
 	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
+
+	useSyncPersonSocialProfiles();
 
 	return (
 		<RouteLayout
@@ -168,11 +194,11 @@ const SiteRepresentation = () => {
 								description={ __( "Please tell us more about your organization. This information will help Google to understand your website, and improve your chance of getting rich results.", "wordpress-seo" ) }
 							>
 								{ ( ! companyName || companyLogoId < 1 ) && (
-									<Alert id="alert-organization-name-logo" variant="warning">
+									<Alert id="alert-organization-name-logo" variant="info">
 										{ addLinkToString(
 											sprintf(
 												// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-												__( "An organization name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
+												__( "An organization name and logo need to be set for structured data to work properly. Since you haven’t set these yet, we are using the site name and logo as default values. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
 												"<a>",
 												"</a>"
 											),
@@ -186,7 +212,14 @@ const SiteRepresentation = () => {
 									name="wpseo_titles.company_name"
 									id="input-wpseo_titles-company_name"
 									label={ __( "Organization name", "wordpress-seo" ) }
-									placeholder={ blogname }
+									placeholder={ websiteName }
+								/>
+								<Field
+									as={ TextField }
+									name="wpseo_titles.company_alternate_name"
+									id="input-wpseo_titles-company_alternate_name"
+									label={ __( "Alternate organization name", "wordpress-seo" ) }
+									description={ __( "Use the alternate organization name for acronyms, or a shorter version of your organization's name.", "wordpress-seo" ) }
 								/>
 								<FormikMediaSelectField
 									id="wpseo_titles-company_logo"
@@ -233,28 +266,38 @@ const SiteRepresentation = () => {
 									{ arrayHelpers => (
 										<>
 											{ otherSocialUrls.map( ( _, index ) => (
-												<div
+												<Transition
 													key={ `wpseo_social.other_social_urls.${ index }` }
-													className="yst-w-full yst-flex yst-items-start yst-gap-2"
+													as={ Fragment }
+													appear={ true }
+													show={ true }
+													enter="yst-transition yst-ease-out yst-duration-300"
+													enterFrom="yst-transform yst-opacity-0"
+													enterTo="yst-transform yst-opacity-100"
+													leave="yst-transition yst-ease-out yst-duration-300"
+													leaveFrom="yst-transform yst-opacity-100"
+													leaveTo="yst-transform yst-opacity-0"
 												>
-													<FormikWithErrorField
-														as={ TextField }
-														name={ `wpseo_social.other_social_urls.${ index }` }
-														id={ `input-wpseo_social-other_social_urls-${ index }` }
-														// translators: %1$s expands to array index + 1.
-														label={ sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ) }
-														placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
-														className="yst-grow"
-													/>
-													<button
-														type="button"
-														// eslint-disable-next-line react/jsx-no-bind
-														onClick={ arrayHelpers.remove.bind( null, index ) }
-														className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
-													>
-														<TrashIcon className="yst-h-5 yst-w-5" />
-													</button>
-												</div>
+													<div className="yst-w-full yst-flex yst-items-start yst-gap-2">
+														<FormikWithErrorField
+															as={ TextField }
+															name={ `wpseo_social.other_social_urls.${ index }` }
+															id={ `input-wpseo_social-other_social_urls-${ index }` }
+															// translators: %1$s expands to array index + 1.
+															label={ sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ) }
+															placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
+															className="yst-grow"
+														/>
+														<Button
+															variant="secondary"
+															// eslint-disable-next-line react/jsx-no-bind
+															onClick={ arrayHelpers.remove.bind( null, index ) }
+															className="yst-mt-7 yst-p-2.5"
+														>
+															<TrashIcon className="yst-h-5 yst-w-5" />
+														</Button>
+													</div>
+												</Transition>
 											) ) }
 											{ /* eslint-disable-next-line react/jsx-no-bind */ }
 											<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>

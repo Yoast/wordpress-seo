@@ -77,6 +77,7 @@ class Integrations_Page implements Integration_Interface {
 		];
 
 		\array_splice( $submenu_pages, 1, 0, [ $integrations_page ] );
+
 		return $submenu_pages;
 	}
 
@@ -116,6 +117,9 @@ class Integrations_Page implements Integration_Interface {
 		$acf_active                        = \class_exists( 'acf' );
 		$algolia_active                    = $wpseo_plugin_availability_checker->is_active( $algolia_file );
 		$old_algolia_active                = $wpseo_plugin_availability_checker->is_active( $old_algolia_file );
+		$tec_active                        = \class_exists( \TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema::class );
+		$ssp_active                        = \class_exists( \SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode::class );
+		$wp_recipe_maker_active            = \class_exists( \WP_Recipe_Maker::class );
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
@@ -144,30 +148,33 @@ class Integrations_Page implements Integration_Interface {
 			'integrations-page',
 			'wpseoIntegrationsData',
 			[
-				'semrush_integration_active'     => $this->options_helper->get( 'semrush_integration_active', true ),
-				'allow_semrush_integration'      => $this->options_helper->get( 'allow_semrush_integration_active', true ),
-				'zapier_integration_active'      => $this->options_helper->get( 'zapier_integration_active', false ),
-				'allow_zapier_integration'       => $this->options_helper->get( 'allow_zapier_integration_active', true ),
-				'algolia_integration_active'     => $this->options_helper->get( 'algolia_integration_active', false ),
-				'allow_algolia_integration'      => $this->options_helper->get( 'allow_algolia_integration_active', true ),
-				'wincher_integration_active'     => $this->options_helper->get( 'wincher_integration_active', true ),
-				'allow_wincher_integration'      => null,
-				'wordproof_integration_active'   => $this->options_helper->get( 'wordproof_integration_active', true ),
-				'allow_wordproof_integration'    => null,
-				'elementor_integration_active'   => $elementor_conditional->is_met(),
-				'jetpack_integration_active'     => $jetpack_conditional->is_met(),
-				'woocommerce_seo_installed'      => $woocommerce_seo_installed,
-				'woocommerce_seo_active'         => $woocommerce_seo_active,
-				'woocommerce_active'             => $woocommerce_active,
-				'woocommerce_seo_activate_url'   => $woocommerce_seo_activate_url,
-				'acf_seo_installed'              => $acf_seo_installed || $acf_seo_github_installed,
-				'acf_seo_active'                 => $acf_seo_active || $acf_seo_github_active,
-				'acf_active'                     => $acf_active,
-				'acf_seo_activate_url'           => $acf_seo_activate_url,
-				'acf_seo_install_url'            => $acf_seo_install_url,
-				'algolia_active'                 => $algolia_active || $old_algolia_active,
-				'is_multisite'                   => \is_multisite(),
-				'plugin_url'                     => \plugins_url( '', \WPSEO_FILE ),
+				'semrush_integration_active'         => $this->options_helper->get( 'semrush_integration_active', true ),
+				'allow_semrush_integration'          => $this->options_helper->get( 'allow_semrush_integration_active', true ),
+				'zapier_integration_active'          => $this->options_helper->get( 'zapier_integration_active', false ),
+				'allow_zapier_integration'           => $this->options_helper->get( 'allow_zapier_integration_active', true ),
+				'algolia_integration_active'         => $this->options_helper->get( 'algolia_integration_active', false ),
+				'allow_algolia_integration'          => $this->options_helper->get( 'allow_algolia_integration_active', true ),
+				'wincher_integration_active'         => $this->options_helper->get( 'wincher_integration_active', true ),
+				'allow_wincher_integration'          => null,
+				'wordproof_integration_active'       => $this->options_helper->get( 'wordproof_integration_active', true ),
+				'allow_wordproof_integration'        => null,
+				'elementor_integration_active'       => $elementor_conditional->is_met(),
+				'jetpack_integration_active'         => $jetpack_conditional->is_met(),
+				'woocommerce_seo_installed'          => $woocommerce_seo_installed,
+				'woocommerce_seo_active'             => $woocommerce_seo_active,
+				'woocommerce_active'                 => $woocommerce_active,
+				'woocommerce_seo_activate_url'       => $woocommerce_seo_activate_url,
+				'acf_seo_installed'                  => $acf_seo_installed || $acf_seo_github_installed,
+				'acf_seo_active'                     => $acf_seo_active || $acf_seo_github_active,
+				'acf_active'                         => $acf_active,
+				'acf_seo_activate_url'               => $acf_seo_activate_url,
+				'acf_seo_install_url'                => $acf_seo_install_url,
+				'algolia_active'                     => $algolia_active || $old_algolia_active,
+				'ssp_integration_active'             => $ssp_active,
+				'tec_integration_active'             => $tec_active,
+				'wp-recipe-maker_integration_active' => $wp_recipe_maker_active,
+				'is_multisite'                       => \is_multisite(),
+				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
 			]
 		);
 	}

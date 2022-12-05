@@ -97,7 +97,8 @@ tr.yst_row.even {
 
 .wpseo_content_wrapper input.textinput,
 .wpseo_content_wrapper textarea.textinput,
-.wpseo_content_wrapper select.select {
+.wpseo_content_wrapper select.select,
+.wpseo_content_wrapper .select2-container {
   margin: 0 0 15px 0;
 }
 
@@ -951,7 +952,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
     width: 100%;
   }
   .wpseo_content_wrapper select,
-  .wpseo_content_wrapper select.select {
+  .wpseo_content_wrapper select.select,
+  .wpseo_content_wrapper .select2-container {
     display: block;
     max-width: 100%;
     margin: 0 0 5px 0;
