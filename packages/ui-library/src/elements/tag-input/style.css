@@ -28,15 +28,6 @@
 			focus-within:yst-ring-0
 			focus-within:yst-border-slate-300;
 
-			.yst-tag-input__tag {
-				@apply
-				yst-cursor-not-allowed
-				focus:yst-outline-none
-				focus:yst-ring-0
-				focus-visible:yst-outline-none
-				focus-visible:yst-ring-0;
-			}
-
 			.yst-tag-input__remove-tag {
 				@apply
 				yst-cursor-not-allowed
@@ -71,20 +62,6 @@
 			focus-visible:yst-outline-none
 			focus-visible:yst-ring-2
 			focus-visible:yst-ring-primary-500;
-		}
-
-		.yst-tag-input__remove-tag {
-			@apply
-			yst-rounded-md
-			yst-inline-flex
-			yst-ml-0.5
-			yst--mr-1
-			yst-bg-slate-200
-			yst-text-slate-400
-			hover:yst-text-slate-500
-			focus:yst-outline-none
-			focus:yst-ring-2
-			focus:yst-ring-primary-500;
 		}
 
 		.yst-tag-input__input {
