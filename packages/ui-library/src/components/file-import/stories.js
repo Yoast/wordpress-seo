@@ -152,7 +152,7 @@ Aborted.parameters = { docs: { description: { story: "When file loading is abort
 Aborted.args = {
 	children: (
 		<FileImport.Aborted>
-			<Alert variant="info" role="alert">
+			<Alert variant="warning" role="alert">
 				The import was aborted.
 			</Alert>
 		</FileImport.Aborted>
