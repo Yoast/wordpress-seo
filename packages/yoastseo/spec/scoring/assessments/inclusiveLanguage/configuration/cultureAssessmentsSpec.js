@@ -53,4 +53,31 @@ describe( "Culture Assessments", () => {
 			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 		} );
 	} );
+
+	it( "should target the word 'oriental' and return score 6", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "oriental" ) );
+
+		const mockPaper = new Paper( "I love oriental rugs." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I love oriental rugs." ] );
+
+		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
+		expect( assessment.getResult().score ).toBe( 6 );
+		expect( assessment.getResult().text ).toBe( "Be careful when using <i>oriental</i> as it is potentially harmful. " +
+			"Unless you are referring to objects or animals, consider using an alternative, such as <i>Asian</i>. " +
+			"When possible, be more specific (e.g. <i>East Asian</i>). " +
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>" );
+	} );
+
+	it( "should target the word 'blacklist' and return score 3", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "blacklist" ) );
+
+		const mockPaper = new Paper( "Some companies are in the blacklist." );
+		const mockResearcher = Factory.buildMockResearcher( [ "Some companies are in the blacklist." ] );
+
+		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
+		expect( assessment.getResult().score ).toBe( 3 );
+		expect( assessment.getResult().text ).toBe( "Avoid using <i>blacklist</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>blocklist, denylist, faillist, redlist</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>" );
+	} );
 } );
