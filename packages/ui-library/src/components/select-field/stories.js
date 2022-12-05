@@ -5,7 +5,8 @@ const options = [
 	{ value: "1", label: "Option 1" },
 	{ value: "2", label: "Option 2" },
 	{ value: "3", label: "Option 3" },
-	{ value: "4", label: "Option 4" } ];
+	{ value: "4", label: "Option 4" },
+];
 
 export default {
 	title: "2. Components/Select Field",
@@ -31,9 +32,9 @@ export default {
 
 const Template = ( args ) => {
 	const [ value, setValue ] = useState( args.value || "" );
-	const [ selectedLabel, setSelectedLabel ] = useState( value ? args.options.find( option=> option.value === value ).label : "" );
-	const handleChange = useCallback( ( val )=>{
-		const selected = args.options.find( option=> option.value === val );
+	const [ selectedLabel, setSelectedLabel ] = useState( value ? args.options.find( option => option.value === value ).label : "" );
+	const handleChange = useCallback( ( val ) => {
+		const selected = args.options.find( option => option.value === val );
 		setSelectedLabel( selected.label );
 		setValue( val );
 	}, [ setValue ] );
@@ -55,7 +56,7 @@ Factory.args = {
 	id: "select-field-0",
 	name: "name-0",
 	value: "1",
-	children: options.map( option=><SelectField.Option key={ option.value } { ...option } /> ),
+	children: options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
 	label: "A Select Field",
 };
 
@@ -66,7 +67,7 @@ WithLabelAndDescription.args = {
 	value: "3",
 	label: "Select field with a label",
 	description: "Select field with a description.",
-	children: options.map( option=><SelectField.Option key={ option.value } { ...option } /> ),
+	children: options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
 };
 
 export const WithError = Template.bind( {} );
@@ -97,7 +98,7 @@ OptionsProp.args = {
 };
 
 OptionsProp.parameters = {
-	docs: { description: { story: "Add options as an array of objects with `options` prop. Each object must contain `value` and `label` parameters. The displayed selected label will be updated automaticlly on change." } },
+	docs: { description: { story: "Add options as an array of objects with `options` prop. Each object must contain `value` and `label` parameters. The displayed selected label will be updated automatically on change." } },
 };
 
 export const SelectFieldOption = Template.bind( {} );
@@ -106,7 +107,7 @@ SelectFieldOption.args = {
 	name: "name-5",
 	value: "3",
 	label: "Select field with options as exposed React components",
-	children: options.map( option=><SelectField.Option key={ option.value } { ...option } /> ),
+	children: options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
 };
 
 SelectFieldOption.parameters = {
