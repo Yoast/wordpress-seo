@@ -1,4 +1,4 @@
-import { Card } from "../../index";
+import { Card, Button } from "../../index";
 
 export default {
 	title: "2. Components/Card",
@@ -6,7 +6,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A card component. It has sub components for header, content and footer.",
+				component: "A simple card component. It has sub-components for header, content and footer.",
 			},
 		},
 	},
@@ -14,21 +14,25 @@ export default {
 		children: { control: false },
 	},
 	args: {
-		children: ( <><Card.Header>This is Card header!</Card.Header>
-			<Card.Content>This is Card content!</Card.Content>
-			<Card.Footer>This is Card footer!</Card.Footer></> ),
-		className: "yst-w-1/3",
+		children: (
+			<>
+				<Card.Header>This is Card header!</Card.Header>
+				<Card.Content>This is Card content!</Card.Content>
+				<Card.Footer>This is Card footer!</Card.Footer>
+			</>
+		),
 	},
 
 };
 
-const Template = ( { className, children } ) => {
+const Template = ( { children } ) => {
 	return (
 		<div className="yst-flex yst-gap-5 yst-justify-center">
-			<Card className={ className }>
-				{ children }
-			</Card>
-		</div>	);
+			<div className="yst-w-1/3">
+				<Card>{ children }</Card>
+			</div>
+		</div>
+	);
 };
 
 export const Factory = Template.bind( {} );
@@ -36,7 +40,25 @@ export const Factory = Template.bind( {} );
 Factory.parameters = {};
 
 Factory.args = {
-	children: ( <><Card.Header>This is Card header!</Card.Header>
-		<Card.Content>This is Card content!</Card.Content>
-		<Card.Footer>This is Card footer!</Card.Footer></> ),
+	children: (
+		<>
+			<Card.Header>This is Card header!</Card.Header>
+			<Card.Content>This is Card content!</Card.Content>
+			<Card.Footer>This is Card footer!</Card.Footer>
+		</>
+	),
+};
+
+export const WithoutHeader = Template.bind( {} );
+WithoutHeader.args = {
+	children: (
+		<>
+			<Card.Content className="yst-h-24">This is Card content with a fixed height.</Card.Content>
+			<Card.Footer>
+				<Button className="yst-w-full">
+					 Footer with full-width button
+				</Button>
+			</Card.Footer>
+		</>
+	),
 };
