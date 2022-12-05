@@ -6,13 +6,9 @@ import { getWords } from "../../../../languageProcessing";
 
 // Filter tokens from the exception lists that cause trouble when passed to getWords.
 
-// Some punctuation marks are still removed in get words, as they are not in our punctuation list.
-// Those are filtered out to prevent getting back an empty list.
+// Some punctuation marks are still removed in getWords, as they are not in our punctuation list.
+// Those are filtered here out to prevent getWords returning an empty list.
 const filteredPunctuationList = punctuationList.filter( punctuationMark => getWords( punctuationMark, false ).length > 0  );
-
-// Somehow, an empyty string ended up in the list of functionwords. This will make getWords return an empty list.
-const filteredFunctionWords = nonNouns.filter( functionWord => getWords( functionWord, false ).length > 0 );
-
 
 /**
  * Returns a callback that checks whether a non-inclusive word is standalone:
@@ -24,7 +20,7 @@ const filteredFunctionWords = nonNouns.filter( functionWord => getWords( functio
  */
 export default function notInclusiveWhenStandalone( words, nonInclusivePhrase ) {
 	return ( index ) => {
-		return isFollowedByException( words, nonInclusivePhrase, filteredFunctionWords )( index ) ||
+		return isFollowedByException( words, nonInclusivePhrase, nonNouns )( index ) ||
         isFollowedByParticiple( words, nonInclusivePhrase )( index ) ||
         isFollowedByException( words, nonInclusivePhrase, filteredPunctuationList )( index );
 	};

@@ -104,7 +104,7 @@ const generalAdjectivesAdverbs = [ "new", "newer", "newest", "old", "older", "ol
 	"continually", "directly", "easily", "nearly", "slightly", "somewhere", "estimated", "latest", "different", "similar",
 	"widely", "bad", "worse", "worst", "great", "specific",  "available", "average", "awful", "awesome", "basic", "beautiful",
 	"busy", "current", "entire", "everywhere", "important", "major", "multiple", "normal", "necessary", "obvious", "partly",
-	"special", "last", "early", "earlier", "earliest", "young", "younger", "youngest", "" ];
+	"special", "last", "early", "earlier", "earliest", "young", "younger", "youngest" ];
 
 const interjections = [ "oh", "wow", "tut-tut", "tsk-tsk", "ugh", "whew", "phew", "yeah", "yea", "shh", "oops", "ouch", "aha",
 	"yikes" ];
