@@ -10,6 +10,7 @@ import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 import { all as verbsToBe } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
 import { flatMap } from "lodash-es";
+import { sprintf } from "@wordpress/i18n";
 
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
