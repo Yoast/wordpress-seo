@@ -569,11 +569,14 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-get-premium',
-				'title'  => __( 'Get Yoast SEO Premium', 'wordpress-seo' ) . ' &raquo;',
-				'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-get-premium' ),
+				// Circumvent an issue in the WP admin bar API in order to pass `data` attributes. See https://core.trac.wordpress.org/ticket/38636.
+				'title'  => sprintf(
+					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" style="padding:0;">%2$s &raquo;</a>',
+					WPSEO_Shortlinker::get( 'https://yoa.st/admin-bar-get-premium' ),
+					__( 'Get Yoast SEO Premium', 'wordpress-seo' )
+				),
 				'meta'   => [
 					'tabindex' => '0',
-					'target'   => '_blank',
 				],
 			]
 		);
