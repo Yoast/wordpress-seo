@@ -8,7 +8,7 @@ import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
-import { all as verbsToBe } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
+import { all as toBeForms } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
 import { flatMap } from "lodash-es";
 import { sprintf } from "@wordpress/i18n";
 
@@ -22,9 +22,9 @@ const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is pote
 
 // Create a list of all possible combinations of a verb to be and a quantifier.
 const quantifiers = [ "so", "very", "a bit", "really", "pretty", "kind of" ];
-const toBeQuantifier = flatMap( verbsToBe, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} ${quantifier}` ) );
+const toBeQuantifier = flatMap( toBeForms, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} ${quantifier}` ) );
 // A list of requirements: words that need to be in front of "OCD" for it to be non inclusive.
-const ocdRequirements =  verbsToBe.concat( toBeQuantifier );
+const ocdRequirements =  toBeForms.concat( toBeQuantifier );
 
 const disabilityAssessments =  [
 	{

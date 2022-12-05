@@ -155,7 +155,7 @@ export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( otherAuxi
 /**
   * These categories consist of function words that are not nouns.
   * They are used in the inclusive language to recognize overgeneralizing phrases such as "the aged".
-  * @type{string}
+  * @type{string[]}
   */
 export const nonNouns = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 	personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
