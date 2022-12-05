@@ -21,10 +21,10 @@ describe( "Appearance assessments", function() {
 				"unless referring to someone who explicitly wants to be referred to with this term. " +
 				"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
-			expect( assessor.getMarks() ).toEqual( [ { _properties:
-					{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at albinos</yoastmark>",
-						original: "This ad is aimed at albinos",
-					} } ] );
+			expect( assessor.getMarks() ).toEqual( [ { _properties: {
+				fieldsToMark: [],
+				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at albinos</yoastmark>",
+				original: "This ad is aimed at albinos" } } ] );
 		} );
 
 	it( "should target potentially non-inclusive phrases", function() {
@@ -44,11 +44,10 @@ describe( "Appearance assessments", function() {
 			"Alternatively, if talking about a specific person, use their preferred descriptor if known. " +
 			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [
-			{ _properties: {
-				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at obese citizens.</yoastmark>",
-				original: "This ad is aimed at obese citizens.",
-			} } ] );
+		expect( assessor.getMarks() ).toEqual( [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at obese citizens.</yoastmark>",
+			original: "This ad is aimed at obese citizens." } } ] );
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
@@ -59,10 +58,10 @@ describe( "Appearance assessments", function() {
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(  [
-			{ _properties: {
-				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at high vertically challenged.</yoastmark>",
-				original: "This ad is aimed at high vertically challenged." } } ] );
+		expect( assessor.getMarks() ).toEqual(    [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at high vertically challenged.</yoastmark>",
+			original: "This ad is aimed at high vertically challenged." } } ] );
 	} );
 
 	it( "should not target phrases followed by by certain words", function() {

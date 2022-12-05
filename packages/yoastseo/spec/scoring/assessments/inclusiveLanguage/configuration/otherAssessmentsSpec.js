@@ -20,11 +20,10 @@ describe( "Other assessments", function() {
 				"Instead, be specific about the group you are referring to (e.g. <i>gay men, queer people, lesbians</i>). " +
 				"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
-			expect( assessor.getMarks() ).toEqual( [
-				{ _properties: {
-					marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at homosexuals</yoastmark>",
-					original: "This ad is aimed at homosexuals",
-				} } ] );
+			expect( assessor.getMarks() ).toEqual( [ { _properties: {
+				fieldsToMark: [],
+				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at homosexuals</yoastmark>",
+				original: "This ad is aimed at homosexuals" } } ] );
 		} );
 
 	it( "should target potentially non-inclusive phrases", function() {
@@ -42,12 +41,11 @@ describe( "Other assessments", function() {
 			"Consider using an alternative, such as <i>marginalized groups</i>, <i>underrepresented groups</i> or specific minorities, " +
 			"such as <i>gender and sexuality minorities</i>. <a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(  [
-			{ _properties:
-					{
-						marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at minorities.</yoastmark>",
-						original: "This ad is aimed at minorities.",
-					} } ] );
+		expect( assessor.getMarks() ).toEqual(     [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at minorities.</yoastmark>",
+			original: "This ad is aimed at minorities." } } ]
+		);
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {

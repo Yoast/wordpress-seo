@@ -20,11 +20,11 @@ describe( "SES assessments", function() {
 				"Consider using an alternative, such as <i>undocumented people</i>. " +
 				"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
-			expect( assessor.getMarks() ).toEqual( [
-				{ _properties:
-						{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at illegal immigrants</yoastmark>",
-							original: "This ad is aimed at illegal immigrants",
-						} } ] );
+			expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+				fieldsToMark: [],
+				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at illegal immigrants</yoastmark>",
+				original: "This ad is aimed at illegal immigrants" } } ]
+			);
 		} );
 
 	it( "should target non-inclusive phrases", function() {
@@ -42,11 +42,10 @@ describe( "SES assessments", function() {
 			"Consider using an alternative, such as <i>people whose income is below the poverty threshold, people with low-income</i>. " +
 			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(  [
-			{ _properties:
-					{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at poverty stricken.</yoastmark>",
-						original: "This ad is aimed at poverty stricken.",
-					} } ] );
+		expect( assessor.getMarks() ).toEqual(    [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at poverty stricken.</yoastmark>",
+			original: "This ad is aimed at poverty stricken." } } ] );
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
