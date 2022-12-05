@@ -380,9 +380,10 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "ocd" ],
 		inclusiveAlternatives: "<i>pedantic, obsessed, perfectionist</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
-		"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s. " +
-			"If you are referring to someone who has the medical condition, then state that they have OCD rather than that they are OCD.",
+		// We make sure to always capitalize "OCD" by pre-filling the first replacement variable.
+		feedbackFormat: [ sprintf( medicalCondition, "OCD", "%2$s" ),
+			"If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD." ].join( " " ),
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
 				.filter( isNotPrecededByException( words, ocdRequirements ) );
