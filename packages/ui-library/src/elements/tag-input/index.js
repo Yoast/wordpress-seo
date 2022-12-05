@@ -39,7 +39,7 @@ const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag
 
 	return (
 		// eslint-disable-next-line jsx-a11y/no-static-element-interactions
-		<Badge onKeyDown={ handleKeyDown } { ...props }>
+		<Badge onKeyDown={ handleKeyDown } { ...props } variant="plain">
 			<span>{ tag }</span>
 			<button onClick={ handleClick }>
 				<span className="yst-sr-only">{ screenReaderRemoveTag }</span>
