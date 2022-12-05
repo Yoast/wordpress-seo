@@ -71,11 +71,15 @@ const AuthorArchives = () => {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
 			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noopener" />,
 		}
-	) );
+	), [] );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-author": isAuthorArchivesDisabled, "noindex-author-wpseo": isAuthorNoIndex } = values.wpseo_titles;
+	const {
+		"disable-author": isAuthorArchivesDisabled,
+		"noindex-author-wpseo": isAuthorNoIndex,
+		"noindex-author-noposts-wpseo": isAuthorNoIndexNoPosts,
+	} = values.wpseo_titles;
 
 	return (
 		<RouteLayout
@@ -86,7 +90,7 @@ const AuthorArchives = () => {
 				<div className="yst-max-w-5xl">
 					<FormikFlippedToggleField
 						name={ "wpseo_titles.disable-author" }
-						data-id={ "input-wpseo_titles-disable-author" }
+						id={ "input-wpseo_titles-disable-author" }
 						label={ sprintf(
 							// translators: %1$s expands to "author archives".
 							__( "Enable %1$s", "wordpress-seo" ),
@@ -110,7 +114,7 @@ const AuthorArchives = () => {
 					>
 						<FormikFlippedToggleField
 							name="wpseo_titles.noindex-author-wpseo"
-							data-id="input-wpseo_titles-noindex-author-wpseo"
+							id="input-wpseo_titles-noindex-author-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to "author archives".
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -122,18 +126,20 @@ const AuthorArchives = () => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
-										&nbsp;
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
 							disabled={ isAuthorArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isAuthorArchivesDisabled ? false : ! isAuthorNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikFlippedToggleField
 							name="wpseo_titles.noindex-author-noposts-wpseo"
-							data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
+							id="input-wpseo_titles-noindex-author-noposts-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to "author archives".
 								__( "Show %1$s without posts in search results", "wordpress-seo" ),
@@ -144,6 +150,7 @@ const AuthorArchives = () => {
 								__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 								labelLower
 							) }
+							checked={ isAuthorArchivesDisabled ? false : ! isAuthorNoIndex && ! isAuthorNoIndexNoPosts }
 							disabled={ isAuthorArchivesDisabled || isAuthorNoIndex }
 							className="yst-max-w-sm"
 						/>

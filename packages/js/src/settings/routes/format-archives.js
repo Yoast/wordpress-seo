@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
@@ -27,8 +28,9 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @returns {JSX.Element} The format archives element.
  */
 const FormatArchives = () => {
-	const { name, label } = useSelectSettings( "selectTaxonomy", [], "post_format" );
-	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+	const { name, label, singularLabel } = useSelectSettings( "selectTaxonomy", [], "post_format" );
+	const labelLower = useMemo( () => toLower( label ), [ label ] );
+	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
 
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -67,18 +69,21 @@ const FormatArchives = () => {
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-post_format": isFormatArchivesDisabled } = values.wpseo_titles;
+	const {
+		"disable-post_format": isFormatArchivesDisabled,
+		"noindex-tax-post_format": isFormatArchivesNoIndex,
+	} = values.wpseo_titles;
 
 	return (
 		<RouteLayout
-			title={ label }
+			title={ __( "Format archives", "wordpress-seo" ) }
 			description={ description }
 		>
 			<FormLayout>
 				<div className="yst-max-w-5xl">
 					<FormikFlippedToggleField
 						name="wpseo_titles.disable-post_format"
-						data-id="input-wpseo_titles-disable-post_format"
+						id="input-wpseo_titles-disable-post_format"
 						label={ __( "Enable format-based archives", "wordpress-seo" ) }
 						description={ __( "Format-based archives can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ) }
 						className="yst-max-w-sm"
@@ -96,11 +101,11 @@ const FormatArchives = () => {
 					>
 						<FormikFlippedToggleField
 							name={ `wpseo_titles.noindex-tax-${ name }` }
-							data-id={ `input-wpseo_titles-noindex-tax-${ name }` }
+							id={ `input-wpseo_titles-noindex-tax-${ name }` }
 							label={ sprintf(
-								// translators: %1$s expands to "formats".
-								__( "Show %1$s in search results", "wordpress-seo" ),
-								labelLower
+								// translators: %1$s expands to "format".
+								__( "Show %1$s archives in search results", "wordpress-seo" ),
+								singularLabelLower
 							) }
 							description={ <>
 								{ sprintf(
@@ -108,13 +113,15 @@ const FormatArchives = () => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 									labelLower
 								) }
-										&nbsp;
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
 							disabled={ isFormatArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isFormatArchivesDisabled ? false : ! isFormatArchivesNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikReplacementVariableEditorField

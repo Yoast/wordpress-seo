@@ -317,20 +317,3 @@ wpseo_register_ajax_integrations();
 new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();
-
-/* ********************* DEPRECATED FUNCTIONS ********************* */
-
-/**
- * Hides the default tagline notice for a specific user.
- *
- * @deprecated 13.2
- * @codeCoverageIgnore
- */
-function wpseo_dismiss_tagline_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	_deprecated_function( __FUNCTION__, 'WPSEO 13.2', 'This method is deprecated.' );
-	wpseo_ajax_json_echo_die( '' );
-}

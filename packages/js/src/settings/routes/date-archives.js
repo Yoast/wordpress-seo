@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
@@ -22,7 +23,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const DateArchives = () => {
 	const label = __( "Date archives", "wordpress-seo" );
-	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+	const labelLower = useMemo( () => toLower( label ), [ label ] );
 
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
@@ -67,7 +68,10 @@ const DateArchives = () => {
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-date": isDateArchivesDisabled } = values.wpseo_titles;
+	const {
+		"disable-date": isDateArchivesDisabled,
+		"noindex-archive-wpseo": isDateArchivesNoIndex,
+	} = values.wpseo_titles;
 
 	return (
 		<RouteLayout
@@ -79,7 +83,7 @@ const DateArchives = () => {
 					<fieldset className="yst-min-width-0 yst-space-y-8">
 						<FormikFlippedToggleField
 							name={ "wpseo_titles.disable-date" }
-							data-id={ "input-wpseo_titles-disable-date" }
+							id={ "input-wpseo_titles-disable-date" }
 							label={ sprintf(
 								// translators: %1$s expands to "date archives".
 								__( "Enable %1$s", "wordpress-seo" ),
@@ -104,7 +108,7 @@ const DateArchives = () => {
 					>
 						<FormikFlippedToggleField
 							name="wpseo_titles.noindex-archive-wpseo"
-							data-id="input-wpseo_titles-noindex-archive-wpseo"
+							id="input-wpseo_titles-noindex-archive-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to "date archives".
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -116,13 +120,15 @@ const DateArchives = () => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 									labelLower
 								) }
-										&nbsp;
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
 							disabled={ isDateArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isDateArchivesDisabled ? false : ! isDateArchivesNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikReplacementVariableEditorField
@@ -132,7 +138,7 @@ const DateArchives = () => {
 							label={ __( "SEO title", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isDateArchivesDisabled }
+							disabled={ isDateArchivesDisabled }
 						/>
 						<FormikReplacementVariableEditorField
 							type="description"
@@ -141,7 +147,7 @@ const DateArchives = () => {
 							label={ __( "Meta description", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isDateArchivesDisabled }
+							disabled={ isDateArchivesDisabled }
 							className="yst-replacevar--description"
 						/>
 					</FieldsetLayout>
@@ -185,7 +191,7 @@ const DateArchives = () => {
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ isDateArchivesDisabled || ! opengraph }
+								disabled={ isDateArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -196,7 +202,7 @@ const DateArchives = () => {
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ isDateArchivesDisabled || ! opengraph }
+								disabled={ isDateArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>
