@@ -89,6 +89,12 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 	];
 }
 
+// The total number of plugins to consider is the length of the array + 1 for Premium.
+// @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$number_plugins_total = ( count( $extensions ) + 1 );
+// @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$number_plugins_active = 0;
+
 $extensions['yoast-seo-plugin-subscription'] = [
 	'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/premium-page-bundle-buy' ),
 	'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/premium-page-bundle-info' ),
@@ -177,7 +183,10 @@ $new_tab_message         = sprintf(
 			<?php if ( $addon_manager->is_installed( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) : ?>
 				<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
-				<?php if ( $has_valid_premium_subscription ) : ?>
+				<?php
+				if ( $has_valid_premium_subscription ) :
+					$number_plugins_active++;
+					?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license">
 						<?php
@@ -263,6 +272,11 @@ $new_tab_message         = sprintf(
 
 			<?php
 			foreach ( $extensions as $slug => $extension ) :
+
+				// Skip the "All the plugins" card if the user has already all the plugins active.
+				if ( $slug === 'yoast-seo-plugin-subscription' && $number_plugins_active === $number_plugins_total ) {
+					continue;
+				}
 				?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
 					<h3>
@@ -279,7 +293,10 @@ $new_tab_message         = sprintf(
 						<?php if ( $addon_manager->is_installed( $slug ) ) : ?>
 							<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
-							<?php if ( $addon_manager->has_valid_subscription( $slug ) ) : ?>
+							<?php
+							if ( $addon_manager->has_valid_subscription( $slug ) ) :
+								$number_plugins_active++;
+								?>
 								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>" class="yoast-link--license">
 									<?php

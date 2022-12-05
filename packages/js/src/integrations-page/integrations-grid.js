@@ -101,7 +101,7 @@ export default function IntegrationsGrid() {
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "SEO Tool integrations", "wordpress-seo" ) }
+					title={ __( "Other integrations", "wordpress-seo" ) }
 					elements={ SEOToolsIntegrations }
 				/>
 
