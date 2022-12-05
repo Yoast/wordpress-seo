@@ -3,7 +3,6 @@ import Radio from ".";
 export default {
 	title: "1. Elements/Radio",
 	component: Radio,
-	argTypes: {},
 	parameters: {
 		docs: {
 			description: {
@@ -23,28 +22,28 @@ Factory.args = {
 	id: "radio",
 	name: "name",
 	value: "value",
-	label: "&bull; I am a radio button.",
-	isLabelDangerousHtml: true,
+	label: "I am a radio button.",
 };
 
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-4">
-		<Radio id="radio-1" name="name" value="1" label="I am a radio button." />
+		<div>Default variant:</div>
+		<Radio id="radio-1" name="option-1" value="1" label="I am a radio button with default variant." />
 		<hr />
-		<Radio id="radio-a" name="name" value="A" screenReaderLabel="Option #A" label="A" variant="inline-block" />
-		<Radio id="radio-b" name="name" value="B" screenReaderLabel="Option #B" label="B" variant="inline-block" />
-		<hr />
-		<Radio
-			id="radio-3"
-			name="name"
-			value="&bull;"
-			screenReaderLabel="Option bullet"
-			label={ "&bull; This Radio has `isLabelDangerousHtml` prop set to true, the bullet is encoded." }
-			isLabelDangerousHtml={ true }
-			// variant="inline-block"
-		/>
+		<div>Inline-block variant:</div>
+		<Radio id="radio-2" name="option-2" value="2" screenReaderLabel="Option #2" label="2" variant="inline-block" />
 	</div>
 );
 Variants.parameters = {
-	docs: { description: { story: "In the `inline-block` variant, the `screenReaderLabel` prop is used to provide screen readers with a useful label." } },
+	docs: { description: { story: "In the `inline-block` variant example, the `screenReaderLabel` prop is used to provide screen readers with a useful label." } },
+};
+
+
+export const DangerousLabel = ( args ) => (
+	<div className="yst-flex yst-flex-col yst-gap-4">
+		<Radio id="radio-dangrous" name="option-dangrous" value="D" label={ "&bull; Dangrous label." } isLabelDangerousHtml={ true } />
+	</div>
+);
+DangerousLabel.parameters = {
+	docs: { description: { story: "This Radio element has `isLabelDangerousHtml` prop set to true, the bullet is encoded (&bull;)." } },
 };
