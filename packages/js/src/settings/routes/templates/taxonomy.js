@@ -2,7 +2,7 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { initial, last, map, values, toLower, isEmpty } from "lodash";
+import { initial, last, map, values, isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -14,6 +14,7 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../../components";
+import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
 
@@ -32,9 +33,10 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
-	const labelLower = useMemo( () => toLower( label ), [ label ] );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 	const postTypeValues = useMemo( () => values( postTypes ), [ postTypes ] );
 	const initialPostTypeValues = useMemo( () => initial( postTypeValues ), [ postTypeValues ] );
 	const lastPostTypeValue = useMemo( () => last( postTypeValues ), [ postTypeValues ] );
