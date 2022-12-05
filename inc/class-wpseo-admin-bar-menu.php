@@ -114,7 +114,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @param Indexable_Repository|null      $indexable_repository Optional. The Indexable_Repository.
 	 * @param Score_Icon_Helper|null         $score_icon_helper    Optional. The Score_Icon_Helper.
 	 * @param Product_Helper|null            $product_helper       Optional. The product helper.
-	 * @param WPSEO_Shortlinker|null         $shortlinker          Optional. The shortlinker.
+	 * @param WPSEO_Shortlinker|null         $shortlinker          The shortlinker.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager = null,
@@ -258,13 +258,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 						[
 							'parent' => self::MENU_IDENTIFIER,
 							'id'     => 'wpseo-frontend-inspector',
-							'title'  => sprintf(
-								'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" style="padding:0;">%2$s</a>',
-								$this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-frontend-inspector' ),
-								__( 'Front-end SEO inspector', 'wordpress-seo' ) . new Premium_Badge_Presenter( 'wpseo-frontend-inspector-badge' )
-							),
+							'href'   => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-frontend-inspector' ),
+							'title'  => __( 'Front-end SEO inspector', 'wordpress-seo' ) . new Premium_Badge_Presenter( 'wpseo-frontend-inspector-badge' ),
 							'meta'   => [
 								'tabindex' => '0',
+								'target'   => '_blank',
 							],
 						]
 					);
