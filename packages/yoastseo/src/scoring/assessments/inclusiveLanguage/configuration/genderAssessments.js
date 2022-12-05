@@ -117,6 +117,13 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
+		identifier: "hermaphrodites",
+		nonInclusivePhrases: [ "hermaphrodites" ],
+		inclusiveAlternatives: "<i>intersex people</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
 		identifier: "bothGenders",
 		nonInclusivePhrases: [ "both genders" ],
 		inclusiveAlternatives: "<i>people, folks, human beings, all genders</i>",
@@ -132,7 +139,7 @@ const genderAssessments = [
 	},
 	{
 		identifier: "husbandAndWife",
-		nonInclusivePhrases: [ "husband and wife" ],
+		nonInclusivePhrases: [ "husband and wife", "husbands and wives" ],
 		inclusiveAlternatives: "<i>spouses, partners</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyExclusionary.slice( 0, -1 ) +
@@ -171,6 +178,13 @@ const genderAssessments = [
 		identifier: "transsexual",
 		nonInclusivePhrases: [ "transsexual" ],
 		inclusiveAlternatives: "<i>transgender</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
+		identifier: "transsexuals",
+		nonInclusivePhrases: [ "transsexuals" ],
+		inclusiveAlternatives: "<i>trans people, transgender people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
