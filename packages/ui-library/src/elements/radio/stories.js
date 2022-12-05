@@ -41,7 +41,7 @@ Variants.parameters = {
 
 export const DangerousLabel = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-4">
-		<Radio id="radio-dangrous" name="option-dangrous" value="D" label={ "&bull; Dangrous label." } isLabelDangerousHtml={ true } />
+		<Radio id="radio-dangerous" name="option-dangerous" value="D" label={ "&bull; Dangerous label." } isLabelDangerousHtml={ true } />
 	</div>
 );
 DangerousLabel.parameters = {
