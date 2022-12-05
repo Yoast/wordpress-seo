@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Modal, Title, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
-import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
+import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values, toLower } from "lodash";
 import PropTypes from "prop-types";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
@@ -77,8 +77,8 @@ const Search = () => {
 			return false;
 		}
 
-		// Split query into words.
-		const splitQuery = split( trimmedQuery, " " );
+		// Lowercase and split query into words.
+		const splitQuery = split( toLower( trimmedQuery ), " " );
 
 		// Filter search index by split query and store number of hits.
 		// A hit is registered if a single word from split query in found in a fields keywords.
