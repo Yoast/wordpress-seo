@@ -54,7 +54,6 @@ class SEO_Links_Repository {
 	 * @return SEO_Links The SEO Link.
 	 */
 	public function find_one_by_url( $url ) {
-		// @TODO: Consider adding an index on the url field.
 		return $this->query()
 			->select( 'target_post_id' )
 			->where( 'url', $url )

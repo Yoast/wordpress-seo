@@ -329,7 +329,6 @@ class Image_Helper {
 
 		$link = $this->seo_links_repository->find_one_by_url( $url );
 		if ( ! \is_a( $link, SEO_Links::class ) ) {
-			// @TODO consider if we can create a SEO link so as not to repeat this slower calculation. (like we do with post indexables above).
 			return WPSEO_Image_Utils::get_attachment_by_url( $url );
 		}
 
