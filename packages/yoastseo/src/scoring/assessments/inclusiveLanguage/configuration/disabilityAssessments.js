@@ -20,8 +20,8 @@ const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is pote
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
 // Create a list of all possible combinations of a verb to be and a quantifier.
-const toBeQuantifier = flatMap( [ "so", "very", "a bit", "really", "pretty", "kind of" ], quantifier => flatMap(
-	verbsToBe, verbToBe => `${verbToBe} ${quantifier}` ) );
+const quantifiers = [ "so", "very", "a bit", "really", "pretty", "kind of" ];
+const toBeQuantifier = flatMap( verbsToBe, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} ${quantifier}` ) );
 // A list of requirements: words that need to be in front of "OCD" for it to be non inclusive.
 const ocdRequirements =  verbsToBe.concat( toBeQuantifier );
 
