@@ -20,7 +20,7 @@ describe( "SES assessments", function() {
 			expect( assessmentResult.getScore() ).toEqual( 3 );
 			expect( assessmentResult.getText() ).toEqual(
 				"Avoid using <i>illegal immigrants</i> as it is potentially harmful. " +
-				"Consider using an alternative, such as <i>undocumented people</i>. " +
+				"Consider using an alternative, such as <i>undocumented people, people without papers, immigrants without papers</i>. " +
 				"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
 			expect( assessor.getMarks() ).toEqual( [
