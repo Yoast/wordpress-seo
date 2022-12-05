@@ -15,7 +15,7 @@ export default {
 	},
 	args: {
 		limit: 5,
-		children: map( range( 10 ), n => <p>{ n }</p> ),
+		children: map( range( 10 ), n => <p key={ n }>{ n }</p> ),
 	},
 };
 
