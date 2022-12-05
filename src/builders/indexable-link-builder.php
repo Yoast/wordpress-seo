@@ -151,7 +151,9 @@ class Indexable_Link_Builder {
 
 		$linked_indexable_ids = [];
 		foreach ( $links as $link ) {
-			$linked_indexable_ids[] = $link->target_indexable_id;
+			if ( $link->target_indexable_id ) {
+				$linked_indexable_ids[] = $link->target_indexable_id;
+			}
 		}
 
 		$this->update_incoming_links_for_related_indexables( $linked_indexable_ids );
@@ -448,7 +450,9 @@ class Indexable_Link_Builder {
 			}
 		}
 		foreach ( $links_to_remove as $link ) {
-			$updated_indexable_ids[] = $link->target_indexable_id;
+			if ( $link->target_indexable_id ) {
+				$updated_indexable_ids[] = $link->target_indexable_id;
+			}
 		}
 
 		$this->update_incoming_links_for_related_indexables( $updated_indexable_ids );
