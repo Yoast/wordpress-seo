@@ -9,7 +9,7 @@
  * This class defines a promo box and checks your translation site's API for stats about it,
  * then shows them to the user.
  *
- * @deprecated 19.13
+ * @deprecated 19.12
  * @codeCoverageIgnore
  * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
  */
