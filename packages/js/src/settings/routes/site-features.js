@@ -152,8 +152,9 @@ LearnMoreLink.propTypes = {
 const SiteFeatures = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
-	const { values } = useFormikContext();
+	const { values, initialValues } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
+	const { enable_xml_sitemap: initialEnableXmlSitemap } = initialValues.wpseo;
 
 	// grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	// yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-2 lg:yst-grid-cols-3 xl:yst-grid-cols-4
@@ -409,7 +410,7 @@ const SiteFeatures = () => {
 										"Yoast SEO"
 									) }
 								</p>
-								{ enableXmlSitemap && <Button
+								{ initialEnableXmlSitemap && enableXmlSitemap && <Button
 									as="a"
 									id="link-xml-sitemaps"
 									href={ sitemapUrl }

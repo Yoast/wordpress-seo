@@ -1,6 +1,6 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { isFollowedByException } from "../helpers/isFollowedByException";
+import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { potentiallyHarmful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 
@@ -17,8 +17,8 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: overgeneralizing,
 		caseSensitive: true,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Assembly", "assembly" ] ) ),
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Assembly", "assembly" ] ) ),
 	},
 	{
 		identifier: "thirdWorld",
@@ -27,8 +27,8 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: overgeneralizing,
 		caseSensitive: true,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
 	},
 	{
 		identifier: "tribe",
@@ -120,8 +120,8 @@ const cultureAssessments = [
 		inclusiveAlternatives: "<i>to cheat someone, to trick someone</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, [ "a", "the" ] ) );
 		},
 	},
