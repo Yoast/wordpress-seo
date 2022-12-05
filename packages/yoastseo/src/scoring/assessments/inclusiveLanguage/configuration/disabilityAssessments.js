@@ -20,10 +20,37 @@ const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is pote
 const disabilityAssessments =  [
 	{
 		identifier: "binge",
-		nonInclusivePhrases: [ "bingeing", "binge" ],
-		inclusiveAlternatives: "<i>indulging, satuating, wallowing</i>",
+		nonInclusivePhrases: [ "binge" ],
+		inclusiveAlternatives: "<i>indulge, satuate, wallow, spree, marathon, consume excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: medicalCondition,
+		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "drinks", "drinking" ] ) )
+	},
+	{
+		identifier: "bingeing",
+		nonInclusivePhrases: [ "bingeing" ],
+		inclusiveAlternatives: "<i>indulging, satuating, wallowing, spreeing, marathoning, consuming excessively</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
+	},
+	{
+		identifier: "binged",
+		nonInclusivePhrases: [ "binged" ],
+		inclusiveAlternatives: "<i>indulged, satuated, wallowed, spreed, marathoned, consumed excessively</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
+	},
+	{
+		identifier: "binges",
+		nonInclusivePhrases: [ "binges" ],
+		inclusiveAlternatives: "<i>indulges, satuates, wallows, sprees, marathons, consumes excessively</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{
 		identifier: "wheelchairBound",
@@ -176,9 +203,44 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
-		identifier: "suicide",
-		nonInclusivePhrases: [ "commit suicide", "committing suicide", "commits suicide", "committed suicide" ],
-		inclusiveAlternatives: "<i>took their life, died by suicide, killed themself</i>",
+		identifier: "lamer",
+		nonInclusivePhrases: [ "lamer" ],
+		inclusiveAlternatives: "<i>more boring, lousier, more unimpressive, sadder, cornier</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "lamest",
+		nonInclusivePhrases: [ "lamest" ],
+		inclusiveAlternatives: "<i>most boring, lousiest, most unimpressive, saddest, corniest</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "commitSuicide",
+		nonInclusivePhrases: [ "commit suicide" ],
+		inclusiveAlternatives: "<i>take one's life, die by suicide, kill oneself</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "committingSuicide",
+		nonInclusivePhrases: [ "committing suicide" ],
+		inclusiveAlternatives: "<i>taking one's life, dying by suicide, killing oneself</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "commitsSuicide",
+		nonInclusivePhrases: [ "commits suicide" ],
+		inclusiveAlternatives: "<i>takes one's life, dies by suicide, kills oneself</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "committedSuicide",
+		nonInclusivePhrases: [ "committed suicide" ],
+		inclusiveAlternatives: "<i>took one's life, died by suicide, killed themself</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
@@ -233,7 +295,7 @@ const disabilityAssessments =  [
 	},
 	{
 		identifier: "dumb",
-		nonInclusivePhrases: [ "dumb" ],
+		nonInclusivePhrases: [ "dumb", "dumber", "dumbest" ],
 		inclusiveAlternatives: [ "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
@@ -285,6 +347,13 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
+		identifier: "epilepticFits",
+		nonInclusivePhrases: [ "epileptic fits" ],
+		inclusiveAlternatives: "<i>epileptic seizures</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
 		identifier: "sanityCheck",
 		nonInclusivePhrases: [ "sanity check" ],
 		inclusiveAlternatives: "<i>final check, confidence check, rationality check, soundness check</i>",
@@ -299,8 +368,22 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
+		identifier: "crazier",
+		nonInclusivePhrases: [ "crazier" ],
+		inclusiveAlternatives: "<i>more wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "craziest",
+		nonInclusivePhrases: [ "craziest" ],
+		inclusiveAlternatives: "<i>most wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
 		identifier: "psychopathic",
-		nonInclusivePhrases: [ "psychopath", "psychopathic" ],
+		nonInclusivePhrases: [ "psychopath", "psychopaths", "psychopathic" ],
 		inclusiveAlternatives: "<i>toxic, manipulative, unpredictable, impulsive, reckless, out of control</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
@@ -335,7 +418,7 @@ const disabilityAssessments =  [
 	},
 	{
 		identifier: "psycho",
-		nonInclusivePhrases: [ "psycho" ],
+		nonInclusivePhrases: [ "psycho", "psychos" ],
 		inclusiveAlternatives: "<i>toxic, distraught, unpredictable, reckless, out of control</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
@@ -351,6 +434,16 @@ const disabilityAssessments =  [
 		identifier: "sociopath",
 		nonInclusivePhrases: [ "sociopath" ],
 		inclusiveAlternatives: [ "<i>person with antisocial personality disorder</i>",
+			"<i>toxic, manipulative, cruel</i>" ],
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
+			"medical condition, use %2$s instead, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
+	},
+	{
+		identifier: "sociopaths",
+		nonInclusivePhrases: [ "sociopaths" ],
+		inclusiveAlternatives: [ "<i>people with antisocial personality disorder</i>",
 			"<i>toxic, manipulative, cruel</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
