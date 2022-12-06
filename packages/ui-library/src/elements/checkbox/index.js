@@ -24,6 +24,7 @@ const Checkbox = ( {
 	<div
 		className={ classNames(
 			"yst-checkbox",
+			disabled && "yst-checkbox--disabled",
 			className,
 		) }
 	>
