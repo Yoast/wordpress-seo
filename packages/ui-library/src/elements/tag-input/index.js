@@ -40,10 +40,10 @@ const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag
 	return (
 		// eslint-disable-next-line jsx-a11y/no-static-element-interactions
 		<Badge
-			onKeyDown={ handleKeyDown } { ...props } variant="plain" className="yst-tag-input__tag yst-gap-1"
+			onKeyDown={ handleKeyDown } { ...props } variant="plain" className="yst-tag-input__tag"
 		>
-			<span className="yst-mb-[2px]">{ tag }</span>
-			<button onClick={ handleClick } className="yst-tag-input__remove-tag yst-rounded">
+			<span className="yst-mb-px">{ tag }</span>
+			<button onClick={ handleClick } className="yst-tag-input__remove-tag">
 				<span className="yst-sr-only">{ screenReaderRemoveTag }</span>
 				<XIcon className="yst-h-3 yst-w-3" />
 			</button>
