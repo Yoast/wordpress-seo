@@ -112,13 +112,25 @@ describe( "Disability assessments", function() {
 	} );
 
 	it( "should target 'stupid'.", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "stupid" ) );
-
 		const testSentence = "Stupid, that's just how they're acting.";
 		const mockPaper = new Paper( testSentence );
 		const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 
-		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "stupid" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>stupid</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: testSentence,
+			marked: `<yoastmark class='yoast-text-mark'>${ testSentence }</yoastmark>`,
+		} ) ] );
 	} );
 
 	it( "should not target 'dumb' if preceded by 'deaf and'.", () => {
