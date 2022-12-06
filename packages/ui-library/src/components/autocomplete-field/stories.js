@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from "@wordpress/element";
 import { filter, find, includes, toLower } from "lodash";
 
 export default {
-	title: "2. Components/AutocompleteField",
+	title: "2. Components/Autocomplete Field",
 	component: AutocompleteField,
 	argTypes: {
 		description: { control: "text" },
@@ -70,8 +70,8 @@ Factory.parameters = {
 Factory.args = {
 	id: "factory",
 	name: "factory",
-	label: "AutocompleteField label",
-	description: "AutocompleteField description",
+	label: "Autocomplete field label",
+	description: "Autocomplete field description",
 	placeholder: "Search an option...",
 };
 
@@ -108,7 +108,7 @@ export const WithSelectedLabel = Template.bind( {} );
 
 WithSelectedLabel.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "An example with default value using `selectedLabel` prop." } },
+	docs: { description: { story: "When using `children` prop, `selectedLabel` prop is used to set default/selected value." } },
 };
 
 WithSelectedLabel.args = {
@@ -116,6 +116,11 @@ WithSelectedLabel.args = {
 	name: "selected-label",
 	label: "Example label",
 	selectedLabel: "Option 1",
+	children: <>
+		<AutocompleteField.Option value="child 1" label="Option 1" id="option-1" name="option-1" />
+		<AutocompleteField.Option value="child 2" label="Option 2" id="option-2" name="option-2" />
+		<AutocompleteField.Option value="child 3" label="Option 3" id="option-3" name="option-3" />
+	</>,
 };
 
 export const WithPlaceholder = Template.bind( {} );
@@ -136,6 +141,7 @@ export const ChildrenProp = Template.bind();
 ChildrenProp.args = {
 	id: "with-children-prop",
 	name: "with-children-prop",
+	label: "Example label",
 	children: <>
 		<AutocompleteField.Option value="child 1" label="Option 1" id="option-1" name="option-1" />
 		<AutocompleteField.Option value="child 2" label="Option 2" id="option-2" name="option-2" />
