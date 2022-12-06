@@ -4,9 +4,9 @@ import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/
 import ageAssessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
 import Factory from "../../../../specHelpers/factory.js";
 
-describe( "Age assessments", function() {
+describe( "A test for Age assessments", function() {
 	it( "should target non-inclusive phrases", function() {
-		const mockText = "This ad is aimed at aging dependants";
+		const mockText = "This ad is aimed at aging dependants.";
 		const mockPaper = new Paper( mockText );
 		const mockResearcher = Factory.buildMockResearcher( [ mockText ] );
 		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "agingDependants" ) );
@@ -73,7 +73,7 @@ describe( "Age assessments", function() {
 	} );
 
 	it( "should not target other phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at the youth" );
+		const mockPaper = new Paper( "This ad is aimed at the youth." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This ad is aimed at the youth" ] );
 		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "seniorCitizens" ) );
 

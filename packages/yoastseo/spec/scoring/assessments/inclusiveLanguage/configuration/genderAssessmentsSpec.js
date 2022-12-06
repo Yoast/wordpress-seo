@@ -4,7 +4,7 @@ import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/genderAssessments";
 import Factory from "../../../../specHelpers/factory.js";
 
-describe( "Gender assessments", function() {
+describe( "A test for Gender assessments", function() {
 	it( "should target non-inclusive phrases", function() {
 		const mockPaper = new Paper( "Mankind is so great! I could talk for hours about it." );
 		const mockResearcher = Factory.buildMockResearcher( [ "Mankind is so great!", "I could talk for hours about it." ] );
