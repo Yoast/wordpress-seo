@@ -79,9 +79,9 @@ ChildrenProp.args = {
 	name: "name-3",
 	label: "Checkbox group label.",
 	children: <>
-		<CheckboxGroup.Checkbox checked={ true } value="child 1" label="Option 1" id="option-1" name="option-1" />
-		<CheckboxGroup.Checkbox value="child 2" label="Option 2" id="option-2" name="option-2" />
-		<CheckboxGroup.Checkbox value="child 3" label="Option 3" id="option-3" name="option-3" />
+		<CheckboxGroup.Checkbox defaultChecked={ true } value="child 1" label="Option 1" id="option-1" name="name-3" />
+		<CheckboxGroup.Checkbox value="child 2" label="Option 2" id="option-2" name="name-3" />
+		<CheckboxGroup.Checkbox value="child 3" label="Option 3" id="option-3" name="name-3" />
 	</>,
 };
 
