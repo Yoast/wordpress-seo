@@ -85,6 +85,7 @@ class WPSEO_Upgrade {
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
 			'19.11-RC0'  => 'upgrade_1911',
+			'19.12-RC0'  => 'upgrade_1912',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -964,6 +965,18 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 19.12 upgrade routine.
+	 *
+	 * @TODO: Update with the correct version number when the time comes.
+	 */
+	private function upgrade_1912() {
+		if ( WPSEO_Options::get( 'disable-attachment', true ) ) {
+			$this->remove_attachment_indexables();
+			$this->clean_attachment_links_from_target_indexable_ids();
+		}
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1574,5 +1587,57 @@ class WPSEO_Upgrade {
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);
 		// phpcs:enable
+	}
+
+	/**
+	 * Removes all indexables for attachments.
+	 *
+	 * @return void
+	 */
+	private function remove_attachment_indexables() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		$delete_query = "DELETE FROM $indexable_table WHERE object_sub_type = 'attachment'";
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$wpdb->query( $delete_query );
+		// phpcs:enable
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Cleans all attachment links in the links table from target indexable ids.
+	 *
+	 * @return void
+	 */
+	private function clean_attachment_links_from_target_indexable_ids() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$links_table = Model::get_table_name( 'SEO_Links' );
+
+		$query = "UPDATE $links_table SET target_indexable_id = NULL WHERE type = 'image-in'";
+		// phpcs:enable
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$wpdb->query( $query );
+		// phpcs:enable
+
+		$wpdb->show_errors = $show_errors;
 	}
 }
