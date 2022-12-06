@@ -1,30 +1,48 @@
 import { useCallback, useState } from "@wordpress/element";
 import { Badge, SelectField } from "../../index";
 
+const options = [
+	{ value: "1", label: "Option 1" },
+	{ value: "2", label: "Option 2" },
+	{ value: "3", label: "Option 3" },
+	{ value: "4", label: "Option 4" } ];
+
 export default {
 	title: "2. Components/Select Field",
 	component: SelectField,
 	argTypes: {
 		error: { control: "text" },
-		children: { description: "Alternative to options." },
+		description: { control: "text" },
+		children: { description: "Alternative to options.", control: "text" },
+		labelSuffix: { control: "text" },
+	},
+	args: {
+		options: options,
 	},
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple select field component.",
+				component: "A simple select field component that extends select element.",
 			},
 		},
 	},
 };
 
+
 const Template = ( args ) => {
-	const [ value, setValues ] = useState( args.value || "" );
-	const handleChange = useCallback( setValues, [ setValues ] );
+	const [ value, setValue ] = useState( args.value || "" );
+	const [ selectedLabel, setSelectedLabel ] = useState( value ? args.options.find( option=> option.value === value ).label : "" );
+	const handleChange = useCallback( ( val )=>{
+		const selected = args.options.find( option=> option.value === val );
+		setSelectedLabel( selected.label );
+		setValue( val );
+	}, [ setValue ] );
 
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<SelectField { ...args } value={ value } onChange={ handleChange } />
+			<SelectField { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
+
 		</div>
 	);
 };
@@ -34,15 +52,10 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	id: "select-field",
-	name: "name",
+	id: "select-field-0",
+	name: "name-0",
 	value: "1",
-	options: [
-		{ value: "1", label: "Option 1" },
-		{ value: "2", label: "Option 2" },
-		{ value: "3", label: "Option 3" },
-		{ value: "4", label: "Option 4" },
-	],
+	children: options.map( option=><SelectField.Option key={ option.value } { ...option } /> ),
 	label: "A Select Field",
 };
 
@@ -50,14 +63,10 @@ export const WithLabelAndDescription = Template.bind( {} );
 WithLabelAndDescription.args = {
 	id: "select-field-1",
 	name: "name-1",
+	value: "3",
 	label: "Select field with a label",
 	description: "Select field with a description.",
-	options: [
-		{ value: "1", label: "Option 1" },
-		{ value: "2", label: "Option 2" },
-		{ value: "3", label: "Option 3" },
-		{ value: "4", label: "Option 4" },
-	],
+	children: options.map( option=><SelectField.Option key={ option.value } { ...option } /> ),
 };
 
 export const WithError = Template.bind( {} );
@@ -67,12 +76,6 @@ WithError.args = {
 	value: "2",
 	label: "Select field with a label",
 	error: "Select field with an error.",
-	options: [
-		{ value: "1", label: "Option 1" },
-		{ value: "2", label: "Option 2" },
-		{ value: "3", label: "Option 3" },
-		{ value: "4", label: "Option 4" },
-	],
 };
 
 
@@ -83,11 +86,29 @@ WithLabelSuffix.args = {
 	value: "3",
 	label: "Select field with a label suffix",
 	labelSuffix: <Badge className="yst-ml-1.5" size="small">Beta</Badge>,
-	options: [
-		{ value: "1", label: "Option 1" },
-		{ value: "2", label: "Option 2" },
-		{ value: "3", label: "Option 3" },
-		{ value: "4", label: "Option 4" },
-	],
 };
 
+export const OptionsProp = Template.bind( {} );
+OptionsProp.args = {
+	id: "select-field-4",
+	name: "name-4",
+	value: "3",
+	label: "Select field with a options as array",
+};
+
+OptionsProp.parameters = {
+	docs: { description: { story: "Add options as an array of objects with `options` prop. Each object must contain `value` and `label` parameters. The displayed selected label will be updated automaticlly on change." } },
+};
+
+export const SelectFieldOption = Template.bind( {} );
+SelectFieldOption.args = {
+	id: "select-field-5",
+	name: "name-5",
+	value: "3",
+	label: "Select field with options as exposed React components",
+	children: options.map( option=><SelectField.Option key={ option.value } { ...option } /> ),
+};
+
+SelectFieldOption.parameters = {
+	docs: { description: { story: "Add options as an array of React components with `children` prop, using the exposed option component `SelectField.Option`. In this case changing the `selectedLabel` should be done manually in the handleChange function." } },
+};
