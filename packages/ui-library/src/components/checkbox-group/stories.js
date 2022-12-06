@@ -77,11 +77,11 @@ ChildrenProp.args = {
 	name: "name-3",
 	label: "Checkbox group label.",
 	children: <>
-		<CheckboxGroup.Option value="child 1" label="Option 1" id="option-1" name="option-1" />
-		<CheckboxGroup.Option value="child 2" label="Option 2" id="option-2" name="option-2" />
-		<CheckboxGroup.Option value="child 3" label="Option 3" id="option-3" name="option-3" />
+		<CheckboxGroup.Checkbox value="child 1" label="Option 1" id="option-1" name="option-1" />
+		<CheckboxGroup.Checkbox value="child 2" label="Option 2" id="option-2" name="option-2" />
+		<CheckboxGroup.Checkbox value="child 3" label="Option 3" id="option-3" name="option-3" />
 	</>,
 };
 
-ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`CheckboxGroup.Option` is equal to `Checkbox` element). Default values should be set inside the child component and not the `value` prop." } } };
+ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Checkbox` (`CheckboxGroup.Checkbox` is equal to `Checkbox` element). Default values should be set inside the child component and not the `value` prop." } } };
 
