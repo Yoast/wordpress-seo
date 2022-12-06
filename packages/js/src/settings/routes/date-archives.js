@@ -1,8 +1,8 @@
+/* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { toLower } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -12,6 +12,7 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
+import { safeToLocaleLower } from "../helpers";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
@@ -22,7 +23,8 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const DateArchives = () => {
 	const label = __( "Date archives", "wordpress-seo" );
-	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
@@ -67,7 +69,10 @@ const DateArchives = () => {
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-date": isDateArchivesDisabled } = values.wpseo_titles;
+	const {
+		"disable-date": isDateArchivesDisabled,
+		"noindex-archive-wpseo": isDateArchivesNoIndex,
+	} = values.wpseo_titles;
 
 	return (
 		<RouteLayout
@@ -116,13 +121,15 @@ const DateArchives = () => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 									labelLower
 								) }
-										&nbsp;
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
 							disabled={ isDateArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isDateArchivesDisabled ? false : ! isDateArchivesNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikReplacementVariableEditorField
@@ -132,7 +139,7 @@ const DateArchives = () => {
 							label={ __( "SEO title", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isDateArchivesDisabled }
+							disabled={ isDateArchivesDisabled }
 						/>
 						<FormikReplacementVariableEditorField
 							type="description"
@@ -141,7 +148,7 @@ const DateArchives = () => {
 							label={ __( "Meta description", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
-							isDisabled={ isDateArchivesDisabled }
+							disabled={ isDateArchivesDisabled }
 							className="yst-replacevar--description"
 						/>
 					</FieldsetLayout>
@@ -185,7 +192,7 @@ const DateArchives = () => {
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ isDateArchivesDisabled || ! opengraph }
+								disabled={ isDateArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -196,7 +203,7 @@ const DateArchives = () => {
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ isDateArchivesDisabled || ! opengraph }
+								disabled={ isDateArchivesDisabled || ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>

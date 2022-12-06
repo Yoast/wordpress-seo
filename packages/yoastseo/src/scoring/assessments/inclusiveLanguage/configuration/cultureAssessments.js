@@ -38,7 +38,7 @@ const cultureAssessments = [
 	{
 		identifier: "tribe",
 		nonInclusivePhrases: [ "tribe" ],
-		inclusiveAlternatives: "<i>group, cohort, crew, league, guild</i>",
+		inclusiveAlternatives: "<i>group, cohort, crew, league, guild, team, union</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		/*
 		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
@@ -63,7 +63,7 @@ const cultureAssessments = [
 	{
 		identifier: "guru",
 		nonInclusivePhrases: [ "guru" ],
-		inclusiveAlternatives: "<i>mentor, doyen, coach, mastermind, virtuoso</i>",
+		inclusiveAlternatives: "<i>mentor, doyen, coach, mastermind, virtuoso, expert</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
 	},
@@ -167,7 +167,7 @@ const cultureAssessments = [
 	{
 		identifier: "gypVerb",
 		nonInclusivePhrases: [ "gyp" ],
-		inclusiveAlternatives: "<i>to cheat someone</i>",
+		inclusiveAlternatives: "<i>to cheat someone, to trick someone</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
@@ -222,7 +222,7 @@ const cultureAssessments = [
 	{
 		identifier: "savage",
 		nonInclusivePhrases: [ "savage" ],
-		inclusiveAlternatives: "<i>severe, dreadful, untamed</i>",
+		inclusiveAlternatives: "<i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant, amazing</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},

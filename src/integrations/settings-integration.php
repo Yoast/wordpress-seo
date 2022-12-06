@@ -408,6 +408,7 @@ class Settings_Integration implements Integration_Interface {
 			'canCreateUsers'                => \current_user_can( 'create_users' ),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
+			'userLocale'                    => \str_replace( '_', '-', \get_user_locale() ),
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
