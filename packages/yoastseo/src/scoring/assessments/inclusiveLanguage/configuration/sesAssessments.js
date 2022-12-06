@@ -6,6 +6,13 @@ import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 const sesAssessments = [
 	{
+		identifier: "illegalImmigrant",
+		nonInclusivePhrases: [ "illegal immigrant", "illegal alien" ],
+		inclusiveAlternatives: "<i>undocumented person, person without papers, immigrant without papers</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
 		identifier: "illegalImmigrants",
 		nonInclusivePhrases: [ "illegal immigrants", "illegal aliens" ],
 		inclusiveAlternatives: "<i>undocumented people, people without papers, immigrants without papers</i>",
@@ -30,6 +37,20 @@ const sesAssessments = [
 		identifier: "prostitute",
 		nonInclusivePhrases: [ "prostitute" ],
 		inclusiveAlternatives: "<i>sex worker</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
+		identifier: "prostitute",
+		nonInclusivePhrases: [ "prostitute" ],
+		inclusiveAlternatives: "<i>sex worker</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
+		identifier: "prostitutes",
+		nonInclusivePhrases: [ "prostitutes" ],
+		inclusiveAlternatives: "<i>sex workers</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
