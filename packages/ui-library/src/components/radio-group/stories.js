@@ -116,12 +116,12 @@ ChildrenProp.args = {
 	name: "name-5",
 	label: "Radio group label.",
 	children: <>
-		<RadioGroup.Option value="child 1" label="Option 1" id="radio-1" name="radio-1" />
-		<RadioGroup.Option value="child 2" label="Option 2" id="radio-2" name="radio-2" />
-		<RadioGroup.Option value="child 3" label="Option 3" id="radio-3" name="radio-3" />
+		<RadioGroup.Radio value="child 1" label="Option 1" id="radio-1" name="radio-1" />
+		<RadioGroup.Radio value="child 2" label="Option 2" id="radio-2" name="radio-2" />
+		<RadioGroup.Radio value="child 3" label="Option 3" id="radio-3" name="radio-3" />
 	</>,
 };
 
-ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`RadioGroup.Option` is equal to `Radio` element). Default values should be set inside the child component and not the `value` prop." } } };
+ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Radio` (`RadioGroup.Radio` is equal to `Radio` element). Default values should be set inside the child component and not the `value` prop." } } };
 
 
