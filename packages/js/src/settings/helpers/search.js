@@ -241,7 +241,7 @@ export const createTaxonomySearchIndex = ( { name, label, route }, { userLocale 
  * @param {string} options.userLocale The user locale string.
  * @returns {Object} The search index.
  */
-export const createSearchIndex = ( postTypes, taxonomies, { userLocale = {} } = {} ) => ( {
+export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) => ( {
 	blogdescription: {
 		route: "/site-basics",
 		routeLabel: __( "Site basics", "wordpress-seo" ),
