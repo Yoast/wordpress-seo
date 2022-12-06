@@ -30,11 +30,9 @@ Factory.args = {
 export const Disabled = ( args ) => (
 	<Checkbox { ...args } />
 );
-
 Disabled.parameters = {
 	controls: { disable: true },
 };
-
 Disabled.args = {
 	id: "checkbox",
 	name: "name",
