@@ -4,11 +4,6 @@ import { potentiallyHarmful,
 } from "./feedbackStrings";
 import { SCORES } from "./scores";
 
-const learnMoreUrl = "https://yoa.st/inclusive-language-appearance";
-
-// This string says "Alternatively, if talking about a specific person, use their preferred descriptor if known, for example <i>plus-size</i>.
-const preferredDescriptorIfKnownPlusSize = [ preferredDescriptorIfKnown.slice( 0, -1 ) + ", for example <i>plus-size</i>." ];
-
 const appearanceAssessments = [
 	{
 		identifier: "albinos",
@@ -23,8 +18,7 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>has a higher weight, " +
 			"higher-weight person, person in higher weight body, heavier person</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful, preferredDescriptorIfKnownPlusSize ].join( " " ),
-		learnMoreUrl: learnMoreUrl,
+		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 	},
 	{
 		identifier: "obesitySingular",
@@ -32,7 +26,7 @@ const appearanceAssessments = [
 		inclusiveAlternatives: "<i>person who has a higher weight, " +
 			"higher-weight person, person in higher weight body, heavier person</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnownPlusSize ].join( " " ),
+		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 	},
 	{
 		identifier: "obesityPlural",
