@@ -36,6 +36,7 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
+		add_action( 'admin_init', [ $this, 'remove_translations_notification' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
@@ -55,6 +56,16 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );
+	}
+
+	/**
+	 * Removes any notification for incomplete translations.
+	 *
+	 * @return void
+	 */
+	public function remove_translations_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'i18nModuleTranslationAssistance' );
 	}
 
 	/**
