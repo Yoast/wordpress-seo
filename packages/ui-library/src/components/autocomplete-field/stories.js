@@ -6,7 +6,8 @@ export default {
 	title: "2. Components/AutocompleteField",
 	component: AutocompleteField,
 	argTypes: {
-		id: "1",
+		description: { control: "text" },
+		error: { control: "text" },
 	},
 	parameters: {
 		docs: {
