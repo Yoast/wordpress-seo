@@ -196,9 +196,23 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
+		identifier: "transWomen",
+		nonInclusivePhrases: [ "transwomen" ],
+		inclusiveAlternatives: "<i>trans women, transgender women</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
 		identifier: "transMan",
 		nonInclusivePhrases: [ "transman" ],
 		inclusiveAlternatives: "<i>trans man, transgender man</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
+		identifier: "transMen",
+		nonInclusivePhrases: [ "transmen" ],
+		inclusiveAlternatives: "<i>trans men, transgender men</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
