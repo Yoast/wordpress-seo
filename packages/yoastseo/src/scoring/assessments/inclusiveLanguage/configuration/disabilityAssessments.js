@@ -26,7 +26,7 @@ const disabilityAssessments =  [
 		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
-			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "drinks", "drinking" ] ) )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "drinks", "drinking" ] ) ),
 	},
 	{
 		identifier: "bingeing",
