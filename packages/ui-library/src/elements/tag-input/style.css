@@ -34,12 +34,14 @@
 				focus:yst-outline-none
 				focus:yst-ring-0
 				focus-visible:yst-outline-none
-				focus-visible:yst-ring-0;
+				focus-visible:yst-ring-0
+				hover:yst-ring-0;
 			}
 
 			.yst-tag-input__remove-tag {
 				@apply
 				yst-cursor-not-allowed
+				hover:yst-bg-slate-200
 				hover:yst-text-slate-400
 				focus:yst-outline-none
 				focus:yst-ring-0;
@@ -51,36 +53,35 @@
 		}
 
 		.yst-tag-input__tag {
-			min-height: 30px;
+			min-height: 20px;
+			padding-inline-end: 0.125rem;
 
 			@apply
-			yst-inline-flex
-			yst-py-0.5
-			yst-px-2
-			yst-rounded-full
-			yst-items-center
-			yst-text-xs
-			yst-leading-tight
-			yst-font-medium
-			yst-bg-slate-200
-			yst-text-slate-900
+			yst-gap-0.5
 			yst-cursor-pointer
 			focus:yst-outline-none
 			focus:yst-ring-2
 			focus:yst-ring-primary-500
 			focus-visible:yst-outline-none
 			focus-visible:yst-ring-2
-			focus-visible:yst-ring-primary-500;
+			focus-visible:yst-ring-primary-500
+			hover:yst-ring-2
+			hover:yst-ring-primary-500
+			hover:yst-border-primary-500;
 		}
 
 		.yst-tag-input__remove-tag {
 			@apply
-			yst-rounded-md
 			yst-inline-flex
-			yst-ml-0.5
-			yst--mr-1
+			yst-flex-shrink-0
+			yst-h-4
+			yst-w-4
+			yst-items-center
+			yst-justify-center
+			yst-rounded-full
 			yst-bg-slate-200
 			yst-text-slate-400
+			hover:yst-bg-slate-300
 			hover:yst-text-slate-500
 			focus:yst-outline-none
 			focus:yst-ring-2

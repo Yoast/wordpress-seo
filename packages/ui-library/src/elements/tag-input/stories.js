@@ -1,4 +1,5 @@
 import TagInput from ".";
+import { useCallback, useState } from "@wordpress/element";
 
 export default {
 	title: "1. Elements/Tag Input",
@@ -32,9 +33,22 @@ export default {
 	},
 };
 
-export const Factory = {
-	component: ( args ) => <TagInput { ...args } />,
-	parameters: {
-		controls: { disable: false },
-	},
+const Template = args => {
+	const [ tags, setTags ] = useState( args?.tags || [] );
+	const addTag = useCallback( tag => {
+		setTags( [ ...tags, tag ] );
+	}, [ tags, setTags ] );
+	const removeTag = useCallback( index => {
+		setTags( [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] );
+	}, [ tags, setTags ] );
+
+	return (
+		<TagInput { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+	);
+};
+
+export const Factory = Template.bind( {} );
+
+Factory.parameters = {
+	controls: { disable: false },
 };
