@@ -7,7 +7,7 @@ export default {
 	component: Autocomplete,
 	argTypes: {
 		children: { control: "text" },
-		as: { options: [ "span", "div" ] },
+		labelSuffix: { control: "text" },
 	},
 	parameters: {
 		docs: {
