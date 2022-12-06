@@ -190,6 +190,7 @@ const SiteBasics = () => {
 									__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here.", "wordpress-seo" ),
 									"Yoast SEO"
 								) }
+								className="yst-max-w-sm"
 							/>
 						) }
 						<FormikValueChangeField
