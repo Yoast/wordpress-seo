@@ -14,7 +14,7 @@ const NotificationsContext = createContext( { position: "bottom-left" } );
  */
 const useNotificationsContext = () => useContext( NotificationsContext );
 
-const notificationClassNameMap = {
+export const notificationClassNameMap = {
 	variant: {
 		info: "yst-notification--info",
 		warning: "yst-notification--warning",
@@ -32,7 +32,7 @@ const notificationClassNameMap = {
 	},
 };
 
-const notificationsIconMap = {
+export const notificationsIconMap = {
 	info: InformationCircleIcon,
 	warning: ExclamationIcon,
 	success: CheckCircleIcon,
@@ -51,7 +51,7 @@ const notificationsIconMap = {
  * @param {string} dismissScreenReaderLabel Screen reader label for dismiss button.
  * @returns {JSX.Element} The Notification component.
  */
-const Notification = ( {
+export const Notification = ( {
 	children,
 	id,
 	variant = "info",
@@ -151,6 +151,7 @@ const notificationsClassNameMap = {
 		"bottom-center": "yst-notifications--bottom-center",
 		"bottom-left": "yst-notifications--bottom-left",
 		"top-center": "yst-notifications--top-center",
+
 	},
 };
 
@@ -182,5 +183,6 @@ Notifications.propTypes = {
 };
 
 Notifications.Notification = Notification;
+
 
 export default Notifications;
