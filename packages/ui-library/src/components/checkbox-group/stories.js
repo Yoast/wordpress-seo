@@ -1,5 +1,4 @@
 import { useCallback, useState } from "@wordpress/element";
-import { Checkbox } from "../../index";
 import CheckboxGroup from ".";
 
 export default {
@@ -43,7 +42,7 @@ Factory.args = {
 	label: "A Checkbox Group",
 };
 
-export const WithLabelAndDescription = Template.bind();
+export const WithLabelAndDescription = Template.bind( {} );
 
 WithLabelAndDescription.args = {
 	id: "checkbox-group-1",
@@ -58,7 +57,7 @@ WithLabelAndDescription.args = {
 	description: "Checkbox group with a description.",
 };
 
-export const WithValues = Template.bind();
+export const WithValues = Template.bind( {} );
 
 WithValues.args = {
 	id: "checkbox-group-2",
@@ -73,14 +72,14 @@ WithValues.args = {
 	],
 };
 
-export const ChildrenProp = Template.bind();
+export const ChildrenProp = Template.bind( {} );
 
 ChildrenProp.args = {
 	id: "checkbox-group-3",
 	name: "name-3",
 	label: "Checkbox group label.",
 	children: <>
-		<CheckboxGroup.Checkbox value="child 1" label="Option 1" id="option-1" name="option-1" />
+		<CheckboxGroup.Checkbox checked={ true } value="child 1" label="Option 1" id="option-1" name="option-1" />
 		<CheckboxGroup.Checkbox value="child 2" label="Option 2" id="option-2" name="option-2" />
 		<CheckboxGroup.Checkbox value="child 3" label="Option 3" id="option-3" name="option-3" />
 	</>,
@@ -88,3 +87,19 @@ ChildrenProp.args = {
 
 ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Checkbox` (`CheckboxGroup.Checkbox` is equal to `Checkbox` element). Default values should be set inside the child component and not the `value` prop." } } };
 
+export const Disabled = Template.bind( {} );
+
+Disabled.args = {
+	id: "checkbox-group-4",
+	name: "name-4",
+	values: [ "2", "3" ],
+	label: "Checkbox group with a label",
+	description: "Checkbox group with a description.",
+	disabled: true,
+	options: [
+		{ value: "1", label: "Option 1" },
+		{ value: "2", label: "Option 2" },
+		{ value: "3", label: "Option 3" },
+		{ value: "4", label: "Option 4" },
+	],
+};
