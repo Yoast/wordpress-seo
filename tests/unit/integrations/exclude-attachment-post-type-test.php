@@ -2,24 +2,24 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Integrations\Exclude_Oembed_Cache_Post_Type;
+use Yoast\WP\SEO\Conditionals\Attachment_Redirections_Enabled_Conditional;
+use Yoast\WP\SEO\Integrations\Exclude_Attachment_Post_Type;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Exclude_Oembed_Cache_Post_Type_Test.
+ * Class Exclude_Attachment_Post_Type_Test.
  *
  * @group integrations
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Exclude_Oembed_Cache_Post_Type
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Exclude_Attachment_Post_Type
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
+class Exclude_Attachment_Post_Type_Test extends TestCase {
 
 	/**
 	 * The instance under test.
 	 *
-	 * @var Exclude_Oembed_Cache_Post_Type
+	 * @var Exclude_Attachment_Post_Type
 	 */
 	protected $instance;
 
@@ -29,7 +29,7 @@ class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance = new Exclude_Oembed_Cache_Post_Type();
+		$this->instance = new Exclude_Attachment_Post_Type();
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		self::assertEquals( [ Migrations_Conditional::class ], Exclude_Oembed_Cache_Post_Type::get_conditionals() );
+		self::assertEquals( [ Attachment_Redirections_Enabled_Conditional::class ], Exclude_Attachment_Post_Type::get_conditionals() );
 	}
 
 	/**
@@ -48,8 +48,8 @@ class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 	 *
 	 * @covers ::exclude_post_types
 	 */
-	public function test_exclude_oembed_cache_post_type() {
+	public function test_exclude_attachment_post_type() {
 		$actual = $this->instance->exclude_post_types( [ 'other_excluded_post_type' ] );
-		self::assertEquals( [ 'other_excluded_post_type', 'oembed_cache' ], $actual );
+		self::assertEquals( [ 'other_excluded_post_type', 'attachment' ], $actual );
 	}
 }
