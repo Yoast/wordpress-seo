@@ -151,7 +151,7 @@ const notificationsClassNameMap = {
 		"bottom-center": "yst-notifications--bottom-center",
 		"bottom-left": "yst-notifications--bottom-left",
 		"top-center": "yst-notifications--top-center",
-		inherit: "yst-notifications--inherit",
+
 	},
 };
 
