@@ -116,9 +116,9 @@ ChildrenProp.args = {
 	name: "name-5",
 	label: "Radio group label.",
 	children: <>
-		<RadioGroup.Radio checked={ true } value="child 1" label="Option 1" id="radio-1" name="radio-1" />
-		<RadioGroup.Radio value="child 2" label="Option 2" id="radio-2" name="radio-2" />
-		<RadioGroup.Radio value="child 3" label="Option 3" id="radio-3" name="radio-3" />
+		<RadioGroup.Radio defaultChecked={ true } value="child 1" label="Option 1" id="radio-1" name="name-5" />
+		<RadioGroup.Radio value="child 2" label="Option 2" id="radio-2" name="name-5" />
+		<RadioGroup.Radio value="child 3" label="Option 3" id="radio-3" name="name-5" />
 	</>,
 };
 
