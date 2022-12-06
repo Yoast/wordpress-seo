@@ -5,15 +5,30 @@ export default {
 	title: "2. Components/Notifications",
 	component: Notification,
 	argTypes: {
-		children: { control: { disable: true } },
+		children: { control: "text" },
 		position: {
-			options: [ "bottom-center", "bottom-left", "top-center", "inherit" ],
+			options: [ "bottom-center", "bottom-left", "top-center" ],
 			type: "select",
 			description: "The position of the notification. Notifications prop.",
+			table: {
+				defaultValue: { summary: "bottom-center" },
+			  },
 		},
 		id: { control: "text" },
-		variant: { options: keys( notificationClassNameMap.variant ), type: "select" },
-		size: { options: keys( notificationClassNameMap.size ), type: "select" },
+		variant: {
+			options: keys( notificationClassNameMap.variant ),
+			type: "select",
+			table: {
+				type: { summary: keys( notificationClassNameMap.variant ).toString() },
+			},
+		 },
+		size: {
+			options: keys( notificationClassNameMap.size ),
+			type: "select",
+			table: {
+				type: { summary: keys( notificationClassNameMap.size ).toString() },
+			},
+		},
 		title: { control: "text", type: "string" },
 		description: { control: "text", type: "string" },
 		onDismiss: { control: { disable: false } },
@@ -23,9 +38,7 @@ export default {
 	args: {
 		title: "Notification title",
 		description: "Notifiation description",
-		id: "notification-single",
 		dismissScreenReaderLabel: "Dismiss",
-
 	},
 	parameters: {
 		docs: {
@@ -36,46 +49,44 @@ export default {
 	},
 };
 
-const Template = ( args ) =>
-	// eslint-disable-next-line no-negated-condition
-	<div className={ args.position !== "inherit" ? "yst-fixed yst-left-0" : "" }>
-		<Notifications position={ args.position }>
-			<Notifications.Notification { ...args } />
-		</Notifications>
-	</div>;
+const Template = ( args ) => <Notifications.Notification { ...args } />;
 
-
-export const Factory = Template.bind( {} );
+export const Factory = ( args ) =>
+	<>
+		<div className="yst-mb-3">Default position is bottom-left.</div>
+		<div className="yst-fixed yst-left-0 yst-z-50">
+			<Notifications position={ args.position }>
+				<Notifications.Notification { ...args } />
+			</Notifications>
+		</div>
+	</>
+	;
 Factory.args = {
-	 position: "inherit",
+	id: "notification-factory",
 	 onDismiss: () => {},
 };
 
 export const Info = Template.bind( {} );
 Info.args = {
 	variant: "info",
-	position: "inherit",
 	id: "notification-info",
 };
 
 export const Warning = Template.bind( {} );
 Warning.args = {
 	variant: "warning",
-	position: "inherit",
 	id: "notification-warning",
 };
 
 export const Success = Template.bind( {} );
 Success.args = {
 	variant: "success",
-	position: "inherit",
 	id: "notification-success",
 };
 
 export const Error = Template.bind( {} );
 Error.args = {
 	variant: "error",
-	position: "inherit",
 	id: "notification-error",
 
 };
@@ -83,7 +94,6 @@ Error.args = {
 export const DescriptionList = Template.bind( {} );
 DescriptionList.args = {
 	variant: "info",
-	position: "inherit",
 	id: "notification-info",
 	description: [ "Description 1", "Description 2", "Description 3" ],
 };
@@ -96,7 +106,6 @@ const DescriptionChild = () => <b>Notification description as a component.</b>;
 
 ChildrenNotification.args = {
 	variant: "info",
-	position: "inherit",
 	id: "notification-info",
 	children: <DescriptionChild />,
 };
