@@ -191,7 +191,7 @@ describe( "a test for the inclusive language assessor when run in Shopify", () =
 			}
 		} );
 	} );
-	it( "tests the category of the Other assessments and the correct Shopify link", () => {
+	it( "tests the category of the SES assessments and the correct Shopify link", () => {
 		const mockPaper = new Paper( "This is a test with the non-inclusive word felon." );
 		const researcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessor( researcher, options );
