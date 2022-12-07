@@ -48,7 +48,7 @@ const cultureAssessments = [
 	{
 		identifier: "tribes",
 		nonInclusivePhrases: [ "tribes" ],
-		inclusiveAlternatives: "<i>groups, cohorts, crews, leagues, guilds</i>",
+		inclusiveAlternatives: "<i>groups, cohorts, crews, leagues, guilds, teams, unions</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		/*
 		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
