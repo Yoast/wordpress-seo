@@ -332,8 +332,8 @@ describe( "Disability assessments", function() {
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>brain-damaged</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>person with a (traumatic) brain injury</i>, " +
+			"Be careful when using <i>differently-abled</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>disabled, person with a disability</i>, " +
 			"unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
 		);

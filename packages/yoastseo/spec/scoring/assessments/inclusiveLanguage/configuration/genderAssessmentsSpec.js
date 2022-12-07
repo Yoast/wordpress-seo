@@ -332,7 +332,7 @@ describe( "Gender assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>FTM</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>trans woman, transgender woman</i>, " +
+			"Consider using an alternative, such as <i>trans man, transgender man</i>, " +
 			"unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
 		);
