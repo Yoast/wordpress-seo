@@ -1,9 +1,9 @@
 import { createContext, useContext } from "@wordpress/element";
 import PropTypes from "prop-types";
-import MenuItem from './components/MenuItem'
-import Mobile from './components/Mobile';
-import Sidebar from './components/Sidebar';
-import SubmenuItem from './components/SubmenuItem';
+import MenuItem from "./components/MenuItem";
+import Mobile from "./components/Mobile";
+import Sidebar from "./components/Sidebar";
+import SubmenuItem from "./components/SubmenuItem";
 
 const NavigationContext = createContext( { activePath: "" } );
 
