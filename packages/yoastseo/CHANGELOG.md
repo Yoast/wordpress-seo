@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## Future release
+### Bugfixes
+* Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
+
 ## 1.89.0 January 25th, 2021
 ### Enhancements
 * Adds Turkish stemmer.
