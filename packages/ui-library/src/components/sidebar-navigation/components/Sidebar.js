@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
  * @param {string} className The CSS classname.
  * @returns {JSX.Element} The sidebar element.
  */
- const Sidebar = ( { children, className = "" } ) => (
+const Sidebar = ( { children, className = "" } ) => (
 	<nav className={ className }>{ children }</nav>
 );
 

@@ -10,7 +10,7 @@ import { useToggleState } from "../../../hooks";
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The menu item element.
  */
- const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = true, ...props } ) => {
+const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = true, ...props } ) => {
 	const [ isOpen, toggleOpen ] = useToggleState( defaultOpen );
 	const ChevronIcon = isOpen ? ChevronUpIcon : ChevronDownIcon;
 
