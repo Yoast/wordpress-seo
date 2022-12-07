@@ -1,7 +1,7 @@
 import Code from ".";
 
 export default {
-	title: "1. Elements/Code",
+	title: "1) Elements/Code",
 	component: Code,
 	argTypes: {
 		children: { control: "text" },

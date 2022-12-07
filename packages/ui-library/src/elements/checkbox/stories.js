@@ -1,7 +1,7 @@
 import Checkbox from ".";
 
 export default {
-	title: "1. Elements/Checkbox",
+	title: "1) Elements/Checkbox",
 	component: Checkbox,
 	argTypes: {},
 	parameters: {

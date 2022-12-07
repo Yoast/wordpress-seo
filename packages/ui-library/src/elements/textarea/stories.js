@@ -1,7 +1,7 @@
 import Textarea from ".";
 
 export default {
-	title: "1. Elements/Textarea",
+	title: "1) Elements/Textarea",
 	component: Textarea,
 	argTypes: {
 		cols: { defaultValue: 20 },

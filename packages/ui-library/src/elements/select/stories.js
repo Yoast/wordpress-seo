@@ -2,7 +2,7 @@ import { useCallback, useState } from "@wordpress/element";
 import Select from ".";
 
 export default {
-	title: "1. Elements/Select",
+	title: "1) Elements/Select",
 	component: Select,
 	argTypes: {
 		children: { control: "text" },

@@ -1,7 +1,7 @@
 import Radio from ".";
 
 export default {
-	title: "1. Elements/Radio",
+	title: "1) Elements/Radio",
 	component: Radio,
 	parameters: {
 		docs: {

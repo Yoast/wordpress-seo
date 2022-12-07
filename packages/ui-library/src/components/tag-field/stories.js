@@ -2,7 +2,7 @@ import { useCallback, useState } from "@wordpress/element";
 import TagField from ".";
 
 export default {
-	title: "2. Components/Tag Field",
+	title: "2) Components/Tag Field",
 	component: TagField,
 	parameters: {
 		docs: {
