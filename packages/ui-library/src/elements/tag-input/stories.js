@@ -12,7 +12,7 @@ export default {
 		},
 	},
 	argTypes: {
-		children: { control: false },
+		children: { control: "text" },
 	},
 	args: {
 		tags: [
