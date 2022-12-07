@@ -2,7 +2,6 @@ import { SCORES } from "./scores";
 import { potentiallyHarmful, potentiallyHarmfulCareful } from "./feedbackStrings";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
-import { isNotFollowedByException } from "../helpers/isFollowedByException";
 
 const otherAssessments = [
 	{
