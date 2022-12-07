@@ -17,6 +17,9 @@ module.exports = {
 			},
 		},
 	],
+	core: {
+		disableTelemetry: true,
+	},
 	features: {
 		previewMdx2: true,
 	},
