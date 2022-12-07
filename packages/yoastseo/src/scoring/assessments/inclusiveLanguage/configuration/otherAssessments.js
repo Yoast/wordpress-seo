@@ -22,8 +22,8 @@ const otherAssessments = [
 	},
 	{
 		identifier: "normal",
-		nonInclusivePhrases: [ "normal person", "normal people", "normal behaviour", "normal behavior", "mentally normal" ] +
-			[ "behaviorally normal", "psychologically normal"  ],
+		nonInclusivePhrases: [ "normal person", "normal people", "normal behaviour", "normal behavior", "mentally" +
+		" normal", "behaviorally normal", "psychologically normal"  ],
 		inclusiveAlternatives: [ "<i>typical</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>normal</i> as it is potentially harmful. " +
@@ -31,8 +31,8 @@ const otherAssessments = [
 	},
 	{
 		identifier: "abnormal",
-		nonInclusivePhrases: [ "abnormal person", "abnormal people", "abnormal behaviour", "abnormal behavior", "mentally abnormal" ] +
-			[ "behaviorally abnormal", "psychologically abnormal"  ],
+		nonInclusivePhrases: [ "abnormal person", "abnormal people", "abnormal behaviour", "abnormal behavior", "mentally" +
+		" abnormal", "behaviorally abnormal", "psychologically abnormal"  ],
 		inclusiveAlternatives: [ "<i>atypical</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>abnormal</i> as it is potentially harmful. " +
