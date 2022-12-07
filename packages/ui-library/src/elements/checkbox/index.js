@@ -1,7 +1,7 @@
 /* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
-
+import { forwardRef } from "@wordpress/element";
 import Label from "../label";
 
 /**
@@ -12,7 +12,7 @@ import Label from "../label";
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Checkbox component.
  */
-const Checkbox = ( {
+const Checkbox = forwardRef( ( {
 	id,
 	name,
 	value,
@@ -20,7 +20,7 @@ const Checkbox = ( {
 	disabled,
 	className,
 	...props
-} ) => (
+}, ref ) => (
 	<div
 		className={ classNames(
 			"yst-checkbox",
@@ -29,6 +29,7 @@ const Checkbox = ( {
 		) }
 	>
 		<input
+			ref={ ref }
 			type="checkbox"
 			id={ id }
 			name={ name }
@@ -39,7 +40,7 @@ const Checkbox = ( {
 		/>
 		<Label htmlFor={ id } className="yst-checkbox__label" label={ label } />
 	</div>
-);
+) );
 
 Checkbox.propTypes = {
 	id: PropTypes.string.isRequired,

@@ -3,6 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
 import Label from "../label";
+import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -23,7 +24,7 @@ const classNameMap = {
  * @param {boolean} [isLabelDangerousHtml] Whether the label should be dangerously set as HTML.
  * @returns {JSX.Element} Radio component.
  */
-const Radio = ( {
+const Radio = forwardRef( ( {
 	id,
 	name,
 	value,
@@ -34,7 +35,7 @@ const Radio = ( {
 	className = "",
 	isLabelDangerousHtml = false,
 	...props
-} ) => {
+}, ref ) => {
 	const svgAriaProps = useSvgAria();
 
 	if ( variant === "inline-block" ) {
@@ -79,6 +80,7 @@ const Radio = ( {
 			) }
 		>
 			<input
+				ref={ ref }
 				type="radio"
 				id={ id }
 				name={ name }
@@ -95,7 +97,7 @@ const Radio = ( {
 			/>
 		</div>
 	);
-};
+} );
 
 Radio.propTypes = {
 	name: PropTypes.string.isRequired,
