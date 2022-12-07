@@ -142,7 +142,7 @@ describe( "Other assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>normal</i> as it is potentially harmful. " +
+			"Avoid using <i>normal</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is" +
 		" known. <a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
