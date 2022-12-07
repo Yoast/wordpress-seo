@@ -13,6 +13,6 @@
     "tailwindcss": "^3.2.0"
   },
   "peerDependencies": {
-    "postcss": "^8.4.14"
+    "postcss": "^8.4.19"
   }
 }
