@@ -41,13 +41,6 @@ const sesAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
-		identifier: "prostitute",
-		nonInclusivePhrases: [ "prostitute" ],
-		inclusiveAlternatives: "<i>sex worker</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnless,
-	},
-	{
 		identifier: "prostitutes",
 		nonInclusivePhrases: [ "prostitutes" ],
 		inclusiveAlternatives: "<i>sex workers</i>",
