@@ -2,14 +2,6 @@ import { SCORES } from "./scores";
 
 const otherAssessments = [
 	{
-		identifier: "homosexuals",
-		nonInclusivePhrases: [ "homosexuals" ],
-		inclusiveAlternatives: "<i>gay men, queer people, lesbians</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Be careful when using <i>%1$s</i> as it may overgeneralize or be harmful. " +
-						"Instead, be specific about the group you are referring to (e.g. %2$s).",
-	},
-	{
 		identifier: "minorities",
 		nonInclusivePhrases: [ "minorities" ],
 		inclusiveAlternatives: [ "<i>marginalized groups</i>", "<i>underrepresented groups</i>", "<i>gender and sexuality minorities</i>" ],

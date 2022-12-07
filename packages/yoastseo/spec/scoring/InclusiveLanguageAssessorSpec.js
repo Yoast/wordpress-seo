@@ -89,6 +89,17 @@ describe( "a test for for the inclusive language assessor when run in WordPress"
 			}
 		} );
 	} );
+	it( "tests the category of the Sexual orientation assessments and the correct WP link", () => {
+		const mockPaper = new Paper( "This is a test with the non-inclusive word homosexuals." );
+		const researcher = new EnglishResearcher( mockPaper );
+		const assessor = new InclusiveLanguageAssessor( researcher, options );
+		assessor._assessments.forEach( assessment => {
+			if ( assessment.isApplicable( mockPaper, researcher ) ) {
+				expect( assessment.category ).toEqual( "sexualOrientation" );
+				expect( assessment.learnMoreUrl ).toEqual( "<a href='https://yoa.st/inclusive-language-orientation' target='_blank'>" );
+			}
+		} );
+	} );
 	it( "tests the category of the SES assessments and the correct WP link", () => {
 		const mockPaper = new Paper( "This is a test with the non-inclusive phrase illegal immigrants." );
 		const researcher = new EnglishResearcher( mockPaper );
@@ -122,6 +133,7 @@ describe( "a test for the inclusive language assessor when run in Shopify", () =
 			gender: "https://yoa.st/inclusive-language-gender-shopify",
 			other: "https://yoa.st/inclusive-language-other-shopify",
 			ses: "https://yoa.st/inclusive-language-ses-shopify",
+			sexualOrientation: "https://yoa.st/inclusive-language-orientation-shopify",
 		},
 	};
 	it( "tests the category of the Age assessments and the correct Shopify link", () => {
@@ -190,14 +202,25 @@ describe( "a test for the inclusive language assessor when run in Shopify", () =
 			}
 		} );
 	} );
-	it( "tests the category of the SES assessments and the correct Shopify link", () => {
-		const mockPaper = new Paper( "This is a test with the non-inclusive phrase illegal immigrants." );
+	it( "tests the category of the Sexual orientation assessments and the correct Shopify link", () => {
+		const mockPaper = new Paper( "This is a test with the non-inclusive word homosexuals." );
 		const researcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessor( researcher, options );
 		assessor._assessments.forEach( assessment => {
 			if ( assessment.isApplicable( mockPaper, researcher ) ) {
-				expect( assessment.category ).toEqual( "ses" );
-				expect( assessment.learnMoreUrl ).toEqual( "<a href='https://yoa.st/inclusive-language-ses-shopify' target='_blank'>" );
+				expect( assessment.category ).toEqual( "sexualOrientation" );
+				expect( assessment.learnMoreUrl ).toEqual( "<a href='https://yoa.st/inclusive-language-orientation-shopify' target='_blank'>" );
+			}
+		} );
+	} );
+	it( "tests the category of the Other assessments and the correct Shopify link", () => {
+		const mockPaper = new Paper( "This is a test with the non-inclusive phrase minorities." );
+		const researcher = new EnglishResearcher( mockPaper );
+		const assessor = new InclusiveLanguageAssessor( researcher, options );
+		assessor._assessments.forEach( assessment => {
+			if ( assessment.isApplicable( mockPaper, researcher ) ) {
+				expect( assessment.category ).toEqual( "other" );
+				expect( assessment.learnMoreUrl ).toEqual( "<a href='https://yoa.st/inclusive-language-other-shopify' target='_blank'>" );
 			}
 		} );
 	} );
