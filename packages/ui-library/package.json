@@ -63,10 +63,10 @@
   "dependencies": {
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^1.0.6",
-    "classnames": "^2.3.1",
+    "classnames": "^2.3.2",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
-    "react-animate-height": "^3.0.4",
+    "react-animate-height": "^3.1.0",
     "react-error-boundary": "^3.1.4"
   },
   "peerDependencies": {
