@@ -2,7 +2,6 @@ import Paper from "../../../../../src/values/Paper";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/cultureAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import Mark from "../../../../../src/values/Mark";
 
 describe( "Culture Assessments", () => {
 	it( "should target only capitalized non-inclusive phrases when the caseSensitive flag is set", () => {
