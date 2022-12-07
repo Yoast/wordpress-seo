@@ -41,23 +41,34 @@ Factory.args = {
 	children: <SidebarNavigation.Sidebar className="yst-w-1/3">
 
 		<SidebarNavigation.MenuItem
-			id={ "menu-site-settings" }
+			id={ "menu-item-default-1" }
 			icon={ DesktopComputerIcon }
-			label="General"
+			label="MenuItem 1 label"
 		>
-			<SidebarNavigation.SubmenuItem to="#site-features" label="Site features" />
-			<SidebarNavigation.SubmenuItem to="#site-basics" label="Site basics"  />
-			<SidebarNavigation.SubmenuItem to="#site-connections" label="Site connections"  />
+			<SidebarNavigation.SubmenuItem to="#sub1" label="SubmenuItem 1 label" />
+			<SidebarNavigation.SubmenuItem to="#sub2" label="SubmenuItem 2 label" />
+			<SidebarNavigation.SubmenuItem to="#sub3" label="SubmenuItem 3 label" />
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
-			id={ "menu-advanced-settings$" }
+			id={ "menu-item-default-2" }
 			icon={ AdjustmentsIcon }
-			label="Advanced"
+			label="MenuItem 2 label"
 			defaultOpen={ false }
 		>
-			<SidebarNavigation.SubmenuItem to="#breadcrumbs" label="Breadcrumbs" />
-			<SidebarNavigation.SubmenuItem to="#author-archives" label="Author archives" />
-			<SidebarNavigation.SubmenuItem to="#date-archives" label="Date archives" />
+			<SidebarNavigation.SubmenuItem to="#sub1" label="SubmenuItem 1 label" />
+			<SidebarNavigation.SubmenuItem to="#sub2" label="SubmenuItem 2 label" />
+			<SidebarNavigation.SubmenuItem to="#sub3" label="SubmenuItem 3 label" />
+
+		</SidebarNavigation.MenuItem>
+		<SidebarNavigation.MenuItem
+			id={ "menu-item-default-3" }
+			icon={ NewspaperIcon }
+			label="MenuItem 3 label"
+			defaultOpen={ false }
+		>
+			<SidebarNavigation.SubmenuItem to="#sub1" label="SubmenuItem 1 label" />
+			<SidebarNavigation.SubmenuItem to="#sub2" label="SubmenuItem 2 label" />
+			<SidebarNavigation.SubmenuItem to="#sub3" label="SubmenuItem 3 label" />
 
 		</SidebarNavigation.MenuItem>
 	</SidebarNavigation.Sidebar>,
@@ -86,7 +97,7 @@ MenuItem.args = {
 
 export const Sidebar = Template.bind( {} );
 
-Sidebar.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Sidebar` is a wrapper component over the `MenuItem` components." } } };
+Sidebar.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Sidebar` is a `<nav>` wrapper component. It's props are `className` and `children` (`MenuItem` subomponents)." } } };
 
 Sidebar.args = {
 	children: (
@@ -120,7 +131,7 @@ Sidebar.args = {
 
 export const Mobile = Template.bind( {} );
 
-Mobile.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Mobile` is a wrapper component over the `MenuItem` components for mobile view." } } };
+Mobile.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.Mobile` is a wrapper component over the `MenuItem` subcomponents for mobile view." } } };
 
 Mobile.args = {
 	children: ( <SidebarNavigation.Mobile
