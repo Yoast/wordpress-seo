@@ -132,4 +132,48 @@ describe( "Other assessments", function() {
 
 		expect( isApplicable ).toBeFalsy();
 	} );
+	it( "correctly identifies 'ex-con'", () => {
+		const mockPaper = new Paper( "This sentence contains ex-con." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains ex-con." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "ex-con" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>ex-con</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>people who have had felony convictions, people who have been incarcerated</i>. " +
+			"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains ex-con.</yoastmark>",
+			original: "This sentence contains ex-con." } } ]
+		);
+	} );
+	it( "correctly identifies 'ex-offender'", () => {
+		const mockPaper = new Paper( "This sentence contains ex-offender." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains ex-offender." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "ex-offender" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>ex-offender</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>formerly incarcerated person</i>. " +
+			"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains ex-offender.</yoastmark>",
+			original: "This sentence contains ex-offender." } } ]
+		);
+	} );
 } );
