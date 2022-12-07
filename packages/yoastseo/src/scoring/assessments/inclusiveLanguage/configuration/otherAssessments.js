@@ -27,7 +27,7 @@ const otherAssessments = [
 		inclusiveAlternatives: [ "<i>typical</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>normal</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as %2$sm or a specific characteristic or experience if it is known.",
+			"Consider using an alternative, such as %2$s or a specific characteristic or experience if it is known.",
 	},
 	{
 		identifier: "abnormal",
@@ -36,7 +36,7 @@ const otherAssessments = [
 		inclusiveAlternatives: [ "<i>atypical</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>abnormal</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as %2$sm or a specific characteristic or experience if it is known.",
+			"Consider using an alternative, such as %2$s or a specific characteristic or experience if it is known.",
 	},
 	{
 		identifier: "theMinority",
