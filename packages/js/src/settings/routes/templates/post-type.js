@@ -3,7 +3,6 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
-import { toLower } from "lodash";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
@@ -17,6 +16,7 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../../components";
+import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
 
@@ -45,13 +45,14 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const hasWooCommerceShopPage = useSelectSettings( "selectPreference", [], "hasWooCommerceShopPage" );
 	const editWooCommerceShopPageUrl = useSelectSettings( "selectPreference", [], "editWooCommerceShopPageUrl" );
 	const wooCommerceShopPageSettingUrl = useSelectSettings( "selectPreference", [], "wooCommerceShopPageSettingUrl" );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
 
-	const labelLower = useMemo( () => toLower( label ), [ label ] );
-	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
+	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**

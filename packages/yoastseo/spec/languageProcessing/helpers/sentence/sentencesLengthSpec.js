@@ -35,7 +35,7 @@ describe( "A test to count sentence lengths.", function() {
 
 		expect( lengths ).toEqual( [
 			{ sentence: "自然おのずから存在しているもの", sentenceLength: 15 },
-			{ sentence: "歩くさわやかな森 <span style='color: red;'> 自然 </span>", sentenceLength: 11 },
+			{ sentence: "歩くさわやかな森 <span style='color: red;'> 自然 </span>", sentenceLength: 10 },
 		] );
 	} );
 } );

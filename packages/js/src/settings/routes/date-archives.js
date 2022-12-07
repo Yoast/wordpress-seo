@@ -3,7 +3,6 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { toLower } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -13,6 +12,7 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
+import { safeToLocaleLower } from "../helpers";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
@@ -23,7 +23,8 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const DateArchives = () => {
 	const label = __( "Date archives", "wordpress-seo" );
-	const labelLower = useMemo( () => toLower( label ), [ label ] );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
