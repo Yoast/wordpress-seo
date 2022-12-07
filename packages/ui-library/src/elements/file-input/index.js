@@ -1,4 +1,4 @@
-import { useState, useCallback } from "@wordpress/element";
+import { useState, useCallback, forwardRef } from "@wordpress/element";
 import { isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import classNames from "classnames";
@@ -20,7 +20,7 @@ import Link from "../link";
  * @param {string} className Classname.
  * @returns {JSX.Element} The FileInput component.
  */
-const FileInput = ( {
+const FileInput = forwardRef( ( {
 	id,
 	name,
 	value,
@@ -33,7 +33,7 @@ const FileInput = ( {
 	onChange,
 	className = "",
 	...props
-} ) => {
+}, ref ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
 
 	const handleDragEnter = useCallback( ( event ) => {
@@ -76,6 +76,7 @@ const FileInput = ( {
 				<IconComponent className="yst-file-input__icon" />
 				<div className="yst-file-input__labels">
 					<input
+						ref={ ref }
 						type="file"
 						id={ id }
 						name={ name }
@@ -94,7 +95,7 @@ const FileInput = ( {
 			</div>
 		</div>
 	);
-};
+} );
 
 FileInput.propTypes = {
 	id: PropTypes.string.isRequired,

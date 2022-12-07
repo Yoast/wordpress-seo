@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/tabindex-no-positive */
 import { XIcon } from "@heroicons/react/solid";
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useState, forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import { isString, map, noop } from "lodash";
 import PropTypes from "prop-types";
@@ -71,7 +71,7 @@ Tag.propTypes = {
  * @param {object} [props] Extra properties.
  * @returns {JSX.Element} The element.
  */
-const TagInput = ( {
+const TagInput = forwardRef( ( {
 	tags = [],
 	children = null,
 	className = "",
@@ -81,7 +81,7 @@ const TagInput = ( {
 	onBlur = noop,
 	screenReaderRemoveTag = "Remove tag",
 	...props
-} ) => {
+}, ref ) => {
 	const [ text, setText ] = useState( "" );
 	const handleChange = useCallback( event => {
 		isString( event?.target?.value ) && setText( event.target.value );
@@ -129,6 +129,7 @@ const TagInput = ( {
 				/>
 			) ) }
 			<input
+				ref={ ref }
 				type="text"
 				disabled={ disabled }
 				className="yst-tag-input__input"
@@ -141,7 +142,7 @@ const TagInput = ( {
 			/>
 		</div>
 	);
-};
+} );
 
 TagInput.propTypes = {
 	tags: PropTypes.arrayOf( PropTypes.string ),
