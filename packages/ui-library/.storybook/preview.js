@@ -8,7 +8,7 @@ export const globalTypes = {
 		description: "Text direction. Can be either left to right or right to left",
 		defaultValue: "ltr",
 		toolbar: {
-			showName: true,
+			title: "Direction",
 			icon: "menu",
 			items: [
 				{ value: "ltr", title: "LTR - Left to Right" },
