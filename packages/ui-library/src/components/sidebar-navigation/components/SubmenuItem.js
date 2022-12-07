@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useNavigationContext } from '..'
+import { useNavigationContext } from "..";
 
 /**
  * @param {JSX.node} label The label.
@@ -9,7 +9,7 @@ import { useNavigationContext } from '..'
  * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The submenu item element.
  */
- const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props } ) => {
+const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props } ) => {
 	const { activePath } = useNavigationContext();
 
 	return (

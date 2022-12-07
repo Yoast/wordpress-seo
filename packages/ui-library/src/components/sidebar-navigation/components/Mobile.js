@@ -3,7 +3,7 @@ import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { usePrevious, useToggleState } from "../../../hooks";
-import { useNavigationContext } from '..'
+import { useNavigationContext } from "..";
 
 /**
  * @param {JSX.node} children The menu items.
@@ -12,7 +12,7 @@ import { useNavigationContext } from '..'
  * @param {boolean} [closeOnNavigate] Whether to close the mobile navigation when the active path changed.
  * @returns {JSX.Element} The mobile element.
  */
- const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScreenReaderText = "Close", closeOnNavigate = true } ) => {
+const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScreenReaderText = "Close", closeOnNavigate = true } ) => {
 	const { activePath } = useNavigationContext();
 	const previousPath = usePrevious( activePath );
 	const [ isOpen, toggleOpen, setOpen ] = useToggleState( false );
