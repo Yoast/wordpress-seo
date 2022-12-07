@@ -1,0 +1,41 @@
+@layer components {
+    .yst-root {
+
+        /* Validation icon */
+        .yst-validation-icon {}
+
+        .yst-validation-icon--success {
+            @apply yst-text-green-500;
+        }
+        .yst-validation-icon--info {
+            @apply yst-text-blue-500;
+        }
+        .yst-validation-icon--warning {
+            @apply yst-text-amber-500;
+        }
+        .yst-validation-icon--error {
+            @apply yst-text-red-500;
+        }
+
+        /* Validation message */
+        .yst-validation-message {
+
+            a {
+				@apply yst-font-medium yst-text-inherit hover:visited:yst-text-inherit;
+			}
+        }
+
+        .yst-validation-message--success {
+            @apply yst-bg-green-100 yst-text-green-800;
+        }
+        .yst-validation-message--info {
+            @apply yst-bg-blue-100 yst-text-blue-800;
+        }
+        .yst-validation-message--warning {
+            @apply yst-bg-amber-100 yst-text-amber-800;
+        }
+        .yst-validation-message--error {
+            @apply yst-bg-red-100 yst-text-red-800;
+        }
+    }
+}
