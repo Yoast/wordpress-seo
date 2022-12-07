@@ -8,6 +8,7 @@ export default {
 	argTypes: {
 		description: { control: "text" },
 		error: { control: "text" },
+		labelSuffix: { control: "text" },
 	},
 	parameters: {
 		docs: {
