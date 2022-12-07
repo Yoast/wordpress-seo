@@ -196,9 +196,9 @@ describe( "a test for targetting non-inclusive phrases in disability assessments
 
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
 		expect( assessment.getResult().score ).toBe( 6 );
-		expect( assessment.getResult().text ).toBe( "Avoid using <i>binge</i>, unless talking about the specific medical condition. " +
-			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
-			"such as <i>indulging, satuating, wallowing, spree, marathon</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+		expect( assessment.getResult().text ).toBe( "Avoid using <i>binge</i>, unless talking about a symptom of a medical condition. " +
+			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>indulge, satuate, wallow, spree, marathon, consume excessively</i>. <a href='https://yoa.st/inclusive-language-disability' " +
 			"target='_blank'>Learn more.</a>" );
 	} );
 	it( "should return the appropriate score and feedback string for: 'daft'", () => {

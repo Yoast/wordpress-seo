@@ -53,17 +53,6 @@ describe( "Culture Assessments", () => {
 		} );
 	} );
 
-	it( "should not target gyp when it is a noun.", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "gypVerb" ) );
-		[ "a", "the" ].map( ( article ) => {
-			const testSentence = `This is ${article} gyp.`;
-			const mockPaper = new Paper( testSentence );
-			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
-
-			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
-		} );
-	} );
-
 	it( "should target the word 'oriental' and return score 6", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "oriental" ) );
 
@@ -118,14 +107,14 @@ describe( "a test for targetting non-inclusive phrases in culture assessments", 
 			"Learn more.</a>" );
 	} );
 	it( "should return the appropriate score and feedback string for: 'gyp'", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "gypVerb" ) );
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "gyp" ) );
 		const mockPaper = new Paper( "You better watch out; they'll try to gyp you if you don't know what you're doing." );
 		const mockResearcher = Factory.buildMockResearcher( [ "You better watch out; they'll try to gyp you if you don't know what you're doing." ] );
 
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
 		expect( assessment.getResult().score ).toBe( 3 );
 		expect( assessment.getResult().text ).toBe( "Avoid using <i>gyp</i> as it is potentially harmful. Consider using an alternative, " +
-			"such as <i>to cheat someone, to trick someone</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"such as <i>fraud, cheat, swindle, rip-off</i>. <a href='https://yoa.st/inclusive-language-culture' " +
 			"target='_blank'>Learn more.</a>" );
 	} );
 	it( "should return the appropriate score and feedback string for: 'savage'", () => {

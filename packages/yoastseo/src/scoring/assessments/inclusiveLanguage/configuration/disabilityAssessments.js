@@ -23,7 +23,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "binge" ],
 		inclusiveAlternatives: "<i>indulge, satuate, wallow, spree, marathon, consume excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "drinks", "drinking" ] ) ),
@@ -33,7 +33,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "bingeing" ],
 		inclusiveAlternatives: "<i>indulging, satuating, wallowing, spreeing, marathoning, consuming excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{

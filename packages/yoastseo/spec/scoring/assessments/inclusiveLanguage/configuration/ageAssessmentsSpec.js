@@ -40,7 +40,7 @@ describe( "Age assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>senior citizens</i> as it is potentially harmful. Consider using an alternative," +
-			" such as <i>older citizen(s)</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+			" such as <i>older people, older citizens</i>, unless referring to someone who explicitly wants to be referred to with this term." +
 			" Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>)." +
 			" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
