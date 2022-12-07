@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {boolean} [disabled=false] Whether the input is disabled.
@@ -7,13 +8,14 @@ import PropTypes from "prop-types";
  * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Textarea component.
  */
-const Textarea = ( {
+const Textarea = forwardRef( ( {
 	disabled,
 	rows,
 	className,
 	...props
-} ) => (
+}, ref ) => (
 	<textarea
+		ref={ ref }
 		disabled={ disabled }
 		rows={ rows }
 		className={ classNames(
@@ -23,7 +25,7 @@ const Textarea = ( {
 		) }
 		{ ...props }
 	/>
-);
+) );
 
 Textarea.propTypes = {
 	className: PropTypes.string,
