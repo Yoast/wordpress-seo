@@ -4,7 +4,7 @@ A React component library for building Yoast user interfaces. Please visit [the 
 ## Installation
 Start with installing the package and its peer dependencies from NPM:
 
-```shell
+```sh
 yarn add @yoast/ui-library @wordpress/element
 ```
 
