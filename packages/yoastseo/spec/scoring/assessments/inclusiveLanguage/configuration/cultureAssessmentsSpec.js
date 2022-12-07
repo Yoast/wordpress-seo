@@ -43,6 +43,16 @@ describe( "Culture Assessments", () => {
 		} );
 	} );
 
+	it( "should not target exotic when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "exotic" ) );
+		[ "shorthair", "longhair" ].map( ( exceptionWord ) => {
+			const testSentence = `It is common to have exotic ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
+
 	it( "should not target gyp when it is a noun.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "gypVerb" ) );
 		[ "a", "the" ].map( ( article ) => {
