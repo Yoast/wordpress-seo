@@ -3,7 +3,7 @@ import { noop } from "lodash";
 import InputField from ".";
 
 export default {
-	title: "2. Components/Text Field",
+	title: "2) Components/Text Field",
 	component: InputField,
 	argTypes: {
 		description: { control: "text" },

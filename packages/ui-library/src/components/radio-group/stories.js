@@ -4,7 +4,7 @@ import { noop } from "lodash";
 import RadioGroup from ".";
 
 export default {
-	title: "2. Components/Radio Group",
+	title: "2) Components/Radio Group",
 	component: RadioGroup,
 	argTypes: {
 		children: { control: "text" },

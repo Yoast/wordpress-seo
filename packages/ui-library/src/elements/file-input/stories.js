@@ -3,7 +3,7 @@ import FileInput from ".";
 import { DesktopComputerIcon } from "@heroicons/react/outline";
 
 export default {
-	title: "1. Elements/File Input",
+	title: "1) Elements/File Input",
 	component: FileInput,
 	argTypes: {},
 	parameters: {

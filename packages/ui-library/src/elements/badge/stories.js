@@ -1,7 +1,7 @@
 import Badge from ".";
 
 export default {
-	title: "1. Elements/Badge",
+	title: "1) Elements/Badge",
 	component: Badge,
 	argTypes: {
 		children: { control: "text" },

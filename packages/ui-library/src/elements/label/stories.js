@@ -1,7 +1,7 @@
 import Label from ".";
 
 export default {
-	title: "1. Elements/Label",
+	title: "1) Elements/Label",
 	component: Label,
 	argTypes: {
 		as: { options: [ "label", "span", "div" ] },

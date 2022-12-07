@@ -2,7 +2,7 @@ import { useCallback, useState } from "@wordpress/element";
 import CheckboxGroup from ".";
 
 export default {
-	title: "2. Components/Checkbox Group",
+	title: "2) Components/Checkbox Group",
 	component: CheckboxGroup,
 	argTypes: {
 		children: { control: "text" },

@@ -9,7 +9,7 @@ const options = [
 ];
 
 export default {
-	title: "2. Components/Select Field",
+	title: "2) Components/Select Field",
 	component: SelectField,
 	argTypes: {
 		error: { control: "text" },

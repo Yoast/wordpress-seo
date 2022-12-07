@@ -1,7 +1,7 @@
 import Button from ".";
 
 export default {
-	title: "1. Elements/Button",
+	title: "1) Elements/Button",
 	component: Button,
 	argTypes: {
 		children: { control: "text" },
