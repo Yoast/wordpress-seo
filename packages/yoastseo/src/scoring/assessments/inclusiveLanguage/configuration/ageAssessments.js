@@ -15,20 +15,14 @@ const ageAssessments = [
 		nonInclusivePhrases: [ "senior citizen" ],
 		inclusiveAlternatives: "<i>older person, older citizen</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [
-			harmfulNonInclusive,
-			"Consider using %2$s instead unless referring to yourself or to someone who explicitly wants to be referred to with this term. ",
-			specificAgeGroup ].join( " " ),
+		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "seniorCitizens",
 		nonInclusivePhrases: [ "senior citizens" ],
 		inclusiveAlternatives: "<i>older people, older citizens</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [
-			harmfulNonInclusive,
-			"Consider using %2$s instead unless referring to yourself or to someone who explicitly wants to be referred to with this term. ",
-			specificAgeGroup ].join( " " ),
+		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "agingDependants",
