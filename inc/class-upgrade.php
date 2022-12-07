@@ -1603,7 +1603,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$delete_query = "DELETE FROM $indexable_table WHERE object_sub_type = 'attachment'";
+		$delete_query = "DELETE FROM $indexable_table WHERE object_type = 'post' AND object_sub_type = 'attachment'";
 		// phpcs:enable
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
