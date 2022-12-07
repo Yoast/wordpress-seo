@@ -9,7 +9,7 @@ import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import getL10nObject from "../../analysis/getL10nObject";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
-import { LocationConsumer } from "@yoast/externals/contexts";
+import { LocationConsumer, RootContext } from "@yoast/externals/contexts";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { ModalContainer, ModalIcon } from "../modals/Container";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
@@ -19,6 +19,7 @@ import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
 import SynonymSlot from "../slots/SynonymSlot";
 import { getIconForScore } from "./mapResults";
+import { addQueryArgs } from "@wordpress/url";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -59,11 +60,11 @@ class SeoAnalysis extends Component {
 		};
 
 		// Defaults to metabox.
-		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_link" ];
+		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_link" ];
 		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_synonyms_button" ];
 
 		if ( location.toLowerCase() === "sidebar" ) {
-			link    = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_link" ];
+			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_link" ];
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_button" ];
 		}
 
@@ -107,11 +108,11 @@ class SeoAnalysis extends Component {
 		};
 
 		// Defaults to metabox
-		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_link" ];
+		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_link" ];
 		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.focus_keyword_additional_button" ];
 
 		if ( location.toLowerCase() === "sidebar" ) {
-			link    = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_link" ];
+			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_link" ];
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_additional_button" ];
 		}
 
@@ -133,15 +134,18 @@ class SeoAnalysis extends Component {
 	 * Renders the AnalysisUpsell component.
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlink in the component.
+	 * @param {string} locationContext In which editor this component is rendered.
 	 *
 	 * @returns {wp.Element} The AnalysisUpsell component.
 	 */
-	renderWordFormsUpsell( location ) {
+	renderWordFormsUpsell( location, locationContext ) {
+		let url = location === "sidebar"
+			? wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_sidebar" ]
+			: wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ];
+		url = addQueryArgs( url, { context: locationContext } );
 		return (
 			<AnalysisUpsell
-				url={ location === "sidebar"
-					? wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_sidebar" ]
-					: wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ] }
+				url={ url }
 				alignment={ location === "sidebar" ? "vertical" : "horizontal" }
 			/>
 		);
@@ -173,14 +177,16 @@ class SeoAnalysis extends Component {
 	 * Returns the list of results used to upsell the user to Premium.
 	 *
 	 * @param {string} location Where this component is rendered (metabox or sidebar).
+	 * @param {string} locationContext In which editor this component is rendered.
 	 *
 	 * @returns {Array} The upsell results.
 	 */
-	getUpsellResults( location ) {
+	getUpsellResults( location, locationContext ) {
 		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.keyphrase_distribution" ];
 		if ( location === "sidebar" ) {
 			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.keyphrase_distribution" ];
 		}
+		link = addQueryArgs( link, { context: locationContext } );
 
 		/*
 		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
@@ -193,7 +199,7 @@ class SeoAnalysis extends Component {
 
 		const keyphraseDistributionUpsellText = sprintf(
 			/* Translators: %1$s is a span tag that adds styling to 'Keyphrase distribution', %2$s is a closing span tag.
-			   %3%s is an anchor tag with a link to yoast.com, %4$s is a closing anchor tag.*/
+			 %3%s is an anchor tag with a link to yoast.com, %4$s is a closing anchor tag.*/
 			__(
 				"%1$sKeyphrase distribution%2$s: Have you evenly distributed your focus keyphrase throughout the whole text? " +
 				"%3$sYoast SEO Premium will tell you!%4$s",
@@ -235,43 +241,51 @@ class SeoAnalysis extends Component {
 		return (
 			<LocationConsumer>
 				{ location => {
-					const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
-
-					let upsellResults = [];
-					if ( this.props.shouldUpsell ) {
-						upsellResults = this.getUpsellResults( location );
-					}
-
 					return (
-						<Fragment>
-							<Collapsible
-								title={ isPremium ? __( "Premium SEO analysis", "wordpress-seo" ) : __( "SEO analysis", "wordpress-seo" ) }
-								titleScreenReaderText={ score.screenReaderReadabilityText }
-								prefixIcon={ getIconForScore( score.className ) }
-								prefixIconCollapsed={ getIconForScore( score.className ) }
-								subTitle={ this.props.keyword }
-								id={ `yoast-seo-analysis-collapsible-${ location }` }
-							>
-								<SynonymSlot location={ location } />
-								{ this.props.shouldUpsell && <Fragment>
-									{ this.renderSynonymsUpsell( location ) }
-									{ this.renderMultipleKeywordsUpsell( location ) }
-								</Fragment> }
-								{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location ) }
-								<AnalysisHeader>
-									{ __( "Analysis results", "wordpress-seo" ) }
-								</AnalysisHeader>
-								<Results
-									results={ this.props.results }
-									upsellResults={ upsellResults }
-									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
-									editButtonClassName="yoast-tooltip yoast-tooltip-w"
-									marksButtonStatus={ this.props.marksButtonStatus }
-									location={ location }
-								/>
-							</Collapsible>
-							{ this.renderTabIcon( location, score.className ) }
-						</Fragment>
+						<RootContext.Consumer>
+							{ ( { locationContext } ) => {
+								const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
+
+								let upsellResults = [];
+								if ( this.props.shouldUpsell ) {
+									upsellResults = this.getUpsellResults( location, locationContext );
+								}
+
+								return (
+									<Fragment>
+										<Collapsible
+											title={ isPremium
+												? __( "Premium SEO analysis", "wordpress-seo" )
+												: __( "SEO analysis", "wordpress-seo" ) }
+											titleScreenReaderText={ score.screenReaderReadabilityText }
+											prefixIcon={ getIconForScore( score.className ) }
+											prefixIconCollapsed={ getIconForScore( score.className ) }
+											subTitle={ this.props.keyword }
+											id={ `yoast-seo-analysis-collapsible-${ location }` }
+										>
+											<SynonymSlot location={ location } />
+											{ this.props.shouldUpsell && <Fragment>
+												{ this.renderSynonymsUpsell( location ) }
+												{ this.renderMultipleKeywordsUpsell( location ) }
+											</Fragment> }
+											{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location, locationContext ) }
+											<AnalysisHeader>
+												{ __( "Analysis results", "wordpress-seo" ) }
+											</AnalysisHeader>
+											<Results
+												results={ this.props.results }
+												upsellResults={ upsellResults }
+												marksButtonClassName="yoast-tooltip yoast-tooltip-w"
+												editButtonClassName="yoast-tooltip yoast-tooltip-w"
+												marksButtonStatus={ this.props.marksButtonStatus }
+												location={ location }
+											/>
+										</Collapsible>
+										{ this.renderTabIcon( location, score.className ) }
+									</Fragment>
+								);
+							} }
+						</RootContext.Consumer>
 					);
 				} }
 			</LocationConsumer>

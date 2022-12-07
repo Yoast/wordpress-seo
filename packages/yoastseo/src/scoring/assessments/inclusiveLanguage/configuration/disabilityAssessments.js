@@ -30,7 +30,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "binge",
 		nonInclusivePhrases: [ "bingeing", "binge" ],
-		inclusiveAlternatives: "<i>indulging, satuating, wallowing</i>",
+		inclusiveAlternatives: "<i>indulging, satuating, wallowing, spree, marathon</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
 	},
@@ -94,7 +94,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "daft",
 		nonInclusivePhrases: [ "daft" ],
-		inclusiveAlternatives: "<i>dense, ignorant, foolish</i>",
+		inclusiveAlternatives: "<i>dense, uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
 	},
@@ -119,14 +119,14 @@ const disabilityAssessments =  [
 		identifier: "insane",
 		nonInclusivePhrases: [ "insane" ],
 		inclusiveAlternatives: "<i>wild, confusing, unpredictable, impulsive, reckless, out of control, " +
-			"unbelievable, incomprehensible, irrational, nonsensical, outrageous, ridiculous</i>",
+			"unbelievable, amazing, incomprehensible, nonsensical, outrageous, ridiculous</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "imbecile",
 		nonInclusivePhrases: [ "imbecile" ],
-		inclusiveAlternatives: "<i>uninformed, ignorant, foolish</i>",
+		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
 	},

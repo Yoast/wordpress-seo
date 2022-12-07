@@ -3,7 +3,7 @@ const alternativeUnless = "Consider using an alternative, such as %2$s, unless r
 	"someone who explicitly wants to be referred to with this term.";
 
 export const harmfulNonInclusive = "Avoid using <i>%1$s</i> as it is potentially harmful.";
-const harmfulPotentiallyNonInclusive = "Be careful when using <i>%1$s</i> as it is potentially harmful.";
+export const harmfulPotentiallyNonInclusive = "Be careful when using <i>%1$s</i> as it is potentially harmful.";
 
 export const potentiallyHarmful = [ harmfulNonInclusive, alternative ].join( " " );
 export const potentiallyHarmfulCareful = [ harmfulPotentiallyNonInclusive, alternative ].join( " " );

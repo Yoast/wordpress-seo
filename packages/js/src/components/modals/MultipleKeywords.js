@@ -3,6 +3,8 @@ import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
 import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
+import { useRootContext }  from "@yoast/externals/contexts";
+import { addQueryArgs } from "@wordpress/url";
 
 const PremiumLandingPageLink = makeOutboundLink();
 
@@ -38,10 +40,11 @@ const MultipleKeywords = ( props ) => {
 		`<strong>${__( "No ads!", "wordpress-seo" )}</strong>`,
 	];
 
+	const { locationContext } = useRootContext();
 	// Interpolate links
 	const interpolated = interpolateComponents( {
 		mixedString: intro,
-		components: { link: <PremiumLandingPageLink href={ props.link } /> },
+		components: { link: <PremiumLandingPageLink href={ addQueryArgs( props.link, { context: locationContext } ) } /> },
 	} );
 
 	const otherBenefits = sprintf(
@@ -49,6 +52,7 @@ const MultipleKeywords = ( props ) => {
 		__( "Other benefits of %s for you:", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	);
+
 
 	return (
 		<UpsellBox
@@ -62,7 +66,7 @@ const MultipleKeywords = ( props ) => {
 				)
 			}
 			upsellButton={ {
-				href: props.buyLink,
+				href: addQueryArgs( props.buyLink, { context: locationContext } ),
 				className: "yoast-button-upsell",
 				rel: null,
 				"data-ctb-id": "57d6a568-783c-45e2-a388-847cff155897",

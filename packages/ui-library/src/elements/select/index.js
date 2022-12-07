@@ -83,6 +83,7 @@ const Select = ( {
 			as="div"
 			value={ value }
 			onChange={ onChange }
+			disabled={ disabled }
 			className={ classNames(
 				"yst-select",
 				disabled && "yst-select--disabled",

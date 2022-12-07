@@ -9,6 +9,7 @@ import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, t
 import PropTypes from "prop-types";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
+import { safeToLocaleLower } from "../helpers";
 import { useParsedUserAgent, useSelectSettings } from "../hooks";
 
 const QUERY_MIN_CHARS = 3;
@@ -37,6 +38,7 @@ const Search = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
 	const queryableSearchIndex = useSelectSettings( "selectQueryableSearchIndex" );
 	const [ results, setResults ] = useState( [] );
 	const ariaSvgProps = useSvgAria();
@@ -45,12 +47,22 @@ const Search = () => {
 	const { platform, os } = useParsedUserAgent();
 
 	// Only bind hotkeys when platform type is desktop.
-	useHotkeys( "ctrl+k, meta+k", event => {
-		event.preventDefault();
-		if ( platform?.type === "desktop" && ! isOpen ) {
-			setOpen();
-		}
-	}, [ isOpen, setOpen ] );
+	useHotkeys(
+		// Note: Update the `"ctrl+k, cmd+k"` hotkeys to `"ctrl+k, meta+k"` when switching `react-hotkeys-hook` to v4.
+		"ctrl+k, cmd+k",
+		event => {
+			event.preventDefault();
+			if ( platform?.type === "desktop" && ! isOpen ) {
+				setOpen();
+			}
+		},
+		{
+			// Note: Update the `enableOnTags: [],` option to `enableOnFormTags: true,` when switching `react-hotkeys-hook` to v4.
+			enableOnTags: [ "INPUT", "TEXTAREA", "SELECT" ],
+			enableOnContentEditable: true,
+		},
+		[ isOpen, setOpen, platform ]
+	);
 
 	const handleNavigate = useCallback( ( { route, fieldId } ) => {
 		setClose();
@@ -67,8 +79,8 @@ const Search = () => {
 			return false;
 		}
 
-		// Split query into words.
-		const splitQuery = split( trimmedQuery, " " );
+		// Lowercase and split query into words.
+		const splitQuery = split( safeToLocaleLower( trimmedQuery, userLocale ), " " );
 
 		// Filter search index by split query and store number of hits.
 		// A hit is registered if a single word from split query in found in a fields keywords.
@@ -105,7 +117,7 @@ const Search = () => {
 		} );
 
 		setResults( sortedGroupedQueryResults );
-	}, 100 ), [ queryableSearchIndex ] );
+	}, 100 ), [ queryableSearchIndex, userLocale ] );
 
 	const handleQueryChange = useCallback( event => {
 		setQuery( event.target.value );

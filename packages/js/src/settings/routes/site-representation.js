@@ -2,44 +2,35 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, Fragment, useEffect, useMemo } from "@wordpress/element";
+import { createInterpolateElement, Fragment, useCallback, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
-import { get, isEmpty, map } from "lodash";
+import { isEmpty, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
 import { fetchUserSocialProfiles } from "../helpers";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
 /**
- * @returns {JSX.Element} The person social profiles form.
+ * Syncs the person social profiles if needed.
+ *
+ * This is needed when:
+ * - Changed to represent a (valid) person.
+ * - Changed the (valid) person.
+ *
+ * To check the above this hook can not be called inside the PersonSocialProfiles.
+ *
+ * @returns {void}
  */
-const PersonSocialProfiles = () => {
-	const personSocialProfiles = useMemo( () => get( window, "wpseoScriptData.personSocialProfiles", {} ), [] );
+const useSyncPersonSocialProfiles = () => {
 	const { addNotification } = useDispatchSettings();
 	const { values, status, setStatus, setFieldValue } = useFormikContext();
-	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
-	const previousUserId = usePrevious( companyOrPersonId );
-	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
-	const socialProfileFieldLabels = useMemo( () => ( {
-		facebook: __( "Facebook URL", "wordpress-seo" ),
-		instagram: __( "Instagram URL", "wordpress-seo" ),
-		linkedin: __( "LinkedIn URL", "wordpress-seo" ),
-		myspace: __( "MySpace URL", "wordpress-seo" ),
-		pinterest: __( "Pinterest URL", "wordpress-seo" ),
-		soundcloud: __( "SoundCloud URL", "wordpress-seo" ),
-		tumblr: __( "Tumblr URL", "wordpress-seo" ),
-		twitter: __( "Twitter username (without @)", "wordpress-seo" ),
-		youtube: __( "YouTube URL", "wordpress-seo" ),
-		wikipedia: __( "Wikipedia URL", "wordpress-seo" ),
-	} ), [] );
+	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
+	const previousCompanyOrPerson = usePrevious( companyOrPerson );
+	const previousCompanyOrPersonId = usePrevious( companyOrPersonId );
 
-	useEffect( () => {
-		if ( previousUserId === companyOrPersonId || companyOrPersonId < 1 ) {
-			return;
-		}
-
+	const updateUserSocialProfiles = useCallback( () => {
 		setStatus( { ...status, isFetchingPersonSocialProfiles: true } );
 		fetchUserSocialProfiles( companyOrPersonId )
 			.then( socialProfiles => {
@@ -56,7 +47,40 @@ const PersonSocialProfiles = () => {
 			.finally( () => {
 				setStatus( { ...status, isFetchingPersonSocialProfiles: false } );
 			} );
-	}, [ previousUserId, companyOrPersonId, setFieldValue, setStatus, addNotification ] );
+	}, [ companyOrPersonId, status, setStatus, addNotification ] );
+
+	useEffect( () => {
+		if (
+			// Changed to represent a (valid) person?
+			( previousCompanyOrPerson !== companyOrPerson && companyOrPerson === "person" && companyOrPersonId > 0 ) ||
+			// Changed the (valid) person?
+			previousCompanyOrPersonId !== companyOrPersonId && companyOrPersonId > 0
+		) {
+			updateUserSocialProfiles();
+		}
+	}, [ previousCompanyOrPerson, companyOrPerson, previousCompanyOrPersonId, companyOrPersonId, updateUserSocialProfiles ] );
+};
+
+/**
+ * @returns {JSX.Element} The person social profiles form.
+ */
+const PersonSocialProfiles = () => {
+	const { values } = useFormikContext();
+	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
+	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
+	const supportedPersonSocialProfiles = useSelectSettings( "selectPreference", [], "supportedPersonSocialProfiles", {} );
+	const socialProfileFieldLabels = useMemo( () => ( {
+		facebook: __( "Facebook URL", "wordpress-seo" ),
+		instagram: __( "Instagram URL", "wordpress-seo" ),
+		linkedin: __( "LinkedIn URL", "wordpress-seo" ),
+		myspace: __( "MySpace URL", "wordpress-seo" ),
+		pinterest: __( "Pinterest URL", "wordpress-seo" ),
+		soundcloud: __( "SoundCloud URL", "wordpress-seo" ),
+		tumblr: __( "Tumblr URL", "wordpress-seo" ),
+		twitter: __( "Twitter username (without @)", "wordpress-seo" ),
+		youtube: __( "YouTube URL", "wordpress-seo" ),
+		wikipedia: __( "Wikipedia URL", "wordpress-seo" ),
+	} ), [] );
 
 	return (
 		<FieldsetLayout
@@ -64,7 +88,7 @@ const PersonSocialProfiles = () => {
 			title={ __( "Other profiles", "wordpress-seo" ) }
 			description={ __( "Tell us about the other profiles on the web that belong to the person.", "wordpress-seo" ) }
 		>
-			{ map( personSocialProfiles, socialProfile => (
+			{ map( supportedPersonSocialProfiles, socialProfile => (
 				<FormikWithErrorField
 					key={ socialProfile }
 					as={ TextField }
@@ -104,6 +128,8 @@ const SiteRepresentation = () => {
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
 	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
+
+	useSyncPersonSocialProfiles();
 
 	return (
 		<RouteLayout
