@@ -269,7 +269,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {void}
 	 */
-	setInclusiveLanguageConfiguration( options ) {
+	setInclusiveLanguageOptions( options ) {
 		this._inclusiveLanguageOptions = options;
 	}
 
