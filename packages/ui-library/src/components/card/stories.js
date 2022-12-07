@@ -1,7 +1,7 @@
 import { Card, Button } from "../../index";
 
 export default {
-	title: "2. Components/Card",
+	title: "2) Components/Card",
 	component: Card,
 	parameters: {
 		docs: {

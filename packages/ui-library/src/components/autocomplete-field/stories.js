@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from "@wordpress/element";
 import { filter, find, includes, toLower } from "lodash";
 
 export default {
-	title: "2. Components/Autocomplete Field",
+	title: "2) Components/Autocomplete Field",
 	component: AutocompleteField,
 	argTypes: {
 		description: { control: "text" },

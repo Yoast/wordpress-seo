@@ -2,7 +2,7 @@ import Notifications, { Notification, notificationClassNameMap, notificationsCla
 import { keys } from "lodash";
 
 export default {
-	title: "2. Components/Notifications",
+	title: "2) Components/Notifications",
 	component: Notification,
 	argTypes: {
 		children: { control: "text" },

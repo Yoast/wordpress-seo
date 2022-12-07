@@ -1,7 +1,7 @@
 import ProgressBar from ".";
 
 export default {
-	title: "1. Elements/Progress Bar",
+	title: "1) Elements/Progress Bar",
 	component: ProgressBar,
 	parameters: {
 		docs: {

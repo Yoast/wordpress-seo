@@ -1,7 +1,7 @@
 import { Table } from "../../index";
 
 export default {
-	title: "1. Elements/Table",
+	title: "1) Elements/Table",
 	component: Table,
 	argTypes: {
 		children: { control: "text" },
