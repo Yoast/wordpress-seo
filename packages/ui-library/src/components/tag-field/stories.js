@@ -1,4 +1,6 @@
 import { useCallback, useState } from "@wordpress/element";
+import { noop, map } from "lodash";
+import { VALIDATION_VARIANTS } from "../../constants";
 import TagField from ".";
 
 export default {
@@ -49,10 +51,26 @@ WithLabelAndDescription.args = {
 	description: "Tag field with a description.",
 };
 
-export const WithError = Template.bind( {} );
-WithError.args = {
-	id: "tag-field-2",
-	label: "Tag field with a label",
-	description: "Tag field with a description.",
-	error: "This is what the error message looks like!",
-};
+export const Validation = () => (
+	<div className="yst-space-y-8">
+		{ map( VALIDATION_VARIANTS, variant => (
+			<TagField
+				key={ variant }
+				id={ `validation-${ variant }` }
+				name={ `validation-${ variant }` }
+				label={ `With validation of variant ${ variant }` }
+				value="The quick brown fox jumps over the lazy dog"
+				onChange={ noop }
+				validation={ {
+					variant,
+					message: {
+						success: "Looks like you are nailing it!",
+						warning: "Looks like you could do better!",
+						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+						error: "Looks like you are doing it wrong!",
+					}[ variant ],
+				} }
+			/>
+		) ) }
+	</div>
+);
