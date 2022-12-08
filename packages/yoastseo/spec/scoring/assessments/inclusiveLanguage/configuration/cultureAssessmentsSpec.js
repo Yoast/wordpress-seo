@@ -58,7 +58,8 @@ describe( "Culture Assessments", () => {
 describe( "a test for targeting non-inclusive phrases in culture assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'tribe' and its other forms", () => {
 		const identifiers = [ "tribe", "tribes" ];
-		const texts = [ "Dayak Tribe is the original tribe for people who live in Kalimantan.",
+		const texts = [
+			"Dayak Tribe is the original tribe for people who live in Kalimantan.",
 			"The Islands of Mentawai are home to the primitive tribes of Sumatra" ];
 		const feedbacks = [
 			"Be careful when using <i>tribe</i> as it is potentially harmful. Consider using an alternative, such as <i>group, " +
@@ -66,24 +67,25 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 			"Be careful when using <i>tribes</i> as it is potentially harmful. Consider using an alternative, such as " +
 			"<i>groups, cohorts, crews, leagues, guilds, teams, unions</i> instead, unless you are referring to a culture that uses this term. " +
-			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 		];
 
 		testMultipleForms( texts, identifiers, feedbacks, 6 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'guru' and its other forms", () => {
 		const identifiers = [ "guru", "gurus" ];
-		const texts = [ "The tradition of the guru is also found in Jainism.",
+		const texts = [
+			"The tradition of the guru is also found in Jainism.",
 			"Hindu Female Gurus in India and the United States" ];
 		const feedbacks = [
 			"Be careful when using <i>guru</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as <i>mentor, doyen, coach, mastermind, virtuoso, expert</i> instead, " +
 			"unless you are referring to the culture in which this term originated. <a href='https://yoa.st/inclusive-language-culture' " +
 			"target='_blank'>Learn more.</a>",
-			"Be careful when using <i>guru</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>mentor, doyen, coach, mastermind, virtuoso, expert</i> instead, " +
+			"Be careful when using <i>gurus</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>mentors, doyens, coaches, masterminds, virtuosos, experts</i> instead, " +
 			"unless you are referring to the culture in which this term originated. <a href='https://yoa.st/inclusive-language-culture' " +
-			"target='_blank'>Learn more.</a>"
+			"target='_blank'>Learn more.</a>",
 		];
 
 		testMultipleForms( texts, identifiers, feedbacks, 6 );
@@ -108,10 +110,31 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"target='_blank'>Learn more.</a>",
 			"Avoid using <i>gypping</i> as it is potentially harmful. Consider using an alternative, " +
 			"such as <i>cheating, swindling, ripping-off</i>. <a href='https://yoa.st/inclusive-language-culture' " +
-			"target='_blank'>Learn more.</a>"
+			"target='_blank'>Learn more.</a>",
 		];
 
 		testMultipleForms( texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'gypsy' and its other forms", () => {
+		const identifiers = [ "gypsy", "gypsies" ];
+		const texts = [
+			"In North America, the word Gypsy is most commonly used as a reference to Romani ethnicity.",
+			"In the English language, the Romani people are widely known by the exonym Gypsies.",
+		];
+		const feedbacks = [
+			"Be careful when using <i>gypsy</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>Romani, Romani person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"If you are referring to a lifestyle rather than the ethnic group or their music, consider using " +
+			"an alternative such as <i>traveler, wanderer, free-spirited</i>." +
+			" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+			"Be careful when using <i>gypsies</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>Romani, Romani people</i>, unless referring to someone who explicitly wants to be referred to " +
+			"with this term. If you are referring to a lifestyle rather than the ethnic group or their music, " +
+			"consider using an alternative such as <i>travelers, wanderers, free-spirited</i>. " +
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( texts, identifiers, feedbacks, 6 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'savage'", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "savage" ) );
@@ -144,7 +167,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"Some companies are in the blacklist.",
 			"The govt blacklists the person.",
 			"What you should know about Blacklisting",
-			" 25 Celebrities Who Were Blacklisted From Hollywood"
+			"25 Celebrities Who Were Blacklisted From Hollywood"
 		];
 		const feedbacks = [
 			"Avoid using <i>blacklist</i> as it is potentially harmful. Consider using an alternative, " +
@@ -158,7 +181,120 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"target='_blank'>Learn more.</a>",
 			"Avoid using <i>blacklisted</i> as it is potentially harmful. Consider using an alternative, " +
 			"such as <i>blocklisted, denylisted, faillisted, redlisted</i>. <a href='https://yoa.st/inclusive-language-culture' " +
-			"target='_blank'>Learn more.</a>"
+			"target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( texts, identifiers, feedbacks, 3 );
+	} );
+	// Skipped for now. It's a bug another issue will solve.
+	xit( "should return the appropriate score and feedback string for: 'Asian-American' and its other forms", () => {
+		const identifiers = [ "Asian-American", "Asian-Americans" ];
+		const texts = [
+			"An Asian-American",
+			"The Asian-Americans",
+		];
+		const feedbacks = [
+			"Avoid using <i>Asian-American</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>Asian American</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>Asian-Americans</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>Asian Americans</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( texts, identifiers, feedbacks, 3 );
+	} );
+	// Skipped for now. It's a bug another issue will solve.
+	xit( "should return the appropriate score and feedback string for: 'African-American' and its other forms", () => {
+		const identifiers = [ "African-American", "African-Americans" ];
+		const texts = [
+			"An African-American",
+			"The African-Americans",
+		];
+		const feedbacks = [
+			"Avoid using <i>African-American</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>African American, Black, American of African descent</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>African-Americans</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>African Americans, Black, Americans of African descent</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'whitelist' and its other forms", () => {
+		const identifiers = [ "whitelist", "whitelists", "whitelisting", "whitelisted" ];
+		const texts = [
+			"Some companies are in the whitelist.",
+			"The govt whitelists the person.",
+			"What you should know about Whitelisting",
+			"25 Celebrities Who Were Whitelisted From Hollywood",
+		];
+		const feedbacks = [
+			"Avoid using <i>whitelist</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>allowlist</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>whitelists</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>allowlists</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>whitelisting</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>allowlisting</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>whitelisted</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>allowlisted</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+			"target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'eskimo' and its other forms", () => {
+		// Singular and plural "eskimo" is one entry under the same identifier.
+		const identifiers = [ "eskimo", "eskimo" ];
+		const texts = [
+			"Eskimo (/ˈɛskɪmoʊ/) is an exonym used to refer to two closely related Indigenous peoples.",
+			"Today Sirenik Eskimos speak Siberian Yupik language and/or Russian.",
+		];
+		const feedbacks = [
+			"Be careful when using <i>eskimo</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as the specific name of the Indigenous community (for example, <i>Inuit</i>), unless referring to someone " +
+			"who explicitly wants to be referred to with this term. <a href='https://yoa.st/inclusive-language-culture'" +
+			" target='_blank'>Learn more.</a>",
+			"Be careful when using <i>eskimos</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"the specific name of the Indigenous community (for example, <i>Inuit</i>), unless referring to someone " +
+			"who explicitly wants to be referred to with this term. <a href='https://yoa.st/inclusive-language-culture'" +
+			" target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( texts, identifiers, feedbacks, 6 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'colored person' and 'colored people", () => {
+		const identifiers = [ "coloredPerson", "coloredPeople" ];
+		const texts = [
+			"Working Like a Colored Person",
+			"The National Association for the Advancement of Colored People",
+		];
+		const feedbacks = [
+			"Avoid using <i>colored person</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>person of color, POC, BIPOC</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+			"Avoid using <i>colored people</i> as it is potentially harmful. Consider using an alternative, such as <i>people of color, " +
+			"POC, BIPOC</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'developing country' and its plural form", () => {
+		const identifiers = [ "underdevelopedCountry", "underdevelopedCountries" ];
+		const texts = [
+			"A developing country is not an underdeveloped country",
+			"Developing countries are not underdeveloped countries",
+		];
+		const feedbacks = [
+			"Avoid using <i>underdeveloped country</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>developing country</i> instead or be more specific about what aspect this word refers to. " +
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+			"Avoid using <i>underdeveloped countries</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>developing countries</i> instead or be more specific about what aspect this word refers to. " +
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 		];
 
 		testMultipleForms( texts, identifiers, feedbacks, 3 );
