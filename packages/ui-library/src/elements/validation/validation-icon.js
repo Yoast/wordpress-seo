@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import { keys } from "lodash";
-import { CheckCircleIcon, ExclamationIcon, InformationCircleIcon, ExclamationCircleIcon } from "@heroicons/react/solid";
+import { values } from "lodash";
 import classNames from "classnames";
 import { useSvgAria } from "../../hooks";
+import { VALIDATION_VARIANTS, VALIDATION_ICON_MAP } from "./constants";
 
 const CLASSNAME_MAP = {
 	variant: {
@@ -11,13 +11,6 @@ const CLASSNAME_MAP = {
 		info: "yst-validation-icon--info",
 		error: "yst-validation-icon--error",
 	},
-};
-
-const ICON_MAP = {
-	success: CheckCircleIcon,
-	warning: ExclamationIcon,
-	info: InformationCircleIcon,
-	error: ExclamationCircleIcon,
 };
 
 /**
@@ -29,7 +22,7 @@ const ValidationIcon = ( {
 	className = "",
 	...props
 } ) => {
-	const Component = ICON_MAP[ variant ];
+	const Component = VALIDATION_ICON_MAP[ variant ];
 	const svgAriaProps = useSvgAria();
 
 	return Component ? (
@@ -38,7 +31,7 @@ const ValidationIcon = ( {
 };
 
 ValidationIcon.propTypes = {
-	variant: PropTypes.oneOf( keys( ICON_MAP ) ),
+	variant: PropTypes.oneOf( values( VALIDATION_VARIANTS ) ),
 	className: PropTypes.string,
 };
 
