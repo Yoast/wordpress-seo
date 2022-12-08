@@ -1,4 +1,6 @@
 import { useCallback, useState } from "@wordpress/element";
+import { noop, map } from "lodash";
+import { VALIDATION_VARIANTS } from "../../constants";
 import { Badge, SelectField } from "../../index";
 
 const options = [
@@ -113,3 +115,33 @@ SelectFieldOption.args = {
 SelectFieldOption.parameters = {
 	docs: { description: { story: "Add options as an array of React components with `children` prop, using the exposed option component `SelectField.Option`. In this case changing the `selectedLabel` should be done manually in the handleChange function." } },
 };
+
+export const Validation = () => (
+	<div className="yst-space-y-8">
+		{ map( VALIDATION_VARIANTS, variant => (
+			<SelectField
+				key={ variant }
+				id={ `validation-${ variant }` }
+				name={ `validation-${ variant }` }
+				label={ `With validation of variant ${ variant }` }
+				value="The quick brown fox jumps over the lazy dog"
+				onChange={ noop }
+				options={ [
+					{ value: "1", label: "Option 1" },
+					{ value: "2", label: "Option 2" },
+					{ value: "3", label: "Option 3" },
+					{ value: "4", label: "Option 4" },
+				] }
+				validation={ {
+					variant,
+					message: {
+						success: "Looks like you are nailing it!",
+						warning: "Looks like you could do better!",
+						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+						error: "Looks like you are doing it wrong!",
+					}[ variant ],
+				} }
+			/>
+		) ) }
+	</div>
+);
