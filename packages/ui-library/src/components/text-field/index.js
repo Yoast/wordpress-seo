@@ -37,8 +37,8 @@ const TextField = ( {
 		<div
 			className={ classNames(
 				"yst-text-field",
-				disabled && "yst-text-field--disabled",
-				readOnly && "yst-text-field--read-only",
+				"disabled:yst-text-field--disabled",
+				"read-only:yst-text-field--read-only",
 				className,
 			) }
 		>
