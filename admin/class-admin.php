@@ -230,12 +230,12 @@ class WPSEO_Admin {
 		array_unshift( $links, $faq_link );
 
 		if ( $first_time_configuration_notice_helper->first_time_configuration_not_finished() ) {
-			/* translators: CTA to finish the first time configuration. %s: Network title. */
-			$message = __( sprintf( 'Finish your %s', strtolower($first_time_configuration_notice_helper->get_first_time_configuration_title() )), 'wordpress-seo' );
+			$configuration_title = ( ! $first_time_configuration_notice_helper->should_show_alternate_message() ) ? 'first-time configuration' : 'SEO configuration';
+			/* translators: CTA to finish the first time configuration. %s: Either first-time SEO configuration or SEO configuration. */
+			$message  = sprintf( __( 'Finish your %s', 'wordpress-seo' ), $configuration_title );
 			$ftc_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '" target="_blank">' . $message . '</a>';
 			array_unshift( $links, $ftc_link );
 		}
-
 
 
 		$addon_manager = new WPSEO_Addon_Manager();
@@ -245,9 +245,9 @@ class WPSEO_Admin {
 			unset( $links['deactivate'] );
 			$no_deactivation_explanation = '<span style="color: #32373c">' . sprintf(
 				/* translators: %s expands to Yoast SEO Premium. */
-					__( 'Required by %s', 'wordpress-seo' ),
-					'Yoast SEO Premium'
-				) . '</span>';
+				__( 'Required by %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			) . '</span>';
 
 			array_unshift( $links, $no_deactivation_explanation );
 

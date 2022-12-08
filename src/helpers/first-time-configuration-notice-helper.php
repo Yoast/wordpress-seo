@@ -59,10 +59,20 @@ class First_Time_Configuration_Notice_Helper {
 		return $this->first_time_configuration_not_finished();
 	}
 
+	/**
+	 * Gets the first time configuration title based on the show_alternate_message boolean
+	 *
+	 * @return string
+	 */
 	public function get_first_time_configuration_title() {
 		return ( ! $this->show_alternate_message ) ? \__( 'First-time SEO configuration', 'wordpress-seo' ) : \__( 'SEO configuration', 'wordpress-seo' );
 	}
 
+	/**
+	 * Determines if the first time configuration is completely finished.
+	 *
+	 * @return bool
+	 */
 	public function first_time_configuration_not_finished() {
 		if ( ! $this->user_can_do_first_time_configuration() ) {
 			return false;
@@ -152,15 +162,15 @@ class First_Time_Configuration_Notice_Helper {
 		}
 
 		if ( $company_or_person === 'company' ) {
-			return ! empty( $this->options_helper->get( 'company_name' ) )
-				   && ! empty( $this->options_helper->get( 'company_logo', '' ) );
+			return ! empty( $this->options_helper->get( 'company_name' ) ) && ! empty( $this->options_helper->get( 'company_logo', '' ) );
 		}
 
-		return ! empty( $this->options_helper->get( 'company_or_person_user_id' ) )
-			   && ! empty( $this->options_helper->get( 'person_logo', '' ) );
+		return ! empty( $this->options_helper->get( 'company_or_person_user_id' ) ) && ! empty( $this->options_helper->get( 'person_logo', '' ) );
 	}
 
 	/**
+	 * Getter for the show alternate message boolean.
+	 *
 	 * @return bool
 	 */
 	public function should_show_alternate_message() {
