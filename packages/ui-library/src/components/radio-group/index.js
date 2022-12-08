@@ -50,7 +50,7 @@ const RadioGroup = ( {
 			id={ `radio-group-${ id }` }
 			className={ classNames(
 				"yst-radio-group",
-				disabled && "yst-radio-group--disabled",
+				"disabled:yst-radio-group--disabled",
 				classNameMap.variant[ variant ],
 				className,
 			) }
