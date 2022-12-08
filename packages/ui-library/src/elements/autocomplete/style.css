@@ -36,12 +36,7 @@
 		}
 
 		.yst-autocomplete__button-icon {
-			@apply
-			yst-h-5
-			yst-w-5
-			yst-text-slate-400
-			yst-inset-y-0
-			yst-right-0;
+			@apply yst-absolute yst-top-[0.6875rem] yst-right-2.5 yst-text-slate-400 yst-pointer-events-none yst-w-5 yst-h-5;
 		}
 
 		.yst-autocomplete__input {
