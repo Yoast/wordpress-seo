@@ -323,7 +323,7 @@ describe( "Gender assessments", function() {
 	it( "correctly identifies 'FTM'", () => {
 		const mockPaper = new Paper( "This sentence contains FTM." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains FTM." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "FTM" ) );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "femaleToMale" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
@@ -331,7 +331,7 @@ describe( "Gender assessments", function() {
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>FTM</i> as it is potentially harmful. " +
+			"Be careful when using <i>ftm</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as <i>trans man, transgender man</i>, " +
 			"unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
@@ -346,7 +346,7 @@ describe( "Gender assessments", function() {
 	it( "correctly identifies 'MTF'", () => {
 		const mockPaper = new Paper( "This sentence contains MTF." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains MTF." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "MTF" ) );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "maleToFemale" ) );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
@@ -354,7 +354,7 @@ describe( "Gender assessments", function() {
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>MTF</i> as it is potentially harmful. " +
+			"Be careful when using <i>mtf</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as <i>trans woman, transgender woman</i>, " +
 			"unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
