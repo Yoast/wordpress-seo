@@ -1,3 +1,4 @@
+import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
@@ -8,20 +9,21 @@ import PropTypes from "prop-types";
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Label component.
  */
-const Label = ( {
+const Label = forwardRef( ( {
 	as: Component = "label",
 	className = "",
 	label = "",
 	children = "",
 	...props
-} ) => (
+}, ref ) => (
 	<Component
+		ref={ ref }
 		className={ classNames( "yst-label", className ) }
 		{ ...props }
 	>
 		{ label || children || null }
 	</Component>
-);
+) );
 
 Label.propTypes = {
 	label: PropTypes.string,
