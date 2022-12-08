@@ -1,4 +1,6 @@
+import { noop, map } from "lodash";
 import TextareaField from ".";
+import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "2) Components/Textarea Field",
@@ -36,15 +38,26 @@ export const WithLabelAndDescription = {
 	},
 };
 
-export const WithError = {
-	component: Factory.component.bind( {} ),
-	parameters: {
-		controls: { disable: false },
-	},
-	args: {
-		id: "textarea-field-2",
-		label: "Textarea field with a label",
-		description: "Textarea field with a description.",
-		error: "Please enter a valid text.",
-	},
-};
+export const Validation = () => (
+	<div className="yst-space-y-8">
+		{ map( VALIDATION_VARIANTS, variant => (
+			<TextareaField
+				key={ variant }
+				id={ `validation-${ variant }` }
+				name={ `validation-${ variant }` }
+				label={ `With validation of variant ${ variant }` }
+				value="The quick brown fox jumps over the lazy dog"
+				onChange={ noop }
+				validation={ {
+					variant,
+					message: {
+						success: "Looks like you are nailing it!",
+						warning: "Looks like you could do better!",
+						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+						error: "Looks like you are doing it wrong!",
+					}[ variant ],
+				} }
+			/>
+		) ) }
+	</div>
+);
