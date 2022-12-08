@@ -210,3 +210,117 @@ describe( "Disability assessments", function() {
 	} );
 } );
 
+describe( "a test for targetting non-inclusive phrases in disability assessments", () => {
+	it( "should return the appropriate score and feedback string for: 'binge'", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binge" ) );
+		const mockPaper = new Paper( "I binge on ice cream." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I binge on ice cream." ] );
+
+		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
+		expect( assessment.getResult().score ).toBe( 6 );
+		expect( assessment.getResult().text ).toBe( "Avoid using <i>binge</i>, unless talking about the specific medical condition. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>indulging, satuating, wallowing, spree, marathon</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+			"target='_blank'>Learn more.</a>" );
+	} );
+	it( "should return the appropriate score and feedback string for: 'daft'", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "daft" ) );
+		const mockPaper = new Paper( "That's a daft idea!" );
+		const mockResearcher = Factory.buildMockResearcher( [ "That's a daft idea!" ] );
+
+		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
+		expect( assessment.getResult().score ).toBe( 6 );
+		expect( assessment.getResult().text ).toBe( "Be careful when using <i>daft</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>dense, uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>." +
+			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+	} );
+	it( "should return the appropriate score and feedback string for: 'imbecile'", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "imbecile" ) );
+		const mockPaper = new Paper( "hospitals for the imbecile and insane people" );
+		const mockResearcher = Factory.buildMockResearcher( [ "hospitals for the imbecile and insane" ] );
+
+		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
+		expect( assessment.getResult().score ).toBe( 3 );
+		expect( assessment.getResult().text ).toBe( "Avoid using <i>imbecile</i> as it is derogatory. Consider using an alternative, " +
+			"such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i> instead. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+	} );
+} );
+
+describe( "Test the OCD assessment", () => {
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a form of 'to be'", () => {
+		const mockPaper = new Paper( "I am OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am OCD." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "I am OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>I am OCD.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a contracted form of 'to be'", () => {
+		const mockPaper = new Paper( "You're OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "You're OCD." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "You're OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>You're OCD.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a form of 'to be' + quantifier", () => {
+		const mockPaper = new Paper( "I am so OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am so OCD." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "I am so OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>I am so OCD.</yoastmark>",
+		} ) ] );
+	} );
+	it( "does not identify 'OCD' when not preceded by a form of 'to be'", () => {
+		const mockPaper = new Paper( "This person has OCD" );
+		const mockResearcher = Factory.buildMockResearcher( [ "This person has OCD" ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+	} );
+} );
+

@@ -1,7 +1,12 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
-import { potentiallyHarmful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
+import {
+	potentiallyHarmful,
+	potentiallyHarmfulUnless,
+	harmfulNonInclusive,
+	harmfulPotentiallyNonInclusive,
+} from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 
 const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
@@ -33,7 +38,7 @@ const cultureAssessments = [
 	{
 		identifier: "tribe",
 		nonInclusivePhrases: [ "tribe" ],
-		inclusiveAlternatives: "<i>group, cohort, crew, league, guild</i>",
+		inclusiveAlternatives: "<i>group, cohort, crew, league, guild, team, union</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		/*
 		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
@@ -44,9 +49,14 @@ const cultureAssessments = [
 	{
 		identifier: "exotic",
 		nonInclusivePhrases: [ "exotic" ],
-		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre</i>",
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		inclusiveAlternatives: "<i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, non-native, introduced</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: harmfulNonInclusive + " Unless you are referring to animals, " +
+			"consider using an alternative, such as %2$s.",
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "longhair", "shorthair" ] ) );
+		},
 	},
 	{
 		identifier: "sherpa",
@@ -58,7 +68,7 @@ const cultureAssessments = [
 	{
 		identifier: "guru",
 		nonInclusivePhrases: [ "guru" ],
-		inclusiveAlternatives: "<i>mentor, doyen, coach, mastermind, virtuoso</i>",
+		inclusiveAlternatives: "<i>mentor, doyen, coach, mastermind, virtuoso, expert</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
 	},
@@ -73,8 +83,9 @@ const cultureAssessments = [
 		identifier: "oriental",
 		nonInclusivePhrases: [ "oriental" ],
 		inclusiveAlternatives: "<i>Asian</i>. When possible, be more specific (e.g. <i>East Asian</i>)",
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: harmfulPotentiallyNonInclusive + " Unless you are referring to objects or animals, " +
+			"consider using an alternative, such as %2$s.",
 	},
 	{
 		identifier: "asianAmerican",
@@ -117,7 +128,7 @@ const cultureAssessments = [
 	{
 		identifier: "gypVerb",
 		nonInclusivePhrases: [ "gyp" ],
-		inclusiveAlternatives: "<i>to cheat someone</i>",
+		inclusiveAlternatives: "<i>to cheat someone, to trick someone</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		rule: ( words, nonInclusivePhrase ) => {
@@ -172,7 +183,7 @@ const cultureAssessments = [
 	{
 		identifier: "savage",
 		nonInclusivePhrases: [ "savage" ],
-		inclusiveAlternatives: "<i>severe, dreadful, untamed</i>",
+		inclusiveAlternatives: "<i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant, amazing</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},

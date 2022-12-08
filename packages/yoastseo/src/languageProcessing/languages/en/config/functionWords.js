@@ -104,7 +104,7 @@ const generalAdjectivesAdverbs = [ "new", "newer", "newest", "old", "older", "ol
 	"continually", "directly", "easily", "nearly", "slightly", "somewhere", "estimated", "latest", "different", "similar",
 	"widely", "bad", "worse", "worst", "great", "specific",  "available", "average", "awful", "awesome", "basic", "beautiful",
 	"busy", "current", "entire", "everywhere", "important", "major", "multiple", "normal", "necessary", "obvious", "partly",
-	"special", "last", "early", "earlier", "earliest", "young", "younger", "youngest", "" ];
+	"special", "last", "early", "earlier", "earliest", "young", "younger", "youngest" ];
 
 const interjections = [ "oh", "wow", "tut-tut", "tsk-tsk", "ugh", "whew", "phew", "yeah", "yea", "shh", "oops", "ouch", "aha",
 	"yikes" ];
@@ -155,7 +155,7 @@ export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( otherAuxi
 /**
   * These categories consist of function words that are not nouns.
   * They are used in the inclusive language to recognize overgeneralizing phrases such as "the aged".
-  * @type{string}
+  * @type{string[]}
   */
 export const nonNouns = [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 	personalPronounsNominative, personalPronounsAccusative, quantifiers, indefinitePronouns, continuousVerbs,
