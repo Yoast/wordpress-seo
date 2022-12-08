@@ -13,11 +13,58 @@ export default {
 	argTypes: {
 		children: { control: "text" },
 		activePath: { control: "text" },
+		to: {
+			control: "text",
+			description: "Path, url. for `SubmenuItem`",
+			table: {
+				type: { summary: "string" },
+			},
+		 },
+		label: {
+			control: "text",
+			description: "Available for `MenuItem` and `SubmenuItem`",
+			table: {
+				type: { summary: "string" },
+			},
+		 },
+		defaultOpen: {
+			control: "boolean",
+			description: "Available for `MenuItem`",
+			table: {
+				type: { summary: "boolean" },
+			} },
+		icon: {
+			control: "object",
+			description: "Available for `MenuItem`",
+			table: {
+				type: { summary: "JSX Element" },
+			},
+		 },
+		id: {
+			control: "text",
+			description: "Available for `MenuItem`",
+			table: {
+				type: { summary: "string" },
+			},
+		 },
+		openButtonScreenReaderText: {
+			control: "text",
+			description: "Accesability for `Mobile`",
+			table: {
+				type: { summary: "string" },
+			} },
+		closeButtonScreenReaderText: {
+			control: "text",
+			description: "Accesability for `Mobile`",
+			table: {
+				type: { summary: "string" },
+			} },
+
 	},
 	parameters: {
 		docs: {
 			description: {
-				component: "A sidebar navigation component.",
+				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem` and `SubmenuItem`.",
 			},
 		},
 	},
