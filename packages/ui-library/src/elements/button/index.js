@@ -48,7 +48,7 @@ const Button = ( {
 			classNameMap.variant[ variant ],
 			classNameMap.size[ size ],
 			isLoading && "yst-cursor-wait",
-			disabled && "yst-button--disabled",
+			"disabled:yst-button--disabled",
 			className,
 		) }
 		{ ...props }
