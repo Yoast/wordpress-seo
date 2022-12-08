@@ -27,6 +27,7 @@ export const parameters = {
 				"1. Elements",
 				"2. Components",
 				"3. Patterns",
+				"Other exports",
 			],
 		},
 	},
