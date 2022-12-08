@@ -11,19 +11,6 @@
 			}
 		}
 
-		.yst-select--error {
-			.yst-select__button {
-				@apply
-				yst-border-red-300
-				yst-placeholder-red-300
-
-
-				focus:yst-outline-none
-				focus:yst-ring-red-500
-				focus:yst-border-red-500;
-			}
-		}
-
 		.yst-select__button {
 			@apply
 			yst-relative
@@ -50,17 +37,7 @@
 		}
 
 		.yst-select__button-icon {
-			@apply
-			yst-w-5
-			yst-h-5
-			yst-shrink-0
-			yst-grow-0
-			yst-text-slate-400
-			yst-pointer-events-none;
-		}
-
-		.yst-select__button-icon--error {
-			@apply yst-text-red-500;
+			@apply yst-absolute yst-top-2.5 yst-right-2.5 yst-text-slate-400 yst-pointer-events-none yst-w-5 yst-h-5;
 		}
 
 		.yst-select__options {
