@@ -18,7 +18,7 @@ const Textarea = ( {
 		rows={ rows }
 		className={ classNames(
 			"yst-textarea",
-			disabled && "yst-textarea--disabled",
+			 "disabled:yst-textarea--disabled",
 			className,
 		) }
 		{ ...props }
