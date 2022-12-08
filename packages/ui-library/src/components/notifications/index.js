@@ -2,10 +2,10 @@
 import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import { useState, useCallback, useEffect, useContext, createContext } from "@wordpress/element";
-import { CheckCircleIcon, ExclamationIcon, XIcon, InformationCircleIcon } from "@heroicons/react/outline";
-import { ExclamationCircleIcon } from "@heroicons/react/solid";
+import { XIcon } from "@heroicons/react/outline";
 import { isArray, keys } from "lodash";
 import classNames from "classnames";
+import { ValidationIcon } from "../../elements/validation";
 
 const NotificationsContext = createContext( { position: "bottom-left" } );
 
@@ -30,13 +30,6 @@ export const notificationClassNameMap = {
 		"default": "",
 		large: "yst-notification--large",
 	},
-};
-
-export const notificationsIconMap = {
-	info: InformationCircleIcon,
-	warning: ExclamationIcon,
-	success: CheckCircleIcon,
-	error: ExclamationCircleIcon,
 };
 
 /**
@@ -64,7 +57,6 @@ export const Notification = ( {
 } ) => {
 	const { position } = useNotificationsContext();
 	const [ isVisible, setIsVisible ] = useState( false );
-	const Icon = notificationsIconMap[ variant ];
 
 	const handleDismiss = useCallback( () => {
 		// Disable visibility on dismiss to trigger transition.
@@ -107,7 +99,7 @@ export const Notification = ( {
 		>
 			<div className="yst-flex yst-items-start yst-gap-3">
 				<div className="yst-flex-shrink-0">
-					<Icon className="yst-notification__icon" />
+					<ValidationIcon variant={ variant } className="yst-notification__icon" />
 				</div>
 				<div className="yst-w-0 yst-flex-1">
 					<p className="yst-text-sm yst-font-medium yst-text-slate-800">
