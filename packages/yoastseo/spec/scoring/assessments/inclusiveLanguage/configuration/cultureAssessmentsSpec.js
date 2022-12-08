@@ -70,7 +70,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 6 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'guru' and its other forms", () => {
 		const identifiers = [ "guru", "gurus" ];
@@ -88,7 +88,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 6 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'gyp' and its other forms", () => {
 		const identifiers = [ "gyp", "gyps", "gypped", "gypping" ];
@@ -113,7 +113,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 3 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'gypsy' and its other forms", () => {
 		const identifiers = [ "gypsy", "gypsies" ];
@@ -134,7 +134,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 6 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'savage'", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "savage" ) );
@@ -184,7 +184,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 3 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
 	// Skipped for now. It's a bug another issue will solve.
 	xit( "should return the appropriate score and feedback string for: 'Asian-American' and its other forms", () => {
@@ -202,7 +202,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 3 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
 	// Skipped for now. It's a bug another issue will solve.
 	xit( "should return the appropriate score and feedback string for: 'African-American' and its other forms", () => {
@@ -220,7 +220,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 3 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'whitelist' and its other forms", () => {
 		const identifiers = [ "whitelist", "whitelists", "whitelisting", "whitelisted" ];
@@ -245,7 +245,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 3 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'eskimo' and its other forms", () => {
 		// Singular and plural "eskimo" is one entry under the same identifier.
@@ -265,7 +265,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			" target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 6 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'colored person' and 'colored people", () => {
 		const identifiers = [ "coloredPerson", "coloredPeople" ];
@@ -280,7 +280,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"POC, BIPOC</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 3 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'developing country' and its plural form", () => {
 		const identifiers = [ "underdevelopedCountry", "underdevelopedCountries" ];
@@ -297,6 +297,6 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 		];
 
-		testMultipleForms( texts, identifiers, feedbacks, 3 );
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
 } );
