@@ -15,7 +15,7 @@ export default {
 		activePath: { control: "text" },
 		to: {
 			control: "text",
-			description: "Path, url. for `SubmenuItem`",
+			description: "Path, url for `SubmenuItem`",
 			table: {
 				type: { summary: "string" },
 			},
