@@ -25,6 +25,7 @@ const quantifiers = [ "so", "very", "a bit", "really", "pretty", "kind of" ];
 const toBeQuantifier = flatMap( toBeForms, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} ${quantifier}` ) );
 // A list of requirements: words that need to be in front of "OCD" for it to be non inclusive.
 const ocdRequirements =  toBeForms.concat( toBeQuantifier );
+// A list of requirements: words that need to be in front of "crazy about" for it to be non inclusive and get specific alternatives.
 
 const disabilityAssessments =  [
 	{
@@ -300,10 +301,43 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
+	// Create rule with form of to be + not + optional intensifier + crazy about
+	{
+		identifier: "to be not crazy about",
+		nonInclusivePhrases: [ "" ],
+		inclusiveAlternatives: "<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	// better to instead add rule: form of to be + crazy about
+	{
+		identifier: "crazy about",
+		nonInclusivePhrases: [ "am crazy about", "is crazy about", "are crazy about", "be crazy about" ],
+		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "crazy in love",
+		nonInclusivePhrases: [ "crazy in love" ],
+		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated with</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	// Consider using forms of "go" from function words?
+	{
+		identifier: "to go crazy",
+		nonInclusivePhrases: [ "go crazy", "going crazy", "went crazy", "gone crazy" ],
+		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to get/to be in one's head, to be aggravated," +
+			" to get confused</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
 	{
 		identifier: "crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "<i>wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
+		inclusiveAlternatives: "<i>wild, out of control, baffling, inexplicable, unbelievable, confused, mistaken, aggravating, inane," +
+			" intense, impulsive, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
