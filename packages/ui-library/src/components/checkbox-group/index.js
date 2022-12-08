@@ -42,7 +42,7 @@ const CheckboxGroup = ( {
 			id={ `checkbox-group-${ id }` }
 			className={ classNames(
 				"yst-checkbox-group",
-				disabled && "yst-checkbox-group--disabled",
+				 "disabled:yst-checkbox-group--disabled",
 				className,
 			) }
 		>
