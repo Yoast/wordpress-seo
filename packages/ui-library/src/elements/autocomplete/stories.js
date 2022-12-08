@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "@wordpress/element";
-import { filter, find, includes, toLower } from "lodash";
+import { filter, find, includes, toLower, noop, map } from "lodash";
 import Autocomplete from ".";
+import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "1) Elements/Autocomplete",
@@ -85,20 +86,6 @@ WithLabel.args = {
 	label: "Example label",
 };
 
-export const WithError = Template.bind( {} );
-
-WithError.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: "An exampe with error using `isError` prop." } },
-};
-WithError.args = {
-	id: "with-error",
-	value: "",
-	label: "Example label",
-	labelProps: { className: "yoast-field-group__label" },
-	isError: true,
-};
-
 export const WithPlaceholder = Template.bind( {} );
 
 WithPlaceholder.parameters = {
@@ -124,3 +111,35 @@ WithSelectedLabel.args = {
 	id: "selected-label",
 	selectedLabel: "Option 1",
 };
+
+export const Validation = () => (
+	<div className="yst-space-y-8">
+		{ map( VALIDATION_VARIANTS, variant => (
+			<Autocomplete
+				key={ variant }
+				id={ `validation-${ variant }` }
+				name={ `validation-${ variant }` }
+				label={ `With validation of variant ${ variant }` }
+				value="1"
+				selectedLabel="The quick brown fox jumps over the lazy dog"
+				onChange={ noop }
+				onQueryChange={ noop }
+				options={ [
+					{ value: "1", label: "Option 1" },
+					{ value: "2", label: "Option 2" },
+					{ value: "3", label: "Option 3" },
+					{ value: "4", label: "Option 4" },
+				] }
+				validation={ {
+					variant,
+					message: {
+						success: "Looks like you are nailing it!",
+						warning: "Looks like you could do better!",
+						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+						error: "Looks like you are doing it wrong!",
+					}[ variant ],
+				} }
+			/>
+		) ) }
+	</div>
+);
