@@ -229,7 +229,7 @@ class WPSEO_Admin {
 		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $faq_link );
 
-		if ( $first_time_configuration_notice_helper->first_time_configuration_not_finished() ) {
+		if ( $first_time_configuration_notice_helper->first_time_configuration_not_finished() && ! is_network_admin() ) {
 			$configuration_title = ( ! $first_time_configuration_notice_helper->should_show_alternate_message() ) ? 'first-time configuration' : 'SEO configuration';
 			/* translators: CTA to finish the first time configuration. %s: Either first-time SEO configuration or SEO configuration. */
 			$message  = sprintf( __( 'Finish your %s', 'wordpress-seo' ), $configuration_title );
