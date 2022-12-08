@@ -1,9 +1,9 @@
-import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
 import TagInput from "../../elements/tag-input";
-import { useDescribedBy, useSvgAria } from "../../hooks";
+import { validationPropType, ValidationInput, ValidationMessage } from "../../elements/validation";
+import { useDescribedBy } from "../../hooks";
 
 /**
  * @param {string} id The ID of the input.
@@ -12,7 +12,7 @@ import { useDescribedBy, useSvgAria } from "../../hooks";
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {boolean} [disabled] The disabled state.
- * @param {JSX.node} [error] An error "message".
+ * @param {Object} [validation] The validation state.
  * @param {Object} [props] Any extra properties for the TagInput.
  * @returns {JSX.Element} The tag field.
  */
@@ -23,11 +23,10 @@ const TagField = ( {
 	disabled = false,
 	className = "",
 	description = null,
-	error = null,
+	validation = {},
 	...props
 } ) => {
-	const { ids, describedBy } = useDescribedBy( id, { error, description } );
-	const svgAriaProps = useSvgAria();
+	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
 		<div className={ classNames( "yst-tag-field", disabled && "yst-tag-field--disabled", className ) }>
@@ -35,22 +34,20 @@ const TagField = ( {
 				<Label className="yst-tag-field__label" htmlFor={ id } label={ label } />
 				{ labelSuffix }
 			</div>
-			<div className="yst-relative">
-				<TagInput
-					id={ id }
-					disabled={ disabled }
-					className={ classNames(
-						"yst-tag-field__input",
-						error && "yst-tag-field__input--error",
-					) }
-					aria-describedby={ describedBy }
-					{ ...props }
-				/>
-				{ error && <div className="yst-tag-field__error-icon">
-					<ExclamationCircleIcon { ...svgAriaProps } />
-				</div> }
-			</div>
-			{ error && <p id={ ids.error } className="yst-tag-field__error">{ error }</p> }
+			<ValidationInput
+				as={ TagInput }
+				id={ id }
+				disabled={ disabled }
+				className="yst-tag-field__input"
+				aria-describedby={ describedBy }
+				validation={ validation }
+				{ ...props }
+			/>
+			{ validation?.message && (
+				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-tag-field__validation">
+					{ validation.message }
+				</ValidationMessage>
+			) }
 			{ description && <p id={ ids.description } className="yst-tag-field__description">{ description }</p> }
 		</div>
 	);
@@ -63,7 +60,7 @@ TagField.propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 	description: PropTypes.node,
-	error: PropTypes.node,
+	validation: validationPropType,
 };
 
 export default TagField;
