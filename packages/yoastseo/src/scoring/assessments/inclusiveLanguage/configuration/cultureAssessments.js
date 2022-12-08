@@ -234,7 +234,7 @@ const cultureAssessments = [
 		inclusiveAlternatives: [ "<i>Romani, Romani person</i>", "<i>traveler, wanderer, free-spirited</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
-						"their music, consider using an alternative such as <i>%3$s</i>." ].join( " " ),
+						"their music, consider using an alternative such as %3$s." ].join( " " ),
 	},
 	{
 		identifier: "gypsies",
@@ -242,7 +242,7 @@ const cultureAssessments = [
 		inclusiveAlternatives: [ "<i>Romani, Romani people</i>", "<i>travelers, wanderers, free-spirited</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
-		"their music, consider using an alternative such as <i>%3$s</i>." ].join( " " ),
+		"their music, consider using an alternative such as %3$s." ].join( " " ),
 	},
 	{
 		identifier: "eskimo",
@@ -252,9 +252,9 @@ const cultureAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
-		identifier: "coloredPearson",
-		nonInclusivePhrases: [ "colored pearson" ],
-		inclusiveAlternatives: "<i>pearson of color, POC, BIPOC</i>",
+		identifier: "coloredPerson",
+		nonInclusivePhrases: [ "colored person" ],
+		inclusiveAlternatives: "<i>person of color, POC, BIPOC</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
