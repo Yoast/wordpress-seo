@@ -96,7 +96,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"They'll try to gyp you if you don't know what you're doing.",
 			"These are gyps.",
 			"The cab driver gypped me out of ten bucks",
-			"The cab driver is gypping me out of ten bucks"
+			"The cab driver is gypping me out of ten bucks",
 		];
 		const feedbacks = [
 			"Avoid using <i>gyp</i> as it is potentially harmful. Consider using an alternative, " +
@@ -167,7 +167,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			"Some companies are in the blacklist.",
 			"The govt blacklists the person.",
 			"What you should know about Blacklisting",
-			"25 Celebrities Who Were Blacklisted From Hollywood"
+			"25 Celebrities Who Were Blacklisted From Hollywood",
 		];
 		const feedbacks = [
 			"Avoid using <i>blacklist</i> as it is potentially harmful. Consider using an alternative, " +

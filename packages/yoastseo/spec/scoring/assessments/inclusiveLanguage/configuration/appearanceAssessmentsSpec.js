@@ -166,7 +166,7 @@ describe( "Appearance assessments", function() {
 		const texts = [
 			"Midget is a term for a person of unusually short stature that is considered by some to be pejorative.",
 			"In the early 19th century, midgets were romanticized by the middle class and regarded with " +
-			"the same affectionate condescension extended to children, as creatures of innocence."
+			"the same affectionate condescension extended to children, as creatures of innocence.",
 		];
 		const feedbacks = [
 			"Avoid using <i>midget</i> as it is potentially harmful. Consider using an alternative, such as <i>little person, " +
