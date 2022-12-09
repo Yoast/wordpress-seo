@@ -3,6 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/genderAssessments";
 import Factory from "../../../../specHelpers/factory.js";
+import { testMultipleForms } from "../testHelpers/testHelpers";
 
 describe( "Gender assessments", function() {
 	it( "should target non-inclusive phrases", function() {
@@ -142,5 +143,92 @@ describe( "Gender assessments", function() {
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeFalsy();
+	} );
+} );
+
+describe( "a test for targeting non-inclusive phrases in gender assessments", () => {
+	it( "should return the appropriate score and feedback string for: 'hermaphrodite' and its plural form", () => {
+		const identifiers = [ "hermaphrodite", "hermaphrodites" ];
+		const texts = [
+			"That person there is a hermaphrodite",
+			"Those group of people are all hermaphrodites",
+		];
+		const feedbacks = [
+			"Avoid using <i>hermaphrodite</i> as it is potentially harmful. Consider using an alternative, such as <i>intersex</i>." +
+			" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+			"Avoid using <i>hermaphrodites</i> as it is potentially harmful. Consider using an alternative, such as <i>intersex people</i>." +
+			" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'husband and wife' and its plural form", () => {
+		// The different forms of "husband and wife" is one entry under the same identifier.
+		const identifiers = [ "husbandAndWife", "husbandAndWife" ];
+		const texts = [
+			"The officiant pronounces them husband and wife", "The officiant pronounces them husbands and wives",
+		];
+		const feedbacks = [
+			"Be careful when using <i>husband and wife</i> as it is potentially exclusionary. Consider using an alternative, " +
+			"such as <i>spouses, partners</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+			" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+			"Be careful when using <i>husbands and wives</i> as it is potentially exclusionary. Consider using an alternative, " +
+			"such as <i>spouses, partners</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+			" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'transsexual' and its plural form", () => {
+		const identifiers = [ "transsexual", "transsexuals" ];
+		const texts = [
+			"The term transsexual is a subset of transgender.",
+			"As of 2018, use of the noun form (e.g. referring to people as transsexuals) is often deprecated by those in the transsexual community.",
+		];
+		const feedbacks = [
+			"Be careful when using <i>transsexual</i> as it is potentially harmful. Consider using an alternative, such as <i>transgender</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+			"Be careful when using <i>transsexuals</i> as it is potentially harmful. Consider using an alternative, such as <i>trans people, " +
+			"transgender people</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+			" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'transwoman' and its plural form", () => {
+		const identifiers = [ "transWoman", "transWomen" ];
+		const texts = [
+			"A transwoman is a woman who was assigned male at birth.",
+			"Transwomen have a female gender identity, may experience gender dysphoria, and may transition.",
+		];
+		const feedbacks = [
+			"Be careful when using <i>transwoman</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>trans woman, transgender woman</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+			" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+			"Be careful when using <i>transwomen</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>trans women, transgender women</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'transman' and its plural form", () => {
+		const identifiers = [ "transMan", "transMen" ];
+		const texts = [
+			"A transman is a man who was assigned female at birth.",
+			"Originally, the term transmen referred specifically to female-to-male transsexual people who underwent " +
+			"hormone replacement therapy (HRT) or sex reassignment surgery (SRS), or both.",
+		];
+		const feedbacks = [
+			"Be careful when using <i>transman</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>trans man, transgender man</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+			"Be careful when using <i>transmen</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>trans men, transgender men</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
 	} );
 } );
