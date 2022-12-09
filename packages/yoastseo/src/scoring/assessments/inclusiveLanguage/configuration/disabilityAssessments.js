@@ -39,7 +39,7 @@ const disabilityAssessments =  [
 	},
 	{
 		identifier: "bingeing",
-		nonInclusivePhrases: [ "bingeing" ],
+		nonInclusivePhrases: [ "bingeing", "binging" ],
 		inclusiveAlternatives: "<i>indulging, satuating, wallowing, spreeing, marathoning, consuming excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
