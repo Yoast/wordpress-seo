@@ -136,7 +136,8 @@ describe( "Other assessments", function() {
 } );
 
 describe( "a test for targeting non-inclusive phrases in other assessments", () => {
-	// Skipped for now. It's a bug another issue will solve.
+	// Skipped for now. It's a bug another issue will solve: https://yoast.atlassian.net/browse/PC-1021.
+	// This unit test should be un-skipped when the aforementioned issue is merged.
 	xit( "should return the appropriate score and feedback string for: 'ex-con' and its plural form", () => {
 		const identifiers = [ "ex-con", "ex-cons" ];
 		const texts = [
@@ -171,7 +172,8 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 
 		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
 	} );
-	// Skipped for now. It's a bug another issue will solve.
+	// Skipped for now. It's a bug another issue will solve: https://yoast.atlassian.net/browse/PC-1021.
+	// This unit test should be un-skipped when the aforementioned issue is merged.
 	xit( "should return the appropriate score and feedback string for: 'ex-offender' and its plural form", () => {
 		const identifiers = [ "ex-offender", "ex-offenders" ];
 		const texts = [

@@ -186,7 +186,8 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
-	// Skipped for now. It's a bug another issue will solve.
+	// Skipped for now. It's a bug another issue will solve: https://yoast.atlassian.net/browse/PC-1021.
+	// This unit test should be un-skipped when the aforementioned issue is merged.
 	xit( "should return the appropriate score and feedback string for: 'Asian-American' and its other forms", () => {
 		const identifiers = [ "Asian-American", "Asian-Americans" ];
 		const texts = [
@@ -204,7 +205,8 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
-	// Skipped for now. It's a bug another issue will solve.
+	// Skipped for now. It's a bug another issue will solve: https://yoast.atlassian.net/browse/PC-1021.
+	// This unit test should be un-skipped when the aforementioned issue is merged.
 	xit( "should return the appropriate score and feedback string for: 'African-American' and its other forms", () => {
 		const identifiers = [ "African-American", "African-Americans" ];
 		const texts = [
