@@ -3,11 +3,14 @@ import {
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 } from "./feedbackStrings";
-import { isPrecededByException } from "../helpers/isPrecededByException";
+import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { all as toBeForms } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
+import { flatMap } from "lodash-es";
+import { sprintf } from "@wordpress/i18n";
 
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
@@ -16,6 +19,12 @@ const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the spec
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.";
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
+
+// Create a list of all possible combinations of a verb to be and a quantifier.
+const quantifiers = [ "so", "very", "a bit", "really", "pretty", "kind of" ];
+const toBeQuantifier = flatMap( toBeForms, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} ${quantifier}` ) );
+// A list of requirements: words that need to be in front of "OCD" for it to be non inclusive.
+const ocdRequirements =  toBeForms.concat( toBeQuantifier );
 
 const disabilityAssessments =  [
 	{
@@ -294,6 +303,13 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
+		identifier: "stupid",
+		nonInclusivePhrases: [ "stupid" ],
+		inclusiveAlternatives: [ "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>" ],
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
 		identifier: "dumb",
 		nonInclusivePhrases: [ "dumb", "dumber", "dumbest" ],
 		inclusiveAlternatives: [ "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>" ],
@@ -461,6 +477,20 @@ const disabilityAssessments =  [
 			" alternatives to describe the trait or behavior, such as %3$s.",
 	},
 	{
+		identifier: "OCD",
+		nonInclusivePhrases: [ "ocd" ],
+		inclusiveAlternatives: "<i>pedantic, obsessed, perfectionist</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		// We make sure to always capitalize "OCD" by pre-filling the first replacement variable.
+		feedbackFormat: [ sprintf( medicalCondition, "OCD", "%2$s" ),
+			"If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD." ].join( " " ),
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isNotPrecededByException( words, ocdRequirements ) );
+		},
+	},
+	{
 		identifier: "theMentallyIll",
 		nonInclusivePhrases: [ "the mentally ill" ],
 		inclusiveAlternatives: "<i>people who are mentally ill</i>, <i>mentally ill people </i>",
@@ -483,6 +513,7 @@ const disabilityAssessments =  [
 		},
 	},
 ];
+
 
 disabilityAssessments.forEach( assessment => {
 	assessment.category = "disability";

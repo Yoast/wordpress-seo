@@ -112,7 +112,29 @@ describe( "Disability assessments", function() {
 		} );
 	} );
 
-	it( "should not dumb if preceded by 'deaf and'.", () => {
+	it( "should target 'stupid'.", () => {
+		const testSentence = "Stupid, that's just how they're acting.";
+		const mockPaper = new Paper( testSentence );
+		const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "stupid" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>stupid</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: testSentence,
+			marked: `<yoastmark class='yoast-text-mark'>${ testSentence }</yoastmark>`,
+		} ) ] );
+	} );
+
+	it( "should not target 'dumb' if preceded by 'deaf and'.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "dumb" ) );
 
 		const testSentence = "He is deaf and dumb.";
@@ -413,4 +435,80 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 	} );
 } );
 
+describe( "Test the OCD assessment", () => {
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a form of 'to be'", () => {
+		const mockPaper = new Paper( "I am OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am OCD." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "I am OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>I am OCD.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a contracted form of 'to be'", () => {
+		const mockPaper = new Paper( "You're OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "You're OCD." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "You're OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>You're OCD.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a form of 'to be' + quantifier", () => {
+		const mockPaper = new Paper( "I am so OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am so OCD." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "I am so OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>I am so OCD.</yoastmark>",
+		} ) ] );
+	} );
+	it( "does not identify 'OCD' when not preceded by a form of 'to be'", () => {
+		const mockPaper = new Paper( "This person has OCD" );
+		const mockResearcher = Factory.buildMockResearcher( [ "This person has OCD" ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+	} );
+} );
 
