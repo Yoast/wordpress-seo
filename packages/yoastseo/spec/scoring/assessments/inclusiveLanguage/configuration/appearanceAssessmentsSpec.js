@@ -4,6 +4,7 @@ import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/appearanceAssessments";
 import Factory from "../../../../specHelpers/factory";
 import Mark from "../../../../../src/values/Mark";
+import { testMultipleForms } from "../testHelpers/testHelpers";
 
 describe( "Appearance assessments", function() {
 	it( "should target non-inclusive phrases",
@@ -159,5 +160,23 @@ describe( "Appearance assessments", function() {
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "should target non-inclusive phrase: 'midget' and its plural form", () => {
+		const identifiers = [ "midget", "midgets" ];
+		const texts = [
+			"Midget is a term for a person of unusually short stature that is considered by some to be pejorative.",
+			"In the early 19th century, midgets were romanticized by the middle class and regarded with " +
+			"the same affectionate condescension extended to children, as creatures of innocence."
+		];
+		const feedbacks = [
+			"Avoid using <i>midget</i> as it is potentially harmful. Consider using an alternative, such as <i>little person, " +
+			"has short stature, someone with dwarfism</i>. <a href='https://yoa.st/inclusive-language-appearance' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>midgets</i> as it is potentially harmful. Consider using an alternative, such as <i>little people, " +
+			"have short stature, people with dwarfism</i>. <a href='https://yoa.st/inclusive-language-appearance' " +
+			"target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
 	} );
 } );
