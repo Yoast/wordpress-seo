@@ -3,7 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/disabilityAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testMultipleForms } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
 
 describe( "Disability assessments", function() {
 	it( "should return proper feedback with two inclusive alternatives", function() {
@@ -222,33 +222,55 @@ describe( "Disability assessments", function() {
 
 describe( "a test for targeting non-inclusive phrases in disability assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'binge' and its other forms", () => {
-		const identifiers = [ "binge", "binges", "bingeing", "binged" ];
-		const texts = [
-			"I binge on ice cream.",
-			"She binges on Netflix series.",
-			"She is bingeing the new Korean drama on Netflix.",
-			"She binged the new Korean drama on Netflix.",
-		];
-		const feedbacks = [
-			"Avoid using <i>binge</i>, unless talking about a symptom of a medical condition. " +
-			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
-			"such as <i>indulge, satuate, wallow, spree, marathon, consume excessively</i>. <a href='https://yoa.st/inclusive-language-disability' " +
-			"target='_blank'>Learn more.</a>",
-			"Avoid using <i>binges</i>, unless talking about a symptom of a medical condition. " +
-			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
-			"such as <i>indulges, satuates, wallows, sprees, marathons, consumes excessively</i>. " +
-			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-			"Avoid using <i>bingeing</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
-			" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
-			"satuating, wallowing, spreeing, marathoning, consuming excessively</i>." +
-			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-			"Avoid using <i>binged</i>, unless talking about a symptom of a medical condition. If you are not referencing " +
-			"a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulged, " +
-			"satuated, wallowed, spreed, marathoned, consumed excessively</i>. " +
-			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+		const testData = [
+			{
+				identifier: "binge",
+				text: "I binge on ice cream.",
+				expectedFeedback: "Avoid using <i>binge</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulge, satuate, wallow, spree, marathon, consume excessively</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "binges",
+				text: "She binges on Netflix series.",
+				expectedFeedback: "Avoid using <i>binges</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulges, satuates, wallows, sprees, marathons, consumes excessively</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "bingeing",
+				text: "She is bingeing the new Korean drama on Netflix.",
+				expectedFeedback: "Avoid using <i>bingeing</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
+					" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
+					"satuating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "bingeing",
+				text: "She is binging the new Korean drama on Netflix.",
+				expectedFeedback: "Avoid using <i>binging</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
+					" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
+					"satuating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "binged",
+				text: "She binged the new Korean drama on Netflix.",
+				expectedFeedback: "Avoid using <i>binged</i>, unless talking about a symptom of a medical condition. If you are not referencing " +
+					"a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulged, " +
+					"satuated, wallowed, spreed, marathoned, consumed excessively</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
 		];
 
-		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
+		testInclusiveLanguageAssessment( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'lame' and its other forms", () => {
 		const identifiers = [ "lame", "lamer", "lamest" ];
