@@ -146,6 +146,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		$indexables = \apply_filters( 'wpseo_breadcrumb_indexables', $indexables, $context );
+		$indexables = \is_array( $indexables ) ? $indexables : [];
 		$indexables = \array_filter(
 			$indexables,
 			function ( $indexable ) {
