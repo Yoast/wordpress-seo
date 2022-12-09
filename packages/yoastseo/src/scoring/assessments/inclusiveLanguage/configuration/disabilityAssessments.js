@@ -41,7 +41,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "binged" ],
 		inclusiveAlternatives: "<i>indulged, satuated, wallowed, spreed, marathoned, consumed excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{
@@ -49,7 +49,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "binges" ],
 		inclusiveAlternatives: "<i>indulges, satuates, wallows, sprees, marathons, consumes excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using  <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{
