@@ -3,6 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/disabilityAssessments";
 import Factory from "../../../../specHelpers/factory.js";
+import { testMultipleForms } from "../testHelpers/testHelpers";
 
 describe( "Disability assessments", function() {
 	it( "should return proper feedback with two inclusive alternatives", function() {
@@ -186,20 +187,207 @@ describe( "Disability assessments", function() {
 
 		expect( isApplicable ).toBeFalsy();
 	} );
+	it( "should not target 'binge'' when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binge" ) );
+		[ "drink", "drinks", "drinking" ].map( ( exceptionWord ) => {
+			const testSentence = `We ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
 } );
 
-describe( "a test for targetting non-inclusive phrases in disability assessments", () => {
-	it( "should return the appropriate score and feedback string for: 'binge'", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binge" ) );
-		const mockPaper = new Paper( "I binge on ice cream." );
-		const mockResearcher = Factory.buildMockResearcher( [ "I binge on ice cream." ] );
-
-		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
-		expect( assessment.getResult().score ).toBe( 6 );
-		expect( assessment.getResult().text ).toBe( "Avoid using <i>binge</i>, unless talking about a symptom of a medical condition. " +
+describe( "a test for targeting non-inclusive phrases in disability assessments", () => {
+	it( "should return the appropriate score and feedback string for: 'binge' and its other forms", () => {
+		const identifiers = [ "binge", "binges", "bingeing", "binged" ];
+		const texts = [
+			"I binge on ice cream.",
+			"She binges on Netflix series.",
+			"She is bingeing the new Korean drama on Netflix.",
+			"She binged the new Korean drama on Netflix.",
+		];
+		const feedbacks = [
+			"Avoid using <i>binge</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
 			"such as <i>indulge, satuate, wallow, spree, marathon, consume excessively</i>. <a href='https://yoa.st/inclusive-language-disability' " +
-			"target='_blank'>Learn more.</a>" );
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>binges</i>, unless talking about a symptom of a medical condition. " +
+			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+			"such as <i>indulges, satuates, wallows, sprees, marathons, consumes excessively</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>bingeing</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
+			" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
+			"satuating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>binged</i>, unless talking about a symptom of a medical condition. If you are not referencing " +
+			"a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulged, " +
+			"satuated, wallowed, spreed, marathoned, consumed excessively</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'lame' and its other forms", () => {
+		const identifiers = [ "lame", "lamer", "lamest" ];
+		const texts = [
+			"Such a lame excuse!",
+			"It is a lamer excuse compared to the previous one.",
+			"This is the lamest excuse by far!",
+		];
+		const feedbacks = [
+			"Avoid using <i>lame</i> as it is potentially harmful. Consider using an alternative, such as <i>boring, lousy, " +
+			"unimpressive, sad, corny</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>lamer</i> as it is potentially harmful. Consider using an alternative, such as <i>more boring, " +
+			"lousier, more unimpressive, sadder, cornier</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>lamest</i> as it is potentially harmful. Consider using an alternative, such as <i>most boring, " +
+			"lousiest, most unimpressive, saddest, corniest</i>. <a href='https://yoa.st/inclusive-language-disability'" +
+			" target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'commit suicide' and its other forms", () => {
+		const identifiers = [ "commitSuicide", "committingSuicide", "commitsSuicide", "committedSuicide" ];
+		const texts = [
+			"commit suicide",
+			"committing suicide",
+			"commits suicide",
+			"committed suicide",
+		];
+		const feedbacks = [
+			"Avoid using <i>commit suicide</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>take one's life, die by suicide, kill oneself</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>committing suicide</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>taking one's life, dying by suicide, killing oneself</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>commits suicide</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>takes one's life, dies by suicide, kills oneself</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>committed suicide</i> as it is potentially harmful. Consider using an alternative, such as" +
+			" <i>took one's life, died by suicide, killed themself</i>. <a href='https://yoa.st/inclusive-language-disability'" +
+			" target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'dumb' and its other forms", () => {
+		// The different forms of "dumb" is one entry under the same identifier.
+		const identifiers = [ "dumb", "dumb", "dumb" ];
+		const texts = [
+			"Don't mind me, I was being dumb.",
+			"A dumber person",
+			"That individual was the dumbest.",
+		];
+		const feedbacks = [
+			"Avoid using <i>dumb</i> as it is potentially harmful. Consider using an alternative, such as <i>uninformed, " +
+			"ignorant, foolish, inconsiderate, irrational, reckless</i>. <a href='https://yoa.st/inclusive-language-disability'" +
+			" target='_blank'>Learn more.</a>",
+			"Avoid using <i>dumber</i> as it is potentially harmful. Consider using an alternative, such as <i>uninformed, " +
+			"ignorant, foolish, inconsiderate, irrational, reckless</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+			"target='_blank'>Learn more.</a>",
+			"Avoid using <i>dumbest</i> as it is potentially harmful. Consider using an alternative, such as <i>uninformed, " +
+			"ignorant, foolish, inconsiderate, irrational, reckless</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+			"target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'epileptic fit' and its singular form", () => {
+		const identifiers = [ "epilepticFit", "epilepticFits" ];
+		const texts = [
+			"What can trigger an epileptic fit?",
+			"What can trigger epileptic fits?",
+		];
+		const feedbacks = [
+			"Avoid using <i>epileptic fit</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>epileptic seizure</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>epileptic fits</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>epileptic seizures</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'crazy' and its other forms", () => {
+		const identifiers = [ "crazy", "crazier", "craziest" ];
+		const texts = [
+			"It was a crazy decision.",
+			"It is a crazier idea compared to the previous one.",
+			"This is the craziest decision I've ever made!",
+		];
+		const feedbacks = [
+			"Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>crazier</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>more wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>craziest</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>most wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'psychopath' and its other forms", () => {
+		// The different forms of "psychopath" is one entry under the same identifier.
+		const identifiers = [ "psychopathic", "psychopathic", "psychopathic" ];
+		const texts = [
+			"He was a psychopath.",
+			"Multiple psychopaths",
+			"A psychopathic episode",
+		];
+		const feedbacks = [
+			"Avoid using <i>psychopath</i> as it is potentially harmful. Consider using an alternative, such as <i>toxic, " +
+			"manipulative, unpredictable, impulsive, reckless, out of control</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>psychopaths</i> as it is potentially harmful. Consider using an alternative, such as <i>toxic, " +
+			"manipulative, unpredictable, impulsive, reckless, out of control</i>." +
+			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>psychopathic</i> as it is potentially harmful. Consider using an alternative, such as <i>toxic, " +
+			"manipulative, unpredictable, impulsive, reckless, out of control</i>." +
+			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'psycho' and its plural form", () => {
+		// The different forms of "psycho" is one entry under the same identifier.
+		const identifiers = [ "psycho", "psycho" ];
+		const texts = [
+			"A total psycho",
+			"Multiple psychos",
+		];
+		const feedbacks = [
+			"Avoid using <i>psycho</i> as it is potentially harmful. Consider using an alternative, such as <i>toxic, distraught, " +
+			"unpredictable, reckless, out of control</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Avoid using <i>psychos</i> as it is potentially harmful. Consider using an alternative, such as <i>toxic, distraught, " +
+			"unpredictable, reckless, out of control</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
+	it( "should return the appropriate score and feedback string for: 'sociopath' and its plural form", () => {
+		const identifiers = [ "sociopath", "sociopaths" ];
+		const texts = [
+			"Sherlock Holmes claims to be a sociopath",
+			"A federation of multiple sociopaths",
+		];
+		const feedbacks = [
+			"Be careful when using <i>sociopath</i> as it is potentially harmful. If you are referencing the medical condition, " +
+			"use <i>person with antisocial personality disorder</i> instead, unless referring to someone who explicitly wants " +
+			"to be referred to with this term. If you are not referencing the medical condition, consider other alternatives " +
+			"to describe the trait or behavior, such as <i>toxic, manipulative, cruel</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+			"Be careful when using <i>sociopaths</i> as it is potentially harmful. If you are referencing the medical condition," +
+			" use <i>people with antisocial personality disorder</i> instead, unless referring to someone who explicitly wants " +
+			"to be referred to with this term. If you are not referencing the medical condition, consider other alternatives " +
+			"to describe the trait or behavior, such as <i>toxic, manipulative, cruel</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
 	} );
 	it( "should return the appropriate score and feedback string for: 'daft'", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "daft" ) );
