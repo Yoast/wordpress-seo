@@ -6,7 +6,7 @@ import matchWords from "../match/matchTextWithArray";
 import arrayToRegex from "../regex/createRegexFromArray";
 
 // Regex to deconstruct an anchor into open tag, content and close tag.
-const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)(.+?)(<\/a>)/;
+const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)(.*?)(<\/a>)/;
 
 /**
  * Deconstructs an anchor to the opening tag and the content. The content is the anchor text.
