@@ -4,32 +4,44 @@ import EnglishResearcher from "../../../../../src/languageProcessing/languages/e
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
 import Factory from "../../../../specHelpers/factory";
+import { testMultipleForms } from "../testHelpers/testHelpers";
 
 describe( "SES assessments", function() {
-	it( "should target non-inclusive phrases",
-		function() {
-			const mockText = "This ad is aimed at illegal immigrants";
-			const mockPaper = new Paper( mockText );
-			const mockResearcher = new EnglishResearcher( mockPaper );
-			const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "illegalImmigrants" ) );
+	it( "should target non-inclusive phrases: 'illegal immigrant' and its plural form", function() {
+		const identifiers = [ "illegalImmigrant", "illegalImmigrants" ];
+		const texts = [
+			"The police detained an illegal immigrant",
+			"This ad is aimed at illegal immigrants",
+		];
+		const feedbacks = [
+			"Avoid using <i>illegal immigrant</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>undocumented person, person without papers, immigrant without papers</i>. " +
+			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+			"Avoid using <i>illegal immigrants</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>undocumented people, people without papers, immigrants without papers</i>. " +
+			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+		];
 
-			const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-			const assessmentResult = assessor.getResult();
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 3 );
+	} );
 
-			expect( isApplicable ).toBeTruthy();
-			expect( assessmentResult.getScore() ).toEqual( 3 );
-			expect( assessmentResult.getText() ).toEqual(
-				"Avoid using <i>illegal immigrants</i> as it is potentially harmful. " +
-				"Consider using an alternative, such as <i>undocumented people, people without papers, immigrants without papers</i>. " +
-				"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
-			expect( assessmentResult.hasMarks() ).toBeTruthy();
-			expect( assessor.getMarks() ).toEqual( [
-				{ _properties:
-						{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at illegal immigrants</yoastmark>",
-							original: "This ad is aimed at illegal immigrants",
-							fieldsToMark: [],
-						} } ] );
-		} );
+	it( "should target non-inclusive phrases: 'prostitute' and its plural form", function() {
+		const identifiers = [ "prostitute", "prostitutes" ];
+		const texts = [
+			"Prostitute is derived from the Latin prostituta.",
+			"The majority of prostitutes are female and have male clients.",
+		];
+		const feedbacks = [
+			"Be careful when using <i>prostitute</i> as it is potentially harmful. Consider using an alternative, such as <i>sex worker</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+			"Be careful when using <i>prostitutes</i> as it is potentially harmful. Consider using an alternative, such as <i>sex workers</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
+		];
+
+		testMultipleForms( assessments, texts, identifiers, feedbacks, 6 );
+	} );
 
 	it( "should target non-inclusive phrases", function() {
 		const mockText = "This ad is aimed at poverty stricken people.";
