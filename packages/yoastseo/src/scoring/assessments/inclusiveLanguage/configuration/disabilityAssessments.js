@@ -2,6 +2,7 @@ import {
 	potentiallyHarmful,
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
+	harmfulPotentiallyNonInclusive,
 } from "./feedbackStrings";
 import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
@@ -15,8 +16,8 @@ import { sprintf } from "@wordpress/i18n";
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
 
-const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition. " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.";
+const medicalCondition = harmfulPotentiallyNonInclusive +
+	" Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, such as %2$s.";
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
