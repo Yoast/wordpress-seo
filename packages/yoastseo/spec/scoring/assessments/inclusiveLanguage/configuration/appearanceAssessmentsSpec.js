@@ -43,11 +43,60 @@ describe( "Appearance assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>obese</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as " +
-			"<i>has/have a higher weight, higher-weight person/people, person/people in higher weight body/bodies, heavier person/people</i>. " +
+			"Be careful when using <i>obese</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>has a higher weight, higher-weight person, person in higher weight body, heavier person</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
 			"Alternatively, if talking about a specific person, use their preferred descriptor if known. " +
-			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
+			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: mockText,
+			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+		} ) ] );
+	} );
+	it( "obesitySingular should target obese person as potentially non-inclusive", function() {
+		const mockText = "He is a person with obesity";
+		const mockPaper = new Paper( mockText );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "obesitySingular" )  );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>person with obesity</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>person who has a higher weight, higher-weight person, " +
+			"person in higher weight body, heavier person</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"Alternatively, if talking about a specific person, use their preferred descriptor if known. " +
+			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: mockText,
+			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+		} ) ] );
+	} );
+	it( "obesityPlural should target fat people", function() {
+		const mockText = "They are fat people";
+		const mockPaper = new Paper( mockText );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "obesityPlural" )  );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>fat people</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>people who have a higher weight, higher-weight people, people in higher weight bodies, heavier people</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>"
+		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [
 			{ _properties: {
