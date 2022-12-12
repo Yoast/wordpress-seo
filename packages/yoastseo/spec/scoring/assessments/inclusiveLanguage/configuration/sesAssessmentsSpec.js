@@ -23,12 +23,10 @@ describe( "A test for SES assessments", function() {
 				"Consider using an alternative, such as <i>undocumented people, people without papers, immigrants without papers</i>. " +
 				"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
-			expect( assessor.getMarks() ).toEqual( [
-				{ _properties:
-						{ marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at illegal immigrants</yoastmark>",
-							original: "This ad is aimed at illegal immigrants",
-							fieldsToMark: [],
-						} } ] );
+			expect( assessor.getMarks() ).toEqual( [ new Mark( {
+				original: mockText,
+				marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+			} ) ] );
 		} );
 
 	it( "should target non-inclusive phrases", function() {
