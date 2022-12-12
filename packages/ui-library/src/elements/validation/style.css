@@ -83,16 +83,16 @@
         }
 
         .yst-validation-message--success {
-            @apply yst-text-green-800;
+            @apply yst-text-green-600;
         }
         .yst-validation-message--info {
-            @apply yst-text-blue-800;
+            @apply yst-text-blue-600;
         }
         .yst-validation-message--warning {
-            @apply yst-text-amber-800;
+            @apply yst-text-amber-600;
         }
         .yst-validation-message--error {
-            @apply yst-text-red-800;
+            @apply yst-text-red-600;
         }
     }
 }
