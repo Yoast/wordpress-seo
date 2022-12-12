@@ -2,8 +2,8 @@ import { Dialog } from "@headlessui/react";
 import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { usePrevious, useToggleState } from "../../../hooks";
-import { useNavigationContext } from "..";
+import { usePrevious, useToggleState } from "../../hooks";
+import { useNavigationContext } from "./index";
 
 /**
  * @param {JSX.node} children The menu items.

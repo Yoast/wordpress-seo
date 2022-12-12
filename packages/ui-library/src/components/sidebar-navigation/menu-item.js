@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import PropTypes from "prop-types";
-import { useToggleState } from "../../../hooks";
+import { useToggleState } from "../../hooks";
 
 /**
  * @param {string} label The label.
