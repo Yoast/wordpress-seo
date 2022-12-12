@@ -29,7 +29,7 @@ Modal.defaultProps = {
 };
 
 export default {
-	title: "2. Components/Modal",
+	title: "2) Components/Modal",
 	component: Modal,
 	argTypes: {
 		children: { control: "text" },

@@ -3,7 +3,7 @@ import { filter, find, includes, toLower } from "lodash";
 import Autocomplete from ".";
 
 export default {
-	title: "1. Elements/Autocomplete",
+	title: "1) Elements/Autocomplete",
 	component: Autocomplete,
 	argTypes: {
 		children: { control: "text" },

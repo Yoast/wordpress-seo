@@ -1,11 +1,19 @@
 import Textarea from ".";
 
 export default {
-	title: "1. Elements/Textarea",
+	title: "1) Elements/Textarea",
 	component: Textarea,
 	argTypes: {
-		cols: { defaultValue: 20 },
-		rows: { defaultValue: 2 },
+		cols: {
+			table: {
+				defaultValue: { summary: 20 },
+			},
+		},
+		rows: {
+			table: {
+				defaultValue: { summary: 2 },
+			},
+		},
 	},
 	parameters: {
 		docs: {

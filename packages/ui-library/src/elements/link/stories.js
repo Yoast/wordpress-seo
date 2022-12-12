@@ -1,7 +1,7 @@
 import Link from ".";
 
 export default {
-	title: "1. Elements/Link",
+	title: "1) Elements/Link",
 	component: Link,
 	argTypes: {
 		children: { control: "text" },

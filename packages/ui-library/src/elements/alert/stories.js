@@ -1,7 +1,7 @@
 import Alert from ".";
 
 export default {
-	title: "1. Elements/Alert",
+	title: "1) Elements/Alert",
 	component: Alert,
 	argTypes: {
 		children: { control: "text" },

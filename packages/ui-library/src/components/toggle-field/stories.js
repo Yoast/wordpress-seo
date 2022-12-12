@@ -4,7 +4,7 @@ import ToggleField from ".";
 import Badge from "../../elements/badge";
 
 export default {
-	title: "2. Components/Toggle Field",
+	title: "2) Components/Toggle Field",
 	component: ToggleField,
 	argTypes: {
 		children: { control: "text" },

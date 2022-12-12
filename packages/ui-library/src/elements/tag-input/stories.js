@@ -2,7 +2,7 @@ import TagInput from ".";
 import { useCallback, useState } from "@wordpress/element";
 
 export default {
-	title: "1. Elements/Tag Input",
+	title: "1) Elements/Tag Input",
 	component: TagInput,
 	parameters: {
 		docs: {
