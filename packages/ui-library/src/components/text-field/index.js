@@ -1,3 +1,4 @@
+import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
@@ -18,7 +19,7 @@ import { useDescribedBy } from "../../hooks";
  * @param {Object} [props] Any extra properties for the TextInput.
  * @returns {JSX.Element} The input field.
  */
-const TextField = ( {
+const TextField = forwardRef( ( {
 	id,
 	onChange,
 	label,
@@ -29,7 +30,7 @@ const TextField = ( {
 	description = null,
 	validation = {},
 	...props
-} ) => {
+}, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
@@ -47,6 +48,7 @@ const TextField = ( {
 			</div>
 			<ValidationInput
 				as={ TextInput }
+				ref={ ref }
 				id={ id }
 				onChange={ onChange }
 				disabled={ disabled }
@@ -64,7 +66,7 @@ const TextField = ( {
 			{ description && <p id={ ids.description } className="yst-text-field__description">{ description }</p> }
 		</div>
 	);
-};
+} );
 
 TextField.propTypes = {
 	id: PropTypes.string.isRequired,
