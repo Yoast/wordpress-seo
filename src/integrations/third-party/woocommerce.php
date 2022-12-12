@@ -178,7 +178,10 @@ class WooCommerce implements Integration_Interface {
 
 		foreach ( $indexables as $index => $indexable ) {
 			if ( $indexable->object_type === 'post-type-archive' && $indexable->object_sub_type === 'product' ) {
-				$indexables[ $index ] = $this->repository->find_by_id_and_type( $shop_page_id, 'post' );
+				$shop_page_indexable = $this->repository->find_by_id_and_type( $shop_page_id, 'post' );
+				if ( \is_a( $shop_page_indexable, Indexable::class ) ) {
+					$indexables[ $index ] = $shop_page_indexable;
+				}
 			}
 		}
 

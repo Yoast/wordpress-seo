@@ -71,7 +71,8 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
+	const openedPanels = select( "core/preferences" ).get( "core/edit-post", "openPanels" );
+	const firstLoad = ! openedPanels.includes( "yoast-seo/document-panel" );
 	if ( firstLoad ) {
 		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
 	}
