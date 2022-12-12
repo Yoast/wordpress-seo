@@ -127,7 +127,7 @@ const genderAssessments = [
 		identifier: "ladiesAndGentleman",
 		nonInclusivePhrases: [ "ladies and gentlemen" ],
 		inclusiveAlternatives: "<i>everyone, folks, honored guests</i>",
-		score: SCORES.NON_INCLUSIVE,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: exclusionaryUnless,
 	},
 	{
