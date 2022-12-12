@@ -17,7 +17,7 @@ const appearanceAssessments = [
 	{
 		identifier: "anAlbino",
 		nonInclusivePhrases: [ "an albino" ],
-		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
+		inclusiveAlternatives: "<i>person with albinism, albino person</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		rule: ( words, nonInclusivePhrase ) => {
