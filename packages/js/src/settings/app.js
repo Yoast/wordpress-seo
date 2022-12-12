@@ -17,6 +17,7 @@ import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
+import Introduction from "./components/introduction";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
@@ -230,6 +231,7 @@ const App = () => {
 
 	return (
 		<>
+			<Introduction />
 			<Notifications />
 			<SidebarNavigation activePath={ pathname }>
 				<SidebarNavigation.Mobile
