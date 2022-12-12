@@ -154,7 +154,7 @@ describe( "Appearance assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an albino</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>people with albinism, albino people</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<i>person with albinism, albino person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
@@ -173,7 +173,7 @@ describe( "Appearance assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an albino</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>people with albinism, albino people</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<i>person with albinism, albino person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
