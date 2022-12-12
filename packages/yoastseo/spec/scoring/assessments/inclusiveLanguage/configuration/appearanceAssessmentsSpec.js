@@ -100,8 +100,8 @@ describe( "Appearance assessments", function() {
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [
 			{ _properties: {
-				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at obese citizens.</yoastmark>",
-				original: "This ad is aimed at obese citizens.",
+				marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+				original: mockText,
 				fieldsToMark: [],
 			} } ] );
 	} );
@@ -152,7 +152,7 @@ describe( "Appearance assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an albino</i> as it is potentially harmful. Consider using an alternative, such as " +
 			"<i>people with albinism, albino people</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
@@ -171,7 +171,7 @@ describe( "Appearance assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an albino</i> as it is potentially harmful. Consider using an alternative, such as " +
 			"<i>people with albinism, albino people</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
@@ -190,7 +190,7 @@ describe( "Appearance assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an albino</i> as it is potentially harmful. Consider using an alternative, such as " +
 			"<i>people with albinism, albino people</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
