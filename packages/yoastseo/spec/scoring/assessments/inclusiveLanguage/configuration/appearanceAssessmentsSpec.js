@@ -5,7 +5,7 @@ import assessments from "../../../../../src/scoring/assessments/inclusiveLanguag
 import Factory from "../../../../specHelpers/factory";
 import Mark from "../../../../../src/values/Mark";
 
-describe( "Appearance assessments", function() {
+describe( "A test for Appearance assessments", function() {
 	it( "should target non-inclusive phrases",
 		function() {
 			const mockText = "This ad is aimed at albinos";
@@ -114,12 +114,10 @@ describe( "Appearance assessments", function() {
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(  [
-			{ _properties: {
-				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at vertically challenged people.</yoastmark>",
-				original: "This ad is aimed at vertically challenged people.",
-				fieldsToMark: [],
-			} } ] );
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: mockText,
+			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+		} ) ] );
 	} );
 
 	it( "should not target phrases followed by by certain words", function() {
@@ -134,7 +132,7 @@ describe( "Appearance assessments", function() {
 	} );
 
 	it( "should not target other phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at harelips" );
+		const mockPaper = new Paper( "This ad is aimed at harelips." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "harelip" )  );
 
