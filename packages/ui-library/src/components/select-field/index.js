@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Select from "../../elements/select";
 import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
-
+import { forwardRef } from "@wordpress/element";
 /**
  * @param {string} id Identifier.
  * @param {JSX.Element} error Error node.
@@ -14,7 +14,7 @@ import { useDescribedBy } from "../../hooks";
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} SelectField component.
  */
-const SelectField = ( {
+const SelectField = forwardRef( ( {
 	id,
 	label,
 	description,
@@ -22,12 +22,13 @@ const SelectField = ( {
 	validation = {},
 	className = "",
 	...props
-} ) => {
+}, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
 		<div className={ classNames( "yst-select-field", disabled && "yst-select-field--disabled", className ) }>
 			<Select
+				ref={ ref }
 				id={ id }
 				label={ label }
 				labelProps={ {
@@ -48,7 +49,7 @@ const SelectField = ( {
 			{ description && <div id={ ids.description } className="yst-select-field__description">{ description }</div> }
 		</div>
 	);
-};
+} );
 
 SelectField.propTypes = {
 	id: PropTypes.string.isRequired,
