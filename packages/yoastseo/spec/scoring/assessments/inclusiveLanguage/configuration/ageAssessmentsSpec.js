@@ -3,7 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import ageAssessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testMultipleForms } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
 
 describe( "A test for Age assessments", function() {
 	it( "should target non-inclusive phrases", function() {
@@ -30,22 +30,30 @@ describe( "A test for Age assessments", function() {
 	} );
 
 	it( "should target potentially non-inclusive phrases: 'senior citizen' and its plural form", function() {
-		const identifiers = [ "seniorCitizen", "seniorCitizens" ];
-		const texts = [
-			"A senior citizen gets a discount.",
-			"This ad is aimed at senior citizens. But this ad is aimed at the youth." ];
-		const feedbacks = [
-			"Be careful when using <i>senior citizen</i> as it is potentially harmful. Consider using an alternative," +
-			" such as <i>older person, older citizen</i>, unless referring to someone who explicitly wants to be referred to with this term." +
-			" Or, if possible, be specific about the group you are referring to (e.g. <i>person older than 70</i>)." +
-			" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
-			"Be careful when using <i>senior citizens</i> as it is potentially harmful. Consider using an alternative," +
-			" such as <i>older people, older citizens</i>, unless referring to someone who explicitly wants to be referred to with this term." +
-			" Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>)." +
-			" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+		const testData = [
+			{
+				identifier: "seniorCitizen",
+				text: "A senior citizen gets a discount.",
+				expectedFeedback: "Be careful when using <i>senior citizen</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>older person, older citizen</i>, unless referring to someone who explicitly wants " +
+					"to be referred to with this term." +
+					" Or, if possible, be specific about the group you are referring to (e.g. <i>person older than 70</i>)." +
+					" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "seniorCitizens",
+				text: "This ad is aimed at senior citizens. But this ad is aimed at the youth.",
+				expectedFeedback: "Be careful when using <i>senior citizens</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>older people, older citizens</i>, unless referring to someone who explicitly " +
+					"wants to be referred to with this term." +
+					" Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>)." +
+					" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
 		];
 
-		testMultipleForms( ageAssessments, texts, identifiers, feedbacks, 6 );
+		testInclusiveLanguageAssessment( testData );
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
