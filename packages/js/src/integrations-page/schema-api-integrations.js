@@ -2,7 +2,7 @@ import { getInitialState } from "./helper";
 import { PluginIntegration } from "./plugin-integration";
 import { ReactComponent as SSPLogo } from "../../images/ssp-logo.svg";
 import { ReactComponent as TECLogo } from "../../images/tec-logo.svg";
-import { ReactComponent as RecipeMakerLogo } from "../../images/wp-recipemaker-logo.svg";
+import { ReactComponent as RecipeMakerLogo } from "../../images/wp-recipe-maker-logo.svg";
 import { ReactComponent as WoocommerceLogo } from "../../images/woocommerce-logo.svg";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
