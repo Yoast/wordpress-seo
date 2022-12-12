@@ -35,7 +35,7 @@ If possible, please provide a screenshot, a screen recording or a code snippet w
  -->
 * If relevant, which editor is affected (or editors): 
 - [ ] Block Editor
-- [ ] Gutenberg Edior
+- [ ] Gutenberg Editor
 - [ ] Elementor Editor
 - [ ] Classic Editor 
 - [ ] Other: <!-- please specify -->
