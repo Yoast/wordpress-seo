@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/otherAssessments";
-import Factory from "../../../../specHelpers/factory";
+import Factory from "../../../../specHelpers/factory.js";
 import Mark from "../../../../../src/values/Mark";
 
 describe( "Other assessments", function() {
@@ -67,69 +67,23 @@ describe( "Other assessments", function() {
 		expect( assessor.getMarks() ).toEqual( [] );
 	} );
 
-	it( "correctly identifies 'the minority' which is only recognized when followed by participle or simple past tense", () => {
-		const mockPaper = new Paper( "The minority worked, the better they are." );
-		const mockResearcher = Factory.buildMockResearcher( [ "The minority worked, the better they are." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theMinority" ) );
+	it( "correctly identifies 'normal' which is only recognized in specific phrases", () => {
+		const mockPaper = new Paper( "They are normal people." );
+		const mockResearcher = Factory.buildMockResearcher( [ "They are normal people." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "normal" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>the minority</i> as it is potentially overgeneralizing. Consider using an alternative, " +
-			"such as <i>marginalized groups</i>, <i>underrepresented groups</i> or specific minorities, " +
-			"such as <i>gender and sexuality minorities</i>. <a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
+			"Avoid using <i>normal</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is" +
+			" known. <a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "The minority worked, the better they are.",
-			marked: "<yoastmark class='yoast-text-mark'>The minority worked, the better they are.</yoastmark>",
+			original: "They are normal people.",
+			marked: "<yoastmark class='yoast-text-mark'>They are normal people.</yoastmark>",
 		} ) ] );
-	} );
-	it( "correctly identifies 'the minority', which is only recognized when followed by a function word", () => {
-		const mockPaper = new Paper( "The minority however, did not go to the zoo." );
-		const mockResearcher = Factory.buildMockResearcher( [ "The minority however, did not go to the zoo." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theMinority" ) );
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-		const assessmentResult = assessor.getResult();
-
-		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>the minority</i> as it is potentially overgeneralizing. Consider using an alternative, " +
-			"such as <i>marginalized groups</i>, <i>underrepresented groups</i> or specific minorities, " +
-			"such as <i>gender and sexuality minorities</i>. <a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "The minority however, did not go to the zoo.",
-			marked: "<yoastmark class='yoast-text-mark'>The minority however, did not go to the zoo.</yoastmark>",
-		} ) ] );
-	} );
-	it( "correctly identifies 'the minority', which is only recognized when followed by a punctuation mark", () => {
-		const mockPaper = new Paper( "I have always loved the minority!" );
-		const mockResearcher = Factory.buildMockResearcher( [ "I have always loved the minority!" ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theMinority" ) );
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-		const assessmentResult = assessor.getResult();
-
-		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>the minority</i> as it is potentially overgeneralizing. Consider using an alternative, " +
-			"such as <i>marginalized groups</i>, <i>underrepresented groups</i> or specific minorities, " +
-			"such as <i>gender and sexuality minorities</i>. <a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "I have always loved the minority!",
-			marked: "<yoastmark class='yoast-text-mark'>I have always loved the minority!</yoastmark>",
-		} ) ] );
-	} );
-	it( "does not identify 'the minority' when not followed by punctuation, function word or participle", () => {
-		const mockPaper = new Paper( "The minority person walks on the street." );
-		const mockResearcher = Factory.buildMockResearcher( [ "The minority person walks on the street." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theMinority" ) );
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeFalsy();
 	} );
 } );

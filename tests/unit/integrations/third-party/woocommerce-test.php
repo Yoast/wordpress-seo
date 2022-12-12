@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -185,9 +186,33 @@ class WooCommerce_Test extends TestCase {
 			->once()
 			->andReturn( 707 );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 707, 'post' )->andReturn( 'shop' );
+		$indexable_mock = Mockery::mock( Indexable::class );
 
-		$this->assertEquals( [ 'shop' ], $this->instance->add_shop_to_breadcrumbs( $indexables ) );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 707, 'post' )->andReturn( $indexable_mock );
+
+		$this->assertEquals( [ $indexable_mock ], $this->instance->add_shop_to_breadcrumbs( $indexables ) );
+	}
+
+	/**
+	 * Tests the add shop to breadcrumbs function when finding no indexable for the shop page.
+	 *
+	 * @covers ::add_shop_to_breadcrumbs
+	 */
+	public function test_add_shop_to_breadcrumbs_no_indexable_shop_page() {
+		$indexables = [
+			(object) [
+				'object_type'     => 'post-type-archive',
+				'object_sub_type' => 'product',
+			],
+		];
+
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )
+			->once()
+			->andReturn( 707 );
+
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 707, 'post' )->andReturn( false );
+
+		$this->assertEquals( $indexables, $this->instance->add_shop_to_breadcrumbs( $indexables ) );
 	}
 
 	/**

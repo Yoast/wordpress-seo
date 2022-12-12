@@ -80,6 +80,8 @@ export default class AnalysisWebWorker {
 
 		this.additionalAssessors = {};
 
+		this._inclusiveLanguageOptions = {};
+
 		/*
 		 * The cached analyses results.
 		 *
@@ -133,6 +135,7 @@ export default class AnalysisWebWorker {
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
 		this.registerAssessor = this.registerAssessor.bind( this );
 		this.registerResearch = this.registerResearch.bind( this );
+		this.setInclusiveLanguageOptions = this.setInclusiveLanguageOptions.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -258,6 +261,17 @@ export default class AnalysisWebWorker {
 		this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ] = CornerstoneRelatedKeywordAssessorClass;
 		this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
 		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
+	}
+
+	/**
+	 * Sets the options to use for the Inclusive language analysis.
+	 *
+	 * @param {{infoLinks: {}}} options The options to use.
+	 *
+	 * @returns {void}
+	 */
+	setInclusiveLanguageOptions( options ) {
+		this._inclusiveLanguageOptions = options;
 	}
 
 	/**
@@ -531,7 +545,7 @@ export default class AnalysisWebWorker {
 			return null;
 		}
 
-		return new InclusiveLanguageAssessor( this._researcher );
+		return new InclusiveLanguageAssessor( this._researcher, this._inclusiveLanguageOptions );
 	}
 
 
