@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { Fragment, useCallback, useMemo } from "@wordpress/element";
+import { Fragment, useCallback, useMemo, forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
@@ -58,7 +58,7 @@ Option.propTypes = optionPropType;
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
-const Select = ( {
+const Select = forwardRef( ( {
 	id,
 	value,
 	options = [],
@@ -73,7 +73,7 @@ const Select = ( {
 	className = "",
 	buttonProps,
 	...props
-} ) => {
+}, ref ) => {
 	const selectedOption = useMemo( () => (
 		// Default to first option if value is missing.
 		options.find( ( option ) => value === option?.value ) || options[ 0 ]
@@ -82,6 +82,7 @@ const Select = ( {
 
 	return (
 		<Listbox
+			ref={ ref }
 			as="div"
 			value={ value }
 			onChange={ onChange }
@@ -124,7 +125,7 @@ const Select = ( {
 			</Transition>
 		</Listbox>
 	);
-};
+} );
 
 Select.propTypes = {
 	id: PropTypes.string.isRequired,

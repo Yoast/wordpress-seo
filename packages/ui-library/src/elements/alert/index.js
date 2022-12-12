@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { ValidationIcon, ValidationMessage } from "../validation";
+import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -24,15 +25,16 @@ const roleMap = {
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Alert component.
  */
-const Alert = ( {
+const Alert = forwardRef( ( {
 	children,
 	role = "status",
 	as: Component = "span",
 	variant = "info",
 	className = "",
 	...props
-} ) => (
+}, ref ) => (
 	<Component
+		ref={ ref }
 		className={ classNames(
 			"yst-alert",
 			classNameMap.variant[ variant ],
@@ -46,7 +48,7 @@ const Alert = ( {
 			{ children }
 		</ValidationMessage>
 	</Component>
-);
+) );
 
 Alert.propTypes = {
 	children: PropTypes.node.isRequired,
