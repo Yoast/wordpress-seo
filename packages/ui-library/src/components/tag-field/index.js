@@ -2,7 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
 import TagInput from "../../elements/tag-input";
-import { validationPropType, ValidationInput, ValidationMessage } from "../../elements/validation";
+import { ValidationInput, ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
 
 /**
@@ -60,7 +60,10 @@ TagField.propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 	description: PropTypes.node,
-	validation: validationPropType,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 };
 
 export default TagField;

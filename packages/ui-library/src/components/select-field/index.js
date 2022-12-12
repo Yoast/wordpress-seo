@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Select from "../../elements/select";
-import { ValidationMessage, validationPropType } from "../../elements/validation";
+import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
 
 /**
@@ -56,7 +56,10 @@ SelectField.propTypes = {
 	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
 	disabled: PropTypes.bool,
-	validation: validationPropType,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 	className: PropTypes.string,
 };
 
