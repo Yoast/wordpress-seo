@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Autocomplete from "../../elements/autocomplete";
 import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
+import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} id Identifier.
@@ -13,19 +14,20 @@ import { useDescribedBy } from "../../hooks";
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} AutocompleteField component.
  */
-const AutocompleteField = ( {
+const AutocompleteField = forwardRef( ( {
 	id,
 	label,
 	description,
 	validation = {},
 	className = "",
 	...props
-} ) => {
+}, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
 		<div className={ classNames( "yst-autocomplete-field", className ) }>
 			<Autocomplete
+				ref={ ref }
 				id={ id }
 				label={ label }
 				labelProps={ {
@@ -43,7 +45,7 @@ const AutocompleteField = ( {
 			{ description && <div id={ ids.description } className="yst-autocomplete-field__description">{ description }</div> }
 		</div>
 	);
-};
+} );
 
 AutocompleteField.propTypes = {
 	id: PropTypes.string.isRequired,

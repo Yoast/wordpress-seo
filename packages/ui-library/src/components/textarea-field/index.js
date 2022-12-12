@@ -1,3 +1,4 @@
+import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
@@ -15,14 +16,14 @@ import { useDescribedBy } from "../../hooks";
  * @param {Object} [props] Any extra properties for the Textarea.
  * @returns {JSX.Element} The textarea field.
  */
-const TextareaField = ( {
+const TextareaField = forwardRef( ( {
 	id,
 	label,
 	className = "",
 	description = "",
 	validation = {},
 	...props
-} ) => {
+}, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
@@ -32,6 +33,7 @@ const TextareaField = ( {
 			</div>
 			<ValidationInput
 				as={ Textarea }
+				ref={ ref }
 				id={ id }
 				className="yst-textarea-field__input"
 				aria-describedby={ describedBy }
@@ -46,7 +48,7 @@ const TextareaField = ( {
 			{ description && <p id={ ids.description } className="yst-textarea-field__description">{ description }</p> }
 		</div>
 	);
-};
+} );
 
 TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,

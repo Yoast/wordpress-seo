@@ -1,4 +1,4 @@
-import { useCallback, useContext, createContext, useMemo } from "@wordpress/element";
+import { useCallback, useContext, createContext, useMemo, forwardRef } from "@wordpress/element";
 import { values, includes, isEmpty, isNull, capitalize } from "lodash";
 import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
 import PropTypes from "prop-types";
@@ -85,7 +85,7 @@ const createStatusConditionalRender = ( status ) => {
  * @param {number} progress The import progress.
  * @returns {JSX.Element} The FileImport component.
  */
-const FileImport = ( {
+const FileImport = forwardRef( ( {
 	children = "",
 	id,
 	name,
@@ -102,7 +102,7 @@ const FileImport = ( {
 	progressMin = null,
 	progressMax = null,
 	progress = null,
-} ) => {
+}, ref ) => {
 	const isSelected = useMemo( () => status === FILE_IMPORT_STATUS.selected, [ status ] );
 	const isLoading = useMemo( () => status === FILE_IMPORT_STATUS.loading, [ status ] );
 	const isSuccess = useMemo( () => status === FILE_IMPORT_STATUS.success, [ status ] );
@@ -124,6 +124,7 @@ const FileImport = ( {
 		<FileImportContext.Provider value={ { status } }>
 			<div className="yst-file-import">
 				<FileInput
+					ref={ ref }
 					id={ id }
 					name={ name }
 					// Don't control value here to allow consecutive imports of the same file.
@@ -180,7 +181,7 @@ const FileImport = ( {
 			</div>
 		</FileImportContext.Provider>
 	);
-};
+} );
 
 FileImport.propTypes = {
 	children: PropTypes.node,
