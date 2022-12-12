@@ -1,6 +1,7 @@
 /* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -23,15 +24,16 @@ const classNameMap = {
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Badge component.
  */
-const Badge = ( {
+const Badge = forwardRef( ( {
 	children,
 	as: Component = "span",
 	variant = "info",
 	size = "default",
 	className = "",
 	...props
-} ) => (
+}, ref ) => (
 	<Component
+		ref={ ref }
 		className={ classNames(
 			"yst-badge",
 			classNameMap.variant[ variant ],
@@ -42,7 +44,7 @@ const Badge = ( {
 	>
 		{ children }
 	</Component>
-);
+) );
 
 Badge.propTypes = {
 	children: PropTypes.node.isRequired,

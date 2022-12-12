@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { forwardRef } from "@wordpress/element";
 
 const rowClassNameMap = {
 	variant: {
@@ -101,13 +102,13 @@ Body.propTypes = {
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
-const Table = ( { children, className = "", ...props } ) => (
+const Table = forwardRef( ( { children, className = "", ...props }, ref ) => (
 	<div className="yst-overflow-hidden yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-rounded-lg">
-		<table className={ classNames( "yst-min-w-full yst-divide-y yst-divide-slate-300", className ) } { ...props }>
+		<table className={ classNames( "yst-min-w-full yst-divide-y yst-divide-slate-300", className ) } { ...props } ref={ ref }>
 			{ children }
 		</table>
 	</div>
-);
+) );
 
 Table.propTypes = {
 	children: PropTypes.node.isRequired,

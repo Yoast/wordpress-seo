@@ -1,4 +1,4 @@
-import { useMemo } from "@wordpress/element";
+import { useMemo, forwardRef } from "@wordpress/element";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
@@ -8,21 +8,21 @@ import classNames from "classnames";
  * @param {number} progress The current progress value between min and max.
  * @returns {JSX.Element} The ProgressBar component.
  */
-const ProgressBar = ( {
+const ProgressBar = forwardRef( ( {
 	min,
 	max,
 	progress,
 	className,
 	...props
-} ) => {
+}, ref ) => {
 	const percentage = useMemo( () => progress / ( max - min ) * 100, [ min, max, progress ] );
 
 	return (
-		<div aria-hidden="true" className={ classNames( "yst-progress-bar", className ) } { ...props }>
+		<div ref={ ref } aria-hidden="true" className={ classNames( "yst-progress-bar", className ) } { ...props }>
 			<div className="yst-progress-bar__progress" style={ { width: `${ percentage }%` } } />
 		</div>
 	);
-};
+} );
 
 ProgressBar.propTypes = {
 	min: PropTypes.number.isRequired,

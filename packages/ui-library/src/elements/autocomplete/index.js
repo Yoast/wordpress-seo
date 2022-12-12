@@ -63,7 +63,7 @@ Option.propTypes = optionPropType;
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
-const Autocomplete = ( {
+const Autocomplete = forwardRef( ( {
 	id,
 	value,
 	children = null,
@@ -78,12 +78,13 @@ const Autocomplete = ( {
 	className = "",
 	buttonProps = {},
 	...props
-} ) => {
+}, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
 	const svgAriaProps = useSvgAria();
 
 	return (
 		<Combobox
+			ref={ ref }
 			as="div"
 			value={ value }
 			onChange={ onChange }
@@ -128,7 +129,7 @@ const Autocomplete = ( {
 			</div>
 		</Combobox>
 	);
-};
+} );
 
 Autocomplete.propTypes = {
 	id: PropTypes.string.isRequired,

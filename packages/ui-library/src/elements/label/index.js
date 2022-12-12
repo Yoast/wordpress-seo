@@ -1,6 +1,7 @@
 import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} label Content of the Label. Note that this is a string ONLY for a11y reasons.
