@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -17,14 +18,15 @@ const classNameMap = {
  * @param {Object} [props] The props.
  * @returns {JSX.Element} The link.
  */
-const Link = ( {
+const Link = forwardRef( ( {
 	as: Component = "a",
 	variant = "default",
 	className = "",
 	children,
 	...props
-} ) => (
+}, ref ) => (
 	<Component
+		ref={ ref }
 		className={ classNames(
 			"yst-link",
 			classNameMap.variant[ variant ],
@@ -34,7 +36,7 @@ const Link = ( {
 	>
 		{ children }
 	</Component>
-);
+) );
 
 Link.propTypes = {
 	children: PropTypes.node.isRequired,

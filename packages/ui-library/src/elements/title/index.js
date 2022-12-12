@@ -1,6 +1,7 @@
 /* eslint-disable no-undefined */
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	size: {
@@ -15,15 +16,16 @@ const classNameMap = {
  * @param {Object} props Props object.
  * @returns {JSX.Element} Title component.
  */
-const Title = ( {
+const Title = forwardRef( ( {
 	children,
 	as: Component,
 	size,
 	className,
 	...props
-} ) => {
+}, ref ) => {
 	return (
 		<Component
+			ref={ ref }
 			className={ classNames(
 				"yst-title",
 				classNameMap.size[ size || Component[ 1 ] ],
@@ -34,7 +36,7 @@ const Title = ( {
 			{ children }
 		</Component>
 	);
-};
+} );
 
 Title.propTypes = {
 	children: PropTypes.node.isRequired,

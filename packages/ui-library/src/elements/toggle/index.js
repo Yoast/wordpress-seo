@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
+import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} id ID.
@@ -16,7 +17,7 @@ import { useSvgAria } from "../../hooks";
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Toggle component.
  */
-const Toggle = ( {
+const Toggle = forwardRef( ( {
 	id,
 	as: Component = "button",
 	checked,
@@ -26,11 +27,12 @@ const Toggle = ( {
 	className = "",
 	type = "",
 	...props
-} ) => {
+}, ref ) => {
 	const svgAriaProps = useSvgAria();
 
 	return (
 		<Switch
+			ref={ ref }
 			as={ Component }
 			checked={ checked }
 			disabled={ disabled }
@@ -76,7 +78,7 @@ const Toggle = ( {
 			</span>
 		</Switch>
 	);
-};
+} );
 
 Toggle.propTypes = {
 	as: PropTypes.elementType,
