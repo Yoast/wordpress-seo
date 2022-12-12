@@ -13,6 +13,8 @@ const exclusionaryUnless = "Be careful when using <i>%1$s</i> as it can be exclu
 	"Unless you are sure that the group you refer to only consists of %1$s, use an alternative, such as %2$s.";
 const exclusionaryUnlessMen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of men, use an alternative, such as %2$s.";
+const exclusionaryUnlessMenAndWomen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
+	"Unless you are sure that the group you refer to only consists of men and women, use an alternative, such as %2$s.";
 const exclusionaryUnlessTwoGenders = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of two genders, use an alternative, such as %2$s.";
 const exclusionaryUnlessUseTheTerm = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
@@ -128,7 +130,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "ladies and gentlemen" ],
 		inclusiveAlternatives: "<i>everyone, folks, honored guests</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: exclusionaryUnless,
+		feedbackFormat: exclusionaryUnlessMenAndWomen,
 	},
 	{
 		identifier: "husbandAndWife",
