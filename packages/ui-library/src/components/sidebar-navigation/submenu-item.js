@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useNavigationContext } from "..";
+import { useNavigationContext } from "./index";
 
 /**
  * @param {JSX.node} label The label.
