@@ -22,7 +22,7 @@ const SpecialPages = () => {
 						<FormikReplacementVariableEditorField
 							type="title"
 							name="wpseo_titles.title-search-wpseo"
-							fieldId="input-wpseo_titles.title-search-wpseo"
+							fieldId="input-wpseo_titles-title-search-wpseo"
 							label={ __( "Page title", "wordpress-seo" ) }
 							replacementVariables={ searchReplacementVariables }
 							recommendedReplacementVariables={ searchRecommendedReplacementVariables }
@@ -36,7 +36,7 @@ const SpecialPages = () => {
 						<FormikReplacementVariableEditorField
 							type="title"
 							name="wpseo_titles.title-404-wpseo"
-							fieldId="input-wpseo_titles.title-404-wpseo"
+							fieldId="input-wpseo_titles-title-404-wpseo"
 							label={ __( "Page title", "wordpress-seo" ) }
 							replacementVariables={ notFoundReplacementVariables }
 							recommendedReplacementVariables={ notFoundRecommendedReplacementVariables }

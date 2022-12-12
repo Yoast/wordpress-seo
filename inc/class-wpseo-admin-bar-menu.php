@@ -80,6 +80,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected $product_helper;
 
 	/**
+	 * Holds the shortlinker instance.
+	 *
+	 * @var WPSEO_Shortlinker
+	 */
+	protected $shortlinker;
+
+	/**
 	 * Whether SEO Score is enabled.
 	 *
 	 * @var bool
@@ -107,12 +114,14 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @param Indexable_Repository|null      $indexable_repository Optional. The Indexable_Repository.
 	 * @param Score_Icon_Helper|null         $score_icon_helper    Optional. The Score_Icon_Helper.
 	 * @param Product_Helper|null            $product_helper       Optional. The product helper.
+	 * @param WPSEO_Shortlinker|null         $shortlinker          The shortlinker.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager = null,
 		Indexable_Repository $indexable_repository = null,
 		Score_Icon_Helper $score_icon_helper = null,
-		Product_Helper $product_helper = null
+		Product_Helper $product_helper = null,
+		WPSEO_Shortlinker $shortlinker = null
 	) {
 		if ( ! $asset_manager ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -126,11 +135,15 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		if ( ! $product_helper ) {
 			$product_helper = YoastSEO()->helpers->product;
 		}
+		if ( ! $shortlinker ) {
+			$shortlinker = new WPSEO_Shortlinker();
+		}
 
 		$this->product_helper       = $product_helper;
 		$this->asset_manager        = $asset_manager;
 		$this->indexable_repository = $indexable_repository;
 		$this->score_icon_helper    = $score_icon_helper;
+		$this->shortlinker          = $shortlinker;
 	}
 
 	/**
@@ -245,7 +258,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 						[
 							'parent' => self::MENU_IDENTIFIER,
 							'id'     => 'wpseo-frontend-inspector',
-							'href'   => 'https://yoa.st/admin-bar-frontend-inspector',
+							'href'   => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-frontend-inspector' ),
 							'title'  => __( 'Front-end SEO inspector', 'wordpress-seo' ) . new Premium_Badge_Presenter( 'wpseo-frontend-inspector-badge' ),
 							'meta'   => [
 								'tabindex' => '0',
@@ -460,17 +473,17 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'    => 'wpseo-semrush',
 				'title' => 'Semrush',
-				'href'  => 'https://yoa.st/admin-bar-semrush',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-semrush' ),
 			],
 			[
 				'id'    => 'wpseo-wincher',
 				'title' => 'Wincher',
-				'href'  => 'https://yoa.st/admin-bar-wincher',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-wincher' ),
 			],
 			[
 				'id'    => 'wpseo-google-trends',
 				'title' => 'Google trends',
-				'href'  => 'https://yoa.st/admin-bar-gtrends',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-gtrends' ),
 			],
 		];
 
@@ -497,17 +510,17 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'    => 'wpseo-learn-seo',
 				'title' => __( 'Learn more SEO', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-learn-more-seo',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-learn-more-seo' ),
 			],
 			[
 				'id'    => 'wpseo-improve-blogpost',
 				'title' => __( 'Improve your blog post', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-improve-blog-post',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-improve-blog-post' ),
 			],
 			[
 				'id'    => 'wpseo-write-better-content',
 				'title' => __( 'Write better content', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-write-better',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-write-better' ),
 			],
 		];
 
@@ -534,22 +547,22 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'    => 'wpseo-yoast-help',
 				'title' => __( 'Yoast.com help section', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-yoast-help',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-yoast-help' ),
 			],
 			[
 				'id'    => 'wpseo-premium-support',
 				'title' => __( 'Yoast Premium support', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-premium-support',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-premium-support' ),
 			],
 			[
 				'id'    => 'wpseo-wp-support-forums',
 				'title' => __( 'WordPress.org support forums', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-wp-support-forums',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-wp-support-forums' ),
 			],
 			[
 				'id'    => 'wpseo-learn-seo-2',
 				'title' => __( 'Learn more SEO', 'wordpress-seo' ),
-				'href'  => 'https://yoa.st/admin-bar-learn-more-seo-help',
+				'href'  => $this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-learn-more-seo-help' ),
 			],
 		];
 
@@ -568,11 +581,14 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-get-premium',
-				'title'  => __( 'Get Yoast SEO Premium', 'wordpress-seo' ) . ' &raquo;',
-				'href'   => 'https://yoa.st/admin-bar-get-premium',
+				// Circumvent an issue in the WP admin bar API in order to pass `data` attributes. See https://core.trac.wordpress.org/ticket/38636.
+				'title'  => sprintf(
+					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" style="padding:0;">%2$s &raquo;</a>',
+					$this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' ),
+					__( 'Get Yoast SEO Premium', 'wordpress-seo' )
+				),
 				'meta'   => [
 					'tabindex' => '0',
-					'target'   => '_blank',
 				],
 			]
 		);

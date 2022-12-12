@@ -1,12 +1,15 @@
 /* eslint-disable camelcase */
 import { __, sprintf } from "@wordpress/i18n";
-import { omit, reduce, times } from "lodash";
+import { omit, reduce, times, filter, includes, isEmpty } from "lodash";
+import { safeToLocaleLower } from "./i18n";
 
 /**
  * @param {Object} postType The post type.
+ * @param {Object} options The options.
+ * @param {string} options.userLocale The user locale string.
  * @returns {Object} The search index for the post type.
  */
-export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) => ( {
+export const createPostTypeSearchIndex = ( { name, label, route, hasArchive }, { userLocale } ) => ( {
 	[ `title-${ name }` ]: {
 		route: `/post-type/${ route }`,
 		routeLabel: label,
@@ -28,7 +31,7 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 		fieldLabel: sprintf(
 			// translators: %1$s expands to the post type plural, e.g. Posts.
 			__( "Show %1$s in search results", "wordpress-seo" ),
-			label
+			safeToLocaleLower( label, userLocale )
 		),
 		keywords: [],
 	},
@@ -44,13 +47,26 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 		routeLabel: label,
 		fieldId: `input-wpseo_titles-schema-page-type-${ name }`,
 		fieldLabel: __( "Page type", "wordpress-seo" ),
-		keywords: [],
+		keywords: [
+			__( "Schema", "wordpress-seo" ),
+			__( "Structured data", "wordpress-seo" ),
+		],
 	},
 	[ `schema-article-type-${ name }` ]: {
 		route: `/post-type/${ route }`,
 		routeLabel: label,
 		fieldId: `input-wpseo_titles-schema-article-type-${ name }`,
 		fieldLabel: __( "Article type", "wordpress-seo" ),
+		keywords: [
+			__( "Schema", "wordpress-seo" ),
+			__( "Structured data", "wordpress-seo" ),
+		],
+	},
+	[ `page-analyse-extra-${ name }` ]: {
+		route: `/post-type/${ route }`,
+		routeLabel: label,
+		fieldId: `input-wpseo_titles-page-analyse-extra-${ name }`,
+		fieldLabel: __( "Add custom fields to page analysis", "wordpress-seo" ),
 		keywords: [],
 	},
 	...( name !== "attachment" && {
@@ -105,7 +121,7 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 			fieldLabel: sprintf(
 				// translators: %1$s expands to the post type plural, e.g. Posts.
 				__( "Show the archive for %1$s in search results", "wordpress-seo" ),
-				label
+				safeToLocaleLower( label, userLocale )
 			),
 			keywords: [],
 		},
@@ -135,9 +151,11 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 
 /**
  * @param {Object} taxonomy The taxonomy.
+ * @param {Object} options The options.
+ * @param {string} options.userLocale The user locale string.
  * @returns {Object} The search index for the taxonomy.
  */
-export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
+export const createTaxonomySearchIndex = ( { name, label, route }, { userLocale } ) => ( {
 	[ `title-tax-${ name }` ]: {
 		route: `/taxonomy/${ route }`,
 		routeLabel: label,
@@ -160,7 +178,7 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 			/* translators: %1$s expands to "Yoast SEO". %2$s expands to the taxonomy plural, e.g. Categories. */
 			__( "Enable %1$s for %2$s", "wordpress-seo" ),
 			"Yoast SEO",
-			label
+			safeToLocaleLower( label, userLocale )
 		),
 		keywords: [],
 	},
@@ -178,7 +196,7 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 		fieldLabel: sprintf(
 			// translators: %1$s expands to the taxonomy plural, e.g. Categories.
 			__( "Show %1$s in search results", "wordpress-seo" ),
-			label
+			safeToLocaleLower( label, userLocale )
 		),
 		keywords: [],
 	},
@@ -203,14 +221,25 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 		fieldLabel: __( "Social image", "wordpress-seo" ),
 		keywords: [],
 	},
+	...( name === "category" && {
+		stripcategorybase: {
+			route: `/taxonomy/${ route }`,
+			routeLabel: label,
+			fieldId: "input-wpseo_titles-stripcategorybase",
+			fieldLabel: __( "Show the categories prefix in the slug", "wordpress-seo" ),
+			keywords: [],
+		},
+	} ),
 } );
 
 /**
  * @param {Object} postTypes The post types.
  * @param {Object} taxonomies The taxonomies.
+ * @param {Object} options The options.
+ * @param {string} options.userLocale The user locale string.
  * @returns {Object} The search index.
  */
-export const createSearchIndex = ( postTypes, taxonomies ) => ( {
+export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) => ( {
 	blogdescription: {
 		route: "/site-basics",
 		routeLabel: __( "Site basics", "wordpress-seo" ),
@@ -306,15 +335,15 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			keywords: [],
 		},
 		disableadvanced_meta: {
-			route: "/site-features",
-			routeLabel: __( "Site features", "wordpress-seo" ),
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
 			fieldId: "input-wpseo-disableadvanced_meta",
 			fieldLabel: __( "Restrict advanced settings for authors", "wordpress-seo" ),
 			keywords: [],
 		},
 		tracking: {
-			route: "/site-features",
-			routeLabel: __( "Site features", "wordpress-seo" ),
+			route: "/site-basics",
+			routeLabel: __( "Site basics", "wordpress-seo" ),
 			fieldId: "input-wpseo-tracking",
 			fieldLabel: __( "Usage tracking", "wordpress-seo" ),
 			keywords: [],
@@ -359,35 +388,35 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_shortlinks",
-			fieldLabel: __( "Shortlinks", "wordpress-seo" ),
+			fieldLabel: __( "Remove shortlinks", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_rest_api_links: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_rest_api_links",
-			fieldLabel: __( "REST API links", "wordpress-seo" ),
+			fieldLabel: __( "Remove REST API links", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_rsd_wlw_links: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_rsd_wlw_links",
-			fieldLabel: __( "RSD / WLW links", "wordpress-seo" ),
+			fieldLabel: __( "Remove RSD / WLW links", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_oembed_links: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_oembed_links",
-			fieldLabel: __( "oEmbed links", "wordpress-seo" ),
+			fieldLabel: __( "Remove oEmbed links", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_generator: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_generator",
-			fieldLabel: __( "Generator tag", "wordpress-seo" ),
+			fieldLabel: __( "Remove generator tag", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_pingback_header: {
@@ -401,91 +430,91 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_powered_by_header",
-			fieldLabel: __( "Powered by HTTP header", "wordpress-seo" ),
+			fieldLabel: __( "Remove powered by HTTP header", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_global: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_global",
-			fieldLabel: __( "Global feed", "wordpress-seo" ),
+			fieldLabel: __( "Remove global feed", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_global_comments: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_global_comments",
-			fieldLabel: __( "Global comment feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove global comment feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_post_comments: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_post_comments",
-			fieldLabel: __( "Post comments feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove post comments feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_authors: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_authors",
-			fieldLabel: __( "Post authors feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove post authors feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_post_types: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_post_types",
-			fieldLabel: __( "Post type feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove post type feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_categories: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_categories",
-			fieldLabel: __( "Category feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove category feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_tags: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_tags",
-			fieldLabel: __( "Tag feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove tag feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_custom_taxonomies: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_custom_taxonomies",
-			fieldLabel: __( "Custom taxonomy feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove custom taxonomy feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_feed_search: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_feed_search",
-			fieldLabel: __( "Search results feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove search results feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_atom_rdf_feeds: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_atom_rdf_feeds",
-			fieldLabel: __( "Atom/RDF feeds", "wordpress-seo" ),
+			fieldLabel: __( "Remove Atom/RDF feeds", "wordpress-seo" ),
 			keywords: [],
 		},
 		remove_emoji_scripts: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-remove_emoji_scripts",
-			fieldLabel: __( "Emoji scripts", "wordpress-seo" ),
+			fieldLabel: __( "Remove emoji scripts", "wordpress-seo" ),
 			keywords: [],
 		},
 		deny_wp_json_crawling: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-deny_wp_json_crawling",
-			fieldLabel: __( "WP-JSON API", "wordpress-seo" ),
+			fieldLabel: __( "Remove WP-JSON API", "wordpress-seo" ),
 			keywords: [],
 		},
 		search_cleanup: {
@@ -527,14 +556,14 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-clean_campaign_tracking_urls",
-			fieldLabel: __( "Google Analytics utm tracking parameters", "wordpress-seo" ),
+			fieldLabel: __( "Optimize Google Analytics utm tracking parameters", "wordpress-seo" ),
 			keywords: [],
 		},
 		clean_permalinks: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
 			fieldId: "input-wpseo-clean_permalinks",
-			fieldLabel: __( "Unregistered URL parameters", "wordpress-seo" ),
+			fieldLabel: __( "Remove unregistered URL parameters", "wordpress-seo" ),
 			keywords: [],
 		},
 		clean_permalinks_extra_variables: {
@@ -580,7 +609,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-company_or_person-company",
-			fieldLabel: __( "Organization or a person", "wordpress-seo" ),
+			fieldLabel: __( "Organization/person", "wordpress-seo" ),
 			keywords: [],
 		},
 		company_name: {
@@ -664,7 +693,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/breadcrumbs",
 			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-breadcrumbs-home",
-			fieldLabel: __( "Anchor text for the Homepage", "wordpress-seo" ),
+			fieldLabel: __( "Anchor text for the homepage", "wordpress-seo" ),
 			keywords: [],
 		},
 		"breadcrumbs-prefix": {
@@ -678,14 +707,14 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/breadcrumbs",
 			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-breadcrumbs-archiveprefix",
-			fieldLabel: __( "Prefix for Archive breadcrumbs", "wordpress-seo" ),
+			fieldLabel: __( "Prefix for archive breadcrumbs", "wordpress-seo" ),
 			keywords: [],
 		},
 		"breadcrumbs-searchprefix": {
 			route: "/breadcrumbs",
 			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-breadcrumbs-searchprefix",
-			fieldLabel: __( "Prefix for Search page breadcrumbs", "wordpress-seo" ),
+			fieldLabel: __( "Prefix for search page breadcrumbs", "wordpress-seo" ),
 			keywords: [],
 		},
 		"breadcrumbs-404crumb": {
@@ -699,7 +728,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/breadcrumbs",
 			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-breadcrumbs-display-blog-page",
-			fieldLabel: __( "Show Blog page in breadcrumbs", "wordpress-seo" ),
+			fieldLabel: __( "Show blog page in breadcrumbs", "wordpress-seo" ),
 			keywords: [],
 		},
 		"breadcrumbs-boldlast": {
@@ -716,25 +745,29 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldLabel: __( "Enable breadcrumbs for your theme", "wordpress-seo" ),
 			keywords: [],
 		},
-		...reduce( postTypes, ( acc, postType ) => ( {
-			...acc,
-			[ `post_types-${ postType.name }-maintax` ]: {
-				route: "/breadcrumbs",
-				routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
-				fieldId: `input-wpseo_titles-post_types-${ postType.name }-maintax`,
-				// translators: %1$s expands to the post type plural, e.g. Posts.
-				fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), postType.label ),
-				keywords: [],
-			},
-		} ), {} ),
+		...reduce( postTypes, ( acc, postType ) => {
+			const isTaxLinked = filter( taxonomies, taxonomy => includes( taxonomy.postTypes, postType.name ) );
+
+			return isEmpty( isTaxLinked ) ? acc : ( {
+				...acc,
+				[ `post_types-${ postType.name }-maintax` ]: {
+					route: "/breadcrumbs",
+					routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
+					fieldId: `input-wpseo_titles-post_types-${ postType.name }-maintax`,
+					// translators: %1$s expands to the post type plural, e.g. posts.
+					fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), safeToLocaleLower( postType.label, userLocale ) ),
+					keywords: [],
+				},
+			} );
+		}, {} ),
 		...reduce( taxonomies, ( acc, taxonomy ) => ( {
 			...acc,
 			[ `taxonomy-${ taxonomy.name }-ptparent` ]: {
 				route: "/breadcrumbs",
 				routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 				fieldId: `input-wpseo_titles-taxonomy-${ taxonomy.name }-ptparent`,
-				// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-				fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), taxonomy.label ),
+				// translators: %1$s expands to the taxonomy plural, e.g. categories.
+				fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), safeToLocaleLower( taxonomy.label, userLocale ) ),
 				keywords: [],
 			},
 		} ), {} ),
@@ -743,14 +776,14 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/author-archives",
 			routeLabel: __( "Author archives", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-disable-author",
-			fieldLabel: __( "Author archives", "wordpress-seo" ),
+			fieldLabel: __( "Enable author archives", "wordpress-seo" ),
 			keywords: [],
 		},
 		"noindex-author-wpseo": {
 			route: "/author-archives",
 			routeLabel: __( "Author archives", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-noindex-author-wpseo",
-			fieldLabel: __( "Show Author archives in search results", "wordpress-seo" ),
+			fieldLabel: __( "Show author archives in search results", "wordpress-seo" ),
 			keywords: [],
 		},
 		"noindex-author-noposts-wpseo": {
@@ -800,14 +833,14 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/date-archives",
 			routeLabel: __( "Date archives", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-disable-date",
-			fieldLabel: __( "Date archives", "wordpress-seo" ),
+			fieldLabel: __( "Enable date archives", "wordpress-seo" ),
 			keywords: [],
 		},
 		"noindex-archive-wpseo": {
 			route: "/date-archives",
 			routeLabel: __( "Date archives", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-noindex-archive-wpseo",
-			fieldLabel: __( "Show Date archives in search results", "wordpress-seo" ),
+			fieldLabel: __( "Show date archives in search results", "wordpress-seo" ),
 			keywords: [],
 		},
 		"title-archive-wpseo": {
@@ -845,20 +878,19 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldLabel: __( "Social description", "wordpress-seo" ),
 			keywords: [],
 		},
-		// Search pages
+		// Special pages
 		"title-search-wpseo": {
-			route: "/search-pages",
-			routeLabel: __( "Search pages", "wordpress-seo" ),
-			fieldId: "input-wpseo_titles.title-search-wpseo",
-			fieldLabel: __( "SEO title", "wordpress-seo" ),
+			route: "/special-pages",
+			routeLabel: __( "Special pages", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-title-search-wpseo",
+			fieldLabel: __( "Search pages title", "wordpress-seo" ),
 			keywords: [],
 		},
-		// 404 pages
 		"title-404-wpseo": {
-			route: "/not-found-pages",
-			routeLabel: __( "404 pages", "wordpress-seo" ),
-			fieldId: "input-wpseo_titles.title-404-wpseo",
-			fieldLabel: __( "SEO title", "wordpress-seo" ),
+			route: "/special-pages",
+			routeLabel: __( "Special pages", "wordpress-seo" ),
+			fieldId: "input-wpseo_titles-title-404-wpseo",
+			fieldLabel: __( "404 pages title", "wordpress-seo" ),
 			keywords: [],
 		},
 		// Media pages
@@ -879,7 +911,7 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/media",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-noindex-attachment",
-			fieldLabel: __( "Show Media pages in search results", "wordpress-seo" ),
+			fieldLabel: __( "Show media pages in search results", "wordpress-seo" ),
 			keywords: [
 				__( "Image", "wordpress-seo" ),
 				__( "Video", "wordpress-seo" ),
@@ -917,6 +949,8 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldId: "input-wpseo_titles-schema-page-type-attachment",
 			fieldLabel: __( "Page type", "wordpress-seo" ),
 			keywords: [
+				__( "Schema", "wordpress-seo" ),
+				__( "Structured data", "wordpress-seo" ),
 				__( "Image", "wordpress-seo" ),
 				__( "Video", "wordpress-seo" ),
 				__( "PDF", "wordpress-seo" ),
@@ -929,6 +963,8 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			fieldId: "input-wpseo_titles-schema-article-type-attachment",
 			fieldLabel: __( "Article type", "wordpress-seo" ),
 			keywords: [
+				__( "Schema", "wordpress-seo" ),
+				__( "Structured data", "wordpress-seo" ),
 				__( "Image", "wordpress-seo" ),
 				__( "Video", "wordpress-seo" ),
 				__( "PDF", "wordpress-seo" ),
@@ -952,14 +988,14 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			route: "/format-archives",
 			routeLabel: __( "Format archives", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-disable-post_format",
-			fieldLabel: __( "Format-based archives", "wordpress-seo" ),
+			fieldLabel: __( "Enable format-based archives", "wordpress-seo" ),
 			keywords: [],
 		},
 		"noindex-tax-post_format": {
 			route: "/format-archives",
 			routeLabel: __( "Format archives", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-noindex-tax-post_format",
-			fieldLabel: __( "Show Format archives in search results", "wordpress-seo" ),
+			fieldLabel: __( "Show format archives in search results", "wordpress-seo" ),
 			keywords: [],
 		},
 		"title-tax-post_format": {
@@ -1015,12 +1051,12 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		// Post types - Attachments are handled separately above.
 		...reduce( omit( postTypes, [ "attachment" ] ), ( acc, postType ) => ( {
 			...acc,
-			...createPostTypeSearchIndex( postType ),
+			...createPostTypeSearchIndex( postType, { userLocale } ),
 		} ), {} ),
 		// Taxonomies
 		...reduce( omit( taxonomies, [ "post_format" ] ), ( acc, taxonomy ) => ( {
 			...acc,
-			...createTaxonomySearchIndex( taxonomy ),
+			...createTaxonomySearchIndex( taxonomy, { userLocale } ),
 		} ), {} ),
 	},
 	wpseo_social: {
@@ -1044,13 +1080,6 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 			],
 		},
 		og_default_image_id: {
-			route: "/site-basics",
-			routeLabel: __( "Site basics", "wordpress-seo" ),
-			fieldId: "button-wpseo_social-og_default_image-preview",
-			fieldLabel: __( "Site image", "wordpress-seo" ),
-			keywords: [],
-		},
-		og_default_image: {
 			route: "/site-basics",
 			routeLabel: __( "Site basics", "wordpress-seo" ),
 			fieldId: "button-wpseo_social-og_default_image-preview",

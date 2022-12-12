@@ -7,6 +7,7 @@ import {
 	maybeAddFocusKeyphraseCheck,
 	maybeAddSchemaBlocksValidationCheck,
 	maybeAddSEOCheck,
+	maybeAddInclusiveLanguageCheck,
 } from "../helpers/addCheckToChecklist";
 
 /**
@@ -26,6 +27,7 @@ export function mapSelectToProps( select ) {
 	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
 	maybeAddReadabilityCheck( checklist, yoastStore );
 	maybeAddSEOCheck( checklist, yoastStore );
+	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
 	maybeAddSchemaBlocksValidationCheck( checklist, schemaBlocksStore, wpBlockEditorStore );
 
 	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );

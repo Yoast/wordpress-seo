@@ -1,18 +1,58 @@
 /* eslint-disable complexity */
+import { Combobox } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/outline";
-import PropTypes from "prop-types";
-import { useCallback, useRef, useState } from "@wordpress/element";
+import { useCallback, useRef, useState, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Modal, useSvgAria, useToggleState, TextInput, Title } from "@yoast/ui-library";
-import { debounce, max, first, isEmpty, map, reduce, trim, includes, split, values, groupBy } from "lodash";
-import { Link } from "react-router-dom";
-import { useSelectSettings } from "../hooks";
+import { Modal, Title, useSvgAria, useToggleState, Code } from "@yoast/ui-library";
+import classNames from "classnames";
+import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
+import PropTypes from "prop-types";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useNavigate } from "react-router-dom";
+import { safeToLocaleLower } from "../helpers";
+import { useParsedUserAgent, useSelectSettings } from "../hooks";
 
 const QUERY_MIN_CHARS = 3;
+const POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP = new RegExp( /^input-wpseo_titles-(post_types|taxonomy)-(?<name>\S+)-(maintax|ptparent)$/is );
 
 /**
- * @param {string} props.title The title.
- * @param {JSX.node} props.children The children nodes.
+ * @param {string} fieldId The item field ID.
+ * @param {string} fieldLabel The item label.
+ * @returns {JSX.Element} The SearchResultLabel element.
+ */
+const SearchResultLabel = ( { fieldId, fieldLabel } ) => {
+	// Deduce wether field is a breadcrumb option for post type or taxonomy.
+	const { isPostTypeOrTaxonomyBreadcrumbSetting, postTypeOrTaxonomyName } = useMemo( () => {
+		const matches = POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP.exec( fieldId );
+		return {
+			isPostTypeOrTaxonomyBreadcrumbSetting: Boolean( matches ),
+			postTypeOrTaxonomyName: matches?.groups?.name,
+		};
+	}, [ fieldId, POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP ] );
+
+	// Render additional code block with post type or taxonomy name if applicable.
+	if ( isPostTypeOrTaxonomyBreadcrumbSetting ) {
+		return (
+			<>
+				{ fieldLabel }
+				{ postTypeOrTaxonomyName && (
+					<Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ postTypeOrTaxonomyName }</Code>
+				) }
+			</>
+		);
+	}
+
+	return fieldLabel;
+};
+
+SearchResultLabel.propTypes = {
+	fieldId: PropTypes.string.isRequired,
+	fieldLabel: PropTypes.string.isRequired,
+};
+
+/**
+ * @param {string} title The title.
+ * @param {JSX.node} children The children nodes.
  * @returns {JSX.Element} The SearchNoResultsContent component.
  */
 const SearchNoResultsContent = ( { title, children } ) => (
@@ -34,15 +74,37 @@ const Search = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
 	const queryableSearchIndex = useSelectSettings( "selectQueryableSearchIndex" );
 	const [ results, setResults ] = useState( [] );
 	const ariaSvgProps = useSvgAria();
+	const navigate = useNavigate();
 	const inputRef = useRef( null );
+	const { platform, os } = useParsedUserAgent();
 
-	const handleNavigate = useCallback( () => {
+	// Only bind hotkeys when platform type is desktop.
+	useHotkeys(
+		// Note: Update the `"ctrl+k, cmd+k"` hotkeys to `"ctrl+k, meta+k"` when switching `react-hotkeys-hook` to v4.
+		"ctrl+k, cmd+k",
+		event => {
+			event.preventDefault();
+			if ( platform?.type === "desktop" && ! isOpen ) {
+				setOpen();
+			}
+		},
+		{
+			// Note: Update the `enableOnTags: [],` option to `enableOnFormTags: true,` when switching `react-hotkeys-hook` to v4.
+			enableOnTags: [ "INPUT", "TEXTAREA", "SELECT" ],
+			enableOnContentEditable: true,
+		},
+		[ isOpen, setOpen, platform ]
+	);
+
+	const handleNavigate = useCallback( ( { route, fieldId } ) => {
 		setClose();
 		setQuery( "" );
 		setResults( [] );
+		navigate( `${ route }#${ fieldId }` );
 	}, [ setClose, setQuery ] );
 
 	const debouncedSearch = useCallback( debounce( newQuery => {
@@ -53,8 +115,8 @@ const Search = () => {
 			return false;
 		}
 
-		// Split query into words.
-		const splitQuery = split( trimmedQuery, " " );
+		// Lowercase and split query into words.
+		const splitQuery = split( safeToLocaleLower( trimmedQuery, userLocale ), " " );
 
 		// Filter search index by split query and store number of hits.
 		// A hit is registered if a single word from split query in found in a fields keywords.
@@ -91,15 +153,21 @@ const Search = () => {
 		} );
 
 		setResults( sortedGroupedQueryResults );
-	}, 100 ), [ queryableSearchIndex ] );
+	}, 100 ), [ queryableSearchIndex, userLocale ] );
 
 	const handleQueryChange = useCallback( event => {
 		setQuery( event.target.value );
 		debouncedSearch( event.target.value );
 	}, [ setQuery, debouncedSearch ] );
 
+	const handleOptionActiveState = useCallback( ( { active } ) => classNames(
+		"yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white",
+		active && "yst-text-white yst-bg-primary-600"
+	), [] );
+
 	return <>
 		<button
+			type="button"
 			className="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 			onClick={ setOpen }
 		>
@@ -107,20 +175,26 @@ const Search = () => {
 				className="yst-flex-none yst-w-5 yst-h-5 yst-mr-3 yst-text-slate-400"
 				{ ...ariaSvgProps }
 			/>
-			<span>{ query || __( "Quick search...", "wordpress-seo" ) }</span>
+			<span className="yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis">{ query || __( "Quick search...", "wordpress-seo" ) }</span>
+			{ platform?.type === "desktop" && (
+				<span className="yst-ml-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400">
+					{ os?.name === "macOS" ? __( "⌘K", "wordpress-seo" ) : __( "CtrlK", "wordpress-seo" ) }
+				</span>
+			) }
 		</button>
 		<Modal
+			className="yst-modal--top"
 			onClose={ setClose }
 			isOpen={ isOpen }
 			initialFocus={ inputRef }
 		>
-			<div className="yst--m-6 yst--mt-5">
+			<Combobox as="div" className="yst--m-6 yst--mt-5" onChange={ handleNavigate }>
 				<div className="yst-relative">
 					<SearchIcon
 						className="yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400"
 						{ ...ariaSvgProps }
 					/>
-					<TextInput
+					<Combobox.Input
 						ref={ inputRef }
 						id="input-search"
 						placeholder={ __( "Search...", "wordpress-seo" ) }
@@ -130,30 +204,31 @@ const Search = () => {
 					/>
 				</div>
 				{ query.length >= QUERY_MIN_CHARS && ! isEmpty( results ) && (
-					<ul className="yst-max-h-80 yst-scroll-pt-11 yst-scroll-pb-2 yst-overflow-y-auto yst-pb-2">
+					<Combobox.Options
+						static={ true }
+						className="yst-max-h-[calc(90vh-10rem)] yst-scroll-pt-11 yst-scroll-pb-2 yst-space-y-2 yst-overflow-y-auto yst-pb-2"
+					>
 						{ map( results, ( groupedItems, index ) => (
 							<li key={ groupedItems?.[ 0 ]?.route || `group-${ index }` }>
 								<Title as="h4" size="3" className="yst-bg-slate-100 yst-py-3 yst-px-4">{ first( groupedItems ).routeLabel }</Title>
 								<ul>
-									{ map( groupedItems, ( item, name ) => (
-										<li key={ name }>
-											<Link
-												to={ `${ item.route }#${ item.fieldId }` }
-												onClick={ handleNavigate }
-												className="yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white"
-											>
-												{ item.fieldLabel }
-											</Link>
-										</li>
+									{ map( groupedItems, ( item ) =>  (
+										<Combobox.Option
+											key={ item.fieldId }
+											value={ item }
+											className={ handleOptionActiveState }
+										>
+											<SearchResultLabel { ...item } />
+										</Combobox.Option>
 									) ) }
 								</ul>
 							</li>
 						) ) }
-					</ul>
+					</Combobox.Options>
 				) }
 				{ query.length < QUERY_MIN_CHARS && (
 					<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
-						<p className="yst-text-slate-500">{ __( "Please enter a search term that is longer than 3 characters.", "wordpress-seo" ) }</p>
+						<p className="yst-text-slate-500">{ __( "Please enter a search term with at least 3 characters.", "wordpress-seo" ) }</p>
 					</SearchNoResultsContent>
 				) }
 				{ query.length >= QUERY_MIN_CHARS && isEmpty( results ) && (
@@ -161,9 +236,10 @@ const Search = () => {
 						<p className="yst-text-slate-500">{ __( "We couldn’t find anything with that term.", "wordpress-seo" ) }</p>
 					</SearchNoResultsContent>
 				) }
-			</div>
+			</Combobox>
 		</Modal>
 	</>;
 };
 
 export default Search;
+

@@ -11,6 +11,7 @@ import handleWorkerError from "./handleWorkerError";
 import {
 	setOverallReadabilityScore,
 	setOverallSeoScore,
+	setOverallInclusiveLanguageScore,
 } from "yoast-components";
 
 let isInitialized = false;
@@ -46,7 +47,7 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 
 	worker.analyze( paper )
 		.then( results => {
-			const { result: { seo, readability } } = results;
+			const { result: { seo, readability, inclusiveLanguage } } = results;
 			if ( seo ) {
 				// Only update the main results, which are located under the empty string key.
 				const seoResults = seo[ "" ];
@@ -76,6 +77,20 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 				store.dispatch( actions.refreshSnippetEditor() );
 
 				dataCollector.saveContentScore( readability.score );
+			}
+
+			if ( inclusiveLanguage ) {
+				// Recreate the getMarker function after the worker is done.
+				inclusiveLanguage.results.forEach( result => {
+					result.getMarker = () => () => applyMarks( paper, result.marks );
+				} );
+
+				inclusiveLanguage.results = sortResultsByIdentifier( inclusiveLanguage.results );
+				store.dispatch( actions.setInclusiveLanguageResults( inclusiveLanguage.results ) );
+				store.dispatch( setOverallInclusiveLanguageScore( inclusiveLanguage.score ) );
+				store.dispatch( actions.refreshSnippetEditor() );
+
+				dataCollector.saveInclusiveLanguageScore( inclusiveLanguage.score );
 			}
 
 			doAction( "yoast.analysis.refresh", results, { paper, worker, collectData, applyMarks, store, dataCollector } );

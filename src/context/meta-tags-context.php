@@ -712,30 +712,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 		return null;
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Generates whether or not breadcrumbs are enabled.
-	 *
-	 * @deprecated 15.8
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool Whether or not breadcrumbs are enabled.
-	 */
-	public function generate_breadcrumbs_enabled() {
-		\_deprecated_function( __METHOD__, 'WPSEO 15.8' );
-		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
-		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );
-		}
-
-		if ( ! empty( $this->blocks['yoast-seo/breadcrumbs'] ) ) {
-			$breadcrumbs_enabled = true;
-		}
-
-		return $breadcrumbs_enabled;
-	}
 }
 
 \class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );

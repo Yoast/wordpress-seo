@@ -4,6 +4,8 @@ import { Title  } from "@yoast/ui-library";
 import { SEOToolsIntegrations } from "./seo-tools-integrations";
 import { pluginIntegrations } from "./plugin-integrations";
 import { schemaAPIIntegrations } from "./schema-api-integrations";
+import { RecommendedIntegrations } from "./recommended-integrations";
+import { addLinkToString } from "../helpers/stringHelpers";
 
 /**
  * Renders a section.
@@ -56,7 +58,7 @@ export default function IntegrationsGrid() {
 						{
 							sprintf(
 								/* translators: 1: Yoast SEO */
-								__( "%s can integrate with third party products. You can enable or disable these integrations below.", "wordpress-seo" ),
+								__( "%s can integrate with other products, to help you further improve your website. You can enable or disable these integrations below.", "wordpress-seo" ),
 								"Yoast SEO"
 							)
 						}
@@ -67,7 +69,26 @@ export default function IntegrationsGrid() {
 
 				<Section
 					title={ __( "Recommended integrations", "wordpress-seo" ) }
-					elements={ SEOToolsIntegrations }
+					elements={ RecommendedIntegrations }
+				/>
+
+				<hr className="yst-my-12" />
+
+				<Section
+					title={ __( "Schema API integrations", "wordpress-seo" ) }
+					description={
+						addLinkToString(
+							sprintf(
+								/* translators: 1: anchor tag linking to our schema API docs; 2: closing anchor tag. */
+								__( "Unlock rich results in Google search by using plugins that integrate with the %1$sYoast Schema API%2$s.", "wordpress-seo" ),
+								"<a>",
+								"</a>"
+							),
+							"https://developer.yoast.com/features/schema/api/",
+							"schema-api-link"
+						)
+					}
+					elements={ schemaAPIIntegrations }
 				/>
 
 				<hr className="yst-my-12" />
@@ -80,8 +101,8 @@ export default function IntegrationsGrid() {
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "Schema API", "wordpress-seo" ) }
-					elements={ schemaAPIIntegrations }
+					title={ __( "Other integrations", "wordpress-seo" ) }
+					elements={ SEOToolsIntegrations }
 				/>
 
 			</div>

@@ -3,7 +3,6 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
-import { toLower } from "lodash";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
@@ -17,6 +16,7 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../../components";
+import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
 
@@ -45,13 +45,14 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const hasWooCommerceShopPage = useSelectSettings( "selectPreference", [], "hasWooCommerceShopPage" );
 	const editWooCommerceShopPageUrl = useSelectSettings( "selectPreference", [], "editWooCommerceShopPageUrl" );
 	const wooCommerceShopPageSettingUrl = useSelectSettings( "selectPreference", [], "wooCommerceShopPageSettingUrl" );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
 
-	const labelLower = useMemo( () => toLower( label ), [ label ] );
-	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
+	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -146,7 +147,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					>
 						<FormikFlippedToggleField
 							name={ `wpseo_titles.noindex-${ name }` }
-							data-id={ `input-wpseo_titles-noindex-${ name }` }
+							id={ `input-wpseo_titles-noindex-${ name }` }
 							label={ sprintf(
 								// translators: %1$s expands to the post type plural, e.g. posts.
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -158,12 +159,13 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
-								<br />
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
+							className="yst-max-w-sm"
 						/>
 						<hr className="yst-my-8" />
 						<FormikReplacementVariableEditorField
@@ -226,7 +228,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								label={ __( "Social title", "wordpress-seo" ) }
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 							<FormikReplacementVariableEditorFieldWithDummy
@@ -237,7 +239,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								replacementVariables={ replacementVariables }
 								recommendedReplacementVariables={ recommendedReplacementVariables }
 								className="yst-replacevar--description"
-								isDisabled={ ! opengraph }
+								disabled={ ! opengraph }
 								isDummy={ ! isPremium }
 							/>
 						</FeatureUpsell>
@@ -274,9 +276,10 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							as={ ToggleField }
 							type="checkbox"
 							name={ `wpseo_titles.display-metabox-pt-${ name }` }
-							data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
+							id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
 							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
 							description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
+							className="yst-max-w-sm"
 						/>
 						<FeatureUpsell
 							shouldUpsell={ ! isPremium }
@@ -294,13 +297,16 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 								label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
 								labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-								description={ customFieldsDescription }
+								description={ <>
+									{ customFieldsDescription }
+									<br />
+									<Link id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener">
+										{ __( "Read more about our custom field analysis", "wordpress-seo" ) }
+									</Link>
+									.
+								</> }
 								isDummy={ ! isPremium }
 							/>
-							<Link id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener">
-								{ __( "Read more about our custom field analysis", "wordpress-seo" ) }
-							</Link>
-							.
 						</FeatureUpsell>
 					</FieldsetLayout>
 					{ hasArchive && <>
@@ -334,7 +340,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							>
 								<FormikFlippedToggleField
 									name={ `wpseo_titles.noindex-ptarchive-${ name }` }
-									data-id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
+									id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
 									label={ sprintf(
 										// translators: %1$s expands to the post type plural, e.g. posts.
 										__( "Show the archive for %1$s in search results", "wordpress-seo" ),
@@ -345,6 +351,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 										__( "Disabling this means that the archive for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 										labelLower
 									) }
+									className="yst-max-w-sm"
 								/>
 								<FormikReplacementVariableEditorField
 									type="title"
@@ -403,7 +410,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 										label={ __( "Social title", "wordpress-seo" ) }
 										replacementVariables={ replacementVariablesArchives }
 										recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-										isDisabled={ ! opengraph }
+										disabled={ ! opengraph }
 										isDummy={ ! isPremium }
 									/>
 									<FormikReplacementVariableEditorFieldWithDummy
@@ -414,7 +421,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 										replacementVariables={ replacementVariablesArchives }
 										recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
 										className="yst-replacevar--description"
-										isDisabled={ ! opengraph }
+										disabled={ ! opengraph }
 										isDummy={ ! isPremium }
 									/>
 								</FeatureUpsell>
