@@ -251,17 +251,16 @@ Release date: December 13th, 2022
 
 #### Enhancements
 
+* NEW in Free: Adds the inclusive language analysis for English as a beta feature. Get suggestions on how to improve non-inclusive phrases, to make your content appeal to a larger audience.
 * Adds a new `Schema API` section to the `Integrations` page.
 * Adds a new `Website name` text field in the `Site Representation` step of the `First-time configuration`.
 * Adds an integration card for `The Events Calendar`.
 * Adds a Schema integration card for the [Seriously Simple Podcasting](https://wordpress.org/plugins/seriously-simple-podcasting/) and the [WP Recipe Maker](https://it.wordpress.org/plugins/wp-recipe-maker/) plugins.
-* Adds highlighting for the _subheading distribution_ assessment.
+* Improves the _subheading distribution_ assessment by adding highlighting and also targeting long content before the first subheading.
 * Improves the `First-time configuration` styling.
 * Improves the Integrations page to explain more clearly the different types of integrations.
-* Improves the _subheading distribution_ assessment by also targeting long content before the first subheading.
 * Improves the _transition words_ assessment for Arabic by removing some transition words.
 * Improves the Yoast admin bar menu with more functionality and better links.
-* Moves the inclusive language analysis from Premium to Free.
 * Removes a notification that prompts users to help with translating the plugin in the language of the site.
 
 #### Bugfixes
