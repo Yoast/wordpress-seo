@@ -42,7 +42,7 @@ const Alert = ( {
 		{ ...props }
 	>
 		<ValidationIcon variant={ variant } className="yst-alert__icon" />
-		<ValidationMessage as="div" variant={ variant }>
+		<ValidationMessage as="div" variant={ variant } className="yst-alert__message">
 			{ children }
 		</ValidationMessage>
 	</Component>
