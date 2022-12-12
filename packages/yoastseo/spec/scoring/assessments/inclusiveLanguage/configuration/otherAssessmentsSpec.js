@@ -75,7 +75,7 @@ describe( "Other assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>the minority</i> as it is potentially overgeneralizing. Consider using an alternative, " +
 			"such as <i>marginalized groups</i>, <i>underrepresented groups</i> or specific minorities, " +
@@ -94,7 +94,7 @@ describe( "Other assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>the minority</i> as it is potentially overgeneralizing. Consider using an alternative, " +
 			"such as <i>marginalized groups</i>, <i>underrepresented groups</i> or specific minorities, " +
@@ -113,7 +113,7 @@ describe( "Other assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>the minority</i> as it is potentially overgeneralizing. Consider using an alternative, " +
 			"such as <i>marginalized groups</i>, <i>underrepresented groups</i> or specific minorities, " +
