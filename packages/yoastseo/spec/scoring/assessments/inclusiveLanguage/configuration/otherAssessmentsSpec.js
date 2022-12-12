@@ -75,7 +75,7 @@ describe( "Other assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>normal</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as <i>typical</i> or a specific characteristic or experience if it is" +

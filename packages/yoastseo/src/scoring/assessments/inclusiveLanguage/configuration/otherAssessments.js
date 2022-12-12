@@ -23,7 +23,7 @@ const otherAssessments = [
 		nonInclusivePhrases: [ "normal person", "normal people", "normal behaviour", "normal behavior", "mentally" +
 		" normal", "behaviorally normal", "behaviourally normal", "psychologically normal"  ],
 		inclusiveAlternatives: [ "<i>typical</i>" ],
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>normal</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as %2$s or a specific characteristic or experience if it is known.",
 	},
