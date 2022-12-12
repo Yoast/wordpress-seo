@@ -82,4 +82,70 @@ describe( "A test for Age assessments", function() {
 		expect( isApplicable ).toBeFalsy();
 		expect( assessor.getMarks() ).toEqual( [] );
 	} );
+
+	it( "correctly identifies a phrase that is only recognized when followed by participle or simple past tense", () => {
+		const mockPaper = new Paper( "The aged worked, the better they are." );
+		const mockResearcher = Factory.buildMockResearcher( [ "The aged worked, the better they are." ] );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "theAged" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>the aged</i> as it is potentially harmful. Consider using an alternative, such as <i>older people</i>. " +
+			"Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>). " +
+			"<a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "The aged worked, the better they are.",
+			marked: "<yoastmark class='yoast-text-mark'>The aged worked, the better they are.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies a phrase that is only recognized when followed by a function word", () => {
+		const mockPaper = new Paper( "The aged however, did not go to the zoo." );
+		const mockResearcher = Factory.buildMockResearcher( [ "The aged however, did not go to the zoo." ] );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "theAged" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>the aged</i> as it is potentially harmful. Consider using an alternative, such as <i>older people</i>. " +
+			"Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>). " +
+			"<a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "The aged however, did not go to the zoo.",
+			marked: "<yoastmark class='yoast-text-mark'>The aged however, did not go to the zoo.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies a phrase that is only recognized when followed by a punctuation mark", () => {
+		const mockPaper = new Paper( "I have always loved the aged!" );
+		const mockResearcher = Factory.buildMockResearcher( [ "I have always loved the aged!" ] );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "theAged" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>the aged</i> as it is potentially harmful. Consider using an alternative, such as <i>older people</i>. " +
+			"Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>). " +
+			"<a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "I have always loved the aged!",
+			marked: "<yoastmark class='yoast-text-mark'>I have always loved the aged!</yoastmark>",
+		} ) ] );
+	} );
+	it( "does not identify 'the aged' when not followed by punctuation, function word or participle", () => {
+		const mockPaper = new Paper( "The aged cheese is the best." );
+		const mockResearcher = Factory.buildMockResearcher( [ "The aged cheese is the best." ] );
+		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "theAged" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+	} );
 } );
