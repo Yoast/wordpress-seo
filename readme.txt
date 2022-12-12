@@ -56,7 +56,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
 * **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
 * **[Premium]** **New!** Yoast SEO Premium comes with a new word complexity feature that gives you actionable feedback on using difficult words. This feature is in beta and English only for now.
-* **[Premium]** **New!** Yoast SEO Premium comes with a new inclusive language analysis that helps you write inclusive content. This feature is opt-in, in beta and English only for now.
+* **New!** Yoast SEO Free and Premium come with a new inclusive language analysis that helps you write inclusive content. This feature is opt-in and English-only for now.
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -249,16 +249,16 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: December 13th, 2022
 
+In Yoast SEO 19.12, we're introducing the inclusive language analysis — previously only available in Yoast SEO Premium. This will help you get feedback on words that might exclude part of your audience and get inclusive alternatives. This is only available in English for now. Plus, it is opt-in. Try it! Find out more about what's new in Yoast SEO 19.12 in [our release post](https://yoa.st/release-13-12-22)!
+
 #### Enhancements
 
 * NEW in Free: Adds the inclusive language analysis for English as a beta feature. Get suggestions on how to improve non-inclusive phrases, to make your content appeal to a larger audience.
-* Adds a new `Schema API` section to the `Integrations` page.
+* Improves the Integrations page to explain more clearly the different types of integrations.
+* Adds integration cards for [The Events Calendar](https://wordpress.org/plugins/the-events-calendar/), the [Seriously Simple Podcasting](https://wordpress.org/plugins/seriously-simple-podcasting/) and the [WP Recipe Maker](https://it.wordpress.org/plugins/wp-recipe-maker/) plugins.
 * Adds a new `Website name` text field in the `Site Representation` step of the `First-time configuration`.
-* Adds an integration card for `The Events Calendar`.
-* Adds a Schema integration card for the [Seriously Simple Podcasting](https://wordpress.org/plugins/seriously-simple-podcasting/) and the [WP Recipe Maker](https://it.wordpress.org/plugins/wp-recipe-maker/) plugins.
 * Improves the _subheading distribution_ assessment by adding highlighting and also targeting long content before the first subheading.
 * Improves the `First-time configuration` styling.
-* Improves the Integrations page to explain more clearly the different types of integrations.
 * Improves the _transition words_ assessment for Arabic by removing some transition words.
 * Improves the Yoast admin bar menu with more functionality and better links.
 * Removes a notification that prompts users to help with translating the plugin in the language of the site.
@@ -278,15 +278,12 @@ Release date: December 13th, 2022
 
 #### Other
 
-* Adds documentation on GitHub about the inclusive language analysis.
-* Allows using the `yoast_seo_development_mode` to override the `wp_get_environment_type()` result to `production`.
-* Corrects the documentation on GitHub about morphology support.
-* Deprecates the integration with the `The Events Calendar` plugin, following the release of its version 6.0.4 which integrates with Yoast SEO.
-* Disallows setting or unsetting any dynamic properties on `Abstract_Main`.
-* Improve PHP 8.2 compatibility
-* Improves compatibility with PHP 8.2.
 * Introduces a notice on the WordPress dashboard and the Yoast SEO dashboard to let users know we are dropping support for PHP < 7.2 starting March 1st, 2023.
 * Reduces noise from PHP 8.1 deprecations.
+* Improves compatibility with PHP 8.2.
+* Allows using the `yoast_seo_development_mode` to override the `wp_get_environment_type()` result to `production`.
+* Deprecates the built-in integration with the `The Events Calendar` plugin, following the release of its version 6.0.4 which integrates with Yoast SEO.
+* Disallows setting or unsetting any dynamic properties on `Abstract_Main`.
 * Removes the note in the readability analysis results that tells users that the _Flesch reading ease_ score has moved to the _Insights_ section.
 * Removes the Yoast i18n package.
 * Resolves a typo in the feedback string for the phrase `exotic` in the inclusive language analysis.
