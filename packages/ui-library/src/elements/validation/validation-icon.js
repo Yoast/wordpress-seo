@@ -1,3 +1,4 @@
+import { useMemo } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { values } from "lodash";
 import classNames from "classnames";
@@ -22,7 +23,7 @@ const ValidationIcon = ( {
 	className = "",
 	...props
 } ) => {
-	const Component = VALIDATION_ICON_MAP[ variant ];
+	const Component = useMemo( () => VALIDATION_ICON_MAP[ variant ], [ variant ] );
 	const svgAriaProps = useSvgAria();
 
 	return Component ? (
