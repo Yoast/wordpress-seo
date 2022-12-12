@@ -1,4 +1,4 @@
-import { alternative, potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { alternative, potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
@@ -74,7 +74,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "preferred pronouns" ],
 		inclusiveAlternatives: "<i>pronouns</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
+		feedbackFormat: [ potentiallyHarmfulCareful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
 		" this term to describe their own pronouns." ].join( "" ),
 	},
 	{
@@ -157,7 +157,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "preferred name" ],
 		inclusiveAlternatives: "<i>name, affirming name</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
+		feedbackFormat: [ potentiallyHarmfulCareful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
 		" this term to describe their own name." ].join( "" ),
 	},
 	{
