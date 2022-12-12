@@ -5,7 +5,7 @@ import assessments from "../../../../../src/scoring/assessments/inclusiveLanguag
 import Factory from "../../../../specHelpers/factory.js";
 import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
 
-describe( "Disability assessments", function() {
+describe( "A test for Disability assessments", function() {
 	it( "should return proper feedback with two inclusive alternatives", function() {
 		const mockPaper = new Paper( "Look at that sociopath." );
 		const mockResearcher = Factory.buildMockResearcher( [ "Look at that sociopath." ] );
@@ -64,13 +64,13 @@ describe( "Disability assessments", function() {
 	it( "should only target retarded if preceded by mentally.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "retarded" ) );
 
-		let testSentence = "He is mentally retarded";
+		let testSentence = "He is mentally retarded.";
 		let mockPaper = new Paper( testSentence );
 		let mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 
-		testSentence = "He is retarded";
+		testSentence = "He is retarded.";
 		mockPaper = new Paper( testSentence );
 		mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 

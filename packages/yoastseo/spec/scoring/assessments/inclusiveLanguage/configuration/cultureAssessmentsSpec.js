@@ -4,7 +4,7 @@ import assessments from "../../../../../src/scoring/assessments/inclusiveLanguag
 import Factory from "../../../../specHelpers/factory.js";
 import { testMultipleForms } from "../testHelpers/testHelpers";
 
-describe( "Culture Assessments", () => {
+describe( "A test for Culture Assessments", () => {
 	it( "should target only capitalized non-inclusive phrases when the caseSensitive flag is set", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firstWorld" ) );
 

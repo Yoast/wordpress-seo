@@ -267,6 +267,7 @@ Release date: December 13th, 2022
 #### Bugfixes
 
 * Fixes a bug that would affect users managing the cron jobs with a plugin on PHP 8.1 after they have performed a core upgrade.
+* Fixes a bug where a fatal error would be thrown when trying to create breadcrumbs from unindexable items.
 * Fixes a bug where blocks with a NULL `blockName` would trigger deprecation errors with PHP 8.1 and cause performance issues. Props to [@dustyf](https://github.com/dustyf).
 * Fixes a bug where breadcrumbs markup would not validate due to improper nesting and closing of span tags. Props to [@michaelbourne](https://github.com/michaelbourne).
 * Fixes a bug where highlighting would not be removed from the text after the analysis is updated and the present highlighting has become irrelevant.

@@ -67,15 +67,26 @@ describe( "SES assessments", function() {
 					} } ] );
 	} );
 
-	it( "should not target phrases preceded by certain words", function() {
-		const mockPaper = new Paper( "This ad is aimed at high school seniors." );
+	it( "should target non-inclusive phrases", function() {
+		const mockText = "This ad is aimed at ex-offenders.";
+		const mockPaper = new Paper( mockText );
 		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "welfareReliant" )  );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "ex-offender" )  );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
 
-		expect( isApplicable ).toBeFalsy();
-		expect( assessor.getMarks() ).toEqual( [] );
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>ex-offenders</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>formerly incarcerated person</i>. " +
+			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: mockText,
+			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+		} ) ] );
 	} );
 
 	it( "correctly identifies 'the poor' which is only recognized when followed by participle or simple past tense", () => {

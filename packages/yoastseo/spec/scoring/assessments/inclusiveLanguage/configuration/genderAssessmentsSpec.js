@@ -5,7 +5,7 @@ import assessments from "../../../../../src/scoring/assessments/inclusiveLanguag
 import Factory from "../../../../specHelpers/factory.js";
 import { testMultipleForms } from "../testHelpers/testHelpers";
 
-describe( "Gender assessments", function() {
+describe( "A test for Gender assessments", function() {
 	it( "should target non-inclusive phrases", function() {
 		const mockPaper = new Paper( "Mankind is so great! I could talk for hours about it." );
 		const mockResearcher = Factory.buildMockResearcher( [ "Mankind is so great!", "I could talk for hours about it." ] );
