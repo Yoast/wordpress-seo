@@ -324,3 +324,14 @@ describe( "Test the OCD assessment", () => {
 	} );
 } );
 
+describe( "The 'brain-damaged' assessment", () => {
+	it( "should also target brain damaged", () => {
+		const paper = new Paper( "Brain damaged" );
+		const researcher = Factory.buildMockResearcher( [ "Brain damaged" ] );
+
+		const assessment = new InclusiveLanguageAssessment( assessments.find( config => config.identifier === "brainDamaged" ) );
+
+		expect( assessment.isApplicable( paper, researcher ) ).toBe( true );
+	} );
+} );
+

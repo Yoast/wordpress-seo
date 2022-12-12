@@ -281,7 +281,7 @@ const disabilityAssessments =  [
 	},
 	{
 		identifier: "brainDamaged",
-		nonInclusivePhrases: [ "brain-damaged" ],
+		nonInclusivePhrases: [ "brain-damaged", "brain damaged" ],
 		inclusiveAlternatives: "<i>person with a (traumatic) brain injury</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
