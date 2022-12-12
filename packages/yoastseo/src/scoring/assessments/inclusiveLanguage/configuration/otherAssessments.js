@@ -1,7 +1,5 @@
 import { SCORES } from "./scores";
 import { potentiallyHarmful, potentiallyHarmfulCareful } from "./feedbackStrings";
-import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 const otherAssessments = [
 	{
@@ -21,16 +19,22 @@ const otherAssessments = [
 						"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
 	},
 	{
-		identifier: "theMinority",
-		nonInclusivePhrases: [ "the minority" ],
-		inclusiveAlternatives: [ "<i>marginalized groups</i>", "<i>underrepresented groups</i>", "<i>gender and sexuality minorities</i>" ],
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially overgeneralizing. " +
-		"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
-		rule: ( words, nonInclusivePhrase ) => {
-			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
-		},
+		identifier: "normal",
+		nonInclusivePhrases: [ "normal person", "normal people", "normal behaviour", "normal behavior", "mentally" +
+		" normal", "behaviorally normal", "behaviourally normal", "psychologically normal"  ],
+		inclusiveAlternatives: [ "<i>typical</i>" ],
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Avoid using <i>normal</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as %2$s or a specific characteristic or experience if it is known.",
+	},
+	{
+		identifier: "abnormal",
+		nonInclusivePhrases: [ "abnormal person", "abnormal people", "abnormal behaviour", "abnormal behavior", "mentally" +
+		" abnormal", "behaviorally abnormal", "behaviourally abnormal", "psychologically abnormal"  ],
+		inclusiveAlternatives: [ "<i>atypical</i>" ],
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Avoid using <i>abnormal</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as %2$s or a specific characteristic or experience if it is known.",
 	},
 	{
 		identifier: "ex-con",

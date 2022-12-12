@@ -98,12 +98,11 @@ describe( "Appearance assessments", function() {
 			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [
-			{ _properties: {
-				marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
-				original: mockText,
-				fieldsToMark: [],
-			} } ] );
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>They are fat people</yoastmark>",
+			original: "They are fat people" } } ]
+		);
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
