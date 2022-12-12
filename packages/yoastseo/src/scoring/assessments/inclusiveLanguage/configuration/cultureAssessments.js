@@ -230,7 +230,7 @@ const cultureAssessments = [
 	},
 	{
 		identifier: "gypsy",
-		nonInclusivePhrases: [ "gypsy" ],
+		nonInclusivePhrases: [ "gypsy", "gipsy" ],
 		inclusiveAlternatives: [ "<i>Romani, Romani person</i>", "<i>traveler, wanderer, free-spirited</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
@@ -238,7 +238,7 @@ const cultureAssessments = [
 	},
 	{
 		identifier: "gypsies",
-		nonInclusivePhrases: [ "gypsies" ],
+		nonInclusivePhrases: [ "gypsies", "gipsies" ],
 		inclusiveAlternatives: [ "<i>Romani, Romani people</i>", "<i>travelers, wanderers, free-spirited</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
