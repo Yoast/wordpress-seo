@@ -43,6 +43,10 @@ import Root from "../components/contexts/root";
  */
 function registerFormats() {
 	if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+		const unknownSettings = select( "core/rich-text" )
+			.getFormatType( "core/unknown" );
+
+		dispatch( "core/rich-text" ).removeFormatTypes( "core/unknown" );
 		[
 			link,
 		].forEach( ( { name, replaces, ...settings } ) => {
@@ -53,6 +57,7 @@ function registerFormats() {
 				registerFormatType( name, settings );
 			}
 		} );
+		registerFormatType( "core/unknown", unknownSettings );
 	} else {
 		console.warn(
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
