@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Autocomplete from "../../elements/autocomplete";
-import { ValidationMessage, validationPropType } from "../../elements/validation";
+import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
 
 /**
@@ -50,7 +50,10 @@ AutocompleteField.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
-	validation: validationPropType,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 	className: PropTypes.string,
 };
 

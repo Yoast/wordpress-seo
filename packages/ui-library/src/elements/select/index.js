@@ -4,7 +4,7 @@ import { Fragment, useCallback, useMemo } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
-import { validationPropType, ValidationInput } from "../validation";
+import { ValidationInput } from "../validation";
 import Label from "../label";
 
 const optionPropType = {
@@ -137,7 +137,10 @@ Select.propTypes = {
 	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
 	disabled: PropTypes.bool,
-	validation: validationPropType,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };

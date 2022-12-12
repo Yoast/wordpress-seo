@@ -6,7 +6,7 @@ import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { constant } from "lodash";
 import { useSvgAria } from "../../hooks";
-import { ValidationInput, validationPropType } from "../validation";
+import { ValidationInput } from "../validation";
 
 // Render Combobox.Button as a div always.
 const AutocompleteButton = forwardRef( ( props, ref ) => <Combobox.Button as="div" ref={ ref } { ...props } /> );
@@ -140,7 +140,10 @@ Autocomplete.propTypes = {
 	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
 	onQueryChange: PropTypes.func.isRequired,
-	validation: validationPropType,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 	placeholder: PropTypes.string,
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
