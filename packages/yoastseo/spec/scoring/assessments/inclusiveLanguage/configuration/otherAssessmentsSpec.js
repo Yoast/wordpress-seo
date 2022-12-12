@@ -2,10 +2,10 @@ import Paper from "../../../../../src/values/Paper";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/otherAssessments";
-import Factory from "../../../../specHelpers/factory.js";
+import Factory from "../../../../specHelpers/factory";
 import Mark from "../../../../../src/values/Mark";
 
-describe( "A test for Other assessments", function() {
+describe( "Other assessments", function() {
 	it( "should target potentially non-inclusive phrases", function() {
 		const mockText = "This ad is aimed at minorities.";
 		const mockPaper = new Paper( mockText );

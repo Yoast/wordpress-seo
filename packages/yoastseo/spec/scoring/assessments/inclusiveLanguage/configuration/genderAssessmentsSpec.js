@@ -143,4 +143,227 @@ describe( "A test for Gender assessments", function() {
 
 		expect( isApplicable ).toBeFalsy();
 	} );
+	it( "correctly identifies 'female-bodied'", () => {
+		const mockPaper = new Paper( "This sentence contains female-bodied." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains female-bodied." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "femaleBodied" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>female-bodied</i> as it is potentially exclusionary. " +
+			"Consider using an alternative, such as <i>assigned female at birth</i> " +
+			"if you are discussing a person based on their sex or assigned gender at birth. " +
+			"If talking about human anatomy, use the specific anatomical phrase as opposed to <i>female-bodied</i>. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains female-bodied.</yoastmark>",
+			original: "This sentence contains female-bodied." } } ]
+		);
+	} );
+	it( "correctly identifies 'male-bodied'", () => {
+		const mockPaper = new Paper( "This sentence contains male-bodied." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains male-bodied." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "maleBodied" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>male-bodied</i> as it is potentially exclusionary. " +
+			"Consider using an alternative, such as <i>assigned male at birth</i> " +
+			"if you are discussing a person based on their sex or assigned gender at birth. " +
+			"If talking about human anatomy, use the specific anatomical phrase as opposed to <i>male-bodied</i>. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains male-bodied.</yoastmark>",
+			original: "This sentence contains male-bodied." } } ]
+		);
+	} );
+	it( "correctly identifies 'man-hours'", () => {
+		const mockPaper = new Paper( "This sentence contains man-hours." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains man-hours." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "manHours" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>man-hours</i> as it is exclusionary. " +
+			"Consider using an alternative, such as <i>person-hours, business hours</i>. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains man-hours.</yoastmark>",
+			original: "This sentence contains man-hours." } } ]
+		);
+	} );
+	it( "correctly identifies 'female-to-male'", () => {
+		const mockPaper = new Paper( "This sentence contains 'female-to-male'." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains 'female-to-male'." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "femaleToMale" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>female-to-male</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>trans man, transgender man</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains 'female-to-male'.</yoastmark>",
+			original: "This sentence contains 'female-to-male'." } } ]
+		);
+	} );
+	it( "correctly identifies 'male-to-female'", () => {
+		const mockPaper = new Paper( "This sentence contains 'male-to-female'." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains 'male-to-female'." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "maleToFemale" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>male-to-female</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>trans woman, transgender woman</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains 'male-to-female'.</yoastmark>",
+			original: "This sentence contains 'male-to-female'." } } ]
+		);
+	} );
+	it( "correctly identifies 'he-she'", () => {
+		const mockPaper = new Paper( "This sentence contains he-she." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains he-she." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "heShe" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>he-she</i> as it is derogatory. <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains he-she.</yoastmark>",
+			original: "This sentence contains he-she." } } ]
+		);
+	} );
+	it( "correctly identifies 'she-male'", () => {
+		const mockPaper = new Paper( "This sentence contains she-male." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains she-male." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "shemale" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>she-male</i> as it is derogatory. <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains she-male.</yoastmark>",
+			original: "This sentence contains she-male." } } ]
+		);
+	} );
+	it( "correctly identifies 'man-made'", () => {
+		const mockPaper = new Paper( "This sentence contains man-made." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains man-made." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "manMade" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>man-made</i> as it is exclusionary. Consider using an alternative, such as <i>artificial, synthetic, machine-made</i>. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains man-made.</yoastmark>",
+			original: "This sentence contains man-made." } } ]
+		);
+	} );
+	it( "correctly identifies 'FTM'", () => {
+		const mockPaper = new Paper( "This sentence contains FTM." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains FTM." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "femaleToMale" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>ftm</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>trans man, transgender man</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains FTM.</yoastmark>",
+			original: "This sentence contains FTM." } } ]
+		);
+	} );
+	it( "correctly identifies 'MTF'", () => {
+		const mockPaper = new Paper( "This sentence contains MTF." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains MTF." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "maleToFemale" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>mtf</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>trans woman, transgender woman</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains MTF.</yoastmark>",
+			original: "This sentence contains MTF." } } ]
+		);
+	} );
 } );
