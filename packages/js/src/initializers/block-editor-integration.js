@@ -46,7 +46,10 @@ function registerFormats() {
 		const unknownSettings = select( "core/rich-text" )
 			.getFormatType( "core/unknown" );
 
-		dispatch( "core/rich-text" ).removeFormatTypes( "core/unknown" );
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			dispatch( "core/rich-text" ).removeFormatTypes( "core/unknown" );
+		}
+
 		[
 			link,
 		].forEach( ( { name, replaces, ...settings } ) => {
@@ -57,7 +60,10 @@ function registerFormats() {
 				registerFormatType( name, settings );
 			}
 		} );
-		registerFormatType( "core/unknown", unknownSettings );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			registerFormatType( "core/unknown", unknownSettings );
+		}
 	} else {
 		console.warn(
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
