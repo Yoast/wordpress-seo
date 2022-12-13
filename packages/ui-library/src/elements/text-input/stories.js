@@ -1,8 +1,8 @@
-import TextInput from ".";
+import TextInput, { StoryComponent } from ".";
 
 export default {
-	title: "1) Elements/Text Input",
-	component: TextInput,
+	title: "1. Elements/Text Input",
+	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
