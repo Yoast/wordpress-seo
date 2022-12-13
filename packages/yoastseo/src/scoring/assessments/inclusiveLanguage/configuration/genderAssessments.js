@@ -226,14 +226,14 @@ const genderAssessments = [
 	},
 	{
 		identifier: "maleToFemale",
-		nonInclusivePhrases: [ "male-to-female", "MTF" ],
+		nonInclusivePhrases: [ "male-to-female", "mtf" ],
 		inclusiveAlternatives: "<i>trans woman, transgender woman</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
 		identifier: "femaleToMale",
-		nonInclusivePhrases: [ "female-to-male", "FTM" ],
+		nonInclusivePhrases: [ "female-to-male", "ftm" ],
 		inclusiveAlternatives: "<i>trans man, transgender man</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,

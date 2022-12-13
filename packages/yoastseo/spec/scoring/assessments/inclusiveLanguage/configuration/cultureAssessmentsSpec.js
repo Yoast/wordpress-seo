@@ -252,9 +252,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessment( testData );
 	} );
-	// Skipped for now. It's a bug another issue will solve: https://yoast.atlassian.net/browse/PC-1021.
-	// This unit test should be un-skipped when the aforementioned issue is merged.
-	xit( "should return the appropriate score and feedback string for: 'Asian-American' and its other forms", () => {
+	it( "should return the appropriate score and feedback string for: 'Asian-American' and its other forms", () => {
 		const testData = [
 			{
 				identifier: "Asian-American",
@@ -276,9 +274,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessment( testData );
 	} );
-	// Skipped for now. It's a bug another issue will solve: https://yoast.atlassian.net/browse/PC-1021.
-	// This unit test should be un-skipped when the aforementioned issue is merged.
-	xit( "should return the appropriate score and feedback string for: 'African-American' and its other forms", () => {
+	it( "should return the appropriate score and feedback string for: 'African-American' and its other forms", () => {
 		const testData = [
 			{
 				identifier: "African-American",
@@ -299,6 +295,105 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		];
 
 		testInclusiveLanguageAssessment( testData );
+	} );
+	it( "Does not identifie 'African American' without hyphen", () => {
+		const mockPaper = new Paper( "This sentence contains African American." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains African American." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "africanAmerican" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "Does not identifie 'African-american' without capital", () => {
+		const mockPaper = new Paper( "This sentence contains African-american." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains African-american." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "africanAmerican" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "Does not identify 'Asian American' without hyphen", () => {
+		const mockPaper = new Paper( "This sentence contains Asian American." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains Asian American." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "asianAmerican" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "Does not identify 'Asian-american' without capital", () => {
+		const mockPaper = new Paper( "This sentence contains Asian-american." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains Asian-american." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "asianAmerican" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "correctly identifies 'pow-wow'", () => {
+		const mockPaper = new Paper( "This sentence contains pow-wow." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains pow-wow." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "powWow" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>pow-wow</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>chat, brief conversation, brainstorm, huddle</i> instead, " +
+			"unless you are referring to the culture in which this term originated. " +
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
+
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+				fieldsToMark: [],
+				marked: "<yoastmark class='yoast-text-mark'>This sentence contains pow-wow.</yoastmark>",
+				original: "This sentence contains pow-wow." } } ]
+		);
+	} );
+	it( "correctly identifies 'first-world'", () => {
+		const mockPaper = new Paper( "This sentence contains first-world." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains first-world." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firstWorldHyphen" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>first-world</i> as it is overgeneralizing. Consider using specific name for the country or region instead.  " +
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+				fieldsToMark: [],
+				marked: "<yoastmark class='yoast-text-mark'>This sentence contains first-world.</yoastmark>",
+				original: "This sentence contains first-world." } } ]
+		);
+	} );
+	it( "correctly identifies 'third-world country'", () => {
+		const mockPaper = new Paper( "This sentence contains third-world country." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains third-world country." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "third-worldCountry" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>third-world country</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>low-income country, developing country</i>. " +
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
+
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+				fieldsToMark: [],
+				marked: "<yoastmark class='yoast-text-mark'>This sentence contains third-world country.</yoastmark>",
+				original: "This sentence contains third-world country." } } ]
+		);
 	} );
 	it( "should return the appropriate score and feedback string for: 'whitelist' and its other forms", () => {
 		const testData = [
