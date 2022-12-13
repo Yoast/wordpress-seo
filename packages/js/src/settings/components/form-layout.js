@@ -55,29 +55,31 @@ const FormLayout = ( { children } ) => {
 								{ __( "Discard changes", "wordpress-seo" ) }
 							</Button>
 							<Modal onClose={ unsetRequestUndo } isOpen={ isRequestUndo }>
-								<div className="sm:yst-flex sm:yst-items-start">
-									<div
-										className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-12 yst-w-12 yst-rounded-full yst-bg-red-100 sm:yst-mx-0 sm:yst-h-10 sm:yst-w-10"
-									>
-										<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
+								<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
+									<div className="sm:yst-flex sm:yst-items-start">
+										<div
+											className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-12 yst-w-12 yst-rounded-full yst-bg-red-100 sm:yst-mx-0 sm:yst-h-10 sm:yst-w-10"
+										>
+											<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
+										</div>
+										<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
+											<Modal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900">
+												{ __( "Discard all changes", "wordpress-seo" ) }
+											</Modal.Title>
+											<Modal.Description className="yst-text-sm yst-text-slate-500">
+												{ __( "You are about to discard all unsaved changes. All of your settings will be reset to the point where you last saved. Are you sure you want to do this?", "wordpress-seo" ) }
+											</Modal.Description>
+										</div>
 									</div>
-									<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
-										<Modal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900">
-											{ __( "Discard all changes", "wordpress-seo" ) }
-										</Modal.Title>
-										<Modal.Description className="yst-text-sm yst-text-slate-500">
-											{ __( "You are about to discard all unsaved changes. All of your settings will be reset to the point where you last saved. Are you sure you want to do this?", "wordpress-seo" ) }
-										</Modal.Description>
+									<div className="yst-flex yst-flex-col sm:yst-flex-row-reverse yst-gap-3 yst-mt-6">
+										<Button type="button" variant="error" onClick={ handleUndo } className="yst-block">
+											{ __( "Yes, discard changes", "wordpress-seo" ) }
+										</Button>
+										<Button type="button" variant="secondary" onClick={ unsetRequestUndo } className="yst-block">
+											{ __( "No, continue editing", "wordpress-seo" ) }
+										</Button>
 									</div>
-								</div>
-								<div className="yst-flex yst-flex-col sm:yst-flex-row-reverse yst-gap-3 yst-mt-6">
-									<Button type="button" variant="error" onClick={ handleUndo } className="yst-block">
-										{ __( "Yes, discard changes", "wordpress-seo" ) }
-									</Button>
-									<Button type="button" variant="secondary" onClick={ unsetRequestUndo } className="yst-block">
-										{ __( "No, continue editing", "wordpress-seo" ) }
-									</Button>
-								</div>
+								</Modal.Panel>
 							</Modal>
 						</div>
 					</div>
