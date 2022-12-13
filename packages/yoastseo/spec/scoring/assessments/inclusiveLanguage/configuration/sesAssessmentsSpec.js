@@ -111,7 +111,7 @@ describe( "A test for SES assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>ex-con</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>people who have had felony convictions, people who have been incarcerated</i>. " +
+			"Consider using an alternative, such as <i>person who has had felony convictions, person who has been incarcerated</i>. " +
 			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
@@ -169,7 +169,6 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 
 		testInclusiveLanguageAssessment( testData );
 	} );
-
 	it( "should target non-inclusive phrases: 'prostitute' and its plural form", function() {
 		const testData = [
 			{
@@ -194,9 +193,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 
 		testInclusiveLanguageAssessment( testData );
 	} );
-	// Skipped for now. It's a bug another issue will solve: https://yoast.atlassian.net/browse/PC-1021.
-	// This unit test should be un-skipped when the aforementioned issue is merged.
-	xit( "should return the appropriate score and feedback string for: 'ex-con' and its plural form", () => {
+	it( "should return the appropriate score and feedback string for: 'ex-con' and its plural form", () => {
 		const testData = [
 			{
 				identifier: "ex-con",
@@ -240,16 +237,14 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 
 		testInclusiveLanguageAssessment( testData );
 	} );
-	// Skipped for now. It's a bug another issue will solve: https://yoast.atlassian.net/browse/PC-1021.
-	// This unit test should be un-skipped when the aforementioned issue is merged.
-	xit( "should return the appropriate score and feedback string for: 'ex-offender' and its plural form", () => {
+	it( "should return the appropriate score and feedback string for: 'ex-offender' and its plural form", () => {
 		const testData = [
 			{
 				identifier: "ex-offender",
 				text: "That person is an ex-offender",
 				expectedFeedback: "Avoid using <i>ex-offender</i> as it is potentially harmful. Consider using an alternative, such as " +
 					"<i>formerly incarcerated person</i>." +
-					" <a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
+					" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 			{
@@ -257,7 +252,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 				text: "Those group of people are all ex-offenders",
 				expectedFeedback: "Avoid using <i>ex-offenders</i> as it is potentially harmful. Consider using an alternative, such as " +
 					"<i>formerly incarcerated people</i>." +
-					" <a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>",
+					" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 		];

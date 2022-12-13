@@ -255,7 +255,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 	it( "should return the appropriate score and feedback string for: 'Asian-American' and its other forms", () => {
 		const testData = [
 			{
-				identifier: "Asian-American",
+				identifier: "asianAmerican",
 				text: "An Asian-American",
 				expectedFeedback: "Avoid using <i>Asian-American</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>Asian American</i>. <a href='https://yoa.st/inclusive-language-culture' " +
@@ -263,7 +263,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				expectedScore: 3,
 			},
 			{
-				identifier: "Asian-Americans",
+				identifier: "asianAmericans",
 				text: "The Asian-Americans",
 				expectedFeedback: "Avoid using <i>Asian-Americans</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>Asian Americans</i>. <a href='https://yoa.st/inclusive-language-culture' " +
@@ -277,7 +277,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 	it( "should return the appropriate score and feedback string for: 'African-American' and its other forms", () => {
 		const testData = [
 			{
-				identifier: "African-American",
+				identifier: "africanAmerican",
 				text: "An African-American",
 				expectedFeedback: "Avoid using <i>African-American</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>African American, Black, American of African descent</i>. <a href='https://yoa.st/inclusive-language-culture' " +
@@ -285,7 +285,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				expectedScore: 3,
 			},
 			{
-				identifier: "African-Americans",
+				identifier: "africanAmericans",
 				text: "The African-Americans",
 				expectedFeedback: "Avoid using <i>African-Americans</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>African Americans, Black, Americans of African descent</i>. <a href='https://yoa.st/inclusive-language-culture' " +
@@ -296,7 +296,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessment( testData );
 	} );
-	it( "Does not identifie 'African American' without hyphen", () => {
+	it( "Does not identify 'African American' without hyphen", () => {
 		const mockPaper = new Paper( "This sentence contains African American." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains African American." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "africanAmerican" ) );
@@ -304,7 +304,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		expect( isApplicable ).toBeFalsy();
 	} );
-	it( "Does not identifie 'African-american' without capital", () => {
+	it( "Does not identify 'African-american' without capital", () => {
 		const mockPaper = new Paper( "This sentence contains African-american." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains African-american." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "africanAmerican" ) );
@@ -346,9 +346,9 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains pow-wow.</yoastmark>",
-				original: "This sentence contains pow-wow." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains pow-wow.</yoastmark>",
+			original: "This sentence contains pow-wow." } } ]
 		);
 	} );
 	it( "correctly identifies 'first-world'", () => {
@@ -367,9 +367,9 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains first-world.</yoastmark>",
-				original: "This sentence contains first-world." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains first-world.</yoastmark>",
+			original: "This sentence contains first-world." } } ]
 		);
 	} );
 	it( "correctly identifies 'third-world country'", () => {
@@ -390,9 +390,9 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains third-world country.</yoastmark>",
-				original: "This sentence contains third-world country." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains third-world country.</yoastmark>",
+			original: "This sentence contains third-world country." } } ]
 		);
 	} );
 	it( "should return the appropriate score and feedback string for: 'whitelist' and its other forms", () => {
