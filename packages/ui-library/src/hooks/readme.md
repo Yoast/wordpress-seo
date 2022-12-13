@@ -1,15 +1,16 @@
 # Hooks docs with Markdown
 
-# useBeforeUnload 
+&nbsp;
+
+## useBeforeUnload 
 The `useBeforeUnload` hook is fired when the window, the document and its resources are about to be unloaded.
 This hook accept a boolean value that indicates when this functionality should be active.
 
-## Usage/Examples  
+### Usage/Examples  
 ~~~javascript  
 import { useBeforeUnload } from from "@yoast/ui-library";
 
 const Component = () => {
-
     let when = false;
 
     useBeforeUnload(when)
@@ -19,101 +20,96 @@ const Component = () => {
         // in 5 seconds a generic message from the browser will appear to warn of before window will upload.
     },5000);
 
-    return ( <div> ... </div>)
+    return <div />
 
 };
 ~~~  
 
-## Related    
+### Related    
 
 [BeforeUnloadEvent](https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent)  
 
 
-# useDescribedBy 
+## useDescribedBy 
 The `useDescribedBy` hook creates ids and describedBy based on an ID and the given list of "props".
 
 This is a helper hook to create IDs and the `aria-describedby` for our form field components.
 
 Accepts id (string) and list (object) and returns object with `ids` and `describedBy`.
 
-## Usage/Examples  
+### Usage/Examples  
 ~~~javascript  
 import { useDescribedBy } from from "@yoast/ui-library";
 
 const Component = () => {
-
     const { ids, describedBy } = useDescribedBy( id, { error, description } );
 
-    return ( <div> ... </div>)
+    return <div />
 
 };
 
 ~~~  
 
-# useMediaQuery
+## useMediaQuery
 The `useMediaQuery` hook creates a media query and returns a boolean that informs whether the query is met..
 
 Accepts `mediaQueryString` (string) The media query to check against.
 Returns an object with a .matches field that is true if the media query is met.
 
-## Usage/Examples  
+### Usage/Examples  
 ~~~javascript  
 import { useMediaQuery } from from "@yoast/ui-library";
 
 const Component = () => {
-
     const isSingleColumn = ! useMediaQuery( "(min-width: 1536px)" ).matches;
 
-    return ( <div> ... </div>)
+    return <div />
 
 };
 ~~~  
 
-# usePrevious
+## usePrevious
 
 The `usePrevious` hook accepts the initial value and return the previous value.
 
-## Usage/Examples  
+### Usage/Examples  
 ~~~javascript  
 import { usePrevious } from from "@yoast/ui-library";
 
-const Component = () => {
-     
+const Component = () => {     
     const previousCompanyOrPerson = usePrevious( companyOrPerson );
 
-    return ( <div> ... </div>)
+    return <div />
 
 };
 ~~~  
 
-# useRootContext
+## useRootContext
 
 The `useRootContext` hook returns the root context.
 
-## Usage/Examples  
+### Usage/Examples  
 ~~~javascript  
 import { useRootContext } from from "@yoast/ui-library";
 
 const Component = () => {
-
     const rootContext = useRootContext();
 
-    return ( <div> ... </div>)
+    return <div />
 
 };
 ~~~  
 
-# useSvgAria
+## useSvgAria
 
 The `useSvgAria` hook creates aria attributes for an SVG. 
 Accepts boolean value to indicate if it should be focusable, returns object with `role` and `aria-hidden` and optionally `focusable`.
 
-## Usage/Examples  
+### Usage/Examples  
 ~~~javascript  
 import { useSvgAria } from from "@yoast/ui-library";
 
 const Component = () => {
-
     const ariaSvgProps = useSvgAria();
 
     return ( <div><RandomIcon { ...ariaSvgProps } /></div>)
@@ -122,7 +118,7 @@ const Component = () => {
 ~~~  
 
 
-# useToggleState
+## useToggleState
 
 The `useToggleState` hook creates a toggle state. 
 Accepts boolean value the initial state, defaults to true, returns the state, toggleState, setState, setTrue and setFalse in that order.
@@ -138,13 +134,12 @@ const [state, toggleState ] = useToggleState();
 const [state, , , setTrue, setFalse ] = useToggleState();
 ~~~  
 
-## Usage/Examples  
+### Usage/Examples  
 
 ~~~javascript  
 import { useToggleState } from from "@yoast/ui-library";
 
 const Component = () => {
-
    const [state, toggleState, setState, setTrue, setFalse ] = useToggleState();
 
     return ( 
