@@ -46,7 +46,7 @@ describe( "A test for Culture Assessments", () => {
 
 	it( "should not target exotic when followed by exception words.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "exotic" ) );
-		[ "shorthair", "longhair" ].map( ( exceptionWord ) => {
+		[ "shorthair", "shorthairs", "longhair", "longhairs" ].map( ( exceptionWord ) => {
 			const testSentence = `It is common to have exotic ${exceptionWord}.`;
 			const mockPaper = new Paper( testSentence );
 			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );

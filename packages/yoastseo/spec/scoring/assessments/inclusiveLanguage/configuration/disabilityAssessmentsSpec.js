@@ -235,9 +235,9 @@ describe( "A test for Disability assessments", function() {
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains wheelchair-bound.</yoastmark>",
-				original: "This sentence contains wheelchair-bound." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains wheelchair-bound.</yoastmark>",
+			original: "This sentence contains wheelchair-bound." } } ]
 		);
 	} );
 	it( "correctly identifies 'hard-of-hearing'", () => {
@@ -257,9 +257,9 @@ describe( "A test for Disability assessments", function() {
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains hard-of-hearing.</yoastmark>",
-				original: "This sentence contains hard-of-hearing." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains hard-of-hearing.</yoastmark>",
+			original: "This sentence contains hard-of-hearing." } } ]
 		);
 	} );
 	it( "correctly identifies 'high-functioning autism'", () => {
@@ -280,9 +280,9 @@ describe( "A test for Disability assessments", function() {
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains high-functioning autism.</yoastmark>",
-				original: "This sentence contains high-functioning autism." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains high-functioning autism.</yoastmark>",
+			original: "This sentence contains high-functioning autism." } } ]
 		);
 	} );
 	it( "correctly identifies 'low-functioning autism'", () => {
@@ -303,9 +303,9 @@ describe( "A test for Disability assessments", function() {
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains low-functioning autism.</yoastmark>",
-				original: "This sentence contains low-functioning autism." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains low-functioning autism.</yoastmark>",
+			original: "This sentence contains low-functioning autism." } } ]
 		);
 	} );
 	it( "correctly identifies 'deaf-mute'", () => {
@@ -325,9 +325,9 @@ describe( "A test for Disability assessments", function() {
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains deaf-mute.</yoastmark>",
-				original: "This sentence contains deaf-mute." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains deaf-mute.</yoastmark>",
+			original: "This sentence contains deaf-mute." } } ]
 		);
 	} );
 	it( "correctly identifies 'brain-damaged'", () => {
@@ -348,9 +348,9 @@ describe( "A test for Disability assessments", function() {
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains brain-damaged.</yoastmark>",
-				original: "This sentence contains brain-damaged." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains brain-damaged.</yoastmark>",
+			original: "This sentence contains brain-damaged." } } ]
 		);
 	} );
 	it( "correctly identifies 'differently-abled'", () => {
@@ -371,9 +371,9 @@ describe( "A test for Disability assessments", function() {
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains differently-abled.</yoastmark>",
-				original: "This sentence contains differently-abled." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains differently-abled.</yoastmark>",
+			original: "This sentence contains differently-abled." } } ]
 		);
 	} );
 } );
