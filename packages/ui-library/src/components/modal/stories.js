@@ -2,7 +2,8 @@ import { Fragment, useCallback, useState, useRef } from "@wordpress/element";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import RawModal, { classNameMap } from ".";
-import { Button, TextInput } from "../../index";
+import Button from "../../elements/button";
+import TextInput from "../../elements/text-input";
 
 const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
 	const [ isOpen, setIsOpen ] = useState( initialIsOpen );
