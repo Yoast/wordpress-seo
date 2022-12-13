@@ -567,13 +567,18 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 /**
 * Content and SEO score in publish bar
 */
+.yoast-seo-score {
+  display: flex;
+}
+
 .yoast-seo-score .yoast-logo.svg {
   float: left;
-  width: 18px;
-  margin-right: 7px;
+  width: 24px;
+  margin-right: 1px;
   height: 18px;
   background: var(--yoast-svg-icon-yoast) no-repeat;
   background-size: 18px;
+  flex-shrink: 0;
 }
 
 .yoast-seo-score .yoast-logo.svg.good {
@@ -699,10 +704,19 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .yoast-seo-sidebar-panel div {
 	line-height: 2;
+  display: flex;
 }
 
 .yoast-seo-sidebar-panel div svg {
 	vertical-align: middle;
+  flex-direction: 0;
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+.yoast-seo-sidebar-panel div span {
+  line-height: 1.5;
+  margin-top: 3px;
 }
 
 ul.yoast-seo-social-share-buttons li {
