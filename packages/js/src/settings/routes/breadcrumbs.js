@@ -116,7 +116,9 @@ const Breadcrumbs = () => {
 								<Code className="yst-ml-2">{ postTypeName }</Code>
 							</> }
 							options={ postType.options }
+							className="yst-max-w-sm"
 						/> ) }
+
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
 					<FieldsetLayout
@@ -134,6 +136,7 @@ const Breadcrumbs = () => {
 									<Code className="yst-ml-2">{ taxonomy.name }</Code>
 								</> }
 								options={ taxonomy.options }
+								className="yst-max-w-sm"
 							/>
 						) ) }
 					</FieldsetLayout>

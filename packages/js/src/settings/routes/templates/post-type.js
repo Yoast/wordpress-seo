@@ -254,8 +254,9 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							type="select"
 							name={ `wpseo_titles.schema-page-type-${ name }` }
 							id={ `input-wpseo_titles-schema-page-type-${ name }` }
-							label={ __( "Page type", "wordpress-seo" ) }
+							label={ 	__( "Page type", "wordpress-seo" ) }
 							options={ pageTypes }
+							className="yst-max-w-sm"
 						/>
 						{ hasSchemaArticleType && (
 							<FormikValueChangeField
@@ -265,6 +266,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 								id={ `input-wpseo_titles-schema-article-type-${ name }` }
 								label={ __( "Article type", "wordpress-seo" ) }
 								options={ articleTypes }
+								className="yst-max-w-sm"
 							/>
 						) }
 					</FieldsetLayout>
