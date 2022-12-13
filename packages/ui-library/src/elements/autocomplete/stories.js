@@ -1,11 +1,11 @@
 import { useCallback, useMemo, useState } from "@wordpress/element";
 import { filter, find, includes, toLower, noop, map } from "lodash";
-import Autocomplete from ".";
+import Autocomplete, { StoryComponent } from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
-	title: "1) Elements/Autocomplete",
-	component: Autocomplete,
+	title: "1. Elements/Autocomplete",
+	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
 		labelSuffix: { control: "text" },
@@ -46,7 +46,7 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<Autocomplete
+			<StoryComponent
 				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
@@ -58,7 +58,7 @@ const Template = ( args ) => {
 						{ option.label }
 					</Autocomplete.Option>
 				) ) }
-			</Autocomplete>
+			</StoryComponent>
 		</div>
 	);
 };

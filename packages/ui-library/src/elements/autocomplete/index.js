@@ -131,7 +131,11 @@ const Autocomplete = forwardRef( ( {
 	);
 } );
 
-Autocomplete.propTypes = {
+
+Autocomplete.Option = Option;
+Autocomplete.Option.displayName = "Autocomplete.Option";
+
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
 	children: PropTypes.node,
@@ -149,7 +153,11 @@ Autocomplete.propTypes = {
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };
-
-Autocomplete.Option = Option;
+Autocomplete.propTypes = propTypes;
 
 export default Autocomplete;
+
+export const StoryComponent = props => <Autocomplete { ...props } />;
+// eslint-disable-next-line no-undef, react/forbid-foreign-prop-types
+StoryComponent.propTypes = propTypes;
+StoryComponent.displayName = "Autocomplete";
