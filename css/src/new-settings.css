@@ -215,15 +215,6 @@
 			yst-bg-slate-200
 			yst-text-slate-900;
 		}
-
-		.yst-introduction-modal {
-			.yst-modal__content {
-				@apply
-				yst-p-0
-				yst-max-w-[37rem]
-				yst-rounded-3xl;
-			}
-		}
 	}
 
 	/* RTL */
