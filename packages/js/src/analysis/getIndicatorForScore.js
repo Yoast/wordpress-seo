@@ -29,7 +29,7 @@ function getIndicatorForRating( rating ) {
 			return {
 				className: "ok",
 				screenReaderText: __( "OK SEO score", "wordpress-seo" ),
-				screenReaderReadabilityText: __( "Boomer", "wordpress-seo" ),
+				screenReaderReadabilityText: __( "OK", "wordpress-seo" ),
 				screenReaderInclusiveLanguageText: __( "Potentially non-inclusive", "wordpress-seo" ),
 			};
 		case "good":
