@@ -1,9 +1,14 @@
-import TagInput from ".";
+import { Tag, StoryComponent } from ".";
 import { useCallback, useState } from "@wordpress/element";
 
 export default {
+<<<<<<< feature/ui-library-3
 	title: "1) Elements/Tag Input",
 	component: TagInput,
+=======
+	title: "1. Elements/Tag Input",
+	component: Tag,
+>>>>>>> fix: forwardRef for TagInput and improved args table descriptions
 	parameters: {
 		docs: {
 			description: {
@@ -12,7 +17,41 @@ export default {
 		},
 	},
 	argTypes: {
+<<<<<<< feature/ui-library-3
 		children: { control: "text" },
+=======
+		children: {
+			control: "text",
+			description: "`children`, override `tags`. You can pass Tag subcomponent instead (`TagInput.Tag`).",
+			table: { type: { summary: "JSX.node" } },
+		},
+		tags: { description: "Array of options to display." },
+		tag: {
+			control: "text",
+			description: "`TagInput.Tag` prop (tag label).",
+			table: { type: { summary: "string" } },
+		},
+		index: {
+			description: "`TagInput.Tag` prop",
+			control: "number",
+			table: { type: { summary: "number" } },
+		},
+		disabled: {
+			control: "boolean",
+			description: "`TagInput.Tag` prop",
+			table: { type: { summary: "boolean" }, defaultValue: { summary: false } },
+		},
+		onRemoveTag: {
+			control: "function",
+			description: "`TagInput.Tag` prop",
+			table: { type: { required: true, summary: "function"  } },
+		},
+		screenReaderRemoveTag: {
+			description: "`TagInput.Tag` prop",
+			control: "text",
+			table: { type: { summary: "string" } },
+		},
+>>>>>>> fix: forwardRef for TagInput and improved args table descriptions
 	},
 	args: {
 		tags: [
@@ -43,7 +82,7 @@ const Template = args => {
 	}, [ tags, setTags ] );
 
 	return (
-		<TagInput { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 
