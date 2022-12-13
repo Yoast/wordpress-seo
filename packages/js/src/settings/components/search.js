@@ -82,19 +82,17 @@ const Search = () => {
 	const inputRef = useRef( null );
 	const { platform, os } = useParsedUserAgent();
 
-	// Only bind hotkeys when platform type is desktop.
 	useHotkeys(
-		// Note: Update the `"ctrl+k, cmd+k"` hotkeys to `"ctrl+k, meta+k"` when switching `react-hotkeys-hook` to v4.
-		"ctrl+k, cmd+k",
+		"meta+k",
 		event => {
 			event.preventDefault();
+			// Only bind hotkeys when platform type is desktop.
 			if ( platform?.type === "desktop" && ! isOpen ) {
 				setOpen();
 			}
 		},
 		{
-			// Note: Update the `enableOnTags: [],` option to `enableOnFormTags: true,` when switching `react-hotkeys-hook` to v4.
-			enableOnTags: [ "INPUT", "TEXTAREA", "SELECT" ],
+			enableOnFormTags: true,
 			enableOnContentEditable: true,
 		},
 		[ isOpen, setOpen, platform ]
