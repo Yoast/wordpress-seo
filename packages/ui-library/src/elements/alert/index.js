@@ -50,12 +50,21 @@ const Alert = forwardRef( ( {
 	</Component>
 ) );
 
-Alert.propTypes = {
+const propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
 	role: PropTypes.oneOf( Object.keys( roleMap ) ),
+};
+
+Alert.propTypes = propTypes;
+
+Alert.defaultProps = {
+	as: "span",
+	variant: "info",
+	className: "",
+	role: "status",
 };
 
 export default Alert;
