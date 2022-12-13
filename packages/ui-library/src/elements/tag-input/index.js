@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-foreign-prop-types */
 /* eslint-disable jsx-a11y/tabindex-no-positive */
 import { XIcon } from "@heroicons/react/solid";
 import { useCallback, useState, forwardRef } from "@wordpress/element";
@@ -15,7 +16,7 @@ import { Badge } from "../../index";
  * @param {Object} [props] Extra properties.
  * @returns {JSX.Element} The element.
  */
-const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag, ...props } ) => {
+export const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag, ...props } ) => {
 	const handleKeyDown = useCallback( event => {
 		if ( disabled ) {
 			return;
@@ -158,3 +159,8 @@ TagInput.propTypes = {
 TagInput.Tag = Tag;
 
 export default TagInput;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <TagInput { ...props } />;
+StoryComponent.propTypes = TagInput.propTypes;
+StoryComponent.displayName = "TagInput";
