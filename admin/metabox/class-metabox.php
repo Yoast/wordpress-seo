@@ -38,6 +38,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $readability_analysis;
 
 	/**
+	 * Helper to determine whether or not the inclusive language analysis is enabled.
+	 *
+	 * @var WPSEO_Metabox_Analysis_Inclusive_Language
+	 */
+	protected $inclusive_language_analysis;
+
+	/**
 	 * The metabox editor object.
 	 *
 	 * @var WPSEO_Metabox_Editor
@@ -93,8 +100,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			new Input_Helper()
 		);
 
-		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
+		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
+		$this->inclusive_language_analysis = new WPSEO_Metabox_Analysis_Inclusive_Language();
 	}
 
 	/**
@@ -425,6 +433,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$tabs[] = new WPSEO_Metabox_Section_Readability();
 		}
 
+		if ( $this->inclusive_language_analysis->is_enabled() ) {
+			$tabs[] = new WPSEO_Metabox_Section_Inclusive_Language();
+		}
+
 		if ( $this->is_advanced_metadata_enabled ) {
 			$tabs[] = new WPSEO_Metabox_Section_React(
 				'schema',
@@ -599,7 +611,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 					$options_count = count( $meta_field_def['options'] );
 
-					// This select now uses Select2.
 					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '"' . $aria_describedby . '>';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = '';
@@ -818,6 +829,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return true;
 		}
 
+		if ( $key === 'inclusive_language_score' && ! $this->inclusive_language_analysis->is_enabled() ) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -858,7 +873,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$asset_manager->enqueue_style( 'metabox-css' );
 		$asset_manager->enqueue_style( 'scoring' );
-		$asset_manager->enqueue_style( 'select2' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
 		$is_block_editor  = WP_Screen::get()->is_block_editor();

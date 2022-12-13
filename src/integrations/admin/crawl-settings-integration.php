@@ -325,8 +325,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * Displays the Premium upsell button.
 	 */
 	public function display_premium_upsell_btn() {
-		echo '<a class="yoast-button-upsell" href="';
-		echo \esc_url( WPSEO_Shortlinker::get( 'http://yoa.st/crawl-settings-upsell' ) );
+		echo '<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" href="';
+		echo \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/crawl-settings-upsell' ) );
 		echo '" target="_blank" style=" margin-top: 16px; margin-bottom: 16px; ">';
 
 		$button_msg = ( $this->product_helper->is_premium() && ! $this->is_premium_upgraded() ) ? \esc_html__( 'Upgrade Premium', 'wordpress-seo' ) : \esc_html__( 'Unlock with Premium', 'wordpress-seo' );

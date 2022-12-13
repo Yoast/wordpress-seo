@@ -36,7 +36,7 @@ class Post_Helper {
 	 *
 	 * @codeCoverageIgnore It only sets dependencies.
 	 *
-	 * @param String_Helper    $string_helper The string helper.
+	 * @param String_Helper    $string_helper    The string helper.
 	 * @param Post_Type_Helper $post_type_helper The string helper.
 	 */
 	public function __construct(

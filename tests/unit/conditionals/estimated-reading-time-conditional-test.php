@@ -59,8 +59,6 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when we are saving for Elementor.
 	 *
 	 * @covers ::is_met
-	 *
-	 * @requires PHP < 8.1
 	 */
 	public function test_ajax_elementor_save() {
 		// We are in an Ajax request.
@@ -69,7 +67,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// We are saving in Elementor with Ajax.
 		$this->input_helper
 			->expects( 'filter' )
-			->with( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING )
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This whole expectation will probably be removed/changed when the underlying deprecation is fixed..
+			->with( \INPUT_POST, 'action', @\FILTER_SANITIZE_STRING )
 			->andReturn( 'wpseo_elementor_save' );
 
 		$this->assertEquals( true, $this->instance->is_met() );
@@ -79,8 +78,6 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when we are not on a post, and also not in an Elementor save.
 	 *
 	 * @covers ::is_met
-	 *
-	 * @requires PHP < 8.1
 	 */
 	public function test_not_post_not_elementor_save() {
 		// We are in an Ajax request.
@@ -89,7 +86,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// The Ajax action is not for saving Elementor.
 		$this->input_helper
 			->expects( 'filter' )
-			->with( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING )
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This whole expectation will probably be removed/changed when the underlying deprecation is fixed..
+			->with( \INPUT_POST, 'action', @\FILTER_SANITIZE_STRING )
 			->andReturn( 'some_other_value' );
 
 		// We are not on a post according to the post conditional.

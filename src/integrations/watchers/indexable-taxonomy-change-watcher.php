@@ -2,11 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast_Notification;
-use Yoast_Notification_Center;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
@@ -14,6 +12,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast_Notification;
+use Yoast_Notification_Center;
 
 /**
  * Taxonomy watcher.
@@ -153,7 +153,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 */
 	private function maybe_add_notification() {
 		$notification = $this->notification_center->get_notification_by_id( 'taxonomies-made-public' );
-		if ( is_null( $notification ) ) {
+		if ( \is_null( $notification ) ) {
 			$this->add_notification();
 		}
 	}
@@ -164,7 +164,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	private function add_notification() {
-		$message = sprintf(
+		$message = \sprintf(
 			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
 			\esc_html__( 'It looks like you\'ve added a new taxonomy to your website. We recommend that you review your %1$sSearch appearance settings%2$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) ) . '">',

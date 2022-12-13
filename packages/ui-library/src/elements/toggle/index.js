@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
 
 /**
+ * @param {string} id ID.
  * @param {string|JSX.Element} [as="button"] Base component.
  * @param {boolean} checked Default state.
  * @param {string} screenReaderLabel The label for screen readers.
@@ -16,6 +17,7 @@ import { useSvgAria } from "../../hooks";
  * @returns {JSX.Element} Toggle component.
  */
 const Toggle = ( {
+	id,
 	as: Component = "button",
 	checked,
 	screenReaderLabel,
@@ -39,6 +41,7 @@ const Toggle = ( {
 				disabled && "yst-toggle--disabled",
 				className,
 			) }
+			data-id={ id }
 			{ ...props }
 			// Force type button when component is button for proper behavior in HTML forms.
 			type={ Component === "button" ? "button" : type }
@@ -77,6 +80,7 @@ const Toggle = ( {
 
 Toggle.propTypes = {
 	as: PropTypes.elementType,
+	id: PropTypes.string.isRequired,
 	checked: PropTypes.bool,
 	screenReaderLabel: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,

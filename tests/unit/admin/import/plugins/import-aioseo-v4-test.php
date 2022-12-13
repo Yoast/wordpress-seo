@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin\Import\Plugins;
 
 use Mockery;
 use wpdb;
-use WPSEO_Import_AIOSEO_V4;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Import\Plugins\WPSEO_Import_AIOSEO_V4_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -42,7 +41,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	public function test_meta_key_clone_replace() {
 		global $wpdb;
 
-		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'test';
 
 		$wpdb->shouldReceive( 'query' );
@@ -143,7 +142,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	public function test_meta_key_clone_replace_no_custom_field_replace_vars() {
 		global $wpdb;
 
-		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( wpdb::class );
 		$wpdb->prefix = 'test';
 
 		$wpdb->shouldReceive( 'query' );

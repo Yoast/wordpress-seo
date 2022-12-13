@@ -49,6 +49,7 @@ Option.propTypes = optionPropType;
  * @param {Object} [labelProps] Extra label props.
  * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {Function} onChange Change callback.
+ * @param {boolean} [disabled] Disabled state.
  * @param {boolean} [isError] Error message.
  * @param {string} [className] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
@@ -65,6 +66,7 @@ const Select = ( {
 	labelProps = {},
 	labelSuffix = null,
 	onChange,
+	disabled = false,
 	isError = false,
 	className = "",
 	buttonProps,
@@ -78,12 +80,12 @@ const Select = ( {
 
 	return (
 		<Listbox
-			id={ id }
 			as="div"
 			value={ value }
 			onChange={ onChange }
 			className={ classNames(
 				"yst-select",
+				disabled && "yst-select--disabled",
 				isError && "yst-select--error",
 				className,
 			) }
@@ -93,7 +95,7 @@ const Select = ( {
 				<Listbox.Label { ...labelProps }>{ label }</Listbox.Label>
 				{ labelSuffix }
 			</div> }
-			<Listbox.Button className="yst-select__button" { ...buttonProps }>
+			<Listbox.Button data-id={ id } className="yst-select__button" { ...buttonProps }>
 				<span className="yst-select__button-label">{ selectedLabel || selectedOption?.label || "" }</span>
 				{ isError ? (
 					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" { ...svgAriaProps } />
@@ -128,6 +130,7 @@ Select.propTypes = {
 	labelProps: PropTypes.object,
 	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
 	isError: PropTypes.bool,
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,

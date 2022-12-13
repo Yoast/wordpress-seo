@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Tracking
  */
 
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
+
 /**
  * Represents the addon option data.
  */
@@ -105,9 +107,14 @@ class WPSEO_Tracking_Addon_Data implements WPSEO_Collection {
 		$source_options          = \get_option( $source_name );
 		$addon_settings[ $slug ] = \array_intersect_key( $source_options, \array_flip( $option_include_list ) );
 
-		if ( \key_exists( 'use_multiple_locations', $source_options ) && \key_exists( 'business_type', $addon_settings[ $slug ] ) && $source_options['use_multiple_locations'] === 'on' && $source_options['multiple_locations_shared_business_info'] === 'off' ) {
+		if ( \array_key_exists( 'use_multiple_locations', $source_options ) && \array_key_exists( 'business_type', $addon_settings[ $slug ] ) && $source_options['use_multiple_locations'] === 'on' && $source_options['multiple_locations_shared_business_info'] === 'off' ) {
 			$addon_settings[ $slug ]['business_type'] = 'multiple_locations';
 		}
+
+		if ( ! ( new WooCommerce_Conditional() )->is_met() ) {
+			unset( $addon_settings[ $slug ]['woocommerce_local_pickup_setting'] );
+		}
+
 
 		return $addon_settings;
 	}

@@ -3,7 +3,14 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikReplacementVariableEditorField, FormLayout, OpenGraphDisabledAlert } from "../components";
+import {
+	FieldsetLayout,
+	FormikMediaSelectField,
+	FormikReplacementVariableEditorField,
+	FormLayout,
+	OpenGraphDisabledAlert,
+	RouteLayout,
+} from "../components";
 import { useSelectSettings } from "../hooks";
 
 /**
@@ -36,7 +43,7 @@ const LatestPosts = () => {
 	return <>
 		<FieldsetLayout
 			title={ __( "Search appearance", "wordpress-seo" ) }
-			description={ __( "Choose how your Homepage should look in search engines.", "wordpress-seo" ) }
+			description={ __( "Determine how your homepage should look in the search results.", "wordpress-seo" ) }
 		>
 			<FormikReplacementVariableEditorField
 				type="title"
@@ -59,12 +66,12 @@ const LatestPosts = () => {
 		<hr className="yst-my-8" />
 		<FieldsetLayout
 			title={ __( "Social appearance", "wordpress-seo" ) }
-			description={ __( "Choose how your Homepage should look on social media. Note that this is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
+			description={ __( "Determine how your homepage should look on social media.", "wordpress-seo" ) }
 		>
 			<OpenGraphDisabledAlert
 				isEnabled={ opengraph }
 				/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-				text={ __( "The %1$sSocial image%2$s, %1$sSocial title%2$s and %1$sSocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" ) }
+				text={ __( "The %1$ssocial image%2$s, %1$ssocial title%2$s and %1$ssocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" ) }
 			/>
 			<FormikMediaSelectField
 				id="wpseo_titles-open_graph_frontpage_image"
@@ -142,15 +149,17 @@ const Homepage = () => {
 	const homepageIsLatestPosts = useSelectSettings( "selectPreference", [], "homepageIsLatestPosts" );
 
 	return (
-		<FormLayout
+		<RouteLayout
 			title={ __( "Homepage", "wordpress-seo" ) }
-			description={ __( "Choose how your Homepage should look in search engines and on social media. Note that this is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
+			description={ __( "Determine how your homepage should look in the search results and on social media. This is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
 		>
-			<div className="yst-max-w-5xl">
-				{ homepageIsLatestPosts && <LatestPosts /> }
-				{ ! homepageIsLatestPosts && <PageAndPosts /> }
-			</div>
-		</FormLayout>
+			<FormLayout>
+				<div className="yst-max-w-5xl">
+					{ homepageIsLatestPosts && <LatestPosts /> }
+					{ ! homepageIsLatestPosts && <PageAndPosts /> }
+				</div>
+			</FormLayout>
+		</RouteLayout>
 	);
 };
 

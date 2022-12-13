@@ -43,7 +43,7 @@ function webinarPromoContent() {
 			<p className="yst-text-sm yst-mb-6">
 				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our free weekly webinar!", "wordpress-seo" ) }
 			</p>
-			<a href={ webinarIntroFirstTimeConfigUrl } id="link-webinar-register" target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
+			<a href={ webinarIntroFirstTimeConfigUrl } id="link-webinar-register" target="_blank" className="yst-button yst-button--primary yst-text-white" rel="noreferrer">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
 			<button

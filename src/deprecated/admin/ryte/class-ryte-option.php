@@ -84,7 +84,7 @@ class WPSEO_Ryte_Option {
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
 	}
 
 	/**
@@ -96,7 +96,7 @@ class WPSEO_Ryte_Option {
 	 * @return int|string
 	 */
 	public function get_status() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
 
 		return -1;
 	}
@@ -110,7 +110,7 @@ class WPSEO_Ryte_Option {
 	 * @param string $status The status to save.
 	 */
 	public function set_status( $status ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class WPSEO_Ryte_Option {
 	 * @param int $timestamp Timestamp with the new value.
 	 */
 	public function set_last_fetch( $timestamp ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
 	}
 
 	/**
@@ -138,7 +138,7 @@ class WPSEO_Ryte_Option {
 	 * @return bool Whether the indexability status should be fetched.
 	 */
 	public function should_be_fetched() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
 
 		return false;
 	}
@@ -150,7 +150,7 @@ class WPSEO_Ryte_Option {
 	 * @codeCoverageIgnore
 	 */
 	public function save_option() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
 	}
 
 	/**
@@ -162,7 +162,7 @@ class WPSEO_Ryte_Option {
 	 * @return bool
 	 */
 	public function is_enabled() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.6' );
 
 		return false;
 	}
