@@ -13,6 +13,9 @@ export default {
 			},
 		},
 	},
+	argTypes: {
+		children: { control: "text" },
+	},
 	args: {
 		limit: 5,
 		children: map( range( 10 ), n => <p key={ n }>{ n }</p> ),
