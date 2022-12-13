@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { ValidationIcon, ValidationMessage } from "../validation";
 import { forwardRef } from "@wordpress/element";
 
-const classNameMap = {
+export const classNameMap = {
 	variant: {
 		info: "yst-alert--info",
 		warning: "yst-alert--warning",
@@ -59,3 +59,9 @@ Alert.propTypes = {
 };
 
 export default Alert;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Alert { ...props } />;
+// eslint-disable-next-line react/forbid-foreign-prop-types
+StoryComponent.propTypes = Alert.propTypes;
+StoryComponent.displayName = "Alert";
