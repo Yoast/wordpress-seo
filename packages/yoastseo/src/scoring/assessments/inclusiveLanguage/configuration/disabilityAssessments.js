@@ -30,7 +30,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "binge",
 		nonInclusivePhrases: [ "binge" ],
-		inclusiveAlternatives: "<i>indulge, satuate, wallow, spree, marathon, consume excessively</i>",
+		inclusiveAlternatives: "<i>indulge, satiate, wallow, spree, marathon, consume excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
@@ -40,7 +40,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "bingeing",
 		nonInclusivePhrases: [ "bingeing", "binging" ],
-		inclusiveAlternatives: "<i>indulging, satuating, wallowing, spreeing, marathoning, consuming excessively</i>",
+		inclusiveAlternatives: "<i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
@@ -48,7 +48,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "binged",
 		nonInclusivePhrases: [ "binged" ],
-		inclusiveAlternatives: "<i>indulged, satuated, wallowed, spreed, marathoned, consumed excessively</i>",
+		inclusiveAlternatives: "<i>indulged, satiated, wallowed, spreed, marathoned, consumed excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
@@ -56,7 +56,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "binges",
 		nonInclusivePhrases: [ "binges" ],
-		inclusiveAlternatives: "<i>indulges, satuates, wallows, sprees, marathons, consumes excessively</i>",
+		inclusiveAlternatives: "<i>indulges, satiates, wallows, sprees, marathons, consumes excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",

@@ -228,7 +228,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "I binge on ice cream.",
 				expectedFeedback: "Avoid using <i>binge</i>, unless talking about a symptom of a medical condition. " +
 					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
-					"such as <i>indulge, satuate, wallow, spree, marathon, consume excessively</i>. " +
+					"such as <i>indulge, satiate, wallow, spree, marathon, consume excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
@@ -237,7 +237,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "She binges on Netflix series.",
 				expectedFeedback: "Avoid using <i>binges</i>, unless talking about a symptom of a medical condition. " +
 					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
-					"such as <i>indulges, satuates, wallows, sprees, marathons, consumes excessively</i>. " +
+					"such as <i>indulges, satiates, wallows, sprees, marathons, consumes excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
@@ -246,7 +246,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "She is bingeing the new Korean drama on Netflix.",
 				expectedFeedback: "Avoid using <i>bingeing</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
 					" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
-					"satuating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+					"satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
@@ -255,7 +255,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "She is binging the new Korean drama on Netflix.",
 				expectedFeedback: "Avoid using <i>binging</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
 					" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
-					"satuating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+					"satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
@@ -264,7 +264,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "She binged the new Korean drama on Netflix.",
 				expectedFeedback: "Avoid using <i>binged</i>, unless talking about a symptom of a medical condition. If you are not referencing " +
 					"a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulged, " +
-					"satuated, wallowed, spreed, marathoned, consumed excessively</i>. " +
+					"satiated, wallowed, spreed, marathoned, consumed excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
