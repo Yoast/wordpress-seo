@@ -1,29 +1,53 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless, preferredDescriptorIfKnown } from "./feedbackStrings";
+import { potentiallyHarmful,
+	potentiallyHarmfulUnless,
+	preferredDescriptorIfKnown,
+} from "./feedbackStrings";
 import { SCORES } from "./scores";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 const appearanceAssessments = [
 	{
 		identifier: "albinos",
 		nonInclusivePhrases: [ "albinos" ],
-		inclusiveAlternatives: "people with albinism, albino people",
+		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
-		identifier: "obese",
-		nonInclusivePhrases: [ "obese", "overweight" ],
-		inclusiveAlternatives: "<i>has/have a higher weight, " +
-			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people</i>",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful, preferredDescriptorIfKnown ].join( " " ),
+		identifier: "anAlbino",
+		nonInclusivePhrases: [ "an albino" ],
+		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
+		},
 	},
 	{
-		identifier: "obesity",
-		nonInclusivePhrases: [ "person with obesity", "people with obesity", "fat person", "fat people" ],
-		inclusiveAlternatives: "<i>person/people who has/have a higher weight, " +
-			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people</i>",
+		identifier: "obese",
+		nonInclusivePhrases: [ "obese", "overweight" ],
+		inclusiveAlternatives: "<i>has a higher weight, " +
+			"higher-weight person, person in higher weight body, heavier person</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful, preferredDescriptorIfKnown ].join( " " ),
+		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
+	},
+	{
+		identifier: "obesitySingular",
+		nonInclusivePhrases: [ "person with obesity", "fat person" ],
+		inclusiveAlternatives: "<i>person who has a higher weight, " +
+			"higher-weight person, person in higher weight body, heavier person</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
+	},
+	{
+		identifier: "obesityPlural",
+		nonInclusivePhrases: [ "people with obesity", "fat people" ],
+		inclusiveAlternatives: "<i>people who have a higher weight, " +
+			"higher-weight people, people in higher weight bodies, heavier people</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: [ potentiallyHarmfulUnless ].join( " " ),
 	},
 	{
 		identifier: "verticallyChallenged",
