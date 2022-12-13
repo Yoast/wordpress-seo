@@ -66,17 +66,17 @@ Option.propTypes = optionPropType;
 const Autocomplete = forwardRef( ( {
 	id,
 	value,
-	children = null,
-	selectedLabel = "",
-	label = "",
-	labelProps = {},
-	labelSuffix = null,
+	children,
+	selectedLabel,
+	label,
+	labelProps,
+	labelSuffix,
 	onChange,
 	onQueryChange,
-	validation = {},
-	placeholder = "",
-	className = "",
-	buttonProps = {},
+	validation,
+	placeholder,
+	className,
+	buttonProps,
 	...props
 }, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
@@ -155,9 +155,22 @@ const propTypes = {
 };
 Autocomplete.propTypes = propTypes;
 
+Autocomplete.defaultProps = {
+	children: null,
+	selectedLabel: "",
+	label: "",
+	labelProps: {},
+	labelSuffix: null,
+	validation: {},
+	placeholder: "",
+	className: "",
+	buttonProps: {},
+};
+
 export default Autocomplete;
 
 export const StoryComponent = props => <Autocomplete { ...props } />;
 // eslint-disable-next-line no-undef, react/forbid-foreign-prop-types
 StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Autocomplete.defaultProps;
 StoryComponent.displayName = "Autocomplete";
