@@ -46,7 +46,7 @@ const Badge = forwardRef( ( {
 	</Component>
 ) );
 
-Badge.propTypes = {
+const propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
@@ -54,4 +54,11 @@ Badge.propTypes = {
 	className: PropTypes.string,
 };
 
+Badge.propTypes = propTypes;
+
 export default Badge;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Badge { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.displayName = "Badge";
