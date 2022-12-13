@@ -32,11 +32,19 @@ const TextInput = forwardRef( ( {
 	/>
 ) );
 
-TextInput.propTypes = {
+const propTypes = {
 	type: PropTypes.string,
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	readOnly: PropTypes.bool,
 };
 
+TextInput.propTypes = propTypes;
+
 export default TextInput;
+
+// Story wrapper for this forwardRef component.
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <TextInput { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.displayName = "TextInput";
