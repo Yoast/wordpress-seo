@@ -3,7 +3,7 @@ import { keys } from "lodash";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
 
-const classNameMap = {
+export const classNameMap = {
 	variant: {
 		// Default is currentColor.
 		"default": "",
