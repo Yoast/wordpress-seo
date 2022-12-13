@@ -238,7 +238,7 @@ const cultureAssessments = [
 		feedbackFormat: overgeneralizing,
 	},
 	{
-		identifier: "firstWorld",
+		identifier: "firstWorldHyphen",
 		nonInclusivePhrases: [ "first-world" ],
 		inclusiveAlternatives: "specific name for the country or region",
 		score: SCORES.NON_INCLUSIVE,

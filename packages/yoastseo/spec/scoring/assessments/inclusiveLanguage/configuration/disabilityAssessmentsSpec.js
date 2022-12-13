@@ -4,7 +4,7 @@ import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/disabilityAssessments";
 import Factory from "../../../../specHelpers/factory.js";
 
-describe( "Disability assessments", function() {
+describe( "A test for Disability assessments", function() {
 	it( "should return proper feedback with two inclusive alternatives", function() {
 		const mockPaper = new Paper( "Look at that sociopath." );
 		const mockResearcher = Factory.buildMockResearcher( [ "Look at that sociopath." ] );
@@ -63,13 +63,13 @@ describe( "Disability assessments", function() {
 	it( "should only target retarded if preceded by mentally.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "retarded" ) );
 
-		let testSentence = "He is mentally retarded";
+		let testSentence = "He is mentally retarded.";
 		let mockPaper = new Paper( testSentence );
 		let mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 
-		testSentence = "He is retarded";
+		testSentence = "He is retarded.";
 		mockPaper = new Paper( testSentence );
 		mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
 
@@ -207,6 +207,164 @@ describe( "Disability assessments", function() {
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "correctly identifies 'wheelchair-bound'", () => {
+		const mockPaper = new Paper( "This sentence contains wheelchair-bound." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains wheelchair-bound." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "wheelchairBound" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>wheelchair-bound</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>uses a wheelchair, is a wheelchair user</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains wheelchair-bound.</yoastmark>",
+			original: "This sentence contains wheelchair-bound." } } ]
+		);
+	} );
+	it( "correctly identifies 'hard-of-hearing'", () => {
+		const mockPaper = new Paper( "This sentence contains hard-of-hearing." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains hard-of-hearing." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "hardOfHearing" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>hard-of-hearing</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>hard of hearing, partially deaf, has partial hearing loss</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains hard-of-hearing.</yoastmark>",
+			original: "This sentence contains hard-of-hearing." } } ]
+		);
+	} );
+	it( "correctly identifies 'high-functioning autism'", () => {
+		const mockPaper = new Paper( "This sentence contains high-functioning autism." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains high-functioning autism." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "autismHigh" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>high-functioning autism</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>autism with high support needs</i> " +
+			"or describing the specific characteristic or experience, unless referring to how you characterize your own condition. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains high-functioning autism.</yoastmark>",
+			original: "This sentence contains high-functioning autism." } } ]
+		);
+	} );
+	it( "correctly identifies 'low-functioning autism'", () => {
+		const mockPaper = new Paper( "This sentence contains low-functioning autism." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains low-functioning autism." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "autismLow" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>low-functioning autism</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>autism with low support needs</i> " +
+			"or describing the specific characteristic or experience, unless referring to how you characterize your own condition. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains low-functioning autism.</yoastmark>",
+			original: "This sentence contains low-functioning autism." } } ]
+		);
+	} );
+	it( "correctly identifies 'deaf-mute'", () => {
+		const mockPaper = new Paper( "This sentence contains deaf-mute." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains deaf-mute." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "deaf" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>deaf-mute</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>deaf</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains deaf-mute.</yoastmark>",
+			original: "This sentence contains deaf-mute." } } ]
+		);
+	} );
+	it( "correctly identifies 'brain-damaged'", () => {
+		const mockPaper = new Paper( "This sentence contains brain-damaged." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains brain-damaged." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "brainDamaged" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>brain-damaged</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>person with a (traumatic) brain injury</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains brain-damaged.</yoastmark>",
+			original: "This sentence contains brain-damaged." } } ]
+		);
+	} );
+	it( "correctly identifies 'differently-abled'", () => {
+		const mockPaper = new Paper( "This sentence contains differently-abled." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains differently-abled." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "differentlyAbled" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>differently-abled</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>disabled, person with a disability</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains differently-abled.</yoastmark>",
+			original: "This sentence contains differently-abled." } } ]
+		);
 	} );
 } );
 
