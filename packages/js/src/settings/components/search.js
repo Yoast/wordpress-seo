@@ -183,60 +183,62 @@ const Search = () => {
 			) }
 		</button>
 		<Modal
-			className="yst-modal--top"
 			onClose={ setClose }
 			isOpen={ isOpen }
 			initialFocus={ inputRef }
+			position="top-center"
 		>
-			<Combobox as="div" className="yst--m-6 yst--mt-5" onChange={ handleNavigate }>
-				<div className="yst-relative">
-					<SearchIcon
-						className="yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400"
-						{ ...ariaSvgProps }
-					/>
-					<Combobox.Input
-						ref={ inputRef }
-						id="input-search"
-						placeholder={ __( "Search...", "wordpress-seo" ) }
-						value={ query }
-						onChange={ handleQueryChange }
-						className="yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm"
-					/>
-				</div>
-				{ query.length >= QUERY_MIN_CHARS && ! isEmpty( results ) && (
-					<Combobox.Options
-						static={ true }
-						className="yst-max-h-[calc(90vh-10rem)] yst-scroll-pt-11 yst-scroll-pb-2 yst-space-y-2 yst-overflow-y-auto yst-pb-2"
-					>
-						{ map( results, ( groupedItems, index ) => (
-							<li key={ groupedItems?.[ 0 ]?.route || `group-${ index }` }>
-								<Title as="h4" size="3" className="yst-bg-slate-100 yst-py-3 yst-px-4">{ first( groupedItems ).routeLabel }</Title>
-								<ul>
-									{ map( groupedItems, ( item ) =>  (
-										<Combobox.Option
-											key={ item.fieldId }
-											value={ item }
-											className={ handleOptionActiveState }
-										>
-											<SearchResultLabel { ...item } />
-										</Combobox.Option>
-									) ) }
-								</ul>
-							</li>
-						) ) }
-					</Combobox.Options>
-				) }
-				{ query.length < QUERY_MIN_CHARS && (
-					<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
-						<p className="yst-text-slate-500">{ __( "Please enter a search term with at least 3 characters.", "wordpress-seo" ) }</p>
-					</SearchNoResultsContent>
-				) }
-				{ query.length >= QUERY_MIN_CHARS && isEmpty( results ) && (
-					<SearchNoResultsContent title={ __( "No results found", "wordpress-seo" ) }>
-						<p className="yst-text-slate-500">{ __( "We couldn’t find anything with that term.", "wordpress-seo" ) }</p>
-					</SearchNoResultsContent>
-				) }
-			</Combobox>
+			<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
+				<Combobox as="div" className="yst--m-6 yst--mt-5" onChange={ handleNavigate }>
+					<div className="yst-relative">
+						<SearchIcon
+							className="yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400"
+							{ ...ariaSvgProps }
+						/>
+						<Combobox.Input
+							ref={ inputRef }
+							id="input-search"
+							placeholder={ __( "Search...", "wordpress-seo" ) }
+							value={ query }
+							onChange={ handleQueryChange }
+							className="yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm"
+						/>
+					</div>
+					{ query.length >= QUERY_MIN_CHARS && ! isEmpty( results ) && (
+						<Combobox.Options
+							static={ true }
+							className="yst-max-h-[calc(90vh-10rem)] yst-scroll-pt-11 yst-scroll-pb-2 yst-space-y-2 yst-overflow-y-auto yst-pb-2"
+						>
+							{ map( results, ( groupedItems, index ) => (
+								<li key={ groupedItems?.[ 0 ]?.route || `group-${ index }` }>
+									<Title as="h4" size="3" className="yst-bg-slate-100 yst-py-3 yst-px-4">{ first( groupedItems ).routeLabel }</Title>
+									<ul>
+										{ map( groupedItems, ( item ) =>  (
+											<Combobox.Option
+												key={ item.fieldId }
+												value={ item }
+												className={ handleOptionActiveState }
+											>
+												<SearchResultLabel { ...item } />
+											</Combobox.Option>
+										) ) }
+									</ul>
+								</li>
+							) ) }
+						</Combobox.Options>
+					) }
+					{ query.length < QUERY_MIN_CHARS && (
+						<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
+							<p className="yst-text-slate-500">{ __( "Please enter a search term with at least 3 characters.", "wordpress-seo" ) }</p>
+						</SearchNoResultsContent>
+					) }
+					{ query.length >= QUERY_MIN_CHARS && isEmpty( results ) && (
+						<SearchNoResultsContent title={ __( "No results found", "wordpress-seo" ) }>
+							<p className="yst-text-slate-500">{ __( "We couldn’t find anything with that term.", "wordpress-seo" ) }</p>
+						</SearchNoResultsContent>
+					) }
+				</Combobox>
+			</Modal.Panel>
 		</Modal>
 	</>;
 };

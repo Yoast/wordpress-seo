@@ -141,10 +141,11 @@ const InitialFocusComponent = () => {
 		<Fragment>
 			<Button onClick={ openModal }>Open modal</Button>
 			<RawModal isOpen={ isOpen } onClose={ closeModal } initialFocus={ centerElementRef }>
-
-				<RawModal.Title>Title</RawModal.Title>
-				<RawModal.Description>Description area.</RawModal.Description>
-				<TextInput placeholder="This is where the focus should be." ref={ centerElementRef } />
+				<RawModal.Panel>
+					<RawModal.Title>Title</RawModal.Title>
+					<RawModal.Description>Description area.</RawModal.Description>
+					<TextInput placeholder="This is where the focus should be." ref={ centerElementRef } />
+				</RawModal.Panel>
 			</RawModal>
 		</Fragment>
 	);
