@@ -1,17 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
-import { createContext, forwardRef, Fragment, useContext } from "@wordpress/element";
+import { forwardRef, Fragment } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Title from "../../elements/title";
 import { useSvgAria } from "../../hooks";
-
-const ModalContext = createContext( { isOpen: false } );
-
-/**
- * @returns {Object} The modal context.
- */
-export const useModalContext = () => useContext( ModalContext );
+import { ModalContext, useModalContext } from "./hooks";
 
 /**
  * @param {JSX.node} children Contents of the modal.
