@@ -19,11 +19,11 @@ import { useDescribedBy } from "../../hooks";
 const TagField = ( {
 	id,
 	label,
-	labelSuffix = null,
-	disabled = false,
-	className = "",
-	description = null,
-	validation = {},
+	labelSuffix,
+	disabled,
+	className,
+	description,
+	validation,
 	...props
 } ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -53,7 +53,7 @@ const TagField = ( {
 	);
 };
 
-TagField.propTypes = {
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	labelSuffix: PropTypes.node,
@@ -65,5 +65,21 @@ TagField.propTypes = {
 		message: PropTypes.node,
 	} ),
 };
+
+TagField.propTypes = propTypes;
+
+TagField.defaultProps = {
+	labelSuffix: null,
+	disabled: false,
+	className: "",
+	description: null,
+	validation: {},
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <TagField { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = TagField.defaultProps;
+StoryComponent.displayName = "TagField";
 
 export default TagField;
