@@ -1,7 +1,6 @@
 import { useCallback, useContext, createContext, useMemo } from "@wordpress/element";
 import { values, includes, isEmpty, isNull, capitalize } from "lodash";
 import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon, ExclamationCircleIcon, ExclamationIcon, InformationCircleIcon } from "@heroicons/react/solid";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 
