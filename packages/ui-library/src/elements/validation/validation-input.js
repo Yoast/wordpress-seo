@@ -14,6 +14,8 @@ const CLASSNAME_MAP = {
 
 /**
  * @param {string} variant The variant to render.
+ * @param {Object} [validation] The validation state.
+ * @param {string} [className] The classname.
  * @returns {JSX.Element} The ValidationInput component.
  */
 const ValidationInput = forwardRef( ( {

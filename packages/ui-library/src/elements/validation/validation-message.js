@@ -12,9 +12,9 @@ const CLASSNAME_MAP = {
 };
 
 /**
- * @param {string|functione} [as="p"] The component to render as.
+ * @param {string|function} [as="p"] The component to render as.
  * @param {string} [variant="info"] The variant.
- * @param {JSX.node} [message=""] The validation message.
+ * @param {JSX.node} [children=""] The validation message.
  * @param {string} [className=""] The class name.
  * @returns {JSX.Element} The ValidationMessage component.
  */

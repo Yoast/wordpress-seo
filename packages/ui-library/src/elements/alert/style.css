@@ -6,10 +6,6 @@
 			yst-gap-3
 			yst-rounded-md
 			yst-p-4;
-
-			a {
-				@apply yst-text-inherit hover:visited:yst-text-inherit yst-font-medium;
-			}
 		}
 
 		/* Variants */

@@ -16,6 +16,8 @@ const CLASSNAME_MAP = {
 
 /**
  * @param {string} variant The variant to render.
+ * @param {string} className The classname.
+ * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} The ValidationIcon component.
  */
 const ValidationIcon = ( {
