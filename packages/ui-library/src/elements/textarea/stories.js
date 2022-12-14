@@ -1,8 +1,8 @@
-import Textarea from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Textarea",
-	component: Textarea,
+	component: StoryComponent,
 	argTypes: {
 		cols: {
 			table: {
@@ -25,7 +25,7 @@ export default {
 };
 
 export const Factory = {
-	component: ( args ) => <Textarea { ...args } />,
+	component: ( args ) => <StoryComponent { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
