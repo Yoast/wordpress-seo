@@ -1,13 +1,14 @@
-import AutocompleteField from ".";
+import AutocompleteField, { StoryComponent } from ".";
 import { useCallback, useMemo, useState } from "@wordpress/element";
 import { filter, find, includes, toLower, noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "2) Components/Autocomplete Field",
-	component: AutocompleteField,
+	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
+		error: { control: "text", table: { defaultValue: { summary: "null" } } },
 	},
 	parameters: {
 		docs: {
@@ -45,7 +46,7 @@ const Template = ( { ...args } ) => {
 	return (
 	// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<AutocompleteField
+			<StoryComponent
 				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
@@ -57,7 +58,7 @@ const Template = ( { ...args } ) => {
 						{ option.label }
 					</AutocompleteField.Option>
 				) ) }
-			</AutocompleteField>
+			</StoryComponent>
 		</div>
 	);
 };
