@@ -19,13 +19,13 @@ import { forwardRef } from "@wordpress/element";
  */
 const Toggle = forwardRef( ( {
 	id,
-	as: Component = "button",
+	as: Component,
 	checked,
 	screenReaderLabel,
 	onChange,
-	disabled = false,
-	className = "",
-	type = "",
+	disabled,
+	className,
+	type,
 	...props
 }, ref ) => {
 	const svgAriaProps = useSvgAria();
@@ -80,7 +80,7 @@ const Toggle = forwardRef( ( {
 	);
 } );
 
-Toggle.propTypes = {
+const propTypes = {
 	as: PropTypes.elementType,
 	id: PropTypes.string.isRequired,
 	checked: PropTypes.bool,
@@ -90,5 +90,21 @@ Toggle.propTypes = {
 	type: PropTypes.string,
 	className: PropTypes.string,
 };
+
+Toggle.propTypes = propTypes;
+
+Toggle.defaultProps = {
+	as: "button",
+	checked: false,
+	disabled: false,
+	type: "",
+	className: "",
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Toggle { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Toggle.defaultProps;
+StoryComponent.displayName = "Toggle";
 
 export default Toggle;

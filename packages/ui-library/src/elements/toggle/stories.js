@@ -1,9 +1,9 @@
 import { noop } from "lodash";
-import Toggle from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Toggle",
-	component: Toggle,
+	component: StoryComponent,
 	argTypes: {
 		as: { options: [ "button", "div", "span" ] },
 	},
@@ -17,11 +17,13 @@ export default {
 };
 
 export const Factory = ( args ) => (
-	<Toggle { ...args } />
+	<StoryComponent { ...args } />
 );
+
 Factory.parameters = {
 	controls: { disable: false },
 };
+
 Factory.args = {
 	screenReaderLabel: "Toggle",
 	checked: false,
