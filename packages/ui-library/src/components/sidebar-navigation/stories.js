@@ -3,7 +3,7 @@ import SidebarNavigation from ".";
 import Table from "../../elements/table";
 
 export default {
-	title: "2. Components/Sidebar Navigation",
+	title: "2) Components/Sidebar Navigation",
 	component: SidebarNavigation,
 	argTypes: {
 		children: { control: "text" },
