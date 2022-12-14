@@ -30,8 +30,12 @@ SidebarNavigation.propTypes = {
 };
 
 SidebarNavigation.Sidebar = Sidebar;
+SidebarNavigation.Sidebar.displayName = "SidebarNavigation.Sidebar";
 SidebarNavigation.Mobile = Mobile;
+SidebarNavigation.Mobile.displayName = "SidebarNavigation.Mobile";
 SidebarNavigation.MenuItem = MenuItem;
+SidebarNavigation.MenuItem.displayName = "SidebarNavigation.MenuItem";
 SidebarNavigation.SubmenuItem = SubmenuItem;
+SidebarNavigation.SubmenuItem.displayName = "SidebarNavigation.SubmenuItem";
 
 export default SidebarNavigation;
