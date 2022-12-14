@@ -116,9 +116,14 @@ Table.propTypes = {
 };
 
 Table.Head = Head;
+Table.Head.displayName = "Table.Head";
 Table.Body = Body;
+Table.Body.displayName = "Table.Body";
 Table.Header = Header;
+Table.Header.displayName = "Table.Header";
 Table.Row = Row;
+Table.Row.displayName = "Table.Row";
 Table.Cell = Cell;
+Table.Cell.displayName = "Table.Cell";
 
 export default Table;
