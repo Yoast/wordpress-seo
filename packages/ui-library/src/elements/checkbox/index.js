@@ -42,7 +42,7 @@ const Checkbox = forwardRef( ( {
 	</div>
 ) );
 
-Checkbox.propTypes = {
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -50,9 +50,16 @@ Checkbox.propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 };
+Checkbox.propTypes = propTypes;
 
 Checkbox.defaultProps = {
 	className: "",
 };
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Checkbox { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Checkbox.defaultProps;
+StoryComponent.displayName = "Checkbox";
 
 export default Checkbox;
