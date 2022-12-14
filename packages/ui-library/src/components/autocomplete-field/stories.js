@@ -1,13 +1,13 @@
 import AutocompleteField from ".";
 import { useCallback, useMemo, useState } from "@wordpress/element";
-import { filter, find, includes, toLower } from "lodash";
+import { filter, find, includes, toLower, noop, map } from "lodash";
+import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
 	title: "2) Components/Autocomplete Field",
 	component: AutocompleteField,
 	argTypes: {
 		description: { control: "text" },
-		error: { control: "text" },
 	},
 	parameters: {
 		docs: {
@@ -75,22 +75,6 @@ Factory.args = {
 	placeholder: "Search an option...",
 };
 
-export const WithError = Template.bind( {} );
-
-WithError.parameters = {
-	controls: { disable: false },
-	docs: { description: { story: "An exampe with error message using `error` prop." } },
-};
-
-WithError.args = {
-	id: "with-error",
-	name: "with-error",
-	label: "Example label",
-	labelProps: { className: "yoast-field-group__label" },
-	isError: true,
-	error: "This is an error message",
-};
-
 export const WithDescription = Template.bind( {} );
 
 WithDescription.parameters = {
@@ -151,4 +135,34 @@ ChildrenProp.args = {
 
 ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Option` (`AutocompleteField.Option` is equal to `Autocomplete` element). Default values should be set inside the child component and not the `selectedLabel` prop." } } };
 
-
+export const Validation = () => (
+	<div className="yst-space-y-8">
+		{ map( VALIDATION_VARIANTS, variant => (
+			<AutocompleteField
+				key={ variant }
+				id={ `validation-${ variant }` }
+				name={ `validation-${ variant }` }
+				label={ `With validation of variant ${ variant }` }
+				value="1"
+				selectedLabel="The quick brown fox jumps over the lazy dog"
+				onChange={ noop }
+				onQueryChange={ noop }
+				options={ [
+					{ value: "1", label: "Option 1" },
+					{ value: "2", label: "Option 2" },
+					{ value: "3", label: "Option 3" },
+					{ value: "4", label: "Option 4" },
+				] }
+				validation={ {
+					variant,
+					message: {
+						success: "Looks like you are nailing it!",
+						warning: "Looks like you could do better!",
+						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+						error: "Looks like you are doing it wrong!",
+					}[ variant ],
+				} }
+			/>
+		) ) }
+	</div>
+);

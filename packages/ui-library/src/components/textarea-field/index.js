@@ -1,9 +1,9 @@
-import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
 import Textarea from "../../elements/textarea";
-import { useDescribedBy, useSvgAria } from "../../hooks";
+import { ValidationInput, ValidationMessage } from "../../elements/validation";
+import { useDescribedBy } from "../../hooks";
 
 /**
  * @param {string} id The ID of the input.
@@ -11,39 +11,38 @@ import { useDescribedBy, useSvgAria } from "../../hooks";
  * @param {string} label The label.
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
- * @param {JSX.node} [error] An error "message".
+ * @param {Object} [error] The validation state.
  * @param {Object} [props] Any extra properties for the Textarea.
  * @returns {JSX.Element} The textarea field.
  */
 const TextareaField = ( {
 	id,
 	label,
-	className,
-	description,
-	error,
+	className = "",
+	description = "",
+	validation = {},
 	...props
 } ) => {
-	const { ids, describedBy } = useDescribedBy( id, { error, description } );
-	const svgAriaProps = useSvgAria();
+	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
 		<div className={ classNames( "yst-textarea-field", className ) }>
-			<Label className="yst-textarea-field__label" htmlFor={ id } label={ label } />
-			<div className="yst-relative">
-				<Textarea
-					id={ id }
-					className={ classNames(
-						"yst-textarea-field__input",
-						error && "yst-textarea-field__input--error",
-					) }
-					aria-describedby={ describedBy }
-					{ ...props }
-				/>
-				{ error && <div className="yst-textarea-field__error-icon">
-					<ExclamationCircleIcon { ...svgAriaProps } />
-				</div> }
+			<div className="yst-flex yst-items-center yst-mb-2">
+				<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
 			</div>
-			{ error && <p id={ ids.error } className="yst-textarea-field__error">{ error }</p> }
+			<ValidationInput
+				as={ Textarea }
+				id={ id }
+				className="yst-textarea-field__input"
+				aria-describedby={ describedBy }
+				validation={ validation }
+				{ ...props }
+			/>
+			{ validation?.message && (
+				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-textarea-field__validation">
+					{ validation.message }
+				</ValidationMessage>
+			) }
 			{ description && <p id={ ids.description } className="yst-textarea-field__description">{ description }</p> }
 		</div>
 	);
@@ -54,13 +53,10 @@ TextareaField.propTypes = {
 	label: PropTypes.string.isRequired,
 	className: PropTypes.string,
 	description: PropTypes.node,
-	error: PropTypes.node,
-};
-
-TextareaField.defaultProps = {
-	className: "",
-	description: null,
-	error: null,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 };
 
 export default TextareaField;
