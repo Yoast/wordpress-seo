@@ -1,8 +1,8 @@
-import Checkbox from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Checkbox",
-	component: Checkbox,
+	component: StoryComponent,
 	argTypes: {},
 	parameters: {
 		docs: {
@@ -14,7 +14,7 @@ export default {
 };
 
 export const Factory = ( args ) => (
-	<Checkbox { ...args } />
+	<StoryComponent { ...args } />
 );
 Factory.parameters = {
 	controls: { disabled: false },
@@ -28,7 +28,7 @@ Factory.args = {
 };
 
 export const Disabled = ( args ) => (
-	<Checkbox { ...args } />
+	<StoryComponent { ...args } />
 );
 Disabled.parameters = {
 	controls: { disable: true },
