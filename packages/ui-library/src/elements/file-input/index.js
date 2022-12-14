@@ -27,11 +27,11 @@ const FileInput = forwardRef( ( {
 	selectLabel,
 	dropLabel,
 	screenReaderLabel,
-	selectDescription = "",
-	disabled = false,
-	iconAs: IconComponent = DocumentAddIcon,
+	selectDescription,
+	disabled,
+	iconAs: IconComponent,
 	onChange,
-	className = "",
+	className,
 	...props
 }, ref ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
@@ -97,7 +97,7 @@ const FileInput = forwardRef( ( {
 	);
 } );
 
-FileInput.propTypes = {
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -110,5 +110,20 @@ FileInput.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
 };
+
+FileInput.defaultProps = {
+	selectDescription: "",
+	disabled: false,
+	iconAs: DocumentAddIcon,
+	className: "",
+};
+
+FileInput.propTypes = propTypes;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <FileInput { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = FileInput.defaultProps;
+StoryComponent.displayName = "FileInput";
 
 export default FileInput;

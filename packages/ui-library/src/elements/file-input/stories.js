@@ -1,10 +1,10 @@
 import { noop } from "lodash";
-import FileInput from ".";
+import { StoryComponent } from ".";
 import { DesktopComputerIcon } from "@heroicons/react/outline";
 
 export default {
 	title: "1) Elements/File Input",
-	component: FileInput,
+	component: StoryComponent,
 	argTypes: {},
 	parameters: {
 		docs: {
@@ -15,7 +15,7 @@ export default {
 	},
 };
 
-const Template = ( args ) => <FileInput
+const Template = ( args ) => <StoryComponent
 	value=""
 	selectLabel="Select label"
 	dropLabel="or drag and drop label"
