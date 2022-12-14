@@ -1,5 +1,5 @@
 import { noop } from "lodash";
-import { StoryComponent } from ".";
+import FileInput, { StoryComponent } from ".";
 import { DesktopComputerIcon } from "@heroicons/react/outline";
 
 export default {
@@ -15,7 +15,7 @@ export default {
 	},
 };
 
-const Template = ( args ) => <StoryComponent
+const Template = ( args ) => <FileInput
 	value=""
 	selectLabel="Select label"
 	dropLabel="or drag and drop label"

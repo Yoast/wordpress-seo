@@ -1,4 +1,4 @@
-import { classNameMap, roleMap, StoryComponent } from ".";
+import Alert, { classNameMap, roleMap, StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Alert",
@@ -15,7 +15,6 @@ export default {
 			control: { type: "select" },
 			table: { type: { summary: Object.keys( classNameMap.variant ).join( "|" ) }, defaultValue: { summary: "info" } },
 		},
-		className: { control: "text" },
 		role: {
 			options: Object.keys( roleMap ),
 			control: { type: "select" },
@@ -32,7 +31,7 @@ export default {
 };
 
 export const Factory = ( { children, ...args } ) => (
-	<StoryComponent { ...args }>{ children }</StoryComponent>
+	<Alert { ...args }>{ children }</Alert>
 );
 Factory.parameters = {
 	jest: "snapshot",
@@ -46,10 +45,10 @@ export const Variants = ( args ) => {
 	const Link = <a href="https://yoast.com">with a link</a>;
 	return (
 		<div className="yst-flex yst-flex-col yst-gap-2">
-			<StoryComponent variant="info">This is an information alert { Link }. (default)</StoryComponent>
-			<StoryComponent variant="warning">This is a warning alert { Link }.</StoryComponent>
-			<StoryComponent variant="success" role="alert">This is a success alert { Link }.</StoryComponent>
-			<StoryComponent variant="error" role="alert">This is an error alert { Link }.</StoryComponent>
+			<Alert variant="info">This is an information alert { Link }. (default)</Alert>
+			<Alert variant="warning">This is a warning alert { Link }.</Alert>
+			<Alert variant="success" role="alert">This is a success alert { Link }.</Alert>
+			<Alert variant="error" role="alert">This is an error alert { Link }.</Alert>
 		</div>
 	);
 };

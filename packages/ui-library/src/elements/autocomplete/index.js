@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 import PropTypes from "prop-types";
 import { forwardRef, Fragment, useCallback } from "@wordpress/element";
 import { Combobox, Transition } from "@headlessui/react";
@@ -11,6 +10,11 @@ import { ValidationInput } from "../validation";
 // Render Combobox.Button as a div always.
 const AutocompleteButton = forwardRef( ( props, ref ) => <Combobox.Button as="div" ref={ ref } { ...props } /> );
 
+/**
+ * @param {JSX.node} children The children.
+ * @param {string} value The value.
+ * @returns {JSX.Element} The Option component.
+ */
 const Option = ( {
 	children,
 	value,
@@ -169,8 +173,8 @@ Autocomplete.defaultProps = {
 
 export default Autocomplete;
 
+// eslint-disable-next-line require-jsdoc
 export const StoryComponent = props => <Autocomplete { ...props } />;
-// eslint-disable-next-line no-undef, react/forbid-foreign-prop-types
 StoryComponent.propTypes = propTypes;
 StoryComponent.defaultProps = Autocomplete.defaultProps;
 StoryComponent.displayName = "Autocomplete";

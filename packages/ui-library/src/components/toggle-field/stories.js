@@ -1,5 +1,5 @@
 import { useCallback, useState } from "@wordpress/element";
-import { StoryComponent } from ".";
+import ToggleField, { StoryComponent } from ".";
 import Badge from "../../elements/badge";
 
 export default {
@@ -24,7 +24,7 @@ const Template = ( args ) => {
 	const handleChange = useCallback( setChecked, [ setChecked ] );
 
 	return (
-		<StoryComponent { ...args } checked={ checked } onChange={ handleChange } />
+		<ToggleField { ...args } checked={ checked } onChange={ handleChange } />
 	);
 };
 

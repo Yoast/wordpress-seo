@@ -8,7 +8,6 @@ export default {
 	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
-		error: { control: "text" },
 		labelSuffix: { control: "text" },
 	},
 	parameters: {
@@ -31,7 +30,7 @@ export const Factory = {
 		const handleChange = useCallback( setValue, [ setValue ] );
 
 		return (
-			<StoryComponent { ...args } value={ value } onChange={ handleChange } />
+			<TextField { ...args } value={ value } onChange={ handleChange } />
 		);
 	},
 	parameters: {

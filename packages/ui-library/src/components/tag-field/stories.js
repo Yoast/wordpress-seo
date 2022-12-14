@@ -16,7 +16,6 @@ export default {
 	argTypes: {
 		labelSuffix: { control: "text" },
 		description: { control: "text" },
-		error: { control: "text" },
 	},
 	args: {
 		id: "tag-field",
@@ -35,7 +34,7 @@ const Template = args => {
 	}, [ tags, setTags ] );
 
 	return (
-		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<TagField { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 
