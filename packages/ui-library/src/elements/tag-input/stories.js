@@ -2,13 +2,8 @@ import { Tag, StoryComponent } from ".";
 import { useCallback, useState } from "@wordpress/element";
 
 export default {
-<<<<<<< feature/ui-library-3
-	title: "1) Elements/Tag Input",
-	component: TagInput,
-=======
 	title: "1. Elements/Tag Input",
 	component: Tag,
->>>>>>> fix: forwardRef for TagInput and improved args table descriptions
 	parameters: {
 		docs: {
 			description: {
@@ -17,9 +12,6 @@ export default {
 		},
 	},
 	argTypes: {
-<<<<<<< feature/ui-library-3
-		children: { control: "text" },
-=======
 		children: {
 			control: "text",
 			description: "`children`, override `tags`. You can pass Tag subcomponent instead (`TagInput.Tag`).",
@@ -51,7 +43,6 @@ export default {
 			control: "text",
 			table: { type: { summary: "string" } },
 		},
->>>>>>> fix: forwardRef for TagInput and improved args table descriptions
 	},
 	args: {
 		tags: [
