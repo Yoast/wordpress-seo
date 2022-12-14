@@ -1967,6 +1967,9 @@ class ORM implements \ArrayAccess {
 		}
 
 		$rows = [];
+		if ( ! \is_array( $wpdb->last_result ) ) {
+			return $rows;
+		}
 		foreach ( $wpdb->last_result as $row ) {
 			$rows[] = \get_object_vars( $row );
 		}

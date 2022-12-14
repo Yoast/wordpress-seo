@@ -55,6 +55,10 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$posts = $this->wpdb->get_results( $query );
 
+		if ( empty( $posts ) ) {
+			return [];
+		}
+
 		return \array_map(
 			static function ( $post ) {
 				return (object) [
