@@ -402,27 +402,27 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "bingeing",
 				text: "She is bingeing the new Korean drama on Netflix.",
-				expectedFeedback: "Be careful when using <i>bingeing</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
-					" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
-					"satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+				expectedFeedback: "Be careful when using <i>bingeing</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
 			{
 				identifier: "bingeing",
 				text: "She is binging the new Korean drama on Netflix.",
-				expectedFeedback: "Be careful when using <i>binging</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
-					" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
-					"satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+				expectedFeedback: "Be careful when using <i>binging</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
 			{
 				identifier: "binged",
 				text: "She binged the new Korean drama on Netflix.",
-				expectedFeedback: "Be careful when using <i>binged</i>, unless talking about a symptom of a medical condition. If you are not referencing " +
-					"a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulged, " +
-					"satiated, wallowed, spreed, marathoned, consumed excessively</i>. " +
+				expectedFeedback: "Be careful when using <i>binged</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulged, satiated, wallowed, spreed, marathoned, consumed excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
