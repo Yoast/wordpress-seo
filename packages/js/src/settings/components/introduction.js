@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/outline";
+import { ArrowLeftIcon as PureArrowLeftIcon, ArrowRightIcon as PureArrowRightIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Button, Modal, Title, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Modal, Title, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { times } from "lodash";
 
@@ -13,6 +13,9 @@ const Introduction = () => {
 	const [ isOpen, toggleOpen, setIsOpen, setOpen, setClose ] = useToggleState();
 	const [ stepIndex, setStepIndex ] = useState( 0 );
 	const svgAriaProps = useSvgAria();
+	const { isRtl } = useRootContext();
+	const ArrowLeftIcon = useMemo( () => isRtl ? PureArrowRightIcon : PureArrowLeftIcon, [ isRtl ] );
+	const ArrowRightIcon = useMemo( () => isRtl ? PureArrowLeftIcon : PureArrowRightIcon, [ isRtl ] );
 
 	const steps = useMemo( () => ( [
 		{
