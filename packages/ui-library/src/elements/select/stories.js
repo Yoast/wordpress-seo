@@ -1,11 +1,11 @@
 import { useCallback, useState } from "@wordpress/element";
 import { noop, map } from "lodash";
-import Select from ".";
 import { VALIDATION_VARIANTS } from "../validation/constants";
+import Select, { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Select",
-	component: Select,
+	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
 		labelSuffix: { control: "text" },
@@ -37,7 +37,7 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<Select { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
+			<StoryComponent { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
 		</div>
 	);
 };
