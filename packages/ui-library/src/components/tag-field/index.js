@@ -1,3 +1,4 @@
+import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
@@ -16,7 +17,7 @@ import { useDescribedBy } from "../../hooks";
  * @param {Object} [props] Any extra properties for the TagInput.
  * @returns {JSX.Element} The tag field.
  */
-const TagField = ( {
+const TagField = forwardRef( ( {
 	id,
 	label,
 	labelSuffix,
@@ -25,7 +26,7 @@ const TagField = ( {
 	description,
 	validation,
 	...props
-} ) => {
+}, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
@@ -36,6 +37,7 @@ const TagField = ( {
 			</div>
 			<ValidationInput
 				as={ TagInput }
+				ref={ ref }
 				id={ id }
 				disabled={ disabled }
 				className="yst-tag-field__input"
@@ -51,7 +53,7 @@ const TagField = ( {
 			{ description && <p id={ ids.description } className="yst-tag-field__description">{ description }</p> }
 		</div>
 	);
-};
+} );
 
 const propTypes = {
 	id: PropTypes.string.isRequired,
