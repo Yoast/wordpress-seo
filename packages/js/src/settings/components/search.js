@@ -1,9 +1,9 @@
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/outline";
-import { useCallback, useRef, useState } from "@wordpress/element";
+import { useCallback, useRef, useState, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Modal, Title, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Modal, Title, useSvgAria, useToggleState, Code } from "@yoast/ui-library";
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
 import PropTypes from "prop-types";
@@ -13,6 +13,42 @@ import { safeToLocaleLower } from "../helpers";
 import { useParsedUserAgent, useSelectSettings } from "../hooks";
 
 const QUERY_MIN_CHARS = 3;
+const POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP = new RegExp( /^input-wpseo_titles-(post_types|taxonomy)-(?<name>\S+)-(maintax|ptparent)$/is );
+
+/**
+ * @param {string} fieldId The item field ID.
+ * @param {string} fieldLabel The item label.
+ * @returns {JSX.Element} The SearchResultLabel element.
+ */
+const SearchResultLabel = ( { fieldId, fieldLabel } ) => {
+	// Deduce wether field is a breadcrumb option for post type or taxonomy.
+	const { isPostTypeOrTaxonomyBreadcrumbSetting, postTypeOrTaxonomyName } = useMemo( () => {
+		const matches = POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP.exec( fieldId );
+		return {
+			isPostTypeOrTaxonomyBreadcrumbSetting: Boolean( matches ),
+			postTypeOrTaxonomyName: matches?.groups?.name,
+		};
+	}, [ fieldId, POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP ] );
+
+	// Render additional code block with post type or taxonomy name if applicable.
+	if ( isPostTypeOrTaxonomyBreadcrumbSetting ) {
+		return (
+			<>
+				{ fieldLabel }
+				{ postTypeOrTaxonomyName && (
+					<Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ postTypeOrTaxonomyName }</Code>
+				) }
+			</>
+		);
+	}
+
+	return fieldLabel;
+};
+
+SearchResultLabel.propTypes = {
+	fieldId: PropTypes.string.isRequired,
+	fieldLabel: PropTypes.string.isRequired,
+};
 
 /**
  * @param {string} title The title.
@@ -176,13 +212,13 @@ const Search = () => {
 							<li key={ groupedItems?.[ 0 ]?.route || `group-${ index }` }>
 								<Title as="h4" size="3" className="yst-bg-slate-100 yst-py-3 yst-px-4">{ first( groupedItems ).routeLabel }</Title>
 								<ul>
-									{ map( groupedItems, ( item, name ) => (
+									{ map( groupedItems, ( item ) =>  (
 										<Combobox.Option
-											key={ name }
+											key={ item.fieldId }
 											value={ item }
 											className={ handleOptionActiveState }
 										>
-											{ item.fieldLabel }
+											<SearchResultLabel { ...item } />
 										</Combobox.Option>
 									) ) }
 								</ul>

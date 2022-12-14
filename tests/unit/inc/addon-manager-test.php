@@ -533,7 +533,7 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '5.9',
+							'tested'       => '6.0',
 							'requires_php' => '5.6',
 						],
 					],
@@ -546,7 +546,7 @@ class Addon_Manager_Test extends TestCase {
 
 		// Now check that the Premium plugin won't show updates, if the requirement for the WP version coming from Yoast free, is not met.
 		if ( isset( $addons['wp-seo-premium.php'] ) ) {
-			$wp_version = '5.8';
+			$wp_version = '5.9';
 			$updates    = $this->instance->check_for_updates( $data );
 
 			$this->assertTrue( isset( $updates->no_update['wp-seo-premium.php'] ) );

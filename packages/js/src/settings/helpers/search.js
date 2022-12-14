@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
 import { __, sprintf } from "@wordpress/i18n";
-import { Code } from "@yoast/ui-library";
-import { createInterpolateElement } from "@wordpress/element";
 import { omit, reduce, times, filter, includes, isEmpty } from "lodash";
 import { safeToLocaleLower } from "./i18n";
 
@@ -756,13 +754,8 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 					route: "/breadcrumbs",
 					routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 					fieldId: `input-wpseo_titles-post_types-${ postType.name }-maintax`,
-					fieldLabel: createInterpolateElement(
-						// translators: %1$s expands to the post type plural, e.g. posts.
-						sprintf( __( "Breadcrumbs for %1$s<code />", "wordpress-seo" ), safeToLocaleLower( postType.label, userLocale ) ),
-						{
-							code: <Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ postType.name }</Code>,
-						}
-					),
+					// translators: %1$s expands to the post type plural, e.g. posts.
+					fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), safeToLocaleLower( postType.label, userLocale ) ),
 					keywords: [],
 				},
 			} );
@@ -773,13 +766,8 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				route: "/breadcrumbs",
 				routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 				fieldId: `input-wpseo_titles-taxonomy-${ taxonomy.name }-ptparent`,
-				fieldLabel: createInterpolateElement(
-					// translators: %1$s expands to the taxonomy plural, e.g. categories.
-					sprintf( __( "Breadcrumbs for %1$s<code />", "wordpress-seo" ), safeToLocaleLower( taxonomy.label, userLocale ) ),
-					{
-						code: <Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ taxonomy.name }</Code>,
-					}
-				),
+				// translators: %1$s expands to the taxonomy plural, e.g. categories.
+				fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), safeToLocaleLower( taxonomy.label, userLocale ) ),
 				keywords: [],
 			},
 		} ), {} ),
