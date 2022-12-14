@@ -63,7 +63,7 @@ Footer.propTypes = {
  * @param {string} className The className.
  * @returns {JSX.Element} The card component.
  */
-const Card = forwardRef( ( { as: Component, children, className, ...props }, ref ) => (
+const Card = forwardRef( ( { as: Component = "div", children, className, ...props }, ref ) => (
 	<Component { ...props } className={ classNames( "yst-card", className ) } ref={ ref }>
 		{ children }
 	</Component>
@@ -79,7 +79,6 @@ Card.propTypes = propTypes;
 
 Card.defaultProps = {
 	className: "",
-	as: "div",
 };
 
 Card.Header = Header;
