@@ -2,11 +2,11 @@ import { useState, useCallback } from "@wordpress/element";
 import { noop, values } from "lodash";
 import Alert from "../../elements/alert";
 
-import FileImport, { FILE_IMPORT_STATUS } from ".";
+import FileImport, { FILE_IMPORT_STATUS, StoryComponent } from ".";
 
 export default {
 	title: "2) Components/File Import",
-	component: FileImport,
+	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
 		status: { options: values( FILE_IMPORT_STATUS ) },
@@ -73,7 +73,7 @@ const Template = ( { endStatus, ...args } ) => {
 	}, [ abort, setStatus, setFeedbackTitle, setFeedbackDescription, setProgress ] );
 
 	return (
-		<FileImport
+		<StoryComponent
 			{ ...args }
 			feedbackTitle={ feedbackTitle }
 			feedbackDescription={ feedbackDescription }
@@ -85,7 +85,7 @@ const Template = ( { endStatus, ...args } ) => {
 	);
 };
 
-const FeedbackTemplate = ( args ) => <FileImport { ...args } />;
+const FeedbackTemplate = ( args ) => <StoryComponent { ...args } />;
 
 export const Factory = Template.bind( {} );
 Factory.controls = { disable: false };

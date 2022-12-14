@@ -94,14 +94,14 @@ const FileImport = forwardRef( ( {
 	screenReaderLabel,
 	abortScreenReaderLabel,
 	selectDescription,
-	status = FILE_IMPORT_STATUS.idle,
+	status,
 	onChange,
 	onAbort,
 	feedbackTitle,
-	feedbackDescription = "",
-	progressMin = null,
-	progressMax = null,
-	progress = null,
+	feedbackDescription,
+	progressMin,
+	progressMax,
+	progress,
 }, ref ) => {
 	const isSelected = useMemo( () => status === FILE_IMPORT_STATUS.selected, [ status ] );
 	const isLoading = useMemo( () => status === FILE_IMPORT_STATUS.loading, [ status ] );
@@ -183,7 +183,7 @@ const FileImport = forwardRef( ( {
 	);
 } );
 
-FileImport.propTypes = {
+const propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
@@ -202,10 +202,26 @@ FileImport.propTypes = {
 	onAbort: PropTypes.func.isRequired,
 };
 
+FileImport.propTypes = propTypes;
+
+FileImport.defaultProps = {
+	feedbackDescription: "",
+	progressMin: null,
+	progressMax: null,
+	progress: null,
+	status: FILE_IMPORT_STATUS.idle,
+};
+
 FileImport.Selected = createStatusConditionalRender( FILE_IMPORT_STATUS.selected );
 FileImport.Loading = createStatusConditionalRender( FILE_IMPORT_STATUS.loading );
 FileImport.Success = createStatusConditionalRender( FILE_IMPORT_STATUS.success );
 FileImport.Aborted = createStatusConditionalRender( FILE_IMPORT_STATUS.aborted );
 FileImport.Error = createStatusConditionalRender( FILE_IMPORT_STATUS.error );
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <FileImport { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = FileImport.defaultProps;
+StoryComponent.displayName = "FileImport";
 
 export default FileImport;
