@@ -42,7 +42,7 @@ Factory.args = {
 	children: "Alert Factory",
 };
 
-export const Variants = () => {
+export const Variants = ( args ) => {
 	const Link = <a href="https://yoast.com">with a link</a>;
 	return (
 		<div className="yst-flex yst-flex-col yst-gap-2">
