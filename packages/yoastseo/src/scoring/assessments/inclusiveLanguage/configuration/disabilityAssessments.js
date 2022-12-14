@@ -2,6 +2,7 @@ import {
 	potentiallyHarmful,
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
+	harmfulPotentiallyNonInclusive,
 } from "./feedbackStrings";
 import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
@@ -15,8 +16,8 @@ import { sprintf } from "@wordpress/i18n";
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
 
-const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition. " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.";
+const medicalCondition = harmfulPotentiallyNonInclusive +
+	" Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, such as %2$s.";
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
@@ -32,7 +33,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "binge" ],
 		inclusiveAlternatives: "<i>indulge, satiate, wallow, spree, marathon, consume excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "drinks", "drinking" ] ) ),
@@ -42,7 +43,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "bingeing", "binging" ],
 		inclusiveAlternatives: "<i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{
@@ -50,7 +51,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "binged" ],
 		inclusiveAlternatives: "<i>indulged, satiated, wallowed, spreed, marathoned, consumed excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{
@@ -58,7 +59,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "binges" ],
 		inclusiveAlternatives: "<i>indulges, satiates, wallows, sprees, marathons, consumes excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
+		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
 			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{

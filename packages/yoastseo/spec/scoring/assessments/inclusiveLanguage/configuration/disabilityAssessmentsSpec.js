@@ -384,7 +384,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "binge",
 				text: "I binge on ice cream.",
-				expectedFeedback: "Avoid using <i>binge</i>, unless talking about a symptom of a medical condition. " +
+				expectedFeedback: "Be careful when using <i>binge</i>, unless talking about a symptom of a medical condition. " +
 					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
 					"such as <i>indulge, satiate, wallow, spree, marathon, consume excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
@@ -393,7 +393,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "binges",
 				text: "She binges on Netflix series.",
-				expectedFeedback: "Avoid using <i>binges</i>, unless talking about a symptom of a medical condition. " +
+				expectedFeedback: "Be careful when using <i>binges</i>, unless talking about a symptom of a medical condition. " +
 					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
 					"such as <i>indulges, satiates, wallows, sprees, marathons, consumes excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
@@ -402,7 +402,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "bingeing",
 				text: "She is bingeing the new Korean drama on Netflix.",
-				expectedFeedback: "Avoid using <i>bingeing</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
+				expectedFeedback: "Be careful when using <i>bingeing</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
 					" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
 					"satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
@@ -411,7 +411,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "bingeing",
 				text: "She is binging the new Korean drama on Netflix.",
-				expectedFeedback: "Avoid using <i>binging</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
+				expectedFeedback: "Be careful when using <i>binging</i>, unless talking about a symptom of a medical condition. If you are not referencing" +
 					" a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulging, " +
 					"satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
@@ -420,7 +420,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "binged",
 				text: "She binged the new Korean drama on Netflix.",
-				expectedFeedback: "Avoid using <i>binged</i>, unless talking about a symptom of a medical condition. If you are not referencing " +
+				expectedFeedback: "Be careful when using <i>binged</i>, unless talking about a symptom of a medical condition. If you are not referencing " +
 					"a medical condition, consider other alternatives to describe the trait or behavior, such as <i>indulged, " +
 					"satiated, wallowed, spreed, marathoned, consumed excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
@@ -702,8 +702,8 @@ describe( "Test the OCD assessment", () => {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
-			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"Be careful when using <i>OCD</i> as it is potentially harmful. " +
+			"Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, " +
 			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
 			"then state that they have OCD rather than that they are OCD. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
@@ -724,8 +724,8 @@ describe( "Test the OCD assessment", () => {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
-			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"Be careful when using <i>OCD</i> as it is potentially harmful. " +
+			"Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, " +
 			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
 			"then state that they have OCD rather than that they are OCD. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
@@ -746,8 +746,8 @@ describe( "Test the OCD assessment", () => {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>OCD</i>, unless talking about the specific medical condition. " +
-			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, " +
+			"Be careful when using <i>OCD</i> as it is potentially harmful. " +
+			"Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, " +
 			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
 			"then state that they have OCD rather than that they are OCD. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
