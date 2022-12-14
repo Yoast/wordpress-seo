@@ -16,7 +16,11 @@ export default {
 		size: {
 			control: "select",
 			options: keys( classNameMap.size ),
-			table: { type: { summary: keys( classNameMap.size ).join( "|" ) } } },
+			table: { type: { summary: keys( classNameMap.size ).join( "|" ) } },
+		},
+	},
+	args: {
+		className: "",
 	},
 	parameters: {
 		docs: {
@@ -28,7 +32,7 @@ export default {
 };
 
 export const Factory = ( args ) => (
-	<div className={ args.variant === "white" && "yst-bg-black yst-w-14 yst-p-2" }>
+	<div className={ args.variant ? "white" && "yst-bg-black yst-w-14 yst-p-2" : "" }>
 		<StoryComponent { ...args } />
 	</div>
 );
