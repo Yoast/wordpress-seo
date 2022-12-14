@@ -55,6 +55,7 @@ const propTypes = {
 };
 
 Badge.propTypes = propTypes;
+Badge.displayName = "Badge";
 
 export default Badge;
 
