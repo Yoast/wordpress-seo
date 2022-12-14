@@ -19,9 +19,9 @@ const classNameMap = {
  * @returns {JSX.Element} The link.
  */
 const Link = forwardRef( ( {
-	as: Component = "a",
-	variant = "default",
-	className = "",
+	as: Component,
+	variant,
+	className,
 	children,
 	...props
 }, ref ) => (
@@ -38,11 +38,25 @@ const Link = forwardRef( ( {
 	</Component>
 ) );
 
-Link.propTypes = {
+const propTypes = {
 	children: PropTypes.node.isRequired,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	as: PropTypes.elementType,
 	className: PropTypes.string,
 };
+
+Link.propTypes = propTypes;
+
+Link.defaultProps = {
+	as: "a",
+	variant: "default",
+	className: "",
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Link { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Link.defaultProps;
+StoryComponent.displayName = "Link";
 
 export default Link;
