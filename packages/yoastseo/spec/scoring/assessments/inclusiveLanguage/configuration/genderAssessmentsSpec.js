@@ -3,7 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/genderAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
 describe( "A test for Gender assessments", function() {
 	it( "should target non-inclusive phrases", function() {
@@ -389,7 +389,7 @@ describe( "a test for targeting non-inclusive phrases in gender assessments", ()
 				expectedScore: 3,
 			},
 		];
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'husband and wife' and its plural form", () => {
 		// The different forms of "husband and wife" is one entry under the same identifier.
@@ -412,7 +412,7 @@ describe( "a test for targeting non-inclusive phrases in gender assessments", ()
 				expectedScore: 6,
 			},
 		];
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'transsexual' and its plural form", () => {
 		const testData = [
@@ -436,7 +436,7 @@ describe( "a test for targeting non-inclusive phrases in gender assessments", ()
 				expectedScore: 6,
 			},
 		];
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'transwoman' and its plural form", () => {
 		const testData = [
@@ -457,7 +457,7 @@ describe( "a test for targeting non-inclusive phrases in gender assessments", ()
 				expectedScore: 6,
 			},
 		];
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'transman' and its plural form", () => {
 		const testData = [
@@ -479,6 +479,6 @@ describe( "a test for targeting non-inclusive phrases in gender assessments", ()
 				expectedScore: 6,
 			},
 		];
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 } );

@@ -5,13 +5,25 @@ import Factory from "../../../../specHelpers/factory";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration";
 
 /**
- * Tests multiple identifiers of one category. For example a singular noun and its plural forms.
+ * Object that contains data to test an assessment with.
  *
- * @param {Array} testDataArray The array of test data to test.
+ * @typedef {Object} AssessmentTestData
+ *
+ * @property {string} identifier        The assessment's identifier.
+ * @property {string} text              The paper's text to test the assessment with.
+ * @property {string} expectedFeedback  The expected feedback of the assessment.
+ * @property {number} expectedScore     The expected score of the assessment.
+ */
+
+/**
+ * Tests ( multiple ) inclusive language assessments in one go.
+ * For example for testing a targeted word/phrase and its other forms.
+ *
+ * @param {AssessmentTestData[]} testDataArray The array of assessment data to test.
  *
  * @returns {void}
  */
-export function testInclusiveLanguageAssessment( testDataArray ) {
+export function testInclusiveLanguageAssessments( testDataArray ) {
 	testDataArray.forEach( ( testData ) => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === testData.identifier ) );
 		const mockPaper = new Paper( testData.text );

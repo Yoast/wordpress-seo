@@ -3,7 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import ageAssessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
 describe( "A test for Age assessments", function() {
 	it( "should target non-inclusive phrases", function() {
@@ -53,7 +53,7 @@ describe( "A test for Age assessments", function() {
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {

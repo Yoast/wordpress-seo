@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/cultureAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
 describe( "A test for Culture Assessments", () => {
 	it( "should target only capitalized non-inclusive phrases when the caseSensitive flag is set", () => {
@@ -79,7 +79,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'guru' and its plural form", () => {
 		const testData = [
@@ -103,7 +103,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'gyp' and its other forms", () => {
 		const testData = [
@@ -141,7 +141,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'gypsy' and its plural forms", () => {
 		const testData = [
@@ -187,7 +187,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'savage'", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "savage" ) );
@@ -250,7 +250,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'Asian-American' and its other forms", () => {
 		const testData = [
@@ -272,7 +272,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'African-American' and its other forms", () => {
 		const testData = [
@@ -294,7 +294,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "Does not identify 'African American' without hyphen", () => {
 		const mockPaper = new Paper( "This sentence contains African American." );
@@ -431,7 +431,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'eskimo' and its other forms", () => {
 		// Singular and plural "eskimo" is one entry under the same identifier.
@@ -456,7 +456,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'colored person' and 'colored people", () => {
 		const testData = [
@@ -477,7 +477,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'developing country' and its plural form", () => {
 		const testData = [
@@ -499,6 +499,6 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 } );

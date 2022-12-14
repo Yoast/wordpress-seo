@@ -4,7 +4,7 @@ import EnglishResearcher from "../../../../../src/languageProcessing/languages/e
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
 import Factory from "../../../../specHelpers/factory";
-import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
 describe( "A test for SES assessments", function() {
 	it( "should target non-inclusive phrases", function() {
@@ -167,7 +167,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should target non-inclusive phrases: 'prostitute' and its plural form", function() {
 		const testData = [
@@ -191,7 +191,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'ex-con' and its plural form", () => {
 		const testData = [
@@ -213,7 +213,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'felon' and its plural form", () => {
 		const testData = [
@@ -235,7 +235,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'ex-offender' and its plural form", () => {
 		const testData = [
@@ -257,6 +257,6 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 } );

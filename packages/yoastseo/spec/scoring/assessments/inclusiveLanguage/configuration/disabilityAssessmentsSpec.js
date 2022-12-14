@@ -3,7 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/disabilityAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
 describe( "A test for Disability assessments", function() {
 	it( "should return proper feedback with two inclusive alternatives", function() {
@@ -428,7 +428,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'lame' and its other forms", () => {
 		const testData = [
@@ -458,7 +458,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'commit suicide' and its other forms", () => {
 		const testData = [
@@ -498,7 +498,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'dumb' and its other forms", () => {
 		// The different forms of "dumb" is one entry under the same identifier.
@@ -530,7 +530,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'epileptic fit' and its plural form", () => {
 		const testData = [
@@ -550,7 +550,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'crazy' and its other forms", () => {
 		const testData = [
@@ -580,7 +580,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'psychopath' and its other forms", () => {
 		// The different forms of "psychopath" is one entry under the same identifier.
@@ -611,7 +611,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'psycho' and its plural form", () => {
 		// The different forms of "psycho" is one entry under the same identifier.
@@ -636,7 +636,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'sociopath' and its plural form", () => {
 		const testData = [
@@ -664,7 +664,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'daft'", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "daft" ) );

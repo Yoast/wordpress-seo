@@ -4,7 +4,7 @@ import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/appearanceAssessments";
 import Factory from "../../../../specHelpers/factory";
 import Mark from "../../../../../src/values/Mark";
-import { testInclusiveLanguageAssessment } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
 describe( "A test for Appearance assessments", function() {
 	it( "should target non-inclusive phrases",
@@ -219,6 +219,6 @@ describe( "A test for Appearance assessments", function() {
 			},
 		];
 
-		testInclusiveLanguageAssessment( testData );
+		testInclusiveLanguageAssessments( testData );
 	} );
 } );
