@@ -1,7 +1,7 @@
 @layer components {
 	.yst-root {
 		.yst-autocomplete {
-			@apply yst-max-w-sm yst-relative;
+			@apply yst-relative;
 		}
 
 		.yst-autocomplete--error {

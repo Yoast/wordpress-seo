@@ -46,7 +46,7 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<StoryComponent
+			<Autocomplete
 				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
@@ -58,7 +58,7 @@ const Template = ( args ) => {
 						{ option.label }
 					</Autocomplete.Option>
 				) ) }
-			</StoryComponent>
+			</Autocomplete>
 		</div>
 	);
 };

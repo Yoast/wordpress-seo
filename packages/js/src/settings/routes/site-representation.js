@@ -326,6 +326,7 @@ const SiteRepresentation = () => {
 									name="wpseo_titles.company_or_person_user_id"
 									id="input-wpseo_titles-company_or_person_user_id"
 									label={ __( "Select a user", "wordpress-seo" ) }
+									className="yst-max-w-sm"
 								/>
 								{ ! isEmpty( personUser ) && (
 									<Alert id="alert-person-user-profile">

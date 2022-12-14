@@ -73,7 +73,7 @@ const Template = ( { endStatus, ...args } ) => {
 	}, [ abort, setStatus, setFeedbackTitle, setFeedbackDescription, setProgress ] );
 
 	return (
-		<StoryComponent
+		<FileImport
 			{ ...args }
 			feedbackTitle={ feedbackTitle }
 			feedbackDescription={ feedbackDescription }
@@ -85,7 +85,7 @@ const Template = ( { endStatus, ...args } ) => {
 	);
 };
 
-const FeedbackTemplate = ( args ) => <StoryComponent { ...args } />;
+const FeedbackTemplate = ( args ) => <FileImport { ...args } />;
 
 export const Factory = Template.bind( {} );
 Factory.controls = { disable: false };

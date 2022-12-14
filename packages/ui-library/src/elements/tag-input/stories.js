@@ -1,9 +1,9 @@
-import { Tag, StoryComponent } from ".";
+import TagInput, { StoryComponent } from ".";
 import { useCallback, useState } from "@wordpress/element";
 
 export default {
 	title: "1) Elements/Tag Input",
-	component: Tag,
+	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
@@ -73,7 +73,7 @@ const Template = args => {
 	}, [ tags, setTags ] );
 
 	return (
-		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<TagInput { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 

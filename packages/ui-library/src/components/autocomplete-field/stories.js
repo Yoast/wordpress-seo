@@ -8,7 +8,6 @@ export default {
 	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
-		error: { control: "text", table: { defaultValue: { summary: "null" } } },
 	},
 	parameters: {
 		docs: {
@@ -46,7 +45,7 @@ const Template = ( { ...args } ) => {
 	return (
 	// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<StoryComponent
+			<AutocompleteField
 				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
@@ -58,7 +57,7 @@ const Template = ( { ...args } ) => {
 						{ option.label }
 					</AutocompleteField.Option>
 				) ) }
-			</StoryComponent>
+			</AutocompleteField>
 		</div>
 	);
 };
