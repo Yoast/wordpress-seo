@@ -1,10 +1,10 @@
 import { noop, map } from "lodash";
-import TextareaField from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
+import TextareaField, { StoryComponent } from ".";
 
 export default {
 	title: "2) Components/Textarea Field",
-	component: TextareaField,
+	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
 		error: { control: "text" },
@@ -23,7 +23,7 @@ export default {
 };
 
 export const Factory = {
-	component: args => <TextareaField { ...args } />,
+	component: args => <StoryComponent { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
