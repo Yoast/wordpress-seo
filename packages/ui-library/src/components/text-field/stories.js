@@ -1,11 +1,11 @@
 import { useCallback, useState } from "@wordpress/element";
 import { noop, map } from "lodash";
-import TextField from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
+import TextField, { StoryComponent } from ".";
 
 export default {
 	title: "2) Components/Text Field",
-	component: TextField,
+	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
 		error: { control: "text" },
@@ -31,7 +31,7 @@ export const Factory = {
 		const handleChange = useCallback( setValue, [ setValue ] );
 
 		return (
-			<TextField { ...args } value={ value } onChange={ handleChange } />
+			<StoryComponent { ...args } value={ value } onChange={ handleChange } />
 		);
 	},
 	parameters: {
