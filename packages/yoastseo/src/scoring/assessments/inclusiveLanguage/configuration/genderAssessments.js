@@ -1,4 +1,4 @@
-import { alternative, potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { alternative, potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
@@ -13,6 +13,8 @@ const exclusionaryUnless = "Be careful when using <i>%1$s</i> as it can be exclu
 	"Unless you are sure that the group you refer to only consists of %1$s, use an alternative, such as %2$s.";
 const exclusionaryUnlessMen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of men, use an alternative, such as %2$s.";
+const exclusionaryUnlessMenAndWomen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
+	"Unless you are sure that the group you refer to only consists of men and women, use an alternative, such as %2$s.";
 const exclusionaryUnlessTwoGenders = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of two genders, use an alternative, such as %2$s.";
 const exclusionaryUnlessUseTheTerm = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
@@ -74,7 +76,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "preferred pronouns" ],
 		inclusiveAlternatives: "<i>pronouns</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
+		feedbackFormat: [ potentiallyHarmfulCareful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
 		" this term to describe their own pronouns." ].join( "" ),
 	},
 	{
@@ -127,8 +129,8 @@ const genderAssessments = [
 		identifier: "ladiesAndGentleman",
 		nonInclusivePhrases: [ "ladies and gentlemen" ],
 		inclusiveAlternatives: "<i>everyone, folks, honored guests</i>",
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: exclusionaryUnless,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: exclusionaryUnlessMenAndWomen,
 	},
 	{
 		identifier: "husbandAndWife",
@@ -157,7 +159,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "preferred name" ],
 		inclusiveAlternatives: "<i>name, affirming name</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
+		feedbackFormat: [ potentiallyHarmfulCareful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
 		" this term to describe their own name." ].join( "" ),
 	},
 	{
