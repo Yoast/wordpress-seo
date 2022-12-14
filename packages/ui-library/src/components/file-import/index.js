@@ -7,6 +7,7 @@ import { Transition } from "@headlessui/react";
 
 import FileInput from "../../elements/file-input";
 import ProgressBar from "../../elements/progress-bar";
+import { ValidationIcon } from "../../elements/validation";
 
 export const FILE_IMPORT_STATUS = {
 	idle: "idle",
@@ -155,7 +156,7 @@ const FileImport = ( {
 							</div>
 							<div className="yst-relative yst-h-5 yst-w-5">
 								<Transition show={ isSelected } { ...statusIconTransitionProps }>
-									<InformationCircleIcon className="yst-h-5 yst-w-5 yst-text-blue-500" />
+									<ValidationIcon variant="info" className="yst-w-5 yst-h-5" />
 								</Transition>
 								<Transition show={ isLoading } { ...statusIconTransitionProps }>
 									<button onClick={ onAbort } className="yst-file-import__abort-button">
@@ -164,13 +165,13 @@ const FileImport = ( {
 									</button>
 								</Transition>
 								<Transition show={ isSuccess } { ...statusIconTransitionProps }>
-									<CheckCircleIcon className="yst-h-5 yst-w-5 yst-text-green-500" />
+									<ValidationIcon variant="success" className="yst-w-5 yst-h-5" />
 								</Transition>
 								<Transition show={ isAborted } { ...statusIconTransitionProps }>
-									<ExclamationIcon className="yst-h-5 yst-w-5 yst-text-amber-500" />
+									<ValidationIcon variant="warning" className="yst-w-5 yst-h-5" />
 								</Transition>
 								<Transition show={ isError } { ...statusIconTransitionProps }>
-									<ExclamationCircleIcon className="yst-h-5 yst-w-5 yst-text-red-500" />
+									<ValidationIcon variant="error" className="yst-w-5 yst-h-5" />
 								</Transition>
 							</div>
 						</header>
