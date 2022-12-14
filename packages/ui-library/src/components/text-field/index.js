@@ -14,7 +14,7 @@ import { useDescribedBy } from "../../hooks";
  * @param {JSX.node} [description] A description.
  * @param {boolean} [disabled] The disabled state.
  * @param {boolean} [readOnly] The read-only state.
- * @param {JSX.node} [validation] The validation state.
+ * @param {Object} [validation] The validation state.
  * @param {Object} [props] Any extra properties for the TextInput.
  * @returns {JSX.Element} The input field.
  */
