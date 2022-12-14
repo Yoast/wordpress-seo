@@ -1,7 +1,8 @@
 import { useCallback, useState } from "@wordpress/element";
 import { noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
-import { Badge, SelectField } from "../../index";
+import { Badge } from "../../index";
+import SelectField, { StoryComponent } from ".";
 
 const options = [
 	{ value: "1", label: "Option 1" },
@@ -12,7 +13,7 @@ const options = [
 
 export default {
 	title: "2) Components/Select Field",
-	component: SelectField,
+	component: StoryComponent,
 	argTypes: {
 		error: { control: "text" },
 		description: { control: "text" },
@@ -44,7 +45,7 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<SelectField { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
+			<StoryComponent { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
 
 		</div>
 	);

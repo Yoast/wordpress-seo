@@ -18,9 +18,9 @@ const SelectField = forwardRef( ( {
 	id,
 	label,
 	description,
-	disabled = false,
-	validation = {},
-	className = "",
+	disabled,
+	validation,
+	className,
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -51,7 +51,7 @@ const SelectField = forwardRef( ( {
 	);
 } );
 
-SelectField.propTypes = {
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
@@ -64,6 +64,21 @@ SelectField.propTypes = {
 	className: PropTypes.string,
 };
 
+SelectField.propTypes = propTypes;
+
 SelectField.Option = Select.Option;
+SelectField.Option.displayName = "SelectField.Option";
+
+SelectField.defaultProps = {
+	disabled: false,
+	validation: {},
+	className: "",
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <SelectField { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = SelectField.defaultProps;
+StoryComponent.displayName = "SelectField";
 
 export default SelectField;
