@@ -1,5 +1,5 @@
 import { noop } from "lodash";
-import { StoryComponent } from ".";
+import Toggle, { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Toggle",
@@ -17,7 +17,7 @@ export default {
 };
 
 export const Factory = ( args ) => (
-	<StoryComponent { ...args } />
+	<Toggle { ...args } />
 );
 
 Factory.parameters = {

@@ -12,7 +12,7 @@ export const classNameMap = {
 	},
 };
 
-const roleMap = {
+export const roleMap = {
 	alert: "alert",
 	status: "status",
 };

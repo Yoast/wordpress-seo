@@ -15,7 +15,6 @@ export default {
 	title: "2) Components/Select Field",
 	component: StoryComponent,
 	argTypes: {
-		error: { control: "text" },
 		description: { control: "text" },
 		children: { description: "Alternative to options.", control: "text" },
 		labelSuffix: { control: "text" },
@@ -45,8 +44,7 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<StoryComponent { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
-
+			<SelectField { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
 		</div>
 	);
 };

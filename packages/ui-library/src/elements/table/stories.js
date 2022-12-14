@@ -1,10 +1,10 @@
-import { Table } from "../../index";
+import Table from ".";
 
 export default {
 	title: "1) Elements/Table",
 	component: Table,
 	argTypes: {
-		children: { control: "text" },
+		children: { control: false },
 	},
 	parameters: {
 		docs: {

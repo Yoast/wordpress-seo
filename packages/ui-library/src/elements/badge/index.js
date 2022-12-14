@@ -26,10 +26,10 @@ const classNameMap = {
  */
 const Badge = forwardRef( ( {
 	children,
-	as: Component = "span",
-	variant = "info",
-	size = "default",
-	className = "",
+	as: Component,
+	variant,
+	size,
+	className,
 	...props
 }, ref ) => (
 	<Component
@@ -55,11 +55,18 @@ const propTypes = {
 };
 
 Badge.propTypes = propTypes;
-Badge.displayName = "Badge";
+
+Badge.defaultProps = {
+	as: "span",
+	variant: "info",
+	size: "default",
+	className: "",
+};
 
 export default Badge;
 
 // eslint-disable-next-line require-jsdoc
 export const StoryComponent = props => <Badge { ...props } />;
 StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Badge.defaultProps;
 StoryComponent.displayName = "Badge";

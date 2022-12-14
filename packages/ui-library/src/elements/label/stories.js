@@ -1,4 +1,4 @@
-import { StoryComponent } from ".";
+import Label, { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Label",
@@ -16,7 +16,7 @@ export default {
 };
 
 export const Factory = ( { ...args } ) => (
-	<StoryComponent { ...args } />
+	<Label { ...args } />
 );
 Factory.parameters = {
 	controls: { disable: false },

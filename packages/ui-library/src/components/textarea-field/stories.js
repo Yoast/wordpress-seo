@@ -7,7 +7,6 @@ export default {
 	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
-		error: { control: "text" },
 	},
 	parameters: {
 		docs: {
@@ -23,7 +22,7 @@ export default {
 };
 
 export const Factory = {
-	component: args => <StoryComponent { ...args } />,
+	component: args => <TextareaField { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
