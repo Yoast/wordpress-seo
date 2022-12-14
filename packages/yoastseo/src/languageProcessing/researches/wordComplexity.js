@@ -5,13 +5,16 @@ import { flatMap } from "lodash-es";
 /**
  * Gets the complex word, along with the index for the sentence.
  *
- * @param {string} sentence  The sentence to get wordComplexity from.
- * @param {function} complexWordsHelper A helper to check if a word is complex.
+ * @param {string} 		sentence  				The sentence to get wordComplexity from.
+ * @param {function} 	complexWordsHelper 		A helper to check if a word is complex.
+ * @param {string}		functionWords			The list of function words per language.
  *
- * @returns {Array} An array of complex word objects containing the  word, the index and the complexity of the word.
+ * @returns {Array} An array of complex word objects containing the word, the index and the complexity of the word. Does it? Isn't it just an array of the words?
  */
-const getComplexWords = function( sentence, complexWordsHelper ) {
-	const words = getWords( sentence );
+const getComplexWords = function( sentence, complexWordsHelper, functionWords ) {
+	const allWords = getWords( sentence );
+	// Filters out function words.
+	const words = allWords.filter( i => ! functionWords.includes( i ) );
 	const results = [];
 
 	words.forEach( word => {
@@ -19,14 +22,13 @@ const getComplexWords = function( sentence, complexWordsHelper ) {
 			results.push( word );
 		}
 	} );
-
 	return results;
 };
 
 /**
  * Calculates the percentage of the complex words compared to the total words in the text.
  *
- * @param {Array} complexWordsResults The array of complex words object. The structure of the data is:
+ * @param {Array} 		complexWordsResults 	The array of complex words object. The structure of the data is:
  * [
  *  { complexWords: ["word1", "word2", "word3" ],
  *    sentence: "the sentence"
@@ -35,8 +37,8 @@ const getComplexWords = function( sentence, complexWordsHelper ) {
  *    sentence: "the sentence"
  *  }
  * ]
- * @param {Array} words    The array of words retrieved from the text.
- * @returns {number}    The percentage of the complex words compared to the total words in the text.
+ * @param {Array} 		words    				The array of words retrieved from the text.
+ * @returns {number} The percentage of the complex words compared to the total words in the text.
  */
 const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 	const totalComplexWords = flatMap( complexWordsResults, result =>  result.complexWords );
@@ -59,14 +61,15 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const wordComplexityConfig = researcher.getHelper( "checkIfWordIsComplex" );
-
+	const functionWords = researcher.getConfig( "functionWords" );
 	const text = paper.getText();
 	const sentences = getSentences( text, memoizedTokenizer );
 	const words = getWords( text );
+
 	// Only returns the complex words of the sentence.
 	let results = sentences.map( sentence => {
 		return {
-			complexWords: getComplexWords( sentence, wordComplexityConfig ),
+			complexWords: getComplexWords( sentence, wordComplexityConfig, functionWords ),
 			sentence: sentence,
 		};
 	} );

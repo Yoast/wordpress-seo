@@ -33,6 +33,33 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		expect( result.hasBetaBadge() ).toBe( false );
 	} );
 
+	it( "should return with score 9 if the complex words are less than 10% in the text", function() {
+		const paper = new Paper( "This is short text. This is another short text. This is another short text. " +
+			"This is another short wheresoever. This is another short wheresoever. This is another short wheresoever. This is another short text. " +
+			"This is another short wheresoever. This is another short wheresoever. This is another short wheresoever. This is another short text. " +
+			"Notwithstanding is another short text. This is another short text. Torbie cats with a predominantly white undercoat are " +
+			"often referred to as \"caliby\", an amalgamation of Calico and Tabby." );
+		const researcher = new EnglishResearcher( paper );
+
+		const result = assessment.getResult( paper, researcher );
+
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: " +
+			"You are not using too many complex words, which makes your text easy to read. Good job!" );
+		expect( result.hasMarks() ).toBe( true );
+		expect( assessment.getMarks( paper, researcher ) ).toEqual( [
+			{ _properties:
+					{ 	fieldsToMark: [],
+						marked: "Torbie cats with a <yoastmark class='yoast-text-mark'>predominantly</yoastmark> white " +
+							"<yoastmark class='yoast-text-mark'>undercoat</yoastmark> are often referred to as " +
+							"\"caliby\", an <yoastmark class='yoast-text-mark'>amalgamation</yoastmark> of Calico and Tabby.",
+						original: "Torbie cats with a predominantly white undercoat are often referred to as \"caliby\", " +
+							"an amalgamation of Calico and Tabby." },
+			} ]
+		);
+		expect( result.hasBetaBadge() ).toBe( false );
+	} );
+
 	let runningPaper = new Paper( "Also called torties for short, tortoiseshell cats combine two colors other than white, " +
 		"either closely mixed or in larger patches." +
 		" The colors are often described as red and black, but the \"red\" patches can instead be orange, yellow, or cream," +
