@@ -5,6 +5,7 @@ import genderAssessments from "./genderAssessments";
 import cultureAssessments from "./cultureAssessments";
 import sesAssessments from "./sesAssessments";
 import otherAssessments from "./otherAssessments";
+import sexualOrientationAssessments from "./sexualOrientationAssessments";
 
 export default [
 	...ageAssessments,
@@ -14,4 +15,5 @@ export default [
 	...cultureAssessments,
 	...sesAssessments,
 	...otherAssessments,
+	...sexualOrientationAssessments,
 ];
