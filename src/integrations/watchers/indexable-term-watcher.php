@@ -97,6 +97,7 @@ class Indexable_Term_Watcher implements Integration_Interface {
 		}
 
 		$indexable->delete();
+		\do_action( 'wpseo_indexable_deleted', $indexable );
 	}
 
 	/**

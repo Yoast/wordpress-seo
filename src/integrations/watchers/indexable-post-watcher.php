@@ -149,6 +149,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$this->hierarchy_repository->clear_ancestors( $indexable->id );
 		$this->link_builder->delete( $indexable );
 		$indexable->delete();
+		\do_action( 'wpseo_indexable_deleted', $indexable );
 	}
 
 	/**
