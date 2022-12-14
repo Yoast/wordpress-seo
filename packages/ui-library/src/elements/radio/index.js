@@ -29,11 +29,11 @@ const Radio = forwardRef( ( {
 	name,
 	value,
 	label,
-	screenReaderLabel = "",
-	variant = "default",
-	disabled = false,
-	className = "",
-	isLabelDangerousHtml = false,
+	screenReaderLabel,
+	variant,
+	disabled,
+	className,
+	isLabelDangerousHtml,
 	...props
 }, ref ) => {
 	const svgAriaProps = useSvgAria();
@@ -99,7 +99,7 @@ const Radio = forwardRef( ( {
 	);
 } );
 
-Radio.propTypes = {
+const propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -110,5 +110,21 @@ Radio.propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
+
+Radio.propTypes = propTypes;
+
+Radio.defaultProps = {
+	screenReaderLabel: "",
+	variant: "default",
+	disabled: false,
+	className: "",
+	isLabelDangerousHtml: false,
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Radio { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Radio.defaultProps;
+StoryComponent.displayName = "Radio";
 
 export default Radio;
