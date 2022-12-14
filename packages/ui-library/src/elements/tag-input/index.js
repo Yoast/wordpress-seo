@@ -74,13 +74,13 @@ Tag.propTypes = {
  */
 const TagInput = forwardRef( ( {
 	tags = [],
-	children = null,
-	className = "",
-	disabled = false,
-	onAddTag = noop,
-	onRemoveTag = noop,
-	onBlur = noop,
-	screenReaderRemoveTag = "Remove tag",
+	children,
+	className,
+	disabled,
+	onAddTag,
+	onRemoveTag,
+	onBlur,
+	screenReaderRemoveTag,
 	...props
 }, ref ) => {
 	const [ text, setText ] = useState( "" );
@@ -160,10 +160,22 @@ TagInput.propTypes = propTypes;
 
 TagInput.Tag = Tag;
 
+TagInput.defaultProps = {
+	tags: [],
+	children: null,
+	className: "",
+	disabled: false,
+	onAddTag: noop,
+	onRemoveTag: noop,
+	onBlur: noop,
+	screenReaderRemoveTag: "Remove tag",
+};
+
 export default TagInput;
 
 
 // eslint-disable-next-line require-jsdoc
 export const StoryComponent = props => <TagInput { ...props } />;
 StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = TagInput.defaultProps;
 StoryComponent.displayName = "TagInput";
