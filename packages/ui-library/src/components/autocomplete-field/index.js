@@ -18,8 +18,8 @@ const AutocompleteField = forwardRef( ( {
 	id,
 	label,
 	description,
-	validation = {},
-	className = "",
+	validation,
+	className,
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
@@ -47,7 +47,7 @@ const AutocompleteField = forwardRef( ( {
 	);
 } );
 
-AutocompleteField.propTypes = {
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
@@ -59,6 +59,21 @@ AutocompleteField.propTypes = {
 	className: PropTypes.string,
 };
 
+AutocompleteField.propTypes = propTypes;
+
+AutocompleteField.defaultProps = {
+	validation: {},
+	className: "",
+};
+
 AutocompleteField.Option = Autocomplete.Option;
+
+AutocompleteField.Option.displayName = "AutocompleteField.Option";
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <AutocompleteField { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = AutocompleteField.defaultProps;
+StoryComponent.displayName = "AutocompleteField";
 
 export default AutocompleteField;
