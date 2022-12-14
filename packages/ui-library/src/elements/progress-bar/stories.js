@@ -1,8 +1,8 @@
-import ProgressBar from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Progress Bar",
-	component: ProgressBar,
+	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
@@ -13,7 +13,7 @@ export default {
 };
 
 export const Factory = ( { children, ...args } ) => (
-	<ProgressBar { ...args } />
+	<StoryComponent { ...args } />
 );
 Factory.parameters = {
 	controls: { disable: false },

@@ -24,15 +24,23 @@ const ProgressBar = forwardRef( ( {
 	);
 } );
 
-ProgressBar.propTypes = {
+const propTypes = {
 	min: PropTypes.number.isRequired,
 	max: PropTypes.number.isRequired,
 	progress: PropTypes.number.isRequired,
 	className: PropTypes.string,
 };
 
+ProgressBar.propTypes = propTypes;
+
 ProgressBar.defaultProps = {
 	className: "",
 };
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <ProgressBar { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = ProgressBar.defaultProps;
+StoryComponent.displayName = "ProgressBar";
 
 export default ProgressBar;
