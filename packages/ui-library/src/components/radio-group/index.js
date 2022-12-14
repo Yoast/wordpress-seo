@@ -98,5 +98,6 @@ RadioGroup.propTypes = {
 };
 
 RadioGroup.Radio = Radio;
+RadioGroup.Radio.displayName = "RadioGroup.Radio";
 
 export default RadioGroup;
