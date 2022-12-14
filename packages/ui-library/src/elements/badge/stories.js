@@ -1,7 +1,7 @@
 import { StoryComponent } from ".";
 
 export default {
-	title: "1. Elements/Badge",
+	title: "1) Elements/Badge",
 	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },

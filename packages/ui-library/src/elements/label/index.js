@@ -11,10 +11,10 @@ import { forwardRef } from "@wordpress/element";
  * @returns {JSX.Element} Label component.
  */
 const Label = forwardRef( ( {
-	as: Component = "label",
-	className = "",
-	label = "",
-	children = "",
+	as: Component,
+	className,
+	label,
+	children,
 	...props
 }, ref ) => (
 	<Component
@@ -26,11 +26,27 @@ const Label = forwardRef( ( {
 	</Component>
 ) );
 
-Label.propTypes = {
+const propTypes = {
 	label: PropTypes.string,
 	children: PropTypes.string,
 	as: PropTypes.elementType,
 	className: PropTypes.string,
 };
+
+Label.propTypes = propTypes;
+
+Label.defaultProps = {
+	label: "",
+	children: "",
+	as: "label",
+	className: "",
+};
+
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Label { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Label.defaultProps;
+StoryComponent.displayName = "Label";
 
 export default Label;

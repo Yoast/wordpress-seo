@@ -1,7 +1,7 @@
 import { StoryComponent, classNameMap } from ".";
 
 export default {
-	title: "1. Elements/Button",
+	title: "1) Elements/Button",
 	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },

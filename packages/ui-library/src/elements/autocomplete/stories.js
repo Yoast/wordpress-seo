@@ -4,7 +4,7 @@ import Autocomplete, { StoryComponent } from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
-	title: "1. Elements/Autocomplete",
+	title: "1) Elements/Autocomplete",
 	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
