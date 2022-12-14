@@ -25,6 +25,7 @@ Factory.parameters = {
 };
 
 Factory.args = {
+	id: "id-1",
 	screenReaderLabel: "Toggle",
 	checked: false,
 	onChange: noop,
