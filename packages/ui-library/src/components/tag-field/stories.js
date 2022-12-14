@@ -1,11 +1,11 @@
 import { useCallback, useState } from "@wordpress/element";
 import { noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
-import TagField from ".";
+import TagField, { StoryComponent } from ".";
 
 export default {
 	title: "2) Components/Tag Field",
-	component: TagField,
+	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
@@ -35,7 +35,7 @@ const Template = args => {
 	}, [ tags, setTags ] );
 
 	return (
-		<TagField { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 
