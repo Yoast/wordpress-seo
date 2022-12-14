@@ -1,12 +1,13 @@
-import { Card, Button } from "../../index";
+import { Button } from "../../index";
+import Card, { StoryComponent } from ".";
 
 export default {
 	title: "2) Components/Card",
-	component: Card,
+	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple card component. It has sub-components for header, content and footer.",
+				component: "A simple card component. It has subcomponents for header, content and footer that has `as` and `className` props.",
 			},
 		},
 	},
@@ -29,15 +30,13 @@ const Template = ( { children } ) => {
 	return (
 		<div className="yst-flex yst-gap-5 yst-justify-center">
 			<div className="yst-w-1/3">
-				<Card>{ children }</Card>
+				<StoryComponent>{ children }</StoryComponent>
 			</div>
 		</div>
 	);
 };
 
 export const Factory = Template.bind( {} );
-
-Factory.parameters = {};
 
 Factory.args = {
 	children: (
@@ -50,6 +49,7 @@ Factory.args = {
 };
 
 export const WithoutHeader = Template.bind( {} );
+
 WithoutHeader.args = {
 	children: (
 		<>
