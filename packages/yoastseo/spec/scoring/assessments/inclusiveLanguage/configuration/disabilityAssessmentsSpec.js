@@ -3,6 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/disabilityAssessments";
 import Factory from "../../../../specHelpers/factory.js";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
 describe( "A test for Disability assessments", function() {
 	it( "should return proper feedback with two inclusive alternatives", function() {
@@ -208,6 +209,15 @@ describe( "A test for Disability assessments", function() {
 
 		expect( isApplicable ).toBeFalsy();
 	} );
+	it( "should not target 'binge'' when followed by exception words.", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binge" ) );
+		[ "drink", "drinks", "drinking" ].map( ( exceptionWord ) => {
+			const testSentence = `We ${exceptionWord}.`;
+			const mockPaper = new Paper( testSentence );
+			const mockResearcher = Factory.buildMockResearcher( [ testSentence ] );
+			expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
+		} );
+	} );
 	it( "correctly identifies 'wheelchair-bound'", () => {
 		const mockPaper = new Paper( "This sentence contains wheelchair-bound." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains wheelchair-bound." ] );
@@ -369,17 +379,292 @@ describe( "A test for Disability assessments", function() {
 } );
 
 describe( "a test for targeting non-inclusive phrases in disability assessments", () => {
-	it( "should return the appropriate score and feedback string for: 'binge'", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "binge" ) );
-		const mockPaper = new Paper( "I binge on ice cream." );
-		const mockResearcher = Factory.buildMockResearcher( [ "I binge on ice cream." ] );
+	it( "should return the appropriate score and feedback string for: 'binge' and its other forms", () => {
+		const testData = [
+			{
+				identifier: "binge",
+				text: "I binge on ice cream.",
+				expectedFeedback: "Be careful when using <i>binge</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulge, satiate, wallow, spree, marathon, consume excessively</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "binges",
+				text: "She binges on Netflix series.",
+				expectedFeedback: "Be careful when using <i>binges</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulges, satiates, wallows, sprees, marathons, consumes excessively</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "bingeing",
+				text: "She is bingeing the new Korean drama on Netflix.",
+				expectedFeedback: "Be careful when using <i>bingeing</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "bingeing",
+				text: "She is binging the new Korean drama on Netflix.",
+				expectedFeedback: "Be careful when using <i>binging</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "binged",
+				text: "She binged the new Korean drama on Netflix.",
+				expectedFeedback: "Be careful when using <i>binged</i>, unless talking about a symptom of a medical condition. " +
+					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"such as <i>indulged, satiated, wallowed, spreed, marathoned, consumed excessively</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
 
-		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
-		expect( assessment.getResult().score ).toBe( 6 );
-		expect( assessment.getResult().text ).toBe( "Be careful when using <i>binge</i> as it is potentially harmful. " +
-			"Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, " +
-			"such as <i>indulging, satuating, wallowing, spree, marathon</i>. <a href='https://yoa.st/inclusive-language-disability' " +
-			"target='_blank'>Learn more.</a>" );
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'lame' and its other forms", () => {
+		const testData = [
+			{
+				identifier: "lame",
+				text: "Such a lame excuse!",
+				expectedFeedback: "Avoid using <i>lame</i> as it is potentially harmful. Consider using an alternative, such as <i>boring, lousy, " +
+					"unimpressive, sad, corny</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "lamer",
+				text: "It is a lamer excuse compared to the previous one.",
+				expectedFeedback: "Avoid using <i>lamer</i> as it is potentially harmful. Consider using an alternative, such as <i>more boring, " +
+					"lousier, more unimpressive, sadder, cornier</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "lamest",
+				text: "This is the lamest excuse by far!",
+				expectedFeedback:
+					"Avoid using <i>lamest</i> as it is potentially harmful. Consider using an alternative, such as <i>most boring, " +
+					"lousiest, most unimpressive, saddest, corniest</i>. <a href='https://yoa.st/inclusive-language-disability'" +
+					" target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'commit suicide' and its other forms", () => {
+		const testData = [
+			{
+				identifier: "commitSuicide",
+				text: "commit suicide",
+				expectedFeedback: "Avoid using <i>commit suicide</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>take one's life, die by suicide, kill oneself</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "committingSuicide",
+				text: "committing suicide",
+				expectedFeedback: "Avoid using <i>committing suicide</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>taking one's life, dying by suicide, killing oneself</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "commitsSuicide",
+				text: "commits suicide",
+				expectedFeedback:
+					"Avoid using <i>commits suicide</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>takes one's life, dies by suicide, kills oneself</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "committedSuicide",
+				text: "committed suicide",
+				expectedFeedback:
+					"Avoid using <i>committed suicide</i> as it is potentially harmful. Consider using an alternative, such as" +
+					" <i>took one's life, died by suicide, killed themself</i>. <a href='https://yoa.st/inclusive-language-disability'" +
+					" target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'dumb' and its other forms", () => {
+		// The different forms of "dumb" is one entry under the same identifier.
+		const testData = [
+			{
+				identifier: "dumb",
+				text: "Don't mind me, I was being dumb.",
+				expectedFeedback: "Avoid using <i>dumb</i> as it is potentially harmful. Consider using an alternative, such as <i>uninformed, " +
+					"ignorant, foolish, inconsiderate, irrational, reckless</i>. <a href='https://yoa.st/inclusive-language-disability'" +
+					" target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "dumb",
+				text: "A dumber person",
+				expectedFeedback: "Avoid using <i>dumber</i> as it is potentially harmful. Consider using an alternative, such as <i>uninformed, " +
+					"ignorant, foolish, inconsiderate, irrational, reckless</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "dumb",
+				text: "That individual was the dumbest.",
+				expectedFeedback:
+					"Avoid using <i>dumbest</i> as it is potentially harmful. Consider using an alternative, such as <i>uninformed, " +
+					"ignorant, foolish, inconsiderate, irrational, reckless</i>. <a href='https://yoa.st/inclusive-language-disability' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'epileptic fit' and its plural form", () => {
+		const testData = [
+			{
+				identifier: "epilepticFit",
+				text: "What can trigger an epileptic fit?",
+				expectedFeedback: "Avoid using <i>epileptic fit</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>epileptic seizure</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "epilepticFits",
+				text: "What can trigger epileptic fits?",
+				expectedFeedback: "Avoid using <i>epileptic fits</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>epileptic seizures</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'crazy' and its other forms", () => {
+		const testData = [
+			{
+				identifier: "crazy",
+				text: "It was a crazy decision.",
+				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "crazier",
+				text: "It is a crazier idea compared to the previous one.",
+				expectedFeedback: "Avoid using <i>crazier</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>more wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "craziest",
+				text: "This is the craziest decision I've ever made!",
+				expectedFeedback: "Avoid using <i>craziest</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>most wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'psychopath' and its other forms", () => {
+		// The different forms of "psychopath" is one entry under the same identifier.
+		const testData = [
+			{
+				identifier: "psychopathic",
+				text: "He was a psychopath.",
+				expectedFeedback: "Avoid using <i>psychopath</i> as it is potentially harmful. Consider using an alternative, such as <i>toxic, " +
+					"manipulative, unpredictable, impulsive, reckless, out of control</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "psychopathic",
+				text: "Multiple psychopaths",
+				expectedFeedback: "Avoid using <i>psychopaths</i> as it is potentially harmful. Consider using an alternative, such as <i>toxic, " +
+					"manipulative, unpredictable, impulsive, reckless, out of control</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "psychopathic",
+				text: "A psychopathic episode",
+				expectedFeedback: "Avoid using <i>psychopathic</i> as it is potentially harmful. Consider using an alternative, such as <i>toxic, " +
+					"manipulative, unpredictable, impulsive, reckless, out of control</i>." +
+					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'psycho' and its plural form", () => {
+		// The different forms of "psycho" is one entry under the same identifier.
+		const testData = [
+			{
+				identifier: "psycho",
+				text: "A total psycho",
+				expectedFeedback: "Avoid using <i>psycho</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>toxic, distraught, " +
+					"unpredictable, reckless, out of control</i>. <a href='https://yoa.st/inclusive-language-disability'" +
+					" target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "psycho",
+				text: "Multiple psychos",
+				expectedFeedback: "Avoid using <i>psychos</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>toxic, distraught, " +
+					"unpredictable, reckless, out of control</i>. <a href='https://yoa.st/inclusive-language-disability'" +
+					" target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'sociopath' and its plural form", () => {
+		const testData = [
+			{
+				identifier: "sociopath",
+				text: "Sherlock Holmes claims to be a sociopath",
+				expectedFeedback: "Be careful when using <i>sociopath</i> as it is potentially harmful. " +
+					"If you are referencing the medical condition, " +
+					"use <i>person with antisocial personality disorder</i> instead, unless referring to someone who explicitly wants " +
+					"to be referred to with this term. If you are not referencing the medical condition, consider other alternatives " +
+					"to describe the trait or behavior, such as <i>toxic, manipulative, cruel</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "sociopaths",
+				text: "A federation of multiple sociopaths",
+				expectedFeedback: "Be careful when using <i>sociopaths</i> as it is potentially harmful." +
+					" If you are referencing the medical condition," +
+					" use <i>people with antisocial personality disorder</i> instead, unless referring to someone who explicitly wants " +
+					"to be referred to with this term. If you are not referencing the medical condition, consider other alternatives " +
+					"to describe the trait or behavior, such as <i>toxic, manipulative, cruel</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'daft'", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "daft" ) );

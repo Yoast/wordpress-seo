@@ -119,6 +119,13 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
+		identifier: "hermaphrodites",
+		nonInclusivePhrases: [ "hermaphrodites" ],
+		inclusiveAlternatives: "<i>intersex people</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
 		identifier: "bothGenders",
 		nonInclusivePhrases: [ "both genders" ],
 		inclusiveAlternatives: "<i>people, folks, human beings, all genders</i>",
@@ -134,7 +141,7 @@ const genderAssessments = [
 	},
 	{
 		identifier: "husbandAndWife",
-		nonInclusivePhrases: [ "husband and wife" ],
+		nonInclusivePhrases: [ "husband and wife", "husbands and wives" ],
 		inclusiveAlternatives: "<i>spouses, partners</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyExclusionary.slice( 0, -1 ) +
@@ -177,6 +184,13 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
+		identifier: "transsexuals",
+		nonInclusivePhrases: [ "transsexuals" ],
+		inclusiveAlternatives: "<i>trans people, transgender people</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
 		identifier: "transWoman",
 		nonInclusivePhrases: [ "transwoman" ],
 		inclusiveAlternatives: "<i>trans woman, transgender woman</i>",
@@ -184,9 +198,23 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
+		identifier: "transWomen",
+		nonInclusivePhrases: [ "transwomen" ],
+		inclusiveAlternatives: "<i>trans women, transgender women</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
 		identifier: "transMan",
 		nonInclusivePhrases: [ "transman" ],
 		inclusiveAlternatives: "<i>trans man, transgender man</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
+		identifier: "transMen",
+		nonInclusivePhrases: [ "transmen" ],
+		inclusiveAlternatives: "<i>trans men, transgender men</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},

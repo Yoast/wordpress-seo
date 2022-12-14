@@ -64,6 +64,13 @@ const appearanceAssessments = [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
+		identifier: "midgets",
+		nonInclusivePhrases: [ "midgets" ],
+		inclusiveAlternatives: "<i>little people, have short stature, people with dwarfism</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
 		identifier: "harelip",
 		nonInclusivePhrases: [ "harelip" ],
 		inclusiveAlternatives: "<i>cleft lip, cleft palate</i>",

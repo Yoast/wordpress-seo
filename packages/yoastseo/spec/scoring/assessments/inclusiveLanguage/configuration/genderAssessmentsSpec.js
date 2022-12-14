@@ -3,6 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/genderAssessments";
 import Factory from "../../../../specHelpers/factory.js";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
 describe( "A test for Gender assessments", function() {
 	it( "should target non-inclusive phrases", function() {
@@ -365,5 +366,119 @@ describe( "A test for Gender assessments", function() {
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains MTF.</yoastmark>",
 			original: "This sentence contains MTF." } } ]
 		);
+	} );
+} );
+
+describe( "a test for targeting non-inclusive phrases in gender assessments", () => {
+	it( "should return the appropriate score and feedback string for: 'hermaphrodite' and its plural form", () => {
+		const testData = [
+			{
+				identifier: "hermaphrodite",
+				text: "That person there is a hermaphrodite",
+				expectedFeedback: "Avoid using <i>hermaphrodite</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>intersex</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "hermaphrodites",
+				text: "Those group of people are all hermaphrodites",
+				expectedFeedback: "Avoid using <i>hermaphrodites</i> as it is potentially harmful." +
+					" Consider using an alternative, such as <i>intersex people</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'husband and wife' and its plural form", () => {
+		// The different forms of "husband and wife" is one entry under the same identifier.
+		const testData = [
+			{
+				identifier: "husbandAndWife",
+				text: "The officiant pronounces them husband and wife",
+				expectedFeedback: "Be careful when using <i>husband and wife</i> as it is potentially exclusionary. Consider using an alternative, " +
+					"such as <i>spouses, partners</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "husbandAndWife",
+				text: "The officiant pronounces them husbands and wives",
+				expectedFeedback: "Be careful when using <i>husbands and wives</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, " +
+					"such as <i>spouses, partners</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'transsexual' and its plural form", () => {
+		const testData = [
+			{
+				identifier: "transsexual",
+				text: "The term transsexual is a subset of transgender.",
+				expectedFeedback: "Be careful when using <i>transsexual</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>transgender</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "transsexuals",
+				text: "As of 2018, use of the noun form (e.g. referring to people as transsexuals) is often deprecated by " +
+					"those in the transsexual community.",
+				expectedFeedback: "Be careful when using <i>transsexuals</i> as it is potentially harmful." +
+					" Consider using an alternative, such as <i>trans people, " +
+					"transgender people</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'transwoman' and its plural form", () => {
+		const testData = [
+			{
+				identifier: "transWoman",
+				text: "A transwoman is a woman who was assigned male at birth.",
+				expectedFeedback: "Be careful when using <i>transwoman</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>trans woman, transgender woman</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "transWomen",
+				text: "Transwomen have a female gender identity, may experience gender dysphoria, and may transition.",
+				expectedFeedback: "Be careful when using <i>transwomen</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>trans women, transgender women</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'transman' and its plural form", () => {
+		const testData = [
+			{
+				identifier: "transMan",
+				text: "A transman is a man who was assigned female at birth.",
+				expectedFeedback: "Be careful when using <i>transman</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>trans man, transgender man</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "transMen",
+				text: "Originally, the term transmen referred specifically to female-to-male transsexual people who underwent " +
+					"hormone replacement therapy (HRT) or sex reassignment surgery (SRS), or both.",
+				expectedFeedback: "Be careful when using <i>transmen</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>trans men, transgender men</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
 	} );
 } );
