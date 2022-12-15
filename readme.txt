@@ -264,6 +264,14 @@ Release date: December 27th, 2022
 
 * Sets the minimum supported WordPress version to 6.0.
 
+= 19.13 =
+
+Release date: December 27th, 2022
+
+#### Enhancements
+
+* Avoids a future incompatibility with Gutenberg rich-formatting `core/unknown` formatting style.
+
 = 19.12 =
 
 Release date: December 13th, 2022
