@@ -58,7 +58,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 721 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 723 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -141,19 +141,34 @@ const expectedResults = {
 	},
 	imageKeyphrase: {
 		// This is not applicable to English Paper 1 since the text doesn't have any image in it.
-		isApplicable: false,
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+					"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
+					"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page." +
-			" <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
 	},
 	wordComplexity: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: " +
 			"You are not using too many complex words, which makes your text easy to read. Good job!",
+	},
+	imageAltTags: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!",
+	},
+	singleH1: {
+		isApplicable: true,
+		score: 1,
+		resultText: "<a href='https://yoa.st/3a6' target='_blank'>Single title</a>: " +
+					"H1s should only be used as your main title. Find all H1s in your text that aren't your main title " +
+					"and <a href='https://yoa.st/3a7' target='_blank'>change them to a lower heading level</a>!",
 	},
 };
 

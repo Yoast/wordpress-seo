@@ -30,12 +30,19 @@ import WordComplexityAssessment from "../../src/scoring/assessments/readability/
 
 // Import test papers
 import testPapers from "./testTexts";
+import parse from "../../src/parse/parse";
+import ImageAltTagsAssessment from "../../src/scoring/assessments/seo/ImageAltTagsAssessment";
+import SingleH1Assessment from "../../src/scoring/assessments/seo/SingleH1Assessment";
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();
+
+		paper.setTree(
+			parse( paper.getText() )
+		);
 
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
@@ -158,6 +165,14 @@ testPapers.forEach( function( testPaper ) {
 
 		it( "returns a score and the associated feedback text for the imageCount assessment", function() {
 			compare( new ImageCountAssessment(), expectedResults.imageCount );
+		} );
+
+		it( "returns a score and the associated feedback text for the imageAltTags assessment", function() {
+			compare( new ImageAltTagsAssessment(), expectedResults.imageAltTags );
+		} );
+
+		it( "returns a score and the associated feedback text for the singleH1 assessment", function() {
+			compare( new SingleH1Assessment(), expectedResults.singleH1 );
 		} );
 	} );
 } );
