@@ -25,7 +25,7 @@ const artifactFiles = [
 	"images/**",
 	"packages/js/images/**",
 	"inc/**",
-	"<%= paths.jsDist %>/**/*.js",
+	"js/**/*.js",
 	"languages/**",
 	"src/**",
 	"lib/**",
@@ -286,7 +286,7 @@ gulp.task( "clean:artifact", function() {
  */
 gulp.task( "copy:artifact", function() {
 	del(
-		[ artifactFolder + "**", "!" + artifactFolder, "!" + artifactFolder + "*.gitignore" ]
+		[ artifactFolder + "**", artifactFolder ]
 	);
 	return gulp.src( artifactFiles, { base: "." } )
 		.pipe( gulp.dest( artifactFolder ) );
