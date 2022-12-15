@@ -141,10 +141,8 @@ gulp.task( "shell:compile-dependency-injection-container", function( cb ) {
 /**
  * Run `rm ./src/generated/container.php.meta`.
  */
-gulp.task( "shell:remove-dependency-injection-meta", function( cb ) {
-	spawn( "rm", [ "./src/generated/container.php.meta" ], { stdio: "inherit" } )
-		.on( "error", cb )
-		.on( "close", code => code ? cb( new Error( code ) ) : cb() );
+gulp.task( "remove-dependency-injection-meta", function() {
+	return del( [ "./src/generated/container.php.meta" ] );
 } );
 
 /**
@@ -203,15 +201,6 @@ gulp.task( "watch", function() {
 		gulp.watch( cssFolder + task, gulp.parallel( task + "-rtl" ) );
 	} );
 } );
-
-gulp.task( "build:js", gulp.series( "clean:build-assets-js", "shell:webpack" ) );
-gulp.task( "build:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
-gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
-
-gulp.task( "release:ts", gulp.parallel( "shell:install-schema-blocks" ) );
-gulp.task( "release:packages", gulp.parallel( "shell:build-ui-library" ) );
-gulp.task( "release:js", gulp.parallel( "shell:webpack-prod" ) );
-
 
 /**
  * Imagemin configuration and tasks.
@@ -306,3 +295,32 @@ gulp.task( "compress:artifact", function() {
 		.pipe( zip( artifactCompressed ) )
 		.pipe( gulp.dest( artifactCompressedDest ) );
 } );
+
+gulp.task( "build:js", gulp.series( "clean:build-assets-js", "shell:webpack" ) );
+gulp.task( "build:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
+gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
+
+gulp.task( "release:ts", gulp.parallel( "shell:install-schema-blocks" ) );
+gulp.task( "release:packages", gulp.parallel( "shell:build-ui-library" ) );
+gulp.task( "release:js", gulp.parallel( "shell:webpack-prod" ) );
+gulp.task( "release:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
+
+gulp.task( "release",  gulp.series(
+	"clean:build-assets",
+	"build:images",
+	"release:ts",
+	"release:packages",
+	"release:js",
+	"release:css"
+) );
+
+gulp.task( "artifact", gulp.series(
+	"clean:vendor-prefixed",
+	"shell:compile-dependency-injection-container",
+	"remove-dependency-injection-meta",
+	"shell:composer-install-production",
+	"release",
+	"clean:artifact",
+	"copy:artifact",
+	"compress:artifact"
+) );
