@@ -1,5 +1,7 @@
 import { alternative, potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 const exclusionary = "Avoid using <i>%1$s</i> as it is exclusionary. " +
 	"Consider using an alternative, such as %2$s.";
@@ -196,14 +198,14 @@ const genderAssessments = [
 	},
 	{
 		identifier: "maleToFemale",
-		nonInclusivePhrases: [ "male-to-female", "MTF" ],
+		nonInclusivePhrases: [ "male-to-female", "mtf" ],
 		inclusiveAlternatives: "<i>trans woman, transgender woman</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
 		identifier: "femaleToMale",
-		nonInclusivePhrases: [ "female-to-male", "FTM" ],
+		nonInclusivePhrases: [ "female-to-male", "ftm" ],
 		inclusiveAlternatives: "<i>trans man, transgender man</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
@@ -242,6 +244,17 @@ const genderAssessments = [
 		inclusiveAlternatives: "<i>crewed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: exclusionary,
+	},
+	{
+		identifier: "aTransgender",
+		nonInclusivePhrases: [ "a transgender", "the transgender" ],
+		inclusiveAlternatives: "<i>transgender person</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
+		},
 	},
 ];
 
