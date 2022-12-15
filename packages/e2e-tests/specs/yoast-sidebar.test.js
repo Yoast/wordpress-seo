@@ -2,64 +2,73 @@
  * WordPress e2e utilities
  */
 import {
+	activatePlugin,
 	createNewPost,
-	trashAllPosts,
+	deactivatePlugin,
 } from "@wordpress/e2e-test-utils";
 
-describe( "Yoast SEO sidebar", () => {
+import { deleteAllPostsWithApi } from "../src/helpers/utils";
 
-	it( "shows correctly Yoast SEO sidebar when editing a post", async () => {
-		await trashAllPosts();
+describe( "Yoast SEO sidebar", () => {
+	beforeAll( async() => {
+		await activatePlugin( "yoast_e2e_post_type" );
+	} );
+
+	afterAll( async() => {
+		await deactivatePlugin( "yoast_e2e_post_type" );
+	} );
+
+	it( "shows correctly Yoast SEO sidebar when editing a post", async() => {
+		await deleteAllPostsWithApi( "posts" );
 		await createNewPost();
 
 		await page.waitForSelector( "aria/Yoast SEO" );
 		const yoastSeoSidebarButton = await page.$x(
-			`//button[contains( @aria-label, "Yoast SEO" )]`
+			"//button[contains( @aria-label, \"Yoast SEO\" )]"
 		);
 		expect( yoastSeoSidebarButton.length ).toBe( 1 );
 
 		await page.click( "aria/Yoast SEO" );
 
 		const yoastSeoSidebarTitle = await page.$x(
-			`//div[contains( @class, "components-panel__header" )][contains( .//strong, "Yoast SEO" )]`
+			"//div[contains( @class, \"components-panel__header\" )][contains( .//strong, \"Yoast SEO\" )]"
 		);
-		expect( yoastSeoSidebarTitle.length ).toBe( 1 )
+		expect( yoastSeoSidebarTitle.length ).toBe( 1 );
 	} );
 
-	it( "shows correctly Yoast SEO sidebar when editing a page", async () => {
-		await trashAllPosts( "page" );
-   		await createNewPost( { postType: "page" } );
+	it( "shows correctly Yoast SEO sidebar when editing a page", async() => {
+		await deleteAllPostsWithApi( "pages" );
+		await createNewPost( { postType: "page" } );
 
 		await page.waitForSelector( "aria/Yoast SEO" );
 		const yoastSeoSidebarButton = await page.$x(
-			`//button[contains( @aria-label, "Yoast SEO" )]`
+			"//button[contains( @aria-label, \"Yoast SEO\" )]"
 		);
 		expect( yoastSeoSidebarButton.length ).toBe( 1 );
 
 		await page.click( "aria/Yoast SEO" );
 
 		const yoastSeoSidebarTitle = await page.$x(
-			`//div[contains( @class, "components-panel__header" )][contains( .//strong, "Yoast SEO" )]`
+			"//div[contains( @class, \"components-panel__header\" )][contains( .//strong, \"Yoast SEO\" )]"
 		);
-		expect( yoastSeoSidebarTitle.length ).toBe( 1 )
+		expect( yoastSeoSidebarTitle.length ).toBe( 1 );
 	} );
 
-	it( "shows correctly Yoast SEO sidebar when editing a custom post", async () => {
-		await trashAllPosts( "yoast_post_type" );
-   		await createNewPost( { postType: "yoast_post_type" } );
+	it( "shows correctly Yoast SEO sidebar when editing a custom post", async() => {
+		await deleteAllPostsWithApi( "yoast_post_type" );
+		await createNewPost( { postType: "yoast_post_type" } );
 
 		await page.waitForSelector( "aria/Yoast SEO" );
 		const yoastSeoSidebarButton = await page.$x(
-			`//button[contains( @aria-label, "Yoast SEO" )]`
+			"//button[contains( @aria-label, \"Yoast SEO\" )]"
 		);
 		expect( yoastSeoSidebarButton.length ).toBe( 1 );
 
 		await page.click( "aria/Yoast SEO" );
 
 		const yoastSeoSidebarTitle = await page.$x(
-			`//div[contains( @class, "components-panel__header" )][contains( .//strong, "Yoast SEO" )]`
+			"//div[contains( @class, \"components-panel__header\" )][contains( .//strong, \"Yoast SEO\" )]"
 		);
-		expect( yoastSeoSidebarTitle.length ).toBe( 1 )
+		expect( yoastSeoSidebarTitle.length ).toBe( 1 );
 	} );
-
 } );
