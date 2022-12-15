@@ -175,6 +175,6 @@ Notifications.propTypes = {
 };
 
 Notifications.Notification = Notification;
-
+Notifications.Notification.displayName = "Notifications.Notification";
 
 export default Notifications;

@@ -29,6 +29,22 @@
 			right: -190px; /* Override to not leave space between the mobile menu and the content. */
 		}
 	}
+
+	input[type=date],
+	input[type=datetime-local],
+	input[type=datetime],
+	input[type=email],
+	input[type=month],
+	input[type=number],
+	input[type=password],
+	input[type=search],
+	input[type=tel],
+	input[type=text],
+	input[type=time],
+	input[type=url],
+	input[type=week] {
+		@apply yst-min-h-0;
+	}
 }
 
 @layer base {

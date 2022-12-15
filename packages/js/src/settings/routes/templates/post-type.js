@@ -254,7 +254,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							type="select"
 							name={ `wpseo_titles.schema-page-type-${ name }` }
 							id={ `input-wpseo_titles-schema-page-type-${ name }` }
-							label={ 	__( "Page type", "wordpress-seo" ) }
+							label={ __( "Page type", "wordpress-seo" ) }
 							options={ pageTypes }
 							className="yst-max-w-sm"
 						/>
