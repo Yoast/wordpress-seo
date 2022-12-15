@@ -296,8 +296,26 @@ gulp.task( "compress:artifact", function() {
 		.pipe( gulp.dest( artifactCompressedDest ) );
 } );
 
+/**
+ * Set the environment as "production".
+ */
+gulp.task( "set-env-prod", function( done ) {
+	process.env.NODE_ENV = "production";
+	done();
+} );
+
+/**
+ * Set the environment as "development".
+ */
+gulp.task( "set-env-dev", function( done ) {
+	process.env.NODE_ENV = "development";
+	done();
+} );
+
+gulp.task( "postcss-process", gulp.parallel( css ) );
+
 gulp.task( "build:js", gulp.series( "clean:build-assets-js", "shell:webpack" ) );
-gulp.task( "build:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
+gulp.task( "build:css", gulp.series( "clean:build-assets-css", "set-env-dev", "postcss-process" ) );
 gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
 gulp.task( "build:ts", gulp.parallel( "shell:install-schema-blocks" ) );
 gulp.task( "build:packages", gulp.parallel( "shell:build-ui-library" ) );
@@ -308,7 +326,7 @@ gulp.task( "build", gulp.parallel( "build:dev", "build:images" ) );
 gulp.task( "release:ts", gulp.parallel( "shell:install-schema-blocks" ) );
 gulp.task( "release:packages", gulp.parallel( "shell:build-ui-library" ) );
 gulp.task( "release:js", gulp.parallel( "shell:webpack-prod" ) );
-gulp.task( "release:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
+gulp.task( "release:css", gulp.series( "clean:build-assets-css", "set-env-prod", "postcss-process" ) );
 
 gulp.task( "release",  gulp.series(
 	"clean:build-assets",
