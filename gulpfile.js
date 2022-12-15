@@ -299,6 +299,11 @@ gulp.task( "compress:artifact", function() {
 gulp.task( "build:js", gulp.series( "clean:build-assets-js", "shell:webpack" ) );
 gulp.task( "build:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
 gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
+gulp.task( "build:ts", gulp.parallel( "shell:install-schema-blocks" ) );
+gulp.task( "build:packages", gulp.parallel( "shell:build-ui-library" ) );
+
+gulp.task( "build:dev", gulp.parallel( "build:ts", "build:packages", "build:js", "build:css" ) );
+gulp.task( "build", gulp.parallel( "build:dev", "build:images" ) );
 
 gulp.task( "release:ts", gulp.parallel( "shell:install-schema-blocks" ) );
 gulp.task( "release:packages", gulp.parallel( "shell:build-ui-library" ) );
@@ -307,11 +312,15 @@ gulp.task( "release:css", gulp.series( "clean:build-assets-css", gulp.parallel( 
 
 gulp.task( "release",  gulp.series(
 	"clean:build-assets",
-	"build:images",
-	"release:ts",
-	"release:packages",
-	"release:js",
-	"release:css"
+	gulp.parallel(
+		"build:images",
+		"release:ts",
+		"release:packages"
+	),
+	gulp.parallel(
+		"release:js",
+		"release:css"
+	)
 ) );
 
 gulp.task( "artifact", gulp.series(
