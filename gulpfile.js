@@ -316,6 +316,7 @@ gulp.task( "release",  gulp.series(
 
 gulp.task( "artifact", gulp.series(
 	"clean:vendor-prefixed",
+	"shell:composer-install",
 	"shell:compile-dependency-injection-container",
 	"remove-dependency-injection-meta",
 	"shell:composer-install-production",
