@@ -12,6 +12,7 @@ const del = require( "del" );
 const paths = require( "./config/webpack/paths" );
 
 
+const pluginSlug = "wordpress-seo";
 const cssFolder = "css/src/";
 const cssDestLive = "css/dist/";
 const vendorPrefixed = "vendor_prefixed/";
@@ -275,7 +276,7 @@ gulp.task( "clean:artifact", function() {
 		[
 			artifactFolder + "**",
 			artifactFolder,
-			artifactCompressedDest + artifactCompressed
+			artifactCompressedDest + artifactCompressed,
 		]
 	);
 } );
@@ -299,9 +300,9 @@ gulp.task( "compress:artifact", function() {
 		[ artifactCompressedDest + artifactCompressed ]
 	);
 	return gulp.src( artifactFolder + "**" )
-		.pipe( rename( function (path) {
-			path.dirname = 'wordpress-seo/' + path.dirname;
-		}))
+		.pipe( rename( function( path ) {
+			path.dirname = pluginSlug + "/" + path.dirname;
+		} ) )
 		.pipe( zip( artifactCompressed ) )
 		.pipe( gulp.dest( artifactCompressedDest ) );
 } );
