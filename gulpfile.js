@@ -1,4 +1,4 @@
-const { src, dest, parallel, watch, series } = require( "gulp" );
+const { src, dest } = require( "gulp" );
 const gulp = require( "gulp" );
 const postcss = require( "gulp-postcss" );
 const rename = require( "gulp-rename" );
@@ -6,7 +6,8 @@ const zip = require( "gulp-zip" );
 const sourcemaps = require( "gulp-sourcemaps" );
 const rtlcss = require( "gulp-rtlcss" );
 const fs = require( "fs" );
-const spawn = require('cross-spawn');
+const imagemin = require( "gulp-imagemin" );
+const spawn = require( "cross-spawn" );
 const del = require( "del" );
 const paths = require( "./config/webpack/paths" );
 
@@ -162,6 +163,62 @@ gulp.task( "watch", function() {
 gulp.task( "build:js", gulp.series( "clean:build-assets-js", "shell:webpack" ) );
 gulp.task( "build:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
 gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
+
+
+/**
+ * Imagemin configuration and tasks.
+ */
+
+const svgoOptions = {
+	plugins: [
+		{ removeTitle: true },
+		{ removeDesc: true },
+		{ removeUnknownsAndDefaults:
+			{
+				keepRoleAttr: true,
+				keepAriaAttrs: true,
+			},
+		},
+		{ addAttributesToSVGElement:
+			{
+				attributes: [
+					{ role: "img" },
+					{ "aria-hidden": "true" },
+					{ focusable: "false" },
+				],
+			},
+		},
+	],
+};
+
+gulp.task( "imagemin:images", function() {
+	return gulp.src( "images/*" )
+		.pipe( imagemin(
+			[
+				imagemin.gifsicle(),
+				imagemin.mozjpeg(),
+				imagemin.optipng(),
+				imagemin.svgo( svgoOptions ),
+			]
+		) )
+		.pipe( gulp.dest( "images" ) );
+} );
+
+gulp.task( "imagemin:assets", function() {
+	return gulp.src( "svn-assets/*" )
+		.pipe( imagemin(
+			[
+				imagemin.gifsicle(),
+				imagemin.mozjpeg(),
+				imagemin.optipng(),
+				imagemin.svgo( svgoOptions ),
+			]
+		) )
+		.pipe( gulp.dest( "svn-assets" ) );
+} );
+
+gulp.task( "build:images", gulp.parallel( "imagemin:images", "imagemin:assets" ) );
+
 
 /**
  * Clean artifacts preparation folder and compressed artifacts.
