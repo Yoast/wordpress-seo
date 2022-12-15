@@ -1,7 +1,7 @@
 /** @module stringProcessing/addWordboundary */
 /* eslint-disable no-useless-escape */
 
-import { wordBoundariesStringForRegex, singleQuotesForRegex } from "../../../config/punctuation";
+import { wordBoundariesStringForRegex } from "../../../config/punctuation";
 
 /**
  * Returns a string that can be used in a regex to match a matchString with word boundaries.
@@ -14,24 +14,11 @@ import { wordBoundariesStringForRegex, singleQuotesForRegex } from "../../../con
  *
  * @returns {string} A regex string that matches the matchString with word boundaries.
  */
-export default function( matchString, positiveLookAhead = false, extraWordBoundary="", locale = "" ) {
-	let wordBoundary, wordBoundaryEnd;
-
-	// if ( locale === "id_ID" ) {
-	// 	wordBoundary = "[ \\u00a0\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+;!¡\?¿:\/»«‹›" + "<>";
-	// } else {
-	/*
-		* \u00a0 - no-break space
-		* \u2014 - em dash
-		* \u06d4 - Urdu full stop
-		* \u061f - Arabic question mark
-		* \u060C - Arabic comma
-		* \u061B - Arabic semicolon
-		*/
-	wordBoundary = `[${wordBoundariesStringForRegex}${extraWordBoundary}`;
-	// }
+export default function( matchString, positiveLookAhead = false, extraWordBoundary = "", locale = "" ) {
+	const wordBoundary = `[${wordBoundariesStringForRegex}${extraWordBoundary}`;
 
 	const wordBoundaryStart = `(^|${wordBoundary}'‘’‛\`])`;
+	let wordBoundaryEnd;
 	if ( positiveLookAhead ) {
 		wordBoundaryEnd = `($|((?=${wordBoundary}]))|((['‘’‛\`])(${wordBoundary}])))`;
 	} else {
