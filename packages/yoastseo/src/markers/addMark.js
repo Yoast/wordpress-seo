@@ -1,6 +1,6 @@
 /**
  * Marks a text with HTML tags
- *
+ * @category Markers
  * @param {string} text The unmarked text.
  * @returns {string} The marked text.
  */

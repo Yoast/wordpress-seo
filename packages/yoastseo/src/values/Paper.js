@@ -21,7 +21,7 @@ const defaultAttributes = {
 
 /**
  * Constructs the Paper object and sets the keyword property.
- *
+ * @category Values
  * @param {string} text                     The text to use in the analysis.
  * @param {object} [attributes]             The object containing all attributes.
  * @param {string} [attributes.keyword]     The main keyword.

@@ -6,7 +6,7 @@ import Mark from "./Mark";
 
 /**
  * A function that only returns an empty that can be used as an empty marker
- *
+ * @category Values
  * @returns {Array} A list of empty marks.
  */
 var emptyMarker = function() {
@@ -15,7 +15,7 @@ var emptyMarker = function() {
 
 /**
  * Construct the AssessmentResult value object.
- *
+ * @category Values
  * @param {Object} [values] The values for this assessment result.
  *
  * @constructor

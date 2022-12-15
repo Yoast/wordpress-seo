@@ -5,6 +5,8 @@ import { isUndefined } from "lodash-es";
 
 /**
  * Represents the defaults of an assessment.
+ * @category Scoring
+ * @subcategory Assessment
  */
 class Assessment {
 	/**
