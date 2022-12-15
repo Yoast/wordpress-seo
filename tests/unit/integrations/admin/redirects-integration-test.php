@@ -41,10 +41,7 @@ class Redirects_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		static::assertEquals(
-			[
-				Admin_Conditional::class,
-				Premium_Inactive_Conditional::class,
-			],
+			[ Premium_Inactive_Conditional::class ],
 			Redirects_Integration::get_conditionals()
 		);
 	}
