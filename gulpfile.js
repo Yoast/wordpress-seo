@@ -166,6 +166,34 @@ gulp.task( "shell:webpack", function( cb ) {
 } );
 
 /**
+ * Build the production js files through webpack.
+ */
+gulp.task( "shell:webpack-prod", function( cb ) {
+	spawn( "yarn", [ "run", "wp-scripts", "build", "--config", "config/webpack/webpack.config.js" ], { stdio: "inherit" } )
+		.on( "error", cb )
+		.on( "close", code => code ? cb( new Error( code ) ) : cb() );
+} );
+
+/**
+ * Build the schema blocks package.
+ */
+gulp.task( "shell:install-schema-blocks", function( cb ) {
+	spawn.sync( "yarn", [ "install" ], { cwd: "packages/schema-blocks", stdio: "inherit" } );
+	spawn( "yarn", [ "build" ], { cwd: "packages/schema-blocks", stdio: "inherit" } )
+		.on( "error", cb )
+		.on( "close", code => code ? cb( new Error( code ) ) : cb() );
+} );
+
+/**
+ * Build the schema blocks package.
+ */
+gulp.task( "shell:build-ui-library", function( cb ) {
+	spawn( "yarn", [ "build" ], { cwd: "packages/ui-library", stdio: "inherit" } )
+		.on( "error", cb )
+		.on( "close", code => code ? cb( new Error( code ) ) : cb() );
+} );
+
+/**
  * Setup the watcher.
  */
 gulp.task( "watch", function() {
@@ -178,6 +206,10 @@ gulp.task( "watch", function() {
 gulp.task( "build:js", gulp.series( "clean:build-assets-js", "shell:webpack" ) );
 gulp.task( "build:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
 gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
+
+gulp.task( "release:ts", gulp.parallel( "shell:install-schema-blocks" ) );
+gulp.task( "release:packages", gulp.parallel( "shell:build-ui-library" ) );
+gulp.task( "release:js", gulp.parallel( "shell:webpack-prod" ) );
 
 
 /**
