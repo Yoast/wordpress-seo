@@ -1,6 +1,9 @@
 # Welcome to the Yoast UI Library
 A React component library for building Yoast user interfaces. Please visit [the Storybook](https://ui-library.yoast.com/) for an interactive overview of all available components and examples on how to use them.
 
+## UI only!
+These components are UI components only and should remain free from business logic, translations, implementation details and other non-general concepts.
+
 ## Installation
 Start with installing the package and its peer dependencies from NPM:
 
@@ -65,7 +68,7 @@ The elements layer contains the simplest and stupidest components. They are the 
 The components layer contains more complex and smarter components. They are probably the most used building blocks. They are a little opinionated, will sometimes contain internal state and represent regular use case components that group multiple elements together into a friendly interface. Examples of components are the `InputField` and other form field components, that provide an interface for adding labelling and error messaging to an input element.
 
 ### Patterns
-The patterns layer contains the most complex and smart components. They are the largest and often structural building blocks. They are highly opinionated, will probably contain internal state and represent structures that group multiple elements and components together into a friendly interface. Examples of patterns are `PageLayout` and `Navigation` components (both undeveloped yet), that provide an interface for structuring entire pages or responsive navigation.
+The patterns layer contains example implementations of standardized element/component combinations. They are not actually components you can import and use in your code, but function more as a reference on how to work with the UI library to create rich interfaces. Examples of patterns could be `PageLayout` and `Header`, that combine multiple elements/components/plain HTML elements.
 
 ## The `as` property
 To make components in this library as flexible as possible, most of them implement the `as` property pattern. The idea is simple: it allows you to render a component as every valid JSX element, so HTML elements or custom React components. It can be read in a sentence like this: "Render `ComponentA` **as** `ComponentB`". Popular examples are rendering an anchor that looks like a button, or a label that looks like a title:
