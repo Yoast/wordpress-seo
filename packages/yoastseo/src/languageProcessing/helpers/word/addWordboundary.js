@@ -2,7 +2,6 @@
 /* eslint-disable no-useless-escape */
 
 import { wordBoundariesStringForRegex, singleQuotesForRegex } from "../../../config/punctuation";
-console.log(wordBoundariesStringForRegex)
 
 /**
  * Returns a string that can be used in a regex to match a matchString with word boundaries.
@@ -29,14 +28,14 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
 		* \u060C - Arabic comma
 		* \u061B - Arabic semicolon
 		*/
-	wordBoundary = `[${wordBoundariesStringForRegex}`;
+	wordBoundary = `[${wordBoundariesStringForRegex}${extraWordBoundary}`;
 	// }
 
-	const wordBoundaryStart = `(^|${wordBoundary}${singleQuotesForRegex}])`;
+	const wordBoundaryStart = `(^|${wordBoundary}'‘’‛\`])`;
 	if ( positiveLookAhead ) {
-		wordBoundaryEnd = `($|((?=${wordBoundary}]))|(([${singleQuotesForRegex}])(${wordBoundary}])))`;
+		wordBoundaryEnd = `($|((?=${wordBoundary}]))|((['‘’‛\`])(${wordBoundary}])))`;
 	} else {
-		wordBoundaryEnd = `($|(${wordBoundary}])|(([${singleQuotesForRegex}])(${wordBoundary}])))`;
+		wordBoundaryEnd = `($|(${wordBoundary}])|((['‘’‛\`])(${wordBoundary}])))`;
 	}
 
 	return wordBoundaryStart + matchString + wordBoundaryEnd;

@@ -1,15 +1,16 @@
 
 // "\u00a0" = NBSP
 // Whitespace is always a word boundary.
-const whitespaces = [ " ", "\\n", "\\r", "\\t", "\u00a0" ];
+const whitespaces = [ " ", "\n", "\r", "\t", "\u00a0" ];
 
 export const doubleQuotes = [ "\"", "»", "«", "”", "“", "〝", "〞", "〟", "‟", "„", "『", "』" ];
+export const doubleQuotesForRegex = doubleQuotes.map( ( boundary ) => "\\" + boundary ).join( "" )
 
 // ‘’‛`‹›
-export const singleQuotes = [ "‘",  "’", "‛", "`", "‹", "›", "'" ];
+export const singleQuotes = [ "‘",  "’", "‛", "`" ]; //, "'" "‹", "›"
 export const singleQuotesForRegex = singleQuotes.map( ( boundary ) => "\\" + boundary ).join( "" );
 
-const genericPunctuation = [ ".", ",", "(", ")", "+", ";", "!", "?", ":", "/", "<", ">", "¡", "¿", "\\",
+const genericPunctuation = [ ".", ",", "(", ")", "+", ";", "!", "?", ":", "/", "<", ">", "¡", "¿",
 //   \u2014 - em dash
 	"\u2014" ];
 

@@ -1,5 +1,4 @@
-import { doubleQuotes } from "../../../config/punctuation";
-
+import { singleQuotesForRegex, doubleQuotesForRegex } from "../../../config/punctuation";
 /**
  * Normalizes single quotes to 'regular' quotes.
  *
@@ -8,6 +7,7 @@ import { doubleQuotes } from "../../../config/punctuation";
  */
 function normalizeSingleQuotes( text ) {
 	return text.replace( /[‘’‛`‹›]/g, "'" );
+	// return text.replace( new RegExp( `[${singleQuotesForRegex}]`, "g" ), "'" );
 }
 
 /**
@@ -18,6 +18,7 @@ function normalizeSingleQuotes( text ) {
  */
 function normalizeDoubleQuotes( text ) {
 	return text.replace( /[“”〝〞〟‟„『』«»]/g, "\"" );
+	// return text.replace( new RegExp( `[${doubleQuotesForRegex}]`, "g" ), "\"" );
 }
 
 /**

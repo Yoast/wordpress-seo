@@ -1,6 +1,7 @@
 import arrayMatch from "../../../../src/languageProcessing/helpers/match/matchTextWithArray.js";
 import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
+
 describe( "a test matching strings in an array", function() {
 	it( "returns the matches in the array", function() {
 		expect( arrayMatch( "this is a test with words.", [ "test", "string", "words" ] ) ).toEqual(
