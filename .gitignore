@@ -104,9 +104,3 @@ dependencies.md
 # Temp files
 ############
 /.tmp
-
-#############
-# Artifacts
-#############
-/artifacts
-artifacts.zip

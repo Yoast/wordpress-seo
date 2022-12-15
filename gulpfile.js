@@ -16,25 +16,40 @@ const cssFolder = "css/src/";
 const cssDestLive = "css/dist/";
 const vendorPrefixed = "vendor_prefixed/";
 
-const artifactsFiles = [
-	"css/dist/**/*",
-	"packages/js/src/**/*.js",
-	"packages/js/tests/**/*.js",
-	"admin/**/*.php",
-	"frontend/**/*.php",
-	"inc/**/*.php",
-	"src/**/*.php",
-	"config/**/*.php",
-	"package.json",
-	"wp-seo-main.php",
-	"wp-seo.php",
+const artifactFiles = [
+	"admin/**",
+	"css/dist/**/*.css",
+	"css/main-sitemap.xsl",
+	"deprecated/**",
+	"frontend/**",
+	"images/**",
+	"packages/js/images/**",
+	"inc/**",
+	"<%= paths.jsDist %>/**/*.js",
+	"languages/**",
+	"src/**",
+	"lib/**",
+	"vendor/**",
+	"vendor_prefixed/**/*.php",
+	"vendor_prefixed/wordproof/wordpress-sdk/build/**/*.js",
 	"index.php",
-	"README.md",
-	"tests/**/*.php",
+	"license.txt",
+	"readme.txt",
+	"wp-seo.php",
+	"wp-seo-main.php",
+	"wpml-config.xml",
+	"!vendor/bin/**",
+	"!vendor/composer/installed.json",
+	"!vendor/composer/installers/**",
+	"!vendor/yoast/i18n-module/LICENSE",
+	"!vendor/yoast/license-manager/samples/**",
+	"!vendor/yoast/license-manager/class-theme-*",
+	"!**/composer.json",
+	"!**/README.md",
 ];
-const artifactsFolder = "artifacts/";
-const artifactsCompressed = "artifacts.zip";
-const artifactsCompressedDest = "./";
+const artifactFolder = "artifact/";
+const artifactCompressed = "artifact.zip";
+const artifactCompressedDest = "./";
 
 const files = fs.readdirSync( "css/src" );
 const json = JSON.parse( fs.readFileSync( "package.json" ) );
@@ -221,38 +236,38 @@ gulp.task( "build:images", gulp.parallel( "imagemin:images", "imagemin:assets" )
 
 
 /**
- * Clean artifacts preparation folder and compressed artifacts.
+ * Clean artifact preparation folder and compressed artifact.
  */
-gulp.task( "artifact:clean", function() {
-	del(
+gulp.task( "clean:artifact", function() {
+	return del(
 		[
-			artifactsFolder + "**",
-			"!" + artifactsFolder,
-			"!" + artifactsFolder + "*.gitignore",
-			artifactsCompressedDest + artifactsCompressed
+			artifactFolder + "**",
+			"!" + artifactFolder,
+			"!" + artifactFolder + "*.gitignore",
+			artifactCompressedDest + artifactCompressed
 		]
 	);
 } );
 
 /**
- * Copy all files that need to be included in artifacts.
+ * Copy all files that need to be included in artifact.
  */
-gulp.task( "artifact:copy", function() {
+gulp.task( "copy:artifact", function() {
 	del(
-		[ artifactsFolder + "**", "!" + artifactsFolder, "!" + artifactsFolder + "*.gitignore" ]
+		[ artifactFolder + "**", "!" + artifactFolder, "!" + artifactFolder + "*.gitignore" ]
 	);
-	return gulp.src( artifactsFiles, { base: "." } )
-		.pipe( gulp.dest( artifactsFolder ) );
+	return gulp.src( artifactFiles, { base: "." } )
+		.pipe( gulp.dest( artifactFolder ) );
 } );
 
 /**
- * Compress all files included in artifacts folder.
+ * Compress all files included in artifact folder.
  */
-gulp.task( "artifact:compress", function() {
+gulp.task( "compress:artifact", function() {
 	del(
-		[ artifactsCompressedDest + artifactsCompressed ]
+		[ artifactCompressedDest + artifactCompressed ]
 	);
-	return gulp.src( artifactsFolder + "*" )
-		.pipe( zip( artifactsCompressed ) )
-		.pipe( gulp.dest( artifactsCompressedDest ) );
+	return gulp.src( artifactFolder + "**" )
+		.pipe( zip( artifactCompressed ) )
+		.pipe( gulp.dest( artifactCompressedDest ) );
 } );
