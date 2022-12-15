@@ -1,3 +1,4 @@
+// eslint-disable react/display-name
 import { noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
 import { StoryComponent } from ".";

@@ -1,3 +1,4 @@
+// eslint-disable react/display-name
 import { StoryComponent } from ".";
 
 export default {
