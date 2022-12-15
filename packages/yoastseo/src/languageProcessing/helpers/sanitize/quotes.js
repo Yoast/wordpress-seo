@@ -1,3 +1,5 @@
+import { doubleQuotes } from "../../../config/punctuation";
+
 /**
  * Normalizes single quotes to 'regular' quotes.
  *

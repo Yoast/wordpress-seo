@@ -1,6 +1,9 @@
 /** @module stringProcessing/addWordboundary */
 /* eslint-disable no-useless-escape */
 
+import { wordBoundariesStringForRegex, singleQuotesForRegex } from "../../../config/punctuation";
+console.log(wordBoundariesStringForRegex)
+
 /**
  * Returns a string that can be used in a regex to match a matchString with word boundaries.
  *
@@ -12,28 +15,28 @@
  *
  * @returns {string} A regex string that matches the matchString with word boundaries.
  */
-export default function( matchString, positiveLookAhead = false, extraWordBoundary = "", locale = "" ) {
+export default function( matchString, positiveLookAhead = false, extraWordBoundary="", locale = "" ) {
 	let wordBoundary, wordBoundaryEnd;
 
-	if ( locale === "id_ID" ) {
-		wordBoundary = "[ \\u00a0\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
-	} else {
-		/*
-		 * \u00a0 - no-break space
-		 * \u2014 - em dash
-         * \u06d4 - Urdu full stop
-         * \u061f - Arabic question mark
-         * \u060C - Arabic comma
-         * \u061B - Arabic semicolon
-         */
-		wordBoundary = "[ \\u00a0\\u2014\\u06d4\\u061f\\u060C\\u061B\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+\\-;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
-	}
+	// if ( locale === "id_ID" ) {
+	// 	wordBoundary = "[ \\u00a0\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+;!¡\?¿:\/»«‹›" + "<>";
+	// } else {
+	/*
+		* \u00a0 - no-break space
+		* \u2014 - em dash
+		* \u06d4 - Urdu full stop
+		* \u061f - Arabic question mark
+		* \u060C - Arabic comma
+		* \u061B - Arabic semicolon
+		*/
+	wordBoundary = `[${wordBoundariesStringForRegex}`;
+	// }
 
-	const wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
+	const wordBoundaryStart = `(^|${wordBoundary}${singleQuotesForRegex}])`;
 	if ( positiveLookAhead ) {
-		wordBoundaryEnd = "($|((?=" + wordBoundary + "]))|((['‘’‛`])(" + wordBoundary + "])))";
+		wordBoundaryEnd = `($|((?=${wordBoundary}]))|(([${singleQuotesForRegex}])(${wordBoundary}])))`;
 	} else {
-		wordBoundaryEnd = "($|(" + wordBoundary + "])|((['‘’‛`])(" + wordBoundary + "])))";
+		wordBoundaryEnd = `($|(${wordBoundary}])|(([${singleQuotesForRegex}])(${wordBoundary}])))`;
 	}
 
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
