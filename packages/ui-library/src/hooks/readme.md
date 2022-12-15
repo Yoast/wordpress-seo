@@ -1,4 +1,4 @@
-# Hooks docs with Markdown
+# Hooks
 
 &nbsp;
 
