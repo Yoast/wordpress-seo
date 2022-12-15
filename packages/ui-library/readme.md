@@ -3,7 +3,7 @@ A React component library for building Yoast user interfaces. Please visit [the 
 
 [View the 3.0 changelog here](https://github.com/Yoast/wordpress-seo/blob/feature/ui-library-3/packages/ui-library/changelog.md).
 
-## Important!!
+## Important!
 **These components are UI components only and should remain free from business logic, translations, implementation details and other non-general concepts.**
 
 ## Installation
