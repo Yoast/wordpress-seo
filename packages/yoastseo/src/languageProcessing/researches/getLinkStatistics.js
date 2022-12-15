@@ -11,6 +11,7 @@ import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import urlHelper from "../helpers/url/url.js";
 import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
 import getWords from "../helpers/word/getWords";
+import innerText from "../../parse/helpers/innerText";
 
 let functionWords = [];
 
@@ -65,7 +66,8 @@ const filterAnchorsLinkingToSelf = function( anchors, siteUrlOrDomain ) {
  */
 const filterAnchorsContainingTopic = function( anchors, topicForms, locale, matchWordCustomHelper ) {
 	const anchorsContainingKeyphraseOrSynonyms = anchors.map( function( anchor ) {
-		return findKeywordInUrl( anchor, topicForms, locale, matchWordCustomHelper );
+		const text = innerText( anchor );
+		return findKeywordInUrl( text, topicForms, locale, matchWordCustomHelper );
 	} );
 	anchors = anchors.filter( function( anchor, index ) {
 		return anchorsContainingKeyphraseOrSynonyms[ index ] === true;
