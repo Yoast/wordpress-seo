@@ -274,8 +274,7 @@ gulp.task( "clean:artifact", function() {
 	return del(
 		[
 			artifactFolder + "**",
-			"!" + artifactFolder,
-			"!" + artifactFolder + "*.gitignore",
+			artifactFolder,
 			artifactCompressedDest + artifactCompressed
 		]
 	);
