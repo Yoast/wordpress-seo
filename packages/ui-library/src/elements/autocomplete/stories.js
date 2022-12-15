@@ -46,7 +46,7 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<Autocomplete
+			<StoryComponent
 				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
@@ -58,7 +58,7 @@ const Template = ( args ) => {
 						{ option.label }
 					</Autocomplete.Option>
 				) ) }
-			</Autocomplete>
+			</StoryComponent>
 		</div>
 	);
 };
@@ -115,7 +115,7 @@ WithSelectedLabel.args = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<Autocomplete
+			<StoryComponent
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

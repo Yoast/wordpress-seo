@@ -1,4 +1,4 @@
-import Spinner, { classNameMap, StoryComponent } from ".";
+import { classNameMap, StoryComponent } from ".";
 import { keys } from "lodash";
 
 export default {
@@ -33,24 +33,24 @@ export default {
 
 export const Factory = ( args ) => (
 	<div className={ args.variant ? "white" && "yst-bg-black yst-w-14 yst-p-2" : "" }>
-		<Spinner { ...args } />
+		<StoryComponent { ...args } />
 	</div>
 );
 
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-gap-5">
-		<Spinner variant="default" />
-		<Spinner variant="primary" />
+		<StoryComponent variant="default" />
+		<StoryComponent variant="primary" />
 		<div className="yst-bg-black yst-p-2">
-			<Spinner variant="white" />
+			<StoryComponent variant="white" />
 		</div>
 	</div>
 );
 
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-gap-5">
-		<Spinner size="3" />
-		<Spinner size="4" />
-		<Spinner size="8" />
+		<StoryComponent size="3" />
+		<StoryComponent size="4" />
+		<StoryComponent size="8" />
 	</div>
 );

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "@wordpress/element";
 import { noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
-import TagField, { StoryComponent } from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "2) Components/Tag Field",
@@ -34,7 +34,7 @@ const Template = args => {
 	}, [ tags, setTags ] );
 
 	return (
-		<TagField { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 
@@ -53,7 +53,7 @@ WithLabelAndDescription.args = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<TagField
+			<StoryComponent
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

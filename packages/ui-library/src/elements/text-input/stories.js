@@ -1,4 +1,4 @@
-import TextInput, { StoryComponent } from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Text Input",
@@ -13,7 +13,7 @@ export default {
 };
 
 export const Factory = {
-	component: ( args ) => <TextInput { ...args } />,
+	component: ( args ) => <StoryComponent { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},

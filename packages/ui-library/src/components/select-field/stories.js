@@ -44,7 +44,7 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<SelectField { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
+			<StoryComponent { ...args } value={ value } onChange={ handleChange } selectedLabel={ selectedLabel } />
 		</div>
 	);
 };
@@ -118,7 +118,7 @@ SelectFieldOption.parameters = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<SelectField
+			<StoryComponent
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

@@ -45,7 +45,7 @@ const Template = ( { ...args } ) => {
 	return (
 	// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<AutocompleteField
+			<StoryComponent
 				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
@@ -57,7 +57,7 @@ const Template = ( { ...args } ) => {
 						{ option.label }
 					</AutocompleteField.Option>
 				) ) }
-			</AutocompleteField>
+			</StoryComponent>
 		</div>
 	);
 };
@@ -138,7 +138,7 @@ ChildrenProp.parameters = { docs: { description: { story: "The `children` prop c
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<AutocompleteField
+			<StoryComponent
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

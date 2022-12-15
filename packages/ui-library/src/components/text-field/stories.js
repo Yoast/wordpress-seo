@@ -1,7 +1,7 @@
 import { useCallback, useState } from "@wordpress/element";
 import { noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
-import TextField, { StoryComponent } from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "2) Components/Text Field",
@@ -30,7 +30,7 @@ export const Factory = {
 		const handleChange = useCallback( setValue, [ setValue ] );
 
 		return (
-			<TextField { ...args } value={ value } onChange={ handleChange } />
+			<StoryComponent { ...args } value={ value } onChange={ handleChange } />
 		);
 	},
 	parameters: {
@@ -50,7 +50,7 @@ export const WithLabelAndDescription = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<TextField
+			<StoryComponent
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

@@ -1,4 +1,4 @@
-import Alert, { classNameMap, roleMap, StoryComponent } from ".";
+import { classNameMap, roleMap, StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Alert",
@@ -31,7 +31,7 @@ export default {
 };
 
 export const Factory = ( { children, ...args } ) => (
-	<Alert { ...args }>{ children }</Alert>
+	<StoryComponent { ...args }>{ children }</StoryComponent>
 );
 Factory.parameters = {
 	jest: "snapshot",
@@ -45,10 +45,10 @@ export const Variants = ( args ) => {
 	const Link = <a href="https://yoast.com">with a link</a>;
 	return (
 		<div className="yst-flex yst-flex-col yst-gap-2">
-			<Alert variant="info">This is an information alert { Link }. (default)</Alert>
-			<Alert variant="warning">This is a warning alert { Link }.</Alert>
-			<Alert variant="success" role="alert">This is a success alert { Link }.</Alert>
-			<Alert variant="error" role="alert">This is an error alert { Link }.</Alert>
+			<StoryComponent variant="info">This is an information alert { Link }. (default)</StoryComponent>
+			<StoryComponent variant="warning">This is a warning alert { Link }.</StoryComponent>
+			<StoryComponent variant="success" role="alert">This is a success alert { Link }.</StoryComponent>
+			<StoryComponent variant="error" role="alert">This is an error alert { Link }.</StoryComponent>
 		</div>
 	);
 };

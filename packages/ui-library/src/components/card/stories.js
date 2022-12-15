@@ -30,7 +30,7 @@ const Template = ( { children } ) => {
 	return (
 		<div className="yst-flex yst-gap-5 yst-justify-center">
 			<div className="yst-w-1/3">
-				<Card>{ children }</Card>
+				<StoryComponent>{ children }</StoryComponent>
 			</div>
 		</div>
 	);

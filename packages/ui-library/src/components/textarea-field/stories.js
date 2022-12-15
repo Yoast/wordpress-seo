@@ -1,6 +1,6 @@
 import { noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
-import TextareaField, { StoryComponent } from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "2) Components/Textarea Field",
@@ -22,7 +22,7 @@ export default {
 };
 
 export const Factory = {
-	component: args => <TextareaField { ...args } />,
+	component: args => <StoryComponent { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
@@ -40,7 +40,7 @@ export const WithLabelAndDescription = {
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<TextareaField
+			<StoryComponent
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }

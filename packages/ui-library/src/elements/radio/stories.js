@@ -1,4 +1,4 @@
-import Radio, { StoryComponent } from ".";
+import { StoryComponent } from ".";
 
 export default {
 	title: "1) Elements/Radio",
@@ -13,7 +13,7 @@ export default {
 };
 
 export const Factory = ( args ) => (
-	<Radio { ...args } />
+	<StoryComponent { ...args } />
 );
 Factory.parameters = {
 	controls: { disable: false },
@@ -28,10 +28,10 @@ Factory.args = {
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-4">
 		<div>Default variant:</div>
-		<Radio id="radio-1" name="option-1" value="1" label="I am a radio button with default variant." />
+		<StoryComponent id="radio-1" name="option-1" value="1" label="I am a radio button with default variant." />
 		<hr />
 		<div>Inline-block variant:</div>
-		<Radio id="radio-2" name="option-2" value="2" screenReaderLabel="Option #2" label="2" variant="inline-block" />
+		<StoryComponent id="radio-2" name="option-2" value="2" screenReaderLabel="Option #2" label="2" variant="inline-block" />
 	</div>
 );
 Variants.parameters = {
@@ -41,7 +41,7 @@ Variants.parameters = {
 
 export const DangerousLabel = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-4">
-		<Radio id="radio-dangerous" name="option-dangerous" value="D" label={ "&bull; Dangerous label." } isLabelDangerousHtml={ true } />
+		<StoryComponent id="radio-dangerous" name="option-dangerous" value="D" label={ "&bull; Dangerous label." } isLabelDangerousHtml={ true } />
 	</div>
 );
 DangerousLabel.parameters = {
