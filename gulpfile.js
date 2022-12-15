@@ -6,12 +6,14 @@ const sourcemaps = require( "gulp-sourcemaps" );
 const rtlcss = require( "gulp-rtlcss" );
 const fs = require( "fs" );
 const exec = require( "child_process" ).exec;
+const spawn = require('cross-spawn');
 const del = require( "del" );
 const paths = require( "./config/webpack/paths" );
 
 
 const cssFolder = "css/src/";
 const cssDestLive = "css/dist/";
+const vendorPrefixed = "vendor_prefixed/";
 
 const files = fs.readdirSync( "css/src" );
 const json = JSON.parse( fs.readFileSync( "package.json" ) );
@@ -71,9 +73,27 @@ gulp.task( "clean:js", function() {
 } );
 
 /**
+ * Clean up the old css files.
+ */
+gulp.task( "clean:vendor-prefixed", function() {
+	return del(
+		[ vendorPrefixed + "**", '!' + vendorPrefixed, "!" + vendorPrefixed + "*.gitignore" ]
+	);
+} );
+
+/**
+ * Run `composer install`.
+ */
+gulp.task( "shell:composer-install", function( cb ) {
+	spawn( 'composer', [ 'install' ], { stdio: 'inherit' })
+		.on('error', cb)
+		.on('close', code => code ? cb(new Error(code)) : cb());
+} );
+
+/**
  * Build the js files through webpack.
  */
-gulp.task( "shell-webpack", function( cb ) {
+gulp.task( "shell:webpack", function( cb ) {
 	exec( "yarn cross-env NODE_ENV=development", function( err, stdout, stderr ) {
 		console.log( stdout );
 		console.log( stderr );
@@ -96,6 +116,6 @@ gulp.task( "watch", function() {
 	} );
 } );
 
-gulp.task( "build:js", gulp.series( "clean:js", "shell-webpack" ) );
+gulp.task( "build:js", gulp.series( "clean:js", "shell:webpack" ) );
 gulp.task( "build:css", gulp.series( "clean:css", gulp.parallel( css ) ) );
 gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
