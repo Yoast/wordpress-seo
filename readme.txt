@@ -247,11 +247,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 19.13 =
 
-Release date: December 27th, 2022
+Release date: December 20th, 2022
 
 #### Enhancements
 
-* Avoids a future incompatibility with Gutenberg rich-formatting `core/unknown` formatting style.
+* Prevents an incompatibility with the upcoming Gutenberg 14.8.0.
 
 = 19.12 =
 
