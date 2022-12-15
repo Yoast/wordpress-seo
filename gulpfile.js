@@ -250,7 +250,7 @@ gulp.task( "artifact:copy", function() {
  */
 gulp.task( "artifact:compress", function() {
 	del(
-		[ artifactsCompressedDest + "**", "!" + artifactsCompressedDest, "!" + artifactsCompressedDest + "*.gitignore" ]
+		[ artifactsCompressedDest + artifactsCompressed ]
 	);
 	return gulp.src( artifactsFolder + "*" )
 		.pipe( zip( artifactsCompressed ) )
