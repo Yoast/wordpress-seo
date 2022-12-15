@@ -299,6 +299,9 @@ gulp.task( "compress:artifact", function() {
 		[ artifactCompressedDest + artifactCompressed ]
 	);
 	return gulp.src( artifactFolder + "**" )
+		.pipe( rename( function (path) {
+			path.dirname = 'wordpress-seo/' + path.dirname;
+		}))
 		.pipe( zip( artifactCompressed ) )
 		.pipe( gulp.dest( artifactCompressedDest ) );
 } );
