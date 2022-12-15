@@ -322,6 +322,7 @@ gulp.task( "build:packages", gulp.parallel( "shell:build-ui-library" ) );
 
 gulp.task( "build:dev", gulp.parallel( "build:ts", "build:packages", "build:js", "build:css" ) );
 gulp.task( "build", gulp.parallel( "build:dev", "build:images" ) );
+gulp.task( "build-watch", gulp.series( "clean:vendor-prefixed", "shell:composer-install", "build:js", "build:css", "watch" ) );
 
 gulp.task( "release:ts", gulp.parallel( "shell:install-schema-blocks" ) );
 gulp.task( "release:packages", gulp.parallel( "shell:build-ui-library" ) );
