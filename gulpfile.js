@@ -2,6 +2,7 @@ const { src, dest, parallel, watch, series } = require( "gulp" );
 const gulp = require( "gulp" );
 const postcss = require( "gulp-postcss" );
 const rename = require( "gulp-rename" );
+const zip = require( "gulp-zip" );
 const sourcemaps = require( "gulp-sourcemaps" );
 const rtlcss = require( "gulp-rtlcss" );
 const fs = require( "fs" );
@@ -13,6 +14,26 @@ const paths = require( "./config/webpack/paths" );
 const cssFolder = "css/src/";
 const cssDestLive = "css/dist/";
 const vendorPrefixed = "vendor_prefixed/";
+
+const artifactsFiles = [
+	"css/dist/**/*",
+	"packages/js/src/**/*.js",
+	"packages/js/tests/**/*.js",
+	"admin/**/*.php",
+	"frontend/**/*.php",
+	"inc/**/*.php",
+	"src/**/*.php",
+	"config/**/*.php",
+	"package.json",
+	"wp-seo-main.php",
+	"wp-seo.php",
+	"index.php",
+	"README.md",
+	"tests/**/*.php",
+];
+const artifactsFolder = "artifacts/";
+const artifactsCompressed = "artifacts.zip";
+const artifactsCompressedDest = "./";
 
 const files = fs.readdirSync( "css/src" );
 const json = JSON.parse( fs.readFileSync( "package.json" ) );
@@ -141,3 +162,40 @@ gulp.task( "watch", function() {
 gulp.task( "build:js", gulp.series( "clean:build-assets-js", "shell:webpack" ) );
 gulp.task( "build:css", gulp.series( "clean:build-assets-css", gulp.parallel( css ) ) );
 gulp.task( "default", gulp.parallel( "build:js", "build:css" ) );
+
+/**
+ * Clean artifacts preparation folder and compressed artifacts.
+ */
+gulp.task( "artifact:clean", function() {
+	del(
+		[
+			artifactsFolder + "**",
+			"!" + artifactsFolder,
+			"!" + artifactsFolder + "*.gitignore",
+			artifactsCompressedDest + artifactsCompressed
+		]
+	);
+} );
+
+/**
+ * Copy all files that need to be included in artifacts.
+ */
+gulp.task( "artifact:copy", function() {
+	del(
+		[ artifactsFolder + "**", "!" + artifactsFolder, "!" + artifactsFolder + "*.gitignore" ]
+	);
+	return gulp.src( artifactsFiles, { base: "." } )
+		.pipe( gulp.dest( artifactsFolder ) );
+} );
+
+/**
+ * Compress all files included in artifacts folder.
+ */
+gulp.task( "artifact:compress", function() {
+	del(
+		[ artifactsCompressedDest + "**", "!" + artifactsCompressedDest, "!" + artifactsCompressedDest + "*.gitignore" ]
+	);
+	return gulp.src( artifactsFolder + "*" )
+		.pipe( zip( artifactsCompressed ) )
+		.pipe( gulp.dest( artifactsCompressedDest ) );
+} );
