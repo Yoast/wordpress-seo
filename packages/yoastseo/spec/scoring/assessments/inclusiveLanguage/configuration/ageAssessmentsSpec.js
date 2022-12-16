@@ -3,10 +3,11 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import ageAssessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
 import Factory from "../../../../specHelpers/factory.js";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
-describe( "Age assessments", function() {
+describe( "A test for Age assessments", function() {
 	it( "should target non-inclusive phrases", function() {
-		const mockText = "This ad is aimed at aging dependants";
+		const mockText = "This ad is aimed at aging dependants.";
 		const mockPaper = new Paper( mockText );
 		const mockResearcher = Factory.buildMockResearcher( [ mockText ] );
 		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "agingDependants" ) );
@@ -28,26 +29,31 @@ describe( "Age assessments", function() {
 		} ) ] );
 	} );
 
-	it( "should target potentially non-inclusive phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at senior citizens. But this ad is aimed at the youth." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This ad is aimed at senior citizens.", "But this ad is aimed at the youth." ] );
-		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "seniorCitizens" ) );
+	it( "should target potentially non-inclusive phrases: 'senior citizen' and its plural form", function() {
+		const testData = [
+			{
+				identifier: "seniorCitizen",
+				text: "A senior citizen gets a discount.",
+				expectedFeedback: "Be careful when using <i>senior citizen</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>older person, older citizen</i>, unless referring to someone who explicitly wants " +
+					"to be referred to with this term." +
+					" Or, if possible, be specific about the group you are referring to (e.g. <i>person older than 70</i>)." +
+					" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "seniorCitizens",
+				text: "This ad is aimed at senior citizens. But this ad is aimed at the youth.",
+				expectedFeedback: "Be careful when using <i>senior citizens</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>older people, older citizens</i>, unless referring to someone who explicitly " +
+					"wants to be referred to with this term." +
+					" Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>)." +
+					" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
 
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-		const assessmentResult = assessor.getResult();
-
-		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>senior citizens</i> as it is potentially harmful. Consider using an alternative," +
-			" such as <i>older citizen(s)</i>, unless referring to someone who explicitly wants to be referred to with this term." +
-			" Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>)." +
-			" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>" );
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "This ad is aimed at senior citizens.",
-			marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at senior citizens.</yoastmark>",
-		} ) ] );
+		testInclusiveLanguageAssessments( testData );
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
@@ -73,7 +79,7 @@ describe( "Age assessments", function() {
 	} );
 
 	it( "should not target other phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at the youth" );
+		const mockPaper = new Paper( "This ad is aimed at the youth." );
 		const mockResearcher = Factory.buildMockResearcher( [ "This ad is aimed at the youth" ] );
 		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "seniorCitizens" ) );
 

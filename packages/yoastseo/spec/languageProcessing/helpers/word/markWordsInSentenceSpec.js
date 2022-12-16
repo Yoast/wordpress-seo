@@ -168,4 +168,34 @@ describe( "test the deconstructAnchor and reconstructAnchor helper", () => {
 		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content );
 		expect( reconstructedAnchor ).toEqual( testAnchor );
 	} );
+
+	it( "correctly deconstructs and reconstructs an anchor if does not contain content", () => {
+		// Unrealistic Scenario. But protects against the bug that is solved in this PR:
+		// https://github.com/Yoast/wordpress-seo/pull/19373
+		const testAnchor = "<a href=\"https://yoast.com\"></a>";
+		const deconstructedAnchor = deConstructAnchor( testAnchor );
+
+		expect( deconstructedAnchor ).toEqual( {
+			openTag: "<a href=\"https://yoast.com\">",
+			content: "",
+		} );
+
+		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content );
+		expect( reconstructedAnchor ).toEqual( testAnchor );
+	} );
+
+	it( "correctly deconstructs and reconstructs an anchor if content contains a newline", () => {
+		// Unrealistic Scenario. But protects against the bug that is solved in this PR:
+		// https://github.com/Yoast/wordpress-seo/pull/19373
+		const testAnchor = "<a href=\"https://yoast.com\">This is a line.\nAnd this is a line.</a>";
+		const deconstructedAnchor = deConstructAnchor( testAnchor );
+
+		expect( deconstructedAnchor ).toEqual( {
+			openTag: "<a href=\"https://yoast.com\">",
+			content: "This is a line.\nAnd this is a line.",
+		} );
+
+		const reconstructedAnchor = reConstructAnchor( deconstructedAnchor.openTag, deconstructedAnchor.content );
+		expect( reconstructedAnchor ).toEqual( testAnchor );
+	} );
 } );

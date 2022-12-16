@@ -4,8 +4,9 @@ import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/appearanceAssessments";
 import Factory from "../../../../specHelpers/factory";
 import Mark from "../../../../../src/values/Mark";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
 
-describe( "Appearance assessments", function() {
+describe( "A test for Appearance assessments", function() {
 	it( "should target non-inclusive phrases",
 		function() {
 			const mockText = "This ad is aimed at albinos";
@@ -43,18 +44,66 @@ describe( "Appearance assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>obese</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as " +
-			"<i>has/have a higher weight, higher-weight person/people, person/people in higher weight body/bodies, heavier person/people</i>. " +
+			"Be careful when using <i>obese</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>has a higher weight, higher-weight person, person in higher weight body, heavier person</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
 			"Alternatively, if talking about a specific person, use their preferred descriptor if known. " +
-			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
+			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>"
+		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [
-			{ _properties: {
-				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at obese citizens.</yoastmark>",
-				original: "This ad is aimed at obese citizens.",
-				fieldsToMark: [],
-			} } ] );
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: mockText,
+			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+		} ) ] );
+	} );
+	it( "obesitySingular should target obese person as potentially non-inclusive", function() {
+		const mockText = "He is a person with obesity";
+		const mockPaper = new Paper( mockText );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "obesitySingular" )  );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>person with obesity</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>person who has a higher weight, higher-weight person, " +
+			"person in higher weight body, heavier person</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"Alternatively, if talking about a specific person, use their preferred descriptor if known. " +
+			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: mockText,
+			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+		} ) ] );
+	} );
+	it( "obesityPlural should target fat people", function() {
+		const mockText = "They are fat people";
+		const mockPaper = new Paper( mockText );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "obesityPlural" )  );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>fat people</i> as it is potentially harmful. Consider using an alternative, " +
+			"such as <i>people who have a higher weight, higher-weight people, people in higher weight bodies, heavier people</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>They are fat people</yoastmark>",
+			original: "They are fat people" } } ]
+		);
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
@@ -66,27 +115,14 @@ describe( "Appearance assessments", function() {
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(  [
-			{ _properties: {
-				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at vertically challenged people.</yoastmark>",
-				original: "This ad is aimed at vertically challenged people.",
-				fieldsToMark: [],
-			} } ] );
-	} );
-
-	it( "should not target phrases followed by by certain words", function() {
-		const mockPaper = new Paper( "This ad is aimed at seniors midgets." );
-		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "midget" )  );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeFalsy();
-		expect( assessor.getMarks() ).toEqual( [] );
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: mockText,
+			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
+		} ) ] );
 	} );
 
 	it( "should not target other phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at harelips" );
+		const mockPaper = new Paper( "This ad is aimed at harelips." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "harelip" )  );
 
@@ -103,10 +139,10 @@ describe( "Appearance assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an albino</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>people with albinism, albino people</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<i>person with albinism, albino person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
@@ -122,10 +158,10 @@ describe( "Appearance assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an albino</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>people with albinism, albino people</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<i>person with albinism, albino person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
@@ -141,10 +177,10 @@ describe( "Appearance assessments", function() {
 		const assessmentResult = assessor.getResult();
 
 		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an albino</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>people with albinism, albino people</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<i>person with albinism, albino person</i>, unless referring to someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/inclusive-language-appearance' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
@@ -159,5 +195,30 @@ describe( "Appearance assessments", function() {
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "should target non-inclusive phrase: 'midget' and its plural form", () => {
+		const testData = [
+			{
+				identifier: "midget",
+				text: "Midget is a term for a person of unusually short stature that is considered by some to be pejorative.",
+				expectedFeedback: "Avoid using <i>midget</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>little person, " +
+					"has short stature, someone with dwarfism</i>. <a href='https://yoa.st/inclusive-language-appearance' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "midgets",
+				text: "In the early 19th century, midgets were romanticized by the middle class and regarded with " +
+					"the same affectionate condescension extended to children, as creatures of innocence.",
+				expectedFeedback: "Avoid using <i>midgets</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>little people, " +
+					"have short stature, people with dwarfism</i>. <a href='https://yoa.st/inclusive-language-appearance' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
 	} );
 } );

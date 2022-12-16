@@ -1,4 +1,4 @@
-import { alternative, potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { alternative, potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
@@ -13,6 +13,8 @@ const exclusionaryUnless = "Be careful when using <i>%1$s</i> as it can be exclu
 	"Unless you are sure that the group you refer to only consists of %1$s, use an alternative, such as %2$s.";
 const exclusionaryUnlessMen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of men, use an alternative, such as %2$s.";
+const exclusionaryUnlessMenAndWomen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
+	"Unless you are sure that the group you refer to only consists of men and women, use an alternative, such as %2$s.";
 const exclusionaryUnlessTwoGenders = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of two genders, use an alternative, such as %2$s.";
 const exclusionaryUnlessUseTheTerm = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
@@ -74,7 +76,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "preferred pronouns" ],
 		inclusiveAlternatives: "<i>pronouns</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
+		feedbackFormat: [ potentiallyHarmfulCareful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
 		" this term to describe their own pronouns." ].join( "" ),
 	},
 	{
@@ -117,6 +119,13 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
+		identifier: "hermaphrodites",
+		nonInclusivePhrases: [ "hermaphrodites" ],
+		inclusiveAlternatives: "<i>intersex people</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
 		identifier: "bothGenders",
 		nonInclusivePhrases: [ "both genders" ],
 		inclusiveAlternatives: "<i>people, folks, human beings, all genders</i>",
@@ -127,12 +136,12 @@ const genderAssessments = [
 		identifier: "ladiesAndGentleman",
 		nonInclusivePhrases: [ "ladies and gentlemen" ],
 		inclusiveAlternatives: "<i>everyone, folks, honored guests</i>",
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: exclusionaryUnless,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: exclusionaryUnlessMenAndWomen,
 	},
 	{
 		identifier: "husbandAndWife",
-		nonInclusivePhrases: [ "husband and wife" ],
+		nonInclusivePhrases: [ "husband and wife", "husbands and wives" ],
 		inclusiveAlternatives: "<i>spouses, partners</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyExclusionary.slice( 0, -1 ) +
@@ -157,7 +166,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "preferred name" ],
 		inclusiveAlternatives: "<i>name, affirming name</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
+		feedbackFormat: [ potentiallyHarmfulCareful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
 		" this term to describe their own name." ].join( "" ),
 	},
 	{
@@ -175,6 +184,13 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
+		identifier: "transsexuals",
+		nonInclusivePhrases: [ "transsexuals" ],
+		inclusiveAlternatives: "<i>trans people, transgender people</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
 		identifier: "transWoman",
 		nonInclusivePhrases: [ "transwoman" ],
 		inclusiveAlternatives: "<i>trans woman, transgender woman</i>",
@@ -182,9 +198,23 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
+		identifier: "transWomen",
+		nonInclusivePhrases: [ "transwomen" ],
+		inclusiveAlternatives: "<i>trans women, transgender women</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
 		identifier: "transMan",
 		nonInclusivePhrases: [ "transman" ],
 		inclusiveAlternatives: "<i>trans man, transgender man</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
+		identifier: "transMen",
+		nonInclusivePhrases: [ "transmen" ],
+		inclusiveAlternatives: "<i>trans men, transgender men</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
@@ -198,14 +228,14 @@ const genderAssessments = [
 	},
 	{
 		identifier: "maleToFemale",
-		nonInclusivePhrases: [ "male-to-female", "MTF" ],
+		nonInclusivePhrases: [ "male-to-female", "mtf" ],
 		inclusiveAlternatives: "<i>trans woman, transgender woman</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
 		identifier: "femaleToMale",
-		nonInclusivePhrases: [ "female-to-male", "FTM" ],
+		nonInclusivePhrases: [ "female-to-male", "ftm" ],
 		inclusiveAlternatives: "<i>trans man, transgender man</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,

@@ -43,6 +43,13 @@ import { isWordProofIntegrationActive } from "../helpers/wordproof";
  */
 function registerFormats() {
 	if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+		const unknownSettings = select( "core/rich-text" )
+			.getFormatType( "core/unknown" );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			dispatch( "core/rich-text" ).removeFormatTypes( "core/unknown" );
+		}
+
 		[
 			link,
 		].forEach( ( { name, replaces, ...settings } ) => {
@@ -53,6 +60,10 @@ function registerFormats() {
 				registerFormatType( name, settings );
 			}
 		} );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			registerFormatType( "core/unknown", unknownSettings );
+		}
 	} else {
 		console.warn(
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
@@ -71,7 +82,8 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
+	const openedPanels = select( "core/preferences" ).get( "core/edit-post", "openPanels" );
+	const firstLoad = ! openedPanels.includes( "yoast-seo/document-panel" );
 	if ( firstLoad ) {
 		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
 	}
