@@ -21,11 +21,20 @@ const medicalCondition = harmfulPotentiallyNonInclusive +
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
-// Create a list of all possible combinations of a verb to be and a quantifier.
-const quantifiers = [ "so", "very", "a bit", "really", "pretty", "kind of" ];
+// Creates a list of all possible combinations of a verb to be and a quantifier for the non-inclusive usage of "OCD" and the the phrase "not
+// (quantifier) crazy about
+const quantifiers = [ "so", "very", "a bit", "really", "pretty", "kind of", "that",  "totally"  ];
 const toBeQuantifier = flatMap( toBeForms, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} ${quantifier}` ) );
-// A list of requirements: words that need to be in front of "OCD" for it to be non inclusive.
-const ocdRequirements =  toBeForms.concat( toBeQuantifier );
+// A list of requirements for 1) words that need to be in front of "OCD" for it to be non inclusive. 2) words that need to be front of "crazy about"
+// to retrieve alternatives for forms of "to be not (optional quantifier) crazy about"
+const verbsWithTobeRequirements =  toBeForms.concat( toBeQuantifier );
+// Adds a rule for what words should precede "crazy about" for it to receive feedback specifically for the forms of "to be not (optional quantifier)
+// crazy about
+const toBeNotQuantifier = flatMap( toBeForms, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} not ${quantifier}` ) );
+// Adds a rule for what words should precede "crazy" for it to receive feedback specifically for the forms of "to drive [object pronoun] crazy".
+const formsOfToDrive = [ "driving", "drive", "drove", "driven" ];
+const objectPronouns = [ "me", "you", "them", "him", "her" ];
+const toDriveCrazy = [ `${formsOfToDrive} ${objectPronouns}` ];
 
 const disabilityAssessments =  [
 	{
@@ -378,9 +387,65 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
+		identifier: "to be not crazy about",
+		nonInclusivePhrases: [ "crazy about" ],
+		inclusiveAlternatives: "<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
+		// Applies the rule about preceding the phrase with a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so
+		// crazy about")
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isNotPrecededByException( words, toBeNotQuantifier ) );
+		},
+	},
+	{
+		identifier: "to be crazy about",
+		nonInclusivePhrases: [ "crazy about" ],
+		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>to love, to be obsessed with, to be infatuated with</i>.",
+		// Applies the rule about preceding the phrase with a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isNotPrecededByException( words, verbsWithTobeRequirements ) );
+		},
+	},
+	{
+		identifier: "crazy in love",
+		nonInclusivePhrases: [ "crazy in love" ],
+		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated with</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>wildly in love, head over heels, infatuated with</i>.",
+	},
+	{
+		identifier: "to go crazy",
+		nonInclusivePhrases: [ "go crazy", "going crazy", "went crazy", "gone crazy" ],
+		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to get/to be in one's head, to be aggravated," +
+			" to get confused</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "to drive crazy",
+		nonInclusivePhrases: [ "crazy" ],
+		inclusiveAlternatives: "<i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, to make blood boil, " +
+			"to exasperate, to irritate to the limit.</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isNotPrecededByException( words, toDriveCrazy ) );
+		},
+	},
+	{
 		identifier: "crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "<i>wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
+		inclusiveAlternatives: "<i>wild, out of control, baffling, inexplicable, unbelievable, confused, mistaken, aggravating, inane," +
+			" intense, impulsive, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
