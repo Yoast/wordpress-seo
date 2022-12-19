@@ -9,12 +9,12 @@ import { flatMap } from "lodash-es";
  * @param {function} 	complexWordsHelper 		A helper to check if a word is complex.
  * @param {string}		functionWords			The list of function words per language.
  *
- * @returns {Array} An array of complex word objects containing the word, the index and the complexity of the word. Does it? Isn't it just an array of the words?
+ * @returns {Array} An array containing all complex words in a given sentence.
  */
 const getComplexWords = function( sentence, complexWordsHelper, functionWords ) {
 	const allWords = getWords( sentence );
 	// Filters out function words.
-	const words = allWords.filter( i => ! functionWords.includes( i ) );
+	const words = allWords.filter( word => ! functionWords.includes( word ) );
 	const results = [];
 
 	words.forEach( word => {
