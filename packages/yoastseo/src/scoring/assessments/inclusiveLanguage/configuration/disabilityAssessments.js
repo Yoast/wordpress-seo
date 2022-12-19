@@ -9,7 +9,7 @@ import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
-import { all as toBeForms } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
+import { all as toBeForms, filteredAuxiliaries } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
 import { flatMap } from "lodash-es";
 import { sprintf } from "@wordpress/i18n";
 
@@ -30,7 +30,11 @@ const toBeQuantifier = flatMap( toBeForms, verbToBe => flatMap( quantifiers, qua
 const verbsWithTobeRequirements =  toBeForms.concat( toBeQuantifier );
 // Adds a rule for what words should precede "crazy about" for it to receive feedback specifically for the forms of "to be not (optional quantifier)
 // crazy about
-const toBeNotQuantifier = flatMap( toBeForms, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} not ${quantifier}` ) );
+let toBeNot = flatMap( filteredAuxiliaries.slice( 0, 18 ), verbTobe => `${verbTobe} not` );
+toBeNot = toBeNot.concat( filteredAuxiliaries.slice( 18, 23 ) );
+const toBeNotQuantifier = flatMap( toBeNot, verbToBeNot => flatMap( quantifiers, quantifier => `${verbToBeNot} ${quantifier}` ) );
+const verbsWithTobeNotRequirements =  toBeNot.concat( toBeNotQuantifier );
+
 // Adds a rule for what words should precede "crazy" for it to receive feedback specifically for the forms of "to drive [object pronoun] crazy".
 const formsOfToDrive = [ "driving", "drive", "drove", "driven" ];
 const objectPronouns = [ "me", "you", "them", "him", "her" ];
@@ -391,13 +395,13 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
+		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"%2$s.",
 		// Applies the rule about preceding the phrase with a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so
 		// crazy about")
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, toBeNotQuantifier ) );
+				.filter( isNotPrecededByException( words, verbsWithTobeNotRequirements ) );
 		},
 	},
 	{
@@ -405,8 +409,8 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>to love, to be obsessed with, to be infatuated with</i>.",
+		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>%2$s</i>.",
 		// Applies the rule about preceding the phrase with a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
