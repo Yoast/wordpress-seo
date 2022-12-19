@@ -31,9 +31,9 @@ const verbsWithTobeRequirements =  toBeForms.concat( toBeQuantifier );
 // Adds a rule for what words should precede "crazy about" for it to receive feedback specifically for the forms of "to be not (optional quantifier)
 // crazy about
 // Create a combination of 'verb to be' and 'not'.
-let toBeNot = flatMap( filteredAuxiliaries.slice( 0, 18 ), verbTobe => `${verbTobe} not` );
-// Add 	"isn't", "weren't", "wasn't", "that's", "aren't" to the array of "toBeNot".
-toBeNot = toBeNot.concat( filteredAuxiliaries.slice( 18, 23 ) );
+let toBeNot = flatMap( filteredAuxiliaries.slice( 0, 19 ), verbTobe => `${verbTobe} not` );
+// Add 	"isn't", "weren't", "wasn't", "aren't" to the array of "toBeNot".
+toBeNot = toBeNot.concat( filteredAuxiliaries.slice( 19, 23 ) );
 
 const toBeNotQuantifier = flatMap( toBeNot, verbToBeNot => flatMap( quantifiers, quantifier => `${verbToBeNot} ${quantifier}` ) );
 const verbsWithTobeNotRequirements =  toBeNot.concat( toBeNotQuantifier );

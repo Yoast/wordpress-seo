@@ -18,10 +18,10 @@ export const filteredAuxiliaries =  [
 	"we're",
 	"they're",
 	"you're",
+	"that's",
 	"isn't",
 	"weren't",
 	"wasn't",
-	"that's",
 	"aren't",
 ];
 
