@@ -1,8 +1,11 @@
-import wordComplexity from "../config/internal/wordComplexity";
+import wordComplexityConfig from "../config/internal/wordComplexity";
 import functionWords from "../config/functionWords";
 
 const suffixes = "(en|e|s)$";
 const suffixesRegex = new RegExp( suffixes );
+
+const lengthLimit = wordComplexityConfig.wordLength;
+const frequencyList = wordComplexityConfig.frequencyList;
 
 /**
  * Checks if a word is complex.
@@ -12,9 +15,6 @@ const suffixesRegex = new RegExp( suffixes );
  * @returns {boolean} Whether or not a word is complex.
  */
 export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
-	const lengthLimit = wordComplexityConfig.wordLength;
-	const frequencyList = wordComplexityConfig.frequencyList;
 	// All words are converted to lower case before processing to avoid excluding complex words that start with a capital letter.
 	word = word.toLowerCase();
 
