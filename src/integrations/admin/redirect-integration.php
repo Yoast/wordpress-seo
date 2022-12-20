@@ -70,7 +70,7 @@ class Redirect_Integration implements Integration_Interface {
 		switch ( $current_page ) {
 			case 'wpseo_titles':
 				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' ), 301 );
-				exit;
+				return;
 			default:
 				return;
 		}
