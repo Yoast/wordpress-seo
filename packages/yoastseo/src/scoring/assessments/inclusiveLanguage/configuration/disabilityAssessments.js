@@ -422,10 +422,10 @@ const disabilityAssessments =  [
 	{
 		identifier: "crazy in love",
 		nonInclusivePhrases: [ "crazy in love" ],
-		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated with</i>",
+		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as <i>wildly in love, " +
-		"head over heels, infatuated with</i>.",
+		"head over heels, infatuated</i>.",
 	},
 	{
 		identifier: "to go crazy",

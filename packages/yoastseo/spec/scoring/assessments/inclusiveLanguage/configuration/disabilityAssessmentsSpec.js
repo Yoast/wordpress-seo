@@ -701,7 +701,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>crazy</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>wildly in love, head over heels, infatuated with</i>. " +
+			"Consider using an alternative, such as <i>wildly in love, head over heels, infatuated</i>. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
