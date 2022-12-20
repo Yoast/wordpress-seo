@@ -29,7 +29,7 @@ const Introduction = () => {
 	const steps = useMemo( () => ( [
 		{
 			title: __( "We gave our settings a new look!", "wordpress-seo" ),
-			description: __( "We've updated, and comprehensively improved how our interfaces look, feel, and behave.", "wordpress-seo" ),
+			description: __( "We've updated and comprehensively improved how our settings interface looks, feels, and behaves.", "wordpress-seo" ),
 			videoId: "c1fpikf45l",
 			thumbnail: {
 				src: `${ pluginUrl }/images/settings-intro_thumb0.jpg`,
@@ -38,8 +38,8 @@ const Introduction = () => {
 			},
 		},
 		{
-			title: __( "Improved discoverability of our features", "wordpress-seo" ),
-			description: __( "We've added a new sidebar menu in which we carefully restructured all settings.", "wordpress-seo" ),
+			title: __( "All your settings intuitively reorganized!", "wordpress-seo" ),
+			description: __( "We've added a new sidebar menu in which we carefully reorganized all settings.", "wordpress-seo" ),
 			videoId: "cxojwh5z3w",
 			thumbnail: {
 				src: `${ pluginUrl }/images/settings-intro_thumb1.jpg`,
@@ -48,8 +48,8 @@ const Introduction = () => {
 			},
 		},
 		{
-			title: __( "Easily find the setting you're looking for", "wordpress-seo" ),
-			description: __( "We've added a search function that lets you quickly find all settings and navigate directly to them!", "wordpress-seo" ),
+			title: __( "Easily find the setting you're looking for!", "wordpress-seo" ),
+			description: __( "We've added search functionality that lets you quickly find all settings and navigate directly to them.", "wordpress-seo" ),
 			videoId: "cq3yge9yjb",
 			thumbnail: {
 				src: `${ pluginUrl }/images/settings-intro_thumb2.jpg`,
