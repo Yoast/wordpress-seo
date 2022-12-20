@@ -245,6 +245,16 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.13 =
+
+Release date: December 20th, 2022
+
+Yoast SEO 19.13 proactively fixes an issue we found in the upcoming release of the Gutenberg editor. This release of the block editor breaks the link functionality when used in conjunction with Yoast SEO. The Yoast SEO release works around that so users can keep adding and changing links. Find out more about what's new in Yoast SEO 19.13 in [our release post](https://yoa.st/release-20-12-22)!
+
+#### Enhancements
+
+* Prevents an incompatibility with the upcoming Gutenberg 14.8.0.
+
 = 19.12 =
 
 Release date: December 13th, 2022
@@ -287,32 +297,6 @@ In Yoast SEO 19.12, we're introducing the inclusive language analysis — previo
 * Removes the note in the readability analysis results that tells users that the _Flesch reading ease_ score has moved to the _Insights_ section.
 * Removes the Yoast i18n package.
 * Resolves a typo in the feedback string for the phrase `exotic` in the inclusive language analysis.
-
-= 19.11 =
-
-Release date: November 29th, 2022
-
-Yoast SEO 19.11 is out now. We're optimizing the Yoast SEO plugin to use fewer resources. This helps make your site faster and more efficient. In this release, we're doing this by streamlining your database. Find out more about what's new in Yoast SEO 19.11 in [our release post](https://yoa.st/release-29-11-22)!
-
-#### Enhancements
-
-* Adds a WP-CLI command to clean up unused data from our custom database tables: `wp yoast cleanup`.
-* Performs a cleanup of indexables when a public post type (or taxonomy) becomes non-public.
-* Notifies users to run the SEO optimization when a non-public post type (or taxonomy) becomes public.
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would be thrown when the SEO optimization was run after a post type had been manually excluded via a filter.
-* Fixes a bug where an entry would be added to our indexables table when saving, updating, or accessing a post (or term) for a non-public post type (or taxonomy).
-* Fixes a bug where duplicate indexable records would be created for the same object.
-* Fixes a bug where indexables for users would not get removed when a user did not have any publicly viewable posts anymore.
-* Fixes a bug where indexables for users would not get removed when author archives were disabled.
-* Fixes a bug where indexables would be created for users when author archives were disabled.
-* Fixes a bug where indexables would be created for users who did not have any publicly viewable posts.
-
-#### Other
-
-* Introduces the `wpseo_indexable_excluded_taxonomies` filter, to allow manually excluding taxonomies from being indexed.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
