@@ -278,6 +278,7 @@ const globeFaviconSrc = "data:image/png;base64," +
 const Favicon = styled.img`
 	width: 18px;
 	height: 18px;
+	margin: 0 5px;
 	vertical-align: middle;
 `;
 
