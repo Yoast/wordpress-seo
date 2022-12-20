@@ -453,7 +453,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "<i>wild, out of control, baffling, inexplicable, unbelievable, confused, mistaken, aggravating, inane," +
+		inclusiveAlternatives: "<i>wild, out of control, baffling, inexplicable, unbelievable, confused, mistaken, aggravating," +
 			" intense, impulsive, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
