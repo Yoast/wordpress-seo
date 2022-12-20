@@ -2,6 +2,8 @@
 
 import matchStringWithRegex from "../regex/matchStringWithRegex.js";
 
+export const imageRegex = "<img(?:[^>]+)?>";
+
 /**
  * Checks the text for images.
  *
@@ -9,5 +11,5 @@ import matchStringWithRegex from "../regex/matchStringWithRegex.js";
  * @returns {Array} Array containing all types of found images
  */
 export default function( text ) {
-	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
+	return matchStringWithRegex( text, imageRegex );
 }
