@@ -1,5 +1,5 @@
 // External dependencies.
-import { parseFragment} from "parse5";
+import { parseFragment } from "parse5";
 // Internal dependencies.
 import adapt from "./adapt";
 
