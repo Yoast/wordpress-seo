@@ -212,15 +212,13 @@ const SiteFeatures = () => {
 								inputId="input-wpseo-inclusive_language_analysis_active"
 								imageSrc="/images/inclusive_language_analysis.png"
 								imageAlt={ __( "Inclusive language analysis", "wordpress-seo" ) }
-								isPremiumFeature={ true }
-								isPremiumLink="https://yoa.st/get-inclusive-language"
 								isBetaFeature={ true }
 							>
 								<Title as="h3">
 									{ __( "Inclusive language analysis", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-analysis" />
+								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-features-free" />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_metabox_insights"
