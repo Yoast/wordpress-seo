@@ -233,14 +233,14 @@ const cultureAssessments = [
 	{
 		identifier: "firstWorldCountries",
 		nonInclusivePhrases: [ "first world countries" ],
-		inclusiveAlternatives: "specific name for the countries or regions",
+		inclusiveAlternatives: "the specific name for the countries or regions",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: overgeneralizing,
 	},
 	{
 		identifier: "firstWorldHyphen",
 		nonInclusivePhrases: [ "first-world" ],
-		inclusiveAlternatives: "specific name for the country or region",
+		inclusiveAlternatives: "the specific name for the country or region",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: overgeneralizing,
 	},

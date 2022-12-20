@@ -94,7 +94,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "daft",
 		nonInclusivePhrases: [ "daft" ],
-		inclusiveAlternatives: "<i>dense, uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>",
+		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
 	},
