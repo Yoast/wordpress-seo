@@ -113,7 +113,7 @@ class Old_Premium_Integration implements Integration_Interface {
 				null,
 				null,
 				true,
-				'yoast-old-deactivated-notice'
+				'yoast-old-premium-notice'
 			);
             // phpcs:enable
 
