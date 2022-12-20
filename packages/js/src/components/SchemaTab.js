@@ -108,7 +108,7 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
 	{
 		mixedString: footerText( postTypeName ),
 		// eslint-disable-next-line jsx-a11y/anchor-has-content
-		components: { link: <a href="/wp-admin/admin.php?page=wpseo_titles#top#post-types" target="_blank" /> },
+		components: { link: <a href="/wp-admin/admin.php?page=wpseo_page_settings#/homepage" target="_blank" /> },
 	}
 );
 
