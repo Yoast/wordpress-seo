@@ -41,7 +41,7 @@ const verbsWithTobeNotRequirements =  toBeNot.concat( toBeNotQuantifier );
 // Adds a rule for what words should precede "crazy" for it to receive feedback specifically for the forms of "to drive [object pronoun] crazy".
 const formsOfToDrive = [ "driving", "drive", "drove", "driven" ];
 const objectPronouns = [ "me", "you", "them", "him", "her" ];
-const toDriveCrazy = [ `${formsOfToDrive} ${objectPronouns}` ];
+const toDriveCrazy = flatMap( formsOfToDrive, form => flatMap( objectPronouns, pronoun => `${form} ${pronoun}` ) );
 
 const disabilityAssessments =  [
 	{
@@ -424,8 +424,8 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy in love" ],
 		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>wildly in love, head over heels, infatuated with</i>.",
+		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as <i>wildly in love, " +
+		"head over heels, infatuated with</i>.",
 	},
 	{
 		identifier: "to go crazy",
@@ -443,7 +443,8 @@ const disabilityAssessments =  [
 			"to exasperate, to irritate to the limit.</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>to go wild, to go out of control, to go up the wall, to get in one's head, to be aggravated, to get confused</i>.",
+			"<i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, to make blood boil, to exasperate, to " +
+			"irritate to the limit.</i>.",
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
 				.filter( isNotPrecededByException( words, toDriveCrazy ) );

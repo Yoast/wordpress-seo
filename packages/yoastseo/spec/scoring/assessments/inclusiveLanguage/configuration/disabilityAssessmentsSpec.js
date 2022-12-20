@@ -591,9 +591,9 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-				fieldsToMark: [],
-				marked: "<yoastmark class='yoast-text-mark'>This sentence contains differently-abled.</yoastmark>",
-				original: "This sentence contains differently-abled." } } ]
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains differently-abled.</yoastmark>",
+			original: "This sentence contains differently-abled." } } ]
 		);
 	} );
 	it( "should return the appropriate score and feedback string for: 'crazy' and its other forms", () => {
@@ -723,11 +723,12 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>crazy</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as <i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, " +
-				"to make blood boil,</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+				"to make blood boil, to exasperate, to irritate to the limit.</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "This math problem is driving me crazy.",
-			marked: "<yoastmark class='yoast-text-mark'>This math problem is driving me crazy..</yoastmark>",
+			marked: "<yoastmark class='yoast-text-mark'>This math problem is driving me crazy.</yoastmark>",
 		} ) ] );
 	} );
 
