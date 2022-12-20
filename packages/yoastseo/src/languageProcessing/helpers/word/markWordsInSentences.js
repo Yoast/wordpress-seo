@@ -4,7 +4,7 @@ import Mark from "../../../values/Mark";
 import getAnchorsFromText from "../link/getAnchorsFromText";
 import matchWords from "../match/matchTextWithArray";
 import arrayToRegex from "../regex/createRegexFromArray";
-
+import { imageRegex } from "../image/imageInText";
 // Regex to deconstruct an anchor into open tag, content and close tag.
 // [^] matches any character, including newline
 const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)([^]*?)(<\/a>)/;
@@ -122,6 +122,7 @@ export function markWordsInSentences( wordsToMark, sentences, locale, matchWordC
 	let markings = [];
 
 	sentences.forEach( function( sentence ) {
+		sentence = sentence.replace( new RegExp( imageRegex ), "" );
 		wordsFoundInSentence = matchWords( sentence, wordsToMark, locale, matchWordCustomHelper ).matches;
 		if ( wordsFoundInSentence.length > 0 ) {
 			markings = markings.concat( new Mark( {
