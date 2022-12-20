@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -119,6 +120,14 @@ class Settings_Integration implements Integration_Interface {
 	protected $post_type_helper;
 
 	/**
+	 * Holds the Language_Helper.
+	 *
+	 * @var Language_Helper
+	 */
+	protected $language_helper;
+
+
+	/**
 	 * Holds the Taxonomy_Helper.
 	 *
 	 * @var Taxonomy_Helper
@@ -161,6 +170,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Schema_Types              $schema_types           The Schema_Types.
 	 * @param Current_Page_Helper       $current_page_helper    The Current_Page_Helper.
 	 * @param Post_Type_Helper          $post_type_helper       The Post_Type_Helper.
+	 * @param Language_Helper           $language_helper        The Language_Helper.
 	 * @param Taxonomy_Helper           $taxonomy_helper        The Taxonomy_Helper.
 	 * @param Product_Helper            $product_helper         The Product_Helper.
 	 * @param Woocommerce_Helper        $woocommerce_helper     The Woocommerce_Helper.
@@ -173,6 +183,7 @@ class Settings_Integration implements Integration_Interface {
 		Schema_Types $schema_types,
 		Current_Page_Helper $current_page_helper,
 		Post_Type_Helper $post_type_helper,
+		Language_Helper $language_helper,
 		Taxonomy_Helper $taxonomy_helper,
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
@@ -185,6 +196,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->current_page_helper    = $current_page_helper;
 		$this->taxonomy_helper        = $taxonomy_helper;
 		$this->post_type_helper       = $post_type_helper;
+		$this->language_helper        = $language_helper;
 		$this->product_helper         = $product_helper;
 		$this->woocommerce_helper     = $woocommerce_helper;
 		$this->article_helper         = $article_helper;
@@ -353,6 +365,7 @@ class Settings_Integration implements Integration_Interface {
 		$transformed_post_types = $this->transform_post_types( $post_types );
 
 		return [
+			'userLanguageCode'     => $this->language_helper->get_researcher_language(),
 			'settings'             => $this->transform_settings( $settings ),
 			'defaultSettingValues' => $default_setting_values,
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),

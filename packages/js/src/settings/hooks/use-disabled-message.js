@@ -14,10 +14,17 @@ const useDisabledMessage = ( { name } ) => {
 		() => name === "wpseo.tracking" && ! isNetworkAdmin && ! isMainSite,
 		[ name, isNetworkAdmin, isMainSite ]
 	);
+	const isDisabledInclusiveLanguageAnalysis = useMemo(
+		() => name === "wpseo.inclusive_language_analysis_active" && window.wpseoScriptData.userLanguageCode !== "en",
+		[ name, isNetworkAdmin, isMainSite ]
+	);
 	const disabledSetting = useMemo( () => get( window, `wpseoScriptData.disabledSettings.${ name }`, "" ), [] );
 	const message = useMemo( () => {
 		if ( isDisabledTracking ) {
 			return __( "Unavailable for sub-sites", "wordpress-seo" );
+		}
+		if ( isDisabledInclusiveLanguageAnalysis ) {
+			return __( "Unavailable for non-English sites", "wordpress-seo" );
 		}
 		switch ( disabledSetting ) {
 			case "multisite":
