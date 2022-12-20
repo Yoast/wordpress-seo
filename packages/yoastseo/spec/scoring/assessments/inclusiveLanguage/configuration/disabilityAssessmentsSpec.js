@@ -552,6 +552,50 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 
 		testInclusiveLanguageAssessments( testData );
 	} );
+	it( "should target the non-negated phrase for crazy about and retrieve correct feedback.", () => {
+		const mockPaper = new Paper( "I am crazy about this album." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am crazy about this album." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be crazy about" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>crazy</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>to love, to be obsessed with, to be infatuated with</i>. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "I am crazy about this album.",
+			marked: "<yoastmark class='yoast-text-mark'>I am crazy about this album.</yoastmark>",
+		} ) ] );
+	} );
+
+	it( "correctly identifies 'differently-abled'", () => {
+		const mockPaper = new Paper( "This sentence contains differently-abled." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains differently-abled." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "differentlyAbled" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>differently-abled</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>disabled, person with a disability</i>, " +
+			"unless referring to someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+				fieldsToMark: [],
+				marked: "<yoastmark class='yoast-text-mark'>This sentence contains differently-abled.</yoastmark>",
+				original: "This sentence contains differently-abled." } } ]
+		);
+	} );
 	it( "should return the appropriate score and feedback string for: 'crazy' and its other forms", () => {
 		const testData = [
 			{
@@ -602,6 +646,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			marked: "<yoastmark class='yoast-text-mark'>I am crazy about this album.</yoastmark>",
 		} ) ] );
 	} );
+
 	it( "should target the negated phrase for crazy about and retrieve correct feedback.", () => {
 		const mockPaper = new Paper( "They are not crazy about this album." );
 		const mockResearcher = Factory.buildMockResearcher( [ "They are not crazy about this album." ] );
@@ -622,10 +667,11 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			marked: "<yoastmark class='yoast-text-mark'>They are not crazy about this album.</yoastmark>",
 		} ) ] );
 	} );
-	it( "should target the negated phrase for crazy about and retrieve correct feedback.", () => {
-		const mockPaper = new Paper( "They aren't crazy about this album." );
-		const mockResearcher = Factory.buildMockResearcher( [ "They aren't crazy about this album." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be not crazy about" ) );
+
+	it( "should target the phrase to go crazy and retrieve correct feedback.", () => {
+		const mockPaper = new Paper( "It's going crazy out here." );
+		const mockResearcher = Factory.buildMockResearcher( [ "It's going crazy out here." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to go crazy" ) );
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		expect( isApplicable ).toBeTruthy();
 
@@ -634,14 +680,57 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>crazy</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>. " +
+			"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, to get in one's head, " +
+			"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "It's going crazy out here.",
+			marked: "<yoastmark class='yoast-text-mark'>It's going crazy out here.</yoastmark>",
+		} ) ] );
+	} );
+
+	it( "should target the phrase crazy in love and retrieve correct feedback.", () => {
+		const mockPaper = new Paper( "They seem crazy in love." );
+		const mockResearcher = Factory.buildMockResearcher( [ "They seem crazy in love." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "crazy in love" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>crazy</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>wildly in love, head over heels, infatuated with</i>. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "They are not crazy about this album.",
-			marked: "<yoastmark class='yoast-text-mark'>They are not crazy about this album.</yoastmark>",
+			original: "They seem crazy in love.",
+			marked: "<yoastmark class='yoast-text-mark'>They seem crazy in love.</yoastmark>",
 		} ) ] );
 	} );
+
+	it( "should target the phrase crazy in love and retrieve correct feedback.", () => {
+		const mockPaper = new Paper( "This math problem is driving me crazy." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This math problem is driving me crazy." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to drive crazy" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>crazy</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as <i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, " +
+				"to make blood boil,</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "This math problem is driving me crazy.",
+			marked: "<yoastmark class='yoast-text-mark'>This math problem is driving me crazy..</yoastmark>",
+		} ) ] );
+	} );
+
 	it( "should return the appropriate score and feedback string for: 'psychopath' and its other forms", () => {
 		// The different forms of "psychopath" is one entry under the same identifier.
 		const testData = [

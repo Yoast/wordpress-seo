@@ -398,8 +398,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"%2$s.",
+		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as %2$s.",
 		// Applies the rule about preceding the phrase with a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so
 		// crazy about")
 		rule: ( words, inclusivePhrases ) => {
@@ -412,8 +411,8 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>%2$s</i>.",
+		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>to love, to be obsessed with, to be infatuated with</i>",
 		// Applies the rule about preceding the phrase with a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
@@ -434,7 +433,8 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to get/to be in one's head, to be aggravated," +
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>to go wild, to go out of control, to go up the wall, to get in one's head, to be aggravated, to get confused</i>.",
 	},
 	{
 		identifier: "to drive crazy",
@@ -442,7 +442,8 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, to make blood boil, " +
 			"to exasperate, to irritate to the limit.</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
+			"<i>to go wild, to go out of control, to go up the wall, to get in one's head, to be aggravated, to get confused</i>.",
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
 				.filter( isNotPrecededByException( words, toDriveCrazy ) );
