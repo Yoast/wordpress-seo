@@ -5,20 +5,12 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class Redirect_Integration.
  */
 class Redirect_Integration implements Integration_Interface {
-
-	/**
-	 * The meta helper.
-	 *
-	 * @var Meta_Helper
-	 */
-	protected $meta;
 
 	/**
 	 * The current page helper.
@@ -35,25 +27,16 @@ class Redirect_Integration implements Integration_Interface {
 	private $redirect;
 
 	/**
-	 * The URL helper.
-	 *
-	 * @var Url_Helper
-	 */
-	private $url;
-
-	/**
 	 * Sets the helpers.
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param Redirect_Helper     $redirect     The redirect helper.
-	 * @param Url_Helper          $url          The URL helper.
 	 */
-	public function __construct( Current_Page_Helper $current_page, Redirect_Helper $redirect, Url_Helper $url ) {
+	public function __construct( Current_Page_Helper $current_page, Redirect_Helper $redirect ) {
 		$this->current_page = $current_page;
 		$this->redirect     = $redirect;
-		$this->url          = $url;
 	}
 
 	/**
@@ -77,7 +60,7 @@ class Redirect_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Redirect to new settings URLs.
+	 * Redirect to new settings URLs. We're adding this, so that not-updated add-ons don't point to non-existent pages.
 	 *
 	 * @return void
 	 */
