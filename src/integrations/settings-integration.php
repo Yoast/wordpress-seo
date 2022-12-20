@@ -126,7 +126,6 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected $language_helper;
 
-
 	/**
 	 * Holds the Taxonomy_Helper.
 	 *
