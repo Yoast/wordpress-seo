@@ -106,13 +106,23 @@ const Introduction = () => {
 				<div className="yst-relative">
 					<div className="yst-absolute yst-inset-0 yst-bg-gradient-to-b yst-from-primary-200" />
 					<div className="yst-relative yst-pt-6 sm:yst-pt-8 yst-pb-8 yst-px-4 sm:yst-px-8">
-						<div className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-lg yst-shadow-md">
-							{ videoFlow === INTRODUCTION_VIDEO_FLOW.showPlay && (
-								<button className="yst-absolute yst-inset-0 yst-button yst-p-0 yst-border-none" onClick={ handleRequestPlay }>
+						<div
+							className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-lg yst-shadow-md yst-bg-white"
+						>
+							{ videoFlow === INTRODUCTION_VIDEO_FLOW.showPlay && steps.map( ( step, index ) => (
+								<button
+									key={ `step-thumbnail-${ step.videoId }` }
+									className={ classNames(
+										"yst-absolute yst-inset-0 yst-button yst-p-0 yst-border-none",
+										"yst-transition-opacity yst-duration-1000",
+										index === stepIndex ? "yst-opacity-100" : "yst-opacity-0"
+									) }
+									onClick={ handleRequestPlay }
+								>
 									{ /* eslint-disable-next-line jsx-a11y/alt-text */ }
-									<img className="yst-w-full yst-h-auto" { ...steps[ stepIndex ].thumbnail } />
+									<img className="yst-w-full yst-h-auto" { ...step.thumbnail } />
 								</button>
-							) }
+							) ) }
 							{ videoFlow === INTRODUCTION_VIDEO_FLOW.askPermission && (
 								<div className="yst-absolute yst-inset-0 yst-flex yst-flex-col yst-items-center yst-justify-center yst-bg-white">
 									<p className="yst-max-w-xs yst-mx-auto yst-text-center">
@@ -156,18 +166,40 @@ const Introduction = () => {
 					</div>
 				</div>
 				<div className="yst-relative yst-flex yst-flex-col yst-mt-2 yst-mb-8 yst-mx-4 sm:yst-mx-8 yst-text-center">
-					<Title as="h2" size="2">
-						{ steps[ stepIndex ].title }
-					</Title>
-					<Modal.Description className="yst-max-w-xs yst-mx-auto yst-mt-2">
-						{ steps[ stepIndex ].description }
-					</Modal.Description>
+					<div
+						className={ classNames(
+							"yst-grid yst-transition-transform yst-duration-1000",
+							// Arrange a grid of 100% for each step.
+							"yst-grid-cols-[repeat(3,100%)]",
+							// Tailwind purge requires written out classes: don't interpolate the stepIndex (nor the step length above).
+							stepIndex === 0 && "yst--translate-x-0",
+							stepIndex === 1 && "yst--translate-x-full",
+							stepIndex === 2 && "yst--translate-x-[200%]"
+						) }
+					>
+						{ steps.map( ( step, index ) => (
+							<div
+								key={ `step-copy-${ step.videoId }` }
+								className={ classNames(
+									"yst-transition-opacity yst-duration-1000 yst-delay-200",
+									index === stepIndex ? "yst-opacity-100" : "yst-opacity-0"
+								) }
+							>
+								<Title as="h2" size="2">
+									{ step.title }
+								</Title>
+								<Modal.Description className="yst-max-w-xs yst-mx-auto yst-mt-2">
+									{ step.description }
+								</Modal.Description>
+							</div>
+						) ) }
+					</div>
 					<ul className="yst-flex yst-mt-10 sm:yst-mt-8 yst-gap-5 yst-justify-center yst-items-center">
 						{ times( steps.length ).map( ( index ) => (
 							<li
 								key={ `step-circle-${ index }` }
 								className={ classNames(
-									"yst-inline-block yst-rounded-full",
+									"yst-inline-block yst-rounded-full yst-transition yst-duration-700",
 									index === stepIndex ? "yst-w-2.5 yst-h-2.5 yst-bg-primary-500" : "yst-w-2 yst-h-2 yst-bg-primary-200"
 								) }
 							/>
