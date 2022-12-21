@@ -1,4 +1,5 @@
 import { Transition } from "@headlessui/react";
+import { useEffect } from "@wordpress/element";
 import {
 	AdjustmentsIcon,
 	ArrowNarrowRightIcon,
@@ -219,8 +220,21 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-
 	useRouterScrollRestore();
+
+	useEffect( () => {
+		if ( document ) {
+			const WpcontentBody = document.querySelector( '[href="#wpbody-content"]' );
+			WpcontentBody.addEventListener( "click", function( e ) {
+				e.preventDefault();
+			} );
+			const WpToolbar = document.querySelector( '[href="#wp-toolbar"]' );
+			WpToolbar.addEventListener( "click", function( e ) {
+				e.preventDefault();
+			}
+			);
+		}
+	}, [] );
 
 	const { dirty } = useFormikContext();
 	useBeforeUnload(
