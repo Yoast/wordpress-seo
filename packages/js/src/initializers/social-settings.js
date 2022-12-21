@@ -171,7 +171,7 @@ function SocialProfilesWrapper() {
 						addLinkToString(
 							sprintf(
 								/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
-								__( "If you want your site to represent an Organization, please select 'Organization' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
+								__( "If you want your site to represent an Organization, please select 'Organization' in the 'Organization/person' section of the %1$sSite representation%2$s settings.", "wordpress-seo" ),
 								"<a>",
 								"</a>"
 							),
@@ -217,7 +217,7 @@ function SocialProfilesWrapper() {
 								addLinkToString(
 									sprintf(
 										/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
-										__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
+										__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Organization/person' section of the %1$sSite representation%2$s settings.", "wordpress-seo" ),
 										"<a>",
 										"</a>"
 									),
