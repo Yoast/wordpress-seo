@@ -457,6 +457,11 @@ const disabilityAssessments =  [
 			" intense, impulsive, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
+		// exclude cases with other phrases from the feedback
+		rule: ( words, inclusivePhrases ) => {
+			return ! includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isNotPrecededByException( words, verbsWithTobeRequirements || toDriveCrazy ) );
+		},
 	},
 	{
 		identifier: "crazier",
