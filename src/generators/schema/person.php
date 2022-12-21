@@ -171,7 +171,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return array An array of Schema Person data.
 	 */
 	protected function build_person_data( $user_id, $add_hash = false ) {
-		return $this->build_object( $user_id, $this->context, $this->type, $add_hash );
+		return $this->build_object( $user_id, $this->type, $add_hash );
 	}
 
 	/**

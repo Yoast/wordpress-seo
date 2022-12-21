@@ -35,7 +35,7 @@ class Person_Helper {
 	 *
 	 * @return array A person Schema object.
 	 */
-	public function generate( $user_id, $type = 'Person' ) {
+	public function generate_from_user_id( $user_id, $type = 'Person' ) {
 		return $this->person->build_object( $user_id, $type );
 	}
 }
