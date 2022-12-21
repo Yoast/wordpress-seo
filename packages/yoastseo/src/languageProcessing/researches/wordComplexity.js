@@ -13,7 +13,7 @@ import { flatMap } from "lodash-es";
  */
 const getComplexWords = function( sentence, complexWordsHelper, functionWords ) {
 	const allWords = getWords( sentence );
-	// Filters out function words.
+	// Filters out function words because function words are not complex.
 	const words = allWords.filter( word => ! functionWords.includes( word ) );
 	const results = [];
 
