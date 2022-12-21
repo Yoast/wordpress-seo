@@ -44,7 +44,7 @@ class Settings_Integration_Test extends TestCase {
 		$schema_types           = Mockery::mock( Schema_Types::class );
 		$current_page_helper    = Mockery::mock( Current_Page_Helper::class );
 		$post_type_helper       = Mockery::mock( Post_Type_Helper::class );
-		$language_helper       = Mockery::mock( Language_Helper::class );
+		$language_helper        = Mockery::mock( Language_Helper::class );
 		$taxonomy_helper        = Mockery::mock( Taxonomy_Helper::class );
 		$product_helper         = Mockery::mock( Product_Helper::class );
 		$woocommerce_helper     = Mockery::mock( Woocommerce_Helper::class );
