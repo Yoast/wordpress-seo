@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\EDD_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\EDD_Conditional;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
@@ -60,7 +60,7 @@ class EDD implements Integration_Interface {
 	 * @return array
 	 */
 	public function filter_organization_schema( $data ) {
-		if ( is_singular( 'download' ) ) {
+		if ( \is_singular( 'download' ) ) {
 			$data['@type'] = [ 'Organization', 'Brand' ];
 		}
 
@@ -77,26 +77,28 @@ class EDD implements Integration_Interface {
 	 */
 	public function filter_webpage_schema( $data, $context ) {
 		if ( is_singular( [ 'download' ] ) ) {
-			$data['about']      = [ '@id' => $context->canonical . '#/schema/edd-product/' . get_the_ID() ];
-			$data['mainEntity'] = [ '@id' => $context->canonical . '#/schema/edd-product/' . get_the_ID() ];
+			$data['about']      = [ '@id' => $context->canonical . '#/schema/edd-product/' . \get_the_ID() ];
+			$data['mainEntity'] = [ '@id' => $context->canonical . '#/schema/edd-product/' . \get_the_ID() ];
 		}
 
 		return $data;
 	}
 
 	/**
+	 * Filter the structured data output for a download to tie into Yoast SEO's output.
+	 *
 	 * @param array $data Structured data for a download.
 	 *
 	 * @return array
 	 */
 	public function filter_download_schema( $data ) {
-		$data['@id']    = $this->meta->for_current_page()->canonical . '#/schema/edd-product/' . get_the_ID();
+		$data['@id']    = $this->meta->for_current_page()->canonical . '#/schema/edd-product/' . \get_the_ID();
 		$data['sku']    = (string) $data['sku'];
 		$data['brand']  = $this->return_organization_node();
 		$data['offers'] = $this->clean_up_offer( $data['offers'] );
 
 		if ( ! isset( $data['description'] ) ) {
-			$data['description'] = get_the_excerpt( get_the_ID() );
+			$data['description'] = $this->meta->for_current_page()->open_graph_description;
 		}
 
 		return $data;
@@ -126,7 +128,7 @@ class EDD implements Integration_Interface {
 	private function return_organization_node() {
 		return [
 			'@type' => [ 'Organization', 'Brand' ],
-			'@id'   => $this->meta->for_home_page()->canonical . '#organization'
+			'@id'   => $this->meta->for_home_page()->canonical . '#organization',
 		];
 	}
 }

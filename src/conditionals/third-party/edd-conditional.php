@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Conditionals;
+namespace Yoast\WP\SEO\Conditionals\Third_Party;
 
 /**
  * Conditional that is only met when WooCommerce is active.
