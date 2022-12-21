@@ -43,6 +43,9 @@ const formsOfToDrive = [ "driving", "drive", "drove", "driven" ];
 const objectPronouns = [ "me", "you", "them", "him", "her" ];
 const toDriveCrazy = flatMap( formsOfToDrive, form => flatMap( objectPronouns, pronoun => `${form} ${pronoun}` ) );
 
+// Create an array that combines the rules for different phrases with "crazy" to exclude them from retrieving feedback for the separate word "crazy".
+const phrasesWithCrazy = verbsWithTobeRequirements.concat( verbsWithTobeNotRequirements, toDriveCrazy );
+
 const disabilityAssessments =  [
 	{
 		identifier: "binge",
@@ -453,27 +456,29 @@ const disabilityAssessments =  [
 	{
 		identifier: "crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "<i>wild, out of control, baffling, inexplicable, unbelievable, confused, mistaken, aggravating," +
-			" intense, impulsive, obsessed</i>",
+		inclusiveAlternatives: "<i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, chaotic, " +
+			"confused, mistaken, intense, impulsive, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// exclude cases with other phrases from the feedback
 		rule: ( words, inclusivePhrases ) => {
-			return ! includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, verbsWithTobeRequirements || toDriveCrazy ) );
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isPrecededByException( words, phrasesWithCrazy ) );
 		},
 	},
 	{
 		identifier: "crazier",
 		nonInclusivePhrases: [ "crazier" ],
-		inclusiveAlternatives: "<i>more wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
+		inclusiveAlternatives: "<i>more wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, " +
+			"chaotic, confused, mistaken, intense, impulsive, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "craziest",
 		nonInclusivePhrases: [ "craziest" ],
-		inclusiveAlternatives: "<i>most wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
+		inclusiveAlternatives: "<i>most wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, " +
+			"chaotic, confused, mistaken, intense, impulsive, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
