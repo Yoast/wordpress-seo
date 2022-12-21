@@ -1,3 +1,8 @@
+---
+name: Task
+about: A template for general issues
+
+---
 ## What is the goal of this issue?
  
 
