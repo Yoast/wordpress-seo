@@ -223,14 +223,17 @@ const App = () => {
 	useRouterScrollRestore();
 
 	useEffect( () => {
+		// WordPress skip links disable the default behavior of the links and redirect to active tab.
 		if ( document ) {
 			const WpcontentBody = document.querySelector( '[href="#wpbody-content"]' );
 			WpcontentBody.addEventListener( "click", function( e ) {
 				e.preventDefault();
+				document.getElementById( "yst-search-button" ).focus();
 			} );
 			const WpToolbar = document.querySelector( '[href="#wp-toolbar"]' );
 			WpToolbar.addEventListener( "click", function( e ) {
 				e.preventDefault();
+				document.getElementById( "yst-search-button" ).focus();
 			}
 			);
 		}
