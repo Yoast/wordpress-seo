@@ -26,7 +26,6 @@ import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags
 import sanitizeString from "./helpers/sanitize/sanitizeString";
 import { unifyAllSpaces } from "./helpers/sanitize/unifyWhitespace";
 import removePunctuation from "./helpers/sanitize/removePunctuation";
-import replaceSingleQuotesInTags from "./helpers/html/replaceQuotes";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
@@ -66,5 +65,4 @@ export {
 	getSentences,
 	getFieldsToMark,
 	unifyAllSpaces,
-	replaceSingleQuotesInTags,
 };
