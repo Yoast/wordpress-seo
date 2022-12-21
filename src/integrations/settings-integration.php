@@ -362,22 +362,23 @@ class Settings_Integration implements Integration_Interface {
 		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
+		$site_language 		    = $this->language_helper->get_language();
 
 		return [
-			'userLanguageCode'     => $this->language_helper->get_researcher_language(),
-			'settings'             => $this->transform_settings( $settings ),
-			'defaultSettingValues' => $default_setting_values,
-			'disabledSettings'     => $this->get_disabled_settings( $settings ),
-			'endpoint'             => \admin_url( 'options.php' ),
-			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
-			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
-			'replacementVariables' => $this->get_replacement_variables(),
-			'schema'               => $this->get_schema( $transformed_post_types ),
-			'preferences'          => $this->get_preferences(),
-			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
-			'postTypes'            => $transformed_post_types,
-			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
-			'fallbacks'            => $this->get_fallbacks(),
+			'hasInclusiveLanguageSupport' => $this->language_helper->has_inclusive_language_support( $site_language ),
+			'settings'                    => $this->transform_settings( $settings ),
+			'defaultSettingValues'        => $default_setting_values,
+			'disabledSettings'            => $this->get_disabled_settings( $settings ),
+			'endpoint'                    => \admin_url( 'options.php' ),
+			'nonce'                       => \wp_create_nonce( self::PAGE . '-options' ),
+			'separators'                  => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
+			'replacementVariables'        => $this->get_replacement_variables(),
+			'schema'                      => $this->get_schema( $transformed_post_types ),
+			'preferences'                 => $this->get_preferences(),
+			'linkParams'                  => WPSEO_Shortlinker::get_query_params(),
+			'postTypes'                   => $transformed_post_types,
+			'taxonomies'                  => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
+			'fallbacks'                   => $this->get_fallbacks(),
 		];
 	}
 
