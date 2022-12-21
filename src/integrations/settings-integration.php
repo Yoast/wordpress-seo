@@ -362,7 +362,7 @@ class Settings_Integration implements Integration_Interface {
 		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
-		$site_language 		    = $this->language_helper->get_language();
+		$site_language          = $this->language_helper->get_language();
 
 		return [
 			'hasInclusiveLanguageSupport' => $this->language_helper->has_inclusive_language_support( $site_language ),
