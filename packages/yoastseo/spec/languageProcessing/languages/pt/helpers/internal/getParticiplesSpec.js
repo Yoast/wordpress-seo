@@ -2,8 +2,8 @@ import getParticiples from "../../../../../../src/languageProcessing/languages/p
 
 describe( "Test for matching Portuguese participles", function() {
 	it( "returns matched irregular participles.", function() {
-		const foundParticiples = getParticiples(  "sido acendida con o botão." );
-		expect( foundParticiples ).toEqual( [ "acendida" ] );
+		const foundParticiples = getParticiples(  "sido acendida com o botão." );
+		expect( foundParticiples ).toEqual( [ "sido", "acendida" ] );
 	} );
 
 	it( "returns an empty array when there is no participle or when the sentence is empty", function() {
