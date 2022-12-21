@@ -16,7 +16,7 @@ const useDisabledMessage = ( { name } ) => {
 	);
 	const isDisabledInclusiveLanguageAnalysis = useMemo(
 		() => name === "wpseo.inclusive_language_analysis_active" && window.wpseoScriptData.userLanguageCode !== "en",
-		[ name, isNetworkAdmin, isMainSite ]
+		[ name ]
 	);
 	const disabledSetting = useMemo( () => get( window, `wpseoScriptData.disabledSettings.${ name }`, "" ), [] );
 	const message = useMemo( () => {
