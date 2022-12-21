@@ -233,7 +233,7 @@ const App = () => {
 			const WpToolbar = document.querySelector( '[href="#wp-toolbar"]' );
 			WpToolbar.addEventListener( "click", function( e ) {
 				e.preventDefault();
-				document.getElementById( "yst-search-button" ).focus();
+				document.querySelector( "#wp-admin-bar-wp-logo a" ).focus();
 			}
 			);
 		}
