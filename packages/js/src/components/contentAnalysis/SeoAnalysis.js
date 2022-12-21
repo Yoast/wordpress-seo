@@ -36,10 +36,11 @@ class SeoAnalysis extends Component {
 	 * Renders the keyword synonyms upsell modal.
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
+	 * @param {string} locationContext In which editor this component is rendered.
 	 *
 	 * @returns {wp.Element} A modalButtonContainer component with the modal for a keyword synonyms upsell.
 	 */
-	renderSynonymsUpsell( location ) {
+	renderSynonymsUpsell( location, locationContext ) {
 		const modalProps = {
 			classes: {
 				openButton: "wpseo-keyword-synonyms button-link",
@@ -67,6 +68,8 @@ class SeoAnalysis extends Component {
 			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_link" ];
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.focus_keyword_synonyms_button" ];
 		}
+		link = addQueryArgs( link, { context: locationContext } );
+		buyLink = addQueryArgs( buyLink, { context: locationContext } );
 
 		return (
 			<Modal { ...modalProps }>
@@ -265,7 +268,7 @@ class SeoAnalysis extends Component {
 										>
 											<SynonymSlot location={ location } />
 											{ this.props.shouldUpsell && <Fragment>
-												{ this.renderSynonymsUpsell( location ) }
+												{ this.renderSynonymsUpsell( location, locationContext ) }
 												{ this.renderMultipleKeywordsUpsell( location ) }
 											</Fragment> }
 											{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location, locationContext ) }
