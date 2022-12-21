@@ -24,7 +24,7 @@ const useDisabledMessage = ( { name } ) => {
 			return __( "Unavailable for sub-sites", "wordpress-seo" );
 		}
 		if ( isDisabledInclusiveLanguageAnalysis ) {
-			return __( "Unavailable for non-English sites", "wordpress-seo" );
+			return __( "Only available for English sites", "wordpress-seo" );
 		}
 		switch ( disabledSetting ) {
 			case "multisite":
