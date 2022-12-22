@@ -337,6 +337,18 @@ describe( "Get sentences from text", function() {
 		testGetSentences( testCases );
 	} );
 
+	it( "should strip images from the sentence", function() {
+		const testCases = [
+			{
+				input: "<img class=\"size-medium wp-image-32\" src=\"https://basic.wordpress.test/wp-content/uploads/2021/" +
+					"08/cat-199969_1280-300x199.jpeg\" alt=\"\" width=\"300\" height=\"199\" /> This is a very majestic cat. Second sentence.",
+				expected: [ "This is a very majestic cat.", "Second sentence." ],
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
 	it( "can deal with brackets", function() {
 		const testCases = [
 			{
