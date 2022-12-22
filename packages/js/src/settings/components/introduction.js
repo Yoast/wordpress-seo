@@ -107,13 +107,13 @@ const Introduction = () => {
 					<div className="yst-absolute yst-inset-0 yst-bg-gradient-to-b yst-from-primary-200" />
 					<div className="yst-relative yst-pt-6 sm:yst-pt-8 yst-pb-8 yst-px-4 sm:yst-px-8">
 						<div
-							className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-lg yst-shadow-md yst-bg-white"
+							className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-lg yst-shadow-md yst-bg-black"
 						>
 							{ videoFlow === INTRODUCTION_VIDEO_FLOW.showPlay && steps.map( ( step, index ) => (
 								<button
 									key={ `step-thumbnail-${ step.videoId }` }
 									className={ classNames(
-										"yst-absolute yst-inset-0 yst-button yst-p-0 yst-border-none",
+										"yst-absolute yst-inset-0 yst-button yst-p-0 yst-border-none yst-bg-white",
 										"yst-transition-opacity yst-duration-1000",
 										index === stepIndex ? "yst-opacity-100" : "yst-opacity-0"
 									) }
