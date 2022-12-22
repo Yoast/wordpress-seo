@@ -55,6 +55,10 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_redirect_old_features_tab_script() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
+		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' ) {
+			return;
+		}
 		$this->asset_manager->enqueue_script( 'redirect-old-features-tab' );
 	}
 }
