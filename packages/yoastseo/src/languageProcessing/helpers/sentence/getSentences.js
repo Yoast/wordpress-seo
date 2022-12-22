@@ -56,7 +56,7 @@ export default function( text, memoizedTokenizer ) {
 	text = unifyNonBreakingSpace( text );
 	// Remove images from text before tokenizing it into sentences.
 	// This step is done here so that applying highlight in captions is possible for all assessments that use this helper.
-	text = text.replace( new RegExp( imageRegex ), "" );
+	text = text.replace( new RegExp( imageRegex, "ig" ), "" );
 
 	let blocks = getBlocks( text );
 
