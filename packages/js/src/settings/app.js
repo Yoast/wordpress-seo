@@ -1,5 +1,4 @@
 import { Transition } from "@headlessui/react";
-import { useEffect } from "@wordpress/element";
 import {
 	AdjustmentsIcon,
 	ArrowNarrowRightIcon,
@@ -221,23 +220,6 @@ const App = () => {
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	useRouterScrollRestore();
-
-	useEffect( () => {
-		// WordPress skip links disable the default behavior of the links and redirect to active tab.
-		if ( document ) {
-			const WpcontentBody = document.querySelector( '[href="#wpbody-content"]' );
-			WpcontentBody.addEventListener( "click", function( e ) {
-				e.preventDefault();
-				document.getElementById( "yst-search-button" ).focus();
-			} );
-			const WpToolbar = document.querySelector( '[href="#wp-toolbar"]' );
-			WpToolbar.addEventListener( "click", function( e ) {
-				e.preventDefault();
-				document.querySelector( "#wp-admin-bar-wp-logo a" ).focus();
-			}
-			);
-		}
-	}, [] );
 
 	const { dirty } = useFormikContext();
 	useBeforeUnload(
