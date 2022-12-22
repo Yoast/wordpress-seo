@@ -3,7 +3,6 @@ import arrayToRegex from "../regex/createRegexFromArray";
 import addMark from "../../../markers/addMarkSingleWord";
 import Mark from "../../../values/Mark";
 import { escapeRegExp } from "lodash-es";
-import { imageRegex } from "../image/imageInText";
 
 /**
  * Adds marks to a sentence and merges marks if those are only separated by a space
