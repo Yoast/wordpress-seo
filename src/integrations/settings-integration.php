@@ -362,10 +362,8 @@ class Settings_Integration implements Integration_Interface {
 		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
-		$site_language          = $this->language_helper->get_language();
 
 		return [
-			'hasInclusiveLanguageSupport' => $this->language_helper->has_inclusive_language_support( $site_language ),
 			'settings'                    => $this->transform_settings( $settings ),
 			'defaultSettingValues'        => $default_setting_values,
 			'disabledSettings'            => $this->get_disabled_settings( $settings ),
@@ -551,6 +549,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function get_disabled_settings( $settings ) {
 		$disabled_settings = [];
+		$site_language     = $this->language_helper->get_language();
 
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
 			if ( ! \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
@@ -578,6 +577,12 @@ class Settings_Integration implements Integration_Interface {
 					}
 				}
 			}
+		}
+
+		
+		
+		if( \array_key_exists( 'wpseo', $disabled_settings ) && !$this->language_helper->has_inclusive_language_support( $site_language )){
+			$disabled_settings[ 'wpseo' ]['inclusive_language_analysis_active'] = 'language';
 		}
 
 		return $disabled_settings;

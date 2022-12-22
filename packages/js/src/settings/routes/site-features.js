@@ -35,7 +35,7 @@ const FeatureCard = ( {
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const imageSrc = useSelectSettings( "selectPluginUrl", [ rawImageSrc ], rawImageSrc );
-	const { isDisabled, message } = useDisabledMessage( { name } );
+	const { isDisabled, message, disabledSetting } = useDisabledMessage( { name } );
 	const { values } = useFormikContext();
 	const isPremiumHref = useSelectSettings( "selectLink", [ isPremiumLink ], isPremiumLink );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
@@ -82,6 +82,7 @@ const FeatureCard = ( {
 					id={ inputId }
 					label={ __( "Enable feature", "wordpress-seo" ) }
 					disabled={ isDisabled }
+					checked={ disabledSetting === "language" ? false : value }
 				/> }
 				{ shouldUpsell && (
 					<Button

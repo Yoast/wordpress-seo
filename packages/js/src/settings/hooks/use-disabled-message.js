@@ -14,23 +14,19 @@ const useDisabledMessage = ( { name } ) => {
 		() => name === "wpseo.tracking" && ! isNetworkAdmin && ! isMainSite,
 		[ name, isNetworkAdmin, isMainSite ]
 	);
-	const isDisabledInclusiveLanguageAnalysis = useMemo(
-		() => name === "wpseo.inclusive_language_analysis_active" && Boolean( window.wpseoScriptData.hasInclusiveLanguageSupport ) === false,
-		[ name, window.wpseoScriptData.hasInclusiveLanguageSupport ]
-	);
 	const disabledSetting = useMemo( () => get( window, `wpseoScriptData.disabledSettings.${ name }`, "" ), [] );
+
 	const message = useMemo( () => {
 		if ( isDisabledTracking ) {
 			return __( "Unavailable for sub-sites", "wordpress-seo" );
-		}
-		if ( isDisabledInclusiveLanguageAnalysis ) {
-			return __( "Only available for English sites", "wordpress-seo" );
 		}
 		switch ( disabledSetting ) {
 			case "multisite":
 				return __( "Unavailable for multisites", "wordpress-seo" );
 			case "network":
 				return __( "Network disabled", "wordpress-seo" );
+			case "language":
+				return __( "Only available for English sites", "wordpress-seo" );
 			default:
 				return "";
 		}
@@ -40,6 +36,7 @@ const useDisabledMessage = ( { name } ) => {
 	return {
 		isDisabled,
 		message,
+		disabledSetting,
 	};
 };
 
