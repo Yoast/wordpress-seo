@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";

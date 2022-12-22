@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 import { Transition } from "@headlessui/react";
 import {
 	AdjustmentsIcon,
@@ -258,7 +259,6 @@ const App = () => {
 										enterFrom="yst-opacity-0"
 										enterTo="yst-opacity-100"
 									>
-										{ /* eslint-disable react/jsx-max-depth */ }
 										<Routes>
 											<Route path="author-archives" element={ <AuthorArchives /> } />
 											<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
@@ -293,7 +293,6 @@ const App = () => {
 											</Route>
 											<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
 										</Routes>
-										{ /* eslint-enable react/jsx-max-depth */ }
 									</Transition>
 								</ErrorBoundary>
 							</main>
