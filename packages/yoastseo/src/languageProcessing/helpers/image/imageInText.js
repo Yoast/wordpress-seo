@@ -2,7 +2,7 @@
 
 import matchStringWithRegex from "../regex/matchStringWithRegex.js";
 
-export const imageRegex = "<img(?:[^>]+)?>";
+export const imageRegex = "<img(?:[^>]+)?>(</img>)*";
 
 /**
  * Checks the text for images.
