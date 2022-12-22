@@ -579,10 +579,8 @@ class Settings_Integration implements Integration_Interface {
 			}
 		}
 
-		
-		
-		if( \array_key_exists( 'wpseo', $disabled_settings ) && !$this->language_helper->has_inclusive_language_support( $site_language )){
-			$disabled_settings[ 'wpseo' ]['inclusive_language_analysis_active'] = 'language';
+		if ( \array_key_exists( 'wpseo', $disabled_settings ) && ! $this->language_helper->has_inclusive_language_support( $site_language ) ) {
+			$disabled_settings['wpseo']['inclusive_language_analysis_active'] = 'language';
 		}
 
 		return $disabled_settings;
