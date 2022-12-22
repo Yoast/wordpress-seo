@@ -53,6 +53,16 @@ class Redirect_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertEquals( $this->current_page, $this->getPropertyValue( $this->instance, 'current_page' ) );
+		$this->assertEquals( $this->redirect, $this->getPropertyValue( $this->instance, 'redirect' ) );
+	}
+
+	/**
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
@@ -80,7 +90,7 @@ class Redirect_Integration_Test extends TestCase {
 	 * Tests old_settings_redirect.
 	 *
 	 * @dataProvider provider_old_settings_redirect
-	 * @covers ::add_submenu_page
+	 * @covers ::old_settings_redirect
 	 *
 	 * @param string $current_page   The current page parameter.
 	 * @param int    $redirect_times The times we will redirect.
@@ -97,8 +107,7 @@ class Redirect_Integration_Test extends TestCase {
 
 		$this->redirect->expects( 'do_safe_redirect' )
 			->times( $redirect_times )
-			->with( 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings#/site-representation', 301 )
-			->andReturn( $current_page );
+			->with( 'https://example.com/wp-admin/admin.php?page=wpseo_page_settings#/site-representation', 301 );
 
 		$this->instance->old_settings_redirect();
 	}

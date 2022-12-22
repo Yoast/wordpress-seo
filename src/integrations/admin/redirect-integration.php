@@ -29,8 +29,6 @@ class Redirect_Integration implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param Redirect_Helper     $redirect     The redirect helper.
 	 */
