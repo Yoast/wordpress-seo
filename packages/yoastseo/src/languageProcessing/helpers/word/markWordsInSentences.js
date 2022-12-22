@@ -42,7 +42,6 @@ export function markWordsInSentences( wordsToMark, sentences, locale, matchWordC
 	let markings = [];
 
 	sentences.forEach( function( sentence ) {
-		sentence = sentence.replace( new RegExp( imageRegex ), "" );
 		topicFoundInSentence = matchWords( sentence, wordsToMark, locale, matchWordCustomHelper ).matches;
 
 		if ( topicFoundInSentence.length > 0 ) {
