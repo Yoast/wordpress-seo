@@ -40,6 +40,11 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "content",
 		},
 	],
+	"yoast/faq-block": [
+		{
+			key: "questions",
+		},
+	],
 };
 
 const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
@@ -54,6 +59,7 @@ const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
 		],
 	},
 };
+
 
 /**
  * Retrieves the next annotation from the annotation queue.
@@ -119,7 +125,7 @@ export function getYoastmarkOffsets( marked ) {
 	const offsets = [];
 
 	/**
-	 * Step by step search for a yoastmark-tag and its corresponding en tag. Each time a tag is found
+	 * Step by step search for a yoastmark-tag and its corresponding end tag. Each time a tag is found
 	 * it is removed from the string because the function should return the indexes based on the string
 	 * without the tags.
 	 */
@@ -155,7 +161,6 @@ export function getYoastmarkOffsets( marked ) {
  */
 export function getIndicesOf( text, stringToFind, caseSensitive = true ) {
 	const indices = [];
-
 	if ( text.length  === 0 ) {
 		return indices;
 	}
@@ -198,7 +203,6 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
      * A cool <b><yoastmark>keyword</yoastmark></b>. => A cool <yoastmark>keyword</yoastmark>
 	 */
 	const markedSentence = mark.getMarked().replace( /(<(?!\/?yoastmark)[^>]+>)/ig, "" );
-
 	/*
 	 * A sentence can occur multiple times in a text, therefore we calculate all indices where
 	 * the sentence occurs. We then calculate the marker offsets for a single sentence and offset
@@ -291,8 +295,10 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const attributeKey = attribute.key;
 
 	const { attributes: blockAttributes } = block;
-	const attributeValue = blockAttributes[ attributeKey ];
-
+	let attributeValue = blockAttributes[ attributeKey ];
+	if ( block.name === "yoast/faq-block" ) {
+		attributeValue = block.originalContent;
+	}
 	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
 		return [];
 	}
@@ -304,18 +310,17 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 		multilineWrapperTag: attribute.multilineWrapperTag,
 	} );
 	const text = record.text;
-
+	console.log(text, "text")
 	// For each mark see if it applies to this block.
 	return flatMap( marks, ( ( mark ) => {
 		const annotations = calculateAnnotationsForTextFormat(
 			text,
 			mark
 		);
-
 		if ( ! annotations ) {
 			return [];
 		}
-
+		console.log(block, "block")
 		return annotations.map( annotation => {
 			return {
 				...annotation,
@@ -393,10 +398,10 @@ export function hasInnerBlocks( block ) {
  * @returns {Object[]} An array of annotation objects.
  */
 function getAnnotationsForBlocks( blocks, marks ) {
-	return flatMap( blocks, ( ( block ) => {
-		// If a block has innerblocks, get annotations for those blocks aswell.
-		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
 
+	return flatMap( blocks, ( ( block ) => {
+		// If a block has innerblocks, get annotations for those blocks as well.
+		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
 		return getAnnotationsFromBlock( block, marks ).concat( innerBlockAnnotations );
 	} ) );
 }
@@ -417,7 +422,11 @@ export function applyAsAnnotations( marks ) {
 		return;
 	}
 	let blocks = select( "core/block-editor" ).getBlocks();
-
+	// if ( blocks === select( "yoast/faq-block" ).getBlocks() ) {
+	// 	if ( fieldsToMark.length > 0 ) {
+	//
+	// 		blocks = blocks.filter( block => fieldsToMark.some( field => "yoast/" + field === block.name ) );
+	// }
 	if ( fieldsToMark.length > 0 ) {
 		blocks = blocks.filter( block => fieldsToMark.some( field => "core/" + field === block.name ) );
 	}
