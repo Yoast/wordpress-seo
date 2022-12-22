@@ -1,6 +1,4 @@
 import wordComplexityConfig from "../config/internal/wordComplexity";
-import functionWords from "../config/functionWords";
-
 
 const vowels = "aeiuoyáéíóúñ";
 const consonants = "bcdfghjklmnpqrstvwxzñ";
@@ -35,8 +33,8 @@ export default function checkIfWordIsComplex( word ) {
 		return false;
 	}
 
-	// The word is not complex if it's in the frequency list or the function words list.
-	if ( frequencyList.includes( word ) || functionWords.all.includes( word )  ) {
+	// The word is not complex if it's in the frequency list.
+	if ( frequencyList.includes( word ) ) {
 		return false;
 	}
 	/*

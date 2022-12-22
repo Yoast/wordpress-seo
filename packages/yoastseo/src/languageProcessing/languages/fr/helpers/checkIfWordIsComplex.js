@@ -1,5 +1,4 @@
 import wordComplexityConfig from "../config/internal/wordComplexity";
-import functionWords from "../config/functionWords";
 import { normalizeSingle } from "../../../helpers/sanitize/quotes";
 
 const contractionPrefixes = "^(c'|d'|l'|s')";
@@ -33,7 +32,7 @@ export default function checkIfWordIsComplex( word ) {
 	}
 
 	// The word is not complex if it's in the frequency list.
-	if ( frequencyList.includes( word ) || functionWords.all.includes( word ) ) {
+	if ( frequencyList.includes( word ) ) {
 		return false;
 	}
 
