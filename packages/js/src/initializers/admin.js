@@ -306,32 +306,22 @@ export default function initAdmin( jQuery ) {
 		return ( comingFromFTCTab && ( ! goingToFTCTab ) && window.isStepBeingEdited );
 	}
 
-	/**
-	 * Redirects requests to the old features dashboard tab to the new settins page.
-	 *
-	 * @returns {void}
-	 */
-	function redirectOldFeaturesTabToNewSettings() {
-		if ( window.location.hash === "#top#features" ) {
-			const fullUrl = window.location.href;
-			const newUrl = fullUrl.replace( "wpseo_dashboard#top#features", "wpseo_page_settings#/site-features" );
-			window.location.replace( newUrl );
-		}
-	}
-
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
+	// eslint-disable-next-line
 	jQuery( document ).ready( function() {
 		/**
 		 * When the hash changes, get the base url from the action and then add the current hash.
 		 */
 		wpseoSetTabHash();
 
-		redirectOldFeaturesTabToNewSettings();
+		if ( typeof window.wpseoRedirectOldFeaturesTabToNewSettings === "function" ) {
+			window.wpseoRedirectOldFeaturesTabToNewSettings();
+		}
 
 		// Toggle the Author archives section.
 		jQuery( "#disable-author input[type='radio']" ).on( "change", function() {
