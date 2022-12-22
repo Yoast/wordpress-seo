@@ -389,7 +389,7 @@ describe( "a test for targetting non-inclusive phrases in disability assessments
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
 		expect( assessment.getResult().score ).toBe( 6 );
 		expect( assessment.getResult().text ).toBe( "Be careful when using <i>daft</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>dense, uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>." +
+			"Consider using an alternative, such as <i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>." +
 			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 	} );
 	it( "should return the appropriate score and feedback string for: 'imbecile'", () => {

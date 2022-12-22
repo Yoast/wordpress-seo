@@ -77,7 +77,7 @@ const PersonSocialProfiles = () => {
 		pinterest: __( "Pinterest URL", "wordpress-seo" ),
 		soundcloud: __( "SoundCloud URL", "wordpress-seo" ),
 		tumblr: __( "Tumblr URL", "wordpress-seo" ),
-		twitter: __( "Twitter username (without @)", "wordpress-seo" ),
+		twitter: __( "Twitter", "wordpress-seo" ),
 		youtube: __( "YouTube URL", "wordpress-seo" ),
 		wikipedia: __( "Wikipedia URL", "wordpress-seo" ),
 	} ), [] );
