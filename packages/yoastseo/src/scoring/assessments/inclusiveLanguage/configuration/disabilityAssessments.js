@@ -3,28 +3,36 @@ import {
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 } from "./feedbackStrings";
-import { isFollowedByException } from "../helpers/isFollowedByException";
-import { isPrecededByException } from "../helpers/isPrecededByException";
+import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
+import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
+import { all as toBeForms } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
+import { flatMap } from "lodash-es";
+import { sprintf } from "@wordpress/i18n";
 
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
+const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
 
 const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition. " +
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.";
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
-const learnMoreUrl = "https://yoa.st/inclusive-language-disability";
+// Create a list of all possible combinations of a verb to be and a quantifier.
+const quantifiers = [ "so", "very", "a bit", "really", "pretty", "kind of" ];
+const toBeQuantifier = flatMap( toBeForms, verbToBe => flatMap( quantifiers, quantifier => `${verbToBe} ${quantifier}` ) );
+// A list of requirements: words that need to be in front of "OCD" for it to be non inclusive.
+const ocdRequirements =  toBeForms.concat( toBeQuantifier );
 
 const disabilityAssessments =  [
 	{
 		identifier: "binge",
 		nonInclusivePhrases: [ "bingeing", "binge" ],
-		inclusiveAlternatives: "<i>indulging, satuating, wallowing</i>",
+		inclusiveAlternatives: "<i>indulging, satuating, wallowing, spree, marathon</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "wheelchairBound",
@@ -32,7 +40,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>uses a wheelchair, is a wheelchair user</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "mentallyRetarded",
@@ -40,7 +47,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with an intellectual disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "retarded",
@@ -48,9 +54,8 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, irrational, insensible</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
-		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, [ "mentally" ] ) );
 		},
 	},
@@ -60,9 +65,8 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with alcohol use disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "drink", "beverage" ] ) ),
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "beverage" ] ) ),
 	},
 	{
 		identifier: "alcoholics",
@@ -70,9 +74,8 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>people with alcohol use disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "anonymous" ] ) ),
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "anonymous" ] ) ),
 	},
 	{
 		identifier: "cripple",
@@ -80,7 +83,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with a physical disability, a physically disabled person</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "crippled",
@@ -88,15 +90,13 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>has a physical disability, is physically disabled</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "daft",
 		nonInclusivePhrases: [ "daft" ],
-		inclusiveAlternatives: "<i>dense, ignorant, foolish</i>",
+		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapped",
@@ -104,7 +104,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>disabled, person with a disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicap",
@@ -112,27 +111,24 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "toilet", "toilets", "parking", "bathroom",
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "toilet", "toilets", "parking", "bathroom",
 				"bathrooms", "stall", "stalls" ] ) ),
 	},
 	{
 		identifier: "insane",
 		nonInclusivePhrases: [ "insane" ],
 		inclusiveAlternatives: "<i>wild, confusing, unpredictable, impulsive, reckless, out of control, " +
-			"unbelievable, incomprehensible, irrational, nonsensical, outrageous, ridiculous</i>",
+			"unbelievable, amazing, incomprehensible, nonsensical, outrageous, ridiculous</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "imbecile",
 		nonInclusivePhrases: [ "imbecile" ],
-		inclusiveAlternatives: "<i>uninformed, ignorant, foolish</i>",
+		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "specialNeeds",
@@ -140,7 +136,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: [ "<i>functional needs, support needs</i>", "<i>disabled, person with a disability</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulTwoAlternatives,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "hardOfHearing",
@@ -148,7 +143,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>hard of hearing, partially deaf, has partial hearing loss</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "hearingImpaired",
@@ -156,7 +150,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>deaf or hard of hearing, partially deaf, has partial hearing loss</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "functioning",
@@ -165,9 +158,8 @@ const disabilityAssessments =  [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
-		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "autism" ] ) ),
+		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
+			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "autism" ] ) ),
 	},
 	{
 		identifier: "autismHigh",
@@ -176,7 +168,6 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "autismLow",
@@ -185,7 +176,6 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "lame",
@@ -193,7 +183,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>boring, lousy, unimpressive, sad, corny</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "suicide",
@@ -201,7 +190,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>took their life, died by suicide, killed themself</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapParking",
@@ -209,7 +197,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>accessible parking</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "fellOnDeafEars",
@@ -217,7 +204,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>was not addressed, was ignored, was disregarded</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "turnOnBlindEye",
@@ -225,7 +211,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>ignore, pretend not to notice</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "blindLeadingBlind",
@@ -233,7 +218,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>ignorant, misguided, incompetent, unqualified, insensitive, unaware</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapBathroom",
@@ -241,7 +225,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>accessible bathroom(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapToilet",
@@ -249,7 +232,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>accessible toilet(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "handicapStall",
@@ -257,7 +239,13 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>accessible stall(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
+	},
+	{
+		identifier: "stupid",
+		nonInclusivePhrases: [ "stupid" ],
+		inclusiveAlternatives: [ "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>" ],
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "dumb",
@@ -265,9 +253,8 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: [ "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, [ "deaf and" ] ) );
 		},
 	},
@@ -277,7 +264,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>deaf</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "addict",
@@ -285,7 +271,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with a (drug, alcohol, ...) addiction, person with substance abuse disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "addicts",
@@ -293,7 +278,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>people with a (drug, alcohol, ...) addiction, people with substance abuse disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "brainDamaged",
@@ -301,7 +285,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>person with a (traumatic) brain injury</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "differentlyAbled",
@@ -309,7 +292,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>disabled, person with a disability</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "epilepticFit",
@@ -317,7 +299,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>epileptic seizure</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "sanityCheck",
@@ -325,7 +306,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>final check, confidence check, rationality check, soundness check</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "crazy",
@@ -333,7 +313,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "psychopathic",
@@ -341,7 +320,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>toxic, manipulative, unpredictable, impulsive, reckless, out of control</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "schizophrenic",
@@ -349,7 +327,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>of two minds, chaotic, confusing</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "paranoid",
@@ -357,7 +334,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>overly suspicious, unreasonable, defensive</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "manic",
@@ -365,7 +341,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>excited, raving, unbalanced, wild</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "hysterical",
@@ -373,7 +348,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>intense, vehement, piercing, chaotic</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "psycho",
@@ -381,7 +355,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>toxic, distraught, unpredictable, reckless, out of control</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "neurotic",
@@ -389,7 +362,6 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>distraught, unstable, startling, confusing, baffling</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "sociopath",
@@ -400,7 +372,6 @@ const disabilityAssessments =  [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
 			"medical condition, use %2$s instead, unless referring to someone who explicitly wants to be referred to with this term. " +
 			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
-		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "narcissistic",
@@ -411,9 +382,49 @@ const disabilityAssessments =  [
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
 			"medical condition, use %2$s instead. If you are not referencing the medical condition, consider other" +
 			" alternatives to describe the trait or behavior, such as %3$s.",
-		learnMoreUrl: learnMoreUrl,
+	},
+	{
+		identifier: "OCD",
+		nonInclusivePhrases: [ "ocd" ],
+		inclusiveAlternatives: "<i>pedantic, obsessed, perfectionist</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		// We make sure to always capitalize "OCD" by pre-filling the first replacement variable.
+		feedbackFormat: [ sprintf( medicalCondition, "OCD", "%2$s" ),
+			"If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD." ].join( " " ),
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isNotPrecededByException( words, ocdRequirements ) );
+		},
+	},
+	{
+		identifier: "theMentallyIll",
+		nonInclusivePhrases: [ "the mentally ill" ],
+		inclusiveAlternatives: "<i>people who are mentally ill</i>, <i>mentally ill people </i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ generalizing ].join( " " ),
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
+		},
+	},
+	{
+		identifier: "theDisabled",
+		nonInclusivePhrases: [ "the disabled" ],
+		inclusiveAlternatives: "<i>people who have a disability</i>, <i>disabled people </i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: [ potentiallyHarmful ].join( " " ),
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
+				.filter( notInclusiveWhenStandalone( words, nonInclusivePhrase ) );
+		},
 	},
 ];
 
-export default disabilityAssessments;
 
+disabilityAssessments.forEach( assessment => {
+	assessment.category = "disability";
+	assessment.learnMoreUrl = "https://yoa.st/inclusive-language-disability";
+} );
+
+export default disabilityAssessments;

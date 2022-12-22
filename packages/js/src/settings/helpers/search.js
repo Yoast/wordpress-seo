@@ -1,14 +1,15 @@
 /* eslint-disable camelcase */
 import { __, sprintf } from "@wordpress/i18n";
-import { Code } from "@yoast/ui-library";
-import { createInterpolateElement } from "@wordpress/element";
-import { omit, reduce, times, toLower, filter, includes, isEmpty } from "lodash";
+import { omit, reduce, times, filter, includes, isEmpty } from "lodash";
+import { safeToLocaleLower } from "./i18n";
 
 /**
  * @param {Object} postType The post type.
+ * @param {Object} options The options.
+ * @param {string} options.userLocale The user locale string.
  * @returns {Object} The search index for the post type.
  */
-export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) => ( {
+export const createPostTypeSearchIndex = ( { name, label, route, hasArchive }, { userLocale } ) => ( {
 	[ `title-${ name }` ]: {
 		route: `/post-type/${ route }`,
 		routeLabel: label,
@@ -30,7 +31,7 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 		fieldLabel: sprintf(
 			// translators: %1$s expands to the post type plural, e.g. Posts.
 			__( "Show %1$s in search results", "wordpress-seo" ),
-			toLower( label )
+			safeToLocaleLower( label, userLocale )
 		),
 		keywords: [],
 	},
@@ -120,7 +121,7 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 			fieldLabel: sprintf(
 				// translators: %1$s expands to the post type plural, e.g. Posts.
 				__( "Show the archive for %1$s in search results", "wordpress-seo" ),
-				toLower( label )
+				safeToLocaleLower( label, userLocale )
 			),
 			keywords: [],
 		},
@@ -150,9 +151,11 @@ export const createPostTypeSearchIndex = ( { name, label, route, hasArchive } ) 
 
 /**
  * @param {Object} taxonomy The taxonomy.
+ * @param {Object} options The options.
+ * @param {string} options.userLocale The user locale string.
  * @returns {Object} The search index for the taxonomy.
  */
-export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
+export const createTaxonomySearchIndex = ( { name, label, route }, { userLocale } ) => ( {
 	[ `title-tax-${ name }` ]: {
 		route: `/taxonomy/${ route }`,
 		routeLabel: label,
@@ -175,7 +178,7 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 			/* translators: %1$s expands to "Yoast SEO". %2$s expands to the taxonomy plural, e.g. Categories. */
 			__( "Enable %1$s for %2$s", "wordpress-seo" ),
 			"Yoast SEO",
-			toLower( label )
+			safeToLocaleLower( label, userLocale )
 		),
 		keywords: [],
 	},
@@ -193,7 +196,7 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 		fieldLabel: sprintf(
 			// translators: %1$s expands to the taxonomy plural, e.g. Categories.
 			__( "Show %1$s in search results", "wordpress-seo" ),
-			toLower( label )
+			safeToLocaleLower( label, userLocale )
 		),
 		keywords: [],
 	},
@@ -232,9 +235,11 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 /**
  * @param {Object} postTypes The post types.
  * @param {Object} taxonomies The taxonomies.
+ * @param {Object} options The options.
+ * @param {string} options.userLocale The user locale string.
  * @returns {Object} The search index.
  */
-export const createSearchIndex = ( postTypes, taxonomies ) => ( {
+export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) => ( {
 	blogdescription: {
 		route: "/site-basics",
 		routeLabel: __( "Site basics", "wordpress-seo" ),
@@ -749,13 +754,8 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 					route: "/breadcrumbs",
 					routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 					fieldId: `input-wpseo_titles-post_types-${ postType.name }-maintax`,
-					fieldLabel: createInterpolateElement(
-						// translators: %1$s expands to the post type plural, e.g. posts.
-						sprintf( __( "Breadcrumbs for %1$s<code />", "wordpress-seo" ), toLower( postType.label ) ),
-						{
-							code: <Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ postType.name }</Code>,
-						}
-					),
+					// translators: %1$s expands to the post type plural, e.g. posts.
+					fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), safeToLocaleLower( postType.label, userLocale ) ),
 					keywords: [],
 				},
 			} );
@@ -766,13 +766,8 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 				route: "/breadcrumbs",
 				routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 				fieldId: `input-wpseo_titles-taxonomy-${ taxonomy.name }-ptparent`,
-				fieldLabel: createInterpolateElement(
-					// translators: %1$s expands to the taxonomy plural, e.g. categories.
-					sprintf( __( "Breadcrumbs for %1$s<code />", "wordpress-seo" ), toLower( taxonomy.label ) ),
-					{
-						code: <Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ taxonomy.name }</Code>,
-					}
-				),
+				// translators: %1$s expands to the taxonomy plural, e.g. categories.
+				fieldLabel: sprintf( __( "Breadcrumbs for %1$s", "wordpress-seo" ), safeToLocaleLower( taxonomy.label, userLocale ) ),
 				keywords: [],
 			},
 		} ), {} ),
@@ -1056,12 +1051,12 @@ export const createSearchIndex = ( postTypes, taxonomies ) => ( {
 		// Post types - Attachments are handled separately above.
 		...reduce( omit( postTypes, [ "attachment" ] ), ( acc, postType ) => ( {
 			...acc,
-			...createPostTypeSearchIndex( postType ),
+			...createPostTypeSearchIndex( postType, { userLocale } ),
 		} ), {} ),
 		// Taxonomies
 		...reduce( omit( taxonomies, [ "post_format" ] ), ( acc, taxonomy ) => ( {
 			...acc,
-			...createTaxonomySearchIndex( taxonomy ),
+			...createTaxonomySearchIndex( taxonomy, { userLocale } ),
 		} ), {} ),
 	},
 	wpseo_social: {
