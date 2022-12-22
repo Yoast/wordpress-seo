@@ -6,14 +6,12 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Non_Network_Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-//use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
  * Redirect_Old_Features_Tab_Integration class
  */
 class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 
-//	use No_Conditionals;
 	/**
 	 * Asset manager instance.
 	 *
@@ -21,8 +19,12 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 	 */
 	protected $asset_manager;
 
+	/**
+	 * Redirect_Old_Features_Tab_Integration constructor.
+	 *
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The admin asset manager.
+	 */
 	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager ) {
-
 		$this->asset_manager = $asset_manager;
 	}
 
@@ -40,9 +42,8 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 	 *
 	 * @return array The conditionals.
 	 */
-	
-	 public static function get_conditionals() {
-		return [ 
+	public static function get_conditionals() {
+		return [
 			Admin_Conditional::class,
 			Non_Network_Admin_Conditional::class,
 		];
@@ -51,7 +52,7 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 	/**
 	 * Enqueues the redirect-old-features-tab script.
 	 *
-	 * @return {void}
+	 * @return void
 	 */
 	public function enqueue_redirect_old_features_tab_script() {
 		$this->asset_manager->enqueue_script( 'redirect-old-features-tab' );
