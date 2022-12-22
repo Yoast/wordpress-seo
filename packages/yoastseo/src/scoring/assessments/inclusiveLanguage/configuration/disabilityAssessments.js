@@ -9,7 +9,7 @@ import { isNotFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
-import rulesForCrazy from "./rulesForCrazy";
+import disabilityRules from "./disabilityRulesData";
 import { sprintf } from "@wordpress/i18n";
 
 // Create feedback strings specific to disability assessments.
@@ -379,7 +379,7 @@ const disabilityAssessments =  [
 		// Target only when preceded by a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so crazy about" ).
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, rulesForCrazy.formsOfToBeNotWithOptionalQuantifier ) );
+				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeNotWithOptionalIntensifier ) );
 		},
 	},
 	{
@@ -392,7 +392,7 @@ const disabilityAssessments =  [
 		// Target only when preceded by a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, rulesForCrazy.formsOfToBeWithOptionalQuantifier ) );
+				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeWithOptionalIntensifier ) );
 		},
 	},
 	{
@@ -405,12 +405,17 @@ const disabilityAssessments =  [
 	},
 	{
 		identifier: "to go crazy",
-		nonInclusivePhrases: [ "go crazy", "going crazy", "went crazy", "gone crazy" ],
+		nonInclusivePhrases: [ "crazy" ],
 		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to get/to be in one's head, to be aggravated," +
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
 			"<i>to go wild, to go out of control, to go up the wall, to get in one's head, to be aggravated, to get confused</i>.",
+		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isNotPrecededByException( words, disabilityRules.formsOfToGo ) );
+		},
 	},
 	{
 		identifier: "to drive crazy",
@@ -424,7 +429,7 @@ const disabilityAssessments =  [
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, rulesForCrazy.toDriveSomeoneCrazy ) );
+				.filter( isNotPrecededByException( words, disabilityRules.toDriveSomeoneCrazy ) );
 		},
 	},
 	{
@@ -435,9 +440,12 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// Exclude cases with other phrases from the feedback.
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isPrecededByException( words, rulesForCrazy.allRulesForPhrasesWithCrazy ) );
+		rule: ( words, exceptions ) => {
+			return includesConsecutiveWords( words, exceptions )
+				.filter( isPrecededByException( words, disabilityRules.shouldNotPrecedeStandaloneCrazy ) )
+				.filter( isNotFollowedByException( words, exceptions, disabilityRules.shouldNotFollowStandaloneCrazy ) )
+				.filter( isPrecededByException( words, disabilityRules.shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout ) &&
+						 isNotFollowedByException( words, exceptions, disabilityRules.shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
 	},
 	{
@@ -546,7 +554,7 @@ const disabilityAssessments =  [
 			"then state that they have OCD rather than that they are OCD." ].join( " " ),
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, formsOfToBeWithOptionalQuantifier ) );
+				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeWithOptionalIntensifier ) );
 		},
 	},
 	{
