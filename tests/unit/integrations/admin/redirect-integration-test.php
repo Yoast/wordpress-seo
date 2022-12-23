@@ -73,7 +73,7 @@ class Redirect_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertNotFalse( Monkey\Actions\has( 'wp_loaded', [ $this->instance, 'old_settings_redirect' ] ), 'Does not have expected admin_init filter' );
+		$this->assertNotFalse( Monkey\Actions\has( 'wp_loaded', [ $this->instance, 'old_settings_redirect' ] ), 'Does not have expected wp_loaded filter' );
 	}
 
 	/**
