@@ -1,12 +1,9 @@
 /* External dependencies */
-import {
-	isFunction,
-	flatMap,
-} from "lodash-es";
 // The WP annotations package isn't loaded by default so force loading it.
 import "@wordpress/annotations";
+import { dispatch, select } from "@wordpress/data";
 import { create } from "@wordpress/rich-text";
-import { select, dispatch } from "@wordpress/data";
+import { flatMap, isFunction } from "lodash-es";
 import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
 
 
@@ -59,7 +56,6 @@ const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
 		],
 	},
 };
-
 
 /**
  * Retrieves the next annotation from the annotation queue.
@@ -196,7 +192,7 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
      * A cool <b>keyword</b>. => A cool keyword.
 	 */
 	const originalSentence = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
-
+	console.log(originalSentence, "original Sentence")
 	/*
 	 * Remove all tags except yoastmark tags from the marked sentence.
 	 *
@@ -260,7 +256,7 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
 			} );
 		} );
 	} );
-
+	console.log(blockOffsets, "offset")
 	return blockOffsets;
 }
 
@@ -297,8 +293,12 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const { attributes: blockAttributes } = block;
 	let attributeValue = blockAttributes[ attributeKey ];
 	if ( block.name === "yoast/faq-block" ) {
-		attributeValue = block.originalContent;
+		const question = attributeValue[ 0 ].jsonQuestion;
+		const answer = attributeValue[ 0 ].jsonAnswer;
+
+		 attributeValue = question.concat( " ", answer );
 	}
+
 	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
 		return [];
 	}
@@ -310,17 +310,20 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 		multilineWrapperTag: attribute.multilineWrapperTag,
 	} );
 	const text = record.text;
-	console.log(text, "text")
+
 	// For each mark see if it applies to this block.
 	return flatMap( marks, ( ( mark ) => {
 		const annotations = calculateAnnotationsForTextFormat(
 			text,
 			mark
 		);
+		console.log( annotations, "annotations after record" );
+		console.log( mark, "mark after record" );
+		console.log( text, "text after record" );
 		if ( ! annotations ) {
 			return [];
 		}
-		console.log(block, "block")
+
 		return annotations.map( annotation => {
 			return {
 				...annotation,
@@ -398,7 +401,6 @@ export function hasInnerBlocks( block ) {
  * @returns {Object[]} An array of annotation objects.
  */
 function getAnnotationsForBlocks( blocks, marks ) {
-
 	return flatMap( blocks, ( ( block ) => {
 		// If a block has innerblocks, get annotations for those blocks as well.
 		const innerBlockAnnotations = hasInnerBlocks( block ) ?  getAnnotationsForBlocks( block.innerBlocks, marks ) : [];
@@ -421,12 +423,9 @@ export function applyAsAnnotations( marks ) {
 	if ( marks.length === 0 ) {
 		return;
 	}
+
 	let blocks = select( "core/block-editor" ).getBlocks();
-	// if ( blocks === select( "yoast/faq-block" ).getBlocks() ) {
-	// 	if ( fieldsToMark.length > 0 ) {
-	//
-	// 		blocks = blocks.filter( block => fieldsToMark.some( field => "yoast/" + field === block.name ) );
-	// }
+
 	if ( fieldsToMark.length > 0 ) {
 		blocks = blocks.filter( block => fieldsToMark.some( field => "core/" + field === block.name ) );
 	}
