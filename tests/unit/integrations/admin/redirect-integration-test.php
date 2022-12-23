@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Redirect_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -27,13 +26,6 @@ class Redirect_Integration_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * The current page helper mock.
-	 *
-	 * @var Mockery\MockInterface|Current_Page_Helper
-	 */
-	private $current_page;
-
-	/**
 	 * The redirect helper mock.
 	 *
 	 * @var Mockery\MockInterface|Redirect_Helper
@@ -46,10 +38,9 @@ class Redirect_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 		$this->redirect     = Mockery::mock( Redirect_Helper::class );
 
-		$this->instance = new Redirect_Integration( $this->current_page, $this->redirect );
+		$this->instance = new Redirect_Integration( $this->redirect );
 	}
 
 	/**
@@ -58,7 +49,6 @@ class Redirect_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertEquals( $this->current_page, $this->getPropertyValue( $this->instance, 'current_page' ) );
 		$this->assertEquals( $this->redirect, $this->getPropertyValue( $this->instance, 'redirect' ) );
 	}
 
@@ -83,7 +73,7 @@ class Redirect_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertNotFalse( Monkey\Actions\has( 'admin_init', [ $this->instance, 'old_settings_redirect' ] ), 'Does not have expected admin_init filter' );
+		$this->assertNotFalse( Monkey\Actions\has( 'wp_loaded', [ $this->instance, 'old_settings_redirect' ] ), 'Does not have expected admin_init filter' );
 	}
 
 	/**
@@ -96,9 +86,7 @@ class Redirect_Integration_Test extends TestCase {
 	 * @param int    $redirect_times The times we will redirect.
 	 */
 	public function test_old_settings_redirect( $current_page, $redirect_times ) {
-		$this->current_page->expects( 'get_current_yoast_seo_page' )
-			->once()
-			->andReturn( $current_page );
+		$_GET['page'] = $current_page;
 
 		Monkey\Functions\expect( 'admin_url' )
 			->times( $redirect_times )

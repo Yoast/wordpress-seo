@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -11,13 +10,6 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * Class Redirect_Integration.
  */
 class Redirect_Integration implements Integration_Interface {
-
-	/**
-	 * The current page helper.
-	 *
-	 * @var Current_Page_Helper
-	 */
-	protected $current_page;
 
 	/**
 	 * The redirect helper.
@@ -29,12 +21,10 @@ class Redirect_Integration implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @param Current_Page_Helper $current_page The current page helper.
-	 * @param Redirect_Helper     $redirect     The redirect helper.
+	 * @param Redirect_Helper $redirect The redirect helper.
 	 */
-	public function __construct( Current_Page_Helper $current_page, Redirect_Helper $redirect ) {
-		$this->current_page = $current_page;
-		$this->redirect     = $redirect;
+	public function __construct( Redirect_Helper $redirect ) {
+		$this->redirect = $redirect;
 	}
 
 	/**
@@ -54,7 +44,7 @@ class Redirect_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_init', [ $this, 'old_settings_redirect' ] );
+		\add_action( 'wp_loaded', [ $this, 'old_settings_redirect' ] );
 	}
 
 	/**
@@ -63,7 +53,12 @@ class Redirect_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function old_settings_redirect() {
-		$current_page = $this->current_page->get_current_yoast_seo_page();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! isset( $_GET['page'] ) ) {
+			return;
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$current_page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 
 		switch ( $current_page ) {
 			case 'wpseo_titles':
