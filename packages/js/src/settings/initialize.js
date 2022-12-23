@@ -45,6 +45,26 @@ const preloadUsers = async( { settings } ) => {
 	}
 };
 
+/**
+ * Fixes the WordPress skip links.
+ *
+ * By disabling the default behavior of the links and focusing the elements.
+ *
+ * @returns {void}
+ */
+const fixFocusLinkCompatibility = () => {
+	const wpContentBody = document.querySelector( "[href=\"#wpbody-content\"]" );
+	wpContentBody.addEventListener( "click", e => {
+		e.preventDefault();
+		document.getElementById( "yst-search-button" ).focus();
+	} );
+	const wpToolbar = document.querySelector( "[href=\"#wp-toolbar\"]" );
+	wpToolbar.addEventListener( "click", e => {
+		e.preventDefault();
+		document.querySelector( "#wp-admin-bar-wp-logo a" ).focus();
+	} );
+};
+
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-settings" );
 	if ( ! root ) {
@@ -64,6 +84,7 @@ domReady( () => {
 	registerStore();
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
+	fixFocusLinkCompatibility();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
