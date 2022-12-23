@@ -38,7 +38,7 @@ class Redirect_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->redirect     = Mockery::mock( Redirect_Helper::class );
+		$this->redirect = Mockery::mock( Redirect_Helper::class );
 
 		$this->instance = new Redirect_Integration( $this->redirect );
 	}
