@@ -68,7 +68,7 @@ const sesAssessments = [
 	{
 		identifier: "theUndocumented",
 		nonInclusivePhrases: [ "the undocumented" ],
-		inclusiveAlternatives: "<i>people who are undocumented/ undocumented people, people without papers </i>",
+		inclusiveAlternatives: "<i>people who are undocumented, undocumented people, people without papers </i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially overgeneralizing. Consider using %2$s instead.",
 		rule: ( words, nonInclusivePhrase ) => {

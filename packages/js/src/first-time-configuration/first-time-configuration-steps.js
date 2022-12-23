@@ -377,13 +377,6 @@ export default function FirstTimeConfigurationSteps() {
 	 */
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
-			.then( () => {
-				if ( !! state.tracking === true ) {
-					document.getElementById( "tracking-on" ).checked = true;
-				} else {
-					document.getElementById( "tracking-off" ).checked = true;
-				}
-			} )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );

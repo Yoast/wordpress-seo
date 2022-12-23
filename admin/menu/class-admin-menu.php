@@ -87,13 +87,11 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 		// Submenu pages.
 		$submenu_pages = [
 			$this->get_submenu_page( __( 'General', 'wordpress-seo' ), $this->get_page_identifier() ),
-			$this->get_submenu_page( __( 'Search Appearance', 'wordpress-seo' ), 'wpseo_titles' ),
 			$this->get_submenu_page(
 				__( 'Search Console', 'wordpress-seo' ),
 				'wpseo_search_console',
 				$search_console_callback
 			),
-			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
 			$this->get_submenu_page( $this->get_license_page_title(), 'wpseo_licenses' ),
 		];
