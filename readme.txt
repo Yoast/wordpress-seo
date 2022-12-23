@@ -255,7 +255,7 @@ Release date: January 3rd, 2023
 
 = 19.14 =
 
-Release date: January 10th, 2022
+Release date: January 10th, 2023
 
 #### Enhancements
 
