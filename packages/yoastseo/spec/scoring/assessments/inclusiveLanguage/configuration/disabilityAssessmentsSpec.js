@@ -603,7 +603,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "It was a crazy decision.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
 					"<i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, " +
-					"chaotic, confused, mistaken, intense, impulsive, obsessed</i>. " +
+					"chaotic, confused, mistaken, obsessed</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -612,7 +612,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "It is a crazier idea compared to the previous one.",
 				expectedFeedback: "Avoid using <i>crazier</i> as it is potentially harmful. Consider using an alternative, such as " +
 					"<i>more wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, " +
-					"chaotic, confused, mistaken, intense, impulsive, obsessed</i>. " +
+					"chaotic, confused, mistaken, obsessed</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -621,7 +621,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "This is the craziest decision I've ever made!",
 				expectedFeedback: "Avoid using <i>craziest</i> as it is potentially harmful. Consider using an alternative, such as " +
 					"<i>most wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, " +
-					"chaotic, confused, mistaken, intense, impulsive, obsessed</i>. " +
+					"chaotic, confused, mistaken, obsessed</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
