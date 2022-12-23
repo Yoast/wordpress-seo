@@ -3,21 +3,23 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Mockery;
-use Yoast\WP\SEO\Config\Schema_Types;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Language_Helper;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Actions\Settings_Introduction_Action;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
+use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Language_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
+use Yoast\WP\SEO\Integrations\Settings_Integration;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Settings_Integration_Test.
@@ -39,17 +41,19 @@ class Settings_Integration_Test extends TestCase {
 	 * Runs the setup to prepare the needed instance
 	 */
 	public function set_up() {
-		$asset_manager          = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$replace_vars           = Mockery::mock( WPSEO_Replace_Vars::class );
-		$schema_types           = Mockery::mock( Schema_Types::class );
-		$current_page_helper    = Mockery::mock( Current_Page_Helper::class );
-		$post_type_helper       = Mockery::mock( Post_Type_Helper::class );
-		$language_helper        = Mockery::mock( Language_Helper::class );
-		$taxonomy_helper        = Mockery::mock( Taxonomy_Helper::class );
-		$product_helper         = Mockery::mock( Product_Helper::class );
-		$woocommerce_helper     = Mockery::mock( Woocommerce_Helper::class );
-		$article_helper         = Mockery::mock( Article_Helper::class );
-		$social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
+		$asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$replace_vars                 = Mockery::mock( WPSEO_Replace_Vars::class );
+		$schema_types                 = Mockery::mock( Schema_Types::class );
+		$current_page_helper          = Mockery::mock( Current_Page_Helper::class );
+		$post_type_helper             = Mockery::mock( Post_Type_Helper::class );
+		$language_helper              = Mockery::mock( Language_Helper::class );
+		$taxonomy_helper              = Mockery::mock( Taxonomy_Helper::class );
+		$product_helper               = Mockery::mock( Product_Helper::class );
+		$woocommerce_helper           = Mockery::mock( Woocommerce_Helper::class );
+		$article_helper               = Mockery::mock( Article_Helper::class );
+		$social_profiles_helper       = Mockery::mock( Social_Profiles_Helper::class );
+		$user_helper                  = Mockery::mock( User_Helper::class );
+		$settings_introduction_action = Mockery::mock( Settings_Introduction_Action::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -62,7 +66,9 @@ class Settings_Integration_Test extends TestCase {
 			$product_helper,
 			$woocommerce_helper,
 			$article_helper,
-			$social_profiles_helper
+			$social_profiles_helper,
+			$user_helper,
+			$settings_introduction_action
 		);
 	}
 

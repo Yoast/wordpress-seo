@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use Exception;
 use WP_Post_Type;
 use WP_Taxonomy;
 use WPSEO_Admin_Asset_Manager;
@@ -12,14 +13,16 @@ use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
+use Yoast\WP\SEO\Actions\Settings_Introduction_Action;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Language_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 
@@ -162,19 +165,35 @@ class Settings_Integration implements Integration_Interface {
 	protected $social_profiles_helper;
 
 	/**
+	 * Holds the User_Helper.
+	 *
+	 * @var User_Helper
+	 */
+	protected $user_helper;
+
+	/**
+	 * Holds the Settings_Introduction_Action.
+	 *
+	 * @var Settings_Introduction_Action
+	 */
+	protected $settings_introduction_action;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager          The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars        $replace_vars           The WPSEO_Replace_Vars.
-	 * @param Schema_Types              $schema_types           The Schema_Types.
-	 * @param Current_Page_Helper       $current_page_helper    The Current_Page_Helper.
-	 * @param Post_Type_Helper          $post_type_helper       The Post_Type_Helper.
-	 * @param Language_Helper           $language_helper        The Language_Helper.
-	 * @param Taxonomy_Helper           $taxonomy_helper        The Taxonomy_Helper.
-	 * @param Product_Helper            $product_helper         The Product_Helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper     The Woocommerce_Helper.
-	 * @param Article_Helper            $article_helper         The Article_Helper.
-	 * @param Social_Profiles_Helper    $social_profiles_helper The Social_Profiles_Helper.
+	 * @param WPSEO_Admin_Asset_Manager    $asset_manager                The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars           $replace_vars                 The WPSEO_Replace_Vars.
+	 * @param Schema_Types                 $schema_types                 The Schema_Types.
+	 * @param Current_Page_Helper          $current_page_helper          The Current_Page_Helper.
+	 * @param Post_Type_Helper             $post_type_helper             The Post_Type_Helper.
+	 * @param Language_Helper              $language_helper              The Language_Helper.
+	 * @param Taxonomy_Helper              $taxonomy_helper              The Taxonomy_Helper.
+	 * @param Product_Helper               $product_helper               The Product_Helper.
+	 * @param Woocommerce_Helper           $woocommerce_helper           The Woocommerce_Helper.
+	 * @param Article_Helper               $article_helper               The Article_Helper.
+	 * @param Social_Profiles_Helper       $social_profiles_helper       The Social_Profiles_Helper.
+	 * @param User_Helper                  $user_helper                  The User_Helper.
+	 * @param Settings_Introduction_Action $settings_introduction_action The Settings_Introduction_Action.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -187,19 +206,23 @@ class Settings_Integration implements Integration_Interface {
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
-		Social_Profiles_Helper $social_profiles_helper
+		Social_Profiles_Helper $social_profiles_helper,
+		User_Helper $user_helper,
+		Settings_Introduction_Action $settings_introduction_action
 	) {
-		$this->asset_manager          = $asset_manager;
-		$this->replace_vars           = $replace_vars;
-		$this->schema_types           = $schema_types;
-		$this->current_page_helper    = $current_page_helper;
-		$this->taxonomy_helper        = $taxonomy_helper;
-		$this->post_type_helper       = $post_type_helper;
-		$this->language_helper        = $language_helper;
-		$this->product_helper         = $product_helper;
-		$this->woocommerce_helper     = $woocommerce_helper;
-		$this->article_helper         = $article_helper;
-		$this->social_profiles_helper = $social_profiles_helper;
+		$this->asset_manager                = $asset_manager;
+		$this->replace_vars                 = $replace_vars;
+		$this->schema_types                 = $schema_types;
+		$this->current_page_helper          = $current_page_helper;
+		$this->taxonomy_helper              = $taxonomy_helper;
+		$this->post_type_helper             = $post_type_helper;
+		$this->language_helper              = $language_helper;
+		$this->product_helper               = $product_helper;
+		$this->woocommerce_helper           = $woocommerce_helper;
+		$this->article_helper               = $article_helper;
+		$this->social_profiles_helper       = $social_profiles_helper;
+		$this->user_helper                  = $user_helper;
+		$this->settings_introduction_action = $settings_introduction_action;
 	}
 
 	/**
@@ -364,19 +387,20 @@ class Settings_Integration implements Integration_Interface {
 		$transformed_post_types = $this->transform_post_types( $post_types );
 
 		return [
-			'settings'                    => $this->transform_settings( $settings ),
-			'defaultSettingValues'        => $default_setting_values,
-			'disabledSettings'            => $this->get_disabled_settings( $settings ),
-			'endpoint'                    => \admin_url( 'options.php' ),
-			'nonce'                       => \wp_create_nonce( self::PAGE . '-options' ),
-			'separators'                  => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
-			'replacementVariables'        => $this->get_replacement_variables(),
-			'schema'                      => $this->get_schema( $transformed_post_types ),
-			'preferences'                 => $this->get_preferences(),
-			'linkParams'                  => WPSEO_Shortlinker::get_query_params(),
-			'postTypes'                   => $transformed_post_types,
-			'taxonomies'                  => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
-			'fallbacks'                   => $this->get_fallbacks(),
+			'settings'             => $this->transform_settings( $settings ),
+			'defaultSettingValues' => $default_setting_values,
+			'disabledSettings'     => $this->get_disabled_settings( $settings ),
+			'endpoint'             => \admin_url( 'options.php' ),
+			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
+			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
+			'replacementVariables' => $this->get_replacement_variables(),
+			'schema'               => $this->get_schema( $transformed_post_types ),
+			'preferences'          => $this->get_preferences(),
+			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
+			'postTypes'            => $transformed_post_types,
+			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
+			'fallbacks'            => $this->get_fallbacks(),
+			'introduction'         => $this->get_introduction_data(),
 		];
 	}
 
@@ -425,6 +449,25 @@ class Settings_Integration implements Integration_Interface {
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'supportedPersonSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
 		];
+	}
+
+	/**
+	 * Retrieves the preferences.
+	 *
+	 * @return array The preferences.
+	 */
+	protected function get_introduction_data() {
+		$data = [];
+
+		try {
+			$data['wistiaEmbedPermission'] = $this->settings_introduction_action->get_wistia_embed_permission();
+			$data['show']                  = $this->settings_introduction_action->get_show();
+		} catch ( Exception $exception ) {
+			$data['wistiaEmbedPermission'] = false;
+			$data['show']                  = true;
+		}
+
+		return $data;
 	}
 
 	/**
