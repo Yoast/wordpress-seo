@@ -33,8 +33,8 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 				\sprintf(
 					/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
 					\esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
-					\esc_html__( 'SEO', 'wordpress-seo' ),
-					\esc_html__( 'Search Appearance', 'wordpress-seo' )
+					\esc_html__( 'Yoast SEO', 'wordpress-seo' ),
+					\esc_html__( 'Settings', 'wordpress-seo' )
 				) .
 				' -->';
 		}
