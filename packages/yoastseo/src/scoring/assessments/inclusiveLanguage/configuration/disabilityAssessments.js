@@ -388,7 +388,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>to love, to be obsessed with, to be infatuated with</i>",
+			"<i>to love, to be obsessed with, to be infatuated with</i>.",
 		// Target only when preceded by a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
@@ -429,7 +429,7 @@ const disabilityAssessments =  [
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, disabilityRules.toDriveSomeoneCrazy ) );
+				.filter( isNotPrecededByException( words, disabilityRules.combinationsOfDriveAndObjectPronoun ) );
 		},
 	},
 	{
@@ -439,7 +439,7 @@ const disabilityAssessments =  [
 			"confused, mistaken, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		// Exclude cases with other phrases from the feedback.
+		// Don't target when 'crazy' is part of a more specific phrase that we target.
 		rule: ( words, exceptions ) => {
 			return includesConsecutiveWords( words, exceptions )
 				.filter( isPrecededByException( words, disabilityRules.shouldNotPrecedeStandaloneCrazy ) )
@@ -552,6 +552,7 @@ const disabilityAssessments =  [
 		feedbackFormat: [ sprintf( medicalCondition, "OCD", "%2$s" ),
 			"If you are referring to someone who has the medical condition, " +
 			"then state that they have OCD rather than that they are OCD." ].join( " " ),
+		// Only target 'OCD' when preceded by a form of 'to be/to get' followed by an optional intensifier.
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
 				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeWithOptionalIntensifier ) );

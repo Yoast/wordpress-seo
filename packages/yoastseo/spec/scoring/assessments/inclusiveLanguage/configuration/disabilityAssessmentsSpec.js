@@ -868,7 +868,7 @@ describe( "Test the OCD assessment", () => {
 			marked: "<yoastmark class='yoast-text-mark'>You're OCD.</yoastmark>",
 		} ) ] );
 	} );
-	it( "correctly identifies 'OCD', which is only recognized when preceded by a form of 'to be' + quantifier", () => {
+	it( "correctly identifies 'OCD', which is only recognized when preceded by a form of 'to be' + intensifier", () => {
 		const mockPaper = new Paper( "I am so OCD." );
 		const mockResearcher = Factory.buildMockResearcher( [ "I am so OCD." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
