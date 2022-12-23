@@ -552,26 +552,6 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should target the non-negated phrase for crazy about and retrieve correct feedback.", () => {
-		const mockPaper = new Paper( "I am crazy about this album." );
-		const mockResearcher = Factory.buildMockResearcher( [ "I am crazy about this album." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be crazy about" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>crazy</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>to love, to be obsessed with, to be infatuated with</i>. " +
-			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "I am crazy about this album.",
-			marked: "<yoastmark class='yoast-text-mark'>I am crazy about this album.</yoastmark>",
-		} ) ] );
-	} );
 
 	it( "correctly identifies 'differently-abled'", () => {
 		const mockPaper = new Paper( "This sentence contains differently-abled." );
