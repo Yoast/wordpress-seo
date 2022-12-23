@@ -247,7 +247,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 19.14 =
 
-Release date: January 10th, 2022
+Release date: January 10th, 2023
 
 #### Enhancements
 
