@@ -436,7 +436,7 @@ const disabilityAssessments =  [
 		identifier: "crazy",
 		nonInclusivePhrases: [ "crazy" ],
 		inclusiveAlternatives: "<i>wild, baffling, out of control, inexplicable, unbelievable, aggravating, shocking, intense, impulsive, chaotic, " +
-			"confused, mistaken, intense, impulsive, obsessed</i>",
+			"confused, mistaken, obsessed</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// Exclude cases with other phrases from the feedback.
