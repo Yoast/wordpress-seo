@@ -55,7 +55,7 @@ const FormLayout = ( { children } ) => {
 							>
 								{ __( "Discard changes", "wordpress-seo" ) }
 							</Button>
-							<Modal onClose={ unsetRequestUndo } isOpen={ isRequestUndo }>
+							<Modal onClose={ unsetRequestUndo } isOpen={ isRequestUndo } ariaLabelledby="discard-all-changes-title">
 								<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
 									<div className="sm:yst-flex sm:yst-items-start">
 										<div
@@ -64,7 +64,7 @@ const FormLayout = ( { children } ) => {
 											<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
 										</div>
 										<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
-											<Modal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900">
+											<Modal.Title as="h1" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900" id="discard-all-changes-title">
 												{ __( "Discard all changes", "wordpress-seo" ) }
 											</Modal.Title>
 											<Modal.Description className="yst-text-sm yst-text-slate-500">
