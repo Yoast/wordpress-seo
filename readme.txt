@@ -249,18 +249,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: January 3rd, 2023
 
-#### Enhancements
-
-* Avoids a deprecation notice for the Yoast sidebar panel in the block editor.
-* Improves the accuracy of calculating text length in Japanese by excluding all spaces and HTML tags from the character count, and by including domain names.
-
-#### Bugfixes
-
-* Fixes a bug where indexable hierarchy wasn't built when the Indexable is built for the first time.
-
 #### Other
 
-* Displays a notification urging to upgrade Premium if the version is below 20.0, since some settings might be missing from the new user interface.
 * Sets the minimum supported WordPress version to 6.0.
 
 = 19.14 =
