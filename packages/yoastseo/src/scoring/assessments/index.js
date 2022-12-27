@@ -8,6 +8,8 @@ import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDis
 import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
 import WordComplexityAssessment from "./readability/WordComplexityAssessment";
+import CoordinationAssessment from "./readability/syntacticAmbiguity/CoordinationAssessment";
+import PPAttachmentAssessment from "./readability/syntacticAmbiguity/PPAttachmentAssessment";
 
 // SEO assessments.
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
@@ -44,6 +46,8 @@ const readability = {
 	TextPresenceAssessment,
 	TransitionWordsAssessment,
 	WordComplexityAssessment,
+	CoordinationAssessment,
+	PPAttachmentAssessment,
 };
 
 // We expose the deprecated UrlKeywordAssessment for backwards compatibility.

@@ -6,6 +6,8 @@ import TransitionWords from "./assessments/readability/TransitionWordsAssessment
 import PassiveVoice from "./assessments/readability/PassiveVoiceAssessment.js";
 import SentenceBeginnings from "./assessments/readability/SentenceBeginningsAssessment.js";
 import TextPresence from "./assessments/readability/TextPresenceAssessment.js";
+import Coordination from "./assessments/readability/syntacticAmbiguity/CoordinationAssessment.js";
+import PPAttachment from "./assessments/readability/syntacticAmbiguity/PPAttachmentAssessment.js";
 
 /*
 	Temporarily disabled:
@@ -37,6 +39,8 @@ const ContentAssessor = function( researcher, options = {} ) {
 		new PassiveVoice(),
 		new TextPresence(),
 		new SentenceBeginnings(),
+		new Coordination(),
+		new PPAttachment(),
 		// Temporarily disabled: wordComplexity,
 	];
 };
