@@ -5,6 +5,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
 import { ModalContext, useModalContext } from "./hooks";
+import { classNameMap as titleClassNameMap } from "../../elements/title";
 
 /**
  * @param {JSX.node} children Title text.
@@ -12,11 +13,14 @@ import { ModalContext, useModalContext } from "./hooks";
  * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The panel.
  */
-const Title = forwardRef( ( { children, className = "", ...props }, ref ) => {
+const Title = forwardRef( ( { children, size, className, ...props }, ref ) => {
 	return (
 		<Dialog.Title
 			ref={ ref }
-			className={  classNames( "yst-title", className ) }
+			className={  classNames(
+				"yst-title",
+				size ? titleClassNameMap.size[ size ] : "",
+				className ) }
 			{ ...props }
 		>
 			{ children }
@@ -24,7 +28,13 @@ const Title = forwardRef( ( { children, className = "", ...props }, ref ) => {
 	);
 } );
 
+Title.defaultProps = {
+	className: "",
+	as: "h1",
+};
+
 Title.propTypes = {
+	size: PropTypes.oneOf( Object.keys( titleClassNameMap.size ) ),
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
 };
