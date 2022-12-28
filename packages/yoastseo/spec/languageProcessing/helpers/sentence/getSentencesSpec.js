@@ -103,8 +103,8 @@ describe( "Get sentences from text", function() {
 	} );
 
 	it( "can deal with self-closing tags", function() {
-		const text = "A sentence with an image <img src='http://google.com' />";
-		expect( getSentences( text ) ).toEqual( [ "A sentence with an image <img src='http://google.com' />" ] );
+		const text = "A sentence with an image <samp src='http://google.com' />";
+		expect( getSentences( text ) ).toEqual( [ "A sentence with an image <samp src='http://google.com' />" ] );
 	} );
 
 	it( "can deal with newlines", function() {
