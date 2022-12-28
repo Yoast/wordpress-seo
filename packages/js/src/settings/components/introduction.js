@@ -2,7 +2,7 @@
 import { ArrowLeftIcon as PureArrowLeftIcon, ArrowRightIcon as PureArrowRightIcon } from "@heroicons/react/outline";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Modal, Spinner, Title, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Modal, Spinner, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { times } from "lodash";
 import { Helmet } from "react-helmet";
@@ -233,7 +233,7 @@ const Introduction = () => {
 									index === stepIndex ? "yst-opacity-100" : "yst-opacity-0"
 								) }
 							>
-								<Modal.Title as="h2" className="yst-text-lg">
+								<Modal.Title as="h2" size="2">
 									{ step.title }
 								</Modal.Title>
 								<Modal.Description className="yst-max-w-xs yst-mx-auto yst-mt-2">
