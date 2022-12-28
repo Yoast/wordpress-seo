@@ -25,7 +25,7 @@ const FormLayout = ( { children } ) => {
 	}, [ resetForm, initialValues, unsetRequestUndo ] );
 
 	return (
-		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
+		<Form className="yst-flex yst-flex-col yst-h-full">
 			<div className="yst-flex-grow yst-p-8">
 				{ children }
 			</div>

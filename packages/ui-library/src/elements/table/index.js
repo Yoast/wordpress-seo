@@ -15,7 +15,7 @@ const rowClassNameMap = {
  * @returns {JSX.Element} The element.
  */
 const Cell = ( { children, className = "", ...props } ) => (
-	<td className={ classNames( "yst-whitespace-nowrap yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500", className ) } { ...props }>
+	<td className={ classNames( "yst-px-3 yst-py-4 yst-text-sm yst-text-slate-500", className ) } { ...props }>
 		{ children }
 	</td>
 );
