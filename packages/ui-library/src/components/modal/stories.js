@@ -3,6 +3,7 @@ import { noop } from "lodash";
 import PropTypes from "prop-types";
 import RawModal, { classNameMap } from ".";
 import Button from "../../elements/button";
+import { classNameMap as titleClassNameMap } from "../../elements/title";
 
 const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
 	const [ isOpen, setIsOpen ] = useState( initialIsOpen );
@@ -60,6 +61,12 @@ export default {
 				defaultValue: { summary: "center" },
 			},
 			options: Object.keys( classNameMap.position ),
+		},
+		size: {
+			control: "select",
+			description: "Prop for the `Model.Title` component.",
+			type: { summary: Object.keys( titleClassNameMap.size ).join( "|" ) },
+			options: Object.keys( titleClassNameMap.size ),
 		},
 	},
 	parameters: {
