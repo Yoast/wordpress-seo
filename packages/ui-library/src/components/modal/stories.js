@@ -113,7 +113,7 @@ export const WithTitleAndDescription = {
 	parameters: {
 		docs: {
 			description: {
-				story: "Using the `Modal.Title` and `Modal.Description` components.",
+				story: "Using the `Modal.Title` and `Modal.Description` components will add `aria-labelledby` and `aria-describedby` to the Modal with matching IDrefs.",
 			},
 		},
 	},
