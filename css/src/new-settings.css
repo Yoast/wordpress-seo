@@ -70,10 +70,6 @@
 			z-index: 99999;
 		}
 
-		.yst-modal.yst-modal--top .yst-modal__center {
-			@apply yst-hidden;
-		}
-
 		.yst-replacevar {
 			@apply yst-relative;
 

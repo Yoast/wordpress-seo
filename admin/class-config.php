@@ -160,7 +160,7 @@ class WPSEO_Admin_Pages {
 				'user_name'         => $user_name,
 			];
 
-			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_titles' );
+			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' );
 
 			$script_data['force_organization'] = ( defined( 'WPSEO_LOCAL_FILE' ) );
 		}
