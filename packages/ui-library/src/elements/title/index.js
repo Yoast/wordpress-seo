@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const classNameMap = {
+export const classNameMap = {
 	size: {
 		1: "yst-title--1",
 		2: "yst-title--2",
