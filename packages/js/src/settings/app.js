@@ -46,6 +46,7 @@ import {
  */
 const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	const svgAriaProps = useSvgAria();
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 
 	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
 		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
@@ -70,8 +71,8 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
-			<Link to="/" className="yst-inline-block">
-				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
+			<Link to="/" className="yst-inline-block yst-rounded-md focus:yst-border focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"  tabindex={ 0 }>
+				<YoastLogo className="yst-w-40" { ...svgAriaProps } ariaLabel={ `Yoast SEO ${isPremium ? "Premium " : "" }settings` } />
 			</Link>
 			<Search />
 		</header>
