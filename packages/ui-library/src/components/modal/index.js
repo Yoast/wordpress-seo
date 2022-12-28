@@ -3,7 +3,6 @@ import { XIcon } from "@heroicons/react/outline";
 import { forwardRef, Fragment } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-// import Title from "../../elements/title";
 import { useSvgAria } from "../../hooks";
 import { ModalContext, useModalContext } from "./hooks";
 
@@ -13,7 +12,7 @@ import { ModalContext, useModalContext } from "./hooks";
  * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The panel.
  */
-const ModalTitle = forwardRef( ( { children, className = "", ...props }, ref ) => {
+const Title = forwardRef( ( { children, className = "", ...props }, ref ) => {
 	return (
 		<Dialog.Title
 			ref={ ref }
@@ -25,7 +24,7 @@ const ModalTitle = forwardRef( ( { children, className = "", ...props }, ref ) =
 	);
 } );
 
-ModalTitle.propTypes = {
+Title.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
 };
@@ -134,7 +133,7 @@ Modal.propTypes = {
 
 Modal.Panel = Panel;
 Modal.Panel.displayName = "Modal.Panel";
-Modal.Title = ModalTitle;
+Modal.Title = Title;
 Modal.Title.displayName = "Modal.Title";
 Modal.Description = Dialog.Description;
 Modal.Description.displayName = "Modal.Description";
