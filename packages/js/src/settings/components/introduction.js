@@ -233,9 +233,9 @@ const Introduction = () => {
 									index === stepIndex ? "yst-opacity-100" : "yst-opacity-0"
 								) }
 							>
-								<Title as="h2" size="2">
+								<Modal.Title as="h2" className="yst-text-lg">
 									{ step.title }
-								</Title>
+								</Modal.Title>
 								<Modal.Description className="yst-max-w-xs yst-mx-auto yst-mt-2">
 									{ step.description }
 								</Modal.Description>
