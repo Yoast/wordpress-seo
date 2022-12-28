@@ -2,7 +2,11 @@
 
 import matchStringWithRegex from "../regex/matchStringWithRegex.js";
 
-export const imageRegex = "<img(?:[^>]+)?>(</img>)*";
+/**
+ * @returns {object} A precompiled regex for recognizing self closing image tags.
+ */
+export const imageRegex = new RegExp( "<img(?:[^>]+)?>(</img>)*", "ig" );
+
 
 /**
  * Checks the text for images.

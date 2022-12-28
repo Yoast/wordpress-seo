@@ -15,7 +15,6 @@ const newLines = "\n\r|\n|\r";
 // Regular expressions.
 const newLineRegex = new RegExp( newLines );
 
-const imageRegexCompiled =  new RegExp( imageRegex, "ig" );
 
 /**
  * Returns the sentences from a certain block.
@@ -58,7 +57,7 @@ export default function( text, memoizedTokenizer ) {
 	text = unifyNonBreakingSpace( text );
 	// Remove images from text before tokenizing it into sentences.
 	// This step is done here so that applying highlight in captions is possible for all assessments that use this helper.
-	text = text.replace( imageRegexCompiled, "" );
+	text = text.replace( imageRegex, "" );
 
 	let blocks = getBlocks( text );
 
