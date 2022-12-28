@@ -17,7 +17,7 @@ const ModalTitle = forwardRef( ( { children, className = "", ...props }, ref ) =
 	return (
 		<Dialog.Title
 			ref={ ref }
-			className={ `yst-title ${ className }` }
+			className={  classNames( "yst-title", className ) }
 			{ ...props }
 		>
 			{ children }
