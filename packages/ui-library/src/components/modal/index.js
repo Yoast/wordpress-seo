@@ -29,7 +29,6 @@ Title.propTypes = {
 	children: PropTypes.node.isRequired,
 };
 
-
 /**
  * @param {JSX.node} children Contents of the modal.
  * @param {string} [className] Additional class names.
@@ -129,7 +128,6 @@ Modal.propTypes = {
 	className: PropTypes.string,
 	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
 };
-
 
 Modal.Panel = Panel;
 Modal.Panel.displayName = "Modal.Panel";
