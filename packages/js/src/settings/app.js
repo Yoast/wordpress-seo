@@ -77,7 +77,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		</header>
 		<div className="yst-px-0.5 yst-space-y-6">
 			<SidebarNavigation.MenuItem
-				id={ `menu-site-settings${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-general${ idSuffix && `-${ idSuffix }` }` }
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
 			>
@@ -91,7 +91,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-content-types${ idSuffix && `-${ idSuffix }` }` }
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
 			>
@@ -108,7 +108,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-categories-and-tags${ idSuffix && `-${ idSuffix }` }` }
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 			>
@@ -123,7 +123,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-advanced${ idSuffix && `-${ idSuffix }` }` }
 				icon={ AdjustmentsIcon }
 				label={ __( "Advanced", "wordpress-seo" ) }
 				defaultOpen={ false }
