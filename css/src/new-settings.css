@@ -23,6 +23,12 @@
 			padding-left: 17rem;
 		}
 	}
+
+	.wp-responsive-open #wpbody {
+		@media screen and (max-width: 782px) {
+			right: -190px; /* Override to not leave space between the mobile menu and the content. */
+		}
+	}
 }
 
 @layer base {
@@ -76,7 +82,9 @@
 
 	body:not(.sticky-menu) .wp-responsive-open .yst-root {
 		.yst-notifications--bottom-left {
-			left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
+			@media (max-width: 783px) {
+				left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
+			}
 		}
 	}
 
