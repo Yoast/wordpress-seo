@@ -50,10 +50,43 @@
 }
 
 @layer components {
+	body.sticky-menu {
+		.yst-root .yst-notifications--bottom-left {
+			@media (min-width: 783px) and (max-width: 962px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
+		}
+
+		&.folded, &.auto-fold {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 783px) and (max-width: 963px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+
+		&.folded {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 962px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+	}
+
+	body:not(.sticky-menu) .wp-responsive-open .yst-root {
+		.yst-notifications--bottom-left {
+			left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
+		}
+	}
+
 	.yst-root {
 		.yst-notifications--bottom-left {
-			left: calc(160px + 2rem); /* Next to admin menu. 160px is admin menu width */
 			z-index: 9991; /* 1 above admin menu */
+
+			@media (min-width: 783px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
 		}
 
 		.yst-mobile-navigation__top {
