@@ -81,8 +81,8 @@ const Search = () => {
 	const inputRef = useRef( null );
 	const { platform, os } = useParsedUserAgent();
 
-	// For Japanese, Korean, Chinese, and Chinese (Hong Kong) we need to search with 1 character.
-	// For Chinese (Taiwan) we need to search with 2 characters.
+	// For Korean, Chinese, and Chinese (Hong Kong), Chinese (Taiwan), we need to search with 1 character.
+	// For Japanese, we need to search with 2 characters. (ja is the language code for Japanese.)
 	const queryMinChars = useMemo( () => {
 		switch ( userLocale ) {
 			case "ja":
