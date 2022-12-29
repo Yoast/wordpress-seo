@@ -16,8 +16,8 @@
 			@apply yst-text-tiny;
 		}
 
-		.yst-title--4 {
-			@apply yst-text-base;
+		.yst-title--5 {
+			@apply yst-text-sm;
 		}
 	}
 }

@@ -9,6 +9,7 @@ export const classNameMap = {
 		2: "yst-title--2",
 		3: "yst-title--3",
 		4: "yst-title--4",
+		5: "yst-title--5",
 	},
 };
 

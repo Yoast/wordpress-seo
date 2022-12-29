@@ -56,7 +56,7 @@ SearchResultLabel.propTypes = {
  */
 const SearchNoResultsContent = ( { title, children } ) => (
 	<div className="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm">
-		<Modal.Title className="yst-block yst-font-semibold yst-text-slate-900 yst-text-sm">{ title }</Modal.Title>
+		<Modal.Title className="yst-block yst-font-semibold yst-text-slate-900" size="5">{ title }</Modal.Title>
 		{ children }
 	</div>
 );
