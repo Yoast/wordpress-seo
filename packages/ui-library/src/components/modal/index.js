@@ -10,6 +10,8 @@ import { classNameMap as titleClassNameMap } from "../../elements/title";
 /**
  * @param {JSX.node} children Title text.
  * @param {string} [className] Additional class names.
+ * @param {string} [as] Html tag.
+ * @param {string} [size] Size of title.
  * @param {Object} [props] Additional props.
  * @returns {JSX.Element} The panel.
  */
