@@ -38,6 +38,7 @@ Title.propTypes = {
 	size: PropTypes.oneOf( Object.keys( titleClassNameMap.size ) ),
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
+	as: PropTypes.elementType,
 };
 
 /**
