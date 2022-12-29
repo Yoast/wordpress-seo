@@ -2,6 +2,7 @@
     .yst-root {
 
         .yst-notifications {
+            max-width: calc(100% - 4rem); /* 100% - top and left of 2rem = 4rem. */
             @apply yst-fixed yst-w-full yst-z-20 yst-pointer-events-none yst-flex yst-flex-col yst-space-y-4;
         }
 
@@ -18,7 +19,7 @@
         }
 
         .yst-notification {
-            @apply yst-w-80 yst-p-4 yst-bg-white yst-shadow-lg yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-z-20 yst-pointer-events-auto;
+            @apply yst-w-80 yst-max-w-full yst-p-4 yst-bg-white yst-shadow-lg yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-z-20 yst-pointer-events-auto;
         }
 
         .yst-notification--large {
