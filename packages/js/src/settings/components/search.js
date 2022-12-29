@@ -1,9 +1,9 @@
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/outline";
-import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
+import { useCallback, useRef, useState, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Code, Modal, Title, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Modal, Title, useSvgAria, useToggleState, Code } from "@yoast/ui-library";
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
 import PropTypes from "prop-types";
@@ -80,6 +80,9 @@ const Search = () => {
 	const navigate = useNavigate();
 	const inputRef = useRef( null );
 	const { platform, os } = useParsedUserAgent();
+
+	// For Japanese, Korean, Chinese, and Chinese (Hong Kong) we need to search with 1 character.
+	// For Chinese (Taiwan) we need to search with 2 characters.
 	const queryMinChars = useMemo( () => {
 		switch ( userLocale ) {
 			case "ja":
