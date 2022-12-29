@@ -2,7 +2,7 @@
 import { ArrowLeftIcon as PureArrowLeftIcon, ArrowRightIcon as PureArrowRightIcon } from "@heroicons/react/outline";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Modal, Spinner, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Modal, Title, Spinner, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { times } from "lodash";
 import { Helmet } from "react-helmet";
@@ -133,7 +133,7 @@ const Introduction = () => {
 	return (
 
 		// handleClose function is closing the modal and setting the user meta to not show introduction again
-		<Modal onClose={ handleClose } isOpen={ isOpen }>
+		<Modal onClose={ handleClose } isOpen={ isOpen } aria-label={ __( "Introduction to settings", "wordpress-seo" ) }>
 			<div className="yst-modal__panel yst-max-w-[37rem] yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
 
 				{ /* //checks ther is permission from wista to add video and add js script, Helmet component adds the script tp the head */ }
@@ -233,12 +233,12 @@ const Introduction = () => {
 									index === stepIndex ? "yst-opacity-100" : "yst-opacity-0"
 								) }
 							>
-								<Modal.Title as="h2" size="2">
+								<Title as="h2" size="2">
 									{ step.title }
-								</Modal.Title>
-								<Modal.Description className="yst-max-w-xs yst-mx-auto yst-mt-2">
+								</Title>
+								<p className="yst-max-w-xs yst-mx-auto yst-mt-2">
 									{ step.description }
-								</Modal.Description>
+								</p>
 							</div>
 						) ) }
 					</div>
