@@ -21,6 +21,7 @@ const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props 
 						? "yst-bg-slate-200 yst-text-slate-900"
 						: "yst-text-slate-600 hover:yst-text-slate-900 hover:yst-bg-slate-50",
 				) }
+				aria-current={ activePath === props[ pathProp ] ? "page" : null }
 				{ ...props }
 			>
 				{ label }
