@@ -37,5 +37,5 @@ function isParticiple( word ) {
  */
 export default function getParticiples( clauseText ) {
 	const words = getWords( clauseText );
-	return words.filter( word => isParticiple(word) );
+	return words.filter( word => isParticiple( word ) );
 }
