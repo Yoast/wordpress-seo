@@ -56,7 +56,7 @@ SearchResultLabel.propTypes = {
  */
 const SearchNoResultsContent = ( { title, children } ) => (
 	<div className="yst-border-t yst-border-slate-100 yst-p-6 yst-py-12 yst-space-3 yst-text-center yst-text-sm">
-		<Modal.Title className="yst-block yst-font-semibold yst-text-slate-900" size="5">{ title }</Modal.Title>
+		<span className="yst-block yst-font-semibold yst-text-slate-900">{ title }</span>
 		{ children }
 	</div>
 );
@@ -204,6 +204,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 			isOpen={ isOpen }
 			initialFocus={ inputRef }
 			position="top-center"
+			aria-label={ __( "Search", "wordpress-seo" ) }
 		>
 			<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
 				<Combobox as="div" className="yst--m-6 yst--mt-5" onChange={ handleNavigate }>
