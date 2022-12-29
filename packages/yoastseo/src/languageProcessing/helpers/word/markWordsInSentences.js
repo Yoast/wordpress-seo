@@ -18,7 +18,8 @@ import { escapeRegExp } from "lodash-es";
 export const collectMarkingsInSentence = function( sentence, topicFoundInSentence, matchWordCustomHelper ) {
 	topicFoundInSentence = topicFoundInSentence.map( word => escapeRegExp( word ) );
 	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
-	const topicRegex = matchWordCustomHelper ? arrayToRegex( topicFoundInSentence, true ) : arrayToRegex( topicFoundInSentence );
+	// eslint-disable-next-line max-len
+	const topicRegex = matchWordCustomHelper ? arrayToRegex( topicFoundInSentence, true, { ignoreWhenInHtmlTag: true } ) : arrayToRegex( topicFoundInSentence, { ignoreWhenInHtmlTag: true } );
 	const markup = sentence.replace( topicRegex, function( x ) {
 		return addMark( x );
 	} );
