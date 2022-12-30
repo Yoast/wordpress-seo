@@ -49,6 +49,7 @@ function markTinyMCE( editor, paper, marks ) {
 		 * the replacement did not work, as the marks passed by `yoastseo` did not match anything in the original text.
 		 * This step is replacing the single quotes in the marked object output by `yoastseo` with double quotes.
 		 * This way, we make sure that the replacement can find a match between the original text of the marked object and the text in the page.
+		 * Only do this in the classic editor. And not in the block editor when Advanced Custom Fields is active.
 		 */
 		if ( ! editor.id === "acf_content" ) {
 			mark._properties.marked = languageProcessing.replaceSingleQuotesInTags( mark._properties.marked );
