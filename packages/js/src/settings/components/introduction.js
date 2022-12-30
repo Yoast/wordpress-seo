@@ -215,6 +215,7 @@ const Introduction = () => {
 
 					{ /* // ----------------- Title and description section of each step -----------------*/ }
 					<div
+						style={ { direction: "ltr" } }
 						className={ classNames(
 							"yst-grid yst-transition-transform yst-duration-1000",
 							// Arrange a grid of 100% for each step.
