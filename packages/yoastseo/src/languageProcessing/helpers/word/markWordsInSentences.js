@@ -19,7 +19,7 @@ export const collectMarkingsInSentence = function( sentence, topicFoundInSentenc
 	topicFoundInSentence = topicFoundInSentence.map( word => escapeRegExp( word ) );
 	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
 	// eslint-disable-next-line max-len
-	const topicRegex = matchWordCustomHelper ? arrayToRegex( topicFoundInSentence, true, { ignoreWhenInHtmlTag: true } ) : arrayToRegex( topicFoundInSentence, { ignoreWhenInHtmlTag: true } );
+	const topicRegex = matchWordCustomHelper ? arrayToRegex( topicFoundInSentence, true ) : arrayToRegex( topicFoundInSentence );
 	const markup = sentence.replace( topicRegex, function( x ) {
 		return addMark( x );
 	} );
@@ -43,7 +43,6 @@ export function markWordsInSentences( wordsToMark, sentences, locale, matchWordC
 
 	sentences.forEach( function( sentence ) {
 		topicFoundInSentence = matchWords( sentence, wordsToMark, locale, matchWordCustomHelper ).matches;
-
 		if ( topicFoundInSentence.length > 0 ) {
 			markings = markings.concat( new Mark( {
 				original: sentence,

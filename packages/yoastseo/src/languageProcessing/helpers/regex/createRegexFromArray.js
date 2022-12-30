@@ -16,7 +16,7 @@ import sanitizeString from "../sanitize/sanitizeString";
  *
  * @returns {RegExp} regex                              The regex created from the array.
  */
-export default function( array, disableWordBoundary = false, extraBoundary = "", doReplaceDiacritics = false, ignoreWhenInHtmlTag = false ) {
+export default function( array, disableWordBoundary = false, extraBoundary = "", doReplaceDiacritics = false, ignoreWhenInHtmlTag = true ) {
 	array = map( array, function( string ) {
 		if ( doReplaceDiacritics ) {
 			string = replaceDiacritics( string );
