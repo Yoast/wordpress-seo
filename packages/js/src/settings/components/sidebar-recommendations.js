@@ -39,8 +39,10 @@ const PremiumUpsellCard = () => {
 			>
 				<YoastSeoLogo />
 			</figure>
-			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
-				{ getPremium }
+			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white yst-text-center">
+				{ __( "Get", "wordpress-seo" ) }
+				<br />
+				Yoast SEO Premium
 			</Title>
 			<p className="yst-mt-2">{ info }</p>
 			<Button
