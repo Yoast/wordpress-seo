@@ -62,7 +62,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
-						<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 icon-rtl" />
+						<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
 					</Link> }
 				</div>
 			</Card.Content>
