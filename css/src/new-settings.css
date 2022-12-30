@@ -222,5 +222,8 @@
 		.yst-root .yst-replacevar .emoji-select-popover {
 			@apply yst-left-0 yst-right-auto;
 		}
+		.icon-rtl {
+			@apply yst-rotate-180;
+		}
 	}
 }

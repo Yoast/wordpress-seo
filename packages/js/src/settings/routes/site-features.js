@@ -137,7 +137,7 @@ const LearnMoreLink = ( { id, link } ) => {
 			rel="noopener"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
+			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 icon-rtl" />
 		</a>
 	);
 };
