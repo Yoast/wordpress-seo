@@ -1,6 +1,5 @@
 import { markers, languageProcessing } from "yoastseo";
 import { forEach } from "lodash-es";
-// import { languageProcessing } from "yoastseo";
 
 var MARK_TAG = "yoastmark";
 
