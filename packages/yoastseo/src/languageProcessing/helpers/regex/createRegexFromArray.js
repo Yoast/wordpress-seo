@@ -33,7 +33,7 @@ export default function( array, disableWordBoundary = false, extraBoundary = "",
 	let regexString = "(" + array.join( ")|(" ) + ")";
 
 	if ( ignoreWhenInHtmlTag ) {
-		regexString += "(?![^<>]*>)";
+		regexString = "(" + regexString + ")(?![^<>]*>)";
 	}
 
 	return new RegExp( regexString, "ig" );
