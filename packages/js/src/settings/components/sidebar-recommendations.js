@@ -53,7 +53,7 @@ const PremiumUpsellCard = () => {
 				{ ...premiumUpsellConfig }
 			>
 				{ getPremium }
-				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
+				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 icon-rtl" />
 			</Button>
 			<a
 				className="yst-block yst-mt-4 yst-no-underline"
