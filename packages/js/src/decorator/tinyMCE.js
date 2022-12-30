@@ -42,7 +42,6 @@ function markTinyMCE( editor, paper, marks ) {
 	 * `selectedHTML` is an array of the HTML parts that we want to apply the marking to.
 	 */
 	const { fieldsToMark, selectedHTML } = languageProcessing.getFieldsToMark( marks, html );
-
 	// Generate marked HTML.
 	forEach( marks, function( mark ) {
 		/*
@@ -52,8 +51,11 @@ function markTinyMCE( editor, paper, marks ) {
 		 * This step is replacing the single quotes in the marked object output by `yoastseo` with double quotes.
 		 * This way, we make sure that the replacement can find a match between the original text of the marked object and the text in the page.
 		 */
-		mark._properties.marked = languageProcessing.replaceSingleQuotesInTags( mark._properties.marked );
-		mark._properties.original = languageProcessing.replaceSingleQuotesInTags( mark._properties.original );
+		if ( ! editor.id === "acf_content" ) {
+			mark._properties.marked = languageProcessing.replaceSingleQuotesInTags( mark._properties.marked );
+			mark._properties.original = languageProcessing.replaceSingleQuotesInTags( mark._properties.original );
+		}
+
 		// Check if we want to mark only specific part of the HTML.
 		if ( fieldsToMark.length > 0 ) {
 			// Apply the marking to the selected HTML parts.
@@ -89,7 +91,6 @@ function markTinyMCE( editor, paper, marks ) {
  */
 export function tinyMCEDecorator( editor ) {
 	window.test = editor;
-
 	return markTinyMCE.bind( null, editor );
 }
 
