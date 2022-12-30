@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useState } from "@wordpress/element";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
-import RawModal from ".";
+import RawModal, { classNameMap } from ".";
 import Button from "../../elements/button";
 
 const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
@@ -12,36 +12,60 @@ const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
 	return (
 		<Fragment>
 			<Button onClick={ openModal }>Open modal</Button>
-			<RawModal { ...props } isOpen={ isOpen } onClose={ closeModal }>{ children }</RawModal>
+			<RawModal { ...props } isOpen={ isOpen } onClose={ closeModal }>
+				<RawModal.Panel>
+					{ children }
+				</RawModal.Panel>
+			</RawModal>
 		</Fragment>
 	);
 };
 
 Modal.propTypes = {
+	isOpen: PropTypes.bool,
+	onClose: PropTypes.func,
 	children: PropTypes.node.isRequired,
-	hasCloseButton: PropTypes.bool,
-	closeButtonScreenReaderText: PropTypes.string,
-};
-
-Modal.defaultProps = {
-	hasCloseButton: true,
-	closeButtonScreenReaderText: "Close",
 };
 
 export default {
 	title: "2. Components/Modal",
 	component: Modal,
 	argTypes: {
-		children: { control: "text" },
-		isOpen: { control: { disable: true } },
-		onClose: { control: { disable: true } },
-		hasCloseButton: { control: "boolean" },
-		closeButtonScreenReaderText: { control: "text" },
+		children: {
+			control: "text",
+			type: { required: true },
+			table: { type: { summary: "node" } },
+		},
+		isOpen: {
+			control: { disable: true },
+			type: { required: true },
+			table: { type: { summary: "func" } },
+		},
+		onClose: {
+			control: { disable: true },
+			type: { required: true },
+			table: { type: { summary: "func" } },
+		},
+		className: {
+			control: "text",
+			table: {
+				type: { summary: "string" },
+				defaultValue: { summary: "center" },
+			},
+		},
+		position: {
+			control: "radio",
+			table: {
+				type: { summary: Object.keys( classNameMap.position ).map( position => `"${ position }"` ).join( " " ) },
+				defaultValue: { summary: "center" },
+			},
+			options: Object.keys( classNameMap.position ),
+		},
 	},
 	parameters: {
 		docs: {
 			description: {
-				component: "An uncontrolled modal component. For the purpose of this story, the `isOpen` and `onClose` are wrapped.",
+				component: "An uncontrolled modal component. For the purpose of this story, the `children`, `isOpen` and `onClose` are wrapped. So be aware that in the `Show code`, these are not reflected!",
 			},
 		},
 	},
@@ -49,8 +73,7 @@ export default {
 		isOpen: false,
 		onClose: noop,
 		children: "Hello everyone!",
-		hasCloseButton: true,
-		closeButtonScreenReaderText: "Close",
+		position: "center",
 	},
 };
 
@@ -61,6 +84,29 @@ export const Factory = {
 	},
 };
 
+export const WithPanel = {
+	component: Factory.component.bind( {} ),
+	parameters: {
+		docs: {
+			description: {
+				story: "Using the `Modal.Panel` component. The panel:\n- makes it so the modal closes when clicking outside of it\n- provides props to show a close button and the text inside\n- provides styling via the `.yst-modal__panel` class",
+			},
+			transformSource: () => (
+				"<Modal\n" +
+				"\tonClose={() => {}}\n" +
+				">\n" +
+				"\t<Modal.Panel>\n" +
+				"\t\tText inside a panel.\n" +
+				"\t</Modal.Panel>\n" +
+				"</Modal>\n"
+			),
+		},
+	},
+	args: {
+		children: "Text inside a panel.",
+	},
+};
+
 export const WithTitleAndDescription = {
 	component: Factory.component.bind( {} ),
 	parameters: {
@@ -68,18 +114,6 @@ export const WithTitleAndDescription = {
 			description: {
 				story: "Using the `Modal.Title` and `Modal.Description` components.",
 			},
-			transformSource: () => (
-				"<Modal\n" +
-				"\tonClose={() => {}}\n" +
-				">\n" +
-				"\t<Modal.Title as=\"h2\">\n" +
-				"\t\tTitle\n" +
-				"\t</Modal.Title>\n" +
-				"\t<Modal.Description className=\"yst-mt-3 yst-text-sm yst-text-slate-600\">\n" +
-				"\t\tDescription\n" +
-				"\t</Modal.Description>\n" +
-				"</Modal>\n"
-			),
 		},
 	},
 	args: {
