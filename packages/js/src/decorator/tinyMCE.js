@@ -51,7 +51,7 @@ function markTinyMCE( editor, paper, marks ) {
 		 * This way, we make sure that the replacement can find a match between the original text of the marked object and the text in the page.
 		 * Only do this in the classic editor. And not in the block editor when Advanced Custom Fields is active.
 		 */
-		if ( ! editor.id === "acf_content" ) {
+		if ( editor.id !== "acf_content" ) {
 			mark._properties.marked = languageProcessing.replaceSingleQuotesInTags( mark._properties.marked );
 			mark._properties.original = languageProcessing.replaceSingleQuotesInTags( mark._properties.original );
 		}
