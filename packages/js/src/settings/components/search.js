@@ -186,6 +186,7 @@ const Search = () => {
 			isOpen={ isOpen }
 			initialFocus={ inputRef }
 			position="top-center"
+			aria-label={ __( "Search", "wordpress-seo" ) }
 		>
 			<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
 				<Combobox as="div" className="yst--m-6 yst--mt-5" onChange={ handleNavigate }>
