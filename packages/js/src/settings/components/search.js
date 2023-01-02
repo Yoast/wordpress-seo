@@ -1,9 +1,9 @@
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/outline";
-import { useCallback, useRef, useState, useMemo } from "@wordpress/element";
+import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Modal, Title, useSvgAria, useToggleState, Code } from "@yoast/ui-library";
+import { Code, Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
 import PropTypes from "prop-types";
@@ -80,6 +80,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 	const navigate = useNavigate();
 	const inputRef = useRef( null );
 	const { platform, os } = useParsedUserAgent();
+	const { isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();
 
 	// Determines the minimum characters to start a search, based on the user locale.
 	const queryMinChars = useMemo( () => {
@@ -103,7 +104,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 		event => {
 			event.preventDefault();
 			// Only bind hotkeys when platform type is desktop.
-			if ( platform?.type === "desktop" && ! isOpen ) {
+			if ( platform?.type === "desktop" && ! isOpen && ! isMobileMenuOpen ) {
 				setOpen();
 			}
 		},
@@ -111,15 +112,16 @@ const Search = ( { buttonId = "button-search" } ) => {
 			enableOnFormTags: true,
 			enableOnContentEditable: true,
 		},
-		[ isOpen, setOpen, platform ]
+		[ isOpen, setOpen, platform, isMobileMenuOpen ]
 	);
 
 	const handleNavigate = useCallback( ( { route, fieldId } ) => {
+		setMobileMenuOpen( false );
 		setClose();
 		setQuery( "" );
 		setResults( [] );
 		navigate( `${ route }#${ fieldId }` );
-	}, [ setClose, setQuery ] );
+	}, [ setClose, setQuery, setMobileMenuOpen ] );
 
 	const debouncedSearch = useCallback( debounce( newQuery => {
 		const trimmedQuery = trim( newQuery );
