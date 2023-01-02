@@ -12,11 +12,10 @@ import sanitizeString from "../sanitize/sanitizeString";
  * @param {boolean} [disableWordBoundary=false] Boolean indicating whether or not to disable word boundaries.
  * @param {string} [extraBoundary=""]           A string that is used as extra boundary for the regex.
  * @param {boolean} [doReplaceDiacritics=false] If set to true, it replaces diacritics. Defaults to false.
- * @param {boolean} [ignoreWhenInHtmlTag=false] The regex does not recognize a word when it is inside a html tag.
  *
  * @returns {RegExp} regex                              The regex created from the array.
  */
-export default function( array, disableWordBoundary = false, extraBoundary = "", doReplaceDiacritics = false, ignoreWhenInHtmlTag = true ) {
+export default function( array, disableWordBoundary = false, extraBoundary = "", doReplaceDiacritics = false ) {
 	array = map( array, function( string ) {
 		if ( doReplaceDiacritics ) {
 			string = replaceDiacritics( string );
@@ -32,9 +31,7 @@ export default function( array, disableWordBoundary = false, extraBoundary = "",
 
 	let regexString = "(" + array.join( ")|(" ) + ")";
 
-	if ( ignoreWhenInHtmlTag ) {
-		regexString = "(" + regexString + ")(?![^<>]*>)";
-	}
+	regexString = "(" + regexString + ")(?![^<>]*>)";
 
 	return new RegExp( regexString, "ig" );
 }
