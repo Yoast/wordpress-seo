@@ -3,6 +3,7 @@ import {
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulUnless,
 	harmfulPotentiallyNonInclusive,
+	alternative,
 } from "./feedbackStrings";
 import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
@@ -19,6 +20,8 @@ const medicalCondition = harmfulPotentiallyNonInclusive +
 	" Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, such as %2$s.";
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
+// This string is used for phrases with 'crazy'. We don't want to mention the whole phrase in the feedback but only the non-inclusive word 'crazy'.
+const crazy = [ "Avoid using <i>crazy</i> as it is potentially harmful.", alternative ].join( " " );
 
 const disabilityAssessments =  [
 	{
@@ -375,7 +378,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as %2$s.",
+		feedbackFormat: crazy,
 		// Target only when preceded by a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so crazy about" ).
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
@@ -387,8 +390,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>to love, to be obsessed with, to be infatuated with</i>.",
+		feedbackFormat: crazy,
 		// Target only when preceded by a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
@@ -400,17 +402,15 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy in love" ],
 		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as <i>wildly in love, " +
-		"head over heels, infatuated</i>.",
+		feedbackFormat: crazy,
 	},
 	{
 		identifier: "to go crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to get/to be in one's head, to be aggravated," +
+		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to get in one's head, to be aggravated," +
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>to go wild, to go out of control, to go up the wall, to get in one's head, to be aggravated, to get confused</i>.",
+		feedbackFormat: potentiallyHarmful,
 		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
@@ -423,9 +423,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, to make blood boil, " +
 			"to exasperate, to irritate to the limit.</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, to make blood boil, to exasperate, to " +
-			"irritate to the limit.</i>.",
+		feedbackFormat: potentiallyHarmful,
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
