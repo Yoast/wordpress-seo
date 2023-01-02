@@ -31,6 +31,7 @@ export default function( array, disableWordBoundary = false, extraBoundary = "",
 
 	let regexString = "(" + array.join( ")|(" ) + ")";
 
+	// Makes sure that the regex doesn't match inside HTML tags.
 	regexString = "(" + regexString + ")(?![^<>]*>)";
 
 	return new RegExp( regexString, "ig" );
