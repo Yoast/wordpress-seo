@@ -66,7 +66,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			<Link to="/" className="yst-inline-block">
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
-			<Search />
+			<Search buttonId={ `button-search${ idSuffix }` } />
 		</header>
 		<div className="yst-px-0.5 yst-space-y-6">
 			<SidebarNavigation.MenuItem
