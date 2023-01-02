@@ -416,8 +416,6 @@ export default class SentenceTokenizer {
 		} while ( sliced && tokenArray.length > 1 );
 
 		tokenArray.forEach( ( token, i ) => {
-			// print token
-			console.log( token, "TEST4" );
 
 			let hasNextSentence, nextCharacters, tokenizeResults;
 			const nextToken = tokenArray[ i + 1 ];
@@ -432,7 +430,6 @@ export default class SentenceTokenizer {
 			switch ( token.type ) {
 				case "html-start":
 				case "html-end":
-					console.log( "html start", token.src, this.isBreakTag( token.src ), token.type, "TEST6" );
 					if ( this.isBreakTag( token.src ) ) {
 						tokenSentences.push( currentSentence );
 						currentSentence = "";
