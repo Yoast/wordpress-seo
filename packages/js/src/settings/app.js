@@ -70,7 +70,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		</header>
 		<div className="yst-px-0.5 yst-space-y-6">
 			<SidebarNavigation.MenuItem
-				id={ `menu-general${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-general${ idSuffix }` }
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
 			>
@@ -84,7 +84,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-content-types${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-content-types${ idSuffix }` }
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
 			>
@@ -101,7 +101,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-categories-and-tags${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-categories-and-tags${ idSuffix }` }
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 			>
@@ -116,7 +116,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-advanced${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-advanced${ idSuffix }` }
 				icon={ AdjustmentsIcon }
 				label={ __( "Advanced", "wordpress-seo" ) }
 				defaultOpen={ false }
@@ -231,7 +231,7 @@ const App = () => {
 					openButtonScreenReaderText={ __( "Open sidebar", "wordpress-seo" ) }
 					closeButtonScreenReaderText={ __( "Close sidebar", "wordpress-seo" ) }
 				>
-					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
+					<Menu idSuffix="-mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
 				<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-gap-4">
 					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden min-[783px]:yst-block yst-pb-6 yst-bottom-0 yst-w-56">
