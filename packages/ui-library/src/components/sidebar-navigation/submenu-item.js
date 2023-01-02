@@ -1,3 +1,4 @@
+import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useNavigationContext } from "./index";
@@ -10,7 +11,9 @@ import { useNavigationContext } from "./index";
  * @returns {JSX.Element} The submenu item element.
  */
 const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props } ) => {
-	const { activePath } = useNavigationContext();
+	const { activePath, setMobileMenuOpen } = useNavigationContext();
+
+	const handleClick = useCallback( () => setMobileMenuOpen( false ), [ setMobileMenuOpen ] );
 
 	return (
 		<li className="yst-m-0 yst-pb-1">
@@ -22,6 +25,7 @@ const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props 
 						: "yst-text-slate-600 hover:yst-text-slate-900 hover:yst-bg-slate-50",
 				) }
 				aria-current={ activePath === props[ pathProp ] ? "page" : null }
+				onClick={ handleClick }
 				{ ...props }
 			>
 				{ label }

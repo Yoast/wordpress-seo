@@ -1,28 +1,36 @@
-import { createContext, useContext } from "@wordpress/element";
+import { createContext, useContext, useState } from "@wordpress/element";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import MenuItem from "./menu-item";
 import Mobile from "./mobile";
 import Sidebar from "./sidebar";
 import SubmenuItem from "./submenu-item";
 
-const NavigationContext = createContext( { activePath: "" } );
+export const NavigationContext = createContext( {
+	activePath: "",
+	isMobileMenuOpen: false,
+	setMobileMenuOpen: noop,
+} );
 
 /**
  * @returns {Object} The navigation context.
  */
 export const useNavigationContext = () => useContext( NavigationContext );
 
-
 /**
  * @param {string} activePath The path of the active menu item.
  * @param {JSX.node} children The menu(s).
  * @returns {JSX.Element} The navigation element.
  */
-const SidebarNavigation = ( { activePath = "", children } ) => (
-	<NavigationContext.Provider value={ { activePath } }>
-		{ children }
-	</NavigationContext.Provider>
-);
+const SidebarNavigation = ( { activePath = "", children } ) => {
+	const [ isMobileMenuOpen, setMobileMenuOpen ] = useState( false );
+
+	return (
+		<NavigationContext.Provider value={ { activePath, isMobileMenuOpen, setMobileMenuOpen } }>
+			{ children }
+		</NavigationContext.Provider>
+	);
+};
 
 SidebarNavigation.propTypes = {
 	activePath: PropTypes.string,

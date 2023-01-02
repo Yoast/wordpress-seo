@@ -1,11 +1,6 @@
+import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import SidebarNavigation from ".";
-import {
-	AdjustmentsIcon,
-	ColorSwatchIcon,
-	DesktopComputerIcon,
-	NewspaperIcon,
-} from "@heroicons/react/outline";
-
+import Table from "../../elements/table";
 
 export default {
 	title: "2. Components/Sidebar Navigation",
@@ -19,52 +14,55 @@ export default {
 			table: {
 				type: { summary: "string" },
 			},
-		 },
+		},
 		label: {
 			control: "text",
 			description: "Available for `MenuItem` and `SubmenuItem`",
 			table: {
 				type: { summary: "string" },
 			},
-		 },
+		},
 		defaultOpen: {
 			control: "boolean",
 			description: "Available for `MenuItem`",
 			table: {
 				type: { summary: "boolean" },
-			} },
+			},
+		},
 		icon: {
 			control: "object",
 			description: "Available for `MenuItem`",
 			table: {
 				type: { summary: "JSX Element" },
 			},
-		 },
+		},
 		id: {
 			control: "text",
 			description: "Available for `MenuItem`",
 			table: {
 				type: { summary: "string" },
 			},
-		 },
+		},
 		openButtonScreenReaderText: {
 			control: "text",
 			description: "Accesability for `Mobile`",
 			table: {
 				type: { summary: "string" },
-			} },
+			},
+		},
 		closeButtonScreenReaderText: {
 			control: "text",
 			description: "Accesability for `Mobile`",
 			table: {
 				type: { summary: "string" },
-			} },
+			},
+		},
 
 	},
 	parameters: {
 		docs: {
 			description: {
-				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem` and `SubmenuItem`.",
+				component: "A sidebar navigation component. Contains the subcomponents `Sidebar`, `Mobile`, `MenuItem` and `SubmenuItem` and contains the hook `useNavigationContext`.",
 			},
 		},
 	},
@@ -198,4 +196,41 @@ Mobile.args = {
 
 		</SidebarNavigation.MenuItem>
 	</SidebarNavigation.Mobile> ),
+};
+
+
+export const NavigationContext = Template.bind( {} );
+
+NavigationContext.parameters = {
+	docs: {
+		description: {
+			story: "The `useNavigationContext` hook is exported. The context contains: `activePath`, `isMobileMenuOpen` and `setMobileMenuOpen` for if you need more control or create your own `SubmenuItem`.",
+		},
+		transformSource: () => "import { useNavigationContext } from \"@yoast/ui-library\";\n\n" +
+			"const { activePath, isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();",
+	},
+};
+NavigationContext.args = {
+	children: <Table>
+		<Table.Head>
+			<Table.Row>
+				<Table.Header>Key</Table.Header>
+				<Table.Header>Description</Table.Header>
+			</Table.Row>
+		</Table.Head>
+		<Table.Body>
+			<Table.Row>
+				<Table.Cell>activePath</Table.Cell>
+				<Table.Cell>Represents what path is active. Used to determine which SubmenuItem is active.</Table.Cell>
+			</Table.Row>
+			<Table.Row>
+				<Table.Cell>isMobileMenuOpen</Table.Cell>
+				<Table.Cell>Represents whether the mobile menu is currently open.</Table.Cell>
+			</Table.Row>
+			<Table.Row>
+				<Table.Cell>setMobileMenuOpen</Table.Cell>
+				<Table.Cell>Controls the mobile menu.</Table.Cell>
+			</Table.Row>
+		</Table.Body>
+	</Table>,
 };
