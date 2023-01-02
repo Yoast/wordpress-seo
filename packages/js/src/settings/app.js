@@ -208,7 +208,7 @@ const PremiumUpsellList = () => {
 					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				) }
-				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
+				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 		</div>
 	);
