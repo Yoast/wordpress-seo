@@ -1,12 +1,20 @@
-/* eslint-disable require-jsdoc */
 import PropTypes from "prop-types";
-import { Fragment, useCallback } from "@wordpress/element";
+import { forwardRef, Fragment, useCallback } from "@wordpress/element";
 import { Combobox, Transition } from "@headlessui/react";
-import { SelectorIcon, CheckIcon, ExclamationCircleIcon } from "@heroicons/react/solid";
+import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { constant } from "lodash";
 import { useSvgAria } from "../../hooks";
+import { ValidationInput } from "../validation";
 
+// Render Combobox.Button as a div always.
+const AutocompleteButton = forwardRef( ( props, ref ) => <Combobox.Button as="div" ref={ ref } { ...props } /> );
+
+/**
+ * @param {JSX.node} children The children.
+ * @param {string} value The value.
+ * @returns {JSX.Element} The Option component.
+ */
 const Option = ( {
 	children,
 	value,
@@ -52,42 +60,39 @@ Option.propTypes = optionPropType;
  * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {Function} onChange Change callback.
  * @param {Function} onQueryChange Query change callback.
- * @param {boolean} [isError] Error message.
+ * @param {Object} [validation] The validation state.
  * @param {string} [placeholder] Input placeholder.
  * @param {string} [className] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
-const Autocomplete = ( {
+const Autocomplete = forwardRef( ( {
 	id,
 	value,
-	children = null,
-	selectedLabel = "",
-	label = "",
-	labelProps = {},
-	labelSuffix = null,
+	children,
+	selectedLabel,
+	label,
+	labelProps,
+	labelSuffix,
 	onChange,
 	onQueryChange,
-	isError = false,
-	placeholder = "",
-	className = "",
-	buttonProps = {},
+	validation,
+	placeholder,
+	className,
+	buttonProps,
 	...props
-} ) => {
+}, ref ) => {
 	const getDisplayValue = useCallback( constant( selectedLabel ), [ selectedLabel ] );
 	const svgAriaProps = useSvgAria();
 
 	return (
 		<Combobox
+			ref={ ref }
 			as="div"
 			value={ value }
 			onChange={ onChange }
-			className={ classNames(
-				"yst-autocomplete",
-				isError && "yst-autocomplete--error",
-				className,
-			) }
+			className={ classNames( "yst-autocomplete", className ) }
 			{ ...props }
 		>
 			{ label && <div className="yst-flex yst-items-center yst-mb-2">
@@ -95,26 +100,23 @@ const Autocomplete = ( {
 				{ labelSuffix }
 			</div> }
 			<div className="yst-relative">
-				<div className="yst-relative">
-					<Combobox.Button
-						data-id={ id }
-						className="yst-autocomplete__button"
-						{ ...buttonProps }
-						as="div"
-					>
-						<Combobox.Input
-							className="yst-autocomplete__input"
-							placeholder={ placeholder }
-							displayValue={ getDisplayValue }
-							onChange={ onQueryChange }
-						/>
-						{ isError ? (
-							<ExclamationCircleIcon className="yst-autocomplete__button-icon yst-text-red-500" { ...svgAriaProps } />
-						) : (
-							<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
-						) }
-					</Combobox.Button>
-				</div>
+				<ValidationInput
+					as={ AutocompleteButton }
+					data-id={ id }
+					validation={ validation }
+					className="yst-autocomplete__button"
+					{ ...buttonProps }
+				>
+					<Combobox.Input
+						className="yst-autocomplete__input"
+						placeholder={ placeholder }
+						displayValue={ getDisplayValue }
+						onChange={ onQueryChange }
+					/>
+					{ ! validation?.message && (
+						<SelectorIcon className="yst-autocomplete__button-icon" { ...svgAriaProps } />
+					) }
+				</ValidationInput>
 				<Transition
 					as={ Fragment }
 					enter="yst-transition yst-duration-100 yst-ease-out"
@@ -131,9 +133,13 @@ const Autocomplete = ( {
 			</div>
 		</Combobox>
 	);
-};
+} );
 
-Autocomplete.propTypes = {
+
+Autocomplete.Option = Option;
+Autocomplete.Option.displayName = "Autocomplete.Option";
+
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
 	children: PropTypes.node,
@@ -143,12 +149,32 @@ Autocomplete.propTypes = {
 	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
 	onQueryChange: PropTypes.func.isRequired,
-	isError: PropTypes.bool,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 	placeholder: PropTypes.string,
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };
+Autocomplete.propTypes = propTypes;
 
-Autocomplete.Option = Option;
+Autocomplete.defaultProps = {
+	children: null,
+	selectedLabel: "",
+	label: "",
+	labelProps: {},
+	labelSuffix: null,
+	validation: {},
+	placeholder: "",
+	className: "",
+	buttonProps: {},
+};
 
 export default Autocomplete;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Autocomplete { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Autocomplete.defaultProps;
+StoryComponent.displayName = "Autocomplete";
