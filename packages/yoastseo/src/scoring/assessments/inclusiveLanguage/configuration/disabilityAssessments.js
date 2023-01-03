@@ -7,6 +7,7 @@ import {
 } from "./feedbackStrings";
 import { isPrecededByException, isNotPrecededByException } from "../helpers/isPrecededByException";
 import { isNotFollowedByException } from "../helpers/isFollowedByException";
+import { isNotFollowedAndPrecededByException } from "../helpers/isFollowedAndPrecededByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
@@ -380,8 +381,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: crazy,
 		// Target only when preceded by a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so crazy about" ).
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeNotWithOptionalIntensifier ) );
 		},
 	},
@@ -392,8 +393,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: crazy,
 		// Target only when preceded by a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeWithOptionalIntensifier ) );
 		},
 	},
@@ -412,8 +413,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, disabilityRules.formsOfToGo ) );
 		},
 	},
@@ -425,8 +426,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
-		rule: ( words, inclusivePhrases ) => {
-			return includesConsecutiveWords( words, inclusivePhrases )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isNotPrecededByException( words, disabilityRules.combinationsOfDriveAndObjectPronoun ) );
 		},
 	},
@@ -438,12 +439,13 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// Don't target when 'crazy' is part of a more specific phrase that we target.
-		rule: ( words, exceptions ) => {
-			return includesConsecutiveWords( words, exceptions )
+		rule: ( words, nonInclusivePhrase ) => {
+			return includesConsecutiveWords( words, nonInclusivePhrase )
 				.filter( isPrecededByException( words, disabilityRules.shouldNotPrecedeStandaloneCrazy ) )
-				.filter( isNotFollowedByException( words, exceptions, disabilityRules.shouldNotFollowStandaloneCrazy ) )
-				.filter( isPrecededByException( words, disabilityRules.shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout ) &&
-						 isNotFollowedByException( words, exceptions, disabilityRules.shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, disabilityRules.shouldNotFollowStandaloneCrazy ) )
+				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
+					disabilityRules.shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
+					disabilityRules.shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
 	},
 	{
