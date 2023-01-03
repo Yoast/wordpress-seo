@@ -416,7 +416,6 @@ export default class SentenceTokenizer {
 		} while ( sliced && tokenArray.length > 1 );
 
 		tokenArray.forEach( ( token, i ) => {
-
 			let hasNextSentence, nextCharacters, tokenizeResults;
 			const nextToken = tokenArray[ i + 1 ];
 			const previousToken = tokenArray[ i - 1 ];
