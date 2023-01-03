@@ -39,8 +39,10 @@ const PremiumUpsellCard = () => {
 			>
 				<YoastSeoLogo />
 			</figure>
-			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
-				{ getPremium }
+			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white yst-text-center">
+				{ __( "Get", "wordpress-seo" ) }
+				<br />
+				Yoast SEO Premium
 			</Title>
 			<p className="yst-mt-2">{ info }</p>
 			<Button
@@ -53,7 +55,7 @@ const PremiumUpsellCard = () => {
 				{ ...premiumUpsellConfig }
 			>
 				{ getPremium }
-				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
+				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<a
 				className="yst-block yst-mt-4 yst-no-underline"

@@ -249,15 +249,15 @@ const CrawlOptimization = () => {
 				 * %1$s expands to `<code>unknown_parameter</code>`.
 				 * %2$s and %3$s both expand to an example within a <code> tag.
 				 */
-				__( "Prevents specific URL parameters from being removed by the above feature. E.g., adding %1$s will prevent %2$s from being redirected to %3$s", "wordpress-seo" ),
+				__( "Prevents specific URL parameters from being removed by the above feature. E.g., adding %1$s will prevent %2$s from being redirected to %3$s. You can add multiple parameters and separate them by using enter or a comma.", "wordpress-seo" ),
 				"<code1/>",
 				"<code2/>",
 				"<code3/>"
 			),
 			{
 				code1: <Code>unknown_parameter</Code>,
-				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
-				code3: <Code variant="block">https://www.example.com</Code>,
+				code2: <Code>https://www.example.com/?unknown_parameter=yes</Code>,
+				code3: <Code>https://www.example.com</Code>,
 			}
 		),
 	} ), [] );

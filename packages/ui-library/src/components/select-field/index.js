@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Select from "../../elements/select";
+import { ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
-
+import { forwardRef } from "@wordpress/element";
 /**
  * @param {string} id Identifier.
  * @param {JSX.Element} error Error node.
@@ -13,20 +14,21 @@ import { useDescribedBy } from "../../hooks";
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} SelectField component.
  */
-const SelectField = ( {
+const SelectField = forwardRef( ( {
 	id,
 	label,
 	description,
-	disabled = false,
-	error = null,
-	className = "",
+	disabled,
+	validation,
+	className,
 	...props
-} ) => {
-	const { ids, describedBy } = useDescribedBy( id, { error, description } );
+}, ref ) => {
+	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
 		<div className={ classNames( "yst-select-field", disabled && "yst-select-field--disabled", className ) }>
 			<Select
+				ref={ ref }
 				id={ id }
 				label={ label }
 				labelProps={ {
@@ -34,27 +36,49 @@ const SelectField = ( {
 					className: "yst-label yst-select-field__label",
 				} }
 				disabled={ disabled }
-				isError={ Boolean( error ) }
+				validation={ validation }
 				className="yst-select-field__select"
 				buttonProps={ { "aria-describedby": describedBy } }
 				{ ...props }
 			/>
-			{ error && <p id={ ids.error } className="yst-select-field__error">{ error }</p> }
+			{ validation?.message && (
+				<ValidationMessage variant={ validation?.variant } id={ ids.validation } className="yst-select-field__validation">
+					{ validation.message }
+				</ValidationMessage>
+			) }
 			{ description && <div id={ ids.description } className="yst-select-field__description">{ description }</div> }
 		</div>
 	);
-};
+} );
 
-SelectField.propTypes = {
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	description: PropTypes.node,
 	disabled: PropTypes.bool,
-	error: PropTypes.node,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 	className: PropTypes.string,
 };
 
+SelectField.propTypes = propTypes;
+
 SelectField.Option = Select.Option;
+SelectField.Option.displayName = "SelectField.Option";
+
+SelectField.defaultProps = {
+	disabled: false,
+	validation: {},
+	className: "",
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <SelectField { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = SelectField.defaultProps;
+StoryComponent.displayName = "SelectField";
 
 export default SelectField;

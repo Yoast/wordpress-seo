@@ -143,7 +143,7 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 							}
 						</span>
 						<ArrowNarrowRightIcon
-							className="yst-ml-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+							className="yst-ml-2 yst-h-5 yst-w-5 yst-text-yellow-900 yst-icon-rtl"
 						/>
 					</Button>
 				</div>
