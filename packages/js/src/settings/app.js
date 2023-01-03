@@ -1,14 +1,7 @@
 /* eslint-disable react/jsx-max-depth */
 import { Transition } from "@headlessui/react";
-import {
-	AdjustmentsIcon,
-	ArrowNarrowRightIcon,
-	ChevronDownIcon,
-	ChevronUpIcon,
-	ColorSwatchIcon,
-	DesktopComputerIcon,
-	NewspaperIcon,
-} from "@heroicons/react/outline";
+import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
@@ -55,7 +48,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			<div className="yst-relative">
 				<hr className="yst-absolute yst-inset-x-0 yst-top-1/2 yst-bg-slate-200" />
 				<button
-					className="yst-relative yst-flex yst-items-center yst-gap-2 yst-px-2.5 yst-py-1 yst-mx-auto yst-text-xs yst-font-medium yst-text-slate-700 yst-bg-slate-50 yst-rounded-full yst-border yst-border-slate-300 hover:yst-bg-white hover:yst-text-slate-800 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2"
+					className="yst-relative yst-flex yst-items-center yst-gap-1.5 yst-px-2.5 yst-py-1 yst-mx-auto yst-text-xs yst-font-medium yst-text-slate-700 yst-bg-slate-50 yst-rounded-full yst-border yst-border-slate-300 hover:yst-bg-white hover:yst-text-slate-800 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2"
 					onClick={ toggle }
 					{ ...ariaProps }
 				>
@@ -74,11 +67,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			<Link to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
-			<Search />
+			<Search buttonId={ `button-search${ idSuffix }` } />
 		</header>
 		<div className="yst-px-0.5 yst-space-y-6">
 			<SidebarNavigation.MenuItem
-				id={ `menu-general${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-general${ idSuffix }` }
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
 			>
@@ -92,7 +85,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-content-types${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-content-types${ idSuffix }` }
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
 			>
@@ -109,7 +102,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-categories-and-tags${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-categories-and-tags${ idSuffix }` }
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 			>
@@ -124,7 +117,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				</ChildrenLimiter>
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
-				id={ `menu-advanced${ idSuffix && `-${ idSuffix }` }` }
+				id={ `menu-advanced${ idSuffix }` }
 				icon={ AdjustmentsIcon }
 				label={ __( "Advanced", "wordpress-seo" ) }
 				defaultOpen={ false }
@@ -239,7 +232,7 @@ const App = () => {
 					openButtonScreenReaderText={ __( "Open sidebar", "wordpress-seo" ) }
 					closeButtonScreenReaderText={ __( "Close sidebar", "wordpress-seo" ) }
 				>
-					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
+					<Menu idSuffix="-mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
 				<div className="yst-p-4 min-[783px]:yst-p-8 yst-flex yst-gap-4">
 					<aside className="yst-sidebar yst-sidebar-nav yst-shrink-0 yst-hidden min-[783px]:yst-block yst-pb-6 yst-bottom-0 yst-w-56">

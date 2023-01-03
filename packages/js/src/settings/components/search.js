@@ -1,9 +1,9 @@
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/outline";
-import { useCallback, useRef, useState, useMemo } from "@wordpress/element";
+import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Modal, Title, useSvgAria, useToggleState, Code } from "@yoast/ui-library";
+import { Code, Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
 import PropTypes from "prop-types";
@@ -67,10 +67,10 @@ SearchNoResultsContent.propTypes = {
 };
 
 /**
+ * @param {string} [buttonId] The ID for the search button.
  * @returns {JSX.Element} The element.
  */
-const Search = () => {
-	// eslint-disable-next-line no-unused-vars
+const Search = ( { buttonId = "button-search" } ) => {
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
 	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
@@ -80,6 +80,7 @@ const Search = () => {
 	const navigate = useNavigate();
 	const inputRef = useRef( null );
 	const { platform, os } = useParsedUserAgent();
+	const { isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();
 
 	// Determines the minimum characters to start a search, based on the user locale.
 	const queryMinChars = useMemo( () => {
@@ -103,7 +104,7 @@ const Search = () => {
 		event => {
 			event.preventDefault();
 			// Only bind hotkeys when platform type is desktop.
-			if ( platform?.type === "desktop" && ! isOpen ) {
+			if ( platform?.type === "desktop" && ! isOpen && ! isMobileMenuOpen ) {
 				setOpen();
 			}
 		},
@@ -111,15 +112,16 @@ const Search = () => {
 			enableOnFormTags: true,
 			enableOnContentEditable: true,
 		},
-		[ isOpen, setOpen, platform ]
+		[ isOpen, setOpen, platform, isMobileMenuOpen ]
 	);
 
 	const handleNavigate = useCallback( ( { route, fieldId } ) => {
+		setMobileMenuOpen( false );
 		setClose();
 		setQuery( "" );
 		setResults( [] );
 		navigate( `${ route }#${ fieldId }` );
-	}, [ setClose, setQuery ] );
+	}, [ setClose, setQuery, setMobileMenuOpen ] );
 
 	const debouncedSearch = useCallback( debounce( newQuery => {
 		const trimmedQuery = trim( newQuery );
@@ -181,7 +183,7 @@ const Search = () => {
 
 	return <>
 		<button
-			id="yst-search-button"
+			id={ buttonId }
 			type="button"
 			className="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 			onClick={ setOpen }
@@ -258,6 +260,10 @@ const Search = () => {
 			</Modal.Panel>
 		</Modal>
 	</>;
+};
+
+Search.propTypes = {
+	buttonId: PropTypes.string,
 };
 
 export default Search;
