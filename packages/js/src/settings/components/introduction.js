@@ -221,8 +221,8 @@ const Introduction = () => {
 							"yst-grid-cols-[repeat(3,100%)]",
 							// Tailwind purge requires written out classes: don't interpolate the stepIndex (nor the step length above).
 							stepIndex === 0 && "yst--translate-x-0",
-							stepIndex === 1 && "yst--translate-x-full",
-							stepIndex === 2 && "yst--translate-x-[200%]"
+							stepIndex === 1 && "yst--translate-x-full rtl:yst-translate-x-full",
+							stepIndex === 2 && "yst--translate-x-[200%] rtl:yst-translate-x-[200%]"
 						) }
 					>
 						{ steps.map( ( step, index ) => (
