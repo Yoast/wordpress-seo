@@ -215,15 +215,14 @@ const Introduction = () => {
 
 					{ /* // ----------------- Title and description section of each step -----------------*/ }
 					<div
-						style={ { direction: "ltr" } }
 						className={ classNames(
 							"yst-grid yst-transition-transform yst-duration-1000",
 							// Arrange a grid of 100% for each step.
 							"yst-grid-cols-[repeat(3,100%)]",
 							// Tailwind purge requires written out classes: don't interpolate the stepIndex (nor the step length above).
 							stepIndex === 0 && "yst--translate-x-0",
-							stepIndex === 1 && "yst--translate-x-full",
-							stepIndex === 2 && "yst--translate-x-[200%]"
+							stepIndex === 1 && "yst--translate-x-full rtl:yst-translate-x-full",
+							stepIndex === 2 && "yst--translate-x-[200%] rtl:yst-translate-x-[200%]"
 						) }
 					>
 						{ steps.map( ( step, index ) => (
