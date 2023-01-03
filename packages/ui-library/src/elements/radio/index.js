@@ -3,6 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
 import Label from "../label";
+import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -23,18 +24,18 @@ const classNameMap = {
  * @param {boolean} [isLabelDangerousHtml] Whether the label should be dangerously set as HTML.
  * @returns {JSX.Element} Radio component.
  */
-const Radio = ( {
+const Radio = forwardRef( ( {
 	id,
 	name,
 	value,
 	label,
-	screenReaderLabel = "",
-	variant = "default",
-	disabled = false,
-	className = "",
-	isLabelDangerousHtml = false,
+	screenReaderLabel,
+	variant,
+	disabled,
+	className,
+	isLabelDangerousHtml,
 	...props
-} ) => {
+}, ref ) => {
 	const svgAriaProps = useSvgAria();
 
 	if ( variant === "inline-block" ) {
@@ -79,6 +80,7 @@ const Radio = ( {
 			) }
 		>
 			<input
+				ref={ ref }
 				type="radio"
 				id={ id }
 				name={ name }
@@ -95,9 +97,9 @@ const Radio = ( {
 			/>
 		</div>
 	);
-};
+} );
 
-Radio.propTypes = {
+const propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -108,5 +110,21 @@ Radio.propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
+
+Radio.propTypes = propTypes;
+
+Radio.defaultProps = {
+	screenReaderLabel: "",
+	variant: "default",
+	disabled: false,
+	className: "",
+	isLabelDangerousHtml: false,
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Radio { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Radio.defaultProps;
+StoryComponent.displayName = "Radio";
 
 export default Radio;

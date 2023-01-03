@@ -17,6 +17,7 @@ export { default as TextInput } from "./elements/text-input";
 export { default as Textarea } from "./elements/textarea";
 export { default as Title } from "./elements/title";
 export { default as Toggle } from "./elements/toggle";
+export { ValidationIcon, ValidationInput, ValidationMessage } from "./elements/validation";
 
 export { default as AutocompleteField } from "./components/autocomplete-field";
 export { default as Card } from "./components/card";

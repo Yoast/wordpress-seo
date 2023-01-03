@@ -4,8 +4,8 @@
 			@apply yst-mt-2;
 		}
 
-		.yst-autocomplete-field__error {
-			@apply yst-mt-2 yst-text-red-600;
+		.yst-autocomplete-field__validation {
+			@apply yst-mt-2;
 		}
 	}
 }
