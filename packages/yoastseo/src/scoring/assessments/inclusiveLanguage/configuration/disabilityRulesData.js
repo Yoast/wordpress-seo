@@ -14,7 +14,7 @@ const nonNegatedFormsOfToBeToGet = formsOfToBeAndToGet.slice( 0, 19 ).concat( fo
 /**
  * Creates an array of all possible combinations of strings from two arrays.
  * For example, if array 1 is [ "fluffy", "cute" ] and array 2 is [ "cats", "dogs" ],
- * it creates the array [ "cute cat", "cute dog", "fluffy cat", "fluffy dog" ].
+ * it creates the array [ "cute cats", "cute dogs", "fluffy cats", "fluffy dogs" ].
  *
  * @param {string[]} arrayOne The first array of strings.
  * @param {string[]} arrayTwo The second array of strings.
