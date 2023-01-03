@@ -2,12 +2,13 @@
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const classNameMap = {
+export const classNameMap = {
 	size: {
 		1: "yst-title--1",
 		2: "yst-title--2",
 		3: "yst-title--3",
 		4: "yst-title--4",
+		5: "yst-title--5",
 	},
 };
 
