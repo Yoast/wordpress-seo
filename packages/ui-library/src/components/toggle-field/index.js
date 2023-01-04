@@ -31,11 +31,12 @@ const ToggleField = forwardRef( ( {
 }, ref ) => (
 	<Switch.Group
 		as="div"
+
 		className={ classNames( "yst-toggle-field", disabled && "yst-toggle-field--disabled", className ) }
 	>
 		<div className="yst-toggle-field__header">
 			{ label && <div className="yst-toggle-field__label-wrapper">
-				<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
+				<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } aria-label={ props[ "aria-label" ] } />
 				{ labelSuffix }
 			</div> }
 			<Toggle
