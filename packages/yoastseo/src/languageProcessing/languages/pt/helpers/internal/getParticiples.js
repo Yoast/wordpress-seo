@@ -9,24 +9,16 @@ import participleStems from "../../config/internal/passiveVoiceParticiples";
  * @returns {boolean} Returns true if word is a Portuguese participle, and false otherwise.
  */
 function isParticiple( word ) {
-	// Check if the word ends with one of the vowel endings
-	if ( word.endsWith( "a" ) || word.endsWith( "o" ) ) {
-		// Remove the suffix from the word
-		const stem = word.slice( 0, -1 );
-		// Check if the stem is in the list of participles
-		if ( participleStems.includes( stem ) ) {
-			return true;
+	const participleSuffixes = [ "a", "o", "as", "os" ];
+	// For each participle suffixes, check if the word ends in one of them.
+	return participleSuffixes.some( suffix => {
+		if ( word.endsWith( suffix ) ) {
+			// If the word ends with one of the suffixes, retrieve the stem.
+			const stem = word.slice( 0, -( suffix.length ) );
+			// Check if the stem is in the list of participles: return true if it is, otherwise return false.
+			return participleStems.includes( stem );
 		}
-		// Check if the word ends with one of the vowel endings
-	} else if ( word.endsWith( "as" ) || word.endsWith( "os" ) ) {
-		// Remove the suffix ending from the word
-		const stem = word.slice( 0, -2 );
-		// Check if the stem is in the list of participles
-		if ( participleStems.includes( stem ) ) {
-			return true;
-		}
-	}
-	return false;
+	} );
 }
 
 /**
