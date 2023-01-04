@@ -60,7 +60,7 @@ const SiteBasics = () => {
 	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-			__( "We're sorry, you're not allowed to edit the %1$ssite title%2$s and %1$stagline%2$s.", "wordpress-seo" ),
+			__( "We're sorry, you're not allowed to edit the %1$swebsite name%2$s and %1$stagline%2$s.", "wordpress-seo" ),
 			"<em>",
 			"</em>"
 		),
