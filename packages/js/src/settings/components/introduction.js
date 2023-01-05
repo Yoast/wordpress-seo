@@ -211,7 +211,7 @@ const Introduction = () => {
 						</div>
 					</div>
 				</div>
-				<div className="yst-relative yst-flex yst-flex-col yst-mt-2 yst-mb-8 yst-mx-4 sm:yst-mx-8 yst-text-center">
+				<div className="yst-relative yst-flex yst-flex-col yst-mt-2 yst-mb-6 sm:yst-mb-8 yst-mx-4 sm:yst-mx-8 yst-text-center">
 
 					{ /* // ----------------- Title and description section of each step -----------------*/ }
 					<div
