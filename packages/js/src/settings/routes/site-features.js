@@ -82,7 +82,7 @@ const FeatureCard = ( {
 					type="checkbox"
 					name={ name }
 					id={ inputId }
-					aria-label={ `${ __( "Enable feature", "wordpress-seo" )} ${title}` }
+					aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
 					label={ __( "Enable feature", "wordpress-seo" ) }
 					disabled={ isDisabled }
 					checked={ disabledSetting === "language" ? false : value }
