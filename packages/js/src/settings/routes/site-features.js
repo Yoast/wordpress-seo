@@ -128,7 +128,7 @@ FeatureCard.propTypes = {
  * @param {string} href The link.
  * @returns {JSX.Element} The learn more link.
  */
-const LearnMoreLink = ( { id, link, ariaLabel, ... props } ) => {
+const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 	const href = useSelectSettings( "selectLink", [ link ], link );
 
 	return (
