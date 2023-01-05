@@ -227,7 +227,7 @@ const SiteFeatures = () => {
 								title={ __( "Insights", "wordpress-seo" ) }
 							>
 								<p>{ __( "Get more insights into what you are writing. What words do you use most often? How much time does it take to read your text? Is your text easy to read?", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-insights" link="https://yoa.st/4ew" aria-label={ __( "Insights", "wordpress-seo" ) } />
+								<LearnMoreLink id="link-insights" link="https://yoa.st/4ew" ariaLabel={ __( "Insights", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>
