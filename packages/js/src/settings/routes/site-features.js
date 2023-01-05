@@ -217,7 +217,7 @@ const SiteFeatures = () => {
 								title={ __( "Inclusive language analysis", "wordpress-seo" ) }
 							>
 								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-features-free" ariaLabel={  __( "Inclusive language analysis", "wordpress-seo" ) } />
+								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-feature-learn-more" ariaLabel={  __( "Inclusive language analysis", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_metabox_insights"
