@@ -151,7 +151,7 @@ const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 LearnMoreLink.propTypes = {
 	id: PropTypes.string.isRequired,
 	link: PropTypes.string.isRequired,
-	ariaLabel: PropTypes.string,
+	ariaLabel: PropTypes.string.isRequired,
 };
 
 /**
