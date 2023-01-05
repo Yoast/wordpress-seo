@@ -29,8 +29,8 @@ const Introduction = () => {
 	// set the steps with the videos and thumbnails and memoize them for pluginUrl changes
 	const steps = useMemo( () => ( [
 		{
-			title: __( "Welcome to your new Yoast SEO settings! There's lots to discover!", "wordpress-seo" ),
-			description: __( "There's a fresh new look, and now it's easier than ever to find and manage your site's SEO options.", "wordpress-seo" ),
+			title: __( "Welcome to your new Yoast SEO settings!", "wordpress-seo" ),
+			description: __( "There's a fresh new look, and it's easier than ever to find and manage your site's SEO options.", "wordpress-seo" ),
 			videoId: "c1fpikf45l",
 			thumbnail: {
 				src: `${ pluginUrl }/images/settings-intro_thumb0.jpg`,
