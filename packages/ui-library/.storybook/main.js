@@ -7,7 +7,6 @@ module.exports = {
 		"@storybook/addon-links",
 		"@storybook/addon-essentials",
 		"@storybook/addon-a11y",
-		"@whitespace/storybook-addon-html",
 		{
 			name: "@storybook/addon-postcss",
 			options: {
@@ -18,4 +17,10 @@ module.exports = {
 			},
 		},
 	],
+	core: {
+		disableTelemetry: true,
+	},
+	features: {
+		previewMdx2: true,
+	},
 };

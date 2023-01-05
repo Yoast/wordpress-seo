@@ -11,10 +11,10 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} TextInput component.
  */
 const TextInput = forwardRef( ( {
-	type = "text",
-	className = "",
-	disabled = false,
-	readOnly = false,
+	type,
+	className,
+	disabled,
+	readOnly,
 	...props
 }, ref ) => (
 	<input
@@ -32,11 +32,26 @@ const TextInput = forwardRef( ( {
 	/>
 ) );
 
-TextInput.propTypes = {
+const propTypes = {
 	type: PropTypes.string,
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	readOnly: PropTypes.bool,
 };
 
+TextInput.propTypes = propTypes;
+
+TextInput.defaultProps = {
+	type: "text",
+	className: "",
+	disabled: false,
+	readOnly: false,
+};
+
 export default TextInput;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <TextInput { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = TextInput.defaultProps;
+StoryComponent.displayName = "TextInput";
