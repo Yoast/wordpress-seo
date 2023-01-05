@@ -73,7 +73,7 @@ const FeatureCard = ( {
 				) }
 			</Card.Header>
 			<Card.Content className="yst-flex yst-flex-col yst-gap-3">
-				{ title && 	<Title as="h3">{ title } </Title> }
+				<Title as="h3">{ title }</Title>
 				{ children }
 			</Card.Content>
 			<Card.Footer>
