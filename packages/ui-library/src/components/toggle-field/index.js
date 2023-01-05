@@ -67,7 +67,7 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
-	ariaLabel: PropTypes.string,
+	"aria-label": PropTypes.string,
 };
 
 ToggleField.propTypes = propTypes;
