@@ -58,7 +58,7 @@ const FeatureCard = ( {
 						shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
 					) }
 					src={ imageSrc }
-					alt={ imageAlt ? imageAlt : "" }
+					alt={ imageAlt ?? "" }
 					width={ 500 }
 					height={ 250 }
 					loading="lazy"
