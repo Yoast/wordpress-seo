@@ -13,7 +13,7 @@ import { classNameMap as titleClassNameMap } from "../../elements/title";
  * @param {string} [as] Html tag.
  * @param {string} [size] Size of title.
  * @param {Object} [props] Additional props.
- * @returns {JSX.Element} The panel.
+ * @returns {JSX.Element} The title.
  */
 const Title = forwardRef( ( { children, size, className, as, ...props }, ref ) => {
 	return (
