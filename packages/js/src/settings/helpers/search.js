@@ -902,7 +902,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 		},
 		// Media pages
 		"disable-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-disable-attachment",
 			fieldLabel: __( "Media pages", "wordpress-seo" ),
@@ -915,7 +915,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"noindex-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-noindex-attachment",
 			fieldLabel: __( "Show media pages in search results", "wordpress-seo" ),
@@ -927,7 +927,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"title-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-title-attachment",
 			fieldLabel: __( "SEO title", "wordpress-seo" ),
@@ -939,7 +939,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"metadesc-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-metadesc-attachment",
 			fieldLabel: __( "Meta description", "wordpress-seo" ),
@@ -951,7 +951,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"schema-page-type-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-schema-page-type-attachment",
 			fieldLabel: __( "Page type", "wordpress-seo" ),
@@ -965,7 +965,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"schema-article-type-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-schema-article-type-attachment",
 			fieldLabel: __( "Article type", "wordpress-seo" ),
@@ -979,7 +979,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"display-metabox-pt-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-display-metabox-pt-attachment",
 			fieldLabel: __( "Enable SEO controls and assessments", "wordpress-seo" ),

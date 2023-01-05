@@ -1,6 +1,10 @@
 @import url(../src/icons.css);
 @import "../src/tooltips.css";
 
+.rtl .yst-icon-rtl {
+	@apply yst-rotate-180;
+}
+
 .wpseo-premium-indicator {
   width: 1px;
   height: 1px;

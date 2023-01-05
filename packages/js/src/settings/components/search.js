@@ -1,9 +1,9 @@
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/outline";
-import { useCallback, useRef, useState, useMemo } from "@wordpress/element";
+import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Modal, Title, useSvgAria, useToggleState, Code } from "@yoast/ui-library";
+import { Code, Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
 import PropTypes from "prop-types";
@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { safeToLocaleLower } from "../helpers";
 import { useParsedUserAgent, useSelectSettings } from "../hooks";
 
-const QUERY_MIN_CHARS = 3;
 const POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP = new RegExp( /^input-wpseo_titles-(post_types|taxonomy)-(?<name>\S+)-(maintax|ptparent)$/is );
 
 /**
@@ -21,7 +20,7 @@ const POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP = new RegExp( /^input-wpse
  * @returns {JSX.Element} The SearchResultLabel element.
  */
 const SearchResultLabel = ( { fieldId, fieldLabel } ) => {
-	// Deduce wether field is a breadcrumb option for post type or taxonomy.
+	// Deduce whether field is a breadcrumb option for post type or taxonomy.
 	const { isPostTypeOrTaxonomyBreadcrumbSetting, postTypeOrTaxonomyName } = useMemo( () => {
 		const matches = POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP.exec( fieldId );
 		return {
@@ -68,10 +67,10 @@ SearchNoResultsContent.propTypes = {
 };
 
 /**
+ * @param {string} [buttonId] The ID for the search button.
  * @returns {JSX.Element} The element.
  */
-const Search = () => {
-	// eslint-disable-next-line no-unused-vars
+const Search = ( { buttonId = "button-search" } ) => {
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
 	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
@@ -81,13 +80,31 @@ const Search = () => {
 	const navigate = useNavigate();
 	const inputRef = useRef( null );
 	const { platform, os } = useParsedUserAgent();
+	const { isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();
+
+	// Determines the minimum characters to start a search, based on the user locale.
+	const queryMinChars = useMemo( () => {
+		switch ( userLocale ) {
+			// Japanese.
+			case "ja":
+				return 2;
+			// Korean, Chinese, Chinese (Hong Kong), Chinese (Taiwan).
+			case "ko-KR":
+			case "zh-CN":
+			case "zh-HK":
+			case "zh-TW":
+				return 1;
+			default:
+				return 3;
+		}
+	}, [ userLocale ] );
 
 	useHotkeys(
 		"meta+k",
 		event => {
 			event.preventDefault();
 			// Only bind hotkeys when platform type is desktop.
-			if ( platform?.type === "desktop" && ! isOpen ) {
+			if ( platform?.type === "desktop" && ! isOpen && ! isMobileMenuOpen ) {
 				setOpen();
 			}
 		},
@@ -95,21 +112,22 @@ const Search = () => {
 			enableOnFormTags: true,
 			enableOnContentEditable: true,
 		},
-		[ isOpen, setOpen, platform ]
+		[ isOpen, setOpen, platform, isMobileMenuOpen ]
 	);
 
 	const handleNavigate = useCallback( ( { route, fieldId } ) => {
+		setMobileMenuOpen( false );
 		setClose();
 		setQuery( "" );
 		setResults( [] );
 		navigate( `${ route }#${ fieldId }` );
-	}, [ setClose, setQuery ] );
+	}, [ setClose, setQuery, setMobileMenuOpen ] );
 
 	const debouncedSearch = useCallback( debounce( newQuery => {
 		const trimmedQuery = trim( newQuery );
 
 		// Bail if query is too short.
-		if ( trimmedQuery.length < QUERY_MIN_CHARS ) {
+		if ( trimmedQuery.length < queryMinChars ) {
 			return false;
 		}
 
@@ -165,7 +183,7 @@ const Search = () => {
 
 	return <>
 		<button
-			id="yst-search-button"
+			id={ buttonId }
 			type="button"
 			className="yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500"
 			onClick={ setOpen }
@@ -204,16 +222,18 @@ const Search = () => {
 							className="yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm"
 						/>
 					</div>
-					{ query.length >= QUERY_MIN_CHARS && ! isEmpty( results ) && (
+					{ query.length >= queryMinChars && ! isEmpty( results ) && (
 						<Combobox.Options
 							static={ true }
 							className="yst-max-h-[calc(90vh-10rem)] yst-scroll-pt-11 yst-scroll-pb-2 yst-space-y-2 yst-overflow-y-auto yst-pb-2"
 						>
 							{ map( results, ( groupedItems, index ) => (
 								<li key={ groupedItems?.[ 0 ]?.route || `group-${ index }` }>
-									<Title as="h4" size="3" className="yst-bg-slate-100 yst-py-3 yst-px-4">{ first( groupedItems ).routeLabel }</Title>
+									<Title as="h4" size="3" className="yst-bg-slate-100 yst-py-3 yst-px-4">
+										{ first( groupedItems ).routeLabel }
+									</Title>
 									<ul>
-										{ map( groupedItems, ( item ) =>  (
+										{ map( groupedItems, ( item ) => (
 											<Combobox.Option
 												key={ item.fieldId }
 												value={ item }
@@ -227,12 +247,12 @@ const Search = () => {
 							) ) }
 						</Combobox.Options>
 					) }
-					{ query.length < QUERY_MIN_CHARS && (
+					{ query.length < queryMinChars && (
 						<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
 							<p className="yst-text-slate-500">{ __( "Please enter a search term with at least 3 characters.", "wordpress-seo" ) }</p>
 						</SearchNoResultsContent>
 					) }
-					{ query.length >= QUERY_MIN_CHARS && isEmpty( results ) && (
+					{ query.length >= queryMinChars && isEmpty( results ) && (
 						<SearchNoResultsContent title={ __( "No results found", "wordpress-seo" ) }>
 							<p className="yst-text-slate-500">{ __( "We couldn’t find anything with that term.", "wordpress-seo" ) }</p>
 						</SearchNoResultsContent>
@@ -241,6 +261,10 @@ const Search = () => {
 			</Modal.Panel>
 		</Modal>
 	</>;
+};
+
+Search.propTypes = {
+	buttonId: PropTypes.string,
 };
 
 export default Search;

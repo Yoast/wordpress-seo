@@ -1,11 +1,20 @@
-import Textarea from ".";
+// eslint-disable react/display-name
+import { StoryComponent } from ".";
 
 export default {
-	title: "1. Elements/Textarea",
-	component: Textarea,
+	title: "1) Elements/Textarea",
+	component: StoryComponent,
 	argTypes: {
-		cols: { defaultValue: 20 },
-		rows: { defaultValue: 2 },
+		cols: {
+			table: {
+				defaultValue: { summary: 20 },
+			},
+		},
+		rows: {
+			table: {
+				defaultValue: { summary: 2 },
+			},
+		},
 	},
 	parameters: {
 		docs: {
@@ -17,7 +26,7 @@ export default {
 };
 
 export const Factory = {
-	component: ( args ) => <Textarea { ...args } />,
+	component: ( args ) => <StoryComponent { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
