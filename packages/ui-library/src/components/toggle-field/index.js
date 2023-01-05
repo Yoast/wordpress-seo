@@ -31,7 +31,6 @@ const ToggleField = forwardRef( ( {
 }, ref ) => (
 	<Switch.Group
 		as="div"
-
 		className={ classNames( "yst-toggle-field", disabled && "yst-toggle-field--disabled", className ) }
 	>
 		<div className="yst-toggle-field__header">
