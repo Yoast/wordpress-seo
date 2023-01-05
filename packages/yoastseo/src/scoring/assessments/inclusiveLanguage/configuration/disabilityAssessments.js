@@ -22,7 +22,7 @@ const medicalCondition = harmfulPotentiallyNonInclusive +
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 // This string is used for phrases with 'crazy'. We don't want to mention the whole phrase in the feedback but only the non-inclusive word 'crazy'.
-const crazy = [ "Avoid using <i>crazy</i> as it is potentially harmful.", alternative ].join( " " );
+const phrasesWithCrazyFeedback = [ "Avoid using <i>crazy</i> as it is potentially harmful.", alternative ].join( " " );
 
 const disabilityAssessments =  [
 	{
@@ -379,7 +379,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: crazy,
+		feedbackFormat: phrasesWithCrazyFeedback,
 		// Target only when preceded by a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so crazy about" ).
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
@@ -391,7 +391,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy about" ],
 		inclusiveAlternatives: "<i>to love, to be obsessed with, to be infatuated with</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: crazy,
+		feedbackFormat: phrasesWithCrazyFeedback,
 		// Target only when preceded by a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
@@ -403,7 +403,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "crazy in love" ],
 		inclusiveAlternatives: "<i>wildly in love, head over heels, infatuated</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: crazy,
+		feedbackFormat: phrasesWithCrazyFeedback,
 	},
 	{
 		identifier: "to go crazy",
