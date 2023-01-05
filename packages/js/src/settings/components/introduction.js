@@ -236,7 +236,7 @@ const Introduction = () => {
 								<Title as="h2" size="2">
 									{ step.title }
 								</Title>
-								<Modal.Description className="yst-max-w-xs yst-mx-auto yst-mt-2">
+								<Modal.Description className="yst-max-w-sm yst-mx-auto yst-mt-2">
 									{ step.description }
 								</Modal.Description>
 							</div>
