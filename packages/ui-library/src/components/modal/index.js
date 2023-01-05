@@ -20,7 +20,7 @@ const Title = forwardRef( ( { children, size, className, as, ...props }, ref ) =
 		<Dialog.Title
 			as={ as }
 			ref={ ref }
-			className={  classNames(
+			className={ classNames(
 				"yst-title",
 				size ? titleClassNameMap.size[ size ] : "",
 				className ) }
