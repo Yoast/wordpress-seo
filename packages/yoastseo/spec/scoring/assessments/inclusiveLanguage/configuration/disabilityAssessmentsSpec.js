@@ -651,6 +651,14 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		} ) ] );
 	} );
 
+	it( "should not show the feedback for the non-negated form of 'crazy about' when the negated form is used.", () => {
+		const mockPaper = new Paper( "I am not so crazy about this album." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am not so crazy about this album." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be crazy about" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeFalsy();
+	} );
+
 	it( "should target the negated phrase for 'crazy about' and retrieve correct feedback.", () => {
 		const mockPaper = new Paper( "They are not crazy about this album." );
 		const mockResearcher = Factory.buildMockResearcher( [ "They are not crazy about this album." ] );
@@ -712,6 +720,22 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			original: "They aren't too crazy about this album.",
 			marked: "<yoastmark class='yoast-text-mark'>They aren't too crazy about this album.</yoastmark>",
 		} ) ] );
+	} );
+
+	it( "should not show the feedback for the non-negated form of 'crazy about' when the negated form is used.", () => {
+		const mockPaper = new Paper( "I am so crazy about this album." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am so crazy about this album." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "to be not crazy about" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeFalsy();
+	} );
+
+	it( "should not show the feedback for standalone crazy when it's used as part of a more specific phrase.", () => {
+		const mockPaper = new Paper( "I am so crazy about this album." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am so crazy about this album." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "crazy" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeFalsy();
 	} );
 
 	it( "should show feedback for standalone 'crazy' when 'crazy about' is followed by 'what's'.", () => {
@@ -995,6 +1019,28 @@ describe( "Test the OCD assessment", () => {
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "I am so OCD.",
 			marked: "<yoastmark class='yoast-text-mark'>I am so OCD.</yoastmark>",
+		} ) ] );
+	} );
+	it( "correctly identifies 'OCD' when it's preceded by a negated form of 'to be' + intensifier", () => {
+		const mockPaper = new Paper( "I am not that OCD." );
+		const mockResearcher = Factory.buildMockResearcher( [ "I am not that OCD." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "OCD" ) );
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		expect( isApplicable ).toBeTruthy();
+
+		const assessmentResult = assessor.getResult();
+
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Be careful when using <i>OCD</i> as it is potentially harmful. " +
+			"Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, " +
+			"such as <i>pedantic, obsessed, perfectionist</i>. If you are referring to someone who has the medical condition, " +
+			"then state that they have OCD rather than that they are OCD. " +
+			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "I am not that OCD.",
+			marked: "<yoastmark class='yoast-text-mark'>I am not that OCD.</yoastmark>",
 		} ) ] );
 	} );
 	it( "does not identify 'OCD' when not preceded by a form of 'to be'", () => {
