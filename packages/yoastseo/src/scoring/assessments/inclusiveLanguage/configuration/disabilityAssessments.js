@@ -555,7 +555,7 @@ const disabilityAssessments =  [
 		// Only target 'OCD' when preceded by a form of 'to be/to get' followed by an optional intensifier.
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeWithOptionalIntensifier ) );
+				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeAndToBeNotWithOptionalIntensifier ) );
 		},
 	},
 	{
