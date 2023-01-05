@@ -3,6 +3,7 @@ import { noop } from "lodash";
 import PropTypes from "prop-types";
 import RawModal, { classNameMap } from ".";
 import Button from "../../elements/button";
+import TextInput from "../../elements/text-input";
 import { classNameMap as titleClassNameMap } from "../../elements/title";
 
 const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
