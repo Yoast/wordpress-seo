@@ -1,9 +1,8 @@
-import Radio from ".";
+import { StoryComponent } from ".";
 
 export default {
-	title: "1. Elements/Radio",
-	component: Radio,
-	argTypes: {},
+	title: "1) Elements/Radio",
+	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
@@ -14,7 +13,7 @@ export default {
 };
 
 export const Factory = ( args ) => (
-	<Radio { ...args } />
+	<StoryComponent { ...args } />
 );
 Factory.parameters = {
 	controls: { disable: false },
@@ -28,21 +27,23 @@ Factory.args = {
 
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-4">
-		<Radio id="radio-1" name="name" value="1" label="I am a radio button." />
+		<div>Default variant:</div>
+		<StoryComponent id="radio-1" name="option-1" value="1" label="I am a radio button with default variant." />
 		<hr />
-		<Radio id="radio-2" name="name" value="2" screenReaderLabel="Option #2" label="2" variant="inline-block" />
-		<hr />
-		<Radio
-			id="radio-3"
-			name="name"
-			value="&bull;"
-			screenReaderLabel="Option bullet"
-			label={ "&bull;" }
-			isLabelDangerousHtml={ true }
-			variant="inline-block"
-		/>
+		<div>Inline-block variant:</div>
+		<StoryComponent id="radio-2" name="option-2" value="2" screenReaderLabel="Option #2" label="2" variant="inline-block" />
 	</div>
 );
 Variants.parameters = {
-	docs: { description: { story: "In the `inline-block` variant, the `screenReaderLabel` prop is used to provide screen readers with a useful label." } },
+	docs: { description: { story: "In the `inline-block` variant example, the `screenReaderLabel` prop is used to provide screen readers with a useful label." } },
+};
+
+
+export const DangerousLabel = ( args ) => (
+	<div className="yst-flex yst-flex-col yst-gap-4">
+		<StoryComponent id="radio-dangerous" name="option-dangerous" value="D" label={ "&bull; Dangerous label." } isLabelDangerousHtml={ true } />
+	</div>
+);
+DangerousLabel.parameters = {
+	docs: { description: { story: "This Radio element has `isLabelDangerousHtml` prop set to true, the bullet is encoded (&bull;)." } },
 };

@@ -56,12 +56,16 @@ const fixFocusLinkCompatibility = () => {
 	const wpContentBody = document.querySelector( "[href=\"#wpbody-content\"]" );
 	wpContentBody.addEventListener( "click", e => {
 		e.preventDefault();
-		document.getElementById( "yst-search-button" ).focus();
+		let searchButton = document.getElementById( "yst-search-button-mobile" );
+		if ( ! searchButton ) {
+			searchButton = document.getElementById( "yst-search-button" )?.focus();
+		}
+		searchButton?.focus();
 	} );
 	const wpToolbar = document.querySelector( "[href=\"#wp-toolbar\"]" );
 	wpToolbar.addEventListener( "click", e => {
 		e.preventDefault();
-		document.querySelector( "#wp-admin-bar-wp-logo a" ).focus();
+		document.querySelector( "#wp-admin-bar-wp-logo a" )?.focus();
 	} );
 };
 
