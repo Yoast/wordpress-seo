@@ -2,7 +2,7 @@
 import { ArrowLeftIcon as PureArrowLeftIcon, ArrowRightIcon as PureArrowRightIcon } from "@heroicons/react/outline";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Modal, Title, Spinner, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Modal, Spinner, Title, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { times } from "lodash";
 import { Helmet } from "react-helmet";
