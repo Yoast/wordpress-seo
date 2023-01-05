@@ -40,7 +40,17 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "content",
 		},
 	],
+	"core/audio": [
+		{
+			key: "caption",
+		},
+	],
 	"core/image": [
+		{
+			key: "caption",
+		},
+	],
+	"core/video": [
 		{
 			key: "caption",
 		},
