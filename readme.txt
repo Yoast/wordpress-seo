@@ -247,7 +247,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 19.14 =
 
-Release date: January 10th, 2023
+Release date: 2023-01-10
 
 #### Enhancements
 
@@ -275,7 +275,7 @@ Release date: January 10th, 2023
 
 Yoast SEO 19.13 proactively fixes an issue we found in the upcoming release of the Gutenberg editor. This release of the block editor breaks the link functionality when used in conjunction with Yoast SEO. The Yoast SEO release works around that so users can keep adding and changing links. Find out more about what's new in Yoast SEO 19.13 in [our release post](https://yoa.st/release-20-12-22)!
 
-Release date: December 20th, 2022
+Release date: 2022-12-20
 
 #### Enhancements
 
