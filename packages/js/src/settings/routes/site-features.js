@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
-import { ArrowNarrowRightIcon, LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon, ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Button, Card, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Card, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
@@ -129,16 +129,17 @@ const LearnMoreLink = ( { id, link } ) => {
 
 	return (
 		// eslint-disable-next-line react/jsx-no-target-blank
-		<a
+		<Link
 			id={ id }
 			href={ href }
-			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-text-primary-500 hover:yst-text-primary-400"
+			variant="primary"
+			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 			target="_blank"
 			rel="noopener"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
 			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
-		</a>
+		</Link>
 	);
 };
 
