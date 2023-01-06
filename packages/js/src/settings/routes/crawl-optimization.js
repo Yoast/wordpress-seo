@@ -580,7 +580,9 @@ const CrawlOptimization = () => {
 						/>
 						<FormikFieldWithDummy
 							as={ TextField }
-							type="text"
+							type="number"
+							min="1"
+							max="50"
 							name="wpseo.search_character_limit"
 							id="input-wpseo-search_character_limit"
 							label={ __( "Max number of characters to allow in searches", "wordpress-seo" ) }
