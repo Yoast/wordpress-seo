@@ -583,10 +583,11 @@ const CrawlOptimization = () => {
 							type="number"
 							min="1"
 							max="50"
+							required={ true }
 							name="wpseo.search_character_limit"
 							id="input-wpseo-search_character_limit"
 							label={ __( "Max number of characters to allow in searches", "wordpress-seo" ) }
-							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs.", "wordpress-seo" ) }
+							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs. Please enter a number between 1 and 50.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
 							isDummy={ ! isPremium }
 						/>
