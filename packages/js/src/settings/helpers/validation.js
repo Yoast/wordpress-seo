@@ -23,6 +23,20 @@ addMethod( number, "isMediaTypeImage", function() {
 	);
 } );
 
+addMethod( number, "searchCharacterLimit", function() {
+	return this.test(
+		"searchCharacterLimit",
+		__( "The number you've entered is not between 1 and 50.", "wordpress-seo" ),
+		input => {
+			// Not required.
+			if ( ! input || input < 1 || input > 50 ) {
+				return false;
+			}
+			return true;
+		}
+	);
+} );
+
 addMethod( string, "isValidTwitterUrlOrHandle", function() {
 	return this.test(
 		"isValidTwitterUrlOrHandle",
@@ -57,6 +71,7 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			yandexverify: string()
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
+			search_character_limit: number().searchCharacterLimit(),
 		} ),
 		wpseo_social: object().shape( {
 			og_default_image_id: number().isMediaTypeImage(),

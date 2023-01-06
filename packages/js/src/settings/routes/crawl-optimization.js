@@ -581,9 +581,8 @@ const CrawlOptimization = () => {
 						<FormikFieldWithDummy
 							as={ TextField }
 							type="number"
-							min="1"
-							max="50"
 							required={ true }
+							validation={ ( values.wpseo.search_character_limit < 1 || values.wpseo.search_character_limit > 50 ) && { message: __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ), variant: "error" } }
 							name="wpseo.search_character_limit"
 							id="input-wpseo-search_character_limit"
 							label={ __( "Max number of characters to allow in searches", "wordpress-seo" ) }
