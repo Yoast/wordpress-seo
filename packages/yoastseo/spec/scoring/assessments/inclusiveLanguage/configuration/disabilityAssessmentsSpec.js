@@ -77,7 +77,6 @@ describe( "A test for Disability assessments", function() {
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
 	} );
 
-
 	it( "should not target alcoholics if followed by anonymous.", () => {
 		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "alcoholics" ) );
 
@@ -155,7 +154,7 @@ describe( "A test for Disability assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>the disabled</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>people who have a disability</i>, <i>disabled people </i>. " +
+			"<i>people who have a disability</i>, <i>disabled people</i>. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
@@ -174,7 +173,7 @@ describe( "A test for Disability assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>the disabled</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>people who have a disability</i>, <i>disabled people </i>. " +
+			"<i>people who have a disability</i>, <i>disabled people</i>. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
@@ -193,7 +192,7 @@ describe( "A test for Disability assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>the disabled</i> as it is potentially harmful. Consider using an alternative, such as " +
-			"<i>people who have a disability</i>, <i>disabled people </i>. " +
+			"<i>people who have a disability</i>, <i>disabled people</i>. " +
 			"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
@@ -794,7 +793,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "This math problem is driving me crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to drive to one's limit, to get on one's last nerve, to make one livid, " +
-					"to aggravate, to make blood boil, to exasperate, to irritate to the limit.</i>. " +
+					"to aggravate, to make blood boil, to exasperate, to irritate to the limit</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -804,7 +803,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "They drive everyone crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to drive to one's limit, to get on one's last nerve, to make one livid, " +
-					"to aggravate, to make blood boil, to exasperate, to irritate to the limit.</i>. " +
+					"to aggravate, to make blood boil, to exasperate, to irritate to the limit</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -814,7 +813,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "They drove him crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to drive to one's limit, to get on one's last nerve, to make one livid, " +
-					"to aggravate, to make blood boil, to exasperate, to irritate to the limit.</i>. " +
+					"to aggravate, to make blood boil, to exasperate, to irritate to the limit</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -824,7 +823,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "She drives somebody crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to drive to one's limit, to get on one's last nerve, to make one livid, " +
-					"to aggravate, to make blood boil, to exasperate, to irritate to the limit.</i>. " +
+					"to aggravate, to make blood boil, to exasperate, to irritate to the limit</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -834,7 +833,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "He has driven them crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
 					"Consider using an alternative, such as <i>to drive to one's limit, to get on one's last nerve, to make one livid, " +
-					"to aggravate, to make blood boil, to exasperate, to irritate to the limit.</i>. " +
+					"to aggravate, to make blood boil, to exasperate, to irritate to the limit</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
