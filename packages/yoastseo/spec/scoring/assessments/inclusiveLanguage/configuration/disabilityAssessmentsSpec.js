@@ -675,7 +675,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
-			// The non-negated phrase for 'crazy about' with an intensifier.
+			// The negated phrase for 'crazy about' with an intensifier.
 			{
 				identifier: "to be not crazy about",
 				text: "They are not too crazy about this album.",
