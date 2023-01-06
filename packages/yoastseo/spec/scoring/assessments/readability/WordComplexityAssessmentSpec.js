@@ -1,6 +1,6 @@
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
-import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment.js";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/premiumAssessments/readability/WordComplexityAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 
 let assessment = new WordComplexityAssessment();

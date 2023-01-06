@@ -25,7 +25,7 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import PassiveVoiceAssessment from "../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
 import TextPresenceAssessment from "../../../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
-import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/premiumAssessments/readability/WordComplexityAssessment";
 
 // Import test papers
 import testPapers from "./testTexts";

@@ -2,7 +2,7 @@ import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
-import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/premiumAssessments/readability/WordComplexityAssessment";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
