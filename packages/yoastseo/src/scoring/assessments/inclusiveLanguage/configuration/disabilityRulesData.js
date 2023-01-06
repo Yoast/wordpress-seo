@@ -7,7 +7,12 @@ const formsOfToDrive = [ "driving", "drive", "drove", "drives", "driven" ];
 const objectPronouns = [ "me", "you", "them", "him", "her", "someone", "somebody", "anyone", "anybody", "everyone", "everybody" ];
 // Remove 'having' and 'what's' from the auxiliaries. We don't want to use them for any rules.
 const formsOfToBeAndToGet = passiveAuxiliaries.slice( 0, -2 );
-// Move the negated forms ("isn't", "weren't", "wasn't", "aren't") to a separate array.
+/*
+ * Move the negated forms ("isn't", "weren't", "wasn't", "aren't") to a separate array "negatedFormsOfToBe".
+ * The .splice() method is a mutating method.
+ * It means that after invoking this method on "formsOfToBeAndToGet" list, the "formsOfToBeAndToGet" will also be mutated.
+ * In this case, the negated forms ("isn't", "weren't", "wasn't", "aren't") will also be removed from the array.
+ */
 const negatedFormsOfToBe = formsOfToBeAndToGet.splice( 19, 4 );
 
 /**
@@ -41,7 +46,7 @@ const combinationsOfToBeNotAndIntensifier = createCombinationsFromTwoArrays( for
 export const formsOfToBeNotWithOptionalIntensifier = combinationsOfToBeNotAndIntensifier.concat( formsOfToBeNot );
 
 /*
- * Create an array of strings that should preceded 'OCD'.
+ * Create an array of strings that should precede 'OCD'.
  * It includes both negated and non-negated forms of 'to be/get' followed by an optional intensifier or specific adverb (e.g., 'is very', 'are not').
 */
 export const formsOfToBeAndToBeNotWithOptionalIntensifier = formsOfToBeWithOptionalIntensifier.concat( formsOfToBeNotWithOptionalIntensifier );
