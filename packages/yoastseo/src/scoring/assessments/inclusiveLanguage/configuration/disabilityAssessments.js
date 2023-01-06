@@ -422,7 +422,7 @@ const disabilityAssessments =  [
 		identifier: "to drive crazy",
 		nonInclusivePhrases: [ "crazy" ],
 		inclusiveAlternatives: "<i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, to make blood boil, " +
-			"to exasperate, to irritate to the limit.</i>",
+			"to exasperate, to irritate to the limit</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
@@ -561,7 +561,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "theMentallyIll",
 		nonInclusivePhrases: [ "the mentally ill" ],
-		inclusiveAlternatives: "<i>people who are mentally ill</i>, <i>mentally ill people </i>",
+		inclusiveAlternatives: "<i>people who are mentally ill</i>, <i>mentally ill people</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ generalizing ].join( " " ),
 		rule: ( words, nonInclusivePhrase ) => {
@@ -572,7 +572,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "theDisabled",
 		nonInclusivePhrases: [ "the disabled" ],
-		inclusiveAlternatives: "<i>people who have a disability</i>, <i>disabled people </i>",
+		inclusiveAlternatives: "<i>people who have a disability</i>, <i>disabled people</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmful ].join( " " ),
 		rule: ( words, nonInclusivePhrase ) => {
