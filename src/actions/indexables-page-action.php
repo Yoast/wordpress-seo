@@ -150,6 +150,7 @@ class Indexables_Page_Action {
 			->count();
 
 		$posts_without_keyphrase = $this->query()
+			->select_many( 'id', 'object_id', 'object_sub_type', 'permalink', 'breadcrumb_title', 'incoming_link_count' )
 			->where_null( 'primary_focus_keyword' )
 			->order_by_desc( 'incoming_link_count' )
 			->find_many();
