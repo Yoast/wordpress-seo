@@ -170,10 +170,11 @@ function SocialProfilesWrapper() {
 					<p className="yst-mt-4 yst-text-gray-500">{
 						addLinkToString(
 							sprintf(
-								/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
-								__( "If you want your site to represent an Organization, please select 'Organization' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
-								"<a>",
-								"</a>"
+								/* translators: 1: Organization; 2: Knowledge Graph & Schema; 3: A link to the Search Appearance settings page. */
+								__( "If you want your site to represent an organization, please select '%1$s' in the '%2$s' section of the %3$s settings.", "wordpress-seo" ),
+								__( "Organization", "wordpress-seo" ),
+								__( "Knowledge Graph & Schema.org", "wordpress-seo" ),
+								"<a>" + __( "Search Appearance", "wordpress-seo" ) + "</a>"
 							),
 							window.wpseoScriptData.search_appearance_link,
 							"yoast-search-appearance-link"
@@ -216,10 +217,11 @@ function SocialProfilesWrapper() {
 							{
 								addLinkToString(
 									sprintf(
-										/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
-										__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
-										"<a>",
-										"</a>"
+										/* translators: 1: Person; 2: Knowledge Graph & Schema; 3: A link to the Search Appearance settings page. */
+										__( "Your website is currently configured to represent an organization. If you want your site to represent a person, please select '%1$s' in the '%2$s' section of the %3$s settings.", "wordpress-seo" ),
+										__( "Person", "wordpress-seo" ),
+										__( "Knowledge Graph & Schema.org", "wordpress-seo" ),
+										"<a>" + __( "Search Appearance", "wordpress-seo" ) + "</a>"
 									),
 									window.wpseoScriptData.search_appearance_link,
 									"yoast-search-appearance-link"
