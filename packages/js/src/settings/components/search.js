@@ -228,7 +228,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 						>
 							{ map( results, ( groupedItems, index ) => (
 								<li key={ groupedItems?.[ 0 ]?.route || `group-${ index }` }>
-									<Title as="h4" size="3" className="yst-bg-slate-100 yst-py-3 yst-px-4">
+									<Title as="h4" size="5" className="yst-bg-slate-100 yst-font-semibold yst-py-3 yst-px-4">
 										{ first( groupedItems ).routeLabel }
 									</Title>
 									<ul>
