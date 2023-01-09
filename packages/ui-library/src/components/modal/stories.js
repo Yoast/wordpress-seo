@@ -1,8 +1,10 @@
-import { Fragment, useCallback, useState } from "@wordpress/element";
+import { Fragment, useCallback, useState, useRef } from "@wordpress/element";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import RawModal, { classNameMap } from ".";
 import Button from "../../elements/button";
+import TextInput from "../../elements/text-input";
+import { classNameMap as titleClassNameMap } from "../../elements/title";
 
 const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
 	const [ isOpen, setIsOpen ] = useState( initialIsOpen );
@@ -28,7 +30,7 @@ Modal.propTypes = {
 };
 
 export default {
-	title: "2. Components/Modal",
+	title: "2) Components/Modal",
 	component: Modal,
 	argTypes: {
 		children: {
@@ -60,6 +62,12 @@ export default {
 				defaultValue: { summary: "center" },
 			},
 			options: Object.keys( classNameMap.position ),
+		},
+		size: {
+			control: "select",
+			description: "Prop for the `Model.Title` component.",
+			type: { summary: Object.keys( titleClassNameMap.size ).join( "|" ) },
+			options: Object.keys( titleClassNameMap.size ),
 		},
 	},
 	parameters: {
@@ -112,7 +120,7 @@ export const WithTitleAndDescription = {
 	parameters: {
 		docs: {
 			description: {
-				story: "Using the `Modal.Title` and `Modal.Description` components.",
+				story: "Using the `Modal.Title` and `Modal.Description` components will add `aria-labelledby` and `aria-describedby` to the Modal with matching IDrefs.",
 			},
 		},
 	},
@@ -129,3 +137,27 @@ export const WithTitleAndDescription = {
 		),
 	},
 };
+
+const InitialFocusComponent = () => {
+	const [ isOpen, setIsOpen ] = useState( false );
+	const openModal = useCallback( () => setIsOpen( true ), [] );
+	const closeModal = useCallback( () => setIsOpen( false ), [] );
+	const centerElementRef = useRef( null );
+
+	return (
+		<Fragment>
+			<Button onClick={ openModal }>Open modal</Button>
+			<RawModal isOpen={ isOpen } onClose={ closeModal } initialFocus={ centerElementRef }>
+				<RawModal.Panel>
+					<RawModal.Title>Title</RawModal.Title>
+					<RawModal.Description>Description area.</RawModal.Description>
+					<TextInput placeholder="This is where the focus should be." ref={ centerElementRef } />
+				</RawModal.Panel>
+			</RawModal>
+		</Fragment>
+	);
+};
+
+export const InitialFocus = () => <InitialFocusComponent />;
+
+InitialFocus.parameters = { docs: { description: { story: "The `initialFocus` prop accepts ref object and once the modal is open, the focus will be applied to the element with the ref. <br>By default, the focus will go to the first focusable element in the modal." } } };

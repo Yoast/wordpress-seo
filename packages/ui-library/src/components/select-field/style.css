@@ -20,8 +20,8 @@
 			@apply yst-mt-2;
 		}
 
-		.yst-select-field__error {
-			@apply yst-mt-2 yst-text-red-600;
+		.yst-select-field__validation {
+			@apply yst-mt-2;
 		}
 	}
 }

@@ -37,6 +37,11 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "content",
 		},
 	],
+	"core/image": [
+		{
+			key: "caption",
+		},
+	],
 	"yoast/faq-block": [
 		{
 			key: "questions",
@@ -192,7 +197,7 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
      * A cool <b>keyword</b>. => A cool keyword.
 	 */
 	const originalSentence = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
-	console.log(originalSentence, "original Sentence")
+	console.log( originalSentence, "original Sentence" );
 	/*
 	 * Remove all tags except yoastmark tags from the marked sentence.
 	 *
@@ -256,7 +261,7 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
 			} );
 		} );
 	} );
-	console.log(blockOffsets, "offset")
+	console.log( blockOffsets, "offset" );
 	return blockOffsets;
 }
 

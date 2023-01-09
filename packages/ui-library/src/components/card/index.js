@@ -1,5 +1,6 @@
 import { PropTypes } from "prop-types";
 import classNames from "classnames";
+import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} as The element to render as.
@@ -16,7 +17,7 @@ const Header = ( { as: Component = "header", children, className = "", ...props 
 Header.propTypes = {
 	as: PropTypes.element,
 	children: PropTypes.node.isRequired,
-	className: PropTypes.node,
+	className: PropTypes.string,
 };
 
 /**
@@ -34,7 +35,7 @@ const Content = ( { as: Component = "div", children, className = "", ...props } 
 Content.propTypes = {
 	as: PropTypes.element,
 	children: PropTypes.node.isRequired,
-	className: PropTypes.node,
+	className: PropTypes.string,
 };
 
 
@@ -53,7 +54,7 @@ const Footer = ( { as: Component = "footer", children, className = "", ...props 
 Footer.propTypes = {
 	as: PropTypes.element,
 	children: PropTypes.node.isRequired,
-	className: PropTypes.node,
+	className: PropTypes.string,
 };
 
 /**
@@ -62,20 +63,36 @@ Footer.propTypes = {
  * @param {string} className The className.
  * @returns {JSX.Element} The card component.
  */
-const Card = ( { as: Component = "div", children, className = "", ...props } ) => (
-	<Component { ...props } className={ classNames( "yst-card", className ) }>
+const Card = forwardRef( ( { as: Component, children, className, ...props }, ref ) => (
+	<Component { ...props } className={ classNames( "yst-card", className ) } ref={ ref }>
 		{ children }
 	</Component>
-);
+) );
 
-Card.propTypes = {
-	as: PropTypes.element,
+const propTypes = {
+	as: PropTypes.elementType,
 	children: PropTypes.node.isRequired,
-	className: PropTypes.node,
+	className: PropTypes.string,
+};
+
+Card.propTypes = propTypes;
+
+Card.defaultProps = {
+	as: "div",
+	className: "",
 };
 
 Card.Header = Header;
+Card.Header.displayName = "Card.Header";
 Card.Content = Content;
+Card.Content.displayName = "Card.Content";
 Card.Footer = Footer;
+Card.Footer.displayName = "Card.Footer";
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Card { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Card.defaultProps;
+StoryComponent.displayName = "Card";
 
 export default Card;
