@@ -3,7 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import ageAssessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/ageAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for Age assessments", function() {
 	it( "should target non-inclusive phrases", function() {
@@ -53,6 +53,55 @@ describe( "A test for Age assessments", function() {
 			},
 		];
 
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should target potentially non-inclusive phrases 'elderly' and 'seniors'", function() {
+		const testData = [
+			{
+				identifier: "elderly",
+				text: "There's lack of proper care for the elderly in this country.",
+				expectedFeedback: "Be careful when using <i>elderly</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>older people</i>, unless referring to someone who" +
+					" explicitly wants to be referred to with this term. Or, if possible, be specific about the group " +
+					"you are referring to (e.g. <i>people older than 70</i>). " +
+					"<a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "seniors",
+				text: "There's lack of proper care for seniors in this country.",
+				expectedFeedback: "Be careful when using <i>seniors</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>older people</i>, unless referring to someone who " +
+					"explicitly wants to be referred to with this term. Or, if possible, be specific about the group " +
+					"you are referring to (e.g. <i>people older than 70</i>). " +
+					"<a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should target non-inclusive phrases 'senile' and 'senility'", function() {
+		const testData = [
+			{
+				identifier: "senile",
+				text: "Man, he's turned completely senile these last couple of years.",
+				expectedFeedback: "Avoid using <i>senile</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as a specific characteristic or experience if it is known " +
+					"(e.g. <i>has Alzheimer's</i>). " +
+					"<a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "senility",
+				text: "Her biggest fear is senility in older age.",
+				expectedFeedback: "Avoid using <i>senility</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>dementia</i>. " +
+					"<a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
 		testInclusiveLanguageAssessments( testData );
 	} );
 

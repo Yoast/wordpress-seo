@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/cultureAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for Culture Assessments", () => {
 	it( "should target only capitalized non-inclusive phrases when the caseSensitive flag is set", () => {
@@ -143,7 +143,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'gypsy' and its plural forms", () => {
+	it( "should return the appropriate score and feedback string for: 'gypsy' / 'gipsy' and their plural forms", () => {
 		const testData = [
 			{
 				identifier: "gypsy",
