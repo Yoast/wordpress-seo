@@ -1,5 +1,5 @@
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import WordComplexityAssessment from "../../assessments/premiumAssessments/readability/WordComplexityAssessment";
+import WordComplexityAssessment from "../../premiumAssessments/readability/WordComplexityAssessment";
 import Assessor from "../../assessor.js";
 import ContentAssessor from "../../contentAssessor";
 import ParagraphTooLong from "../../assessments/readability/ParagraphTooLongAssessment.js";

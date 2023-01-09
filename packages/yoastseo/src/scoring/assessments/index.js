@@ -33,9 +33,6 @@ import ProductSKUAssessment from "./seo/ProductSKUAssessment";
 
 import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
-import TextTitleAssessment from "./premiumAssessments/seo/TitleAssessment";
-import WordComplexityAssessment from "./premiumAssessments/readability/WordComplexityAssessment";
-
 const readability = {
 	ListAssessment,
 	ParagraphTooLongAssessment,
@@ -73,11 +70,6 @@ const seo = {
 	ProductSKUAssessment,
 };
 
-const premiumAssessments = {
-	TextTitleAssessment,
-	WordComplexityAssessment,
-};
-
 const inclusiveLanguage = {
 	InclusiveLanguageAssessment,
 };
@@ -86,5 +78,4 @@ export {
 	readability,
 	seo,
 	inclusiveLanguage,
-	premiumAssessments,
 };
