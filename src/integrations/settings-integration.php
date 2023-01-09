@@ -384,7 +384,7 @@ class Settings_Integration implements Integration_Interface {
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => $this->get_schema( $transformed_post_types ),
-			'preferences'          => $this->get_preferences(),
+			'preferences'          => $this->get_preferences( $settings ),
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
@@ -396,9 +396,11 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Retrieves the preferences.
 	 *
+	 * @param array $settings The settings.
+	 *
 	 * @return array The preferences.
 	 */
-	protected function get_preferences() {
+	protected function get_preferences( $settings ) {
 		$shop_page_id             = $this->woocommerce_helper->get_shop_page_id();
 		$homepage_is_latest_posts = \get_option( 'show_on_front' ) === 'posts';
 		$page_on_front            = \get_option( 'page_on_front' );
@@ -436,6 +438,7 @@ class Settings_Integration implements Integration_Interface {
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
+			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 		];
 	}
 
@@ -456,6 +459,30 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Retrieves the currently represented person.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The currently represented person's ID and name.
+	 */
+	protected function get_site_represents_person( $settings ) {
+		$person = [
+			'id'   => false,
+			'name' => '',
+		];
+
+		if ( isset( $settings['wpseo_titles']['company_or_person_user_id'] ) ) {
+			$person['id'] = $settings['wpseo_titles']['company_or_person_user_id'];
+			$user         = \get_userdata( $person['id'] );
+			if ( $user instanceof \WP_User ) {
+				$person['name'] = $user->get( 'display_name' );
+			}
+		}
+
+		return $person;
 	}
 
 	/**
