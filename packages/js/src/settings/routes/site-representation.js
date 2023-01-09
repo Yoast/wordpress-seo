@@ -7,6 +7,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Button, Radio, RadioGroup, TextField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
+import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
 import { useSelectSettings } from "../hooks";
@@ -84,14 +85,12 @@ const SiteRepresentation = () => {
 					<section className="yst-space-y-8" />
 					<hr className="yst-my-8" />
 					<div className="yst-relative">
-						<Transition
-							show={ companyOrPerson === "company" }
-							enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
-							enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-							enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-							leave="yst-transition yst-absolute yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
-							leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-							leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
+						<AnimateHeight
+							easing="ease-out"
+							duration={ 300 }
+							delay={ 300 }
+							height={ companyOrPerson === "company" ? "auto" : 0 }
+							animateOpacity={ true }
 						>
 							<FieldsetLayout
 								title={ __( "Organization", "wordpress-seo" ) }
@@ -212,15 +211,13 @@ const SiteRepresentation = () => {
 									) }
 								</FieldArray>
 							</FieldsetLayout>
-						</Transition>
-						<Transition
-							show={ companyOrPerson === "person" }
-							enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
-							enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-							enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-							leave="yst-transition yst-absolute yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
-							leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-							leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
+						</AnimateHeight>
+						<AnimateHeight
+							easing="ease-out"
+							duration={ 300 }
+							delay={ 300 }
+							height={ companyOrPerson === "person" ? "auto" : 0 }
+							animateOpacity={ true }
 						>
 							<FieldsetLayout
 								title={ __( "Personal info", "wordpress-seo" ) }
@@ -289,7 +286,7 @@ const SiteRepresentation = () => {
 									disabled={ ! companyOrPersonId }
 								/>
 							</FieldsetLayout>
-						</Transition>
+						</AnimateHeight>
 					</div>
 				</div>
 			</FormLayout>
