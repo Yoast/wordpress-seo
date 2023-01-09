@@ -124,7 +124,6 @@ const TagInput = forwardRef( ( {
 					tag={ tag }
 					index={ index }
 					disabled={ disabled }
-					tabIndex="2"
 					onRemoveTag={ onRemoveTag }
 					screenReaderRemoveTag={ screenReaderRemoveTag }
 				/>
@@ -134,7 +133,6 @@ const TagInput = forwardRef( ( {
 				type="text"
 				disabled={ disabled }
 				className="yst-tag-input__input"
-				tabIndex="1"
 				onKeyDown={ handleKeyDown }
 				{ ...props }
 				onChange={ handleChange }

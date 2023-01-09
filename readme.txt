@@ -247,7 +247,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 20.0 =
 
-Release date: January 3rd, 2023
+Release date: 2023-01-24
 
 #### Enhancements
 
@@ -265,7 +265,7 @@ Release date: January 3rd, 2023
 
 = 19.14 =
 
-Release date: January 10th, 2023
+Release date: 2023-01-10
 
 #### Enhancements
 
