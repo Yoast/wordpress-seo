@@ -1,6 +1,5 @@
 import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./src/worker";
 import * as assessments from "./src/scoring/assessments";
-import * as premiumAssessments from "./src/scoring/assessments/premiumAssessments";
 import * as bundledPlugins from "./src/bundledPlugins";
 import * as helpers from "./src/helpers";
 import * as markers from "./src/markers";
@@ -43,7 +42,6 @@ export {
 	createWorker,
 
 	assessments,
-	premiumAssessments,
 	bundledPlugins,
 	config,
 	helpers,
@@ -77,7 +75,6 @@ export default {
 	createWorker,
 
 	assessments,
-	premiumAssessments,
 	bundledPlugins,
 	config,
 	helpers,
