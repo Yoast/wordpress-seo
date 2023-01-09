@@ -47,6 +47,11 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "questions",
 		},
 	],
+	"yoast/how-to-block": [
+		{
+			key: "steps",
+		},
+	],
 };
 
 const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {
@@ -197,7 +202,6 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
      * A cool <b>keyword</b>. => A cool keyword.
 	 */
 	const originalSentence = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
-	console.log( originalSentence, "original Sentence" );
 	/*
 	 * Remove all tags except yoastmark tags from the marked sentence.
 	 *
@@ -261,7 +265,6 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
 			} );
 		} );
 	} );
-	console.log( blockOffsets, "offset" );
 	return blockOffsets;
 }
 
@@ -303,6 +306,12 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 
 		 attributeValue = question.concat( " ", answer );
 	}
+	if ( block.name === "yoast/how-to-block" ) {
+		const jsonName = attributeValue[ 0 ].jsonName;
+		const jsonText = attributeValue[ 0 ].jsonText;
+
+		attributeValue = jsonName.concat( " ", jsonText );
+	}
 
 	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
 		return [];
@@ -322,9 +331,6 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 			text,
 			mark
 		);
-		console.log( annotations, "annotations after record" );
-		console.log( mark, "mark after record" );
-		console.log( text, "text after record" );
 		if ( ! annotations ) {
 			return [];
 		}

@@ -325,6 +325,7 @@ export default class HowToStep extends Component {
 					}
 				</span>
 				<RichTextWithAppendedSpace
+					identifier="steps"
 					className="schema-how-to-step-name"
 					tagName="p"
 					key={ `${ id }-name` }
@@ -335,6 +336,7 @@ export default class HowToStep extends Component {
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichTextWithAppendedSpace
+					identifier="description"
 					className="schema-how-to-step-text"
 					tagName="p"
 					key={ `${ id }-text` }

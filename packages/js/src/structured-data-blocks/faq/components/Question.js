@@ -336,6 +336,7 @@ export default class Question extends Component {
 		return (
 			<div className="schema-faq-section" key={ id }>
 				<RichText
+					identifier="questions"
 					className="schema-faq-question"
 					tagName="p"
 					key={ id + "-question" }
@@ -346,6 +347,7 @@ export default class Question extends Component {
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichText
+					identifier="answer"
 					className="schema-faq-answer"
 					tagName="p"
 					key={ id + "-answer" }
