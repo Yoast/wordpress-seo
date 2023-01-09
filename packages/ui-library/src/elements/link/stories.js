@@ -38,7 +38,7 @@ export const Anchor = {
 		},
 	},
 	args: {
-		children: <><span className="yst-sr-only">(opens in a new tab)</span>yoast.com</>,
+		children: <><span className="yst-sr-only">(Opens in a new browser tab)</span>yoast.com</>,
 		href: "https://yoast.com",
 		target: "_blank",
 		rel: "noopener noreferrer",

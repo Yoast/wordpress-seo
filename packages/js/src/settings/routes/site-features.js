@@ -140,7 +140,7 @@ const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 			target="_blank"
 			rel="noopener"
-			aria-label={ `Learn more about ${ ariaLabel }, opens in a new tab` }
+			aria-label={ `Learn more about ${ ariaLabel } (Opens in a new browser tab)` }
 			{ ...props }
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
