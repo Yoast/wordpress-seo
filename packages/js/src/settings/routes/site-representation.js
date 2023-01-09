@@ -34,7 +34,7 @@ const SiteRepresentation = () => {
 	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
-	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
+	const canEditUser = useSelectSettings( "selectCanEditUser", [ personUser?.id ], personUser?.id );
 
 	return (
 		<RouteLayout
