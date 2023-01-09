@@ -6,10 +6,12 @@ import { Alert, Button, Code, TextField, ToggleField, useSvgAria } from "@yoast/
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
-import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
+import { withDisabledMessageSupport, withFormikDummyField, withFormikError } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikFieldWithDummy = withFormikDummyField( Field );
+const FormikFieldWithDummyAndError = withFormikError( FormikFieldWithDummy );
+
 const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
 const FormikValueChangeFieldWithDummy = withFormikDummyField( withDisabledMessageSupport( FormikValueChangeField ) );
 
@@ -578,10 +580,9 @@ const CrawlOptimization = () => {
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
-						<FormikFieldWithDummy
+						<FormikFieldWithDummyAndError
 							as={ TextField }
 							type="number"
-							validation={ ( values.wpseo.search_character_limit < 1 || values.wpseo.search_character_limit > 50 ) && { message: __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ), variant: "error" } }
 							name="wpseo.search_character_limit"
 							id="input-wpseo-search_character_limit"
 							label={ __( "Max number of characters to allow in searches", "wordpress-seo" ) }
