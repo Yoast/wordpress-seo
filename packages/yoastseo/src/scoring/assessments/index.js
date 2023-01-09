@@ -32,7 +32,7 @@ import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "./seo/ProductSKUAssessment";
 
 import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
-import premiumAssessments from "./premiumAssessments";
+import * as premiumAssessments from "./premiumAssessments";
 
 const readability = {
 	ListAssessment,
