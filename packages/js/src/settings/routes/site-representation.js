@@ -257,7 +257,7 @@ const SiteRepresentation = () => {
 											sprintf(
 												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
 												// %3$s is replaced by the selected user display name.
-												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the information below.", "wordpress-seo" ),
+												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the profile.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
 												personUser?.name
