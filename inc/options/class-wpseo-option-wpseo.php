@@ -87,6 +87,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'configuration_finished_steps'             => [],
 		'dismiss_configuration_workout_notice'     => false,
 		'dismiss_premium_deactivated_notice'       => false,
+		'dismiss_old_premium_notice'               => false,
 		'importing_completed'                      => [],
 		'wincher_integration_active'               => true,
 		'wincher_tokens'                           => [],

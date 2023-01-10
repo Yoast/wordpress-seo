@@ -1,9 +1,11 @@
 import { useCallback, useState } from "@wordpress/element";
-import TagField from ".";
+import { noop, map } from "lodash";
+import { VALIDATION_VARIANTS } from "../../constants";
+import { StoryComponent } from ".";
 
 export default {
-	title: "2. Components/Tag Field",
-	component: TagField,
+	title: "2) Components/Tag Field",
+	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
@@ -14,7 +16,6 @@ export default {
 	argTypes: {
 		labelSuffix: { control: "text" },
 		description: { control: "text" },
-		error: { control: "text" },
 	},
 	args: {
 		id: "tag-field",
@@ -33,7 +34,7 @@ const Template = args => {
 	}, [ tags, setTags ] );
 
 	return (
-		<TagField { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 
@@ -49,10 +50,26 @@ WithLabelAndDescription.args = {
 	description: "Tag field with a description.",
 };
 
-export const WithError = Template.bind( {} );
-WithError.args = {
-	id: "tag-field-2",
-	label: "Tag field with a label",
-	description: "Tag field with a description.",
-	error: "This is what the error message looks like!",
-};
+export const Validation = () => (
+	<div className="yst-space-y-8">
+		{ map( VALIDATION_VARIANTS, variant => (
+			<StoryComponent
+				key={ variant }
+				id={ `validation-${ variant }` }
+				name={ `validation-${ variant }` }
+				label={ `With validation of variant ${ variant }` }
+				value="The quick brown fox jumps over the lazy dog"
+				onChange={ noop }
+				validation={ {
+					variant,
+					message: {
+						success: "Looks like you are nailing it!",
+						warning: "Looks like you could do better!",
+						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+						error: "Looks like you are doing it wrong!",
+					}[ variant ],
+				} }
+			/>
+		) ) }
+	</div>
+);

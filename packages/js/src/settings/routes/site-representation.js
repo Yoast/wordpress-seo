@@ -77,7 +77,7 @@ const PersonSocialProfiles = () => {
 		pinterest: __( "Pinterest URL", "wordpress-seo" ),
 		soundcloud: __( "SoundCloud URL", "wordpress-seo" ),
 		tumblr: __( "Tumblr URL", "wordpress-seo" ),
-		twitter: __( "Twitter username (without @)", "wordpress-seo" ),
+		twitter: __( "Twitter", "wordpress-seo" ),
 		youtube: __( "YouTube URL", "wordpress-seo" ),
 		wikipedia: __( "Wikipedia URL", "wordpress-seo" ),
 	} ), [] );
@@ -326,6 +326,7 @@ const SiteRepresentation = () => {
 									name="wpseo_titles.company_or_person_user_id"
 									id="input-wpseo_titles-company_or_person_user_id"
 									label={ __( "Select a user", "wordpress-seo" ) }
+									className="yst-max-w-sm"
 								/>
 								{ ! isEmpty( personUser ) && (
 									<Alert id="alert-person-user-profile">

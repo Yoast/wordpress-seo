@@ -31,7 +31,7 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 	$frontpage_settings_message = sprintf(
 		/* translators: 1: link open tag; 2: link close tag. */
 		esc_html__( 'The social homepage settings have been moved to the %1$s‘Search appearance’ settings under the ‘General’ tab%2$s.', 'wordpress-seo' ),
-		'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#general' ) ) . '">',
+		'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_page_settings#/homepage' ) ) . '">',
 		'</a>'
 	);
 

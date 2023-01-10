@@ -199,7 +199,7 @@ describe( "A test for Culture Assessments", () => {
 		const assessmentResult = assessor.getResult();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>first-world</i> as it is overgeneralizing. Consider using specific name for the country or region instead.  " +
+			"Avoid using <i>first-world</i> as it is overgeneralizing. Consider using the specific name for the country or region instead.  " +
 			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
 		);
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
@@ -207,6 +207,28 @@ describe( "A test for Culture Assessments", () => {
 			fieldsToMark: [],
 			marked: "<yoastmark class='yoast-text-mark'>This sentence contains first-world.</yoastmark>",
 			original: "This sentence contains first-world." } } ]
+		);
+	} );
+	it( "correctly identifies 'first world countries'", () => {
+		const mockPaper = new Paper( "Many first world countries adopted the policy." );
+		const mockResearcher = Factory.buildMockResearcher( [ "first world countries" ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firstWorldCountries" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>first world countries</i> as it is overgeneralizing. " +
+			"Consider using the specific name for the countries or regions instead.  " +
+			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>first world countries</yoastmark>",
+			original: "first world countries" } } ]
 		);
 	} );
 	it( "correctly identifies 'third-world country'", () => {
