@@ -46,7 +46,7 @@ const PremiumUpsellCard = () => {
 			>
 				<YoastSeoLogo />
 			</figure>
-			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white yst-text-center">
+			<Title as="h2" className="yst-mt-6 yst-text-base yst-font-extrabold yst-text-white">
 				{ getPremium }
 			</Title>
 			<p className="yst-mt-2">{ info }</p>
