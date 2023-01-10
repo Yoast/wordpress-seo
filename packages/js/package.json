@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=119"
+    "lint": "eslint src tests --max-warnings=118"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
@@ -54,7 +54,7 @@
     "react-router-dom": "^6.3.0",
     "yup": "^0.32.11",
     "bowser": "^2.11.0",
-    "react-hotkeys-hook": "^4.0.3"
+    "react-hotkeys-hook": "^3.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

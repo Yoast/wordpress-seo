@@ -15,6 +15,7 @@ import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
 import { Slot } from "@wordpress/components";
 import { actions } from "@yoast/externals/redux";
+import { Root } from "@yoast/externals/contexts";
 import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 
 /* Internal dependencies */
@@ -31,7 +32,6 @@ import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
 import { isWordProofIntegrationActive } from "../helpers/wordproof";
-import Root from "../components/contexts/root";
 
 
 /**
@@ -82,7 +82,8 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
+	const openedPanels = select( "core/preferences" ).get( "core/edit-post", "openPanels" );
+	const firstLoad = ! openedPanels.includes( "yoast-seo/document-panel" );
 	if ( firstLoad ) {
 		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
 	}

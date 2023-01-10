@@ -372,34 +372,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the robots value for the googlebot tag.
-	 *
-	 * @deprecated 14.9 Values merged into the robots meta tag.
-	 * @codeCoverageIgnore
-	 *
-	 * @return array The robots value with opt-in snippets.
-	 */
-	public function generate_googlebot() {
-		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
-
-		return [];
-	}
-
-	/**
-	 * Generates the value for the bingbot tag.
-	 *
-	 * @deprecated 14.9 Values merged into the robots meta tag.
-	 * @codeCoverageIgnore
-	 *
-	 * @return array The robots value with opt-in snippets.
-	 */
-	public function generate_bingbot() {
-		\_deprecated_function( __METHOD__, 'WPSEO 14.9' );
-
-		return [];
-	}
-
-	/**
 	 * Generates the canonical.
 	 *
 	 * @return string The canonical.
@@ -582,18 +554,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_open_graph_locale() {
 		return $this->open_graph_locale_generator->generate( $this->context );
-	}
-
-	/**
-	 * Generates the open graph Facebook app ID.
-	 *
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return string The open graph Facebook app ID.
-	 */
-	public function generate_open_graph_fb_app_id() {
-		return $this->options->get( 'fbadminapp', '' );
 	}
 
 	/**
