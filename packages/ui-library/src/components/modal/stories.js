@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import RawModal, { classNameMap } from ".";
 import Button from "../../elements/button";
 import TextInput from "../../elements/text-input";
+import { classNameMap as titleClassNameMap } from "../../elements/title";
 
 const Modal = ( { isOpen: initialIsOpen, onClose: _, children, ...props } ) => {
 	const [ isOpen, setIsOpen ] = useState( initialIsOpen );
@@ -62,6 +63,12 @@ export default {
 			},
 			options: Object.keys( classNameMap.position ),
 		},
+		size: {
+			control: "select",
+			description: "Prop for the `Model.Title` component.",
+			type: { summary: Object.keys( titleClassNameMap.size ).join( "|" ) },
+			options: Object.keys( titleClassNameMap.size ),
+		},
 	},
 	parameters: {
 		docs: {
@@ -113,7 +120,7 @@ export const WithTitleAndDescription = {
 	parameters: {
 		docs: {
 			description: {
-				story: "Using the `Modal.Title` and `Modal.Description` components.",
+				story: "Using the `Modal.Title` and `Modal.Description` components will add `aria-labelledby` and `aria-describedby` to the Modal with matching IDrefs.",
 			},
 		},
 	},

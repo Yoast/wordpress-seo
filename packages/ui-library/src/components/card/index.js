@@ -8,7 +8,7 @@ import { forwardRef } from "@wordpress/element";
  * @param {string} className The className.
  * @returns {WPElement} The card header.
  */
-const Header = ( { as: Component = "header", children, className = "", ...props } ) => (
+const Header = ( { as: Component = "div", children, className = "", ...props } ) => (
 	<Component { ...props } className={ classNames( "yst-card__header", className ) }>
 		{ children }
 	</Component>
@@ -45,7 +45,7 @@ Content.propTypes = {
  * @param {string} className The className.
  * @returns  {WPElement} The card footer.
  */
-const Footer = ( { as: Component = "footer", children, className = "", ...props } ) => (
+const Footer = ( { as: Component = "div", children, className = "", ...props } ) => (
 	<Component { ...props } className={ classNames( "yst-card__footer", className ) }>
 		{ children }
 	</Component>

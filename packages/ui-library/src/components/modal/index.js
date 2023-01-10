@@ -3,9 +3,45 @@ import { XIcon } from "@heroicons/react/outline";
 import { forwardRef, Fragment } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import Title from "../../elements/title";
 import { useSvgAria } from "../../hooks";
 import { ModalContext, useModalContext } from "./hooks";
+import { classNameMap as titleClassNameMap } from "../../elements/title";
+
+/**
+ * @param {JSX.node} children Title text.
+ * @param {string} [className] Additional class names.
+ * @param {string|JSX.Element} [as="h1"] Base component.
+ * @param {string} [size] Size of title.
+ * @param {Object} [props] Additional props.
+ * @returns {JSX.Element} The title.
+ */
+const Title = forwardRef( ( { children, size, className, as, ...props }, ref ) => {
+	return (
+		<Dialog.Title
+			as={ as }
+			ref={ ref }
+			className={ classNames(
+				"yst-title",
+				size ? titleClassNameMap.size[ size ] : "",
+				className ) }
+			{ ...props }
+		>
+			{ children }
+		</Dialog.Title>
+	);
+} );
+
+Title.defaultProps = {
+	className: "",
+	as: "h1",
+};
+
+Title.propTypes = {
+	size: PropTypes.oneOf( Object.keys( titleClassNameMap.size ) ),
+	className: PropTypes.string,
+	children: PropTypes.node.isRequired,
+	as: PropTypes.elementType,
+};
 
 /**
  * @param {JSX.node} children Contents of the modal.
