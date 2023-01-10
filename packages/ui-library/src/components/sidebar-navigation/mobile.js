@@ -10,7 +10,7 @@ import { useNavigationContext } from "./index";
  * @param {string} [closeButtonScreenReaderText] The close button screen reader text.
  * @returns {JSX.Element} The mobile element.
  */
-const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScreenReaderText = "Close" } ) => {
+const Mobile = ( { children, openButtonScreenReaderText = "Opens a menu", closeButtonScreenReaderText = "Closes a menu" } ) => {
 	const { isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();
 	const openMobileMenu = useCallback( () => setMobileMenuOpen( true ), [ setMobileMenuOpen ] );
 	const closeMobileMenu = useCallback( () => setMobileMenuOpen( false ), [ setMobileMenuOpen ] );
