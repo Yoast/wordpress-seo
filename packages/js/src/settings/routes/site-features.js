@@ -35,7 +35,7 @@ const FeatureCard = ( {
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const imageSrc = useSelectSettings( "selectPluginUrl", [ rawImageSrc ], rawImageSrc );
-	const { isDisabled, message } = useDisabledMessage( { name } );
+	const { isDisabled, message, disabledSetting } = useDisabledMessage( { name } );
 	const { values } = useFormikContext();
 	const isPremiumHref = useSelectSettings( "selectLink", [ isPremiumLink ], isPremiumLink );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
@@ -82,6 +82,7 @@ const FeatureCard = ( {
 					id={ inputId }
 					label={ __( "Enable feature", "wordpress-seo" ) }
 					disabled={ isDisabled }
+					checked={ disabledSetting === "language" ? false : value }
 				/> }
 				{ shouldUpsell && (
 					<Button
@@ -136,7 +137,7 @@ const LearnMoreLink = ( { id, link } ) => {
 			rel="noopener"
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
+			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 		</a>
 	);
 };
@@ -212,15 +213,13 @@ const SiteFeatures = () => {
 								inputId="input-wpseo-inclusive_language_analysis_active"
 								imageSrc="/images/inclusive_language_analysis.png"
 								imageAlt={ __( "Inclusive language analysis", "wordpress-seo" ) }
-								isPremiumFeature={ true }
-								isPremiumLink="https://yoa.st/get-inclusive-language"
 								isBetaFeature={ true }
 							>
 								<Title as="h3">
 									{ __( "Inclusive language analysis", "wordpress-seo" ) }
 								</Title>
 								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-analysis" />
+								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-features-free" />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_metabox_insights"

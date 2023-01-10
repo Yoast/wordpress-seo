@@ -98,7 +98,7 @@ export const ToggleableIntegration = ( {
 									__( "(Opens in a new browser tab)", "wordpress-seo" )
 								}
 							</span>
-							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1" />
+							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
 						</Link> }
 					</p>
 				</div>

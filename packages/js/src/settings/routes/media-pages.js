@@ -158,6 +158,7 @@ const MediaPages = () => {
 							label={ __( "Page type", "wordpress-seo" ) }
 							options={ pageTypes }
 							disabled={ isAttachmentPagesDisabled }
+							className="yst-max-w-sm"
 						/>
 						{ hasSchemaArticleType && <FormikValueChangeField
 							as={ SelectField }
@@ -167,6 +168,7 @@ const MediaPages = () => {
 							label={ __( "Article type", "wordpress-seo" ) }
 							options={ articleTypes }
 							disabled={ isAttachmentPagesDisabled }
+							className="yst-max-w-sm"
 						/> }
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
