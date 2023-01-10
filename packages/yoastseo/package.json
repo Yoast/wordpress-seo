@@ -15,7 +15,6 @@
     "url": "https://github.com/Yoast/javascript.git",
     "directory": "packages/yoastseo"
   },
-  "sideEffects": false,
   "scripts": {
     "start": "npm start --prefix examples/webpack",
     "build": "grunt publish",
