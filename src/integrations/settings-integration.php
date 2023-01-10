@@ -371,7 +371,7 @@ class Settings_Integration implements Integration_Interface {
 	protected function get_script_data() {
 		$default_setting_values = $this->get_default_setting_values();
 		$settings               = $this->get_settings( $default_setting_values );
-		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
+		$post_types             = $this->post_type_helper->get_indexable_post_type_objects();
 		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 		$transformed_post_types = $this->transform_post_types( $post_types );
 
