@@ -1,7 +1,7 @@
 import Root from ".";
 
 export default {
-	title: "2. Components/Root",
+	title: "2) Components/Root",
 	component: Root,
 	parameters: {
 		docs: {

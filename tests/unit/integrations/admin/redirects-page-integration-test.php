@@ -6,22 +6,22 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
-use Yoast\WP\SEO\Integrations\Admin\Redirects_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Redirects_Page_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Redirects_Integration_Test
+ * Class Redirects_Page_Integration_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Redirects_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Redirects_Page_Integration
  *
  * @group integrations
  */
-class Redirects_Integration_Test extends TestCase {
+class Redirects_Page_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Redirects_Integration|Mockery\Mock
+	 * @var Redirects_Page_Integration|Mockery\Mock
 	 */
 	protected $instance;
 
@@ -31,7 +31,7 @@ class Redirects_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Redirects_Integration();
+		$this->instance = new Redirects_Page_Integration();
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Redirects_Integration_Test extends TestCase {
 				Admin_Conditional::class,
 				Premium_Inactive_Conditional::class,
 			],
-			Redirects_Integration::get_conditionals()
+			Redirects_Page_Integration::get_conditionals()
 		);
 	}
 

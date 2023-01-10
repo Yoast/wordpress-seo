@@ -8,6 +8,7 @@ import defaultSettingValues, {
 	defaultSettingValuesSelectors,
 } from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
+import introduction, { createInitialIntroductionState, introductionActions, introductionControls, introductionSelectors } from "./introduction";
 import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
@@ -34,6 +35,7 @@ const createStore = ( { initialState } ) => {
 		actions: {
 			...defaultSettingValuesActions,
 			...fallbacksActions,
+			...introductionActions,
 			...linkParamsActions,
 			...mediaActions,
 			...notificationsActions,
@@ -49,6 +51,7 @@ const createStore = ( { initialState } ) => {
 			...breadcrumbsSelectors,
 			...defaultSettingValuesSelectors,
 			...fallbacksSelectors,
+			...introductionSelectors,
 			...linkParamsSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
@@ -65,6 +68,7 @@ const createStore = ( { initialState } ) => {
 			{
 				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
+				introduction: createInitialIntroductionState(),
 				linkParams: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
 				notifications: createInitialNotificationsState(),
@@ -81,6 +85,7 @@ const createStore = ( { initialState } ) => {
 		reducer: combineReducers( {
 			defaultSettingValues,
 			fallbacks,
+			introduction,
 			linkParams,
 			media,
 			notifications,
@@ -95,6 +100,7 @@ const createStore = ( { initialState } ) => {
 		controls: {
 			...mediaControls,
 			...usersControls,
+			...introductionControls,
 		},
 	} );
 };
