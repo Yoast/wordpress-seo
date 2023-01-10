@@ -91,17 +91,5 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 			"social-image-id-archive-wpseo": number().isMediaTypeImage(),
 			"social-image-id-tax-post_format": number().isMediaTypeImage(),
 		} ),
-		person_social_profiles: object().shape( {
-			facebook: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			instagram: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			linkedin: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			myspace: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			pinterest: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			soundcloud: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			tumblr: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			twitter: string().isValidTwitterUrlOrHandle(),
-			youtube: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			wikipedia: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-		} ),
 	} );
 };
