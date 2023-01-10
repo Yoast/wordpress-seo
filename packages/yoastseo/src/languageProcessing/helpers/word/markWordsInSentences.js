@@ -6,7 +6,7 @@ import { escapeRegExp } from "lodash-es";
 import getAnchorsFromText from "../link/getAnchorsFromText";
 
 // Regex to deconstruct an anchor into open tag, content and close tag.
-const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)(.+?)(<\/a>)/;
+const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)([^]*?)(<\/a>)/;
 
 /**
  * Deconstructs an anchor to the opening tag and the content. The content is the anchor text.
@@ -93,17 +93,16 @@ export const collectMarkingsInSentence = function( sentence, wordsFoundInSentenc
 	 * The step below is to replace the incorrectly marked anchors with the marked anchors that we want:
 	 * where the markings are only applied in the anchor's text.
 	 */
-		 if ( anchors.length > 0 ) {
+	if ( anchors.length > 0 ) {
 		const markupAnchors = getAnchorsFromText( markup );
 		for ( let i = 0; i < markupAnchors.length; i++ ) {
 			markup = markup.replace( markupAnchors[ i ], markedAnchors[ i ] );
 		}
-	
-	
+	}
 	/*
 	 * If two marks are separated by only a space, remove the closing tag of the first mark and the opening tag of the
 	 * second mark so that the two marks can be combined into one.
-	 */}
+	 */
 
 	return ( markup.replace( new RegExp( "</yoastmark> <yoastmark class='yoast-text-mark'>", "ig" ), " " ) );
 };
