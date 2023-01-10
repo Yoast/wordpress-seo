@@ -36,7 +36,6 @@ import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
-import wordComplexity from "./researches/wordComplexity";
 
 /**
  * The researches contains all the researches
@@ -86,7 +85,6 @@ export default class AbstractResearcher {
 			wordCountInText,
 			videoCount,
 			getPassiveVoiceResult,
-			wordComplexity,
 		};
 
 		this._data = {};
