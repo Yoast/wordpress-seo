@@ -56,7 +56,7 @@ const PremiumUpsellCard = () => {
 				href={ premiumLink }
 				target="_blank"
 				rel="noopener"
-				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-px-4 sm:yst-px-0 focus:yst-ring-offset-primary-500"
+				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...premiumUpsellConfig }
 			>
 				<span>{ getPremium }</span>
