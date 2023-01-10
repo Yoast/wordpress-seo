@@ -85,7 +85,7 @@ class WPSEO_Upgrade {
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
 			'19.11-RC0'  => 'upgrade_1911',
-			'19.12-RC0'  => 'upgrade_1912',
+			'19.14-RC0'  => 'upgrade_1914',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -965,11 +965,16 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 19.12 upgrade routine.
+	 * Performs the 19.14 upgrade routine.
 	 *
 	 * @TODO: Update with the correct version number when the time comes.
 	 */
-	private function upgrade_1912() {
+	private function upgrade_1914() {
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			// This just schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table.
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
+
 		if ( WPSEO_Options::get( 'disable-attachment', true ) ) {
 			$this->remove_attachment_indexables();
 			$this->clean_attachment_links_from_target_indexable_ids();
