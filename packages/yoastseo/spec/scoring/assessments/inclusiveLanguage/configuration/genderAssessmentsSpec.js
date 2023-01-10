@@ -3,7 +3,7 @@ import Mark from "../../../../../src/values/Mark";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/genderAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for Gender assessments", function() {
 	it( "should target non-inclusive phrases", function() {

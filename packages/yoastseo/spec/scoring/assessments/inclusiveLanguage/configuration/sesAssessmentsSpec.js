@@ -4,7 +4,7 @@ import EnglishResearcher from "../../../../../src/languageProcessing/languages/e
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
 import Factory from "../../../../specHelpers/factory";
-import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for SES assessments", function() {
 	it( "should target non-inclusive phrases", function() {
