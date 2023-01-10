@@ -1,6 +1,5 @@
-import { markers } from "yoastseo";
+import { markers, languageProcessing } from "yoastseo";
 import { forEach } from "lodash-es";
-import { languageProcessing } from "yoastseo";
 
 var MARK_TAG = "yoastmark";
 
@@ -36,6 +35,11 @@ function markTinyMCE( editor, paper, marks ) {
 	let html = editor.getContent();
 	html = markers.removeMarks( html );
 
+	/*
+	 * Get the information whether we want to mark a specific part of the HTML. If we do, `fieldsToMark` should return an array with that information.
+	 * For example, [ "subehading" ] means that we want to apply the markings in subheadings only, and not the other parts.
+	 * `selectedHTML` is an array of the HTML parts that we want to apply the marking to.
+	 */
 	const { fieldsToMark, selectedHTML } = languageProcessing.getFieldsToMark( marks, html );
 
 	// Generate marked HTML.
@@ -54,6 +58,7 @@ function markTinyMCE( editor, paper, marks ) {
 
 		// Check if we want to mark only specific part of the HTML.
 		if ( fieldsToMark.length > 0 ) {
+			// Apply the marking to the selected HTML parts.
 			selectedHTML.forEach( element => {
 				const markedElement = mark.applyWithReplace( element );
 				html = html.replace( element, markedElement );
