@@ -17,7 +17,13 @@ addMethod( number, "isMediaTypeImage", function() {
 			if ( ! input ) {
 				return true;
 			}
+
 			const media = select( STORE_NAME ).selectMediaById( input );
+			// No metadata to validate: default to valid.
+			if ( ! media ) {
+				return true;
+			}
+
 			return media?.type === "image";
 		}
 	);
