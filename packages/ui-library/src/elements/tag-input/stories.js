@@ -38,6 +38,11 @@ export default {
 			description: "`TagInput.Tag` prop",
 			table: { type: { required: true, summary: "function"  } },
 		},
+		onSetTags: {
+			control: "function",
+			description: "Sets the tags to the given array.",
+			table: { type: { required: true, summary: "function"  } },
+		},
 		screenReaderRemoveTag: {
 			description: "`TagInput.Tag` prop",
 			control: "text",
@@ -71,9 +76,8 @@ const Template = args => {
 	const removeTag = useCallback( index => {
 		setTags( [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] );
 	}, [ tags, setTags ] );
-
 	return (
-		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } onSetTags={ setTags } />
 	);
 };
 
