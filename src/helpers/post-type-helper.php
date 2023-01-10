@@ -157,7 +157,7 @@ class Post_Type_Helper {
 	/**
 	 * Returns an array of complete post type objects for all indexable post types.
 	 *
-	 * @return array List of indeable post type objects.
+	 * @return array List of indexable post type objects.
 	 */
 	public function get_indexable_post_type_objects() {
 		$post_type_objects    = [];
