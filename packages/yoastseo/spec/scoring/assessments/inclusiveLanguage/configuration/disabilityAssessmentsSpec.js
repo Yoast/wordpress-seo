@@ -87,6 +87,8 @@ describe( "A test for Disability assessments", function() {
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 	} );
 
+
+
 	it( "should not target handicap when followed with exception words.", () => {
 		[ "toilet", "toilets", "parking", "bathroom", "bathrooms", "stall", "stalls" ].map( exceptionWord => {
 			const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "handicap" ) );
@@ -429,6 +431,207 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 
 		testInclusiveLanguageAssessments( testData );
 	} );
+
+	it( "should return the appropriate score and feedback string for: 'crippled'", () => {
+		const testData = [
+			{
+				identifier: "crippled",
+				text: "He's afraid to look crippled.",
+				expectedFeedback: "Avoid using <i>crippled</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>has a physical disability, is physically disabled</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should return the appropriate score and feedback string for: 'cripple'", () => {
+		const testData = [
+			{
+				identifier: "cripple",
+				text: "He's afraid to look like a cripple.",
+				expectedFeedback: "Avoid using <i>a cripple</i> as it is derogatory. Consider using an alternative, such as " +
+					"<i>person with a physical disability, a physically disabled person</i> instead. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should return the appropriate score and feedback string for: 'cripple'", () => {
+		const testData = [
+			{
+				identifier: "cripple",
+				text: "He's afraid to look like a cripple.",
+				expectedFeedback: "Avoid using <i>a cripple</i> as it is derogatory. Consider using an alternative, such as " +
+					"<i>person with a physical disability, a physically disabled person</i> instead. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should return the appropriate score and feedback string for: 'cripple'", () => {
+		const testData = [
+			{
+				identifier: "cripple",
+				text: "He's afraid to look like a cripple.",
+				expectedFeedback: "Avoid using <i>a cripple</i> as it is derogatory. Consider using an alternative, such as " +
+					"<i>person with a physical disability, a physically disabled person</i> instead. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should return the appropriate score and feedback string for: 'handicapped'", () => {
+		const testData = [
+			{
+				identifier: "handicapped",
+				text: "They considered that some people are handicapped.",
+				expectedFeedback: "Avoid using <i>handicapped</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>disabled, person with a disability</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should return the appropriate score and feedback string for: 'handicap'", () => {
+		const testData = [
+			{
+				identifier: "handicap",
+				text: "They are in the handicap situation.",
+				expectedFeedback: "Avoid using <i>handicap</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>disability</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should return the appropriate score and feedback string for: 'insane'", () => {
+		const testData = [
+			{
+				identifier: "insane",
+				text: "That party was insane.",
+				expectedFeedback: "Avoid using <i>insane</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>wild, confusing, unpredictable, impulsive, reckless, out of control, unbelievable, amazing, incomprehensible, " +
+					"nonsensical, outrageous, ridiculous</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'special needs'", () => {
+		const testData = [
+			{
+				identifier: "specialNeeds",
+				text: "We care about special needs children.",
+				expectedFeedback: "Avoid using <i>special needs</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>functional needs, support needs</i> when referring to someone's needs, or <i>disabled, person with a disability</i> " +
+					"when referring to a person. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+
+	it( "should return the appropriate score and feedback string for: 'handicap'", () => {
+		const testData = [
+			{
+				identifier: "handicap",
+				text: "They are in the handicap situation.",
+				expectedFeedback: "Avoid using <i>handicap</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>disability</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'hearing impaired'", () => {
+		const testData = [
+			{
+				identifier: "hearingImpaired",
+				text: "Speak louder for the hearing impaired people.",
+				expectedFeedback: "Avoid using <i>hearing impaired</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>deaf or hard of hearing, partially deaf, has partial hearing loss</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'functioning'", () => {
+		const testData = [
+			{
+				identifier: "functioning",
+				text: "They have high functioning depression.",
+				expectedFeedback: "Be careful when using <i>high functioning</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as describing the specific characteristic or experience, unless referring to how you characterize your own condition. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'hearing impaired'", () => {
+		const testData = [
+			{
+				identifier: "hearingImpaired",
+				text: "Speak louder for the hearing impaired people.",
+				expectedFeedback: "Avoid using <i>hearing impaired</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>deaf or hard of hearing, partially deaf, has partial hearing loss</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: ' high functioning'", () => {
+		const testData = [
+			{
+				identifier: "functioning",
+				text: "They have high functioning depression.",
+				expectedFeedback: "Be careful when using <i>high functioning</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as describing the specific characteristic or experience, unless referring to how you characterize your own condition. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'low functioning'", () => {
+		const testData = [
+			{
+				identifier: "functioning",
+				text: "They have low functioning depression.",
+				expectedFeedback: "Be careful when using <i>low functioning</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as describing the specific characteristic or experience, unless referring to how you characterize your own condition. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'low functioning'", () => {
+		const testData = [
+			{
+				identifier: "functioning",
+				text: "They have low functioning depression.",
+				expectedFeedback: "Be careful when using <i>low functioning</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as describing the specific characteristic or experience, unless referring to how you characterize your own condition. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
 	it( "should return the appropriate score and feedback string for: 'lame' and its other forms", () => {
 		const testData = [
 			{
@@ -499,6 +702,97 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 
 		testInclusiveLanguageAssessments( testData );
 	} );
+	it( "should return the appropriate score and feedback string for: 'handicap parking'", () => {
+		const testData = [
+			{
+				identifier: "handicapParking",
+				text: "They are waiting in the handicap parking spot.",
+				expectedFeedback: "Avoid using <i>handicap parking</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>accessible parking</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'handicap bathroom'", () => {
+		const testData = [
+			{
+				identifier: "handicapBathroom",
+				text: "The handicap bathroom was occupied.",
+				expectedFeedback: "Avoid using <i>handicap bathroom</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>accessible bathroom(s)</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'handicap stall'", () => {
+		const testData = [
+			{
+				identifier: "handicapStall",
+				text: "There is a handicap stall.",
+				expectedFeedback: "Avoid using <i>handicap stall</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>accessible stall(s)</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'handicap toilet'", () => {
+		const testData = [
+			{
+				identifier: "handicapToilet",
+				text: "The handicap toilet was occupied.",
+				expectedFeedback: "Avoid using <i>handicap toilet</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>accessible toilet(s)</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'fell on deaf ears'", () => {
+		const testData = [
+			{
+				identifier: "fellOnDeafEars",
+				text: "It's like he fell on deaf ears.",
+				expectedFeedback: "Avoid using <i>fell on deaf ears</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>was not addressed, was ignored, was disregarded</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'turn a blind eye'", () => {
+		const testData = [
+			{
+				identifier: "turnOnBlindEye",
+				text: "They turn a blind eye on the issue.",
+				expectedFeedback: "Avoid using <i>turn a blind eye</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>ignore, pretend not to notice</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'the blind leading the blind'", () => {
+		const testData = [
+			{
+				identifier: "blindLeadingBlind",
+				text: "Don't listen to him, it's the blind leading the blind.",
+				expectedFeedback: "Avoid using <i>the blind leading the blind</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>ignorant, misguided, incompetent, unqualified, insensitive, unaware</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
 	it( "should return the appropriate score and feedback string for: 'dumb' and its other forms", () => {
 		// The different forms of "dumb" is one entry under the same identifier.
 		const testData = [
@@ -529,6 +823,94 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'deaf-mute'", () => {
+		const testData = [
+			{
+				identifier: "deaf",
+				text: "They were born deaf-mute.",
+				expectedFeedback: "Avoid using <i>deaf-mute</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>deaf</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'deaf and dumb'", () => {
+		const testData = [
+			{
+				identifier: "deaf",
+				text: "They were born deaf and dumb.",
+				expectedFeedback: "Avoid using <i>deaf and dumb</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>deaf</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'deaf and dumb'", () => {
+		const testData = [
+			{
+				identifier: "deaf",
+				text: "They were born deaf and dumb.",
+				expectedFeedback: "Avoid using <i>deaf and dumb</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>deaf</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'addict' and its plural", () => {
+		const testData = [
+			{
+				identifier: "addict",
+				text: "They may be an addict.",
+				expectedFeedback: "Be careful when using <i>addict</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>person with a (drug, alcohol, ...) addiction, person with substance abuse disorder</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "addicts",
+				text: "Addicts are generalized as not trustworthy.",
+				expectedFeedback: "Be careful when using <i>addicts</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>people with a (drug, alcohol, ...) addiction, person with substance abuse disorder</i>, unless referring to " +
+					"someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'sanity check'", () => {
+		const testData = [
+			{
+				identifier: "sanityCheck",
+				text: "Those who decided this need a sanity check.",
+				expectedFeedback: "Avoid using <i>sanity check</i> as it is potentially harmful. Consider using an alternative, " +
+						"such as <i>final check, confidence check, rationality check, soundness check</i>. " +
+						"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'sanity check'", () => {
+		const testData = [
+			{
+				identifier: "sanityCheck",
+				text: "Those who decided this need a sanity check.",
+				expectedFeedback: "Avoid using <i>sanity check</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>final check, confidence check, rationality check, soundness check</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
 		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'epileptic fit' and its plural form", () => {
@@ -924,6 +1306,116 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			},
 		];
 
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'schizophrenic'", () => {
+		const testData = [
+			{
+				identifier: "schizophrenic",
+				text: "It's like he's schizophrenic.",
+				expectedFeedback: "Be careful when using <i>schizophrenic</i> as it is potentially harmful. Unless you are referencing the " +
+					"specific medical condition, consider using another alternative to describe the trait or behavior, such as " +
+					"<i>of two minds, chaotic, confusing</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'schizophrenic'", () => {
+		const testData = [
+			{
+				identifier: "schizophrenic",
+				text: "It's like he's schizophrenic.",
+				expectedFeedback: "Be careful when using <i>schizophrenic</i> as it is potentially harmful. Unless you are referencing the " +
+					"specific medical condition, consider using another alternative to describe the trait or behavior, such as " +
+					"<i>of two minds, chaotic, confusing</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'schizophrenic'", () => {
+		const testData = [
+			{
+				identifier: "paranoid",
+				text: "Some people get paranoid about their privacy.",
+				expectedFeedback: "Be careful when using <i>paranoid</i> as it is potentially harmful. Unless you are referencing the " +
+					"specific medical condition, consider using another alternative to describe the trait or behavior, such as " +
+					"<i>overly suspicious, unreasonable, defensive</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'schizophrenic'", () => {
+		const testData = [
+			{
+				identifier: "manic",
+				text: "She dances in a manic way.",
+				expectedFeedback: "Be careful when using <i>manic</i> as it is potentially harmful. Unless you are referencing the " +
+					"specific medical condition, consider using another alternative to describe the trait or behavior, such as " +
+					"<i>excited, raving, unbalanced, wild</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'hysterical'", () => {
+		const testData = [
+			{
+				identifier: "hysterical",
+				text: "The monologue was hysterical and therefore hard to understand.",
+				expectedFeedback: "Avoid using <i>hysterical</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>intense, vehement, piercing, chaotic</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'neurotic'", () => {
+		const testData = [
+			{
+				identifier: "neurotic",
+				text: "We listened to it but it sounds kind of neurotic.",
+				expectedFeedback: "Avoid using <i>neurotic</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>distraught, unstable, startling, confusing, baffling</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'narcissistic'", () => {
+		const testData = [
+			{
+				identifier: "narcissistic",
+				text: "We all know, the lovebombing narcissistic type.",
+				expectedFeedback: "Be careful when using <i>narcissistic</i> as it is potentially harmful. If you are referencing the " +
+					"medical condition, use <i>person with narcissistic personality disorder</i> instead. If you are not referencing the " +
+					"medical condition, consider other alternatives to describe the trait or behavior, such as <i>selfish, egotistical, " +
+					"self-centered, self-absorbed, vain, toxic, manipulative</i>. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'the mentally ill'", () => {
+		const testData = [
+			{
+				identifier: "theMentallyIll",
+				text: "There is growing compassion for the mentally ill.",
+				expectedFeedback: "Avoid using <i>the mentally ill</i> as it is generalizing. Consider using an alternative, " +
+					"such as <i>people who are mentally ill</i>, <i>mentally ill people</i> instead. " +
+					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
 		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "should return the appropriate score and feedback string for: 'daft'", () => {
