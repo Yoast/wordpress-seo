@@ -371,9 +371,11 @@ class Settings_Integration implements Integration_Interface {
 	protected function get_script_data() {
 		$default_setting_values = $this->get_default_setting_values();
 		$settings               = $this->get_settings( $default_setting_values );
-		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
-		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
+		$post_types             = $this->post_type_helper->get_indexable_post_type_objects();
+		$taxonomies             = $this->taxonomy_helper->get_indexable_taxonomy_objects();
+
 		$transformed_post_types = $this->transform_post_types( $post_types );
+		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
 		return [
 			'settings'             => $this->transform_settings( $settings ),
@@ -387,7 +389,7 @@ class Settings_Integration implements Integration_Interface {
 			'preferences'          => $this->get_preferences( $settings ),
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $transformed_post_types,
-			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
+			'taxonomies'           => $transformed_taxonomies,
 			'fallbacks'            => $this->get_fallbacks(),
 			'introduction'         => $this->get_introduction_data(),
 		];
@@ -752,7 +754,7 @@ class Settings_Integration implements Integration_Interface {
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
 		$transformed = [];
 		foreach ( $taxonomies as $name => $taxonomy ) {
-			$transformed[ $name ] = [
+			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
