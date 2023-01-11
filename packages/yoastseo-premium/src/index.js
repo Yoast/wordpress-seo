@@ -1,7 +1,7 @@
-import WordComplexityAssessment from "./WordComplexityAssessment";
-import wordComplexity from "./wordComplexity";
+import WordComplexityAssessment from "./assessments/readability/WordComplexityAssessment";
+import wordComplexity from "./researches/wordComplexity";
 
 export {
 	WordComplexityAssessment,
-	wordComplexity
-}
+	wordComplexity,
+};
