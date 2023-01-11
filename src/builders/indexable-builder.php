@@ -403,6 +403,9 @@ class Indexable_Builder {
 			return $this->save_indexable( $indexable, $indexable_before );
 		}
 		catch ( Source_Exception $exception ) {
+			if ( \is_null( $indexable->object_id ) ) {
+				return false;
+			}
 			/**
 			 * The current indexable could not be indexed. Create a placeholder indexable, so we can
 			 * skip this indexable in future indexing runs.
