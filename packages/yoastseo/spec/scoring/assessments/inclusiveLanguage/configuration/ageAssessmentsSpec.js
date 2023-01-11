@@ -6,30 +6,21 @@ import Factory from "../../../../specHelpers/factory.js";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for Age assessments", function() {
-	it( "should target non-inclusive phrases", function() {
-		const mockText = "This ad is aimed at aging dependants.";
-		const mockPaper = new Paper( mockText );
-		const mockResearcher = Factory.buildMockResearcher( [ mockText ] );
-		const assessor = new InclusiveLanguageAssessment( ageAssessments.find( obj => obj.identifier === "agingDependants" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-		const assessmentResult = assessor.getResult();
-
-		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>aging dependants</i> as it is potentially harmful. Consider using an alternative," +
-			" such as <i>older people</i>, unless referring to someone who explicitly wants to be referred to with this term." +
-			" Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>)." +
-			" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>" );
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: mockText,
-			marked: "<yoastmark class='yoast-text-mark'>" + mockText + "</yoastmark>",
-		} ) ] );
+	it( "should target non-inclusive phrase 'aging dependants'", function() {
+		const testData = [
+			{
+				identifier: "agingDependants",
+				text: "This ad is aimed at aging dependants.",
+				expectedFeedback: "Avoid using <i>aging dependants</i> as it is potentially harmful. Consider using an alternative," +
+					" such as <i>older people</i>, unless referring to someone who explicitly wants to be referred to with this term." +
+					" Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>)." +
+					" <a href='https://yoa.st/inclusive-language-age' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
 	} );
-
-	it( "should target potentially non-inclusive phrases: 'senior citizen' and its plural form", function() {
+	it( "should target potentially non-inclusive phrase 'senior citizen' and its plural form", function() {
 		const testData = [
 			{
 				identifier: "seniorCitizen",
@@ -56,7 +47,7 @@ describe( "A test for Age assessments", function() {
 		testInclusiveLanguageAssessments( testData );
 	} );
 
-	it( "should target potentially non-inclusive phrases 'elderly' and 'seniors'", function() {
+	it( "should target potentially non-inclusive words 'elderly' and 'seniors'", function() {
 		const testData = [
 			{
 				identifier: "elderly",
@@ -82,7 +73,7 @@ describe( "A test for Age assessments", function() {
 		testInclusiveLanguageAssessments( testData );
 	} );
 
-	it( "should target non-inclusive phrases 'senile' and 'senility'", function() {
+	it( "should target non-inclusive words 'senile' and 'senility'", function() {
 		const testData = [
 			{
 				identifier: "senile",

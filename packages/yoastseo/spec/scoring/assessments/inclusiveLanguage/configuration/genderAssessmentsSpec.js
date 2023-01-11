@@ -5,50 +5,447 @@ import assessments from "../../../../../src/scoring/assessments/inclusiveLanguag
 import Factory from "../../../../specHelpers/factory.js";
 import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
+describe( "Tests for exclusionary and potentially exclusionary phrases", function() {
+	it( "should target exclusionary phrases derived from the word 'man'", function() {
+		const testData = [
+			{
+				identifier: "mankind",
+				text: "Mankind is so great! I could talk for hours about it.",
+				expectedFeedback: "Avoid using <i>mankind</i> as it is exclusionary. Consider using an alternative, such as " +
+					"<i>individuals, people, persons, human beings, humanity</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "manHours",
+				text: "This sentence contains the word man-hours, plus a random clause added at the end.",
+				expectedFeedback: "Avoid using <i>man-hours</i> as it is exclusionary. " +
+					"Consider using an alternative, such as <i>person-hours, business hours</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "manMade",
+				text: "This sentence contains the word man-made and then there's an additional clause at the end.",
+				expectedFeedback: "Avoid using <i>man-made</i> as it is exclusionary. " +
+					"Consider using an alternative, such as <i>artificial, synthetic, machine-made</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "manMade",
+				text: "This sentence contains the word manmade and then there's an additional clause at the end.",
+				expectedFeedback: "Avoid using <i>manmade</i> as it is exclusionary. " +
+					"Consider using an alternative, such as <i>artificial, synthetic, machine-made</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "manned",
+				text: "This sentence contains the word manned and then there's an additional clause at the end.",
+				expectedFeedback: "Avoid using <i>manned</i> as it is exclusionary. " +
+					"Consider using an alternative, such as <i>crewed</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets exclusionary phrase 'to each his own'", function() {
+		const testData = [
+			{
+				identifier: "toEachTheirOwn",
+				text: "Well, what can I say, to each his own.",
+				expectedFeedback: "Avoid using <i>to each his own</i> as it is exclusionary. " +
+					"Consider using an alternative, such as <i>to each their own</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets exclusionary phrases 'opposite gender' and 'opposite sex'", function() {
+		const testData = [
+			{
+				identifier: "oppositeGender",
+				text: "This sentence includes the phrase opposite gender and something else at the end.",
+				expectedFeedback: "Avoid using <i>opposite gender</i> as it is exclusionary. " +
+					"Consider using an alternative, such as <i>another gender</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "oppositeSex",
+				text: "This sentence includes the phrase opposite sex and something else at the end.",
+				expectedFeedback: "Avoid using <i>opposite sex</i> as it is exclusionary. " +
+					"Consider using an alternative, such as <i>another sex</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets exclusionary phrases 'female-bodied' and 'male-bodied'", () => {
+		const testData = [
+			{
+				identifier: "femaleBodied",
+				text: "This sentence contains the word female-bodied and then something else.",
+				expectedFeedback: "Avoid using <i>female-bodied</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, such as <i>assigned female at birth</i> " +
+					"if you are discussing a person based on their sex or assigned gender at birth. " +
+					"If talking about human anatomy, use the specific anatomical phrase as opposed to <i>female-bodied</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "maleBodied",
+				text: "This sentence contains the word male-bodied and then something else.",
+				expectedFeedback: "Avoid using <i>male-bodied</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, such as <i>assigned male at birth</i> " +
+					"if you are discussing a person based on their sex or assigned gender at birth. " +
+					"If talking about human anatomy, use the specific anatomical phrase as opposed to <i>male-bodied</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets potentially exclusionary pronoun phrases (heOrShe)", function() {
+		const testData = [
+			{
+				identifier: "heOrShe",
+				text: "Everyone should be able to begin higher education whenever he/she is ready.",
+				expectedFeedback: "Be careful when using <i>he/she</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, such as <i>they</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "heOrShe",
+				text: "Everyone should be able to begin higher education whenever he or she is ready.",
+				expectedFeedback: "Be careful when using <i>he or she</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, such as <i>they</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "heOrShe",
+				text: "Everyone should be able to begin higher education whenever she or he is ready.",
+				expectedFeedback: "Be careful when using <i>she or he</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, such as <i>they</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "heOrShe",
+				text: "Everyone should be able to begin higher education whenever (s)he is ready.",
+				expectedFeedback: "Be careful when using <i>(s)he</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, such as <i>they</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets potentially exclusionary phrase 'husband and wife' and its plural form", () => {
+		const testData = [
+			{
+				identifier: "husbandAndWife",
+				text: "The officiant pronounces them husband and wife.",
+				expectedFeedback: "Be careful when using <i>husband and wife</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, such as <i>spouses, partners</i>, unless referring to someone who " +
+					"explicitly wants to be referred to with this term." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "husbandAndWife",
+				text: "The officiant pronounces them husbands and wives.",
+				expectedFeedback: "Be careful when using <i>husbands and wives</i> as it is potentially exclusionary. " +
+					"Consider using an alternative, such as <i>spouses, partners</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+} );
+
+describe( "Tests for phrases that are exclusionary UNLESS there is a condition when they're acceptable", function() {
+	it( "targets  versions of the phrases 'men and women' and 'girls and boys'", () => {
+		const testData = [
+			{
+				identifier: "menAndWomen",
+				text: "This sentence contains the phrase men and women, followed by something else.",
+				expectedFeedback: "Be careful when using <i>men and women</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of men and women, use an alternative, " +
+					"such as <i>people, people of all genders, individuals, human beings</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "menAndWomen",
+				text: "This sentence contains the phrase women and men, followed by something else.",
+				expectedFeedback: "Be careful when using <i>women and men</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of women and men, use an alternative, " +
+					"such as <i>people, people of all genders, individuals, human beings</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "boysAndGirls",
+				text: "This sentence contains the phrase girls and boys, followed by something else.",
+				expectedFeedback: "Be careful when using <i>girls and boys</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of girls and boys, " +
+					"use an alternative, such as <i>kids, children</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "boysAndGirls",
+				text: "This sentence contains the phrase boys and girls, followed by something else.",
+				expectedFeedback: "Be careful when using <i>boys and girls</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of boys and girls, " +
+					"use an alternative, such as <i>kids, children</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets phrases 'both genders', 'ladies and gentlemen' and 'mothers and fathers", () => {
+		const testData = [
+			{
+				identifier: "bothGenders",
+				text: "This sentence contains the phrase both genders followed by something else.",
+				expectedFeedback: "Be careful when using <i>both genders</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of two genders, " +
+					"use an alternative, such as <i>people, folks, human beings, all genders</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "ladiesAndGentleman",
+				text: "This sentence contains the phrase ladies and gentlemen followed by something else.",
+				expectedFeedback: "Be careful when using <i>ladies and gentlemen</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of men and women, " +
+					"use an alternative, such as <i>everyone, folks, honored guests</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "mothersAndFathers",
+				text: "This sentence contains the phrase mothers and fathers followed by something else.",
+				expectedFeedback: "Be careful when using <i>mothers and fathers</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of people who use this term, " +
+					"use an alternative, such as <i>parents</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "mothersAndFathers",
+				text: "This sentence contains the phrase fathers and mothers followed by something else.",
+				expectedFeedback: "Be careful when using <i>fathers and mothers</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of people who use this term, " +
+					"use an alternative, such as <i>parents</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets words 'firemen' and 'policemen'", () => {
+		const testData = [
+			{
+				identifier: "firemen",
+				text: "Look at those firemen! They're putting out the fire.",
+				expectedFeedback: "Be careful when using <i>firemen</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of men, use an alternative, " +
+					"such as <i>firefighters</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "policemen",
+				text: "Look at those policemen! They're doing something over there.",
+				expectedFeedback: "Be careful when using <i>policemen</i> as it can be exclusionary. " +
+					"Unless you are sure that the group you refer to only consists of men, use an alternative, " +
+					"such as <i>police officers</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+} );
+
+describe( "Tests for potentially harmful non-inclusive words and phrases", () => {
+	it( "targets non-inclusive phrases 'birth sex', 'natal sex', 'a transgender', 'transgendered', 'hermaphrodite(s)", () => {
+		const testData = [
+			{
+				identifier: "birthSex",
+				text: "This is a sentence that includes the phrase birth sex and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>birth sex</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>assigned sex, assigned sex at birth</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "birthSex",
+				text: "This is a sentence that includes the phrase natal sex and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>natal sex</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>assigned sex, assigned sex at birth</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "aTransgender",
+				text: "This is a sentence that includes the phrase a transgender and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>a transgender</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>transgender person</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "transgendered",
+				text: "This is a sentence that includes the word transgendered and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>transgendered</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>transgender, trans</i> if referring to a person. " +
+					"If referring to a transition process, consider using an alternative such as " +
+					"<i>transitioned, went through a gender transition</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "hermaphrodite",
+				text: "This is a sentence that includes the word hermaphrodite and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>hermaphrodite</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>intersex</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "hermaphrodites",
+				text: "This is a sentence that includes the word hermaphrodites and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>hermaphrodites</i> as it is potentially harmful." +
+					" Consider using an alternative, such as <i>intersex people</i>." +
+					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets potentially harmful phrases 'preferred pronouns' and 'preferred named'", () => {
+		const testData = [
+			{
+				identifier: "preferredPronouns",
+				text: "This is a sentence that includes the phrase preferred pronouns and then some pointless words at the end.",
+				expectedFeedback: "Be careful when using <i>preferred pronouns</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>pronouns</i>, unless referring to someone who " +
+					"explicitly wants to use this term to describe their own pronouns. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "preferredName",
+				text: "This is a sentence that includes the phrase preferred name and then some pointless words at the end.",
+				expectedFeedback: "Be careful when using <i>preferred name</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>name, affirming name</i>, unless referring to someone who " +
+					"explicitly wants to use this term to describe their own name. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets phrases 'female-to-male'/'ftm' and 'male-to-female'/'mtf'", () => {
+		const testData = [
+			{
+				identifier: "femaleToMale",
+				text: "This is a sentence that includes the phrase female-to-male and then some pointless words at the end.",
+				expectedFeedback: "Be careful when using <i>female-to-male</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>trans man, transgender man</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "femaleToMale",
+				text: "This is a sentence that includes the abbreviation ftm and then some pointless words at the end.",
+				expectedFeedback: "Be careful when using <i>ftm</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>trans man, transgender man</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "maleToFemale",
+				text: "This is a sentence that includes the phrase male-to-female and then some pointless words at the end.",
+				expectedFeedback: "Be careful when using <i>male-to-female</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>trans woman, transgender woman</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "maleToFemale",
+				text: "This is a sentence that includes the abbreviation mtf and then some pointless words at the end.",
+				expectedFeedback: "Be careful when using <i>mtf</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>trans woman, transgender woman</i>, " +
+					"unless referring to someone who explicitly wants to be referred to with this term. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+} );
+
+describe( "Tests for non-inclusive phrases with derogatory usage", () => {
+	it( "targets the words 'transgenders' and 'he-she'", () => {
+		const testData = [
+			{
+				identifier: "transgenders",
+				text: "This is a sentence that includes the word transgenders and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>transgenders</i> as it is derogatory. " +
+					"Consider using an alternative, such as <i>trans people, transgender people</i>. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "heShe",
+				text: "This is a sentence that includes the word he-she and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>he-she</i> as it is derogatory. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "targets the words 'shemale' and 'she-male'", () => {
+		const testData = [
+			{
+				identifier: "shemale",
+				text: "This is a sentence that includes the word shemale and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>shemale</i> as it is derogatory. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "shemale",
+				text: "This is a sentence that includes the word she-male and then some pointless words at the end.",
+				expectedFeedback: "Avoid using <i>she-male</i> as it is derogatory. " +
+					"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+} );
+
 describe( "A test for Gender assessments", function() {
-	it( "should target non-inclusive phrases", function() {
-		const mockPaper = new Paper( "Mankind is so great! I could talk for hours about it." );
-		const mockResearcher = Factory.buildMockResearcher( [ "Mankind is so great!", "I could talk for hours about it." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "mankind" )  );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-		const assessmentResult = assessor.getResult();
-
-		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>mankind</i> as it is exclusionary. Consider using an alternative, such as " +
-			"<i>individuals, people, persons, human beings, humanity</i>. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>" );
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "Mankind is so great!",
-			marked: "<yoastmark class='yoast-text-mark'>Mankind is so great!</yoastmark>",
-		} ) ] );
-	} );
-
-	it( "should target potentially non-inclusive phrases", function() {
-		const mockPaper = new Paper( "Look at those firemen! They're putting out the fire." );
-		const mockResearcher = Factory.buildMockResearcher( [ "Look at those firemen!", "They're putting out the fire." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firemen" )  );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-		const assessmentResult = assessor.getResult();
-
-		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>firemen</i> as it can be exclusionary. " +
-			"Unless you are sure that the group you refer to only consists of men, use an alternative, such as <i>firefighters</i>. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>" );
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "Look at those firemen!",
-			marked: "<yoastmark class='yoast-text-mark'>Look at those firemen!</yoastmark>",
-		} ) ] );
-	} );
-
-	it( "should not target other phrases", function() {
+	it( "should not target inclusive phrases", function() {
 		const mockPaper = new Paper( "Look at those firefighters! They're putting out the fire." );
 		const mockResearcher = Factory.buildMockResearcher( [ "Look at those firefighters!", "They're putting out the fire." ] );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "firemen" )  );
@@ -58,27 +455,6 @@ describe( "A test for Gender assessments", function() {
 		expect( isApplicable ).toBeFalsy();
 		expect( assessor.getMarks() ).toEqual( [] );
 	} );
-
-	it( "should return proper feedback without an alternative given", function() {
-		const mockPaper = new Paper( "She's acting like a shemale." );
-		const mockResearcher = Factory.buildMockResearcher( [ "She's acting like a shemale." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "shemale" )  );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-		const assessmentResult = assessor.getResult();
-
-		expect( isApplicable ).toBeTruthy();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>shemale</i> as it is derogatory. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>" );
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual( [ new Mark( {
-			original: "She's acting like a shemale.",
-			marked: "<yoastmark class='yoast-text-mark'>She's acting like a shemale.</yoastmark>",
-		} ) ] );
-	} );
-
 	it( "correctly identifies 'the transgender' which is only recognized when followed by participle or simple past tense", () => {
 		const mockPaper = new Paper( "the transgender worked, the better they are." );
 		const mockResearcher = Factory.buildMockResearcher( [ "The transgender worked, the better they are." ] );
@@ -144,276 +520,9 @@ describe( "A test for Gender assessments", function() {
 
 		expect( isApplicable ).toBeFalsy();
 	} );
-	it( "correctly identifies 'female-bodied'", () => {
-		const mockPaper = new Paper( "This sentence contains female-bodied." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains female-bodied." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "femaleBodied" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>female-bodied</i> as it is potentially exclusionary. " +
-			"Consider using an alternative, such as <i>assigned female at birth</i> " +
-			"if you are discussing a person based on their sex or assigned gender at birth. " +
-			"If talking about human anatomy, use the specific anatomical phrase as opposed to <i>female-bodied</i>. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains female-bodied.</yoastmark>",
-			original: "This sentence contains female-bodied." } } ]
-		);
-	} );
-	it( "correctly identifies 'male-bodied'", () => {
-		const mockPaper = new Paper( "This sentence contains male-bodied." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains male-bodied." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "maleBodied" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>male-bodied</i> as it is potentially exclusionary. " +
-			"Consider using an alternative, such as <i>assigned male at birth</i> " +
-			"if you are discussing a person based on their sex or assigned gender at birth. " +
-			"If talking about human anatomy, use the specific anatomical phrase as opposed to <i>male-bodied</i>. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains male-bodied.</yoastmark>",
-			original: "This sentence contains male-bodied." } } ]
-		);
-	} );
-	it( "correctly identifies 'man-hours'", () => {
-		const mockPaper = new Paper( "This sentence contains man-hours." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains man-hours." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "manHours" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>man-hours</i> as it is exclusionary. " +
-			"Consider using an alternative, such as <i>person-hours, business hours</i>. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains man-hours.</yoastmark>",
-			original: "This sentence contains man-hours." } } ]
-		);
-	} );
-	it( "correctly identifies 'female-to-male'", () => {
-		const mockPaper = new Paper( "This sentence contains 'female-to-male'." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains 'female-to-male'." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "femaleToMale" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>female-to-male</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>trans man, transgender man</i>, " +
-			"unless referring to someone who explicitly wants to be referred to with this term. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains 'female-to-male'.</yoastmark>",
-			original: "This sentence contains 'female-to-male'." } } ]
-		);
-	} );
-	it( "correctly identifies 'male-to-female'", () => {
-		const mockPaper = new Paper( "This sentence contains 'male-to-female'." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains 'male-to-female'." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "maleToFemale" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>male-to-female</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>trans woman, transgender woman</i>, " +
-			"unless referring to someone who explicitly wants to be referred to with this term. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains 'male-to-female'.</yoastmark>",
-			original: "This sentence contains 'male-to-female'." } } ]
-		);
-	} );
-	it( "correctly identifies 'he-she'", () => {
-		const mockPaper = new Paper( "This sentence contains he-she." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains he-she." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "heShe" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>he-she</i> as it is derogatory. <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains he-she.</yoastmark>",
-			original: "This sentence contains he-she." } } ]
-		);
-	} );
-	it( "correctly identifies 'she-male'", () => {
-		const mockPaper = new Paper( "This sentence contains she-male." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains she-male." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "shemale" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>she-male</i> as it is derogatory. <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains she-male.</yoastmark>",
-			original: "This sentence contains she-male." } } ]
-		);
-	} );
-	it( "correctly identifies 'man-made'", () => {
-		const mockPaper = new Paper( "This sentence contains man-made." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains man-made." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "manMade" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 3 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>man-made</i> as it is exclusionary. Consider using an alternative, such as <i>artificial, synthetic, machine-made</i>. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains man-made.</yoastmark>",
-			original: "This sentence contains man-made." } } ]
-		);
-	} );
-	it( "correctly identifies 'FTM'", () => {
-		const mockPaper = new Paper( "This sentence contains FTM." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains FTM." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "femaleToMale" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>ftm</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>trans man, transgender man</i>, " +
-			"unless referring to someone who explicitly wants to be referred to with this term. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains FTM.</yoastmark>",
-			original: "This sentence contains FTM." } } ]
-		);
-	} );
-	it( "correctly identifies 'MTF'", () => {
-		const mockPaper = new Paper( "This sentence contains MTF." );
-		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains MTF." ] );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "maleToFemale" ) );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeTruthy();
-		const assessmentResult = assessor.getResult();
-		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using <i>mtf</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>trans woman, transgender woman</i>, " +
-			"unless referring to someone who explicitly wants to be referred to with this term. " +
-			"<a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>"
-		);
-		expect( assessmentResult.hasMarks() ).toBeTruthy();
-		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
-			fieldsToMark: [],
-			marked: "<yoastmark class='yoast-text-mark'>This sentence contains MTF.</yoastmark>",
-			original: "This sentence contains MTF." } } ]
-		);
-	} );
 } );
 
-describe( "a test for targeting non-inclusive phrases in gender assessments", () => {
-	it( "should return the appropriate score and feedback string for: 'hermaphrodite' and its plural form", () => {
-		const testData = [
-			{
-				identifier: "hermaphrodite",
-				text: "That person there is a hermaphrodite",
-				expectedFeedback: "Avoid using <i>hermaphrodite</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>intersex</i>." +
-					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-			{
-				identifier: "hermaphrodites",
-				text: "Those group of people are all hermaphrodites",
-				expectedFeedback: "Avoid using <i>hermaphrodites</i> as it is potentially harmful." +
-					" Consider using an alternative, such as <i>intersex people</i>." +
-					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: 'husband and wife' and its plural form", () => {
-		// The different forms of "husband and wife" is one entry under the same identifier.
-		const testData = [
-			{
-				identifier: "husbandAndWife",
-				text: "The officiant pronounces them husband and wife",
-				expectedFeedback: "Be careful when using <i>husband and wife</i> as it is potentially exclusionary. Consider using an alternative, " +
-					"such as <i>spouses, partners</i>, unless referring to someone who explicitly wants to be referred to with this term." +
-					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
-				expectedScore: 6,
-			},
-			{
-				identifier: "husbandAndWife",
-				text: "The officiant pronounces them husbands and wives",
-				expectedFeedback: "Be careful when using <i>husbands and wives</i> as it is potentially exclusionary. " +
-					"Consider using an alternative, " +
-					"such as <i>spouses, partners</i>, unless referring to someone who explicitly wants to be referred to with this term." +
-					" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>",
-				expectedScore: 6,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
+describe( "a test for targeting (potentially) non-inclusive phrases in gender assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'transsexual' and its plural form", () => {
 		const testData = [
 			{
