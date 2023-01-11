@@ -124,8 +124,9 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$child_indexable_ids = $this->indexable_hierarchy_repository->find_children( $indexable );
 		$child_indexables    = $this->indexable_repository->find_by_ids( $child_indexable_ids );
 
-		\array_walk( $child_indexables, [ $this, 'update_hierarchy_and_permalink' ] );
-
+		if ( $child_indexables ) {
+			\array_walk( $child_indexables, [ $this, 'update_hierarchy_and_permalink' ] );
+		}
 		if ( $indexable->object_type === 'term' ) {
 			$child_indexables_for_term = $this->get_children_for_term( $indexable->object_id, $child_indexables );
 
