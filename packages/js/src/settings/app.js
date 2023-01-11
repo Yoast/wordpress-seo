@@ -241,7 +241,7 @@ const App = () => {
 						</SidebarNavigation.Sidebar>
 					</aside>
 					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
-						<div className="yst-grow yst-space-y-6 yst-mb-6 xl:yst-mb-0">
+						<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 							<main className="yst-rounded-lg yst-bg-white yst-shadow">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
 									<Transition
