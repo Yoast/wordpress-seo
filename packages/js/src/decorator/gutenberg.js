@@ -45,7 +45,22 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "caption",
 		},
 	],
+	"core/embed": [
+		{
+			key: "caption",
+		},
+	],
+	"core/gallery": [
+		{
+			key: "caption",
+		},
+	],
 	"core/image": [
+		{
+			key: "caption",
+		},
+	],
+	"core/table": [
 		{
 			key: "caption",
 		},
