@@ -87,7 +87,10 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 
 		$indexables = [];
 		foreach ( $term_ids as $term_id ) {
-			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
+			$indexable = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
+			if ( $indexable ) {
+				$indexables[] = $indexable;
+			}
 		}
 
 		if ( \count( $indexables ) > 0 ) {
