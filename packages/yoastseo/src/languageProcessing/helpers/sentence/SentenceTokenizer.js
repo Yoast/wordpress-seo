@@ -367,7 +367,7 @@ export default class SentenceTokenizer {
 	 */
 	tokenize( tokenizer, text ) {
 		tokenizer.onText( text );
-
+		
 		try {
 			tokenizer.end();
 		} catch ( e ) {
@@ -392,6 +392,23 @@ export default class SentenceTokenizer {
 	}
 
 	/**
+	 * Whether the given tokens are of the same html tag type.
+	 * @param {string} firstToken
+	 * @param {string} lastToken
+	 * @returns {boolean}
+	 */
+	tagsAreOfSameType( firstToken, lastToken ) {
+		const firstTokenText = firstToken.src;
+		const lastTokenText = lastToken.src;
+
+		// get substring with regex
+		const firstTagType = firstTokenText.match( /<\/?([^\s]+)/ )[ 1 ];
+		const lastTagType  =  lastTokenText.match( /<\/?([^\s]+)/ )[ 1 ];
+
+		return firstTagType === lastTagType;
+	}
+
+	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
 	 *
 	 * @param {Object[]} tokenArray The tokens from the sentence tokenizer.
@@ -401,20 +418,21 @@ export default class SentenceTokenizer {
 	 */
 	getSentencesFromTokens( tokenArray, trimSentences = true ) {
 		let tokenSentences = [], currentSentence = "", nextSentenceStart, sliced;
-
+		
 		// Drop the first and last HTML tag if both are present.
 		do {
 			sliced = false;
 			const firstToken = tokenArray[ 0 ];
 			const lastToken = tokenArray[ tokenArray.length - 1 ];
 
-			if ( firstToken && lastToken && firstToken.type === "html-start" && lastToken.type === "html-end" ) {
+			if ( firstToken && lastToken && firstToken.type === "html-start" &&
+			lastToken.type === "html-end" && this.tagsAreOfSameType( firstToken, lastToken ) ) {
 				tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
 
 				sliced = true;
 			}
 		} while ( sliced && tokenArray.length > 1 );
-
+		
 		tokenArray.forEach( ( token, i ) => {
 			let hasNextSentence, nextCharacters, tokenizeResults;
 			const nextToken = tokenArray[ i + 1 ];
