@@ -392,10 +392,10 @@ export default class SentenceTokenizer {
 	}
 
 	/**
-	 * Whether the given tokens are of the same html tag type.
-	 * @param {string} firstToken
-	 * @param {string} lastToken
-	 * @returns {boolean}
+	 * Checks whether the given tokens are of the same html tag type.
+	 * @param {string} firstToken An opening html tag.
+	 * @param {string} lastToken A closing html tag.
+	 * @returns {boolean} True if the tags are of the same type. Otherwise, False.
 	 */
 	tagsAreOfSameType( firstToken, lastToken ) {
 		const firstTokenText = firstToken.src;
