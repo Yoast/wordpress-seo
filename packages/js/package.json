@@ -54,7 +54,8 @@
     "react-router-dom": "^6.3.0",
     "yup": "^0.32.11",
     "bowser": "^2.11.0",
-    "react-hotkeys-hook": "^4.0.5"
+    "react-hotkeys-hook": "^4.0.5",
+	"react-aria-live": "^2.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
