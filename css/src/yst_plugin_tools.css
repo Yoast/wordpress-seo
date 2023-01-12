@@ -630,17 +630,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	line-height: 24px;
 }
 
-.yoast-sidebar__product .sidebar__sale_text {
-	text-align: center;
-	border-top: solid 1px #ffffff;
-	font-style: italic;
-}
-.yoast-sidebar__product .sidebar__sale_text p {
-	font-size: 12.5px;
-	margin: 12.5px 0;
-}
-
-
 .yoast-sidebar__section {
 	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
 	border: 1px solid #dcdcdc;
