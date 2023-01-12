@@ -367,7 +367,7 @@ export default class SentenceTokenizer {
 	 */
 	tokenize( tokenizer, text ) {
 		tokenizer.onText( text );
-		
+
 		try {
 			tokenizer.end();
 		} catch ( e ) {
@@ -392,20 +392,20 @@ export default class SentenceTokenizer {
 	}
 
 	/**
-	 * Checks whether the given tokens are of the same html tag type.
+	 * Checks whether the given tokens are a valid html tag pair.
 	 * @param {string} firstToken An opening html tag.
 	 * @param {string} lastToken A closing html tag.
-	 * @returns {boolean} True if the tags are of the same type. Otherwise, False.
+	 * @returns {boolean} True if the tokens are a valid html tag pair. Otherwise, False.
 	 */
-	tagsAreOfSameType( firstToken, lastToken ) {
+	shouldReomveTags( firstToken, lastToken ) {
 		const firstTokenText = firstToken.src;
 		const lastTokenText = lastToken.src;
 
 		// get substring with regex
-		const firstTagType = firstTokenText.match( /<\/?([^\s]+)/ )[ 1 ];
-		const lastTagType  =  lastTokenText.match( /<\/?([^\s]+)/ )[ 1 ];
+		const firstTagType = firstTokenText.match( /<\/?([^\s]+?)>?/ )[ 1 ];
+		const lastTagType  =  lastTokenText.match( /<\/?([^\s]+?)>?/ )[ 1 ];
 
-		return firstTagType === lastTagType;
+		return firstTagType === lastTagType && [ "p", "div" ].includes( firstTagType );
 	}
 
 	/**
@@ -418,7 +418,7 @@ export default class SentenceTokenizer {
 	 */
 	getSentencesFromTokens( tokenArray, trimSentences = true ) {
 		let tokenSentences = [], currentSentence = "", nextSentenceStart, sliced;
-		
+
 		// Drop the first and last HTML tag if both are present.
 		do {
 			sliced = false;
@@ -426,13 +426,13 @@ export default class SentenceTokenizer {
 			const lastToken = tokenArray[ tokenArray.length - 1 ];
 
 			if ( firstToken && lastToken && firstToken.type === "html-start" &&
-			lastToken.type === "html-end" && this.tagsAreOfSameType( firstToken, lastToken ) ) {
+			lastToken.type === "html-end" && this.shouldReomveTags( firstToken, lastToken ) ) {
 				tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
 
 				sliced = true;
 			}
 		} while ( sliced && tokenArray.length > 1 );
-		
+
 		tokenArray.forEach( ( token, i ) => {
 			let hasNextSentence, nextCharacters, tokenizeResults;
 			const nextToken = tokenArray[ i + 1 ];
