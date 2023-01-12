@@ -398,7 +398,7 @@ export default class SentenceTokenizer {
 	 * @param {string} lastToken A closing html tag.
 	 * @returns {boolean} True if the tokens are a valid html tag pair. Otherwise, False.
 	 */
-	isValidPair( firstToken, lastToken ) {
+	isValidTagPair( firstToken, lastToken ) {
 		const firstTokenText = firstToken.src;
 		const lastTokenText = lastToken.src;
 
@@ -429,7 +429,7 @@ export default class SentenceTokenizer {
 			const lastToken = tokenArray[ tokenArray.length - 1 ];
 
 			if ( firstToken && lastToken && firstToken.type === "html-start" &&
-			lastToken.type === "html-end" && this.isValidPair( firstToken, lastToken ) ) {
+			lastToken.type === "html-end" && this.isValidTagPair( firstToken, lastToken ) ) {
 				tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
 
 				sliced = true;
