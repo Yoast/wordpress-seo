@@ -7621,10 +7621,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yoast/grunt-plugin-tasks@^2.3":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-2.3.0.tgz#9dcefbd64fd3a301fbb9ab55307e1b48f232bbd9"
-  integrity sha512-1NudJYAKOaGKveLYv3axZ+ecCrL1gSikkZZynev7m//dCEt+WhuX0wzimGBGiwrHtkbMGPKBFjBS+CFhPM3jIA==
+"@yoast/grunt-plugin-tasks@^2.4":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-2.4.0.tgz#3aa8984bc11bc44d1e62119dd7c16888f25cccd2"
+  integrity sha512-CcCwpyWqMxNkDAPeSrNbYW/JjrOGFg1AzG7NEAwkQY3BD6RDqh93z7ALKhQyeLPhL3KjQGkZOCYboSqY1jgwvw==
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
@@ -7644,7 +7644,7 @@
     grunt-contrib-uglify "^4.0.1"
     grunt-contrib-watch "^1.0.0"
     grunt-eslint "^21.0.0"
-    grunt-glotpress "https://github.com/Yoast/grunt-glotpress.git#master"
+    grunt-glotpress "https://github.com/Yoast/grunt-glotpress.git#main"
     grunt-postcss "^0.9.0"
     grunt-replace "^1.0.1"
     grunt-rtlcss "^2.0.2"
@@ -16467,9 +16467,9 @@ grunt-git@^1.0.14:
   dependencies:
     flopmang "^1.0.0"
 
-"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
+"grunt-glotpress@git+https://github.com/Yoast/grunt-glotpress.git#main":
   version "0.3.0"
-  resolved "https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
+  resolved "git+https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
   dependencies:
     request "^2.88.0"
     request-promise-native "^1.0.7"
