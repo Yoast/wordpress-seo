@@ -3873,6 +3873,7 @@ export default [
 	"necessitat",
 	"necrosat",
 	"necrotizzat",
+	"negat",
 	"negativizzat",
 	"neglett",
 	"negoziat",
