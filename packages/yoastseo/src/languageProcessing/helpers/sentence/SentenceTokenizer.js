@@ -71,7 +71,7 @@ export default class SentenceTokenizer {
 	 * @returns {boolean} Whether or not the given HTML tag is a break tag.
 	 */
 	isBreakTag( htmlTag ) {
-		return /<br/.test( htmlTag );
+		return /<\/?br/.test( htmlTag );
 	}
 
 	/**

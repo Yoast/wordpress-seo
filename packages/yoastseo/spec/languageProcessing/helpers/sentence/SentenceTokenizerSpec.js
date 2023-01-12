@@ -419,3 +419,17 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 	} );
 } );
 
+describe( "Tests for isBreakTag", () => {
+	it( "returns true for a break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<br" ) ).toBe( true );
+	} );
+	it( "returns false for a non-break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<p" ) ).toBe( false );
+	} );
+	it( "returns true for a self-closing break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<br/>" ) ).toBe( true );
+	} );
+	it( "returns true for a closing break tag", () => {
+		expect( mockTokenizer.isBreakTag( "</br>" ) ).toBe( true );
+	} );
+} );
