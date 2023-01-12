@@ -42,7 +42,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<h2>
+						<h2 class="yoast-get-premium-title">
 							<?php
 							/* translators: %s expands to <br>Yoast SEO Premium */
 							\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), '<br>Yoast SEO Premium' );
