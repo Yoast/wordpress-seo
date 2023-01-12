@@ -23,6 +23,28 @@
 			padding-left: 17rem;
 		}
 	}
+
+	.wp-responsive-open #wpbody {
+		@media screen and (max-width: 782px) {
+			right: -190px; /* Override to not leave space between the mobile menu and the content. */
+		}
+	}
+
+	input[type=date],
+	input[type=datetime-local],
+	input[type=datetime],
+	input[type=email],
+	input[type=month],
+	input[type=number],
+	input[type=password],
+	input[type=search],
+	input[type=tel],
+	input[type=text],
+	input[type=time],
+	input[type=url],
+	input[type=week] {
+		@apply yst-min-h-0;
+	}
 }
 
 @layer base {
@@ -50,10 +72,45 @@
 }
 
 @layer components {
+	body.sticky-menu {
+		.yst-root .yst-notifications--bottom-left {
+			@media (min-width: 783px) and (max-width: 962px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
+		}
+
+		&.folded, &.auto-fold {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 783px) and (max-width: 963px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+
+		&.folded {
+			.yst-root .yst-notifications--bottom-left {
+				@media (min-width: 962px) {
+					left: calc(32px + 2rem); /* Next to admin menu. 32px is the collapsed admin menu width. */
+				}
+			}
+		}
+	}
+
+	body:not(.sticky-menu) .wp-responsive-open .yst-root {
+		.yst-notifications--bottom-left {
+			@media (max-width: 783px) {
+				left: calc(190px + 2rem); /* Next to admin menu. 190px is the responsive admin menu width. */
+			}
+		}
+	}
+
 	.yst-root {
 		.yst-notifications--bottom-left {
-			left: calc(160px + 2rem); /* Next to admin menu. 160px is admin menu width */
 			z-index: 9991; /* 1 above admin menu */
+
+			@media (min-width: 783px) {
+				left: calc(160px + 2rem); /* Next to admin menu. 160px is the admin menu width. */
+			}
 		}
 
 		.yst-mobile-navigation__top {

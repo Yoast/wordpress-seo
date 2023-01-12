@@ -17,7 +17,13 @@ addMethod( number, "isMediaTypeImage", function() {
 			if ( ! input ) {
 				return true;
 			}
+
 			const media = select( STORE_NAME ).selectMediaById( input );
+			// No metadata to validate: default to valid.
+			if ( ! media ) {
+				return true;
+			}
+
 			return media?.type === "image";
 		}
 	);
@@ -57,13 +63,14 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			yandexverify: string()
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
+			search_character_limit: number().min( 1, __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ) ).max( 50, __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ) ),
 		} ),
 		wpseo_social: object().shape( {
 			og_default_image_id: number().isMediaTypeImage(),
 			facebook_site: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 			twitter_site: string().isValidTwitterUrlOrHandle(),
 			other_social_urls: array().of(
-				string().required( __( "The profile cannot be empty. Please enter a valid URL or remove this profile.", "wordpress-seo" ) ).url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) )
+				string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) )
 			),
 			pinterestverify: string()
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
@@ -89,18 +96,6 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 			"social-image-id-author-wpseo": number().isMediaTypeImage(),
 			"social-image-id-archive-wpseo": number().isMediaTypeImage(),
 			"social-image-id-tax-post_format": number().isMediaTypeImage(),
-		} ),
-		person_social_profiles: object().shape( {
-			facebook: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			instagram: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			linkedin: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			myspace: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			pinterest: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			soundcloud: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			tumblr: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			twitter: string().isValidTwitterUrlOrHandle(),
-			youtube: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
-			wikipedia: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 		} ),
 	} );
 };

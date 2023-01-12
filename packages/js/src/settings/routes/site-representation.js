@@ -2,108 +2,15 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, Fragment, useCallback, useEffect, useMemo } from "@wordpress/element";
+import { createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Radio, RadioGroup, TextField, usePrevious } from "@yoast/ui-library";
+import { Alert, Button, Radio, RadioGroup, TextField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
-import { isEmpty, map } from "lodash";
+import { isEmpty } from "lodash";
+import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
-import { fetchUserSocialProfiles } from "../helpers";
-import { useDispatchSettings, useSelectSettings } from "../hooks";
-
-/**
- * Syncs the person social profiles if needed.
- *
- * This is needed when:
- * - Changed to represent a (valid) person.
- * - Changed the (valid) person.
- *
- * To check the above this hook can not be called inside the PersonSocialProfiles.
- *
- * @returns {void}
- */
-const useSyncPersonSocialProfiles = () => {
-	const { addNotification } = useDispatchSettings();
-	const { values, status, setStatus, setFieldValue } = useFormikContext();
-	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
-	const previousCompanyOrPerson = usePrevious( companyOrPerson );
-	const previousCompanyOrPersonId = usePrevious( companyOrPersonId );
-
-	const updateUserSocialProfiles = useCallback( () => {
-		setStatus( { ...status, isFetchingPersonSocialProfiles: true } );
-		fetchUserSocialProfiles( companyOrPersonId )
-			.then( socialProfiles => {
-				setFieldValue( "person_social_profiles", socialProfiles );
-			} )
-			.catch( error => {
-				addNotification( {
-					id: "social-profiles-error",
-					variant: "error",
-					title: __( "Oops! Something went wrong while retrieving the person social profiles.", "wordpress-seo" ),
-				} );
-				console.error( "Error while fetching the social profiles:", error.message );
-			} )
-			.finally( () => {
-				setStatus( { ...status, isFetchingPersonSocialProfiles: false } );
-			} );
-	}, [ companyOrPersonId, status, setStatus, addNotification ] );
-
-	useEffect( () => {
-		if (
-			// Changed to represent a (valid) person?
-			( previousCompanyOrPerson !== companyOrPerson && companyOrPerson === "person" && companyOrPersonId > 0 ) ||
-			// Changed the (valid) person?
-			previousCompanyOrPersonId !== companyOrPersonId && companyOrPersonId > 0
-		) {
-			updateUserSocialProfiles();
-		}
-	}, [ previousCompanyOrPerson, companyOrPerson, previousCompanyOrPersonId, companyOrPersonId, updateUserSocialProfiles ] );
-};
-
-/**
- * @returns {JSX.Element} The person social profiles form.
- */
-const PersonSocialProfiles = () => {
-	const { values } = useFormikContext();
-	const { company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
-	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
-	const supportedPersonSocialProfiles = useSelectSettings( "selectPreference", [], "supportedPersonSocialProfiles", {} );
-	const socialProfileFieldLabels = useMemo( () => ( {
-		facebook: __( "Facebook URL", "wordpress-seo" ),
-		instagram: __( "Instagram URL", "wordpress-seo" ),
-		linkedin: __( "LinkedIn URL", "wordpress-seo" ),
-		myspace: __( "MySpace URL", "wordpress-seo" ),
-		pinterest: __( "Pinterest URL", "wordpress-seo" ),
-		soundcloud: __( "SoundCloud URL", "wordpress-seo" ),
-		tumblr: __( "Tumblr URL", "wordpress-seo" ),
-		twitter: __( "Twitter", "wordpress-seo" ),
-		youtube: __( "YouTube URL", "wordpress-seo" ),
-		wikipedia: __( "Wikipedia URL", "wordpress-seo" ),
-	} ), [] );
-
-	return (
-		<FieldsetLayout
-			id="fieldset-wpseo_social-other_social_urls"
-			title={ __( "Other profiles", "wordpress-seo" ) }
-			description={ __( "Tell us about the other profiles on the web that belong to the person.", "wordpress-seo" ) }
-		>
-			{ map( supportedPersonSocialProfiles, socialProfile => (
-				<FormikWithErrorField
-					key={ socialProfile }
-					as={ TextField }
-					name={ `person_social_profiles.${ socialProfile }` }
-					id={ `input-person_social_profiles-${ socialProfile }` }
-					label={ socialProfileFieldLabels[ socialProfile ] }
-					// translators: %1$s expands to social media example URL, ie. https://facebook.com/yoast.
-					placeholder={ canEditUser && sprintf( __( "E.g. %1$s", "wordpress-seo" ), `https://${ socialProfile }.com/yoast` ) }
-					readOnly={ ! canEditUser }
-					disabled={ ! companyOrPersonId }
-				/>
-			) ) }
-		</FieldsetLayout>
-	);
-};
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -127,9 +34,7 @@ const SiteRepresentation = () => {
 	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
-	const canEditUser = useSelectSettings( "selectCanEditUser", [], companyOrPersonId );
-
-	useSyncPersonSocialProfiles();
+	const canEditUser = useSelectSettings( "selectCanEditUser", [ personUser?.id ], personUser?.id );
 
 	return (
 		<RouteLayout
@@ -180,14 +85,12 @@ const SiteRepresentation = () => {
 					<section className="yst-space-y-8" />
 					<hr className="yst-my-8" />
 					<div className="yst-relative">
-						<Transition
-							show={ companyOrPerson === "company" }
-							enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
-							enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-							enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-							leave="yst-transition yst-absolute yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
-							leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-							leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
+						<AnimateHeight
+							easing="ease-out"
+							duration={ 300 }
+							delay={ 300 }
+							height={ companyOrPerson === "company" ? "auto" : 0 }
+							animateOpacity={ true }
 						>
 							<FieldsetLayout
 								title={ __( "Organization", "wordpress-seo" ) }
@@ -308,15 +211,13 @@ const SiteRepresentation = () => {
 									) }
 								</FieldArray>
 							</FieldsetLayout>
-						</Transition>
-						<Transition
-							show={ companyOrPerson === "person" }
-							enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
-							enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-							enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-							leave="yst-transition yst-absolute yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
-							leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-							leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
+						</AnimateHeight>
+						<AnimateHeight
+							easing="ease-out"
+							duration={ 300 }
+							delay={ 300 }
+							height={ companyOrPerson === "person" ? "auto" : 0 }
+							animateOpacity={ true }
 						>
 							<FieldsetLayout
 								title={ __( "Personal info", "wordpress-seo" ) }
@@ -326,6 +227,7 @@ const SiteRepresentation = () => {
 									name="wpseo_titles.company_or_person_user_id"
 									id="input-wpseo_titles-company_or_person_user_id"
 									label={ __( "Select a user", "wordpress-seo" ) }
+									className="yst-max-w-sm"
 								/>
 								{ ! isEmpty( personUser ) && (
 									<Alert id="alert-person-user-profile">
@@ -352,7 +254,7 @@ const SiteRepresentation = () => {
 											sprintf(
 												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
 												// %3$s is replaced by the selected user display name.
-												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the information below.", "wordpress-seo" ),
+												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the profile.", "wordpress-seo" ),
 												"<strong>",
 												"</strong>",
 												personUser?.name
@@ -384,9 +286,7 @@ const SiteRepresentation = () => {
 									disabled={ ! companyOrPersonId }
 								/>
 							</FieldsetLayout>
-							<hr className="yst-my-8" />
-							<PersonSocialProfiles />
-						</Transition>
+						</AnimateHeight>
 					</div>
 				</div>
 			</FormLayout>

@@ -29,8 +29,8 @@ const Introduction = () => {
 	// set the steps with the videos and thumbnails and memoize them for pluginUrl changes
 	const steps = useMemo( () => ( [
 		{
-			title: __( "We gave our settings a new look!", "wordpress-seo" ),
-			description: __( "We've updated and comprehensively improved how our settings interface looks, feels, and behaves.", "wordpress-seo" ),
+			title: __( "Welcome to your new Yoast SEO settings!", "wordpress-seo" ),
+			description: __( "There's a fresh new look, and it's easier than ever to find and manage your site's SEO options.", "wordpress-seo" ),
 			videoId: "c1fpikf45l",
 			thumbnail: {
 				src: `${ pluginUrl }/images/settings-intro_thumb0.jpg`,
@@ -39,8 +39,8 @@ const Introduction = () => {
 			},
 		},
 		{
-			title: __( "All your settings intuitively reorganized!", "wordpress-seo" ),
-			description: __( "We've added a new sidebar menu in which we carefully reorganized all settings.", "wordpress-seo" ),
+			title: __( "We've moved some things around!", "wordpress-seo" ),
+			description: __( "Now it's much easier to find the most important settings, or to dive straight into our advanced options.", "wordpress-seo" ),
 			videoId: "cxojwh5z3w",
 			thumbnail: {
 				src: `${ pluginUrl }/images/settings-intro_thumb1.jpg`,
@@ -49,8 +49,8 @@ const Introduction = () => {
 			},
 		},
 		{
-			title: __( "Easily find the setting you're looking for!", "wordpress-seo" ),
-			description: __( "We've added search functionality that lets you quickly find all settings and navigate directly to them.", "wordpress-seo" ),
+			title: __( "Not sure where to go? Try searching!", "wordpress-seo" ),
+			description: __( "Still feeling lost, or looking for something specific? Just type what you're looking for into our handy search tool.", "wordpress-seo" ),
 			videoId: "cq3yge9yjb",
 			thumbnail: {
 				src: `${ pluginUrl }/images/settings-intro_thumb2.jpg`,
@@ -133,7 +133,7 @@ const Introduction = () => {
 	return (
 
 		// handleClose function is closing the modal and setting the user meta to not show introduction again
-		<Modal onClose={ handleClose } isOpen={ isOpen }>
+		<Modal onClose={ handleClose } isOpen={ isOpen } aria-label={ __( "Introduction to settings", "wordpress-seo" ) }>
 			<div className="yst-modal__panel yst-max-w-[37rem] yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
 
 				{ /* //checks ther is permission from wista to add video and add js script, Helmet component adds the script tp the head */ }
@@ -211,7 +211,7 @@ const Introduction = () => {
 						</div>
 					</div>
 				</div>
-				<div className="yst-relative yst-flex yst-flex-col yst-mt-2 yst-mb-8 yst-mx-4 sm:yst-mx-8 yst-text-center">
+				<div className="yst-relative yst-flex yst-flex-col yst-mt-2 yst-mb-6 sm:yst-mb-8 yst-mx-4 sm:yst-mx-8 yst-text-center">
 
 					{ /* // ----------------- Title and description section of each step -----------------*/ }
 					<div
@@ -236,9 +236,9 @@ const Introduction = () => {
 								<Title as="h2" size="2">
 									{ step.title }
 								</Title>
-								<Modal.Description className="yst-max-w-xs yst-mx-auto yst-mt-2">
+								<p className="yst-max-w-xs yst-mx-auto yst-mt-2">
 									{ step.description }
-								</Modal.Description>
+								</p>
 							</div>
 						) ) }
 					</div>

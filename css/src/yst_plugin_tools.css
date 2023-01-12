@@ -570,6 +570,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-size: 22px;
 	font-weight: bold;
 }
+.yoast-get-premium-title{
+  line-height: 27px;
+  text-align:center;
+}
 
 .yoast-sidebar__product .product-image {
 	position: relative;

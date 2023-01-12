@@ -44,8 +44,8 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						</figure>
 						<h2>
 							<?php
-							/* translators: %s expands to Yoast SEO Premium */
-							\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+							/* translators: %s expands to <br>Yoast SEO Premium */
+							\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), '<br>Yoast SEO Premium' );
 							?>
 						</h2>
 						<p>

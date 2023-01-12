@@ -902,7 +902,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 		},
 		// Media pages
 		"disable-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-disable-attachment",
 			fieldLabel: __( "Media pages", "wordpress-seo" ),
@@ -915,7 +915,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"noindex-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-noindex-attachment",
 			fieldLabel: __( "Show media pages in search results", "wordpress-seo" ),
@@ -927,7 +927,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"title-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-title-attachment",
 			fieldLabel: __( "SEO title", "wordpress-seo" ),
@@ -939,7 +939,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"metadesc-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-metadesc-attachment",
 			fieldLabel: __( "Meta description", "wordpress-seo" ),
@@ -951,7 +951,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"schema-page-type-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-schema-page-type-attachment",
 			fieldLabel: __( "Page type", "wordpress-seo" ),
@@ -965,7 +965,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"schema-article-type-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-schema-article-type-attachment",
 			fieldLabel: __( "Article type", "wordpress-seo" ),
@@ -979,7 +979,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			],
 		},
 		"display-metabox-pt-attachment": {
-			route: "/media",
+			route: "/media-pages",
 			routeLabel: __( "Media pages", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-display-metabox-pt-attachment",
 			fieldLabel: __( "Enable SEO controls and assessments", "wordpress-seo" ),
@@ -1138,109 +1138,6 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				// translators: %1$s exapnds to array index + 1.
 				fieldLabel: sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ),
 			} ) ),
-		},
-	},
-	person_social_profiles: {
-		facebook: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-facebook",
-			fieldLabel: __( "Person Facebook", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Open Graph", "wordpress-seo" ),
-				__( "OpenGraph", "wordpress-seo" ),
-			],
-		},
-		instagram: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-instagram",
-			fieldLabel: __( "Person Instagram", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		linkedin: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-linkedin",
-			fieldLabel: __( "Person LinkedIn", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		myspace: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-myspace",
-			fieldLabel: __( "Person MySpace", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		pinterest: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-pinterest",
-			fieldLabel: __( "Person Pinterest", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		soundcloud: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-soundcloud",
-			fieldLabel: __( "Person SoundCloud", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		tumblr: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-tumblr",
-			fieldLabel: __( "Person Tumblr", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		twitter: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-twitter",
-			fieldLabel: __( "Person Twitter", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		youtube: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-youtube",
-			fieldLabel: __( "Person YouTube", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		wikipedia: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-wikipedia",
-			fieldLabel: __( "Person Wikipedia", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
 		},
 	},
 } );
