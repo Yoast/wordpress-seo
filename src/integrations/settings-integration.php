@@ -24,7 +24,6 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 
 /**
  * Class Settings_Integration.
@@ -158,13 +157,6 @@ class Settings_Integration implements Integration_Interface {
 	protected $article_helper;
 
 	/**
-	 * Holds the Social_Profiles_Helper.
-	 *
-	 * @var Social_Profiles_Helper
-	 */
-	protected $social_profiles_helper;
-
-	/**
 	 * Holds the User_Helper.
 	 *
 	 * @var User_Helper
@@ -191,7 +183,6 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Product_Helper               $product_helper               The Product_Helper.
 	 * @param Woocommerce_Helper           $woocommerce_helper           The Woocommerce_Helper.
 	 * @param Article_Helper               $article_helper               The Article_Helper.
-	 * @param Social_Profiles_Helper       $social_profiles_helper       The Social_Profiles_Helper.
 	 * @param User_Helper                  $user_helper                  The User_Helper.
 	 * @param Settings_Introduction_Action $settings_introduction_action The Settings_Introduction_Action.
 	 */
@@ -206,7 +197,6 @@ class Settings_Integration implements Integration_Interface {
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
-		Social_Profiles_Helper $social_profiles_helper,
 		User_Helper $user_helper,
 		Settings_Introduction_Action $settings_introduction_action
 	) {
@@ -220,7 +210,6 @@ class Settings_Integration implements Integration_Interface {
 		$this->product_helper               = $product_helper;
 		$this->woocommerce_helper           = $woocommerce_helper;
 		$this->article_helper               = $article_helper;
-		$this->social_profiles_helper       = $social_profiles_helper;
 		$this->user_helper                  = $user_helper;
 		$this->settings_introduction_action = $settings_introduction_action;
 	}
@@ -395,7 +384,7 @@ class Settings_Integration implements Integration_Interface {
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => $this->get_schema( $transformed_post_types ),
-			'preferences'          => $this->get_preferences(),
+			'preferences'          => $this->get_preferences( $settings ),
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
@@ -407,9 +396,11 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Retrieves the preferences.
 	 *
+	 * @param array $settings The settings.
+	 *
 	 * @return array The preferences.
 	 */
-	protected function get_preferences() {
+	protected function get_preferences( $settings ) {
 		$shop_page_id             = $this->woocommerce_helper->get_shop_page_id();
 		$homepage_is_latest_posts = \get_option( 'show_on_front' ) === 'posts';
 		$page_on_front            = \get_option( 'page_on_front' );
@@ -447,7 +438,7 @@ class Settings_Integration implements Integration_Interface {
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
-			'supportedPersonSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
+			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 		];
 	}
 
@@ -468,6 +459,30 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Retrieves the currently represented person.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The currently represented person's ID and name.
+	 */
+	protected function get_site_represents_person( $settings ) {
+		$person = [
+			'id'   => false,
+			'name' => '',
+		];
+
+		if ( isset( $settings['wpseo_titles']['company_or_person_user_id'] ) ) {
+			$person['id'] = $settings['wpseo_titles']['company_or_person_user_id'];
+			$user         = \get_userdata( $person['id'] );
+			if ( $user instanceof \WP_User ) {
+				$person['name'] = $user->get( 'display_name' );
+			}
+		}
+
+		return $person;
 	}
 
 	/**
@@ -504,8 +519,6 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( self::WP_OPTIONS as $option_name ) {
 			$defaults[ $option_name ] = '';
 		}
-		// Add person social profiles.
-		$defaults['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( false );
 
 		// Remove disallowed settings.
 		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {
@@ -537,9 +550,6 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( self::WP_OPTIONS as $option_name ) {
 			$settings[ $option_name ] = \get_option( $option_name );
 		}
-		// Add person social profiles.
-		$person_id                          = ( $settings['wpseo_titles']['company_or_person'] === 'person' ) ? $settings['wpseo_titles']['company_or_person_user_id'] : false;
-		$settings['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( $person_id );
 
 		// Remove disallowed settings.
 		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {

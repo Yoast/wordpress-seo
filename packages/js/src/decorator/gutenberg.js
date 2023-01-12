@@ -40,6 +40,11 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "content",
 		},
 	],
+	"core/image": [
+		{
+			key: "caption",
+		},
+	],
 };
 
 const ASSESSMENT_SPECIFIC_ANNOTATION_ATTRIBUTES = {

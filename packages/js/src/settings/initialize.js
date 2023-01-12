@@ -69,6 +69,19 @@ const fixFocusLinkCompatibility = () => {
 	} );
 };
 
+/**
+ * Enforce a minimum height on the WP content that is the height of the WP menu.
+ *
+ * This prevents it from going into the fixed mode.
+ *
+ * @returns {void}
+ */
+const matchWpMenuHeight = () => {
+	const wpcontent = document.getElementById( "wpcontent" );
+	const menu = document.getElementById( "adminmenuwrap" );
+	wpcontent.style.minHeight = `${ menu.offsetHeight }px`;
+};
+
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-settings" );
 	if ( ! root ) {
@@ -89,6 +102,7 @@ domReady( () => {
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
 	fixFocusLinkCompatibility();
+	matchWpMenuHeight();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 

@@ -419,6 +419,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 	} );
 } );
 
+
 describe( "testing the isValidPair helper method", function() {
 	it( "returns true if the tags are of the same type and the correct type", function() {
 		[ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span" ].forEach( function( tagType ) {
@@ -448,5 +449,20 @@ describe( "testing the isValidPair helper method", function() {
 		const mockOpenTag = { src: "<i>" };
 		const mockCloseTag = { src: "</b>" };
 		expect( mockTokenizer.isValidPair( mockOpenTag, mockCloseTag ) ).toBe( false );
+	} );
+} );
+
+describe( "Tests for isBreakTag", () => {
+	it( "returns true for a break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<br" ) ).toBe( true );
+	} );
+	it( "returns false for a non-break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<p" ) ).toBe( false );
+	} );
+	it( "returns true for a self-closing break tag", () => {
+		expect( mockTokenizer.isBreakTag( "<br/>" ) ).toBe( true );
+	} );
+	it( "returns true for a closing break tag", () => {
+		expect( mockTokenizer.isBreakTag( "</br>" ) ).toBe( true );
 	} );
 } );
