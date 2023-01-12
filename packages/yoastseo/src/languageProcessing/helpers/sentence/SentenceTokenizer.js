@@ -393,19 +393,22 @@ export default class SentenceTokenizer {
 
 	/**
 	 * Checks whether the given tokens are a valid html tag pair.
+	 * Note that this method is not a full html tag validator. It should be replaced with a better solution once the html parser is implemented.
 	 * @param {string} firstToken An opening html tag.
 	 * @param {string} lastToken A closing html tag.
 	 * @returns {boolean} True if the tokens are a valid html tag pair. Otherwise, False.
 	 */
-	shouldReomveTags( firstToken, lastToken ) {
+	isValidPair( firstToken, lastToken ) {
 		const firstTokenText = firstToken.src;
 		const lastTokenText = lastToken.src;
 
-		// get substring with regex
-		const firstTagType = firstTokenText.match( /<\/?([^\s]+?)>?/ )[ 1 ];
-		const lastTagType  =  lastTokenText.match( /<\/?([^\s]+?)>?/ )[ 1 ];
+		const tagTypeRegex = /<\/?([^\s]+?)(\s|>)/;
 
-		return firstTagType === lastTagType && [ "p", "div" ].includes( firstTagType );
+		// get substring with regex
+		const firstTagType = firstTokenText.match( tagTypeRegex )[ 1 ];
+		const lastTagType  = lastTokenText.match( tagTypeRegex )[ 1 ];
+
+		return firstTagType === lastTagType && [ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span" ].includes( firstTagType );
 	}
 
 	/**
@@ -426,7 +429,7 @@ export default class SentenceTokenizer {
 			const lastToken = tokenArray[ tokenArray.length - 1 ];
 
 			if ( firstToken && lastToken && firstToken.type === "html-start" &&
-			lastToken.type === "html-end" && this.shouldReomveTags( firstToken, lastToken ) ) {
+			lastToken.type === "html-end" && this.isValidPair( firstToken, lastToken ) ) {
 				tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
 
 				sliced = true;
