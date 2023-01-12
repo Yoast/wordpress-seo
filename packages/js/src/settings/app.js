@@ -64,7 +64,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
-			<Link to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
+			<Link to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />

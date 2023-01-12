@@ -27,6 +27,7 @@ const ToggleField = forwardRef( ( {
 	disabled,
 	onChange,
 	className,
+	"aria-label": ariaLabel,
 	...props
 }, ref ) => (
 	<Switch.Group
@@ -35,7 +36,7 @@ const ToggleField = forwardRef( ( {
 	>
 		<div className="yst-toggle-field__header">
 			{ label && <div className="yst-toggle-field__label-wrapper">
-				<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
+				<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } aria-label={ ariaLabel } />
 				{ labelSuffix }
 			</div> }
 			<Toggle
@@ -66,6 +67,7 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
+	"aria-label": PropTypes.string,
 };
 
 ToggleField.propTypes = propTypes;

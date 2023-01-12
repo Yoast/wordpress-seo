@@ -10,17 +10,17 @@ import { classNameMap as titleClassNameMap } from "../../elements/title";
 /**
  * @param {JSX.node} children Title text.
  * @param {string} [className] Additional class names.
- * @param {string} [as] Html tag.
+ * @param {string|JSX.Element} [as="h1"] Base component.
  * @param {string} [size] Size of title.
  * @param {Object} [props] Additional props.
- * @returns {JSX.Element} The panel.
+ * @returns {JSX.Element} The title.
  */
 const Title = forwardRef( ( { children, size, className, as, ...props }, ref ) => {
 	return (
 		<Dialog.Title
 			as={ as }
 			ref={ ref }
-			className={  classNames(
+			className={ classNames(
 				"yst-title",
 				size ? titleClassNameMap.size[ size ] : "",
 				className ) }

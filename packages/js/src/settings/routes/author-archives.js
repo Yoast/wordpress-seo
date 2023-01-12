@@ -183,7 +183,7 @@ const AuthorArchives = () => {
 						</div> }
 						description={ sprintf(
 							// translators: %1$s expands to "author archives".
-							__( "Determine how your %1$s should look on social media by default.", "wordpress-seo" ),
+							__( "Determine how your %1$s should look on social media.", "wordpress-seo" ),
 							labelLower
 						) }
 					>
