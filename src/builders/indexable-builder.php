@@ -324,6 +324,17 @@ class Indexable_Builder {
 		return $author_indexable;
 	}
 
+	/**
+	 * Checks if the indexable type is one that is not supposed to have object ID for.
+	 *
+	 * @param string $type The type of the indexable.
+	 *
+	 * @return bool Whether the indexable type is one that is not supposed to have object ID for.
+	 */
+	private function is_type_with_no_id( $type ) {
+		return \in_array( $type, [ 'home-page', 'date-archive', 'post-type-archive', 'system-page' ], true );
+	}
+
 	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.Missing -- Exceptions are handled by the catch statement in the method.
 
 	/**
@@ -403,6 +414,9 @@ class Indexable_Builder {
 			return $this->save_indexable( $indexable, $indexable_before );
 		}
 		catch ( Source_Exception $exception ) {
+			if ( ! $this->is_type_with_no_id( $indexable->object_type ) && ( ! isset( $indexable->object_id ) || \is_null( $indexable->object_id ) ) ) {
+				return false;
+			}
 			/**
 			 * The current indexable could not be indexed. Create a placeholder indexable, so we can
 			 * skip this indexable in future indexing runs.
