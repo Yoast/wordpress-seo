@@ -420,35 +420,35 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 } );
 
 
-describe( "testing the isValidPair helper method", function() {
+describe( "testing the isValidTagPair helper method", function() {
 	it( "returns true if the tags are of the same type and the correct type", function() {
 		[ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span" ].forEach( function( tagType ) {
 			const mockOpenTag = { src: `<${tagType}>` };
 			const mockCloseTag = { src: `</${tagType}>` };
-			expect( mockTokenizer.isValidPair( mockOpenTag, mockCloseTag ) ).toBe( true );
+			expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( true );
 		} );
 	} );
 	it( "returns true if the tags are of the same type and the correct type and the have attributes", function() {
 		[ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span" ].forEach( function( tagType ) {
 			const mockOpenTag = { src: `<${tagType} class="onzin" messy="1">` };
 			const mockCloseTag = { src: `</${tagType}>` };
-			expect( mockTokenizer.isValidPair( mockOpenTag, mockCloseTag ) ).toBe( true );
+			expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( true );
 		} );
 	} );
 	it( "returns false if the tags are of the same type but not of the correct type", function() {
 		const mockOpenTag = { src: "<i>" };
 		const mockCloseTag = { src: "</i>" };
-		expect( mockTokenizer.isValidPair( mockOpenTag, mockCloseTag ) ).toBe( false );
+		expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( false );
 	} );
 	it( "returns false if the tags are of te correct type but not of the same type", function() {
 		const mockOpenTag = { src: "<div>" };
 		const mockCloseTag = { src: "</span>" };
-		expect( mockTokenizer.isValidPair( mockOpenTag, mockCloseTag ) ).toBe( false );
+		expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( false );
 	} );
 	it( "returns false if the tags are of te wrong type and not of the same type", function() {
 		const mockOpenTag = { src: "<i>" };
 		const mockCloseTag = { src: "</b>" };
-		expect( mockTokenizer.isValidPair( mockOpenTag, mockCloseTag ) ).toBe( false );
+		expect( mockTokenizer.isValidTagPair( mockOpenTag, mockCloseTag ) ).toBe( false );
 	} );
 } );
 
