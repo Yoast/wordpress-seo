@@ -90,8 +90,10 @@ const expectedResults = {
 		isApplicable: false,
 	},
 	keyphraseDistribution: {
-		// The text doesnt contain more than 15 sentences.
-		isApplicable: false,
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain the " +
+			"keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
