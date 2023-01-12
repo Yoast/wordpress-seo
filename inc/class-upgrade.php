@@ -85,7 +85,7 @@ class WPSEO_Upgrade {
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
 			'19.11-RC0'  => 'upgrade_1911',
-			'19.12-RC0'  => 'upgrade_1912',
+			'20.0-RC0'   => 'upgrade_200',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -965,13 +965,17 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 19.12 upgrade routine.
-	 * This just schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table.
+	 * Performs the 20.0 upgrade routine.
+	 *
+	 * @TODO: Update with the correct version number when the time comes.
 	 */
-	private function upgrade_1912() {
+	private function upgrade_200() {
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			// This just schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table.
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
+
+		$this->clean_unindexed_indexable_rows_with_no_object_id();
 	}
 
 	/**
@@ -1513,6 +1517,34 @@ class WPSEO_Upgrade {
 				// phpcs:enable
 			}
 		}
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Cleans up "unindexed" indexable rows when appropriate, aka when there's no object ID even though it should.
+	 *
+	 * @return void
+	 */
+	private function clean_unindexed_indexable_rows_with_no_object_id() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: No user input, just a table name.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		$delete_query = $wpdb->query(
+			"DELETE FROM $indexable_table
+			WHERE post_status = 'unindexed'
+			AND object_type NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
+			AND object_id IS NULL"
+		);
+		// phpcs:enable
 
 		$wpdb->show_errors = $show_errors;
 	}
