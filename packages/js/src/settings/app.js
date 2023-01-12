@@ -229,8 +229,9 @@ const App = () => {
 			<Notifications />
 			<SidebarNavigation activePath={ pathname }>
 				<SidebarNavigation.Mobile
-					openButtonScreenReaderText={ __( "Open sidebar", "wordpress-seo" ) }
-					closeButtonScreenReaderText={ __( "Close sidebar", "wordpress-seo" ) }
+					openButtonScreenReaderText={ __( "Open settings navigation", "wordpress-seo" ) }
+					closeButtonScreenReaderText={ __( "Close settings navigation", "wordpress-seo" ) }
+					aria-label={ __( "Settings navigation", "wordpress-seo" ) }
 				>
 					<Menu idSuffix="-mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
