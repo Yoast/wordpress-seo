@@ -52,8 +52,8 @@ function markTinyMCE( editor, paper, marks ) {
 		 * Only do this in the classic editor. And not in the block editor when Advanced Custom Fields is active.
 		 */
 		if ( editor.id !== "acf_content" ) {
-			mark._properties.marked = languageProcessing.replaceSingleQuotesInTags( mark._properties.marked );
-			mark._properties.original = languageProcessing.replaceSingleQuotesInTags( mark._properties.original );
+			mark._properties.marked = languageProcessing.normalizeHTML( mark._properties.marked );
+			mark._properties.original = languageProcessing.normalizeHTML( mark._properties.original );
 		}
 
 		// Check if we want to mark only specific part of the HTML.
