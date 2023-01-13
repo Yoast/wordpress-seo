@@ -1,8 +1,9 @@
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import apiFetch from "@wordpress/api-fetch";
+import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { initial, last, map, values, isEmpty } from "lodash";
+import { get, initial, last, map, remove, set, values, isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -26,7 +27,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {string[]} postTypes The connected post types.
  * @returns {JSX.Element} The taxonomy element.
  */
-const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
+const Taxonomy = ( { name, label, route, postTypes: postTypeNames } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -102,6 +103,27 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 
 	const { values: formValues } = useFormikContext();
 	const { opengraph } = formValues.wpseo_social;
+
+	useEffect( async() => {
+		const newTaxonomyNotifications = get( window, "wpseoScriptData.newTaxonomyNotifications", {} );
+		const notificationId = `taxonomy-made-public-${route}`;
+
+		if ( newTaxonomyNotifications.includes( notificationId ) ) {
+			await apiFetch( {
+				path: "yoast/v1/settings_introduction/remove_notification",
+				method: "POST",
+				data: { id: notificationId },
+			} ).then( response => {
+				if ( response.json.success === true ) {
+					set( window, "wpseoScriptData.newTaxonomyNotifications", remove( newTaxonomyNotifications, notificationId ) );
+				}
+			} ).catch(
+				( e ) => {
+					console.error( e.message  );
+				}
+			);
+		}
+	}, [] );
 
 	return (
 		<RouteLayout
@@ -261,6 +283,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 Taxonomy.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
+	route: PropTypes.string.isRequired,
 	postTypes: PropTypes.arrayOf( PropTypes.string ).isRequired,
 };
 
