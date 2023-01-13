@@ -787,26 +787,30 @@ function IndexablesPage( { setupInfo } ) {
 			onClose={ handleCloseErrorModal }
 			isOpen={ errorMessage !== null }
 		>
-			<Alert variant="error">
-				{
-					sprintf(
-						// Translators: %s expands to the error message.
-						__( "An error occurred: %s", "wordpress-seo" ),
-						errorMessage
-					)
-				}
-			</Alert>
+			<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
+				<Alert variant="error">
+					{
+						sprintf(
+							// Translators: %s expands to the error message.
+							__( "An error occurred: %s", "wordpress-seo" ),
+							errorMessage
+						)
+					}
+				</Alert>
+			</Modal.Panel>
 		</Modal>
 		<Modal
 			id="suggested-links-modal"
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
-			<SuggestedLinksModal
-				isLinkSuggestionsEnabled={ isLinkSuggestionsEnabled }
-				isPremium={ isPremiumInstalled }
-				suggestedLinksModalData={ suggestedLinksModalData }
-			/>
+			<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
+				<SuggestedLinksModal
+					isLinkSuggestionsEnabled={ isLinkSuggestionsEnabled }
+					isPremium={ isPremiumInstalled }
+					suggestedLinksModalData={ suggestedLinksModalData }
+				/>
+			</Modal.Panel>
 		</Modal>
 
 		<RefreshButton onClickCallback={ handleRefreshLists } lastRefreshTime={ lastRefreshTime } />

@@ -4,7 +4,7 @@ import ChildrenLimiter from ".";
 import { Button } from "../../";
 
 export default {
-	title: "2. Components/Children Limiter",
+	title: "2) Components/Children Limiter",
 	component: ChildrenLimiter,
 	parameters: {
 		docs: {
@@ -13,9 +13,12 @@ export default {
 			},
 		},
 	},
+	argTypes: {
+		children: { control: "text" },
+	},
 	args: {
 		limit: 5,
-		children: map( range( 10 ), n => <p>{ n }</p> ),
+		children: map( range( 10 ), n => <p key={ n }>{ n }</p> ),
 	},
 };
 

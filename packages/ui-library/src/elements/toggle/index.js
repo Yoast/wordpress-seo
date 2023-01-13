@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
+import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {string} id ID.
@@ -16,21 +17,22 @@ import { useSvgAria } from "../../hooks";
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Toggle component.
  */
-const Toggle = ( {
+const Toggle = forwardRef( ( {
 	id,
-	as: Component = "button",
+	as: Component,
 	checked,
 	screenReaderLabel,
 	onChange,
-	disabled = false,
-	className = "",
-	type = "",
+	disabled,
+	className,
+	type,
 	...props
-} ) => {
+}, ref ) => {
 	const svgAriaProps = useSvgAria();
 
 	return (
 		<Switch
+			ref={ ref }
 			as={ Component }
 			checked={ checked }
 			disabled={ disabled }
@@ -76,9 +78,9 @@ const Toggle = ( {
 			</span>
 		</Switch>
 	);
-};
+} );
 
-Toggle.propTypes = {
+const propTypes = {
 	as: PropTypes.elementType,
 	id: PropTypes.string.isRequired,
 	checked: PropTypes.bool,
@@ -88,5 +90,21 @@ Toggle.propTypes = {
 	type: PropTypes.string,
 	className: PropTypes.string,
 };
+
+Toggle.propTypes = propTypes;
+
+Toggle.defaultProps = {
+	as: "button",
+	checked: false,
+	disabled: false,
+	type: "",
+	className: "",
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Toggle { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Toggle.defaultProps;
+StoryComponent.displayName = "Toggle";
 
 export default Toggle;
