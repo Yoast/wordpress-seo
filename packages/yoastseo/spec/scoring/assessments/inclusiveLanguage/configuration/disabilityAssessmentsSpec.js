@@ -87,8 +87,6 @@ describe( "A test for Disability assessments", function() {
 		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( false );
 	} );
 
-
-
 	it( "should not target handicap when followed with exception words.", () => {
 		[ "toilet", "toilets", "parking", "bathroom", "bathrooms", "stall", "stalls" ].map( exceptionWord => {
 			const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "handicap" ) );
