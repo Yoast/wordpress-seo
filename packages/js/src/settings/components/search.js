@@ -120,6 +120,10 @@ const Search = ( { buttonId = "button-search" } ) => {
 		setClose();
 		setQuery( "" );
 		setResults( [] );
+		if ( window.location.hash === `#${ route }#${ fieldId }` ) {
+			 const top = document.querySelector( `[data-id="${ fieldId }"]` ).offsetTop;
+			 window.scrollTo( 0, top );
+		}
 		navigate( `${ route }#${ fieldId }` );
 	}, [ setClose, setQuery, setMobileMenuOpen ] );
 
