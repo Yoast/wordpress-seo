@@ -878,9 +878,9 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 			{
 				identifier: "addicts",
 				text: "Addicts are generalized as not trustworthy.",
-				expectedFeedback: "Be careful when using <i>addicts</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>people with a (drug, alcohol, ...) addiction, person with substance abuse disorder</i>, unless referring to " +
-					"someone who explicitly wants to be referred to with this term. " +
+				expectedFeedback: "Be careful when using <i>addicts</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>people with a (drug, alcohol, ...) addiction, people with substance abuse disorder</i>, unless referring to someone " +
+					"who explicitly wants to be referred to with this term. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
