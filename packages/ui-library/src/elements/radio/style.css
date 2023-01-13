@@ -26,7 +26,7 @@
 
 				&:checked + .yst-radio__content {
 					.yst-radio__label {
-						@apply yst-border-transparent yst-ring-2 yst-ring-primary-500;
+						@apply yst-border-transparent yst-ring-2 yst-ring-primary-500 focus:yst-border-slate-300;
 					}
 
 					.yst-radio__check {
@@ -54,7 +54,7 @@
 				yst-shadow-sm
 				yst-cursor-pointer
 				yst-border-slate-300
-
+				focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2
 				hover:yst-border-slate-400
 				focus:yst-outline-none;
 			}

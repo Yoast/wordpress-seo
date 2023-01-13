@@ -50,6 +50,7 @@ const Radio = forwardRef( ( {
 			>
 				<input
 					type="radio"
+					tabIndex="-1"
 					id={ id }
 					name={ name }
 					value={ value }
@@ -61,7 +62,7 @@ const Radio = forwardRef( ( {
 				<span className="yst-radio__content">
 					<Label
 						htmlFor={ id }
-						className="yst-radio__label focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-none"
+						className="yst-radio__label"
 						label={ isLabelDangerousHtml ? null : label }
 						dangerouslySetInnerHTML={ isLabelDangerousHtml ? { __html: label } : null }
 						tabindex="0"
