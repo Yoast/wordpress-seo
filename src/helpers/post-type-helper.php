@@ -168,4 +168,21 @@ class Post_Type_Helper {
 
 		return $post_type_objects;
 	}
+
+	/**
+	 * Gets the passed post type's slug.
+	 *
+	 * @param string $post_type The name of the post type.
+	 *
+	 * @return string The slug for the post_type. Returns the post type's name if no slug could be found.
+	 */
+	public function get_post_type_slug( $post_type ) {
+		$post_type_object = \get_post_type_object( $post_type );
+
+		if ( $post_type_object && \property_exists( $post_type_object, 'rewrite' ) && \is_array( $post_type_object->rewrite ) && isset( $post_type_object->rewrite['slug'] ) ) {
+			return $post_type_object->rewrite['slug'];
+		}
+
+		return \strtolower( $post_type_object->name );
+	}
 }
