@@ -60,7 +60,6 @@ class WPSEO_Image_Utils {
 			return $id;
 		}
 
-		// Note: We use the WP COM version if we can, see above.
 		$id = attachment_url_to_postid( $url );
 
 		if ( empty( $id ) ) {
