@@ -404,11 +404,12 @@ class Settings_Integration implements Integration_Interface {
 			'fallbacks'                => $this->get_fallbacks(),
 			'introduction'             => $this->get_introduction_data(),
 			'newPostTypeNotifications' => $this->get_new_post_type_notifications(),
+			'newTaxonomyNotifications' => $this->get_new_taxonomy_notifications(),
 		];
 	}
 
 	/**
-	 * Retrieves the post types that have been recently added as public.
+	 * Retrieves the notification ids related to post types that have been recently added as public.
 	 *
 	 * @return array The notifications ids.
 	 */
@@ -416,10 +417,30 @@ class Settings_Integration implements Integration_Interface {
 		$notifications    = $this->notification_center->get_notifications_for_user( $this->user_helper->get_current_user_id() );
 		$notifications_id = [];
 
-		// We search notifications related to a newly-introduced post type.
+		// We look for notifications related to a newly-introduced post type.
 		foreach ( $notifications as $notification ) {
 			$notification_id = $notification->get_id();
 			if ( str_contains( $notification_id, 'post-type-made-public-' ) ) {
+				$notifications_id[] = $notification_id;
+			}
+		}
+
+		return $notifications_id;
+	}
+
+	/**
+	 * Retrieves the notification ids related to taxonomies that have been recently added as public.
+	 *
+	 * @return array The notifications ids.
+	 */
+	protected function get_new_taxonomy_notifications() {
+		$notifications    = $this->notification_center->get_notifications_for_user( $this->user_helper->get_current_user_id() );
+		$notifications_id = [];
+
+		// We look for notifications related to a newly-introduced taxonomy.
+		foreach ( $notifications as $notification ) {
+			$notification_id = $notification->get_id();
+			if ( str_contains( $notification_id, 'taxonomy-made-public-' ) ) {
 				$notifications_id[] = $notification_id;
 			}
 		}
