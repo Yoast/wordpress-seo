@@ -19,6 +19,12 @@ use Yoast_Notification_Center;
  * Post type change watcher.
  */
 class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
+	/**
+	 * Represents the notification id prefix.
+	 *
+	 * @var string
+	 */
+	const POST_TYPE_ID_PREFIX = 'post-type-made-public';
 
 	/**
 	 * The indexing helper.
@@ -154,7 +160,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			$post_type_object = \get_post_type_object( $post_type );
 			$post_type_slug = $post_type_object->rewrite !== false ? $post_type_object->rewrite['slug'] : $post_type_object->name;
 
-			$notification = $this->notification_center->get_notification_by_id( "post-types-made-public-$post_type_slug" );
+			$notification = $this->notification_center->get_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_slug" );
 			if ( \is_null( $notification ) ) {
 				$this->add_notification( $post_type_object->label, $post_type_slug );
 			}
@@ -168,7 +174,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 */
 	private function add_notification( $post_type_label, $post_type_slug ) {
 		$message = \sprintf(
-			/* translators:  1: Opening tag of the link to the Search appearance settings page, 2: Post type name (plural), 3: Link closing tag. */
+			/* translators:  1: Opening tag of the link to the post type search appearance settings page, 2: Post type name (plural), 3: Link closing tag. */
 			\esc_html__( 'It looks like you\'ve added a new type of content to your website. We recommend that you review your search appearance settings for %1$s%2$s%3$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( \admin_url( "admin.php?page=wpseo_page_settings#/post-type/$post_type_slug" ) ) . '">',
 			$post_type_label,
@@ -179,7 +185,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => "post-type-made-public-$post_type_slug",
+				'id'           => self::POST_TYPE_ID_PREFIX . "-$post_type_slug",
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			]
