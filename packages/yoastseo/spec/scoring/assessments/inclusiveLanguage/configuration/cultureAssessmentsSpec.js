@@ -2,7 +2,7 @@ import Paper from "../../../../../src/values/Paper";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/cultureAssessments";
 import Factory from "../../../../specHelpers/factory.js";
-import { testInclusiveLanguageAssessments } from "../testHelpers/testHelpers";
+import { testInclusiveLanguageAssessments } from "../testHelpers/testHelper";
 
 describe( "A test for Culture Assessments", () => {
 	it( "should target only capitalized non-inclusive phrases when the caseSensitive flag is set", () => {
@@ -56,6 +56,178 @@ describe( "A test for Culture Assessments", () => {
 } );
 
 describe( "a test for targeting non-inclusive phrases in culture assessments", () => {
+	it( "should return the appropriate score and feedback string for: 'Third World'", () => {
+		const testData = [
+			{
+				identifier: "thirdWorld",
+				text: "There are bigger problems in the Third World.",
+				expectedFeedback: "Avoid using <i>Third World</i> as it is overgeneralizing. Consider using the specific name for the region " +
+					"or country instead.  <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'Third World'", () => {
+		const testData = [
+			{
+				identifier: "exotic",
+				text: "They are considered exotic here.",
+				expectedFeedback: "Be careful when using <i>exotic</i> as it is potentially harmful. Unless you are referring to animals, " +
+					"consider using an alternative, such as <i>unfamiliar, foreign, peculiar, fascinating, alluring, bizarre, non-native, " +
+					"introduced</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'sherpa'", () => {
+		const testData = [
+			{
+				identifier: "sherpa",
+				text: "My sherpa made me this smoothie.",
+				expectedFeedback: "Be careful when using <i>sherpa</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>commander, coach, mastermind, coach, mentor</i> instead, unless you are referring to the culture in which this term " +
+					"originated. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'sherpa'", () => {
+		const testData = [
+			{
+				identifier: "sherpa",
+				text: "My sherpa made me this smoothie.",
+				expectedFeedback: "Be careful when using <i>sherpa</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>commander, coach, mastermind, coach, mentor</i> instead, unless you are referring to the culture in which this term " +
+					"originated. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'non-white'", () => {
+		const testData = [
+			{
+				identifier: "nonWhite",
+				text: "Many people are non-white.",
+				expectedFeedback: "Avoid using <i>non-white</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>people of color, POC, BIPOC</i> or specifying the racial groups mentioned. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'oriental'", () => {
+		const testData = [
+			{
+				identifier: "oriental",
+				text: "Oriental culture is known for it's traditions.",
+				expectedFeedback: "Be careful when using <i>oriental</i> as it is potentially harmful. Unless you are referring to objects or " +
+					"animals, consider using an alternative, such as <i>Asian</i>. When possible, be more specific (e.g. <i>East Asian</i>). " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'White race'", () => {
+		const testData = [
+			{
+				identifier: "whiteRace",
+				text: "Hard to say what the White race implies.",
+				expectedFeedback: "Avoid using <i>the White race</i> as it is potentially harmful. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'white list'", () => {
+		const testData = [
+			{
+				identifier: "whitelist",
+				text: "Everyone on the whitelist was present.",
+				expectedFeedback: "Avoid using <i>whitelist</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>allowlist</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "whitelists",
+				text: "Everyone on the whitelists was present.",
+				expectedFeedback: "Avoid using <i>whitelists</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>allowlists</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "whitelisting",
+				text: "Whitelisting is not an option.",
+				expectedFeedback: "Avoid using <i>whitelisting</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>allowlisting</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "whitelisted",
+				text: "Everyone she knows was whitelisted.",
+				expectedFeedback: "Avoid using <i>whitelisted</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>allowlisted</i>. <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'blacklist'", () => {
+		const testData = [
+			{
+				identifier: "blacklist",
+				text: "Everyone on the blacklist was absent.",
+				expectedFeedback: "Avoid using <i>blacklist</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>blocklist, denylist, faillist, redlist</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "blacklists",
+				text: "There are blacklists for childcare services.",
+				expectedFeedback: "Avoid using <i>blacklists</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>blocklists, denylists, faillists, redlists</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "blacklisting",
+				text: "Blacklisting is not an option.",
+				expectedFeedback: "Avoid using <i>blacklisting</i> as it is potentially harmful. Consider using an alternative, such as " +
+					"<i>blocklisting, denylisting, faillisting, redlisting</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "blacklisted",
+				text: "Everyone she knows was blacklisted.",
+				expectedFeedback: "Avoid using <i>blacklisted</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>blocklisted, denylisted, faillisted, redlisted</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'White race'", () => {
+		const testData = [
+			{
+				identifier: "whiteRace",
+				text: "Hard to say what the White race implies.",
+				expectedFeedback: "Avoid using <i>the White race</i> as it is potentially harmful. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+		testInclusiveLanguageAssessments( testData );
+	} );
 	it( "should return the appropriate score and feedback string for: 'tribe' and its plural form", () => {
 		const testData = [
 			{
@@ -143,7 +315,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'gypsy' and its plural forms", () => {
+	it( "should return the appropriate score and feedback string for: 'gypsy' / 'gipsy' and their plural forms", () => {
 		const testData = [
 			{
 				identifier: "gypsy",
@@ -189,31 +361,6 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'savage'", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "savage" ) );
-		const mockPaper = new Paper( "Although it didn't look very good, it tasted absolutely savage." );
-		const mockResearcher = Factory.buildMockResearcher( [ "Although it didn't look very good, it tasted absolutely savage." ] );
-
-		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
-		expect( assessment.getResult().score ).toBe( 3 );
-		expect( assessment.getResult().text ).toBe( "Avoid using <i>savage</i> as it is potentially harmful. " +
-			"Consider using an alternative, such as <i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant, amazing</i>." +
-			" <a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>" );
-	} );
-	it( "should return the appropriate score and feedback string for: 'oriental'", () => {
-		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "oriental" ) );
-
-		const mockPaper = new Paper( "I love oriental rugs." );
-		const mockResearcher = Factory.buildMockResearcher( [ "I love oriental rugs." ] );
-
-		expect( assessment.isApplicable( mockPaper, mockResearcher ) ).toBe( true );
-		expect( assessment.getResult().score ).toBe( 6 );
-		expect( assessment.getResult().text ).toBe( "Be careful when using <i>oriental</i> as it is potentially harmful. " +
-			"Unless you are referring to objects or animals, consider using an alternative, such as <i>Asian</i>. " +
-			"When possible, be more specific (e.g. <i>East Asian</i>). " +
-			"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>" );
-	} );
-
 	it( "should return the appropriate score and feedback string for: 'blacklist' and its other forms", () => {
 		const testData = [
 			{
@@ -327,6 +474,28 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
 		expect( isApplicable ).toBeFalsy();
+	} );
+	it( "should return the appropriate score and feedback string for: 'African-American' and its other forms", () => {
+		const testData = [
+			{
+				identifier: "africanAmerican",
+				text: "An African-American",
+				expectedFeedback: "Avoid using <i>African-American</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>African American, Black, American of African descent</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "africanAmericans",
+				text: "The African-Americans",
+				expectedFeedback: "Avoid using <i>African-Americans</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>African Americans, Black, Americans of African descent</i>. <a href='https://yoa.st/inclusive-language-culture' " +
+					"target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
 	} );
 	it( "correctly identifies 'pow-wow'", () => {
 		const mockPaper = new Paper( "This sentence contains pow-wow." );
@@ -479,7 +648,181 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'developing country' and its plural form", () => {
+	it( "should return the appropriate score and feedback string for: 'American Indian' and its plural forms", () => {
+		// Both forms of American Indian have one identifier
+		const testData = [
+			{
+				identifier: "americanIndians",
+				text: "An American Indian is an indigenous person in USA.",
+				expectedFeedback: "Be careful when using <i>American Indian</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>Native American(s), Indigenous peoples of America</i>, unless referring to someone " +
+					"who explicitly wants to be referred to with this term. <a href='https://yoa.st/inclusive-language-culture'" +
+					" target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+			{
+				identifier: "americanIndians",
+				text: "American Indians are one of the most known examples of Indigenous people.",
+				expectedFeedback: "Be careful when using <i>American Indians</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>Native American(s), Indigenous peoples of America</i>, unless referring to someone " +
+					"who explicitly wants to be referred to with this term. <a href='https://yoa.st/inclusive-language-culture'" +
+					" target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'mulatto' and its plural forms", () => {
+		// Both forms of mulatto have one identifier
+		const testData = [
+			{
+				identifier: "mulatto",
+				text: "Their son is a mulatto.",
+				expectedFeedback: "Avoid using <i>mulatto</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>mixed, biracial, multiracial</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+			{
+				identifier: "mulatto",
+				text: "There started to be more mulattos at that time.",
+				expectedFeedback: "Avoid using <i>mulattos</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>mixed, biracial, multiracial</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'savage'", () => {
+		const testData = [
+			{
+				identifier: "savage",
+				text: "That joke was savage.",
+				expectedFeedback: "Avoid using <i>savage</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>severe, dreadful, untamed, brutal, fearless, fierce, brilliant, amazing</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'civilized'", () => {
+		const testData = [
+			{
+				identifier: "civilized",
+				text: "They tried to discuss it like civilized people.",
+				expectedFeedback: "Avoid using <i>civilized</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>proper, well-mannered, enlightened, respectful</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'primitive'", () => {
+		const testData = [
+			{
+				identifier: "primitive",
+				text: "The whole set up was primitive.",
+				expectedFeedback: "Avoid using <i>primitive</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>early, rudimentary</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'ebonics'", () => {
+		const testData = [
+			{
+				identifier: "ebonics",
+				text: "White North Americans do not always understand Ebonics.",
+				expectedFeedback: "Avoid using <i>Ebonics</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>African American English, African American Language</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'low man on the totem pole'", () => {
+		const testData = [
+			{
+				identifier: "lowManOnTheTotemPole",
+				text: "It's demanding to expect a low man on the totem pole to bring real change.",
+				expectedFeedback: "Avoid using <i>low man on the totem pole</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>person of lower rank, junior-level</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'low man on the totem pole'", () => {
+		const testData = [
+			{
+				identifier: "lowManOnTheTotemPole",
+				text: "It's demanding to expect a low man on the totem pole to bring real change.",
+				expectedFeedback: "Avoid using <i>low man on the totem pole</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>person of lower rank, junior-level</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'low man on the totem pole'", () => {
+		const testData = [
+			{
+				identifier: "lowManOnTheTotemPole",
+				text: "It's demanding to expect a low man on the totem pole to bring real change.",
+				expectedFeedback: "Avoid using <i>low man on the totem pole</i> as it is potentially harmful. " +
+					"Consider using an alternative, such as <i>person of lower rank, junior-level</i>. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'spirit animal'", () => {
+		const testData = [
+			{
+				identifier: "spiritAnimal",
+				text: "I admire their talent and confidence. They are my spirit animal.",
+				expectedFeedback: "Be careful when using <i>spirit animal</i> as it is potentially harmful. Consider using an alternative, " +
+					"such as <i>inspiration, hero, icon, idol</i> instead, unless you are referring to the culture in which this term originated. " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 6,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'first world countries'", () => {
+		const testData = [
+			{
+				identifier: "firstWorldCountries",
+				text: "It's natural that one would choose one of the first world countries to raise a child.",
+				expectedFeedback: "Avoid using <i>first world countries</i> as it is overgeneralizing. " +
+					"Consider using specific name for the countries or regions instead.  " +
+					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
+				expectedScore: 3,
+			},
+		];
+
+		testInclusiveLanguageAssessments( testData );
+	} );
+	it( "should return the appropriate score and feedback string for: 'underdeveloped country' and its plural form", () => {
 		const testData = [
 			{
 				identifier: "underdevelopedCountry",
