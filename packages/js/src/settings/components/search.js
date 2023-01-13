@@ -121,8 +121,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 		setQuery( "" );
 		setResults( [] );
 		if ( window.location.hash === `#${ route }#${ fieldId }` ) {
-			 const top = document.querySelector( `[data-id="${ fieldId }"]` ).offsetTop;
-			 window.scrollTo( 0, top );
+			 document.querySelector( `[data-id="${ fieldId }"]` ).scrollIntoView( { behavior: "smooth" } );
 		}
 		navigate( `${ route }#${ fieldId }` );
 	}, [ setClose, setQuery, setMobileMenuOpen ] );
