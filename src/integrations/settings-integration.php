@@ -24,6 +24,7 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast_Notification_Center;
 
 /**
  * Class Settings_Integration.
@@ -171,6 +172,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $settings_introduction_action;
 
 	/**
+	 * The notifications center.
+	 *
+	 * @var Yoast_Notification_Center
+	 */
+	protected $notification_center;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager    $asset_manager                The WPSEO_Admin_Asset_Manager.
@@ -185,6 +193,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Article_Helper               $article_helper               The Article_Helper.
 	 * @param User_Helper                  $user_helper                  The User_Helper.
 	 * @param Settings_Introduction_Action $settings_introduction_action The Settings_Introduction_Action.
+	 * @param Yoast_Notification_Center    $notification_center          The notification center.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -198,7 +207,8 @@ class Settings_Integration implements Integration_Interface {
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
 		User_Helper $user_helper,
-		Settings_Introduction_Action $settings_introduction_action
+		Settings_Introduction_Action $settings_introduction_action,
+		Yoast_Notification_Center $notification_center
 	) {
 		$this->asset_manager                = $asset_manager;
 		$this->replace_vars                 = $replace_vars;
@@ -212,6 +222,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->article_helper               = $article_helper;
 		$this->user_helper                  = $user_helper;
 		$this->settings_introduction_action = $settings_introduction_action;
+		$this->notification_center          = $notification_center;
 	}
 
 	/**
@@ -378,21 +389,42 @@ class Settings_Integration implements Integration_Interface {
 		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
 		return [
-			'settings'             => $this->transform_settings( $settings ),
-			'defaultSettingValues' => $default_setting_values,
-			'disabledSettings'     => $this->get_disabled_settings( $settings ),
-			'endpoint'             => \admin_url( 'options.php' ),
-			'nonce'                => \wp_create_nonce( self::PAGE . '-options' ),
-			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
-			'replacementVariables' => $this->get_replacement_variables(),
-			'schema'               => $this->get_schema( $transformed_post_types ),
-			'preferences'          => $this->get_preferences( $settings ),
-			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
-			'postTypes'            => $transformed_post_types,
-			'taxonomies'           => $transformed_taxonomies,
-			'fallbacks'            => $this->get_fallbacks(),
-			'introduction'         => $this->get_introduction_data(),
+			'settings'                 => $this->transform_settings( $settings ),
+			'defaultSettingValues'     => $default_setting_values,
+			'disabledSettings'         => $this->get_disabled_settings( $settings ),
+			'endpoint'                 => \admin_url( 'options.php' ),
+			'nonce'                    => \wp_create_nonce( self::PAGE . '-options' ),
+			'separators'               => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
+			'replacementVariables'     => $this->get_replacement_variables(),
+			'schema'                   => $this->get_schema( $transformed_post_types ),
+			'preferences'              => $this->get_preferences( $settings ),
+			'linkParams'               => WPSEO_Shortlinker::get_query_params(),
+			'postTypes'                => $transformed_post_types,
+			'taxonomies'               => $transformed_taxonomies,
+			'fallbacks'                => $this->get_fallbacks(),
+			'introduction'             => $this->get_introduction_data(),
+			'newPostTypeNotifications' => $this->get_new_post_type_notifications(),
 		];
+	}
+
+	/**
+	 * Retrieves the post types that have been recently added as public.
+	 *
+	 * @return array The notifications ids.
+	 */
+	protected function get_new_post_type_notifications() {
+		$notifications    = $this->notification_center->get_notifications_for_user( $this->user_helper->get_current_user_id() );
+		$notifications_id = [];
+
+		// We search notifications related to a newly-introduced post type.
+		foreach ( $notifications as $notification ) {
+			$notification_id = $notification->get_id();
+			if ( str_contains( $notification_id, 'post-type-made-public-' ) ) {
+				$notifications_id[] = $notification_id;
+			}
+		}
+
+		return $notifications_id;
 	}
 
 	/**
