@@ -287,6 +287,78 @@ function getAnnotatableAttributes( blockTypeName ) {
 }
 
 /**
+ * Creates the annotations for a block.
+ *
+ * @param {string} html  The string where we want to apply the annotations.
+ * @param {string} richTextIdentifier   The identifier for the annotable richt text.
+ * @param {Object} attribute The attribute to apply annotations to.
+ * @param {Object} block     The block information in the state.
+ * @param {Array}  marks     The marks to turn into annotations.
+ *
+ * @returns {Array}  An array of annotations for a specific block.
+ */
+function createAnnotations( html, richTextIdentifier, attribute, block, marks ) {
+	const record = create( {
+		html: html,
+		multilineTag: attribute.multilineTag,
+		multilineWrapperTag: attribute.multilineWrapperTag,
+	} );
+
+	const text = record.text;
+
+	return flatMap( marks, ( ( mark ) => {
+		const annotations = calculateAnnotationsForTextFormat(
+			text,
+			mark
+		);
+
+		if ( ! annotations ) {
+			return [];
+		}
+
+		return annotations.map( annotation => {
+			return {
+				...annotation,
+				block: block.clientId,
+				richTextIdentifier: richTextIdentifier,
+			};
+		} );
+	} ) );
+}
+
+/**
+ * Gets the annotations for Yoast FAQ block and Yoast How-To block.
+ *
+ * @param {Object} attribute The attribute to apply annotations to.
+ * @param {Object} block     The block information in the state.
+ * @param {Array}  marks     The marks to turn into annotations.
+ *
+ * @returns {Array} An array of annotations for Yoast blocks.
+ */
+function getAnnotationsForYoastBlocks( attribute, block, marks ) {
+	const attributeKey = attribute.key;
+
+	// For Yoast FAQ and HowTo blocks, we create a separate annotation objects for each individual Rich Text
+
+	const { attributes: blockAttributes } = block;
+	const annotableTexts = blockAttributes[ attributeKey ];
+	// For each rich text of the attribute value, create annotations.
+	if ( block.name === "yoast/faq-block" && annotableTexts.length !== 0 ) {
+		const annotations = annotableTexts.map( item => {
+			const identifierQuestion = `${ item.id }-question`;
+			const identifierAnswer = `${ item.id }-answer`;
+
+			const annotationsFromQuestion = createAnnotations( item.jsonQuestion, identifierQuestion, attribute, block, marks );
+			const annotationsFromAnswer = createAnnotations( item.jsonAnswer, identifierAnswer, attribute, block, marks );
+
+			return annotationsFromQuestion.concat( annotationsFromAnswer );
+		} );
+
+		return flatMap( annotations );
+	}
+}
+
+/**
  * Returns annotations that should be applied to the given attribute.
  *
  * @param {Object} attribute The attribute to apply annotations to.
@@ -297,14 +369,15 @@ function getAnnotatableAttributes( blockTypeName ) {
  */
 function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 	const attributeKey = attribute.key;
-
 	const { attributes: blockAttributes } = block;
+
+	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
+		return [];
+	}
+
 	let attributeValue = blockAttributes[ attributeKey ];
 	if ( block.name === "yoast/faq-block" ) {
-		const question = attributeValue[ 0 ].jsonQuestion;
-		const answer = attributeValue[ 0 ].jsonAnswer;
-
-		 attributeValue = question.concat( " ", answer );
+		return getAnnotationsForYoastBlocks( attribute, block, marks );
 	}
 	if ( block.name === "yoast/how-to-block" ) {
 		const jsonName = attributeValue[ 0 ].jsonName;
@@ -313,36 +386,7 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 		attributeValue = jsonName.concat( " ", jsonText );
 	}
 
-	if ( attribute.filter && ! attribute.filter( blockAttributes ) ) {
-		return [];
-	}
-
-	// Create a rich text record, because those are easier to work with.
-	const record = create( {
-		html: attributeValue,
-		multilineTag: attribute.multilineTag,
-		multilineWrapperTag: attribute.multilineWrapperTag,
-	} );
-	const text = record.text;
-
-	// For each mark see if it applies to this block.
-	return flatMap( marks, ( ( mark ) => {
-		const annotations = calculateAnnotationsForTextFormat(
-			text,
-			mark
-		);
-		if ( ! annotations ) {
-			return [];
-		}
-
-		return annotations.map( annotation => {
-			return {
-				...annotation,
-				block: block.clientId,
-				richTextIdentifier: attributeKey,
-			};
-		} );
-	} ) );
+	return createAnnotations( attributeValue, attributeKey, attribute, block, marks );
 }
 
 /**
