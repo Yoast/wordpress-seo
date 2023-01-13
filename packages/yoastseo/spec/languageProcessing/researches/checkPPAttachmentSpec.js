@@ -15,11 +15,15 @@ describe( "Check for syntactically ambiguous sentences with PP attachment", func
 			[
 				{
 					sentence: "John saw cops with large telescopes.",
-					construction: ["saw", "cops", "with", "large", "telescopes"],
+					reading1: "saw with telescopes",
+					reading2: "cops with telescopes",
+					construction: [ "saw", "cops", "with", "large", "telescopes" ],
 				},
 				{
 					sentence: "John saw the large cop with a big telescope riding a bike.",
-					construction: ["saw", "the", "large", "cop", "with", "a", "big", "telescope"],
+					reading1: "saw with a telescope",
+					reading2: "cop with a telescope",
+					construction: [ "saw", "the", "large", "cop", "with", "a", "big", "telescope" ],
 				},
 			] );
 	} );
