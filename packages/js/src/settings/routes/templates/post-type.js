@@ -133,7 +133,7 @@ const PostType = ( { name, label, route, singularLabel, hasArchive, hasSchemaArt
 
 		if ( newPostTypeNotifications.includes( notificationId ) ) {
 			await apiFetch( {
-				path: "yoast/v1/settings_introduction/remove_post_type_notification",
+				path: "yoast/v1/settings_introduction/remove_notification",
 				method: "POST",
 				data: { id: notificationId },
 			} ).then( response => {
