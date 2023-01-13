@@ -37,6 +37,13 @@ class Settings_Introduction_Route implements Route_Interface {
 	const SHOW = self::ROUTE_PREFIX . '/show';
 
 	/**
+	 * Represents removing a notification related to a new post type
+	 *
+	 * @var string
+	 */
+	const REMOVE_POST_TYPE_NOTIFICATION = self::ROUTE_PREFIX . '/remove_post_type_notification';
+
+	/**
 	 * Holds the Settings_Introduction_Action.
 	 *
 	 * @var Settings_Introduction_Action
@@ -114,6 +121,24 @@ class Settings_Introduction_Route implements Route_Interface {
 						'value' => [
 							'required' => true,
 							'type'     => 'bool',
+						],
+					],
+				],
+			]
+		);
+
+		\register_rest_route(
+			Main::API_V1_NAMESPACE,
+			self::REMOVE_POST_TYPE_NOTIFICATION,
+			[
+				[
+					'methods'             => 'POST',
+					'callback'            => [ $this, 'remove_post_type_notification' ],
+					'permission_callback' => [ $this, 'permission_manage_options' ],
+					'args'                => [
+						'id' => [
+							'required' => true,
+							'type'     => 'string',
 						],
 					],
 				],
@@ -215,6 +240,37 @@ class Settings_Introduction_Route implements Route_Interface {
 
 		try {
 			$result = $this->settings_introduction_action->set_show( $value );
+		} catch ( Exception $exception ) {
+			return new WP_Error(
+				'wpseo_settings_introduction_error',
+				$exception->getMessage(),
+				(object) []
+			);
+		}
+
+		return new WP_REST_Response(
+			[
+				'json' => (object) [
+					'success' => $result,
+				],
+			],
+			( $result ) ? 200 : 400
+		);
+	}
+
+	/**
+	 * Removes a notification related to a new post type
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response|WP_Error The success or failure response.
+	 */
+	public function remove_post_type_notification( WP_REST_Request $request ) {
+		$params          = $request->get_json_params();
+		$notification_id = $params['id'];
+
+		try {
+			$result = $this->settings_introduction_action->remove_post_type_notification( $notification_id );
 		} catch ( Exception $exception ) {
 			return new WP_Error(
 				'wpseo_settings_introduction_error',

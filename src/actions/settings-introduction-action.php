@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions;
 
 use Exception;
 use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast_Notification_Center;
 
 /**
  * Settings_Introduction_Action class.
@@ -25,12 +26,24 @@ class Settings_Introduction_Action {
 	private $user_helper;
 
 	/**
+	 * The notifications center.
+	 *
+	 * @var Yoast_Notification_Center
+	 */
+	private $notification_center;
+
+	/**
 	 * Constructs Settings_Introduction_Action.
 	 *
-	 * @param User_Helper $user_helper The User_Helper.
+	 * @param User_Helper               $user_helper         The User_Helper.
+	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
-	public function __construct( User_Helper $user_helper ) {
-		$this->user_helper = $user_helper;
+	public function __construct( 
+		User_Helper $user_helper,
+		Yoast_Notification_Center $notification_center
+	) {
+		$this->user_helper         = $user_helper;
+		$this->notification_center = $notification_center;
 	}
 
 	/**
@@ -105,6 +118,25 @@ class Settings_Introduction_Action {
 		$values['show'] = $value;
 
 		return $this->user_helper->update_meta( $user_id, self::USER_META_KEY, $values ) !== false;
+	}
+
+	/**
+	 * Removes a notification related to a post type.
+	 *
+	 * @param string $notification_id The id of the notification to be removed.
+	 *
+	 * @return bool Whether the notification has been removed.
+	 */
+	public function remove_post_type_notification( $notification_id ) {
+		$previous_notifications_count = $this->notification_center->get_notification_count();
+
+		$this->notification_center->remove_notification_by_id( $notification_id );
+
+		if ( $this->notification_center->get_notification_count() < $previous_notifications_count ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
