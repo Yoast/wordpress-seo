@@ -9,17 +9,31 @@ const ppAttachmentRegExp = new RegExp( "<VB.?>(?:<DT>)?(?:<JJ>)*<NN.?><IN>(?:<DT
  *
  * @param {POSTagger} tagger The part-of-speech tagger.
  * @param {string} sentence The current sentence.
- * @returns {boolean} Whether the current sentence is regarded ambiguous.
+ * @returns {string[]} The words composing the ambiguous construction (empty if none found).
  */
 function isAmbiguous( tagger, sentence ) {
-	const words = getWords( sentence );
+	const words = getWords( sentence, false );
 	const tags = tagger.tag( words );
 
 	// Convert the tags to a string, so that we can more easily apply a regular expression.
 	const tagString = tags.map( tag => "<" + tag[ 1 ] + ">" ).join( "" );
 	const match = tagString.match( ppAttachmentRegExp );
 
-	return match !== null;
+	const result = [];
+	if ( match !== null ) {
+		const indexStart = match.index;
+		const indexFinal = indexStart + match[0].length;
+		let indexCurrent = 0;
+		tags.forEach( tag => {
+			if ( indexStart <= indexCurrent && indexCurrent < indexFinal ) {
+				result.push( tag[ 0 ] );
+			}
+			// Add 2 because we added brackets to the tagString above.
+			indexCurrent += tag[ 1 ].length + 2;
+		} );
+	}
+
+	return result;
 }
 
 /**
@@ -27,7 +41,7 @@ function isAmbiguous( tagger, sentence ) {
  *
  * @param {string[]} sentences The sentences in the text.
  * @param {Researcher} researcher The researcher to use for analysis.
- * @returns {string[]} (potentially) syntactically ambiguous sentences.
+ * @returns {Object[]} (potentially) syntactically ambiguous sentences.
  */
 function findPPAttachment( sentences, researcher ) {
 	const ambiguousSentences = [];
@@ -35,8 +49,10 @@ function findPPAttachment( sentences, researcher ) {
 	const tagger = researcher.getHelper( "getTagger" )();
 
 	sentences.forEach( sentence => {
-		if ( isAmbiguous( tagger, sentence ) ) {
-			ambiguousSentences.push( sentence );
+		const construction = isAmbiguous( tagger, sentence );
+		if ( construction.length > 0 ) {
+			console.log({ sentence: sentence, construction: construction });
+			ambiguousSentences.push( { sentence: sentence, construction: construction } );
 		}
 	} );
 
@@ -47,7 +63,7 @@ function findPPAttachment( sentences, researcher ) {
  * Count sentences in the text.
  * @param {Paper} paper The Paper object to get text from.
  * @param {Researcher} 	researcher 	The researcher to use for analysis.
- * @returns {string[]} The ambiguous sentences from the text.
+ * @returns {Object[]} The ambiguous constructions from the text.
  */
 export default function( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
