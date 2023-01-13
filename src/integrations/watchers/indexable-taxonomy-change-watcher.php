@@ -21,6 +21,12 @@ use Yoast_Notification_Center;
  * Responds to changes in taxonomies public availability.
  */
 class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
+	/**
+	 * Represents the notification id prefix.
+	 *
+	 * @var string
+	 */
+	const TAXONOMY_ID_PREFIX = 'taxonomy-made-public';
 
 	/**
 	 * The indexing helper.
@@ -133,7 +139,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC );
 
-			$this->maybe_add_notification();
+			$this->maybe_add_notification( $newly_made_public_taxonomies );
 		}
 
 		// There are taxonomies that have been made private.
@@ -151,10 +157,15 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function maybe_add_notification() {
-		$notification = $this->notification_center->get_notification_by_id( 'taxonomies-made-public' );
-		if ( \is_null( $notification ) ) {
-			$this->add_notification();
+	private function maybe_add_notification( $newly_made_public_taxonomies ) {
+		foreach( $newly_made_public_taxonomies as $taxonomy ) {
+			$taxonomy_object = \get_taxonomy( $taxonomy );
+			$taxonomy_slug = $taxonomy_object->rewrite !== false ? $taxonomy_object->rewrite['slug'] : $taxonomy_object->name;
+
+			$notification = $this->notification_center->get_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
+			if ( \is_null( $notification ) ) {
+				$this->add_notification( $taxonomy_object->label, $taxonomy_slug );
+			}
 		}
 	}
 
@@ -163,11 +174,12 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function add_notification() {
+	private function add_notification( $taxonomy_label, $taxonomy_slug ) {
 		$message = \sprintf(
-			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
-			\esc_html__( 'It looks like you\'ve added a new taxonomy to your website. We recommend that you review your %1$sSettings%2$s under Categories & tags.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
+			/* translators: 1: Opening tag of the link to the taxonomy search appearance settings page, 2: taxonomy name, 3: Link closing tag. */
+			\esc_html__( 'It looks like you\'ve added a new taxonomy to your website. We recommend that you review your search appearance settings for %1$s%2$s%3$s.', 'wordpress-seo' ),
+			'<a href="' . \esc_url( \admin_url( "admin.php?page=wpseo_page_settings#/taxonomy/$taxonomy_slug" ) ) . '">',
+			$taxonomy_label,
 			'</a>'
 		);
 
@@ -175,7 +187,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'taxonomies-made-public',
+				'id'           => self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug",
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			]
