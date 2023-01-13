@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 
 /**
  * Indexable_Post_Indexation_Action_Test class
@@ -287,12 +288,68 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->with( 'query' )
 			->andReturn( [ '1', '3', '8' ] );
 
+		$indexable             = Mockery::mock( Indexable_Mock::class );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn($indexable);
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn($indexable);
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn($indexable);
+
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the index method that no transients are deleted when there are no indexables found.
+	 *
+	 * @covers ::__construct
+	 * @covers ::index
+	 * @covers ::get_limit
+	 * @covers ::get_post_types
+	 */
+	public function test_index_no_indexables_found() {
+		$expected_query = "
+			SELECT P.ID
+			FROM wp_posts AS P
+			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.version = %d )
+			LIMIT %d";
+
+		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
+
+		$this->post_type_helper
+			->expects( 'get_indexable_post_types' )
+			->once()
+			->andReturn( [ 'public_post_type' ] );
+
+		$this->post_helper->expects( 'get_excluded_post_statuses' )
+			->once()
+			->andReturn( [ 'auto-draft' ] );
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with(
+				$expected_query,
+				[ 'public_post_type', 'auto-draft', 2, 25 ]
+			)
+			->andReturn( 'query' );
+		$this->wpdb
+			->expects( 'get_col' )
+			->once()
+			->with( 'query' )
+			->andReturn( [ '1', '3', '8' ] );
+
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
-		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
-		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' )->never();
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' )->never();
 
 		$this->instance->index();
 	}
@@ -312,9 +369,10 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+		$indexable             = Mockery::mock( Indexable_Mock::class );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn($indexable);
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn($indexable);
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn($indexable);
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
@@ -368,9 +426,10 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->with( 'query' )
 			->andReturn( [ '1', '3', '8' ] );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+		$indexable             = Mockery::mock( Indexable_Mock::class );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn($indexable);
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn($indexable);
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn($indexable);
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
