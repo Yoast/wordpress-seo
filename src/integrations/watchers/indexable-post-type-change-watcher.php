@@ -131,7 +131,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 			$this->indexing_helper->set_reason( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
 
-			$this->maybe_add_notification();
+			$this->maybe_add_notification( $newly_made_public_post_types );
 		}
 
 		// There are post types that have been made private.
@@ -149,10 +149,15 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function maybe_add_notification() {
-		$notification = $this->notification_center->get_notification_by_id( 'post-types-made-public' );
-		if ( \is_null( $notification ) ) {
-			$this->add_notification();
+	private function maybe_add_notification( $newly_made_public_post_types ) {
+		foreach( $newly_made_public_post_types as $post_type ) {
+			$post_type_object = \get_post_type_object( $post_type );
+			$post_type_slug = $post_type_object->rewrite !== false ? $post_type_object->rewrite['slug'] : $post_type_object->name;
+
+			$notification = $this->notification_center->get_notification_by_id( "post-types-made-public-$post_type_slug" );
+			if ( \is_null( $notification ) ) {
+				$this->add_notification( $post_type_object->label, $post_type_slug );
+			}
 		}
 	}
 
@@ -161,11 +166,12 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function add_notification() {
+	private function add_notification( $post_type_label, $post_type_slug ) {
 		$message = \sprintf(
-			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
-			\esc_html__( 'It looks like you\'ve added a new type of content to your website. We recommend that you review your %1$sSettings%2$s under Content types.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
+			/* translators:  1: Opening tag of the link to the Search appearance settings page, 2: Post type name (plural), 3: Link closing tag. */
+			\esc_html__( 'It looks like you\'ve added a new type of content to your website. We recommend that you review your search appearance settings for %1$s%2$s%3$s.', 'wordpress-seo' ),
+			'<a href="' . \esc_url( \admin_url( "admin.php?page=wpseo_page_settings#/post-type/$post_type_slug" ) ) . '">',
+			$post_type_label,
 			'</a>'
 		);
 
@@ -173,7 +179,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'post-types-made-public',
+				'id'           => "post-type-made-public-$post_type_slug",
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			]
