@@ -336,15 +336,12 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
  * @returns {Array} An array of annotations for Yoast blocks.
  */
 function getAnnotationsForYoastBlocks( attribute, block, marks ) {
-	const attributeKey = attribute.key;
+	// For Yoast FAQ and How-To blocks, we create separate annotation objects for each individual Rich Text found in the attribute.
+	const annotatableTexts = block.attributes[ attribute.key ];
 
-	// For Yoast FAQ and HowTo blocks, we create a separate annotation objects for each individual Rich Text
-
-	const { attributes: blockAttributes } = block;
-	const annotableTexts = blockAttributes[ attributeKey ];
-	// For each rich text of the attribute value, create annotations.
-	if ( block.name === "yoast/faq-block" && annotableTexts.length !== 0 ) {
-		const annotations = annotableTexts.map( item => {
+	if ( block.name === "yoast/faq-block" && annotatableTexts.length !== 0 ) {
+		// For each rich text of the attribute value, create annotations.
+		const annotations = annotatableTexts.map( item => {
 			const identifierQuestion = `${ item.id }-question`;
 			const identifierAnswer = `${ item.id }-answer`;
 
@@ -356,6 +353,10 @@ function getAnnotationsForYoastBlocks( attribute, block, marks ) {
 
 		return flatMap( annotations );
 	}
+	// Below we can add the check for getting the annotations for Yoast How-To block.
+	// Note: for Yoast How-To block, there are actually two attribute keys that are annotatable: steps and jsonDescription.
+	// Steps returns an array of the step-description pair objects.
+	// jsonDescription returns an array of the description/introduction of the steps.
 }
 
 /**
@@ -375,17 +376,13 @@ function getAnnotationsForBlockAttribute( attribute, block, marks ) {
 		return [];
 	}
 
-	let attributeValue = blockAttributes[ attributeKey ];
-	if ( block.name === "yoast/faq-block" ) {
+	// Get the annotations for Yoast FAQ and How-To blocks.
+	if ( block.name === "yoast/faq-block" || block.name === "yoast/how-to-block" ) {
 		return getAnnotationsForYoastBlocks( attribute, block, marks );
 	}
-	if ( block.name === "yoast/how-to-block" ) {
-		const jsonName = attributeValue[ 0 ].jsonName;
-		const jsonText = attributeValue[ 0 ].jsonText;
 
-		attributeValue = jsonName.concat( " ", jsonText );
-	}
-
+	const attributeValue = blockAttributes[ attributeKey ];
+	// Get the annotation for non-Yoast blocks.
 	return createAnnotations( attributeValue, attributeKey, attribute, block, marks );
 }
 
