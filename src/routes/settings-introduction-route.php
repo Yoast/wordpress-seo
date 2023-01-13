@@ -41,7 +41,7 @@ class Settings_Introduction_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const REMOVE_POST_TYPE_NOTIFICATION = self::ROUTE_PREFIX . '/remove_post_type_notification';
+	const REMOVE_NOTIFICATION = self::ROUTE_PREFIX . '/remove_notification';
 
 	/**
 	 * Holds the Settings_Introduction_Action.
@@ -129,11 +129,11 @@ class Settings_Introduction_Route implements Route_Interface {
 
 		\register_rest_route(
 			Main::API_V1_NAMESPACE,
-			self::REMOVE_POST_TYPE_NOTIFICATION,
+			self::REMOVE_NOTIFICATION,
 			[
 				[
 					'methods'             => 'POST',
-					'callback'            => [ $this, 'remove_post_type_notification' ],
+					'callback'            => [ $this, 'remove_notification' ],
 					'permission_callback' => [ $this, 'permission_manage_options' ],
 					'args'                => [
 						'id' => [
@@ -259,18 +259,18 @@ class Settings_Introduction_Route implements Route_Interface {
 	}
 
 	/**
-	 * Removes a notification related to a new post type
+	 * Removes a notification.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
-	public function remove_post_type_notification( WP_REST_Request $request ) {
+	public function remove_notification( WP_REST_Request $request ) {
 		$params          = $request->get_json_params();
 		$notification_id = $params['id'];
 
 		try {
-			$result = $this->settings_introduction_action->remove_post_type_notification( $notification_id );
+			$result = $this->settings_introduction_action->remove_notification( $notification_id );
 		} catch ( Exception $exception ) {
 			return new WP_Error(
 				'wpseo_settings_introduction_error',

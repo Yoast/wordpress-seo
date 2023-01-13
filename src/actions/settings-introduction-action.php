@@ -121,13 +121,13 @@ class Settings_Introduction_Action {
 	}
 
 	/**
-	 * Removes a notification related to a post type.
+	 * Removes a notification.
 	 *
 	 * @param string $notification_id The id of the notification to be removed.
 	 *
 	 * @return bool Whether the notification has been removed.
 	 */
-	public function remove_post_type_notification( $notification_id ) {
+	public function remove_notification( $notification_id ) {
 		$previous_notifications_count = $this->notification_center->get_notification_count();
 
 		$this->notification_center->remove_notification_by_id( $notification_id );
