@@ -1,8 +1,10 @@
 /* eslint-disable complexity */
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import apiFetch from "@wordpress/api-fetch";
+import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
+import { get, remove, set } from "lodash";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
@@ -26,12 +28,13 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
 /**
  * @param {string} name The post type name.
  * @param {string} label The post type label (plural).
+ * @param {string} route The route associated to the post type.
  * @param {string} singularLabel The post type label (singular).
  * @param {boolean} hasArchive Whether the post type has archive support.
  * @param {boolean} hasSchemaArticleType Whether the post type has schema article type support.
  * @returns {JSX.Element} The post type element.
  */
-const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType } ) => {
+const PostType = ( { name, label, route, singularLabel, hasArchive, hasSchemaArticleType } ) => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
@@ -123,6 +126,27 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
 	const { "breadcrumbs-enable": isBreadcrumbsEnabled } = values.wpseo_titles;
+
+	useEffect( async() => {
+		const newPostTypeNotifications = get( window, "wpseoScriptData.newPostTypeNotifications", {} );
+		const notificationId = `post-type-made-public-${route}`;
+
+		if ( newPostTypeNotifications.includes( notificationId ) ) {
+			await apiFetch( {
+				path: "yoast/v1/settings_introduction/remove_post_type_notification",
+				method: "POST",
+				data: { id: notificationId },
+			} ).then( response => {
+				if ( response.json.success === true ) {
+					set( window, "wpseoScriptData.newPostTypeNotifications", remove( newPostTypeNotifications, notificationId ) );
+				}
+			} ).catch(
+				( e ) => {
+					console.error( e.message  );
+				}
+			);
+		}
+	}, [] );
 
 	return (
 		<RouteLayout
@@ -454,6 +478,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 PostType.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
+	route: PropTypes.string.isRequired,
 	singularLabel: PropTypes.string.isRequired,
 	hasArchive: PropTypes.bool.isRequired,
 	hasSchemaArticleType: PropTypes.bool.isRequired,
