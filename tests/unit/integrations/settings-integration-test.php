@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Settings_Integration_Test.
@@ -52,6 +53,7 @@ class Settings_Integration_Test extends TestCase {
 		$article_helper               = Mockery::mock( Article_Helper::class );
 		$user_helper                  = Mockery::mock( User_Helper::class );
 		$settings_introduction_action = Mockery::mock( Settings_Introduction_Action::class );
+		$notification_center          = Mockery::mock( Yoast_Notification_Center::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -65,7 +67,8 @@ class Settings_Integration_Test extends TestCase {
 			$woocommerce_helper,
 			$article_helper,
 			$user_helper,
-			$settings_introduction_action
+			$settings_introduction_action,
+			$notification_center
 		);
 	}
 
