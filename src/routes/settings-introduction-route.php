@@ -269,15 +269,7 @@ class Settings_Introduction_Route implements Route_Interface {
 		$params          = $request->get_json_params();
 		$notification_id = $params['id'];
 
-		try {
-			$result = $this->settings_introduction_action->remove_notification( $notification_id );
-		} catch ( Exception $exception ) {
-			return new WP_Error(
-				'wpseo_settings_introduction_error',
-				$exception->getMessage(),
-				(object) []
-			);
-		}
+		$result = $this->settings_introduction_action->remove_notification( $notification_id );
 
 		return new WP_REST_Response(
 			[
