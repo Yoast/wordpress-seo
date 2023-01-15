@@ -165,12 +165,14 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	/**
 	 * Decides if a notification should be added in the notification center.
 	 *
+	 * @param array $newly_made_public_taxonomies The array of names of newly made public taxonomies.
+	 *
 	 * @return void
 	 */
 	private function maybe_add_notification( $newly_made_public_taxonomies ) {
-		foreach( $newly_made_public_taxonomies as $taxonomy_slug ) {
+		foreach ( $newly_made_public_taxonomies as $taxonomy_slug ) {
 			$taxonomy_object = \get_taxonomy( $taxonomy_slug );
-			$notification = $this->notification_center->get_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
+			$notification    = $this->notification_center->get_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
 			if ( \is_null( $notification ) ) {
 				$this->add_notification( $taxonomy_object->label, $taxonomy_slug );
 			}
@@ -179,6 +181,9 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 
 	/**
 	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
+	 *
+	 * @param string $taxonomy_label The label used for the taxonomy.
+	 * @param string $taxonomy_slug  The taxonomy slug.
 	 *
 	 * @return void
 	 */
@@ -202,19 +207,5 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		);
 
 		$this->notification_center->add_notification( $notification );
-	}
-
-	/**
-	 * Removes the notification related to a taxonomy.
-	 * 
-	 * @param string $post_type The name of the taxonomy related to the notification to be removed. 
-	 *
-	 * @return void
-	 */
-	private function remove_notification( $taxonomy_slug ) {
-		$taxonomy_object = \get_taxonomy( $taxonomy );
-		$taxonomy_slug = $taxonomy_object->rewrite !== false ? $taxonomy_object->rewrite['slug'] : $taxonomy_object->name;
-		// No check needed, if the notification does not exist, remove_notification_by_id silently returns.
-		$this->notification_center->remove_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
 	}
 }
