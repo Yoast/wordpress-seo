@@ -136,6 +136,25 @@ class Settings_Introduction_Route_Test extends TestCase {
 				]
 			);
 
+			Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
+				'/settings_introduction/remove_notification',
+				[
+					[
+						'methods'             => 'POST',
+						'callback'            => [ $this->instance, 'remove_notification' ],
+						'permission_callback' => [ $this->instance, 'permission_manage_options' ],
+						'args'                => [
+							'id' => [
+								'required' => true,
+								'type'     => 'string',
+							],
+						],
+					],
+				]
+			);
+
 		$this->instance->register_routes();
 	}
 
@@ -429,5 +448,55 @@ class Settings_Introduction_Route_Test extends TestCase {
 			'WP_Error',
 			$this->instance->set_show( $wp_rest_request )
 		);
+	}
+
+	/**
+	 * Tests the remove_notification route.
+	 *
+	 * @dataProvider remove_notification_dataprovider
+	 * 
+	 * @covers ::remove_notification
+	 * 
+	 * @param bool $return_value The return value of the remove_notification method.
+	 * @param bool $success      The expected success value.
+	 * @param int  $code         The expected code value.
+	 */
+	public function test_remove_notification_failed( $return_value, $success, $code) {
+		$this->settings_introduction_action
+			->expects( 'remove_notification' )
+			->with( 'dummy-id' )
+			->once()
+			->andReturn( $return_value );
+
+		$wp_rest_response_mock = Mockery::mock( 'overload:' . WP_REST_Response::class );
+		$wp_rest_response_mock
+			->expects( '__construct' )
+			->with(
+				[
+					'json' => (object) [
+						'success' => $success,
+					],
+				],
+				$code
+			)
+			->once();
+
+		$wp_rest_request = Mockery::mock( WP_REST_Request::class );
+		$wp_rest_request
+			->expects( 'get_json_params' )
+			->once()
+			->andReturn( [ 'id' => 'dummy-id' ] );
+
+		$this->assertInstanceOf(
+			'WP_REST_Response',
+			$this->instance->remove_notification( $wp_rest_request )
+		);
+	}
+
+	public function remove_notification_dataprovider() {
+		return [
+			[ true, true, 200 ],
+			[ false, false, 400 ],
+		];
 	}
 }
