@@ -154,7 +154,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
 			// Remove also the notifications issued when the post types have been made public.
-			foreach( $newly_made_non_public_post_types as $post_type_slug ) {
+			foreach ( $newly_made_non_public_post_types as $post_type_slug ) {
 				$this->notification_center->remove_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_slug" );
 			}
 		}
@@ -162,13 +162,13 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 
 	/**
 	 * Decides if a notification should be added in the notification center.
-	 * 
-	 * @param array $newly_made_public_post_types The array of names of newly made public post types. 
+	 *
+	 * @param array $newly_made_public_post_types The array of names of newly made public post types.
 	 *
 	 * @return void
 	 */
 	private function maybe_add_notification( $newly_made_public_post_types ) {
-		foreach( $newly_made_public_post_types as $post_type_slug ) {
+		foreach ( $newly_made_public_post_types as $post_type_slug ) {
 			$post_type_object = \get_post_type_object( $post_type_slug );
 
 			$notification = $this->notification_center->get_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_slug" );
@@ -183,7 +183,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 *
 	 * @param string $post_type_label The label used for the post type.
 	 * @param string $post_type_slug  The post type slug.
-	 * 
+	 *
 	 * @return void
 	 */
 	private function add_notification( $post_type_label, $post_type_slug ) {
