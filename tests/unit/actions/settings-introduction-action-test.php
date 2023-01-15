@@ -6,6 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Actions\Settings_Introduction_Action;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Settings_Introduction_Action_Test class.
@@ -38,14 +39,26 @@ class Settings_Introduction_Action_Test extends TestCase {
 	protected $user_helper;
 
 	/**
+	 * Represents the Yoast_Notification_Center.
+	 *
+	 * @var Mockery\MockInterface|Yoast_Notification_Center
+	 */
+	protected $notification_center;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
 		$this->user_helper = Mockery::mock( User_Helper::class );
+		
+		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 
-		$this->instance = new Settings_Introduction_Action( $this->user_helper );
+		$this->instance = new Settings_Introduction_Action( 
+			$this->user_helper,
+			$this->notification_center
+		);
 	}
 
 	/**
@@ -57,6 +70,11 @@ class Settings_Introduction_Action_Test extends TestCase {
 		$this->assertInstanceOf(
 			User_Helper::class,
 			$this->getPropertyValue( $this->instance, 'user_helper' )
+		);
+
+		$this->assertInstanceOf(
+			Yoast_Notification_Center::class,
+			$this->getPropertyValue( $this->instance, 'notification_center' )
 		);
 	}
 
@@ -260,5 +278,47 @@ class Settings_Introduction_Action_Test extends TestCase {
 			->andReturn( '' );
 
 		$this->assertTrue( $this->instance->get_show() );
+	}
+
+	/**
+	 * Test removing a notification.
+	 *
+	 * @covers ::remove_notification
+	 * @dataProvider remove_notification_provider
+	 *
+	 * @param int  $first_count  The initial number of notifications.
+	 * @param int  $second_count The number of notifications after the removal.
+	 * @param bool $expected     The expected result.
+	 */
+	public function test_remove_notification(  $first_count, $second_count, $expected ) {
+
+		$this->notification_center
+			->expects( 'get_notification_count' )
+			->once()
+			->andReturn( $first_count );
+		
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->andReturns();
+		
+			$this->notification_center
+			->expects( 'get_notification_count' )
+			->once()
+			->andReturn( $second_count );
+
+		$this->assertEquals( $expected, $this->instance->remove_notification('test-id') );
+	}
+
+	/**
+	 * Dataprovider for test_remove_notification.
+	 *
+	 * @covers ::remove_notification
+	 */
+	public function remove_notification_provider() {
+		return [
+			[ 5, 4, true ],
+			[ 5, 5, false ],
+		];
 	}
 }
