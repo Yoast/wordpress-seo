@@ -35,6 +35,12 @@ class WPSEO_Image_Utils {
 			return 0;
 		}
 
+		if ( function_exists( 'wpcom_vip_attachment_url_to_postid' ) ) {
+			// @codeCoverageIgnoreStart -- We can't test this properly.
+			return (int) wpcom_vip_attachment_url_to_postid( $url );
+			// @codeCoverageIgnoreEnd -- The rest we _can_ test.
+		}
+
 		return self::attachment_url_to_postid( $url );
 	}
 
@@ -60,6 +66,7 @@ class WPSEO_Image_Utils {
 			return $id;
 		}
 
+		// Note: We use the WP COM version if we can, see above.
 		$id = attachment_url_to_postid( $url );
 
 		if ( empty( $id ) ) {
