@@ -176,4 +176,14 @@ class Taxonomy_Helper {
 
 		return $taxonomy_objects;
 	}
+
+	public function get_taxonomy_label( $taxonomy ) {
+		$taxonomy_object = \get_taxonomy( $taxonomy );
+
+		if ( $taxonomy_object && \property_exists( $taxonomy_object, 'label' ) ) {
+			return $taxonomy_object->label;
+		}
+
+		return $taxonomy_object->name;
+	}
 }
