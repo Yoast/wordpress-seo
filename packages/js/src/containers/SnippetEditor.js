@@ -116,7 +116,7 @@ export function mapSelectToProps( select ) {
 		isCornerstone: isCornerstoneContent(),
 		isTaxonomy: getIsTerm(),
 		locale: getContentLocale(),
-		siteName: getSiteName(),
+		siteName: getSiteName,
 	};
 }
 
