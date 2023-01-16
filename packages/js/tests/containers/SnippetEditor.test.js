@@ -5,6 +5,7 @@ describe( "SnippetEditor container", () => {
 		const select = jest.fn( name => {
 			if ( name === "yoast-seo/editor" ) {
 				return {
+					getSiteName: "Site Name",
 					getBaseUrlFromSettings: jest.fn().mockReturnValue( "https://localhost.test" ),
 					getDateFromSettings: jest.fn().mockReturnValue( "01-01-1970" ),
 					getFocusKeyphrase: jest.fn().mockReturnValue( "active" ),
@@ -43,6 +44,7 @@ describe( "SnippetEditor container", () => {
 		} );
 
 		const expected = {
+			siteName: "Site Name",
 			baseUrl: "https://localhost.test",
 			data: {
 				title: "Title",
