@@ -702,7 +702,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_post_types( $post_types ) {
 		$transformed = [];
-		foreach ( $post_types as $name => $post_type ) {
+		foreach ( $post_types as $index => $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
 				'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
@@ -753,7 +753,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
 		$transformed = [];
-		foreach ( $taxonomies as $name => $taxonomy ) {
+		foreach ( $taxonomies as $index => $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
