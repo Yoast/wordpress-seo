@@ -70,7 +70,11 @@ class WPSEO_Image_Utils {
 		$id = attachment_url_to_postid( $url );
 
 		if ( empty( $id ) ) {
-			// If no ID was found, maybe we're dealing with a scaled big image. So, let's try that. See: https://core.trac.wordpress.org/ticket/51058.
+			/**
+			 * If no ID was found, maybe we're dealing with a scaled big image. So, let's try that.
+			 *
+			 * @see https://core.trac.wordpress.org/ticket/51058
+			 */
 			$id = self::get_scaled_image_id( $url );
 		}
 
@@ -93,7 +97,7 @@ class WPSEO_Image_Utils {
 	 */
 	protected static function get_scaled_image_id( $url ) {
 		$path_parts = pathinfo( $url );
-		if ( isset( $path_parts['dirname'] ) && isset( $path_parts['filename'] ) && isset( $path_parts['extension'] ) ) {
+		if ( isset( $path_parts['dirname'], $path_parts['filename'], $path_parts['extension'] ) ) {
 			$scaled_url = trailingslashit( $path_parts['dirname'] ) . $path_parts['filename'] . '-scaled.' . $path_parts['extension'];
 			$id         = attachment_url_to_postid( $scaled_url );
 
