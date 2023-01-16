@@ -185,4 +185,27 @@ describe( "A test for SES assessments", function() {
 			original: "This sentence contains ex-offender." } } ]
 		);
 	} );
+
+	it( "gives the correct feedback for 'the undocumented'", () => {
+		const mockPaper = new Paper( "This sentence contains the undocumented." );
+		const mockResearcher = Factory.buildMockResearcher( [ "This sentence contains the undocumented." ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "theUndocumented" ) );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeTruthy();
+		const assessmentResult = assessor.getResult();
+		expect( assessmentResult.getScore() ).toEqual( 3 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using <i>the undocumented</i> as it is potentially overgeneralizing. " +
+			"Consider using <i>people who are undocumented, undocumented people, people without papers </i> instead. " +
+			"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>"
+		);
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(   [ { _properties: {
+			fieldsToMark: [],
+			marked: "<yoastmark class='yoast-text-mark'>This sentence contains the undocumented.</yoastmark>",
+			original: "This sentence contains the undocumented." } } ]
+		);
+	} );
 } );

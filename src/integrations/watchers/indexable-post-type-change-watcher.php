@@ -164,8 +164,8 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	private function add_notification() {
 		$message = \sprintf(
 			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
-			\esc_html__( 'It looks like you\'ve added a new type of content to your website. We recommend that you review your %1$sSearch appearance settings%2$s.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles#top#post-types' ) ) . '">',
+			\esc_html__( 'It looks like you\'ve added a new type of content to your website. We recommend that you review your %1$sSettings%2$s under Content types.', 'wordpress-seo' ),
+			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
 			'</a>'
 		);
 

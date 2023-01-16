@@ -7,9 +7,9 @@ use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Redirects_Integration class.
+ * Redirects_Page_Integration class.
  */
-class Redirects_Integration implements Integration_Interface {
+class Redirects_Page_Integration implements Integration_Interface {
 
 	/**
 	 * Sets up the hooks.

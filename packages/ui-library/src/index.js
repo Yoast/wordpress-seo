@@ -17,6 +17,7 @@ export { default as TextInput } from "./elements/text-input";
 export { default as Textarea } from "./elements/textarea";
 export { default as Title } from "./elements/title";
 export { default as Toggle } from "./elements/toggle";
+export { ValidationIcon, ValidationInput, ValidationMessage } from "./elements/validation";
 
 export { default as AutocompleteField } from "./components/autocomplete-field";
 export { default as Card } from "./components/card";
@@ -29,7 +30,7 @@ export { default as Notifications } from "./components/notifications";
 export { default as RadioGroup } from "./components/radio-group";
 export { default as Root } from "./components/root";
 export { default as SelectField } from "./components/select-field";
-export { default as SidebarNavigation } from "./components/sidebar-navigation";
+export { default as SidebarNavigation, useNavigationContext } from "./components/sidebar-navigation";
 export { default as TagField } from "./components/tag-field";
 export { default as TextField } from "./components/text-field";
 export { default as TextareaField } from "./components/textarea-field";

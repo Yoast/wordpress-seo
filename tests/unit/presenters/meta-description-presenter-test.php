@@ -168,7 +168,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 			->with( 'wpseo_manage_options' )
 			->andReturn( true );
 
-		$notice = '<!-- Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [SEO - Search Appearance] menu and set up a template. -->';
+		$notice = '<!-- Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [Yoast SEO - Settings] menu and set up a template. -->';
 
 		$this->assertEquals( $notice, $this->instance->present() );
 	}

@@ -196,7 +196,7 @@ const FormikMediaSelectField = ( {
 					</div>
 				) }
 			</button>
-			<div className="yst-flex yst-gap-4">
+			<div className="yst-flex yst-gap-1">
 				{ ! isDummy && ( mediaId > 0 ) ? (
 					<Button
 						id={ `button-${ id }-replace` }
@@ -221,7 +221,10 @@ const FormikMediaSelectField = ( {
 						type="button"
 						variant="error"
 						onClick={ handleRemoveMediaClick }
-						className={ classNames( disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }
+						className={ classNames(
+							"yst-px-3 yst-py-2 yst-rounded-md",
+							disabled && "yst-opacity-50 yst-cursor-not-allowed"
+						) }
 						disabled={ disabled }
 					>
 						{ removeLabel }

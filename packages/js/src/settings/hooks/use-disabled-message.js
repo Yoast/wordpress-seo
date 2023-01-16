@@ -15,6 +15,7 @@ const useDisabledMessage = ( { name } ) => {
 		[ name, isNetworkAdmin, isMainSite ]
 	);
 	const disabledSetting = useMemo( () => get( window, `wpseoScriptData.disabledSettings.${ name }`, "" ), [] );
+
 	const message = useMemo( () => {
 		if ( isDisabledTracking ) {
 			return __( "Unavailable for sub-sites", "wordpress-seo" );
@@ -24,6 +25,8 @@ const useDisabledMessage = ( { name } ) => {
 				return __( "Unavailable for multisites", "wordpress-seo" );
 			case "network":
 				return __( "Network disabled", "wordpress-seo" );
+			case "language":
+				return __( "Only available for English sites", "wordpress-seo" );
 			default:
 				return "";
 		}
@@ -33,6 +36,7 @@ const useDisabledMessage = ( { name } ) => {
 	return {
 		isDisabled,
 		message,
+		disabledSetting,
 	};
 };
 
