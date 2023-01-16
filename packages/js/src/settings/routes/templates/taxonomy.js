@@ -143,7 +143,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 							description={ <>
 								{ sprintf(
 								// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+									__( "Disabling this means that archive pages for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
 								&nbsp;

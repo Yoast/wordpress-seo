@@ -35,7 +35,7 @@
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
 		"yoast/wp-test-utils": "^1.1.1",
-		"yoast/yoastcs": "^2.2.1",
+		"yoast/yoastcs": "^2.3.0",
 		"guzzlehttp/guzzle": "6.5.8",
 		"symfony/polyfill-intl-idn": "1.19.0",
 		"symfony/polyfill-intl-normalizer": "1.19.0",
