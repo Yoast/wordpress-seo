@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 19.13
+Stable tag: 19.14
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -247,25 +247,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 20.0 =
 
-Release date: January 3rd, 2023
+Release date: 2023-01-24
 
 #### Enhancements
 
-* Avoids a deprecation notice for the Yoast sidebar panel in the block editor.
-* Improves the accuracy of calculating text length in Japanese by excluding all spaces and HTML tags from the character count, and by including domain names.
-
-#### Bugfixes
-
-* Fixes a bug where indexable hierarchy wasn't built when the Indexable is built for the first time.
+* Improves the link focus styles in the first time configuration.
 
 #### Other
 
 * Displays a notification urging to upgrade Premium if the version is below 20.0, since some settings might be missing from the new user interface.
-* Sets the minimum supported WordPress version to 6.0.
 
 = 19.14 =
 
-Release date: January 10th, 2023
+Release date: 2023-01-10
+
+Yoast SEO 19.14 introduces the first round of improvements to the inclusive language analysis. We've made the analysis smarter in detecting terms in certain contexts and improved the feedback we give writers. Check it out! Find out more about what's new in Yoast SEO 19.14 in [our release post](https://yoa.st/release-10-1-23)!
 
 #### Enhancements
 

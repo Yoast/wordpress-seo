@@ -77,7 +77,7 @@ const MediaPages = () => {
 							) }
 							description={ sprintf(
 								// translators: %1$s expands to "media".
-								__( "We recommend disabling %1$s pages. Disabling %1$s pages will cause all attachment URLs to redirect to the media itself.", "wordpress-seo" ),
+								__( "We recommend keeping %1$s pages disabled. This will cause all attachment URLs to be redirected to the media itself.", "wordpress-seo" ),
 								labelLower
 							) }
 							className="yst-max-w-sm"
