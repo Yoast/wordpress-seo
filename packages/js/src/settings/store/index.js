@@ -11,6 +11,12 @@ import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSele
 import introduction, { createInitialIntroductionState, introductionActions, introductionControls, introductionSelectors } from "./introduction";
 import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
+import newPostTypeNotifications, {
+	createInitialNewPostTypeNotificationsState,
+	newPostTypeNotificationsActions,
+	newPostTypeNotificationsControls,
+	newPostTypeNotificationsSelectors,
+} from "./new-post-type-notifications";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
@@ -38,6 +44,7 @@ const createStore = ( { initialState } ) => {
 			...introductionActions,
 			...linkParamsActions,
 			...mediaActions,
+			...newPostTypeNotificationsActions,
 			...notificationsActions,
 			...postTypesActions,
 			...preferencesActions,
@@ -54,6 +61,7 @@ const createStore = ( { initialState } ) => {
 			...introductionSelectors,
 			...linkParamsSelectors,
 			...mediaSelectors,
+			...newPostTypeNotificationsSelectors,
 			...notificationsSelectors,
 			...postTypesSelectors,
 			...preferencesSelectors,
@@ -71,6 +79,7 @@ const createStore = ( { initialState } ) => {
 				introduction: createInitialIntroductionState(),
 				linkParams: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
+				newPostTypeNotifications: createInitialNewPostTypeNotificationsState(),
 				notifications: createInitialNotificationsState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
@@ -88,6 +97,7 @@ const createStore = ( { initialState } ) => {
 			introduction,
 			linkParams,
 			media,
+			newPostTypeNotifications,
 			notifications,
 			postTypes,
 			preferences,
@@ -101,6 +111,7 @@ const createStore = ( { initialState } ) => {
 			...mediaControls,
 			...usersControls,
 			...introductionControls,
+			...newPostTypeNotificationsControls,
 		},
 	} );
 };

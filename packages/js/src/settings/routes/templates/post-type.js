@@ -20,7 +20,7 @@ import {
 } from "../../components";
 import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
-import { useSelectSettings } from "../../hooks";
+import { useDispatchSettings, useSelectSettings } from "../../hooks";
 
 const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
@@ -53,6 +53,9 @@ const PostType = ( { name, label, route, singularLabel, hasArchive, hasSchemaArt
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
+	const notificationId = useMemo( () => `post-type-made-public-${ route }`, [ route ] );
+	const hasNewPostTypeNotification = useSelectSettings( "selectHasNewPostTypeNotification", [ notificationId ], notificationId );
+	const { removeNewPostTypeNotification } = useDispatchSettings();
 
 	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
@@ -127,26 +130,11 @@ const PostType = ( { name, label, route, singularLabel, hasArchive, hasSchemaArt
 	const { opengraph } = values.wpseo_social;
 	const { "breadcrumbs-enable": isBreadcrumbsEnabled } = values.wpseo_titles;
 
-	useEffect( async() => {
-		const newPostTypeNotifications = get( window, "wpseoScriptData.newPostTypeNotifications", {} );
-		const notificationId = `post-type-made-public-${route}`;
-
-		if ( newPostTypeNotifications.includes( notificationId ) ) {
-			await apiFetch( {
-				path: "yoast/v1/settings_introduction/remove_notification",
-				method: "POST",
-				data: { id: notificationId },
-			} ).then( response => {
-				if ( response.json.success === true ) {
-					set( window, "wpseoScriptData.newPostTypeNotifications", remove( newPostTypeNotifications, notificationId ) );
-				}
-			} ).catch(
-				( e ) => {
-					console.error( e.message  );
-				}
-			);
+	useEffect( () => {
+		if ( hasNewPostTypeNotification ) {
+			removeNewPostTypeNotification( notificationId );
 		}
-	}, [] );
+	}, [ notificationId, hasNewPostTypeNotification, removeNewPostTypeNotification ] );
 
 	return (
 		<RouteLayout
