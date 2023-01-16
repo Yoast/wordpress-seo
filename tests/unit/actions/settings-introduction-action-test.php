@@ -52,10 +52,10 @@ class Settings_Introduction_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->user_helper = Mockery::mock( User_Helper::class );
-		
+
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 
-		$this->instance = new Settings_Introduction_Action( 
+		$this->instance = new Settings_Introduction_Action(
 			$this->user_helper,
 			$this->notification_center
 		);
@@ -290,24 +290,24 @@ class Settings_Introduction_Action_Test extends TestCase {
 	 * @param int  $second_count The number of notifications after the removal.
 	 * @param bool $expected     The expected result.
 	 */
-	public function test_remove_notification(  $first_count, $second_count, $expected ) {
+	public function test_remove_notification( $first_count, $second_count, $expected ) {
 
 		$this->notification_center
 			->expects( 'get_notification_count' )
 			->once()
 			->andReturn( $first_count );
-		
+
 		$this->notification_center
 			->expects( 'remove_notification_by_id' )
 			->once()
 			->andReturns();
-		
-			$this->notification_center
-			->expects( 'get_notification_count' )
-			->once()
-			->andReturn( $second_count );
 
-		$this->assertEquals( $expected, $this->instance->remove_notification('test-id') );
+			$this->notification_center
+				->expects( 'get_notification_count' )
+				->once()
+				->andReturn( $second_count );
+
+		$this->assertEquals( $expected, $this->instance->remove_notification( 'test-id' ) );
 	}
 
 	/**

@@ -38,7 +38,7 @@ class Settings_Introduction_Action {
 	 * @param User_Helper               $user_helper         The User_Helper.
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
-	public function __construct( 
+	public function __construct(
 		User_Helper $user_helper,
 		Yoast_Notification_Center $notification_center
 	) {

@@ -137,23 +137,23 @@ class Settings_Introduction_Route_Test extends TestCase {
 			);
 
 			Monkey\Functions\expect( 'register_rest_route' )
-			->with(
-				'yoast/v1',
-				'/settings_introduction/remove_notification',
-				[
+				->with(
+					'yoast/v1',
+					'/settings_introduction/remove_notification',
 					[
-						'methods'             => 'POST',
-						'callback'            => [ $this->instance, 'remove_notification' ],
-						'permission_callback' => [ $this->instance, 'permission_manage_options' ],
-						'args'                => [
-							'id' => [
-								'required' => true,
-								'type'     => 'string',
+						[
+							'methods'             => 'POST',
+							'callback'            => [ $this->instance, 'remove_notification' ],
+							'permission_callback' => [ $this->instance, 'permission_manage_options' ],
+							'args'                => [
+								'id' => [
+									'required' => true,
+									'type'     => 'string',
+								],
 							],
 						],
-					],
-				]
-			);
+					]
+				);
 
 		$this->instance->register_routes();
 	}
@@ -454,14 +454,14 @@ class Settings_Introduction_Route_Test extends TestCase {
 	 * Tests the remove_notification route.
 	 *
 	 * @dataProvider remove_notification_dataprovider
-	 * 
+	 *
 	 * @covers ::remove_notification
-	 * 
+	 *
 	 * @param bool $return_value The return value of the remove_notification method.
 	 * @param bool $success      The expected success value.
 	 * @param int  $code         The expected code value.
 	 */
-	public function test_remove_notification_failed( $return_value, $success, $code) {
+	public function test_remove_notification( $return_value, $success, $code ) {
 		$this->settings_introduction_action
 			->expects( 'remove_notification' )
 			->with( 'dummy-id' )
@@ -493,6 +493,11 @@ class Settings_Introduction_Route_Test extends TestCase {
 		);
 	}
 
+	/**
+	 * Dataprovider for test_remove_notification.
+	 *
+	 * @covers ::remove_notification
+	 */
 	public function remove_notification_dataprovider() {
 		return [
 			[ true, true, 200 ],
