@@ -8,9 +8,11 @@ import {
 	harmfulPotentiallyNonInclusive,
 } from "./feedbackStrings";
 
+// This feedback string is used for culturally appropriative terms, such as 'tribe' or 'spirit animal'
 const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
 										"Consider using an alternative, such as %2$s instead, unless you are referring to the culture " +
 										"in which this term originated.";
+// This feedback string is used for overgeneralizing phrases, such as 'First World' or 'Third World'.
 const overgeneralizing = "Avoid using <i>%1$s</i> as it is overgeneralizing. Consider using %2$s instead. ";
 
 const cultureAssessments = [
