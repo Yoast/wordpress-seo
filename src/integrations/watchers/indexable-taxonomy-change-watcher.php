@@ -109,24 +109,19 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		}
 
 		$public_taxonomies_names = \array_keys( $this->taxonomy_helper->get_public_taxonomies() );
-		$public_taxonomies_slugs = [];
-
-		foreach ( $public_taxonomies_names as $taxonomy ) {
-			$public_taxonomies_slugs[] = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
-		}
 
 		$last_known_public_taxonomies = $this->options->get( 'last_known_public_taxonomies', [] );
 
 		// Initializing the option on the first run.
 		if ( empty( $last_known_public_taxonomies ) ) {
-			$this->options->set( 'last_known_public_taxonomies', $public_taxonomies_slugs );
+			$this->options->set( 'last_known_public_taxonomies', $public_taxonomies_names );
 			return;
 		}
 
 		// We look for new public taxonomies.
-		$newly_made_public_taxonomies = \array_diff( $public_taxonomies_slugs, $last_known_public_taxonomies );
+		$newly_made_public_taxonomies = \array_diff( $public_taxonomies_names, $last_known_public_taxonomies );
 		// We look fortaxonomies that from public have been made private.
-		$newly_made_non_public_taxonomies = \array_diff( $last_known_public_taxonomies, $public_taxonomies_slugs );
+		$newly_made_non_public_taxonomies = \array_diff( $last_known_public_taxonomies, $public_taxonomies_names );
 
 		// Nothing to be done if no changes has been made to taxonomies.
 		if ( empty( $newly_made_public_taxonomies ) && ( empty( $newly_made_non_public_taxonomies ) ) ) {
@@ -134,7 +129,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		}
 
 		// Update the list of last known public taxonomies in the database.
-		$this->options->set( 'last_known_public_taxonomies', $public_taxonomies_slugs );
+		$this->options->set( 'last_known_public_taxonomies', $public_taxonomies_names );
 
 		// There are new taxonomies that have been made public.
 		if ( ! empty( $newly_made_public_taxonomies ) ) {
@@ -156,8 +151,8 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
 			// Remove also the notifications issued when the taxonomies have been made public.
-			foreach ( $newly_made_non_public_taxonomies as $taxonomy_slug ) {
-				$this->notification_center->remove_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
+			foreach ( $newly_made_non_public_taxonomies as $taxonomy_name ) {
+				$this->remove_notification($taxonomy_name );
 			}
 		}
 	}
@@ -170,11 +165,14 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	private function maybe_add_notification( $newly_made_public_taxonomies ) {
-		foreach ( $newly_made_public_taxonomies as $taxonomy_slug ) {
-			$taxonomy_object = \get_taxonomy( $taxonomy_slug );
+		foreach ( $newly_made_public_taxonomies as $taxonomy_name ) {
+			//$taxonomy_object = \get_taxonomy( $taxonomy_name );
+			$taxonomy_label = $this->taxonomy_helper->get_taxonomy_label( $taxonomy_name );
+			$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy_name );
 			$notification    = $this->notification_center->get_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
+
 			if ( \is_null( $notification ) ) {
-				$this->add_notification( $taxonomy_object->label, $taxonomy_slug );
+				$this->add_notification( $taxonomy_label, $taxonomy_slug );
 			}
 		}
 	}
@@ -207,5 +205,10 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		);
 
 		$this->notification_center->add_notification( $notification );
+	}
+
+	private function remove_notification( $taxonomy ) {
+		$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
+		$this->notification_center->remove_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
 	}
 }
