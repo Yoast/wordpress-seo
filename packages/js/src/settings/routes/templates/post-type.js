@@ -1,10 +1,9 @@
 /* eslint-disable complexity */
-import apiFetch from "@wordpress/api-fetch";
+/* eslint-disable max-statements */
 import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
-import { get, remove, set } from "lodash";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
