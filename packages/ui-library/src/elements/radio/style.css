@@ -26,7 +26,7 @@
 
 				&:checked + .yst-radio__content {
 					.yst-radio__label {
-						@apply yst-border-transparent yst-ring-2 yst-ring-primary-500 focus:yst-ring-offset-1 focus:yst-ring-3;
+						@apply yst-border-transparent yst-ring-2 yst-ring-primary-500 focus:yst-ring-offset-1 focus:yst-ring-[3px];
 					}
 
 					.yst-radio__check {
