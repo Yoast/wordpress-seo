@@ -50,7 +50,6 @@ const Radio = forwardRef( ( {
 			>
 				<input
 					type="radio"
-					tabIndex="-1"
 					id={ id }
 					name={ name }
 					value={ value }
@@ -65,7 +64,6 @@ const Radio = forwardRef( ( {
 						className="yst-radio__label"
 						label={ isLabelDangerousHtml ? null : label }
 						dangerouslySetInnerHTML={ isLabelDangerousHtml ? { __html: label } : null }
-						tabindex="0"
 					/>
 					<CheckCircleIcon className="yst-radio__check" { ...svgAriaProps } />
 				</span>
