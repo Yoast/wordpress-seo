@@ -251,6 +251,7 @@ Release date: 2023-01-24
 
 #### Enhancements
 
+* Fixes an unreleased bug where the focus styles of links in the Settings where non-existent or incorrect.
 * Improves the link focus styles in the first time configuration.
 
 #### Other
