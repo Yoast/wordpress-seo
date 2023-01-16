@@ -262,6 +262,9 @@ function _wpseo_deactivate() {
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
 
+	WPSEO_Options::set( 'last_known_public_post_types', [] );
+	WPSEO_Options::set( 'last_known_public_taxonomies', [] );
+
 	do_action( 'wpseo_deactivate' );
 }
 
