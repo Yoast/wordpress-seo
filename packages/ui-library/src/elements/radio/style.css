@@ -33,14 +33,16 @@
 					}
 					
 				}
-				&:focus + .yst-radio__content{
-					.yst-radio__label{
+
+				&:focus + .yst-radio__content {
+					.yst-radio__label {
 						@apply yst-ring-2 yst-ring-primary-500 yst-ring-offset-2;
 					}
 				}
-				&:checked{
-					&:focus + .yst-radio__content{
-						.yst-radio__label{
+
+				&:checked {
+					&:focus + .yst-radio__content {
+						.yst-radio__label {
 							@apply yst-ring-offset-1 yst-ring-[3px];
 						}
 					}
