@@ -185,4 +185,14 @@ class Post_Type_Helper {
 
 		return \strtolower( $post_type_object->name );
 	}
+	
+	public function get_post_type_label( $post_type ) {
+		$post_type_object = \get_post_type_object( $post_type );
+
+		if ( $post_type_object && \property_exists( $post_type_object, 'label' ) ) {
+			return $post_type_object->label;
+		}
+
+		return $post_type_object->name;
+	}
 }
