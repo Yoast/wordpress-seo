@@ -150,6 +150,7 @@ Modal.propTypes = {
 	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
 };
 
+Modal.displayName = "Modal";
 Modal.Panel = Panel;
 Modal.Panel.displayName = "Modal.Panel";
 Modal.Title = Title;
