@@ -6,6 +6,7 @@ use Yoast_Notification_Center;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
+use Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -20,6 +21,13 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 	 * @var Indexing_Helper
 	 */
 	protected $indexing_helper;
+
+	/**
+	 * The attachment cleanup helper.
+	 *
+	 * @var Attachment_Cleanup_Helper
+	 */
+	protected $attachment_cleanup;
 
 	/**
 	 * The notifications center.
@@ -41,13 +49,16 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 	 * Indexable_Attachment_Watcher constructor.
 	 *
 	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
+	 * @param Attachment_Cleanup_Helper $attachment_cleanup  The attachment cleanup helper.
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
 	public function __construct(
 		Indexing_Helper $indexing_helper,
+		Attachment_Cleanup_Helper $attachment_cleanup,
 		Yoast_Notification_Center $notification_center
 	) {
 		$this->indexing_helper     = $indexing_helper;
+		$this->attachment_cleanup  = $attachment_cleanup;
 		$this->notification_center = $notification_center;
 	}
 
@@ -101,7 +112,8 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 					return;
 				case true:
 				default:
-					// @TODO: Clean up attachment indexables
+					$this->attachment_cleanup->remove_attachment_indexables();
+					$this->attachment_cleanup->clean_attachment_links_from_target_indexable_ids();
 					return;
 			}
 		}
