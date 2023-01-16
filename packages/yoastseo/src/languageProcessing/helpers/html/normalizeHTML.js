@@ -10,5 +10,10 @@
 export default function( str ) {
 	const element = document.createElement( "body" );
 	element.innerHTML = str;
-	return element.innerHTML;
+	const normalizedHTML = element.innerHTML;
+
+	// Replace `&nbsp;` with an actual non breaking space (U+00A0).
+	const html = normalizedHTML.replace( /&nbsp;/g, "\u00A0" );
+
+	return html;
 }
