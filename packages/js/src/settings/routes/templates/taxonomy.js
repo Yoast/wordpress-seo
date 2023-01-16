@@ -1,9 +1,8 @@
-import apiFetch from "@wordpress/api-fetch";
 import { createInterpolateElement, useEffect, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { get, initial, last, map, remove, set, values, isEmpty } from "lodash";
+import { initial, last, map, values, isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -17,7 +16,7 @@ import {
 } from "../../components";
 import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
-import { useSelectSettings } from "../../hooks";
+import { useDispatchSettings, useSelectSettings } from "../../hooks";
 
 const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
@@ -41,6 +40,10 @@ const Taxonomy = ( { name, label, route, postTypes: postTypeNames } ) => {
 	const postTypeValues = useMemo( () => values( postTypes ), [ postTypes ] );
 	const initialPostTypeValues = useMemo( () => initial( postTypeValues ), [ postTypeValues ] );
 	const lastPostTypeValue = useMemo( () => last( postTypeValues ), [ postTypeValues ] );
+
+	const notificationId = useMemo( () => `taxonomy-made-public-${ route }`, [ route ] );
+	const hasNewTaxonomyNotification = useSelectSettings( "selectHasNewTaxonomyNotification", [ notificationId ], notificationId );
+	const { removeNewTaxonomyNotification } = useDispatchSettings();
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -104,26 +107,11 @@ const Taxonomy = ( { name, label, route, postTypes: postTypeNames } ) => {
 	const { values: formValues } = useFormikContext();
 	const { opengraph } = formValues.wpseo_social;
 
-	useEffect( async() => {
-		const newTaxonomyNotifications = get( window, "wpseoScriptData.newTaxonomyNotifications", {} );
-		const notificationId = `taxonomy-made-public-${route}`;
-
-		if ( newTaxonomyNotifications.includes( notificationId ) ) {
-			await apiFetch( {
-				path: "yoast/v1/settings_introduction/remove_notification",
-				method: "POST",
-				data: { id: notificationId },
-			} ).then( response => {
-				if ( response.json.success === true ) {
-					set( window, "wpseoScriptData.newTaxonomyNotifications", remove( newTaxonomyNotifications, notificationId ) );
-				}
-			} ).catch(
-				( e ) => {
-					console.error( e.message  );
-				}
-			);
+	useEffect( () => {
+		if ( hasNewTaxonomyNotification ) {
+			removeNewTaxonomyNotification( notificationId );
 		}
-	}, [] );
+	}, [ notificationId, hasNewTaxonomyNotification, removeNewTaxonomyNotification ] );
 
 	return (
 		<RouteLayout

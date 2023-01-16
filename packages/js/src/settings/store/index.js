@@ -17,6 +17,12 @@ import newPostTypeNotifications, {
 	newPostTypeNotificationsControls,
 	newPostTypeNotificationsSelectors,
 } from "./new-post-type-notifications";
+import newTaxonomyNotifications, {
+	createInitialNewTaxonomyNotificationsState,
+	newTaxonomyNotificationsActions,
+	newTaxonomyNotificationsControls,
+	newTaxonomyNotificationsSelectors,
+} from "./new-taxonomy-notifications";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
@@ -45,6 +51,7 @@ const createStore = ( { initialState } ) => {
 			...linkParamsActions,
 			...mediaActions,
 			...newPostTypeNotificationsActions,
+			...newTaxonomyNotificationsActions,
 			...notificationsActions,
 			...postTypesActions,
 			...preferencesActions,
@@ -62,6 +69,7 @@ const createStore = ( { initialState } ) => {
 			...linkParamsSelectors,
 			...mediaSelectors,
 			...newPostTypeNotificationsSelectors,
+			...newTaxonomyNotificationsSelectors,
 			...notificationsSelectors,
 			...postTypesSelectors,
 			...preferencesSelectors,
@@ -80,6 +88,7 @@ const createStore = ( { initialState } ) => {
 				linkParams: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
 				newPostTypeNotifications: createInitialNewPostTypeNotificationsState(),
+				newTaxonomyNotifications: createInitialNewTaxonomyNotificationsState(),
 				notifications: createInitialNotificationsState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
@@ -98,6 +107,7 @@ const createStore = ( { initialState } ) => {
 			linkParams,
 			media,
 			newPostTypeNotifications,
+			newTaxonomyNotifications,
 			notifications,
 			postTypes,
 			preferences,
@@ -112,6 +122,7 @@ const createStore = ( { initialState } ) => {
 			...usersControls,
 			...introductionControls,
 			...newPostTypeNotificationsControls,
+			...newTaxonomyNotificationsControls,
 		},
 	} );
 };
