@@ -58,12 +58,12 @@ const SiteRepresentation = () => {
 						description={ addLinkToString(
 							sprintf(
 								// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-								__( "Choose whether your site represents an organization or a person. %1$sLearn more about the differences and choosing between Organization and Person.%2$s.", "wordpress-seo" ),
+								__( "Choose whether your site represents an organization or a person. %1$sLearn more about the differences and choosing between Organization and Person%2$s.", "wordpress-seo" ),
 								"<a>",
 								"</a>"
 							),
 							organizationPersonLink,
-							"site-representation-organization-person"
+							"link-site-representation-organization-person"
 						) }
 					>
 						{ isLocalSeoActive && (
