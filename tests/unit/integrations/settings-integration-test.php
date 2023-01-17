@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Settings_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -49,6 +50,7 @@ class Settings_Integration_Test extends TestCase {
 		$language_helper              = Mockery::mock( Language_Helper::class );
 		$taxonomy_helper              = Mockery::mock( Taxonomy_Helper::class );
 		$product_helper               = Mockery::mock( Product_Helper::class );
+		$settings_helper			  = Mockery::mock( Settings_Helper::class );
 		$woocommerce_helper           = Mockery::mock( Woocommerce_Helper::class );
 		$article_helper               = Mockery::mock( Article_Helper::class );
 		$user_helper                  = Mockery::mock( User_Helper::class );
@@ -64,6 +66,7 @@ class Settings_Integration_Test extends TestCase {
 			$language_helper,
 			$taxonomy_helper,
 			$product_helper,
+			$settings_helper,
 			$woocommerce_helper,
 			$article_helper,
 			$user_helper,
