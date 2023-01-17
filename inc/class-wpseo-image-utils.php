@@ -99,12 +99,8 @@ class WPSEO_Image_Utils {
 		$path_parts = pathinfo( $url );
 		if ( isset( $path_parts['dirname'], $path_parts['filename'], $path_parts['extension'] ) ) {
 			$scaled_url = trailingslashit( $path_parts['dirname'] ) . $path_parts['filename'] . '-scaled.' . $path_parts['extension'];
-			$id         = attachment_url_to_postid( $scaled_url );
 
-			// Confirm that the url we had was in fact of a scaled image before returning its ID.
-			if ( $url === wp_get_original_image_url( $id ) ) {
-				return $id;
-			}
+			return attachment_url_to_postid( $scaled_url );
 		}
 
 		return false;
