@@ -67,6 +67,7 @@ Tag.propTypes = {
  * @param {boolean} [disabled] Whether the input is disabled.
  * @param {function} [onAddTag] Add tag handler.
  * @param {function} [onRemoveTag] Remove tag handler.
+ * @param {function} [onSetTags] Set tag handler.
  * @param {function} [onBlur] Blur handler.
  * @param {string} [screenReaderRemoveTag] Screen reader text for the remove tag button.
  * @param {object} [props] Extra properties.
@@ -79,6 +80,7 @@ const TagInput = forwardRef( ( {
 	disabled,
 	onAddTag,
 	onRemoveTag,
+	onSetTags,
 	onBlur,
 	screenReaderRemoveTag,
 	...props
@@ -103,7 +105,11 @@ const TagInput = forwardRef( ( {
 				if ( text.length !== 0 || tags.length === 0 ) {
 					break;
 				}
-				onRemoveTag( tags.length - 1 );
+				onRemoveTag( tags.length - 1  );
+				if ( event.ctrlKey ) {
+					onSetTags( [] );
+				}
+
 				event.preventDefault();
 				return true;
 		}
@@ -124,7 +130,6 @@ const TagInput = forwardRef( ( {
 					tag={ tag }
 					index={ index }
 					disabled={ disabled }
-					tabIndex="2"
 					onRemoveTag={ onRemoveTag }
 					screenReaderRemoveTag={ screenReaderRemoveTag }
 				/>
@@ -134,7 +139,6 @@ const TagInput = forwardRef( ( {
 				type="text"
 				disabled={ disabled }
 				className="yst-tag-input__input"
-				tabIndex="1"
 				onKeyDown={ handleKeyDown }
 				{ ...props }
 				onChange={ handleChange }
@@ -152,6 +156,7 @@ const propTypes = {
 	disabled: PropTypes.bool,
 	onAddTag: PropTypes.func,
 	onRemoveTag: PropTypes.func,
+	onSetTags: PropTypes.func,
 	onBlur: PropTypes.func,
 	screenReaderRemoveTag: PropTypes.string,
 };
@@ -168,6 +173,7 @@ TagInput.defaultProps = {
 	disabled: false,
 	onAddTag: noop,
 	onRemoveTag: noop,
+	onSetTags: noop,
 	onBlur: noop,
 	screenReaderRemoveTag: "Remove tag",
 };

@@ -1,8 +1,7 @@
 import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import { forEach, get, includes, isArray, isNumber, isObject, omit } from "lodash";
+import { forEach, get, includes, isArray, isObject, omit } from "lodash";
 import { STORE_NAME } from "../constants";
-import { submitUserSocialProfiles } from "./user-social-profiles";
 
 /**
  * @param {Object} values The values.
@@ -19,10 +18,6 @@ const submitSettings = async( values ) => {
 
 	forEach( values, ( value, name ) => {
 		if ( isObject( value ) ) {
-			if ( name === "person_social_profiles" ) {
-				// Ignore `person_social_profiles`, they need a different route.
-				return;
-			}
 			forEach( value, ( nestedValue, nestedName ) => {
 				if ( isArray( nestedValue ) ) {
 					forEach( nestedValue, ( item, index ) => formData.set( `${ name }[${ nestedName }][${ index }]`, item ) );
@@ -61,18 +56,13 @@ const submitSettings = async( values ) => {
  */
 export const handleSubmit = async( values, { resetForm } ) => {
 	const { addNotification } = dispatch( STORE_NAME );
-	const { selectCanEditUser, selectPreference } = select( STORE_NAME );
+	const { selectPreference } = select( STORE_NAME );
 	const canManageOptions = selectPreference( "canManageOptions", false );
-	const { person_social_profiles: personSocialProfiles } = values;
-	const { company_or_person_user_id: userId } = values.wpseo_titles;
-	const canSaveUserProfiles = isNumber( userId ) && userId > 0 && selectCanEditUser( userId );
 
 	try {
 		await Promise.all( [
 			// Ensure we do not save WP options when the user is not allowed to.
 			submitSettings( canManageOptions ? values : omit( values, [ "blogdescription" ] ) ),
-			// Only save the user profiles when allowed and when the user ID is a number of 1 or higher.
-			canSaveUserProfiles && submitUserSocialProfiles( userId, personSocialProfiles ),
 		] );
 
 		addNotification( {
