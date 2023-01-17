@@ -2,13 +2,13 @@
 
 exports[`Search test should match search snapshot 1`] = `
 "<Fragment>
-  <button type=\\"button\\" className=\\"yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500\\" onClick={[Function (anonymous)]}>
+  <button id=\\"button-search\\" type=\\"button\\" className=\\"yst-w-full yst-flex yst-items-center yst-bg-white yst-text-sm yst-leading-6 yst-text-slate-500 yst-rounded-md yst-border yst-border-slate-300 yst-shadow-sm yst-py-1.5 yst-pl-2 yst-pr-3 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500\\" onClick={[Function (anonymous)]}>
     <ForwardRef(SearchIcon) className=\\"yst-flex-none yst-w-5 yst-h-5 yst-mr-3 yst-text-slate-400\\" role=\\"img\\" aria-hidden=\\"true\\" />
     <span className=\\"yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis\\">
       Quick search...
     </span>
   </button>
-  <Modal onClose={[Function (anonymous)]} isOpen={false} initialFocus={{...}} position=\\"top-center\\">
+  <Modal onClose={[Function (anonymous)]} isOpen={false} initialFocus={{...}} position=\\"top-center\\" aria-label=\\"Search\\">
     <Modal.Panel closeButtonScreenReaderText=\\"Close\\">
       <ComboboxFn as=\\"div\\" className=\\"yst--m-6 yst--mt-5\\" onChange={[Function (anonymous)]}>
         <div className=\\"yst-relative\\">
