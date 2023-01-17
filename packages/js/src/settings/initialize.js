@@ -56,11 +56,13 @@ const fixFocusLinkCompatibility = () => {
 	const wpContentBody = document.querySelector( "[href=\"#wpbody-content\"]" );
 	wpContentBody.addEventListener( "click", e => {
 		e.preventDefault();
-		let searchButton = document.getElementById( "yst-search-button-mobile" );
-		if ( ! searchButton ) {
-			searchButton = document.getElementById( "yst-search-button" )?.focus();
+		// Try to focus the Yoast logo if in "mobile" view.
+		if ( window.outerWidth > 782 ) {
+			document.getElementById( "link-yoast-logo" )?.focus();
+			return;
 		}
-		searchButton?.focus();
+		// Try to focus the open sidebar navigation button.
+		document.getElementById( "button-open-settings-navigation-mobile" )?.focus();
 	} );
 	const wpToolbar = document.querySelector( "[href=\"#wp-toolbar\"]" );
 	wpToolbar.addEventListener( "click", e => {
