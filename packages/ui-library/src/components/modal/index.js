@@ -99,18 +99,11 @@ export const classNameMap = {
  * @param {Object} [props] Additional Dialog props.
  * @returns {JSX.Element} The modal.
  */
-const Modal = forwardRef( ( { isOpen, onClose, children, className = "", position = "center", ...props }, ref ) => (
+const Modal = ( { isOpen, onClose, children, className = "", position = "center", ...props } ) => (
 	<ModalContext.Provider value={ { isOpen, onClose } }>
 		<Transition.Root show={ isOpen } as={ Fragment }>
 			{ /* Using the `yst-root` class here to get our styling within the portal. */ }
-			<Dialog
-				as="div"
-				ref={ ref }
-				className="yst-root"
-				open={ isOpen }
-				onClose={ onClose }
-				{ ...props }
-			>
+			<Dialog as="div" className="yst-root" open={ isOpen } onClose={ onClose } { ...props }>
 				<div className={ classNames( "yst-modal", classNameMap.position[ position ], className ) }>
 					<Transition.Child
 						as={ Fragment }
@@ -140,7 +133,7 @@ const Modal = forwardRef( ( { isOpen, onClose, children, className = "", positio
 			</Dialog>
 		</Transition.Root>
 	</ModalContext.Provider>
-) );
+);
 
 Modal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
@@ -150,7 +143,6 @@ Modal.propTypes = {
 	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
 };
 
-Modal.displayName = "Modal";
 Modal.Panel = Panel;
 Modal.Panel.displayName = "Modal.Panel";
 Modal.Title = Title;
