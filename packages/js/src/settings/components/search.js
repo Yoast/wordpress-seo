@@ -120,10 +120,6 @@ const Search = ( { buttonId = "button-search" } ) => {
 		setClose();
 		setQuery( "" );
 		setResults( [] );
-		if ( window.location.hash === `#${ route }#${ fieldId }` ) {
-			const searchResult = document.getElementById( fieldId ) ? document.getElementById( fieldId ) : document.querySelector( `[data-id="${ fieldId }"]` );
-			searchResult.scrollIntoView( { behavior: "smooth" } );
-		}
 		navigate( `${ route }#${ fieldId }` );
 	}, [ setClose, setQuery, setMobileMenuOpen ] );
 
