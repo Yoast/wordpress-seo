@@ -20,6 +20,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Settings_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -144,6 +145,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $product_helper;
 
 	/**
+	 * Holds the Settings_Helper.
+	 *
+	 * @var Settings_Helper
+	 */
+	protected $settings_helper;
+
+	/**
 	 * Holds the Woocommerce_Helper.
 	 *
 	 * @var Woocommerce_Helper
@@ -189,6 +197,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Language_Helper              $language_helper              The Language_Helper.
 	 * @param Taxonomy_Helper              $taxonomy_helper              The Taxonomy_Helper.
 	 * @param Product_Helper               $product_helper               The Product_Helper.
+	 * @param Settings_Helper              $settings_helper              The Settings_Helper.
 	 * @param Woocommerce_Helper           $woocommerce_helper           The Woocommerce_Helper.
 	 * @param Article_Helper               $article_helper               The Article_Helper.
 	 * @param User_Helper                  $user_helper                  The User_Helper.
@@ -204,6 +213,7 @@ class Settings_Integration implements Integration_Interface {
 		Language_Helper $language_helper,
 		Taxonomy_Helper $taxonomy_helper,
 		Product_Helper $product_helper,
+		Settings_Helper $settings_helper,
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
 		User_Helper $user_helper,
@@ -218,6 +228,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->post_type_helper             = $post_type_helper;
 		$this->language_helper              = $language_helper;
 		$this->product_helper               = $product_helper;
+		$this->settings_helper              = $settings_helper;
 		$this->woocommerce_helper           = $woocommerce_helper;
 		$this->article_helper               = $article_helper;
 		$this->user_helper                  = $user_helper;
@@ -417,7 +428,7 @@ class Settings_Integration implements Integration_Interface {
 		$notifications    = $this->notification_center->get_notifications_for_user( $this->user_helper->get_current_user_id() );
 		$notifications_id = [];
 
-		// We look for notifications related to a newly-introduced post type.
+		// We look notifications related to a newly-introduced post type.
 		foreach ( $notifications as $notification ) {
 			$notification_id = $notification->get_id();
 			if ( str_contains( $notification_id, 'post-type-made-public-' ) ) {
@@ -758,7 +769,7 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( $post_types as $index => $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
-				'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
+				'route'                => $this->settings_helper->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
 				'label'                => $post_type->label,
 				'singularLabel'        => $post_type->labels->singular_name,
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
@@ -809,7 +820,7 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( $taxonomies as $index => $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
-				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
+				'route'         => $this->settings_helper->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
 				'singularLabel' => $taxonomy->labels->singular_name,
 				'postTypes'     => \array_filter(
@@ -829,31 +840,6 @@ class Settings_Integration implements Integration_Interface {
 		);
 
 		return $transformed;
-	}
-
-	/**
-	 * Gets the route from a name, rewrite and rest_base.
-	 *
-	 * @param string $name      The name.
-	 * @param array  $rewrite   The rewrite data.
-	 * @param string $rest_base The rest base.
-	 *
-	 * @return string The route.
-	 */
-	protected function get_route( $name, $rewrite, $rest_base ) {
-		$route = $name;
-		if ( isset( $rewrite['slug'] ) ) {
-			$route = $rewrite['slug'];
-		}
-		if ( ! empty( $rest_base ) ) {
-			$route = $rest_base;
-		}
-		// Always strip leading slashes.
-		while ( \substr( $route, 0, 1 ) === '/' ) {
-			$route = \substr( $route, 1 );
-		}
-
-		return $route;
 	}
 
 	/**
