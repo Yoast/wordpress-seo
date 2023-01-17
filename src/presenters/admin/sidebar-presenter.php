@@ -45,7 +45,12 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<h2 class="yoast-get-premium-title">
 							<?php
 							/* translators: %s expands to <br>Yoast SEO Premium */
-							\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), '<br>Yoast SEO Premium' );
+							\printf(
+								\esc_html__( '%1$sGet%2$s %3$s', 'wordpress-seo' ),
+								'<nowrap>',
+								'</nowrap>',
+								'Yoast SEO Premium'
+							);
 							?>
 						</h2>
 						<p>
