@@ -106,7 +106,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$public_post_types = \array_keys( $this->post_type_helper->get_public_post_types() );
+		$public_post_types = $this->post_type_helper->get_indexable_post_types();
 
 		$last_known_public_post_types = $this->options->get( 'last_known_public_post_types', [] );
 
@@ -165,11 +165,11 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	private function maybe_add_notification( $newly_made_public_post_types ) {
 		foreach ( $newly_made_public_post_types as $post_type ) {
 			$post_type_label = $this->post_type_helper->get_post_type_label( $post_type );
-			$post_type_slug  = $this->post_type_helper->get_post_type_slug( $post_type );
-			$notification    = $this->notification_center->get_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_slug" );
+			$post_type_route  = $this->post_type_helper->get_post_type_route( $post_type );
+			$notification    = $this->notification_center->get_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_route" );
 
 			if ( \is_null( $notification ) ) {
-				$this->add_notification( $post_type_label, $post_type_slug );
+				$this->add_notification( $post_type_label, $post_type_route );
 			}
 		}
 	}
@@ -178,15 +178,15 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
 	 *
 	 * @param string $post_type_label The label used for the post type.
-	 * @param string $post_type_slug  The post type slug.
+	 * @param string $post_type_route  The post type slug.
 	 *
 	 * @return void
 	 */
-	private function add_notification( $post_type_label, $post_type_slug ) {
+	private function add_notification( $post_type_label, $post_type_route ) {
 		$message = \sprintf(
 			/* translators:  1: Opening tag of the link to the post type search appearance settings page, 2: Post type name (plural), 3: Link closing tag. */
 			\esc_html__( 'It looks like you\'ve added a new type of content to your website. We recommend that you review your search appearance settings for %1$s%2$s%3$s.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( "admin.php?page=wpseo_page_settings#/post-type/$post_type_slug" ) ) . '">',
+			'<a href="' . \esc_url( \admin_url( "admin.php?page=wpseo_page_settings#/post-type/$post_type_route" ) ) . '">',
 			$post_type_label,
 			'</a>'
 		);
@@ -195,7 +195,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => self::POST_TYPE_ID_PREFIX . "-$post_type_slug",
+				'id'           => self::POST_TYPE_ID_PREFIX . "-$post_type_route",
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			]
@@ -205,7 +205,7 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	}
 
 	private function remove_notification( $post_type ) {
-		$post_type_slug = $this->post_type_helper->get_post_type_slug( $post_type );
-		$this->notification_center->remove_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_slug" );
+		$post_type_route = $this->post_type_helper->get_post_type_route( $post_type );
+		$this->notification_center->remove_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_route" );
 	}
 }
