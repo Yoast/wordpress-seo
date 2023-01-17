@@ -7,7 +7,7 @@
  *
  * @returns {string} The string with single quotes around HTML attributes replaced with double quotes.
  */
- export default function( str ) {
+export default function( str ) {
 	const element = document.createElement( "body" );
 	element.innerHTML = str;
 	const normalizedHTML = element.innerHTML;
