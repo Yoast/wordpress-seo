@@ -1,5 +1,4 @@
-import findAllInTree from "../../parse/findAllTree";
-import innerText from "../../parse/helpers/innerText";
+import { findAllInTree, innerText } from "../../parse/traverse";
 
 /**
  * Gets all H1s in a text, including their content and their position with regards to other HTML blocks.

@@ -11,7 +11,7 @@ import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import urlHelper from "../helpers/url/url.js";
 import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
 import getWords from "../helpers/word/getWords";
-import innerText from "../../parse/helpers/innerText";
+import { innerText } from "../../parse/traverse";
 
 let functionWords = [];
 

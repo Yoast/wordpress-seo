@@ -1,4 +1,4 @@
-import findAllInTree from "../../../parse/findAllTree";
+import { findAllInTree } from "../../../parse/traverse";
 
 /** @module stringProcessing/getAnchorsFromText */
 

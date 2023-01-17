@@ -1,4 +1,10 @@
-
+/**
+ * Gathers the text content of the given node.
+ *
+ * @param {Object} node The node to gather the text content from.
+ *
+ * @return {string} The text content.
+ */
 export default function innerText( node ) {
 	let text = "";
 
@@ -14,4 +20,3 @@ export default function innerText( node ) {
 
 	return text;
 }
-

@@ -1,6 +1,6 @@
 /** @module researches/imageInText */
 
-import findAllInTree from "../../parse/findAllTree";
+import { findAllInTree } from "../../parse/traverse";
 
 /**
  * Checks the amount of images in the text.

@@ -1,7 +1,7 @@
 // External dependencies.
 import { parseFragment } from "parse5";
 // Internal dependencies.
-import adapt from "./adapt";
+import { adapt } from "./build";
 
 /**
  * Parses the HTML string to a tree representation of
@@ -14,4 +14,3 @@ import adapt from "./adapt";
 export default function parse( htmlString ) {
 	return adapt( parseFragment( htmlString ) );
 }
-

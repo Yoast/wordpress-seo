@@ -1,8 +1,7 @@
 /** @module researches/imageAltTags */
 
-import findAllInTree from "../../parse/findAllTree";
-import hasAttribute from "../../parse/helpers/hasAttribute";
-import attributeEmpty from "../../parse/helpers/attributeEmpty";
+import { findAllInTree } from "../../parse/traverse";
+import { hasAttribute, attributeEmpty } from "../../parse/helpers";
 
 /**
  * Checks the number of images with no alt text.
