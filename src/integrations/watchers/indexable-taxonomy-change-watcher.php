@@ -108,20 +108,20 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$public_taxonomies_names = \array_keys( $this->taxonomy_helper->get_public_taxonomies() );
+		$public_taxonomies = $this->taxonomy_helper->get_indexable_taxonomies();
 
 		$last_known_public_taxonomies = $this->options->get( 'last_known_public_taxonomies', [] );
 
 		// Initializing the option on the first run.
 		if ( empty( $last_known_public_taxonomies ) ) {
-			$this->options->set( 'last_known_public_taxonomies', $public_taxonomies_names );
+			$this->options->set( 'last_known_public_taxonomies', $public_taxonomies );
 			return;
 		}
 
 		// We look for new public taxonomies.
-		$newly_made_public_taxonomies = \array_diff( $public_taxonomies_names, $last_known_public_taxonomies );
+		$newly_made_public_taxonomies = \array_diff( $public_taxonomies, $last_known_public_taxonomies );
 		// We look fortaxonomies that from public have been made private.
-		$newly_made_non_public_taxonomies = \array_diff( $last_known_public_taxonomies, $public_taxonomies_names );
+		$newly_made_non_public_taxonomies = \array_diff( $last_known_public_taxonomies, $public_taxonomies );
 
 		// Nothing to be done if no changes has been made to taxonomies.
 		if ( empty( $newly_made_public_taxonomies ) && ( empty( $newly_made_non_public_taxonomies ) ) ) {
@@ -129,7 +129,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 		}
 
 		// Update the list of last known public taxonomies in the database.
-		$this->options->set( 'last_known_public_taxonomies', $public_taxonomies_names );
+		$this->options->set( 'last_known_public_taxonomies', $public_taxonomies );
 
 		// There are new taxonomies that have been made public.
 		if ( ! empty( $newly_made_public_taxonomies ) ) {
@@ -166,13 +166,12 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 */
 	private function maybe_add_notification( $newly_made_public_taxonomies ) {
 		foreach ( $newly_made_public_taxonomies as $taxonomy_name ) {
-			//$taxonomy_object = \get_taxonomy( $taxonomy_name );
 			$taxonomy_label = $this->taxonomy_helper->get_taxonomy_label( $taxonomy_name );
-			$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy_name );
-			$notification    = $this->notification_center->get_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
+			$taxonomy_route = $this->taxonomy_helper->get_taxonomy_route( $taxonomy_name );
+			$notification    = $this->notification_center->get_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_route" );
 
 			if ( \is_null( $notification ) ) {
-				$this->add_notification( $taxonomy_label, $taxonomy_slug );
+				$this->add_notification( $taxonomy_label, $taxonomy_route );
 			}
 		}
 	}
@@ -181,15 +180,15 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	 * Adds a notification to be shown on the next page request since posts are updated in an ajax request.
 	 *
 	 * @param string $taxonomy_label The label used for the taxonomy.
-	 * @param string $taxonomy_slug  The taxonomy slug.
+	 * @param string $taxonomy_route  The taxonomy route.
 	 *
 	 * @return void
 	 */
-	private function add_notification( $taxonomy_label, $taxonomy_slug ) {
+	private function add_notification( $taxonomy_label, $taxonomy_route ) {
 		$message = \sprintf(
 			/* translators: 1: Opening tag of the link to the taxonomy search appearance settings page, 2: taxonomy name, 3: Link closing tag. */
 			\esc_html__( 'It looks like you\'ve added a new taxonomy to your website. We recommend that you review your search appearance settings for %1$s%2$s%3$s.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( \admin_url( "admin.php?page=wpseo_page_settings#/taxonomy/$taxonomy_slug" ) ) . '">',
+			'<a href="' . \esc_url( \admin_url( "admin.php?page=wpseo_page_settings#/taxonomy/$taxonomy_route" ) ) . '">',
 			$taxonomy_label,
 			'</a>'
 		);
@@ -198,7 +197,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug",
+				'id'           => self::TAXONOMY_ID_PREFIX . "-$taxonomy_route",
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
 			]
@@ -208,7 +207,7 @@ class Indexable_Taxonomy_Change_Watcher implements Integration_Interface {
 	}
 
 	private function remove_notification( $taxonomy ) {
-		$taxonomy_slug = $this->taxonomy_helper->get_taxonomy_slug( $taxonomy );
-		$this->notification_center->remove_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_slug" );
+		$taxonomy_route = $this->taxonomy_helper->get_taxonomy_route( $taxonomy );
+		$this->notification_center->remove_notification_by_id( self::TAXONOMY_ID_PREFIX . "-$taxonomy_route" );
 	}
 }
