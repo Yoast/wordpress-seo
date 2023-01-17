@@ -575,6 +575,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   line-height: 27px;
 }
 
+.yoast-get-premium-title span {
+  white-space: nowrap;
+}
+
 .yoast-sidebar__product .product-image {
 	position: relative;
 	z-index: 2;
