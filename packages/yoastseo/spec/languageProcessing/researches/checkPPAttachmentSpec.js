@@ -7,7 +7,8 @@ describe( "Check for syntactically ambiguous sentences with PP attachment", func
 		const mockPaper = new Paper(
 			"John saw cops with large telescopes. " +
 			"John saw the large cop with a big telescope riding a bike. " +
-			"John saw the cop."
+			"John saw the cop. " +
+			"The police shot the rioters with guns. "
 		);
 		const mockResearcher = new EnglishResearcher( mockPaper );
 
@@ -24,6 +25,12 @@ describe( "Check for syntactically ambiguous sentences with PP attachment", func
 					reading1: "saw with a telescope",
 					reading2: "cop with a telescope",
 					construction: [ "saw", "the", "large", "cop", "with", "a", "big", "telescope" ],
+				},
+				{
+					sentence: "The police shot the rioters with guns.",
+					reading1: "shot with guns",
+					reading2: "rioters with guns",
+					construction: [ "shot", "the", "rioters", "with", "guns" ],
 				},
 			] );
 	} );

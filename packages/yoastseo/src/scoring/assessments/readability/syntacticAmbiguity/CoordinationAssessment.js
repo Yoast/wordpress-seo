@@ -3,7 +3,7 @@ import Assessment from "../../assessment";
 import { createAnchorOpeningTag } from "../../../../helpers/shortlinker";
 import AssessmentResult from "../../../../values/AssessmentResult";
 import Mark from "../../../../values/Mark";
-import addMark from "../../../../markers/addMark";
+import { collectMarkingsInSentence } from "../../../../languageProcessing/helpers/word/markWordsInSentences";
 
 /**
  * Represents the assessment that will check whether texts contain syntactically ambiguous coordinations.
@@ -31,14 +31,14 @@ export default class CoordinationAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		this.ambiguousSentences = researcher.getResearch( "checkCoordination" );
+		this.ambiguousConstructions = researcher.getResearch( "checkCoordination" );
 
 		const calculatedScore = this.calculateResult();
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
-		assessmentResult.setHasMarks( this.ambiguousSentences.length > 0 );
+		assessmentResult.setHasMarks( this.ambiguousConstructions.length > 0 );
 
 		return assessmentResult;
 	}
@@ -61,7 +61,7 @@ export default class CoordinationAssessment extends Assessment {
 	 */
 	calculateResult() {
 		// Text with at least one list.
-		if ( this.ambiguousSentences ) {
+		if ( this.ambiguousConstructions ) {
 			return {
 				score: 6,
 				resultText: sprintf(
@@ -103,14 +103,16 @@ export default class CoordinationAssessment extends Assessment {
 	 * @returns {Array} Array with all the marked sentences.
 	 */
 	getMarks( paper, researcher ) {
-		this.ambiguousSentences = researcher.getResearch( "checkCoordination" );
-		if ( ! this.ambiguousSentences ) {
+		this.ambiguousConstructions = researcher.getResearch( "checkCoordination" );
+		const matchWordCustomHelper = researcher.getResearch( "matchWordCustomHelper" );
+
+		if ( ! this.ambiguousConstructions ) {
 			return [];
 		}
-		return this.ambiguousSentences.map( sentence =>
+		return this.ambiguousConstructions.map( ambiguousConstruction =>
 			new Mark( {
-				original: sentence,
-				marked: addMark( sentence ),
+				original: ambiguousConstruction.sentence,
+				marked: collectMarkingsInSentence( ambiguousConstruction.sentence, ambiguousConstruction.construction, matchWordCustomHelper ),
 			} ) );
 	}
 }
