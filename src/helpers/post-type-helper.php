@@ -17,12 +17,21 @@ class Post_Type_Helper {
 	protected $options_helper;
 
 	/**
+	 * The settings helper.
+	 *
+	 * @var Settings_Helper
+	 */
+	protected $settings_helper;
+
+	/**
 	 * Post_Type_Helper constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper  $options_helper  The options helper.
+	 * @param Settings_Helper $settings_helper The settings helper.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
-		$this->options_helper = $options_helper;
+	public function __construct( Options_Helper $options_helper, Settings_Helper $settings_helper ) {
+		$this->options_helper  = $options_helper;
+		$this->settings_helper = $settings_helper;
 	}
 
 	/**
@@ -170,22 +179,12 @@ class Post_Type_Helper {
 	}
 
 	/**
-	 * Gets the passed post type's slug.
+	 * Gets the passed post type's label.
 	 *
 	 * @param string $post_type The name of the post type.
 	 *
-	 * @return string The slug for the post_type. Returns the post type's name if no slug could be found.
+	 * @return string The label for the post_type. Returns the post type's name if no label could be found.
 	 */
-	public function get_post_type_slug( $post_type ) {
-		$post_type_object = \get_post_type_object( $post_type );
-
-		if ( $post_type_object && \property_exists( $post_type_object, 'rewrite' ) && \is_array( $post_type_object->rewrite ) && isset( $post_type_object->rewrite['slug'] ) ) {
-			return $post_type_object->rewrite['slug'];
-		}
-
-		return \strtolower( $post_type_object->name );
-	}
-	
 	public function get_post_type_label( $post_type ) {
 		$post_type_object = \get_post_type_object( $post_type );
 
@@ -194,5 +193,18 @@ class Post_Type_Helper {
 		}
 
 		return $post_type_object->name;
+	}
+
+	/**
+	 * Gets the post type's route used in the settings.
+	 *
+	 * @param string $post_type The name of the post type.
+	 *
+	 * @return string The route for the post_type.
+	 */
+	public function get_post_type_route( $post_type ) {
+		$post_type_object = \get_post_type_object( $post_type );
+
+		return $this->settings_helper->get_route( $post_type_object->name, $post_type_object->rewrite, $post_type_object->rest_base );
 	}
 }
