@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Change_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Notification_Center;
 
+use WP_Post_Type;
 /**
  * Class Indexable_Post_Type_Change_Watcher_Test.
  *
@@ -113,126 +114,144 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests checking if one or more post types change visibility.
-	 *
-	 * @dataProvider provider_check_post_types_public_availability
+	 * Tests checking post types change visibility when a post type is added/made public.
 	 *
 	 * @covers ::check_post_types_public_availability
-	 *
-	 * @param bool  $is_json_request              Whether it's a JSON request.
-	 * @param array $public_post_types            The public post types.
-	 * @param int   $get_public_post_types_times  The times we get the public post types.
-	 * @param array $last_known_public_post_types The last known public post types.
-	 * @param int   $set_public_post_types_times  The times we get the last known public post types.
-	 * @param int   $delete_transient_times       The times we delete the transients.
-	 * @param int   $schedule_cleanup_times       The times we schedule cleanup.
 	 */
-	public function test_check_post_types_public_availability(
-		$is_json_request, $public_post_types, $get_public_post_types_times, $last_known_public_post_types, $set_public_post_types_times, $delete_transient_times, $schedule_cleanup_times
-	) {
+	public function test_check_post_types_public_availability_new_post_type_added() {
+		$post_type            = Mockery::mock( WP_Post_Type::class )->makePartial();
+		$post_type->name      = 'test';
+		$post_type->rewrite   = 'test_rewrite';
+		$post_type->rest_base = 'test_route';
+
+		$indexable_post_type_objects[] = $post_type;
+
+		$post_type            = Mockery::mock( WP_Post_Type::class )->makePartial();
+		$post_type->name      = 'test2';
+		$post_type->rewrite   = 'test_rewrite2';
+		$post_type->rest_base = 'test_route2';
+
+		$indexable_post_type_objects[] = $post_type;
+
 		Functions\expect( 'wp_is_json_request' )
 			->once()
-			->andReturn( $is_json_request );
+			->andReturn( false );
 
 		$this->post_type_helper
-			->expects( 'get_public_post_types' )
-			->times( $get_public_post_types_times )
-			->andReturn( $public_post_types );
+			->expects( 'get_indexable_post_type_objects' )
+			->once()
+			->andReturn( $indexable_post_type_objects );
+
+		$this->post_type_helper
+			->expects( 'get_post_type_route' )
+			->times( 2 )
+			->andReturn( 'test_route', 'test_route2' );
+
+		$this->post_type_helper
+			->expects( 'get_post_type_label' )
+			->times( 2 )
+			->andReturn( 'test_label', 'test_label2' );
 
 		$this->options
 			->expects( 'get' )
-			->times( $get_public_post_types_times )
+			->times( 1 )
 			->with( 'last_known_public_post_types', [] )
-			->andReturn( $last_known_public_post_types );
+			->andReturn( [ 'test_route' => 'test' ] );
 
 		$this->options
 			->expects( 'set' )
-			->times( $set_public_post_types_times )
-			->with( 'last_known_public_post_types', \array_keys( $public_post_types ) );
+			->times( 1 )
+			->with(
+				'last_known_public_post_types',
+				[
+					'test_route'  => 'test_label',
+					'test_route2' => 'test_label2',
+				]
+			);
 
 		Functions\expect( 'delete_transient' )
-			->times( $delete_transient_times )
+			->times( 1 )
 			->with( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 
 		Functions\expect( 'delete_transient' )
-			->times( $delete_transient_times )
+			->times( 1 )
 			->andReturn( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		$this->indexing_helper
 			->expects( 'set_reason' )
-			->times( $delete_transient_times )
+			->times( 1 )
 			->with( Indexing_Reasons::REASON_POST_TYPE_MADE_PUBLIC );
 
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
-			->times( $delete_transient_times )
-			->with( 'post-types-made-public' )
+			->times( 1 )
+			->with( 'post-type-made-public-test_route2' )
 			->andReturn( 'not_null' );
-
-		Functions\expect( 'wp_next_scheduled' )
-			->times( $schedule_cleanup_times )
-			->with( Cleanup_Integration::START_HOOK )
-			->andReturn( false );
-
-		Functions\expect( 'wp_schedule_single_event' )
-			->times( $schedule_cleanup_times );
 
 		$this->instance->check_post_types_public_availability();
 	}
 
 	/**
-	 * Data provider for test_check_post_types_public_availability().
+	 * Tests checking post type change visibility when a post type is removed/made non public.
 	 *
-	 * @return array
+	 * @covers ::check_post_types_public_availability
 	 */
-	public function provider_check_post_types_public_availability() {
+	public function test_check_post_types_public_availability_post_type_removed() {
+		$post_type            = Mockery::mock( WP_Post_Type::class )->makePartial();
+		$post_type->name      = 'test';
+		$post_type->rewrite   = 'test_rewrite';
+		$post_type->rest_base = 'test_route';
 
-		return [
-			[ true, [ 'irrelevant' ], 0, [ 'irrelevant' ], 0, 0, 0 ],
-			[ false, [], 1, [], 1, 0, 0 ],
-			[
-				false,
+		$indexable_post_type_objects[] = $post_type;
+
+		Functions\expect( 'wp_is_json_request' )
+			->once()
+			->andReturn( false );
+
+		$this->post_type_helper
+			->expects( 'get_indexable_post_type_objects' )
+			->once()
+			->andReturn( $indexable_post_type_objects );
+
+		$this->post_type_helper
+			->expects( 'get_post_type_route' )
+			->once()
+			->andReturn( 'test_route' );
+
+		$this->post_type_helper
+			->expects( 'get_post_type_label' )
+			->once()
+			->andReturn( 'test_label' );
+
+		$this->options
+			->expects( 'get' )
+			->times( 1 )
+			->with( 'last_known_public_post_types', [] )
+			->andReturn(
 				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				1,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				0,
-				0,
-				0,
-			],
-			[
-				false,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				1,
-				[
-					'post' => 'post',
-				],
-				1,
-				1,
-				0,
-			],
-			[
-				false,
-				[
-					'post' => 'post',
-				],
-				1,
-				[
-					'post' => 'post',
-					'page' => 'page',
-				],
-				1,
-				0,
-				1,
-			],
-		];
+					'test_route'  => 'test',
+					'test_route2' => 'test2',
+				]
+			);
+
+		$this->options
+			->expects( 'set' )
+			->times( 1 )
+			->with( 'last_known_public_post_types', [ 'test_route' => 'test_label' ] );
+
+		Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->with( Cleanup_Integration::START_HOOK )
+			->andReturn( false );
+
+		Functions\expect( 'wp_schedule_single_event' )
+			->once();
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->with( 'post-type-made-public-test_route2' );
+
+		$this->instance->check_post_types_public_availability();
 	}
 }

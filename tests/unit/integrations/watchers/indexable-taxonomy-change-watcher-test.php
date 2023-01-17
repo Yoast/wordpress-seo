@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey\Functions;
 use Mockery;
+use WP_Taxonomy;
 use Yoast_Notification_Center;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -113,126 +114,144 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests checking if one or more taxonomies change visibility.
-	 *
-	 * @dataProvider provider_check_taxonomy_public_availability
+	 * Tests checking taxonomy change visibility when a taxonomy is added/made public.
 	 *
 	 * @covers ::check_taxonomy_public_availability
-	 *
-	 * @param bool  $is_json_request              Whether it's a JSON request.
-	 * @param array $public_taxonomies            The public taxonomies.
-	 * @param int   $get_public_taxonomies_times  The times we get the public taxonomies.
-	 * @param array $last_known_public_taxonomies The last known public taxonomies.
-	 * @param int   $set_public_taxonomies_times  The times we get the last known public taxonomies.
-	 * @param int   $delete_transient_times       The times we delete the transients.
-	 * @param int   $schedule_cleanup_times       The times we schedule cleanup.
 	 */
-	public function test_check_taxonomy_public_availability(
-		$is_json_request, $public_taxonomies, $get_public_taxonomies_times, $last_known_public_taxonomies, $set_public_taxonomies_times, $delete_transient_times, $schedule_cleanup_times
-	) {
+	public function test_check_taxonomy_public_availability_new_taxonomy_added() {
+		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$taxonomy->name      = 'test';
+		$taxonomy->rewrite   = 'test_rewrite';
+		$taxonomy->rest_base = 'test_route';
+
+		$indexable_taxonomy_objects[] = $taxonomy;
+
+		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$taxonomy->name      = 'test2';
+		$taxonomy->rewrite   = 'test_rewrite2';
+		$taxonomy->rest_base = 'test_route2';
+
+		$indexable_taxonomy_objects[] = $taxonomy;
+
 		Functions\expect( 'wp_is_json_request' )
 			->once()
-			->andReturn( $is_json_request );
+			->andReturn( false );
 
 		$this->taxonomy_helper
-			->expects( 'get_public_taxonomies' )
-			->times( $get_public_taxonomies_times )
-			->andReturn( $public_taxonomies );
+			->expects( 'get_indexable_taxonomy_objects' )
+			->once()
+			->andReturn( $indexable_taxonomy_objects );
+
+		$this->taxonomy_helper
+			->expects( 'get_taxonomy_route' )
+			->times( 2 )
+			->andReturn( 'test_route', 'test_route2' );
+
+		$this->taxonomy_helper
+			->expects( 'get_taxonomy_label' )
+			->times( 2 )
+			->andReturn( 'test_label', 'test_label2' );
 
 		$this->options
 			->expects( 'get' )
-			->times( $get_public_taxonomies_times )
+			->times( 1 )
 			->with( 'last_known_public_taxonomies', [] )
-			->andReturn( $last_known_public_taxonomies );
+			->andReturn( [ 'test_route' => 'test' ] );
 
 		$this->options
 			->expects( 'set' )
-			->times( $set_public_taxonomies_times )
-			->with( 'last_known_public_taxonomies', \array_keys( $public_taxonomies ) );
+			->times( 1 )
+			->with(
+				'last_known_public_taxonomies',
+				[
+					'test_route'  => 'test_label',
+					'test_route2' => 'test_label2',
+				]
+			);
 
 		Functions\expect( 'delete_transient' )
-			->times( $delete_transient_times )
+			->times( 1 )
 			->with( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 
 		Functions\expect( 'delete_transient' )
-			->times( $delete_transient_times )
+			->times( 1 )
 			->andReturn( Indexable_Term_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		$this->indexing_helper
 			->expects( 'set_reason' )
-			->times( $delete_transient_times )
+			->times( 1 )
 			->with( Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC );
 
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
-			->times( $delete_transient_times )
-			->with( 'taxonomies-made-public' )
+			->times( 1 )
+			->with( 'taxonomy-made-public-test_route2' )
 			->andReturn( 'not_null' );
-
-		Functions\expect( 'wp_next_scheduled' )
-			->times( $schedule_cleanup_times )
-			->with( Cleanup_Integration::START_HOOK )
-			->andReturn( false );
-
-		Functions\expect( 'wp_schedule_single_event' )
-			->times( $schedule_cleanup_times );
 
 		$this->instance->check_taxonomy_public_availability();
 	}
 
-	/**
-	 * Data provider for test_check_taxonomy_public_availability().
-	 *
-	 * @return array
-	 */
-	public function provider_check_taxonomy_public_availability() {
+		/**
+		 * Tests checking taxonomy change visibility when a taxonomy is removed/made non public.
+		 *
+		 * @covers ::check_taxonomy_public_availability
+		 */
+	public function test_check_taxonomy_public_availability_taxonomy_removed() {
+		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$taxonomy->name      = 'test';
+		$taxonomy->rewrite   = 'test_rewrite';
+		$taxonomy->rest_base = 'test_route';
 
-		return [
-			[ true, [ 'irrelevant' ], 0, [ 'irrelevant' ], 0, 0, 0 ],
-			[ false, [], 1, [], 1, 0, 0 ],
-			[
-				false,
+		$indexable_taxonomy_objects[] = $taxonomy;
+
+		Functions\expect( 'wp_is_json_request' )
+			->once()
+			->andReturn( false );
+
+		$this->taxonomy_helper
+			->expects( 'get_indexable_taxonomy_objects' )
+			->once()
+			->andReturn( $indexable_taxonomy_objects );
+
+		$this->taxonomy_helper
+			->expects( 'get_taxonomy_route' )
+			->once()
+			->andReturn( 'test_route' );
+
+		$this->taxonomy_helper
+			->expects( 'get_taxonomy_label' )
+			->once()
+			->andReturn( 'test_label' );
+
+		$this->options
+			->expects( 'get' )
+			->times( 1 )
+			->with( 'last_known_public_taxonomies', [] )
+			->andReturn(
 				[
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
-				1,
-				[
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
-				0,
-				0,
-				0,
-			],
-			[
-				false,
-				[
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
-				1,
-				[
-					'category' => 'category',
-				],
-				1,
-				1,
-				0,
-			],
-			[
-				false,
-				[
-					'category' => 'category',
-				],
-				1,
-				[
-					'category' => 'category',
-					'post_tag' => 'post_tag',
-				],
-				1,
-				0,
-				1,
-			],
-		];
+					'test_route'  => 'test',
+					'test_route2' => 'test2',
+				]
+			);
+
+		$this->options
+			->expects( 'set' )
+			->times( 1 )
+			->with( 'last_known_public_taxonomies', [ 'test_route' => 'test_label' ] );
+
+		Functions\expect( 'wp_next_scheduled' )
+			->once()
+			->with( Cleanup_Integration::START_HOOK )
+			->andReturn( false );
+
+		Functions\expect( 'wp_schedule_single_event' )
+			->once();
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->with( 'taxonomy-made-public-test_route2' );
+
+		$this->instance->check_taxonomy_public_availability();
 	}
 }
