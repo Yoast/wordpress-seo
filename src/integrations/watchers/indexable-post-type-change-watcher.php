@@ -106,7 +106,12 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$public_post_types = $this->post_type_helper->get_indexable_post_types();
+		$public_post_types        = [];
+		$public_post_type_objects = $this->post_type_helper->get_indexable_post_type_objects();
+		foreach ( $public_post_type_objects as $object ) {
+			$route                       = $this->post_type_helper->get_post_type_route( $object->name );
+			$public_post_types[ $route ] = $this->post_type_helper->get_post_type_label( $object->name );
+		}
 
 		$last_known_public_post_types = $this->options->get( 'last_known_public_post_types', [] );
 
@@ -117,9 +122,9 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		}
 
 		// We look for new public post types.
-		$newly_made_public_post_types = \array_diff( $public_post_types, $last_known_public_post_types );
+		$newly_made_public_post_types = \array_diff_key( $public_post_types, $last_known_public_post_types );
 		// We look for post types that from public have been made private.
-		$newly_made_non_public_post_types = \array_diff( $last_known_public_post_types, $public_post_types );
+		$newly_made_non_public_post_types = \array_diff_key( $last_known_public_post_types, $public_post_types );
 
 		// Nothing to be done if no changes has been made to post types.
 		if ( empty( $newly_made_public_post_types ) && ( empty( $newly_made_non_public_post_types ) ) ) {
@@ -149,8 +154,8 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 				\wp_schedule_single_event( ( \time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 			}
 			// Remove also the notifications issued when the post types have been made public.
-			foreach ( $newly_made_non_public_post_types as $post_type ) {
-				$this->remove_notification($post_type );
+			foreach ( $newly_made_non_public_post_types as $post_type_route => $post_type_label ) {
+				$this->notification_center->remove_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_route" );
 			}
 		}
 	}
@@ -163,10 +168,8 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	private function maybe_add_notification( $newly_made_public_post_types ) {
-		foreach ( $newly_made_public_post_types as $post_type ) {
-			$post_type_label = $this->post_type_helper->get_post_type_label( $post_type );
-			$post_type_route  = $this->post_type_helper->get_post_type_route( $post_type );
-			$notification    = $this->notification_center->get_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_route" );
+		foreach ( $newly_made_public_post_types as $post_type_route => $post_type_label ) {
+			$notification = $this->notification_center->get_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_route" );
 
 			if ( \is_null( $notification ) ) {
 				$this->add_notification( $post_type_label, $post_type_route );
@@ -202,10 +205,5 @@ class Indexable_Post_Type_Change_Watcher implements Integration_Interface {
 		);
 
 		$this->notification_center->add_notification( $notification );
-	}
-
-	private function remove_notification( $post_type ) {
-		$post_type_route = $this->post_type_helper->get_post_type_route( $post_type );
-		$this->notification_center->remove_notification_by_id( self::POST_TYPE_ID_PREFIX . "-$post_type_route" );
 	}
 }
