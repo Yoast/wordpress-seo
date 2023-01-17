@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Settings_Helper;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -33,6 +34,13 @@ class Taxonomy_Helper_Test extends TestCase {
 	private $options;
 
 	/**
+	 * The settings helper.
+	 *
+	 * @var Mockery\MockInterface|Settings_Helper
+	 */
+	protected $settings_helper;
+
+	/**
 	 * Represents the string helper.
 	 *
 	 * @var Mockery\MockInterface|String_Helper
@@ -45,9 +53,10 @@ class Taxonomy_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options  = Mockery::mock( Options_Helper::class );
-		$this->string   = Mockery::mock( String_Helper::class );
-		$this->instance = Mockery::mock( Taxonomy_Helper::class, [ $this->options, $this->string ] )->makePartial();
+		$this->options         = Mockery::mock( Options_Helper::class );
+		$this->settings_helper = Mockery::mock( Settings_Helper::class );
+		$this->string          = Mockery::mock( String_Helper::class );
+		$this->instance        = Mockery::mock( Taxonomy_Helper::class, [ $this->options, $this->settings_helper, $this->string ] )->makePartial();
 	}
 
 	/**

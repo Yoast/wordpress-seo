@@ -50,7 +50,7 @@ class Settings_Integration_Test extends TestCase {
 		$language_helper              = Mockery::mock( Language_Helper::class );
 		$taxonomy_helper              = Mockery::mock( Taxonomy_Helper::class );
 		$product_helper               = Mockery::mock( Product_Helper::class );
-		$settings_helper			  = Mockery::mock( Settings_Helper::class );
+		$settings_helper              = Mockery::mock( Settings_Helper::class );
 		$woocommerce_helper           = Mockery::mock( Woocommerce_Helper::class );
 		$article_helper               = Mockery::mock( Article_Helper::class );
 		$user_helper                  = Mockery::mock( User_Helper::class );
