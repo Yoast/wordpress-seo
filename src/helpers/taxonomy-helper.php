@@ -19,6 +19,13 @@ class Taxonomy_Helper {
 	private $options;
 
 	/**
+	 * The settings helper.
+	 *
+	 * @var Settings_Helper
+	 */
+	protected $settings_helper;
+
+	/**
 	 * The string helper.
 	 *
 	 * @var String_Helper
@@ -30,12 +37,14 @@ class Taxonomy_Helper {
 	 *
 	 * @codeCoverageIgnore It only sets dependencies.
 	 *
-	 * @param Options_Helper $options       The options helper.
-	 * @param String_Helper  $string_helper The string helper.
+	 * @param Options_Helper  $options         The options helper.
+	 * @param Settings_Helper $settings_helper The settings helper.
+	 * @param String_Helper   $string_helper   The string helper.
 	 */
-	public function __construct( Options_Helper $options, String_Helper $string_helper ) {
-		$this->options = $options;
-		$this->string  = $string_helper;
+	public function __construct( Options_Helper $options, Settings_Helper $settings_helper, String_Helper $string_helper ) {
+		$this->options         = $options;
+		$this->settings_helper = $settings_helper;
+		$this->string          = $string_helper;
 	}
 
 	/**
@@ -177,6 +186,13 @@ class Taxonomy_Helper {
 		return $taxonomy_objects;
 	}
 
+	/**
+	 * Gets the passed taxonomy's label.
+	 *
+	 * @param string $taxonomy The name of the taxonomy.
+	 *
+	 * @return string The label for the taxonomy. Returns the taxonomy's name if no label could be found.
+	 */
 	public function get_taxonomy_label( $taxonomy ) {
 		$taxonomy_object = \get_taxonomy( $taxonomy );
 
@@ -185,5 +201,18 @@ class Taxonomy_Helper {
 		}
 
 		return $taxonomy_object->name;
+	}
+
+	/**
+	 * Gets the taxonomy's route used in the settings.
+	 *
+	 * @param string $taxonomy The name of the tacxonomy.
+	 *
+	 * @return string The route for the taxonomy.
+	 */
+	public function get_taxonomy_route( $taxonomy ) {
+		$taxonomy_object = \get_taxonomy( $taxonomy );
+
+		return $this->settings_helper->get_route( $taxonomy_object->name, $taxonomy_object->rewrite, $taxonomy_object->rest_base );
 	}
 }
