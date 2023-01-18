@@ -20,7 +20,7 @@ class EDD implements Integration_Interface {
 	private $meta;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
 	 */
@@ -29,7 +29,7 @@ class EDD implements Integration_Interface {
 	}
 
 	/**
-	 * BbPress constructor.
+	 * EDD constructor.
 	 *
 	 * @codeCoverageIgnore It only sets dependencies.
 	 *
@@ -76,7 +76,7 @@ class EDD implements Integration_Interface {
 	 * @return array
 	 */
 	public function filter_webpage_schema( $data, $context ) {
-		if ( is_singular( [ 'download' ] ) ) {
+		if ( \is_singular( [ 'download' ] ) ) {
 			$data['about']      = [ '@id' => $context->canonical . '#/schema/edd-product/' . \get_the_ID() ];
 			$data['mainEntity'] = [ '@id' => $context->canonical . '#/schema/edd-product/' . \get_the_ID() ];
 		}
