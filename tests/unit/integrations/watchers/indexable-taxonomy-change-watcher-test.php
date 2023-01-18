@@ -119,14 +119,14 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 * @covers ::check_taxonomy_public_availability
 	 */
 	public function test_check_taxonomy_public_availability_new_taxonomy_added() {
-		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$taxonomy            = Mockery::mock( WP_Taxonomy::class );
 		$taxonomy->name      = 'test';
 		$taxonomy->rewrite   = 'test_rewrite';
 		$taxonomy->rest_base = 'test_route';
 
 		$indexable_taxonomy_objects[] = $taxonomy;
 
-		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$taxonomy            = Mockery::mock( WP_Taxonomy::class );
 		$taxonomy->name      = 'test2';
 		$taxonomy->rewrite   = 'test_rewrite2';
 		$taxonomy->rest_base = 'test_route2';
@@ -197,7 +197,7 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 		 * @covers ::check_taxonomy_public_availability
 		 */
 	public function test_check_taxonomy_public_availability_taxonomy_removed() {
-		$taxonomy            = Mockery::mock( WP_Taxonomy::class )->makePartial();
+		$taxonomy = Mockery::mock( WP_Taxonomy::class );
 		$taxonomy->name      = 'test';
 		$taxonomy->rewrite   = 'test_rewrite';
 		$taxonomy->rest_base = 'test_route';
