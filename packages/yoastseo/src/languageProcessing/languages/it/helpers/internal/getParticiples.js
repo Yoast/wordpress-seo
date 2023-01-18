@@ -1,9 +1,25 @@
-import { forEach, includes } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
-import participles from "../../config/internal/passiveVoiceParticiples";
+import participleStems from "../../config/internal/passiveVoiceParticiples";
 
+/**
+ * Checks if an Italian word is a participle.
+ * @param {string} word An Italian word.
+ * @returns {boolean} Returns true if word is an Italian participle, and false otherwise.
+ */
+function isParticiple( word ) {
+	const participleSuffixes = [ "a", "o", "e", "i" ];
+	// For each participle suffixes, check if the word ends in one of them.
+	return participleSuffixes.some( suffix => {
+		if ( word.length > 3 && word.endsWith( suffix ) ) {
+			// If the word ends with one of the suffixes, retrieve the stem.
+			const stem = word.slice( 0, -1 );
+			// Check if the stem is in the list of participles: return true if it is, otherwise return false.
+			return participleStems.includes( stem );
+		}
+	} );
+}
 /**
  * Creates a participle list for the participles found in a clause.
  *
@@ -13,12 +29,5 @@ import participles from "../../config/internal/passiveVoiceParticiples";
  */
 export default function getParticiples( clauseText ) {
 	const words = getWords( clauseText );
-	const foundParticiples = [];
-
-	forEach( words, function( word ) {
-		if ( includes( participles, word ) ) {
-			foundParticiples.push( word );
-		}
-	} );
-	return foundParticiples;
+	return words.filter( word => isParticiple( word ) );
 }

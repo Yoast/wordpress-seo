@@ -1,4 +1,9 @@
-import wordComplexity from "../config/internal/wordComplexity";
+import wordComplexityConfig from "../config/internal/wordComplexity";
+
+const lengthLimit = wordComplexityConfig.wordLength;
+const frequencyList = wordComplexityConfig.frequencyList;
+// Whether uppercased beginning of a word decreases its complexity.
+const doesUpperCaseDecreaseComplexity = wordComplexityConfig.doesUpperCaseDecreaseComplexity;
 
 /**
  * Checks if a word is complex.
@@ -8,12 +13,6 @@ import wordComplexity from "../config/internal/wordComplexity";
  * @returns {boolean} Whether or not a word is complex.
  */
 export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
-	const lengthLimit = wordComplexityConfig.wordLength;
-	const frequencyList = wordComplexityConfig.frequencyList;
-	// Whether uppercased beginning of a word decreases its complexity.
-	const doesUpperCaseDecreaseComplexity = wordComplexityConfig.doesUpperCaseDecreaseComplexity;
-
 	// The word is not complex if it's less than the length limit, i.e. 7 characters for English.
 	if ( word.length <= lengthLimit ) {
 		return false;

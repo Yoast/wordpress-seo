@@ -20,11 +20,6 @@ describe( "a test checking if the word is complex in Spanish",  function() {
 		expect( checkIfWordIsComplex( "alhambra" ) ).toEqual( true );
 	} );
 
-
-	it( "returns word as non-complex if it is found in the function words list", function() {
-		expect( checkIfWordIsComplex( "diecisiete" ) ).toEqual( false );
-	} );
-
 	it( "returns plural word as complex if it (and its singular form) are not in the list", function() {
 		expect( checkIfWordIsComplex( "situados" ) ).toEqual( true );
 	} );

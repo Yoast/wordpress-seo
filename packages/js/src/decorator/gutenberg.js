@@ -1,9 +1,8 @@
 /* External dependencies */
 // The WP annotations package isn't loaded by default so force loading it.
 import "@wordpress/annotations";
-import { dispatch, select } from "@wordpress/data";
 import { create } from "@wordpress/rich-text";
-import { flatMap, isFunction } from "lodash-es";
+import { select, dispatch } from "@wordpress/data";
 import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
 
 
@@ -37,7 +36,32 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "content",
 		},
 	],
+	"core/audio": [
+		{
+			key: "caption",
+		},
+	],
+	"core/embed": [
+		{
+			key: "caption",
+		},
+	],
+	"core/gallery": [
+		{
+			key: "caption",
+		},
+	],
 	"core/image": [
+		{
+			key: "caption",
+		},
+	],
+	"core/table": [
+		{
+			key: "caption",
+		},
+	],
+	"core/video": [
 		{
 			key: "caption",
 		},
