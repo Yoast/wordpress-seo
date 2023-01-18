@@ -6,11 +6,16 @@ import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
 /*
- * This is the last sentence of feedback strings for non-inclusive terms for 'older people/person'.
- * %3$s is the more specific phrase, for example 'people older than 70'.
+ * "Or, if possible, be specific about the group you are referring to (e.g. %3$s)."
+ *
+ * The last sentence of strings for the non-inclusive terms for 'older people/person'.
  */
 const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. %3$s).";
-// This string is used to suggest an alternative for 'senile'.
+/*
+ * "Consider using an alternative, such as a specific characteristic or experience if it is known (e.g. <i>has Alzheimer's</i>)."
+ *
+ * Used to suggest an alternative for 'senile'.
+ */
 const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known" +
 	" (e.g. <i>has Alzheimer's</i>).";
 
