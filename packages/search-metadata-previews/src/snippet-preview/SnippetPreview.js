@@ -156,6 +156,8 @@ const BaseUrl = styled.div`
 `;
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
+    display:flex;
+    align-items: center;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
@@ -610,12 +612,9 @@ export default class SnippetPreview extends PureComponent {
 					onMouseEnter={ onMouseEnter.bind( null, "url" ) }
 					onMouseLeave={ onMouseLeave.bind( null ) }
 					screenMode={ mode }
-					style={  { display: isMobileMode && "flex", alignItems: isMobileMode && "center" } }
 				>
 					{ isMobileMode && <MobileFaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></MobileFaviconContainer> }
-					<UrlContentContainer
-						screenMode={ mode }
-					>
+					<UrlContentContainer screenMode={ mode }>
 						{ isMobileMode && <SiteName>{ siteName }</SiteName> }
 						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
