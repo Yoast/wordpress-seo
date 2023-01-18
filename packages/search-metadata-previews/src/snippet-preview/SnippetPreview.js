@@ -615,7 +615,7 @@ export default class SnippetPreview extends PureComponent {
 				>
 					{ isMobileMode && <MobileFaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></MobileFaviconContainer> }
 					<UrlContentContainer screenMode={ mode }>
-						{ isMobileMode && <SiteName>{ siteName() }</SiteName> }
+						{ isMobileMode && <SiteName>{ siteName }</SiteName> }
 						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
 					</UrlContentContainer>
@@ -893,7 +893,7 @@ export default class SnippetPreview extends PureComponent {
 SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
-	siteName: PropTypes.func.isRequired,
+	siteName: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,
