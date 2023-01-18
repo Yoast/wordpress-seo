@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -44,6 +45,13 @@ class Old_Premium_Integration implements Integration_Interface {
 	private $admin_asset_manager;
 
 	/**
+	 * The Current_Page_Helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	private $current_page_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -57,17 +65,20 @@ class Old_Premium_Integration implements Integration_Interface {
 	 * @param Product_Helper            $product_helper      The product helper.
 	 * @param Capability_Helper         $capability_helper   The capability helper.
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
+	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Product_Helper $product_helper,
 		Capability_Helper $capability_helper,
-		WPSEO_Admin_Asset_Manager $admin_asset_manager
+		WPSEO_Admin_Asset_Manager $admin_asset_manager,
+		Current_Page_Helper $current_page_helper
 	) {
 		$this->options_helper      = $options_helper;
 		$this->product_helper      = $product_helper;
 		$this->capability_helper   = $capability_helper;
 		$this->admin_asset_manager = $admin_asset_manager;
+		$this->current_page_helper = $current_page_helper;
 	}
 
 	/**
@@ -100,12 +111,13 @@ class Old_Premium_Integration implements Integration_Interface {
 		if ( $this->premium_is_old() ) {
 			$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
-			$content = \sprintf(
+			$is_plugins_page = $this->current_page_helper->get_current_admin_page() === 'plugins.php';
+			$content         = \sprintf(
 				/* translators: 1: Yoast SEO Premium, 2 and 3: opening and closing anchor tag. */
 				\esc_html__( 'Please %2$supdate %1$s to the latest version%3$s to ensure you can fully use all Premium settings and features.', 'wordpress-seo' ),
 				'Yoast SEO Premium',
-				'<a href="' . \esc_url( \self_admin_url( 'plugins.php' ) ) . '">',
-				'</a>'
+				( $is_plugins_page ) ? '' : '<a href="' . \esc_url( \self_admin_url( 'plugins.php' ) ) . '">',
+				( $is_plugins_page ) ? '' : '</a>'
 			);
 			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output of the title escaped in the Notice_Presenter.
 			echo new Notice_Presenter(
