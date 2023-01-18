@@ -9,10 +9,10 @@ import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
 
-
 const ANNOTATION_SOURCE = "yoast";
 
 export const START_MARK = "<yoastmark class='yoast-text-mark'>";
+const START_MARK_DOUBLE_QUOTED = "<yoastmark class=\"yoast-text-mark\">";
 export const END_MARK =   "</yoastmark>";
 
 let annotationQueue = [];
@@ -144,6 +144,14 @@ export function isAnnotationAvailable() {
  */
 export function getYoastmarkOffsets( marked ) {
 	let startMarkIndex = marked.indexOf( START_MARK );
+
+	const isSingleQuoted = startMarkIndex >= 0;
+
+	// If the start mark is not found, try the double quoted version.
+	if ( ! isSingleQuoted ) {
+		startMarkIndex = marked.indexOf( START_MARK_DOUBLE_QUOTED );
+	}
+
 	let endMarkIndex = null;
 
 	const offsets = [];
@@ -154,7 +162,12 @@ export function getYoastmarkOffsets( marked ) {
 	 * without the tags.
 	 */
 	while ( startMarkIndex >= 0 ) {
-		marked = marked.replace( START_MARK, "" );
+		if ( isSingleQuoted ) {
+			marked = marked.replace( START_MARK, "" );
+		} else {
+			marked = marked.replace( START_MARK_DOUBLE_QUOTED, "" );
+		}
+		// marked = marked.replace( START_MARK, "" );
 		endMarkIndex = marked.indexOf( END_MARK );
 
 		if ( endMarkIndex < startMarkIndex ) {
@@ -167,7 +180,12 @@ export function getYoastmarkOffsets( marked ) {
 			endOffset: endMarkIndex,
 		} );
 
-		startMarkIndex = marked.indexOf( START_MARK );
+		if ( isSingleQuoted ) {
+			startMarkIndex = marked.indexOf( START_MARK );
+		} else {
+			startMarkIndex = marked.indexOf( START_MARK_DOUBLE_QUOTED );
+		}
+		// startMarkIndex = marked.indexOf( START_MARK );
 		endMarkIndex = null;
 	}
 
@@ -220,6 +238,7 @@ export function calculateAnnotationsForTextFormat( text, mark ) {
 	 *
      * A cool <b>keyword</b>. => A cool keyword.
 	 */
+
 	const originalSentence = mark.getOriginal().replace( /(<([^>]+)>)/ig, "" );
 
 	/*
@@ -451,6 +470,7 @@ export function applyAsAnnotations( marks ) {
 	if ( fieldsToMark.length > 0 ) {
 		blocks = blocks.filter( block => fieldsToMark.some( field => "core/" + field === block.name ) );
 	}
+
 
 	const annotations = getAnnotationsForBlocks( blocks, marks );
 
