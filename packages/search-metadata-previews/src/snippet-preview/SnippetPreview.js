@@ -893,7 +893,7 @@ export default class SnippetPreview extends PureComponent {
 SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
-	siteName: PropTypes.string.isRequired,
+	siteName: PropTypes.func.isRequired,
 	description: PropTypes.string.isRequired,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,
