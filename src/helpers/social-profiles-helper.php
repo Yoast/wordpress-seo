@@ -1,8 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations\Admin;
-
-use Yoast\WP\SEO\Helpers\Options_Helper;
+namespace Yoast\WP\SEO\Helpers;
 
 /**
  * Class Social_Profiles_Helper.
@@ -103,6 +101,28 @@ class Social_Profiles_Helper {
 		}
 
 		return $person_social_profiles;
+	}
+
+	/**
+	 * Gets the organization social profiles stored in the database.
+	 *
+	 * @return array The social profiles for the organization.
+	 */
+	public function get_organization_social_profiles() {
+		$other_social_profiles        = $this->options_helper->get( 'other_social_urls', [] );
+		$organization_social_profiles = \array_map( '\urldecode', \array_filter( $other_social_profiles ) );
+
+		$facebook = $this->options_helper->get( 'facebook_site', '' );
+		if ( $facebook !== '' ) {
+			$organization_social_profiles[] = \urldecode( $facebook );
+		}
+
+		$twitter = $this->options_helper->get( 'twitter_site', '' );
+		if ( $twitter !== '' ) {
+			$organization_social_profiles[] = 'https://twitter.com/' . $twitter;
+		}
+
+		return $organization_social_profiles;
 	}
 
 	/**
