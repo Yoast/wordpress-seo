@@ -615,7 +615,7 @@ export default class SnippetPreview extends PureComponent {
 				>
 					{ isMobileMode && <MobileFaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></MobileFaviconContainer> }
 					<UrlContentContainer screenMode={ mode }>
-						{ isMobileMode && <SiteName>{ siteName }</SiteName> }
+						{ isMobileMode && <SiteName>{ siteName() }</SiteName> }
 						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
 					</UrlContentContainer>
