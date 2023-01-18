@@ -63,7 +63,7 @@ function combineIntoImplicitParagraphs( nodes ) {
 	let implicitParagraph = {
 		nodeName: "p",
 		isImplicit: true,
-		attrs: [],
+		attrs: {},
 		childNodes: [],
 	};
 
@@ -76,7 +76,7 @@ function combineIntoImplicitParagraphs( nodes ) {
 				implicitParagraph = {
 					nodeName: "p",
 					isImplicit: true,
-					attrs: [],
+					attrs: {},
 					childNodes: [],
 				};
 			}

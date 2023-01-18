@@ -1,4 +1,5 @@
-import combineIntoImplicitParagraphs from "./combineIntoImplicitParagraphs";
+import combineIntoImplicitParagraphs from "./private/combineIntoImplicitParagraphs";
+import adaptAttributes from "./private/adaptAttributes";
 
 /**
  * Adapts the `parse5` tree to our own tree representation.
@@ -13,7 +14,10 @@ import combineIntoImplicitParagraphs from "./combineIntoImplicitParagraphs";
  */
 export default function adapt( tree ) {
 	if ( tree.nodeName === "#text" ) {
-		return tree;
+		return {
+			nodeName: "#text",
+			value: tree.value,
+		};
 	}
 
 	let children = tree.childNodes.map( adapt );
@@ -23,7 +27,7 @@ export default function adapt( tree ) {
 
 	return {
 		nodeName: tree.nodeName,
-		attrs: tree.attrs,
+		attrs: adaptAttributes( tree.attrs ),
 		childNodes: children,
 	};
 }
