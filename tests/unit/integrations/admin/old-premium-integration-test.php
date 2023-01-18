@@ -138,7 +138,15 @@ class Old_Premium_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'admin_notices', [ $this->instance, 'old_premium_notice' ] ) );
-		$this->assertNotFalse( \has_action( 'wp_ajax_dismiss_old_premium_notice', [ $this->instance, 'dismiss_old_premium_notice' ] ) );
+		$this->assertNotFalse(
+			\has_action(
+				'wp_ajax_dismiss_old_premium_notice',
+				[
+					$this->instance,
+					'dismiss_old_premium_notice',
+				]
+			)
+		);
 	}
 
 	/**

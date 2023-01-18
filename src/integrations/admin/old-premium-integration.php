@@ -59,7 +59,7 @@ class Old_Premium_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * First_Time_Configuration_Notice_Integration constructor.
+	 * Old_Premium_Integration constructor.
 	 *
 	 * @param Options_Helper            $options_helper      The options helper.
 	 * @param Product_Helper            $product_helper      The product helper.
@@ -129,7 +129,7 @@ class Old_Premium_Integration implements Integration_Interface {
 				true,
 				'yoast-old-premium-notice'
 			);
-            // phpcs:enable
+			// phpcs:enable
 
 			// Enable permanently dismissing the notice.
 			echo "<script>
