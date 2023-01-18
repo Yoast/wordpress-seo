@@ -325,7 +325,7 @@ export default class HowToStep extends Component {
 					}
 				</span>
 				<RichTextWithAppendedSpace
-					identifier="steps"
+					identifier={ `${ id }-name` }
 					className="schema-how-to-step-name"
 					tagName="p"
 					key={ `${ id }-name` }
@@ -333,10 +333,10 @@ export default class HowToStep extends Component {
 					onChange={ this.onChangeTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusTitle }
-					formattingControls={ [ "italic", "strikethrough", "link" ] }
+					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
 				<RichTextWithAppendedSpace
-					identifier="description"
+					identifier={ `${ id }-text` }
 					className="schema-how-to-step-text"
 					tagName="p"
 					key={ `${ id }-text` }

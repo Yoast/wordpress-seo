@@ -47,6 +47,7 @@ const ANNOTATION_ATTRIBUTES = {
 			key: "questions",
 		},
 	],
+	// Note: for Yoast How-To block, there are actually two attribute keys that are annotatable: steps and jsonDescription.
 	"yoast/how-to-block": [
 		{
 			key: "steps",
@@ -290,7 +291,7 @@ function getAnnotatableAttributes( blockTypeName ) {
  * Creates the annotations for a block.
  *
  * @param {string} html  The string where we want to apply the annotations.
- * @param {string} richTextIdentifier   The identifier for the annotable richt text.
+ * @param {string} richTextIdentifier   The identifier for the annotatable richt text.
  * @param {Object} attribute The attribute to apply annotations to.
  * @param {Object} block     The block information in the state.
  * @param {Array}  marks     The marks to turn into annotations.
@@ -353,9 +354,25 @@ function getAnnotationsForYoastBlocks( attribute, block, marks ) {
 
 		return flatMap( annotations );
 	}
-	// Below we can add the check for getting the annotations for Yoast How-To block.
+	// The check for getting the annotations for Yoast How-To block.
 	// Note: for Yoast How-To block, there are actually two attribute keys that are annotatable: steps and jsonDescription.
-	// Steps returns an array of the step-description pair objects.
+	if ( block.name === "yoast/how-to-block" && annotatableTexts.length !== 0 ) {
+		// For each rich text of the attribute value, create annotations.
+		 const annotations = annotatableTexts.map( item => {
+			const identifierStepName = `${ item.id }-name`;
+			const identifierStepText = `${ item.id }-text`;
+
+			const annotationsFromStepName = createAnnotations( item.jsonName, identifierStepName, attribute, block, marks );
+			const annotationsFromStepText = createAnnotations( item.jsonText, identifierStepText, attribute, block, marks );
+
+			// For each step return an array of the name-text pair objects.
+			 return annotationsFromStepName.concat( annotationsFromStepText );
+		} );
+		 // Create annotations for the How-To topmost description by accessing the jsonDescription directly form the block attributes.
+		const annotationsFromStepDescription = createAnnotations( block.attributes.jsonDescription, "description", attribute, block, marks );
+
+		return flatMap( annotations.concat( annotationsFromStepDescription ) );
+	}
 	// jsonDescription returns an array of the description/introduction of the steps.
 }
 
