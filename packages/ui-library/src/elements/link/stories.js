@@ -1,8 +1,9 @@
-import Link from ".";
+// eslint-disable react/display-name
+import { StoryComponent } from ".";
 
 export default {
-	title: "1. Elements/Link",
-	component: Link,
+	title: "1) Elements/Link",
+	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
 		as: { options: [ "a", "button" ] },
@@ -18,7 +19,7 @@ export default {
 };
 
 export const Factory = ( { children, ...args } ) => (
-	<Link { ...args }>{ children }</Link>
+	<StoryComponent { ...args }>{ children }</StoryComponent>
 );
 Factory.parameters = {
 	controls: { disable: false },
@@ -37,7 +38,7 @@ export const Anchor = {
 		},
 	},
 	args: {
-		children: <><span className="yst-sr-only">(opens in a new tab)</span>yoast.com</>,
+		children: <><span className="yst-sr-only">(Opens in a new browser tab)</span>yoast.com</>,
 		href: "https://yoast.com",
 		target: "_blank",
 		rel: "noopener noreferrer",

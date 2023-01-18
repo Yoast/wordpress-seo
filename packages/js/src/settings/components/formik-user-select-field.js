@@ -38,7 +38,8 @@ UserSelectOptionsContent.propTypes = {
  * @returns {JSX.Element} The user select component.
  */
 const FormikUserSelectField = ( { name, id, className = "", ...props } ) => {
-	const users = useSelectSettings( "selectUsers", [] );
+	const siteRepresentsPerson = useSelectSettings( "selectPreference", [], "siteRepresentsPerson", {} );
+	const users = useSelectSettings( "selectUsersWith", [ siteRepresentsPerson ], siteRepresentsPerson );
 	const { addManyUsers } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );

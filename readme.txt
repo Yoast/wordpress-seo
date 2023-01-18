@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 19.12
+Stable tag: 19.14
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -245,33 +245,45 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 19.14 =
+= 20.0 =
 
-Release date: January 10th, 2022
+Release date: 2023-01-24
 
 #### Enhancements
 
+* Improves the link focus styles in the first time configuration.
+
+#### Other
+
+* Displays a notification urging to upgrade Premium if the version is below 20.0, since some settings might be missing from the new user interface.
+
+= 19.14 =
+
+Release date: 2023-01-10
+
+Yoast SEO 19.14 introduces the first round of improvements to the inclusive language analysis. We've made the analysis smarter in detecting terms in certain contexts and improved the feedback we give writers. Check it out! Find out more about what's new in Yoast SEO 19.14 in [our release post](https://yoa.st/release-10-1-23)!
+
+#### Enhancements
+
+* Improves the _inclusive language analysis_ by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
+  * Adds "OCD", "normal" and "abnormal" to the terms that are targeted by the _inclusive language analysis_ in specific contexts.
+  * Adds "stupid" to the terms that are always targeted by the _inclusive language analysis_.
+  * Removes the term "African American Vernacular English" from the terms targeted by the  _inclusive language analysis_.  
+  * Changes the terms "exotic" and "oriental" to be considered potentially non-inclusive in the _inclusive language analysis_, adds exceptions and updates their feedback.
+  * Improves the categorization of the targeted terms in the _inclusive language analysis_ by splitting the `other` category into a more specific one.
+  * Improves the feedback for some (potentially) non-inclusive target terms in the _inclusive language analysis_.
+  * Adds more alternatives to some (potentially) non-inclusive target terms in the _inclusive language analysis_.
+  * Adds terms that are only considered (potentially) non-inclusive when they are followed by certain words or a punctuation mark.
 * Avoids a deprecation notice for the Yoast sidebar panel in the block editor.
 * Improves the accuracy of calculating text length in Japanese by excluding all spaces and HTML tags from the character count, and by including domain names.
-* Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
-* Prevents an incompatibility with the upcoming Gutenberg 14.8.0.
 
 #### Bugfixes
 
 * Fixes a bug where indexable hierarchy wasn't built when the Indexable is built for the first time.
-* Fixes a bug where the highlighting feature in the Classic editor would not work when inline HTML tags were present.
 
 #### Other
 
 * Sets the minimum supported WordPress version to 6.0.
-
-= 19.13 =
-
-Release date: December 20th, 2022
-
-#### Enhancements
-
-* Prevents an incompatibility with the upcoming Gutenberg 14.8.0.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

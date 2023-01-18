@@ -26,16 +26,23 @@ const PremiumUpsellCard = () => {
 			strong: <strong />,
 		}
 	), [] );
-	const getPremium = sprintf(
-		/* translators: %s expands to "Yoast SEO" Premium */
-		__( "Get %s", "wordpress-seo" ),
-		"Yoast SEO Premium"
+	const getPremium = createInterpolateElement(
+		sprintf(
+			/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
+			__( "%1$sGet%2$s %3$s", "wordpress-seo" ),
+			"<nowrap>",
+			"</nowrap>",
+			"Yoast SEO Premium"
+		),
+		{
+			nowrap: <span className="yst-whitespace-nowrap" />,
+		}
 	);
 
 	return (
 		<div className="yst-p-6 yst-rounded-lg yst-text-white yst-bg-primary-500 yst-shadow">
 			<figure
-				className="yst-logo-square yst-w-16 yst-h-16 yst-mt-[-2rem] yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none"
+				className="yst-logo-square yst-w-16 yst-h-16 yst-mt-[-2.6rem] yst-mx-auto yst-overflow-hidden yst-border yst-border-white yst-rounded-xl yst-rounded-br-none"
 			>
 				<YoastSeoLogo />
 			</figure>
@@ -49,11 +56,11 @@ const PremiumUpsellCard = () => {
 				href={ premiumLink }
 				target="_blank"
 				rel="noopener"
-				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 yst-px-4 sm:yst-px-0"
+				className="yst-flex yst-justify-center yst-gap-2 yst-mt-4 focus:yst-ring-offset-primary-500"
 				{ ...premiumUpsellConfig }
 			>
-				{ getPremium }
-				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
+				<span>{ getPremium }</span>
+				<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
 			</Button>
 			<a
 				className="yst-block yst-mt-4 yst-no-underline"
