@@ -67,6 +67,13 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 */
 	private $instance;
 
+	/*
+	 * Holds the taxonomies array.
+	 *
+	 * @var array
+	 */
+	private $taxonomies_array;
+
 	/**
 	 * Sets up the test fixtures.
 	 */
@@ -84,6 +91,20 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 			$this->taxonomy_helper,
 			$this->notification_center
 		);
+
+		$taxonomy            = Mockery::mock( WP_Taxonomy::class );
+		$taxonomy->name      = 'test';
+		$taxonomy->rewrite   = 'test_rewrite';
+		$taxonomy->rest_base = 'test_route';
+
+		$this->taxonomies_array[] = $taxonomy;
+
+		$taxonomy            = Mockery::mock( WP_Taxonomy::class );
+		$taxonomy->name      = 'test2';
+		$taxonomy->rewrite   = 'test_rewrite2';
+		$taxonomy->rest_base = 'test_route2';
+
+		$this->taxonomies_array[] = $taxonomy;
 	}
 
 	/**
@@ -119,20 +140,6 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 * @covers ::check_taxonomy_public_availability
 	 */
 	public function test_check_taxonomy_public_availability_new_taxonomy_added() {
-		$taxonomy            = Mockery::mock( WP_Taxonomy::class );
-		$taxonomy->name      = 'test';
-		$taxonomy->rewrite   = 'test_rewrite';
-		$taxonomy->rest_base = 'test_route';
-
-		$indexable_taxonomy_objects[] = $taxonomy;
-
-		$taxonomy            = Mockery::mock( WP_Taxonomy::class );
-		$taxonomy->name      = 'test2';
-		$taxonomy->rewrite   = 'test_rewrite2';
-		$taxonomy->rest_base = 'test_route2';
-
-		$indexable_taxonomy_objects[] = $taxonomy;
-
 		Functions\expect( 'wp_is_json_request' )
 			->once()
 			->andReturn( false );
@@ -140,7 +147,7 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 		$this->taxonomy_helper
 			->expects( 'get_indexable_taxonomy_objects' )
 			->once()
-			->andReturn( $indexable_taxonomy_objects );
+			->andReturn( $this->taxonomies_array );
 
 		$this->taxonomy_helper
 			->expects( 'get_taxonomy_route' )
@@ -197,13 +204,6 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 		 * @covers ::check_taxonomy_public_availability
 		 */
 	public function test_check_taxonomy_public_availability_taxonomy_removed() {
-		$taxonomy = Mockery::mock( WP_Taxonomy::class );
-		$taxonomy->name      = 'test';
-		$taxonomy->rewrite   = 'test_rewrite';
-		$taxonomy->rest_base = 'test_route';
-
-		$indexable_taxonomy_objects[] = $taxonomy;
-
 		Functions\expect( 'wp_is_json_request' )
 			->once()
 			->andReturn( false );
@@ -211,7 +211,7 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 		$this->taxonomy_helper
 			->expects( 'get_indexable_taxonomy_objects' )
 			->once()
-			->andReturn( $indexable_taxonomy_objects );
+			->andReturn( \array_slice( $this->taxonomies_array, 0, 1 ) );
 
 		$this->taxonomy_helper
 			->expects( 'get_taxonomy_route' )
