@@ -184,7 +184,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 background: #f1f3f4;
-
+min-width: 28px;
 `;
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
