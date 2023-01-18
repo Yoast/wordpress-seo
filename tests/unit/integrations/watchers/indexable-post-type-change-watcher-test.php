@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey\Functions;
 use Mockery;
+use WP_Post_Type;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
@@ -16,8 +17,6 @@ use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Change_Watcher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Notification_Center;
-
-use WP_Post_Type;
 /**
  * Class Indexable_Post_Type_Change_Watcher_Test.
  *
@@ -68,6 +67,13 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * Holds the post type objects.
+	 *
+	 * @var WP_Post_Type[]
+	 */
+	private $post_type_objects_array;
+
+	/**
 	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
@@ -84,6 +90,20 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 			$this->post_type_helper,
 			$this->notification_center
 		);
+
+		$post_type            = Mockery::mock( WP_Post_Type::class );
+		$post_type->name      = 'test';
+		$post_type->rewrite   = [ 'slug' => 'test_rewrite' ];
+		$post_type->rest_base = 'test_route';
+
+		$this->post_type_objects_array[] = $post_type;
+
+		$post_type            = Mockery::mock( WP_Post_Type::class );
+		$post_type->name      = 'test2';
+		$post_type->rewrite   = [ 'slug' => 'test_rewrite2' ];
+		$post_type->rest_base = 'test_route2';
+
+		$this->post_type_objects_array[] = $post_type;
 	}
 
 	/**
@@ -119,20 +139,6 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * @covers ::check_post_types_public_availability
 	 */
 	public function test_check_post_types_public_availability_new_post_type_added() {
-		$post_type            = Mockery::mock( WP_Post_Type::class )->makePartial();
-		$post_type->name      = 'test';
-		$post_type->rewrite   = 'test_rewrite';
-		$post_type->rest_base = 'test_route';
-
-		$indexable_post_type_objects[] = $post_type;
-
-		$post_type            = Mockery::mock( WP_Post_Type::class )->makePartial();
-		$post_type->name      = 'test2';
-		$post_type->rewrite   = 'test_rewrite2';
-		$post_type->rest_base = 'test_route2';
-
-		$indexable_post_type_objects[] = $post_type;
-
 		Functions\expect( 'wp_is_json_request' )
 			->once()
 			->andReturn( false );
@@ -140,7 +146,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 		$this->post_type_helper
 			->expects( 'get_indexable_post_type_objects' )
 			->once()
-			->andReturn( $indexable_post_type_objects );
+			->andReturn( $this->post_type_objects_array );
 
 		$this->post_type_helper
 			->expects( 'get_post_type_route' )
@@ -197,13 +203,6 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 	 * @covers ::check_post_types_public_availability
 	 */
 	public function test_check_post_types_public_availability_post_type_removed() {
-		$post_type            = Mockery::mock( WP_Post_Type::class )->makePartial();
-		$post_type->name      = 'test';
-		$post_type->rewrite   = 'test_rewrite';
-		$post_type->rest_base = 'test_route';
-
-		$indexable_post_type_objects[] = $post_type;
-
 		Functions\expect( 'wp_is_json_request' )
 			->once()
 			->andReturn( false );
@@ -211,7 +210,7 @@ class Indexable_Post_Type_Change_Watcher_Test extends TestCase {
 		$this->post_type_helper
 			->expects( 'get_indexable_post_type_objects' )
 			->once()
-			->andReturn( $indexable_post_type_objects );
+			->andReturn( \array_slice( $this->post_type_objects_array, 0, 1 ) );
 
 		$this->post_type_helper
 			->expects( 'get_post_type_route' )
