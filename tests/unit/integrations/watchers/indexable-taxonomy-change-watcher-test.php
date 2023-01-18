@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey\Functions;
 use Mockery;
-use WP_Taxonomy;
 use Yoast_Notification_Center;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -67,7 +66,7 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 	 */
 	private $instance;
 
-	/*
+	/**
 	 * Holds the taxonomies array.
 	 *
 	 * @var array
@@ -92,14 +91,14 @@ class Indexable_Taxonomy_Change_Watcher_Test extends TestCase {
 			$this->notification_center
 		);
 
-		$taxonomy            = Mockery::mock( WP_Taxonomy::class );
+		$taxonomy            = Mockery::mock( \WP_Taxonomy::class );
 		$taxonomy->name      = 'test';
 		$taxonomy->rewrite   = 'test_rewrite';
 		$taxonomy->rest_base = 'test_route';
 
 		$this->taxonomies_array[] = $taxonomy;
 
-		$taxonomy            = Mockery::mock( WP_Taxonomy::class );
+		$taxonomy            = Mockery::mock( \WP_Taxonomy::class );
 		$taxonomy->name      = 'test2';
 		$taxonomy->rewrite   = 'test_rewrite2';
 		$taxonomy->rest_base = 'test_route2';
