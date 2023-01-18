@@ -153,6 +153,9 @@ class Old_Premium_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_enqueue_style' )->with( 'yoast-seo-notifications' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( 'https://example.org/wp-content/plugins/' );
+		Monkey\Functions\expect( 'self_admin_url' )
+			->with( 'plugins.php' )
+			->andReturn( 'https://example.org/wp-admin/plugins/' );
 
 		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
 		$conditional->expects( 'is_met' )->once()->andReturnFalse();

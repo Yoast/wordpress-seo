@@ -101,11 +101,13 @@ class Old_Premium_Integration implements Integration_Interface {
 			$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 			$content = \sprintf(
-				/* translators: 1: Yoast SEO Premium */
-				\__( 'Please update %1$s to the latest version to ensure you can fully use all Premium settings and features.', 'wordpress-seo' ),
-				'Yoast SEO Premium'
+				/* translators: 1: Yoast SEO Premium, 2 and 3: opening and closing anchor tag. */
+				\esc_html__( 'Please %2$supdate %1$s to the latest version%3$s to ensure you can fully use all Premium settings and features.', 'wordpress-seo' ),
+				'Yoast SEO Premium',
+				'<a href="' . \esc_url( \self_admin_url( 'plugins.php' ) ) . '">',
+				'</a>'
 			);
-            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output of the title escaped in the Notice_Presenter.
 			echo new Notice_Presenter(
 				/* translators: 1: Yoast SEO Premium */
 				\sprintf( \__( 'Update to the latest version of %1$s!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
