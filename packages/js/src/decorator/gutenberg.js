@@ -373,7 +373,6 @@ function getAnnotationsForYoastBlocks( attribute, block, marks ) {
 
 		return flatMap( annotations.concat( annotationsFromStepDescription ) );
 	}
-	// jsonDescription returns an array of the description/introduction of the steps.
 }
 
 /**
