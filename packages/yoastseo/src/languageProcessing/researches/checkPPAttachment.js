@@ -1,6 +1,6 @@
 import getSentences from "../helpers/sentence/getSentences";
 import getWords from "../helpers/word/getWords";
-
+import SearchKey from "../../../SearchKey.json";
 import fetch from "node-fetch";
 
 // verb - zero or one determiner - zero or multiple adjectives - noun - preposition - zero or one determiner - zero or multiple adjectives - noun
@@ -13,6 +13,7 @@ const ppAttachmentRegExp = new RegExp( "<VB.?>(?:<DT>)?(?:<JJ>)*<NN.?><IN>(?:<DT
  * @param {string} sentence The current sentence.
  * @returns {Object|null} The words composing the ambiguous construction (empty if none found), as well as the two alternative readings.
  */
+
 function isAmbiguous( tagger, sentence ) {
 	const words = getWords( sentence, false );
 	const tags = tagger.tag( words );
@@ -73,59 +74,54 @@ function isAmbiguous( tagger, sentence ) {
 
 	return null;
 }
-
-const reading1 = isAmbiguous()
 /**
  * Checks if the given reading is possible according to a Google search.
  * @param {string} reading The reading.
  * @returns {boolean} Whether the reading is possible.
  */
-async function isPossible( reading ) {
-	const cx = "";
-	const key = "";
+async function getHits( reading ) {
+	const cx = SearchKey.cx;
+	const key = SearchKey.key;
 	const url = "https://www.googleapis.com/customsearch/v1?";
 	const parameters = { q: reading, exactTerms: reading, cx: cx, key: key, googlehost: "www.google.com" };
-
-	// const apiUrl = url + new URLSearchParams( parameters );
-
-	let items = 0;
+	let hits = 0;
 
 	await fetch( url + new URLSearchParams( parameters ), { method: "GET" } )
 		.then( response => {
-			console.log( response.status );
 			return response.json();
 		} )
-		.then( data => console.log( data ) )
+		.then( data => {
+			hits = data.searchInformation.totalResults;
+		} )
 		.catch( function( err ) {
 			console.log( err );
 		} );
 
-	console.log( items );
-
-
-	return true;
+	return hits;
 }
+
 
 /**
  * Finds all sentences with (problematic) PP attachment.
  *
  * @param {string[]} sentences The sentences in the text.
  * @param {Researcher} researcher The researcher to use for analysis.
- * @returns {Object[]} (potentially) syntactically ambiguous sentences.
+ * @returns {Promise} (potentially) syntactically ambiguous sentences.
  */
-function findPPAttachment( sentences, researcher ) {
+async function findPPAttachment( sentences, researcher ) {
 	const ambiguousSentences = [];
 
 	const tagger = researcher.getHelper( "getTagger" )();
 
-	sentences.forEach( sentence => {
+	await Promise.all( sentences.map( async( sentence ) => {
 		const result = isAmbiguous( tagger, sentence );
 		if ( result !== null ) {
-			if ( isPossible( result.reading1 ) && isPossible( result.reading2 ) ) {
-				ambiguousSentences.push( result );
-			}
+			// result.hitsReading1 = getHits( result.reading1 );
+			// result.hitsReading2 = getHits( result.reading2 );
+
+			ambiguousSentences.push( result );
 		}
-	} );
+	} ) );
 
 	return ambiguousSentences;
 }
@@ -136,9 +132,9 @@ function findPPAttachment( sentences, researcher ) {
  * @param {Researcher} 	researcher 	The researcher to use for analysis.
  * @returns {Object[]} The ambiguous constructions from the text.
  */
-export default function( paper, researcher ) {
+export default async function( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const sentences = getSentences( paper.getText(), memoizedTokenizer );
 
-	return findPPAttachment( sentences, researcher );
+	return await findPPAttachment( sentences, researcher );
 }
