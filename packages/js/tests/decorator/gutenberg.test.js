@@ -231,12 +231,18 @@ describe( "test getAnnotationsFromBlock", () => {
 	} );
 	it( "returns an annotation if there is an applicable marker for the text in a Yoast How-To block", () => {
 		create.mockReturnValue( {
+			// This value will be returned from the last call.
+			// This value matches `jsonDescription` in which inside `getAnnotationsForYoastBlocks` is the last value to be processed.
 			text: "Step by step guide on how to make your cat love you (with or without food bribe).",
 		} )
 			.mockReturnValueOnce( {
+				// This value will be returned from the first call.
+				// This value matches `jsonName` in which inside `getAnnotationsForYoastBlocks` is the first value to be processed.
 				text: "Establish a close contact with your cat",
 			} )
 			.mockReturnValueOnce( {
+				// This value will be returned from the second call.
+				// This value matches `jsonText` in which inside `getAnnotationsForYoastBlocks` is the second value to be processed.
 				text: "According to a research, cats are social animal. Your cat will prefer the hooman than a very tempting snack in a stressful situation.",
 			} );
 		const mockAttribute = {
@@ -296,6 +302,119 @@ describe( "test getAnnotationsFromBlock", () => {
 				endOffset: 42,
 				block: "2821282d-aead-4191-a844-c43568cd112d",
 				richTextIdentifier: "description",
+			},
+		];
+
+		expect( annotations ).toEqual( resultWithAnnotation );
+	} );
+	it( "returns an annotation if there is an applicable marker for the text in a Yoast FAQ block", () => {
+		create.mockReturnValue( {
+			/*
+			 * This value will be returned from the last call.
+			 * This value matches `jsonAnswer` of the second question in `mockBlock`in which
+			 * inside `getAnnotationsForYoastBlocks` is the last value to be processed.
+			 */
+			text: "Studies reveal that commercially prepared raw food suffers from increased levels of contamination with potential pathogens compared to “regular” cat foods.",
+		} )
+			.mockReturnValueOnce( {
+				/*
+				 * This value will be returned from the first call.
+				 * This value matches `jsonQuestion` of the first question in `mockBlock`in which
+				 * inside `getAnnotationsForYoastBlocks` is the first value to be processed.
+				 */
+				text: "What are the benefits of raw food for your cat?",
+			} )
+			.mockReturnValueOnce( {
+				/*
+				 * This value will be returned from the second call.
+		         * This value matches `jsonAnswer` of the first question in `mockBlock`in which
+		         * inside `getAnnotationsForYoastBlocks` is the second value to be processed.
+		         */
+				text: "A raw food diet for cats is more digestible than a diet of plant-based foods.",
+			} )
+			.mockReturnValueOnce( {
+				/*
+				 * This value will be returned from the third call.
+		         * This value matches `jsonQuestion` of the second question in `mockBlock`in which
+		         * inside `getAnnotationsForYoastBlocks` is the third value to be processed.
+		         */
+				text: "Are there disadvantages to giving raw food to cats?",
+			} );
+		const mockAttribute = {
+			key: "questions",
+		};
+
+		const mockBlock = {
+			clientId: "2821282d-aead-4191-a844-c43568cd112d",
+			name: "yoast/faq-block",
+			isValid: true,
+			attributes: {
+				questions: [
+					{
+						id: "faq-question-1674124378605",
+						jsonAnswer: "A raw food diet for cats is more digestible than a diet of plant-based foods.",
+						jsonQuestion: "What are the benefits of raw food for your cat?",
+					},
+					{
+
+						id: "faq-question-16746w9898469",
+						jsonAnswer: "Studies reveal that commercially prepared raw food suffers from increased levels of contamination with potential pathogens compared to “regular” cat foods.",
+						jsonQuestion: "Are there disadvantages to giving raw food to cats?",
+					},
+				],
+			},
+			innerBlocks: [],
+		};
+
+		const myMockMark1 = mockMark(
+			"A raw food diet for cats is more digestible than a diet of plant-based foods.",
+			"A <yoastmark class='yoast-text-mark'>raw food</yoastmark> diet for cats is more digestible than a diet of plant-based foods."
+		);
+		const myMockMark2 = mockMark(
+			"What are the benefits of raw food for your cat?",
+			"What are the benefits of <yoastmark class='yoast-text-mark'>raw food</yoastmark> for your cat?"
+		);
+
+		const myMockMark3 = mockMark(
+			"Studies reveal that commercially prepared raw food suffers from increased levels of contamination with potential pathogens compared to “regular” cat foods.",
+			"Studies reveal that commercially prepared <yoastmark class='yoast-text-mark'>raw food</yoastmark> suffers from increased levels of contamination with potential pathogens compared to “regular” cat foods."
+		);
+
+		const myMockMark4 = mockMark(
+			"Are there disadvantages to giving raw food to cats?",
+			"Are there disadvantages to giving <yoastmark class='yoast-text-mark'>raw food</yoastmark> to cats?"
+		);
+
+		const mockMarks = [ myMockMark1, myMockMark2, myMockMark3, myMockMark4 ];
+		select.mockReturnValue( {
+			getActiveMarker: jest.fn( () => "keyphraseDensity" ),
+		} );
+
+		const annotations = getAnnotationsForYoastBlocks( mockAttribute, mockBlock, mockMarks );
+		const resultWithAnnotation = [
+			{
+				startOffset: 25,
+				endOffset: 33,
+				block: "2821282d-aead-4191-a844-c43568cd112d",
+				richTextIdentifier: "faq-question-1674124378605-question",
+			},
+			{
+				startOffset: 2,
+				endOffset: 10,
+				block: "2821282d-aead-4191-a844-c43568cd112d",
+				richTextIdentifier: "faq-question-1674124378605-answer",
+			},
+			{
+				startOffset: 34,
+				endOffset: 42,
+				block: "2821282d-aead-4191-a844-c43568cd112d",
+				richTextIdentifier: "faq-question-16746w9898469-question",
+			},
+			{
+				startOffset: 42,
+				endOffset: 50,
+				block: "2821282d-aead-4191-a844-c43568cd112d",
+				richTextIdentifier: "faq-question-16746w9898469-answer",
 			},
 		];
 
