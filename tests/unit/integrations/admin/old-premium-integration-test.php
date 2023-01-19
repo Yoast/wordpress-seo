@@ -8,6 +8,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
@@ -51,6 +52,13 @@ class Old_Premium_Integration_Test extends TestCase {
 	protected $asset_manager;
 
 	/**
+	 * Mock of the Current_Page_Helper.
+	 *
+	 * @var Mockery\MockInterface|Current_Page_Helper
+	 */
+	protected $current_page_helper;
+
+	/**
 	 * Mock of the instance.
 	 *
 	 * @var Mockery\MockInterface|Old_Premium_Integration
@@ -66,15 +74,17 @@ class Old_Premium_Integration_Test extends TestCase {
 		$this->stubTranslationFunctions();
 		$this->stubEscapeFunctions();
 
-		$this->options_helper    = Mockery::mock( Options_Helper::class );
-		$this->product_helper    = Mockery::mock( Product_Helper::class );
-		$this->capability_helper = Mockery::mock( Capability_Helper::class );
-		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->instance          = new Old_Premium_Integration(
+		$this->options_helper      = Mockery::mock( Options_Helper::class );
+		$this->product_helper      = Mockery::mock( Product_Helper::class );
+		$this->capability_helper   = Mockery::mock( Capability_Helper::class );
+		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$this->instance            = new Old_Premium_Integration(
 			$this->options_helper,
 			$this->product_helper,
 			$this->capability_helper,
-			$this->asset_manager
+			$this->asset_manager,
+			$this->current_page_helper
 		);
 	}
 
@@ -103,6 +113,11 @@ class Old_Premium_Integration_Test extends TestCase {
 			WPSEO_Admin_Asset_Manager::class,
 			$this->getPropertyValue( $this->instance, 'admin_asset_manager' )
 		);
+
+		self::assertInstanceOf(
+			Current_Page_Helper::class,
+			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+		);
 	}
 
 	/**
@@ -123,7 +138,15 @@ class Old_Premium_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'admin_notices', [ $this->instance, 'old_premium_notice' ] ) );
-		$this->assertNotFalse( \has_action( 'wp_ajax_dismiss_old_premium_notice', [ $this->instance, 'dismiss_old_premium_notice' ] ) );
+		$this->assertNotFalse(
+			\has_action(
+				'wp_ajax_dismiss_old_premium_notice',
+				[
+					$this->instance,
+					'dismiss_old_premium_notice',
+				]
+			)
+		);
 	}
 
 	/**
@@ -151,8 +174,15 @@ class Old_Premium_Integration_Test extends TestCase {
 			->expects( 'enqueue_style' )
 			->with( 'monorepo' );
 
+		$this->current_page_helper
+			->expects( 'get_current_admin_page' )
+			->andReturn( 'admin.php' );
+
 		Monkey\Functions\expect( 'wp_enqueue_style' )->with( 'yoast-seo-notifications' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( 'https://example.org/wp-content/plugins/' );
+		Monkey\Functions\expect( 'self_admin_url' )
+			->with( 'plugins.php' )
+			->andReturn( 'https://example.org/wp-admin/plugins/' );
 
 		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
 		$conditional->expects( 'is_met' )->once()->andReturnFalse();
