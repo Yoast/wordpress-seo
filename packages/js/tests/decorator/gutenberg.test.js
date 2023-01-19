@@ -9,13 +9,11 @@ import {
 	getAnnotationsForYoastBlocks,
 } from "../../src/decorator/gutenberg";
 
-jest.mock( "@wordpress/rich-text", () => {
-	// Mock the import of the `create` function.
-	return {
-	  __esModule: true,
-	  create: () => ( { text: "An item about lingo" } ),
-	};
-} );
+jest.mock( "@wordpress/rich-text", () => ( {
+	create: jest.fn(),
+} ) );
+
+import { create } from "@wordpress/rich-text";
 
 import { select } from "@wordpress/data";
 
@@ -186,9 +184,12 @@ describe( "calculateAnnotationsForTextFormat", () => {
 	} );
 } );
 
-
 describe( "test getAnnotationsFromBlock", () => {
 	it( "returns an annotation if there is an applicable marker for the text", () => {
+		create.mockImplementation( () => {
+			return { text: "An item about lingo" };
+		} );
+
 		const mockBlock = {
 			clientId: "34f61542-0902-44f7-ab48-d9f88a022b43",
 			name: "core/list-item",
@@ -229,10 +230,16 @@ describe( "test getAnnotationsFromBlock", () => {
 		expect( annotations ).toEqual( resultWithAnnotation );
 	} );
 	it( "returns an annotation if there is an applicable marker for the text in a Yoast How-To block", () => {
+		create.mockReturnValue( {
+			text: "Step by step guide on how to make your cat love you (with or without food bribe).",
+		} )
+			.mockReturnValueOnce( {
+				text: "Establish a close contact with your cat",
+			} )
+			.mockReturnValueOnce( {
+				text: "According to a research, cats are social animal. Your cat will prefer the hooman than a very tempting snack in a stressful situation.",
+			} );
 		const mockAttribute = {
-			id: "how-to-step-1673986648542",
-			jsonName: "The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. lingo",
-			jsonText: "An item about lingo",
 			key: "steps",
 		};
 
@@ -241,52 +248,52 @@ describe( "test getAnnotationsFromBlock", () => {
 			name: "yoast/how-to-block",
 			isValid: true,
 			attributes: {
-				steps: [ mockAttribute ],
+				jsonDescription: "Step by step guide on how to make your cat love you (with or without food bribe).",
+				steps: [ {
+					id: "how-to-step-1674124378605",
+					jsonName: "Establish a close contact with your cat",
+					jsonText: "According to a research, cats are social animal. Your cat will prefer the hooman than a very tempting snack in a stressful situation.",
+				} ],
 			},
 			innerBlocks: [],
 		};
+
 		const myMockMark1 = mockMark(
-			"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. lingo",
-			"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
+			"Establish a close contact with your cat",
+			"Establish a close contact with your <yoastmark class='yoast-text-mark'>cat</yoastmark>"
 		);
-
 		const myMockMark2 = mockMark(
-			"An item about lingo",
-			"An item about <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
+			"According to a research, cats are social animal. Your cat will prefer the hooman than a very tempting snack in a stressful situation.",
+			"According to a research, cats are social animal. Your <yoastmark class='yoast-text-mark'>cat</yoastmark> will prefer the hooman than a very tempting snack in a stressful situation."
 		);
 
-		const mockMarks = [ myMockMark1, myMockMark2 ];
+		const myMockMark3 = mockMark(
+			"Step by step guide on how to make your cat love you (with or without food bribe).",
+			"Step by step guide on how to make your <yoastmark class='yoast-text-mark'>cat</yoastmark> love you (with or without food bribe)."
+		);
 
+		const mockMarks = [ myMockMark1, myMockMark2, myMockMark3 ];
 		select.mockReturnValue( {
 			getActiveMarker: jest.fn( () => "keyphraseDensity" ),
 		} );
 
 		const annotations = getAnnotationsForYoastBlocks( mockAttribute, mockBlock, mockMarks );
-		console.log( annotations, "annotations" );
-		// const resultWithAnnotation =     [
-		// 	{
-		// 		startOffset: 14,
-		// 		endOffset: 19,
-		// 		block: "2821282d-aead-4191-a844-c43568cd112d",
-		// 		richTextIdentifier: "how-to-step-1673986648542-name",
-		// 	},
-		// ];
 		const resultWithAnnotation = [
 			{
-				startOffset: 14,
-				endOffset: 19,
+				startOffset: 36,
+				endOffset: 39,
 				block: "2821282d-aead-4191-a844-c43568cd112d",
-				richTextIdentifier: "how-to-step-1673986648542-name",
+				richTextIdentifier: "how-to-step-1674124378605-name",
 			},
 			{
-				startOffset: 14,
-				endOffset: 19,
+				startOffset: 54,
+				endOffset: 57,
 				block: "2821282d-aead-4191-a844-c43568cd112d",
-				richTextIdentifier: "how-to-step-1673986648542-text",
+				richTextIdentifier: "how-to-step-1674124378605-text",
 			},
 			{
-				startOffset: 14,
-				endOffset: 19,
+				startOffset: 39,
+				endOffset: 42,
 				block: "2821282d-aead-4191-a844-c43568cd112d",
 				richTextIdentifier: "description",
 			},
