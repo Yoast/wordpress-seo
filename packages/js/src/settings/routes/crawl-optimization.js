@@ -589,8 +589,6 @@ const CrawlOptimization = () => {
 							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs. Please enter a number between 1 and 50.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
 							isDummy={ ! isPremium }
-							min={ 1 }
-							max={ 50 }
 						/>
 						<FormikValueChangeFieldWithDummy
 							as={ ToggleField }
