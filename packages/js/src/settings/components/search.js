@@ -222,7 +222,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 							aria-label={ __( "Search", "wordpress-seo" ) }
 							value={ query }
 							onChange={ handleQueryChange }
-							className="yst-h-12 yst-w-full yst-border-0 yst-rounded-lg sm:yst-text-sm yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-outline-none focus:yst-ring-inset focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-primary-500"
+							className="yst-h-12 yst-w-full yst-border-0 yst-rounded-lg sm:yst-text-sm yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-500 focus:yst-outline-none focus:yst-ring-inset focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-primary-500"
 						/>
 					</div>
 					{ query.length >= queryMinChars && ! isEmpty( results ) && (
