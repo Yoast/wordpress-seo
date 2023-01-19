@@ -6,6 +6,7 @@ import {
 	calculateAnnotationsForTextFormat,
 	getAnnotationsFromBlock,
 	hasInnerBlocks,
+	getAnnotationsForYoastBlocks,
 } from "../../src/decorator/gutenberg";
 
 jest.mock( "@wordpress/rich-text", () => {
@@ -224,6 +225,72 @@ describe( "test getAnnotationsFromBlock", () => {
 			  richTextIdentifier: "content",
 			},
 		  ];
+
+		expect( annotations ).toEqual( resultWithAnnotation );
+	} );
+	it( "returns an annotation if there is an applicable marker for the text in a Yoast How-To block", () => {
+		const mockAttribute = {
+			id: "how-to-step-1673986648542",
+			jsonName: "The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. lingo",
+			jsonText: "An item about lingo",
+			key: "steps",
+		};
+
+		const mockBlock = {
+			clientId: "2821282d-aead-4191-a844-c43568cd112d",
+			name: "yoast/how-to-block",
+			isValid: true,
+			attributes: {
+				steps: [ mockAttribute ],
+			},
+			innerBlocks: [],
+		};
+		const myMockMark1 = mockMark(
+			"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. lingo",
+			"The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32. <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
+		);
+
+		const myMockMark2 = mockMark(
+			"An item about lingo",
+			"An item about <yoastmark class='yoast-text-mark'>lingo</yoastmark>"
+		);
+
+		const mockMarks = [ myMockMark1, myMockMark2 ];
+
+		select.mockReturnValue( {
+			getActiveMarker: jest.fn( () => "keyphraseDensity" ),
+		} );
+
+		const annotations = getAnnotationsForYoastBlocks( mockAttribute, mockBlock, mockMarks );
+		console.log( annotations, "annotations" );
+		// const resultWithAnnotation =     [
+		// 	{
+		// 		startOffset: 14,
+		// 		endOffset: 19,
+		// 		block: "2821282d-aead-4191-a844-c43568cd112d",
+		// 		richTextIdentifier: "how-to-step-1673986648542-name",
+		// 	},
+		// ];
+		const resultWithAnnotation = [
+			{
+				startOffset: 14,
+				endOffset: 19,
+				block: "2821282d-aead-4191-a844-c43568cd112d",
+				richTextIdentifier: "how-to-step-1673986648542-name",
+			},
+			{
+				startOffset: 14,
+				endOffset: 19,
+				block: "2821282d-aead-4191-a844-c43568cd112d",
+				richTextIdentifier: "how-to-step-1673986648542-text",
+			},
+			{
+				startOffset: 14,
+				endOffset: 19,
+				block: "2821282d-aead-4191-a844-c43568cd112d",
+				richTextIdentifier: "description",
+			},
+		];
 
 		expect( annotations ).toEqual( resultWithAnnotation );
 	} );

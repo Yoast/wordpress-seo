@@ -1,4 +1,8 @@
 /* External dependencies */
+import {
+	isFunction,
+	flatMap,
+} from "lodash-es";
 // The WP annotations package isn't loaded by default so force loading it.
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
@@ -360,8 +364,9 @@ function createAnnotations( html, richTextIdentifier, attribute, block, marks ) 
  *
  * @returns {Array} An array of annotations for Yoast blocks.
  */
-function getAnnotationsForYoastBlocks( attribute, block, marks ) {
+export function getAnnotationsForYoastBlocks( attribute, block, marks ) {
 	// For Yoast FAQ and How-To blocks, we create separate annotation objects for each individual Rich Text found in the attribute.
+	console.log(attribute.key, "block")
 	const annotatableTexts = block.attributes[ attribute.key ];
 
 	if ( block.name === "yoast/faq-block" && annotatableTexts.length !== 0 ) {
