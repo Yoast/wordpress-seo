@@ -89,7 +89,6 @@ export function mapSelectToProps( select ) {
 		isCornerstoneContent,
 		getIsTerm,
 		getContentLocale,
-		getSiteName,
 	} = select( "yoast-seo/editor" );
 
 	const replacementVariables = getReplaceVars();
@@ -116,7 +115,6 @@ export function mapSelectToProps( select ) {
 		isCornerstone: isCornerstoneContent(),
 		isTaxonomy: getIsTerm(),
 		locale: getContentLocale(),
-		siteName: getSiteName(),
 	};
 }
 

@@ -151,13 +151,10 @@ const BaseUrl = styled.div`
 	max-width: 90%;
 	white-space: nowrap;
 	font-size: 14px;
-	line-height: 16px;
 	vertical-align: top;
 `;
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
-    display:flex;
-    align-items: center;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
@@ -177,18 +174,6 @@ const UrlBaseContainer = styled.span`
 	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
 `;
 
-const MobileFaviconContainer = styled.div`
-width: 28px;
-height: 28px;
-margin-right: 12px;
-border-radius: 50px;
-display: flex;
-align-items: center;
-justify-content: center;
-background: #f1f3f4;
-min-width: 28px;
-`;
-
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
 const DesktopDescription = styled.div`
@@ -204,6 +189,7 @@ const DesktopDescription = styled.div`
 const MobileDescription = styled.div`
 	color: ${ colorDescriptionMobile };
 	font-size: 14px;
+	line-height: 20px;
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
@@ -243,11 +229,6 @@ const MobilePartContainer = styled.div`
 	}
 `;
 
-const SiteName = styled.div`
-line-height: 18x; 
-font-size: 14px; 
-color: black;`;
-
 const DesktopPartContainer = styled.div`
 `;
 
@@ -278,9 +259,9 @@ const globeFaviconSrc = "data:image/png;base64," +
 	"TkSuQmCC";
 
 const Favicon = styled.img`
-	width: 18px;
-	height: 18px;
-	margin: 0 5px;
+	width: 16px;
+	height: 16px;
+	margin-right: 12px;
 	vertical-align: middle;
 `;
 
@@ -581,7 +562,6 @@ export default class SnippetPreview extends PureComponent {
 			onMouseLeave,
 			mode,
 			faviconSrc,
-			siteName,
 		} = this.props;
 
 		const isMobileMode = mode === MODE_MOBILE;
@@ -613,9 +593,10 @@ export default class SnippetPreview extends PureComponent {
 					onMouseLeave={ onMouseLeave.bind( null ) }
 					screenMode={ mode }
 				>
-					{ isMobileMode && <MobileFaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></MobileFaviconContainer> }
-					<UrlContentContainer screenMode={ mode }>
-						{ isMobileMode && <SiteName>{ siteName }</SiteName> }
+					{ isMobileMode && <Favicon src={ faviconSrc || globeFaviconSrc } alt="" /> }
+					<UrlContentContainer
+						screenMode={ mode }
+					>
 						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
 					</UrlContentContainer>
@@ -893,7 +874,6 @@ export default class SnippetPreview extends PureComponent {
 SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
-	siteName: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,
