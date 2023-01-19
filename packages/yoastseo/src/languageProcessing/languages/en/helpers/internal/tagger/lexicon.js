@@ -17885,4 +17885,7 @@ module.exports = {
 		"VBN",
 		"VBD",
 	],
+	English: [
+		"JJ",
+	],
 };

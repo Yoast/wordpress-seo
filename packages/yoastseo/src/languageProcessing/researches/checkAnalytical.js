@@ -23,7 +23,7 @@ function isAmbiguous( tagger, sentence ) {
 	const construction = [];
 	const reading1 = [];
 	const reading2 = [];
-	const wordFix = [];
+	let firstNoun = "";
 	if ( match !== null ) {
 		const indexStart = match.index;
 		const indexFinal = indexStart + match[ 0 ].length;
@@ -40,12 +40,12 @@ function isAmbiguous( tagger, sentence ) {
 						break;
 					case "NN":
 						if ( reading1.length === 1 ) {
-							wordFix.push( wordCurrent );
+							firstNoun = wordCurrent;
 							reading1.push( wordCurrent );
 						}
 						else {
 							reading1.unshift( wordCurrent, "of" );
-							reading2.push( wordCurrent, "of", wordFix );
+							reading2.push( wordCurrent, "of", firstNoun );
 						}
 						break;
 					default:
