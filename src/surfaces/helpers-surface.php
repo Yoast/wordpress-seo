@@ -38,6 +38,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Require_File_Helper $require_file
  * @property Helpers\Robots_Helper       $robots
  * @property Helpers\Short_Link_Helper   $short_link
+ * @property Helpers\Settings_Helper     $settings
  * @property Helpers\Site_Helper         $site
  * @property Helpers\String_Helper       $string
  * @property Helpers\Taxonomy_Helper     $taxonomy
