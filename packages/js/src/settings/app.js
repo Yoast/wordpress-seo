@@ -64,7 +64,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
-			<Link to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
+			<Link id={ `link-yoast-logo${ idSuffix }` } to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
@@ -229,6 +229,8 @@ const App = () => {
 			<Notifications />
 			<SidebarNavigation activePath={ pathname }>
 				<SidebarNavigation.Mobile
+					openButtonId="button-open-settings-navigation-mobile"
+					closeButtonId="button-close-settings-navigation-mobile"
 					openButtonScreenReaderText={ __( "Open settings navigation", "wordpress-seo" ) }
 					closeButtonScreenReaderText={ __( "Close settings navigation", "wordpress-seo" ) }
 					aria-label={ __( "Settings navigation", "wordpress-seo" ) }
