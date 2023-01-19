@@ -217,6 +217,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 							ref={ inputRef }
 							id="input-search"
 							placeholder={ __( "Search...", "wordpress-seo" ) }
+							aria-label={ __( "Search", "wordpress-seo" ) }
 							value={ query }
 							onChange={ handleQueryChange }
 							className="yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm"
