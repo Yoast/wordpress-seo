@@ -13,6 +13,7 @@ use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
+use Yoast_Notification_Center;
 use Yoast\WP\SEO\Actions\Settings_Introduction_Action;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
@@ -255,6 +256,10 @@ class Settings_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
+
+			// Remove the post types and taxonomies made public notifications (if any).
+			$this->remove_post_types_made_public_notification();
+			$this->remove_taxonomies_made_public_notification();
 		}
 	}
 
@@ -820,5 +825,25 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'siteLogoId' => $site_logo_id,
 		];
+	}
+
+	/**
+	 * Removes the notification related to the post types which have been made public.
+	 *
+	 * @return void
+	 */
+	private function remove_post_types_made_public_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'post-types-made-public' );
+	}
+
+	/**
+	 * Removes the notification related to the taxonomies which have been made public.
+	 *
+	 * @return void
+	 */
+	private function remove_taxonomies_made_public_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'taxonomies-made-public' );
 	}
 }
