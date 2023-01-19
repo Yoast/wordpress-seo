@@ -139,13 +139,17 @@ class WPSEO_Meta_Columns {
 				return;
 
 			case 'wpseo-title':
-				echo esc_html( $this->get_meta( $post_id )->title );
+				if ( $this->get_meta( $post_id ) ) {
+					echo esc_html( $this->get_meta( $post_id )->title );
+				}
 
 				return;
 
 			case 'wpseo-metadesc':
-				$metadesc_val = $this->get_meta( $post_id )->meta_description;
-
+				$metadesc_val = '';
+				if ( $this->get_meta( $post_id ) ) {
+					$metadesc_val = $this->get_meta( $post_id )->meta_description;
+				}
 				if ( $metadesc_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
 					esc_html__( 'Meta description not set.', 'wordpress-seo' ),
@@ -690,7 +694,9 @@ class WPSEO_Meta_Columns {
 	private function parse_column_score( $post_id ) {
 		$meta = $this->get_meta( $post_id );
 
-		return $this->score_icon_helper->for_seo( $meta->indexable, '', __( 'Post is set to noindex.', 'wordpress-seo' ) );
+		if ( $meta ) {
+			return $this->score_icon_helper->for_seo( $meta->indexable, '', __( 'Post is set to noindex.', 'wordpress-seo' ) );
+		}
 	}
 
 	/**
@@ -702,8 +708,9 @@ class WPSEO_Meta_Columns {
 	 */
 	private function parse_column_score_readability( $post_id ) {
 		$meta = $this->get_meta( $post_id );
-
-		return $this->score_icon_helper->for_readability( $meta->indexable->readability_score );
+		if ( $meta ) {
+			return $this->score_icon_helper->for_readability( $meta->indexable->readability_score );
+		}
 	}
 
 	/**
