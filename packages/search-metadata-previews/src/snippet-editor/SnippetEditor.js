@@ -561,6 +561,7 @@ class SnippetEditor extends React.Component {
 			mobileImageSrc,
 			idSuffix,
 			shoppingData,
+			siteName,
 		} = this.props;
 
 		const {
@@ -591,6 +592,7 @@ class SnippetEditor extends React.Component {
 						wordsToHighlight={ wordsToHighlight }
 						mode={ mode }
 						date={ date }
+						siteName={ siteName }
 						activeField={ this.mapFieldToPreview( activeField ) }
 						hoveredField={ this.mapFieldToPreview( hoveredField ) }
 						onMouseEnter={ this.onMouseEnter }
@@ -650,6 +652,7 @@ SnippetEditor.propTypes = {
 	shoppingData: PropTypes.object,
 	isCornerstone: PropTypes.bool,
 	isTaxonomy: PropTypes.bool,
+	siteName: PropTypes.string.isRequired,
 };
 
 SnippetEditor.defaultProps = {
