@@ -68,9 +68,10 @@ SearchNoResultsContent.propTypes = {
 
 /**
  * @param {string} [buttonId] The ID for the search button.
+ * @param {string} [modalId] The ID for the modal.
  * @returns {JSX.Element} The element.
  */
-const Search = ( { buttonId = "button-search" } ) => {
+const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 	const [ isOpen, , , setOpen, setClose ] = useToggleState( false );
 	const [ query, setQuery ] = useState( "" );
 	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
@@ -200,6 +201,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 			) }
 		</button>
 		<Modal
+			id={ modalId }
 			onClose={ setClose }
 			isOpen={ isOpen }
 			initialFocus={ inputRef }
@@ -207,7 +209,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 			aria-label={ __( "Search", "wordpress-seo" ) }
 		>
 			<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
-				<Combobox as="div" className="yst--m-6 yst--mt-5" onChange={ handleNavigate }>
+				<Combobox as="div" className="yst--m-6" onChange={ handleNavigate }>
 					<div className="yst-relative">
 						<SearchIcon
 							className="yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400"
@@ -220,7 +222,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 							aria-label={ __( "Search", "wordpress-seo" ) }
 							value={ query }
 							onChange={ handleQueryChange }
-							className="yst-h-12 yst-w-full yst-border-0 yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-ring-0 sm:yst-text-sm"
+							className="yst-h-12 yst-w-full yst-border-0 yst-rounded-lg sm:yst-text-sm yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-400 focus:yst-outline-none focus:yst-ring-inset focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-primary-500"
 						/>
 					</div>
 					{ query.length >= queryMinChars && ! isEmpty( results ) && (
@@ -266,6 +268,7 @@ const Search = ( { buttonId = "button-search" } ) => {
 
 Search.propTypes = {
 	buttonId: PropTypes.string,
+	modalId: PropTypes.string,
 };
 
 export default Search;
