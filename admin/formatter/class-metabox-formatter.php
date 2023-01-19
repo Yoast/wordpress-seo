@@ -61,7 +61,7 @@ class WPSEO_Metabox_Formatter {
 
 		return [
 			'author_name'                     => get_the_author_meta( 'display_name' ),
-			'site_name'                       => YoastSEO()->meta->for_current_page()->site_name,
+			'site_name'                       => get_bloginfo( 'name' ),
 			'sitewide_social_image'           => WPSEO_Options::get( 'og_default_image' ),
 			'search_url'                      => '',
 			'post_edit_url'                   => '',
