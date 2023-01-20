@@ -3,22 +3,73 @@ import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
+/*
+ * Used for exclusionary terms, such as 'mankind'.
+ *
+ * "Avoid using <i>%1$s</i> as it is exclusionary. Consider using an alternative, such as %2$s."
+ */
 const exclusionary = "Avoid using <i>%1$s</i> as it is exclusionary. " +
 	"Consider using an alternative, such as %2$s.";
+/*
+ * Used for potentially exclusionary terms that receive an orange traffic light, such as 'he or she'.
+ *
+ * "Be careful when using <i>%1$s</i> as it is potentially exclusionary. Consider using an alternative, such as %2$s."
+ */
 const potentiallyExclusionary = "Be careful when using <i>%1$s</i> as it is potentially exclusionary. " +
 	"Consider using an alternative, such as %2$s.";
+/*
+ * Used for potentially exclusionary terms that receive an orange traffic light, such as 'female-bodied'.
+ *
+ * "Be careful when using <i>%1$s</i> as it is potentially exclusionary. Consider using an alternative, such as %2$s."
+ */
 const potentiallyExclusionaryAvoid = "Avoid using <i>%1$s</i> as it is potentially exclusionary. " +
 	"Consider using an alternative, such as %2$s.";
+/*
+ * Used for terms that are exclusionary unless they describe a group that only consists of the people that the term mentions.
+ * For example, "boys and girls".
+ *
+ * "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of %1$s,
+ *  use an alternative, such as %2$s."
+ */
 const exclusionaryUnless = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of %1$s, use an alternative, such as %2$s.";
+/*
+ * Used for terms that are exclusionary unless the group this term describes only consists of men, for example "firemen"."
+ *
+ * Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of %1$s,
+ *  use an alternative, such as %2$s."
+ */
 const exclusionaryUnlessMen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of men, use an alternative, such as %2$s.";
+/*
+ * Used for terms that are exclusionary unless the group this term describes only consists of men and women, for example "ladies and gentlemen".
+ *
+ * "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of men and women,
+ *  use an alternative, such as %2$s."
+ */
 const exclusionaryUnlessMenAndWomen = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of men and women, use an alternative, such as %2$s.";
+/*
+ * Used for terms that are exclusionary unless the group this term describes only consists of two genders, for example "both genders".
+ *
+ * "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of two genders,
+ *  use an alternative, such as %2$s."
+ */
 const exclusionaryUnlessTwoGenders = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of two genders, use an alternative, such as %2$s.";
+/*
+ * Used for terms that are exclusionary unless all members of the group use this term to refer to themselves, for example "mothers and fathers".
+ *
+ * "Be careful when using <i>%1$s</i> as it can be exclusionary. Unless you are sure that the group you refer to only consists of people who use
+ *  this term, use an alternative, such as %2$s."
+ */
 const exclusionaryUnlessUseTheTerm = "Be careful when using <i>%1$s</i> as it can be exclusionary. " +
 	"Unless you are sure that the group you refer to only consists of people who use this term, use an alternative, such as %2$s.";
+/*
+ * Used for derogatory terms, such as "he-she".
+ *
+ * "Avoid using <i>%1$s</i> as it is derogatory."
+ */
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory.";
 
 const genderAssessments = [
