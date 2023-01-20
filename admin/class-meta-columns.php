@@ -362,6 +362,15 @@ class WPSEO_Meta_Columns {
 		return ! empty( $filter ) && is_string( $filter );
 	}
 
+	protected function get_related_keyphrase_filter( $focus_keyphrase ) {
+		return [
+			'post_type' => get_query_var( 'post_type', 'post' ),
+			'key'       => WPSEO_Meta::$meta_prefix . 'focuskeywords',
+			'value'     => '"keyword":"' . sanitize_text_field( $focus_keyphrase ) . '"',
+			'compare'	=> 'LIKE'
+		];
+	}
+
 	/**
 	 * Collects the filters and merges them into a single array.
 	 *
@@ -389,10 +398,13 @@ class WPSEO_Meta_Columns {
 		}
 
 		if ( $this->is_valid_filter( $current_keyword_filter ) ) {
-			$active_filters = array_merge(
-				$active_filters,
-				$this->get_keyword_filter( $current_keyword_filter )
-			);
+
+			$active_filters =  array(
+					'relation' => 'OR', // "OR" or "AND" (default)
+					$this->get_keyword_filter( $current_keyword_filter ),
+					$this->get_related_keyphrase_filter( $current_keyword_filter )
+				);
+
 		}
 
 		return $active_filters;
