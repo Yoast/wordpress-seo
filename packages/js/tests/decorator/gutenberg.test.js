@@ -311,7 +311,7 @@ describe( "test getAnnotationsFromBlock", () => {
 		create.mockReturnValue( {
 			/*
 			 * This value will be returned from the last call.
-			 * This value matches `jsonAnswer` of the second question in `mockBlock`in which
+			 * This value matches `jsonAnswer` of the second question in `mockBlock` in which
 			 * inside `getAnnotationsForYoastBlocks` is the last value to be processed.
 			 */
 			text: "Studies reveal that commercially prepared raw food suffers from increased levels of contamination with potential pathogens compared to “regular” cat foods.",
@@ -319,7 +319,7 @@ describe( "test getAnnotationsFromBlock", () => {
 			.mockReturnValueOnce( {
 				/*
 				 * This value will be returned from the first call.
-				 * This value matches `jsonQuestion` of the first question in `mockBlock`in which
+				 * This value matches `jsonQuestion` of the first question in `mockBlock` in which
 				 * inside `getAnnotationsForYoastBlocks` is the first value to be processed.
 				 */
 				text: "What are the benefits of raw food for your cat?",
@@ -327,7 +327,7 @@ describe( "test getAnnotationsFromBlock", () => {
 			.mockReturnValueOnce( {
 				/*
 				 * This value will be returned from the second call.
-		         * This value matches `jsonAnswer` of the first question in `mockBlock`in which
+		         * This value matches `jsonAnswer` of the first question in `mockBlock` in which
 		         * inside `getAnnotationsForYoastBlocks` is the second value to be processed.
 		         */
 				text: "A raw food diet for cats is more digestible than a diet of plant-based foods.",
@@ -335,7 +335,7 @@ describe( "test getAnnotationsFromBlock", () => {
 			.mockReturnValueOnce( {
 				/*
 				 * This value will be returned from the third call.
-		         * This value matches `jsonQuestion` of the second question in `mockBlock`in which
+		         * This value matches `jsonQuestion` of the second question in `mockBlock` in which
 		         * inside `getAnnotationsForYoastBlocks` is the third value to be processed.
 		         */
 				text: "Are there disadvantages to giving raw food to cats?",
