@@ -3,8 +3,14 @@ import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
-
 const sesAssessments = [
+	{
+		identifier: "illegalImmigrant",
+		nonInclusivePhrases: [ "illegal immigrant", "illegal alien" ],
+		inclusiveAlternatives: "<i>undocumented person, person without papers, immigrant without papers</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
 	{
 		identifier: "illegalImmigrants",
 		nonInclusivePhrases: [ "illegal immigrants", "illegal aliens" ],
@@ -34,15 +40,36 @@ const sesAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
+		identifier: "prostitutes",
+		nonInclusivePhrases: [ "prostitutes" ],
+		inclusiveAlternatives: "<i>sex workers</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnless,
+	},
+	{
 		identifier: "ex-con",
-		nonInclusivePhrases: [ "ex-con", "ex-cons" ],
+		nonInclusivePhrases: [ "ex-con" ],
+		inclusiveAlternatives: "<i>person who has had felony convictions, person who has been incarcerated</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "ex-cons",
+		nonInclusivePhrases: [ "ex-cons" ],
 		inclusiveAlternatives: "<i>people who have had felony convictions, people who have been incarcerated</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "felon",
-		nonInclusivePhrases: [ "felon", "felons" ],
+		nonInclusivePhrases: [ "felon" ],
+		inclusiveAlternatives: "<i>person with felony convictions, person who have been incarcerated</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulCareful,
+	},
+	{
+		identifier: "felons",
+		nonInclusivePhrases: [ "felons" ],
 		inclusiveAlternatives: "<i>people with felony convictions, people who have been incarcerated</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
@@ -51,6 +78,13 @@ const sesAssessments = [
 		identifier: "ex-offender",
 		nonInclusivePhrases: [ "ex-offender", "ex-offenders" ],
 		inclusiveAlternatives: "<i>formerly incarcerated person</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "ex-offenders",
+		nonInclusivePhrases: [ "ex-offenders" ],
+		inclusiveAlternatives: "<i>formerly incarcerated people</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},
