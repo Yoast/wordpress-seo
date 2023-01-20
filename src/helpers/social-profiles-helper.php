@@ -126,7 +126,7 @@ class Social_Profiles_Helper {
 			$social_profile_value = $this->options_helper->get( $field_name, $default_value );
 
 			if ( $field_name === 'other_social_urls' ) {
-				$other_social_profiles                               = \array_map( '\urldecode', \array_filter( $social_profile_value ) );
+				$other_social_profiles                             = \array_map( '\urldecode', \array_filter( $social_profile_value ) );
 				$organization_social_profiles['other_social_urls'] = $other_social_profiles;
 				continue;
 			}
