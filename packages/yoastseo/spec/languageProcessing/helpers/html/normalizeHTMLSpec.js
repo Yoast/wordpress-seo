@@ -11,6 +11,11 @@ describe( "normalizeHTML", function() {
 			.toEqual( "<yoastmark class=\"yoast-text-mark\">This is a test</yoastmark>" );
 	} );
 
+	it( "should return the same string when a string contains non breaking spaces.", function() {
+		expect( normalizeHTML( "<yoastmark class=\"yoast-text-mark\">This\u{00a0}is a\u{00a0}test</yoastmark>" ) )
+			.toEqual( "<yoastmark class=\"yoast-text-mark\">This\u{00a0}is a\u{00a0}test</yoastmark>" );
+	} );
+
 	it( "should not replace single quotes (or apostrophes) outside HTML tags", function() {
 		expect( normalizeHTML( "This is a test, let's go!" ) )
 			.toEqual( "This is a test, let's go!" );
