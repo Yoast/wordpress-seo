@@ -394,8 +394,8 @@ export default class SentenceTokenizer {
 	/**
 	 * Checks whether the given tokens are a valid html tag pair.
 	 * Note that this method is not a full html tag validator. It should be replaced with a better solution once the html parser is implemented.
-	 * @param {string} firstToken An opening html tag.
-	 * @param {string} lastToken A closing html tag.
+	 * @param {object} firstToken The first token to check. It is asserted that this token contains/is an opening html tag.
+	 * @param {object} lastToken The last token to check. It is asserted that this token contains/is a closing html tag.
 	 * @returns {boolean} True if the tokens are a valid html tag pair. Otherwise, False.
 	 */
 	isValidTagPair( firstToken, lastToken ) {
