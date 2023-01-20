@@ -241,8 +241,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$this->get_person_fallback_logo( $this->get_person_logo() ),
 				$this->get_person_logo_id(),
 				$this->get_site_tagline(),
-				$social_profiles['facebook_url'],
-				$social_profiles['twitter_username'],
+				$social_profiles['facebook_site'],
+				$social_profiles['twitter_site'],
 				WPSEO_Utils::format_json_encode( $social_profiles['other_social_urls'] ),
 				$this->product_helper->is_premium(),
 				$this->has_tracking_enabled(),
@@ -457,11 +457,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @return string[] The social profiles.
 	 */
 	private function get_social_profiles() {
-		return [
-			'facebook_url'      => $this->options_helper->get( 'facebook_site', '' ),
-			'twitter_username'  => $this->options_helper->get( 'twitter_site', '' ),
-			'other_social_urls' => $this->options_helper->get( 'other_social_urls', [] ),
-		];
+		return $this->social_profiles_helper->get_organization_social_profiles();
 	}
 
 	/**
