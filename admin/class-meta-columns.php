@@ -399,11 +399,14 @@ class WPSEO_Meta_Columns {
 
 		if ( $this->is_valid_filter( $current_keyword_filter ) ) {
 
-			$active_filters =  array(
-					'relation' => 'OR', // "OR" or "AND" (default)
+			$active_filters = array_merge(
+				$active_filters,
+				array(
+					'relation' => 'OR',
 					$this->get_keyword_filter( $current_keyword_filter ),
 					$this->get_related_keyphrase_filter( $current_keyword_filter )
-				);
+					)
+			);
 
 		}
 
