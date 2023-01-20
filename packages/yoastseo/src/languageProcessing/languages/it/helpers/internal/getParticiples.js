@@ -12,6 +12,7 @@ function isParticiple( word ) {
 	const participleSuffixes = [ "a", "o", "e", "i" ];
 	// For each participle suffixes, check if the word ends in one of them.
 	return participleSuffixes.some( suffix => {
+		// Make sure only possible participles are targeted (minimum length being "> 3")
 		if ( word.length > 3 && word.endsWith( suffix ) ) {
 			// If the word ends with one of the suffixes, retrieve the stem.
 			const stem = word.slice( 0, -1 );
