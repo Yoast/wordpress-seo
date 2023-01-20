@@ -146,13 +146,13 @@ export function getYoastmarkOffsets( marked ) {
 	let startMarkIndex = marked.indexOf( START_MARK );
 
 	// Checks if the start mark is single quoted.
-	// Note: if isMaybeSingleQuoted is true, this does necessary mean that the start mark is single quoted.
+	// Note: if doesNotContainDoubleQuotedMark is true, this does necessary mean that the start mark is single quoted.
 	// It could also be that the start mark doesn't occur at all in startMarkIndex.
 	// In that case, startMarkIndex will be -1 during later tests.
-	const isMaybeSingleQuoted = startMarkIndex >= 0;
+	const doesNotContainDoubleQuotedMark = startMarkIndex >= 0;
 
 	// If the start mark is not found, try the double quoted version.
-	if ( ! isMaybeSingleQuoted ) {
+	if ( ! doesNotContainDoubleQuotedMark ) {
 		startMarkIndex = marked.indexOf( START_MARK_DOUBLE_QUOTED );
 	}
 
@@ -166,7 +166,7 @@ export function getYoastmarkOffsets( marked ) {
 	 * without the tags.
 	 */
 	while ( startMarkIndex >= 0 ) {
-		marked = isMaybeSingleQuoted ? marked.replace( START_MARK, "" ) : marked.replace( START_MARK_DOUBLE_QUOTED, "" );
+		marked = doesNotContainDoubleQuotedMark ? marked.replace( START_MARK, "" ) : marked.replace( START_MARK_DOUBLE_QUOTED, "" );
 
 		endMarkIndex = marked.indexOf( END_MARK );
 
@@ -180,7 +180,7 @@ export function getYoastmarkOffsets( marked ) {
 			endOffset: endMarkIndex,
 		} );
 
-		startMarkIndex = isMaybeSingleQuoted ? marked.indexOf( START_MARK, "" ) : marked.indexOf( START_MARK_DOUBLE_QUOTED, "" );
+		startMarkIndex = doesNotContainDoubleQuotedMark ? marked.indexOf( START_MARK, "" ) : marked.indexOf( START_MARK_DOUBLE_QUOTED, "" );
 
 		endMarkIndex = null;
 	}
