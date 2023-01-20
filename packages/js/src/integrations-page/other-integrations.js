@@ -108,9 +108,11 @@ export const OtherIntegrations = [
 			/>
 		);
 	} ),
+	/* eslint-disable dot-notation */
 	<MastodonIntegration
 		key={ 3 }
 		integration={ mastodonIntegration }
 		isActive={ Boolean( window.wpseoIntegrationsData[ "mastodon_active" ] ) }
 	/>,
+	/* eslint-enable dot-notation */
 ];
