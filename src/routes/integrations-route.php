@@ -28,7 +28,7 @@ class Integrations_Route implements Route_Interface {
 	 * @var string
 	 */
 	const SET_ACTIVE_ROUTE = '/set_active';
-	
+
 	/**
 	 *  The integrations action.
 	 *
@@ -88,7 +88,7 @@ class Integrations_Route implements Route_Interface {
 	 * @return WP_REST_Response
 	 */
 	public function set_integration_active( WP_REST_Request $request ) {
-		$params = $request->get_json_params();
+		$params           = $request->get_json_params();
 		$integration_name = $params['integration'];
 		$value            = $params['active'];
 

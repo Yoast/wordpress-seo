@@ -116,7 +116,7 @@ class Social_Profiles_Helper {
 	 */
 	public function get_organization_social_profiles() {
 		$organization_social_profiles_fields = $this->get_organization_social_profile_fields();
-		$organization_social_profiles = [];
+		$organization_social_profiles        = [];
 
 		foreach ( $organization_social_profiles_fields as $field_name ) {
 			$default_value = '';
@@ -126,8 +126,8 @@ class Social_Profiles_Helper {
 			$social_profile_value = $this->options_helper->get( $field_name, $default_value );
 
 			if ( $field_name === 'other_social_urls' ) {
-				$other_social_profiles = \array_map( '\urldecode', \array_filter( $social_profile_value ) );
-				$organization_social_profiles[ 'other_social_urls' ] = $other_social_profiles;
+				$other_social_profiles                               = \array_map( '\urldecode', \array_filter( $social_profile_value ) );
+				$organization_social_profiles['other_social_urls'] = $other_social_profiles;
 				continue;
 			}
 
@@ -136,7 +136,7 @@ class Social_Profiles_Helper {
 				continue;
 			}
 
-			if ( $social_profile_value != '' ) {
+			if ( $social_profile_value !== '' ) {
 				$organization_social_profiles[ $field_name ] = \urldecode( $social_profile_value );
 			}
 		}
@@ -153,8 +153,8 @@ class Social_Profiles_Helper {
 	 * @return string[] An array of field names which failed to be saved in the db.
 	 */
 	public function set_person_social_profiles( $person_id, $social_profiles ) {
-		$failures = [];
-		$person_social_profile_fields  = $this->get_person_social_profile_fields();
+		$failures                     = [];
+		$person_social_profile_fields = $this->get_person_social_profile_fields();
 
 		// First validate all social profiles, before even attempting to save them.
 		foreach ( $person_social_profile_fields as $field_name => $validation_method ) {
@@ -192,7 +192,7 @@ class Social_Profiles_Helper {
 	 * @return string[] An array of field names which failed to be saved in the db.
 	 */
 	public function set_organization_social_profiles( $social_profiles ) {
-		$failures = [];
+		$failures                           = [];
 		$organization_social_profile_fields = $this->get_organization_social_profile_fields();
 
 		// First validate all social profiles, before even attempting to save them.
@@ -338,6 +338,7 @@ class Social_Profiles_Helper {
 	 * Gets the person social profile fields supported by us after WP filtering.
 	 *
 	 * @deprecated 20.1
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The supported social profile fields.
 	 */

@@ -45,7 +45,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'youtube_url'           => '',
 		'wikipedia_url'         => '',
 		'other_social_urls'     => [],
-		'mastodon_url'          => ''
+		'mastodon_url'          => '',
 	];
 
 	/**
