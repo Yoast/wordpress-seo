@@ -76,7 +76,7 @@ const integrations = [
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-edd",
 		logoLink: "https://yoa.st/integrations-logo-edd",
-		upsellLink: "https://yoa.st/get-edd-integrations",
+		upsellLink: "https://yoa.st/get-edd-integration",
 		slug: "edd",
 		description: sprintf(
 			/* translators: 1: Easy Digital Downloads, 2: Yoast SEO */
