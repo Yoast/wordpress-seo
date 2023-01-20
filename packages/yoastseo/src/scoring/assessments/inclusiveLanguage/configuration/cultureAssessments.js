@@ -9,18 +9,18 @@ import {
 } from "./feedbackStrings";
 
 /*
+ * Used for culturally appropriative terms, such as 'tribe' or 'spirit animal'.
+ *
  * "Be careful when using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s instead, unless you are referring to
  * the culture in which this term originated."
- *
- * Used for culturally appropriative terms, such as 'tribe' or 'spirit animal'
  */
 const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
 										"Consider using an alternative, such as %2$s instead, unless you are referring to the culture " +
 										"in which this term originated.";
 /*
- * "Avoid using <i>%1$s</i> as it is overgeneralizing. Consider using %2$s instead.
- *
  * Used for overgeneralizing terms, such as 'First World' or 'Third World'.
+ *
+ * "Avoid using <i>%1$s</i> as it is overgeneralizing. Consider using %2$s instead.
  */
 const overgeneralizing = "Avoid using <i>%1$s</i> as it is overgeneralizing. Consider using %2$s instead. ";
 

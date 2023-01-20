@@ -15,37 +15,37 @@ import disabilityRules from "./disabilityRulesData";
 import { sprintf } from "@wordpress/i18n";
 
 /*
- * "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead."
- *
  * Used for derogatory terms, such as 'cripple'.
+ *
+ * "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead."
  */
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 /*
- * "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead."
- *
  * Used for generalizing terms, such as 'the mentally ill'.
+ *
+ * "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead."
  */
 const generalizing = "Avoid using <i>%1$s</i> as it is generalizing. Consider using an alternative, such as %2$s instead.";
 /*
+ * Used for terms that are inclusive only if you are referring to a medical condition, for example 'manic' or 'OCD'.
+ *
  * "Avoid using <i>%1$s</i> as it is potentially harmful. Unless you are referencing the specific medical condition, consider using another
  * alternative to describe the trait or behavior, such as %2$s. "
- *
- * Used for terms that are inclusive only if you are referring to a medical condition, for example 'manic' or 'OCD'.
  */
 const medicalCondition = harmfulPotentiallyNonInclusive +
 	" Unless you are referencing the specific medical condition, consider using another alternative to describe the trait or behavior, such as %2$s.";
 /*
+ * Used for the term 'special needs'.
+ *
  * "Avoid using <i>%1$s</i> as it is potentially harmful. Consider using an alternative, such as %2$s when referring to someone's needs,
  * or %3$s when referring to a person."
- *
- * Used for the term 'special needs'.
  */
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 /*
- * "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as %2$s."
- *
  * Used for phrases with 'crazy'. We don't want to mention the whole phrase in the feedback but only the non-inclusive word 'crazy'.
+ *
+ * "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, such as %2$s."
  */
 const phrasesWithCrazyFeedback = [ "Avoid using <i>crazy</i> as it is potentially harmful.", alternative ].join( " " );
 
