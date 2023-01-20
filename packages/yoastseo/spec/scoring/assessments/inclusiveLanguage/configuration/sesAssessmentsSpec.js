@@ -256,7 +256,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 				identifier: "theUndocumented",
 				text: "This targets the undocumented across the US. The target word is followed by a preposition.",
 				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially overgeneralizing. " +
-					"Consider using <i>people who are undocumented/ undocumented people, people without papers </i> instead." +
+					"Consider using <i>people who are undocumented, undocumented people, people without papers </i> instead." +
 					" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -272,7 +272,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 				identifier: "theUndocumented",
 				text: "This will be a major blow to the undocumented. The target word is followed by a punctuation mark.",
 				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially overgeneralizing. " +
-					"Consider using <i>people who are undocumented/ undocumented people, people without papers </i> instead." +
+					"Consider using <i>people who are undocumented, undocumented people, people without papers </i> instead." +
 					" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -288,7 +288,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 				identifier: "theUndocumented",
 				text: "The undocumented didn't receive a fair trial. The target word is followed by a past participle.",
 				expectedFeedback: "Avoid using <i>the undocumented</i> as it is potentially overgeneralizing. " +
-					"Consider using <i>people who are undocumented/ undocumented people, people without papers </i> instead." +
+					"Consider using <i>people who are undocumented, undocumented people, people without papers </i> instead." +
 					" <a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},

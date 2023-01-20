@@ -836,7 +836,7 @@ describe( "a test for targeting non-inclusive phrases in culture assessments", (
 				identifier: "firstWorldCountries",
 				text: "It's natural that one would choose one of the first world countries to raise a child.",
 				expectedFeedback: "Avoid using <i>first world countries</i> as it is overgeneralizing. " +
-					"Consider using specific name for the countries or regions instead.  " +
+					"Consider using the specific name for the countries or regions instead.  " +
 					"<a href='https://yoa.st/inclusive-language-culture' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
