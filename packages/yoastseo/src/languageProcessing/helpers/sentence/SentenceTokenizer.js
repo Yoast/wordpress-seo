@@ -28,6 +28,12 @@ const abbreviationsRegex = createRegexFromArray( abbreviationsPreparedForRegex )
 const wordBoundariesForRegex = "(^|$|[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "])";
 const lastCharacterPartOfInitialsRegex = new RegExp( wordBoundariesForRegex + "[A-Za-z]$" );
 
+// Constants to be used in isValidTagPair.
+// A regex to get the tag type.
+const tagTypeRegex = /<\/?([^\s]+?)(\s|>)/;
+// Semantic tags (as opposed to style tags) are tags that are used to structure the text.
+const semanticTags = [ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span", "li", "main" ];
+
 /**
  * Class for tokenizing a (html) text into sentences.
  */
@@ -402,15 +408,10 @@ export default class SentenceTokenizer {
 		const firstTokenText = firstToken.src;
 		const lastTokenText = lastToken.src;
 
-		// regex to get the tag type
-		const tagTypeRegex = /<\/?([^\s]+?)(\s|>)/;
-
 		// get the tag types
 		const firstTagType = firstTokenText.match( tagTypeRegex )[ 1 ];
 		const lastTagType  = lastTokenText.match( tagTypeRegex )[ 1 ];
 
-		// semantic tags (as opposed to style tags) are tags that are used to structure the text
-		const semanticTags = [ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span", "li", "main" ];
 
 		// check if the tags are the same and if they are a semantic tag (p, div, h1, h2, h3, h4, h5, h6, span)
 		return firstTagType === lastTagType && semanticTags.includes( firstTagType );
