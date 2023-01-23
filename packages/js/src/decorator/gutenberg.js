@@ -9,10 +9,10 @@ import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 import getFieldsToMarkHelper from "./helpers/getFieldsToMarkHelper";
 
-
 const ANNOTATION_SOURCE = "yoast";
 
 export const START_MARK = "<yoastmark class='yoast-text-mark'>";
+const START_MARK_DOUBLE_QUOTED = "<yoastmark class=\"yoast-text-mark\">";
 export const END_MARK =   "</yoastmark>";
 
 let annotationQueue = [];
@@ -114,6 +114,18 @@ export function isAnnotationAvailable() {
  */
 export function getYoastmarkOffsets( marked ) {
 	let startMarkIndex = marked.indexOf( START_MARK );
+
+	// Checks if the start mark is single quoted.
+	// Note: if doesNotContainDoubleQuotedMark is true, this does necessary mean that the start mark is single quoted.
+	// It could also be that the start mark doesn't occur at all in startMarkIndex.
+	// In that case, startMarkIndex will be -1 during later tests.
+	const doesNotContainDoubleQuotedMark = startMarkIndex >= 0;
+
+	// If the start mark is not found, try the double quoted version.
+	if ( ! doesNotContainDoubleQuotedMark ) {
+		startMarkIndex = marked.indexOf( START_MARK_DOUBLE_QUOTED );
+	}
+
 	let endMarkIndex = null;
 
 	const offsets = [];
@@ -124,7 +136,8 @@ export function getYoastmarkOffsets( marked ) {
 	 * without the tags.
 	 */
 	while ( startMarkIndex >= 0 ) {
-		marked = marked.replace( START_MARK, "" );
+		marked = doesNotContainDoubleQuotedMark ? marked.replace( START_MARK, "" ) : marked.replace( START_MARK_DOUBLE_QUOTED, "" );
+
 		endMarkIndex = marked.indexOf( END_MARK );
 
 		if ( endMarkIndex < startMarkIndex ) {
@@ -137,7 +150,8 @@ export function getYoastmarkOffsets( marked ) {
 			endOffset: endMarkIndex,
 		} );
 
-		startMarkIndex = marked.indexOf( START_MARK );
+		startMarkIndex = doesNotContainDoubleQuotedMark ? marked.indexOf( START_MARK ) : marked.indexOf( START_MARK_DOUBLE_QUOTED );
+
 		endMarkIndex = null;
 	}
 
