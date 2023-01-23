@@ -4279,7 +4279,6 @@ export default [
 	"hurtad",
 	"husmad",
 	"husmead",
-	"id",
 	"idead",
 	"idealizad",
 	"identificad",
