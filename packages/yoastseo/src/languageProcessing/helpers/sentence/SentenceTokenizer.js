@@ -28,6 +28,12 @@ const abbreviationsRegex = createRegexFromArray( abbreviationsPreparedForRegex )
 const wordBoundariesForRegex = "(^|$|[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "])";
 const lastCharacterPartOfInitialsRegex = new RegExp( wordBoundariesForRegex + "[A-Za-z]$" );
 
+// Constants to be used in isValidTagPair.
+// A regex to get the tag type.
+const tagTypeRegex = /<\/?([^\s]+?)(\s|>)/;
+// Semantic tags (as opposed to style tags) are tags that are used to structure the text.
+const semanticTags = [ "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "span", "li", "main" ];
+
 /**
  * Class for tokenizing a (html) text into sentences.
  */
@@ -392,6 +398,28 @@ export default class SentenceTokenizer {
 	}
 
 	/**
+	 * Checks whether the given tokens are a valid html tag pair.
+	 * Note that this method is not a full html tag validator. It should be replaced with a better solution once the html parser is implemented.
+	 *
+	 * @param {object} firstToken   The first token to check. It is asserted that this token contains/is an opening html tag.
+	 * @param {object} lastToken    The last token to check. It is asserted that this token contains/is a closing html tag.
+	 *
+	 * @returns {boolean} True if the tokens are a valid html tag pair. Otherwise, False.
+	 */
+	isValidTagPair( firstToken, lastToken ) {
+		const firstTokenText = firstToken.src;
+		const lastTokenText = lastToken.src;
+
+		// Get the tag types.
+		const firstTagType = firstTokenText.match( tagTypeRegex )[ 1 ];
+		const lastTagType  = lastTokenText.match( tagTypeRegex )[ 1 ];
+
+
+		// Check if the tags are the same and if they are a semantic tag (p, div, h1, h2, h3, h4, h5, h6, span).
+		return firstTagType === lastTagType && semanticTags.includes( firstTagType );
+	}
+
+	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
 	 *
 	 * @param {Object[]} tokenArray The tokens from the sentence tokenizer.
@@ -408,7 +436,8 @@ export default class SentenceTokenizer {
 			const firstToken = tokenArray[ 0 ];
 			const lastToken = tokenArray[ tokenArray.length - 1 ];
 
-			if ( firstToken && lastToken && firstToken.type === "html-start" && lastToken.type === "html-end" ) {
+			if ( firstToken && lastToken && firstToken.type === "html-start" &&
+				lastToken.type === "html-end" && this.isValidTagPair( firstToken, lastToken ) ) {
 				tokenArray = tokenArray.slice( 1, tokenArray.length - 1 );
 
 				sliced = true;
