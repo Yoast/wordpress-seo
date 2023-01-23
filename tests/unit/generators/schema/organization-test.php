@@ -108,6 +108,7 @@ class Organization_Test extends TestCase {
 	 *
 	 * @dataProvider generate_provider
 	 * @covers       ::generate
+	 * @covers       ::fetch_social_profiles
 	 *
 	 * @param array $profiles_input    The social profiles input for the options.
 	 * @param array $profiles_expected The social profiles expected output.
@@ -170,6 +171,7 @@ class Organization_Test extends TestCase {
 	 *
 	 * @dataProvider generate_provider
 	 * @covers       ::generate
+	 * @covers       ::fetch_social_profiles
 	 *
 	 * @param array $profiles_input    The social profiles input for the options.
 	 * @param array $profiles_expected The social profiles expected output.
