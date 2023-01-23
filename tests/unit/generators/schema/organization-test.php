@@ -304,6 +304,32 @@ class Organization_Test extends TestCase {
 					'https://en.wikipedia.org/wiki/Yoast_SEO',
 				],
 			],
+			'With Mastodon' => [
+				'profiles_input'    => [
+					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => 'https://twitter.com/yoast',
+					'other_social_urls' => [
+						'https://www.instagram.com/yoast/',
+						'https://www.linkedin.com/company/yoast-com',
+						'https://myspace.com/yoast/',
+						'https://www.youtube.com/yoast',
+						'https://www.pinterest.com/yoast/',
+						'https://en.wikipedia.org/wiki/Yoast_SEO',
+					],
+					'mastodon_url'      => 'https://mastodon.social/@yoast',
+				],
+				'profiles_expected' => [
+					'https://www.facebook.com/yoast/',
+					'https://twitter.com/yoast',
+					'https://mastodon.social/@yoast',
+					'https://www.instagram.com/yoast/',
+					'https://www.linkedin.com/company/yoast-com',
+					'https://myspace.com/yoast/',
+					'https://www.youtube.com/yoast',
+					'https://www.pinterest.com/yoast/',
+					'https://en.wikipedia.org/wiki/Yoast_SEO',
+				],
+			],
 			'Only Twitter' => [
 				'profiles_input'    => [
 					'twitter_site'      => 'https://twitter.com/yoast',
