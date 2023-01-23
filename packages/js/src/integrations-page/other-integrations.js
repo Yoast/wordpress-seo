@@ -83,7 +83,7 @@ const mastodonIntegration =	{
 	slug: "mastodon",
 	description: sprintf(
 		/* translators: 1: Mastodon */
-		__( "Add your site as a verified link on your %s profile.", "wordpress-seo" ),
+		__( "Add trustworthiness to your %1$s profile by adding your site as a verified link.", "wordpress-seo" ),
 		"Mastodon"
 	),
 	isPremium: true,
