@@ -93,9 +93,9 @@ class Organization_Test extends TestCase {
 
 		$this->instance->context = $this->context;
 		$this->instance->helpers = (object) [
-			'options' => $this->options,
+			'options'         => $this->options,
 			'social_profiles' => $this->social_profiles,
-			'schema'  => (object) [
+			'schema'          => (object) [
 				'id'      => $this->id,
 				'image'   => $this->image,
 				'html'    => $this->html,
@@ -196,9 +196,10 @@ class Organization_Test extends TestCase {
 			->andReturn( $this->context->company_name );
 
 		// For the private `fetch_social_profiles` method.
-		$this->social_profiles->expects( 'get_organization_social_profiles' )
-		                      ->once()
-		                      ->andReturn( $profiles_input );
+		$this->social_profiles
+			->expects( 'get_organization_social_profiles' )
+			->once()
+			->andReturn( $profiles_input );
 
 		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
 			->atMost()
