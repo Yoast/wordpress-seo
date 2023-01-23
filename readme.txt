@@ -249,8 +249,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-01-24
 
+We're proud to introduce a brand new settings interface in Yoast SEO 20.0. We've worked hard to make this interface both beautiful and helpful. It's now much easier and enjoyable to work on your SEO. Plus, it's the start of much more cool stuff to come! Find out more about what's new in Yoast SEO 20.0 in [our release post](https://yoa.st/release-24-1-23)!
+
 #### Enhancements
 
+* NEW: Introduces a brand-new design for Yoast SEO's settings pages:
+ * Completely overhauled the old 'settings' admin pages with a sleek and modern interface.
+ * Combines, moves and improves various admin pages.
+ * Adds the ability to search through site settings to quickly discover and modify your desired setting.
+ * Adds extra information and help for all controls.
+ * Vastly improves accessibility (including better support for keyboard navigation).
+ * Key features are now listed on the 'Site features' page under 'General'.
+ * Webmaster Tools settings have moved to 'Site connections' page under 'General'.
+ * Open Graph settings can now be found in 'Site features' under 'General'.
+ * Adds an introduction modal with videos to quickly help you on your way.
 * Improves the link focus styles in the first time configuration.
 
 #### Other
