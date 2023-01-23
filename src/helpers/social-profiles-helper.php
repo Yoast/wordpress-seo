@@ -65,7 +65,7 @@ class Social_Profiles_Helper {
 		 */
 		$person_social_profile_fields = \apply_filters( 'wpseo_person_social_profile_fields', $this->person_social_profile_fields );
 
-		return \array_keys( $person_social_profile_fields );
+		return $person_social_profile_fields;
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Social_Profiles_Helper {
 		 */
 		$organization_social_profile_fields = \apply_filters( 'wpseo_organization_social_profile_fields', $this->organization_social_profile_fields );
 
-		return \array_keys( $organization_social_profile_fields );
+		return $organization_social_profile_fields;
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Social_Profiles_Helper {
 	 * @return array The person's social profiles.
 	 */
 	public function get_person_social_profiles( $person_id ) {
-		$social_profile_fields  = $this->get_person_social_profile_fields();
+		$social_profile_fields  = \array_keys( $this->get_person_social_profile_fields() );
 		$person_social_profiles = \array_combine( $social_profile_fields, \array_fill( 0, \count( $social_profile_fields ), '' ) );
 
 		// If no person has been selected, $person_id is set to false.
@@ -115,7 +115,7 @@ class Social_Profiles_Helper {
 	 * @return array The social profiles for the organization.
 	 */
 	public function get_organization_social_profiles() {
-		$organization_social_profiles_fields = $this->get_organization_social_profile_fields();
+		$organization_social_profiles_fields = \array_keys( $this->get_organization_social_profile_fields() );
 		$organization_social_profiles        = [];
 
 		foreach ( $organization_social_profiles_fields as $field_name ) {
@@ -159,7 +159,7 @@ class Social_Profiles_Helper {
 		// First validate all social profiles, before even attempting to save them.
 		foreach ( $person_social_profile_fields as $field_name => $validation_method ) {
 			if ( ! isset( $social_profiles[ $field_name ] ) ) {
-				$failures[] = $field_name;
+				// Just skip social profiles that were not passed.
 				continue;
 			}
 
@@ -176,7 +176,11 @@ class Social_Profiles_Helper {
 		}
 
 		// All social profiles look good, now let's try to save them.
-		foreach ( $person_social_profile_fields as $field_name => $validation_method ) {
+		foreach ( \array_keys( $person_social_profile_fields ) as $field_name ) {
+			if ( ! isset( $social_profiles[ $field_name ] ) ) {
+				// Just skip social profiles that were not passed.
+				continue;
+			}
 			$social_profiles[ $field_name ] = $this->sanitize_social_field( $social_profiles[ $field_name ] );
 			\update_user_meta( $person_id, $field_name, $social_profiles[ $field_name ] );
 		}
@@ -198,7 +202,7 @@ class Social_Profiles_Helper {
 		// First validate all social profiles, before even attempting to save them.
 		foreach ( $organization_social_profile_fields as $field_name => $validation_method ) {
 			if ( ! isset( $social_profiles[ $field_name ] ) ) {
-				$failures[] = $field_name;
+				// Just skip social profiles that were not passed.
 				continue;
 			}
 			$social_profiles[ $field_name ] = $this->sanitize_social_field( $social_profiles[ $field_name ] );
@@ -213,6 +217,11 @@ class Social_Profiles_Helper {
 
 		// All social profiles look good, now let's try to save them.
 		foreach ( \array_keys( $organization_social_profile_fields ) as $field_name ) {
+			if ( ! isset( $social_profiles[ $field_name ] ) ) {
+				// Just skip social profiles that were not passed.
+				continue;
+			}
+
 			// Remove empty strings in Other Social URLs.
 			if ( $field_name === 'other_social_urls' ) {
 				$other_social_urls = \array_filter(
