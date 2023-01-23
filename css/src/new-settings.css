@@ -105,6 +105,14 @@
 	}
 
 	.yst-root {
+		.yst-notifications {
+			max-height: calc(100% - 4rem - 32px); /* Extra 32px for the height of the WP admin bar. */
+
+			@media (max-width: 782px) {
+				max-height: calc(100% - 4rem - 48px); /* Extra 48px for the height of the mobile WP admin bar. */
+			}
+		}
+
 		.yst-notifications--bottom-left {
 			z-index: 9991; /* 1 above admin menu */
 

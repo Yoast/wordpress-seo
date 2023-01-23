@@ -116,6 +116,7 @@ class Integrations_Page implements Integration_Interface {
 		$acf_seo_github_active             = $wpseo_plugin_availability_checker->is_active( $acf_seo_file_github );
 		$acf_active                        = \class_exists( 'acf' );
 		$algolia_active                    = $wpseo_plugin_availability_checker->is_active( $algolia_file );
+		$edd_active                        = \class_exists( \Easy_Digital_Downloads::class );
 		$old_algolia_active                = $wpseo_plugin_availability_checker->is_active( $old_algolia_file );
 		$tec_active                        = \class_exists( \TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema::class );
 		$ssp_active                        = \class_exists( \SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode::class );
@@ -170,6 +171,7 @@ class Integrations_Page implements Integration_Interface {
 				'acf_seo_activate_url'               => $acf_seo_activate_url,
 				'acf_seo_install_url'                => $acf_seo_install_url,
 				'algolia_active'                     => $algolia_active || $old_algolia_active,
+				'edd_integration_active'             => $edd_active,
 				'ssp_integration_active'             => $ssp_active,
 				'tec_integration_active'             => $tec_active,
 				'wp-recipe-maker_integration_active' => $wp_recipe_maker_active,

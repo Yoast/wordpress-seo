@@ -30,6 +30,7 @@ const SiteRepresentation = () => {
 	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
+	const organizationPersonLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-organization-person" );
 	const editUserUrl = useSelectSettings( "selectPreference", [], "editUserUrl" );
 	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
@@ -54,7 +55,16 @@ const SiteRepresentation = () => {
 				<div className="yst-max-w-5xl">
 					<FieldsetLayout
 						title={ __( "Organization/person", "wordpress-seo" ) }
-						description={ __( "Choose whether your site represents an organization or a person.", "wordpress-seo" ) }
+						description={ addLinkToString(
+							sprintf(
+								// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+								__( "Choose whether your site represents an organization or a person. %1$sLearn more about the differences and choosing between Organization and Person%2$s.", "wordpress-seo" ),
+								"<a>",
+								"</a>"
+							),
+							organizationPersonLink,
+							"link-site-representation-organization-person"
+						) }
 					>
 						{ isLocalSeoActive && (
 							<Alert id="alert-local-seo-company-or-person" variant="info">
