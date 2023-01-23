@@ -82,9 +82,10 @@ const mastodonIntegration =	{
 	logoLink: "https://yoa.st/integrations-logo-mastodon",
 	slug: "mastodon",
 	description: sprintf(
-		/* translators: 1: Mastodon */
-		__( "Add trustworthiness to your %1$s profile by adding your site as a verified link.", "wordpress-seo" ),
-		"Mastodon"
+		/* translators: 1: Mastodon, 2: Yoast SEO Premium */
+		__( "Add trustworthiness to your %1$s profile by verifying your site with Yoast SEO Premium.", "wordpress-seo" ),
+		"Mastodon",
+		"Yoast SEO Premium"
 	),
 	isPremium: true,
 	isNew: true,
