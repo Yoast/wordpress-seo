@@ -153,4 +153,19 @@ class Post_Type_Helper {
 		// `array_values`, to make sure that the keys are reset.
 		return \array_values( \array_diff( $public_post_types, $excluded_post_types ) );
 	}
+
+	/**
+	 * Returns an array of complete post type objects for all indexable post types.
+	 *
+	 * @return array List of indexable post type objects.
+	 */
+	public function get_indexable_post_type_objects() {
+		$post_type_objects    = [];
+		$indexable_post_types = $this->get_indexable_post_types();
+		foreach ( $indexable_post_types as $post_type ) {
+			$post_type_objects[] = \get_post_type_object( $post_type );
+		}
+
+		return $post_type_objects;
+	}
 }

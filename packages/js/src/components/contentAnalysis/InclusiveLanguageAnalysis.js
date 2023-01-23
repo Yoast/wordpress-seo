@@ -160,7 +160,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		return (
 			<Collapsible
 				title={ __( "Inclusive language", "wordpress-seo" ) }
-				titleScreenReaderText={ inclusiveLanguageScore.screenReaderReadabilityText }
+				titleScreenReaderText={ inclusiveLanguageScore.screenReaderInclusiveLanguageText }
 				prefixIcon={ getIconForScore( inclusiveLanguageScore.className ) }
 				prefixIconCollapsed={ getIconForScore( inclusiveLanguageScore.className ) }
 				id={ "yoast-inclusive-language-analysis-collapsible-sidebar" }
