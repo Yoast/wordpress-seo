@@ -382,7 +382,10 @@ class Settings_Integration implements Integration_Interface {
 		// Check if attachments are included in indexation.
 		if ( ! \array_key_exists( 'attachment', $post_types ) ) {
 			// Always include attachments in the settings, to let the user enable them again.
-			$post_types['attachment'] = \get_post_type_object( 'attachment' );
+			$attachment_object = \get_post_type_object( 'attachment' );
+			if ( ! empty( $attachment_object ) ) {
+				$post_types['attachment'] = $attachment_object;
+			}
 		}
 
 		$transformed_post_types = $this->transform_post_types( $post_types );
