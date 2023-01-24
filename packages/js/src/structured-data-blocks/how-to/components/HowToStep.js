@@ -5,7 +5,7 @@ import appendSpace from "../../../components/higherorder/appendSpace";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
 import { Component } from "@wordpress/element";
-import { IconButton } from "@wordpress/components";
+import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 const RichTextWithAppendedSpace = appendSpace( RichText );
@@ -146,13 +146,13 @@ export default class HowToStep extends Component {
 	 */
 	getMediaUploadButton( props ) {
 		return (
-			<IconButton
+			<Button
 				className="schema-how-to-step-button how-to-step-add-media"
 				icon="insert"
 				onClick={ props.open }
 			>
 				{ __( "Add image", "wordpress-seo" ) }
-			</IconButton>
+			</Button>
 		);
 	}
 
@@ -175,13 +175,13 @@ export default class HowToStep extends Component {
 				render={ this.getMediaUploadButton }
 			/>
 			}
-			<IconButton
+			<Button
 				className="schema-how-to-step-button"
 				icon="trash"
 				label={ __( "Delete step", "wordpress-seo" ) }
 				onClick={ this.onRemoveStep }
 			/>
-			<IconButton
+			<Button
 				className="schema-how-to-step-button"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
@@ -197,14 +197,14 @@ export default class HowToStep extends Component {
 	 */
 	getMover() {
 		return <div className="schema-how-to-step-mover">
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveStepUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move step up", "wordpress-seo" ) }
 				aria-disabled={ this.props.isFirst }
 			/>
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveStepDown }
 				icon="arrow-down-alt2"
@@ -332,7 +332,7 @@ export default class HowToStep extends Component {
 					onChange={ this.onChangeTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusTitle }
-					formattingControls={ [ "italic", "strikethrough", "link" ] }
+					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link" ] }
 				/>
 				<RichTextWithAppendedSpace
 					className="schema-how-to-step-text"

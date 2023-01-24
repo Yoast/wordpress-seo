@@ -163,7 +163,10 @@ class Post_Type_Helper {
 		$post_type_objects    = [];
 		$indexable_post_types = $this->get_indexable_post_types();
 		foreach ( $indexable_post_types as $post_type ) {
-			$post_type_objects[] = \get_post_type_object( $post_type );
+			$post_type_object = \get_post_type_object( $post_type );
+			if ( ! empty( $post_type_object ) ) {
+				$post_type_objects[ $post_type ] = $post_type_object;
+			}
 		}
 
 		return $post_type_objects;

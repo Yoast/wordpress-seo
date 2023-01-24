@@ -1,7 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { PropTypes } from "prop-types";
 import { Title  } from "@yoast/ui-library";
-import { SEOToolsIntegrations } from "./seo-tools-integrations";
+import { OtherIntegrations } from "./other-integrations";
 import { pluginIntegrations } from "./plugin-integrations";
 import { schemaAPIIntegrations } from "./schema-api-integrations";
 import { RecommendedIntegrations } from "./recommended-integrations";
@@ -102,7 +102,7 @@ export default function IntegrationsGrid() {
 
 				<Section
 					title={ __( "Other integrations", "wordpress-seo" ) }
-					elements={ SEOToolsIntegrations }
+					elements={ OtherIntegrations }
 				/>
 
 			</div>
