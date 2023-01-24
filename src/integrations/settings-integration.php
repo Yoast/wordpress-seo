@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use Exception;
 use WP_Post_Type;
 use WP_Taxonomy;
 use WPSEO_Admin_Asset_Manager;
@@ -12,15 +13,18 @@ use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
+use Yoast_Notification_Center;
+use Yoast\WP\SEO\Actions\Settings_Introduction_Action;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 
 /**
  * Class Settings_Integration.
@@ -119,6 +123,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $post_type_helper;
 
 	/**
+	 * Holds the Language_Helper.
+	 *
+	 * @var Language_Helper
+	 */
+	protected $language_helper;
+
+	/**
 	 * Holds the Taxonomy_Helper.
 	 *
 	 * @var Taxonomy_Helper
@@ -147,25 +158,34 @@ class Settings_Integration implements Integration_Interface {
 	protected $article_helper;
 
 	/**
-	 * Holds the Social_Profiles_Helper.
+	 * Holds the User_Helper.
 	 *
-	 * @var Social_Profiles_Helper
+	 * @var User_Helper
 	 */
-	protected $social_profiles_helper;
+	protected $user_helper;
+
+	/**
+	 * Holds the Settings_Introduction_Action.
+	 *
+	 * @var Settings_Introduction_Action
+	 */
+	protected $settings_introduction_action;
 
 	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager          The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars        $replace_vars           The WPSEO_Replace_Vars.
-	 * @param Schema_Types              $schema_types           The Schema_Types.
-	 * @param Current_Page_Helper       $current_page_helper    The Current_Page_Helper.
-	 * @param Post_Type_Helper          $post_type_helper       The Post_Type_Helper.
-	 * @param Taxonomy_Helper           $taxonomy_helper        The Taxonomy_Helper.
-	 * @param Product_Helper            $product_helper         The Product_Helper.
-	 * @param Woocommerce_Helper        $woocommerce_helper     The Woocommerce_Helper.
-	 * @param Article_Helper            $article_helper         The Article_Helper.
-	 * @param Social_Profiles_Helper    $social_profiles_helper The Social_Profiles_Helper.
+	 * @param WPSEO_Admin_Asset_Manager    $asset_manager                The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars           $replace_vars                 The WPSEO_Replace_Vars.
+	 * @param Schema_Types                 $schema_types                 The Schema_Types.
+	 * @param Current_Page_Helper          $current_page_helper          The Current_Page_Helper.
+	 * @param Post_Type_Helper             $post_type_helper             The Post_Type_Helper.
+	 * @param Language_Helper              $language_helper              The Language_Helper.
+	 * @param Taxonomy_Helper              $taxonomy_helper              The Taxonomy_Helper.
+	 * @param Product_Helper               $product_helper               The Product_Helper.
+	 * @param Woocommerce_Helper           $woocommerce_helper           The Woocommerce_Helper.
+	 * @param Article_Helper               $article_helper               The Article_Helper.
+	 * @param User_Helper                  $user_helper                  The User_Helper.
+	 * @param Settings_Introduction_Action $settings_introduction_action The Settings_Introduction_Action.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -173,22 +193,26 @@ class Settings_Integration implements Integration_Interface {
 		Schema_Types $schema_types,
 		Current_Page_Helper $current_page_helper,
 		Post_Type_Helper $post_type_helper,
+		Language_Helper $language_helper,
 		Taxonomy_Helper $taxonomy_helper,
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
-		Social_Profiles_Helper $social_profiles_helper
+		User_Helper $user_helper,
+		Settings_Introduction_Action $settings_introduction_action
 	) {
-		$this->asset_manager          = $asset_manager;
-		$this->replace_vars           = $replace_vars;
-		$this->schema_types           = $schema_types;
-		$this->current_page_helper    = $current_page_helper;
-		$this->taxonomy_helper        = $taxonomy_helper;
-		$this->post_type_helper       = $post_type_helper;
-		$this->product_helper         = $product_helper;
-		$this->woocommerce_helper     = $woocommerce_helper;
-		$this->article_helper         = $article_helper;
-		$this->social_profiles_helper = $social_profiles_helper;
+		$this->asset_manager                = $asset_manager;
+		$this->replace_vars                 = $replace_vars;
+		$this->schema_types                 = $schema_types;
+		$this->current_page_helper          = $current_page_helper;
+		$this->taxonomy_helper              = $taxonomy_helper;
+		$this->post_type_helper             = $post_type_helper;
+		$this->language_helper              = $language_helper;
+		$this->product_helper               = $product_helper;
+		$this->woocommerce_helper           = $woocommerce_helper;
+		$this->article_helper               = $article_helper;
+		$this->user_helper                  = $user_helper;
+		$this->settings_introduction_action = $settings_introduction_action;
 	}
 
 	/**
@@ -232,6 +256,10 @@ class Settings_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
+
+			// Remove the post types and taxonomies made public notifications (if any).
+			$this->remove_post_types_made_public_notification();
+			$this->remove_taxonomies_made_public_notification();
 		}
 	}
 
@@ -348,9 +376,11 @@ class Settings_Integration implements Integration_Interface {
 	protected function get_script_data() {
 		$default_setting_values = $this->get_default_setting_values();
 		$settings               = $this->get_settings( $default_setting_values );
-		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
-		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
+		$post_types             = $this->post_type_helper->get_indexable_post_type_objects();
+		$taxonomies             = $this->taxonomy_helper->get_indexable_taxonomy_objects();
+
 		$transformed_post_types = $this->transform_post_types( $post_types );
+		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
 		return [
 			'settings'             => $this->transform_settings( $settings ),
@@ -361,20 +391,23 @@ class Settings_Integration implements Integration_Interface {
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => $this->get_schema( $transformed_post_types ),
-			'preferences'          => $this->get_preferences(),
+			'preferences'          => $this->get_preferences( $settings ),
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $transformed_post_types,
-			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
+			'taxonomies'           => $transformed_taxonomies,
 			'fallbacks'            => $this->get_fallbacks(),
+			'introduction'         => $this->get_introduction_data(),
 		];
 	}
 
 	/**
 	 * Retrieves the preferences.
 	 *
+	 * @param array $settings The settings.
+	 *
 	 * @return array The preferences.
 	 */
-	protected function get_preferences() {
+	protected function get_preferences( $settings ) {
 		$shop_page_id             = $this->woocommerce_helper->get_shop_page_id();
 		$homepage_is_latest_posts = \get_option( 'show_on_front' ) === 'posts';
 		$page_on_front            = \get_option( 'page_on_front' );
@@ -412,8 +445,51 @@ class Settings_Integration implements Integration_Interface {
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
 			'upsellSettings'                => $this->get_upsell_settings(),
-			'supportedPersonSocialProfiles' => $this->social_profiles_helper->get_supported_person_social_profile_fields(),
+			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 		];
+	}
+
+	/**
+	 * Retrieves the preferences.
+	 *
+	 * @return array The preferences.
+	 */
+	protected function get_introduction_data() {
+		$data = [];
+
+		try {
+			$data['wistiaEmbedPermission'] = $this->settings_introduction_action->get_wistia_embed_permission();
+			$data['show']                  = $this->settings_introduction_action->get_show();
+		} catch ( Exception $exception ) {
+			$data['wistiaEmbedPermission'] = false;
+			$data['show']                  = true;
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Retrieves the currently represented person.
+	 *
+	 * @param array $settings The settings.
+	 *
+	 * @return array The currently represented person's ID and name.
+	 */
+	protected function get_site_represents_person( $settings ) {
+		$person = [
+			'id'   => false,
+			'name' => '',
+		];
+
+		if ( isset( $settings['wpseo_titles']['company_or_person_user_id'] ) ) {
+			$person['id'] = $settings['wpseo_titles']['company_or_person_user_id'];
+			$user         = \get_userdata( $person['id'] );
+			if ( $user instanceof \WP_User ) {
+				$person['name'] = $user->get( 'display_name' );
+			}
+		}
+
+		return $person;
 	}
 
 	/**
@@ -450,8 +526,6 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( self::WP_OPTIONS as $option_name ) {
 			$defaults[ $option_name ] = '';
 		}
-		// Add person social profiles.
-		$defaults['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( false );
 
 		// Remove disallowed settings.
 		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {
@@ -483,9 +557,6 @@ class Settings_Integration implements Integration_Interface {
 		foreach ( self::WP_OPTIONS as $option_name ) {
 			$settings[ $option_name ] = \get_option( $option_name );
 		}
-		// Add person social profiles.
-		$person_id                          = ( $settings['wpseo_titles']['company_or_person'] === 'person' ) ? $settings['wpseo_titles']['company_or_person_user_id'] : false;
-		$settings['person_social_profiles'] = $this->social_profiles_helper->get_person_social_profiles( $person_id );
 
 		// Remove disallowed settings.
 		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {
@@ -538,6 +609,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function get_disabled_settings( $settings ) {
 		$disabled_settings = [];
+		$site_language     = $this->language_helper->get_language();
 
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
 			if ( ! \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
@@ -565,6 +637,10 @@ class Settings_Integration implements Integration_Interface {
 					}
 				}
 			}
+		}
+
+		if ( \array_key_exists( 'wpseo', $disabled_settings ) && ! $this->language_helper->has_inclusive_language_support( $site_language ) ) {
+			$disabled_settings['wpseo']['inclusive_language_analysis_active'] = 'language';
 		}
 
 		return $disabled_settings;
@@ -631,8 +707,8 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_post_types( $post_types ) {
 		$transformed = [];
-		foreach ( $post_types as $name => $post_type ) {
-			$transformed[ $name ] = [
+		foreach ( $post_types as $index => $post_type ) {
+			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
 				'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
 				'label'                => $post_type->label,
@@ -682,8 +758,8 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
 		$transformed = [];
-		foreach ( $taxonomies as $name => $taxonomy ) {
-			$transformed[ $name ] = [
+		foreach ( $taxonomies as $index => $taxonomy ) {
+			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
@@ -749,5 +825,25 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'siteLogoId' => $site_logo_id,
 		];
+	}
+
+	/**
+	 * Removes the notification related to the post types which have been made public.
+	 *
+	 * @return void
+	 */
+	private function remove_post_types_made_public_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'post-types-made-public' );
+	}
+
+	/**
+	 * Removes the notification related to the taxonomies which have been made public.
+	 *
+	 * @return void
+	 */
+	private function remove_taxonomies_made_public_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'taxonomies-made-public' );
 	}
 }

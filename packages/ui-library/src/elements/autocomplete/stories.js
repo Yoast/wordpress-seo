@@ -1,14 +1,14 @@
 import { useCallback, useMemo, useState } from "@wordpress/element";
-import { filter, find, includes, toLower } from "lodash";
-
-import Autocomplete from ".";
+import { filter, find, includes, toLower, noop, map } from "lodash";
+import Autocomplete, { StoryComponent } from ".";
+import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
-	title: "1. Elements/Autocomplete",
-	component: Autocomplete,
+	title: "1) Elements/Autocomplete",
+	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
-		as: { options: [ "span", "div" ] },
+		labelSuffix: { control: "text" },
 	},
 	parameters: {
 		docs: {
@@ -46,10 +46,10 @@ const Template = ( args ) => {
 	return (
 		// Min height to make room for options dropdown.
 		<div style={ { minHeight: 200 } }>
-			<Autocomplete
+			<StoryComponent
+				selectedLabel={ selectedOption?.label || "" }
 				{ ...args }
 				value={ value }
-				selectedLabel={ selectedOption?.label || "" }
 				onChange={ handleChange }
 				onQueryChange={ handleQueryChange }
 			>
@@ -58,7 +58,7 @@ const Template = ( args ) => {
 						{ option.label }
 					</Autocomplete.Option>
 				) ) }
-			</Autocomplete>
+			</StoryComponent>
 		</div>
 	);
 };
@@ -68,5 +68,78 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	id: "autocomplete",
+	id: "factory",
+	value: "",
+	placeholder: "Type to autocomplete options",
 };
+
+export const WithLabel = Template.bind( {} );
+
+WithLabel.parameters = {
+	controls: { disable: false },
+	docs: { description: { story: "An example with a label using `label` prop." } },
+};
+
+WithLabel.args = {
+	id: "with-label",
+	value: "",
+	label: "Example label",
+};
+
+export const WithPlaceholder = Template.bind( {} );
+
+WithPlaceholder.parameters = {
+	controls: { disable: false },
+	docs: { description: { story: "An example with placeholder using `placeholder` prop." } },
+};
+
+WithPlaceholder.args = {
+	id: "with-placeholder",
+	value: "",
+	placeholder: "Search a value...",
+};
+
+export const WithSelectedLabel = Template.bind( {} );
+
+WithSelectedLabel.parameters = {
+	controls: { disable: false },
+	docs: { description: { story: "An example with default value using `selectedLabel` prop." } },
+};
+
+WithSelectedLabel.args = {
+	value: "option-1",
+	id: "selected-label",
+	selectedLabel: "Option 1",
+};
+
+export const Validation = () => (
+	<div className="yst-space-y-8">
+		{ map( VALIDATION_VARIANTS, variant => (
+			<StoryComponent
+				key={ variant }
+				id={ `validation-${ variant }` }
+				name={ `validation-${ variant }` }
+				label={ `With validation of variant ${ variant }` }
+				value="1"
+				selectedLabel="The quick brown fox jumps over the lazy dog"
+				onChange={ noop }
+				onQueryChange={ noop }
+				options={ [
+					{ value: "1", label: "Option 1" },
+					{ value: "2", label: "Option 2" },
+					{ value: "3", label: "Option 3" },
+					{ value: "4", label: "Option 4" },
+				] }
+				validation={ {
+					variant,
+					message: {
+						success: "Looks like you are nailing it!",
+						warning: "Looks like you could do better!",
+						info: <>Looks like you could use some <a href="https://yoast.com" target="_blank" rel="noreferrer">more info</a>!</>,
+						error: "Looks like you are doing it wrong!",
+					}[ variant ],
+				} }
+			/>
+		) ) }
+	</div>
+);

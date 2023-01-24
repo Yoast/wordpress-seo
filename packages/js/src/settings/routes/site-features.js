@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
-import { ArrowNarrowRightIcon, LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon, ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Button, Card, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Card, Link, Title, ToggleField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { get } from "lodash";
@@ -32,10 +32,11 @@ const FeatureCard = ( {
 	isPremiumFeature = false,
 	isPremiumLink = "",
 	isBetaFeature = false,
+	title,
 } ) => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const imageSrc = useSelectSettings( "selectPluginUrl", [ rawImageSrc ], rawImageSrc );
-	const { isDisabled, message } = useDisabledMessage( { name } );
+	const { isDisabled, message, disabledSetting } = useDisabledMessage( { name } );
 	const { values } = useFormikContext();
 	const isPremiumHref = useSelectSettings( "selectLink", [ isPremiumLink ], isPremiumLink );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
@@ -57,7 +58,7 @@ const FeatureCard = ( {
 						shouldDimHeaderImage && "yst-opacity-50 yst-filter yst-grayscale"
 					) }
 					src={ imageSrc }
-					alt={ imageAlt }
+					alt={ imageAlt ?? "" }
 					width={ 500 }
 					height={ 250 }
 					loading="lazy"
@@ -72,6 +73,7 @@ const FeatureCard = ( {
 				) }
 			</Card.Header>
 			<Card.Content className="yst-flex yst-flex-col yst-gap-3">
+				<Title as="h3">{ title }</Title>
 				{ children }
 			</Card.Content>
 			<Card.Footer>
@@ -80,8 +82,10 @@ const FeatureCard = ( {
 					type="checkbox"
 					name={ name }
 					id={ inputId }
+					aria-label={ `${ __( "Enable feature", "wordpress-seo" ) } ${ title }` }
 					label={ __( "Enable feature", "wordpress-seo" ) }
 					disabled={ isDisabled }
+					checked={ disabledSetting === "language" ? false : value }
 				/> }
 				{ shouldUpsell && (
 					<Button
@@ -112,10 +116,11 @@ FeatureCard.propTypes = {
 	inputId: PropTypes.string.isRequired,
 	children: PropTypes.node.isRequired,
 	imageSrc: PropTypes.string.isRequired,
-	imageAlt: PropTypes.string.isRequired,
+	imageAlt: PropTypes.string,
 	isPremiumFeature: PropTypes.bool,
 	isBetaFeature: PropTypes.bool,
 	isPremiumLink: PropTypes.string,
+	title: PropTypes.string.isRequired,
 };
 
 /**
@@ -123,27 +128,31 @@ FeatureCard.propTypes = {
  * @param {string} href The link.
  * @returns {JSX.Element} The learn more link.
  */
-const LearnMoreLink = ( { id, link } ) => {
+const LearnMoreLink = ( { id, link, ariaLabel, ...props } ) => {
 	const href = useSelectSettings( "selectLink", [ link ], link );
 
 	return (
 		// eslint-disable-next-line react/jsx-no-target-blank
-		<a
+		<Link
 			id={ id }
 			href={ href }
-			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium yst-text-primary-500 hover:yst-text-primary-400"
+			variant="primary"
+			className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-font-medium"
 			target="_blank"
 			rel="noopener"
+			aria-label={ `Learn more about ${ ariaLabel } (Opens in a new browser tab)` }
+			{ ...props }
 		>
 			{ __( "Learn more", "wordpress-seo" ) }
-			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4" />
-		</a>
+			<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl" />
+		</Link>
 	);
 };
 
 LearnMoreLink.propTypes = {
 	id: PropTypes.string.isRequired,
 	link: PropTypes.string.isRequired,
+	ariaLabel: PropTypes.string.isRequired,
 };
 
 /**
@@ -185,55 +194,41 @@ const SiteFeatures = () => {
 								cardId="card-wpseo-keyword_analysis_active"
 								inputId="input-wpseo-keyword_analysis_active"
 								imageSrc="/images/seo_analysis.png"
-								imageAlt={ __( "SEO analysis", "wordpress-seo" ) }
+								title={ __( "SEO analysis", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "SEO analysis", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "The SEO analysis offers suggestions to improve the findability of your text and makes sure that your content meets best practices.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-seo-analysis" link="https://yoa.st/2ak" />
+								<LearnMoreLink id="link-seo-analysis" link="https://yoa.st/2ak" ariaLabel={ __( "SEO analysis", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.content_analysis_active"
 								cardId="card-wpseo-content_analysis_active"
 								inputId="input-wpseo-content_analysis_active"
 								imageSrc="/images/readability_analysis.png"
-								imageAlt={ __( "Readability analysis", "wordpress-seo" ) }
+								title={ __( "Readability analysis", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Readability analysis", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "The readability analysis offers suggestions to improve the structure and style of your text.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-readability-analysis" link="https://yoa.st/2ao" />
+								<LearnMoreLink id="link-readability-analysis" link="https://yoa.st/2ao" ariaLabel={ __( "Readability analysis", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.inclusive_language_analysis_active"
 								cardId="card-wpseo-inclusive_language_analysis_active"
 								inputId="input-wpseo-inclusive_language_analysis_active"
 								imageSrc="/images/inclusive_language_analysis.png"
-								imageAlt={ __( "Inclusive language analysis", "wordpress-seo" ) }
-								isPremiumFeature={ true }
-								isPremiumLink="https://yoa.st/get-inclusive-language"
 								isBetaFeature={ true }
+								title={ __( "Inclusive language analysis", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Inclusive language analysis", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-analysis" />
+								<LearnMoreLink id="link-inclusive-language-analysis" link="https://yoa.st/inclusive-language-feature-learn-more" ariaLabel={  __( "Inclusive language analysis", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_metabox_insights"
 								cardId="card-wpseo-enable_metabox_insights"
 								inputId="input-wpseo-enable_metabox_insights"
 								imageSrc="/images/insights.png"
-								imageAlt={ __( "Insights", "wordpress-seo" ) }
+								title={ __( "Insights", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Insights", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "Get more insights into what you are writing. What words do you use most often? How much time does it take to read your text? Is your text easy to read?", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-insights" link="https://yoa.st/4ew" />
+								<LearnMoreLink id="link-insights" link="https://yoa.st/4ew" ariaLabel={ __( "Insights", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>
@@ -251,41 +246,32 @@ const SiteFeatures = () => {
 								cardId="card-wpseo-enable_cornerstone_content"
 								inputId="input-wpseo-enable_cornerstone_content"
 								imageSrc="/images/cornerstone_content.png"
-								imageAlt={ __( "Cornerstone content", "wordpress-seo" ) }
+								title={ __( "Cornerstone content", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Cornerstone content", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "Mark and filter your cornerstone content to make sure your most important articles get the attention they deserve. To help you write excellent copy, we’ll assess your text more strictly.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-cornerstone-content" link="https://yoa.st/dashboard-help-cornerstone" />
+								<LearnMoreLink id="link-cornerstone-content" link="https://yoa.st/dashboard-help-cornerstone" ariaLabel={  __( "Cornerstone content", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_text_link_counter"
 								cardId="card-wpseo-enable_text_link_counter"
 								inputId="input-wpseo-enable_text_link_counter"
 								imageSrc="/images/text_link_counter.png"
-								imageAlt={ __( "Text link counter", "wordpress-seo" ) }
+								title={ __( "Text link counter", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Text link counter", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "Count the number of internal links from and to your posts to improve your site structure.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-text-link-counter" link="https://yoa.st/2aj" />
+								<LearnMoreLink id="link-text-link-counter" link="https://yoa.st/2aj" ariaLabel={ __( "Text link counter", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_link_suggestions"
 								cardId="card-wpseo-enable_link_suggestions"
 								inputId="input-wpseo-enable_link_suggestions"
 								imageSrc="/images/link_suggestions.png"
-								imageAlt={ __( "Link suggestions", "wordpress-seo" ) }
 								isPremiumFeature={ true }
 								isPremiumLink="https://yoa.st/get-link-suggestions"
+								title={ __( "Link suggestions", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Link suggestions", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "Get recommendations for relevant posts to link to and set up a great internal linking structure by connecting related content.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-suggestions-link" link={ isPremium ? "https://yoa.st/17g" : "https://yoa.st/4ev" } />
+								<LearnMoreLink id="link-suggestions-link" link={ isPremium ? "https://yoa.st/17g" : "https://yoa.st/4ev" } ariaLabel={ __( "Link suggestions", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>
@@ -303,41 +289,32 @@ const SiteFeatures = () => {
 								cardId="card-wpseo_social-opengraph"
 								inputId="input-wpseo_social-opengraph"
 								imageSrc="/images/open_graph.png"
-								imageAlt={ __( "Open Graph data", "wordpress-seo" ) }
+								title={ __( "Open Graph data", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Open Graph data", "wordpress-seo" ) }
-								</Title>
 								<p>
 									{ __( "Allows for Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared. Keep this feature enabled to optimize your site for social media.", "wordpress-seo" ) }
 								</p>
-								<LearnMoreLink id="link-open-graph-data" link="https://yoa.st/site-features-open-graph-data" />
+								<LearnMoreLink id="link-open-graph-data" link="https://yoa.st/site-features-open-graph-data" ariaLabel={ __( "Open Graph data", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo_social.twitter"
 								cardId="card-wpseo_social-twitter"
 								inputId="input-wpseo_social-twitter"
 								imageSrc="/images/twitter_card.png"
-								imageAlt={ __( "Twitter card data", "wordpress-seo" ) }
+								title={ __( "Twitter card data", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Twitter card data", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "Allows for Twitter to display a preview with images and a text excerpt when a link to your site is shared.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-twitter-card-data" link="https://yoa.st/site-features-twitter-card-data" />
+								<LearnMoreLink id="link-twitter-card-data" link="https://yoa.st/site-features-twitter-card-data" ariaLabel={ __( "Twitter card data", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_enhanced_slack_sharing"
 								cardId="card-wpseo-enable_enhanced_slack_sharing"
 								inputId="input-wpseo-enable_enhanced_slack_sharing"
 								imageSrc="/images/slack_sharing.png"
-								imageAlt={ __( "Slack sharing", "wordpress-seo" ) }
+								title={ __( "Slack sharing", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Slack sharing", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-slack-sharing" link="https://yoa.st/help-slack-share" />
+								<LearnMoreLink id="link-slack-sharing" link="https://yoa.st/help-slack-share" ariaLabel={ __( "Slack sharing", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>
@@ -355,11 +332,8 @@ const SiteFeatures = () => {
 								cardId="card-wpseo-enable_admin_bar_menu"
 								inputId="input-wpseo-enable_admin_bar_menu"
 								imageSrc="/images/admin_bar.png"
-								imageAlt={ __( "Admin bar menu", "wordpress-seo" ) }
+								title={ __( "Admin bar menu", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "Admin bar menu", "wordpress-seo" ) }
-								</Title>
 								<p>
 									{ sprintf(
 										// translators: %1$s expands to Yoast.
@@ -367,7 +341,7 @@ const SiteFeatures = () => {
 										"Yoast"
 									) }
 								</p>
-								<LearnMoreLink id="link-admin-bar" link="https://yoa.st/site-features-admin-bar" />
+								<LearnMoreLink id="link-admin-bar" link="https://yoa.st/site-features-admin-bar" ariaLabel={ __( "Admin bar menu", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>
@@ -385,24 +359,18 @@ const SiteFeatures = () => {
 								cardId="card-wpseo-enable_headless_rest_endpoints"
 								inputId="input-wpseo-enable_headless_rest_endpoints"
 								imageSrc="/images/rest_api.png"
-								imageAlt={ __( "REST API endpoint", "wordpress-seo" ) }
+								title={ __( "REST API endpoint", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "REST API endpoint", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "This Yoast SEO REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use Yoast SEO for all their SEO meta output.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-rest-api-endpoint" link="https://yoa.st/site-features-rest-api-endpoint" />
+								<LearnMoreLink id="link-rest-api-endpoint" link="https://yoa.st/site-features-rest-api-endpoint" ariaLabel={ __( "REST API endpoint", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_xml_sitemap"
 								cardId="card-wpseo-enable_xml_sitemap"
 								inputId="input-wpseo-enable_xml_sitemap"
 								imageSrc="/images/xml_sitemaps.png"
-								imageAlt={ __( "XML sitemaps", "wordpress-seo" ) }
+								title={ __( "XML sitemaps", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "XML sitemaps", "wordpress-seo" ) }
-								</Title>
 								<p>
 									{ sprintf(
 										// translators: %1$s expands to "Yoast SEO".
@@ -422,22 +390,19 @@ const SiteFeatures = () => {
 									{ __( "View the XML sitemap", "wordpress-seo" ) }
 									<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-slate-400" />
 								</Button> }
-								<LearnMoreLink id="link-xml-sitemaps" link="https://yoa.st/2a-" />
+								<LearnMoreLink id="link-xml-sitemaps-learn-more" link="https://yoa.st/2a-" ariaLabel={ __( "XML sitemaps", "wordpress-seo" ) } />
 							</FeatureCard>
 							<FeatureCard
 								name="wpseo.enable_index_now"
 								cardId="card-wpseo-enable_index_now"
 								inputId="input-wpseo-enable_index_now"
 								imageSrc="/images/indexnow.png"
-								imageAlt={ __( "IndexNow", "wordpress-seo" ) }
 								isPremiumFeature={ true }
 								isPremiumLink="https://yoa.st/get-indexnow"
+								title={ __( "IndexNow", "wordpress-seo" ) }
 							>
-								<Title as="h3">
-									{ __( "IndexNow", "wordpress-seo" ) }
-								</Title>
 								<p>{ __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.", "wordpress-seo" ) }</p>
-								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" />
+								<LearnMoreLink id="link-index-now" link="https://yoa.st/index-now-feature" ariaLabel={ __( "IndexNow", "wordpress-seo" ) } />
 							</FeatureCard>
 						</div>
 					</fieldset>

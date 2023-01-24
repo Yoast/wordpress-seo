@@ -25,7 +25,7 @@ const MediaPages = () => {
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
 	const pageTypes = useSelectSettings( "selectPageTypeValuesFor", [ name ], name );
-	const thinContentProblemsInfoLink = useSelectSettings( "selectLink", [], "https://yoast.com/features/redirect-attachment-urls" );
+	const thinContentProblemsInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/media-pages-thin-content" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const { values } = useFormikContext();
@@ -77,7 +77,7 @@ const MediaPages = () => {
 							) }
 							description={ sprintf(
 								// translators: %1$s expands to "media".
-								__( "We recommend disabling %1$s pages. Disabling %1$s pages will cause all attachment URLs to redirect to the media itself.", "wordpress-seo" ),
+								__( "We recommend keeping %1$s pages disabled. This will cause all attachment URLs to be redirected to the media itself.", "wordpress-seo" ),
 								labelLower
 							) }
 							className="yst-max-w-sm"
@@ -158,6 +158,7 @@ const MediaPages = () => {
 							label={ __( "Page type", "wordpress-seo" ) }
 							options={ pageTypes }
 							disabled={ isAttachmentPagesDisabled }
+							className="yst-max-w-sm"
 						/>
 						{ hasSchemaArticleType && <FormikValueChangeField
 							as={ SelectField }
@@ -167,6 +168,7 @@ const MediaPages = () => {
 							label={ __( "Article type", "wordpress-seo" ) }
 							options={ articleTypes }
 							disabled={ isAttachmentPagesDisabled }
+							className="yst-max-w-sm"
 						/> }
 					</FieldsetLayout>
 					<hr className="yst-my-8" />

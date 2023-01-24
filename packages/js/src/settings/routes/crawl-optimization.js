@@ -6,10 +6,12 @@ import { Alert, Button, Code, TextField, ToggleField, useSvgAria } from "@yoast/
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
-import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
+import { withDisabledMessageSupport, withFormikDummyField, withFormikError } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikFieldWithDummy = withFormikDummyField( Field );
+const FormikFieldWithDummyAndError = withFormikError( FormikFieldWithDummy );
+
 const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
 const FormikValueChangeFieldWithDummy = withFormikDummyField( withDisabledMessageSupport( FormikValueChangeField ) );
 
@@ -162,6 +164,20 @@ const CrawlOptimization = () => {
 		} ),
 
 		// Internal site search cleanup.
+		redirectSearchPrettyUrls: createInterpolateElement(
+			sprintf(
+				/* translators: %1$s, %2$s and %3$s expand to example parts of a URL, surrounded by <code> tags. */
+				__( "Consolidates WordPress' multiple site search URL formats into the %1$s syntax. E.g., %2$s will redirect to %3$s", "wordpress-seo" ),
+				"<code1/>",
+				"<code2/>",
+				"<code3/>"
+			),
+			{
+				code1: <Code>?s=</Code>,
+				code2: <Code variant="block">https://www.example.com/search/cats</Code>,
+				code3: <Code variant="block">https://www.example.com/?s=cats</Code>,
+			}
+		),
 		denySearchCrawling: createInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s expand to example parts of a URL, surrounded by <code> tags. */
@@ -235,15 +251,15 @@ const CrawlOptimization = () => {
 				 * %1$s expands to `<code>unknown_parameter</code>`.
 				 * %2$s and %3$s both expand to an example within a <code> tag.
 				 */
-				__( "Prevents specific URL parameters from being removed by the above feature. E.g., adding %1$s will prevent %2$s from being redirected to %3$s", "wordpress-seo" ),
+				__( "Prevents specific URL parameters from being removed by the above feature. E.g., adding %1$s will prevent %2$s from being redirected to %3$s. You can add multiple parameters and separate them by using enter or a comma.", "wordpress-seo" ),
 				"<code1/>",
 				"<code2/>",
 				"<code3/>"
 			),
 			{
 				code1: <Code>unknown_parameter</Code>,
-				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
-				code3: <Code variant="block">https://www.example.com</Code>,
+				code2: <Code>https://www.example.com/?unknown_parameter=yes</Code>,
+				code3: <Code>https://www.example.com</Code>,
 			}
 		),
 	} ), [] );
@@ -564,13 +580,13 @@ const CrawlOptimization = () => {
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
-						<FormikFieldWithDummy
+						<FormikFieldWithDummyAndError
 							as={ TextField }
-							type="text"
+							type="number"
 							name="wpseo.search_character_limit"
 							id="input-wpseo-search_character_limit"
 							label={ __( "Max number of characters to allow in searches", "wordpress-seo" ) }
-							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs.", "wordpress-seo" ) }
+							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs. Please enter a number between 1 and 50.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
 							isDummy={ ! isPremium }
 						/>
@@ -595,6 +611,16 @@ const CrawlOptimization = () => {
 							description={ __( "Block internal site searches which match the patterns of known spam attacks.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
 							checked={ searchCleanup && searchCleanupPatterns }
+							isDummy={ ! isPremium }
+							className="yst-max-w-2xl"
+						/>
+						<FormikValueChangeFieldWithDummy
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.redirect_search_pretty_urls"
+							id="input-wpseo-redirect_search_pretty_urls"
+							label={ __( "Redirect pretty URLs to ‘raw’ formats", "wordpress-seo" ) }
+							description={ descriptions.redirectSearchPrettyUrls }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>

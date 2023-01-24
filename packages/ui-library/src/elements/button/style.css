@@ -20,7 +20,14 @@
 			focus:yst-outline-none
 			focus:yst-ring-2
 			focus:yst-ring-offset-2
-			focus:yst-ring-primary-500
+			focus:yst-ring-primary-500;
+		}
+
+		/* Special styling for buttons rendered `as` "a" (to override anchor defaults). */
+		a.yst-button {
+			@apply
+			focus:yst-ring-offset-white
+			focus:yst-rounded-md;
 		}
 
 		/* Variants */
@@ -33,6 +40,8 @@
 
 			hover:yst-text-white
 			hover:yst-bg-primary-700
+			focus:yst-text-white
+			focus:yst-ring-primary-700
 			visited:yst-text-white
 			visited:hover:yst-text-white;
 		}
@@ -45,6 +54,8 @@
 
 			hover:yst-text-slate-800
 			hover:yst-bg-slate-50
+			focus:yst-text-slate-800
+			focus:yst-ring-primary-700
 			visited:yst-text-slate-800
 			visited:hover:yst-text-slate-800;
 		}
@@ -57,6 +68,7 @@
 
 			hover:yst-text-white
 			hover:yst-bg-red-700
+			focus:yst-text-white
 			focus:yst-ring-red-600
 			visited:yst-text-white
 			visited:hover:yst-text-white;
@@ -70,6 +82,7 @@
 
 			hover:yst-text-amber-900
 			hover:yst-bg-amber-400
+			focus:yst-text-amber-900
 			focus:yst-ring-amber-400
 			visited:yst-text-amber-900
 			visited:hover:yst-text-amber-900;

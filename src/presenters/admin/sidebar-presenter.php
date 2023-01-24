@@ -16,13 +16,6 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 * @return string The sidebar HTML.
 	 */
 	public function present() {
-		$time       = \time();
-		$time_start = \gmmktime( 11, 00, 00, 11, 22, 2022 );
-		$time_end   = \gmmktime( 11, 00, 00, 11, 29, 2022 );
-
-		$cyber_monday_start = \gmmktime( 11, 00, 00, 11, 27, 2022 );
-		$title              = ( $time > $cyber_monday_start ) ? \__( 'CYBER MONDAY - 30% OFF', 'wordpress-seo' ) : \__( 'BLACK FRIDAY - 30% OFF', 'wordpress-seo' );
-
 		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 		\ob_start();
@@ -49,17 +42,10 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
-							<div class="sidebar__sale_banner_container">
-								<div class="sidebar__sale_banner">
-									<?php echo \esc_html( $title ); ?>
-								</div>
-							</div>
-						<?php endif; ?>
-						<h2>
+						<h2 class="yoast-get-premium-title">
 							<?php
-							/* translators: %s expands to Yoast SEO Premium */
-							\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+							/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
+							\printf( \esc_html__( '%1$sGet%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
 							?>
 						</h2>
 						<p>
@@ -68,16 +54,6 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							\printf( \esc_html__( 'Be the first to get %1$snew features & tools%2$s, before everyone else. Get %1$s 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
 							?>
 						</p>
-						<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
-							<div class="sidebar__sale_text">
-								<p>
-									<?php
-									/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
-									\printf( \esc_html__( '%1$s SAVE 30%% %2$s on your 12 month subscription', 'wordpress-seo' ), '<strong>', '</strong>' );
-									?>
-								</p>
-							</div>
-						<?php endif; ?>
 						<p class="plugin-buy-button">
 							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
