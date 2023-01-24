@@ -2,11 +2,12 @@
 import { Combobox } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { Code, Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
 import PropTypes from "prop-types";
+import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
 import { safeToLocaleLower } from "../helpers";
@@ -82,6 +83,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 	const inputRef = useRef( null );
 	const { platform, os } = useParsedUserAgent();
 	const { isMobileMenuOpen, setMobileMenuOpen } = useNavigationContext();
+	const [ a11yMessage, setA11yMessage ] = useState( "" );
 
 	// Determines the minimum characters to start a search, based on the user locale.
 	const queryMinChars = useMemo( () => {
@@ -127,8 +129,12 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 	const debouncedSearch = useCallback( debounce( newQuery => {
 		const trimmedQuery = trim( newQuery );
 
+		// Reset the a11y message to make it announce again after the query changed.
+		setA11yMessage( "" );
+
 		// Bail if query is too short.
 		if ( trimmedQuery.length < queryMinChars ) {
+			setA11yMessage( __( "Search", "wordpress-seo" ) );
 			return false;
 		}
 
@@ -169,8 +175,23 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			return bMaxHits - aMaxHits;
 		} );
 
+		if ( isEmpty( queryResults ) ) {
+			setA11yMessage( __( "No results found", "wordpress-seo" ) );
+		} else {
+			setA11yMessage( sprintf(
+				/* translators: %d expands to the number of results found. */
+				_n(
+					"%d result found, use up and down arrow keys to navigate",
+					"%d results found, use up and down arrow keys to navigate",
+					queryResults.length,
+					"wordpress-seo"
+				),
+				queryResults.length
+			) );
+		}
+
 		setResults( sortedGroupedQueryResults );
-	}, 100 ), [ queryableSearchIndex, userLocale ] );
+	}, 100 ), [ queryableSearchIndex, userLocale, setA11yMessage ] );
 
 	const handleQueryChange = useCallback( event => {
 		setQuery( event.target.value );
@@ -209,6 +230,9 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			aria-label={ __( "Search", "wordpress-seo" ) }
 		>
 			<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
+				<LiveAnnouncer>
+					{ a11yMessage && <LiveMessage message={ a11yMessage } aria-live="polite" /> }
+				</LiveAnnouncer>
 				<Combobox as="div" className="yst--m-6" onChange={ handleNavigate }>
 					<div className="yst-relative">
 						<SearchIcon
@@ -235,7 +259,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 									<Title as="h4" size="5" className="yst-bg-slate-100 yst-font-semibold yst-py-3 yst-px-4">
 										{ first( groupedItems ).routeLabel }
 									</Title>
-									<ul>
+									<ul role="listbox">
 										{ map( groupedItems, ( item ) => (
 											<Combobox.Option
 												key={ item.fieldId }
