@@ -121,6 +121,7 @@ class Integrations_Page implements Integration_Interface {
 		$tec_active                        = \class_exists( \TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema::class );
 		$ssp_active                        = \class_exists( \SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode::class );
 		$wp_recipe_maker_active            = \class_exists( \WP_Recipe_Maker::class );
+		$mastodon_active                   = $this->is_mastodon_active();
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
@@ -175,6 +176,7 @@ class Integrations_Page implements Integration_Interface {
 				'ssp_integration_active'             => $ssp_active,
 				'tec_integration_active'             => $tec_active,
 				'wp-recipe-maker_integration_active' => $wp_recipe_maker_active,
+				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
 			]
@@ -191,5 +193,14 @@ class Integrations_Page implements Integration_Interface {
 			<div id="wpseo-integrations"></div>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Checks whether the Mastodon profile field has been filled in.
+	 *
+	 * @return bool
+	 */
+	private function is_mastodon_active() {
+		return \apply_filters( 'wpseo_mastodon_active', false );
 	}
 }

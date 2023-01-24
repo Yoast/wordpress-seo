@@ -41,6 +41,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Short_Link_Helper                      $short_link
  * @property Helpers\Site_Helper                            $site
  * @property Helpers\String_Helper                          $string
+ * @property Helpers\Social_Profiles_Helper                 $social_profiles
  * @property Helpers\Taxonomy_Helper                        $taxonomy
  * @property Helpers\Url_Helper                             $url
  * @property Helpers\User_Helper                            $user

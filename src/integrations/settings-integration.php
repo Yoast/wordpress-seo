@@ -13,7 +13,6 @@ use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
-use Yoast_Notification_Center;
 use Yoast\WP\SEO\Actions\Settings_Introduction_Action;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
@@ -25,6 +24,7 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast_Notification_Center;
 
 /**
  * Class Settings_Integration.
@@ -379,6 +379,15 @@ class Settings_Integration implements Integration_Interface {
 		$post_types             = $this->post_type_helper->get_indexable_post_type_objects();
 		$taxonomies             = $this->taxonomy_helper->get_indexable_taxonomy_objects();
 
+		// Check if attachments are included in indexation.
+		if ( ! \array_key_exists( 'attachment', $post_types ) ) {
+			// Always include attachments in the settings, to let the user enable them again.
+			$attachment_object = \get_post_type_object( 'attachment' );
+			if ( ! empty( $attachment_object ) ) {
+				$post_types['attachment'] = $attachment_object;
+			}
+		}
+
 		$transformed_post_types = $this->transform_post_types( $post_types );
 		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
@@ -707,7 +716,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_post_types( $post_types ) {
 		$transformed = [];
-		foreach ( $post_types as $index => $post_type ) {
+		foreach ( $post_types as $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
 				'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
@@ -758,7 +767,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
 		$transformed = [];
-		foreach ( $taxonomies as $index => $taxonomy ) {
+		foreach ( $taxonomies as $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
