@@ -184,10 +184,12 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @param Indexable $indexable The indexable to update the hierarchy and permalink for.
 	 */
 	protected function update_hierarchy_and_permalink( $indexable ) {
-		$this->indexable_hierarchy_builder->build( $indexable );
+		if ( \is_a( $indexable, Indexable::class ) ) {
+			$this->indexable_hierarchy_builder->build( $indexable );
 
-		$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
-		$indexable->save();
+			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
+			$indexable->save();
+		}
 	}
 
 	/**

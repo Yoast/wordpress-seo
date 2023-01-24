@@ -100,10 +100,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
 		$indexables = [];
 		foreach ( $post_ids as $post_id ) {
-			$indexable = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
-			if ( $indexable ) {
-				$indexables[] = $indexable;
-			}
+			$indexables[] = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
 		}
 
 		if ( \count( $indexables ) > 0 ) {
