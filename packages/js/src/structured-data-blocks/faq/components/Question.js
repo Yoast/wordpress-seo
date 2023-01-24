@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
 import { Component } from "@wordpress/element";
-import { IconButton } from "@wordpress/components";
+import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
@@ -47,13 +47,13 @@ export default class Question extends Component {
 	 */
 	getMediaUploadButton( props ) {
 		return (
-			<IconButton
+			<Button
 				className="schema-faq-section-button faq-section-add-media"
 				icon="insert"
 				onClick={ props.open }
 			>
 				{ __( "Add image", "wordpress-seo" ) }
-			</IconButton>
+			</Button>
 		);
 	}
 
@@ -187,13 +187,13 @@ export default class Question extends Component {
 				value={ attributes.id }
 				render={ this.getMediaUploadButton }
 			/>
-			<IconButton
+			<Button
 				className="schema-faq-section-button"
 				icon="trash"
 				label={ __( "Delete question", "wordpress-seo" ) }
 				onClick={ this.onRemoveQuestion }
 			/>
-			<IconButton
+			<Button
 				className="schema-faq-section-button"
 				icon="insert"
 				label={ __( "Insert question", "wordpress-seo" ) }
@@ -209,14 +209,14 @@ export default class Question extends Component {
 	 */
 	getMover() {
 		return <div className="schema-faq-section-mover">
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move question up", "wordpress-seo" ) }
 				aria-disabled={ this.props.isFirst }
 			/>
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveDown }
 				icon="arrow-down-alt2"

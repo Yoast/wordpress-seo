@@ -24,6 +24,7 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast_Notification_Center;
 
 /**
  * Class Settings_Integration.
@@ -255,6 +256,10 @@ class Settings_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
+
+			// Remove the post types and taxonomies made public notifications (if any).
+			$this->remove_post_types_made_public_notification();
+			$this->remove_taxonomies_made_public_notification();
 		}
 	}
 
@@ -371,9 +376,20 @@ class Settings_Integration implements Integration_Interface {
 	protected function get_script_data() {
 		$default_setting_values = $this->get_default_setting_values();
 		$settings               = $this->get_settings( $default_setting_values );
-		$post_types             = $this->post_type_helper->get_public_post_types( 'objects' );
-		$taxonomies             = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
+		$post_types             = $this->post_type_helper->get_indexable_post_type_objects();
+		$taxonomies             = $this->taxonomy_helper->get_indexable_taxonomy_objects();
+
+		// Check if attachments are included in indexation.
+		if ( ! \array_key_exists( 'attachment', $post_types ) ) {
+			// Always include attachments in the settings, to let the user enable them again.
+			$attachment_object = \get_post_type_object( 'attachment' );
+			if ( ! empty( $attachment_object ) ) {
+				$post_types['attachment'] = $attachment_object;
+			}
+		}
+
 		$transformed_post_types = $this->transform_post_types( $post_types );
+		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
 		return [
 			'settings'             => $this->transform_settings( $settings ),
@@ -387,7 +403,7 @@ class Settings_Integration implements Integration_Interface {
 			'preferences'          => $this->get_preferences( $settings ),
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $transformed_post_types,
-			'taxonomies'           => $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) ),
+			'taxonomies'           => $transformed_taxonomies,
 			'fallbacks'            => $this->get_fallbacks(),
 			'introduction'         => $this->get_introduction_data(),
 		];
@@ -700,8 +716,8 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_post_types( $post_types ) {
 		$transformed = [];
-		foreach ( $post_types as $name => $post_type ) {
-			$transformed[ $name ] = [
+		foreach ( $post_types as $post_type ) {
+			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
 				'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
 				'label'                => $post_type->label,
@@ -751,8 +767,8 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
 		$transformed = [];
-		foreach ( $taxonomies as $name => $taxonomy ) {
-			$transformed[ $name ] = [
+		foreach ( $taxonomies as $taxonomy ) {
+			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
@@ -818,5 +834,25 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'siteLogoId' => $site_logo_id,
 		];
+	}
+
+	/**
+	 * Removes the notification related to the post types which have been made public.
+	 *
+	 * @return void
+	 */
+	private function remove_post_types_made_public_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'post-types-made-public' );
+	}
+
+	/**
+	 * Removes the notification related to the taxonomies which have been made public.
+	 *
+	 * @return void
+	 */
+	private function remove_taxonomies_made_public_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'taxonomies-made-public' );
 	}
 }

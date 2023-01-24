@@ -12,10 +12,11 @@ function isParticiple( word ) {
 	const participleSuffixes = [ "a", "o", "as", "os" ];
 	// For each participle suffixes, check if the word ends in one of them.
 	return participleSuffixes.some( suffix => {
-		if ( word.endsWith( suffix ) ) {
+		// Make sure only possible participles are targeted (minimum length being "> 3")
+		if ( word.length > 3 && word.endsWith( suffix ) ) {
 			// If the word ends with one of the suffixes, retrieve the stem.
 			const stem = word.slice( 0, -( suffix.length ) );
-			// Check if the stem is in the list of participles: return true if it is, otherwise return false.
+			// Check if the stem is in the list of participle stems: return true if it is, otherwise return false.
 			return participleStems.includes( stem );
 		}
 	} );

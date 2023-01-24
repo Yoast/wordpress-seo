@@ -2451,7 +2451,6 @@ export default [
 	"idealizad",
 	"identificad",
 	"ideologizad",
-	"id",
 	"idolatrad",
 	"ignorad",
 	"igualad",
