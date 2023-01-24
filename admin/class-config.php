@@ -154,6 +154,7 @@ class WPSEO_Admin_Pages {
 			$script_data['social'] = [
 				'facebook_url'      => WPSEO_Options::get( 'facebook_site', '' ),
 				'twitter_username'  => WPSEO_Options::get( 'twitter_site', '' ),
+				'mastodon_url'      => WPSEO_Options::get( 'mastodon_url', '' ),
 				'other_social_urls' => WPSEO_Options::get( 'other_social_urls', [] ),
 				'company_or_person' => WPSEO_Options::get( 'company_or_person', '' ),
 				'user_id'           => $user_id,

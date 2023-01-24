@@ -10551,20 +10551,10 @@ caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001204.tgz#95959fa4ebf08c871eff3274518e382cd0f8a223"
   integrity sha512-Q4X8pJp5li4mEiNmQMamOFrWbFB29anrWNe9U9/Qcuh7nseuH4D8XNIq7rHy/dt264SuoVOX+36qRMyhTvGnHQ==
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001181, caniuse-lite@^1.0.30001286, caniuse-lite@^1.0.30001317, caniuse-lite@^1.0.30001335, caniuse-lite@^1.0.30001349:
-  version "1.0.30001355"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001355.tgz"
-  integrity sha512-Sd6pjJHF27LzCB7pT7qs+kuX2ndurzCzkpJl6Qct7LPSZ9jn0bkOA8mdgMgmqnQAWLVOOGjLpc+66V57eLtb1g==
-
-caniuse-lite@^1.0.30001358:
-  version "1.0.30001359"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001359.tgz#a1c1cbe1c2da9e689638813618b4219acbd4925e"
-  integrity sha512-Xln/BAsPzEuiVLgJ2/45IaqD9jShtk3Y33anKb4+yLwQzws3+v6odKfpgES/cDEaZMLzSChpIGdbOYtH9MyuHw==
-
-caniuse-lite@^1.0.30001400:
-  version "1.0.30001436"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001436.tgz#22d7cbdbbbb60cdc4ca1030ccd6dea9f5de4848b"
-  integrity sha512-ZmWkKsnC2ifEPoWUvSAIGyOYwT+keAaaWPHiQ9DfMqS1t6tfuyFYoWR78TeZtznkEQ64+vGXH9cZrElwR2Mrxg==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000844, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001181, caniuse-lite@^1.0.30001286, caniuse-lite@^1.0.30001317, caniuse-lite@^1.0.30001335, caniuse-lite@^1.0.30001349, caniuse-lite@^1.0.30001358, caniuse-lite@^1.0.30001400:
+  version "1.0.30001447"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001447.tgz"
+  integrity sha512-bdKU1BQDPeEXe9A39xJnGtY0uRq/z5osrnXUw0TcK+EYno45Y+U7QU9HhHEyzvMDffpYadFXi3idnSNkcwLkTw==
 
 capability@^0.2.5:
   version "0.2.5"
@@ -16467,9 +16457,9 @@ grunt-git@^1.0.14:
   dependencies:
     flopmang "^1.0.0"
 
-"grunt-glotpress@git+https://github.com/Yoast/grunt-glotpress.git#main":
+"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#main":
   version "0.3.0"
-  resolved "git+https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
+  resolved "https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
   dependencies:
     request "^2.88.0"
     request-promise-native "^1.0.7"
@@ -25934,6 +25924,13 @@ react-animate-height@^3.1.0:
   resolved "https://registry.yarnpkg.com/react-animate-height/-/react-animate-height-3.1.0.tgz#f7def40acfe857f936621fe9d7bad601467d0e31"
   integrity sha512-+0pW2OzB8PzVn10dpTB9q5jFI+GwQTnCDLbzyqPBUzKXJfpBrlWW954uud/59Mreo+laRN/fPzvckuA+WTptXA==
 
+react-aria-live@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/react-aria-live/-/react-aria-live-2.0.5.tgz#333480cb898d6963421bd86fe3cbd0ce54e37f08"
+  integrity sha512-rXiH1HNKJrr/UfVeGwA2aKY43r5WbjLs+AYB6/kJF1qny2hwxzQc1qewQmUpdQ5h8HAOTD8O/XlGcEHjqlCl0g==
+  dependencies:
+    uuid "^3.2.1"
+
 react-autosize-textarea@^7.0.0, react-autosize-textarea@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/react-autosize-textarea/-/react-autosize-textarea-7.1.0.tgz#902c84fc395a689ca3a484dfb6bc2be9ba3694d1"
@@ -30747,7 +30744,7 @@ uuid-browser@^3.1.0:
   resolved "https://registry.yarnpkg.com/uuid-browser/-/uuid-browser-3.1.0.tgz#0f05a40aef74f9e5951e20efbf44b11871e56410"
   integrity sha1-DwWkCu90+eWVHiDvv0SxGHHlZBA=
 
-uuid@^3.0.1, uuid@^3.3.2, uuid@^3.4.0:
+uuid@^3.0.1, uuid@^3.2.1, uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==

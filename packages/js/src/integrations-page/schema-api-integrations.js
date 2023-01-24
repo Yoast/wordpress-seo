@@ -4,6 +4,7 @@ import { ReactComponent as SSPLogo } from "../../images/ssp-logo.svg";
 import { ReactComponent as TECLogo } from "../../images/tec-logo.svg";
 import { ReactComponent as RecipeMakerLogo } from "../../images/wp-recipe-maker-logo.svg";
 import { ReactComponent as WoocommerceLogo } from "../../images/woocommerce-logo.svg";
+import { ReactComponent as EDDLogo } from "../../images/edd-logo.svg";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { WoocommerceIntegration } from "./woocommerce-integration";
@@ -57,9 +58,36 @@ const integrations = [
 			"Yoast SEO"
 		),
 		isPremium: false,
-		isNew: false,
+		isNew: true,
 		isMultisiteAvailable: true,
 		logo: SSPLogo,
+	},
+	{
+		name: "Easy Digital Downloads",
+		claim: createInterpolateElement(
+			sprintf(
+				/* translators: 1: bold open tag; 2: bold close tag. */
+				__( "Get %1$srich results for your digital products%2$s in Google search", "wordpress-seo" ),
+				"<strong>",
+				"</strong>"
+			), {
+				strong: <strong />,
+			}
+		),
+		learnMoreLink: "https://yoa.st/integrations-about-edd",
+		logoLink: "https://yoa.st/integrations-logo-edd",
+		upsellLink: "https://yoa.st/get-edd-integration",
+		slug: "edd",
+		description: sprintf(
+			/* translators: 1: Easy Digital Downloads, 2: Yoast SEO */
+			__( "%2$s integrates %1$s' Schema output into its own to get rich snippets for your digital products!", "wordpress-seo" ),
+			"Easy Digital Downloads",
+			"Yoast SEO"
+		),
+		isPremium: true,
+		isNew: true,
+		isMultisiteAvailable: true,
+		logo: EDDLogo,
 	},
 	{
 		name: "WP Recipe Maker",
@@ -83,7 +111,7 @@ const integrations = [
 			"Yoast SEO"
 		),
 		isPremium: false,
-		isNew: false,
+		isNew: true,
 		isMultisiteAvailable: true,
 		logo: RecipeMakerLogo,
 	},

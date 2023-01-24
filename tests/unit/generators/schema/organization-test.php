@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
+use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -66,17 +67,25 @@ class Organization_Test extends TestCase {
 	private $id;
 
 	/**
+	 * The Social Profiles helper.
+	 *
+	 * @var Social_Profiles_Helper|Mockery\MockInterface
+	 */
+	private $social_profiles;
+
+	/**
 	 * Initializes the test environment.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->image    = Mockery::mock( Image_Helper::class );
-		$this->options  = Mockery::mock( Options_Helper::class );
-		$this->html     = Mockery::mock( HTML_Helper::class );
-		$this->id       = new ID_Helper();
-		$this->context  = new Meta_Tags_Context_Mock();
-		$this->instance = new Organization(
+		$this->image           = Mockery::mock( Image_Helper::class );
+		$this->options         = Mockery::mock( Options_Helper::class );
+		$this->html            = Mockery::mock( HTML_Helper::class );
+		$this->social_profiles = Mockery::mock( Social_Profiles_Helper::class );
+		$this->id              = new ID_Helper();
+		$this->context         = new Meta_Tags_Context_Mock();
+		$this->instance        = new Organization(
 			$this->image,
 			$this->options,
 			$this->html
@@ -84,8 +93,9 @@ class Organization_Test extends TestCase {
 
 		$this->instance->context = $this->context;
 		$this->instance->helpers = (object) [
-			'options' => $this->options,
-			'schema'  => (object) [
+			'options'         => $this->options,
+			'social_profiles' => $this->social_profiles,
+			'schema'          => (object) [
 				'id'      => $this->id,
 				'image'   => $this->image,
 				'html'    => $this->html,
@@ -98,6 +108,7 @@ class Organization_Test extends TestCase {
 	 *
 	 * @dataProvider generate_provider
 	 * @covers       ::generate
+	 * @covers       ::fetch_social_profiles
 	 *
 	 * @param array $profiles_input    The social profiles input for the options.
 	 * @param array $profiles_expected The social profiles expected output.
@@ -127,12 +138,10 @@ class Organization_Test extends TestCase {
 			->andReturn( $this->context->company_name );
 
 		// For the private `fetch_social_profiles` method.
-		foreach ( $profiles_input as $profile_type => $profile_value ) {
-			$this->options->expects( 'get' )
-				->once()
-				->withSomeOfArgs( $profile_type )
-				->andReturn( $profile_value );
-		}
+		$this->social_profiles->expects( 'get_organization_social_profiles' )
+			->once()
+			->andReturn( $profiles_input );
+
 		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
 			->atMost()
 			->once()
@@ -162,6 +171,7 @@ class Organization_Test extends TestCase {
 	 *
 	 * @dataProvider generate_provider
 	 * @covers       ::generate
+	 * @covers       ::fetch_social_profiles
 	 *
 	 * @param array $profiles_input    The social profiles input for the options.
 	 * @param array $profiles_expected The social profiles expected output.
@@ -188,12 +198,11 @@ class Organization_Test extends TestCase {
 			->andReturn( $this->context->company_name );
 
 		// For the private `fetch_social_profiles` method.
-		foreach ( $profiles_input as $profile_type => $profile_value ) {
-			$this->options->expects( 'get' )
-				->once()
-				->withSomeOfArgs( $profile_type )
-				->andReturn( $profile_value );
-		}
+		$this->social_profiles
+			->expects( 'get_organization_social_profiles' )
+			->once()
+			->andReturn( $profiles_input );
+
 		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
 			->atMost()
 			->once()
@@ -254,7 +263,7 @@ class Organization_Test extends TestCase {
 			'Every possible social profile filled' => [
 				'profiles_input'    => [
 					'facebook_site'     => 'https://www.facebook.com/yoast/',
-					'twitter_site'      => 'yoast',
+					'twitter_site'      => 'https://twitter.com/yoast',
 					'other_social_urls' => [
 						'https://www.instagram.com/yoast/',
 						'https://www.linkedin.com/company/yoast-com',
@@ -265,20 +274,19 @@ class Organization_Test extends TestCase {
 					],
 				],
 				'profiles_expected' => [
+					'https://www.facebook.com/yoast/',
+					'https://twitter.com/yoast',
 					'https://www.instagram.com/yoast/',
 					'https://www.linkedin.com/company/yoast-com',
 					'https://myspace.com/yoast/',
 					'https://www.youtube.com/yoast',
 					'https://www.pinterest.com/yoast/',
 					'https://en.wikipedia.org/wiki/Yoast_SEO',
-					'https://www.facebook.com/yoast/',
-					'https://twitter.com/yoast',
 				],
 			],
 			'Without Twitter' => [
 				'profiles_input'    => [
 					'facebook_site'     => 'https://www.facebook.com/yoast/',
-					'twitter_site'      => '',
 					'other_social_urls' => [
 						'https://www.instagram.com/yoast/',
 						'https://www.linkedin.com/company/yoast-com',
@@ -289,53 +297,53 @@ class Organization_Test extends TestCase {
 					],
 				],
 				'profiles_expected' => [
+					'https://www.facebook.com/yoast/',
 					'https://www.instagram.com/yoast/',
 					'https://www.linkedin.com/company/yoast-com',
 					'https://myspace.com/yoast/',
 					'https://www.youtube.com/yoast',
 					'https://www.pinterest.com/yoast/',
 					'https://en.wikipedia.org/wiki/Yoast_SEO',
-					'https://www.facebook.com/yoast/',
 				],
 			],
-			'Only Twitter' => [
-				'profiles_input'    => [
-					'facebook_site'     => '',
-					'twitter_site'      => 'yoast',
-					'other_social_urls' => [],
-				],
-				'profiles_expected' => [
-					'https://twitter.com/yoast',
-				],
-			],
-			'Some empty options' => [
+			'With Mastodon' => [
 				'profiles_input'    => [
 					'facebook_site'     => 'https://www.facebook.com/yoast/',
-					'twitter_site'      => 'yoast',
+					'twitter_site'      => 'https://twitter.com/yoast',
 					'other_social_urls' => [
-						'',
+						'https://www.instagram.com/yoast/',
 						'https://www.linkedin.com/company/yoast-com',
 						'https://myspace.com/yoast/',
 						'https://www.youtube.com/yoast',
 						'https://www.pinterest.com/yoast/',
-						'',
 						'https://en.wikipedia.org/wiki/Yoast_SEO',
 					],
+					'mastodon_url'      => 'https://mastodon.social/@yoast',
 				],
 				'profiles_expected' => [
+					'https://www.facebook.com/yoast/',
+					'https://twitter.com/yoast',
+					'https://mastodon.social/@yoast',
+					'https://www.instagram.com/yoast/',
 					'https://www.linkedin.com/company/yoast-com',
 					'https://myspace.com/yoast/',
 					'https://www.youtube.com/yoast',
 					'https://www.pinterest.com/yoast/',
 					'https://en.wikipedia.org/wiki/Yoast_SEO',
-					'https://www.facebook.com/yoast/',
+				],
+			],
+			'Only Twitter' => [
+				'profiles_input'    => [
+					'twitter_site'      => 'https://twitter.com/yoast',
+				],
+				'profiles_expected' => [
 					'https://twitter.com/yoast',
 				],
 			],
 			'Duplicated URLs' => [
 				'profiles_input'    => [
 					'facebook_site'     => 'https://www.facebook.com/yoast/',
-					'twitter_site'      => 'yoast',
+					'twitter_site'      => 'https://twitter.com/yoast',
 					'other_social_urls' => [
 						'https://www.facebook.com/yoast/',
 						'https://www.linkedin.com/company/yoast-com',
@@ -348,12 +356,12 @@ class Organization_Test extends TestCase {
 				],
 				'profiles_expected' => [
 					'https://www.facebook.com/yoast/',
+					'https://twitter.com/yoast',
 					'https://www.linkedin.com/company/yoast-com',
 					'https://myspace.com/yoast/',
 					'https://www.youtube.com/yoast',
 					'https://www.pinterest.com/yoast/',
 					'https://en.wikipedia.org/wiki/Yoast_SEO',
-					'https://twitter.com/yoast',
 				],
 			],
 		];

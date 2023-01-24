@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 19.14
+Stable tag: 20.0
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,12 +236,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Screenshots ==
 
-1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. Example of the SEO analysis functionality.
-3. Example of the readability analysis functionality.
-4. Overview of site-wide SEO problems and possible improvements.
-5. Control over which features you want to use.
-6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
+1. The modern interface makes Yoast SEO easy to work with.
+2. Easily manage how your posts and pages appear in SERPs.
+3. Yoast SEO Premium has extra crawl optimization options.
+4. Yoast SEO integrates with tools like Semrush and Wincher.
+5. The famous SEO and readability analyses in Yoast SEO.
+6. See what your post looks like in Google.
+7. The First-time configuration helps you get started quickly.
+8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
 
@@ -249,8 +251,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-01-24
 
+We're proud to introduce a brand new settings interface in Yoast SEO 20.0. We've worked hard to make this interface both beautiful and helpful. It's now much easier and enjoyable to work on your SEO. Plus, it's the start of much more cool stuff to come! Find out more about what's new in Yoast SEO 20.0 in [our release post](https://yoa.st/release-24-1-23)!
+
 #### Enhancements
 
+* NEW: Introduces a brand-new design for Yoast SEO's settings pages:
+ * Completely overhauled the old 'settings' admin pages with a sleek and modern interface.
+ * Combines, moves and improves various admin pages.
+ * Adds the ability to search through site settings to quickly discover and modify your desired setting.
+ * Adds extra information and help for all controls.
+ * Vastly improves accessibility (including better support for keyboard navigation).
+ * Key features are now listed on the 'Site features' page under 'General'.
+ * Webmaster Tools settings have moved to 'Site connections' page under 'General'.
+ * Open Graph settings can now be found in 'Site features' under 'General'.
+ * Adds an introduction modal with videos to quickly help you on your way.
 * Improves the link focus styles in the first time configuration.
 
 #### Other

@@ -17,8 +17,8 @@ const appearanceAssessments = [
 	{
 		identifier: "anAlbino",
 		nonInclusivePhrases: [ "an albino" ],
-		inclusiveAlternatives: "<i>people with albinism, albino people</i>",
-		score: SCORES.NON_INCLUSIVE,
+		inclusiveAlternatives: "<i>person with albinism, albino person</i>",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
@@ -60,6 +60,13 @@ const appearanceAssessments = [
 		identifier: "midget",
 		nonInclusivePhrases: [ "midget" ],
 		inclusiveAlternatives: "<i>little person, has short stature, someone with dwarfism</i>",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+	},
+	{
+		identifier: "midgets",
+		nonInclusivePhrases: [ "midgets" ],
+		inclusiveAlternatives: "<i>little people, have short stature, people with dwarfism</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 	},

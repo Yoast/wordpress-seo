@@ -4,13 +4,16 @@ import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Radio, RadioGroup, TextField } from "@yoast/ui-library";
+import { Alert, Badge, Button, FeatureUpsell, Link, Radio, RadioGroup, TextField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
+import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
+
+const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -30,11 +33,16 @@ const SiteRepresentation = () => {
 	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
+	const organizationPersonLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-organization-person" );
 	const editUserUrl = useSelectSettings( "selectPreference", [], "editUserUrl" );
 	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
 	const canEditUser = useSelectSettings( "selectCanEditUser", [ personUser?.id ], personUser?.id );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
+	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
+	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/mastodon-shortlink" );
 
 	return (
 		<RouteLayout
@@ -54,7 +62,16 @@ const SiteRepresentation = () => {
 				<div className="yst-max-w-5xl">
 					<FieldsetLayout
 						title={ __( "Organization/person", "wordpress-seo" ) }
-						description={ __( "Choose whether your site represents an organization or a person.", "wordpress-seo" ) }
+						description={ addLinkToString(
+							sprintf(
+								// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+								__( "Choose whether your site represents an organization or a person. %1$sLearn more about the differences and choosing between Organization and Person%2$s.", "wordpress-seo" ),
+								"<a>",
+								"</a>"
+							),
+							organizationPersonLink,
+							"link-site-representation-organization-person"
+						) }
 					>
 						{ isLocalSeoActive && (
 							<Alert id="alert-local-seo-company-or-person" variant="info">
@@ -165,6 +182,34 @@ const SiteRepresentation = () => {
 									label={ __( "Twitter", "wordpress-seo" ) }
 									placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
 								/>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ mastodonPremiumLink }
+									cardText={ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+									{ ...premiumUpsellConfig }
+								>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo_social.mastodon_url"
+										id="input-wpseo_social-mastodon_url"
+										label={ __( "Mastodon", "wordpress-seo" ) }
+										placeholder={ __( "E.g. https://mastodon.social/@yoast", "wordpress-seo" ) }
+										labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+										isDummy={ ! isPremium }
+										description={ <>
+											{ __( "Get your site verified in your Mastodon profile.", "wordpress-seo" )	}
+											{ " " }
+											<Link id="link-wpseo_social-mastodon_url" href={ mastodonUrlLink } target="_blank" rel="noopener">
+												{ __( "Read more about how to get your site verified.", "wordpress-seo" ) }
+											</Link>
+										</> }
+									/>
+								</FeatureUpsell>
 								<FieldArray name="wpseo_social.other_social_urls">
 									{ arrayHelpers => (
 										<>

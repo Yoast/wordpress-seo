@@ -174,8 +174,8 @@ class WPSEO_Image_Utils {
 	/**
 	 * Find the right version of an image based on size.
 	 *
-	 * @param int    $attachment_id Attachment ID.
-	 * @param string $size          Size name.
+	 * @param int          $attachment_id Attachment ID.
+	 * @param string|array $size     Size name, or array of width and height in pixels (e.g [800,400]).
 	 *
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
@@ -189,11 +189,24 @@ class WPSEO_Image_Utils {
 			$image = image_get_intermediate_size( $attachment_id, $size );
 		}
 
+		if ( ! is_array( $image ) ) {
+			$image_src = wp_get_attachment_image_src( $attachment_id, $size );
+			if ( is_array( $image_src ) && isset( $image_src[1] ) && isset( $image_src[2] ) ) {
+				$image           = [];
+				$image['url']    = $image_src[0];
+				$image['width']  = $image_src[1];
+				$image['height'] = $image_src[2];
+				$image['size']   = 'full';
+			}
+		}
+
 		if ( ! $image ) {
 			return false;
 		}
 
-		$image['size'] = $size;
+		if ( ! isset( $image['size'] ) ) {
+			$image['size'] = $size;
+		}
 
 		return self::get_data( $image, $attachment_id );
 	}
