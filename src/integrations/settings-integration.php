@@ -389,7 +389,7 @@ class Settings_Integration implements Integration_Interface {
 		}
 		// Check if post formats are included in indexation.
 		if ( ! \array_key_exists( 'post_format', $taxonomies ) ) {
-			// Always include attachments in the settings, to let the user enable them again.
+			// Always include post_format in the settings, to let the user enable them again.
 			$post_format_object = \get_taxonomy( 'post_format' );
 			if ( ! empty( $post_format_object ) ) {
 				$taxonomies['post_format'] = $post_format_object;
