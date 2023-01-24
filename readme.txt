@@ -247,6 +247,24 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.1 =
+
+Release date: 2023-02-07
+
+#### Enhancements
+
+* Adds a link to the first time configuration in the plugin overview when this is not completed yet.
+* Adds site name to Google mobile preview.
+* Improves Easy Digital Download's Schema output and tie it in to the Yoast SEO schema graph.
+* Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies.
+* Removes EasyDigitalDownload (EDD) from free.
+
+#### Bugfixes
+
+* Fixes a bug where the highlighting feature in the Classic editor would not work when inline HTML tags were present.
+* Fixes a bug where the _Media pages_ settings would not work correctly when the _attachment_ post type is filtered out via `wpseo_indexable_excluded_post_types`.
+* Fixes a bug where `wpseo_opengraph_image_size` is used to set custom size to `og:image` but doesn't work when uploading an image with the same size as the custom size.
+
 = 20.0 =
 
 Release date: 2023-01-24
@@ -270,34 +288,6 @@ We're proud to introduce a brand new settings interface in Yoast SEO 20.0. We've
 #### Other
 
 * Displays a notification urging to upgrade Premium if the version is below 20.0, since some settings might be missing from the new user interface.
-
-= 19.14 =
-
-Release date: 2023-01-10
-
-Yoast SEO 19.14 introduces the first round of improvements to the inclusive language analysis. We've made the analysis smarter in detecting terms in certain contexts and improved the feedback we give writers. Check it out! Find out more about what's new in Yoast SEO 19.14 in [our release post](https://yoa.st/release-10-1-23)!
-
-#### Enhancements
-
-* Improves the _inclusive language analysis_ by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
-  * Adds "OCD", "normal" and "abnormal" to the terms that are targeted by the _inclusive language analysis_ in specific contexts.
-  * Adds "stupid" to the terms that are always targeted by the _inclusive language analysis_.
-  * Removes the term "African American Vernacular English" from the terms targeted by the  _inclusive language analysis_.  
-  * Changes the terms "exotic" and "oriental" to be considered potentially non-inclusive in the _inclusive language analysis_, adds exceptions and updates their feedback.
-  * Improves the categorization of the targeted terms in the _inclusive language analysis_ by splitting the `other` category into a more specific one.
-  * Improves the feedback for some (potentially) non-inclusive target terms in the _inclusive language analysis_.
-  * Adds more alternatives to some (potentially) non-inclusive target terms in the _inclusive language analysis_.
-  * Adds terms that are only considered (potentially) non-inclusive when they are followed by certain words or a punctuation mark.
-* Avoids a deprecation notice for the Yoast sidebar panel in the block editor.
-* Improves the accuracy of calculating text length in Japanese by excluding all spaces and HTML tags from the character count, and by including domain names.
-
-#### Bugfixes
-
-* Fixes a bug where indexable hierarchy wasn't built when the Indexable is built for the first time.
-
-#### Other
-
-* Sets the minimum supported WordPress version to 6.0.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
