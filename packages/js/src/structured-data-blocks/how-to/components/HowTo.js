@@ -13,7 +13,6 @@ import appendSpace from "../../../components/higherorder/appendSpace";
 import { RichText, InspectorControls } from "@wordpress/block-editor";
 import { Button, PanelBody, TextControl, ToggleControl } from "@wordpress/components";
 import { Component, renderToString, createRef } from "@wordpress/element";
-import convertValueToStringRichText from "../../convertValueToStringRichText";
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
@@ -733,7 +732,7 @@ export default class HowTo extends Component {
 				<RichText
 					tagName="p"
 					className="schema-how-to-description"
-					value={ convertValueToStringRichText( attributes.description ) }
+					value={ attributes.description }
 					unstableOnFocus={ this.focusDescription }
 					onChange={ this.onChangeDescription }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
