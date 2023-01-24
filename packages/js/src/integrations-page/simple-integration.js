@@ -1,8 +1,10 @@
 import { Card } from "./tailwind-components/card";
-import { Badge, Link } from "@yoast/ui-library";
+import { Badge, Link, Button } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ArrowSmRightIcon, CheckIcon } from "@heroicons/react/solid";
 import { PropTypes } from "prop-types";
+import { LockOpenIcon } from "@heroicons/react/outline";
+import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 
 /* eslint-disable complexity */
 /**
@@ -67,9 +69,31 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 				</div>
 			</Card.Content>
 			<Card.Footer>
-				<p className="yst-flex yst-items-start yst-justify-between">
+				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button
+					id={ `${ integration.name }-upsell-button` }
+					type="button"
+					as="a"
+					href={ integration.upsellLink }
+					variant="upsell"
+					data-action="load-nfd-ctb"
+					data-ctb-id="57d6a568-783c-45e2-a388-847cff155897"
+					className="yst-w-full yst-text-slate-800"
+					target="_blank"
+				>
+					<LockOpenIcon
+						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+					/>
+					{ __( "Unlock with Premium", "wordpress-seo" ) }
+					<span className="yst-sr-only">
+						{
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+				</Button>
+				}
+				{  getIsFreeIntegrationOrPremiumAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
 					{ children }
-				</p>
+				</p> }
 			</Card.Footer>
 		</Card>
 	);
@@ -87,6 +111,7 @@ SimpleIntegration.propTypes = {
 		usps: PropTypes.array,
 		logo: PropTypes.func.isRequired,
 		isNew: PropTypes.bool,
+		upsellLink: PropTypes.string,
 	} ).isRequired,
 	isActive: PropTypes.bool,
 	children: PropTypes.oneOfType( [

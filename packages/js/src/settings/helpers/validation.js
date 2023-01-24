@@ -17,7 +17,13 @@ addMethod( number, "isMediaTypeImage", function() {
 			if ( ! input ) {
 				return true;
 			}
+
 			const media = select( STORE_NAME ).selectMediaById( input );
+			// No metadata to validate: default to valid.
+			if ( ! media ) {
+				return true;
+			}
+
 			return media?.type === "image";
 		}
 	);
@@ -57,7 +63,10 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
 			yandexverify: string()
 				.matches( ALPHA_NUMERIC_UNTIL_F_VERIFY_REGEXP, __( "The verification code is not valid. Please use only the letters A to F, numbers, underscores and dashes.", "wordpress-seo" ) ),
-			search_character_limit: number().min( 1, __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ) ).max( 50, __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ) ),
+			search_character_limit: number()
+				.required( __( "Please enter a number between 1 and 50.", "wordpress-seo" ) )
+				.min( 1, __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ) )
+				.max( 50, __( "The number you've entered is not between 1 and 50.", "wordpress-seo" ) ),
 		} ),
 		wpseo_social: object().shape( {
 			og_default_image_id: number().isMediaTypeImage(),

@@ -93,6 +93,7 @@ export const mediaSelectors = {
 	selectMediaIds: adapterSelectors.selectIds,
 	selectMediaById: adapterSelectors.selectById,
 	selectIsMediaLoading: state => get( state, "media.status", ASYNC_ACTION_STATUS.idle ) === ASYNC_ACTION_STATUS.loading,
+	selectIsMediaError: state => get( state, "media.status", ASYNC_ACTION_STATUS.idle ) === ASYNC_ACTION_STATUS.error,
 };
 
 export const mediaActions = {

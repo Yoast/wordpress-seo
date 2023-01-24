@@ -297,11 +297,12 @@ class Image_Helper {
 	/**
 	 * Find an attachment ID for a given URL.
 	 *
-	 * @param string $url The URL to find the attachment for.
+	 * @param string $url             The URL to find the attachment for.
+	 * @param bool   $use_link_table  Whether the SEO Links table will be used to retrieve the id.
 	 *
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
-	public function get_attachment_by_url( $url ) {
+	public function get_attachment_by_url( $url, $use_link_table = true ) {
 		// Don't try to do this for external URLs.
 		if ( $this->url_helper->get_link_type( $url ) === SEO_Links::TYPE_EXTERNAL ) {
 			return 0;
@@ -325,6 +326,10 @@ class Image_Helper {
 			}
 
 			return $post_id;
+		}
+
+		if ( ! $use_link_table ) {
+			return WPSEO_Image_Utils::get_attachment_by_url( $url );
 		}
 
 		$link = $this->seo_links_repository->find_one_by_url( $url );
