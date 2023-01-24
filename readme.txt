@@ -254,8 +254,8 @@ Release date: 2023-02-07
 #### Enhancements
 
 * Adds a link to the first time configuration in the plugin overview when this is not completed yet.
-* Add site name to google mobile preview.
-* Improve Easy Digital Download's Schema output and tie it in to the Yoast SEO schema graph.
+* Adds site name to Google mobile preview.
+* Improves Easy Digital Download's Schema output and tie it in to the Yoast SEO schema graph.
 * Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies.
 * Removes EasyDigitalDownload (EDD) from free.
 
