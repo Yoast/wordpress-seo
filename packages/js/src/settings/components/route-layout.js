@@ -19,10 +19,9 @@ const RouteLayout = ( {
 } ) => {
 	const documentTitle = useDocumentTitle( { prefix: `${ title } ‹ ` } );
 	const ariaLiveTitle = sprintf(
-		/* translators: 1: Settings' section title, 2: Settings, 3: Yoast SEO */
-		__( "%1$s %2$s - %3$s", "wordpress-seo" ),
+		/* translators: 1: Settings' section title, 2: Yoast SEO */
+		__( "%1$s Settings - %2$s", "wordpress-seo" ),
 		title,
-		"Settings",
 		"Yoast SEO"
 	);
 	return (
