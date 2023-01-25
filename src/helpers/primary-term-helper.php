@@ -19,7 +19,7 @@ class Primary_Term_Helper {
 	public function get_primary_term_taxonomies( $post_id ) {
 		$post_type      = \get_post_type( $post_id );
 		$all_taxonomies = \get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = \array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_taxonomies' ] );
+		$all_taxonomies = \array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_or_disabled_taxonomies' ] );
 
 		/**
 		 * Filters which taxonomies for which the user can choose the primary term.
@@ -36,13 +36,16 @@ class Primary_Term_Helper {
 	}
 
 	/**
-	 * Returns whether or not a taxonomy is hierarchical.
+	 * Returns whether or not a taxonomy is hierarchical and not has the arg 'wpseo_disable_primary_term' => true.
 	 *
 	 * @param stdClass $taxonomy Taxonomy object.
 	 *
-	 * @return bool True for hierarchical taxonomy.
+	 * @return bool True for hierarchical taxonomy and False when wpseo_disable_primary_term arg is set.
 	 */
-	protected function filter_hierarchical_taxonomies( $taxonomy ) {
+	protected function filter_hierarchical_or_disabled_taxonomies( $taxonomy ) {
+		if (true === $taxonomy->wpseo_disable_primary_term){
+			return false;
+		}
 		return (bool) $taxonomy->hierarchical;
 	}
 }
