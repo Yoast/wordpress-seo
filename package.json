@@ -41,6 +41,7 @@
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.0",
     "@slack/webhook": "^5.0.2",
+    "@swisspost/design-system-changelog-github": "^1.0.2",
     "@tailwindcss/forms": "^0.5.2",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
