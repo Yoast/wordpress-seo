@@ -247,6 +247,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.0.1 =
+
+Release date: January 25th, 2023
+
+#### Bugfixes
+
+* Fixes a bug where the _Format archives_ settings would not work correctly when the `post_format` taxonomy is disabled.
+* Fixes a bug where the _Media pages_ settings would not work correctly when the attachment post type is filtered out via `wpseo_indexable_excluded_post_types`.
+* Fixes a bug where the settings' introduction modal would not be visible on wider screens with less than ~700 pixels height.
+
+#### Other
+
+* Improves the translations comments in _Settings > Site connections_ and a translatable string used by screen readers.
+
 = 20.0 =
 
 Release date: 2023-01-24
