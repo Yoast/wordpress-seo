@@ -255,18 +255,16 @@ Release date: 2023-02-07
 
 * Adds a link to the first time configuration in the plugin overview when this is not completed yet.
 * Adds site name to Google mobile preview.
-* Improves Easy Digital Download's Schema output and tie it in to the Yoast SEO schema graph.
 * Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies.
-* Removes EasyDigitalDownload (EDD) from free.
 
 #### Bugfixes
 
+* Fixes a bug where the _Format archives_ settings would not work correctly when the `post_format` taxonomy is disabled.
 * Fixes a bug where the highlighting feature in the Classic editor would not work when inline HTML tags were present.
 * Fixes a bug where the _Media pages_ settings would not work correctly when the _attachment_ post type is filtered out via `wpseo_indexable_excluded_post_types`.
-* Fixes a bug where `wpseo_opengraph_image_size` is used to set custom size to `og:image` but doesn't work when uploading an image with the same size as the custom size.
-* Fixes a bug where the _Format archives_ settings would not work correctly when the `post_format` taxonomy is disabled.
 * Fixes a bug where the _Media pages_ settings would not work correctly when the attachment post type is filtered out via `wpseo_indexable_excluded_post_types`.
 * Fixes a bug where the settings' introduction modal would not be visible on wider screens with less than ~700 pixels height.
+* Fixes a bug where `wpseo_opengraph_image_size` is used to set custom size to `og:image` but doesn't work when uploading an image with the same size as the custom size.
 
 #### Other
 
