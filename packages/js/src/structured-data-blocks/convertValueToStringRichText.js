@@ -1,8 +1,8 @@
 /**
- * Convert content to string due to depracation of toHTML in RichText.Content.
+ * Convert content to string due to depracation of toHTML in RichText.Content for nested attributes.
  * See https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/rich-text/index.js line 175
- * @param {Array|String} content .
- * @returns {string} The Question component.
+ * @param {Array|String} content As an array of objects (type: html tag, props: html atttributes, children: content).
+ * @returns {string} The html content as a string.
  */
 export default function convertValueToStringRichText( content ) {
 	if ( typeof content === "string" ) {
