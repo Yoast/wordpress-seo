@@ -147,7 +147,7 @@ const Introduction = () => {
 			tabIndex="-1"
 			ref={ modalDialogRef }
 		>
-			<div className="yst-modal__panel yst-max-w-[37rem] yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
+			<Modal.Panel className="yst-max-w-[37rem] yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
 
 				{ /* //checks ther is permission from wista to add video and add js script, Helmet component adds the script tp the head */ }
 				{ wistiaEmbedPermission.value && <Helmet>
@@ -311,7 +311,7 @@ const Introduction = () => {
 						</Button> }
 					</div>
 				</div>
-			</div>
+			</Modal.Panel>
 		</Modal>
 	);
 };

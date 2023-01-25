@@ -45,6 +45,16 @@
 	input[type=week] {
 		@apply yst-min-h-0;
 	}
+
+	#modal-introduction {
+		.yst-modal__close {
+			@apply yst-top-2 yst-right-2;
+
+			.yst-modal__close-button {
+				@apply yst-bg-transparent yst-text-white;
+			}
+		}
+	}
 }
 
 @layer base {
