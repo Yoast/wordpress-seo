@@ -150,8 +150,22 @@ class Post_Type_Helper {
 		$public_post_types   = $this->get_public_post_types();
 		$excluded_post_types = $this->get_excluded_post_types_for_indexables();
 
+		$included_post_types = \array_diff( $public_post_types, $excluded_post_types );
+		/**
+		 * Filter: 'wpseo_indexable_force_post_type_indexable_creation' - Allow developers to make sure indexables get created for post types.
+		 *
+		 * @param array $included_post_types The current post types where indexables will be created for.
+		 */
+		$included_post_types = \apply_filters( 'wpseo_indexable_force_post_type_indexable_creation', $included_post_types );
+
+		// Add sanity check to make sure everything is an actual post type.
+		foreach ( $included_post_types as $key => $post_type ) {
+			if ( ! post_type_exists( $post_type ) ) {
+				unset( $included_post_types[ $key ] );
+			}
+		}
 		// `array_values`, to make sure that the keys are reset.
-		return \array_values( \array_diff( $public_post_types, $excluded_post_types ) );
+		return \array_values( $included_post_types );
 	}
 
 	/**
