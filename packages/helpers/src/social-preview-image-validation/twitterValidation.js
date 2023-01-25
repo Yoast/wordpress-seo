@@ -27,7 +27,7 @@ export const validateSize = ( image, isLarge ) => {
 	%d expands to the maximum width, %d expands to the maximum height. */
 	const warningString = __(
 		"Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels. The maximum dimensions are %dx%d pixels.",
-		"yoast-components"
+		"wordpress-seo"
 	);
 
 	const isMaximumDimensions = width > MAX_WIDTH || height > MAX_HEIGHT;
@@ -57,18 +57,18 @@ export const validateType = ( image ) => {
 		/* Translators: %s expands to the gif format, %s expands to the gif format. */
 		__(
 			"You have uploaded a %s. Please note that, if it’s an animated %s, only the first frame will be used.",
-			"yoast-components"
+			"wordpress-seo"
 		),
-		"GIF", "GIF",
+		"GIF", "GIF"
 	);
 
 	const warningMessage = sprintf(
 		/* Translators: %s expands to the jpg format, %s expands to the png format, %s expands to the gif format. */
 		__(
 			"The format of the uploaded image is not supported. The supported formats are: %s, %s, %s and %s.",
-			"yoast-components"
+			"wordpress-seo"
 		),
-		"JPG", "PNG", "WEBP", "GIF",
+		"JPG", "PNG", "WEBP", "GIF"
 	);
 
 	if ( validTypes.includes( type ) ) {
@@ -95,9 +95,9 @@ export const validatesBytes = ( image ) => {
 		/* Translators: %s expands to Twitter, %s expands to the 5MB size. */
 		__(
 			"The file size of the uploaded image is too large for %s. File size must be less than %s.",
-			"yoast-components"
+			"wordpress-seo"
 		),
-		"Twitter", "5MB",
+		"Twitter", "5MB"
 	);
 
 	if ( bytes >= 5 ) {

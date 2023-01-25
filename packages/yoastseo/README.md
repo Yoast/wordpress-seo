@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
+[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
 [![Code Climate](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/gpa.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/feed)
 [![Test Coverage](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/coverage.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/coverage)
 [![Inline docs](http://inch-ci.org/github/yoast/yoastseo.js.svg?branch=master)](http://inch-ci.org/github/yoast/yoastseo.js)
@@ -7,9 +8,20 @@
 
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
-![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessment.png)
+![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessments.png)
 
 Also included is a preview of the Google search results which can be assessed using the library.
+
+## Documentation
+* A list of all the [assessors](src/scoring/README.md)
+* Information on the [scoring system of the assessments](src/scoring/assessments/README.md)
+  * [SEO analysis scoring](src/scoring/assessments/SCORING%20SEO.md)
+  * [Readability analysis scoring](src/scoring/assessments/SCORING%20READABILITY.md)
+  * [Inclusive language analysis scoring](src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
+* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
+* Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
+* Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
+
 
 ## Installation
 
@@ -75,12 +87,12 @@ worker.initialize( {
 If you want to have a more barebones API, or are in an environment without access to Web Worker you can use the internal objects:
 
 ```js
-import { Researcher, Paper } from "yoastseo";
+import { AbstractResearcher, Paper } from "yoastseo";
 
 const paper = new Paper( "Text to analyze", {
     keyword: "analyze",
 } );
-const researcher = new Researcher( paper );
+const researcher = new AbstractResearcher( paper );
 
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
@@ -88,45 +100,60 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 **Note: This is currently a synchronous API, but will become an asynchronous API in the future.**
 
 ## Supported languages
-| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	| Function words<sup>2</sup> 	|
-|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|----------------------------	|
-| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
-| Polish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Swedish    	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hungarian  	| ✅                	| ❌<sup>3</sup>        |  ✅          	|     ✅           	|         ✅             	|             ✅                 	|                            	|
-| Indonesian 	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Arabic    	| ✅                	| ❌<sup>3</sup>        | ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hebrew      |   ✅                | ❌<sup>3</sup>             | ✅             |    ✅               |      ✅                   |           ✅                     | ✅                         |
-| Farsi    	  |                  	|                         |               	|                       |                             	| ✅                          	|
-| Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+
+### SEO analysis
+**Function word support**, which is used for internal linking, insights, and keyphrase-related analysis, is available in the following languages:
+
+English, German, Dutch, French, Spanish, Italian, Portuguese, Russian, Polish, Swedish, Hungarian, Indonesian, Arabic,
+Hebrew, Farsi, Turkish, Norwegian, Czech, Slovak, Greek, Japanese
+
+### Readability analysis
+
+| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	|
+|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|
+| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ❌<sup>3</sup>                 |
+| Polish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Swedish    	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Hungarian  	| ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |
+| Indonesian 	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Arabic    	| ✅                	| ❌<sup>2</sup>        | ✅             	| ✅                   	| ✅                           	|
+| Hebrew        | ✅                    | ❌<sup>2</sup>        | ✅                | ✅                     | ✅                            |
+| Farsi    	    | ✅                    | ❌<sup>2</sup>        | ✅              	| ✅                    | ✅                             |
+| Turkish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Norwegian     | ✅                	| ❌<sup>2</sup>        | ✅                 | ✅                   	| ✅                           	|
+| Czech     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Slovak     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Greek     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Japanese     	| ✅                	| ❌<sup>2</sup>       	| ❌<sup>4</sup>    | ✅                    | ✅                            |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
-<sup>2</sup> These are used for internal linking, insights and keyphrase-related analyses.
+<sup>2</sup> There is no existing Flesch reading ease formula for these languages.
 
-<sup>3</sup> There is no existing Flesch reading ease formula for these languages.
+<sup>3</sup> This means that the functionality for this assessment is currently not available for these languages.
 
+<sup>4</sup> The Passive voice check for Japanese is not implemented since the structure is the same as the potential form and can additionally be used for an honorific purpose. Identifying whether a verb is in its passive, honorific or potential form is problematic without contextual information.
 
 The following readability assessments are available for all languages:
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
 - paragraph length
 - subheading distribution
 
+### Inclusive language analysis
+
+The inclusive language analysis is currently available in English.
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Documentation
-
-The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
 
 ## Testing
 
@@ -156,10 +183,9 @@ Then, in the [Yoast SEO](https://github.com/Yoast/wordpress-seo) directory, assu
 
 ```bash
 npm link yoastseo
-grunt build:js && grunt build:css
 ```
 
-From that point on you need to re-do `grunt build:js && grunt build:css` when you make changes to YoastSEO.js. If you want to unlink, simply do:
+If you want to unlink, simply do:
 
 ```bash
 npm unlink yoastseo

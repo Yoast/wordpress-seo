@@ -18,7 +18,7 @@ function getBlockByClientId( clientId: string ): BlockInstance {
  *
  * @param {string} clientId The client id of the block to remove.
  */
-function removeBlock( clientId: string ) {
+function removeBlock( clientId: string ): void {
 	dispatch( "core/block-editor" ).removeBlock( clientId );
 }
 
@@ -43,4 +43,25 @@ function getBlockType( blockName: string ): Block | undefined {
 	return select( "core/blocks" ).getBlockType( blockName );
 }
 
-export { getBlockByClientId, removeBlock, restoreBlock, getBlockType };
+/**
+ * Retrieves a human readable block name.
+ *
+ * @param blockName The block name (e.g. the Gutenberg block id).
+ *
+ * @returns A human readable block title.
+ */
+function getHumanReadableBlockName( blockName: string ): string {
+	const blockType = getBlockType( blockName ) || null;
+	if ( blockType ) {
+		return blockType.title;
+	}
+
+	const lastSlash = blockName.lastIndexOf( "/" );
+	if ( lastSlash < 0 || lastSlash === blockName.length - 1 ) {
+		return blockName;
+	}
+
+	return blockName.substring( lastSlash + 1 ).toLocaleLowerCase();
+}
+
+export { getBlockByClientId, removeBlock, restoreBlock, getBlockType, getHumanReadableBlockName };

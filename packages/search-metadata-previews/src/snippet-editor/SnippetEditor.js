@@ -3,10 +3,10 @@ import styled from "styled-components";
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import noop from "lodash/noop";
+import { escapeRegExp, noop } from "lodash";
 
 /* Yoast dependencies */
-import { assessments, string, helpers } from "yoastseo";
+import { assessments, languageProcessing, helpers } from "yoastseo";
 import { ErrorBoundary, SvgIcon, Button } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle, join } from "@yoast/helpers";
@@ -55,7 +55,11 @@ const CloseEditorButton = styled( SnippetEditorButton )`
  */
 function getTitleProgress( title ) {
 	const titleWidth = measureTextWidth( title );
-	const pageTitleWidthAssessment = new PageTitleWidthAssessment();
+	const pageTitleWidthAssessment = new PageTitleWidthAssessment( {
+		scores: {
+			widthTooShort: 9,
+		},
+	}, true );
 	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
 	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
 
@@ -69,21 +73,27 @@ function getTitleProgress( title ) {
 /**
  * Gets the description progress.
  *
- * @param {string} description The description.
- * @param {string} date        The meta description date
+ * @param {string}  description     The description.
+ * @param {string}  date            The meta description date.
+ * @param {bool}    isCornerstone   Whether the cornerstone content toggle is on or off.
+ * @param {bool}    isTaxonomy      Whether the page is a taxonomy page.
+ * @param {string}  locale          The locale.
  *
  * @returns {Object} The description progress.
  */
-function getDescriptionProgress( description, date ) {
-	let descriptionLength = description.length;
-	/* If the meta description is preceded by a date, two spaces and a hyphen (" - ") are added as well. Therefore,
-	three needs to be added to the total length. */
-	if ( date !== "" && descriptionLength > 0 ) {
-		descriptionLength += date.length + 3;
-	}
-	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
-	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
-	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
+function getDescriptionProgress( description, date, isCornerstone, isTaxonomy, locale ) {
+	const descriptionLength = languageProcessing.countMetaDescriptionLength( date, description );
+
+	// Override the default config if the cornerstone content toggle is on and it is not a taxonomy page.
+	const metaDescriptionLengthAssessment = ( isCornerstone && ! isTaxonomy ) ? new MetaDescriptionLengthAssessment( {
+		scores: {
+			tooLong: 3,
+			tooShort: 3,
+		},
+	} ) : new MetaDescriptionLengthAssessment();
+
+	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength, locale  );
+	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength( locale );
 
 	return {
 		max: maximumLength,
@@ -107,13 +117,17 @@ class SnippetEditor extends React.Component {
 	 * @param {string}   props.data.title                        The initial title.
 	 * @param {string}   props.data.slug                         The initial slug.
 	 * @param {string}   props.data.description                  The initial description.
+	 * @param {bool}     props.isCornerstone                     Whether the cornerstone content toggle is on or off.
+	 * @param {bool}     props.isTaxonomy                        Whether the page is a taxonomy page.
 	 * @param {string}   props.baseUrl                           The base URL to use for the preview.
 	 * @param {string}   props.mode                              The mode the editor should be in.
 	 * @param {Function} props.onChange                          Called when the data changes.
 	 * @param {Object}   props.titleLengthProgress               The values for the title length assessment.
 	 * @param {Object}   props.descriptionLengthProgress         The values for the description length assessment.
 	 * @param {Function} props.mapEditorDataToPreview            Function to map the editor data to data for the preview.
+	 * @param {Function} props.applyReplacementVariables         Function that overrides default replacement variables application with a custom one.
 	 * @param {string}   props.locale                            The locale of the page.
+	 * @param {string}   props.mobileImageSrc                    Mobile Image source for snippet preview.
 	 * @param {bool}     props.hasPaperStyle                     Whether or not it has paper style.
 	 * @param {string}   props.descriptionEditorFieldPlaceholder The placeholder value for the description field.
 	 * @param {bool}     props.showCloseButton                   Whether or not users have the option to open and close
@@ -122,22 +136,26 @@ class SnippetEditor extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
-
 		const measurementData = this.mapDataToMeasurements( props.data );
-		const previewData = this.mapDataToPreview( measurementData );
 
 		this.state = {
 			// Is opened by default when show close button is hidden.
 			isOpen: ! props.showCloseButton,
 			activeField: null,
 			hoveredField: null,
-			mappedData: previewData,
 			titleLengthProgress: getTitleProgress( measurementData.title ),
-			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date ),
+			descriptionLengthProgress: getDescriptionProgress(
+				measurementData.description,
+				this.props.date,
+				this.props.isCornerstone,
+				this.props.isTaxonomy,
+				this.props.locale
+			),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
 		this.unsetFieldFocus = this.unsetFieldFocus.bind( this );
+		this.onChangeMode = this.onChangeMode.bind( this );
 		this.onMouseUp = this.onMouseUp.bind( this );
 		this.onMouseEnter = this.onMouseEnter.bind( this );
 		this.onMouseLeave = this.onMouseLeave.bind( this );
@@ -145,6 +163,7 @@ class SnippetEditor extends React.Component {
 		this.close = this.close.bind( this );
 		this.setEditButtonRef = this.setEditButtonRef.bind( this );
 		this.handleChange = this.handleChange.bind( this );
+		this.haveReplaceVarsChanged = this.haveReplaceVarsChanged.bind( this );
 	}
 
 	/**
@@ -159,7 +178,10 @@ class SnippetEditor extends React.Component {
 		if (
 			prevProps.data.description !== nextProps.data.description ||
 			prevProps.data.slug !== nextProps.data.slug ||
-			prevProps.data.title !== nextProps.data.title
+			prevProps.data.title !== nextProps.data.title ||
+			prevProps.isCornerstone !== nextProps.isCornerstone ||
+			prevProps.isTaxonomy !== nextProps.isTaxonomy ||
+			prevProps.locale !== nextProps.locale
 		) {
 			isDirty = true;
 		}
@@ -168,11 +190,23 @@ class SnippetEditor extends React.Component {
 		   The replacement variables are converted from an array of objects to a string for easier and more consistent
 		   comparison.
 		 */
-		if ( JSON.stringify( prevProps.replacementVariables ) !== JSON.stringify( nextProps.replacementVariables ) ) {
+		if ( this.haveReplaceVarsChanged( prevProps.replacementVariables, nextProps.replacementVariables ) ) {
 			isDirty = true;
 		}
 
 		return isDirty;
+	}
+
+	/**
+	 * Checks if the replacement variables have changed.
+	 *
+	 * @param {ReplaceVar[]} oldReplaceVars The old replacement variables.
+	 * @param {ReplaceVar[]} newReplaceVars The new replacement variables.
+	 *
+	 * @returns {boolean} If there is a difference between the old replacement variables and the new ones.
+	 */
+	haveReplaceVarsChanged( oldReplaceVars, newReplaceVars ) {
+		return JSON.stringify( oldReplaceVars ) !== JSON.stringify( newReplaceVars );
 	}
 
 	/**
@@ -188,24 +222,23 @@ class SnippetEditor extends React.Component {
 			this.setState(
 				{
 					titleLengthProgress: getTitleProgress( data.title ),
-					descriptionLengthProgress: getDescriptionProgress( data.description, nextProps.date ),
+					descriptionLengthProgress: getDescriptionProgress(
+						data.description,
+						nextProps.date,
+						nextProps.isCornerstone,
+						nextProps.isTaxonomy,
+						nextProps.locale ),
 				}
 			);
+
+			if ( this.haveReplaceVarsChanged( this.props.replacementVariables, nextProps.replacementVariables ) ) {
+				/*
+				 * Make sure that changes to the replace vars (e.g. title, category, tags) get reflected on the
+				 * analysis data on the store (used in, among other things, the SEO analysis).
+				 */
+				this.props.onChangeAnalysisData( data );
+			}
 		}
-	}
-
-	/**
-	 * Calls the onChangeAnalysisData function with the current analysis
-	 * data when the component did update.
-	 *
-	 *  @returns {void}
-	 */
-	componentDidUpdate() {
-		const analysisData = this.mapDataToMeasurements( {
-			...this.props.data,
-		} );
-
-		this.props.onChangeAnalysisData( analysisData );
 	}
 
 	/**
@@ -235,6 +268,8 @@ class SnippetEditor extends React.Component {
 	renderEditor() {
 		const {
 			data,
+			descriptionEditorFieldPlaceholder,
+			onReplacementVariableSearchChange,
 			replacementVariables,
 			recommendedReplacementVariables,
 			hasPaperStyle,
@@ -242,18 +277,10 @@ class SnippetEditor extends React.Component {
 			idSuffix,
 		} = this.props;
 
-		let {
-			descriptionEditorFieldPlaceholder,
-		} = this.props;
-
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
-		}
-
-		if ( descriptionEditorFieldPlaceholder === "" ) {
-			descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "yoast-components" );
 		}
 
 		return (
@@ -265,6 +292,7 @@ class SnippetEditor extends React.Component {
 					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
+					onReplacementVariableSearchChange={ onReplacementVariableSearchChange }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					titleLengthProgress={ titleLengthProgress }
@@ -276,7 +304,7 @@ class SnippetEditor extends React.Component {
 					descriptionInputId={ join( [ "yoast-google-preview-description", idSuffix ] ) }
 				/>
 				{ showCloseButton &&
-					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) }</CloseEditorButton>
+					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "wordpress-seo" ) }</CloseEditorButton>
 				}
 			</React.Fragment>
 		);
@@ -306,6 +334,17 @@ class SnippetEditor extends React.Component {
 		this.setState( {
 			activeField: null,
 		} );
+	}
+
+	/**
+	 * Calls the onChange handler with the new mode.
+	 *
+	 * @param {string} newMode The new mode.
+	 *
+	 * @returns {void}
+	 */
+	onChangeMode( newMode ) {
+		this.props.onChange( "mode", newMode );
 	}
 
 	/**
@@ -394,8 +433,12 @@ class SnippetEditor extends React.Component {
 	 * @returns {string} The processed content.
 	 */
 	processReplacementVariables( content, replacementVariables = this.props.replacementVariables ) {
+		if ( this.props.applyReplacementVariables ) {
+			return this.props.applyReplacementVariables( content );
+		}
+
 		for ( const { name, value } of replacementVariables ) {
-			content = content.replace( new RegExp( "%%" + name + "%%", "g" ), value );
+			content = content.replace( new RegExp( "%%" + escapeRegExp( name ) + "%%", "g" ), value );
 		}
 
 		return content;
@@ -419,7 +462,7 @@ class SnippetEditor extends React.Component {
 		let description = this.processReplacementVariables( originalData.description, replacementVariables );
 
 		// Strip multiple spaces and spaces at the beginning and end.
-		description = string.stripSpaces( description );
+		description = languageProcessing.stripSpaces( description );
 
 		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
@@ -507,7 +550,6 @@ class SnippetEditor extends React.Component {
 	 */
 	render() {
 		const {
-			onChange,
 			data,
 			mode,
 			date,
@@ -518,6 +560,8 @@ class SnippetEditor extends React.Component {
 			faviconSrc,
 			mobileImageSrc,
 			idSuffix,
+			shoppingData,
+			siteName,
 		} = this.props;
 
 		const {
@@ -538,7 +582,7 @@ class SnippetEditor extends React.Component {
 			<ErrorBoundary>
 				<div>
 					<ModeSwitcher
-						onChange={ ( newMode ) => onChange( "mode", newMode ) }
+						onChange={ this.onChangeMode }
 						active={ mode }
 						mobileModeInputId={ join( [ "yoast-google-preview-mode-mobile", idSuffix ] ) }
 						desktopModeInputId={ join( [ "yoast-google-preview-mode-desktop", idSuffix ] ) }
@@ -548,6 +592,7 @@ class SnippetEditor extends React.Component {
 						wordsToHighlight={ wordsToHighlight }
 						mode={ mode }
 						date={ date }
+						siteName={ siteName }
 						activeField={ this.mapFieldToPreview( activeField ) }
 						hoveredField={ this.mapFieldToPreview( hoveredField ) }
 						onMouseEnter={ this.onMouseEnter }
@@ -556,6 +601,7 @@ class SnippetEditor extends React.Component {
 						locale={ locale }
 						faviconSrc={ faviconSrc }
 						mobileImageSrc={ mobileImageSrc }
+						shoppingData={ shoppingData }
 						{ ...mappedData }
 					/>
 
@@ -565,7 +611,7 @@ class SnippetEditor extends React.Component {
 						ref={ this.setEditButtonRef }
 					>
 						<SvgIcon icon="edit" />
-						{ __( "Edit snippet", "yoast-components" ) }
+						{ __( "Edit snippet", "wordpress-seo" ) }
 					</EditSnippetButton> }
 
 					{ this.renderEditor() }
@@ -577,6 +623,7 @@ class SnippetEditor extends React.Component {
 }
 
 SnippetEditor.propTypes = {
+	onReplacementVariableSearchChange: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
@@ -592,6 +639,7 @@ SnippetEditor.propTypes = {
 	onChangeAnalysisData: PropTypes.func,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
+	applyReplacementVariables: PropTypes.func,
 	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	wordsToHighlight: PropTypes.array,
@@ -601,12 +649,17 @@ SnippetEditor.propTypes = {
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
 	idSuffix: PropTypes.string,
+	shoppingData: PropTypes.object,
+	isCornerstone: PropTypes.bool,
+	isTaxonomy: PropTypes.bool,
+	siteName: PropTypes.string.isRequired,
 };
 
 SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
 	wordsToHighlight: [],
+	onReplacementVariableSearchChange: null,
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	titleLengthProgress: {
@@ -619,6 +672,7 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
+	applyReplacementVariables: null,
 	mapEditorDataToPreview: null,
 	keyword: "",
 	locale: "en",
@@ -629,6 +683,9 @@ SnippetEditor.defaultProps = {
 	faviconSrc: "",
 	mobileImageSrc: "",
 	idSuffix: "",
+	shoppingData: {},
+	isCornerstone: false,
+	isTaxonomy: false,
 };
 
 export default SnippetEditor;

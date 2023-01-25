@@ -1,0 +1,104 @@
+@layer components {
+	.yst-root {
+		.yst-tag-input {
+			@apply
+			yst-flex
+			yst-flex-wrap
+			yst-items-center
+			yst-py-2
+			yst-px-3
+			yst-gap-1.5
+			yst-border
+			yst-border-slate-300
+			yst-rounded-md
+			yst-shadow-sm
+			yst-bg-white
+			yst-text-sm
+			yst-text-slate-800
+			yst-placeholder-slate-500
+			yst-leading-6
+			focus-within:yst-ring-1
+			focus-within:yst-ring-primary-500
+			focus-within:yst-border-primary-500;
+		}
+
+		.yst-tag-input--disabled {
+			@apply
+			yst-opacity-50
+			yst-cursor-not-allowed
+			focus-within:yst-ring-0
+			focus-within:yst-border-slate-300;
+
+			.yst-tag-input__tag {
+				@apply
+				yst-cursor-not-allowed
+				focus:yst-outline-none
+				focus:yst-ring-0
+				focus-visible:yst-outline-none
+				focus-visible:yst-ring-0
+				hover:yst-ring-0;
+			}
+
+			.yst-tag-input__remove-tag {
+				@apply
+				yst-cursor-not-allowed
+				hover:yst-bg-slate-200
+				hover:yst-text-slate-400
+				focus:yst-outline-none
+				focus:yst-ring-0;
+			}
+
+			.yst-tag-input__input {
+				@apply yst-cursor-not-allowed;
+			}
+		}
+
+		.yst-tag-input__tag {
+			min-height: 20px;
+			padding-inline-end: 0.125rem;
+
+			@apply
+			yst-gap-0.5
+			yst-cursor-pointer
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-primary-500
+			focus-visible:yst-outline-none
+			focus-visible:yst-ring-2
+			focus-visible:yst-ring-primary-500
+			hover:yst-ring-2
+			hover:yst-ring-primary-500
+			hover:yst-border-primary-500;
+		}
+
+		.yst-tag-input__remove-tag {
+			@apply
+			yst-inline-flex
+			yst-flex-shrink-0
+			yst-h-4
+			yst-w-4
+			yst-items-center
+			yst-justify-center
+			yst-rounded-full
+			yst-bg-slate-200
+			yst-text-slate-400
+			hover:yst-bg-slate-300
+			hover:yst-text-slate-500
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-primary-500;
+		}
+
+		.yst-tag-input__input {
+			@apply
+			yst-inline-flex
+			yst-flex-1
+			yst-p-0
+			yst-m-0
+			yst-border-none
+			yst-text-sm
+			focus:yst-outline-none
+			focus:yst-ring-0;
+		}
+	}
+}

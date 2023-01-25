@@ -22,7 +22,7 @@ describe( "RadioButtonGroup", () => {
 						checked: true,
 					},
 				] }
-			/>,
+			/>
 		);
 
 		const result = renderer.getRenderOutput();

@@ -1,17 +1,9 @@
 import BlockLeaf from "./BlockLeaf";
-import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
-import { ReactElement } from "@wordpress/element";
+import { RenderEditProps, RenderSaveProps } from "./BlockDefinition";
+import { ReactElement } from "react";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
-import { BlockValidationResult, BlockValidation } from "../validation";
-import Instruction, { InstructionOptions } from "../Instruction";
-import { attributeExists, attributeNotEmpty } from "../../functions/validators";
-import validateMany from "../../functions/validators/validateMany";
-import logger from "../../functions/logger";
-
-export type BlockInstructionClass = {
-	new( id: number, options: InstructionOptions ): BlockInstruction;
-	options: InstructionOptions;
-};
+import { BlockValidation, BlockValidationResult, BlockPresence } from "../validation";
+import Instruction from "../Instruction";
 
 /**
  * BlockInstruction class.
@@ -64,10 +56,16 @@ export default abstract class BlockInstruction extends Instruction {
 	/**
 	 * Returns the configuration of this instruction.
 	 *
-	 * @returns {Partial<BlockConfiguration>} The configuration.
+	 * @returns The block configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
-		return {};
+		return {
+			attributes: {
+				[ this.options.name ]: {
+					required: this.options.required === true,
+				},
+			},
+		};
 	}
 
 	/**
@@ -78,30 +76,6 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Skipped );
-
-		if ( this.options && this.options.required === true ) {
-			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
-						           attributeNotEmpty( blockInstance, this.options.name as string );
-			if ( attributeValid ) {
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.Valid ) );
-			} else {
-				logger.warning( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute ) );
-				validation.result = BlockValidation.Invalid;
-			}
-		} else {
-			if ( blockInstance.name.startsWith( "core/" ) ) {
-				validation.result = blockInstance.isValid ? BlockValidation.Valid : BlockValidation.Invalid;
-				return validation;
-			}
-		}
-
-		// Blocks with any invalid innerblock should be considerd invalid themselves.
-		if ( validation.issues.length > 0 ) {
-			return validateMany( validation );
-		}
-
-		return validation;
+		return new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Unknown, BlockPresence.Unknown );
 	}
 }

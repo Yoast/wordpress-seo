@@ -66,10 +66,10 @@ module.exports = function( grunt ) {
 		let branch = grunt.config.get( "currentBranch" );
 
 		if ( process.env.CI ) {
-			if ( process.env.TRAVIS_PULL_REQUEST_BRANCH === "" ) {
-				branch = process.env.TRAVIS_BRANCH;
-			} else {
-				branch = process.env.TRAVIS_PULL_REQUEST_BRANCH;
+			if ( process.env.GITHUB_HEAD_REF !== "" ) {
+				branch = process.env.GITHUB_HEAD_REF;
+			} else if ( process.env.GITHUB_REF_NAME !== "" ) {
+				branch = process.env.GITHUB_REF_NAME;
 			}
 		}
 

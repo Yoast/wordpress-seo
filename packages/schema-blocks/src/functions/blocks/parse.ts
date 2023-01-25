@@ -5,7 +5,7 @@ import BlockDefinition from "../../core/blocks/BlockDefinition";
 import BlockInstructionLeaf from "../../leaves/blocks/BlockInstructionLeaf";
 import BlockTextLeaf from "../../leaves/blocks/BlockTextLeaf";
 import BlockElementLeaf from "../../leaves/blocks/BlockElementLeaf";
-import { AllHTMLAttributes } from "@wordpress/element";
+import { AllHTMLAttributes } from "react";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 
 /**

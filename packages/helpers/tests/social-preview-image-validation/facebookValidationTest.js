@@ -73,7 +73,7 @@ describe( validateType, () => {
 
 		const actual = validateType( testImage );
 
-		const expected = "The format of the uploaded image is not supported. The supported formats are: JPG, PNG and GIF.";
+		const expected = "The format of the uploaded image is not supported. The supported formats are: JPG, PNG, WEBP and GIF.";
 
 		expect( actual ).toEqual( expected );
 	} );

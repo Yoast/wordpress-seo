@@ -1,6 +1,6 @@
 {
 	"name": "@yoast/social-metadata-forms",
-	"version": "1.15.0",
+	"version": "1.17.0",
 	"main": "src/index.js",
 	"repository": {
 		"type": "git",
@@ -29,26 +29,26 @@
 		],
 		"setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
 		"moduleNameMapper": {
-			"\\.css$": "<rootDir>/jest/__mocks__/styleMock.js"
-		}
+          "\\.css$": "<rootDir>/jest/__mocks__/styleMock.js",
+          "^lodash-es$": "lodash"
+        }
 	},
 	"publishConfig": {
 		"access": "public"
 	},
 	"dependencies": {
 		"@wordpress/i18n": "^1.1.0",
-		"@yoast/components": "^2.17.0",
-		"@yoast/replacement-variable-editor": "^1.15.0",
+		"@yoast/components": "^2.19.0",
+		"@yoast/replacement-variable-editor": "^1.17.0",
 		"@yoast/style-guide": "^0.13.0",
 		"lodash": "^4.17.11",
 		"prop-types": "^15.6.0",
 		"redux": "^3.7.2",
-		"styled-components": "^4.2.0"
+		"styled-components": "^5.2.1"
 	},
 	"devDependencies": {
-		"@yoast/browserslist-config": "^1.2.1",
-		"browserslist": "^4.7.3",
-		"jest-styled-components": "^6.3.1"
+		"@yoast/browserslist-config": "^1.2.2",
+		"browserslist": "^4.7.3"
 	},
 	"peerDependencies": {
 		"react": "^16.12.0"

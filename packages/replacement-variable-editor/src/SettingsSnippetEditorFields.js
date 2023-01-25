@@ -21,21 +21,17 @@ class SettingsSnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
 	 *
-	 * @param {Object}   props                             The props for the editor
-	 *                                                     fields.
-	 * @param {Object}   props.replacementVariables        The replacement variables
-	 *                                                     for this editor.
-	 * @param {Object}   props.data                        The initial editor data.
-	 * @param {string}   props.data.title                  The initial title.
-	 * @param {string}   props.data.description            The initial description.
-	 * @param {Function} props.onChange                    Called when the data
-	 *                                                     changes.
-	 * @param {Function} props.onFocus                     Called when a field is
-	 *                                                     focused.
-	 * @param {string}   props.activeField                 The field that is
-	 *                                                     currently active.
-	 * @param {string}   props.hoveredField                The field that is
-	 *                                                     currently hovered.
+	 * @param {Object}   props                      The props for the editor fields.
+	 * @param {Object}   props.replacementVariables The replacement variables for this editor.
+	 * @param {Object}   props.data                 The initial editor data.
+	 * @param {string}   props.data.title           The initial title.
+	 * @param {string}   props.data.description     The initial description.
+	 * @param {Function} props.onChange             Called when the data changes.
+	 * @param {Function} props.onFocus              Called when a field is focused.
+	 * @param {string}   props.activeField          The field that is currently active.
+	 * @param {string}   props.hoveredField         The field that is currently hovered.
+	 * @param {bool}     props.hasNewBadge          Optional. Whether or not it has a 'New' badge.
+	 * @param {bool}     props.hasPremiumBadge      Optional. Whether or not it has a 'Premium' badge.
 	 *
 	 * @returns {void}
 	 */
@@ -48,7 +44,13 @@ class SettingsSnippetEditorFields extends React.Component {
 		};
 
 		this.setRef = this.setRef.bind( this );
+		this.setTitleRef = this.setTitleRef.bind( this );
+		this.setDescriptionRef = this.setDescriptionRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
+		this.onFocusTitle = this.onFocusTitle.bind( this );
+		this.onChangeTitle = this.onChangeTitle.bind( this );
+		this.onFocusDescription = this.onFocusDescription.bind( this );
+		this.onChangeDescription = this.onChangeDescription.bind( this );
 	}
 
 	/**
@@ -61,6 +63,28 @@ class SettingsSnippetEditorFields extends React.Component {
 	 */
 	setRef( field, ref ) {
 		this.elements[ field ] = ref;
+	}
+
+	/**
+	 * Sets the title ref.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	setTitleRef( ref ) {
+		this.setRef( "title", ref );
+	}
+
+	/**
+	 * Sets the description ref.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	 setDescriptionRef( ref ) {
+		this.setRef( "description", ref );
 	}
 
 	/**
@@ -104,6 +128,46 @@ class SettingsSnippetEditorFields extends React.Component {
 	}
 
 	/**
+	 * Call the onFocus event for the title.
+	 *
+	 * @returns {void}
+	 */
+	onFocusTitle() {
+		this.props.onFocus( "title" );
+	}
+
+	/**
+	 * Call the onChange event for the title.
+	 *
+	 * @param {string} content The content.
+	 *
+	 * @returns {void}
+	 */
+	onChangeTitle( content ) {
+		this.props.onChange( "title", content );
+	}
+
+	/**
+	 * Call the onFocus event for the description.
+	 *
+	 * @returns {void}
+	 */
+	 onFocusDescription() {
+		this.props.onFocus( "description" );
+	}
+
+	/**
+	 * Call the onChange event for the description.
+	 *
+	 * @param {string} content The content.
+	 *
+	 * @returns {void}
+	 */
+	onChangeDescription( content ) {
+		this.props.onChange( "description", content );
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -115,15 +179,17 @@ class SettingsSnippetEditorFields extends React.Component {
 			hoveredField,
 			replacementVariables,
 			recommendedReplacementVariables,
-			onFocus,
 			onBlur,
-			onChange,
 			data: {
 				title,
 				description,
 			},
 			containerPadding,
 			fieldIds,
+			labels,
+			hasNewBadge,
+			isDisabled,
+			hasPremiumBadge,
 		} = this.props;
 
 		return (
@@ -132,32 +198,38 @@ class SettingsSnippetEditorFields extends React.Component {
 			>
 				<ReplacementVariableEditor
 					type="title"
-					label={ __( "SEO title", "yoast-components" ) }
-					onFocus={ () => onFocus( "title" ) }
+					label={ labels.title || __( "SEO title", "wordpress-seo" ) }
+					onFocus={ this.onFocusTitle }
 					onBlur={ onBlur }
 					isActive={ activeField === "title" }
 					isHovered={ hoveredField === "title" }
-					editorRef={ ref => this.setRef( "title", ref ) }
+					editorRef={ this.setTitleRef }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ title }
-					onChange={ content => onChange( "title", content ) }
+					onChange={ this.onChangeTitle }
 					fieldId={ fieldIds.title }
+					hasNewBadge={ hasNewBadge }
+					isDisabled={ isDisabled }
+					hasPremiumBadge={ hasPremiumBadge }
 				/>
 				<ReplacementVariableEditor
 					type="description"
 					placeholder={ descriptionEditorFieldPlaceholder }
-					label={ __( "Meta description", "yoast-components" ) }
-					onFocus={ () => onFocus( "description" ) }
+					label={ labels.description ||  __( "Meta description", "wordpress-seo" ) }
+					onFocus={ this.onFocusDescription }
 					onBlur={ onBlur }
 					isActive={ activeField === "description" }
 					isHovered={ hoveredField === "description" }
-					editorRef={ ref => this.setRef( "description", ref ) }
+					editorRef={ this.setDescriptionRef }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ description }
-					onChange={ content => onChange( "description", content ) }
+					onChange={ this.onChangeDescription }
 					fieldId={ fieldIds.description }
+					hasNewBadge={ hasNewBadge }
+					isDisabled={ isDisabled }
+					hasPremiumBadge={ hasPremiumBadge }
 				/>
 			</StyledEditor>
 		);
@@ -182,13 +254,28 @@ SettingsSnippetEditorFields.propTypes = {
 		title: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
+	labels: PropTypes.shape( {
+		title: PropTypes.string,
+		description: PropTypes.string,
+	} ),
+	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
 	onFocus: () => {},
 	onBlur: () => {},
 	containerPadding: "0 20px",
+	descriptionEditorFieldPlaceholder: null,
+	labels: {},
+	hasNewBadge: false,
+	isDisabled: false,
+	hasPremiumBadge: false,
+	activeField: "",
+	hoveredField: "",
 };
 
 export default SettingsSnippetEditorFields;

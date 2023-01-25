@@ -43,7 +43,7 @@ describe( "a processIndicator component", () => {
 	} );
 
 	it( "throws error with one or more missing parameters", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <ProgressIndicator /> );
 		renderer.getRenderOutput();
 
@@ -57,7 +57,7 @@ describe( "a processIndicator component", () => {
 	} );
 
 	it( "throws error with invalid prop types", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <ProgressIndicator currentStepNumber={ "test" } totalSteps={ [] } /> );
 		renderer.getRenderOutput();
 

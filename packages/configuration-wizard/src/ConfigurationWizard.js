@@ -41,10 +41,22 @@ class ConfigurationWizard extends React.Component {
 		};
 
 		this.postStep = this.postStep.bind( this );
+		this.setStepRef = this.setStepRef.bind( this );
 		this.setNextStep = this.setNextStep.bind( this );
 		this.setPreviousStep = this.setPreviousStep.bind( this );
 		this.listenToHashChange = this.listenToHashChange.bind( this );
 		window.addEventListener( "hashchange", this.listenToHashChange, false );
+	}
+
+	/**
+	 * Sets a ref on this component.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	setStepRef( ref ) {
+		this.step = ref;
 	}
 
 	/**
@@ -189,9 +201,9 @@ class ConfigurationWizard extends React.Component {
 			errorMessage: interpolateComponents( {
 				/** Translators: {{link}} resolves to the link opening tag to yoa.st/bugreport, {{/link}} resolves to the link closing tag. **/
 				mixedString: __(
-					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} " +
-					"describing what step you are on and which changes you want to make (if any).",
-					"yoast-components"
+					// eslint-disable-next-line max-len
+					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} describing what step you are on and which changes you want to make (if any).",
+					"wordpress-seo"
 				),
 				// The anchor does have content (see mixedString above).
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
@@ -274,8 +286,8 @@ class ConfigurationWizard extends React.Component {
 		let hideButton = false;
 
 		if ( type === "next" && ! currentStep.next ) {
-			attributes.label = __( "Close", "yoast-components" );
-			attributes[ "aria-label" ] = __( "Close the Wizard", "yoast-components" );
+			attributes.label = __( "Close", "wordpress-seo" );
+			attributes[ "aria-label" ] = __( "Close the Wizard", "wordpress-seo" );
 			attributes.icon = <CloseIcon viewBox="0 0 28 28" />;
 			attributes.onClick = () => {
 				if ( this.props.finishUrl !== "" ) {
@@ -358,12 +370,12 @@ class ConfigurationWizard extends React.Component {
 		let navigation = "";
 		if ( ! step.hideNavigation ) {
 			const previousButton = this.getNavigationbutton( "previous", {
-				label: "« " + __( "Previous", "yoast-components" ),
+				label: "« " + __( "Previous", "wordpress-seo" ),
 				onClick: this.setPreviousStep,
 			}, step, "yoast-wizard--button yoast-wizard--button__previous" );
 
 			const nextButton = this.getNavigationbutton( "next", {
-				label: __( "Next", "yoast-components" ) + " »",
+				label: __( "Next", "wordpress-seo" ) + " »",
 				onClick: this.setNextStep,
 			}, step, "yoast-wizard--button yoast-wizard--button__next" );
 
@@ -372,7 +384,7 @@ class ConfigurationWizard extends React.Component {
 
 		const headerTitle = sprintf(
 			/* Translators: %s expands to "Yoast SEO for WordPress". */
-			__( "%s installation wizard", "yoast-components" ),
+			__( "%s installation wizard", "wordpress-seo" ),
 			"Yoast SEO for WordPress"
 		);
 
@@ -388,9 +400,7 @@ class ConfigurationWizard extends React.Component {
 						<div className="yoast-wizard">
 							{ this.renderErrorMessage() }
 							<Step
-								ref={ ref => {
-									this.step = ref;
-								} }
+								ref={ this.setStepRef }
 								currentStep={ this.state.currentStepId }
 								title={ step.title }
 								fields={ step.fields }

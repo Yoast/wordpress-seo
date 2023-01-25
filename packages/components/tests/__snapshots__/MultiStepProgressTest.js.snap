@@ -1,25 +1,122 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
+.c3 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+  -webkit-animation: loadingSpinnerRotator 1.4s linear infinite;
+  animation: loadingSpinnerRotator 1.4s linear infinite;
+}
+
+.c5 .path {
+  stroke: currentColor;
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  -webkit-transform-origin: center;
+  -ms-transform-origin: center;
+  transform-origin: center;
+  -webkit-animation: loadingSpinnerDash 1.4s ease-in-out infinite;
+  animation: loadingSpinnerDash 1.4s ease-in-out infinite;
+}
+
+.c0 {
+  padding: 8px;
+}
+
+.c1 {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  counter-reset: multi-step-progress-counter;
+}
+
+.c1 li {
+  counter-increment: multi-step-progress-counter;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: baseline;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+  margin: 8px 0;
+}
+
+.c2:first-child {
+  margin-top: 0;
+}
+
+.c2:last-child {
+  margin-bottom: 0;
+}
+
+.c2 span {
+  margin: 0 8px;
+}
+
+.c2 svg {
+  position: relative;
+  top: 2px;
+}
+
+.c2::before {
+  content: counter( multi-step-progress-counter );
+  font-size: 12px;
+  background: #a4286a;
+  border-radius: 50%;
+  min-width: 16px;
+  height: 16px;
+  padding: 4px;
+  color: #fff;
+  text-align: center;
+}
+
+.c6 span {
+  color: #767676;
+}
+
+.c6::before {
+  background-color: #888;
+}
+
+.c4::before {
+  background-color: #888;
+}
+
 <div
   aria-atomic={true}
   aria-live="polite"
   aria-relevant="additions text"
-  className="dljSFa"
+  className="c0"
   role="status"
 >
   <ol
-    className="knaceg"
+    className="c1"
   >
     <li
-      className="kMQQyg"
+      className="c2"
     >
       <span>
         This task has finished.
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-check createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+        className="c3 yoast-svg-icon yoast-svg-icon-check"
         fill="#64a60a"
         focusable="false"
         role="img"
@@ -33,14 +130,14 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </svg>
     </li>
     <li
-      className="kMQQyg"
+      className="c2"
     >
       <span>
         This task has failed.
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-times createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+        className="c3 yoast-svg-icon yoast-svg-icon-times"
         fill="#dc3232"
         focusable="false"
         role="img"
@@ -54,14 +151,14 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </svg>
     </li>
     <li
-      className="cVItcS"
+      className="c2 c4"
     >
       <span>
         This task is running.
       </span>
       <svg
         aria-hidden={true}
-        className="fPPnRA yoast-svg-icon yoast-svg-icon-loading-spinner"
+        className="c5 yoast-svg-icon yoast-svg-icon-loading-spinner"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -81,7 +178,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </svg>
     </li>
     <li
-      className="efeHCA"
+      className="c2 c6"
     >
       <span>
         This task is pending.

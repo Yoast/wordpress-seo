@@ -24,7 +24,7 @@ describe( "A Textarea component", () => {
 	} );
 
 	it( "generates a warning when a faulty value is passed", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Textarea value={ 0 } /> );
 
@@ -34,7 +34,7 @@ describe( "A Textarea component", () => {
 	} );
 
 	it( "generates a warning when a faulty onChange callback is passed", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Textarea name="customTextarea" onChange={ 0 } /> );
 

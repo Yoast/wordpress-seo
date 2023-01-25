@@ -2,7 +2,7 @@
 import "./index.css";
 
 // External dependencies.
-import { AnalysisWorkerWrapper } from "yoastseo";
+import AnalysisWorkerWrapper from "../../../packages/yoastseo/src/worker/AnalysisWorkerWrapper";
 
 // Internal dependencies.
 import AnalysisWebWorker from "./analysis.worker";
@@ -37,7 +37,7 @@ const preloadedState = {
 		keyword: "",
 		synonyms: "",
 		locale: "",
-		url: "",
+		slug: "",
 		permalink: "https://example.org/",
 	},
 };
@@ -46,7 +46,10 @@ const initialState = getStorageData( storageStates, preloadedState );
 const storageMiddleware = createStorageMiddleware( storageStates );
 
 const store = configureStore( initialState, [ storageMiddleware  ] );
-const worker = new AnalysisWorkerWrapper( new AnalysisWebWorker() );
+const workerUnwrapped = new AnalysisWebWorker();
+// Pass language so that the right researcher is loaded.
+workerUnwrapped.postMessage( { language: window.localStorage.language } );
+const worker = new AnalysisWorkerWrapper( workerUnwrapped );
 
 const subscriber = new StoreSubscriber( { store, worker } );
 subscriber.subscribe();

@@ -1,6 +1,3 @@
-/* global jest */
-/* eslint-disable */
-
 import React from "react";
 
 const focus = jest.fn();
@@ -22,6 +19,7 @@ class ReplacementVariableEditorMock extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		// eslint-disable-next-line react/prop-types
 		props.editorRef( { focus } );
 	}
 

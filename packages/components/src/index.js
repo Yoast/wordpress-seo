@@ -13,8 +13,12 @@ export * from "./inputs";
 export * from "./insights-card";
 export * from "./radiobutton";
 export * from "./select";
+export * from "./star-rating";
 export * from "./help-icon";
 export * from "./tables";
+export * from "./new-badge";
+export * from "./premium-badge";
+export * from "./beta-badge";
 
 // Referenced index.js explicitly due to case-sensitive path conflicts.
 export * from "./toggle/index.js";
@@ -58,6 +62,7 @@ export { default as Heading } from "./Heading";
 export { default as HelpText } from "./HelpText";
 export { default as Icon } from "./Icon";
 export { default as IconButtonToggle } from "./IconButtonToggle.js";
+export { default as IconCTAEditButton } from "./IconCTAEditButton.js";
 export { default as IFrame } from "./IFrame";
 export { default as Input } from "./input/Input";
 export { default as WordOccurrenceInsights } from "./WordOccurrenceInsights";

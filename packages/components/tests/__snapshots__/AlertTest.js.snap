@@ -1,12 +1,163 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
+.c1 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c5:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c7:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c8 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #00468f;
+  background: #cce5ff;
+  margin-bottom: 20px;
+}
+
+.c3 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c3 a {
+  color: #004973;
+}
+
+.c3 p {
+  margin-top: 0;
+}
+
+.c2 {
+  margin-top: 0.1rem;
+  margin-right: 8px;
+}
+
+.c9 {
+  margin: -8px -12px -8px 8px;
+  font-size: 24px;
+  line-height: 1.4;
+  color: #00468f;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  min-width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.c9,
+.c9:hover,
+.c9:active {
+  border: 2px solid transparent;
+  background: transparent;
+  box-shadow: none;
+  color: #00468f;
+}
+
+.c9:focus {
+  background: transparent;
+  color: #00468f;
+  border-color: #007fff;
+  box-shadow: 0px 0px 0px 3px rgba(0,127,255,0.25);
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c8::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="biWnNh"
+  className="c0"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-info camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="c1 yoast-svg-icon yoast-svg-icon-alert-info c2"
     fill="#00468f"
     focusable="false"
     role="img"
@@ -19,17 +170,23 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
     />
   </svg>
   <div
-    className="jJuGwm"
+    className="c3"
   >
     Dismissable alert.
   </div>
   <button
     aria-label="Dismiss this alert"
-    className="fjYcEj"
+    className="c4 c5 c6 c7 c8 c9"
     onClick={
       [MockFunction] {
         "calls": Array [
           Array [],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
         ],
       }
     }
@@ -41,12 +198,58 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
 `;
 
 exports[`Alert the Alert types match the snapshot 1`] = `
+.c1 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #8f1919;
+  background: #f9dcdc;
+  margin-bottom: 20px;
+}
+
+.c3 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c3 a {
+  color: #004973;
+}
+
+.c3 p {
+  margin-top: 0;
+}
+
+.c2 {
+  margin-top: 0.1rem;
+  margin-right: 8px;
+}
+
 <div
-  className="eIlftt"
+  className="c0"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-error camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="c1 yoast-svg-icon yoast-svg-icon-alert-error c2"
     fill="#8f1919"
     focusable="false"
     role="img"
@@ -59,7 +262,7 @@ exports[`Alert the Alert types match the snapshot 1`] = `
     />
   </svg>
   <div
-    className="jJuGwm"
+    className="c3"
   >
     This is of the type: "error".
   </div>
@@ -67,12 +270,58 @@ exports[`Alert the Alert types match the snapshot 1`] = `
 `;
 
 exports[`Alert the Alert types match the snapshot 2`] = `
+.c1 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #00468f;
+  background: #cce5ff;
+  margin-bottom: 20px;
+}
+
+.c3 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c3 a {
+  color: #004973;
+}
+
+.c3 p {
+  margin-top: 0;
+}
+
+.c2 {
+  margin-top: 0.1rem;
+  margin-right: 8px;
+}
+
 <div
-  className="biWnNh"
+  className="c0"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-info camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="c1 yoast-svg-icon yoast-svg-icon-alert-info c2"
     fill="#00468f"
     focusable="false"
     role="img"
@@ -85,7 +334,7 @@ exports[`Alert the Alert types match the snapshot 2`] = `
     />
   </svg>
   <div
-    className="jJuGwm"
+    className="c3"
   >
     This is of the type: "info".
   </div>
@@ -93,12 +342,58 @@ exports[`Alert the Alert types match the snapshot 2`] = `
 `;
 
 exports[`Alert the Alert types match the snapshot 3`] = `
+.c1 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #395315;
+  background: #e2f2cc;
+  margin-bottom: 20px;
+}
+
+.c3 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c3 a {
+  color: #004973;
+}
+
+.c3 p {
+  margin-top: 0;
+}
+
+.c2 {
+  margin-top: 0.1rem;
+  margin-right: 8px;
+}
+
 <div
-  className="iKPZzS"
+  className="c0"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-success camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="c1 yoast-svg-icon yoast-svg-icon-alert-success c2"
     fill="#395315"
     focusable="false"
     role="img"
@@ -111,7 +406,7 @@ exports[`Alert the Alert types match the snapshot 3`] = `
     />
   </svg>
   <div
-    className="jJuGwm"
+    className="c3"
   >
     This is of the type: "success".
   </div>
@@ -119,12 +414,58 @@ exports[`Alert the Alert types match the snapshot 3`] = `
 `;
 
 exports[`Alert the Alert types match the snapshot 4`] = `
+.c1 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #674e00;
+  background: #fff3cd;
+  margin-bottom: 20px;
+}
+
+.c3 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c3 a {
+  color: #004973;
+}
+
+.c3 p {
+  margin-top: 0;
+}
+
+.c2 {
+  margin-top: 0.1rem;
+  margin-right: 8px;
+}
+
 <div
-  className="lfexDP"
+  className="c0"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-warning camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+    className="c1 yoast-svg-icon yoast-svg-icon-alert-warning c2"
     fill="#674e00"
     focusable="false"
     role="img"
@@ -137,7 +478,7 @@ exports[`Alert the Alert types match the snapshot 4`] = `
     />
   </svg>
   <div
-    className="jJuGwm"
+    className="c3"
   >
     This is of the type: "warning".
   </div>

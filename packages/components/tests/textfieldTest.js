@@ -19,7 +19,7 @@ describe( "A Textfield component", () => {
 	} );
 
 	it( "generates a warning when no label is passed", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Textfield /> );
 
@@ -29,7 +29,7 @@ describe( "A Textfield component", () => {
 	} );
 
 	it( "generates a warning when a faulty value is passed", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Textfield label="customLabel" value={ 0 } /> );
 

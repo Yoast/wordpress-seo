@@ -1,38 +1,90 @@
 {
-  "name": "root",
+  "name": "wordpress-seo",
+  "license": "GPL-2.0+",
+  "description": "Development files for the Yoast SEO plugin",
   "private": true,
-  "devDependencies": {
-    "eslint": "^5.15.3",
-    "eslint-config-yoast": "^5.0.17-rc.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
-    "json": "^9.0.6",
-    "lerna": "^3.13.1"
+  "plugin": {
+    "glotpress": "http://translate.wordpress.org",
+    "textdomain": "wordpress-seo"
+  },
+  "pot": {
+    "reportmsgidbugsto": "https://github.com/yoast/wordpress-seo/issues",
+    "languageteam": "Yoast Translate <translations@yoast.com>",
+    "lasttranslator": "Yoast Translate Team <translations@yoast.com>"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/wordpress-seo"
   },
   "workspaces": {
     "packages": [
-      "packages/*",
-      "apps/*"
+      "packages/*"
     ],
     "nohoist": [
-      "**/grunt-*",
       "**/sassdash"
     ]
   },
   "scripts": {
     "lint": "lerna run lint --",
-    "lint2": "eslint packages apps",
     "test": "lerna run test --stream --",
-    "install-ci": "lerna run install-ci",
-    "link-all": "lerna exec yarn link",
-    "unlink-all": "lerna exec yarn unlink",
-    "transfer-branch": "./transfer-branch.sh",
-    "clean-publish": "lerna exec 'rm -rf dist'",
-    "clean-node-modules": "lerna exec 'rm -rf node_modules' && rm -rf node_modules",
-    "lerna-version": "lerna version",
-    "lerna-version-rc": "lerna version --preid rc",
-    "lerna-publish": "lerna publish --contents dist --yes from-git",
-    "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc --yes from-git --loglevel=verbose",
-    "list-deps": "node ./scripts/list-dependencies.js"
-  }
+    "build": "wp-scripts build --config config/webpack/webpack.config.js",
+    "build:dev": "cross-env NODE_ENV=development wp-scripts build --config config/webpack/webpack.config.js",
+    "build:css": "cross-env NODE_ENV=production postcss css/dist/*.css --verbose --replace",
+    "build:css:dev": "cross-env NODE_ENV=development postcss css/dist/*.css --verbose --replace",
+    "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
+    "prestart": "grunt build:css && grunt copy:js-dependencies",
+    "start": "wp-scripts start --config config/webpack/webpack.config.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@slack/webhook": "^5.0.2",
+    "@tailwindcss/forms": "^0.5.2",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
+    "@wordpress/scripts": "^17.1.0",
+    "@wordproof/uikit": "1.0.41",
+    "@yoast/babel-preset": "^1.0.1",
+    "@yoast/browserslist-config": "^1.2.2",
+    "@yoast/grunt-plugin-tasks": "^2.4",
+    "@yoast/postcss-preset": "^1.0.1",
+    "@yoast/tailwindcss-preset": "^2.0.0",
+    "@yoast/ui-library": "^3.0.0",
+    "autoprefixer": "^10.4.7",
+    "babel-plugin-dynamic-import-webpack": "^1.1.0",
+    "colors": "1.4.0",
+    "core-js": "^2.6.12",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "enzyme-to-json": "^3.6.1",
+    "eslint": "^7.32.0",
+    "eslint-config-yoast": "^5.0.17",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0",
+    "grunt-git": "^1.0.14",
+    "grunt-prompt": "^1.3.3",
+    "grunt-shell": "^3.0.1",
+    "grunt-webpack": "^3.1.3",
+    "i18n-calypso": "^1.8.4",
+    "jest": "^23.6.0",
+    "jest-styled-components": "^7.0.3",
+    "lerna": "^4.0.0",
+    "node-fetch": "^2.6.1",
+    "postcss": "^8.4.14",
+    "postcss-cli": "^9.1.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-test-renderer": "^16.14.0",
+    "readline-sync": "^1.4.9",
+    "shusher": "^0.1.1",
+    "tmp": "^0.1.0",
+    "typescript": "^4.2.4"
+  },
+  "yoast": {
+    "pluginVersion": "20.1-RC1"
+  },
+  "version": "0.0.0"
 }

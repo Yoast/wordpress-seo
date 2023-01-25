@@ -10,6 +10,10 @@ function _x( string ) {
 	return string;
 }
 
+function isRTL() {
+	return false;
+}
+
 // Mock works for English, because our source translations are in English.
 function _n( single, plural, number ) {
 	if ( number === 1 ) {
@@ -27,6 +31,7 @@ function _nx( single, plural, number ) {
 export {
 	__,
 	_x,
+	isRTL,
 	_n,
 	_nx,
 	setLocaleData,

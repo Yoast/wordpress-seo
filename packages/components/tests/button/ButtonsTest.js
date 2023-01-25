@@ -66,7 +66,7 @@ describe( "Button", () => {
 	} );
 
 	it( "generates an error if wrong props are provided", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		shallowRenderer.render(
 			<Button

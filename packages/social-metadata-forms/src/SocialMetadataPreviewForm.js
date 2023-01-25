@@ -160,6 +160,7 @@ class SocialMetadataPreviewForm extends Component {
 			descriptionInputPlaceholder,
 			onTitleChange,
 			onDescriptionChange,
+			onReplacementVariableSearchChange,
 			hoveredField,
 			activeField,
 			isPremium,
@@ -167,17 +168,18 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
+			imageAltText,
 			idSuffix,
 		} = this.props;
 
 		const imageSelected = !! imageUrl;
 
 		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const imageSelectTitle = sprintf( __( "%s image", "yoast-components" ), socialMediumName );
+		const imageSelectTitle = sprintf( __( "%s image", "wordpress-seo" ), socialMediumName );
 		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), socialMediumName );
+		const titleEditorTitle = sprintf( __( "%s title", "wordpress-seo" ), socialMediumName );
 		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const descEditorTitle = sprintf( __( "%s description", "yoast-components" ), socialMediumName );
+		const descEditorTitle = sprintf( __( "%s description", "wordpress-seo" ), socialMediumName );
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
@@ -194,6 +196,7 @@ class SocialMetadataPreviewForm extends Component {
 					isActive={ activeField === "image" }
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
+					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
 					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
 					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
@@ -211,6 +214,7 @@ class SocialMetadataPreviewForm extends Component {
 					label={ titleEditorTitle }
 					onMouseEnter={ this.onTitleEnter }
 					onMouseLeave={ this.onLeave }
+					onSearchChange={ onReplacementVariableSearchChange }
 					isActive={ activeField === "title" }
 					isHovered={ hoveredField === "title" }
 					withCaret={ true }
@@ -229,6 +233,7 @@ class SocialMetadataPreviewForm extends Component {
 					label={ descEditorTitle }
 					onMouseEnter={ this.onDescriptionEnter }
 					onMouseLeave={ this.onLeave }
+					onSearchChange={ onReplacementVariableSearchChange }
 					isActive={ activeField === "description" }
 					isHovered={ hoveredField === "description" }
 					withCaret={ true }
@@ -249,6 +254,7 @@ SocialMetadataPreviewForm.propTypes = {
 	description: PropTypes.string.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
+	onReplacementVariableSearchChange: PropTypes.func,
 	isPremium: PropTypes.bool,
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
@@ -257,6 +263,7 @@ SocialMetadataPreviewForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
+	imageAltText: PropTypes.string,
 	titleInputPlaceholder: PropTypes.string,
 	descriptionInputPlaceholder: PropTypes.string,
 	setEditorRef: PropTypes.func,
@@ -271,7 +278,9 @@ SocialMetadataPreviewForm.defaultProps = {
 	hoveredField: "",
 	activeField: "",
 	onSelect: () => {},
+	onReplacementVariableSearchChange: null,
 	imageUrl: "",
+	imageAltText: "",
 	titleInputPlaceholder: "",
 	descriptionInputPlaceholder: "",
 	isPremium: false,

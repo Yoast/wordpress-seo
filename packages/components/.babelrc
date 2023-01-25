@@ -4,7 +4,9 @@
 			"env",
 			{
 				"targets": {
-					"browsers": [ "extends @yoast/browserslist-config" ]
+					"browsers": [
+						"extends @yoast/browserslist-config"
+					]
 				}
 			}
 		],

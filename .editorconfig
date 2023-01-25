@@ -1,6 +1,8 @@
-# EditorConfig helps developers define and maintain consistent
-# coding styles between different editors and IDEs
-# http://editorconfig.org
+# This file is for unifying the coding style for different editors and IDEs
+# editorconfig.org
+
+# WordPress Coding Standards
+# http://make.wordpress.org/core/handbook/coding-standards/
 
 root = true
 
@@ -13,9 +15,12 @@ indent_style = tab
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.txt]
+[*\.txt]
 trim_trailing_whitespace = false
 
-[*.{md,json,yml}]
+[*\.{md,json,yml,yaml,xml,xml\.dist,eslintrc}]
 indent_style = space
 indent_size = 2
+
+[*\.svg]
+insert_final_newline = false

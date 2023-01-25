@@ -30,7 +30,7 @@ const postcssNormalize = require( "postcss-normalize" );
 const appPackageJson = require( paths.appPackageJson );
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
+const shouldUseSourceMap = false;
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // Makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== "false";
@@ -391,6 +391,7 @@ module.exports = function( webpackEnv ) {
 								paths.appSrc,
 								paths.yoastSrc,
 								paths.yoastPackages,
+								paths.yoastNodeModules,
 							],
 							loader: require.resolve( "babel-loader" ),
 							options: {

@@ -122,7 +122,6 @@ class SocialPreviewEditor extends Component {
 			socialMediumName,
 			imageWarnings,
 			siteUrl,
-			authorName,
 			description,
 			descriptionInputPlaceholder,
 			descriptionPreviewFallback,
@@ -135,10 +134,12 @@ class SocialPreviewEditor extends Component {
 			replacementVariables,
 			recommendedReplacementVariables,
 			applyReplacementVariables,
+			onReplacementVariableSearchChange,
 			isPremium,
 			isLarge,
 			socialPreviewLabel,
 			idSuffix,
+			activeMetaTabId,
 		} = this.props;
 
 		// Set fallbacks if title and/or description are empty.
@@ -157,13 +158,13 @@ class SocialPreviewEditor extends Component {
 					onSelect={ this.setActiveField }
 					onImageClick={ onSelectImageClick }
 					siteUrl={ siteUrl }
-					authorName={ authorName }
 					title={ replacedVars.title }
 					description={ replacedVars.description }
 					imageUrl={ imageUrl }
 					imageFallbackUrl={ imageFallbackUrl }
 					alt={ alt }
 					isLarge={ isLarge }
+					activeMetaTabId={ activeMetaTabId }
 				/>
 				<SocialMetadataPreviewForm
 					onDescriptionChange={ onDescriptionChange }
@@ -180,6 +181,7 @@ class SocialPreviewEditor extends Component {
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+					onReplacementVariableSearchChange={ onReplacementVariableSearchChange }
 					onMouseHover={ this.setHoveredField }
 					hoveredField={ this.state.hoveredField }
 					onSelect={ this.setActiveField }
@@ -212,12 +214,13 @@ SocialPreviewEditor.propTypes = {
 	titleInputPlaceholder: PropTypes.string,
 	descriptionPreviewFallback: PropTypes.string,
 	titlePreviewFallback: PropTypes.string,
-	authorName: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	applyReplacementVariables: PropTypes.func,
+	onReplacementVariableSearchChange: PropTypes.func,
 	socialPreviewLabel: PropTypes.string,
 	idSuffix: PropTypes.string,
+	activeMetaTabId: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -232,10 +235,11 @@ SocialPreviewEditor.defaultProps = {
 	descriptionPreviewFallback: "",
 	titlePreviewFallback: "",
 	alt: "",
-	authorName: "",
 	applyReplacementVariables: data => data,
+	onReplacementVariableSearchChange: null,
 	socialPreviewLabel: "",
 	idSuffix: "",
+	activeMetaTabId: "",
 };
 
 export default SocialPreviewEditor;

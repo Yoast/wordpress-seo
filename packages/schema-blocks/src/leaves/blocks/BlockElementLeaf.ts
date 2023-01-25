@@ -1,6 +1,7 @@
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
-import { createElement, AllHTMLAttributes } from "@wordpress/element";
+import { createElement } from "@wordpress/element";
+import { AllHTMLAttributes } from "react";
 
 const attributeMap: Record<string, keyof AllHTMLAttributes<unknown>> = { "class": "className", "for": "htmlFor" };
 
@@ -52,7 +53,7 @@ export default class BlockElementLeaf extends BlockLeaf {
 
 		attributes.key = i;
 
-		return createElement( this.tag, attributes, this.children && this.children.map( ( child, index ) => child.save( props, index ) ) );
+		return createElement( this.tag, attributes, this.renderChildren( this.children, props, "save" ) );
 	}
 
 	/**
@@ -83,6 +84,6 @@ export default class BlockElementLeaf extends BlockLeaf {
 
 		attributes.key = i;
 
-		return createElement( this.tag, attributes, this.children && this.children.map( ( child, index ) => child.edit( props, index ) ) );
+		return createElement( this.tag, attributes, this.renderChildren( this.children, props, "edit" ) );
 	}
 }

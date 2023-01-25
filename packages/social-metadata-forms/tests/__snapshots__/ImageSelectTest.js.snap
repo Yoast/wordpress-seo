@@ -1,6 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The ImageSelect component displays warnings 1`] = `
+.c3 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c10 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c11:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c12::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c12:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c13:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c14 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c14 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -10,7 +86,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 16px;
@@ -19,27 +95,27 @@ exports[`The ImageSelect component displays warnings 1`] = `
   margin-bottom: 20px;
 }
 
-.c4 {
+.c5 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
 }
 
-.c4 a {
+.c5 a {
   color: #004973;
 }
 
-.c3 {
-  margin-top: 0.125rem;
+.c5 p {
+  margin-top: 0;
+}
+
+.c4 {
+  margin-top: 0.1rem;
   margin-right: 8px;
 }
 
 .c1 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
   cursor: pointer;
   font-size: 14px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
@@ -48,39 +124,21 @@ exports[`The ImageSelect component displays warnings 1`] = `
   font-weight: 500;
 }
 
-.c8 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-  -webkit-transition: var(--yoast-transition-default);
-  transition: var(--yoast-transition-default);
+.c7.c7.c7 {
+  padding: 0 8px;
+  min-height: 34px;
+  font-size: 1em;
+  box-shadow: inset 0 1px 2px rgba( 0,0,0,0.07 );
+  border: 1px solid #ddd;
+  border-radius: 0;
+}
+
+.c7.c7.c7:focus {
+  border-color: #5b9dd9;
+  box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
+}
+
+.c15 {
   color: #303030;
   box-sizing: border-box;
   border-radius: 4px;
@@ -92,86 +150,11 @@ exports[`The ImageSelect component displays warnings 1`] = `
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 5px;
-  width: 112px;
-  height: 40px;
+  max-width: 200px;
+  padding: 0 0.5em;
 }
 
-.c8:active {
-  color: #000;
-  background-color: #f7f7f7;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c8::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c8:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: var(--yoast-color-border--default);
-}
-
-.c8 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c9 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-  -webkit-transition: var(--yoast-transition-default);
-  transition: var(--yoast-transition-default);
-  color: #303030;
-  box-sizing: border-box;
-  border-radius: 4px;
-  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-  padding: 4px;
-  border: 1px solid #dbdbdb;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-  margin-bottom: 5px;
-  width: 112px;
-  height: 40px;
+.c16 {
   background: none!important;
   border: none;
   padding: 0!important;
@@ -182,63 +165,19 @@ exports[`The ImageSelect component displays warnings 1`] = `
   box-shadow: none;
 }
 
-.c9:active {
-  color: #000;
-  background-color: #f7f7f7;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c9:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: var(--yoast-color-border--default);
-}
-
-.c9 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c9:hover {
+.c16:hover {
   color: #F00;
 }
 
-.c9:focus {
+.c16:focus {
   color: #F00;
 }
 
-.c6 {
+.c8 {
   min-width: 100%;
 }
 
-.c6.c6.c6 {
-  padding: 0 8px;
-  min-height: 34px;
-  font-size: 1em;
-  box-shadow: inset 0 1px 2px rgba( 0,0,0,0.07 );
-  border: 1px solid #ddd;
-  border-radius: 0;
-}
-
-.c6.c6.c6:focus {
-  border-color: #5b9dd9;
-  box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
-}
-
-.c5 {
+.c6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -248,7 +187,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
   flex-direction: column;
 }
 
-.c7 {
+.c9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -261,15 +200,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c8::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c14::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -291,7 +222,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-alert-warning c3 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      className="c3 yoast-svg-icon yoast-svg-icon-alert-warning c4"
       fill="#674e00"
       focusable="false"
       role="img"
@@ -304,7 +235,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
       />
     </svg>
     <div
-      className="c4"
+      className="c5"
     >
       Your image is too small
     </div>
@@ -314,7 +245,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-alert-warning c3 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      className="c3 yoast-svg-icon yoast-svg-icon-alert-warning c4"
       fill="#674e00"
       focusable="false"
       role="img"
@@ -327,25 +258,25 @@ exports[`The ImageSelect component displays warnings 1`] = `
       />
     </svg>
     <div
-      className="c4"
+      className="c5"
     >
       Wow, I like writing tests
     </div>
   </div>
   <div
-    className="c5"
+    className="c6"
   >
     <input
-      className="c6"
+      className="c7 c8"
       disabled="disabled"
       id="twitter-url-input"
       value=""
     />
     <div
-      className="c7"
+      className="c9"
     >
       <button
-        className="c8"
+        className="c10 c11 c12 c13 c14 c15"
         id="twitter-replace-button"
         onClick={[Function]}
         type="button"
@@ -353,7 +284,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
         Replace image
       </button>
       <button
-        className="c9"
+        className="c10 c11 c12 c13 c14 c15 c16"
         id="twitter-remove-button"
         onClick={[Function]}
         type="button"
@@ -366,24 +297,38 @@ exports[`The ImageSelect component displays warnings 1`] = `
 `;
 
 exports[`The ImageSelect component renders 1`] = `
-.c1 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-  margin: 4px 0;
-  color: #303030;
-  font-weight: 500;
-}
-
 .c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c4:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -412,6 +357,24 @@ exports[`The ImageSelect component renders 1`] = `
   min-height: 32px;
   -webkit-transition: var(--yoast-transition-default);
   transition: var(--yoast-transition-default);
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c1 {
+  cursor: pointer;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin: 4px 0;
+  color: #303030;
+  font-weight: 500;
+}
+
+.c7 {
   color: #303030;
   box-sizing: border-box;
   border-radius: 4px;
@@ -423,38 +386,8 @@ exports[`The ImageSelect component renders 1`] = `
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 5px;
-  width: 112px;
-  height: 40px;
-}
-
-.c2:active {
-  color: #000;
-  background-color: #f7f7f7;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c2::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c2:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c2:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: var(--yoast-color-border--default);
-}
-
-.c2 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
+  max-width: 200px;
+  padding: 0 0.5em;
 }
 
 .c0 {
@@ -462,7 +395,7 @@ exports[`The ImageSelect component renders 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c2::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -480,7 +413,7 @@ exports[`The ImageSelect component renders 1`] = `
     Facebook image
   </div>
   <button
-    className="c2"
+    className="c2 c3 c4 c5 c6 c7"
     id="facebook-select-button"
     onClick={[Function]}
     type="button"

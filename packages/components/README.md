@@ -1,5 +1,6 @@
 ## Requirements
 The Yoast/Components package is not pre-build. So if you would like to include `@yoast/components` into your project we will need a few steps to set it up.
+
 ### Loading Javascript. 
 
 1. Install the package by running `yarn add @yoast/components`.

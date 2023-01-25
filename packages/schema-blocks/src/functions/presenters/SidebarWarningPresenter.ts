@@ -1,153 +1,96 @@
-import { getBlockType } from "../BlockHelper";
-import { select } from "@wordpress/data";
-import { __ } from "@wordpress/i18n";
-import { get } from "lodash";
-import { BlockValidationResult } from "../../core/validation";
-import { BlockValidation } from "../../core/validation";
+import { __, sprintf } from "@wordpress/i18n";
+import { BlockValidation, BlockValidationResult, BlockPresence } from "../../core/validation";
 
-const analysisMessageTemplates: Record<number, string> = {
-	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",
-	[ BlockValidation.MissingAttribute ]: "The '{child}' block is empty.",
-};
-
-type clientIdValidation = Record<string, BlockValidationResult>;
-
-type analysisIssue = {
-	name: string;
-	parent: string;
-	result: BlockValidation;
-	status: string;
-};
-
-export type sidebarWarning = {
+/**
+ * A warning message for in the sidebar schema analysis.
+ */
+export type SidebarWarning = {
+	/**
+	 * The warning message.
+	 */
 	text: string;
-	color: string;
+
+	/**
+	 * Color of the warning.
+	 */
+	color: "red" | "orange" | "green";
 }
 
 /**
- * Gets the validation results from the store for a block instance with the given clientId.
+ * Calculates an analysis conclusion.
  *
- * @param clientId The clientId to request validation results for.
+ * @param issues The validation results on which to base the conclusion.
  *
- * @returns {BlockValidationResult} The validation results, or null if none were found.
+ * @returns Any analysis conclusions that should be in the footer.
  */
-function getValidationResult( clientId: string ): BlockValidationResult | null {
-	const validationResults: clientIdValidation = select( "yoast-seo/editor" ).getSchemaBlocksValidationResults();
-	if ( ! validationResults ) {
-		return null;
+function getAnalysisConclusion( issues: BlockValidationResult[] ): SidebarWarning {
+	let conclusionText = "";
+
+	// Show a red bullet when the block is invalid.
+	if ( issues.some( issue => issue.result >= BlockValidation.Invalid ) ) {
+		conclusionText = sprintf(
+			/* translators: %s expands to the schema block name. */
+			__( "Not all required information has been provided! %s schema will not be generated for your page.", "wordpress-seo" ),
+			"JobPosting",
+		);
+
+		return { text: conclusionText, color: "red" };
 	}
 
-	return validationResults[ clientId ];
+	conclusionText = __( "Good job! All required information has been provided.", "wordpress-seo" );
+
+	return { text: conclusionText, color: "green" };
 }
 
 /**
- * Transforms a template into a warning message given validation details.
+ * Get a list of (red) error messages.
  *
- * @param issue Details about the current issue.
+ * @param issues The block validation issues.
  *
- * @returns {string} The presentable warning message appropriate for this issue.
+ * @return The error messages.
  */
-export function replaceVariables( issue: analysisIssue ): string {
-	const warning = get( analysisMessageTemplates, issue.result, "" );
-	return warning.replace( "{parent}", __( issue.parent, "wpseo-schema-blocks" ) )
-		.replace( "{child}", __( issue.name, "wpseo-schema-blocks" ) )
-		.replace( "{status}", __( issue.status, "wpseo-schema-blocks" ) );
+function getErrorMessages( issues: BlockValidationResult[] ): SidebarWarning[] {
+	const requiredBlockIssues = issues.filter( issue => issue.message && issue.blockPresence === BlockPresence.Required );
+
+	return requiredBlockIssues.map( issue => ( {
+		color: "red",
+		text: issue.message,
+	} ) );
 }
 
 /**
- * Adds analysis conclusions to the footer.
+ * Get a list of (orange) warning messages.
  *
- * @param validation The validation result for the current block.
- * @param issues     The detected issues with metadata.
+ * @param issues The block validation issues.
  *
- * @returns {sidebarWarning} Any analysis conclusions that should be in the footer.
+ * @return The warning messages.
  */
-function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): sidebarWarning {
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock ||
-		issue.result === BlockValidation.MissingAttribute ) ) {
-		return {
-			text: __( "Not all required blocks are completed! No " + issues[ 0 ].parent +
-				" schema will be generated for your page.", "wpseo-schema-blocks" ),
-			color: "red",
-		} as sidebarWarning;
-	}
+function getWarningMessages( issues: BlockValidationResult[] ): SidebarWarning[] {
+	const recommendedBlockIssues = issues.filter( issue => issue.message && issue.blockPresence === BlockPresence.Recommended );
 
-	if ( validation === BlockValidation.Valid ||
-		issues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
-			issue.result !== BlockValidation.MissingBlock ) ) {
-		return {
-			text: __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" ),
-			color: "green",
-		} as sidebarWarning;
-	}
+	return recommendedBlockIssues.map( issue => ( {
+		color: "orange",
+		text: issue.message,
+	} ) );
 }
 
 /**
- * Gathers all validation issues recursively and flattens them into one list.
+ * Creates an array of warning messages from a list block validation results.
  *
- * @param validation The root validation result.
+ * @param issues The block validation results.
  *
- * @return all validation results.
+ * @returns {SidebarWarning[]} The formatted warnings.
  */
-function getAllDescendantIssues( validation: BlockValidationResult ): BlockValidationResult[] {
-	let results = [ validation ];
-	validation.issues.forEach( issue => {
-		results = results.concat( getAllDescendantIssues( issue ) );
-	} );
-	return results;
-}
-
-/**
- * Creates an array of warning messages from a block validation result.
- *
- * @param validation The block being validated.
- *
- * @returns {sidebarWarning[]} The formatted warnings.
- */
-export function createAnalysisMessages( validation: BlockValidationResult ): sidebarWarning[] {
-	const parent = sanitizeBlockName( validation.name );
-
-	// Create a message if there are any validation issues we have a template for.
-	const messageData: analysisIssue[] = getAllDescendantIssues( validation )
-		.filter( ( issue: BlockValidationResult ) => issue.result in analysisMessageTemplates )
-		.map( ( issue: BlockValidationResult ) => ( {
-			name: sanitizeBlockName( issue.name ),
-			parent: sanitizeParentName( parent ),
-			result: issue.result,
-			status: "required",
-		} ) );
-	const messages = messageData.map( msg => {
-		return { text: replaceVariables( msg ), color: "red" } as sidebarWarning;
-	} );
-
-	const conclusion = getAnalysisConclusion( validation.result, messageData );
-
-	if ( conclusion ) {
-		messages.push( conclusion );
+export function createAnalysisMessages( issues: BlockValidationResult[] ): SidebarWarning[] {
+	if ( ! issues ) {
+		return [];
 	}
 
-	return messages;
-}
-
-/**
- * Makes a block name human readable.
- *
- * @param blockName The block name to sanitize.
- *
- * @returns {string} The sanitized block name.
- */
-export function sanitizeBlockName( blockName: string ): string {
-	const blockType = getBlockType( blockName ) || "";
-	if ( blockType ) {
-		return blockType.title;
-	}
-
-	const lastSlash = blockName.lastIndexOf( "/" );
-	if ( lastSlash < 0 || lastSlash === blockName.length - 1 ) {
-		return blockName;
-	}
-
-	return blockName.substring( lastSlash + 1 );
+	return [
+		...getErrorMessages( issues ),
+		...getWarningMessages( issues ),
+		getAnalysisConclusion( issues ),
+	];
 }
 
 /**
@@ -163,20 +106,4 @@ export function sanitizeParentName( parent: string ): string {
 	}
 
 	return parent.toLowerCase();
-}
-
-/**
- * Converts the validation results for a block instance with the given clientId to a presentable text.
- *
- * @param clientId The clientId to request validation results for.
- *
- * @returns {string} The presentable warning message, or null if no warnings are found.
- */
-export default function getWarnings( clientId: string ): sidebarWarning[] {
-	const validation: BlockValidationResult = getValidationResult( clientId );
-	if ( ! validation ) {
-		return null;
-	}
-
-	return createAnalysisMessages( validation );
 }

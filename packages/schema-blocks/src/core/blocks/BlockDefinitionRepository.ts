@@ -20,6 +20,6 @@ export function getBlockDefinition( name: string ): BlockDefinition {
  * @param name       The name of the Definition to register.
  * @param definition The Definition to register.
  */
-export function registerBlockDefinition( name: string, definition: BlockDefinition ) {
+export function registerBlockDefinition( name: string, definition: BlockDefinition ): void {
 	registeredBlockDefinitions[ name ] = definition;
 }

@@ -1,7 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
-.c3 {
+.c1 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -14,11 +30,11 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   height: 23px;
 }
 
-.c3:hover {
+.c4:hover {
   border-color: #fff;
 }
 
-.c3:disabled {
+.c4:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -38,15 +54,16 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   align-items: flex-start;
 }
 
-.c1 {
+.c2 {
   margin: 3px 11px 0 0;
 }
 
-.c2 {
+.c3 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -54,7 +71,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 jXxqhK"
+    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
@@ -67,17 +84,20 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
     />
   </svg>
   <p
-    className="c2"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing great!",
+    className="c3"
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing great!",
+        }
       }
-    }
-  />
+    />
+  </p>
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="c4"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -85,7 +105,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
+      className="c5 yoast-svg-icon yoast-svg-icon-eye"
       fill="#fff"
       focusable="false"
       role="img"
@@ -101,8 +121,211 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 </li>
 `;
 
-exports[`the AnalysisResult component with disabled buttons matches the snapshot 1`] = `
+exports[`the AnalysisResult component with a activated premium matches the snapshot 1`] = `
+.c1 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c4:hover {
+  border-color: #fff;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c2 {
+  margin: 3px 11px 0 0;
+}
+
 .c3 {
+  margin: 0 16px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  color: inherit;
+}
+
+<li
+  className="c0"
+>
+  <svg
+    aria-hidden={true}
+    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    fill="blue"
+    focusable="false"
+    role="img"
+    size="13px"
+    viewBox="0 0 1792 1792"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+    />
+  </svg>
+  <p
+    className="c3"
+  >
+    <span
+      className="yoast-badge yoast-beta-badge"
+    >
+      Beta
+    </span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "This is beta!",
+        }
+      }
+    />
+  </p>
+  <button
+    aria-label="SEOResultEdit"
+    className="c4"
+    id="Result button edit"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="c5 yoast-svg-icon yoast-svg-icon-edit"
+      fill="#555"
+      focusable="false"
+      role="img"
+      size="18px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+      />
+    </svg>
+  </button>
+</li>
+`;
+
+exports[`the AnalysisResult component with a beta badge label matches the snapshot 1`] = `
+.c1 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c2 {
+  margin: 3px 11px 0 0;
+}
+
+.c3 {
+  margin: 0 16px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  color: inherit;
+}
+
+<li
+  className="c0"
+>
+  <svg
+    aria-hidden={true}
+    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    fill="blue"
+    focusable="false"
+    role="img"
+    size="13px"
+    viewBox="0 0 1792 1792"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+    />
+  </svg>
+  <p
+    className="c3"
+  >
+    <span
+      className="yoast-badge yoast-beta-badge"
+    >
+      Beta
+    </span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "This is beta!",
+        }
+      }
+    />
+  </p>
+</li>
+`;
+
+exports[`the AnalysisResult component with disabled buttons matches the snapshot 1`] = `
+.c1 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -115,11 +338,11 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   height: 23px;
 }
 
-.c3:hover {
+.c4:hover {
   border-color: #fff;
 }
 
-.c3:disabled {
+.c4:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -139,15 +362,16 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   align-items: flex-start;
 }
 
-.c1 {
+.c2 {
   margin: 3px 11px 0 0;
 }
 
-.c2 {
+.c3 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -155,7 +379,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 jXxqhK"
+    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
@@ -168,17 +392,20 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
     />
   </svg>
   <p
-    className="c2"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing great!",
+    className="c3"
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing great!",
+        }
       }
-    }
-  />
+    />
+  </p>
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="c4"
     disabled={true}
     id="Result button"
     onClick={[Function]}
@@ -186,7 +413,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
+      className="c5 yoast-svg-icon yoast-svg-icon-eye"
       fill="#ddd"
       focusable="false"
       role="img"
@@ -203,6 +430,14 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 `;
 
 exports[`the AnalysisResult component with hidden buttons matches the snapshot 1`] = `
+.c1 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
 .c0 {
   min-height: 24px;
   padding: 0;
@@ -216,15 +451,16 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
   align-items: flex-start;
 }
 
-.c1 {
+.c2 {
   margin: 3px 11px 0 0;
 }
 
-.c2 {
+.c3 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -232,7 +468,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 jXxqhK"
+    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
@@ -245,18 +481,37 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
     />
   </svg>
   <p
-    className="c2"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing great!",
+    className="c3"
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing great!",
+        }
       }
-    }
-  />
+    />
+  </p>
 </li>
 `;
 
 exports[`the AnalysisResult component with html in the text matches the snapshot 1`] = `
-.c3 {
+.c1 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -269,11 +524,11 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   height: 23px;
 }
 
-.c3:hover {
+.c4:hover {
   border-color: #fff;
 }
 
-.c3:disabled {
+.c4:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
@@ -293,15 +548,16 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   align-items: flex-start;
 }
 
-.c1 {
+.c2 {
   margin: 3px 11px 0 0;
 }
 
-.c2 {
+.c3 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -309,7 +565,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-circle c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 jXxqhK"
+    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
@@ -322,17 +578,20 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
     />
   </svg>
   <p
-    className="c2"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing <b>great!</b>",
+    className="c3"
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing <b>great!</b>",
+        }
       }
-    }
-  />
+    />
+  </p>
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="c3"
+    className="c4"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -340,7 +599,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
+      className="c5 yoast-svg-icon yoast-svg-icon-eye"
       fill="#fff"
       focusable="false"
       role="img"
@@ -353,5 +612,70 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
       />
     </svg>
   </button>
+</li>
+`;
+
+exports[`the AnalysisResult component with suppressed text matches the snapshot 1`] = `
+.c1 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c2 {
+  margin: 3px 11px 0 0;
+}
+
+.c3 {
+  margin: 0 16px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  color: rgba(30,30,30,0.5);
+}
+
+<li
+  className="c0"
+>
+  <svg
+    aria-hidden={true}
+    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    fill="blue"
+    focusable="false"
+    role="img"
+    size="13px"
+    viewBox="0 0 1792 1792"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+    />
+  </svg>
+  <p
+    className="c3"
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing great!",
+        }
+      }
+    />
+  </p>
 </li>
 `;

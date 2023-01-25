@@ -136,7 +136,7 @@ describe( "build metadata tree", () => {
 	} );
 
 	it( "processes the slug", () => {
-		const paper = new Paper( "", { url: "awesome-post" } );
+		const paper = new Paper( "", { slug: "awesome-post" } );
 		const tree = buildTree( paper );
 		const child = findByType( tree, "slug" );
 

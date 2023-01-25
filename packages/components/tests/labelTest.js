@@ -15,7 +15,7 @@ describe( "A Label component", () => {
 	} );
 
 	it( "generates a warning when a required prop `for` is missing", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Label /> );
 
@@ -26,7 +26,7 @@ describe( "A Label component", () => {
 	} );
 
 	it( "generates a warning when a faulty htmlFor prop is passed", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Label for={ 0 } /> );
 
@@ -36,7 +36,7 @@ describe( "A Label component", () => {
 	} );
 
 	it( "generates a warning when a faulty onChange callback is passed", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Label name="customLabel" optionalAttributes={ { onClick: 0 } } /> );
 

@@ -1,8 +1,7 @@
+import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher";
 import Pluggable from "../src/pluggable";
 import InvalidTypeError from "../src/errors/invalidType";
-import Assessor from "../src/assessor.js";
-import factory from "./specHelpers/factory.js";
-var i18n = factory.buildJed();
+import Assessor from "../src/scoring/assessor.js";
 
 describe( "the pluggable interface", function() {
 	var app, pluggable;
@@ -42,7 +41,7 @@ describe( "the pluggable interface", function() {
 		} );
 
 		it( "should be able to add an assessment", function() {
-			var assessor = new Assessor( i18n );
+			var assessor = new Assessor( new DefaultResearcher() );
 			expect( pluggable._registerAssessment( assessor, "name", function() {}, "test-plugin" ) ).toEqual( true );
 		} );
 	} );

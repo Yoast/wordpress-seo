@@ -1,5 +1,5 @@
 import MissingArgument from "../src/errors/missingArgument.js";
-import SnippetPreview from "../src/snippetPreview.js";
+import SnippetPreview from "../src/snippetPreview/snippetPreview.js";
 import App from "../src/app.js";
 
 // Mock these function to prevent us from needing an actual DOM in the tests.

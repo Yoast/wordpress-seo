@@ -30,19 +30,20 @@ describe( "determineFacebookImageMode", () => {
 
 describe( "retrieveExpectedDimensions", () => {
 	it( "returns Twitter image sizes when SocialMedium is set to 'Twitter'", () => {
-		const actual = determineImageProperties.retrieveExpectedDimensions( "Twitter", );
+		const actual = determineImageProperties.retrieveExpectedDimensions( "Twitter" );
 		const expected = {
 			squareWidth: 125,
 			squareHeight: 125,
 			landscapeWidth: 506,
 			landscapeHeight: 265,
+			aspectRatio: 50.2,
 		};
 
 		expect( actual ).toEqual( expected );
 	} );
 
 	it( "returns Facebook image sizes when SocialMedium is set to 'Facebook'", () => {
-		const actual = determineImageProperties.retrieveExpectedDimensions( "Facebook", );
+		const actual = determineImageProperties.retrieveExpectedDimensions( "Facebook" );
 		const expected = {
 			squareWidth: 158,
 			squareHeight: 158,
@@ -50,6 +51,8 @@ describe( "retrieveExpectedDimensions", () => {
 			landscapeHeight: 273,
 			portraitWidth: 158,
 			portraitHeight: 237,
+			aspectRatio: 52.2,
+			largeThreshold: { width: 446, height: 233 },
 		};
 
 		expect( actual ).toEqual( expected );
@@ -194,7 +197,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg",
 			"Twitter",
-			true,
+			true
 		);
 
 		const expected = { mode: "landscape", width: 506, height: 265 };
@@ -246,7 +249,7 @@ describe( "determineImageProperties", () => {
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://yoast.com/app/uploads/sites/5/2016/09/yoast-logo-icon-512x512.png",
 			"Twitter",
-			true,
+			true
 		);
 
 		const expected = { mode: "landscape", width: 506, height: 506 };

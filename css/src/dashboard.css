@@ -1,0 +1,57 @@
+#yoast-seo-dashboard-widget h3 {
+  /* csslint allow: qualified-headings */
+  font-weight: bold;
+}
+
+#yoast-seo-dashboard-widget .assessments, #yoast-seo-dashboard-widget .score-assessments {
+  padding-left: 0;
+}
+
+#yoast-seo-dashboard-widget .wordpress-feed, #yoast-seo-dashboard-widget .wincher-seo-performance {
+  margin: 16px -12px 0;
+  padding: 12px 12px 0;
+  border-top: 1px solid #eee;
+}
+
+#yoast-seo-dashboard-widget .wordpress-feed .wordpress-feed__post {
+  margin-top: 12px;
+}
+
+#yoast-seo-dashboard-widget .wordpress-feed .wordpress-feed__footer {
+  margin: 0 -12px;
+  padding: 4px 12px 0;
+  border-top: 1px solid #eee;
+}
+
+#yoast-seo-dashboard-widget:empty:before {
+  display: block;
+  content: "";
+  width: 40px;
+  height: 40px;
+  background-image: url("../../packages/js/images/Yoast_SEO_Icon.svg");
+  margin: 25px auto;
+  -webkit-animation: rotate 2s infinite linear;
+  animation: rotate 2s infinite linear;
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    -webkit-transform: perspective(120px);
+  }
+  100% {
+    -webkit-transform: perspective(120px) rotateY(360deg);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(0deg) rotateY(360deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(360deg);
+  }
+}
+
+/*# sourceMappingURL=dashboard.css.map */

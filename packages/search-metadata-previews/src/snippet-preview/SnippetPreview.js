@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import { colors, angleLeft, angleRight } from "@yoast/style-guide";
-import { string } from "yoastseo";
+import { languageProcessing } from "yoastseo";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { ScreenReaderText } from "@yoast/components";
 
@@ -17,10 +17,12 @@ const {
 	transliterate,
 	createRegexFromArray,
 	replaceDiacritics: replaceSpecialCharactersAndDiacritics,
-} = string;
+} = languageProcessing;
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
+import ProductDataDesktop from "./ProductDataDesktop";
+import ProductDataMobile from "./ProductDataMobile";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
 
 /*
@@ -29,21 +31,22 @@ import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
  */
 // Was #1e0fbe
 const colorTitleDesktop         = "#1a0dab";
-const colorTitleMobile          = "#1967d2";
+const colorTitleMobile          = "#1558d6";
 const colorUrlBaseDesktop       = "#202124";
 const colorUrlRestDesktop       = "#5f6368";
-const colorUrlMobile            = "#3c4043";
+const colorUrlBaseMobile        = "#202124";
+const colorUrlRestMobile        = "#70757a";
 const colorDescriptionDesktop   = "#4d5156";
 const colorDescriptionMobile    = "#3c4043";
 // Changed to have 4.5:1 contrast.
-const colorGeneratedDescription = "#767676";
+const colorGeneratedDescription = "4d5156";
 // Was #70757f for both desktop and mobile
 const colorDateDesktop          = "#777";
 const colorDateMobile           = "#70757a";
 
 // Font sizes and line-heights.
-const fontSizeTitleMobile    = "16px";
-const lineHeightTitleMobile  = "20px";
+const fontSizeTitleMobile    = "20px";
+const lineHeightTitleMobile  = "26px";
 
 const fontSizeTitleDesktop   = "20px";
 const lineHeightTitleDesktop = "1.3";
@@ -134,7 +137,7 @@ const TitleUnboundedDesktop = styled.span`
 
 const TitleUnboundedMobile = styled.span`
 	display: inline-block;
-	max-height: 40px; // max two lines of text
+	max-height: 52px; // max two lines of text
 	padding-top: 1px;
 	vertical-align: top;
 	overflow: hidden;
@@ -148,10 +151,13 @@ const BaseUrl = styled.div`
 	max-width: 90%;
 	white-space: nowrap;
 	font-size: 14px;
+	line-height: 16px;
 	vertical-align: top;
 `;
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
+    display:flex;
+    align-items: center;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
@@ -164,11 +170,23 @@ const BaseUrlOverflowContainer = styled( BaseUrl )`
 const UrlContentContainer = styled.span`
 	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeUrlDesktop : fontSizeUrlMobile };
 	line-height: ${ props => props.screenMode === MODE_DESKTOP ? lineHeightUrlDesktop : lineHeightUrlMobile };
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlRestMobile };
 `;
 
 const UrlBaseContainer = styled.span`
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
+`;
+
+const MobileFaviconContainer = styled.div`
+width: 28px;
+height: 28px;
+margin-right: 12px;
+border-radius: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+background: #f1f3f4;
+min-width: 28px;
 `;
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
@@ -186,7 +204,6 @@ const DesktopDescription = styled.div`
 const MobileDescription = styled.div`
 	color: ${ colorDescriptionMobile };
 	font-size: 14px;
-	line-height: 20px;
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
@@ -226,6 +243,11 @@ const MobilePartContainer = styled.div`
 	}
 `;
 
+const SiteName = styled.div`
+line-height: 18x; 
+font-size: 14px; 
+color: black;`;
+
 const DesktopPartContainer = styled.div`
 `;
 
@@ -256,9 +278,9 @@ const globeFaviconSrc = "data:image/png;base64," +
 	"TkSuQmCC";
 
 const Favicon = styled.img`
-	width: 16px;
-	height: 16px;
-	margin-right: 12px;
+	width: 18px;
+	height: 18px;
+	margin: 0 5px;
 	vertical-align: middle;
 `;
 
@@ -469,8 +491,11 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	getDescription() {
 		if ( ! this.props.description ) {
-			return __( "Please provide a meta description by editing the snippet below. If you don’t, Google will " +
-				"try to find a relevant part of your post to show in the search results.", "yoast-components" );
+			return __(
+				// eslint-disable-next-line max-len
+				"Please provide a meta description by editing the snippet below. If you don’t, Google will try to find a relevant part of your post to show in the search results.",
+				"wordpress-seo"
+			);
 		}
 
 		return truncate( this.props.description, {
@@ -486,8 +511,8 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {?ReactElement} The rendered date.
 	 */
 	renderDate() {
-		// The u22C5 is the unicode character "dot operator" equivalent to `&sdot;`.
-		const separator = this.props.mode === MODE_DESKTOP ? "-" : "\u22C5";
+		// The u2014 and uFF0D unicode characters represent the em-dashes / minus signs.
+		const separator = this.props.mode === MODE_DESKTOP ? "\u2014" : "\uFF0D";
 
 		return this.props.date &&
 			<DatePreview screenMode={ this.props.mode }>{ this.props.date } { separator } </DatePreview>;
@@ -556,6 +581,7 @@ export default class SnippetPreview extends PureComponent {
 			onMouseLeave,
 			mode,
 			faviconSrc,
+			siteName,
 		} = this.props;
 
 		const isMobileMode = mode === MODE_MOBILE;
@@ -578,7 +604,7 @@ export default class SnippetPreview extends PureComponent {
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <React.Fragment>
 			<ScreenReaderText>
-				{ __( "Url preview", "yoast-components" ) + ":" }
+				{ __( "Url preview", "wordpress-seo" ) + ":" }
 			</ScreenReaderText>
 			<Url>
 				<BaseUrlOverflowContainer
@@ -587,10 +613,9 @@ export default class SnippetPreview extends PureComponent {
 					onMouseLeave={ onMouseLeave.bind( null ) }
 					screenMode={ mode }
 				>
-					{ isMobileMode && <Favicon src={ faviconSrc || globeFaviconSrc } alt="" /> }
-					<UrlContentContainer
-						screenMode={ mode }
-					>
+					{ isMobileMode && <MobileFaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></MobileFaviconContainer> }
+					<UrlContentContainer screenMode={ mode }>
+						{ isMobileMode && <SiteName>{ siteName }</SiteName> }
 						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
 					</UrlContentContainer>
@@ -723,6 +748,49 @@ export default class SnippetPreview extends PureComponent {
 	}
 
 	/**
+	 * Renders the product / shopping data, in mobile or desktop view, based on the mode.
+	 *
+	 * @param {object} PartContainer the PartContainer component that needs to be rendered within the snippet preview container.
+	 *
+	 * @returns {ReactElement} The rendered description.
+	 */
+	renderProductData( PartContainer ) {
+		const {	mode, shoppingData } = this.props;
+
+		if ( Object.values( shoppingData ).length === 0 ) {
+			return null;
+		}
+
+		if ( mode === MODE_DESKTOP ) {
+			return (
+				<PartContainer className="yoast-shopping-data-preview--desktop">
+					<ScreenReaderText>
+						{ __( "Shopping data preview:", "wordpress-seo" ) }
+					</ScreenReaderText>
+					<ProductDataDesktop
+						shoppingData={ shoppingData }
+					/>
+				</PartContainer>
+			);
+		}
+
+		if ( mode === MODE_MOBILE ) {
+			return (
+				<PartContainer className="yoast-shopping-data-preview--mobile">
+					<ScreenReaderText>
+						{ __( "Shopping data preview:", "wordpress-seo" ) }
+					</ScreenReaderText>
+					<ProductDataMobile
+						shoppingData={ shoppingData }
+					/>
+				</PartContainer>
+			);
+		}
+
+		return null;
+	}
+
+	/**
 	 * Renders the snippet preview.
 	 *
 	 * @returns {ReactElement} The rendered snippet preview.
@@ -768,7 +836,7 @@ export default class SnippetPreview extends PureComponent {
 						{ this.renderUrl() }
 						{ downArrow }
 						<ScreenReaderText>
-							{ __( "SEO title preview", "yoast-components" ) + ":" }
+							{ __( "SEO title preview", "wordpress-seo" ) + ":" }
 						</ScreenReaderText>
 						<SnippetTitle
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
@@ -785,10 +853,11 @@ export default class SnippetPreview extends PureComponent {
 					</PartContainer>
 					<PartContainer>
 						<ScreenReaderText>
-							{ __( "Meta description preview", "yoast-components" ) + ":" }
+							{ __( "Meta description preview:", "wordpress-seo" ) }
 						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>
+					{ this.renderProductData( PartContainer ) }
 				</Container>
 			</section>
 		);
@@ -824,6 +893,7 @@ export default class SnippetPreview extends PureComponent {
 SnippetPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
+	siteName: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	date: PropTypes.string,
 	breadcrumbs: PropTypes.array,
@@ -837,6 +907,7 @@ SnippetPreview.propTypes = {
 	isAmp: PropTypes.bool,
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
+	shoppingData: PropTypes.object,
 
 	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
@@ -856,6 +927,7 @@ SnippetPreview.defaultProps = {
 	isAmp: false,
 	faviconSrc: "",
 	mobileImageSrc: "",
+	shoppingData: {},
 
 	onHover: () => {},
 	onMouseEnter: () => {},

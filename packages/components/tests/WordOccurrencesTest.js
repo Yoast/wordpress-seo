@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 import WordOccurrences from "../src/WordOccurrences";
-import ProminentWord from "yoastseo/src/values/ProminentWord";
+import ProminentWord from "yoastseo/src/languageProcessing/values/ProminentWord";
 
 const showBeforeList = <p>{ "I'm a before list paragraph" }</p>;
 const showAfterList = <p>{ "I'm an after list paragraph" }</p>;

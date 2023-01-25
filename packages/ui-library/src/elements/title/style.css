@@ -1,0 +1,27 @@
+@layer components {
+	.yst-root {
+		.yst-title {
+			@apply yst-text-slate-900 yst-font-medium yst-leading-tight;
+		}
+
+		.yst-title--1 {
+			@apply yst-text-2xl;
+		}
+
+		.yst-title--2 {
+			@apply yst-text-lg;
+		}
+
+		.yst-title--3 {
+			@apply yst-text-tiny;
+		}
+
+		.yst-title--4 {
+			@apply yst-text-base;
+		}
+
+		.yst-title--5 {
+			@apply yst-text-sm;
+		}
+	}
+}

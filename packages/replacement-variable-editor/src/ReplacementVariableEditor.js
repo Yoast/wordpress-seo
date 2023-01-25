@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
+import { Slot } from "@wordpress/components";
 
 // Yoast dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
@@ -18,7 +19,7 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
-import { SimulatedLabel } from "@yoast/components";
+import { NewBadge, SimulatedLabel, PremiumBadge } from "@yoast/components";
 
 /**
  * The replacement variable editor.
@@ -32,7 +33,7 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.uniqueId = uniqueId();
+		this.uniqueId = uniqueId( "replacement-variable-editor-field-" );
 
 		switch ( props.type ) {
 			case "description":
@@ -75,6 +76,7 @@ class ReplacementVariableEditor extends React.Component {
 			onBlur,
 			isActive,
 			isHovered,
+			onSearchChange,
 			replacementVariables,
 			recommendedReplacementVariables,
 			editorRef,
@@ -82,31 +84,42 @@ class ReplacementVariableEditor extends React.Component {
 			fieldId,
 			onMouseEnter,
 			onMouseLeave,
+			hasNewBadge,
+			isDisabled,
+			hasPremiumBadge,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
 
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
+			className="yst-replacevar__button-insert"
 			onClick={ this.triggerReplacementVariableSuggestions }
+			disabled={ isDisabled }
 		>
-			{ __( "Insert variable", "yoast-components" ) }
+			{ __( "Insert variable", "wordpress-seo" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
 
 		return (
 			<FormSection
+				className={ [ "yst-replacevar", isDisabled && "yst-replacevar--disabled" ].filter( Boolean ).join( " " ) }
 				onMouseEnter={ onMouseEnter }
 				onMouseLeave={ onMouseLeave }
 			>
 				<SimulatedLabel
+					className="yst-replacevar__label"
 					id={ this.uniqueId }
 					onClick={ onFocus }
 				>
 					{ label }
 				</SimulatedLabel>
+				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
+				<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
+				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				{ addVariableButton }
 				<InputContainer
+					className="yst-replacevar__editor"
 					onClick={ onFocus }
-					isActive={ isActive }
+					isActive={ isActive && ! isDisabled }
 					isHovered={ isHovered }
 				>
 					<ReplacementVariableEditorStandalone
@@ -116,6 +129,7 @@ class ReplacementVariableEditor extends React.Component {
 						onChange={ onChange }
 						onFocus={ onFocus }
 						onBlur={ onBlur }
+						onSearchChange={ onSearchChange }
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						ref={ ref => {
@@ -123,6 +137,7 @@ class ReplacementVariableEditor extends React.Component {
 							editorRef( ref );
 						} }
 						ariaLabelledBy={ this.uniqueId }
+						isDisabled={ isDisabled }
 					/>
 				</InputContainer>
 			</FormSection>
@@ -135,6 +150,7 @@ ReplacementVariableEditor.propTypes = {
 	content: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
+	onSearchChange: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	isActive: PropTypes.bool,
@@ -147,11 +163,15 @@ ReplacementVariableEditor.propTypes = {
 	fieldId: PropTypes.string,
 	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
+	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
+	onSearchChange: null,
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	fieldId: "",
@@ -163,6 +183,9 @@ ReplacementVariableEditor.defaultProps = {
 	editorRef: () => {},
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
+	hasNewBadge: false,
+	isDisabled: false,
+	hasPremiumBadge: false,
 };
 
 export default ReplacementVariableEditor;

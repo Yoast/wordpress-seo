@@ -1,3 +1,7 @@
+/**
+ * Returns the word boundaries.
+ * @returns {string[]} The array of word boundaries.
+ */
 export default function() {
 	return [
 		// Whitespace is always a word boundary.
@@ -16,4 +20,4 @@ export default function() {
 
 		".", ",", "'", "(", ")", "\"", "+", "-", ";", "!", "?", ":", "/", "»", "«", "‹", "›", "<", ">",
 		"”", "“", "〝", "〞", "〟", "‟", "„" ];
-};
+}

@@ -66,7 +66,7 @@ export class ConsoleLogger implements Logger {
 	 *
 	 * @param level The desired level.
 	 */
-	setLogLevel( level: LogLevel ) {
+	setLogLevel( level: LogLevel ): void {
 		this.level = level;
 	}
 

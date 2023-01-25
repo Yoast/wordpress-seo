@@ -1,16 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HelpTextWrapper matches the snapshot by default 1`] = `
-.c3 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
-.c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
+.c7 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
 }
 
 .c1 {
@@ -18,6 +14,33 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c2:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -46,6 +69,27 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   min-height: 32px;
   -webkit-transition: var(--yoast-transition-default);
   transition: var(--yoast-transition-default);
+}
+
+.c5 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c9 >:first-child {
+  overflow: hidden;
+  -webkit-transition: height 300ms ease-out;
+  transition: height 300ms ease-out;
+}
+
+.c0 {
+  max-width: 600px;
+  font-weight: normal;
+  margin: 0 20px 0 25px;
+}
+
+.c6 {
   min-width: 14px;
   min-height: 14px;
   width: 30px;
@@ -60,61 +104,31 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   padding: 3px 0 0 6px;
 }
 
-.c1:active {
-  color: #000;
-  background-color: #f7f7f7;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c1:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: var(--yoast-color-border--default);
-}
-
-.c1 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c1:hover {
+.c6:hover {
   color: #0066cd;
 }
 
-.c1:focus {
+.c6:focus {
   border: 1px solid #0066cd;
   outline: none;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c1:focus svg {
+.c6:focus svg {
   fill: #0066cd;
   color: #0066cd;
 }
 
-.c1:active {
+.c6:active {
   box-shadow: none;
 }
 
-.c2:hover {
+.c8:hover {
   fill: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c1::after {
+  .c5::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -128,13 +142,13 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
     aria-controls={null}
     aria-expanded={false}
     aria-label="Open help"
-    className="c1 yoast-help__button"
+    className="c1 c2 c3 c4 c5 c6 yoast-help__button"
     onClick={[Function]}
     type="button"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle c2 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      className="c7 yoast-svg-icon yoast-svg-icon-question-circle c8"
       fill="#616161"
       focusable="false"
       role="img"
@@ -148,7 +162,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
     </svg>
   </button>
   <div
-    className="c3"
+    className="c9"
   />
 </div>
 `;

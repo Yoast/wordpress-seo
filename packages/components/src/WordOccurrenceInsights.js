@@ -14,14 +14,15 @@ import WordOccurrences from "./WordOccurrences";
  * Translates and returns the keyword research article link
  * in a way that the link elements are still rendered.
  *
+ * @param {string} url The URL to the research article.
+ *
  * @returns {JSX.Element} The translated text including rendered link components.
  */
-const getKeywordResearchArticleLink = () => {
+const getKeywordResearchArticleLink = ( url ) => {
 	const keywordsResearchLinkTranslation = sprintf(
 		__(
-			"Read our %1$sultimate guide to keyword research%2$s to learn " +
-			"more about keyword research and keyword strategy.",
-			"yoast-components"
+			"Read our %1$sultimate guide to keyword research%2$s to learn more about keyword research and keyword strategy.",
+			"wordpress-seo"
 		),
 		"{{a}}",
 		"{{/a}}"
@@ -31,7 +32,7 @@ const getKeywordResearchArticleLink = () => {
 		mixedString: keywordsResearchLinkTranslation,
 		components: {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
-			a: <a href="https://yoa.st/keyword-research-metabox" target="_blank" />,
+			a: <a href={ url } target="_blank" />,
 		},
 	} );
 };
@@ -45,33 +46,31 @@ const getKeywordResearchArticleLink = () => {
 const getExplanation = keywords => {
 	if ( keywords.length === 0 ) {
 		return __(
-			"Once you add a bit more copy, we'll give you a list of words that occur the most in the content. " +
-			"These give an indication of what your content focuses on.",
-			"yoast-components"
+			// eslint-disable-next-line max-len
+			"Once you add a bit more copy, we'll give you a list of words that occur the most in the content. These give an indication of what your content focuses on.",
+			"wordpress-seo"
 		);
 	}
 
 	return __(
-		"The following words occur the most in the content. " +
-		"These give an indication of what your content focuses on. " +
-		"If the words differ a lot from your topic, " +
-		"you might want to rewrite your content accordingly. ",
-		"yoast-components"
+		// eslint-disable-next-line max-len
+		"The following words occur the most in the content. These give an indication of what your content focuses on. If the words differ a lot from your topic, you might want to rewrite your content accordingly. ",
+		"wordpress-seo"
 	);
 };
 
 /**
  * @summary WordList component.
  *
- * @param {string}   title           The title of the list.
- * @param {WordCombination[]|ProminentWord[]}   words   The relevant words.
+ * @param {WordCombination[]|ProminentWord[]} words The relevant words.
+ * @param {string} researchArticleLink The link to the article explaining keyword research.
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
-const WordOccurrenceInsights = ( { words } ) => {
-	const header = <p className="yoast-field-group__title">{ __( "Prominent words", "yoast-components" ) }</p>;
+const WordOccurrenceInsights = ( { words, researchArticleLink } ) => {
+	const header = <p className="yoast-field-group__title">{ __( "Prominent words", "wordpress-seo" ) }</p>;
 	const introduction = <p>{ getExplanation( words ) }</p>;
-	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
+	const footer = <p>{ getKeywordResearchArticleLink( researchArticleLink ) }</p>;
 	return (
 		<WordOccurrences
 			words={ words }
@@ -84,6 +83,7 @@ const WordOccurrenceInsights = ( { words } ) => {
 
 WordOccurrenceInsights.propTypes = {
 	words: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	researchArticleLink: PropTypes.string.isRequired,
 };
 
 export default WordOccurrenceInsights;

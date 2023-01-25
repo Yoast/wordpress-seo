@@ -1,19 +1,27 @@
 import { dispatch } from "@wordpress/data";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { __, sprintf } from "@wordpress/i18n";
-
 import { getBlockDefinition } from "../../../core/blocks/BlockDefinitionRepository";
 import InnerBlocks from "../../../instructions/blocks/InnerBlocks";
 import recurseOverBlocks from "../../blocks/recurseOverBlocks";
-import { mapBlocksRecursively } from "../../innerBlocksHelper";
+import { getAllBlocks, mapBlocksRecursively } from "../../innerBlocksHelper";
 import BlockDefinition from "../../../core/blocks/BlockDefinition";
 import { InstructionObject } from "../../../core/Instruction";
 import { getBlockType } from "../../BlockHelper";
 import { RecommendedBlock, RequiredBlock } from "../../../core/validation";
+import { removeObsoleteWarnings } from "./removeObsoleteWarnings";
+import { WarningBlockAttributes } from "../../../blocks/warning-block";
 
 enum WarningType {
 	BLOCK_REQUIRED,
 	BLOCK_RECOMMENDED
+}
+
+type yoastLinks = {
+	yoastSchemaBlocks: {
+		requiredLink: string;
+		recommendedLink: string;
+	};
 }
 
 /**
@@ -47,25 +55,29 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 function getDefaultWarningMessage( blockTitle: string, warningType: WarningType ): string {
 	switch ( warningType ) {
 		case WarningType.BLOCK_REQUIRED: {
-			/* translators: %s expands to the block name that is removed. */
+			/* translators: %1$s: the block name that is removed, %2$s: the anchor to a page about required blocks, %3$s the closing anchor tag. */
 			return sprintf(
 				__(
-					"You've just removed the ‘%s’ block, but this is a required block for Schema output. " +
-					"Without this block no Schema will be generated. Are you sure you want to do this?",
-					"yoast-schema-blocks",
+					// eslint-disable-next-line max-len
+					"You've just removed the ‘%1$s’ block, but this is a %2$srequired block for Schema output%3$s. Without this block no Schema will be generated. Are you sure you want to do this?",
+					"wordpress-seo",
 				),
 				blockTitle,
+				'<a href="' + ( window as unknown as yoastLinks ).yoastSchemaBlocks.requiredLink + '" target="_blank">',
+				"</a>",
 			);
 		}
 		case WarningType.BLOCK_RECOMMENDED: {
-			/* translators: %s expands to the block name that is removed. */
+			/* translators: %1$s: the block name that is removed, %2$s: the anchor to a page about recommended blocks, %3$s the closing anchor tag. */
 			return sprintf(
 				__(
-					"You've just removed the ‘%s’ block, but this is a recommended block for Schema output. " +
-					"Are you sure you want to do this?",
-					"yoast-schema-blocks",
+					// eslint-disable-next-line max-len
+					"You've just removed the ‘%1$s’ block, but this is a %2$srecommended block for Schema output%3$s. Are you sure you want to do this?",
+					"wordpress-seo",
 				),
 				blockTitle,
+				'<a href="' + ( window as unknown as yoastLinks ).yoastSchemaBlocks.recommendedLink + '" target="_blank">',
+				"</a>",
 			);
 		}
 	}
@@ -86,7 +98,7 @@ function createWarning( innerBlock: BlockInstance, message: string, warningType:
 		message = getDefaultWarningMessage( blockType.title, warningType );
 	}
 
-	const attributes = {
+	const attributes: WarningBlockAttributes = {
 		removedBlock: innerBlock,
 		isRequired: warningType === WarningType.BLOCK_REQUIRED,
 		warningText: message,
@@ -188,11 +200,13 @@ function addWarningsForRecommendedBlocks(
  * checks whether any were removed. If a required or recommended block was removed,
  * a warning block is added in its place.
  *
- * @param blocks The current list of blocks.
+ * @param currentBlocks The current list of blocks.
  * @param previousBlocks The previous list of blocks.
  */
-export default function warningWatcher( blocks: BlockInstance[], previousBlocks: BlockInstance[] = [] ): void {
-	const currentBlockIds: string[] = mapBlocksRecursively( blocks, block => block.clientId );
+export default function warningWatcher( currentBlocks: BlockInstance[], previousBlocks: BlockInstance[] = [] ): void {
+	const currentBlockIds: string[] = mapBlocksRecursively( currentBlocks, block => block.clientId );
+
+	removeObsoleteWarnings( getAllBlocks( currentBlocks ) );
 
 	recurseOverBlocks( previousBlocks, ( block: BlockInstance ) => {
 		if ( ! block.innerBlocks || block.innerBlocks.length === 0 ) {

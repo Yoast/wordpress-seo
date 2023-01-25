@@ -1,5 +1,16 @@
 import { dispatch, select } from "@wordpress/data";
 import { BlockEditProps, BlockInstance } from "@wordpress/blocks";
+import { getBlockByClientId } from "../BlockHelper";
+
+/**
+ * Finds a block's parent Id.
+ *
+ * @param clientId The clientId whose immediate parent's Id is desired.
+ * @returns {string} The parent Id.
+ */
+export function getParentId( clientId: string ): string {
+	return select( "core/block-editor" ).getBlockRootClientId( clientId );
+}
 
 /**
  * Returns a normalized block ID.
@@ -35,13 +46,25 @@ export function getBlockSchemaId( block: BlockInstance ): string {
 }
 
 /**
- * Finds a block's parent Id.
+ * Gets a block's parent BlockInstance.
  *
- * @param clientId The clientId whose immediate parent's Id is desired.
- * @returns {string} The parent Id.
+ * @param clientId The clientId whose parent is desired.
+ * @returns The parent BlockInstance or null if none is found.
  */
-export function getParentId( clientId: string ): string {
-	return select( "core/block-editor" ).getBlockRootClientId( clientId );
+export function getParent( clientId: string ): BlockInstance {
+	const parentId = getParentId( clientId );
+	if ( ! parentId ) {
+		return null;
+	}
+
+	return getBlockByClientId( parentId );
+}
+
+/**
+ * The method getBlockParentsByBlockName is included since WP5.4 but not available in the current typings for the selector.
+ */
+type extendedCoreBlockEditorSelector = {
+	getBlockParentsByBlockName( clientId: string, parentNames: string[] ): string[];
 }
 
 /**
@@ -55,13 +78,6 @@ export function getParentId( clientId: string ): string {
 export function getParentIdOfType( clientId: string, parentNames: string[] ): string[] | null {
 	return ( select( "core/block-editor" ) as unknown as extendedCoreBlockEditorSelector )
 		.getBlockParentsByBlockName( clientId, parentNames );
-}
-
-/**
- * The method getBlockParentsByBlockName is included since WP5.4 but not available in the current typings for the selector.
- */
-type extendedCoreBlockEditorSelector = {
-	getBlockParentsByBlockName( clientId: string, parentNames: string[] ): string[];
 }
 
 /**

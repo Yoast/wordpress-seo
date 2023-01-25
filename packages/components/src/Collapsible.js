@@ -105,32 +105,50 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
  * @returns {ReactElement} A collapsible panel.
  */
 export function CollapsibleStateless( props ) {
-	let children = null;
-	if ( props.isOpen ) {
-		children = ( props.hasPadding ) ? <Content className="collapsible_content">{ props.children }</Content> : props.children;
+	const {
+		children,
+		className,
+		hasPadding,
+		hasSeparator,
+		Heading,
+		id,
+		isOpen,
+		onToggle,
+		prefixIcon,
+		prefixIconCollapsed,
+		suffixIcon,
+		suffixIconCollapsed,
+		subTitle,
+		title,
+		titleScreenReaderText,
+	} = props;
+
+	let wrappedChildren = children;
+	if ( isOpen && hasPadding ) {
+		wrappedChildren = <Content className="collapsible_content">{ children }</Content>;
 	}
-	const Container = ( props.hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
+	const Container = ( hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
 
 	return (
 		<Container
 			// Pass the classname to allow re-styling with styled-components.
-			className={ props.className }
+			className={ className }
 		>
-			<props.Heading
-				id={ props.id }
-				aria-expanded={ props.isOpen }
-				onClick={ props.onToggle }
-				prefixIcon={ props.isOpen ? props.prefixIcon : props.prefixIconCollapsed }
-				suffixIcon={ props.isOpen ? props.suffixIcon : props.suffixIconCollapsed }
-				hasSubTitle={ !! props.subTitle }
+			<Heading
+				id={ id }
+				aria-expanded={ isOpen }
+				onClick={ onToggle }
+				prefixIcon={ isOpen ? prefixIcon : prefixIconCollapsed }
+				suffixIcon={ isOpen ? suffixIcon : suffixIconCollapsed }
+				hasSubTitle={ !! subTitle }
 			>
 				<SectionTitle
-					title={ props.title }
-					titleScreenReaderText={ props.titleScreenReaderText }
-					subTitle={ props.subTitle }
+					title={ title }
+					titleScreenReaderText={ titleScreenReaderText }
+					subTitle={ subTitle }
 				/>
-			</props.Heading>
-			{ children }
+			</Heading>
+			{ wrappedChildren }
 		</Container>
 	);
 }
@@ -145,7 +163,6 @@ CollapsibleStateless.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	hasSeparator: PropTypes.bool,
 	hasPadding: PropTypes.bool,
-	initialIsOpen: PropTypes.bool,
 	onToggle: PropTypes.func.isRequired,
 	prefixIcon: PropTypes.shape( {
 		icon: PropTypes.string,
@@ -182,7 +199,6 @@ CollapsibleStateless.defaultProps = {
 	titleScreenReaderText: null,
 	hasSeparator: false,
 	hasPadding: false,
-	initialIsOpen: false,
 	prefixIcon: null,
 	prefixIconCollapsed: null,
 	suffixIcon: null,
@@ -257,10 +273,13 @@ export class Collapsible extends React.Component {
 	 */
 	toggleCollapse() {
 		const { isOpen } = this.state;
+		const { onToggle } = this.props;
 
-		this.setState( {
-			isOpen: ! isOpen,
-		} );
+		if ( ! onToggle || onToggle( isOpen ) !== false ) {
+			this.setState( {
+				isOpen: ! isOpen,
+			} );
+		}
 	}
 
 	/**
@@ -272,7 +291,7 @@ export class Collapsible extends React.Component {
 		const { isOpen } = this.state;
 		const { children } = this.props;
 
-		const newProps = omit( this.props, [ "children" ] );
+		const newProps = omit( this.props, [ "children", "onToggle" ] );
 
 		return (
 			<CollapsibleStateless
@@ -324,6 +343,7 @@ Collapsible.propTypes = {
 		fontSize: PropTypes.string,
 		fontWeight: PropTypes.string,
 	} ),
+	onToggle: PropTypes.func,
 };
 
 Collapsible.defaultProps = {
@@ -351,6 +371,7 @@ Collapsible.defaultProps = {
 		fontSize: "1rem",
 		fontWeight: "normal",
 	},
+	onToggle: null,
 };
 
 export default Collapsible;

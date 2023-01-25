@@ -2,6 +2,8 @@ import BlockInstruction from "../../src/core/blocks/BlockInstruction";
 import Definition from "../../src/core/Definition";
 import { BlockValidation, BlockValidationResult } from "../../src/core/validation";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockPresence } from "../../src/core/validation/BlockValidationResult";
+
 /**
  * Test class, to be able to test the methods in the abstract Definition class.
  */
@@ -50,7 +52,7 @@ class TestInstruction extends BlockInstruction {
      * @returns {BlockValidationResult[]} The constructor parameter wrapped in an array.
      */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		return new BlockValidationResult( "id" + this.id, "test", this.result );
+		return new BlockValidationResult( "id" + this.id, "test", this.result, BlockPresence.Required );
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 }
@@ -71,7 +73,7 @@ describe( "The Definition class", () => {
 		// Arrange.
 		const testInstructions = {
 			test1: new TestInstruction( "test1", BlockValidation.Valid ),
-			test2: new TestInstruction( "test2", BlockValidation.MissingBlock ),
+			test2: new TestInstruction( "test2", BlockValidation.MissingRequiredBlock ),
 		};
 		const testCase = new TestDefinition( "", "", testInstructions, null );
 
@@ -84,14 +86,14 @@ describe( "The Definition class", () => {
 		expect( result.issues[ 0 ].result ).toEqual( BlockValidation.Valid );
 		expect( result.issues[ 1 ].name ).toEqual( "test" );
 		expect( result.issues[ 1 ].clientId ).toEqual( "id2" );
-		expect( result.issues[ 1 ].result ).toEqual( BlockValidation.MissingBlock );
+		expect( result.issues[ 1 ].result ).toEqual( BlockValidation.MissingRequiredBlock );
 	} );
 
 	it( "configures all known instructions", () => {
 		// Arrange.
 		const testInstructions = {
 			test1: new TestInstruction( "test1", BlockValidation.Valid ),
-			test2: new TestInstruction( "test2", BlockValidation.MissingBlock ),
+			test2: new TestInstruction( "test2", BlockValidation.MissingRequiredBlock ),
 		};
 		const testCase = new TestDefinition( "", "", testInstructions, null );
 

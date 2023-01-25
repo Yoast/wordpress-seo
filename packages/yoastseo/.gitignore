@@ -6,5 +6,4 @@ out/
 coverage/
 .tscache/
 
-/examples/browserified/example-browserified.js
 /premium-configuration

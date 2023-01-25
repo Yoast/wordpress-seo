@@ -37,7 +37,7 @@ This chapter explains how you can render the wizard onto a webpage.
 Add the following line into a scss file that you load on the page.
 
 ```CSS
-@import "../../node_modules/yoast-components/css/all.scss";
+@import "../../node_modules/yoast-components/css/all.css";
 ```
 
 Render the wizard into a `div` element on your page.

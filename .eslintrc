@@ -2,10 +2,21 @@ extends: yoast
 
 parserOptions:
   ecmaVersion: 2018
+  sourceType: module
 
 settings:
   react:
-    version: "16.6"
+    version: "16.8"
+
+rules:
+  no-prototype-builtins: 0
+  comma-dangle:
+    - error
+    - arrays: always-multiline
+      objects: always-multiline
+      imports: always-multiline
+      exports: always-multiline
+      functions: never
 
 overrides:
   - files:
@@ -15,6 +26,53 @@ overrides:
       - "packages/components/a11y/tests/**/*.js"
     env:
       jest: true
+    rules:
+      no-restricted-imports: "off"
+  - files:
+      - "packages/schema-blocks/src/**"
+    env:
+      jest: true
+    rules:
+      new-cap: 0
+      complexity:
+        - 2
+        - 10
+      "@typescript-eslint/no-parameter-properties":
+        - 2
+        - allows:
+            - protected readonly
+            - private readonly
+      "@typescript-eslint/explicit-function-return-type": 0
+      "@typescript-eslint/no-use-before-define":
+        - error
+        - functions: false
+      no-constant-condition:
+        - error
+        - checkLoops: false
+      max-statements:
+        - 2
+        - 33
+      no-unused-vars: 'off'
+      "@typescript-eslint/no-unused-vars":
+        - error
+        - varsIgnorePattern: "^createElement$"
+      no-dupe-class-members: 'off'
+      indent: 'off'
+      "@typescript-eslint/indent":
+        - 2
+        - tab
+        - SwitchCase: 1
+      space-before-function-paren:
+        - error
+        - anonymous: never
+          named: never
+          asyncArrow: always
+      valid-jsdoc:
+        - error
+        - requireReturn: false
+          requireReturnType: false
+          requireParamType: false
+      react/react-in-jsx-scope: 0
   - files:
       - "packages/components/**/*.js"
     rules:
@@ -48,13 +106,13 @@ overrides:
     rules:
       complexity: 1
       # Longer grace period for Yoast config.
-      no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
-      require-jsdoc: [ 1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}} ]
+      no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [ ] } ]
+      require-jsdoc: [ 1, { "require": { "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } } ]
       no-useless-escape: 1
   - files:
-      - "packages/analysis-report/**/*.js"
+      - "packages/yoast-components/**/*.js"
     rules:
-      complexity: [1, 6]
+      complexity: [ 1, 6 ]
       // A wrapping label is not necessary when there already is an htmlFor attribute.
       jsx-a11y/label-has-for: [ "error", { required: "id" } ]
       require-jsdoc: 1
@@ -67,3 +125,10 @@ overrides:
       react/jsx-no-target-blank: 1
       react/require-default-props: 1
       react/forbid-foreign-prop-types: 1
+    env:
+      jest: true
+  - files:
+      - "packages/**/tests/**/*Test.js"
+    rules:
+      no-console: 0
+      react/jsx-no-bind: 0

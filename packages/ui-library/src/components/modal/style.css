@@ -1,0 +1,53 @@
+@layer components {
+	.yst-root {
+		.yst-modal {
+			@apply yst-fixed yst-inset-0 yst-z-10 yst-p-4 sm:yst-p-8 md:yst-p-20;
+		}
+
+		.yst-modal__layout {
+			@apply yst-flex yst-min-h-full;
+		}
+
+		.yst-modal--center .yst-modal__layout {
+			@apply yst-items-center yst-justify-center;
+		}
+
+		.yst-modal--top-center .yst-modal__layout {
+			@apply yst-items-start yst-justify-center;
+		}
+
+		.yst-modal__overlay {
+			@apply yst-absolute yst-inset-0 yst-bg-slate-500 yst-bg-opacity-75 yst-transition-opacity;
+		}
+
+		.yst-modal__panel {
+			@apply
+			yst-relative
+			yst-w-full
+			yst-max-w-xl
+			yst-p-6
+			yst-overflow-hidden
+			yst-bg-white
+			yst-rounded-lg
+			yst-shadow-xl;
+		}
+
+		.yst-modal__close {
+			@apply yst-block yst-absolute yst-top-4 yst-right-4;
+		}
+
+		.yst-modal__close-button {
+			@apply
+			yst-relative
+			yst-z-10
+			yst-bg-white
+			yst-text-slate-400
+			yst-rounded-md
+			hover:yst-text-slate-500
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-offset-2
+			focus:yst-ring-primary-500;
+		}
+	}
+}

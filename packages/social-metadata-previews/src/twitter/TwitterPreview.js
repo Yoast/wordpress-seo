@@ -94,9 +94,7 @@ class TwitterPreview extends Component {
 		const Wrapper = isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
 
 		return (
-			<Wrapper
-				id="twitterPreview"
-			>
+			<Wrapper id="twitterPreview">
 				<TwitterImage
 					src={ imageUrl || imageFallbackUrl }
 					alt={ alt }
@@ -106,6 +104,7 @@ class TwitterPreview extends Component {
 					onMouseLeave={ this.onLeave }
 				/>
 				<TwitterTextWrapper>
+					<TwitterSiteUrl siteUrl={ siteUrl } />
 					<TwitterTitle
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
@@ -120,9 +119,6 @@ class TwitterPreview extends Component {
 					>
 						{ description }
 					</TwitterDescription>
-					<TwitterSiteUrl
-						siteUrl={ siteUrl }
-					/>
 				</TwitterTextWrapper>
 			</Wrapper>
 		);

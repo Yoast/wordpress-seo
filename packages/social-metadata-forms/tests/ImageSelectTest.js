@@ -16,7 +16,7 @@ describe( "The ImageSelect component", () => {
 				selectImageButtonId="facebook-select-button"
 				replaceImageButtonId="facebook-replace-button"
 				removeImageButtonId="facebook-remove-button"
-			/>,
+			/>
 		).toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
@@ -36,7 +36,7 @@ describe( "The ImageSelect component", () => {
 				selectImageButtonId="twitter-select-button"
 				replaceImageButtonId="twitter-replace-button"
 				removeImageButtonId="twitter-remove-button"
-			/>,
+			/>
 		).toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );

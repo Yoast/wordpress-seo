@@ -37,7 +37,7 @@ describe( "Alert", () => {
 			const component = renderer.create(
 				<Alert type={ alert.type }>
 					{ content }
-				</Alert>,
+				</Alert>
 			);
 			const tree = component.toJSON();
 
@@ -70,7 +70,7 @@ describe( "Alert", () => {
 		const component = renderer.create(
 			<Alert type="info" onDismissed={ dismiss }>
 				Dismissable alert.
-			</Alert>,
+			</Alert>
 		);
 		const tree = component.toJSON();
 

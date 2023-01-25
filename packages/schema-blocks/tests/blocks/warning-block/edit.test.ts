@@ -39,7 +39,7 @@ describe( "The edit function", () => {
 
 	it( "should render the warning block when the removed block was not required.", () => {
 		const props = Object.assign( {}, defaultProps );
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore -- We overwrite the attributes for testing purposes.
 		props.attributes.isRequired = false;
 

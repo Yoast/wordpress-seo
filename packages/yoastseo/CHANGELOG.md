@@ -3,6 +3,191 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## Future Release
+### Enhancements
+* Adds a missing array entry that caused time-related words in Dutch, English, Indonesian, Russian, and Spanish to not be counted as function words.
+* Registers the whole web worker with the scope.
+* Replaces assessment shortlinks that are passed to the assessment constructors in the product assessors with variables.
+* Adds functionality for the webworker to also set custom options when loading the custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
+* Adds custom config for TitleWidth assessment in all SEO assessors so that short title is not penalized with a bad score.
+* Expands Russian irregular nouns exception list.
+* Adds stemming rule for the most common perfective verbs.
+* Implements the passive voice assessment for Farsi.
+* Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
+* Changes the maximum recommended sentence length in Farsi to 25 words.
+* Adds Farsi transition words and activates the transition words assessment.
+* Expands the list of function words for Farsi.
+* Removes the Farsi feature flag.
+* Removes hyphens from a keyphrase for the Keyphrase in slug assessment. Also removes the functionality that would look for the keyphrase in the unparsed slug if it was not found in the parsed slug, as it is made redundant by the new functionality.
+* Removes feature flag for Greek support to prepare Greek for release.
+* Adds a few entries to the list of `multipleWords` for French transition words.
+* Removes feature flag for Japanese support to prepare Japanese for release.
+* Adds Japanese configuration for meta description length.
+* Removes apostrophe before Turkish words are stemmed.
+* Improves feedback strings for the Keyphrase Length assessment by making them more explicit.
+
+### Bugfixes
+* Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
+* Counts relative fragment links (`#some-id`) as a link to the same page.
+* Removes two items from the list of morphological passive suffixes for Greek due to their overlap with bigger word groups causing false positives detection.
+* Removes spaces before and after Japanese full stops when sanitizing strings.
+* Removes URLs from Japanese texts before computing text length in the `countCharacters` function.
+* Fixes a bug where the results of the SEO analysis of the focus keyphrase were removed when more than two related keyphrases were analyzed.
+
+### Non user facing
+* Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
+* Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
+* Adds a feature-flag for Farsi support.
+* Makes Consecutive sentence, Passive voice and Transition words assessments available for Farsi when the Feature flag is enabled.
+* Adds a missing plural variant of a feedback string for the keyphrase length assessment in product pages.
+* Replaces Images assessment `countVideos` value that is passed to the assessment constructor in the product assessors with a variable.
+* Improves the Farsi passive voice assessment by expanding the list of passive verb forms.
+* Adds missing researcher parameter in assessors.
+* Updates `README.md` for Farsi support.
+* Adjusts Farsi full text tests papers.
+* Removes the Farsi feature flag.
+* Adjusts the English papers in full text tests for product pages.
+* Adds full text tests for product pages and collection pages assessments.
+* Implements the passive voice assessment for Farsi.
+* Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
+* Changes the maximum recommended sentence length in Farsi to 25 words.
+* Adds Farsi transition words and activates the transition words assessment.
+* Fixes assessment result links that omit tracking parameters.
+* Makes it possible to tokenize sentences in Japanese.
+* Adds Japanese folder and Researcher.
+* Adds a feature-flag for Japanese support.
+* Implements the consecutive sentences assessment for Greek to ensure variety in a text.
+* Adds Greek transition words and activates the transition words assessment.
+* Adds a language folder and Researcher for Greek.
+* Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
+* Makes passive voice and function words in keyphrase assessments available for Greek.
+* Adds a paper and unit tests to test the assessments for Greek and edits a typo in the Greek morphologyData file path in `getMorphologyData.js`.
+* Adds a `getContentWords` helper and adds function words list for Japanese.
+* Updates README.md for Greek support.
+* Creates a helper for splitting a Japanese text into words using the TinySegmenter package, and adds Japanese punctuation to the removePunctuation helper. Also changes the global Jest testing environment from `node` to `jsdom`.
+* Adds external stemmer for Greek.
+* Improves keyphrase recognition in Greek by filtering out function words such as `στον`, `τρίτος`, `τέτοιους`, `ποιανής`.
+* Implements passive voice assessment for Greek.
+* Adapts `findTransitionWords` research for Japanese.
+* Adds Japanese transition words and activates the transition words assessment.
+* Adapts `getKeywordDensity` research for Japanese.
+* Adapts `functionWordsInKeyphrase` research for Japanese.
+* Creates Japanese helper file for matching word in text.
+* Changes the helper to match word in text for Japanese in `altTagCount`.
+* Adds a helper to create word forms for Japanese.
+* Adapts `matchKeywordInSubheadings` research for Japanese.
+* Adapts `keyphraseDistribution` research for Japanese and adds Japanese topic length criteria config.
+* Adapts `getSubheadingTextLengths` for Japanese.
+* Adds the option to pass a language-specific `getWords` helper to the `getSentenceBeginnings` research.
+* Adds Japanese sentence beginning exceptions.
+* Activates the consecutive sentences assessment for Japanese.
+* Adapts `getParagraphLength` research for Japanese.
+* Adapts the `sentencesCountFromText` research for Japanese.
+* Adapts the `getProminentWordsForInsights` research for Japanese.
+* Fixes the prominent words functionality in content-analysis app.
+* Adds unit tests that cover Japanese strings in `metaDescriptionLengthSpec` research file.
+* Adds the option to pass a custom matchWordInText helper and a helper for matching multiword keyphrases in the findKeywordInPageTitle research.
+* Creates a custom helper for finding exact matches of multiword keyphrases in title in Japanese.
+* Adds Japanese quotes to the function that checks whether a keyphrase is enclosed in double quotes in the findKeywordInPageTitle research.
+* Adds a custom `morphology` research for the Japanese language and edits an HTML tag typo in `matchStringWithRegexSpec.js`.
+* Adapts `getProminentWordsForInternalLinking` research for Japanese.
+* Adds `customGetStemmer` and `determineStem` helper for Japanese.
+* Cleans up spec descriptions for assessing text and paragraph length.
+* Updates `README.md` for Japanese support.
+* Adapt the `getKeywordDensity` research so that a `getWordsCustomHelper` is used when available and adds unitests for Japanese.
+* Adapts `getLinkStatistics` research for Japanese.
+* Improves the way keyphrase enclosed in double quotes is matched in Keyphrase in title assessment for Japanese.
+* Adapts Keyphrase in title assessment for Japanese and adds a custom Japanese `findKeywordInPageTitle` research file.
+* Moves `processExactMatchRequest` helper from `findKeywordInPageTitle.js` to a separate helper file.
+* Adds `position` of the matched keyphrase in the returned object of `matchTextWithArray.js` and `findKeywordFormsInString.js`.
+* Removes codes that are not relevant anymore which were introduced in [this PR](https://github.com/Yoast/wordpress-seo/pull/17577).
+* Adapts subheading distribution assessment for Japanese.
+* Fixes highlights for sentence length assessment for other editors.
+* Adapts the keyphrase length assessment for Japanese so that it uses custom scoring config and counts keyphrase length in characters instead of words.
+* Disables the keyphrase in slug assessment for Japanese.
+* Adds custom `keyphraseLength` research for Japanese.
+* Adapts the sentence length assessment for Japanese.
+* Adapts the text length assessment for Japanese.
+* Adapts the Paragraph length assessment for Japanese and adds a Japanese specific configuration file for the paragraph length assessment in non-product and product pages.
+* Changes the applicability criteria of the transition words, subheading distribution, and keyphrase density assessments for Japanese so that the minimum required text length is expressed in characters instead of words.
+* Adapts the functionality to mark words in a sentence for Japanese.
+* Adds a functionality in estimating reading time of a text to use characters per minute formula and adds the reading time score for Japanese.
+* Adds a step to exclude Table of Contents in `sanitizeString.js` helper and uses this helper in Japanese `countCharacters` and `getWords` helpers.
+* Replaces 'words' with 'characters' in the Japanese feedback strings for the Subheading distribution, Paragraph length, Sentence length, Keyphrase length, and Text length assessments.
+* Adds the option to pass a custom `matchWordInText` helper and a helper for matching Japanese keyphrases in the `findKeywordInFirstParagraph` research.
+* Fixes the Japanese full text test.
+* Adds a Japanese full text test.
+* Recognises internal link if the site's host is null but the site domain and the link host are the same.
+* Adds documentation of the scoring criteria of the assessments.
+* Edits the links to two documentation files and the size of the image displaying the assessments bullets.
+* Adds links between newly created readme files and edit two minor typos.
+* Refactors the `isInternalLink` helper to improve clarity.
+* Removes superfluous full text test papers for all languages in the yoastseo package.
+* Adds a spec file for `getLanguagesWithWordFormSupport.js`.
+
+
+## 1.92.0
+### Enhancements
+* Adds correct shortlinks to product assessors.
+* Adjusts recommended text length values for non-cornerstone collections pages so that they are lower than the cornerstone ones.
+* Adds a keyphrase distribution assessment to all relevant product-related assessors.
+* Adds assessors for collection pages and sets them in the `apps/content-analysis/src/analysis.worker.js` file.
+* Adds assessors for blog posts and pages, and sets them in `analysis.worker` in the content analysis app.
+* Adds shortlinks to the feedback text of the Lists assessment.
+* Creates `ImageAltTagsAssessment` for product pages.
+* Adds custom configuration for the keyphrase length assessment when used for product pages.
+* Adds language-specific configuration parameters for German, Dutch and Swedish.
+* Refactors the `paragraphTooLong` assessment into a class and adds custom config for the assessment when used for product pages.
+* Refactors the way that the right `config` is set for the sentence length assessment.
+* Passes appropriate `config` to the sentence length assessment class in the product page content assessors.
+* Adds an extra check in the `SubheadingsDistributionTooLong` assessment's applicability where we can adjust whether the assessment should appear in a short text analysis or not.
+* Adds assessors for store blogs.
+* Adds functionality for the webworker to load custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
+* Implements the consecutive sentence beginnings assessment for Slovak to ensure variety in a text.
+* Implements the passive voice assessment for Slovak.
+* Implements the transition words assessment for Slovak.
+* Improves keyphrase recognition in Slovak by filtering out function words such as `som, a, jedna, že`.
+* Adds external stemmer for Slovak.
+* Improves keyword detection for Norwegian by expanding the list of function words.
+* Implements the passive voice assessment for Norwegian.
+* Adds Norwegian transition words and activates the transition words assessment.
+* Activates the consecutive sentences assessment for Norwegian and adds a list of exception words to exclude from the assessment.
+* Adds `jak wiemy` to the list of Polish transition words.
+* Adds Czech stemmer.
+* Implements the passive voice assessment for Czech.
+* Adds function words for Czech.
+* Adds the sentence beginnings assessment for Czech.
+* Adds the transition words list for Czech and improves the list of function words with the most common irregular comparatives.
+* Changes the recommended maximum result of `portuguesePaper2` in `fullTextTests` folder and deletes a word that is also a preposition from participle list.
+* Adds diacritics to the list of full form non-passive exceptions for Turkish.
+* Adds more non-passive exception words to the list of full form non-passive exceptions for Turkish.
+* Improves code quality of the Spanish stemmer and changes the way we stem words ending in `-mente`.
+* Implements the new `Clause` and `SentenceNew` class to English folder, adds English Clause class, and adjusts related specs.
+* Adapts the language-specific files for passive voice assessment to the new structure for German, Dutch, French, Spanish, Italian, Portuguese, Polish, Hungarian, and Czech.
+* Refactors the `Sentence` and `SentencePart` classes.
+* Moves passive voice values and some helpers, and the `ProminentWord` value to different folders in order to improve file organization.
+* Moves an exception check specific to English from the general `getClauses` file to the English-specific `getClauses` file.
+* Deletes obsolete files and changes the `SentenceNew` class to `Sentence`. Also adds an additional check in `parse.js` to parse classes.
+* Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
+* Excludes Table of Contents from the analysis.
+* Filters out table block content from the `getSentenceBeginnings` research.
+* Makes `transitionWordsAssessment` not applicable when the text has less than 200 words.
+* Adds shortlinks to the feedback text of the Images and Image Keyphrase assessments.
+* Adds text length score boundaries config for product pages to the product page SEO assessors.
+* Adds custom config for `TitleWidth` assessment for product pages and adds extra feedback string in the assessment file for when short title width is not penalized with a bad score.
+* Creates a research file that checks if there are lists in the text, and an assessment file that returns a red bullet if there is no list and a green bullet if there is one.
+* Adds assessors for product pages.
+* Removes the outbound links and internal links assessments from the SEO analysis on product pages.
+* Removes the Flesch Reading Ease assessment and the consecutive sentences assessment from the readability analysis on product pages.
+* Includes videos in the `ImageCount` analysis when the `countVideos` value is true.
+* Passes custom configuration for the images assessment for product pages
+* Splits the `TextImagesAssessment` into two, `KeyphraseInImageTextAssessment` and `ImageCountAssessment`.
+
+### Other
+* Removes the Flesch Reading Ease assessment from the blog posts and pages assessors.
+* Removes the `Images` assessment from related keyphrase analysis in `productPages`.
+* Refactors the transition words, passive voice, text presence, and sentence beginnings assessments into classes.
+
 ## 1.91.1 January 25nd, 2023
 ### Bugfixes
 * Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.

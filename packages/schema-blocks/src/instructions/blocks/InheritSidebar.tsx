@@ -1,4 +1,5 @@
-import { createElement, Fragment, ReactElement } from "@wordpress/element";
+import { ReactElement } from "react";
+import { createElement, Fragment } from "@wordpress/element";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import { createBlockEditProps, getParentIdOfType } from "../../functions/gutenberg/block";
@@ -8,7 +9,7 @@ import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository"
 import { InstructionOptions } from "../../core/Instruction";
 
 /**
- * Sidebar input instruction.
+ * InheritSidebar instruction.
  */
 export default class InheritSidebar extends BlockInstruction {
 	public options: InstructionOptions & {
@@ -29,6 +30,7 @@ export default class InheritSidebar extends BlockInstruction {
 		if ( this.options.parents ) {
 			parentIds = getParentIdOfType( props.clientId, this.options.parents );
 		}
+		const thisBlock = getBlockByClientId( props.clientId );
 
 		const elements: ReactElement[] = [];
 		if ( parentIds.length > 0 ) {
@@ -36,7 +38,7 @@ export default class InheritSidebar extends BlockInstruction {
 				const parentBlock = getBlockByClientId( parentId );
 				const parentBlockDefinition = getBlockDefinition( parentBlock.name );
 				if ( parentBlockDefinition ) {
-					logger.debug( this.options.name + " inherited sidebar from " + parentBlock.name + " definition" );
+					logger.debug( thisBlock.name + " inherited sidebar from " + parentBlock.name + " definition" );
 					const parentProps = createBlockEditProps( parentBlock );
 					elements.push( ...parentBlockDefinition.sidebarElements( parentProps ) );
 				}

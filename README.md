@@ -1,90 +1,96 @@
-# JavaScript
+# Yoast SEO
 
-## Packages
+[![CS](https://github.com/Yoast/wordpress-seo/actions/workflows/cs.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/cs.yml)
+[![Lint](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml)
+[![LintJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jslint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jslint.yml)
+[![TestJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml)
+[![Unit Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml)
+[![Integration Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml)
+[![Deployment](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml)
+[![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
+[![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 
-Monorepo for all the JavaScript within Yoast.
+## Welcome to the Yoast SEO GitHub repository
 
-### javascript/packages
 
-This monorepo includes reusable packages:
+While the documentation for the [Yoast SEO plugin](https://yoa.st/1ul) can be found on [Yoast.com](https://yoa.st/1um), here
+you can browse the source of the project, find and discuss open issues and even
+[contribute yourself](.github/CONTRIBUTING.md).
 
-- [@yoast/analysis-report](packages/analysis-report)
-  - React components that can be used to visualise the outcome of the Yoast content analysis provided by [the yoastseo package](packages/yoastseo).
-- [@yoast/components](packages/components)
-  - All-purpose React components.
-- [@yoast/configuration-wizard](packages/configuration-wizard)
-  - A wizard that guides users trough their initial Yoast SEO plugin setup.
-- [@yoast/feature-toggle](packages/feature-toggle)
-  - A utility that keeps track of enabled and disabled features.
-- [@yoast/helpers](packages/helpers)
-  - A set of helper functions that can be used across multiple projects.
-- [@yoast/replacement-variable-editor](packages/replacement-variable-editor)
-  - The replacement variable editor currently used in the Search Metadata previews. In the future, this component will also be used in the Social Metadata previews.
-- [@yoast/schema-blocks](packages/schema-blocks)
-  - classes and React components used in generating schema blocks from wordpress posts.
-- [@yoast/search-metadata-previews](packages/search-metadata-previews)
-  - React components that can be used to generate a preview of what a page will look like in Google's search results.
-- [@yoast/social-metadata-forms](packages/social-metadata-forms)
-  - React components that can be used to render forms for controlling the social preview settings. This includes the redux store.
-- [@yoast/social-metadata-previews](packages/social-metadata-previews) *[Will replace [yoast-social-previews](packages/yoast-social-previews)]*
-  - React components that can be used to generate a preview of what a page will look like when shared trough Facebook or Twitter.
-- [@yoast/style-guide](packages/style-guide)
-  - A combination of style constants and functions that can be used to conform to the Yoast corporate identity.
-- [eslint-config-yoast](packages/eslint)
-  - ESLint configuration for Yoast projects.
-- [yoast-components](packages/yoast-components) *[deprecated. replaced by [@yoast/components](packages/components)]*
-  - All-purpose React components.
-- [yoast-social-previews](packages/yoast-social-previews) *[Will be replaced by @yoast/social-metadata-previews]*
-  - Classes that can be used to generate a preview of what a page will look like when shared trough Facebook or Twitter.
-- [yoastseo](packages/yoastseo) *[Replaces [YoastSEO.js](https://github.com/yoast//yoastseo.js)]*
-  - Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
+## Installation
 
-All new package should be [scoped](https://docs.npmjs.com/misc/scope) with `@yoast/` , so they can be published as part of the [Yoast organisation](https://www.npmjs.com/org/yoast). When creating a new package with translations, please mind that they need to be added to the pipeline ([for context see this issue](https://github.com/Yoast/wordpress-seo/issues/13360)).
+Here's a [guide on how to install Yoast SEO in your WordPress site](https://yoa.st/1un).
 
-### javascript/apps
+## Want to contribute to Yoast SEO?
 
-This monorepo includes apps for testing purposes. These apps are not published. Apps include:
+### Prerequisites
 
-- [Components](apps/components)
-  - A test application for most `@yoast` packages.
-- [Content-analysis](apps/content-analysis)
-  - A test application for the content analysis.
+At Yoast, we make use a specific toolset to develop our code. Please ensure you have the following tools installed before contributing.
 
-## General file structure of a package
+* [Composer](https://getcomposer.org/)
+* [Yarn](https://yarnpkg.com/en/)
+* [Grunt](https://gruntjs.com/)
 
-- `/src`. Source files
-- `/tests`. Unit tests.
-- `/tools`. Tooling necessary to build or test.
-- `/package.json`
+### Getting started
+After installing the aforementioned tools, you can use the steps below to acquire a development version of Yoast SEO.
+Please note that this will download the latest development version of Yoast SEO. While this version is usually stable,
+it is not recommended for use in a production environment.
 
-## Useful commands
+Within your WordPress installation, navigate to `wp-content/plugins` and run the following commands:
+```bash
+git clone https://github.com/Yoast/wordpress-seo.git
+cd wordpress-seo
+```
 
-The following commands can be executed from the javascript project root:
+To install all the necessary dependencies, run the following commands:
+```bash
+composer install
+yarn
+grunt build
+```
 
-* `yarn install`, will install all dependencies for all packages.
-* `yarn lint`, will run linting for all packages.
-* `yarn test`, will run tests for all packages.
-* `yarn link-all`, will run `yarn link` for all packages.
-* `yarn unlink-all`, will run `yarn unlink` for all packages.
+During development, you could run `grunt build:dev` instead of `grunt build`, to save yourself downloading some dependencies that are only needed for a production environment.
 
-## What lives where?
+Please note that if you change anything in the JavaScript or CSS, you'll have to run `grunt build:js` or `grunt build:css`, respectively.
 
-https://github.com/Yoast/YoastSEO.js moved to `packages/yoastseo`.
-https://github.com/Yoast/yoast-components moved to `packages/yoast-components`.
+For active development, you could run `grunt watch` to keep the build up-to-date and run checks right away.
 
-## Moving pull requests & branches
+For JavaScript only, a webpack development server is available. To enable the dev-server, you'll have to add this to your WordPress install's `config.php`:
+```php
+define( 'YOAST_SEO_DEV_SERVER', true );
+```
+and you can start it by running `yarn start` in the `wordpress-seo` folder.
 
-These need to be moved manually. For your convenience the `yarn transfer-branch` command exists. It has 3 arguments:
+Another JavaScript alternative is `grunt webpack:watch`, this command will keep the JS files up-to-date. You'll have to refresh the page yourself since this does not run a development server.
 
-* Package: Which package to transfer to/from, has the following options:
+This repository uses [the Yoast grunt tasks plugin](https://github.com/Yoast/plugin-grunt-tasks).
 
-    * yoastseo
-    * yoast-components
+## Testing packages
 
-* Base branch: Which branch the branch you want to move is based on. It is the base branch in a pull request.
+To run tests for js packages, run the following command from `packages/js` folder:
+```bash
+yarn test
+```
+## Support
 
-* Branch to move: The branch you want to move.
+This is a developer's portal for Yoast SEO and should not be used for support. Please visit the
+[support forums](https://wordpress.org/support/plugin/wordpress-seo).
 
-These arguments are positional. Think `yarn transfer-branch [package] [base-branch] [branch-to-move]`.
+## Reporting bugs
 
-After moving the branch connected to a pull request you need to manually recreate the pull request here. That should be a matter of copy & pasting and linking to the original PR for archive purposes.
+If you find an issue, [let us know here](https://github.com/yoast/wordpress-seo/issues/new)! Please follow [these guidelines](https://yoa.st/1uo) on how to write a good bug report.
+
+It may help us a lot if you can provide a backtrace of the error encountered. You can use [code in this gist](https://gist.github.com/jrfnl/5925642) to enable the backtrace in your website's configuration.
+
+## Contributions
+
+Anyone is welcome to contribute to Yoast SEO. Please
+[read the guidelines](.github/CONTRIBUTING.md) for contributing to this
+repository.
+
+There are various ways you can contribute:
+
+* [Raise an issue](https://github.com/yoast/wordpress-seo/issues) on GitHub.
+* Send us a Pull Request with your bug fixes and/or new features.
+* [Translate Yoast SEO into different languages](http://translate.yoast.com/projects/wordpress-seo/).
+* Provide feedback and [suggestions on enhancements](https://github.com/yoast/wordpress-seo/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).

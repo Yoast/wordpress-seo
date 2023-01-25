@@ -1,8 +1,10 @@
-import { SchemaValue, SchemaDefinitionConfiguration } from "./SchemaDefinition";
+import { SchemaDefinitionConfiguration, SchemaValue } from "./SchemaDefinition";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult } from "../validation";
+import { BlockPresence } from "../validation/BlockValidationResult";
 
+// eslint-disable-next-line no-use-before-define
 export type SchemaInstructionClass = { new( id: number, options: InstructionOptions ): SchemaInstruction };
 
 /**
@@ -39,6 +41,6 @@ export default abstract class SchemaInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation results.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid );
+		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid, BlockPresence.Unknown );
 	}
 }

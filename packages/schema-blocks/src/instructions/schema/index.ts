@@ -7,4 +7,5 @@ import "./InnerBlocksID";
 import "./JobEmploymentType";
 import "./List";
 import "./Permalink";
+import "./RecipeInstructions";
 import "./Schema";

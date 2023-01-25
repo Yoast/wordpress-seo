@@ -85,6 +85,13 @@ const ScoreAssessmentList = styled.ul`
 	padding: 0 8px;
 `;
 
+/**
+ * The score assessments component, for displaying the results of a number of assessments.
+ *
+ * @param {Object} props The component's props.
+ *
+ * @returns {ReactElement} The rendered component.
+ */
 const ScoreAssessments = ( props ) => {
 	return (
 		<ScoreAssessmentList

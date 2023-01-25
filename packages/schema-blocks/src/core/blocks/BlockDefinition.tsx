@@ -1,12 +1,20 @@
-import { createElement, Fragment, ReactElement } from "@wordpress/element";
-import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
-import { InspectorControls } from "@wordpress/block-editor";
+import { ReactElement } from "react";
+import { createElement, Fragment } from "@wordpress/element";
+import {
+	registerBlockType,
+	BlockConfiguration,
+	BlockEditProps,
+	BlockSaveProps,
+} from "@wordpress/blocks";
+import { InspectorControls, BlockIcon } from "@wordpress/block-editor";
+import { select } from "@wordpress/data";
+import { PanelBody } from "@wordpress/components";
+
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 import parse from "../../functions/blocks/parse";
 import { registerBlockDefinition } from "./BlockDefinitionRepository";
-import { PanelBody } from "@wordpress/components";
 import logger from "../../functions/logger";
 import { openGeneralSidebar } from "../../functions/gutenberg/sidebar";
 
@@ -17,6 +25,7 @@ export interface RenderEditProps extends BlockEditProps<Record<string, unknown>>
 
 export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>> {
 	clientId?: string;
+	className?: string;
 }
 
 export type MutableBlockConfiguration = {
@@ -42,7 +51,9 @@ export default class BlockDefinition extends Definition {
 	 */
 	edit( props: RenderEditProps ): ReactElement {
 		// Force the sidebar open.
-		openGeneralSidebar( "edit-post/block", true );
+		if ( select( "core/block-editor" ).isBlockSelected( props.clientId ) ) {
+			openGeneralSidebar( "edit-post/block", true );
+		}
 
 		const sidebarElements = this.sidebarElements( props );
 
@@ -50,9 +61,13 @@ export default class BlockDefinition extends Definition {
 		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
 		if ( sidebarElements.length > 0 ) {
-			// Need to add `children` on the `props` as well, because of the type definition of `InspectorControls.Props`.
-			const sidebar = createElement( PanelBody, { key: "sidebarPanelBody", children: sidebarElements }, sidebarElements );
-			const sidebarContainer = createElement( InspectorControls, { key: "sidebar", children: [ sidebar ] }, [ sidebar ] );
+			const sidebarContainer =
+				<InspectorControls key="sidebar-inspector-controls">
+					<PanelBody>
+						{ sidebarElements }
+					</PanelBody>
+				</InspectorControls>;
+
 			elements.unshift( sidebarContainer );
 		}
 
@@ -60,7 +75,7 @@ export default class BlockDefinition extends Definition {
 			return elements[ 0 ] as ReactElement;
 		}
 
-		return createElement( Fragment, { key: props.clientId }, elements );
+		return createElement( Fragment, { key: props.clientId }, elements.map( ( element, i ) => createElement( Fragment, { key: i }, element ) ) );
 	}
 
 	/**
@@ -68,7 +83,7 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @param props The props.
 	 *
-	 * @returns {ReactElement} The rendered block.
+	 * @returns The rendered block.
 	 */
 	save( props: RenderSaveProps ): ReactElement {
 		return this.tree.save( props );
@@ -85,7 +100,11 @@ export default class BlockDefinition extends Definition {
 		configuration.edit = props => this.edit( props );
 		configuration.save = props => this.save( props );
 
-		logger.info( "registering block " + name );
+		logger.debug( "registering block " + name );
+
+		if ( configuration.icon && typeof configuration.icon === "string" && configuration.icon.startsWith( "<svg" ) ) {
+			configuration.icon = this.createBlockIcon( configuration );
+		}
 
 		// Register the block to WordPress.
 		registerBlockType( name, configuration );
@@ -98,11 +117,29 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @param props The properties of the block to create a sidebar for.
 	 *
-	 * @returns {ReactElement[]} The sidebar element to render.
+	 * @returns The sidebar element to render.
 	 */
 	sidebarElements( props: RenderEditProps ): ReactElement[] {
 		return Object.values( this.instructions )
-			.map( ( instruction, index ) => instruction.sidebar( props, index ) )
+			.map( ( instruction, index ) => <Fragment key={ instruction.id }>
+				{ instruction.sidebar( props, index ) }
+			</Fragment> )
 			.filter( e => e !== null );
+	}
+
+	/**
+	 * Creates a block icon.
+	 *
+	 * @param configuration The block configuration.
+	 *
+	 * @returns The sidebar element to render.
+	 */
+	private createBlockIcon( configuration: MutableBlockConfiguration ): ReactElement {
+		const icon = <span
+			className="yoast-schema-blocks-icon"
+			dangerouslySetInnerHTML={ { __html: configuration.icon as string } }
+		/>;
+
+		return <BlockIcon icon={ icon } />;
 	}
 }

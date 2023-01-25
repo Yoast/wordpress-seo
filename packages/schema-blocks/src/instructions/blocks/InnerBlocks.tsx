@@ -1,16 +1,14 @@
+import { maxBy } from "lodash";
 import { ComponentType, ReactElement } from "react";
-import { createElement, ComponentClass, Fragment } from "@wordpress/element";
+import { createElement } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance } from "@wordpress/blocks";
-import { BlockValidation, BlockValidationResult } from "../../core/validation";
-import BlockInstruction from "../../core/blocks/BlockInstruction";
-import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
+import { BlockInstruction, BlockLeaf } from "../../core/blocks";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
-import { getBlockByClientId } from "../../functions/BlockHelper";
-import validateMany from "../../functions/validators/validateMany";
-import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
+import { BlockValidationResult } from "../../core/validation";
+import BlockAppender from "../../functions/presenters/BlockAppender";
+import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
-import BlockLeaf from "../../core/blocks/BlockLeaf";
 
 /**
  * Custom props for InnerBlocks.
@@ -58,7 +56,11 @@ export default class InnerBlocks extends BlockInstruction {
 		this.options.requiredBlocks = this.options.requiredBlocks || [];
 		this.options.recommendedBlocks = this.options.recommendedBlocks || [];
 
-		this.renderAppender( properties );
+		if ( this.options.appender ) {
+			properties.renderAppender = this.renderAppender( props.clientId, this.options.appenderLabel );
+		} else {
+			properties.renderAppender = false;
+		}
 
 		this.arrangeAllowedBlocks( properties );
 
@@ -72,33 +74,16 @@ export default class InnerBlocks extends BlockInstruction {
 	/**
 	 * Renders the appender to add innerblocks as React elements.
 	 *
-	 * @param properties The properties of the innerblock.
+	 * @param clientId The clientId of this block.
+	 * @param label The label to show next to the appender..
+	 *
+	 * @returns The block appender function.
 	 */
-	private renderAppender( properties: React.ClassAttributes<unknown> & InnerBlocksProps ) {
-		if ( this.options.appender === false ) {
-			properties.renderAppender = false;
-			return;
-		}
-
-		if ( this.options.appender === "button" ) {
-			properties.renderAppender = () => {
-				// The type definition of InnerBlocks are wrong so cast to fix them.
-				return createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender );
-			};
-		} else {
-			properties.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
-		}
-
-		if ( typeof this.options.appenderLabel === "string" ) {
-			properties.renderAppender = () => {
-				return createElement(
-					"div",
-					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
-					// The type definition of InnerBlocks are wrong so cast to fix them.
-					createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ),
-				);
-			};
-		}
+	private renderAppender( clientId: string, label: string ) {
+		return () => createElement(
+			BlockAppender,
+			{ clientId, label },
+		);
 	}
 
 	/**
@@ -119,42 +104,26 @@ export default class InnerBlocks extends BlockInstruction {
 	}
 
 	/**
-	 * Renders the sidebar.
-	 *
-	 * @param props The props.
-	 *
-	 * @returns The sidebar element to render.
-	 */
-	sidebar( props: RenderEditProps ): ReactElement {
-		const currentBlock = getBlockByClientId( props.clientId );
-		if ( ! currentBlock ) {
-			return null;
-		}
-
-		const elements: ReactElement[] = innerBlocksSidebar( currentBlock, this.options );
-
-		if ( elements && elements.length === 0 ) {
-			return null;
-		}
-
-		return (
-			<Fragment key="innerblocks-sidebar">
-				{ ...elements }
-			</Fragment>
-		);
-	}
-
-	/**
-	 * Checks if the instruction block is valid.
+	 * Checks if the InnerBlock and it's schildren are valid.
 	 *
 	 * @param blockInstance The block instance being validated.
 	 *
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
-		validation.issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks );
-		return validateMany( validation );
+		const issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks, this.options.recommendedBlocks );
+
+		// If no issues are found in any of the innerblocks, the Innerblock is valid too.
+		if ( ! issues || issues.length < 1 ) {
+			return BlockValidationResult.Valid( blockInstance, this.constructor.name );
+		}
+
+		// Make sure to report the worst problem we've found.
+		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );
+		const validation = new BlockValidationResult( blockInstance.clientId, this.constructor.name, worstCase.result, worstCase.blockPresence );
+		validation.issues = issues;
+
+		return validation;
 	}
 }
 

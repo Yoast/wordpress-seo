@@ -21,7 +21,7 @@ const initialState = {};
  */
 function setReadabilityResults( state, action ) {
 	return Object.assign( {}, state,
-		{ results: action.results },
+		{ results: action.results }
 	);
 }
 
@@ -37,7 +37,7 @@ function updateReadabilityResult( state, action ) {
 	// Sets a new readability result if there currently are no results.
 	if ( isUndefined( state.results ) ) {
 		return Object.assign( {}, state,
-			{ results: [ action.result ] },
+			{ results: [ action.result ] }
 		);
 	}
 	const resultIndex = findIndex( state.results, { id: action.result.id } );
@@ -51,7 +51,7 @@ function updateReadabilityResult( state, action ) {
 		);
 	}
 	return Object.assign( {}, state,
-		{ results: [ ...state.results, action.result ] },
+		{ results: [ ...state.results, action.result ] }
 	);
 }
 

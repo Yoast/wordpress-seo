@@ -27,7 +27,7 @@ export default class BlockRootLeaf extends BlockLeaf {
 	 * @returns The rendered element.
 	 */
 	save( props: RenderSaveProps ): JSX.Element {
-		return createElement( Fragment, null, this.children && this.children.map( ( child, i ) => child.save( props, i ) ) );
+		return createElement( Fragment, null, this.renderChildren( this.children, props, "save" ) );
 	}
 
 	/**
@@ -39,6 +39,6 @@ export default class BlockRootLeaf extends BlockLeaf {
 	 * @returns The rendered element.
 	 */
 	edit( props: RenderEditProps ): JSX.Element {
-		return createElement( Fragment, null, this.children && this.children.map( ( child, i ) => child.edit( props, i ) ) );
+		return createElement( Fragment, null, this.renderChildren( this.children, props, "edit" ) );
 	}
 }

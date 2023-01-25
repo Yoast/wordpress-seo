@@ -84,7 +84,7 @@ export const withCaretStyles = Component => {
 		&::before {
 			display: block;
 			position: absolute;
-			top: -1px;
+			top: 4px;
 			${ getDirectionalStyle( "left", "right" ) }: -25px;
 			width: 24px;
 			height: 24px;

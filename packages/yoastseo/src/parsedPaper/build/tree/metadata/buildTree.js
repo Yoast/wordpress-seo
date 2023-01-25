@@ -1,4 +1,4 @@
-import parseSynonyms from "../../../../stringProcessing/parseSynonyms";
+import parseSynonyms from "../../../../../src/languageProcessing/helpers/sanitize/parseSynonyms";
 import { MetadataMiscellaneous, MetadataText, StructuredNode } from "../../../structure/tree/nodes";
 
 /**
@@ -20,7 +20,7 @@ const buildTree = function buildTree( paper ) {
 	// Add miscellaneous types.
 	metadata.addChild( new MetadataMiscellaneous( "keyphrase", paper.getKeyword() ) );
 	metadata.addChild( new MetadataMiscellaneous( "synonyms", parseSynonyms( paper.getSynonyms() ) ) );
-	metadata.addChild( new MetadataMiscellaneous( "slug", paper.getUrl() ) );
+	metadata.addChild( new MetadataMiscellaneous( "slug", paper.getSlug() ) );
 	metadata.addChild( new MetadataMiscellaneous( "titleWidth", paper.getTitleWidth() ) );
 	metadata.addChild( new MetadataMiscellaneous( "permalink", paper.getPermalink() ) );
 	metadata.addChild( new MetadataMiscellaneous( "locale", paper.getLocale() ) );

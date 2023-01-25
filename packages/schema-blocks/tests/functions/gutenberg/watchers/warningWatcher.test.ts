@@ -1,16 +1,20 @@
 import "../../../matchMedia.mock";
-
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { dispatch } from "@wordpress/data";
-
 import warningWatcher from "../../../../src/functions/gutenberg/watchers/warningWatcher";
 import InnerBlocks from "../../../../src/instructions/blocks/InnerBlocks";
 import { getBlockDefinition } from "../../../../src/core/blocks/BlockDefinitionRepository";
-import { RequiredBlock, RequiredBlockOption } from "../../../../src/core/validation";
+import { RequiredBlock } from "../../../../src/core/validation";
 
 jest.mock( "@wordpress/i18n", () => ( {
 	__: jest.fn( text => text ),
-	sprintf: jest.fn( ( text, value ) => text.replace( "%s", value ) ),
+	sprintf: jest.fn( ( text, value, value2, value3 ) => {
+		text = text.replace( "%1$s", value );
+		text = text.replace( "%2$s", value2 );
+		text = text.replace( "%3$s", value3 );
+
+		return text;
+	} ),
 } ) );
 
 jest.mock( "@wordpress/block-editor", () => ( {
@@ -40,6 +44,7 @@ jest.mock( "@wordpress/data", () => ( {
 	dispatch: jest.fn( () => ( {
 		insertBlock: jest.fn(),
 	} ) ),
+	withSelect: jest.fn( () => jest.fn() ),
 } ) );
 
 jest.mock( "@wordpress/components", () => {
@@ -53,6 +58,11 @@ jest.mock( "@yoast/components", () => {
 		SvgIcon: jest.fn(),
 	};
 } );
+
+( window as any ).yoastSchemaBlocks = {
+	requiredLink: "https://yoa.st/required-fields",
+	recommendedLink: "https://yoa.st/recommended-fields",
+};
 
 describe( "The warning watcher", () => {
 	it( "adds warnings when required blocks are removed", () => {
@@ -78,14 +88,14 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore -- This is mocked function, the original function does not have this method so TS complains.
 		getBlockDefinition.mockReturnValueOnce( {
 			instructions: {
 				32: new InnerBlocks( 32, {
 					name: "anyBlock",
 					requiredBlocks: [
-						{ name: "yoast/ingredients", option: RequiredBlockOption.One } as RequiredBlock,
+						{ name: "yoast/ingredients" } as RequiredBlock,
 					],
 					warnings: {
 						"yoast/ingredients": "a warning",
@@ -106,7 +116,8 @@ describe( "The warning watcher", () => {
 					innerBlocks: [],
 					name: "yoast/ingredients",
 				},
-				warningText: "You've just removed the ‘Ingredients’ block, but this is a required block for Schema output. " +
+				warningText: "You've just removed the ‘Ingredients’ block, but this is a " +
+					"<a href=\"https://yoa.st/required-fields\" target=\"_blank\">required block for Schema output</a>. " +
 					"Without this block no Schema will be generated. Are you sure you want to do this?",
 			},
 		);
@@ -136,7 +147,7 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore 2339 -- This is a mocked function, the original class does not have this method, so TS complains.
 		getBlockDefinition.mockReturnValue( {
 			instructions: {
@@ -164,7 +175,9 @@ describe( "The warning watcher", () => {
 					name: "yoast/ingredients",
 				},
 				// eslint-disable-next-line max-len
-				warningText: "You've just removed the ‘Ingredients’ block, but this is a recommended block for Schema output. Are you sure you want to do this?",
+				warningText: "You've just removed the ‘Ingredients’ block, but this is a " +
+					"<a href=\"https://yoa.st/recommended-fields\" target=\"_blank\">recommended block for Schema output</a>. " +
+					"Are you sure you want to do this?",
 			},
 		);
 		expect( dispatch ).toBeCalled();
@@ -214,7 +227,7 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore -- This is mocked function, the original function does not have this method so TS complains.
 		getBlockDefinition.mockReturnValue( null );
 

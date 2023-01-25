@@ -85,11 +85,13 @@ export function serializeBlock( block, getEntity, { start = 0, end = block.getTe
 			if ( inRange( entityStart, start, end ) && inRange( entityEnd, start, end ) ) {
 				const entityData = getEntity( block.getEntityAt( entityStart ) );
 
-				replacements.push( {
-					start: entityStart - start,
-					end: entityEnd - start,
-					replacementText: serializeVariable( entityData.data.mention.replaceName ),
-				} );
+				if ( entityData.data.mention ) {
+					replacements.push( {
+						start: entityStart - start,
+						end: entityEnd - start,
+						replacementText: serializeVariable( entityData.data.mention.replaceName ),
+					} );
+				}
 			}
 		}
 	);
@@ -327,7 +329,7 @@ export function replaceVariableWithEntity( editorState, variable, blockKey ) {
 		variable.label,
 		// No inline style needed.
 		null,
-		contentState.getLastCreatedEntityKey(),
+		contentState.getLastCreatedEntityKey()
 	);
 
 	// We need to apply the new content state to the editor state.
@@ -394,7 +396,7 @@ function addSpaceAfterVariable( editorState, selection, blockKey, variable ) {
 		const newContentState = Modifier.insertText(
 			contentState,
 			selectionAfterVariable,
-			" ",
+			" "
 		);
 		editorState = EditorState.push( editorState, newContentState, "insert-characters" );
 

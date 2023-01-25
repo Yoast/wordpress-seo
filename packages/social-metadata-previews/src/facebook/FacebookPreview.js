@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import FacebookSiteAndAuthorNames from "./FacebookSiteAndAuthorNames";
+import FacebookSiteUrlComponent from "./FacebookSiteUrl";
 import FacebookImage from "./FacebookImage";
-import FacebookTitle from "./FacebookTitle";
+import FacebookTitle, { facebookTitleLineHeight } from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
 
 /**
@@ -75,7 +75,11 @@ class FacebookPreview extends Component {
 		super( props );
 		this.state = {
 			imageMode: null,
+			maxLineCount: 0,
+			descriptionLineCount: 0,
 		};
+		this.facebookTitleRef = React.createRef();
+
 		this.onImageLoaded = this.onImageLoaded.bind( this );
 
 		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
@@ -100,6 +104,65 @@ class FacebookPreview extends Component {
 		this.setState( { imageMode: mode } );
 	}
 
+
+	/**
+	 * Calculates the amount of lines the title spans.
+	 *
+	 * @returns {number} The amount of lines the title spans.
+	 */
+	getTitleLineCount() {
+		const facebookTitleRefHeight = this.facebookTitleRef.current.offsetHeight;
+
+		return ( facebookTitleRefHeight / facebookTitleLineHeight );
+	}
+
+	/**
+	 * Sets the max line count if the image mode has been changed.
+	 *
+	 * @returns {void}
+	 */
+	maybeSetMaxLineCount() {
+		const { imageMode, maxLineCount } = this.state;
+
+		const currentMaxLineCount = imageMode === "landscape" ? 2 : 5;
+
+		if ( currentMaxLineCount !== maxLineCount ) {
+			this.setState( { maxLineCount: currentMaxLineCount } );
+		}
+	}
+
+	/**
+	 * Sets the max description line count if the max line count has been changed.
+	 *
+	 * @returns {void}
+	 */
+	maybeSetDescriptionLineCount() {
+		const { descriptionLineCount, maxLineCount, imageMode } = this.state;
+		const titleLineCount = this.getTitleLineCount();
+
+		// Calculate new description line count.
+		let maxDescriptionLineCount = maxLineCount - titleLineCount;
+		// Exceptions for portait image mode.
+		if ( imageMode === "portrait" ) {
+			maxDescriptionLineCount = titleLineCount === 5 ? 0 : 4;
+		}
+
+		if ( maxDescriptionLineCount !== descriptionLineCount ) {
+			this.setState( { descriptionLineCount: maxDescriptionLineCount } );
+		}
+	}
+
+	/**
+	 * Component updates.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate() {
+		// Recalculate available lines for title and description.
+		this.maybeSetMaxLineCount();
+		this.maybeSetDescriptionLineCount();
+	}
+
 	/**
 	 * Renders the FacebookPreview.
 	 *
@@ -107,7 +170,8 @@ class FacebookPreview extends Component {
 	 * the TwitterImageContainer.
 	 */
 	render() {
-		const { imageMode } = this.state;
+		const { imageMode, maxLineCount, descriptionLineCount } = this.state;
+
 		return (
 			<FacebookPreviewWrapper
 				id="facebookPreview"
@@ -122,27 +186,30 @@ class FacebookPreview extends Component {
 					onMouseLeave={ this.onLeave }
 				/>
 				<FacebookTextWrapper mode={ imageMode }>
-					<FacebookSiteAndAuthorNames
+					<FacebookSiteUrlComponent
 						siteUrl={ this.props.siteUrl }
-						authorName={ this.props.authorName }
 						mode={ imageMode }
 					/>
 					<FacebookTitle
+						ref={ this.facebookTitleRef }
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectTitle }
+						lineCount={ maxLineCount }
 					>
 						{ this.props.title }
 					</FacebookTitle>
-					<FacebookDescription
-						maxWidth={ determineTextContainerWidth( imageMode ) }
-						onMouseEnter={ this.onDescriptionEnter }
-						onMouseLeave={ this.onLeave }
-						onClick={ this.onSelectDescription }
-						mode={ imageMode }
-					>
-						{ this.props.description }
-					</FacebookDescription>
+					{ descriptionLineCount > 0 &&
+						<FacebookDescription
+							maxWidth={ determineTextContainerWidth( imageMode ) }
+							onMouseEnter={ this.onDescriptionEnter }
+							onMouseLeave={ this.onLeave }
+							onClick={ this.onSelectDescription }
+							lineCount={ descriptionLineCount }
+						>
+							{ this.props.description }
+						</FacebookDescription>
+					}
 				</FacebookTextWrapper>
 			</FacebookPreviewWrapper>
 		);
@@ -152,7 +219,6 @@ class FacebookPreview extends Component {
 FacebookPreview.propTypes = {
 	siteUrl: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
-	authorName: PropTypes.string,
 	description: PropTypes.string,
 	imageUrl: PropTypes.string,
 	imageFallbackUrl: PropTypes.string,
@@ -163,7 +229,6 @@ FacebookPreview.propTypes = {
 };
 
 FacebookPreview.defaultProps = {
-	authorName: "",
 	description: "",
 	alt: "",
 	imageUrl: "",

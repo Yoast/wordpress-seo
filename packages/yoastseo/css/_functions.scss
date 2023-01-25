@@ -1,3 +1,0 @@
-@function inline-svg($svg) {
-	@return 'data:image/svg+xml;charset=utf8,#{_encode( $svg )}';
-}

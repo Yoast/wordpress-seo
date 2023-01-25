@@ -17,7 +17,7 @@ if ( typeof window === "undefined" ) {
 }
 
 globalScope.yoast = globalScope.yoast || {};
-globalScope.yoast.shortlinker = null;
+globalScope.yoast.shortlinker = globalScope.yoast.shortlinker || null;
 
 /**
  * Retrieves the Shortlinker instance.

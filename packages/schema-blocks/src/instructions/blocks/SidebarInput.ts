@@ -5,9 +5,10 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
+import LabelWithHelpLink from "../../functions/presenters/LabelWithHelpLinkPresenter";
 
 /**
- * Sidebar input instruction.
+ * SidebarInput instruction.
  */
 class SidebarInput extends SidebarBase {
 	public options: SidebarBaseOptions;
@@ -21,21 +22,32 @@ class SidebarInput extends SidebarBase {
 	 * @returns The sidebar element.
 	 */
 	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ): JSX.Element {
-		const attributes: TextControl.Props = {
+		const textControlProps: TextControl.Props = {
 			label: this.options.label,
 			value: props.attributes[ this.options.name ] as string,
-			onChange: value => props.setAttributes( { [ this.options.name ]: this.options.type === "number" ? parseInt( value, 10 ) : value } ),
+			className: this.options.className,
+			placeholder: this.options.placeholder,
+			onChange: ( value ) => {
+				const newValue = this.options.type === "number" ? parseInt( value, 10 ) : value;
+				props.setAttributes( { [ this.options.name ]: newValue } );
+			},
 			key: i,
 		};
 
 		if ( this.options.help ) {
-			attributes.help = this.options.help;
-		}
-		if ( this.options.type ) {
-			attributes.type = this.options.type;
+			textControlProps.help = this.options.help;
 		}
 
-		return createElement( TextControl, attributes );
+		if ( this.options.type ) {
+			textControlProps.type = this.options.type;
+		}
+
+		// If a help link was passed in the template, add the question mark icon with the help link to the label.
+		if ( this.options.helpLink ) {
+			textControlProps.label = LabelWithHelpLink( { text: textControlProps.label as string, URL: this.options.helpLink } );
+		}
+
+		return createElement( TextControl, textControlProps );
 	}
 
 	/**

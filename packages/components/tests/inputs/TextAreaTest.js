@@ -32,7 +32,7 @@ describe( "TextArea", () => {
 	} );
 
 	it( "generates an error if wrong props are provided", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render(
 			<TextArea

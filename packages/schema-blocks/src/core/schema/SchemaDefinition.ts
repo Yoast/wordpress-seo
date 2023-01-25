@@ -5,10 +5,12 @@ import parse from "../../functions/schema/parse";
 import { BlockInstance } from "@wordpress/blocks";
 
 export type SchemaPrimitive = string | number | boolean;
+// eslint-disable-next-line no-use-before-define
 export type SchemaValue = SchemaPrimitive | SchemaObject | SchemaArray;
 export type SchemaObject = { [member: string]: SchemaValue };
 export type SchemaArray = SchemaValue[];
 
+// eslint-disable-next-line no-use-before-define
 export const schemaDefinitions: Record<string, SchemaDefinition> = {};
 
 export type SchemaDefinitionConfiguration = {

@@ -4,7 +4,25 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.17.0 April 5th, 2021
+## Future Release
+### Other
+* Adds a way to change the link in the `WordOccurenceInsights` component.
+
+### Non user facing
+* Changes the `imageAltText` prop from the `ImageSelect` component to no longer be required.
+
+
+## 2.20.0
+### Enhancements
+* Adds a new `PremiumBadge` component.
+* Adds a new prop `hadPremiumBadge` to the `FieldGroup` and `ImageSelect` components.
+* Adjusts the CSS of the `NewBadge` component so that it's mostly shared with `PremiumBadge`.
+* Improves the support for 16:9 images by the `ImageSelect` component.
+
+### Bugfixes
+* Fixes a bug where the ImageSelect did not a have a screen reader text.
+
+## 2.17.0 April 1st, 2021
 ### Enhancements
 * Updates the `Checkbox` component to the newer style. Now wrapped in a `FieldGroup`.
 * Adds a maximum width to the `Alert` component.

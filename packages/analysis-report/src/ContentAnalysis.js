@@ -61,7 +61,12 @@ class ContentAnalysis extends React.Component {
 					marksButtonActivatedResult={ this.props.activeMarker }
 					marksButtonStatus={ this.props.marksButtonStatus }
 					marksButtonClassName={ this.props.marksButtonClassName }
+					editButtonClassName={ this.props.editButtonClassName }
+					markButtonFactory={ this.props.markButtonFactory }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
+					onEditButtonClick={ this.props.onEditButtonClick }
+					isPremium={ this.props.isPremium }
+					onResultChange={ this.props.onResultChange }
 				/>
 			</StyledCollapsible>
 		);
@@ -79,31 +84,44 @@ class ContentAnalysis extends React.Component {
 			goodResults,
 			considerationsResults,
 			errorsResults,
+			upsellResults,
 			headingLevel,
+			resultCategoryLabels,
 		} = this.props;
 		const errorsFound = errorsResults.length;
 		const problemsFound = problemsResults.length;
 		const improvementsFound = improvementsResults.length;
 		const considerationsFound = considerationsResults.length;
 		const goodResultsFound = goodResults.length;
+		const numberOfUpsellResults = upsellResults.length;
+
+		const defaultLabels = {
+			errors: __( "Errors", "wordpress-seo" ),
+			problems: __( "Problems", "wordpress-seo" ),
+			improvements: __( "Improvements", "wordpress-seo" ),
+			considerations: __( "Considerations", "wordpress-seo" ),
+			goodResults: __( "Good results", "wordpress-seo" ),
+		};
+
+		const labels = Object.assign( defaultLabels, resultCategoryLabels );
 
 		// Analysis collapsibles are only rendered when there is at least one analysis result for that category present.
 		return (
 			<ContentAnalysisContainer>
 				{ errorsFound > 0 &&
-					this.renderCollapsible( __( "Errors", "yoast-components" ), headingLevel, errorsResults )
+					this.renderCollapsible( labels.errors, headingLevel, errorsResults )
 				}
-				{ problemsFound > 0 &&
-					this.renderCollapsible( __( "Problems", "yoast-components" ), headingLevel, problemsResults )
+				{ ( problemsFound + numberOfUpsellResults ) > 0 &&
+					this.renderCollapsible( labels.problems, headingLevel, [ ...upsellResults, ...problemsResults ] )
 				}
 				{ improvementsFound > 0 &&
-					this.renderCollapsible( __( "Improvements", "yoast-components" ), headingLevel, improvementsResults )
+					this.renderCollapsible( labels.improvements, headingLevel, improvementsResults )
 				}
 				{ considerationsFound > 0 &&
-					this.renderCollapsible( __( "Considerations", "yoast-components" ), headingLevel, considerationsResults )
+					this.renderCollapsible( labels.considerations, headingLevel, considerationsResults )
 				}
 				{ goodResultsFound > 0 &&
-					this.renderCollapsible( __( "Good results", "yoast-components" ), headingLevel, goodResults )
+					this.renderCollapsible( labels.goodResults, headingLevel, goodResults )
 				}
 			</ContentAnalysisContainer>
 		);
@@ -112,28 +130,48 @@ class ContentAnalysis extends React.Component {
 
 ContentAnalysis.propTypes = {
 	onMarkButtonClick: PropTypes.func,
+	onEditButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
 	goodResults: PropTypes.array,
 	considerationsResults: PropTypes.array,
 	errorsResults: PropTypes.array,
+	upsellResults: PropTypes.array,
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	markButtonFactory: PropTypes.func,
+	editButtonClassName: PropTypes.string,
 	activeMarker: PropTypes.string,
+	isPremium: PropTypes.bool,
+	resultCategoryLabels: PropTypes.shape( {
+		errors: PropTypes.string,
+		problems: PropTypes.string,
+		improvements: PropTypes.string,
+		considerations: PropTypes.string,
+		goodResults: PropTypes.string,
+	} ),
+	onResultChange: PropTypes.func,
 };
 
 ContentAnalysis.defaultProps = {
 	onMarkButtonClick: () => {},
+	onEditButtonClick: () => {},
 	problemsResults: [],
 	improvementsResults: [],
 	goodResults: [],
 	considerationsResults: [],
 	errorsResults: [],
+	upsellResults: [],
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	markButtonFactory: null,
+	editButtonClassName: "",
 	activeMarker: "",
+	isPremium: false,
+	resultCategoryLabels: {},
+	onResultChange: () => {},
 };
 
 export default ContentAnalysis;

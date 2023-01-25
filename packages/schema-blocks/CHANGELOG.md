@@ -5,7 +5,73 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 1.6.0 April 5th, 2021
+## 1.10.0
+### Enhancements:
+* Adds the `RecipeInstructions` instruction for adding instructions to a Yoast Recipe block.
+
+### Bugfixes:
+* Fixes a bug where the Schema blocks were misaligned.
+
+## 1.9.0 June 1st, 2021
+### Enhancements:
+* Provides a way to set the `tagName` that is used to render the value in the select instruction.
+* Removes the `div` as wrapping element of the value that is set in the date instruction.
+* Removes the Job Title block in favor of an input field in the Job Posting sidebar.
+* Changes `'blocks'` to `'information'` in the sidebar.
+
+### Bugfixes:
+* Fixes a bug where an attribute that only contains whitespace or empty or replaced HTML elements was considered valid.
+* Fixes a bug where an attribute containing a number value was considered invalid.
+* Removes an unwanted trailing space in the output of the `Select` block instruction.
+* Shows the ok only when the added block suggestion hasn't any validation issues.
+
+### Other:
+* Makes the Schema analysis work with the inner blocks now being placed directly within a post, instead of within an overarching Schema block.
+
+## 1.8.0 May 17th, 2021
+### Enhancements
+* Added `Heading` block instruction.
+* Adds a header to the sidebar with a link to a blog post about Yoast Structured Data blocks.
+* Improves the styling of the sidebar by removing the separators.
+* Injects the sidebar of the block into core blocks which are part of the block.
+* Watches the post title to continuously check whether it is not equal to the Job Posting title.
+* Replaces `OK` in the sidebar by green checkmarks.
+* Changes the color of the analysis messages from grey to black.
+* Refactors the `BlockValidation` enum to group valid, okay and invalid results into three categories.
+* Adds validation logic to the Variation picker instruction, to make it invalid until a variation is picked.
+* Simplified schema-blocks validation logic.
+* Adds a default tag attribute to the variable rich text instruction, allowing you to set a default tag.
+* Shows the variation picker again when a variation is removed.
+
+### Bugfixes
+* Fixes a bug where a variation picker would show a second, empty schema block analysis sidebar.
+* Fixes a bug where the styling of the sidebar of any warning blocks located inside of a schema block did not have appropriate padding.
+* Fixes a bug where the block inserter in the left sidebar crashes when hovering the yoast jobs block icon.
+* Fixes a bug where the sidebar of the warning block would not show the schema blocks sidebar elements.
+* Fixes the `VariationPickerPresenter: 'key' is not a prop` error that was shown in the browser console when a job posting block had been added.
+* Fixed the analysis conclusion message after recent changes in the block validation.
+* Fixes some key prop errors in some React components.
+* Fixes a bug where Schema output would still be generated if all the required blocks had been valid before, even if they were no longer valid now.
+* Fixes a bug where Schema output would be generated even when no variation had been picked for the Location block.
+* Fixes a bug where the schema block sidebar would not be correct after it had been added.
+* Fixes a bug where the schema analysis would be green even if some required blocks were not filled in.
+* Fixes a bug where a placeholder attribute was output on the frontend for instance of the RichText block instruction.
+
+### Other
+* Removes a warning block when its removed block is re-added.
+* Fixes the styling of the block appender used in the `InnerBlocks` block instruction.
+
+## 1.7.0 April 26th, 2021
+### Enhancements
+* Adds an orange bullet to the `Analysis` in the side bar when a recommended block is removed.
+
+### Bugfixes
+* Fixes a bug where the link to additional information in the warning was missing.
+
+### Other
+* Moves the `initialize` function to its own file, to clean up the `index.ts` file of the package.
+
+## 1.6.0 April 1st, 2021
 ### Enhancements
 * Adds the option to set `keepPlaceholderOnFocus` for the RichText field.
 

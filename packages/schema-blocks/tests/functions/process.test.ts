@@ -5,7 +5,7 @@ import BlockDefinition from "../../src/core/blocks/BlockDefinition";
 import BlockInstruction from "../../src/core/blocks/BlockInstruction";
 import "../../src/instructions/blocks/InnerBlocks";
 import InnerBlocks from "../../src/instructions/blocks/InnerBlocks";
-import { RequiredBlock, RequiredBlockOption } from "../../src/core/validation";
+import { RequiredBlock } from "../../src/core/validation";
 
 jest.mock( "@yoast/components", () => {
 	return {
@@ -74,15 +74,13 @@ describe( "the process function", () => {
 		// Arrange.
 		const template =
 			'{{inner-blocks allowed-blocks=[ "core/paragraph" ] ' +
-			'required-blocks=[ { "name": "core/paragraph", "option": "Multiple" }, { "name": "core/image", "option": "One" } ] }}';
+			'required-blocks=[ { "name": "core/paragraph" }, { "name": "core/image" } ] }}';
 		const expected: RequiredBlock[] = [
 			{
 				name: "core/paragraph",
-				option: RequiredBlockOption.Multiple,
 			} as RequiredBlock,
 			{
 				name: "core/image",
-				option: RequiredBlockOption.One,
 			} as RequiredBlock,
 		];
 

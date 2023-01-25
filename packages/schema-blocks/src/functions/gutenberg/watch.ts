@@ -1,12 +1,15 @@
 import { debounce, isEqual } from "lodash";
-import { subscribe, select, dispatch } from "@wordpress/data";
+import { dispatch, select, subscribe } from "@wordpress/data";
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
 import warningWatcher from "./watchers/warningWatcher";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
-import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
+import { isResultValidForSchema } from "../validators/validateResults";
+import { missingBlocks } from "../validators/missingBlocks";
+import Schema from "../../instructions/schema/Schema";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -51,6 +54,15 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
 }
 
 /**
+ * Removes any existing Schema output for a given block instance.
+ *
+ * @param block The block instance to clear schema for.
+ */
+function clearSchemaForBlocks( block: BlockInstance ) {
+	dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
+}
+
+/**
  * Generates schema for blocks.
  *
  * @param blocks          The blocks.
@@ -70,11 +82,13 @@ function generateSchemaForBlocks(
 		}
 
 		const validation = validations.find( v => v.clientId === block.clientId );
-		if ( validation && validation.result > BlockValidation.Valid ) {
+		if ( validation && ! isResultValidForSchema( validation.result ) ) {
+			clearSchemaForBlocks( block );
 			continue;
 		}
 
 		const definition = schemaDefinitions[ block.name ];
+
 		if ( shouldRenderSchema( definition, parentHasSchema ) ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
@@ -89,12 +103,12 @@ function generateSchemaForBlocks(
 }
 
 /**
-* Validates blocks recursively.
-*
-* @param blocks The block instances to validate.
-*
-* @returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
-*/
+ * Validates blocks recursively.
+ *
+ * @param blocks The block instances to validate.
+ *
+ * @returns Validation results for each (inner)block of the given blocks.
+ */
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
@@ -104,7 +118,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 			validations.push( definition.validate( block ) );
 		} else {
 			logger.warning( "Unable to validate block of type [" + block.name + "] " + block.clientId );
-			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
+			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockPresence.Unknown ) );
 
 			// Recursively validate all blocks' innerblocks.
 			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
@@ -116,23 +130,55 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 }
 
 /**
+ * Determines the Schema root to use when building up the Schema
+ * for this page.
+ *
+ * @param rootBlocks The blocks at the root of the post.
+ */
+function determineSchemaRoot( rootBlocks: BlockInstance[] ) {
+	for ( const block of rootBlocks ) {
+		const definition = schemaDefinitions[ block.name ];
+
+		if ( definition ) {
+			const instructions = Object.values( definition.instructions );
+			const schemaInstruction: Schema = instructions.find( instruction => instruction instanceof Schema );
+
+			const { requiredFor, recommendedFor, name } = schemaInstruction.options;
+
+			logger.debug( `${ name } is required for ${ requiredFor }` );
+			logger.debug( `${ name } is recommended for ${ recommendedFor }` );
+		}
+	}
+}
+
+/**
  * Watches Gutenberg for relevant changes.
  */
-export default function watch() {
+export default function watch(): void {
 	subscribe(
 		debounce( () => {
-			if ( updatingSchema || select( "core/block-editor" ).isTyping() ) {
+			if ( updatingSchema ) {
 				return;
 			}
 
 			const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
+
 			if ( rootBlocks === previousRootBlocks ) {
 				return;
 			}
 
+			determineSchemaRoot( rootBlocks );
+
 			updatingSchema = true;
 			{
-				const validations: BlockValidationResult[] = validateBlocks( rootBlocks );
+				const validationsForExistingBlocks = validateBlocks( rootBlocks );
+				const validationsForMissingBlocks = missingBlocks( rootBlocks );
+
+				const validations = [
+					...validationsForExistingBlocks,
+					...validationsForMissingBlocks,
+				];
+
 				storeBlockValidation( validations );
 
 				warningWatcher( rootBlocks, previousRootBlocks );

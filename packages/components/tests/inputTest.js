@@ -35,7 +35,7 @@ describe( "Input", () => {
 	} );
 
 	it( "generates a warning when a faulty input type is passed", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 		renderer.render( <Input type="invalidType" /> );
 
 		expect( console.error ).toBeCalled();
@@ -67,7 +67,7 @@ describe( "Input", () => {
 	} );
 
 	it( "generates a warning when a faulty onChange callback is passed", () => {
-		console.error = jest.genMockFn();
+		console.error = jest.fn();
 
 		renderer.render( <Input name="textInput" onChange={ 0 } /> );
 

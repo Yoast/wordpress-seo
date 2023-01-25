@@ -1,4 +1,5 @@
 import React from "react";
+import { __ } from "@wordpress/i18n";
 import ImageSelectButtons from "./ImageSelectButtons";
 import PropTypes from "prop-types";
 import FieldGroup from "../field-group/FieldGroup";
@@ -12,10 +13,11 @@ import Alert from "../Alert";
  * @returns {React.Component} The ImageSelect.
  */
 function ImageSelect( props ) {
-	const imageSelected = props.imageUrl !== "";
+	const imageSelected = props.usingFallback === false && props.imageUrl !== "";
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
+	const showWarnings = props.warnings.length > 0 && imageSelected;
 
-	let imageClassName = "yoast-image-select__preview";
+	let imageClassName = showWarnings ? "yoast-image-select__preview yoast-image-select__preview-has-warnings" : "yoast-image-select__preview";
 	if ( previewImageUrl === "" ) {
 		imageClassName = "yoast-image-select__preview yoast-image-select__preview--no-preview";
 	}
@@ -27,6 +29,22 @@ function ImageSelect( props ) {
 		selectImageButtonId: props.selectImageButtonId,
 		replaceImageButtonId: props.replaceImageButtonId,
 		removeImageButtonId: props.removeImageButtonId,
+		isDisabled: props.isDisabled,
+	};
+
+	/**
+	 * @returns {JSXElement} returns a text for screen readers.
+	 */
+	const ScreenReaderText = () => {
+		return (
+			<span className="screen-reader-text">
+				{
+					imageSelected
+						? __( "Replace image", "wordpress-seo" )
+						: __( "Select image", "wordpress-seo" )
+				}
+			</span>
+		);
 	};
 
 	return (
@@ -37,19 +55,30 @@ function ImageSelect( props ) {
 		>
 			<FieldGroup
 				label={ props.label }
+				hasNewBadge={ props.hasNewBadge }
+				hasPremiumBadge={ props.hasPremiumBadge }
 			>
 				{ props.hasPreview &&
-					<button className={ imageClassName } onClick={ props.onClick } type="button">
+					<button
+						className={ imageClassName }
+						onClick={ props.onClick }
+						type="button"
+						disabled={ props.isDisabled }
+					>
 						{ previewImageUrl !== "" &&
 							<img src={ previewImageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" />
 						}
+						<ScreenReaderText />
 					</button>
 				}
 				{
-					props.warnings.length > 0 && imageSelected &&
-					props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
-						{ warning }
-					</Alert> )
+					showWarnings && <div role="alert">
+						{
+							props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+								{ warning }
+							</Alert> )
+						}
+					</div>
 				}
 				<ImageSelectButtons { ...imageSelectButtonsProps } />
 			</FieldGroup>
@@ -73,6 +102,10 @@ ImageSelect.propTypes = {
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
 	warnings: PropTypes.arrayOf( PropTypes.string ),
+	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
+	usingFallback: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 ImageSelect.defaultProps = {
@@ -87,4 +120,8 @@ ImageSelect.defaultProps = {
 	replaceImageButtonId: "",
 	removeImageButtonId: "",
 	warnings: [],
+	hasNewBadge: false,
+	isDisabled: false,
+	usingFallback: false,
+	hasPremiumBadge: false,
 };
