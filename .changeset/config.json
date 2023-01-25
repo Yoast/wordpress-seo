@@ -7,5 +7,20 @@
   "access": "restricted",
   "baseBranch": "trunk",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [
+    "@yoast/analysis-report",
+    "@yoast/components",
+    "@yoast/configuration-wizard",
+    "@yoast/e2e-tests",
+    "@yoast/helpers",
+    "@yoast/replacement-variable-editor",
+    "@yoast/schema-blocks",
+    "@yoast/search-metadata-previews",
+    "@yoast/social-metadata-forms",
+    "@yoast/social-metadata-previews",
+    "@yoast/style-guide",
+    "@yoast/wordpress-seo",
+    "yoast-components",
+    "yoastseo"
+  ]
 }
