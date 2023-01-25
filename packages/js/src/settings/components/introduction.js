@@ -141,13 +141,14 @@ const Introduction = () => {
 	return (
 		// handleClose function is closing the modal and setting the user meta to not show introduction again
 		<Modal
+			id="modal-introduction"
 			onClose={ handleClose }
 			isOpen={ isOpen }
 			aria-label={ __( "Introduction to settings", "wordpress-seo" ) }
 			tabIndex="-1"
 			ref={ modalDialogRef }
 		>
-			<Modal.Panel className="yst-max-w-[37rem] yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
+			<Modal.Panel className="yst-max-w-[37rem] yst-overflow-y-auto yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
 
 				{ /* //checks ther is permission from wista to add video and add js script, Helmet component adds the script tp the head */ }
 				{ wistiaEmbedPermission.value && <Helmet>
