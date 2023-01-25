@@ -47,6 +47,7 @@ const SiteConnections = () => {
 							label={ __( "Baidu", "wordpress-seo" ) }
 							description={ addLinkToString(
 								sprintf(
+									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 									__( "Get your verification code in %1$sBaidu Webmaster tools%2$s.", "wordpress-seo" ),
 									"<a>",
 									"</a>"
@@ -65,6 +66,7 @@ const SiteConnections = () => {
 							label={ __( "Bing", "wordpress-seo" ) }
 							description={ addLinkToString(
 								sprintf(
+									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 									__( "Get your verification code in %1$sBing Webmaster tools%2$s.", "wordpress-seo" ),
 									"<a>",
 									"</a>"
@@ -83,6 +85,7 @@ const SiteConnections = () => {
 							label={ __( "Google", "wordpress-seo" ) }
 							description={ addLinkToString(
 								sprintf(
+									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 									__( "Get your verification code in %1$sGoogle Search console%2$s.", "wordpress-seo" ),
 									"<a>",
 									"</a>"
@@ -101,6 +104,7 @@ const SiteConnections = () => {
 							label={ __( "Pinterest", "wordpress-seo" ) }
 							description={ addLinkToString(
 								sprintf(
+									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 									__( "Claim your site over at %1$sPinterest%2$s.", "wordpress-seo" ),
 									"<a>",
 									"</a>"
@@ -119,6 +123,7 @@ const SiteConnections = () => {
 							label={ __( "Yandex", "wordpress-seo" ) }
 							description={ addLinkToString(
 								sprintf(
+									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 									__( "Get your verification code in %1$sYandex Webmaster tools%2$s.", "wordpress-seo" ),
 									"<a>",
 									"</a>"
