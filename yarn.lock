@@ -30121,15 +30121,10 @@ u3@^0.1.0:
   resolved "https://registry.yarnpkg.com/u3/-/u3-0.1.1.tgz#5f52044f42ee76cd8de33148829e14528494b73b"
   integrity sha512-+J5D5ir763y+Am/QY6hXNRlwljIeRMZMGs0cT6qqZVVzzT3X3nFPXVyPOFRMOR4kupB0T8JnCdpWdp6Q/iXn3w==
 
-ua-parser-js@^0.7.18:
-  version "0.7.25"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.25.tgz#67689fa263a87a52dabbc251ede89891f59156ce"
-  integrity sha512-8NFExdfI24Ny8R3Vc6+uUytP/I7dpqk3JERlvxPWlrtx5YboqCgxAXYKPAifbPLV2zKbgmmPL53ufW7mUC/VOQ==
-
-ua-parser-js@^0.7.9:
-  version "0.7.18"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.18.tgz#a7bfd92f56edfb117083b69e31d2aa8882d4b1ed"
-  integrity sha512-LtzwHlVHwFGTptfNSgezHp7WUlwiqb0gA9AALRbKaERfxwJoiX0A73QbTToxteIAuIaFshhgIZfqK8s7clqgnA==
+ua-parser-js@^0.7.18, ua-parser-js@^0.7.9:
+  version "0.7.33"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.33.tgz#1d04acb4ccef9293df6f70f2c3d22f3030d8b532"
+  integrity sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"
