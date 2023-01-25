@@ -26,6 +26,7 @@ const Introduction = () => {
 	const ArrowLeftIcon = useMemo( () => isRtl ? PureArrowRightIcon : PureArrowLeftIcon, [ isRtl ] );
 	const ArrowRightIcon = useMemo( () => isRtl ? PureArrowLeftIcon : PureArrowRightIcon, [ isRtl ] );
 	const modalDialogRef = useRef( null );
+	const buttonRef = useRef( null );
 
 	// set the steps with the videos and thumbnails and memoize them for pluginUrl changes
 	const steps = useMemo( () => ( [
@@ -147,6 +148,7 @@ const Introduction = () => {
 			aria-label={ __( "Introduction to settings", "wordpress-seo" ) }
 			tabIndex="-1"
 			ref={ modalDialogRef }
+			initialFocus={ buttonRef }
 		>
 			<Modal.Panel className="yst-max-w-[37rem] yst-overflow-y-auto yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
 
@@ -171,6 +173,7 @@ const Introduction = () => {
 										index === stepIndex ? "yst-visible" : "yst-invisible"
 									) }
 									onClick={ handleRequestPlay }
+									ref={ index === 0 ? buttonRef : null }
 								>
 									<img alt={ __( "Play video", "wordpress-seo" ) } className="yst-w-full yst-h-auto" { ...step.thumbnail } />
 								</button>
