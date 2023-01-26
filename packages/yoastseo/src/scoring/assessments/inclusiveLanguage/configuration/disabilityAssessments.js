@@ -56,7 +56,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>indulge, satiate, wallow, spree, marathon, consume excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
-			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
+			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
 		rule: ( words, nonInclusivePhrase ) => includesConsecutiveWords( words, nonInclusivePhrase )
 			.filter( isNotFollowedByException( words, nonInclusivePhrase, [ "drink", "drinks", "drinking" ] ) ),
 	},
@@ -66,7 +66,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
-			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
+			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{
 		identifier: "binged",
@@ -74,7 +74,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>indulged, satiated, wallowed, spreed, marathoned, consumed excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
-			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
+			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{
 		identifier: "binges",
@@ -82,7 +82,7 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>indulges, satiates, wallows, sprees, marathons, consumes excessively</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i>, unless talking about a symptom of a medical condition. " +
-			"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.",
+			"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, such as %2$s.",
 	},
 	{
 		identifier: "wheelchairBound",
@@ -402,7 +402,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "to be not crazy about",
 		nonInclusivePhrases: [ "crazy about" ],
-		inclusiveAlternatives: "<i>to be not impressed by, to not be enthusiastic about, to not be into, to not like</i>",
+		inclusiveAlternatives: "<i>to be not impressed by, to be not enthusiastic about, to be not into, to not like</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: phrasesWithCrazyFeedback,
 		// Target only when preceded by a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so crazy about" ).
@@ -433,7 +433,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "to go crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to get in one's head, to be aggravated," +
+		inclusiveAlternatives: "<i>to go wild, to go out of control, to go up the wall, to be aggravated," +
 			" to get confused</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
@@ -446,8 +446,8 @@ const disabilityAssessments =  [
 	{
 		identifier: "to drive crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "<i>to drive to one's limit, to get on one's last nerve, to make one livid, to aggravate, to make blood boil, " +
-			"to exasperate, to irritate to the limit</i>",
+		inclusiveAlternatives: "<i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
+			"to make one’s blood boil, to exasperate, to get into one's head</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
