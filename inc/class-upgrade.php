@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 
@@ -977,8 +976,8 @@ class WPSEO_Upgrade {
 		if ( WPSEO_Options::get( 'disable-attachment', true ) ) {
 			$attachment_cleanup_helper = YoastSEO()->helpers->attachment_cleanup;
 
-			$attachment_cleanup_helper->remove_attachment_indexables();
-			$attachment_cleanup_helper->clean_attachment_links_from_target_indexable_ids();
+			$attachment_cleanup_helper->remove_attachment_indexables( true );
+			$attachment_cleanup_helper->clean_attachment_links_from_target_indexable_ids( true );
 		}
 
 		$this->clean_unindexed_indexable_rows_with_no_object_id();

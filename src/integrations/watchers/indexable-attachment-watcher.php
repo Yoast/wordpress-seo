@@ -107,13 +107,12 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 
 			switch ( $new_value['disable-attachment'] ) {
 				case false:
-					// @TODO: Figure out what to do with new settings, because they don't reload the page anymore.
 					$this->indexing_helper->set_reason( Indexing_Reasons::REASON_ATTACHMENTS_MADE_ENABLED );
 					return;
 				case true:
 				default:
-					$this->attachment_cleanup->remove_attachment_indexables();
-					$this->attachment_cleanup->clean_attachment_links_from_target_indexable_ids();
+					$this->attachment_cleanup->remove_attachment_indexables( false );
+					$this->attachment_cleanup->clean_attachment_links_from_target_indexable_ids( false );
 					return;
 			}
 		}

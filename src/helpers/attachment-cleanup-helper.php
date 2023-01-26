@@ -12,14 +12,18 @@ class Attachment_Cleanup_Helper {
 	/**
 	 * Removes all indexables for attachments.
 	 *
+	 * @param bool $suppress_errors Whether to suppress db errors when running the cleanup query.
+	 *
 	 * @return void
 	 */
-	public function remove_attachment_indexables() {
+	public function remove_attachment_indexables( $suppress_errors ) {
 		global $wpdb;
 
-		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
-		$show_errors       = $wpdb->show_errors;
-		$wpdb->show_errors = false;
+		if ( $suppress_errors ) {
+			// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+			$show_errors       = $wpdb->show_errors;
+			$wpdb->show_errors = false;
+		}
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
@@ -31,20 +35,26 @@ class Attachment_Cleanup_Helper {
 		$wpdb->query( $delete_query );
 		// phpcs:enable
 
-		$wpdb->show_errors = $show_errors;
+		if ( $suppress_errors ) {
+			$wpdb->show_errors = $show_errors;
+		}
 	}
 
 	/**
 	 * Cleans all attachment links in the links table from target indexable ids.
 	 *
+	 * @param bool $suppress_errors Whether to suppress db errors when running the cleanup query.
+	 *
 	 * @return void
 	 */
-	public function clean_attachment_links_from_target_indexable_ids() {
+	public function clean_attachment_links_from_target_indexable_ids( $suppress_errors ) {
 		global $wpdb;
 
-		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
-		$show_errors       = $wpdb->show_errors;
-		$wpdb->show_errors = false;
+		if ( $suppress_errors ) {
+			// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+			$show_errors       = $wpdb->show_errors;
+			$wpdb->show_errors = false;
+		}
 
 		$links_table = Model::get_table_name( 'SEO_Links' );
 
@@ -56,6 +66,8 @@ class Attachment_Cleanup_Helper {
 		$wpdb->query( $query );
 		// phpcs:enable
 
-		$wpdb->show_errors = $show_errors;
+		if ( $suppress_errors ) {
+			$wpdb->show_errors = $show_errors;
+		}
 	}
 }
