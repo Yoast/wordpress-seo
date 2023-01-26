@@ -377,6 +377,7 @@ describe( "A test for Disability assessments", function() {
 	} );
 } );
 
+// eslint-disable-next-line max-statements
 describe( "a test for targeting non-inclusive phrases in disability assessments", () => {
 	it( "should return the appropriate score and feedback string for: 'binge' and its other forms", () => {
 		const testData = [
@@ -384,7 +385,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "binge",
 				text: "I binge on ice cream.",
 				expectedFeedback: "Be careful when using <i>binge</i>, unless talking about a symptom of a medical condition. " +
-					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, " +
 					"such as <i>indulge, satiate, wallow, spree, marathon, consume excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -393,7 +394,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "binges",
 				text: "She binges on Netflix series.",
 				expectedFeedback: "Be careful when using <i>binges</i>, unless talking about a symptom of a medical condition. " +
-					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, " +
 					"such as <i>indulges, satiates, wallows, sprees, marathons, consumes excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -402,7 +403,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "bingeing",
 				text: "She is bingeing the new Korean drama on Netflix.",
 				expectedFeedback: "Be careful when using <i>bingeing</i>, unless talking about a symptom of a medical condition. " +
-					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, " +
 					"such as <i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -411,7 +412,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "bingeing",
 				text: "She is binging the new Korean drama on Netflix.",
 				expectedFeedback: "Be careful when using <i>binging</i>, unless talking about a symptom of a medical condition. " +
-					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, " +
 					"such as <i>indulging, satiating, wallowing, spreeing, marathoning, consuming excessively</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -420,7 +421,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "binged",
 				text: "She binged the new Korean drama on Netflix.",
 				expectedFeedback: "Be careful when using <i>binged</i>, unless talking about a symptom of a medical condition. " +
-					"If you are not referencing a medical condition, consider other alternatives to describe the trait or behavior, " +
+					"If you are not referencing a symptom, consider other alternatives to describe the trait or behavior, " +
 					"such as <i>indulged, satiated, wallowed, spreed, marathoned, consumed excessively</i>. " +
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
@@ -429,8 +430,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-
-	it( "should return the appropriate score and feedback string for: 'crippled'", () => {
+	it( "should return the appropriate score and feedback string for: 'crippled' and 'cripple'", () => {
 		const testData = [
 			{
 				identifier: "crippled",
@@ -440,12 +440,6 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-
-	it( "should return the appropriate score and feedback string for: 'cripple'", () => {
-		const testData = [
 			{
 				identifier: "cripple",
 				text: "He's afraid to look like a cripple.",
@@ -457,36 +451,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-
-	it( "should return the appropriate score and feedback string for: 'cripple'", () => {
-		const testData = [
-			{
-				identifier: "cripple",
-				text: "He's afraid to look like a cripple.",
-				expectedFeedback: "Avoid using <i>a cripple</i> as it is derogatory. Consider using an alternative, such as " +
-					"<i>person with a physical disability, a physically disabled person</i> instead. " +
-					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-
-	it( "should return the appropriate score and feedback string for: 'cripple'", () => {
-		const testData = [
-			{
-				identifier: "cripple",
-				text: "He's afraid to look like a cripple.",
-				expectedFeedback: "Avoid using <i>a cripple</i> as it is derogatory. Consider using an alternative, such as " +
-					"<i>person with a physical disability, a physically disabled person</i> instead. " +
-					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-
-	it( "should return the appropriate score and feedback string for: 'handicapped'", () => {
+	it( "should return the appropriate score and feedback string for: 'handicapped' and 'handicap'", () => {
 		const testData = [
 			{
 				identifier: "handicapped",
@@ -496,12 +461,6 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-
-	it( "should return the appropriate score and feedback string for: 'handicap'", () => {
-		const testData = [
 			{
 				identifier: "handicap",
 				text: "They are in the handicap situation.",
@@ -512,7 +471,6 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-
 	it( "should return the appropriate score and feedback string for: 'insane'", () => {
 		const testData = [
 			{
@@ -539,19 +497,6 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-
-	it( "should return the appropriate score and feedback string for: 'handicap'", () => {
-		const testData = [
-			{
-				identifier: "handicap",
-				text: "They are in the handicap situation.",
-				expectedFeedback: "Avoid using <i>handicap</i> as it is potentially harmful. Consider using an alternative, such as " +
-					"<i>disability</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
 	it( "should return the appropriate score and feedback string for: 'hearing impaired'", () => {
 		const testData = [
 			{
@@ -565,7 +510,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 		];
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'functioning'", () => {
+	it( "should return the appropriate score and feedback string for: 'high functioning' and 'low functioning'", () => {
 		const testData = [
 			{
 				identifier: "functioning",
@@ -575,50 +520,6 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: 'hearing impaired'", () => {
-		const testData = [
-			{
-				identifier: "hearingImpaired",
-				text: "Speak louder for the hearing impaired people.",
-				expectedFeedback: "Avoid using <i>hearing impaired</i> as it is potentially harmful. Consider using an alternative, such as " +
-					"<i>deaf or hard of hearing, partially deaf, has partial hearing loss</i>. " +
-					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: ' high functioning'", () => {
-		const testData = [
-			{
-				identifier: "functioning",
-				text: "They have high functioning depression.",
-				expectedFeedback: "Be careful when using <i>high functioning</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as describing the specific characteristic or experience, unless referring to how you characterize your own condition. " +
-					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 6,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: 'low functioning'", () => {
-		const testData = [
-			{
-				identifier: "functioning",
-				text: "They have low functioning depression.",
-				expectedFeedback: "Be careful when using <i>low functioning</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as describing the specific characteristic or experience, unless referring to how you characterize your own condition. " +
-					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 6,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: 'low functioning'", () => {
-		const testData = [
 			{
 				identifier: "functioning",
 				text: "They have low functioning depression.",
@@ -823,8 +724,9 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 
 		testInclusiveLanguageAssessments( testData );
 	} );
-	it( "should return the appropriate score and feedback string for: 'deaf-mute'", () => {
+	it( "should return the appropriate score and feedback string for non-inclusive phrases related to 'deaf'", () => {
 		const testData = [
+			// Non-inclusive: deaf-mute.
 			{
 				identifier: "deaf",
 				text: "They were born deaf-mute.",
@@ -833,24 +735,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: 'deaf and dumb'", () => {
-		const testData = [
-			{
-				identifier: "deaf",
-				text: "They were born deaf and dumb.",
-				expectedFeedback: "Avoid using <i>deaf and dumb</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>deaf</i>. " +
-					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: 'deaf and dumb'", () => {
-		const testData = [
+			// Non-inclusive: deaf and dumb.
 			{
 				identifier: "deaf",
 				text: "They were born deaf and dumb.",
@@ -893,19 +778,6 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				expectedFeedback: "Avoid using <i>sanity check</i> as it is potentially harmful. Consider using an alternative, " +
 						"such as <i>final check, confidence check, rationality check, soundness check</i>. " +
 						"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
-				expectedScore: 3,
-			},
-		];
-		testInclusiveLanguageAssessments( testData );
-	} );
-	it( "should return the appropriate score and feedback string for: 'sanity check'", () => {
-		const testData = [
-			{
-				identifier: "sanityCheck",
-				text: "Those who decided this need a sanity check.",
-				expectedFeedback: "Avoid using <i>sanity check</i> as it is potentially harmful. Consider using an alternative, " +
-					"such as <i>final check, confidence check, rationality check, soundness check</i>. " +
-					"<a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
 		];
@@ -1050,7 +922,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to be not crazy about",
 				text: "They are not crazy about this album.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to not be enthusiastic about, to not be into, " +
+					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1059,7 +931,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to be not crazy about",
 				text: "They are not too crazy about this album.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to not be enthusiastic about, to not be into, " +
+					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1068,7 +940,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to be not crazy about",
 				text: "They aren't too crazy about this album.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to be not impressed by, to not be enthusiastic about, to not be into, " +
+					"Consider using an alternative, such as <i>to be not impressed by, to be not enthusiastic about, to be not into, " +
 					"to not like</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1099,7 +971,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to go crazy",
 				text: "It's going crazy out here.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, to get in one's head, " +
+					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
 					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1108,7 +980,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to go crazy",
 				text: "They go crazy out here.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, to get in one's head, " +
+					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
 					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1117,7 +989,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to go crazy",
 				text: "He goes crazy out here.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, to get in one's head, " +
+					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
 					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1126,7 +998,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to go crazy",
 				text: "They went crazy out there.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, to get in one's head, " +
+					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
 					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1135,7 +1007,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				identifier: "to go crazy",
 				text: "They have gone crazy out there.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. " +
-					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, to get in one's head, " +
+					"Consider using an alternative, such as <i>to go wild, to go out of control, to go up the wall, " +
 					"to be aggravated, to get confused</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
