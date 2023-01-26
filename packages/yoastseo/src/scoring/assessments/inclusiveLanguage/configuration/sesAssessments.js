@@ -76,7 +76,7 @@ const sesAssessments = [
 	},
 	{
 		identifier: "ex-offender",
-		nonInclusivePhrases: [ "ex-offender", "ex-offenders" ],
+		nonInclusivePhrases: [ "ex-offender" ],
 		inclusiveAlternatives: "<i>formerly incarcerated person</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
