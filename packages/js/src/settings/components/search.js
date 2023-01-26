@@ -15,6 +15,8 @@ import { useParsedUserAgent, useSelectSettings } from "../hooks";
 
 const POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP = new RegExp( /^input-wpseo_titles-(post_types|taxonomy)-(?<name>\S+)-(maintax|ptparent)$/is );
 
+const DUMMY_ITEM = { fieldId: "DUMMY_ITEM" };
+
 /**
  * @param {string} fieldId The item field ID.
  * @param {string} fieldLabel The item label.
@@ -119,6 +121,10 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 	);
 
 	const handleNavigate = useCallback( ( { route, fieldId } ) => {
+		if ( fieldId === DUMMY_ITEM.fieldId ) {
+			// The item is our dummy, do not navigate.
+			return;
+		}
 		setMobileMenuOpen( false );
 		setClose();
 		setQuery( "" );
@@ -280,9 +286,15 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 						</SearchNoResultsContent>
 					) }
 					{ query.length >= queryMinChars && isEmpty( results ) && (
-						<SearchNoResultsContent title={ __( "No results found", "wordpress-seo" ) }>
-							<p className="yst-text-slate-500">{ __( "We couldn’t find anything with that term.", "wordpress-seo" ) }</p>
-						</SearchNoResultsContent>
+						<>
+							<SearchNoResultsContent title={ __( "No results found", "wordpress-seo" ) }>
+								<p className="yst-text-slate-500">{ __( "We couldn’t find anything with that term.", "wordpress-seo" ) }</p>
+							</SearchNoResultsContent>
+							{ /* This dummy prevents a reset of the Combobox.Input when pressing enter (via a dummy check in the onChange). */ }
+							<Combobox.Options className="yst-visible-">
+								<Combobox.Option value={ DUMMY_ITEM } />
+							</Combobox.Options>
+						</>
 					) }
 				</Combobox>
 			</Modal.Panel>
