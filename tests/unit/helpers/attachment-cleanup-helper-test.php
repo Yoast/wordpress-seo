@@ -57,7 +57,7 @@ class Attachment_Cleanup_Helper_Test extends TestCase {
 			->once()
 			->with( "DELETE FROM wp_yoast_indexable WHERE object_type = 'post' AND object_sub_type = 'attachment'" );
 
-		$this->instance->remove_attachment_indexables();
+		$this->instance->remove_attachment_indexables( true );
 	}
 
 	/**
@@ -70,6 +70,6 @@ class Attachment_Cleanup_Helper_Test extends TestCase {
 			->once()
 			->with( "UPDATE wp_yoast_seo_links SET target_indexable_id = NULL WHERE type = 'image-in'" );
 
-		$this->instance->clean_attachment_links_from_target_indexable_ids();
+		$this->instance->clean_attachment_links_from_target_indexable_ids( true );
 	}
 }
