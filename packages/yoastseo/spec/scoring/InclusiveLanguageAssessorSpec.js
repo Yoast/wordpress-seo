@@ -236,3 +236,16 @@ describe( "a test for the inclusive language assessor when run in Shopify", () =
 		} );
 	} );
 } );
+
+describe( "The inclusive language assessor", () => {
+	it( "should target 'ex-offenders' only once", () => {
+		const paper = new Paper( "This sentence contains the word ex-offenders." );
+		const researcher = new EnglishResearcher( paper );
+
+		const assessor = new InclusiveLanguageAssessor( researcher, {} );
+
+		assessor.assess( paper );
+
+		expect( assessor.getValidResults() ).toHaveLength( 1 );
+	} );
+} );

@@ -63,7 +63,7 @@ const sesAssessments = [
 	{
 		identifier: "felon",
 		nonInclusivePhrases: [ "felon" ],
-		inclusiveAlternatives: "<i>person with felony convictions, person who have been incarcerated</i>",
+		inclusiveAlternatives: "<i>person with felony convictions, person who has been incarcerated</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
 	},
@@ -76,7 +76,7 @@ const sesAssessments = [
 	},
 	{
 		identifier: "ex-offender",
-		nonInclusivePhrases: [ "ex-offender", "ex-offenders" ],
+		nonInclusivePhrases: [ "ex-offender" ],
 		inclusiveAlternatives: "<i>formerly incarcerated person</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
