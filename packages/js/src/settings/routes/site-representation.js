@@ -42,7 +42,7 @@ const SiteRepresentation = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
-	const mastodonUrlLink = useSelectSettings( "selectLink", [], "http://yoa.st/site-representation-mastodon" );
+	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
 
 	return (
 		<RouteLayout
