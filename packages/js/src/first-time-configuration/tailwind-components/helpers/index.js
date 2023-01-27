@@ -164,13 +164,6 @@ export function configurationReducer( state, action ) {
 			newState.personId = action.payload.value;
 			newState.personName = action.payload.label;
 			return newState;
-		case "CHANGE_PERSON_SOCIAL_PROFILE":
-			newState = handleStepEdit( newState, 3 );
-			newState.personSocialProfiles[ action.payload.socialMedium ] = action.payload.value;
-			return newState;
-		case "INIT_PERSON_SOCIAL_PROFILES":
-			newState.personSocialProfiles = action.payload.socialProfiles;
-			return newState;
 		case "SET_CAN_EDIT_USER":
 			newState = handleStepEdit( newState, 2 );
 			newState.canEditUser = ( action.payload === true ) ? 1 : 0;
