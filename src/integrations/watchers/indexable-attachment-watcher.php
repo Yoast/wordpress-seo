@@ -99,7 +99,7 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 			return;
 		}
 
-		// If a new value has been set for 'disable-attachment', clear the category permalinks.
+		// If a new value has been set for 'disable-attachment', there's two things we might need to do, depending on what's the new value.
 		if ( $old_value['disable-attachment'] !== $new_value['disable-attachment'] ) {
 			// Delete cache because we now might have new stuff to index or old unindexed stuff don't need indexing anymore.
 			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
@@ -110,9 +110,10 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 					$this->indexing_helper->set_reason( Indexing_Reasons::REASON_ATTACHMENTS_MADE_ENABLED );
 					return;
 				case true:
-				default:
 					$this->attachment_cleanup->remove_attachment_indexables( false );
 					$this->attachment_cleanup->clean_attachment_links_from_target_indexable_ids( false );
+					return;
+				default:
 					return;
 			}
 		}
