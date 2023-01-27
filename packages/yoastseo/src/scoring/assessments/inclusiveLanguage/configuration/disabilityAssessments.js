@@ -447,7 +447,7 @@ const disabilityAssessments =  [
 		identifier: "to drive crazy",
 		nonInclusivePhrases: [ "crazy" ],
 		inclusiveAlternatives: "<i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
-			"to make one’s blood boil, to exasperate, to get into one's head</i>",
+			"to make one's blood boil, to exasperate, to get into one's head</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
