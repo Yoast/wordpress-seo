@@ -1,6 +1,6 @@
 {
   "name": "@yoast/ui-library",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Yoast UI library",
   "main": "build/index.js",
   "style": "build/css/style.css",
