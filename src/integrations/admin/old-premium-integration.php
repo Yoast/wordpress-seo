@@ -17,6 +17,11 @@ use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 class Old_Premium_Integration implements Integration_Interface {
 
 	/**
+	 * The minimum Premium version.
+	 */
+	const MINIMUM_PREMIUM_VERSION = '20.1-RC0';
+
+	/**
 	 * The options' helper.
 	 *
 	 * @var Options_Helper
@@ -162,14 +167,14 @@ class Old_Premium_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns whether Premium is installed but older than 20.0.
+	 * Returns whether Premium is installed but older than the minimum premium version.
 	 *
-	 * @return bool Whether premium is installed but older than 20.0.
+	 * @return bool Whether premium is installed but older than minimum premium version.
 	 */
 	protected function premium_is_old() {
 		$premium_version = $this->product_helper->get_premium_version();
 		if ( ! \is_null( $premium_version ) ) {
-			return \version_compare( $premium_version, '20.0-RC0', '<' );
+			return \version_compare( $premium_version, self::MINIMUM_PREMIUM_VERSION, '<' );
 		}
 
 		return false;
