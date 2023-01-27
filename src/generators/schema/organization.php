@@ -47,7 +47,7 @@ class Organization extends Abstract_Schema_Piece {
 		$organization['logo']  = $logo;
 		$organization['image'] = [ '@id' => $logo['@id'] ];
 
-		$same_as = \array_values( \array_unique( $this->fetch_social_profiles() ) );
+		$same_as = \array_values( \array_unique( \array_filter( $this->fetch_social_profiles() ) ) );
 		if ( ! empty( $same_as ) ) {
 			$organization['sameAs'] = $same_as;
 		}
