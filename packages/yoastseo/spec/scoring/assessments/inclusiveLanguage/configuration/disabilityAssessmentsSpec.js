@@ -991,7 +991,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "This math problem is driving me crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
-					"to make one’s blood boil, to exasperate, to get into one's head</i>." +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1001,7 +1001,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "They drive everyone crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
-					"to make one’s blood boil, to exasperate, to get into one's head</i>." +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1011,7 +1011,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "They drove him crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
-					"to make one’s blood boil, to exasperate, to get into one's head</i>." +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1021,7 +1021,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "She drives somebody crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
-					"to make one’s blood boil, to exasperate, to get into one's head</i>." +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
@@ -1031,7 +1031,7 @@ describe( "a test for targeting non-inclusive phrases in disability assessments"
 				text: "He has driven them crazy.",
 				expectedFeedback: "Avoid using <i>crazy</i> as it is potentially harmful. Consider using an alternative, " +
 					"such as <i>to drive one to their limit, to get on one's last nerve, to make one livid, to aggravate, " +
-					"to make one’s blood boil, to exasperate, to get into one's head</i>." +
+					"to make one's blood boil, to exasperate, to get into one's head</i>." +
 					" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>",
 				expectedScore: 3,
 			},
