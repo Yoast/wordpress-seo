@@ -160,6 +160,33 @@ class Indexable_Link_Builder {
 	}
 
 	/**
+	 * Fixes existing SEO links that are supposed to have a target indexable but don't, because of prior indexable cleanup.
+	 *
+	 * @param Indexable $indexable The indexable to be the target of SEO Links.
+	 *
+	 * @return void
+	 */
+	public function patch_seo_links( Indexable $indexable ) {
+		if ( ! empty( $indexable->id ) && ! empty( $indexable->object_id ) ) {
+			$links = $this->seo_links_repository->find_all_by_target_post_id( $indexable->object_id );
+
+			$updated_indexable = false;
+			foreach ( $links as $link ) {
+				if ( \is_a( $link, SEO_Links::class ) && empty( $link->target_indexable_id ) ) {
+					// Since that post ID exists in an SEO link but has no target_indexable_id, it's probably because of prior indexable cleanup.
+					$this->seo_links_repository->update_target_indexable_id( $link->id, $indexable->id );
+					$updated_indexable = true;
+				}
+			}
+
+			if ( $updated_indexable ) {
+				$updated_indexable_id = [ $indexable->id ];
+				$this->update_incoming_links_for_related_indexables( $updated_indexable_id );
+			}
+		}
+	}
+
+	/**
 	 * Gathers all links from content.
 	 *
 	 * @param string $content The content.
