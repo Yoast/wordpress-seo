@@ -13,6 +13,7 @@
 * Uses `forwardRef` for the `Modal` component to get a references of the `Dialog` DOM node, necessary to move keyboard focus on it. [#19607](https://github.com/Yoast/wordpress-seo/pull/19607)
 * Improves accessibility for mobile navigation by changing style of menu open and close button, and the default screen reader text of that component. [#19604](https://github.com/Yoast/wordpress-seo/pull/19604)
 * Adds the ability to use xs text format for `title` elements [#19592](https://github.com/Yoast/wordpress-seo/pull/19592)
+* Exports the `useNavigationContext` hook for when you use the `SidebarNavigation`. [#19497](https://github.com/Yoast/wordpress-seo/pull/19497)
 
 ## 3.0.0 (2022-12-15)
 
