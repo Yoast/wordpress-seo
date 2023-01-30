@@ -1,25 +1,24 @@
 import getSentences from "../helpers/sentence/getSentences";
 import getWords from "../helpers/word/getWords";
-import SearchKey from "../../../SearchKey.json";
-import fetch from "node-fetch";
 
 // verb - zero or one determiner - zero or multiple adjectives - noun - preposition - zero or one determiner - zero or multiple adjectives - noun
 const ppAttachmentRegExp = new RegExp( "<VB.?>(?:<DT>)?(?:<JJ>)*<NN.?><IN>(?:<DT>)?(?:<JJ>)*<NN.?>" );
 
 /**
- * Checks whether a sentence has ambiguous PP attachment.
+ * Obtains sentence readings if it matches regex for PP attachment.
  *
- * @param {POSTagger} tagger The part-of-speech tagger.
+ * @param {POSTagger} tagger The Parts-Of-Speech tagger.
  * @param {string} sentence The current sentence.
- * @returns {Object|null} The words composing the ambiguous construction (empty if none found), as well as the two alternative readings.
+ * @returns {Object|null} The sentence, the words composing the ambiguous construction (empty if none found), as well as the two alternative readings.
  */
 
-function isAmbiguous( tagger, sentence ) {
+function getReadings( tagger, sentence ) {
 	const words = getWords( sentence, false );
 	const tags = tagger.tag( words );
 
-	// Convert the tags to a string, so that we can more easily apply a regular expression.
+	// Convert the tags to a string so that we can more easily apply a regular expression.
 	const tagString = tags.map( tag => "<" + tag[ 1 ] + ">" ).join( "" );
+	// Checks if the match
 	const match = tagString.match( ppAttachmentRegExp );
 
 	const construction = [];
@@ -48,6 +47,8 @@ function isAmbiguous( tagger, sentence ) {
 					case "NN":
 						if ( afterPreposition ) {
 							reading1.push( wordCurrent );
+						} else {
+							reading1.push( "*" );
 						}
 						reading2.push( wordCurrent );
 						break;
@@ -74,32 +75,6 @@ function isAmbiguous( tagger, sentence ) {
 
 	return null;
 }
-/**
- * Checks if the given reading is possible according to a Google search.
- * @param {string} reading The reading.
- * @returns {boolean} Whether the reading is possible.
- */
-async function getHits( reading ) {
-	const cx = SearchKey.cx;
-	const key = SearchKey.key;
-	const url = "https://www.googleapis.com/customsearch/v1?";
-	const parameters = { q: reading, exactTerms: reading, cx: cx, key: key, googlehost: "www.google.com" };
-	let hits = 0;
-
-	await fetch( url + new URLSearchParams( parameters ), { method: "GET" } )
-		.then( response => {
-			return response.json();
-		} )
-		.then( data => {
-			hits = data.searchInformation.totalResults;
-		} )
-		.catch( function( err ) {
-			console.log( err );
-		} );
-
-	return hits;
-}
-
 
 /**
  * Finds all sentences with (problematic) PP attachment.
@@ -114,7 +89,7 @@ async function findPPAttachment( sentences, researcher ) {
 	const tagger = researcher.getHelper( "getTagger" )();
 
 	await Promise.all( sentences.map( async( sentence ) => {
-		const result = isAmbiguous( tagger, sentence );
+		const result = getReadings( tagger, sentence );
 		if ( result !== null ) {
 			// result.hitsReading1 = getHits( result.reading1 );
 			// result.hitsReading2 = getHits( result.reading2 );
