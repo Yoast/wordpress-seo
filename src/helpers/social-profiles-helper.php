@@ -350,6 +350,7 @@ class Social_Profiles_Helper {
 	 * @return array The supported social profile fields.
 	 */
 	public function get_supported_person_social_profile_fields() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.1' );
 		return [];
 	}
 }
