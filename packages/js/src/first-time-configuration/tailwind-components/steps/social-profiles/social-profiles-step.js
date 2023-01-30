@@ -17,7 +17,6 @@ import Alert from "../../base/alert";
  * @returns {WPElement} The social profiles step.
  */
 export default function SocialProfilesStep( { state, dispatch, setErrorFields } ) {
-	const editUserUrl = "user-edit.php";
 	const noUserSelectedText = __(
 		"If you select a Person to represent this site, we will use the social profiles from the selected user's profile page.",
 		"wordpress-seo"
@@ -48,10 +47,17 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 		),
 		{   // eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a
-				href={ `${ editUserUrl }?user_id=${ state.personId }` }
+				id="yoast-configuration-person-social-profiles-user-link"
+				href={ window.wpseoScriptData.userEditUrl.replace( "{user_id}", state.personId ) }
 				target="_blank" rel="noopener noreferrer"
 			/>,
 		} );
+
+	const userCannotEditText =	__(
+		"You're not allowed to edit the social profiles of this user. Please ask this user or an admin to do this.",
+		"wordpress-seo"
+	);
+
 	if ( [ "company", "emptyChoice" ].includes( state.companyOrPerson ) ) {
 		return <Fragment>
 			<p>{
@@ -73,7 +79,7 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 		<p>
 			{ state.personId === 0 ? noUserSelectedText : userSelectedText }
 			{ " " }
-			{ state.personId !== 0 && state.canEditUser ? userCanEditText : "" }
+			{ state.personId !== 0 && state.canEditUser ? userCanEditText : userCannotEditText }
 		</p>
 
 		{
