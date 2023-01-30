@@ -31,6 +31,13 @@ class Configuration_Workout_Route implements Route_Interface {
 	const SOCIAL_PROFILES_ROUTE = '/social_profiles';
 
 	/**
+	 * Represents a person's social profiles route.
+	 *
+	 * @var string
+	 */
+	const PERSON_SOCIAL_PROFILES_ROUTE = '/person_social_profiles';
+
+	/**
 	 * Represents a route to enable/disable tracking.
 	 *
 	 * @var string
