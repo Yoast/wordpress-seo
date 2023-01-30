@@ -123,10 +123,10 @@ class Taxonomy_Helper {
 	 */
 	public function get_excluded_taxonomies_for_indexables() {
 		/**
-		 * Filter: 'wpseo_indexable_excluded_taxonomies' - Allows excluding terms of a certain
-		 * taxonomy from being saved to the indexable table.
+		 * Filter: 'wpseo_indexable_excluded_taxonomies' - Allow developers to prevent a certain taxonomy
+		 * from being saved to the indexable table.
 		 *
-		 * @api array $excluded_taxonomies The currently excluded taxonomies that indexables will not be created for.
+		 * @param array $excluded_taxonomies The currently excluded taxonomies.
 		 */
 		$excluded_taxonomies = \apply_filters( 'wpseo_indexable_excluded_taxonomies', [] );
 
@@ -158,41 +158,8 @@ class Taxonomy_Helper {
 		$public_taxonomies   = $this->get_public_taxonomies();
 		$excluded_taxonomies = $this->get_excluded_taxonomies_for_indexables();
 
-		$included_taxonomies = \array_diff( $public_taxonomies, $excluded_taxonomies );
-
-		return $this->filter_included_taxonomies( $included_taxonomies );
-	}
-
-	/**
-	 * Filters the taxonomies that are included to be indexed.
-	 *
-	 * @param array $included_taxonomies The taxonomies that are included to be indexed.
-	 *
-	 * @return array The filtered taxonomies that are included to be indexed.
-	 */
-	protected function filter_included_taxonomies( $included_taxonomies ) {
-		/**
-		 * Filter: 'wpseo_indexable_forced_included_taxonomies' - Allows force including terms of a certain
-		 * taxonomy to be saved to the indexable table.
-		 *
-		 * @api array $included_taxonomies The currently included taxonomies that indexables will be created for.
-		 */
-		$filtered_included_taxonomies = \apply_filters( 'wpseo_indexable_forced_included_taxonomies', $included_taxonomies );
-
-		if ( ! \is_array( $filtered_included_taxonomies ) ) {
-			// If the filter got misused, let's return the unfiltered array.
-			return \array_values( $included_taxonomies );
-		}
-
-		// Add sanity check to make sure everything is an actual taxonomy.
-		foreach ( $filtered_included_taxonomies as $key => $taxonomy ) {
-			if ( ! \taxonomy_exists( $taxonomy ) ) {
-				unset( $filtered_included_taxonomies[ $key ] );
-			}
-		}
-
 		// `array_values`, to make sure that the keys are reset.
-		return \array_values( $filtered_included_taxonomies );
+		return \array_values( \array_diff( $public_taxonomies, $excluded_taxonomies ) );
 	}
 
 	/**
