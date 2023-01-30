@@ -3,31 +3,31 @@ import combineIntoImplicitParagraphs from "../../../../src/parse/build/private/c
 describe( "The combineIntoImplicitParagraphs function", () => {
 	it( "combines phrasing content into paragraphs", () => {
 		const nodes = [
-			{ nodeName: "p" },
-			{ nodeName: "span" },
-			{ nodeName: "#text" },
-			{ nodeName: "div" },
-			{ nodeName: "a" },
+			{ name: "p" },
+			{ name: "span" },
+			{ name: "#text" },
+			{ name: "div" },
+			{ name: "a" },
 		];
 
 		expect( combineIntoImplicitParagraphs( nodes ) ).toEqual( [
-			{ nodeName: "p" },
+			{ name: "p" },
 			{
-				nodeName: "p",
-				attrs: {},
+				name: "p",
+				attributes: {},
 				isImplicit: true,
 				childNodes: [
-					{ nodeName: "span" },
-					{ nodeName: "#text" },
+					{ name: "span" },
+					{ name: "#text" },
 				],
 			},
-			{ nodeName: "div" },
+			{ name: "div" },
 			{
-				nodeName: "p",
-				attrs: {},
+				name: "p",
+				attributes: {},
 				isImplicit: true,
 				childNodes: [
-					{ nodeName: "a" },
+					{ name: "a" },
 				],
 			},
 		] );

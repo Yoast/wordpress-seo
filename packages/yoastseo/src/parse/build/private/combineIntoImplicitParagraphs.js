@@ -1,16 +1,5 @@
-/**
- * Tag names of HTML elements that are considered phrasing content
- * in the HTML content model.
- *
- * @see https://html.spec.whatwg.org/#phrasing-content
- *
- * @type {string[]}
- */
-const phrasingContentTags = [
-	"b", "big", "i", "small", "tt", "abbr", "acronym", "cite", "code", "dfn", "em", "kbd", "strong",
-	"samp", "time", "var", "a", "bdo", "br", "img", "map", "object", "q", "script", "span", "sub", "sup", "button",
-	"input", "label", "select", "textarea",
-];
+import isPhrasingContent from "./isPhrasingContent";
+import { Paragraph } from "../../structure";
 
 /**
  * Checks whether a node is inter-element whitespace.
@@ -22,20 +11,7 @@ const phrasingContentTags = [
  * @returns {boolean} Whether the node is inter-element whitespace.
  */
 function isInterElementWhitespace( node ) {
-	return node.nodeName === "#text" && node.value && node.value.match( /^[\n\s]+$/g );
-}
-
-/**
- * Checks whether a node is considered phrasing content.
- *
- * @see https://html.spec.whatwg.org/#phrasing-content
- *
- * @param {Object} node The node to check if it is phrasing content.
- *
- * @returns {boolean} Whether the node is phrasing content.
- */
-function isPhrasingContent( node ) {
-	return phrasingContentTags.includes( node.nodeName ) || node.nodeName === "#text";
+	return node.name === "#text" && node.value && node.value.match( /^[\n\s]+$/g );
 }
 
 /**
@@ -60,25 +36,15 @@ function hasChildren( node ) {
  */
 function combineIntoImplicitParagraphs( nodes ) {
 	const newNodes = [];
-	let implicitParagraph = {
-		nodeName: "p",
-		isImplicit: true,
-		attrs: {},
-		childNodes: [],
-	};
+	let implicitParagraph = Paragraph.createImplicit();
 
 	nodes.forEach( node => {
-		if ( isPhrasingContent( node ) && ! isInterElementWhitespace( node ) ) {
+		if ( isPhrasingContent( node.name ) && ! isInterElementWhitespace( node ) ) {
 			implicitParagraph.childNodes.push( node );
 		} else {
 			if ( hasChildren( implicitParagraph ) ) {
 				newNodes.push( implicitParagraph );
-				implicitParagraph = {
-					nodeName: "p",
-					isImplicit: true,
-					attrs: {},
-					childNodes: [],
-				};
+				implicitParagraph = Paragraph.createImplicit();
 			}
 			newNodes.push( node );
 		}

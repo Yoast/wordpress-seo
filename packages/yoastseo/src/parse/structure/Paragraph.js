@@ -25,6 +25,18 @@ class Paragraph extends Node {
 		 */
 		this.isImplicit = isImplicit;
 	}
+
+	/**
+	 * Creates and returns a new implicit paragraph.
+	 *
+	 * @param {Object} attributes The paragraph's attributes.
+	 * @param {(Node|Text)[]} childNodes This paragraph's child nodes.
+	 *
+	 * @returns {Paragraph} A new implicit paragraph.
+	 */
+	static createImplicit( attributes = {}, childNodes = [] ) {
+		return new Paragraph( attributes, childNodes, true );
+	}
 }
 
 export default Paragraph;
