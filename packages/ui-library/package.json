@@ -51,7 +51,7 @@
     "@yoast/tailwindcss-preset": "^2.1.0",
     "babel-loader": "^9.1.0",
     "eslint": "^7.32.0",
-    "eslint-config-yoast": "^5.0.17",
+    "eslint-config-yoast": "^5.1.0",
     "eslint-plugin-react": "^7.31.11",
     "jest": "^27.5.1",
     "postcss": "^8.4.19",
