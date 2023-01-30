@@ -18,6 +18,40 @@ import Alert from "../../base/alert";
  */
 export default function SocialProfilesStep( { state, dispatch, setErrorFields } ) {
 	const editUserUrl = "user-edit.php";
+	const noUserSelectedText = __(
+		"If you select a Person to represent this site, we will use the social profiles from the selected user's profile page.",
+		"wordpress-seo"
+	);
+	const userSelectedText = createInterpolateElement(
+		sprintf(
+			// translators: %1$s is replaced by the selected person's username.
+			__(
+				"You have selected the user %1$s as the person this site represents.",
+				"wordpress-seo"
+			),
+			`<b>${state.personName}</b>`
+		),
+		{
+			b: <b />,
+		} );
+
+	const userCanEditText =	createInterpolateElement(
+		sprintf(
+			// translators: %1$s and %2$s is replaced by a link to the selected person's profile page.
+			__(
+				"You can %1$supdate or add your social profiles to this user profile%2$s.",
+				"wordpress-seo"
+			),
+			"<a>",
+			"</a>"
+
+		),
+		{   // eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a
+				href={ `${ editUserUrl }?user_id=${ state.personId }` }
+				target="_blank" rel="noopener noreferrer"
+			/>,
+		} );
 	if ( [ "company", "emptyChoice" ].includes( state.companyOrPerson ) ) {
 		return <Fragment>
 			<p>{
@@ -36,33 +70,11 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 	}
 
 	return <Fragment>
-		<p>{ state.personId === 0
-			? __(
-				"If you select a Person to represent this site, we will use the social profiles from the selected user's profile page.",
-				"wordpress-seo"
-			)
-			: 	createInterpolateElement(
-				sprintf(
-					// translators: %1$s is replaced by the selected person's username. %2$s and %3$s is replaced by a link to the selected person's profile page.
-					__(
-						"You have selected the user %1$s as the person this site represents. You can %2$supdate or add your social profiles to this user profile%3$s.",
-						"wordpress-seo"
-					),
-					`<b>${state.personName}</b>`,
-					"<a>",
-					"</a>"
-
-				),
-				{
-					// eslint-disable-next-line jsx-a11y/anchor-has-content
-					a: <a
-						href={ `${ editUserUrl }?user_id=${ state.personId }` }
-						target="_blank" rel="noopener noreferrer"
-					/>,
-					b: <b />,
-				}
-			)
-		}</p>
+		<p>
+			{ state.personId === 0 ? noUserSelectedText : userSelectedText }
+			{ " " }
+			{ state.personId !== 0 && state.canEditUser ? userCanEditText : "" }
+		</p>
 
 		{
 			// No person has been selected in step 2
@@ -72,30 +84,9 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 					__(
 						"Please select a user in the Site representation step.",
 						"wordpress-seo"
-
 					)
 				}
 			</Alert>
-		}
-		{
-			( ( state.personId !== 0 ) && ( ! state.canEditUser ) ) &&
-				<Alert type="info" className="yst-mt-5">
-					{
-						createInterpolateElement(
-							sprintf(
-								// translators: %1$s is replaced by the selected person's username
-								__(
-									"You're not allowed to edit the social profiles of the user %1$s. Please ask this user or an admin to do this.",
-									"wordpress-seo"
-								),
-								window.wpseoFirstTimeConfigurationData.personName
-							),
-							{
-								b: <b />,
-							}
-						)
-					}
-				</Alert>
 		}
 
 	</Fragment>;
