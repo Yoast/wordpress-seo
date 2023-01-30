@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased changes
+## 2.2.0
 
 * Enables `important` for the Tailwind utilities, to be able to override our root class styling. [#18563](https://github.com/Yoast/wordpress-seo/pull/18563)
 * Disables the `preflight` plugin, to be able to nest the preflight styling under the UI library `Root` component.  [#18563](https://github.com/Yoast/wordpress-seo/pull/18563)
