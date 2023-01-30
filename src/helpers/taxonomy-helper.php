@@ -159,7 +159,7 @@ class Taxonomy_Helper {
 		$excluded_taxonomies = $this->get_excluded_taxonomies_for_indexables();
 
 		$included_taxonomies = \array_diff( $public_taxonomies, $excluded_taxonomies );
-		
+
 		return $this->filter_included_taxonomies( $included_taxonomies );
 	}
 
