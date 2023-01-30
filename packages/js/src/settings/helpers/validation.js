@@ -71,6 +71,7 @@ export const createValidationSchema = ( postTypes, taxonomies ) => {
 		wpseo_social: object().shape( {
 			og_default_image_id: number().isMediaTypeImage(),
 			facebook_site: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
+			mastodon_url: string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) ),
 			twitter_site: string().isValidTwitterUrlOrHandle(),
 			other_social_urls: array().of(
 				string().url( __( "The profile is not valid. Please enter a valid URL.", "wordpress-seo" ) )

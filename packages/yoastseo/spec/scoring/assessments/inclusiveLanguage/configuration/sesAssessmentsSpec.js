@@ -183,7 +183,7 @@ describe( "a test for targeting non-inclusive phrases in other assessments", () 
 				identifier: "felon",
 				text: "That person is a felon",
 				expectedFeedback: "Be careful when using <i>felon</i> as it is potentially harmful. Consider using an alternative, such as " +
-					"<i>person with felony convictions, person who have been incarcerated</i>. " +
+					"<i>person with felony convictions, person who has been incarcerated</i>. " +
 					"<a href='https://yoa.st/inclusive-language-ses' target='_blank'>Learn more.</a>",
 				expectedScore: 6,
 			},
