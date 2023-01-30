@@ -1,3 +1,5 @@
+import { findAllInTree } from "../traverse";
+
 /**
  * A node in the tree.
  */
@@ -13,6 +15,17 @@ class Node {
 		this.name = name;
 		this.attributes = attributes;
 		this.childNodes = childNodes;
+	}
+
+	/**
+	 * Finds all nodes in the tree that satisfies the given condition.
+	 *
+	 * @param {function} condition The condition that a node should satisfy to end up in the list.
+	 *
+	 * @returns {(Node|Text|Paragraph|Heading)[]} The list of nodes that satisfy the condition.
+	 */
+	findAll( condition ) {
+		return findAllInTree( this, condition );
 	}
 }
 
