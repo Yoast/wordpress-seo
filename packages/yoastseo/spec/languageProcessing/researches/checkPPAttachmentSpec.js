@@ -4,13 +4,13 @@ import checkPPAttachment from "../../../src/languageProcessing/researches/checkP
 import fetch from "node-fetch";
 import SearchKey from "../../../SearchKey.json";
 
-/**
- * Checks if a reading is possible according to Google Search.
- * @param {string} reading The potentially ambiguous reading.
- * @returns {boolean} Returns true if ambiguous, and false if otherwise.
- */
 
 it( "should find that some sentences are ambiguous", async function() {
+	/**
+	 * Checks if a reading is possible according to Google Search.
+	 * @param {string} reading The potentially ambiguous reading.
+	 * @returns {number} Returns the number of hits.
+	 */
 	async function getHits( reading ) {
 		const cx = SearchKey.cx;
 		const key = SearchKey.key;
@@ -27,25 +27,25 @@ it( "should find that some sentences are ambiguous", async function() {
 			} )
 			// Return the number of hits for each query
 			.then( data => {
-				hits = data.searchInformation.totalResults;
+				hits = parseInt( data.searchInformation.totalResults, 10 );
 			} )
-			//If there is any error, return error message
+			// If there is any error, return error message
 			.catch( function( err ) {
 				console.log( err );
 			} );
 
 		return hits;
 	}
-// Test sentences with targeted regex
+	// Test sentences with targeted regex
 	const mockPaper = new Paper(
-		// "John saw people with large telescopes. " +
+		"John saw people with large telescopes. " +
 		// "John saw people with guns. " +
-		// "John saw the tall man with a big telescope riding a bike. " +
+		"John saw the tall man with a big telescope riding a bike. " +
 		"San Jose cops killed a man with a knife. " +
-		"San Jose cops killed men with knives. " +
-		"San Jose cops killed a man with blonde hair. " +
-		"San Jose cops killed men with blonde hair. "
-		// "John saw the man with a gun. " +
+		// "San Jose cops killed men with knives. " +
+		// "San Jose cops killed a man with blonde hair. " +
+		// "San Jose cops killed men with blonde hair. " +
+		"John saw the man with a gun. "
 		// "John saw the cop. " +
 		// "John saw the man with a car. " +
 		// "John saw the man with binoculars. " +
@@ -55,19 +55,22 @@ it( "should find that some sentences are ambiguous", async function() {
 	const PPAttachmentsResult = await checkPPAttachment( mockPaper, mockResearcher );
 	const results = await Promise.all( PPAttachmentsResult.map( async( result ) => {
 		// Save results for each reading in a variable
-		const hitsReading1 = await getHits( result.reading1 );
-		const hitsReading2 = await getHits( result.reading2 );
+		// eslint-disable-next-line no-inline-comments
+		const hitsReading1 = 0; // await getHits( result.reading1 );
+		// eslint-disable-next-line no-inline-comments
+		const hitsReading2 = 0; // await getHits( result.reading2 );
 		// Return each reading and its number of hits
 		console.log( result.reading1, hitsReading1 );
 		console.log( result.reading2, hitsReading2 );
-		// Convert
-		const sortedReadings = [ hitsReading1, hitsReading2 ].map( hit => parseInt( hit, 10 ) ).sort( function( a, b ) {
+		// Sort the hits in ascending order
+		const sortedReadings = [ hitsReading1, hitsReading2 ].sort( function( a, b ) {
 			return a - b;
 		} );
-		console.log(sortedReadings);
+		console.log( sortedReadings );
 		const ambFormula = sortedReadings[ 0 ] / sortedReadings[ 1 ] * 100;
-		if ( ! isNaN( ambFormula ) && sortedReadings [0] >= 80 ) {
-			console.log( "The construction", '"' + result.construction.join( " " ) + '"', "has two potential readings:", "1:", result.reading1, "OR", "2:", result.reading2 );
+		if ( ! isNaN( ambFormula ) && sortedReadings[ 0 ] >= 80 ) {
+			console.log( "The construction", '"' + result.construction.join( " " ) + '"', "has two potential readings:",
+				"1:", result.reading1, "OR", "2:", result.reading2 );
 			console.log( "Ambiguity: " + Math.round( ambFormula ) + "%" );
 		} else {
 			console.log( "No ambiguity found. Ratio: " + Math.round( ambFormula ) + "%" );
@@ -99,7 +102,7 @@ it( "should find that some sentences are ambiguous", async function() {
 				sentence: "John saw the man with a gun.",
 				reading1: "saw * with a gun",
 				reading2: "man with a gun",
-				construction: [ "killed", "a", "man", "with", "a", "knife" ],
-			}
+				construction: [ "saw", "the", "man", "with", "a", "gun" ],
+			},
 		] );
 } );
