@@ -1,6 +1,6 @@
 # CHANGELOG.md
 
-## Unreleased changes
+## 3.1.0
 
 * Improves the focus style of anchors by making it more pronounced. This affects: all anchors within the `yst-root` and `yst-validation-message` classes as well as the `Link` and `SidebarNavigation.SubmenuItem` components. And lastly, the `Button` element, if rendered `as` an anchor. [#19535](https://github.com/Yoast/wordpress-seo/pull/19535)
 * Removes the `TagInput`' _tabindex_ override. [#19535](https://github.com/Yoast/wordpress-seo/pull/19535)
