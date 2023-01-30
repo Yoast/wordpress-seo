@@ -164,7 +164,7 @@ class Taxonomy_Helper {
 	}
 
 	/**
-	 * Filters the taxonomies that are included be indexed.
+	 * Filters the taxonomies that are included to be indexed.
 	 *
 	 * @param array $included_taxonomies The taxonomies that are included to be indexed.
 	 *
