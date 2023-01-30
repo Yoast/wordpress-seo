@@ -151,6 +151,18 @@ class Post_Type_Helper {
 		$excluded_post_types = $this->get_excluded_post_types_for_indexables();
 
 		$included_post_types = \array_diff( $public_post_types, $excluded_post_types );
+
+		return $this->filter_included_post_types( $included_post_types );
+	}
+
+	/**
+	 * Filters the post types that are included to be indexed.
+	 *
+	 * @param array $included_post_types The post types that are included to be indexed.
+	 *
+	 * @return array The filtered post types that are included to be indexed.
+	 */
+	protected function filter_included_post_types( $included_post_types ) {
 		/**
 		 * Filter: 'wpseo_indexable_forced_included_post_types' - Allows force including posts of a certain post
 		 * type to be saved to the indexable table.
