@@ -14,6 +14,7 @@
 * Improves accessibility for mobile navigation by changing style of menu open and close button, and the default screen reader text of that component. [#19604](https://github.com/Yoast/wordpress-seo/pull/19604)
 * Adds the ability to use xs text format for `title` elements [#19592](https://github.com/Yoast/wordpress-seo/pull/19592)
 * Exports the `useNavigationContext` hook for when you use the `SidebarNavigation`. [#19497](https://github.com/Yoast/wordpress-seo/pull/19497)
+* Adds the ability to clear a tag input field by using the `ctrl + backspace` keyboard shortcut. [#19589](https://github.com/Yoast/wordpress-seo/pull/19589)
 
 ## 3.0.0 (2022-12-15)
 
