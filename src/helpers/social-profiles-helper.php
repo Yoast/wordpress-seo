@@ -136,9 +136,7 @@ class Social_Profiles_Helper {
 				continue;
 			}
 
-			if ( $social_profile_value !== '' ) {
-				$organization_social_profiles[ $field_name ] = \urldecode( $social_profile_value );
-			}
+			$organization_social_profiles[ $field_name ] = \urldecode( $social_profile_value );
 		}
 
 		return $organization_social_profiles;

@@ -48,7 +48,7 @@
     "redux-thunk": "^2.2.0",
     "styled-components": "^5.2.1",
     "yoast-components": "^5.24.0",
-    "yoastseo": "^1.91.0",
+    "yoastseo": "^1.91.1",
     "formik": "^2.2.9",
     "@reduxjs/toolkit": "^1.8.3",
     "react-router-dom": "^6.3.0",
