@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
-import { SearchIcon } from "@heroicons/react/outline";
+import { SearchIcon, XIcon } from "@heroicons/react/outline";
 import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Code, Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
@@ -235,7 +235,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			position="top-center"
 			aria-label={ __( "Search", "wordpress-seo" ) }
 		>
-			<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
+			<Modal.Panel hasCloseButton={ false }>
 				<LiveAnnouncer>
 					{ a11yMessage && <LiveMessage message={ a11yMessage } aria-live="polite" /> }
 				</LiveAnnouncer>
@@ -254,6 +254,17 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 							onChange={ handleQueryChange }
 							className="yst-h-12 yst-w-full yst-border-0 yst-rounded-lg sm:yst-text-sm yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-500 focus:yst-outline-none focus:yst-ring-inset focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-primary-500"
 						/>
+						{ /* Implement own close button to match the visual order to the DOM order, for a11y. */ }
+						<div className="yst-modal__close">
+							<button
+								type="button"
+								onClick={ setClose }
+								className="yst-modal__close-button"
+							>
+								<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
+								<XIcon className="yst-h-6 yst-w-6" { ...ariaSvgProps } />
+							</button>
+						</div>
 					</div>
 					{ query.length >= queryMinChars && ! isEmpty( results ) && (
 						<Combobox.Options
@@ -312,4 +323,3 @@ Search.propTypes = {
 };
 
 export default Search;
-
