@@ -261,11 +261,15 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 							className="yst-max-h-[calc(90vh-10rem)] yst-scroll-pt-11 yst-scroll-pb-2 yst-space-y-2 yst-overflow-y-auto yst-pb-2"
 						>
 							{ map( results, ( groupedItems, index ) => (
-								<li key={ groupedItems?.[ 0 ]?.route || `group-${ index }` }>
-									<Title as="h4" size="5" className="yst-bg-slate-100 yst-font-semibold yst-py-3 yst-px-4">
+								<div key={ groupedItems?.[ 0 ]?.route || `group-${ index }` } role="presentation">
+									<Title
+										id={ `group-${ index }-title` } as="h4" size="5"
+										className="yst-bg-slate-100 yst-font-semibold yst-py-3 yst-px-4" role="presentation" aria-hidden="true"
+									>
 										{ first( groupedItems ).routeLabel }
 									</Title>
-									<ul role="listbox">
+									{ /* Don't use the `role="group"` here, or Voice Over no longer reads the items. */ }
+									<div role="presentation">
 										{ map( groupedItems, ( item ) => (
 											<Combobox.Option
 												key={ item.fieldId }
@@ -275,8 +279,8 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 												<SearchResultLabel { ...item } />
 											</Combobox.Option>
 										) ) }
-									</ul>
-								</li>
+									</div>
+								</div>
 							) ) }
 						</Combobox.Options>
 					) }
