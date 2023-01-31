@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { createInterpolateElement, useMemo, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
@@ -107,6 +107,28 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const taxonomyMessage = useMemo( () => {
 		return initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage;
 	}, [ initialPostTypeValues, taxonomyMultiplePostTypesMessage, taxonomySinglePostTypeMessage ] );
+
+	const enableSeoControl = useCallback( () => {
+		return showUi && <FormikValueChangeField
+			as={ ToggleField }
+			type="checkbox"
+			name={ `wpseo_titles.display-metabox-tax-${ name }` }
+			id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
+			label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
+			description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
+			className="yst-max-w-sm"
+		/>;
+	}, [ showUi, name ] );
+
+	const stripCategoryBase = useCallback( () => {
+		return name === "category" && <FormikFlippedToggleField
+			name="wpseo_titles.stripcategorybase"
+			id="input-wpseo_titles-stripcategorybase"
+			label={ __( "Show the categories prefix in the slug", "wordpress-seo" ) }
+			description={ stripCategoryBaseDescription }
+			className="yst-max-w-sm"
+		/>;
+	}, [ name, stripCategoryBaseDescription ] );
 	return (
 		<RouteLayout
 			title={ label }
@@ -236,29 +258,14 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 						</FeatureUpsell>
 					</FieldsetLayout>
 
-					{ showUi &&
+					{ ( showUi || name === "category" ) &&
 					<>
 						<hr className="yst-my-8" />
 						<FieldsetLayout
 							title={ __( "Additional settings", "wordpress-seo" ) }
-						>
-							<FormikValueChangeField
-								as={ ToggleField }
-								type="checkbox"
-								name={ `wpseo_titles.display-metabox-tax-${ name }` }
-								id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
-								label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
-								description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
-								className="yst-max-w-sm"
-							/>
-							{ name === "category" && <FormikFlippedToggleField
-								name="wpseo_titles.stripcategorybase"
-								id="input-wpseo_titles-stripcategorybase"
-								label={ __( "Show the categories prefix in the slug", "wordpress-seo" ) }
-								description={ stripCategoryBaseDescription }
-								className="yst-max-w-sm"
-							/> }
-						</FieldsetLayout>
+						/>
+						{ enableSeoControl() }
+						{ stripCategoryBase() }
 					</> }
 				</div>
 			</FormLayout>
