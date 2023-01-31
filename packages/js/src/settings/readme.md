@@ -1,5 +1,4 @@
 # Settings UI
-
 The settings UI is a React app that is initialised in `./initialize.js`, which is enqueued into WP admin by the `~/src/integrations/settings-integration.php`.
 It introduces a few new libraries and concepts:
 
@@ -21,8 +20,6 @@ Formik allows for [Yup](https://github.com/jquense/yup) schema based validation.
 
 ### Post requests
 The main **settings** are posted to the `options.php` WordPress page, where they are picked up by our options framework for back-end validation. Ideally, this would be refactored to be a custom endpoint once the options framework refactor is completed.
-
-The **social profiles** are posted to the `/yoast/v1/configuration/person_social_profiles` REST endpoint. Ideally, this endpoint would be refactored to be in a more general scope.
 
 ### Search
 The search functionality is based on a manual index located in `./helpers/search.js`, meaning it should be manually kept in sync with changes to form fields. The structure of a search index entry is located below, the search algorithm searches through `routeLabel`, `fieldLabel` and additional `keywords`.
