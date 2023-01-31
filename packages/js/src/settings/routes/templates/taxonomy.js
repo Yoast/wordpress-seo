@@ -27,7 +27,6 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {string[]} postTypes The connected post types.
  * @returns {JSX.Element} The taxonomy element.
  */
-// eslint-disable-next-line complexity
 const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
@@ -105,6 +104,9 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const { values: formValues } = useFormikContext();
 	const { opengraph } = formValues.wpseo_social;
 
+	const taxonomyMessage = useMemo( () => {
+		return initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage;
+	}, [ initialPostTypeValues, taxonomyMultiplePostTypesMessage, taxonomySinglePostTypeMessage ] );
 	return (
 		<RouteLayout
 			title={ label }
@@ -117,7 +119,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 				{ ! isEmpty( postTypeValues ) && (
 					<>
 						<br />
-						{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
+						{ taxonomyMessage }
 					</>
 				) }
 			</> }
