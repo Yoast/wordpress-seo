@@ -46,7 +46,7 @@ const SiteRepresentation = () => {
 	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
 
 	const handleAddProfile = useCallback( async( arrayHelpers ) => {
-		await arrayHelpers.push( null, "" );
+		await arrayHelpers.push( "" );
 		document.getElementById( `input-wpseo_social-other_social_urls-${ otherSocialUrls.length }` )?.focus();
 	}, [ otherSocialUrls ] );
 
