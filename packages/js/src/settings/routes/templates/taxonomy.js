@@ -28,7 +28,7 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @returns {JSX.Element} The taxonomy element.
  */
 // eslint-disable-next-line complexity
-const Taxonomy = ( { name, label, postTypes: postTypeNames, showUI } ) => {
+const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -234,7 +234,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUI } ) => {
 						</FeatureUpsell>
 					</FieldsetLayout>
 
-					{ showUI &&
+					{ showUi &&
 					<>
 						<hr className="yst-my-8" />
 						<FieldsetLayout
@@ -268,7 +268,7 @@ Taxonomy.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	postTypes: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	showUI: PropTypes.bool.isRequired,
+	showUi: PropTypes.bool.isRequired,
 };
 
 export default Taxonomy;
