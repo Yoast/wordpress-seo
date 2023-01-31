@@ -75,16 +75,13 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 		</Fragment>;
 	}
 
-	return <Fragment>
-		<p>
-			{ state.personId === 0 ? noUserSelectedText : userSelectedText }
-			{ " " }
-			{ state.personId !== 0 && state.canEditUser ? userCanEditText : userCannotEditText }
-		</p>
-
-		{
-			// No person has been selected in step 2
-			state.personId === 0 && <Alert type="info" className="yst-mt-5">
+	return state.personId === 0
+		? <Fragment>
+			<p>
+				{ noUserSelectedText }
+			</p>
+			{ /* No person has been selected in step 2 */ }
+			<Alert type="info" className="yst-mt-5">
 				{
 					// translators: please note that "Site representation" here refers to the name of a step in the first-time configuration, so this occurrence needs to be translated in the same manner as that step's heading.
 					__(
@@ -93,9 +90,14 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 					)
 				}
 			</Alert>
-		}
-
-	</Fragment>;
+		</Fragment>
+		: <Fragment>
+			<p>
+				{  userSelectedText }
+				{ " " }
+				{ state.canEditUser ? userCanEditText : userCannotEditText }
+			</p>
+		</Fragment>;
 }
 
 SocialProfilesStep.propTypes = {
