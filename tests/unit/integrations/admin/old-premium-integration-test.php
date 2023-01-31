@@ -153,12 +153,13 @@ class Old_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice when all the conditions are true.
 	 *
 	 * @covers ::old_premium_notice
+	 * @covers ::notice_was_dismissed_after_current_min_premium_version
 	 * @covers ::premium_is_old
 	 */
 	public function test_old_premium_notice() {
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'dismiss_old_premium_notice', false )
+			->with( 'dismiss_old_premium_version_notice', '' )
 			->andReturnFalse();
 
 		$this->capability_helper
@@ -235,6 +236,7 @@ class Old_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice when the notice has been dismissed.
 	 *
 	 * @covers ::old_premium_notice
+	 * @covers ::notice_was_dismissed_after_current_min_premium_version
 	 */
 	public function test_old_premium_notice_if_dismissed() {
 		global $pagenow;
@@ -242,8 +244,8 @@ class Old_Premium_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'dismiss_old_premium_notice', false )
-			->andReturnTrue();
+			->with( 'dismiss_old_premium_version_notice', '' )
+			->andReturn( '20.1-RC0' );
 
 		// Nothing should be output.
 		$this->expectOutputString( '' );
@@ -254,6 +256,7 @@ class Old_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice when the user doesn't have the right capability.
 	 *
 	 * @covers ::old_premium_notice
+	 * @covers ::notice_was_dismissed_after_current_min_premium_version
 	 */
 	public function test_old_premium_notice_if_no_capabilities() {
 		global $pagenow;
@@ -261,7 +264,7 @@ class Old_Premium_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'dismiss_old_premium_notice', false )
+			->with( 'dismiss_old_premium_version_notice', '' )
 			->andReturnFalse();
 
 		$this->capability_helper
@@ -278,6 +281,7 @@ class Old_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice when Premium is not active.
 	 *
 	 * @covers ::old_premium_notice
+	 * @covers ::notice_was_dismissed_after_current_min_premium_version
 	 * @covers ::premium_is_old
 	 */
 	public function test_old_premium_notice_if_no_premium_active() {
@@ -286,7 +290,7 @@ class Old_Premium_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'dismiss_old_premium_notice', false )
+			->with( 'dismiss_old_premium_version_notice', '' )
 			->andReturnFalse();
 
 		$this->capability_helper
@@ -311,7 +315,7 @@ class Old_Premium_Integration_Test extends TestCase {
 	public function test_dismiss_premium_deactivated_notice() {
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'dismiss_old_premium_notice', true );
+			->with( 'dismiss_old_premium_version_notice', '20.1-RC0' );
 
 		$this->instance->dismiss_old_premium_notice();
 	}
