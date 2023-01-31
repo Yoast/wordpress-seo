@@ -41,6 +41,8 @@ const defaultAttributes = {
 function Paper( text, attributes ) {
 	this._text = text || "";
 
+	this._tree = null;
+
 	attributes = attributes || {};
 	defaults( attributes, defaultAttributes );
 
@@ -109,6 +111,26 @@ Paper.prototype.hasText = function() {
  */
 Paper.prototype.getText = function() {
 	return this._text;
+};
+
+/**
+ * Sets the tree.
+ *
+ * @param {Node} tree The tree to set.
+ *
+ * @returns {void}
+ */
+Paper.prototype.setTree = function( tree ) {
+	this._tree = tree;
+};
+
+/**
+ * Returns the tree.
+ *
+ * @returns {Node} The tree.
+ */
+Paper.prototype.getTree = function() {
+	return this._tree;
 };
 
 /**
