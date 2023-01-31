@@ -82,25 +82,25 @@ it( "should find that some sentences are ambiguous", async function() {
 		[
 			{
 				sentence: "John saw people with large telescopes.",
-				reading1: "saw * with telescopes",
+				reading1: "saw with telescopes",
 				reading2: "people with telescopes",
 				construction: [ "saw", "people", "with", "large", "telescopes" ],
 			},
 			{
 				sentence: "John saw the tall man with a big telescope riding a bike.",
-				reading1: "saw * with a telescope",
+				reading1: "saw with a telescope",
 				reading2: "man with a telescope",
 				construction: [ "saw", "the", "tall", "man", "with", "a", "big", "telescope" ],
 			},
 			{
 				sentence: "San Jose cops killed a man with a knife.",
-				reading1: "killed * with a knife",
+				reading1: "killed with a knife",
 				reading2: "man with a knife",
 				construction: [ "killed", "a", "man", "with", "a", "knife" ],
 			},
 			{
 				sentence: "John saw the man with a gun.",
-				reading1: "saw * with a gun",
+				reading1: "saw with a gun",
 				reading2: "man with a gun",
 				construction: [ "saw", "the", "man", "with", "a", "gun" ],
 			},

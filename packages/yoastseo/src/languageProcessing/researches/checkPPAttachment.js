@@ -58,8 +58,6 @@ function handleMatch( sentence, tags, match ) {
 				case "NN":
 					if ( afterPreposition ) {
 						reading1.push( wordCurrent );
-					} else {
-						reading1.push( "*" );
 					}
 					reading2.push( wordCurrent );
 					break;
