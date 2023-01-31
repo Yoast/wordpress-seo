@@ -38,7 +38,7 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 		sprintf(
 			// translators: %1$s and %2$s is replaced by a link to the selected person's profile page.
 			__(
-				"You can %1$supdate or add your social profiles to this user profile%2$s.",
+				"You can %1$supdate or add social profiles to this user profile%2$s.",
 				"wordpress-seo"
 			),
 			"<a>",
