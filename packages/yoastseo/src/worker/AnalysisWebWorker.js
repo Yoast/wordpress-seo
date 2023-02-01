@@ -1381,9 +1381,18 @@ export default class AnalysisWebWorker {
 	 *
 	 * @param {string} name         The name of the research.
 	 * @param {function} research   The research function to add.
+	 *
 	 * @returns {void}
 	 */
 	registerResearch( name, research ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom research. Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( research ) ) {
+			throw new InvalidTypeError( "Failed to register the custom research. Expected parameter `research` to be a function." );
+		}
+
 		const researcher = this._researcher;
 
 		if ( ! researcher.hasResearch( name ) ) {
