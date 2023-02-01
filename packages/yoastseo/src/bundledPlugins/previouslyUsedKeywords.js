@@ -115,7 +115,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			the anchor end tag */
 			text: sprintf( __(
 				// eslint-disable-next-line max-len
-				"%4$sPreviously used keyphrase%6$s: You've used this keyphrase %1$s%2$d times before%3$s. %5$sDo not use your keyphrase more than once%6$s.",
+				"%4$sPreviously used keyphrase%6$s: You've used this keyphrase %1$s2 or more times before%3$s. %5$sDo not use your keyphrase more than once%6$s.",
 				"wordpress-seo"
 			),
 			url,
