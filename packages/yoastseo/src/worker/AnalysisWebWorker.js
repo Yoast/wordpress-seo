@@ -1405,7 +1405,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @param {number} id     The request id.
 	 * @param {string} name   The name of the research to run.
-	 * @param {Paper} [paper] The paper to run the on if it shouldn't
+	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
 	 *                        be run on the latest paper.
 	 *
 	 * @returns {Object} The result of the research.
