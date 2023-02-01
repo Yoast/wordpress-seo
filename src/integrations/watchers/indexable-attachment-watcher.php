@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Attachment_Cleanup_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
+use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -112,6 +113,11 @@ class Indexable_Attachment_Watcher implements Integration_Interface {
 				case true:
 					$this->attachment_cleanup->remove_attachment_indexables( false );
 					$this->attachment_cleanup->clean_attachment_links_from_target_indexable_ids( false );
+
+					if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+						// This just schedules the cleanup routine cron again.
+						\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+					}
 					return;
 				default:
 					return;
