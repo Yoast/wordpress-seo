@@ -135,6 +135,7 @@ export default class AnalysisWebWorker {
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
 		this.registerAssessor = this.registerAssessor.bind( this );
 		this.registerResearch = this.registerResearch.bind( this );
+		this.registerHelper = this.registerHelper.bind( this );
 		this.setInclusiveLanguageOptions = this.setInclusiveLanguageOptions.bind( this );
 
 		// Bind event handlers to this scope.
@@ -1395,7 +1396,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @param {number} id     The request id.
 	 * @param {string} name   The name of the research to run.
-	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
+	 * @param {Paper} [paper] The paper to run the on if it shouldn't
 	 *                        be run on the latest paper.
 	 *
 	 * @returns {Object} The result of the research.
@@ -1428,5 +1429,29 @@ export default class AnalysisWebWorker {
 			return;
 		}
 		this.send( "runResearch:done", id, result );
+	}
+
+	/**
+	 * Registers custom helpers to the researcher.
+	 *
+	 * @param {string} name       The name of the helper.
+	 * @param {function} helper   The helper function to add.
+	 *
+	 * @returns {void}
+	 */
+	registerHelper( name, helper ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom helper. Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( helper ) ) {
+			throw new InvalidTypeError( "Failed to register the custom helper. Expected parameter `helper` to be a function." );
+		}
+
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasHelper( name ) ) {
+			researcher.addHelper( name, helper );
+		}
 	}
 }

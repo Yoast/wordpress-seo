@@ -1568,6 +1568,36 @@ describe( "AnalysisWebWorker", () => {
 		} );
 	} );
 
+	describe( "registerHelper", () => {
+		const helperName = "helpful helper";
+		const helper = () => true;
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom helper. Expected parameter `name` to be a string.";
+			expect( () => worker.registerHelper( null, helper ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid helper", () => {
+			const errorMessage = "Failed to register the custom helper. Expected parameter `helper` to be a function.";
+			expect( () => worker.registerHelper( helperName, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the helper", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerHelper( helperName, helper );
+			const helperFromResearcher = researcher.getHelper( helperName );
+			expect( helperFromResearcher ).toBeDefined();
+			expect( helperFromResearcher ).toBe( helper );
+		} );
+	} );
+
 	describe( "registerMessageHandler", () => {
 		const handlerName = "Knock knock";
 		const pluginName = "Who?";
