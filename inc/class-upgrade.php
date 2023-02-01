@@ -968,11 +968,6 @@ class WPSEO_Upgrade {
 	 * Performs the 20.1 upgrade routine.
 	 */
 	private function upgrade_201() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			// This just schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table.
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
-		}
-
 		if ( WPSEO_Options::get( 'disable-attachment', true ) ) {
 			$attachment_cleanup_helper = YoastSEO()->helpers->attachment_cleanup;
 
@@ -981,6 +976,11 @@ class WPSEO_Upgrade {
 		}
 
 		$this->clean_unindexed_indexable_rows_with_no_object_id();
+
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			// This schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table. We also want to cleanup possible orphaned hierarchies from the above cleanups.
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
 	}
 
 	/**
