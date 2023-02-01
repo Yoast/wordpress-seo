@@ -266,9 +266,10 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 						<hr className="yst-my-8" />
 						<FieldsetLayout
 							title={ __( "Additional settings", "wordpress-seo" ) }
-						/>
-						{ enableSeoControl() }
-						{ stripCategoryBase() }
+						>
+							{ enableSeoControl() }
+							{ stripCategoryBase() }
+						</FieldsetLayout>
 					</> }
 				</div>
 			</FormLayout>
