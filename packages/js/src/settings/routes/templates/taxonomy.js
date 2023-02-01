@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 import { createInterpolateElement, useMemo, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
@@ -58,6 +57,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+
 	const stripCategoryBaseDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %s expands to <code>/category/</code> */
@@ -68,6 +68,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 			code: <Code>/category/</Code>,
 		}
 	), [] );
+
 	const taxonomyMultiplePostTypesMessage = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -88,6 +89,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 			code2: <Code>{ lastPostTypeValue?.label }</Code>,
 		}
 	), [ label, initialPostTypeValues, lastPostTypeValue ] );
+
 	const taxonomySinglePostTypeMessage = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -129,6 +131,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 			className="yst-max-w-sm"
 		/>;
 	}, [ name, stripCategoryBaseDescription ] );
+
 	return (
 		<RouteLayout
 			title={ label }
