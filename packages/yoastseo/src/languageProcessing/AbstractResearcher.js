@@ -135,6 +135,29 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Add a custom helper that will be available within the Researcher.
+	 *
+	 * @param {string}   name     A name to reference the helper by.
+	 * @param {function} helper   The function to be added to the Researcher.
+	 *
+	 * @throws {MissingArgument}  Helper name cannot be empty.
+	 * @throws {InvalidTypeError} The helper requires a valid Function callback.
+	 *
+	 * @returns {void}
+	 */
+	addHelper( name, helper ) {
+		if ( isUndefined( name ) || isEmpty( name ) ) {
+			throw new MissingArgument( "Helper name cannot be empty" );
+		}
+
+		if ( ! ( helper instanceof Function ) ) {
+			throw new InvalidTypeError( "The research requires a Function callback." );
+		}
+
+		this.helpers[ name ] = helper;
+	}
+
+	/**
 	 * Check whether or not the research is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the research by.
@@ -149,12 +172,35 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Check whether or not the helper is known by the Researcher.
+	 *
+	 * @param {string} name The name to reference the helper by.
+	 *
+	 * @returns {boolean} Whether or not the helper is known by the Researcher.
+	 */
+	hasHelper( name ) {
+		return Object.keys( this.getAvailableHelpers() ).filter(
+			function( helper ) {
+				return helper === name;
+			} ).length > 0;
+	}
+
+	/**
 	 * Return all available researches.
 	 *
 	 * @returns {Object} An object containing all available researches.
 	 */
 	getAvailableResearches() {
 		return merge( this.defaultResearches, this.customResearches );
+	}
+
+	/**
+	 * Return all available helpers.
+	 *
+	 * @returns {Object} An object containing all available helpers.
+	 */
+	getAvailableHelpers() {
+		return this.helpers;
 	}
 
 	/**
