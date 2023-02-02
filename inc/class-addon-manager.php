@@ -509,7 +509,7 @@ class WPSEO_Addon_Manager {
 		return (object) [
 			'new_version'      => $subscription->product->version,
 			'name'             => $subscription->product->name,
-			'slug'             => $subscription->product->slug,
+			// Do not include slug to make sure we show, visit plugin site.
 			'plugin'           => $plugin_file,
 			'url'              => $subscription->product->store_url,
 			'last_update'      => $subscription->product->last_updated,
