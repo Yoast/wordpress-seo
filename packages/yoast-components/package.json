@@ -2,6 +2,7 @@
   "name": "yoast-components",
   "version": "5.24.0",
   "description": "Yoast Generic Components",
+  "private": true,
   "homepage": "https://github.com/Yoast/",
   "repository": {
     "type": "git",
