@@ -517,7 +517,7 @@ class Settings_Integration implements Integration_Interface {
 	public function get_upsell_settings() {
 		return [
 			'actionId'     => 'load-nfd-ctb',
-			'premiumCtbId' => '57d6a568-783c-45e2-a388-847cff155897',
+			'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 		];
 	}
 
