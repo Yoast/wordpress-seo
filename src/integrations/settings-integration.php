@@ -823,7 +823,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = \substr( $route, 1 );
 		}
 
-		return $route;
+		return \rawurlencode( $route );
 	}
 
 	/**
