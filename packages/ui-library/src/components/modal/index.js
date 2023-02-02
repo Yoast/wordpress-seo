@@ -10,17 +10,17 @@ import { classNameMap as titleClassNameMap } from "../../elements/title";
 /**
  * @param {JSX.node} children Title text.
  * @param {string} [className] Additional class names.
- * @param {string} [as] Html tag.
+ * @param {string|JSX.Element} [as="h1"] Base component.
  * @param {string} [size] Size of title.
  * @param {Object} [props] Additional props.
- * @returns {JSX.Element} The panel.
+ * @returns {JSX.Element} The title.
  */
 const Title = forwardRef( ( { children, size, className, as, ...props }, ref ) => {
 	return (
 		<Dialog.Title
 			as={ as }
 			ref={ ref }
-			className={  classNames(
+			className={ classNames(
 				"yst-title",
 				size ? titleClassNameMap.size[ size ] : "",
 				className ) }
@@ -99,11 +99,18 @@ export const classNameMap = {
  * @param {Object} [props] Additional Dialog props.
  * @returns {JSX.Element} The modal.
  */
-const Modal = ( { isOpen, onClose, children, className = "", position = "center", ...props } ) => (
+const Modal = forwardRef( ( { isOpen, onClose, children, className = "", position = "center", ...props }, ref ) => (
 	<ModalContext.Provider value={ { isOpen, onClose } }>
 		<Transition.Root show={ isOpen } as={ Fragment }>
 			{ /* Using the `yst-root` class here to get our styling within the portal. */ }
-			<Dialog as="div" className="yst-root" open={ isOpen } onClose={ onClose } { ...props }>
+			<Dialog
+				as="div"
+				ref={ ref }
+				className="yst-root"
+				open={ isOpen }
+				onClose={ onClose }
+				{ ...props }
+			>
 				<div className={ classNames( "yst-modal", classNameMap.position[ position ], className ) }>
 					<Transition.Child
 						as={ Fragment }
@@ -133,7 +140,7 @@ const Modal = ( { isOpen, onClose, children, className = "", position = "center"
 			</Dialog>
 		</Transition.Root>
 	</ModalContext.Provider>
-);
+) );
 
 Modal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
@@ -143,6 +150,7 @@ Modal.propTypes = {
 	position: PropTypes.oneOf( Object.keys( classNameMap.position ) ),
 };
 
+Modal.displayName = "Modal";
 Modal.Panel = Panel;
 Modal.Panel.displayName = "Modal.Panel";
 Modal.Title = Title;

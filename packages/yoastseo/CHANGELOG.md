@@ -188,6 +188,10 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes the `Images` assessment from related keyphrase analysis in `productPages`.
 * Refactors the transition words, passive voice, text presence, and sentence beginnings assessments into classes.
 
+## 1.91.1 January 25nd, 2023
+### Bugfixes
+* Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
+
 ## 1.89.0 January 25th, 2021
 ### Enhancements
 * Adds Turkish stemmer.

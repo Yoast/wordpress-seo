@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
+use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Social_Profiles_Helper_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\Social_Profiles_Helper
  */
 class Social_Profiles_Helper_Test extends TestCase {
 

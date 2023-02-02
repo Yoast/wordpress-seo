@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { __, sprintf } from "@wordpress/i18n";
-import { omit, reduce, times, filter, includes, isEmpty } from "lodash";
+import { filter, includes, isEmpty, omit, reduce, times } from "lodash";
 import { safeToLocaleLower } from "./i18n";
 
 /**
@@ -332,7 +332,9 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Site features", "wordpress-seo" ),
 			fieldId: "card-wpseo-enable_index_now",
 			fieldLabel: __( "IndexNow", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Index Now", "wordpress-seo" ),
+			],
 		},
 		disableadvanced_meta: {
 			route: "/site-basics",
@@ -364,6 +366,8 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldLabel: __( "Google", "wordpress-seo" ),
 			keywords: [
 				__( "Webmaster", "wordpress-seo" ),
+				__( "Google search console", "wordpress-seo" ),
+				"gsc",
 			],
 		},
 		msverify: {
@@ -617,7 +621,10 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-company_or_person-company",
 			fieldLabel: __( "Organization/person", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Schema", "wordpress-seo" ),
+				__( "Structured data", "wordpress-seo" ),
+			],
 		},
 		company_name: {
 			route: "/site-representation",
@@ -638,7 +645,9 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "button-wpseo_titles-company_logo-preview",
 			fieldLabel: __( "Organization logo", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Image", "wordpress-seo" ),
+			],
 		},
 		company_or_person_user_id: {
 			route: "/site-representation",
@@ -652,7 +661,9 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Site representation", "wordpress-seo" ),
 			fieldId: "button-wpseo_titles-person_logo-preview",
 			fieldLabel: __( "Personal logo or avatar", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Image", "wordpress-seo" ),
+			],
 		},
 		"title-home-wpseo": {
 			route: "/homepage",
@@ -694,7 +705,10 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			routeLabel: __( "Breadcrumbs", "wordpress-seo" ),
 			fieldId: "input-wpseo_titles-breadcrumbs-sep",
 			fieldLabel: __( "Separator between breadcrumbs", "wordpress-seo" ),
-			keywords: [],
+			keywords: [
+				__( "Divider", "wordpress-seo" ),
+				__( "Separator", "wordpress-seo" ),
+			],
 		},
 		"breadcrumbs-home": {
 			route: "/breadcrumbs",
@@ -1075,6 +1089,8 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			keywords: [
 				__( "Social", "wordpress-seo" ),
 				__( "OpenGraph", "wordpress-seo" ),
+				__( "Facebook", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
 			],
 		},
 		twitter: {
@@ -1084,6 +1100,8 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldLabel: __( "Twitter card data", "wordpress-seo" ),
 			keywords: [
 				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+				__( "Tweet", "wordpress-seo" ),
 			],
 		},
 		og_default_image_id: {
@@ -1111,6 +1129,7 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				__( "Social", "wordpress-seo" ),
 				__( "Open Graph", "wordpress-seo" ),
 				__( "OpenGraph", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
 			],
 		},
 		twitter_site: {
@@ -1122,6 +1141,16 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				__( "Social", "wordpress-seo" ),
 				__( "Share", "wordpress-seo" ),
 				__( "Tweet", "wordpress-seo" ),
+			],
+		},
+		mastodon_url: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_social-mastodon_url",
+			fieldLabel: __( "Organization Mastodon", "wordpress-seo" ),
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
 			],
 		},
 		other_social_urls: {
@@ -1138,109 +1167,6 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				// translators: %1$s exapnds to array index + 1.
 				fieldLabel: sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ),
 			} ) ),
-		},
-	},
-	person_social_profiles: {
-		facebook: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-facebook",
-			fieldLabel: __( "Person Facebook", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Open Graph", "wordpress-seo" ),
-				__( "OpenGraph", "wordpress-seo" ),
-			],
-		},
-		instagram: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-instagram",
-			fieldLabel: __( "Person Instagram", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		linkedin: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-linkedin",
-			fieldLabel: __( "Person LinkedIn", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		myspace: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-myspace",
-			fieldLabel: __( "Person MySpace", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		pinterest: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-pinterest",
-			fieldLabel: __( "Person Pinterest", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		soundcloud: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-soundcloud",
-			fieldLabel: __( "Person SoundCloud", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		tumblr: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-tumblr",
-			fieldLabel: __( "Person Tumblr", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		twitter: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-twitter",
-			fieldLabel: __( "Person Twitter", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		youtube: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-youtube",
-			fieldLabel: __( "Person YouTube", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
-		},
-		wikipedia: {
-			route: "/site-representation",
-			routeLabel: __( "Site representation", "wordpress-seo" ),
-			fieldId: "input-person_social_profiles-wikipedia",
-			fieldLabel: __( "Person Wikipedia", "wordpress-seo" ),
-			keywords: [
-				__( "Social", "wordpress-seo" ),
-				__( "Share", "wordpress-seo" ),
-			],
 		},
 	},
 } );

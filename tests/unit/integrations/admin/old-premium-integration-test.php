@@ -8,6 +8,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
@@ -51,6 +52,13 @@ class Old_Premium_Integration_Test extends TestCase {
 	protected $asset_manager;
 
 	/**
+	 * Mock of the Current_Page_Helper.
+	 *
+	 * @var Mockery\MockInterface|Current_Page_Helper
+	 */
+	protected $current_page_helper;
+
+	/**
 	 * Mock of the instance.
 	 *
 	 * @var Mockery\MockInterface|Old_Premium_Integration
@@ -66,15 +74,17 @@ class Old_Premium_Integration_Test extends TestCase {
 		$this->stubTranslationFunctions();
 		$this->stubEscapeFunctions();
 
-		$this->options_helper    = Mockery::mock( Options_Helper::class );
-		$this->product_helper    = Mockery::mock( Product_Helper::class );
-		$this->capability_helper = Mockery::mock( Capability_Helper::class );
-		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->instance          = new Old_Premium_Integration(
+		$this->options_helper      = Mockery::mock( Options_Helper::class );
+		$this->product_helper      = Mockery::mock( Product_Helper::class );
+		$this->capability_helper   = Mockery::mock( Capability_Helper::class );
+		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$this->instance            = new Old_Premium_Integration(
 			$this->options_helper,
 			$this->product_helper,
 			$this->capability_helper,
-			$this->asset_manager
+			$this->asset_manager,
+			$this->current_page_helper
 		);
 	}
 
@@ -103,6 +113,11 @@ class Old_Premium_Integration_Test extends TestCase {
 			WPSEO_Admin_Asset_Manager::class,
 			$this->getPropertyValue( $this->instance, 'admin_asset_manager' )
 		);
+
+		self::assertInstanceOf(
+			Current_Page_Helper::class,
+			$this->getPropertyValue( $this->instance, 'current_page_helper' )
+		);
 	}
 
 	/**
@@ -123,19 +138,28 @@ class Old_Premium_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'admin_notices', [ $this->instance, 'old_premium_notice' ] ) );
-		$this->assertNotFalse( \has_action( 'wp_ajax_dismiss_old_premium_notice', [ $this->instance, 'dismiss_old_premium_notice' ] ) );
+		$this->assertNotFalse(
+			\has_action(
+				'wp_ajax_dismiss_old_premium_notice',
+				[
+					$this->instance,
+					'dismiss_old_premium_notice',
+				]
+			)
+		);
 	}
 
 	/**
 	 * Tests showing the notice when all the conditions are true.
 	 *
 	 * @covers ::old_premium_notice
+	 * @covers ::notice_was_dismissed_after_current_min_premium_version
 	 * @covers ::premium_is_old
 	 */
 	public function test_old_premium_notice() {
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'dismiss_old_premium_notice', false )
+			->with( 'dismiss_old_premium_version_notice', '' )
 			->andReturnFalse();
 
 		$this->capability_helper
@@ -151,8 +175,15 @@ class Old_Premium_Integration_Test extends TestCase {
 			->expects( 'enqueue_style' )
 			->with( 'monorepo' );
 
+		$this->current_page_helper
+			->expects( 'get_current_admin_page' )
+			->andReturn( 'admin.php' );
+
 		Monkey\Functions\expect( 'wp_enqueue_style' )->with( 'yoast-seo-notifications' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( 'https://example.org/wp-content/plugins/' );
+		Monkey\Functions\expect( 'self_admin_url' )
+			->with( 'plugins.php' )
+			->andReturn( 'https://example.org/wp-admin/plugins/' );
 
 		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
 		$conditional->expects( 'is_met' )->once()->andReturnFalse();
@@ -205,6 +236,7 @@ class Old_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice when the notice has been dismissed.
 	 *
 	 * @covers ::old_premium_notice
+	 * @covers ::notice_was_dismissed_after_current_min_premium_version
 	 */
 	public function test_old_premium_notice_if_dismissed() {
 		global $pagenow;
@@ -212,8 +244,8 @@ class Old_Premium_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'dismiss_old_premium_notice', false )
-			->andReturnTrue();
+			->with( 'dismiss_old_premium_version_notice', '' )
+			->andReturn( '20.1-RC0' );
 
 		// Nothing should be output.
 		$this->expectOutputString( '' );
@@ -224,6 +256,7 @@ class Old_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice when the user doesn't have the right capability.
 	 *
 	 * @covers ::old_premium_notice
+	 * @covers ::notice_was_dismissed_after_current_min_premium_version
 	 */
 	public function test_old_premium_notice_if_no_capabilities() {
 		global $pagenow;
@@ -231,7 +264,7 @@ class Old_Premium_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'dismiss_old_premium_notice', false )
+			->with( 'dismiss_old_premium_version_notice', '' )
 			->andReturnFalse();
 
 		$this->capability_helper
@@ -248,6 +281,7 @@ class Old_Premium_Integration_Test extends TestCase {
 	 * Tests showing the notice when Premium is not active.
 	 *
 	 * @covers ::old_premium_notice
+	 * @covers ::notice_was_dismissed_after_current_min_premium_version
 	 * @covers ::premium_is_old
 	 */
 	public function test_old_premium_notice_if_no_premium_active() {
@@ -256,7 +290,7 @@ class Old_Premium_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'dismiss_old_premium_notice', false )
+			->with( 'dismiss_old_premium_version_notice', '' )
 			->andReturnFalse();
 
 		$this->capability_helper
@@ -281,7 +315,7 @@ class Old_Premium_Integration_Test extends TestCase {
 	public function test_dismiss_premium_deactivated_notice() {
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'dismiss_old_premium_notice', true );
+			->with( 'dismiss_old_premium_version_notice', '20.1-RC0' );
 
 		$this->instance->dismiss_old_premium_notice();
 	}

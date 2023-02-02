@@ -1,6 +1,8 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
+import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { useDocumentTitle } from "../hooks";
 
 /**
@@ -16,9 +18,15 @@ const RouteLayout = ( {
 	description,
 } ) => {
 	const documentTitle = useDocumentTitle( { prefix: `${ title } ‹ ` } );
-
+	const ariaLiveTitle = sprintf(
+		/* translators: 1: Settings' section title, 2: Yoast SEO */
+		__( "%1$s Settings - %2$s", "wordpress-seo" ),
+		title,
+		"Yoast SEO"
+	);
 	return (
-		<>
+		<LiveAnnouncer>
+			<LiveMessage message={ ariaLiveTitle } aria-live="polite" />
 			<Helmet>
 				<title>{ documentTitle }</title>
 			</Helmet>
@@ -29,7 +37,7 @@ const RouteLayout = ( {
 				</div>
 			</header>
 			{ children }
-		</>
+		</LiveAnnouncer>
 	);
 };
 

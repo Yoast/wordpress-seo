@@ -45,6 +45,32 @@
 	input[type=week] {
 		@apply yst-min-h-0;
 	}
+
+	#modal-introduction {
+		.yst-modal {
+			@media screen and (max-height: 782px) {
+				@apply yst-py-4;
+			}
+		}
+		.yst-modal__panel {
+			@media screen and (max-height: 782px) {
+				/* 2rem space (2 times 1rem from py-4). */
+				@apply yst-max-h-[calc(100vh-2rem)];
+			}
+		}
+
+		.yst-modal__close {
+			@apply yst-top-2 yst-right-2;
+
+			.yst-modal__close-button {
+				@apply yst-bg-transparent yst-text-white;
+			}
+		}
+	}
+
+	#modal-search .yst-modal__close {
+		margin-top: -0.25rem;
+	}
 }
 
 @layer base {
@@ -105,6 +131,14 @@
 	}
 
 	.yst-root {
+		.yst-notifications {
+			max-height: calc(100% - 4rem - 32px); /* Extra 32px for the height of the WP admin bar. */
+
+			@media (max-width: 782px) {
+				max-height: calc(100% - 4rem - 48px); /* Extra 48px for the height of the mobile WP admin bar. */
+			}
+		}
+
 		.yst-notifications--bottom-left {
 			z-index: 9991; /* 1 above admin menu */
 

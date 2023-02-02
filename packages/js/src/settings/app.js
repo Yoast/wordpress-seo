@@ -64,7 +64,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 
 	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
-			<Link to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
+			<Link id={ `link-yoast-logo${ idSuffix }` } to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
 			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
@@ -229,8 +229,11 @@ const App = () => {
 			<Notifications />
 			<SidebarNavigation activePath={ pathname }>
 				<SidebarNavigation.Mobile
-					openButtonScreenReaderText={ __( "Open sidebar", "wordpress-seo" ) }
-					closeButtonScreenReaderText={ __( "Close sidebar", "wordpress-seo" ) }
+					openButtonId="button-open-settings-navigation-mobile"
+					closeButtonId="button-close-settings-navigation-mobile"
+					openButtonScreenReaderText={ __( "Open settings navigation", "wordpress-seo" ) }
+					closeButtonScreenReaderText={ __( "Close settings navigation", "wordpress-seo" ) }
+					aria-label={ __( "Settings navigation", "wordpress-seo" ) }
 				>
 					<Menu idSuffix="-mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
@@ -241,7 +244,7 @@ const App = () => {
 						</SidebarNavigation.Sidebar>
 					</aside>
 					<div className={ classNames( "yst-flex yst-grow yst-flex-wrap", ! isPremium && "xl:yst-pr-[17.5rem]" ) }>
-						<div className="yst-grow yst-space-y-6 yst-mb-6 xl:yst-mb-0">
+						<div className="yst-grow yst-space-y-6 yst-mb-8 xl:yst-mb-0">
 							<main className="yst-rounded-lg yst-bg-white yst-shadow">
 								<ErrorBoundary FallbackComponent={ ErrorFallback }>
 									<Transition

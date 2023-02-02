@@ -25,7 +25,7 @@ const MediaPages = () => {
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
 	const pageTypes = useSelectSettings( "selectPageTypeValuesFor", [ name ], name );
-	const thinContentProblemsInfoLink = useSelectSettings( "selectLink", [], "https://yoast.com/features/redirect-attachment-urls" );
+	const thinContentProblemsInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/media-pages-thin-content" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 
 	const { values } = useFormikContext();

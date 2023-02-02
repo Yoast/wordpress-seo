@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
 import { ArrowLeftIcon as PureArrowLeftIcon, ArrowRightIcon as PureArrowRightIcon } from "@heroicons/react/outline";
-import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { useCallback, useEffect, useMemo, useState, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, Modal, Title, Spinner, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Button, Modal, Spinner, Title, useRootContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { times } from "lodash";
 import { Helmet } from "react-helmet";
@@ -25,6 +25,8 @@ const Introduction = () => {
 	const { isRtl } = useRootContext();
 	const ArrowLeftIcon = useMemo( () => isRtl ? PureArrowRightIcon : PureArrowLeftIcon, [ isRtl ] );
 	const ArrowRightIcon = useMemo( () => isRtl ? PureArrowLeftIcon : PureArrowRightIcon, [ isRtl ] );
+	const modalDialogRef = useRef( null );
+	const buttonRef = useRef( null );
 
 	// set the steps with the videos and thumbnails and memoize them for pluginUrl changes
 	const steps = useMemo( () => ( [
@@ -66,14 +68,7 @@ const Introduction = () => {
 	// check if is on last step and memoize it for stepIndex and steps changes
 	const isOnLastStep = useMemo( () => stepIndex === steps.length - 1, [ stepIndex, steps ] );
 
-
 	const playVideo = useCallback( () => setIntroductionVideoFlow( INTRODUCTION_VIDEO_FLOW.playing ), [ setIntroductionVideoFlow ] );
-
-	// move to next step and memoize it for stepIndex and steps changes
-	const handleNext = useCallback( () => setStepIndex( stepIndex + 1 ), [ stepIndex, setStepIndex ] );
-
-	// move to previous step and memoize it for stepIndex changes
-	const handlePrevious = useCallback( () => setStepIndex( stepIndex - 1 ), [ stepIndex, setStepIndex ] );
 
 	// handle the play button click and check permission from wistia else ask for permission
 	// memoize it for wistiaEmbedPermission, setIntroductionVideoFlow changes
@@ -87,11 +82,26 @@ const Introduction = () => {
 
 
 	 // if the videoFlow stage is equal to INTRODUCTION_VIDEO_FLOW.askPermission then show the permission modal
-	 // the next two handel functions are for the permission modal:
+	 // the next two handle functions are for the permission modal:
 
-	// handle the deny embed button click and memoize it for setIntroductionVideoFlow changes
-	// INTRODUCTION_VIDEO_FLOW.showPlay shows play button
-	const handleDenyEmbed = useCallback( () => setIntroductionVideoFlow( INTRODUCTION_VIDEO_FLOW.showPlay ), [ setIntroductionVideoFlow ] );
+	// Handle the deny embed button click and memoize it for setIntroductionVideoFlow changes.
+	// Also, set INTRODUCTION_VIDEO_FLOW.showPlay to show the play button and move focus to the modal.
+	const showPlayVideo = useCallback( () => {
+		setIntroductionVideoFlow( INTRODUCTION_VIDEO_FLOW.showPlay );
+		modalDialogRef.current.focus();
+	}, [ setIntroductionVideoFlow, modalDialogRef ] );
+
+	// move to next step and memoize it for stepIndex and steps changes
+	const handleNext = useCallback( () => {
+		setStepIndex( stepIndex + 1 );
+		showPlayVideo();
+	}, [ stepIndex, setStepIndex ] );
+
+	// move to previous step and memoize it for stepIndex changes
+	const handlePrevious = useCallback( () => {
+		setStepIndex( stepIndex - 1 );
+		showPlayVideo();
+	}, [ stepIndex, setStepIndex ] );
 
 	// when the user allows the embed:
 	// handle the allow embed button click and memoize it for setIntroductionVideoFlow, setIntroductionWistiaEmbedPermission changes
@@ -108,7 +118,6 @@ const Introduction = () => {
 		setIntroductionShow( false );
 		setClose();
 	}, [ setIntroductionShow, setClose ] );
-
 
 	useEffect( () => {
 		// exception-1: early return, if the videoFlow is not in the stage of playing then this useEffect should not run
@@ -131,10 +140,17 @@ const Introduction = () => {
 	}, [ videoFlow, stepIndex, steps, setVideo ] );
 
 	return (
-
 		// handleClose function is closing the modal and setting the user meta to not show introduction again
-		<Modal onClose={ handleClose } isOpen={ isOpen } aria-label={ __( "Introduction to settings", "wordpress-seo" ) }>
-			<div className="yst-modal__panel yst-max-w-[37rem] yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
+		<Modal
+			id="modal-introduction"
+			onClose={ handleClose }
+			isOpen={ isOpen }
+			aria-label={ __( "Introduction to settings", "wordpress-seo" ) }
+			tabIndex="-1"
+			ref={ modalDialogRef }
+			initialFocus={ buttonRef }
+		>
+			<Modal.Panel className="yst-max-w-[37rem] yst-overflow-y-auto yst-p-0 yst-rounded-2xl sm:yst-rounded-3xl">
 
 				{ /* //checks ther is permission from wista to add video and add js script, Helmet component adds the script tp the head */ }
 				{ wistiaEmbedPermission.value && <Helmet>
@@ -144,7 +160,7 @@ const Introduction = () => {
 					<div className="yst-absolute yst-inset-0 yst-bg-gradient-to-b yst-from-primary-200" />
 					<div className="yst-relative yst-pt-6 sm:yst-pt-8 yst-pb-8 yst-px-4 sm:yst-px-8">
 						<div
-							className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-overflow-hidden yst-rounded-lg yst-shadow-md yst-bg-black"
+							className="yst-relative yst-w-full yst-h-0 yst-pt-[56.25%] yst-rounded-lg yst-shadow-md yst-bg-black"
 						>
 							{ /* // -------------------- Play button section, presents a thumbnail of the video enclosed in a button -------------*/ }
 							{ videoFlow === INTRODUCTION_VIDEO_FLOW.showPlay && steps.map( ( step, index ) => (
@@ -153,12 +169,13 @@ const Introduction = () => {
 									className={ classNames(
 										"yst-absolute yst-inset-0 yst-button yst-p-0 yst-border-none yst-bg-white",
 										"yst-transition-opacity yst-duration-1000",
-										index === stepIndex ? "yst-opacity-100" : "yst-opacity-0"
+										index === stepIndex ? "yst-opacity-100" : "yst-opacity-0",
+										index === stepIndex ? "yst-visible" : "yst-invisible"
 									) }
 									onClick={ handleRequestPlay }
+									ref={ index === 0 ? buttonRef : null }
 								>
-									{ /* eslint-disable-next-line jsx-a11y/alt-text */ }
-									<img className="yst-w-full yst-h-auto" { ...step.thumbnail } />
+									<img alt={ __( "Play video", "wordpress-seo" ) } className="yst-w-full yst-h-auto" { ...step.thumbnail } />
 								</button>
 							) ) }
 
@@ -180,7 +197,7 @@ const Introduction = () => {
 										<Button
 											type="button"
 											variant="secondary"
-											onClick={ handleDenyEmbed }
+											onClick={ showPlayVideo }
 											disabled={ wistiaEmbedPermission.status === ASYNC_ACTION_STATUS.loading }
 										>
 											{ __( "Deny", "wordpress-seo" ) }
@@ -225,27 +242,37 @@ const Introduction = () => {
 							stepIndex === 2 && "yst--translate-x-[200%] rtl:yst-translate-x-[200%]"
 						) }
 					>
-						{ steps.map( ( step, index ) => (
-							<div
-								key={ `step-copy-${ step.videoId }` }
-								className={ classNames(
-									"yst-transition-opacity yst-duration-1000 yst-delay-200",
-									index === stepIndex ? "yst-opacity-100" : "yst-opacity-0"
-								) }
-							>
-								<Title as="h2" size="2">
-									{ step.title }
-								</Title>
-								<p className="yst-max-w-xs yst-mx-auto yst-mt-2">
-									{ step.description }
-								</p>
-							</div>
-						) ) }
+						{ steps.map( ( step, index ) => {
+							// Modal.Description sets the aria-describedby on the Dialog.
+							// We want that to only happen for the description of the active slide.
+							const DescriptionComponent = index === stepIndex ? Modal.Description : "p";
+
+							return (
+								<div
+									key={ `step-copy-${ step.videoId }` }
+									className={ classNames(
+										"yst-transition-opacity yst-duration-1000 yst-delay-200",
+										index === stepIndex ? "yst-opacity-100" : "yst-opacity-0",
+										index === stepIndex ? "yst-visible" : "yst-invisible"
+									) }
+								>
+									<Title as="h1" size="2">
+										{ step.title }
+									</Title>
+									<DescriptionComponent className="yst-max-w-sm yst-mx-auto yst-mt-2">
+										{ step.description }
+									</DescriptionComponent>
+								</div>
+							);
+						} ) }
 					</div>
 
 
 					{ /* // -------------------- The navigation section ----------------*/ }
-					<ul className="yst-flex yst-mt-10 sm:yst-mt-8 yst-gap-5 yst-justify-center yst-items-center">
+					<ul
+						className="yst-flex yst-mt-10 sm:yst-mt-8 yst-gap-5 yst-justify-center yst-items-center"
+						aria-hidden="true"
+					>
 						{ times( steps.length ).map( ( index ) => (
 							<li
 								key={ `step-circle-${ index }` }
@@ -288,7 +315,7 @@ const Introduction = () => {
 						</Button> }
 					</div>
 				</div>
-			</div>
+			</Modal.Panel>
 		</Modal>
 	);
 };

@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 19.13
+Stable tag: 20.0
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,58 +236,62 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Screenshots ==
 
-1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. Example of the SEO analysis functionality.
-3. Example of the readability analysis functionality.
-4. Overview of site-wide SEO problems and possible improvements.
-5. Control over which features you want to use.
-6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
+1. The modern interface makes Yoast SEO easy to work with.
+2. Easily manage how your posts and pages appear in SERPs.
+3. Yoast SEO Premium has extra crawl optimization options.
+4. Yoast SEO integrates with tools like Semrush and Wincher.
+5. The famous SEO and readability analyses in Yoast SEO.
+6. See what your post looks like in Google.
+7. The First-time configuration helps you get started quickly.
+8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
 
-= 20.0 =
+= 20.1 =
 
-Release date: January 3rd, 2023
+Release date: 2023-02-07
 
 #### Enhancements
 
-* Avoids a deprecation notice for the Yoast sidebar panel in the block editor.
-* Improves the accuracy of calculating text length in Japanese by excluding all spaces and HTML tags from the character count, and by including domain names.
+* Adds a link to the first time configuration in the plugin overview when this is not completed yet.
+* Adds the site name to the Google preview for mobile.
+* Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies.
 
 #### Bugfixes
 
-* Fixes a bug where indexable hierarchy wasn't built when the Indexable is built for the first time.
+* Fixes a bug where the _Format archives_ settings would not work correctly when the `post_format` taxonomy is disabled.
+* Fixes a bug where the highlighting feature in the Classic editor would not work when inline HTML tags were present.
+* Fixes a bug where the _Media pages_ settings would not work correctly when the `attachment` post type is filtered out via `wpseo_indexable_excluded_post_types`.
+* Fixes a bug where the settings' introduction modal would not be visible on wider screens with less than ~700 pixels height.
+* Fixes a bug where `wpseo_opengraph_image_size` is used to set custom size to `og:image` but doesn't work when uploading an image with the same size as the custom size.
+
+#### Other
+
+* Improves the translations comments in _Settings > Site connections_ and a translatable string used by screen readers.
+
+= 20.0 =
+
+Release date: 2023-01-24
+
+We're proud to introduce a brand new settings interface in Yoast SEO 20.0. We've worked hard to make this interface both beautiful and helpful. It's now much easier and enjoyable to work on your SEO. Plus, it's the start of much more cool stuff to come! Find out more about what's new in Yoast SEO 20.0 in [our release post](https://yoa.st/release-24-1-23)!
+
+#### Enhancements
+
+* NEW: Introduces a brand-new design for Yoast SEO's settings pages:
+ * Completely overhauled the old 'settings' admin pages with a sleek and modern interface.
+ * Combines, moves and improves various admin pages.
+ * Adds the ability to search through site settings to quickly discover and modify your desired setting.
+ * Adds extra information and help for all controls.
+ * Vastly improves accessibility (including better support for keyboard navigation).
+ * Key features are now listed on the 'Site features' page under 'General'.
+ * Webmaster Tools settings have moved to 'Site connections' page under 'General'.
+ * Open Graph settings can now be found in 'Site features' under 'General'.
+ * Adds an introduction modal with videos to quickly help you on your way.
+* Improves the link focus styles in the first time configuration.
 
 #### Other
 
 * Displays a notification urging to upgrade Premium if the version is below 20.0, since some settings might be missing from the new user interface.
-* Sets the minimum supported WordPress version to 6.0.
-
-= 19.14 =
-
-Release date: January 10th, 2023
-
-#### Enhancements
-
-* Improves the _inclusive language analysis_ by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
-  * Adds "OCD", "normal" and "abnormal" to the terms that are targeted by the _inclusive language analysis_ in specific contexts.
-  * Adds "stupid" to the terms that are always targeted by the _inclusive language analysis_.
-  * Removes the term "African American Vernacular English" from the terms targeted by the  _inclusive language analysis_.  
-  * Changes the terms "exotic" and "oriental" to be considered potentially non-inclusive in the _inclusive language analysis_, adds exceptions and updates their feedback.
-  * Improves the categorization of the targeted terms in the _inclusive language analysis_ by splitting the `other` category into a more specific one.
-  * Improves the feedback for some (potentially) non-inclusive target terms in the _inclusive language analysis_.
-  * Adds more alternatives to some (potentially) non-inclusive target terms in the _inclusive language analysis_.
-  * Adds terms that are only considered (potentially) non-inclusive when they are followed by certain words or a punctuation mark.
-* Avoids a deprecation notice for the Yoast sidebar panel in the block editor.
-* Improves the accuracy of calculating text length in Japanese by excluding all spaces and HTML tags from the character count, and by including domain names.
-
-#### Bugfixes
-
-* Fixes a bug where indexable hierarchy wasn't built when the Indexable is built for the first time.
-
-#### Other
-
-* Sets the minimum supported WordPress version to 6.0.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
