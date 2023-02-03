@@ -255,7 +255,7 @@ Release date: 2023-02-07
 
 * Adds a link to the first time configuration in the plugin overview when this is not completed yet.
 * Adds the site name to the Google preview for mobile.
-* Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies.
+* Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
 
 #### Bugfixes
 
