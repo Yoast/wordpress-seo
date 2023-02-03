@@ -1,5 +1,4 @@
 // Readbility assessments.
-import ListAssessment from "./readability/ListAssessment";
 import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment";
@@ -35,7 +34,6 @@ import ProductSKUAssessment from "./seo/ProductSKUAssessment";
 import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
 const readability = {
-	ListAssessment,
 	ParagraphTooLongAssessment,
 	PassiveVoiceAssessment,
 	SentenceBeginningsAssessment,
