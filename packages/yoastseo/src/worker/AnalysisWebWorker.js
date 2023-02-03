@@ -1441,7 +1441,7 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
-	 * Registers custom helpers to the researcher.
+	 * Registers a custom helper to the researcher.
 	 *
 	 * @param {string} name       The name of the helper.
 	 * @param {function} helper   The helper function to add.
