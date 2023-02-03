@@ -1,9 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined } from "lodash-es";
+import { isUndefined, valuesIn } from "lodash-es";
 
 import MissingArgument from "../errors/missingArgument";
 import { createAnchorOpeningTag } from "../helpers/shortlinker";
 import AssessmentResult from "../values/AssessmentResult.js";
+
 
 /**
  * @param {object} app The app
@@ -75,6 +76,8 @@ PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
 PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords, paper ) {
 	var count = previouslyUsedKeywords.count;
 	var id = previouslyUsedKeywords.id;
+	const postTypeToDisplay = previouslyUsedKeywords.postTypeToDisplay;
+
 	if ( count === 0 ) {
 		return {
 			text: sprintf(
@@ -107,15 +110,17 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 			score: 6,
 		};
 	}
+
 	if ( count > 1 ) {
-		url = "<a href='" + this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) ) + "' target='_blank'>";
+		url = "<a href='" + this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) ) + "&post_type=" + postTypeToDisplay +
+		"' target='_blank'>";
 		return {
 			/* Translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
 			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
 			the anchor end tag */
 			text: sprintf( __(
 				// eslint-disable-next-line max-len
-				"%4$sPreviously used keyphrase%6$s: You've used this keyphrase %1$s2 or more times before%3$s. %5$sDo not use your keyphrase more than once%6$s.",
+				"%4$sPreviously used keyphrase%6$s: You've used this keyphrase %1$s multiple times before%3$s. %5$sDo not use your keyphrase more than once%6$s.",
 				"wordpress-seo"
 			),
 			url,
@@ -139,16 +144,21 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper ) {
 	var keyword = paper.getKeyword();
 	var count = 0;
+	let postTypeToDisplay = "";
 	var id = 0;
 
 	if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
-		count = this.usedKeywords[ keyword ].length;
+		count = this.usedKeywords[ keyword ][ 0 ].length;
+
+		postTypeToDisplay = this.usedKeywords[ keyword ][ 1 ][ 0 ];
+
 		id = this.usedKeywords[ keyword ][ 0 ];
 	}
 
 	return {
 		id: id,
 		count: count,
+		postTypeToDisplay: postTypeToDisplay,
 	};
 };
 
