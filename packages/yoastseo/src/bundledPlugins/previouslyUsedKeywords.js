@@ -1,5 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined, valuesIn } from "lodash-es";
+import { isUndefined } from "lodash-es";
 
 import MissingArgument from "../errors/missingArgument";
 import { createAnchorOpeningTag } from "../helpers/shortlinker";
@@ -74,9 +74,10 @@ PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
  * @returns {object} the scoreobject with text and score.
  */
 PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords, paper ) {
-	var count = previouslyUsedKeywords.count;
-	var id = previouslyUsedKeywords.id;
+	const count = previouslyUsedKeywords.count;
+	const id = previouslyUsedKeywords.id;
 	const postTypeToDisplay = previouslyUsedKeywords.postTypeToDisplay;
+	let url;
 
 	if ( count === 0 ) {
 		return {
@@ -92,7 +93,7 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 		};
 	}
 	if ( count === 1 ) {
-		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "' target='_blank'>";
+		url = `<a href='${this.postUrl.replace( "{id}", id )}' target='_blank'>`;
 		return {
 			/* Translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s
 			expand to links on yoast.com, %4$s expands to the anchor end tag. */
@@ -112,8 +113,8 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	}
 
 	if ( count > 1 ) {
-		url = "<a href='" + this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) ) + "&post_type=" + postTypeToDisplay +
-		"' target='_blank'>";
+		// eslint-disable-next-line max-len
+		url = `<a href='${this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) )}&post_type=${postTypeToDisplay}' target='_blank'>`;
 		return {
 			/* Translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
 			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
