@@ -42,7 +42,6 @@ export default class Researcher extends AbstractResearcher {
 			getClauses,
 			getStemmer,
 			fleschReadingScore,
-			checkIfWordIsComplex,
 		} );
 	}
 }
