@@ -112,7 +112,7 @@ export default class PPAttachmentAssessment extends Assessment {
 		return this.ambiguousConstructions.map( ambiguousConstruction =>
 			new Mark( {
 				original: ambiguousConstruction.sentence,
-				marked: collectMarkingsInSentence( ambiguousConstruction.sentence, ambiguousConstruction.construction, matchWordCustomHelper ),
+				marked: collectMarkingsInSentence( ambiguousConstruction.sentence, [ambiguousConstruction.construction.join(" ")], matchWordCustomHelper ),
 			} ) );
 	}
 }

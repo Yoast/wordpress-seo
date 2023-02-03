@@ -6,7 +6,7 @@ import Mark from "../../../../values/Mark";
 import { collectMarkingsInSentence } from "../../../../languageProcessing/helpers/word/markWordsInSentences";
 
 /**
- * Represents the assessment that will check whether texts contain syntactically ambiguous PP attachments.
+ * Represents the assessment that will check whether texts contain analytical ambiguity.
  */
 export default class AnalyticalAssessment extends Assessment {
 	/**
@@ -32,6 +32,7 @@ export default class AnalyticalAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		this.ambiguousConstructions = researcher.getResearch( "checkAnalytical" );
+		console.log(this.ambiguousConstructions, "test 10")
 
 		const calculatedScore = this.calculateResult();
 
@@ -68,7 +69,7 @@ export default class AnalyticalAssessment extends Assessment {
 					/* Translators: %1$s expands to a link on yoast.com,
                      * %2$s expands to the anchor end tag. */
 					__(
-						"%1$sPP Attachment%3$s: Potentially syntactically ambiguous PP attachments found. " +
+						"%1$sAnalytical Ambiguity%3$s: Potential analytical ambiguity found. " +
 						"%2$sPlease consider rephrasing these sentences%3$s.",
 						"wordpress-seo"
 					),
@@ -85,7 +86,7 @@ export default class AnalyticalAssessment extends Assessment {
 			resultText: sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
-					"%1$sPP Attachment%2$s: No PP attachments found. Great!",
+					"%1$sAnalytical Ambiguity%2$s: No analytical ambiguity found. Great!",
 					"wordpress-seo"
 				),
 				createAnchorOpeningTag( "https://yoa.st/shopify38" ),
@@ -103,7 +104,7 @@ export default class AnalyticalAssessment extends Assessment {
 	 * @returns {Array} Array with all the marked sentences.
 	 */
 	getMarks( paper, researcher ) {
-		this.ambiguousConstructions = researcher.getResearch( "checkPPAttachment" );
+		this.ambiguousConstructions = researcher.getResearch( "checkAnalytical" );
 		const matchWordCustomHelper = researcher.getResearch( "matchWordCustomHelper" );
 
 		if ( ! this.ambiguousConstructions ) {
@@ -112,7 +113,7 @@ export default class AnalyticalAssessment extends Assessment {
 		return this.ambiguousConstructions.map( ambiguousConstruction =>
 			new Mark( {
 				original: ambiguousConstruction.sentence,
-				marked: collectMarkingsInSentence( ambiguousConstruction.sentence, ambiguousConstruction.construction, matchWordCustomHelper ),
+				marked: collectMarkingsInSentence( ambiguousConstruction.sentence, [ambiguousConstruction.construction.join(" ")], matchWordCustomHelper ),
 			} ) );
 	}
 }
