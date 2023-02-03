@@ -1024,13 +1024,16 @@ class WPSEO_Meta {
 			->where( 'primary_focus_keyword', $keyword )
 			->where( 'object_type', 'post' )
 			->where_not_equal( 'object_id', $post_id )
-			->limit( 2 )	// limit to 2 results to save time and resources.
+			->limit( 2 )    // limit to 2 results to save time and resources.
 			->find_array();
 
 		// Get object_id from each subarray in $post_ids.
-		$post_ids = array_map(function($row) {
-			return $row['object_id'];
-		}, $post_ids);
+		$post_ids = array_map(
+			function( $row ) {
+				return $row['object_id'];
+			},
+			$post_ids
+		);
 
 		/*
 		 * If Premium is installed, get the additional keywords as well.
@@ -1048,19 +1051,22 @@ class WPSEO_Meta {
 			 */
 			$post_ids = apply_filters( 'wpseo_posts_for_focus_keyword', $post_ids, $keyword, $post_id );
 		}
-		
+
 		// Retrieve the post subtypes for the posts that share the keyword.
 		$post_types = $repository->query()
-			->select('object_sub_type')
+			->select( 'object_sub_type' )
 			->where_in( 'object_id', $post_ids )
 			->find_array();
-	
-		// Get object_sub_type from each subarray in $post_ids.
-		$post_types = array_map(function($row) {
-			return $row['object_sub_type'];
-		}, $post_types);
 
-		return array($post_ids, $post_types);
+		// Get object_sub_type from each subarray in $post_ids.
+		$post_types = array_map(
+			function( $row ) {
+				return $row['object_sub_type'];
+			},
+			$post_types
+		);
+
+		return [ $post_ids, $post_types ];
 	}
 
 	/**
