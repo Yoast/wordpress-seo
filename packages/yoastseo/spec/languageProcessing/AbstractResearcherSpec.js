@@ -31,7 +31,7 @@ describe( "Calling a Researcher", function() {
 	} );
 } );
 
-describe( "Adding to a Researcher", function() {
+describe( "Adding a research to a Researcher", function() {
 	var researcher = new Researcher( new Paper( "This is another paper!" ) );
 
 	it( "throws an error if no name is given", function() {
@@ -58,7 +58,7 @@ describe( "Adding to a Researcher", function() {
 		expect( Object.keys( researcher.customResearches ).length ).toEqual( 1 );
 	} );
 
-	it( "overloads a research in the custom researches object", function() {
+	it( "overwrites a research in the custom researches object", function() {
 		expect( Object.keys( researcher.customResearches ).length ).toEqual( 1 );
 		researcher.addResearch( "foo", function() {
 			return false;
@@ -66,7 +66,7 @@ describe( "Adding to a Researcher", function() {
 		expect( Object.keys( researcher.customResearches ).length ).toEqual( 1 );
 	} );
 
-	it( "overloads a research in the default researches object with a custom one with the same name", function() {
+	it( "overwrites a research in the default researches object with a custom one with the same name", function() {
 		const currentDefaultsLength = Object.keys( researcher.defaultResearches ).length;
 		const currentCustomLength = Object.keys( researcher.customResearches ).length;
 		const totalLength = currentDefaultsLength + currentCustomLength;
@@ -80,6 +80,42 @@ describe( "Adding to a Researcher", function() {
 		} );
 		expect( Object.keys( researcher.getAvailableResearches() ).length ).toEqual( totalLength );
 		expect( researcher.getResearch( "wordCountInText" ).count ).toEqual( 9000 );
+	} );
+} );
+
+describe( "Adding a custom helper to a Researcher", function() {
+	const researcher = new Researcher( new Paper( "This is another paper!" ) );
+
+	it( "throws an error if no name is given", function() {
+		expect( function() {
+			researcher.addHelper( "", function() {} );
+		} ).toThrowError( MissingArgument );
+
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 0 );
+	} );
+
+	it( "throws an error if no function is given", function() {
+		expect( function() {
+			researcher.addHelper( "foobar", null );
+		} ).toThrowError( InvalidTypeError );
+
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 0 );
+	} );
+
+	it( "adds a helper to the helpers object", function() {
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 0 );
+		researcher.addHelper( "foo", function() {
+			return true;
+		} );
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
+	} );
+
+	it( "overwrites a helper in the helpers object", function() {
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
+		researcher.addHelper( "foo", function() {
+			return false;
+		} );
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
 	} );
 } );
 
