@@ -1066,7 +1066,10 @@ class WPSEO_Meta {
 			$post_types
 		);
 
-		return [ $post_ids, $post_types ];
+		return [
+			'post_ids'   => $post_ids,
+			'post_types' => $post_types,
+		];
 	}
 
 	/**

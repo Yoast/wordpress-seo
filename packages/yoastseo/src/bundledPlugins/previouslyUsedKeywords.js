@@ -149,11 +149,11 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 	var id = 0;
 
 	if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
-		count = this.usedKeywords[ keyword ][ 0 ].length;
+		count = this.usedKeywords[ keyword ].post_ids.length;
 
-		postTypeToDisplay = this.usedKeywords[ keyword ][ 1 ][ 0 ];
+		postTypeToDisplay = this.usedKeywords[ keyword ].post_types[ 0 ];
 
-		id = this.usedKeywords[ keyword ][ 0 ];
+		id = this.usedKeywords[ keyword ].post_ids;
 	}
 
 	return {
