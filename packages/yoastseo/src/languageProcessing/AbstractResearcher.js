@@ -37,6 +37,9 @@ import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
 import wordComplexity from "./researches/wordComplexity";
+import checkCoordination from "./researches/checkCoordination";
+import checkPPAttachment from "./researches/checkPPAttachment";
+import checkAnalytical from "./researches/checkAnalytical";
 
 /**
  * The researches contains all the researches
@@ -87,6 +90,9 @@ export default class AbstractResearcher {
 			videoCount,
 			getPassiveVoiceResult,
 			wordComplexity,
+			checkCoordination,
+			checkPPAttachment,
+			checkAnalytical,
 		};
 
 		this._data = {};

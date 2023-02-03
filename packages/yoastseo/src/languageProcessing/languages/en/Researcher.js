@@ -12,6 +12,7 @@ import syllables from "./config/syllables.json";
 // All helpers
 import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
+import getTagger from "./helpers/getTagger";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
 
@@ -41,6 +42,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.helpers, {
 			getClauses,
 			getStemmer,
+			getTagger,
 			fleschReadingScore,
 			checkIfWordIsComplex,
 		} );

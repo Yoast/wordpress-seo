@@ -57,8 +57,15 @@ describe( "a test for the English Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "cats" ) ).toEqual( "cat" );
 	} );
 
+	it( "tags a sentence using the English tagger", function() {
+		const tagger = researcher.getHelper( "getTagger" )();
+
+		expect( tagger.tag( [ "This", "is", "a", "sentence", "." ] ) ).
+			toEqual( [ [ "This", "DT" ], [ "is", "VBZ" ], [ "a", "DT" ], [ "sentence", "NN" ], [ ".", "." ] ] );
+	} );
+
 	it( "splits English sentence into clauses and checks if the clauses are passive or not.", function() {
-		let sentence =  "The English are still having a party.";
+		let sentence = "The English are still having a party.";
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "are still" );
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "having a party." );
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( false );

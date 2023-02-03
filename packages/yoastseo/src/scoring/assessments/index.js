@@ -1,4 +1,4 @@
-// Readbility assessments.
+// Readability assessments.
 import ListAssessment from "./readability/ListAssessment";
 import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
@@ -8,7 +8,9 @@ import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDis
 import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
 import WordComplexityAssessment from "./readability/WordComplexityAssessment";
-
+import CoordinationAssessment from "./readability/syntacticAmbiguity/CoordinationAssessment";
+import PPAttachmentAssessment from "./readability/syntacticAmbiguity/PPAttachmentAssessment";
+import AnalyticalAssessment from "./readability/syntacticAmbiguity/AnalyticalAssessment";
 // SEO assessments.
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
@@ -44,6 +46,9 @@ const readability = {
 	TextPresenceAssessment,
 	TransitionWordsAssessment,
 	WordComplexityAssessment,
+	CoordinationAssessment,
+	PPAttachmentAssessment,
+	AnalyticalAssessment,
 };
 
 // We expose the deprecated UrlKeywordAssessment for backwards compatibility.

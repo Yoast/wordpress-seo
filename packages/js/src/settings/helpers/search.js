@@ -545,6 +545,13 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 			fieldLabel: __( "Filter searches with common spam patterns", "wordpress-seo" ),
 			keywords: [],
 		},
+		redirect_search_pretty_urls: {
+			route: "/crawl-optimization",
+			routeLabel: __( "Crawl optimization", "wordpress-seo" ),
+			fieldId: "input-wpseo-redirect_search_pretty_urls",
+			fieldLabel: __( "Redirect pretty URLs to ‘raw’ formats", "wordpress-seo" ),
+			keywords: [],
+		},
 		deny_search_crawling: {
 			route: "/crawl-optimization",
 			routeLabel: __( "Crawl optimization", "wordpress-seo" ),

@@ -162,6 +162,20 @@ const CrawlOptimization = () => {
 		} ),
 
 		// Internal site search cleanup.
+		redirectSearchPrettyUrls: createInterpolateElement(
+			sprintf(
+				/* translators: %1$s, %2$s and %3$s expand to example parts of a URL, surrounded by <code> tags. */
+				__( "Consolidates WordPress' multiple site search URL formats into the %1$s syntax. E.g., %2$s will redirect to %3$s", "wordpress-seo" ),
+				"<code1/>",
+				"<code2/>",
+				"<code3/>"
+			),
+			{
+				code1: <Code>?s=</Code>,
+				code2: <Code variant="block">https://www.example.com/search/cats</Code>,
+				code3: <Code variant="block">https://www.example.com/?s=cats</Code>,
+			}
+		),
 		denySearchCrawling: createInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s expand to example parts of a URL, surrounded by <code> tags. */
@@ -595,6 +609,16 @@ const CrawlOptimization = () => {
 							description={ __( "Block internal site searches which match the patterns of known spam attacks.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
 							checked={ searchCleanup && searchCleanupPatterns }
+							isDummy={ ! isPremium }
+							className="yst-max-w-2xl"
+						/>
+						<FormikValueChangeFieldWithDummy
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.redirect_search_pretty_urls"
+							id="input-wpseo-redirect_search_pretty_urls"
+							label={ __( "Redirect pretty URLs to ‘raw’ formats", "wordpress-seo" ) }
+							description={ descriptions.redirectSearchPrettyUrls }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
