@@ -25,7 +25,7 @@ describe( "checks for keyword doubles", function() {
 			"<a href='https://yoa.st/33y' target='_blank'>Do not use your keyphrase more than once</a>." );
 
 		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper ).score ).toBe( 1 );
-		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper ).text ).toBe("<a href='https://yoa.st/33x' " +
+		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
 			"target='_blank'>Previously used keyphrase</a>: You've used this keyphrase <a href='http://search?keyword&post_type=undefined' " +
 			"target='_blank'> multiple times before</a>. <a href='https://yoa.st/33y' target='_blank'>" +
 			"Do not use your keyphrase more than once</a>." );
