@@ -1,6 +1,6 @@
 import Paper from "../../../src/values/Paper";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import checkPPAttachment from "../../../src/languageProcessing/researches/checkPPAttachment";
+import {ppGoogleSearch} from "../../../src/languageProcessing/researches/checkPPAttachment";
 import fetch from "node-fetch";
 import SearchKey from "../../../SearchKey.json";
 
@@ -52,7 +52,7 @@ it( "should find that some sentences are ambiguous", async function() {
 		// "John saw the man with a horse. "
 	);
 	const mockResearcher = new EnglishResearcher( mockPaper );
-	const PPAttachmentsResult = await checkPPAttachment( mockPaper, mockResearcher );
+	const PPAttachmentsResult = await ppGoogleSearch( mockPaper, mockResearcher );
 	const results = await Promise.all( PPAttachmentsResult.map( async( result ) => {
 		// Save results for each reading in a variable
 		// eslint-disable-next-line no-inline-comments

@@ -1,6 +1,6 @@
 import Paper from "../../../src/values/Paper";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import checkAnalytical from "../../../src/languageProcessing/researches/checkAnalytical";
+import { analyticalGoogleSearch } from "../../../src/languageProcessing/researches/checkAnalytical";
 import fetch from "node-fetch";
 import SearchKey from "../../../SearchKey.json";
 
@@ -41,7 +41,7 @@ it( "should find that some sentences are ambiguous", async function() {
 		"John is a teacher. "
 	);
 	const mockResearcher = new EnglishResearcher( mockPaper );
-	const analyticalResult = await checkAnalytical( mockPaper, mockResearcher );
+	const analyticalResult = await analyticalGoogleSearch( mockPaper, mockResearcher );
 	const results = await Promise.all( analyticalResult.map( async( result ) => {
 		// Save results for each reading in a variable
 		// eslint-disable-next-line no-inline-comments

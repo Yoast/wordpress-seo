@@ -112,23 +112,37 @@ function getReadings( tagger, sentence ) {
  * @param {Researcher} researcher The researcher to use for analysis.
  * @returns {Promise<PPAttachmentResult[]>} (potentially) syntactically ambiguous sentences.
  */
-async function findPPAttachments( sentences, researcher ) {
+function findPPAttachments( sentences, researcher ) {
 	const ambiguousSentences = [];
 
 	const tagger = researcher.getHelper( "getTagger" )();
 
-	await Promise.all( sentences.map( async( sentence ) => {
+	sentences.forEach( sentence => {
 		const result = getReadings( tagger, sentence );
 		if ( result !== null ) {
-			// result.hitsReading1 = getHits( result.reading1 );
-			// result.hitsReading2 = getHits( result.reading2 );
-
 			ambiguousSentences.push( result );
 		}
-	} ) );
+	} );
 
 	return ambiguousSentences;
 }
+// async function findPPAttachments( sentences, researcher ) {
+// 	const ambiguousSentences = [];
+//
+// 	const tagger = researcher.getHelper( "getTagger" )();
+//
+// 	await Promise.all( sentences.map( async( sentence ) => {
+// 		const result = getReadings( tagger, sentence );
+// 		if ( result !== null ) {
+// 			// result.hitsReading1 = getHits( result.reading1 );
+// 			// result.hitsReading2 = getHits( result.reading2 );
+//
+// 			ambiguousSentences.push( result );
+// 		}
+// 	} ) );
+//
+// 	return ambiguousSentences;
+// }
 
 /**
  * Finds sentences in the text that have PP attachment.
@@ -137,9 +151,16 @@ async function findPPAttachments( sentences, researcher ) {
  * @param {Researcher} 	researcher 	The researcher to use for the analysis.
  * @returns {Promise<PPAttachmentResult[]>} The ambiguous constructions from the text.
  */
-export default async function( paper, researcher ) {
+export default function( paper, researcher ) {
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+	const sentences = getSentences( paper.getText(), memoizedTokenizer );
+
+	return findPPAttachments( sentences, researcher );
+}
+
+export const ppGoogleSearch = async function( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const sentences = getSentences( paper.getText(), memoizedTokenizer );
 
 	return await findPPAttachments( sentences, researcher );
-}
+};

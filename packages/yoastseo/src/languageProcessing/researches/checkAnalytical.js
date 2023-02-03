@@ -18,7 +18,7 @@ const analyticalRegExp = new RegExp( "<JJ><NN.?><NN.?>" );
  *
  * @typedef {Object} 	analyticalResult
  * @property {string}	sentence		The sentence.
- * @property {string}	reading1		The first reading, in which the adjective attaches to the first noun.
+ * @property {string}	reading1		The first reading, in which tche adjective attaches to the first noun.
  * @property {string}	reading2		The second reading, in which the adjective attaches to the second noun.
  * @property {string[]}	construction	The ambiguous construction as a whole.
  */
@@ -105,12 +105,12 @@ function getReadings( tagger, sentence ) {
  * @param {Researcher} researcher The researcher to use for analysis.
  * @returns {Promise<PPAttachmentResult[]>} (potentially) syntactically ambiguous sentences.
  */
-async function findAnalytical( sentences, researcher ) {
+function findAnalytical( sentences, researcher ) {
 	const ambiguousSentences = [];
 
 	const tagger = researcher.getHelper( "getTagger" )();
 
-	await Promise.all( sentences.map( async( sentence ) => {
+	sentences.forEach( sentence => {
 		const result = getReadings( tagger, sentence );
 		if ( result !== null ) {
 			// result.hitsReading1 = getHits( result.reading1 );
@@ -118,10 +118,28 @@ async function findAnalytical( sentences, researcher ) {
 
 			ambiguousSentences.push( result );
 		}
-	} ) );
+	} );
 
 	return ambiguousSentences;
 }
+
+// async function findAnalytical( sentences, researcher ) {
+// 	const ambiguousSentences = [];
+//
+// 	const tagger = researcher.getHelper( "getTagger" )();
+//
+// 	await Promise.all( sentences.map( async( sentence ) => {
+// 		const result = getReadings( tagger, sentence );
+// 		if ( result !== null ) {
+// 			// result.hitsReading1 = getHits( result.reading1 );
+// 			// result.hitsReading2 = getHits( result.reading2 );
+//
+// 			ambiguousSentences.push( result );
+// 		}
+// 	} ) );
+//
+// 	return ambiguousSentences;
+// }
 /**
  * Finds sentences in the text that (potentially) have Analytical Ambiguity.
  *
@@ -135,3 +153,10 @@ export default function( paper, researcher ) {
 
 	return findAnalytical( sentences, researcher );
 }
+
+export const analyticalGoogleSearch = async function( paper, researcher ) {
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+	const sentences = getSentences( paper.getText(), memoizedTokenizer );
+
+	return await findAnalytical( sentences, researcher );
+};
