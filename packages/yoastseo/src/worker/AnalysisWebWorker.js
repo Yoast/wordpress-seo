@@ -134,6 +134,7 @@ export default class AnalysisWebWorker {
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
 		this.registerAssessor = this.registerAssessor.bind( this );
 		this.registerResearch = this.registerResearch.bind( this );
+		this.registerHelper = this.registerHelper.bind( this );
 		this.setInclusiveLanguageOptions = this.setInclusiveLanguageOptions.bind( this );
 
 		// Bind event handlers to this scope.
@@ -1362,9 +1363,18 @@ export default class AnalysisWebWorker {
 	 *
 	 * @param {string} name         The name of the research.
 	 * @param {function} research   The research function to add.
+	 *
 	 * @returns {void}
 	 */
 	registerResearch( name, research ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom research. Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( research ) ) {
+			throw new InvalidTypeError( "Failed to register the custom research. Expected parameter `research` to be a function." );
+		}
+
 		const researcher = this._researcher;
 
 		if ( ! researcher.hasResearch( name ) ) {
@@ -1410,5 +1420,29 @@ export default class AnalysisWebWorker {
 			return;
 		}
 		this.send( "runResearch:done", id, result );
+	}
+
+	/**
+	 * Registers custom helpers to the researcher.
+	 *
+	 * @param {string} name       The name of the helper.
+	 * @param {function} helper   The helper function to add.
+	 *
+	 * @returns {void}
+	 */
+	registerHelper( name, helper ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom helper. Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( helper ) ) {
+			throw new InvalidTypeError( "Failed to register the custom helper. Expected parameter `helper` to be a function." );
+		}
+
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasHelper( name ) ) {
+			researcher.addHelper( name, helper );
+		}
 	}
 }
