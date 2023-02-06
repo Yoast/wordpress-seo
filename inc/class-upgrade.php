@@ -85,7 +85,7 @@ class WPSEO_Upgrade {
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
 			'19.11-RC0'  => 'upgrade_1911',
-			'20.1-RC0'   => 'upgrade_201',
+			'20.2-RC0'   => 'upgrade_202',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -965,9 +965,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 20.1 upgrade routine.
+	 * Performs the 20.2 upgrade routine.
 	 */
-	private function upgrade_201() {
+	private function upgrade_202() {
 		if ( WPSEO_Options::get( 'disable-attachment', true ) ) {
 			$attachment_cleanup_helper = YoastSEO()->helpers->attachment_cleanup;
 
