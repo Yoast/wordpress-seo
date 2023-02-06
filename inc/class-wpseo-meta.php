@@ -1055,7 +1055,8 @@ class WPSEO_Meta {
 
 		// Check if post ids is not empty.
 		if ( ! empty( $post_ids ) ) {
-			// Get the post subtypes for the posts that share the keyword.
+			// Get the object subtypes for the posts that share the keyword.
+			// We call then post types in our javascript code. This is why we call them post types here as well.
 			$post_types = $repository->query()
 				->select( 'object_sub_type' )
 				->where_in( 'object_id', $post_ids )
