@@ -363,6 +363,23 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
+	 * Returns the filter to use within the WP Meta Query to filter
+	 * on related keyphrase.
+	 *
+	 * @param string $focus_keyphrase The focus keyphrase to filter on.
+	 *
+	 * @return array The filter.
+	 */
+	protected function get_related_keyphrase_filter( $focus_keyphrase ) {
+		return [
+			'post_type' => get_query_var( 'post_type', 'post' ),
+			'key'       => WPSEO_Meta::$meta_prefix . 'focuskeywords',
+			'value'     => '"keyword":"' . sanitize_text_field( $focus_keyphrase ) . '"',
+			'compare'   => 'LIKE',
+		];
+	}
+
+	/**
 	 * Collects the filters and merges them into a single array.
 	 *
 	 * @return array Array containing all the applicable filters.
@@ -391,7 +408,11 @@ class WPSEO_Meta_Columns {
 		if ( $this->is_valid_filter( $current_keyword_filter ) ) {
 			$active_filters = array_merge(
 				$active_filters,
-				$this->get_keyword_filter( $current_keyword_filter )
+				[
+					'relation' => 'OR',
+					$this->get_keyword_filter( $current_keyword_filter ),
+					$this->get_related_keyphrase_filter( $current_keyword_filter ),
+				]
 			);
 		}
 
