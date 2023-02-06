@@ -9,15 +9,16 @@ const { getWords, getSentences } = languageProcessing;
  * @param {string} sentence  The sentence to get wordComplexity from.
  * @param {function} complexWordsHelper A helper to check if a word is complex.
  * @param {object} wordComplexityConfig The config needed for assessing the word complexity.
+ * @param {object} functionWords The function words list.
  *
  * @returns {Array} An array of complex word objects containing the  word, the index and the complexity of the word.
  */
-const getComplexWords = function( sentence, complexWordsHelper, wordComplexityConfig ) {
+const getComplexWords = function( sentence, complexWordsHelper, wordComplexityConfig, functionWords ) {
 	const words = getWords( sentence );
 	const results = [];
 
 	words.forEach( word => {
-		if ( complexWordsHelper( wordComplexityConfig, word ) ) {
+		if ( complexWordsHelper( wordComplexityConfig, word, functionWords ) ) {
 			results.push( word );
 		}
 	} );
@@ -64,6 +65,7 @@ export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const wordComplexityHelper = researcher.getHelper( "checkIfWordIsComplex" );
 	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
+	const functionWords = researcher.getConfig( "functionWords" );
 
 	const text = paper.getText();
 	const sentences = getSentences( text, memoizedTokenizer );
@@ -71,7 +73,7 @@ export default function wordComplexity( paper, researcher ) {
 	// Only returns the complex words of the sentence.
 	let results = sentences.map( sentence => {
 		return {
-			complexWords: getComplexWords( sentence, wordComplexityHelper, wordComplexityConfig ),
+			complexWords: getComplexWords( sentence, wordComplexityHelper, wordComplexityConfig, functionWords ),
 			sentence: sentence,
 		};
 	} );

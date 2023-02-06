@@ -1,5 +1,3 @@
-import functionWords from "../config/functionWords";
-
 const suffixes = "(en|e|s)$";
 const suffixesRegex = new RegExp( suffixes );
 
@@ -9,10 +7,11 @@ const suffixesRegex = new RegExp( suffixes );
  *
  * @param {object} wordComplexityConfig The config needed for assessing the word complexity.
  * @param {string} word The word to check.
+ * @param {object} functionWords The function words list.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( wordComplexityConfig, word ) {
+export default function checkIfWordIsComplex( wordComplexityConfig, word, functionWords ) {
 	const lengthLimit = wordComplexityConfig.wordLength;
 	const frequencyList = wordComplexityConfig.frequencyList;
 	// All words are converted to lower case before processing to avoid excluding complex words that start with a capital letter.
