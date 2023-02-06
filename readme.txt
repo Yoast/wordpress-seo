@@ -251,6 +251,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-02-07
 
+Create a more inclusive online world with Yoast SEO 20.1. Our improved inclusive language analysis provides real-time feedback and offers suggestions to help your content reach a broader audience. For our Premium users, there's a bonus - a new Mastodon integration to take your online presence to the next level. Get it now! Find out more about what's new in Yoast SEO 20.1 in [our release post](https://yoa.st/release-7-2-23)!
+
 #### Enhancements
 
 * Adds a link to the first time configuration in the plugin overview when this is not completed yet.
@@ -267,8 +269,8 @@ Release date: 2023-02-07
 #### Bugfixes
 
 * Fixes a bug where the _Format archives_ settings would not work correctly when the `post_format` taxonomy is disabled.
-* Fixes a bug where the highlighting feature in the Classic editor would not work when inline HTML tags were present.
 * Fixes a bug where the _Media pages_ settings would not work correctly when the `attachment` post type is filtered out via `wpseo_indexable_excluded_post_types`.
+* Fixes a bug where the highlighting feature in the Classic editor would not work when inline HTML tags were present.
 * Fixes a bug where the settings' introduction modal would not be visible on wider screens with less than ~700 pixels height.
 * Fixes a bug where `wpseo_opengraph_image_size` is used to set custom size to `og:image` but doesn't work when uploading an image with the same size as the custom size.
 
