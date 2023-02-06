@@ -113,8 +113,13 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	}
 
 	if ( count > 1 ) {
-		// eslint-disable-next-line max-len
-		url = `<a href='${this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) )}&post_type=${postTypeToDisplay}' target='_blank'>`;
+		if ( postTypeToDisplay ) {
+			// eslint-disable-next-line max-len
+			url = `<a href='${this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) )}&post_type=${postTypeToDisplay}' target='_blank'>`;
+		} else {
+			url = `<a href='${this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) )}' target='_blank'>`;
+		}
+
 		return {
 			/* Translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
 			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
@@ -148,12 +153,15 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 	let postTypeToDisplay = "";
 	var id = 0;
 
-	if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
+	if ( ! isUndefined( this.usedKeywords[ keyword ] ) && ! isUndefined( this.usedKeywords[ keyword ].post_ids ) ) {
 		count = this.usedKeywords[ keyword ].post_ids.length;
 
 		postTypeToDisplay = this.usedKeywords[ keyword ].post_types[ 0 ];
 
-		id = this.usedKeywords[ keyword ].post_ids;
+		id = this.usedKeywords[ keyword ].post_ids[ 0 ];
+	} else if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
+		count = this.usedKeywords[ keyword ].length;
+		id = this.usedKeywords[ keyword ][ 0 ];
 	}
 
 	return {
