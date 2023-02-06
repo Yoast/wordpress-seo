@@ -1,14 +1,12 @@
-import wordComplexity from "../config/internal/wordComplexity";
-
 /**
  * Checks if a word is complex.
  *
+ * @param {object} wordComplexityConfig The config needed for assessing the word complexity.
  * @param {string} word The word to check.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
+export default function checkIfWordIsComplex( wordComplexityConfig, word ) {
 	const lengthLimit = wordComplexityConfig.wordLength;
 	const frequencyList = wordComplexityConfig.frequencyList;
 	// Whether uppercased beginning of a word decreases its complexity.
