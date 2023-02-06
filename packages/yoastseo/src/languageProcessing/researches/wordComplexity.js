@@ -1,6 +1,7 @@
-import getWords from "../helpers/word/getWords.js";
-import getSentences from "../helpers/sentence/getSentences.js";
 import { flatMap } from "lodash-es";
+import { languageProcessing } from "yoastseo";
+
+const { getWords, getSentences } = languageProcessing;
 
 /**
  * Gets the complex word, along with the index for the sentence.
