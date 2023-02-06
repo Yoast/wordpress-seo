@@ -160,6 +160,7 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 
 		id = this.usedKeywords[ keyword ].post_ids[ 0 ];
 	} else if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
+		// This situation is true when we are dealing with taxonomies instead of posts.
 		count = this.usedKeywords[ keyword ].length;
 		id = this.usedKeywords[ keyword ][ 0 ];
 	}
