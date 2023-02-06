@@ -567,14 +567,10 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 /**
 * Content and SEO score in publish bar
 */
-.yoast-seo-score {
-  display: flex;
-}
-
 .yoast-seo-score .yoast-logo.svg {
   float: left;
-  width: 24px;
-  margin-right: 1px;
+  width: 18px;
+  margin-right: 7px;
   height: 18px;
   background: var(--yoast-svg-icon-yoast) no-repeat;
   background-size: 18px;
@@ -702,21 +698,26 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   align-items: center;
 }
 
+.yoast-seo-sidebar-panel .yoast-analysis-check {
+  display: flex;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check svg {
+  margin-right: 5px;
+  margin-top: 6px;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check span {
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
 .yoast-seo-sidebar-panel div {
 	line-height: 2;
-  display: flex;
 }
 
 .yoast-seo-sidebar-panel div svg {
 	vertical-align: middle;
-  flex-direction: 0;
-  margin-right: 8px;
-  margin-top: 4px;
-}
-
-.yoast-seo-sidebar-panel div span {
-  line-height: 1.5;
-  margin-top: 3px;
 }
 
 ul.yoast-seo-social-share-buttons li {
