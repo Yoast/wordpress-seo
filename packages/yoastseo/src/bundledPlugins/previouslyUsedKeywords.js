@@ -148,10 +148,10 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
  * @returns {{id: number, count: number}} The object with the count and the id of the previously used keyword
  */
 PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper ) {
-	var keyword = paper.getKeyword();
-	var count = 0;
+	const keyword = paper.getKeyword();
+	let count = 0;
 	let postTypeToDisplay = "";
-	var id = 0;
+	let id = 0;
 
 	if ( ! isUndefined( this.usedKeywords[ keyword ] ) && ! isUndefined( this.usedKeywords[ keyword ].post_ids ) ) {
 		count = this.usedKeywords[ keyword ].post_ids.length;
