@@ -255,7 +255,14 @@ Release date: 2023-02-07
 
 * Adds a link to the first time configuration in the plugin overview when this is not completed yet.
 * Adds the site name to the Google preview for mobile.
-* Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
+* Improves the _inclusive language analysis_ by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
+  * Adds word form support (singular vs. plural, different verb forms) for some non-inclusive phrases.
+  * Improves the feedback strings and suggested alternatives for phrases containing the terms "crazy" and "OCD".
+  * Improves the feedback strings pertaining to medical conditions.
+  * Improves the feedback strings for "binge", "preferred pronouns", and "preferred name".
+  * Changes the scoring and improves the feedback string for "ladies and gentleman".
+  * Changes the feedback in the publish box from "OK" to "Potentially non-inclusive".
+  * Excludes the phrases "binge drinking/drinks/drink" and "exotic shorthairs/longhairs" from being targeted as non-inclusive.
 
 #### Bugfixes
 
