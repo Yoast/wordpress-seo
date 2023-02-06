@@ -1024,7 +1024,7 @@ class WPSEO_Meta {
 			->where( 'primary_focus_keyword', $keyword )
 			->where( 'object_type', 'post' )
 			->where_not_equal( 'object_id', $post_id )
-			->limit( 2 )    // limit to 2 results to save time and resources.
+			->limit( 2 )    // Limit to 2 results to save time and resources.
 			->find_array();
 
 		// Get object_id from each subarray in $post_ids.
