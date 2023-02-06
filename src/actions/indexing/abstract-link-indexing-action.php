@@ -61,10 +61,12 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 		$indexables = [];
 		foreach ( $objects as $object ) {
 			$indexable = $this->repository->find_by_id_and_type( $object->id, $object->type );
-			$this->link_builder->build( $indexable, $object->content );
-			$indexable->save();
+			if ( $indexable ) {
+				$this->link_builder->build( $indexable, $object->content );
+				$indexable->save();
 
-			$indexables[] = $indexable;
+				$indexables[] = $indexable;
+			}
 		}
 
 		if ( \count( $indexables ) > 0 ) {
