@@ -1052,19 +1052,26 @@ class WPSEO_Meta {
 			$post_ids = apply_filters( 'wpseo_posts_for_focus_keyword', $post_ids, $keyword, $post_id );
 		}
 
-		// Retrieve the post subtypes for the posts that share the keyword.
-		$post_types = $repository->query()
-			->select( 'object_sub_type' )
-			->where_in( 'object_id', $post_ids )
-			->find_array();
+		// If post ids is not empty
+		if ( ! empty( $post_ids ) ) {
+			// Get the post subtypes for the posts that share the keyword.
+			$post_types = $repository->query()
+				->select( 'object_sub_type' )
+				->where_in( 'object_id', $post_ids )
+				->find_array();
 
-		// Get object_sub_type from each subarray in $post_ids.
-		$post_types = array_map(
-			function( $row ) {
-				return $row['object_sub_type'];
-			},
-			$post_types
-		);
+			// Get object_sub_type from each subarray in $post_ids.
+			$post_types = array_map(
+				function( $row ) {
+					return $row['object_sub_type'];
+				},
+				$post_types
+			);
+		}
+		else {
+			$post_types = [];
+		}
+		
 
 		return [
 			'post_ids'   => $post_ids,
