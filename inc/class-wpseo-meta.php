@@ -1052,7 +1052,7 @@ class WPSEO_Meta {
 			$post_ids = apply_filters( 'wpseo_posts_for_focus_keyword', $post_ids, $keyword, $post_id );
 		}
 
-		// If post ids is not empty
+		// Check if post ids is not empty.
 		if ( ! empty( $post_ids ) ) {
 			// Get the post subtypes for the posts that share the keyword.
 			$post_types = $repository->query()
@@ -1071,7 +1071,7 @@ class WPSEO_Meta {
 		else {
 			$post_types = [];
 		}
-		
+
 
 		return [
 			'post_ids'   => $post_ids,
