@@ -1,6 +1,7 @@
 import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity.js";
 import Paper from "../../../src/values/Paper";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import wordComplexityHelperEnglish from "../../../src/languageProcessing/languages/en/helpers/checkIfWordIsComplex";
 
 describe( "a test for getting the complex words in the sentence and calculating their percentage",  function() {
 	it( "returns an array with the complex words from the text in English", function() {
@@ -18,6 +19,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 			"an amalgamation of Calico and Tabby." );
 
 		const researcher = new Researcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [
 			{
@@ -51,6 +53,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 	it( "should return an empty array and 0% if there is no complex word found in the text", () => {
 		const paper = new Paper( "This is short text. This is another short text. A text about Calico." );
 		const researcher = new Researcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
@@ -60,24 +63,28 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		"Also test with a word starting with capital letter enclosed in different types of quotation mark.", () => {
 		let paper = new Paper( "This is short text. This is another short text. A text about \"Calico\"." );
 		let researcher = new Researcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
 		paper = new Paper( "This is short text. This is another short text. A text about 'Calico'." );
 		researcher = new Researcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
 		paper = new Paper( "This is short text. This is another short text. A text about ’Calico’." );
 		researcher = new Researcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
 		paper = new Paper( "This is short text. This is another short text. A text about ‘Calico‘." );
 		researcher = new Researcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
