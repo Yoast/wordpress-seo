@@ -251,6 +251,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-02-21
 
+#### Enhancements:
+
+* Improves the Settings' search modal accessibility.
+* Improves accessibility for the extra other profiles in the Settings' Site representation when Organisation is selected.
+* Removes person's social profiles form from first time configuration.
+* Changes the copy for notices in social profiles for person.
+* Changes replacement variable name from Page number to Page in the Settings page.
+* Improves the indexables creation mechanism by avoiding duplicate unindexed entries when multiple invalid posts and terms are being used.
+* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
+* Improves handling of image schema creation for really large images.
+
+#### Bugfixes:
+
+* Fixes a bug where the settings page of a post type would not load when a special character like ט was added as permalink.
+
+#### Other:
+
+* Hides "Enable SEO controls and assessments" option from taxonomies that has no standard WP UI.
+* Adds a `wpseo_indexable_forced_included_post_types` filter to force creation of indexables for post types.
+
 = 20.1 =
 
 Release date: 2023-02-07
