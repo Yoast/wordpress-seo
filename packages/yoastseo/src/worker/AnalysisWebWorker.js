@@ -788,6 +788,8 @@ export default class AnalysisWebWorker {
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
 	registerAssessment( name, assessment, pluginName, type = "seo" ) {
+		const { useCornerstone } = this._configuration;
+
 		if ( ! isString( name ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 		}
@@ -809,6 +811,10 @@ export default class AnalysisWebWorker {
 			this._seoAssessor.addAssessment( combinedName, assessment );
 		}
 		if ( this._contentAssessor !== null && type === "readability" ) {
+			this._contentAssessor.addAssessment( combinedName, assessment );
+		}
+		if ( this._contentAssessor !== null && type === "cornerstoneReadability" && useCornerstone ) {
+			// If the assessment if for cornerstorne content, add it to the cornerstone assessor specifically
 			this._contentAssessor.addAssessment( combinedName, assessment );
 		}
 		if ( this._relatedKeywordAssessor !== null && type === "relatedKeyphrase" ) {
