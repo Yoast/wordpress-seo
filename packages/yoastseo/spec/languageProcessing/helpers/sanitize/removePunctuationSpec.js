@@ -9,6 +9,14 @@ describe( "a test for removing punctuation from a string", function() {
 		expect( removePunctuation( "-test" ) ).toBe( "test" );
 	} );
 
+	it( "returns string with word starting with a period untouched", function() {
+		expect( removePunctuation( ".test" ) ).toBe( ".test" );
+	} );
+
+	it( "returns string with period in the end", function() {
+		expect( removePunctuation( "test." ) ).toBe( "test" );
+	} );
+
 	it( "returns string with punctuation in middle of word untouched", function() {
 		expect( removePunctuation( "te-st" ) ).toBe( "te-st" );
 	} );
