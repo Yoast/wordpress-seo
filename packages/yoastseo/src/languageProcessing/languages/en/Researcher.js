@@ -14,7 +14,6 @@ import wordComplexity from "./config/wordComplexity";
 import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
-import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
 
 /**
  * The researches contains all the researches
@@ -44,7 +43,6 @@ export default class Researcher extends AbstractResearcher {
 			getClauses,
 			getStemmer,
 			fleschReadingScore,
-			checkIfWordIsComplex,
 		} );
 	}
 }
