@@ -108,9 +108,6 @@ class WPSEO_Admin_Pages {
 			$script_data['searchAppearance'] = [
 				'isRtl'                            => is_rtl(),
 				'userEditUrl'                      => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
-				'brushstrokeBackgroundURL'         => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
-				'showLocalSEOUpsell'               => $this->should_show_local_seo_upsell(),
-				'localSEOUpsellURL'                => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
 				'knowledgeGraphCompanyInfoMissing' => WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n(),
 			];
 
@@ -181,20 +178,6 @@ class WPSEO_Admin_Pages {
 			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
 			'hidden_replace_vars'          => $replace_vars->get_hidden_replace_vars(),
 		];
-	}
-
-	/**
-	 * Determines whether the Local SEO upsell should be shown.
-	 *
-	 * The Local SEO upsell should:
-	 * - Only be shown in Free, not when Premium is active.
-	 * - Not be shown when Local SEO is active.
-	 *
-	 * @return bool Whether the Local SEO upsell should be shown.
-	 */
-	private function should_show_local_seo_upsell() {
-		return ! YoastSEO()->helpers->product->is_premium()
-			&& ! ( defined( 'WPSEO_LOCAL_FILE' ) );
 	}
 
 	/**

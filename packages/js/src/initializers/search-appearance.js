@@ -3,7 +3,6 @@ import { Fragment, render } from "@wordpress/element";
 import { SlotFillProvider } from "@wordpress/components";
 import { ThemeProvider } from "styled-components";
 import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
-import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 
 /**
  * @summary Initializes the search appearance settings script.
@@ -18,9 +17,6 @@ export default function initSearchAppearance() {
 	};
 
 	const {
-		showLocalSEOUpsell,
-		localSEOUpsellURL,
-		brushstrokeBackgroundURL,
 		knowledgeGraphCompanyInfoMissing,
 	} = wpseoScriptData.searchAppearance;
 
@@ -33,13 +29,6 @@ export default function initSearchAppearance() {
 						message={ knowledgeGraphCompanyInfoMissing.message }
 						link={ knowledgeGraphCompanyInfoMissing.URL }
 					/>
-					{ showLocalSEOUpsell && (
-						<LocalSEOUpsellPortal
-							target="wpseo-local-seo-upsell"
-							url={ localSEOUpsellURL }
-							backgroundUrl={ brushstrokeBackgroundURL }
-						/>
-					) }
 				</Fragment>
 			</SlotFillProvider>
 		</ThemeProvider>,
