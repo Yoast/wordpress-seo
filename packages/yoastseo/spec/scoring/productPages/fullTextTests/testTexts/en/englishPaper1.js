@@ -161,11 +161,7 @@ const expectedResults = {
 			"<a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!",
 	},
 	wordComplexity: {
-		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.52% of the words in your " +
-			"text are considered complex. <a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more" +
-			" familiar words to improve readability</a>.",
+		isApplicable: false,
 	},
 };
 
