@@ -154,13 +154,14 @@ class WPSEO_Admin_Pages {
 			$script_data['social'] = [
 				'facebook_url'      => WPSEO_Options::get( 'facebook_site', '' ),
 				'twitter_username'  => WPSEO_Options::get( 'twitter_site', '' ),
+				'mastodon_url'      => WPSEO_Options::get( 'mastodon_url', '' ),
 				'other_social_urls' => WPSEO_Options::get( 'other_social_urls', [] ),
 				'company_or_person' => WPSEO_Options::get( 'company_or_person', '' ),
 				'user_id'           => $user_id,
 				'user_name'         => $user_name,
 			];
 
-			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_titles' );
+			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' );
 
 			$script_data['force_organization'] = ( defined( 'WPSEO_LOCAL_FILE' ) );
 		}

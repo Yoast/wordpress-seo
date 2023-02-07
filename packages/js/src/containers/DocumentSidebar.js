@@ -5,6 +5,7 @@ import AnalysisChecklist from "../components/AnalysisChecklist";
 import {
 	maybeAddReadabilityCheck,
 	maybeAddSEOCheck,
+	maybeAddInclusiveLanguageCheck,
 	maybeAddSchemaBlocksValidationCheck,
 } from "../helpers/addCheckToChecklist";
 
@@ -24,6 +25,7 @@ export function mapSelectToProps( select ) {
 
 	maybeAddReadabilityCheck( checklist, yoastStore );
 	maybeAddSEOCheck( checklist, yoastStore );
+	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
 	maybeAddSchemaBlocksValidationCheck( checklist, yoastSchemaStore, wpBlockEditorStore );
 
 	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );

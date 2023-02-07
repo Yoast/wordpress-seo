@@ -45,6 +45,45 @@ const preloadUsers = async( { settings } ) => {
 	}
 };
 
+/**
+ * Fixes the WordPress skip links.
+ *
+ * By disabling the default behavior of the links and focusing the elements.
+ *
+ * @returns {void}
+ */
+const fixFocusLinkCompatibility = () => {
+	const wpContentBody = document.querySelector( "[href=\"#wpbody-content\"]" );
+	wpContentBody.addEventListener( "click", e => {
+		e.preventDefault();
+		// Try to focus the Yoast logo if in "mobile" view.
+		if ( window.outerWidth > 782 ) {
+			document.getElementById( "link-yoast-logo" )?.focus();
+			return;
+		}
+		// Try to focus the open sidebar navigation button.
+		document.getElementById( "button-open-settings-navigation-mobile" )?.focus();
+	} );
+	const wpToolbar = document.querySelector( "[href=\"#wp-toolbar\"]" );
+	wpToolbar.addEventListener( "click", e => {
+		e.preventDefault();
+		document.querySelector( "#wp-admin-bar-wp-logo a" )?.focus();
+	} );
+};
+
+/**
+ * Enforce a minimum height on the WP content that is the height of the WP menu.
+ *
+ * This prevents it from going into the fixed mode.
+ *
+ * @returns {void}
+ */
+const matchWpMenuHeight = () => {
+	const wpcontent = document.getElementById( "wpcontent" );
+	const menu = document.getElementById( "adminmenuwrap" );
+	wpcontent.style.minHeight = `${ menu.offsetHeight }px`;
+};
+
 domReady( () => {
 	const root = document.getElementById( "yoast-seo-settings" );
 	if ( ! root ) {
@@ -64,6 +103,8 @@ domReady( () => {
 	registerStore();
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
+	fixFocusLinkCompatibility();
+	matchWpMenuHeight();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 

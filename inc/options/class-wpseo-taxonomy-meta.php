@@ -59,6 +59,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_focuskw'                  => '',
 		'wpseo_linkdex'                  => '',
 		'wpseo_content_score'            => '',
+		'wpseo_inclusive_language_score' => '',
 		'wpseo_focuskeywords'            => '[]',
 		'wpseo_keywordsynonyms'          => '[]',
 		'wpseo_is_cornerstone'           => '0',

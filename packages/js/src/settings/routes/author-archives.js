@@ -4,7 +4,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, Link } from "@yoast/ui-library";
 import FeatureUpsell from "@yoast/ui-library/src/components/feature-upsell";
 import { useFormikContext } from "formik";
-import { toLower } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -14,6 +13,7 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
+import { safeToLocaleLower } from "../helpers";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
@@ -25,8 +25,9 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
 const AuthorArchives = () => {
 	const label = __( "Author archives", "wordpress-seo" );
 	const singularLabel = __( "Author archive", "wordpress-seo" );
-	const labelLower = useMemo( () => toLower( label ), [ label ] );
-	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
+	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
 
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "author_archives", "custom-post-type_archive" );
@@ -71,7 +72,7 @@ const AuthorArchives = () => {
 			// eslint-disable-next-line jsx-a11y/anchor-has-content, react/jsx-no-target-blank
 			a: <a href={ duplicateContentInfoLink } target="_blank" rel="noopener" />,
 		}
-	) );
+	), [] );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
@@ -90,7 +91,7 @@ const AuthorArchives = () => {
 				<div className="yst-max-w-5xl">
 					<FormikFlippedToggleField
 						name={ "wpseo_titles.disable-author" }
-						data-id={ "input-wpseo_titles-disable-author" }
+						id={ "input-wpseo_titles-disable-author" }
 						label={ sprintf(
 							// translators: %1$s expands to "author archives".
 							__( "Enable %1$s", "wordpress-seo" ),
@@ -114,7 +115,7 @@ const AuthorArchives = () => {
 					>
 						<FormikFlippedToggleField
 							name="wpseo_titles.noindex-author-wpseo"
-							data-id="input-wpseo_titles-noindex-author-wpseo"
+							id="input-wpseo_titles-noindex-author-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to "author archives".
 								__( "Show %1$s in search results", "wordpress-seo" ),
@@ -126,18 +127,20 @@ const AuthorArchives = () => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
-										&nbsp;
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
 							disabled={ isAuthorArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isAuthorArchivesDisabled ? false : ! isAuthorNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikFlippedToggleField
 							name="wpseo_titles.noindex-author-noposts-wpseo"
-							data-id="input-wpseo_titles-noindex-author-noposts-wpseo"
+							id="input-wpseo_titles-noindex-author-noposts-wpseo"
 							label={ sprintf(
 								// translators: %1$s expands to "author archives".
 								__( "Show %1$s without posts in search results", "wordpress-seo" ),
@@ -148,7 +151,7 @@ const AuthorArchives = () => {
 								__( "Disabling this means that %1$s without any posts will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 								labelLower
 							) }
-							checked={ ! isAuthorNoIndex && ! isAuthorNoIndexNoPosts }
+							checked={ isAuthorArchivesDisabled ? false : ! isAuthorNoIndex && ! isAuthorNoIndexNoPosts }
 							disabled={ isAuthorArchivesDisabled || isAuthorNoIndex }
 							className="yst-max-w-sm"
 						/>
@@ -180,7 +183,7 @@ const AuthorArchives = () => {
 						</div> }
 						description={ sprintf(
 							// translators: %1$s expands to "author archives".
-							__( "Determine how your %1$s should look on social media by default.", "wordpress-seo" ),
+							__( "Determine how your %1$s should look on social media.", "wordpress-seo" ),
 							labelLower
 						) }
 					>

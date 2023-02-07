@@ -83,18 +83,3 @@ do_action_deprecated(
 	'',
 	'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
 );
-
-/**
- * Allow adding custom checkboxes to the admin meta page - Taxonomies tab.
- *
- * @deprecated 16.3 Use {@see 'Yoast\WP\SEO\admin_taxonomies_meta'} instead.
- *
- * @param Yoast_Form  $yform          The Yoast_Form object.
- * @param WP_Taxonomy $wpseo_taxonomy The taxonomy.
- */
-do_action_deprecated(
-	'wpseo_admin_page_meta_taxonomies',
-	[ $yform, $wpseo_taxonomy ],
-	'16.3',
-	'Yoast\WP\SEO\admin_taxonomies_meta'
-);

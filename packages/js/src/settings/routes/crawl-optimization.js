@@ -6,10 +6,12 @@ import { Alert, Button, Code, TextField, ToggleField, useSvgAria } from "@yoast/
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
-import { withDisabledMessageSupport, withFormikDummyField } from "../hocs";
+import { withDisabledMessageSupport, withFormikDummyField, withFormikError } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
 const FormikFieldWithDummy = withFormikDummyField( Field );
+const FormikFieldWithDummyAndError = withFormikError( FormikFieldWithDummy );
+
 const FormikTagFieldWithDummy = withFormikDummyField( FormikTagField );
 const FormikValueChangeFieldWithDummy = withFormikDummyField( withDisabledMessageSupport( FormikValueChangeField ) );
 
@@ -162,6 +164,20 @@ const CrawlOptimization = () => {
 		} ),
 
 		// Internal site search cleanup.
+		redirectSearchPrettyUrls: createInterpolateElement(
+			sprintf(
+				/* translators: %1$s, %2$s and %3$s expand to example parts of a URL, surrounded by <code> tags. */
+				__( "Consolidates WordPress' multiple site search URL formats into the %1$s syntax. E.g., %2$s will redirect to %3$s", "wordpress-seo" ),
+				"<code1/>",
+				"<code2/>",
+				"<code3/>"
+			),
+			{
+				code1: <Code>?s=</Code>,
+				code2: <Code variant="block">https://www.example.com/search/cats</Code>,
+				code3: <Code variant="block">https://www.example.com/?s=cats</Code>,
+			}
+		),
 		denySearchCrawling: createInterpolateElement(
 			sprintf(
 				/* translators: %1$s and %2$s expand to example parts of a URL, surrounded by <code> tags. */
@@ -235,15 +251,15 @@ const CrawlOptimization = () => {
 				 * %1$s expands to `<code>unknown_parameter</code>`.
 				 * %2$s and %3$s both expand to an example within a <code> tag.
 				 */
-				__( "Prevents specific URL parameters from being removed by the above feature. E.g., adding %1$s will prevent %2$s from being redirected to %3$s", "wordpress-seo" ),
+				__( "Prevents specific URL parameters from being removed by the above feature. E.g., adding %1$s will prevent %2$s from being redirected to %3$s. You can add multiple parameters and separate them by using enter or a comma.", "wordpress-seo" ),
 				"<code1/>",
 				"<code2/>",
 				"<code3/>"
 			),
 			{
 				code1: <Code>unknown_parameter</Code>,
-				code2: <Code variant="block">https://www.example.com/?unknown_parameter=yes</Code>,
-				code3: <Code variant="block">https://www.example.com</Code>,
+				code2: <Code>https://www.example.com/?unknown_parameter=yes</Code>,
+				code3: <Code>https://www.example.com</Code>,
 			}
 		),
 	} ), [] );
@@ -293,7 +309,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_shortlinks"
-							data-id="input-wpseo-remove_shortlinks"
+							id="input-wpseo-remove_shortlinks"
 							label={ __( "Remove shortlinks", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -306,7 +322,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_rest_api_links"
-							data-id="input-wpseo-remove_rest_api_links"
+							id="input-wpseo-remove_rest_api_links"
 							label={ __( "Remove REST API links", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -319,7 +335,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_rsd_wlw_links"
-							data-id="input-wpseo-remove_rsd_wlw_links"
+							id="input-wpseo-remove_rsd_wlw_links"
 							label={ __( "Remove RSD / WLW links", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -332,7 +348,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_oembed_links"
-							data-id="input-wpseo-remove_oembed_links"
+							id="input-wpseo-remove_oembed_links"
 							label={ __( "Remove oEmbed links", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -345,7 +361,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_generator"
-							data-id="input-wpseo-remove_generator"
+							id="input-wpseo-remove_generator"
 							label={ __( "Remove generator tag", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -358,7 +374,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_pingback_header"
-							data-id="input-wpseo-remove_pingback_header"
+							id="input-wpseo-remove_pingback_header"
 							label={ __( "Pingback HTTP header", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -371,7 +387,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_powered_by_header"
-							data-id="input-wpseo-remove_powered_by_header"
+							id="input-wpseo-remove_powered_by_header"
 							label={ __( "Remove powered by HTTP header", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -390,7 +406,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_global"
-							data-id="input-wpseo-remove_feed_global"
+							id="input-wpseo-remove_feed_global"
 							label={ __( "Remove global feed", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -403,7 +419,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_global_comments"
-							data-id="input-wpseo-remove_feed_global_comments"
+							id="input-wpseo-remove_feed_global_comments"
 							label={ __( "Remove global comment feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -417,7 +433,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_post_comments"
-							data-id="input-wpseo-remove_feed_post_comments"
+							id="input-wpseo-remove_feed_post_comments"
 							label={ __( "Remove post comments feeds", "wordpress-seo" ) }
 							disabled={ removeFeedGlobalComments }
 							checked={ removeFeedGlobalComments || removeFeedPostComments }
@@ -432,7 +448,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_authors"
-							data-id="input-wpseo-remove_feed_authors"
+							id="input-wpseo-remove_feed_authors"
 							label={ __( "Remove post authors feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -445,7 +461,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_post_types"
-							data-id="input-wpseo-remove_feed_post_types"
+							id="input-wpseo-remove_feed_post_types"
 							label={ __( "Remove post type feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -458,7 +474,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_categories"
-							data-id="input-wpseo-remove_feed_categories"
+							id="input-wpseo-remove_feed_categories"
 							label={ __( "Remove category feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -471,7 +487,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_tags"
-							data-id="input-wpseo-remove_feed_tags"
+							id="input-wpseo-remove_feed_tags"
 							label={ __( "Remove tag feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -484,7 +500,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_custom_taxonomies"
-							data-id="input-wpseo-remove_feed_custom_taxonomies"
+							id="input-wpseo-remove_feed_custom_taxonomies"
 							label={ __( "Remove custom taxonomy feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -497,7 +513,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_feed_search"
-							data-id="input-wpseo-remove_feed_search"
+							id="input-wpseo-remove_feed_search"
 							label={ __( "Remove search results feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -510,7 +526,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_atom_rdf_feeds"
-							data-id="input-wpseo-remove_atom_rdf_feeds"
+							id="input-wpseo-remove_atom_rdf_feeds"
 							label={ __( "Remove Atom / RDF feeds", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -529,7 +545,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.remove_emoji_scripts"
-							data-id="input-wpseo-remove_emoji_scripts"
+							id="input-wpseo-remove_emoji_scripts"
 							label={ __( "Remove emoji scripts", "wordpress-seo" ) }
 							description={ __( "Remove JavaScript used for converting emoji characters in older browsers.", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
@@ -539,7 +555,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.deny_wp_json_crawling"
-							data-id="input-wpseo-deny_wp_json_crawling"
+							id="input-wpseo-deny_wp_json_crawling"
 							label={ __( "Remove WP-JSON API", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
@@ -558,19 +574,19 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.search_cleanup"
-							data-id="input-wpseo-search_cleanup"
+							id="input-wpseo-search_cleanup"
 							label={ __( "Filter search terms", "wordpress-seo" ) }
 							description={ __( "Enables advanced settings for protecting your internal site search URLs.", "wordpress-seo" ) }
 							isDummy={ ! isPremium }
 							className="yst-max-w-2xl"
 						/>
-						<FormikFieldWithDummy
+						<FormikFieldWithDummyAndError
 							as={ TextField }
-							type="text"
+							type="number"
 							name="wpseo.search_character_limit"
 							id="input-wpseo-search_character_limit"
 							label={ __( "Max number of characters to allow in searches", "wordpress-seo" ) }
-							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs.", "wordpress-seo" ) }
+							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs. Please enter a number between 1 and 50.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
 							isDummy={ ! isPremium }
 						/>
@@ -578,7 +594,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.search_cleanup_emoji"
-							data-id="input-wpseo-search_cleanup_emoji"
+							id="input-wpseo-search_cleanup_emoji"
 							label={ __( "Filter searches with emojis and other special characters", "wordpress-seo" ) }
 							description={ __( "Block internal site searches which contain complex and non-alphanumeric characters, as they may be part of a spam attack.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
@@ -590,7 +606,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.search_cleanup_patterns"
-							data-id="input-wpseo-search_cleanup_patterns"
+							id="input-wpseo-search_cleanup_patterns"
 							label={ __( "Filter searches with common spam patterns", "wordpress-seo" ) }
 							description={ __( "Block internal site searches which match the patterns of known spam attacks.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
@@ -601,8 +617,18 @@ const CrawlOptimization = () => {
 						<FormikValueChangeFieldWithDummy
 							as={ ToggleField }
 							type="checkbox"
+							name="wpseo.redirect_search_pretty_urls"
+							id="input-wpseo-redirect_search_pretty_urls"
+							label={ __( "Redirect pretty URLs to ‘raw’ formats", "wordpress-seo" ) }
+							description={ descriptions.redirectSearchPrettyUrls }
+							isDummy={ ! isPremium }
+							className="yst-max-w-2xl"
+						/>
+						<FormikValueChangeFieldWithDummy
+							as={ ToggleField }
+							type="checkbox"
 							name="wpseo.deny_search_crawling"
-							data-id="input-wpseo-deny_search_crawling"
+							id="input-wpseo-deny_search_crawling"
 							label={ __( "Prevent crawling of internal site search URLs", "wordpress-seo" ) }
 							description={ descriptions.denySearchCrawling }
 							isDummy={ ! isPremium }
@@ -631,7 +657,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.clean_campaign_tracking_urls"
-							data-id="input-wpseo-clean_campaign_tracking_urls"
+							id="input-wpseo-clean_campaign_tracking_urls"
 							label={ __( "Optimize Google Analytics utm tracking parameters", "wordpress-seo" ) }
 							description={ descriptions.cleanCampaignTrackingUrls }
 							isDummy={ ! isPremium }
@@ -641,7 +667,7 @@ const CrawlOptimization = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.clean_permalinks"
-							data-id="input-wpseo-clean_permalinks"
+							id="input-wpseo-clean_permalinks"
 							label={ __( "Remove unregistered URL parameters", "wordpress-seo" ) }
 							description={ descriptions.cleanPermalinks }
 							isDummy={ ! isPremium }
