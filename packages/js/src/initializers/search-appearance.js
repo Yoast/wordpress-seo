@@ -7,7 +7,6 @@ import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 import PersonImageFallbackInfoPortal from "../components/portals/PersonImageFallbackInfoPortal";
 import SettingsReplacementVariableEditors from "../components/SettingsReplacementVariableEditors";
-import SchemaSettings from "../containers/SchemaSettings";
 import { __ } from "@wordpress/i18n";
 
 /**
@@ -18,8 +17,6 @@ export default function initSearchAppearance() {
 	const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 	const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
 	const imagePortals = Array.from( document.querySelectorAll( "[data-react-image-portal]" ) );
-
-	const schemaSettingsElements = document.querySelectorAll( "[data-schema-settings]" );
 
 	const element = document.createElement( "div" );
 	document.body.appendChild( element );
@@ -100,7 +97,6 @@ export default function initSearchAppearance() {
 							backgroundUrl={ brushstrokeBackgroundURL }
 						/>
 					) }
-					<SchemaSettings targets={ schemaSettingsElements } />
 				</Fragment>
 			</SlotFillProvider>
 		</ThemeProvider>,

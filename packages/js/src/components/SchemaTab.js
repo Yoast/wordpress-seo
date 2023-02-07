@@ -6,7 +6,6 @@ import { makeOutboundLink, join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { schemaTypeOptionsPropType } from "./SchemaSettings";
 import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const NewsLandingPageLink = makeOutboundLink();
@@ -228,6 +227,11 @@ const Content = ( props ) => {
 		</Fragment>
 	);
 };
+
+const schemaTypeOptionsPropType = PropTypes.arrayOf( PropTypes.shape( {
+	name: PropTypes.string,
+	value: PropTypes.string,
+} ) );
 
 Content.propTypes = {
 	schemaPageTypeChange: PropTypes.func,
