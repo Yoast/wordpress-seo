@@ -6,7 +6,6 @@ import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPo
 import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 import PersonImageFallbackInfoPortal from "../components/portals/PersonImageFallbackInfoPortal";
-import UserSelectPortal from "../components/portals/UserSelectPortal";
 import SettingsReplacementVariableEditors from "../components/SettingsReplacementVariableEditors";
 import SchemaSettings from "../containers/SchemaSettings";
 import { __ } from "@wordpress/i18n";
@@ -44,7 +43,6 @@ export default function initSearchAppearance() {
 						singleFieldElements={ singleFieldElements }
 						editorElements={ editorElements }
 					/>
-					<UserSelectPortal target="wpseo-person-selector" />
 					<CompanyInfoMissingPortal
 						target="knowledge-graph-company-warning"
 						message={ knowledgeGraphCompanyInfoMissing.message }
