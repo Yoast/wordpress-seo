@@ -22,7 +22,7 @@ import getSentenceBeginnings from "./researches/getSentenceBeginnings";
 import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
 import h1s from "./researches/h1s";
 import imageCount from "./researches/imageCount.js";
-import keyphraseDistribution from "./researches/keyphraseDistribution";
+// import keyphraseDistribution from "./researches/keyphraseDistribution";
 import keyphraseLength from "./researches/keyphraseLength";
 import keywordCount from "./researches/keywordCount";
 import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl";
@@ -69,7 +69,7 @@ export default class AbstractResearcher {
 			getSubheadingTextLengths,
 			h1s,
 			imageCount,
-			keyphraseDistribution,
+			// keyphraseDistribution,
 			keyphraseLength,
 			keywordCount,
 			keywordCountInSlug,
