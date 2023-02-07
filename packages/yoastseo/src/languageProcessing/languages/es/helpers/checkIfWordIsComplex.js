@@ -1,7 +1,3 @@
-import wordComplexity from "../config/internal/wordComplexity";
-import functionWords from "../config/functionWords";
-
-
 const vowels = "aeiuoyáéíóúñ";
 const consonants = "bcdfghjklmnpqrstvwxzñ";
 
@@ -16,13 +12,15 @@ const suffixesRegex = new RegExp( suffixes );
 
 /**
  * Checks if a word is complex.
+ * This is a helper for the premium assessment Word Complexity. As such, this helper is registered from the premium repository.
  *
+ * @param {object} wordComplexityConfig The config needed for assessing the word complexity.
  * @param {string} word The word to check.
+ * @param {object} functionWords The function words list.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
+export default function checkIfWordIsComplex( wordComplexityConfig, word, functionWords ) {
 	const lengthLimit = wordComplexityConfig.wordLength;
 	const frequencyList = wordComplexityConfig.frequencyList;
 
@@ -37,7 +35,7 @@ export default function checkIfWordIsComplex( word ) {
 	}
 
 	// The word is not complex if it's in the frequency list or the function words list.
-	if ( frequencyList.includes( word ) || functionWords.all.includes( word )  ) {
+	if ( frequencyList.includes( word ) || functionWords.includes( word )  ) {
 		return false;
 	}
 	/*
