@@ -64,7 +64,6 @@ export default class AnalysisWebWorker {
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 			customAnalysisType: "",
-			useWordComplexity: false,
 		};
 
 		this._scheduler = new Scheduler();
@@ -417,13 +416,10 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen content assessor.
 	 */
 	createContentAssessor() {
-		let wordComplexity = new assessments.readability.WordComplexityAssessment();
-
 		const {
 			contentAnalysisActive,
 			useCornerstone,
 			customAnalysisType,
-			useWordComplexity,
 		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
@@ -452,19 +448,6 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomContentAssessorOptions[ customAnalysisType ] )
 				: new ContentAssessor( this._researcher );
-		}
-
-		if ( useWordComplexity && isUndefined( assessor.getAssessment( "wordComplexity" ) ) ) {
-			if ( useCornerstone === true ) {
-				wordComplexity = new assessments.readability.WordComplexityAssessment( {
-					scores: {
-						acceptableAmount: 3,
-					},
-				} );
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			} else {
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			}
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
@@ -663,7 +646,6 @@ export default class AnalysisWebWorker {
 			"locale",
 			"translations",
 			"customAnalysisType",
-			"useWordComplexity",
 		];
 		const seo = [
 			"keywordAnalysisActive",
