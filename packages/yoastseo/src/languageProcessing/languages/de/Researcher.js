@@ -12,7 +12,6 @@ import keyphraseLength from "./config/keyphraseLength";
 import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
 import wordComplexity from "./config/wordComplexity";
 
-
 // All helpers
 import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";

@@ -22,7 +22,7 @@ export default function checkIfWordIsComplex( wordComplexityConfig, word, functi
 		return false;
 	}
 	// The word is not complex if it's in the frequency list or the function words list.
-	if ( frequencyList.includes( word ) || functionWords.all.includes( word )  ) {
+	if ( frequencyList.includes( word ) || functionWords.includes( word )  ) {
 		return false;
 	}
 	/*
