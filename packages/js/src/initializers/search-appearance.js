@@ -6,7 +6,6 @@ import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPo
 import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 import PersonImageFallbackInfoPortal from "../components/portals/PersonImageFallbackInfoPortal";
-import SettingsReplacementVariableEditors from "../components/SettingsReplacementVariableEditors";
 import { __ } from "@wordpress/i18n";
 
 /**
@@ -14,8 +13,6 @@ import { __ } from "@wordpress/i18n";
  * @returns {void}
  */
 export default function initSearchAppearance() {
-	const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
-	const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
 	const imagePortals = Array.from( document.querySelectorAll( "[data-react-image-portal]" ) );
 
 	const element = document.createElement( "div" );
@@ -36,10 +33,6 @@ export default function initSearchAppearance() {
 		<ThemeProvider theme={ theme }>
 			<SlotFillProvider>
 				<Fragment>
-					<SettingsReplacementVariableEditors
-						singleFieldElements={ singleFieldElements }
-						editorElements={ editorElements }
-					/>
 					<CompanyInfoMissingPortal
 						target="knowledge-graph-company-warning"
 						message={ knowledgeGraphCompanyInfoMissing.message }
