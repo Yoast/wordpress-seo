@@ -1,8 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations\Admin;
-
-use Yoast\WP\SEO\Helpers\Options_Helper;
+namespace Yoast\WP\SEO\Helpers;
 
 /**
  * Class Social_Profiles_Helper.
@@ -60,24 +58,30 @@ class Social_Profiles_Helper {
 	 * @return array The social profile fields.
 	 */
 	public function get_person_social_profile_fields() {
-		return \array_keys( $this->person_social_profile_fields );
+		/**
+		 * Filter: Allow changes to the social profiles fields available for a person.
+		 *
+		 * @param array $person_social_profile_fields The social profile fields.
+		 */
+		$person_social_profile_fields = \apply_filters( 'wpseo_person_social_profile_fields', $this->person_social_profile_fields );
+
+		return $person_social_profile_fields;
 	}
 
 	/**
-	 * Gets the person social profile fields supported by us after WP filtering.
+	 * Gets the organization social profile fields supported by us.
 	 *
-	 * @return array The supported social profile fields.
+	 * @return array The organization profile fields.
 	 */
-	public function get_supported_person_social_profile_fields() {
-		$social_profile_fields = $this->get_person_social_profile_fields();
-		$contact_method_fields = \array_keys( \wp_get_user_contact_methods() );
+	public function get_organization_social_profile_fields() {
+		/**
+		 * Filter: Allow changes to the social profiles fields available for an organization.
+		 *
+		 * @param array $organization_social_profile_fields The social profile fields.
+		 */
+		$organization_social_profile_fields = \apply_filters( 'wpseo_organization_social_profile_fields', $this->organization_social_profile_fields );
 
-		return \array_filter(
-			$contact_method_fields,
-			function( $contact_method_field ) use ( $social_profile_fields ) {
-				return \in_array( $contact_method_field, $social_profile_fields, true );
-			}
-		);
+		return $organization_social_profile_fields;
 	}
 
 	/**
@@ -88,7 +92,7 @@ class Social_Profiles_Helper {
 	 * @return array The person's social profiles.
 	 */
 	public function get_person_social_profiles( $person_id ) {
-		$social_profile_fields  = $this->get_person_social_profile_fields();
+		$social_profile_fields  = \array_keys( $this->get_person_social_profile_fields() );
 		$person_social_profiles = \array_combine( $social_profile_fields, \array_fill( 0, \count( $social_profile_fields ), '' ) );
 
 		// If no person has been selected, $person_id is set to false.
@@ -106,6 +110,39 @@ class Social_Profiles_Helper {
 	}
 
 	/**
+	 * Gets the organization social profiles stored in the database.
+	 *
+	 * @return array The social profiles for the organization.
+	 */
+	public function get_organization_social_profiles() {
+		$organization_social_profiles_fields = \array_keys( $this->get_organization_social_profile_fields() );
+		$organization_social_profiles        = [];
+
+		foreach ( $organization_social_profiles_fields as $field_name ) {
+			$default_value = '';
+			if ( $field_name === 'other_social_urls' ) {
+				$default_value = [];
+			}
+			$social_profile_value = $this->options_helper->get( $field_name, $default_value );
+
+			if ( $field_name === 'other_social_urls' ) {
+				$other_social_profiles                             = \array_map( '\urldecode', \array_filter( $social_profile_value ) );
+				$organization_social_profiles['other_social_urls'] = $other_social_profiles;
+				continue;
+			}
+
+			if ( $field_name === 'twitter_site' && $social_profile_value !== '' ) {
+				$organization_social_profiles[ $field_name ] = 'https://twitter.com/' . $social_profile_value;
+				continue;
+			}
+
+			$organization_social_profiles[ $field_name ] = \urldecode( $social_profile_value );
+		}
+
+		return $organization_social_profiles;
+	}
+
+	/**
 	 * Stores the values for the person's social profiles.
 	 *
 	 * @param int   $person_id       The id of the person to edit.
@@ -114,12 +151,13 @@ class Social_Profiles_Helper {
 	 * @return string[] An array of field names which failed to be saved in the db.
 	 */
 	public function set_person_social_profiles( $person_id, $social_profiles ) {
-		$failures = [];
+		$failures                     = [];
+		$person_social_profile_fields = $this->get_person_social_profile_fields();
 
 		// First validate all social profiles, before even attempting to save them.
-		foreach ( $this->person_social_profile_fields as $field_name => $validation_method ) {
+		foreach ( $person_social_profile_fields as $field_name => $validation_method ) {
 			if ( ! isset( $social_profiles[ $field_name ] ) ) {
-				$failures[] = $field_name;
+				// Just skip social profiles that were not passed.
 				continue;
 			}
 
@@ -136,7 +174,11 @@ class Social_Profiles_Helper {
 		}
 
 		// All social profiles look good, now let's try to save them.
-		foreach ( $this->person_social_profile_fields as $field_name => $validation_method ) {
+		foreach ( \array_keys( $person_social_profile_fields ) as $field_name ) {
+			if ( ! isset( $social_profiles[ $field_name ] ) ) {
+				// Just skip social profiles that were not passed.
+				continue;
+			}
 			$social_profiles[ $field_name ] = $this->sanitize_social_field( $social_profiles[ $field_name ] );
 			\update_user_meta( $person_id, $field_name, $social_profiles[ $field_name ] );
 		}
@@ -152,12 +194,13 @@ class Social_Profiles_Helper {
 	 * @return string[] An array of field names which failed to be saved in the db.
 	 */
 	public function set_organization_social_profiles( $social_profiles ) {
-		$failures = [];
+		$failures                           = [];
+		$organization_social_profile_fields = $this->get_organization_social_profile_fields();
 
 		// First validate all social profiles, before even attempting to save them.
-		foreach ( $this->organization_social_profile_fields as $field_name => $validation_method ) {
+		foreach ( $organization_social_profile_fields as $field_name => $validation_method ) {
 			if ( ! isset( $social_profiles[ $field_name ] ) ) {
-				$failures[] = $field_name;
+				// Just skip social profiles that were not passed.
 				continue;
 			}
 			$social_profiles[ $field_name ] = $this->sanitize_social_field( $social_profiles[ $field_name ] );
@@ -171,7 +214,12 @@ class Social_Profiles_Helper {
 		}
 
 		// All social profiles look good, now let's try to save them.
-		foreach ( \array_keys( $this->organization_social_profile_fields ) as $field_name ) {
+		foreach ( \array_keys( $organization_social_profile_fields ) as $field_name ) {
+			if ( ! isset( $social_profiles[ $field_name ] ) ) {
+				// Just skip social profiles that were not passed.
+				continue;
+			}
+
 			// Remove empty strings in Other Social URLs.
 			if ( $field_name === 'other_social_urls' ) {
 				$other_social_urls = \array_filter(
@@ -289,5 +337,20 @@ class Social_Profiles_Helper {
 		}
 
 		return [ $twitter_setting ];
+	}
+
+	/*** DEPRECATED METHODS ***/
+
+	/**
+	 * Gets the person social profile fields supported by us after WP filtering.
+	 *
+	 * @deprecated 20.1
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The supported social profile fields.
+	 */
+	public function get_supported_person_social_profile_fields() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.1' );
+		return [];
 	}
 }

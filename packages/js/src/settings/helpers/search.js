@@ -1143,6 +1143,16 @@ export const createSearchIndex = ( postTypes, taxonomies, { userLocale } = {} ) 
 				__( "Tweet", "wordpress-seo" ),
 			],
 		},
+		mastodon_url: {
+			route: "/site-representation",
+			routeLabel: __( "Site representation", "wordpress-seo" ),
+			fieldId: "input-wpseo_social-mastodon_url",
+			fieldLabel: __( "Organization Mastodon", "wordpress-seo" ),
+			keywords: [
+				__( "Social", "wordpress-seo" ),
+				__( "Share", "wordpress-seo" ),
+			],
+		},
 		other_social_urls: {
 			route: "/site-representation",
 			routeLabel: __( "Site representation", "wordpress-seo" ),
