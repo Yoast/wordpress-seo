@@ -30,6 +30,7 @@ import WordComplexityAssessment from "../../src/scoring/assessments/readability/
 
 // Import test papers
 import testPapers from "./testTexts";
+import keyphraseDistribution from "../../src/languageProcessing/researches/keyphraseDistribution";
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
@@ -40,7 +41,7 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
-
+		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
 		const expectedResults = testPaper.expectedResults;
 
 		/**
