@@ -482,7 +482,6 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen SEO assessor.
 	 */
 	createSEOAssessor() {
-		// const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
@@ -519,10 +518,6 @@ export default class AnalysisWebWorker {
 					: new SEOAssessor( this._researcher );
 			}
 		}
-
-		// if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
-		// 	assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
-		// }
 
 		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
 			if ( isUndefined( assessor.getAssessment( name ) ) && type === "seo" ) {
