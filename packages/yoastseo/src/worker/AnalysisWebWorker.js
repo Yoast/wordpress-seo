@@ -438,6 +438,13 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] )
 				: new CornerstoneContentAssessor( this._researcher );
+
+			// Add the readability assessment for cornerstone content to the cornerstone content assessor.
+			this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
+				if ( isUndefined( assessor.getAssessment( name ) ) && type === "cornerstoneReadability" ) {
+					assessor.addAssessment( name, assessment );
+				}
+			} );
 		} else {
 			/*
 			 * For non-cornerstone content, use a custom SEO assessor if available,
@@ -448,13 +455,14 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomContentAssessorOptions[ customAnalysisType ] )
 				: new ContentAssessor( this._researcher );
-		}
 
-		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
-			if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
-				assessor.addAssessment( name, assessment );
-			}
-		} );
+			// Add the readability assessment for regular content to the regular content assessor.
+			this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
+				if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
+					assessor.addAssessment( name, assessment );
+				}
+			} );
+		}
 
 		return assessor;
 	}
@@ -814,7 +822,6 @@ export default class AnalysisWebWorker {
 			this._contentAssessor.addAssessment( combinedName, assessment );
 		}
 		if ( this._contentAssessor !== null && type === "cornerstoneReadability" && useCornerstone ) {
-			// If the assessment if for cornerstorne content, add it to the cornerstone assessor specifically
 			this._contentAssessor.addAssessment( combinedName, assessment );
 		}
 		if ( this._relatedKeywordAssessor !== null && type === "relatedKeyphrase" ) {
