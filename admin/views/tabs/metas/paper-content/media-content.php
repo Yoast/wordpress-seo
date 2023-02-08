@@ -29,8 +29,4 @@ $yform->toggle_switch(
 <div id="media_settings">
 	<br/>
 	<br/>
-
-	<?php
-	require __DIR__ . '/post_type/post-type.php';
-	?>
 </div>
