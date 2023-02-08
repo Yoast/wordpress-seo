@@ -224,7 +224,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 						"configIndexablesBenefits": "%s",
 					},
 				};',
-				$this->social_profiles_helper->can_edit_profile( $person_id ),
+				$this->can_edit_profile( $person_id ),
 				$this->is_company_or_person(),
 				$selected_option_label,
 				$this->get_company_name(),
@@ -538,5 +538,16 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function should_force_company() {
 		return $this->addon_manager->is_installed( WPSEO_Addon_Manager::LOCAL_SLUG );
+	}
+
+	/**
+	 * Checks if the current user has the capability to edit a specific user.
+	 *
+	 * @param int $person_id The id of the person to edit.
+	 *
+	 * @return bool
+	 */
+	private function can_edit_profile( $person_id ) {
+		return \current_user_can( 'edit_user', $person_id );
 	}
 }

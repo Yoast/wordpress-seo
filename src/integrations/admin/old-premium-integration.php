@@ -17,6 +17,11 @@ use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 class Old_Premium_Integration implements Integration_Interface {
 
 	/**
+	 * The minimum Premium version.
+	 */
+	const MINIMUM_PREMIUM_VERSION = '20.1-RC0';
+
+	/**
 	 * The options' helper.
 	 *
 	 * @var Options_Helper
@@ -100,7 +105,7 @@ class Old_Premium_Integration implements Integration_Interface {
 			return;
 		}
 
-		if ( $this->options_helper->get( 'dismiss_old_premium_notice', false ) === true ) {
+		if ( $this->notice_was_dismissed_after_current_min_premium_version() ) {
 			return;
 		}
 
@@ -158,18 +163,32 @@ class Old_Premium_Integration implements Integration_Interface {
 	 * @return bool
 	 */
 	public function dismiss_old_premium_notice() {
-		return $this->options_helper->set( 'dismiss_old_premium_notice', true );
+		return $this->options_helper->set( 'dismiss_old_premium_version_notice', self::MINIMUM_PREMIUM_VERSION );
 	}
 
 	/**
-	 * Returns whether Premium is installed but older than 20.0.
+	 * Returns whether Premium is installed but older than the minimum premium version.
 	 *
-	 * @return bool Whether premium is installed but older than 20.0.
+	 * @return bool Whether premium is installed but older than minimum premium version.
 	 */
 	protected function premium_is_old() {
 		$premium_version = $this->product_helper->get_premium_version();
 		if ( ! \is_null( $premium_version ) ) {
-			return \version_compare( $premium_version, '20.0-RC0', '<' );
+			return \version_compare( $premium_version, self::MINIMUM_PREMIUM_VERSION, '<' );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns whether the notification was dismissed in a version later than the minimum premium version.
+	 *
+	 * @return bool Whether the notification was dismissed in a version later than the minimum premium version.
+	 */
+	protected function notice_was_dismissed_after_current_min_premium_version() {
+		$dismissed_notification_version = $this->options_helper->get( 'dismiss_old_premium_version_notice', '' );
+		if ( ! empty( $dismissed_notification_version ) ) {
+			return \version_compare( $dismissed_notification_version, self::MINIMUM_PREMIUM_VERSION, '>=' );
 		}
 
 		return false;

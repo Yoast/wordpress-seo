@@ -100,10 +100,10 @@ class Post_Type_Helper {
 	 */
 	public function get_excluded_post_types_for_indexables() {
 		/**
-		 * Filter: 'wpseo_indexable_excluded_post_types' - Allow developers to prevent posts of a certain post
+		 * Filter: 'wpseo_indexable_excluded_post_types' - Allows excluding posts of a certain post
 		 * type from being saved to the indexable table.
 		 *
-		 * @param array $excluded_post_types The currently excluded post types.
+		 * @api array $excluded_post_types The currently excluded post types that indexables will not be created for.
 		 */
 		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [] );
 
@@ -150,8 +150,41 @@ class Post_Type_Helper {
 		$public_post_types   = $this->get_public_post_types();
 		$excluded_post_types = $this->get_excluded_post_types_for_indexables();
 
+		$included_post_types = \array_diff( $public_post_types, $excluded_post_types );
+
+		return $this->filter_included_post_types( $included_post_types );
+	}
+
+	/**
+	 * Filters the post types that are included to be indexed.
+	 *
+	 * @param array $included_post_types The post types that are included to be indexed.
+	 *
+	 * @return array The filtered post types that are included to be indexed.
+	 */
+	protected function filter_included_post_types( $included_post_types ) {
+		/**
+		 * Filter: 'wpseo_indexable_forced_included_post_types' - Allows force including posts of a certain post
+		 * type to be saved to the indexable table.
+		 *
+		 * @api array $included_post_types The currently included post types that indexables will be created for.
+		 */
+		$filtered_included_post_types = \apply_filters( 'wpseo_indexable_forced_included_post_types', $included_post_types );
+
+		if ( ! \is_array( $filtered_included_post_types ) ) {
+			// If the filter got misused, let's return the unfiltered array.
+			return \array_values( $included_post_types );
+		}
+
+		// Add sanity check to make sure everything is an actual post type.
+		foreach ( $filtered_included_post_types as $key => $post_type ) {
+			if ( ! \post_type_exists( $post_type ) ) {
+				unset( $filtered_included_post_types[ $key ] );
+			}
+		}
+
 		// `array_values`, to make sure that the keys are reset.
-		return \array_values( \array_diff( $public_post_types, $excluded_post_types ) );
+		return \array_values( $filtered_included_post_types );
 	}
 
 	/**
