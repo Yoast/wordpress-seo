@@ -74,7 +74,7 @@ describe( "A product page content assessor", function() {
 				"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "en_US" } );
 			const researcher = new EnglishResearcher( paper );
 			researcher.addResearch( "wordComplexity", wordComplexity );
-			const contentAssessor = new ContentAssessor( researcher , options );
+			const contentAssessor = new ContentAssessor( researcher, options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
