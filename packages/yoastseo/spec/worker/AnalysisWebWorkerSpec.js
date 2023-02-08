@@ -1508,6 +1508,16 @@ describe( "AnalysisWebWorker", () => {
 			expect( worker._registeredAssessments[ 0 ].type ).toBe( "readability" );
 		} );
 
+		test( "add the readability assessment for cornerstone content to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._contentAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "cornerstoneReadability" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "cornerstoneReadability" );
+		} );
+
 		test( "add the related keyphrase assessment to the registered assessments", () => {
 			scope.onmessage( createMessage( "initialize" ) );
 			expect( worker._relatedKeywordAssessor ).not.toBeNull();
