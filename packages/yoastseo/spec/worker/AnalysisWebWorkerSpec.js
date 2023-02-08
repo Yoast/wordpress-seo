@@ -1333,32 +1333,6 @@ describe( "AnalysisWebWorker", () => {
 			expect( assessor.type ).toBe( "taxonomyAssessor" );
 		} );
 
-		test( "listens to useKeywordDistribution", () => {
-			worker._configuration.useKeywordDistribution = false;
-			let assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "SEOAssessor" );
-			let assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).not.toBeDefined();
-
-			worker._configuration.useKeywordDistribution = true;
-			assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "SEOAssessor" );
-			assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
-
-			worker._configuration.useCornerstone = true;
-			worker._configuration.useKeywordDistribution = true;
-			assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
-			assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
-		} );
-
 		test( "listens to customAnalysisType and sets the custom SEO assessor if available", () => {
 			worker._configuration.customAnalysisType = "type1";
 			// Swapping the SEO assessor for the content assessor.
