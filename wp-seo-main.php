@@ -212,11 +212,6 @@ function _wpseo_activate() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
-	// Reset tracking to be disabled by default.
-	if ( ! YoastSEO()->helpers->product->is_premium() ) {
-		WPSEO_Options::set( 'tracking', false );
-	}
-
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 	WPSEO_Options::set( 'first_time_install', true );
 	if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
@@ -226,6 +221,10 @@ function _wpseo_activate() {
 		WPSEO_Options::set( 'activation_redirect_timestamp_free', \time() );
 	}
 
+	// Reset tracking to be disabled by default.
+	if ( ! YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'toggled_tracking' ) !== true ) {
+		WPSEO_Options::set( 'tracking', false );
+	}
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();
 
