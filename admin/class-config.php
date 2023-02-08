@@ -105,12 +105,6 @@ class WPSEO_Admin_Pages {
 				],
 			];
 
-			$script_data['searchAppearance'] = [
-				'isRtl'                            => is_rtl(),
-				'userEditUrl'                      => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
-				'knowledgeGraphCompanyInfoMissing' => WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n(),
-			];
-
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
 			 * contenteditable fields.
