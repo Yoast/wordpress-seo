@@ -43,7 +43,7 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
-		// Also register Word complexity's research and helper for testing purpose.
+		// Also register the research and helper for Word Complexity for testing purposes.
 		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
 			researcher.addResearch( "wordComplexity", wordComplexity );
 			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( getLanguage( locale ) ) );
