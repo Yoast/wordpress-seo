@@ -98,14 +98,7 @@ class WPSEO_Admin_Pages {
 
 		$page = filter_input( INPUT_GET, 'page' );
 
-		if ( $page === 'wpseo_titles' ) {
-			/**
-			 * Remove the emoji script as it is incompatible with both React and any
-			 * contenteditable fields.
-			 */
-			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-		}
-		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles', 'wpseo_workouts' ], true ) ) {
+		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_workouts' ], true ) ) {
 			wp_enqueue_media();
 
 			$script_data['media'] = [
