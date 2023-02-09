@@ -1,6 +1,6 @@
 /**
  * Checks if a word is complex.
- * This is a helper for the premium assessment Word Complexity. As such, this helper is registered from the premium repository.
+ * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
  * @param {object} wordComplexityConfig The config needed for assessing the word complexity.
  * @param {string} word The word to check.

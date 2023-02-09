@@ -9,7 +9,7 @@ const { Mark } = values;
 
 /**
  * Represents the assessment that checks whether there are too many complex words in the text.
- * This assessment is a premium assessment and is loaded from the premium repository.
+ * This assessment is not bundled in Yoast SEO.
  */
 export default class WordComplexityAssessment extends Assessment {
 	/**

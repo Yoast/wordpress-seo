@@ -53,8 +53,7 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 
 /**
  * Gets the complex words from the sentences and calculates the percentage of complex words compared to the total words in the text.
- * This is a research for a premium assessment Word Complexity assessment.
- * As such, this research will not be bundled in AbstractResearcher and is loaded from the premium repository.
+ * This is a research for the Word Complexity assessment. As such, this research is not part of the AbstractResearcher, and not bundled in Yoast SEO.
  *
  * @param {Paper}       paper       The Paper object to get the text from.
  * @param {Researcher}  researcher  The researcher object.
