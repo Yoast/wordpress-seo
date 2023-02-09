@@ -412,8 +412,12 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
 
-			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' ) {
-				add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading the admin init class.
+			if ( isset( $_POST['action'] ) && is_string( $_POST['action'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information but only loading the admin init class, We are strictly comparing only.
+				if ( wp_unslash( $_POST['action'] ) === 'inline-save' ) {
+					add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+				}
 			}
 		}
 		else {
