@@ -99,19 +99,12 @@ class WPSEO_Admin_Pages {
 		$page = filter_input( INPUT_GET, 'page' );
 
 		if ( $page === 'wpseo_titles' ) {
-			$script_data['analysis'] = [
-				'plugins' => [
-					'replaceVars' => $this->get_replace_vars_script_data(),
-				],
-			];
-
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
 			 * contenteditable fields.
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		}
-
 		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles', 'wpseo_workouts' ], true ) ) {
 			wp_enqueue_media();
 
@@ -157,9 +150,13 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Retrieves some variables that are needed for replacing variables in JS.
 	 *
+	 * @deprecated 20.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return array The replacement and recommended replacement variables.
 	 */
 	public function get_replace_vars_script_data() {
+		_deprecated_function( __METHOD__, 'WPSEO 20.3' );
 		$replace_vars                 = new WPSEO_Replace_Vars();
 		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
