@@ -1,4 +1,4 @@
-# CHANGELOG.md
+# Changelog
 
 ## 3.1.0
 
