@@ -11,18 +11,10 @@ import wordComplexityHelperFrench from "../../src/languageProcessing/languages/f
  */
 export default function getWordComplexityHelper( language ) {
 	const helpers = {
-		de: {
-			checkIfWordIsComplex: wordComplexityHelperGerman,
-		},
-		en: {
-			checkIfWordIsComplex: wordComplexityHelperEnglish,
-		},
-		es: {
-			checkIfWordIsComplex: wordComplexityHelperSpanish,
-		},
-		fr: {
-			checkIfWordIsComplex: wordComplexityHelperFrench,
-		},
+		de: wordComplexityHelperGerman,
+		en: wordComplexityHelperEnglish,
+		es: wordComplexityHelperSpanish,
+		fr: wordComplexityHelperFrench,
 	};
-	return helpers[ language ].checkIfWordIsComplex;
+	return helpers[ language ];
 }
