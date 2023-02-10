@@ -693,7 +693,6 @@ export default class AnalysisWebWorker {
 	 * @param {boolean}  [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
 	 * @param {boolean}  [configuration.useCornerstone]         Whether the paper is cornerstone or not.
 	 * @param {boolean}  [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
-	 * @param {boolean}  [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
 	 * @param {string}   [configuration.locale]                 The locale used in the seo assessor.
 	 * @param {Object}   [configuration.translations]           The translation strings.
 	 * @param {Object}   [configuration.researchData]           Extra research data.
