@@ -257,7 +257,7 @@ export function tinyMceEventBinder( refreshAnalysis, tinyMceId ) {
 		pauseMarkers();
 	} );
 
-	addEventHandler("content", [ "blur" ], function( evt) {
+	addEventHandler( "content", [ "blur" ], function() {
 		resumeMarkers();
 	} );
 }
