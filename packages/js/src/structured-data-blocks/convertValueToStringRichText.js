@@ -5,6 +5,11 @@
  * @returns {string} The html content as a string.
  */
 export default function convertValueToStringRichText( content ) {
+	/**
+	* @param {string} str The string to escape.
+	* @returns {string} The escaped string.
+	*/
+	const escapeQuotes = ( str ) => str.replace( /"/g, "&quot;" );
 	if ( typeof content === "string" ) {
 		return content;
 	}
@@ -16,7 +21,7 @@ export default function convertValueToStringRichText( content ) {
 			return `<${item.type}>`;
 		}
 		if ( item.type === "img" ) {
-			return `<${item.type} src="${item.props.src}" alt="${item.props.alt}" style="${item.props.style}" class="${item.props.class}" />`;
+			return `<${item.type} src="${item.props.src}" alt="${ escapeQuotes( item.props.alt )}" style="${item.props.style}" class="${item.props.class}" />`;
 		}
 	 return `<${item.type} >${convertValueToStringRichText( item.props.children )}</${item.type}>`;
 	} ).join( "" );
