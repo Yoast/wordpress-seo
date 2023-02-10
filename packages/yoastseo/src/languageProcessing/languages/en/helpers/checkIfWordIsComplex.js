@@ -2,12 +2,13 @@
  * Checks if a word is complex.
  * This is a helper for the premium assessment Word Complexity. As such, this helper is registered from the premium repository.
  *
- * @param {object} wordComplexityConfig The config needed for assessing the word complexity.
+ * @param {object} configs The configurations needed for assessing the word complexity, e.g. the frequency list and function words.
  * @param {string} word The word to check.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( wordComplexityConfig, word ) {
+export default function checkIfWordIsComplex( configs, word ) {
+	const wordComplexityConfig = configs.wordComplexity;
 	const lengthLimit = wordComplexityConfig.wordLength;
 	const frequencyList = wordComplexityConfig.frequencyList;
 	// Whether uppercased beginning of a word decreases its complexity.
