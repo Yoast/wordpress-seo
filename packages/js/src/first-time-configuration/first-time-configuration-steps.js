@@ -15,12 +15,6 @@ import SiteRepresentationStep from "./tailwind-components/steps/site-representat
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
 import FinishStep from "./tailwind-components/steps/finish/finish-step";
 
-window.wpseoScriptData = window.wpseoScriptData || {};
-window.wpseoScriptData.searchAppearance = {
-	...window.wpseoScriptData.searchAppearance,
-	userEditUrl: "/wp-admin/user-edit.php?user_id={user_id}",
-};
-
 const STEPS = {
 	optimizeSeoData: "optimizeSeoData",
 	siteRepresentation: "siteRepresentation",
