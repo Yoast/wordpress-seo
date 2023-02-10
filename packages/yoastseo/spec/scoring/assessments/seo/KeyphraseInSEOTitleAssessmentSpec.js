@@ -100,6 +100,42 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 			"it at the beginning of the title</a>."
 		);
 	} );
+
+	it( "returns a okay result for an exact match keyphrase starting with a period when the title does not start with the keyword", function() {
+		const paper = new Paper( "", {
+			keyword: ".rar",
+			title: "files in .rar",
+		} );
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult(
+			paper,
+			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: 0, exactMatchKeyphrase: false } )
+		);
+
+		expect( assessment.getScore() ).toBe( 2 );
+		expect( assessment.getText() ).toBe(
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus " +
+			"keyphrase appears in the SEO title, but not at the beginning. " +
+			"<a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>."
+		);
+	} );
+
+	it( "returns a good result for an exact match keyphrase starting with a period when the title starts with the keyword " +
+		"in the SEO title", function() {
+		const paper = new Paper( "", {
+			keyword: ".rar",
+			title: ".rar files",
+		} );
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult(
+			paper,
+			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: 0, exactMatchKeyphrase: false } )
+		);
+
+		expect( assessment.getScore() ).toBe( 2 );
+		expect( assessment.getText() ).toBe(
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the " +
+			"focus keyphrase appears at the beginning of the SEO title. Good job!"
+		);
+	} );
 } );
 
 describe( "a test to check for the assessment's applicability", () => {
