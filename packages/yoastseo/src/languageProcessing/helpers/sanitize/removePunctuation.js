@@ -57,9 +57,7 @@ export default function( text ) {
 	const backslashRegex = new RegExp( "(\\\\)", "g" );
 
 	text = text.replace( backslashRegex, "" );
-	if ( ! text.startsWith( "." ) ) {
-		text = text.replace( punctuationRegexStart, "" );
-	}
+	text = text.replace( punctuationRegexStart, "" );
 	text = text.replace( punctuationRegexEnd, "" );
 
 	return text;
