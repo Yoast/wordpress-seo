@@ -3,7 +3,7 @@ import { merge } from "lodash-es";
 
 import { languageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
 
-const { getSentences } = langageProcessing;
+const { getSentences } = languageProcessing;
 const { createAnchorOpeningTag } = helpers;
 /**
  * Returns a score based on the largest percentage of text in
