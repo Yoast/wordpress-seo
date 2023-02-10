@@ -1,7 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { langageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
+import { languageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
 
 const { getSentences } = langageProcessing;
 const { createAnchorOpeningTag } = helpers;
