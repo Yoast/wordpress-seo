@@ -1,11 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
-import AssessmentResult from "../../../values/AssessmentResult";
+import { langageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
 
+const { getSentences } = langageProcessing;
+const { createAnchorOpeningTag } = helpers;
 /**
  * Returns a score based on the largest percentage of text in
  * which no keyword occurs.
