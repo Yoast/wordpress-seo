@@ -80,9 +80,12 @@ describe( "a test for the English Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in English", function() {
+		const configs = {
+			wordComplexity: wordComplexityConfig,
+		};
 		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
 
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "polygonal" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "investigations" ) ).toEqual( false );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( configs, "polygonal" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( configs, "investigations" ) ).toEqual( false );
 	} );
 } );

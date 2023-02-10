@@ -5,13 +5,13 @@ const suffixesRegex = new RegExp( suffixes );
  * Checks if a word is complex.
  * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
- * @param {object} wordComplexityConfig The config needed for assessing the word complexity.
+ * @param {object} configs The configurations needed for assessing the word complexity, e.g. the frequency list and function words.
  * @param {string} word The word to check.
- * @param {object} functionWords The function words list.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( wordComplexityConfig, word, functionWords ) {
+export default function checkIfWordIsComplex( configs, word ) {
+	const wordComplexityConfig = configs.wordComplexity;
 	const lengthLimit = wordComplexityConfig.wordLength;
 	const frequencyList = wordComplexityConfig.frequencyList;
 	// All words are converted to lower case before processing to avoid excluding complex words that start with a capital letter.
@@ -22,7 +22,7 @@ export default function checkIfWordIsComplex( wordComplexityConfig, word, functi
 		return false;
 	}
 	// The word is not complex if it's in the frequency list or the function words list.
-	if ( frequencyList.includes( word ) || functionWords.includes( word )  ) {
+	if ( frequencyList.includes( word ) || configs.functionWords.includes( word )  ) {
 		return false;
 	}
 	/*

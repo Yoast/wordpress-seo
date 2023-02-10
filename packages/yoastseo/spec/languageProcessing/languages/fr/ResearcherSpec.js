@@ -77,8 +77,14 @@ describe( "a test for the French Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in French", function() {
+		const configs = {
+			wordComplexity: wordComplexityConfig,
+			functionWords: functionWords.all,
+		};
+
 		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "continuellement", functionWords.all ) ).toEqual( false );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "dictionnaire", functionWords.all ) ).toEqual( true );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( configs, "continuellement" ) ).toEqual( false );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( configs, "dictionnaire" ) ).toEqual( true );
 	} );
 } );

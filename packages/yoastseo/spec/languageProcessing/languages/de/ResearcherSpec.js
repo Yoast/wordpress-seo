@@ -79,9 +79,13 @@ describe( "a test for the German Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in German", function() {
+		const configs = {
+			wordComplexity: wordComplexityConfig,
+			functionWords: functionWords.all,
+		};
 		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
 
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "optimierungen", functionWords.all ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "boxen", functionWords.all ) ).toEqual( false );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( configs, "optimierungen" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( configs, "boxen" ) ).toEqual( false );
 	} );
 } );

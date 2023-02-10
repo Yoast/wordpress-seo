@@ -8,17 +8,16 @@ const { getWords, getSentences } = languageProcessing;
  *
  * @param {string} sentence  The sentence to get wordComplexity from.
  * @param {function} complexWordsHelper A helper to check if a word is complex.
- * @param {object} wordComplexityConfig The config needed for assessing the word complexity.
- * @param {object} functionWords The function words list.
+ * @param {object} configs The configs needed for assessing the word complexity.
  *
  * @returns {Array} An array of complex word objects containing the  word, the index and the complexity of the word.
  */
-const getComplexWords = function( sentence, complexWordsHelper, wordComplexityConfig, functionWords ) {
+const getComplexWords = function( sentence, complexWordsHelper, configs ) {
 	const words = getWords( sentence );
 	const results = [];
 
 	words.forEach( word => {
-		if ( complexWordsHelper( wordComplexityConfig, word, functionWords ) ) {
+		if ( complexWordsHelper( configs, word ) ) {
 			results.push( word );
 		}
 	} );
@@ -65,6 +64,10 @@ export default function wordComplexity( paper, researcher ) {
 	const wordComplexityHelper = researcher.getHelper( "checkIfWordIsComplex" );
 	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
 	const functionWords = researcher.getConfig( "functionWords" );
+	const configs = {
+		wordComplexity: wordComplexityConfig,
+		functionWords: functionWords,
+	};
 
 	const text = paper.getText();
 	const sentences = getSentences( text, memoizedTokenizer );
@@ -72,11 +75,12 @@ export default function wordComplexity( paper, researcher ) {
 	// Only returns the complex words of the sentence.
 	let results = sentences.map( sentence => {
 		return {
-			complexWords: getComplexWords( sentence, wordComplexityHelper, wordComplexityConfig, functionWords ),
+			complexWords: getComplexWords( sentence, wordComplexityHelper, configs ),
 			sentence: sentence,
 		};
 	} );
 
+	// Filter out sentences without complex words.
 	results = results.filter( result => result.complexWords.length !== 0 );
 
 	// Calculate the percentage of the complex words.
