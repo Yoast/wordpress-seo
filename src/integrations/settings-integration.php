@@ -387,6 +387,14 @@ class Settings_Integration implements Integration_Interface {
 				$post_types['attachment'] = $attachment_object;
 			}
 		}
+		// Check if post formats are included in indexation.
+		if ( ! \array_key_exists( 'post_format', $taxonomies ) ) {
+			// Always include post_format in the settings, to let the user enable them again.
+			$post_format_object = \get_taxonomy( 'post_format' );
+			if ( ! empty( $post_format_object ) ) {
+				$taxonomies['post_format'] = $post_format_object;
+			}
+		}
 
 		$transformed_post_types = $this->transform_post_types( $post_types );
 		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
@@ -509,7 +517,7 @@ class Settings_Integration implements Integration_Interface {
 	public function get_upsell_settings() {
 		return [
 			'actionId'     => 'load-nfd-ctb',
-			'premiumCtbId' => '57d6a568-783c-45e2-a388-847cff155897',
+			'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 		];
 	}
 
@@ -772,6 +780,7 @@ class Settings_Integration implements Integration_Interface {
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
+				'showUi'        => $taxonomy->show_ui,
 				'singularLabel' => $taxonomy->labels->singular_name,
 				'postTypes'     => \array_filter(
 					$taxonomy->object_type,
@@ -814,7 +823,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = \substr( $route, 1 );
 		}
 
-		return $route;
+		return \rawurlencode( $route );
 	}
 
 	/**

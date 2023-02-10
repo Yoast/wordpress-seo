@@ -287,6 +287,7 @@ class Organization_Test extends TestCase {
 			'Without Twitter' => [
 				'profiles_input'    => [
 					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => '',
 					'other_social_urls' => [
 						'https://www.instagram.com/yoast/',
 						'https://www.linkedin.com/company/yoast-com',
@@ -334,10 +335,36 @@ class Organization_Test extends TestCase {
 			],
 			'Only Twitter' => [
 				'profiles_input'    => [
+					'facebook_site'     => '',
 					'twitter_site'      => 'https://twitter.com/yoast',
+					'other_social_urls' => [],
 				],
 				'profiles_expected' => [
 					'https://twitter.com/yoast',
+				],
+			],
+			'Some empty options' => [
+				'profiles_input'    => [
+					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => 'https://twitter.com/yoast',
+					'other_social_urls' => [
+						'',
+						'https://www.linkedin.com/company/yoast-com',
+						'https://myspace.com/yoast/',
+						'https://www.youtube.com/yoast',
+						'https://www.pinterest.com/yoast/',
+						'',
+						'https://en.wikipedia.org/wiki/Yoast_SEO',
+					],
+				],
+				'profiles_expected' => [
+					'https://www.facebook.com/yoast/',
+					'https://twitter.com/yoast',
+					'https://www.linkedin.com/company/yoast-com',
+					'https://myspace.com/yoast/',
+					'https://www.youtube.com/yoast',
+					'https://www.pinterest.com/yoast/',
+					'https://en.wikipedia.org/wiki/Yoast_SEO',
 				],
 			],
 			'Duplicated URLs' => [
