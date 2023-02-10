@@ -5,7 +5,6 @@ import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject
 import MissingArgument from "./errors/missingArgument";
 
 import SEOAssessor from "./scoring/seoAssessor.js";
-import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import WordComplexityAssessment from "./scoring/assessments/readability/WordComplexityAssessment";
 import ContentAssessor from "./scoring/contentAssessor.js";
 import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
@@ -17,7 +16,6 @@ import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
 
-const keyphraseDistribution = new KeyphraseDistributionAssessment();
 let wordComplexity = new WordComplexityAssessment();
 
 var inputDebounceDelay = 800;
@@ -337,12 +335,9 @@ App.prototype.changeAssessorOptions = function( assessorOptions ) {
  * @returns {Assessor} The assessor instance.
  */
 App.prototype.getSeoAssessor = function() {
-	const { useCornerStone, useKeywordDistribution } = this._assessorOptions;
+	const { useCornerStone } = this._assessorOptions;
 
 	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
-	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
-		assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
-	}
 
 	return assessor;
 };
