@@ -57,7 +57,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 							);
 						} ) }
 					</ul> }
-					{ integration.learnMoreLink && <Link
+					{ learnMoreUrl && <Link
 						href={ learnMoreUrl }
 						className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
 						target="_blank"
