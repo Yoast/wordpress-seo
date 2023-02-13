@@ -20,7 +20,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 	const IntegrationLogo = integration.logo;
 	// If integration is not active, and we have a different url for inactive state, use that url.
 	const LearnMoreUrl = ! isActive && integration.linkInActive ? integration.linkInActive : integration.learnMoreLink;
-	// If intgration is not active and we have a different text for inactive state, use that text.
+	// If integration is not active, and we have a different text for inactive state, use that text.
 	const learnMoreLinkText = ! isActive && integration.linkTextInActive ? integration.linkTextInActive : __( "Learn more", "wordpress-seo" );
 
 	return (
