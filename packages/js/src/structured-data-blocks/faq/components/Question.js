@@ -337,6 +337,7 @@ export default class Question extends Component {
 		return (
 			<div className="schema-faq-section" key={ id }>
 				<RichText
+					identifier={ id + "-question" }
 					className="schema-faq-question"
 					tagName="p"
 					key={ id + "-question" }
@@ -344,9 +345,10 @@ export default class Question extends Component {
 					onChange={ this.onChangeQuestion }
 					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
-					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link" ] }
+					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
 				<RichText
+					identifier={ id + "-answer" }
 					className="schema-faq-answer"
 					tagName="p"
 					key={ id + "-answer" }
