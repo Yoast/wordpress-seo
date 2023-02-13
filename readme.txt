@@ -255,7 +255,7 @@ Release date: 2023-02-28
 
 * Changes replacement variable name from `Page number` to `Page` in the `Settings` page.
 * Changes the copy for notices in social profiles for person.
-* Improves accessibility for the extra other profiles in the Settings' Site representation when Organisation is selected.
+* Improves accessibility for the extra other profiles in the Settings' Site representation when Organization is selected.
 * Improves the performance of image schema creation for really large images.
 * Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
 * Improves the Settings' search modal accessibility.
