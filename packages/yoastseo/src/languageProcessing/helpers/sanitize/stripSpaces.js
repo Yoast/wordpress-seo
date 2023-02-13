@@ -11,7 +11,7 @@ export default function( text ) {
 	// Replace multiple spaces with single space.
 	text = text.replace( /\s{2,}/g, " " );
 	// Replace spaces followed by a period with only the period.
-	text = text.replace( /\s\./g, "." );
+	// text = text.replace( /\s\./g, "." );
 	// Remove first/last character if space.
 	text = text.replace( /^\s+|\s+$/g, "" );
 	// Replace spaces before Japanese periods with only the period.
