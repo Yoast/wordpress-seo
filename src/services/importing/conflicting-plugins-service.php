@@ -84,8 +84,10 @@ class Conflicting_Plugins_Service {
 	 * @return array The remaining active plugins.
 	 */
 	protected function ignore_deactivating_plugin( $all_active_plugins ) {
-		if ( isset( $_GET['action'] ) && isset( $_GET['plugin'] ) && \filter_var( \wp_unslash( $_GET['action'] ) ) === 'deactivate' ) {
-			$deactivated_plugin = \filter_var( \wp_unslash( $_GET['plugin'] ) );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are strictly comparing only.
+		if ( isset( $_GET['action'] ) && isset( $_GET['plugin'] ) && \is_string( $_GET['action'] ) && \is_string( $_GET['plugin'] ) && \wp_unslash( $_GET['action'] ) === 'deactivate' ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are strictly comparing only.
+			$deactivated_plugin = \wp_unslash( $_GET['plugin'] );
 
 			\check_admin_referer( 'deactivate-plugin_' . $deactivated_plugin );
 

@@ -13,6 +13,7 @@ import {
 	FormikTagField,
 	FormikValueChangeField,
 	FormLayout,
+	NewsSeoAlert,
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../../components";
@@ -259,15 +260,18 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							className="yst-max-w-sm"
 						/>
 						{ hasSchemaArticleType && (
-							<FormikValueChangeField
-								as={ SelectField }
-								type="select"
-								name={ `wpseo_titles.schema-article-type-${ name }` }
-								id={ `input-wpseo_titles-schema-article-type-${ name }` }
-								label={ __( "Article type", "wordpress-seo" ) }
-								options={ articleTypes }
-								className="yst-max-w-sm"
-							/>
+							<div>
+								<FormikValueChangeField
+									as={ SelectField }
+									type="select"
+									name={ `wpseo_titles.schema-article-type-${ name }` }
+									id={ `input-wpseo_titles-schema-article-type-${ name }` }
+									label={ __( "Article type", "wordpress-seo" ) }
+									options={ articleTypes }
+									className="yst-max-w-sm"
+								/>
+								<NewsSeoAlert name={ name } />
+							</div>
 						) }
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
