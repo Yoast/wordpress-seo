@@ -1053,6 +1053,25 @@ class WPSEO_Meta {
 			$post_ids = apply_filters( 'wpseo_posts_for_focus_keyword', $post_ids, $keyword, $post_id );
 		}
 
+		return $post_ids;
+	}
+
+	/**
+	 * Returns the post types for the given post ids.
+	 *
+	 * @param array $post_ids The post ids to get the post types for.
+	 *
+	 * @return array The post types.
+	 */
+	public static function post_types_for_ids( $post_ids ) {
+
+		/**
+		 * The indexable repository.
+		 *
+		 * @var Indexable_Repository
+		 */
+		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
+
 		// Check if post ids is not empty.
 		if ( ! empty( $post_ids ) ) {
 			// Get the post subtypes for the posts that share the keyword.
@@ -1073,11 +1092,7 @@ class WPSEO_Meta {
 			$post_types = [];
 		}
 
-
-		return [
-			'post_ids'   => $post_ids,
-			'post_types' => $post_types,
-		];
+		return $post_types;
 	}
 
 	/**

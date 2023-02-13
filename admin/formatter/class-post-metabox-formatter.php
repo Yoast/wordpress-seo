@@ -60,6 +60,9 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return array
 	 */
 	public function get_values() {
+
+		$keyword_usage = $this->get_focus_keyword_usage();
+
 		$values = [
 			'search_url'          => $this->search_url(),
 			'post_edit_url'       => $this->edit_url(),
@@ -69,7 +72,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		if ( $this->post instanceof WP_Post ) {
 			$values_to_set = [
-				'keyword_usage'               => $this->get_focus_keyword_usage(),
+				'keyword_usage'               => $keyword_usage,
+				'keyword_usage_post_types'    => $this->get_post_types_for_all_ids( $keyword_usage ),
 				'title_template'              => $this->get_title_template(),
 				'title_template_no_fallback'  => $this->get_title_template( false ),
 				'metadesc_template'           => $this->get_metadesc_template(),
@@ -168,6 +172,23 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
+	 * Retrieves the post types for the given post IDs.
+	 *
+	 * @param array $post_ids The post IDs to retrieve the post types for.
+	 *
+	 * @return array The post types for the given post IDs.
+	 */
+	private function get_post_types_for_all_ids( $post_ids_per_keyword ) {
+
+		$post_type_per_keyword_result = [];
+		foreach ( $post_ids_per_keyword as $keyword => $post_ids ) {
+			$post_type_per_keyword_result[ $keyword ] = $this->get_post_types_for_ids( $post_ids );
+		}
+
+		return $post_type_per_keyword_result;
+	}
+
+	/**
 	 * Gets the keyword usage for the current post and the specified keyword.
 	 *
 	 * @param string $keyword The keyword to check the usage of.
@@ -176,6 +197,17 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	protected function get_keyword_usage_for_current_post( $keyword ) {
 		return WPSEO_Meta::keyword_usage( $keyword, $this->post->ID );
+	}
+
+	/**
+	 * Retrieves the post types for the given post IDs.
+	 *
+	 * @param array $post_ids The post IDs to retrieve the post types for.
+	 *
+	 * @return array The post types for the given post IDs.
+	 */
+	protected function get_post_types_for_ids( $post_ids ) {
+		return WPSEO_Meta::post_types_for_ids( $post_ids );
 	}
 
 	/**
