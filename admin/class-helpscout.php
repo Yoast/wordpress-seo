@@ -46,7 +46,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		_deprecated_function( __METHOD__, 'WPSEO 20.3', 'HelpScout_Beacon::register_hooks' );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 * @deprecated 20.3
 	 */
 	public function enqueue_help_scout_script() {
-		_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		_deprecated_function( __METHOD__, 'WPSEO 20.3', 'HelpScout_Beacon::enqueue_help_scout_script' );
 	}
 
 	/**
@@ -66,6 +66,6 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 * @deprecated 20.3
 	 */
 	public function output_beacon_js() {
-		_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		_deprecated_function( __METHOD__, 'WPSEO 20.3', 'HelpScout_Beacon::output_beacon_js' );
 	}
 }
