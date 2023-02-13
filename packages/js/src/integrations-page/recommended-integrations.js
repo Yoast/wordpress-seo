@@ -78,7 +78,7 @@ const JetpackBoostIntegration = {
 	),
 	learnMoreLink: "https://yoa.st/integrations-about-jetpack-boost",
 	linkTextUnActive: __( "Get Jetpack Boost", "wordpress-seo" ),
-	linkUnActive: "https://yoa.st/integrations-get-jetpack-boost",
+	linkInActive: "https://yoa.st/integrations-get-jetpack-boost",
 	logoLink: "https://yoa.st/integrations-logo-jetpack-boost",
 	slug: "jetpack-boost",
 	description: __( "Optimize your CSS, defer non-essential JavaScript and Lazy-load your images to optimize your site for speed!", "wordpress-seo" ),
