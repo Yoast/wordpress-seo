@@ -1,7 +1,13 @@
 import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity.js";
 import Paper from "../../../src/values/Paper";
-import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
+import SpanishResearcher from "../../../src/languageProcessing/languages/es/Researcher";
+import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import wordComplexityHelperEnglish from "../../../src/languageProcessing/languages/en/helpers/checkIfWordIsComplex";
+import wordComplexityHelperGerman from "../../../src/languageProcessing/languages/de/helpers/checkIfWordIsComplex";
+import wordComplexityHelperSpanish from "../../../src/languageProcessing/languages/es/helpers/checkIfWordIsComplex";
+import wordComplexityHelperFrench from "../../../src/languageProcessing/languages/fr/helpers/checkIfWordIsComplex";
 
 describe( "a test for getting the complex words in the sentence and calculating their percentage",  function() {
 	it( "returns an array with the complex words from the text in English", function() {
@@ -18,7 +24,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 			"Torbie cats with a predominantly white undercoat are often referred to as \"caliby\" by their respective owners, " +
 			"an amalgamation of Calico and Tabby." );
 
-		const researcher = new Researcher( paper );
+		const researcher = new EnglishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [
@@ -52,7 +58,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 	} );
 	it( "should return an empty array and 0% if there is no complex word found in the text", () => {
 		const paper = new Paper( "This is short text. This is another short text. A text about Calico." );
-		const researcher = new Researcher( paper );
+		const researcher = new EnglishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
@@ -62,30 +68,57 @@ describe( "a test for getting the complex words in the sentence and calculating 
 	it( "should return an empty array and 0% if there is no complex word found in the text: " +
 		"Also test with a word starting with capital letter enclosed in different types of quotation mark.", () => {
 		let paper = new Paper( "This is short text. This is another short text. A text about \"Calico\"." );
-		let researcher = new Researcher( paper );
+		let researcher = new EnglishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
 		paper = new Paper( "This is short text. This is another short text. A text about 'Calico'." );
-		researcher = new Researcher( paper );
+		researcher = new EnglishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
 		paper = new Paper( "This is short text. This is another short text. A text about ’Calico’." );
-		researcher = new Researcher( paper );
+		researcher = new EnglishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 
 		paper = new Paper( "This is short text. This is another short text. A text about ‘Calico‘." );
-		researcher = new Researcher( paper );
+		researcher = new EnglishResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+	} );
+
+	it( "uses Researchers for different languages and returns an empty array and 0% " +
+		"when there are long function words in the text.", () => {
+		let paper = new Paper( "Present company notwithstanding, something. This is the thirteenth time I've tripped here." );
+		let researcher = new EnglishResearcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+
+		paper = new Paper( "Ein sogenanntes 'Gope-Brett', das einen mächtigen, mythischen Ahnen darstellt." );
+		researcher = new GermanResearcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+
+		paper = new Paper( "Si usted tiene cualesquiera preguntas o dudas, usted debe investigar. Empezábamos." );
+		researcher = new SpanishResearcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperSpanish );
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+
+		paper = new Paper( "Yoast s'engage à s'améliorer continuellement en matière. Éternellement jeunes." );
+		researcher = new FrenchResearcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperFrench );
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );

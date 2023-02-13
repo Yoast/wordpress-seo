@@ -8,15 +8,14 @@ const contractionRegex = new RegExp( contractionPrefixes );
  * Checks if a word is complex.
  * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
- * @param {object} configs The configurations needed for assessing the word complexity, e.g. the frequency list and function words.
+ * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( configs, word ) {
-	const wordComplexityConfig = configs.wordComplexity;
-	const lengthLimit = wordComplexityConfig.wordLength;
-	const frequencyList = wordComplexityConfig.frequencyList;
+export default function checkIfWordIsComplex( config, word ) {
+	const lengthLimit = config.wordLength;
+	const frequencyList = config.frequencyList;
 
 	// Normalize single quotes before checking for contractions.
 	word = normalizeSingle( word );
@@ -35,7 +34,7 @@ export default function checkIfWordIsComplex( configs, word ) {
 	}
 
 	// The word is not complex if it's in the frequency list.
-	if ( frequencyList.includes( word ) || configs.functionWords.includes( word ) ) {
+	if ( frequencyList.includes( word ) ) {
 		return false;
 	}
 

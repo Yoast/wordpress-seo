@@ -15,12 +15,6 @@ import SiteRepresentationStep from "./tailwind-components/steps/site-representat
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
 import FinishStep from "./tailwind-components/steps/finish/finish-step";
 
-window.wpseoScriptData = window.wpseoScriptData || {};
-window.wpseoScriptData.searchAppearance = {
-	...window.wpseoScriptData.searchAppearance,
-	userEditUrl: "/wp-admin/user-edit.php?user_id={user_id}",
-};
-
 const STEPS = {
 	optimizeSeoData: "optimizeSeoData",
 	siteRepresentation: "siteRepresentation",
@@ -83,38 +77,6 @@ async function updateSocialProfiles( state ) {
 	} );
 	return await response.json;
 }
-
-/**
- * Updates the person social profiles in the database.
- *
- * @param {Object} state The state to save.
- *
- * @returns {Promise|bool} A promise, or false if the call fails.
- */
-async function updatePersonSocialProfiles( state ) {
-	const socialProfiles = {
-		/* eslint-disable camelcase */
-		user_id: state.personId,
-		facebook: state.personSocialProfiles.facebook,
-		instagram: state.personSocialProfiles.instagram,
-		linkedin: state.personSocialProfiles.linkedin,
-		myspace: state.personSocialProfiles.myspace,
-		pinterest: state.personSocialProfiles.pinterest,
-		soundcloud: state.personSocialProfiles.soundcloud,
-		tumblr: state.personSocialProfiles.tumblr,
-		twitter: state.personSocialProfiles.twitter,
-		youtube: state.personSocialProfiles.youtube,
-		wikipedia: state.personSocialProfiles.wikipedia,
-		/* eslint-enable camelcase */
-	};
-	const response = await apiFetch( {
-		path: "yoast/v1/configuration/person_social_profiles",
-		method: "POST",
-		data: socialProfiles,
-	} );
-	return await response.json;
-}
-
 /**
  * Updates the tracking option in the database.
  *
@@ -175,7 +137,6 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		...windowObject,
 		companyOrPerson,
 		companyOrPersonOptions,
-		personSocialProfiles: {},
 		errorFields: [],
 		stepErrors: {},
 		editedSteps: [],
@@ -309,36 +270,8 @@ export default function FirstTimeConfigurationSteps() {
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( state.companyOrPerson === "person" ) {
-			if ( ! state.canEditUser ) {
-				return true;
-			}
-			return updatePersonSocialProfiles( state )
-				.then( ( response ) => {
-					if ( response.success === false ) {
-						setErrorFields( response.failures );
-						return Promise.reject( "There were errors saving social profiles" );
-					}
-					return response;
-				} )
-				.then( () => {
-					setErrorFields( [] );
-					removeStepError( STEPS.socialProfiles );
-					finishSteps( STEPS.socialProfiles );
-				} )
-				.then( () => {
-					return true;
-				} )
-				.catch(
-					( e ) => {
-						if ( e.failures ) {
-							setErrorFields( e.failures );
-						}
-						if ( e.message ) {
-							setStepError( STEPS.socialProfiles, e.message );
-						}
-						return false;
-					}
-				);
+			finishSteps( STEPS.socialProfiles );
+			return true;
 		}
 
 		return updateSocialProfiles( state )

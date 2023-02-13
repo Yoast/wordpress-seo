@@ -25,14 +25,10 @@ describe( "a test for the Spanish Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in Spanish", function() {
-		const configs = {
-			wordComplexity: wordComplexityConfig,
-			functionWords: functionWords.all,
-		};
 		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
 
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( configs, "situados" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( configs, "sobre" ) ).toEqual( false );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "situados" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "sobre" ) ).toEqual( false );
 	} );
 
 	it( "returns the Spanish function words", function() {
