@@ -67,7 +67,7 @@ const JetpackBoostIntegration = {
 	name: "Jetpack Boost",
 	claim: createInterpolateElement(
 		sprintf(
-			/* translators: 1: bold open tag; 2: Wincher; 3: bold close tag. */
+			/* translators: 1: bold open tag; 2: Jetpack Boost; 3: bold close tag. */
 			__( "Speed up your website with %1$s%2$s%3$s", "wordpress-seo" ),
 			"<strong>",
 			"Jetpack Boost",
@@ -77,7 +77,7 @@ const JetpackBoostIntegration = {
 		}
 	),
 	learnMoreLink: "https://yoa.st/integrations-about-jetpack-boost",
-	linkTextUnActive: __( "Get Jetpack Boost", "wordpress-seo" ),
+	linkTextInActive: __( "Get Jetpack Boost", "wordpress-seo" ),
 	linkInActive: "https://yoa.st/integrations-get-jetpack-boost",
 	logoLink: "https://yoa.st/integrations-logo-jetpack-boost",
 	slug: "jetpack-boost",

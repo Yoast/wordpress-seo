@@ -54,11 +54,11 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 						} ) }
 					</ul> }
 					{ integration.learnMoreLink && <Link
-						href={ isActive && integration.linkInActive ? integration.learnMoreLink : integration.linkInActive }
+						href={ ! isActive && integration.linkInActive ? integration.linkInActive : integration.learnMoreLink }
 						className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
 						target="_blank"
 					>
-						{ integration.linkTextUnActive && ! isActive ? integration.linkTextUnActive : __( "Learn more", "wordpress-seo" ) }
+						{ ! isActive && integration.linkTextInActive ? integration.linkTextInActive : __( "Learn more", "wordpress-seo" ) }
 						<span className="yst-sr-only">
 							{
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
@@ -105,7 +105,7 @@ SimpleIntegration.propTypes = {
 		name: PropTypes.string,
 		claim: PropTypes.string,
 		learnMoreLink: PropTypes.string,
-		linkTextUnActive: PropTypes.string,
+		linkTextInActive: PropTypes.string,
 		linkInActive: PropTypes.string,
 		logoLink: PropTypes.string,
 		slug: PropTypes.string,
