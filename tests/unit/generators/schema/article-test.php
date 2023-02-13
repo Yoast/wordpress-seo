@@ -257,7 +257,7 @@ class Article_Test extends TestCase {
 			->once()
 			->andReturn( $values_to_test['categories'] );
 
-		$user               = new \WP_User( 3 ); 
+		$user               = new \WP_User( 3 );
 		$user->display_name = 'John Doe';
 		Monkey\Functions\expect( 'get_userdata' )
 			->with( 3 )
