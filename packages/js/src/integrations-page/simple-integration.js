@@ -19,7 +19,7 @@ import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 export const SimpleIntegration = ( { integration, isActive, children } ) => {
 	const IntegrationLogo = integration.logo;
 	// If integration is not active, and we have a different url for inactive state, use that url.
-	const LearnMoreUrl = ! isActive && integration.linkInActive ? integration.linkInActive : integration.learnMoreLink;
+	const learnMoreUrl = ! isActive && integration.linkInActive ? integration.linkInActive : integration.learnMoreLink;
 	// If integration is not active, and we have a different text for inactive state, use that text.
 	const learnMoreLinkText = ! isActive && integration.linkTextInActive ? integration.linkTextInActive : __( "Learn more", "wordpress-seo" );
 
