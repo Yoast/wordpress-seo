@@ -29,6 +29,7 @@ var PreviouslyUsedKeyword = function( app, args ) {
 
 	this.app = app;
 	this.usedKeywords = args.usedKeywords;
+	this.usedKeywordsPostTypes = args.usedKeywordsPostTypes;
 	this.searchUrl = args.searchUrl;
 	this.postUrl = args.postUrl;
 	this.urlTitle = createAnchorOpeningTag( "https://yoa.st/33x" );
@@ -153,15 +154,9 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 	let postTypeToDisplay = "";
 	let id = 0;
 
-	if ( ! isUndefined( this.usedKeywords[ keyword ] ) && ! isUndefined( this.usedKeywords[ keyword ].post_ids ) ) {
-		count = this.usedKeywords[ keyword ].post_ids.length;
-
-		postTypeToDisplay = this.usedKeywords[ keyword ].post_types[ 0 ];
-
-		id = this.usedKeywords[ keyword ].post_ids[ 0 ];
-	} else if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
-		// This situation is true when we are dealing with taxonomies instead of posts.
+	if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
 		count = this.usedKeywords[ keyword ].length;
+		postTypeToDisplay = this.usedKeywordsPostTypes[ keyword ][ 0 ];
 		id = this.usedKeywords[ keyword ][ 0 ];
 	}
 

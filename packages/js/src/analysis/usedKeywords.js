@@ -26,6 +26,7 @@ export default function UsedKeywords( ajaxAction, options, refreshAnalysis, scri
 	this._scriptUrl = scriptUrl;
 	this._options = {
 		usedKeywords: options.keyword_usage,
+		usedKeywordsPostTypes: options.keyword_usage_post_types,
 		searchUrl: options.search_url,
 		postUrl: options.post_edit_url,
 	};
