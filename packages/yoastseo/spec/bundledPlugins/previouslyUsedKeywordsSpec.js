@@ -1,6 +1,6 @@
 import PreviouslyUsedKeywords from "../../src/bundledPlugins/previouslyUsedKeywords.js";
 
-let usedKeywords = { keyword: [ 1 ], test: [ 2, 3, 4 ] };
+let usedKeywords = { keyword: [ 2, 3, 4 ] };
 import Paper from "../../src/values/Paper.js";
 import MissingArgumentError from "../../src/errors/missingArgument";
 
@@ -65,7 +65,7 @@ describe( "replaces keyword usage", function() {
 
 		const plugin = new PreviouslyUsedKeywords( app, args );
 		expect( plugin.usedKeywords ).not.toBeDefined();
-		plugin.updateKeywordUsage(  { keyword: [ 1 ], test: [ 2, 3, 4 ] } );
+		plugin.updateKeywordUsage(  { keyword: [ 1 ] } );
 		expect( plugin.usedKeywords.keyword ).toContain( 1 );
 	} );
 } );
@@ -136,9 +136,23 @@ describe( "previously used keyphrase when postTypeToDisplay is defined and count
 	} );
 } );
 
-xdescribe( "Test previouslyUsedKeywords when app is undefined", () => {
+describe( "Test previouslyUsedKeywords when app is undefined", () => {
 	it( "should throw an error if app is undefined", () => {
 		// eslint-disable-next-line no-undefined
-		expect( new PreviouslyUsedKeywords( undefined, {} ) ).toThrow( MissingArgumentError );
+		expect( () => {
+			// eslint-disable-next-line no-new,no-undefined
+			new PreviouslyUsedKeywords( undefined, {} );
+		} ).toThrow( MissingArgumentError );
+	} );
+} );
+
+describe( "Test behaviour of previouslyUsedKeywords when args is undefined", () => {
+	it( "should use the default value for args", () => {
+		// eslint-disable-next-line no-undefined
+		const plugin = new PreviouslyUsedKeywords( args, undefined );
+		expect( plugin.usedKeywords ).toEqual( {} );
+		expect( plugin.usedKeywordsPostTypes ).toEqual( {} );
+		expect( plugin.searchUrl ).toEqual( "" );
+		expect( plugin.postUrl ).toEqual( "" );
 	} );
 } );
