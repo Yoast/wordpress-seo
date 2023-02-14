@@ -22,6 +22,7 @@ var PreviouslyUsedKeyword = function( app, args ) {
 	if ( isUndefined( args ) ) {
 		args = {
 			usedKeywords: {},
+			usedKeywordsPostTypes: {},
 			searchUrl: "",
 			postUrl: "",
 		};
