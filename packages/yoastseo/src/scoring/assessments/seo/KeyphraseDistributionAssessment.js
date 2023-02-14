@@ -5,6 +5,7 @@ import { languageProcessing, AssessmentResult, Assessment, helpers } from "yoast
 
 const { getSentences } = languageProcessing;
 const { createAnchorOpeningTag } = helpers;
+
 /**
  * Returns a score based on the largest percentage of text in
  * which no keyword occurs.
