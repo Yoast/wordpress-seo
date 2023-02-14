@@ -285,7 +285,6 @@ var App = function( args ) {
 
 	this._assessorOptions = {
 		useCornerStone: false,
-		useKeywordDistribution: false,
 		useWordComplexity: false,
 	};
 

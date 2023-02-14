@@ -219,10 +219,6 @@ describe( "AnalysisWebWorker", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
-			test( "update seo with useKeywordDistribution", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false, false ) ).toEqual( updateSEO );
-			} );
-
 			test( "update all with locale", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { locale: "en_US" }, false, false, false ) ).toEqual( updateAll );
 			} );
@@ -405,10 +401,6 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
 
-				// Not when switching keyword distribution assessor on/off.
-				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
-				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
-
 				// When switching useWordComplexity on/off.
 				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -448,10 +440,6 @@ describe( "AnalysisWebWorker", () => {
 
 				// When switching taxonomy assessor on/off.
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
-				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
-
-				// When switching keyword distribution assessor on/off.
-				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
 
 				// When changing locale.

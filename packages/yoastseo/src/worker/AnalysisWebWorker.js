@@ -60,7 +60,6 @@ export default class AnalysisWebWorker {
 			inclusiveLanguageAnalysisActive: false,
 			useCornerstone: false,
 			useTaxonomy: false,
-			useKeywordDistribution: false,
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 			customAnalysisType: "",
@@ -663,7 +662,6 @@ export default class AnalysisWebWorker {
 			"keywordAnalysisActive",
 			"useCornerstone",
 			"useTaxonomy",
-			"useKeywordDistribution",
 			"locale",
 			"translations",
 			"researchData",
