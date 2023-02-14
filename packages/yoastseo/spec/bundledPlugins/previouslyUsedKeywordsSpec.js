@@ -2,6 +2,7 @@ import PreviouslyUsedKeywords from "../../src/bundledPlugins/previouslyUsedKeywo
 
 let usedKeywords = { keyword: [ 1 ], test: [ 2, 3, 4 ] };
 import Paper from "../../src/values/Paper.js";
+import MissingArgumentError from "../../src/errors/missingArgument";
 
 const app = {};
 
@@ -25,8 +26,8 @@ describe( "checks for keyword doubles", function() {
 			"<a href='https://yoa.st/33y' target='_blank'>Do not use your keyphrase more than once</a>." );
 
 		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper ).score ).toBe( 1 );
-		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
-			"target='_blank'>Previously used keyphrase</a>: You've used this keyphrase <a href='http://search?keyword&post_type=undefined' " +
+		expect( plugin.scoreAssessment( { id: 1, count: 2, postTypeToDisplay: "Paper" }, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
+			"target='_blank'>Previously used keyphrase</a>: You've used this keyphrase <a href='http://search?keyword&post_type=Paper' " +
 			"target='_blank'> multiple times before</a>. <a href='https://yoa.st/33y' target='_blank'>" +
 			"Do not use your keyphrase more than once</a>." );
 
@@ -38,9 +39,9 @@ describe( "checks for keyword doubles", function() {
 	it( "escapes the keyword's special characters in the url", function() {
 		const paper = new Paper( "text", { keyword: "keyword/bla" } );
 		const plugin = new PreviouslyUsedKeywords( app, args );
-		expect( plugin.scoreAssessment( { id: 1, count: 2 }, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
+		expect( plugin.scoreAssessment( { id: 1, count: 2, postTypeToDisplay: "post" }, paper ).text ).toBe( "<a href='https://yoa.st/33x' " +
 			"target='_blank'>Previously used keyphrase</a>: You've used this keyphrase " +
-			"<a href='http://search?keyword%2Fbla&post_type=undefined' target='_blank'> multiple times before</a>. " +
+			"<a href='http://search?keyword%2Fbla&post_type=post' target='_blank'> multiple times before</a>. " +
 			"<a href='https://yoa.st/33y' target='_blank'>Do not use your keyphrase more than once</a>." );
 	} );
 } );
@@ -66,5 +67,78 @@ describe( "replaces keyword usage", function() {
 		expect( plugin.usedKeywords ).not.toBeDefined();
 		plugin.updateKeywordUsage(  { keyword: [ 1 ], test: [ 2, 3, 4 ] } );
 		expect( plugin.usedKeywords.keyword ).toContain( 1 );
+	} );
+} );
+
+describe( "previously used keyphrase when postTypeToDisplay is defined and count is 2 or more", () => {
+	const args = {
+		usedKeywords: { keyword: [ 2, 3, 4 ] },
+		searchUrl: searchUrl,
+		postUrl: postUrl,
+		usedKeywordsPostTypes: { keyword: [ "Post", "Page", "Product" ] },
+	};
+	const paper = new Paper( "This is a text with a keyword.", { keyword: "keyword" } );
+	const plugin = new PreviouslyUsedKeywords( app, args );
+
+	const result = plugin.assess( paper );
+	it( "correctly counts the times the keyword is used before when postTypeToDisplay is defined", () => {
+		expect( result.score ).toEqual( 1 );
+	} );
+
+	it( "correctly creates feedback when postTypeToDisplay is defined", () => {
+		expect( result.text ).toEqual( "<a href='https://yoa.st/33x' target='_blank'>Previously used keyphrase</a>: " +
+			"You've used this keyphrase <a href='http://search?keyword&post_type=Post' target='_blank'> multiple times before</a>. " +
+			"<a href='https://yoa.st/33y' target='_blank'>Do not use your keyphrase more than once</a>." );
+	} );
+} );
+
+
+describe( "previously used keyphrase when postTypeToDisplay is defined and count is 1", () => {
+	const args = {
+		usedKeywords: { keyword: [ 42 ] },
+		searchUrl: searchUrl,
+		postUrl: postUrl,
+		usedKeywordsPostTypes: { keyword: [ "Product" ] },
+	};
+	const paper = new Paper( "This is a text with a keyword.", { keyword: "keyword" } );
+	const plugin = new PreviouslyUsedKeywords( app, args );
+
+	const result = plugin.assess( paper );
+	it( "correctly counts the times the keyword is used before when postTypeToDisplay is defined", () => {
+		expect( result.score ).toEqual( 6 );
+	} );
+
+	it( "correctly creates feedback when postTypeToDisplay is defined", () => {
+		expect( result.text ).toEqual( "<a href='https://yoa.st/33x' target='_blank'>Previously used keyphrase</a>: " +
+			"You've used this keyphrase <a href='http://post?42' target='_blank'>once before</a>. " +
+			"<a href='https://yoa.st/33y' target='_blank'>Do not use your keyphrase more than once</a>." );
+	} );
+} );
+
+describe( "previously used keyphrase when postTypeToDisplay is defined and count is 0", () => {
+	const args = {
+		usedKeywords: { keyword: [ ] },
+		searchUrl: searchUrl,
+		postUrl: postUrl,
+		usedKeywordsPostTypes: { keyword: [ ] },
+	};
+	const paper = new Paper( "This is a text with a keyword.", { keyword: "keyword" } );
+	const plugin = new PreviouslyUsedKeywords( app, args );
+
+	const result = plugin.assess( paper );
+	it( "correctly counts the times the keyword is used before when postTypeToDisplay is defined", () => {
+		expect( result.score ).toEqual( 9 );
+	} );
+
+	it( "correctly creates feedback when postTypeToDisplay is defined", () => {
+		expect( result.text ).toEqual( "<a href='https://yoa.st/33x' target='_blank'>" +
+			"Previously used keyphrase</a>: You've not used this keyphrase before, very good." );
+	} );
+} );
+
+xdescribe( "Test previouslyUsedKeywords when app is undefined", () => {
+	it( "should throw an error if app is undefined", () => {
+		// eslint-disable-next-line no-undefined
+		expect( new PreviouslyUsedKeywords( undefined, {} ) ).toThrow( MissingArgumentError );
 	} );
 } );
