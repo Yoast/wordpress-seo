@@ -1,5 +1,5 @@
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import LandingPage from "./indexables-page/landing-page";
@@ -13,12 +13,11 @@ domReady( () => {
 		return;
 	}
 
-	render(
+	createRoot( root ).render(
 		<Root context={ context }>
 			<div className="yst-max-w-7xl yst-h-full yst-border-y yst-border-gray-300 yst-py-2">
 				<LandingPage />
 			</div>
-		</Root>,
-		root
+		</Root>
 	);
 } );

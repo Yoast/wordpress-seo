@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
-import { render, Fragment, useState, useCallback, useEffect } from "@wordpress/element";
+import { createRoot, Fragment, useState, useCallback, useEffect } from "@wordpress/element";
 import { CheckIcon } from "@heroicons/react/solid";
 import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 import Portal from "../components/portals/Portal";
@@ -246,7 +246,7 @@ export default function initSocialSettings() {
 	const element = document.createElement( "div" );
 	document.body.appendChild( element );
 
-	render(
+	createRoot( element ).render(
 		<Fragment>
 			<ImageSelectPortal
 				label={ __( "Image", "wordpress-seo" ) }
@@ -264,7 +264,6 @@ export default function initSocialSettings() {
 			>
 				<SocialProfilesWrapper />
 			</Portal>
-		</Fragment>,
-		element
+		</Fragment>
 	);
 }

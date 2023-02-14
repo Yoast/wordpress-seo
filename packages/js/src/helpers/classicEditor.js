@@ -1,4 +1,4 @@
-import { render, Component as wpComponent, createRef } from "@wordpress/element";
+import { Component as wpComponent, createRef, createRoot } from "@wordpress/element";
 import { SlotFillProvider } from "@wordpress/components";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
 import getL10nObject from "../analysis/getL10nObject";
@@ -73,20 +73,22 @@ export function renderClassicEditorMetabox( store ) {
 		isRtl: localizedData.isRtl,
 	};
 
-	render(
-		(
-			<SlotFillProvider>
-				<Root context={ classicMetaboxContext }>
-					<MetaboxPortal
-						target="wpseo-metabox-root"
-						store={ store }
-						theme={ theme }
-					/>
-				</Root>
-				<RegisteredComponentsContainer ref={ containerRef } />
-			</SlotFillProvider>
-		),
-		document.getElementById( "wpseo-metabox-root" )
+	const root = document.getElementById( "wpseo-metabox-root" );
+	if ( ! root ) {
+		return;
+	}
+
+	createRoot( root ).render(
+		<SlotFillProvider>
+			<Root context={ classicMetaboxContext }>
+				<MetaboxPortal
+					target="wpseo-metabox-root"
+					store={ store }
+					theme={ theme }
+				/>
+			</Root>
+			<RegisteredComponentsContainer ref={ containerRef } />
+		</SlotFillProvider>
 	);
 
 	registeredComponents.forEach( ( registered ) => {

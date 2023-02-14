@@ -1,4 +1,4 @@
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import jQuery from "jquery";
 
 import Indexation from "./components/Indexation";
@@ -22,10 +22,12 @@ function renderRoot() {
 	}
 
 	if ( root ) {
-		render( <Indexation
-			preIndexingActions={ window.yoast.indexing.preIndexingActions }
-			indexingActions={ window.yoast.indexing.indexingActions }
-		/>, root );
+		createRoot( root ).render(
+			<Indexation
+				preIndexingActions={ window.yoast.indexing.preIndexingActions }
+				indexingActions={ window.yoast.indexing.indexingActions }
+			/>
+		);
 	}
 }
 

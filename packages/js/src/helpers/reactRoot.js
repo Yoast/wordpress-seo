@@ -1,5 +1,5 @@
 import { SlotFillProvider } from "@wordpress/components";
-import { Component as wpComponent, createRef, Fragment, render } from "@wordpress/element";
+import { Component as wpComponent, createRef, createRoot, Fragment } from "@wordpress/element";
 import getL10nObject from "../analysis/getL10nObject";
 import TopLevelProviders from "../components/TopLevelProviders";
 
@@ -73,21 +73,23 @@ export function renderReactRoot( target, children ) {
 		isRtl: localizedData.isRtl,
 	};
 
-	render(
-		(
-			<TopLevelProviders
-				theme={ theme }
-				location={ "sidebar" }
-			>
-				<SlotFillProvider>
-					<Fragment>
-						{ children }
-						<RegisteredComponentsContainer ref={ containerRef } />
-					</Fragment>
-				</SlotFillProvider>
-			</TopLevelProviders>
-		),
-		document.getElementById( target )
+	const root = document.getElementById( target );
+	if ( ! root ) {
+		return;
+	}
+
+	createRoot( root ).render(
+		<TopLevelProviders
+			theme={ theme }
+			location={ "sidebar" }
+		>
+			<SlotFillProvider>
+				<Fragment>
+					{ children }
+					<RegisteredComponentsContainer ref={ containerRef } />
+				</Fragment>
+			</SlotFillProvider>
+		</TopLevelProviders>
 	);
 
 	registeredComponents.forEach( ( registered ) => {
