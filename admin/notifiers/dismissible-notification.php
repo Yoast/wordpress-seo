@@ -90,10 +90,15 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return string The listener value.
+	 * @return string|null The listener value or null if not set.
 	 */
 	protected function get_listener_value() {
-		return filter_input( INPUT_GET, 'yoast_dismiss' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Normally we would need to check for a nonce here but this class is not used anymore.
+		if ( isset( $_GET['yoast_dismiss'] ) && is_string( $_GET['yoast_dismiss'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Normally we would need to check for a nonce here but this class is not used anymore.
+			return sanitize_text_field( wp_unslash( $_GET['yoast_dismiss'] ) );
+		}
+		return null;
 	}
 
 	/**
