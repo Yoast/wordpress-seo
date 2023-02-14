@@ -1016,4 +1016,86 @@ class Addon_Manager_Test extends TestCase {
 
 		return $this->past_date;
 	}
+
+	/**
+	 * Test get_myyoast_site_information function.
+	 *
+	 * Note that this only tests when a transient can be retrieved.
+	 *
+	 * @param string $pagenow_new What the value of global pagenow should be.
+	 * @param mixed  $page What the value of $_GET['page'] should be.
+	 * @param bool   $call_quick Whether the quick transient will be used.
+	 * @param mixed  $transient_return The value the transient should return.
+	 * @param mixed  $return_value The return value.
+	 *
+	 * @dataProvider get_myyoast_site_information_dataprovider
+	 *
+	 * @covers ::get_myyoast_site_information
+	 */
+	public function test_get_myyoast_site_information( $pagenow_new, $page, $call_quick, $transient_return, $return_value ) {
+		global $pagenow;
+		$pagenow      = $pagenow_new;
+		$_GET['page'] = $page;
+		if ( $call_quick ) {
+			Monkey\Functions\expect( 'get_transient' )
+				->with( 'wpseo_site_information_quick' )
+				->andReturn( $transient_return );
+		}
+		else {
+			Monkey\Functions\expect( 'get_transient' )
+				->with( 'wpseo_site_information' )
+				->andReturn( $transient_return );
+		}
+		$this->assertEquals( $return_value, $this->instance->get_myyoast_site_information() );
+	}
+
+	/**
+	 * Data provider for test_get_myyoast_site_information.
+	 *
+	 * @return array[] The data for test_get_myyoast_site_information.
+	 */
+	public function get_myyoast_site_information_dataprovider() {
+		$normal_call            = [
+			'pagenow_new'      => 'plugins.php',
+			'page'             => 'wpseo_licences',
+			'call_quick'       => true,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		$pagenow_other          = [
+			'pagenow_new'      => 'non-existent.php',
+			'page'             => 'wpseo_licences',
+			'call_quick'       => true,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		$no_quick_call          = [
+			'pagenow_new'      => 'non-existent.php',
+			'page'             => 'non_existent',
+			'call_quick'       => false,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		$page_null              = [
+			'pagenow_new'      => 'non-existent.php',
+			'page'             => null,
+			'call_quick'       => false,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		$page_other_than_string = [
+			'pagenow_new'      => 'non-existent.php',
+			'page'             => 13,
+			'call_quick'       => false,
+			'transient_return' => 'test',
+			'return_value'     => 'test',
+		];
+		return [
+			'Normal call'                        => $normal_call,
+			'Pagenow set to something else than plugins.php or update-core.php' => $pagenow_other,
+			'No quick call'                      => $no_quick_call,
+			'Page is set to null'                => $page_null,
+			'Page is something else than string' => $page_other_than_string,
+		];
+	}
 }
