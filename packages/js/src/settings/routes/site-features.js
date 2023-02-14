@@ -236,7 +236,7 @@ const SiteFeatures = () => {
 					<fieldset className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Site structure", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="h3" size="2">
+							<Title as="h2" size="2">
 								{ __( "Site structure", "wordpress-seo" ) }
 							</Title>
 						</div>
@@ -279,7 +279,7 @@ const SiteFeatures = () => {
 					<fieldset id="section-social-sharing" className="yst-min-w-0">
 						<legend className="yst-sr-only">{ __( "Social sharing", "wordpress-seo" ) }</legend>
 						<div className="yst-max-w-screen-sm yst-mb-8">
-							<Title as="legend" size="2" className="yst-mb-2">
+							<Title as="h2" size="2" className="yst-mb-2">
 								{ __( "Social sharing", "wordpress-seo" ) }
 							</Title>
 						</div>

@@ -178,9 +178,7 @@ class WPSEO_Admin_Init {
 
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( $page !== null && WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
-				if ( $page !== 'wpseo_titles' ) {
-					$this->register_premium_upsell_admin_block();
-				}
+				$this->register_premium_upsell_admin_block();
 			}
 		}
 	}

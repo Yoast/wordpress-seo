@@ -245,7 +245,16 @@ class Elementor implements Integration_Interface {
 	public function save_postdata() {
 		global $post;
 
-		$post_id = \filter_input( \INPUT_POST, 'post_id', \FILTER_SANITIZE_NUMBER_INT );
+		if ( ! isset( $_POST['post_id'] ) || ! \is_string( $_POST['post_id'] ) ) {
+			\wp_send_json_error( 'Bad Request', 400 );
+		}
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: No sanitization needed because we cast to an integer.
+		$post_id = (int) \wp_unslash( $_POST['post_id'] );
+
+		if ( $post_id <= 0 ) {
+			\wp_send_json_error( 'Bad Request', 400 );
+		}
 
 		if ( ! \current_user_can( 'edit_post', $post_id ) ) {
 			\wp_send_json_error( 'Forbidden', 403 );
@@ -327,23 +336,23 @@ class Elementor implements Integration_Interface {
 			}
 		}
 
-		// Saving the WP post to save the slug.
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
-		$slug = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', @\FILTER_SANITIZE_STRING );
-		if ( $post->post_name !== $slug ) {
-			$post_array              = $post->to_array();
-			$post_array['post_name'] = $slug;
+		if ( isset( $_POST[ WPSEO_Meta::$form_prefix . 'slug' ] ) && \is_string( $_POST[ WPSEO_Meta::$form_prefix . 'slug' ] ) ) {
+			$slug = \sanitize_title( \wp_unslash( $_POST[ WPSEO_Meta::$form_prefix . 'slug' ] ) );
+			if ( $post->post_name !== $slug ) {
+				$post_array              = $post->to_array();
+				$post_array['post_name'] = $slug;
 
-			$save_successful = \wp_insert_post( $post_array );
-			if ( \is_wp_error( $save_successful ) ) {
-				\wp_send_json_error( 'Slug not saved', 400 );
-			}
+				$save_successful = \wp_insert_post( $post_array );
+				if ( \is_wp_error( $save_successful ) ) {
+					\wp_send_json_error( 'Slug not saved', 400 );
+				}
 
-			// Update the post object to ensure we have the actual slug.
-			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Updating the post is needed to get the current slug.
-			$post = \get_post( $post_id );
-			if ( ! \is_object( $post ) ) {
-				\wp_send_json_error( 'Updated slug not found', 400 );
+				// Update the post object to ensure we have the actual slug.
+				// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Updating the post is needed to get the current slug.
+				$post = \get_post( $post_id );
+				if ( ! \is_object( $post ) ) {
+					\wp_send_json_error( 'Updated slug not found', 400 );
+				}
 			}
 		}
 
@@ -384,7 +393,12 @@ class Elementor implements Integration_Interface {
 	public function enqueue() {
 		$post_id = \get_queried_object_id();
 		if ( empty( $post_id ) ) {
-			$post_id = \sanitize_text_field( \filter_input( \INPUT_GET, 'post' ) );
+			$post_id = 0;
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) ) {
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
+				$post_id = (int) \wp_unslash( $_GET['post'] );
+			}
 		}
 
 		if ( $post_id !== 0 ) {
@@ -540,11 +554,15 @@ class Elementor implements Integration_Interface {
 			return $this->post;
 		}
 
-		$post = \filter_input( \INPUT_GET, 'post' );
-		if ( ! empty( $post ) ) {
-			$post_id = (int) WPSEO_Utils::validate_int( $post );
+		$post = null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
+			$post = (int) \wp_unslash( $_GET['post'] );
+		}
 
-			$this->post = \get_post( $post_id );
+		if ( ! empty( $post ) ) {
+			$this->post = \get_post( $post );
 
 			return $this->post;
 		}

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import appendSpace from "../../../components/higherorder/appendSpace";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-
+import convertValueToStringRichText from "../../convertValueToStringRichText";
 import { Component } from "@wordpress/element";
-import { IconButton } from "@wordpress/components";
+import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 const RichTextWithAppendedSpace = appendSpace( RichText );
@@ -146,13 +146,13 @@ export default class HowToStep extends Component {
 	 */
 	getMediaUploadButton( props ) {
 		return (
-			<IconButton
+			<Button
 				className="schema-how-to-step-button how-to-step-add-media"
 				icon="insert"
 				onClick={ props.open }
 			>
 				{ __( "Add image", "wordpress-seo" ) }
-			</IconButton>
+			</Button>
 		);
 	}
 
@@ -175,13 +175,13 @@ export default class HowToStep extends Component {
 				render={ this.getMediaUploadButton }
 			/>
 			}
-			<IconButton
+			<Button
 				className="schema-how-to-step-button"
 				icon="trash"
 				label={ __( "Delete step", "wordpress-seo" ) }
 				onClick={ this.onRemoveStep }
 			/>
-			<IconButton
+			<Button
 				className="schema-how-to-step-button"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
@@ -197,14 +197,14 @@ export default class HowToStep extends Component {
 	 */
 	getMover() {
 		return <div className="schema-how-to-step-mover">
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveStepUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move step up", "wordpress-seo" ) }
 				aria-disabled={ this.props.isFirst }
 			/>
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveStepDown }
 				icon="arrow-down-alt2"
@@ -289,13 +289,13 @@ export default class HowToStep extends Component {
 					tagName="strong"
 					className="schema-how-to-step-name"
 					key={ step.id + "-name" }
-					value={ step.name }
+					value={ convertValueToStringRichText( step.name ) }
 				/>
 				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
 					key={ step.id + "-text" }
-					value={ step.text }
+					value={ convertValueToStringRichText( step.text ) }
 				/>
 			</li>
 		);
@@ -315,7 +315,6 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		const { id, name, text } = step;
-
 		return (
 			<li className="schema-how-to-step" key={ id }>
 				<span className="schema-how-to-step-number">
@@ -325,20 +324,22 @@ export default class HowToStep extends Component {
 					}
 				</span>
 				<RichTextWithAppendedSpace
+					identifier={ `${ id }-name` }
 					className="schema-how-to-step-name"
 					tagName="p"
 					key={ `${ id }-name` }
-					value={ name }
+					value={ convertValueToStringRichText( name )  }
 					onChange={ this.onChangeTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusTitle }
-					formattingControls={ [ "italic", "strikethrough", "link" ] }
+					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
 				<RichTextWithAppendedSpace
+					identifier={ `${ id }-text` }
 					className="schema-how-to-step-text"
 					tagName="p"
 					key={ `${ id }-text` }
-					value={ text }
+					value={ convertValueToStringRichText( text ) }
 					onChange={ this.onChangeText }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusText }

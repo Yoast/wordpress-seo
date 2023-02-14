@@ -4,13 +4,17 @@ import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Radio, RadioGroup, TextField } from "@yoast/ui-library";
+import { Alert, Badge, Button, FeatureUpsell, Link, Radio, RadioGroup, TextField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { isEmpty } from "lodash";
 import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
+import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
+import { useCallback } from "@wordpress/element";
+
+const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -36,6 +40,15 @@ const SiteRepresentation = () => {
 	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
 	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
 	const canEditUser = useSelectSettings( "selectCanEditUser", [ personUser?.id ], personUser?.id );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
+	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
+	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
+
+	const handleAddProfile = useCallback( async( arrayHelpers ) => {
+		await arrayHelpers.push( "" );
+		document.getElementById( `input-wpseo_social-other_social_urls-${ otherSocialUrls.length }` )?.focus();
+	}, [ otherSocialUrls ] );
 
 	return (
 		<RouteLayout
@@ -175,6 +188,34 @@ const SiteRepresentation = () => {
 									label={ __( "Twitter", "wordpress-seo" ) }
 									placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
 								/>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ mastodonPremiumLink }
+									cardText={ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+									{ ...premiumUpsellConfig }
+								>
+									<FormikWithErrorFieldWithDummy
+										as={ TextField }
+										name="wpseo_social.mastodon_url"
+										id="input-wpseo_social-mastodon_url"
+										label={ __( "Mastodon", "wordpress-seo" ) }
+										placeholder={ __( "E.g. https://mastodon.social/@yoast", "wordpress-seo" ) }
+										labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+										isDummy={ ! isPremium }
+										description={ <>
+											{ __( "Get your site verified in your Mastodon profile.", "wordpress-seo" )	}
+											{ " " }
+											<Link id="link-wpseo_social-mastodon_url" href={ mastodonUrlLink } target="_blank" rel="noopener">
+												{ __( "Read more about how to get your site verified.", "wordpress-seo" ) }
+											</Link>
+										</> }
+									/>
+								</FeatureUpsell>
 								<FieldArray name="wpseo_social.other_social_urls">
 									{ arrayHelpers => (
 										<>
@@ -206,6 +247,8 @@ const SiteRepresentation = () => {
 															// eslint-disable-next-line react/jsx-no-bind
 															onClick={ arrayHelpers.remove.bind( null, index ) }
 															className="yst-mt-7 yst-p-2.5"
+															// translators: %1$s expands to array index + 1.
+															aria-label={ sprintf( __( "Remove Other profile %1$s", "wordpress-seo" ), index + 1 ) }
 														>
 															<TrashIcon className="yst-h-5 yst-w-5" />
 														</Button>
@@ -213,7 +256,7 @@ const SiteRepresentation = () => {
 												</Transition>
 											) ) }
 											{ /* eslint-disable-next-line react/jsx-no-bind */ }
-											<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
+											<Button id="button-add-social-profile" variant="secondary" onClick={ ()=>handleAddProfile( arrayHelpers ) }>
 												<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-slate-400" />
 												{ __( "Add another profile", "wordpress-seo" ) }
 											</Button>

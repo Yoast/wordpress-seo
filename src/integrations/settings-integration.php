@@ -24,6 +24,7 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast_Notification_Center;
 
 /**
  * Class Settings_Integration.
@@ -255,6 +256,10 @@ class Settings_Integration implements Integration_Interface {
 			\add_action( 'admin_init', [ $this, 'register_setting' ] );
 			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 			\add_action( 'in_admin_header', [ $this, 'remove_notices' ], \PHP_INT_MAX );
+
+			// Remove the post types and taxonomies made public notifications (if any).
+			$this->remove_post_types_made_public_notification();
+			$this->remove_taxonomies_made_public_notification();
 		}
 	}
 
@@ -374,6 +379,23 @@ class Settings_Integration implements Integration_Interface {
 		$post_types             = $this->post_type_helper->get_indexable_post_type_objects();
 		$taxonomies             = $this->taxonomy_helper->get_indexable_taxonomy_objects();
 
+		// Check if attachments are included in indexation.
+		if ( ! \array_key_exists( 'attachment', $post_types ) ) {
+			// Always include attachments in the settings, to let the user enable them again.
+			$attachment_object = \get_post_type_object( 'attachment' );
+			if ( ! empty( $attachment_object ) ) {
+				$post_types['attachment'] = $attachment_object;
+			}
+		}
+		// Check if post formats are included in indexation.
+		if ( ! \array_key_exists( 'post_format', $taxonomies ) ) {
+			// Always include post_format in the settings, to let the user enable them again.
+			$post_format_object = \get_taxonomy( 'post_format' );
+			if ( ! empty( $post_format_object ) ) {
+				$taxonomies['post_format'] = $post_format_object;
+			}
+		}
+
 		$transformed_post_types = $this->transform_post_types( $post_types );
 		$transformed_taxonomies = $this->transform_taxonomies( $taxonomies, \array_keys( $transformed_post_types ) );
 
@@ -418,7 +440,8 @@ class Settings_Integration implements Integration_Interface {
 			'isNetworkAdmin'                => \is_network_admin(),
 			'isMainSite'                    => \is_main_site(),
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
-			'isLocalSeoActive'              => (bool) \defined( 'WPSEO_LOCAL_FILE' ),
+			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
+			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
@@ -495,7 +518,7 @@ class Settings_Integration implements Integration_Interface {
 	public function get_upsell_settings() {
 		return [
 			'actionId'     => 'load-nfd-ctb',
-			'premiumCtbId' => '57d6a568-783c-45e2-a388-847cff155897',
+			'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 		];
 	}
 
@@ -702,7 +725,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_post_types( $post_types ) {
 		$transformed = [];
-		foreach ( $post_types as $index => $post_type ) {
+		foreach ( $post_types as $post_type ) {
 			$transformed[ $post_type->name ] = [
 				'name'                 => $post_type->name,
 				'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
@@ -753,11 +776,12 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_taxonomies( $taxonomies, $post_type_names ) {
 		$transformed = [];
-		foreach ( $taxonomies as $index => $taxonomy ) {
+		foreach ( $taxonomies as $taxonomy ) {
 			$transformed[ $taxonomy->name ] = [
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
+				'showUi'        => $taxonomy->show_ui,
 				'singularLabel' => $taxonomy->labels->singular_name,
 				'postTypes'     => \array_filter(
 					$taxonomy->object_type,
@@ -800,7 +824,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = \substr( $route, 1 );
 		}
 
-		return $route;
+		return \rawurlencode( $route );
 	}
 
 	/**
@@ -820,5 +844,25 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'siteLogoId' => $site_logo_id,
 		];
+	}
+
+	/**
+	 * Removes the notification related to the post types which have been made public.
+	 *
+	 * @return void
+	 */
+	private function remove_post_types_made_public_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'post-types-made-public' );
+	}
+
+	/**
+	 * Removes the notification related to the taxonomies which have been made public.
+	 *
+	 * @return void
+	 */
+	private function remove_taxonomies_made_public_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'taxonomies-made-public' );
 	}
 }

@@ -50,17 +50,17 @@ export function updateScore( type, status, labels = null ) {
  * @returns {void}
  */
 export function createScoresInPublishBox( type, status, labels = null ) {
-	var publishSection = $( "<div />", {
+	const publishSection = $( "<div />", {
 		"class": "misc-pub-section yoast yoast-seo-score " + type + "-score",
 		id: type + "-score",
 	} );
 
-	var spanElem = $( "<span />", {
+	const spanElem = $( "<span />", {
 		"class": scoreDescriptionClass,
 		html: createSEOScoreLabel( type, status, labels ),
 	} );
 
-	var imgElem = $( "<span>" )
+	const imgElem = $( "<span>" )
 		.attr( "class", imageScoreClass + " na" );
 
 	publishSection.append( imgElem ).append( spanElem );

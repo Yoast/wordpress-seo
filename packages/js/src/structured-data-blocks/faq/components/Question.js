@@ -2,9 +2,9 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-
+import convertValueToStringRichText from "../../convertValueToStringRichText";
 import { Component } from "@wordpress/element";
-import { IconButton } from "@wordpress/components";
+import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
@@ -47,13 +47,13 @@ export default class Question extends Component {
 	 */
 	getMediaUploadButton( props ) {
 		return (
-			<IconButton
+			<Button
 				className="schema-faq-section-button faq-section-add-media"
 				icon="insert"
 				onClick={ props.open }
 			>
 				{ __( "Add image", "wordpress-seo" ) }
-			</IconButton>
+			</Button>
 		);
 	}
 
@@ -187,13 +187,13 @@ export default class Question extends Component {
 				value={ attributes.id }
 				render={ this.getMediaUploadButton }
 			/>
-			<IconButton
+			<Button
 				className="schema-faq-section-button"
 				icon="trash"
 				label={ __( "Delete question", "wordpress-seo" ) }
 				onClick={ this.onRemoveQuestion }
 			/>
-			<IconButton
+			<Button
 				className="schema-faq-section-button"
 				icon="insert"
 				label={ __( "Insert question", "wordpress-seo" ) }
@@ -209,14 +209,14 @@ export default class Question extends Component {
 	 */
 	getMover() {
 		return <div className="schema-faq-section-mover">
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveUp }
 				icon="arrow-up-alt2"
 				label={ __( "Move question up", "wordpress-seo" ) }
 				aria-disabled={ this.props.isFirst }
 			/>
-			<IconButton
+			<Button
 				className="editor-block-mover__control"
 				onClick={ this.onMoveDown }
 				icon="arrow-down-alt2"
@@ -290,13 +290,13 @@ export default class Question extends Component {
 					tagName="strong"
 					className="schema-faq-question"
 					key={ question.id + "-question" }
-					value={ question.question }
+					value={ convertValueToStringRichText( question.question ) }
 				/>
 				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-faq-answer"
 					key={ question.id + "-answer" }
-					value={ question.answer }
+					value={ convertValueToStringRichText( question.answer ) }
 				/>
 			</div>
 		);
@@ -333,23 +333,26 @@ export default class Question extends Component {
 			answer,
 		} = attributes;
 
+
 		return (
 			<div className="schema-faq-section" key={ id }>
 				<RichText
+					identifier={ id + "-question" }
 					className="schema-faq-question"
 					tagName="p"
 					key={ id + "-question" }
-					value={ question }
+					value={ convertValueToStringRichText( question ) }
 					onChange={ this.onChangeQuestion }
 					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
-					formattingControls={ [ "italic", "strikethrough", "link" ] }
+					allowedFormats={ [ "core/italic", "core/strikethrough", "core/link", "core/annotation" ] }
 				/>
 				<RichText
+					identifier={ id + "-answer" }
 					className="schema-faq-answer"
 					tagName="p"
 					key={ id + "-answer" }
-					value={ answer }
+					value={ convertValueToStringRichText( answer ) }
 					onChange={ this.onChangeAnswer }
 					unstableOnFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }

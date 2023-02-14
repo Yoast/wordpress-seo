@@ -171,7 +171,10 @@ class Taxonomy_Helper {
 		$taxonomy_objects     = [];
 		$indexable_taxonomies = $this->get_indexable_taxonomies();
 		foreach ( $indexable_taxonomies as $taxonomy ) {
-			$taxonomy_objects[] = \get_taxonomy( $taxonomy );
+			$taxonomy_object = \get_taxonomy( $taxonomy );
+			if ( ! empty( $taxonomy_object ) ) {
+				$taxonomy_objects[ $taxonomy ] = $taxonomy_object;
+			}
 		}
 
 		return $taxonomy_objects;

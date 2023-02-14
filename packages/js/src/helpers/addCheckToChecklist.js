@@ -84,7 +84,7 @@ export function maybeAddInclusiveLanguageCheck( checklist, store ) {
 		checklist.push( {
 			label: __( "Inclusive language:", "wordpress-seo" ),
 			score: scoreIndicator.className,
-			scoreValue: scoreIndicator.screenReaderReadabilityText,
+			scoreValue: scoreIndicator.screenReaderInclusiveLanguageText,
 		} );
 	}
 }

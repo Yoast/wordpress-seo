@@ -99,8 +99,8 @@ describe( "Export of the inclusive language configuration", () => {
 		let assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "firemen" ) );
 		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "" );
 
-		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "gypVerb" ) );
-		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "NotPrecededBy: \"a\", \"the\"" );
+		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "binge" ) );
+		expect( retrieveRule( assessment.rule.toString() ) ).toEqual( "NotFollowedBy: \"drink\", \"drinks\", \"drinking\"" );
 
 		assessment = new InclusiveLanguageAssessment( inclusiveLanguageAssessmentsConfigs.find( obj => obj.identifier === "seniors" ) );
 		expect( retrieveRule( assessment.rule.toString() ) ).

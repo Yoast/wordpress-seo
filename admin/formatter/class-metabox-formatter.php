@@ -186,7 +186,7 @@ class WPSEO_Metabox_Formatter {
 							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
 							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
 							'</a>',
-							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
+							'<strong>' . __( 'Potentially non-inclusive', 'wordpress-seo' ) . '</strong>'
 						),
 						'good' => sprintf(
 						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */

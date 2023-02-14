@@ -5,29 +5,46 @@ import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
 
-const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>).";
+/*
+ * The last sentence of strings for the non-inclusive terms for 'older people/person'.
+ *
+ * "Or, if possible, be specific about the group you are referring to (e.g. %3$s)."
+ */
+const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. %3$s).";
+/*
+ * Used to suggest an alternative for 'senile'.
+ *
+ * "Consider using an alternative, such as a specific characteristic or experience if it is known (e.g. <i>has Alzheimer's</i>)."
+ */
 const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known" +
 	" (e.g. <i>has Alzheimer's</i>).";
 
 const ageAssessments = [
 	{
+		identifier: "seniorCitizen",
+		nonInclusivePhrases: [ "senior citizen" ],
+		inclusiveAlternatives: [ "<i>older person, older citizen</i>", "<i>person older than 70</i>" ],
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
+	},
+	{
 		identifier: "seniorCitizens",
-		nonInclusivePhrases: [ "senior citizen", "senior citizens" ],
-		inclusiveAlternatives: "<i>older citizen(s)</i>",
+		nonInclusivePhrases: [ "senior citizens" ],
+		inclusiveAlternatives: [ "<i>older people, older citizens</i>", "<i>people older than 70</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "agingDependants",
 		nonInclusivePhrases: [ "aging dependants" ],
-		inclusiveAlternatives: "<i>older people</i>",
+		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnlessNonInclusive, specificAgeGroup ].join( " " ),
 	},
 	{
 		identifier: "elderly",
 		nonInclusivePhrases: [ "elderly" ],
-		inclusiveAlternatives: "<i>older people</i>",
+		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 	},
@@ -48,7 +65,7 @@ const ageAssessments = [
 	{
 		identifier: "seniors",
 		nonInclusivePhrases: [ "seniors" ],
-		inclusiveAlternatives: "<i>older people</i>",
+		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		rule: ( words, nonInclusivePhrase ) => {
@@ -60,7 +77,7 @@ const ageAssessments = [
 	{
 		identifier: "theAged",
 		nonInclusivePhrases: [ "the aged" ],
-		inclusiveAlternatives: "<i>older people</i>",
+		inclusiveAlternatives: [ "<i>older people</i>", "<i>people older than 70</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmful, specificAgeGroup ].join( " " ),
 		rule: ( words, nonInclusivePhrase ) => {

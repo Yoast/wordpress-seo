@@ -3,7 +3,7 @@ import { PluginIntegration } from "./plugin-integration";
 import { ReactComponent as SSPLogo } from "../../images/ssp-logo.svg";
 import { ReactComponent as TECLogo } from "../../images/tec-logo.svg";
 import { ReactComponent as RecipeMakerLogo } from "../../images/wp-recipe-maker-logo.svg";
-import { ReactComponent as WoocommerceLogo } from "../../images/woocommerce-logo.svg";
+import { ReactComponent as WoocommerceSeoLogo } from "../../images/woocommerce-seo-logo.svg";
 import { ReactComponent as EDDLogo } from "../../images/edd-logo.svg";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -76,6 +76,7 @@ const integrations = [
 		),
 		learnMoreLink: "https://yoa.st/integrations-about-edd",
 		logoLink: "https://yoa.st/integrations-logo-edd",
+		upsellLink: "https://yoa.st/get-edd-integration",
 		slug: "edd",
 		description: sprintf(
 			/* translators: 1: Easy Digital Downloads, 2: Yoast SEO */
@@ -83,7 +84,7 @@ const integrations = [
 			"Easy Digital Downloads",
 			"Yoast SEO"
 		),
-		isPremium: false,
+		isPremium: true,
 		isNew: true,
 		isMultisiteAvailable: true,
 		logo: EDDLogo,
@@ -138,7 +139,7 @@ const wooIntegration = {
 	isPremium: false,
 	isNew: false,
 	isMultisiteAvailable: true,
-	logo: WoocommerceLogo,
+	logo: WoocommerceSeoLogo,
 	upsellLink: "https://yoa.st/integrations-get-woocommerce",
 };
 

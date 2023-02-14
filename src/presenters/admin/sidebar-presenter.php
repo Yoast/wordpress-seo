@@ -55,7 +55,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 							?>
 						</p>
 						<p class="plugin-buy-button">
-							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
+							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
 								/* translators: %s expands to Yoast SEO Premium */
 								\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
@@ -69,12 +69,12 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									<?php \esc_html_e( 'Read reviews from real users', 'wordpress-seo' ); ?>
 								</h3>
 								<span class="rating">
-									<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/logo-g2-white.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-									<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-half.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/logo-g2-white.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-half.svg' ); ?>">
 									<span class="rating-text">4.6 / 5</span>
 
 								</span>
