@@ -174,8 +174,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the post types for the given post IDs.
 	 *
-	 * @param array $post_ids The post IDs to retrieve the post types for.
-	 *
+	 * @param array $post_ids_per_keyword An associative array with keywords as keys and an array of post ids where those keywords are used.
 	 * @return array The post types for the given post IDs.
 	 */
 	private function get_post_types_for_all_ids( $post_ids_per_keyword ) {
