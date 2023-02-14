@@ -24,10 +24,6 @@ describe( "a test checking if the word is complex in French",  function() {
 		expect( checkIfWordIsComplex( "Éclairage" ) ).toEqual( false );
 	} );
 
-	it( "returns function words longer than 9 characters as non complex", function() {
-		expect( checkIfWordIsComplex( "continuellement" ) ).toEqual( false );
-	} );
-
 	it( "returns words as non complex if the words are less than 9 characters", function() {
 		expect( checkIfWordIsComplex( "chanson" ) ).toEqual( false );
 		expect( checkIfWordIsComplex( "ouvrir" ) ).toEqual( false );

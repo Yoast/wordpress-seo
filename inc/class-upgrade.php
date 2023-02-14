@@ -85,6 +85,7 @@ class WPSEO_Upgrade {
 			'19.3-RC0'   => 'upgrade_193',
 			'19.6-RC0'   => 'upgrade_196',
 			'19.11-RC0'  => 'upgrade_1911',
+			'20.2-RC0'   => 'upgrade_202',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -964,6 +965,25 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 20.2 upgrade routine.
+	 */
+	private function upgrade_202() {
+		if ( WPSEO_Options::get( 'disable-attachment', true ) ) {
+			$attachment_cleanup_helper = YoastSEO()->helpers->attachment_cleanup;
+
+			$attachment_cleanup_helper->remove_attachment_indexables( true );
+			$attachment_cleanup_helper->clean_attachment_links_from_target_indexable_ids( true );
+		}
+
+		$this->clean_unindexed_indexable_rows_with_no_object_id();
+
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			// This schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table. We also want to cleanup possible orphaned hierarchies from the above cleanups.
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1376,11 +1396,10 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
-			$delete_query = $wpdb->prepare(
+			$delete_query =
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'post'
-				AND object_sub_type IS NOT NULL"
-			);
+				AND object_sub_type IS NOT NULL";
 		}
 		else {
 			$delete_query = $wpdb->prepare(
@@ -1421,11 +1440,9 @@ class WPSEO_Upgrade {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_taxonomies ) ) {
-			$delete_query = $wpdb->prepare(
-				"DELETE FROM $indexable_table
+			$delete_query = "DELETE FROM $indexable_table
 				WHERE object_type = 'term'
-				AND object_sub_type IS NOT NULL"
-			);
+				AND object_sub_type IS NOT NULL";
 		}
 		else {
 			$delete_query = $wpdb->prepare(
@@ -1461,8 +1478,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		$query = $wpdb->prepare(
+		$query =
 			"SELECT
 				MAX(id) as newest_id,
 				object_id,
@@ -1476,9 +1492,7 @@ class WPSEO_Upgrade {
 				object_id,
 				object_type
 			HAVING
-				count(*) > 1"
-		);
-		// phpcs:enable
+				count(*) > 1";
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
@@ -1505,8 +1519,37 @@ class WPSEO_Upgrade {
 				// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 				// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 				$wpdb->query( $delete_query );
+				// phpcs:enable
 			}
 		}
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Cleans up "unindexed" indexable rows when appropriate, aka when there's no object ID even though it should.
+	 *
+	 * @return void
+	 */
+	private function clean_unindexed_indexable_rows_with_no_object_id() {
+		global $wpdb;
+
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: No user input, just a table name.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		$delete_query = $wpdb->query(
+			"DELETE FROM $indexable_table
+			WHERE post_status = 'unindexed'
+			AND object_type NOT IN ( 'home-page', 'date-archive', 'post-type-archive', 'system-page' )
+			AND object_id IS NULL"
+		);
+		// phpcs:enable
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -1529,8 +1572,7 @@ class WPSEO_Upgrade {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		$delete_query = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = 'user'" );
+		$delete_query = "DELETE FROM $indexable_table WHERE object_type = 'user'";
 		// phpcs:enable
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.

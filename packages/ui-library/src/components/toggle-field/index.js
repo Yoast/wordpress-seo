@@ -3,6 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
 import Toggle from "../../elements/toggle";
+import { forwardRef } from "@wordpress/element";
 
 /**
  * @param {JSX.node} children Children are rendered below the checkbox group.
@@ -16,27 +17,31 @@ import Toggle from "../../elements/toggle";
  * @param {Object} props Other Toggle props.
  * @returns {JSX.Element} ToggleField component.
  */
-const ToggleField = ( {
-	children = null,
+const ToggleField = forwardRef( ( {
+	id,
+	children,
 	label,
-	labelSuffix = null,
-	description = null,
+	labelSuffix,
+	description,
 	checked,
-	disabled = false,
+	disabled,
 	onChange,
-	className = "",
+	className,
+	"aria-label": ariaLabel,
 	...props
-} ) => (
+}, ref ) => (
 	<Switch.Group
 		as="div"
 		className={ classNames( "yst-toggle-field", disabled && "yst-toggle-field--disabled", className ) }
 	>
 		<div className="yst-toggle-field__header">
 			{ label && <div className="yst-toggle-field__label-wrapper">
-				<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
+				<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } aria-label={ ariaLabel } />
 				{ labelSuffix }
 			</div> }
 			<Toggle
+				id={ id }
+				ref={ ref }
 				checked={ checked }
 				onChange={ onChange }
 				screenReaderLabel={ label }
@@ -50,9 +55,10 @@ const ToggleField = ( {
 			</Switch.Description>
 		) }
 	</Switch.Group>
-);
+) );
 
-ToggleField.propTypes = {
+const propTypes = {
+	id: PropTypes.string.isRequired,
 	children: PropTypes.node,
 	label: PropTypes.string.isRequired,
 	labelSuffix: PropTypes.node,
@@ -61,6 +67,23 @@ ToggleField.propTypes = {
 	disabled: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
+	"aria-label": PropTypes.string,
 };
+
+ToggleField.propTypes = propTypes;
+
+ToggleField.defaultProps = {
+	children: null,
+	labelSuffix: null,
+	description: null,
+	disabled: false,
+	className: "",
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <ToggleField { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = ToggleField.defaultProps;
+StoryComponent.displayName = "ToggleField";
 
 export default ToggleField;

@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_REST_Request;
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
@@ -259,7 +261,7 @@ class Wincher_Route_Test extends TestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_authenticate() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'code' )
@@ -275,9 +277,9 @@ class Wincher_Route_Test extends TestCase {
 			->with( '123456', '123456' )
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->authenticate( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->authenticate( $request ) );
 	}
 
 	/**
@@ -293,7 +295,7 @@ class Wincher_Route_Test extends TestCase {
 			'status'    => 200,
 		];
 
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'keyphrases' )
@@ -311,9 +313,9 @@ class Wincher_Route_Test extends TestCase {
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->track_keyphrases( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->track_keyphrases( $request ) );
 	}
 
 	/**
@@ -322,7 +324,7 @@ class Wincher_Route_Test extends TestCase {
 	 * @covers ::get_tracked_keyphrases
 	 */
 	public function test_get_tracked_keyphrases() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'permalink' )
@@ -341,9 +343,9 @@ class Wincher_Route_Test extends TestCase {
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_tracked_keyphrases( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_tracked_keyphrases( $request ) );
 	}
 
 	/**
@@ -352,7 +354,7 @@ class Wincher_Route_Test extends TestCase {
 	 * @covers ::get_tracked_keyphrases
 	 */
 	public function test_get_tracked_keyphrases_without_permalink() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'permalink' )
@@ -371,9 +373,9 @@ class Wincher_Route_Test extends TestCase {
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_tracked_keyphrases( $request ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $this->instance->get_tracked_keyphrases( $request ) );
 	}
 
 	/**
@@ -382,7 +384,7 @@ class Wincher_Route_Test extends TestCase {
 	 * @covers ::untrack_keyphrase
 	 */
 	public function test_untrack_keyphrase() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'keyphraseID' )
@@ -398,7 +400,7 @@ class Wincher_Route_Test extends TestCase {
 				]
 			);
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
 		$this->assertIsObject( $this->instance->untrack_keyphrase( $request ) );
 	}

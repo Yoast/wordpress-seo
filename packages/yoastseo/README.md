@@ -17,6 +17,7 @@ Also included is a preview of the Google search results which can be assessed us
 * Information on the [scoring system of the assessments](src/scoring/assessments/README.md)
   * [SEO analysis scoring](src/scoring/assessments/SCORING%20SEO.md)
   * [Readability analysis scoring](src/scoring/assessments/SCORING%20READABILITY.md)
+  * [Inclusive language analysis scoring](src/scoring/assessments/SCORING%20INCLUSIVE%20LANGUAGE.md)
 * The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
 * Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
 * Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
@@ -99,45 +100,56 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 **Note: This is currently a synchronous API, but will become an asynchronous API in the future.**
 
 ## Supported languages
-| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	| Function words<sup>2</sup> 	|
-|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|----------------------------	|
-| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Catalan    	| ✅                	| ❌<sup>4</sup>         | ❌<sup>4</sup>    | ❌<sup>4</sup>        | ❌<sup>4</sup>                 |  ❌<sup>4</sup>                  |
-| Polish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Swedish    	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hungarian  	| ✅                	| ❌<sup>3</sup>        |  ✅          	    | ✅           	        | ✅             	            | ✅                 	        |
-| Indonesian 	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Arabic    	| ✅                	| ❌<sup>3</sup>        | ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hebrew        | ✅                    | ❌<sup>3</sup>        | ✅                | ✅                     | ✅                            | ✅                             |
-| Farsi    	    | ✅                    | ❌<sup>3</sup>        | ✅              	| ✅                    | ✅                             | ✅                          	|
-| Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Norwegian     | ✅                	| ❌<sup>3</sup>        | ✅                 | ✅                   	| ✅                           	| ✅                          	|
-| Czech     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Slovak     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Greek     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Japanese     	| ✅                	| ❌<sup>3</sup>       	| ❌<sup>5</sup>    | ✅                    | ✅                            | ✅                             |
+
+### SEO analysis
+**Function word support**, which is used for internal linking, insights, and keyphrase-related analysis, is available in the following languages:
+
+English, German, Dutch, French, Spanish, Italian, Portuguese, Russian, Polish, Swedish, Hungarian, Indonesian, Arabic,
+Hebrew, Farsi, Turkish, Norwegian, Czech, Slovak, Greek, Japanese
+
+### Readability analysis
+
+| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	|
+|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|
+| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ❌<sup>3</sup>                 |
+| Polish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Swedish    	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Hungarian  	| ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |
+| Indonesian 	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Arabic    	| ✅                	| ❌<sup>2</sup>        | ✅             	| ✅                   	| ✅                           	|
+| Hebrew        | ✅                    | ❌<sup>2</sup>        | ✅                | ✅                     | ✅                            |
+| Farsi    	    | ✅                    | ❌<sup>2</sup>        | ✅              	| ✅                    | ✅                             |
+| Turkish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Norwegian     | ✅                	| ❌<sup>2</sup>        | ✅                 | ✅                   	| ✅                           	|
+| Czech     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Slovak     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Greek     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Japanese     	| ✅                	| ❌<sup>2</sup>       	| ❌<sup>4</sup>    | ✅                    | ✅                            |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
-<sup>2</sup> These are used for internal linking, insights and keyphrase-related analyses.
+<sup>2</sup> There is no existing Flesch reading ease formula for these languages.
 
-<sup>3</sup> There is no existing Flesch reading ease formula for these languages.
+<sup>3</sup> This means that the functionality for this assessment is currently not available for these languages.
 
-<sup>4</sup> This means that the functionality for this assessment is currently not available for these languages.
-
-<sup>5</sup> The Passive voice check for Japanese is not implemented since the structure is the same as the potential form and can additionally be used for an honorific purpose. Identifying whether a verb is in its passive, honorific or potential form is problematic without contextual information.
+<sup>4</sup> The Passive voice check for Japanese is not implemented since the structure is the same as the potential form and can additionally be used for an honorific purpose. Identifying whether a verb is in its passive, honorific or potential form is problematic without contextual information.
 
 The following readability assessments are available for all languages:
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
 - paragraph length
 - subheading distribution
+
+### Inclusive language analysis
+
+The inclusive language analysis is currently available in English.
 
 ## Change log
 

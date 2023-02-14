@@ -89,6 +89,9 @@ class Indexing_Notification_Presenter extends Abstract_Presenter {
 			case Indexing_Reasons::REASON_TAXONOMY_MADE_PUBLIC:
 				$text = \esc_html__( 'We need to re-analyze some of your SEO data because of a change in the visibility of your taxonomies. Please help us do that by running the SEO data optimization. ', 'wordpress-seo' );
 				break;
+			case Indexing_Reasons::REASON_ATTACHMENTS_MADE_ENABLED:
+				$text = \esc_html__( 'It looks like you\'ve enabled media pages. We recommend that you help us to re-analyze your site by running the SEO data optimization. ', 'wordpress-seo' );
+				break;
 			default:
 				$text = \esc_html__( 'You can speed up your site and get insight into your internal linking structure by letting us perform a few optimizations to the way SEO data is stored. ', 'wordpress-seo' );
 		}

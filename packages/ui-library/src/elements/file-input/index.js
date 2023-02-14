@@ -1,4 +1,4 @@
-import { useState, useCallback } from "@wordpress/element";
+import { useState, useCallback, forwardRef } from "@wordpress/element";
 import { isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import classNames from "classnames";
@@ -14,26 +14,26 @@ import Link from "../link";
  * @param {string} dropLabel Label for drop area.
  * @param {string} screenReaderLabel Screen reader label.
  * @param {string} selectDescription Description for select area.
- * @param {boolean} isDisabled Disabled state.
+ * @param {boolean} disabled Disabled state.
  * @param {JSX.Element} iconAs Icon to show in select area.
  * @param {Function} onChange The callback for when a file is uploaded.
  * @param {string} className Classname.
  * @returns {JSX.Element} The FileInput component.
  */
-const FileInput = ( {
+const FileInput = forwardRef( ( {
 	id,
 	name,
 	value,
 	selectLabel,
 	dropLabel,
 	screenReaderLabel,
-	selectDescription = "",
-	isDisabled = false,
-	iconAs: IconComponent = DocumentAddIcon,
+	selectDescription,
+	disabled,
+	iconAs: IconComponent,
 	onChange,
-	className = "",
+	className,
 	...props
-} ) => {
+}, ref ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
 
 	const handleDragEnter = useCallback( ( event ) => {
@@ -68,7 +68,7 @@ const FileInput = ( {
 			onDrop={ handleDrop }
 			className={ classNames( "yst-file-input", {
 				"yst-is-drag-over": isDragOver,
-				"yst-is-disabled": isDisabled,
+				"yst-is-disabled": disabled,
 				className,
 			} ) }
 		>
@@ -76,6 +76,7 @@ const FileInput = ( {
 				<IconComponent className="yst-file-input__icon" />
 				<div className="yst-file-input__labels">
 					<input
+						ref={ ref }
 						type="file"
 						id={ id }
 						name={ name }
@@ -83,7 +84,7 @@ const FileInput = ( {
 						onChange={ onChange }
 						className="yst-file-input__input"
 						aria-labelledby={ screenReaderLabel }
-						disabled={ isDisabled }
+						disabled={ disabled }
 						{ ...props }
 					/>
 					<Link as="label" htmlFor={ id } className="yst-file-input__select-label">{ selectLabel }</Link>
@@ -94,9 +95,9 @@ const FileInput = ( {
 			</div>
 		</div>
 	);
-};
+} );
 
-FileInput.propTypes = {
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -104,10 +105,25 @@ FileInput.propTypes = {
 	dropLabel: PropTypes.string.isRequired,
 	screenReaderLabel: PropTypes.string.isRequired,
 	selectDescription: PropTypes.string,
-	isDisabled: PropTypes.bool,
+	disabled: PropTypes.bool,
 	iconAs: PropTypes.elementType,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
 };
+
+FileInput.defaultProps = {
+	selectDescription: "",
+	disabled: false,
+	iconAs: DocumentAddIcon,
+	className: "",
+};
+
+FileInput.propTypes = propTypes;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <FileInput { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = FileInput.defaultProps;
+StoryComponent.displayName = "FileInput";
 
 export default FileInput;

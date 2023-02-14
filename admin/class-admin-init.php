@@ -36,6 +36,7 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
+		add_action( 'admin_init', [ $this, 'remove_translations_notification' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
@@ -55,6 +56,16 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );
+	}
+
+	/**
+	 * Removes any notification for incomplete translations.
+	 *
+	 * @return void
+	 */
+	public function remove_translations_notification() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id( 'i18nModuleTranslationAssistance' );
 	}
 
 	/**
@@ -157,12 +168,17 @@ class WPSEO_Admin_Init {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
 
-			$page = filter_input( INPUT_GET, 'page' );
+			$page = null;
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+				$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+			}
+
 			// Only register the yoast i18n when the page is a Yoast SEO page.
-			if ( WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
-				if ( $page !== 'wpseo_titles' ) {
-					$this->register_premium_upsell_admin_block();
-				}
+			if ( $page !== null && WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
+				$this->register_premium_upsell_admin_block();
 			}
 		}
 	}
@@ -312,69 +328,5 @@ class WPSEO_Admin_Init {
 			 */
 			do_action( 'wpseo_publishbox_misc_actions', $post );
 		}
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Notify about the default tagline if the user hasn't changed it.
-	 *
-	 * @deprecated 13.2
-	 * @codeCoverageIgnore
-	 */
-	public function tagline_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
-	}
-
-	/**
-	 * Returns whether or not the site has the default tagline.
-	 *
-	 * @deprecated 13.2
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool
-	 */
-	public function has_default_tagline() {
-		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
-
-		$blog_description         = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-
-		// We are using the WordPress internal translation.
-		$translated_blog_description = __( 'Just another WordPress site', 'default' );
-
-		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
-	}
-
-	/**
-	 * Shows an alert when the permalink doesn't contain %postname%.
-	 *
-	 * @deprecated 13.2
-	 * @codeCoverageIgnore
-	 */
-	public function permalink_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
-	}
-
-	/**
-	 * Add an alert if the blog is not publicly visible.
-	 *
-	 * @deprecated 14.1
-	 * @codeCoverageIgnore
-	 */
-	public function blog_public_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
-	}
-
-	/**
-	 * Handles the notifiers for the dashboard page.
-	 *
-	 * @deprecated 14.1
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function handle_notifications() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
 	}
 }
