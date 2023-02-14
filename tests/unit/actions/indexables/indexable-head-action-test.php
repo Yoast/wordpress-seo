@@ -82,8 +82,8 @@ class Indexable_Head_Action_Test extends TestCase {
 
 		if ( $method === 'for_url' ) {
 			Monkey\Functions\expect( 'get_home_url' )
-			->once()
-			->andReturn( "https://homepage.org" );
+				->once()
+				->andReturn( 'https://homepage.org' );
 		}
 
 		$output = $this->instance->{$method}( $input );
@@ -157,11 +157,11 @@ class Indexable_Head_Action_Test extends TestCase {
 		$this->meta_surface
 			->expects( 'for_404' )
 			->andReturn( $meta );
-		
+
 		if ( $method === 'for_url' ) {
 			Monkey\Functions\expect( 'get_home_url' )
-			->once()
-			->andReturn( "https://homepage.org" );
+				->once()
+				->andReturn( 'https://homepage.org' );
 		}
 
 		$this->assertEquals(
