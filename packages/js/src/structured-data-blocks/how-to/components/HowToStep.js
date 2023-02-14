@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import appendSpace from "../../../components/higherorder/appendSpace";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-import convertValueToStringRichText from "../../convertValueToStringRichText";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
@@ -289,13 +288,13 @@ export default class HowToStep extends Component {
 					tagName="strong"
 					className="schema-how-to-step-name"
 					key={ step.id + "-name" }
-					value={ convertValueToStringRichText( step.name ) }
+					value={ step.name }
 				/>
 				<RichTextContentWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-step-text"
 					key={ step.id + "-text" }
-					value={ convertValueToStringRichText( step.text ) }
+					value={ step.text }
 				/>
 			</li>
 		);
@@ -327,7 +326,7 @@ export default class HowToStep extends Component {
 					className="schema-how-to-step-name"
 					tagName="p"
 					key={ `${ id }-name` }
-					value={ convertValueToStringRichText( name )  }
+					value={ name }
 					onChange={ this.onChangeTitle }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusTitle }
@@ -337,7 +336,7 @@ export default class HowToStep extends Component {
 					className="schema-how-to-step-text"
 					tagName="p"
 					key={ `${ id }-text` }
-					value={ convertValueToStringRichText( text ) }
+					value={ text }
 					onChange={ this.onChangeText }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusText }
