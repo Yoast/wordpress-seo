@@ -100,7 +100,7 @@ function wpseo_save_what( $what ) {
 		die( '-1' );
 	}
 
-	$new      = sanitize_text_field( wp_unslash( $_POST['new_value'] ) );
+	$new = sanitize_text_field( wp_unslash( $_POST['new_value'] ) );
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are casting the unsafe value to an integer.
 	$post_id  = (int) wp_unslash( $_POST['wpseo_post_id'] );
 	$original = sanitize_text_field( wp_unslash( $_POST['existing_value'] ) );
