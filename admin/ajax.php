@@ -32,7 +32,11 @@ function wpseo_set_option() {
 
 	check_ajax_referer( 'wpseo-setoption' );
 
-	$option = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
+	if ( ! isset( $_POST['option'] ) || ! is_string( $_POST['option'] ) ) {
+		die( '-1' );
+	}
+
+	$option = sanitize_text_field( wp_unslash( $_POST['option'] ) );
 	if ( $option !== 'page_comments' ) {
 		die( '-1' );
 	}
