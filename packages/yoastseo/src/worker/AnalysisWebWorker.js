@@ -7,7 +7,6 @@ import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefine
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
-import * as assessments from "../scoring/assessments";
 import SEOAssessor from "../scoring/seoAssessor";
 import ContentAssessor from "../scoring/contentAssessor";
 import TaxonomyAssessor from "../scoring/taxonomyAssessor";
