@@ -19,7 +19,6 @@ use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -100,13 +99,6 @@ class Elementor implements Integration_Interface {
 	protected $inclusive_language_analysis;
 
 	/**
-	 * Represents the estimated_reading_time_conditional.
-	 *
-	 * @var Estimated_Reading_Time_Conditional
-	 */
-	protected $estimated_reading_time_conditional;
-
-	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -118,28 +110,24 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager          $asset_manager                      The asset manager.
-	 * @param Options_Helper                     $options                            The options helper.
-	 * @param Capability_Helper                  $capability                         The capability helper.
-	 * @param Estimated_Reading_Time_Conditional $estimated_reading_time_conditional The Estimated Reading Time
-	 *                                                                               conditional.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager                      The asset manager.
+	 * @param Options_Helper            $options                            The options helper.
+	 * @param Capability_Helper         $capability                         The capability helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
-		Capability_Helper $capability,
-		Estimated_Reading_Time_Conditional $estimated_reading_time_conditional
+		Capability_Helper $capability
 	) {
 		$this->asset_manager = $asset_manager;
 		$this->options       = $options;
 		$this->capability    = $capability;
 
-		$this->seo_analysis                       = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis               = new WPSEO_Metabox_Analysis_Readability();
-		$this->inclusive_language_analysis        = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$this->social_is_enabled                  = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
-		$this->is_advanced_metadata_enabled       = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
-		$this->estimated_reading_time_conditional = $estimated_reading_time_conditional;
+		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
+		$this->inclusive_language_analysis  = new WPSEO_Metabox_Analysis_Inclusive_Language();
+		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
+		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
 	}
 
 	/**
@@ -222,12 +210,12 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Determines whether the metabox should be shown for the passed identifier.
 	 *
-	 * By default the check is done for post types, but can also be used for taxonomies.
+	 * By default, the check is done for post types, but can also be used for taxonomies.
 	 *
 	 * @param string|null $identifier The identifier to check.
 	 * @param string      $type       The type of object to check. Defaults to post_type.
 	 *
-	 * @return bool Whether or not the metabox should be displayed.
+	 * @return bool Whether the metabox should be displayed.
 	 */
 	public function display_metabox( $identifier = null, $type = 'post_type' ) {
 		return WPSEO_Utils::is_metabox_active( $identifier, $type );

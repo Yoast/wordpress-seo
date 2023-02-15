@@ -5,9 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
-use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
-use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 
@@ -17,28 +14,28 @@ use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
-	 * Whether or not the social tab is enabled.
+	 * Whether the social tab is enabled.
 	 *
 	 * @var bool
 	 */
 	private $social_is_enabled;
 
 	/**
-	 * Helper to determine whether or not the SEO analysis is enabled.
+	 * Helper to determine whether the SEO analysis is enabled.
 	 *
 	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
 	protected $seo_analysis;
 
 	/**
-	 * Helper to determine whether or not the readability analysis is enabled.
+	 * Helper to determine whether the readability analysis is enabled.
 	 *
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	protected $readability_analysis;
 
 	/**
-	 * Helper to determine whether or not the inclusive language analysis is enabled.
+	 * Helper to determine whether the inclusive language analysis is enabled.
 	 *
 	 * @var WPSEO_Metabox_Analysis_Inclusive_Language
 	 */
@@ -59,18 +56,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected $post = null;
 
 	/**
-	 * Whether or not the advanced metadata is enabled.
+	 * Whether the advanced metadata is enabled.
 	 *
 	 * @var bool
 	 */
 	protected $is_advanced_metadata_enabled;
-
-	/**
-	 * Represents the estimated_reading_time_conditional.
-	 *
-	 * @var Estimated_Reading_Time_Conditional
-	 */
-	protected $estimated_reading_time_conditional;
 
 	/**
 	 * Class constructor.
@@ -94,11 +84,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->social_is_enabled            = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 		$this->is_advanced_metadata_enabled = WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false;
-
-		$this->estimated_reading_time_conditional = new Estimated_Reading_Time_Conditional(
-			new Post_Conditional(),
-			new Input_Helper()
-		);
 
 		$this->seo_analysis                = new WPSEO_Metabox_Analysis_SEO();
 		$this->readability_analysis        = new WPSEO_Metabox_Analysis_Readability();
