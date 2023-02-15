@@ -1,18 +1,17 @@
-import wordComplexity from "../config/internal/wordComplexity";
-
 /**
  * Checks if a word is complex.
+ * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
+ * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
-	const lengthLimit = wordComplexityConfig.wordLength;
-	const frequencyList = wordComplexityConfig.frequencyList;
+export default function checkIfWordIsComplex( config, word ) {
+	const lengthLimit = config.wordLength;
+	const frequencyList = config.frequencyList;
 	// Whether uppercased beginning of a word decreases its complexity.
-	const doesUpperCaseDecreaseComplexity = wordComplexityConfig.doesUpperCaseDecreaseComplexity;
+	const doesUpperCaseDecreaseComplexity = config.doesUpperCaseDecreaseComplexity;
 
 	// The word is not complex if it's less than the length limit, i.e. 7 characters for English.
 	if ( word.length <= lengthLimit ) {

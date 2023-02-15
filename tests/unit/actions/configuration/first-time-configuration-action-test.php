@@ -296,7 +296,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'tracking' => true,
 			],
 			'old_value'             => false,
-			'times'                 => 1,
+			'times'                 => 2,
 			'option_result'         => true,
 			'expected'              => (object) [
 				'success' => true,
@@ -309,7 +309,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'tracking' => true,
 			],
 			'old_value'             => false,
-			'times'                 => 1,
+			'times'                 => 2,
 			'option_result'         => true,
 			'expected'              => (object) [
 				'success' => true,
@@ -348,7 +348,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'tracking' => true,
 			],
 			'old_value'             => false,
-			'times'                 => 1,
+			'times'                 => 2,
 			'option_result'         => false,
 			'expected'              => (object) [
 				'success' => false,
@@ -370,6 +370,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * Tests the check_capability method.
 	 *
 	 * @covers ::check_capability
+	 * @covers ::can_edit_profile
 	 *
 	 * @dataProvider check_capability_provider
 	 *
@@ -378,9 +379,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 * @param object $expected The expected result object.
 	 */
 	public function test_check_capability( $user_id, $can_edit, $expected ) {
-		$this->social_profiles_helper
-			->expects( 'can_edit_profile' )
-			->with( $user_id )
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'edit_user', $user_id )
 			->andReturn( $can_edit );
 
 		$this->assertEquals(

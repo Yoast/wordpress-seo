@@ -1,6 +1,7 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
+import getWordComplexityHelper from "../specHelpers/getWordComplexityHelper";
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
@@ -28,9 +29,12 @@ import TextPresenceAssessment from "../../src/scoring/assessments/readability/Te
 import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
 import WordComplexityAssessment from "../../src/scoring/assessments/readability/WordComplexityAssessment";
 
+import wordComplexity from "../../src/languageProcessing/researches/wordComplexity";
+import keyphraseDistribution from "../../src/languageProcessing/researches/keyphraseDistribution";
+import { getLanguagesWithWordComplexity } from "../../src/helpers";
+
 // Import test papers
 import testPapers from "./testTexts";
-import keyphraseDistribution from "../../src/languageProcessing/researches/keyphraseDistribution";
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
@@ -42,6 +46,12 @@ testPapers.forEach( function( testPaper ) {
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
 		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
+		// Also register the research and helper for Word Complexity for testing purposes.
+		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
+			researcher.addResearch( "wordComplexity", wordComplexity );
+			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( getLanguage( locale ) ) );
+		}
+
 		const expectedResults = testPaper.expectedResults;
 
 		/**

@@ -277,17 +277,6 @@ class Social_Profiles_Helper {
 	}
 
 	/**
-	 * Checks if the current user has the capability to edit a specific user.
-	 *
-	 * @param int $person_id The id of the person to edit.
-	 *
-	 * @return bool
-	 */
-	public function can_edit_profile( $person_id ) {
-		return \current_user_can( 'edit_user', $person_id );
-	}
-
-	/**
 	 * Checks if url is not valid and returns the name of the setting if it's not.
 	 *
 	 * @param string $url         The url to be validated.
@@ -352,5 +341,20 @@ class Social_Profiles_Helper {
 	public function get_supported_person_social_profile_fields() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.1' );
 		return [];
+	}
+
+	/**
+	 * Checks if the current user has the capability to edit a specific user.
+	 *
+	 * @deprecated 20.2
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $person_id The id of the person to edit.
+	 *
+	 * @return bool
+	 */
+	public function can_edit_profile( $person_id ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.2' );
+		return \current_user_can( 'edit_user', $person_id );
 	}
 }

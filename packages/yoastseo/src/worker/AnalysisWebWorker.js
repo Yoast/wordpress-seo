@@ -63,7 +63,6 @@ export default class AnalysisWebWorker {
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 			customAnalysisType: "",
-			useWordComplexity: false,
 		};
 
 		this._scheduler = new Scheduler();
@@ -416,13 +415,10 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen content assessor.
 	 */
 	createContentAssessor() {
-		let wordComplexity = new assessments.readability.WordComplexityAssessment();
-
 		const {
 			contentAnalysisActive,
 			useCornerstone,
 			customAnalysisType,
-			useWordComplexity,
 		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
@@ -441,6 +437,13 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] )
 				: new CornerstoneContentAssessor( this._researcher );
+
+			// Add the readability assessment for cornerstone content to the cornerstone content assessor.
+			this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
+				if ( isUndefined( assessor.getAssessment( name ) ) && type === "cornerstoneReadability" ) {
+					assessor.addAssessment( name, assessment );
+				}
+			} );
 		} else {
 			/*
 			 * For non-cornerstone content, use a custom SEO assessor if available,
@@ -451,26 +454,14 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomContentAssessorOptions[ customAnalysisType ] )
 				: new ContentAssessor( this._researcher );
-		}
 
-		if ( useWordComplexity && isUndefined( assessor.getAssessment( "wordComplexity" ) ) ) {
-			if ( useCornerstone === true ) {
-				wordComplexity = new assessments.readability.WordComplexityAssessment( {
-					scores: {
-						acceptableAmount: 3,
-					},
-				} );
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			} else {
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			}
+			// Add the readability assessment for regular content to the regular content assessor.
+			this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
+				if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
+					assessor.addAssessment( name, assessment );
+				}
+			} );
 		}
-
-		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
-			if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
-				assessor.addAssessment( name, assessment );
-			}
-		} );
 
 		return assessor;
 	}
@@ -656,7 +647,6 @@ export default class AnalysisWebWorker {
 			"locale",
 			"translations",
 			"customAnalysisType",
-			"useWordComplexity",
 		];
 		const seo = [
 			"keywordAnalysisActive",
@@ -797,6 +787,8 @@ export default class AnalysisWebWorker {
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
 	registerAssessment( name, assessment, pluginName, type = "seo" ) {
+		const { useCornerstone } = this._configuration;
+
 		if ( ! isString( name ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 		}
@@ -818,6 +810,9 @@ export default class AnalysisWebWorker {
 			this._seoAssessor.addAssessment( combinedName, assessment );
 		}
 		if ( this._contentAssessor !== null && type === "readability" ) {
+			this._contentAssessor.addAssessment( combinedName, assessment );
+		}
+		if ( this._contentAssessor !== null && type === "cornerstoneReadability" && useCornerstone ) {
 			this._contentAssessor.addAssessment( combinedName, assessment );
 		}
 		if ( this._relatedKeywordAssessor !== null && type === "relatedKeyphrase" ) {

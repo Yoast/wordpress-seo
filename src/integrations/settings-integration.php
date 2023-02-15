@@ -440,7 +440,8 @@ class Settings_Integration implements Integration_Interface {
 			'isNetworkAdmin'                => \is_network_admin(),
 			'isMainSite'                    => \is_main_site(),
 			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
-			'isLocalSeoActive'              => (bool) \defined( 'WPSEO_LOCAL_FILE' ),
+			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
+			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'siteTitle'                     => \get_bloginfo( 'name' ),
 			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
@@ -517,7 +518,7 @@ class Settings_Integration implements Integration_Interface {
 	public function get_upsell_settings() {
 		return [
 			'actionId'     => 'load-nfd-ctb',
-			'premiumCtbId' => '57d6a568-783c-45e2-a388-847cff155897',
+			'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 		];
 	}
 
@@ -780,6 +781,7 @@ class Settings_Integration implements Integration_Interface {
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
+				'showUi'        => $taxonomy->show_ui,
 				'singularLabel' => $taxonomy->labels->singular_name,
 				'postTypes'     => \array_filter(
 					$taxonomy->object_type,
@@ -822,7 +824,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = \substr( $route, 1 );
 		}
 
-		return $route;
+		return \rawurlencode( $route );
 	}
 
 	/**

@@ -1,22 +1,18 @@
-import SnippetPreview from "./snippetPreview/snippetPreview.js";
-
 import { setLocaleData } from "@wordpress/i18n";
 import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isString, isUndefined, merge, noop, throttle } from "lodash-es";
 import MissingArgument from "./errors/missingArgument";
-
-import SEOAssessor from "./scoring/seoAssessor.js";
-import WordComplexityAssessment from "./scoring/assessments/readability/WordComplexityAssessment";
-import ContentAssessor from "./scoring/contentAssessor.js";
-import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
-import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
-import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
-import Pluggable from "./pluggable.js";
-import Paper from "./values/Paper.js";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
+import Pluggable from "./pluggable.js";
+import ContentAssessor from "./scoring/contentAssessor.js";
+import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
+import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
+import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
 
-let wordComplexity = new WordComplexityAssessment();
+import SEOAssessor from "./scoring/seoAssessor.js";
+import SnippetPreview from "./snippetPreview/snippetPreview.js";
+import Paper from "./values/Paper.js";
 
 var inputDebounceDelay = 800;
 
@@ -285,7 +281,6 @@ var App = function( args ) {
 
 	this._assessorOptions = {
 		useCornerStone: false,
-		useWordComplexity: false,
 	};
 
 	this.initSnippetPreview();
@@ -347,23 +342,8 @@ App.prototype.getSeoAssessor = function() {
  * @returns {Assessor} The assessor instance.
  */
 App.prototype.getContentAssessor = function() {
-	const { useCornerStone, useWordComplexity } = this._assessorOptions;
-	const assessor = useCornerStone ? this.cornerStoneContentAssessor : this.defaultContentAssessor;
-
-	if ( useWordComplexity && isUndefined( assessor.getAssessment( "wordComplexity" ) ) ) {
-		if ( useCornerStone === true ) {
-			wordComplexity = new WordComplexityAssessment( {
-				scores: {
-					acceptableAmount: 3,
-				},
-			} );
-			assessor.addAssessment( "wordComplexity", wordComplexity );
-		} else {
-			assessor.addAssessment( "wordComplexity", wordComplexity );
-		}
-	}
-
-	return assessor;
+	const { useCornerStone } = this._assessorOptions;
+	return useCornerStone ? this.cornerStoneContentAssessor : this.defaultContentAssessor;
 };
 
 /**

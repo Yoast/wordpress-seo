@@ -67,7 +67,6 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $base_pages = [
 		'wpseo_dashboard',
 		Settings_Integration::PAGE,
-		'wpseo_titles',
 		'wpseo_search_console',
 		'wpseo_social',
 		'wpseo_tools',

@@ -1,20 +1,18 @@
-import wordComplexity from "../config/internal/wordComplexity";
-import functionWords from "../config/functionWords";
-
 const suffixes = "(en|e|s)$";
 const suffixesRegex = new RegExp( suffixes );
 
 /**
  * Checks if a word is complex.
+ * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
+ * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
-	const lengthLimit = wordComplexityConfig.wordLength;
-	const frequencyList = wordComplexityConfig.frequencyList;
+export default function checkIfWordIsComplex( config, word ) {
+	const lengthLimit = config.wordLength;
+	const frequencyList = config.frequencyList;
 	// All words are converted to lower case before processing to avoid excluding complex words that start with a capital letter.
 	word = word.toLowerCase();
 
@@ -22,10 +20,12 @@ export default function checkIfWordIsComplex( word ) {
 	if ( word.length <= lengthLimit ) {
 		return false;
 	}
-	// The word is not complex if it's in the frequency list or the function words list.
-	if ( frequencyList.includes( word ) || functionWords.all.includes( word )  ) {
+
+	// The word is not complex if it's in the frequency list.
+	if ( frequencyList.includes( word ) ) {
 		return false;
 	}
+
 	/*
 	* If a word is longer than 10 characters and has a plural ending in -e, -s, or -en, we remove the ending
 	* and check if the singular form can be found in the frequency list.

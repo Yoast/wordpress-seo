@@ -1,14 +1,15 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { collectMarkingsInSentence } from "../../../languageProcessing/helpers/word/markWordsInSentences";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
-import Assessment from "../assessment";
+import { AssessmentResult, helpers, languageProcessing, Assessment, values } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
+const { collectMarkingsInSentence } = languageProcessing;
+const { Mark } = values;
 
 /**
  * Represents the assessment that checks whether there are too many complex words in the text.
+ * This assessment is not bundled in Yoast SEO.
  */
 export default class WordComplexityAssessment extends Assessment {
 	/**
@@ -43,8 +44,8 @@ export default class WordComplexityAssessment extends Assessment {
 	/**
 	 * Scores the percentage of sentences including one or more transition words.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Paper} paper        The paper to use for the assessment.
+	 * @param {Researcher} researcher   The researcher used for calling research.
 	 *
 	 * @returns {object} The Assessment result.
 	 */

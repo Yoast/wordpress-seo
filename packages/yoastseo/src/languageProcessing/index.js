@@ -31,10 +31,11 @@ import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLengt
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
 import { getFieldsToMark } from "./helpers/html/getFieldsToMark";
+import { normalizeSingle } from "./helpers/sanitize/quotes";
 import parseSynonyms from "./helpers/sanitize/parseSynonyms";
 import { mergeListItems } from "./helpers/sanitize/mergeListItems";
 import { findWordFormsInString } from "./helpers/match/findKeywordFormsInString";
-import { markWordsInSentences } from "./helpers/word/markWordsInSentences";
+import { collectMarkingsInSentence, markWordsInSentences } from "./helpers/word/markWordsInSentences";
 
 export {
 	AbstractResearcher,
@@ -71,6 +72,8 @@ export {
 	getFieldsToMark,
 	unifyAllSpaces,
 	normalizeHTML,
+	collectMarkingsInSentence,
+	normalizeSingle,
 	parseSynonyms,
 	mergeListItems,
 	findWordFormsInString,

@@ -2,6 +2,8 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
+import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
+import wordComplexityHelperEnglish from "../../../../src/languageProcessing/languages/en/helpers/checkIfWordIsComplex";
 
 let assessment = new WordComplexityAssessment();
 
@@ -13,6 +15,8 @@ describe( "a test for an assessment that checks complex words in a text", functi
 			"This is another short text. This is another short text. Torbie cats with a predominantly white undercoat are " +
 			"often referred to as \"caliby\", an amalgamation of Calico and Tabby." );
 		const researcher = new EnglishResearcher( paper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		const result = assessment.getResult( paper, researcher );
 
@@ -50,6 +54,9 @@ describe( "a test for an assessment that checks complex words in a text", functi
 
 	it( "should return with score 6 if the complex words are more than 10% in the text", function() {
 		const researcher = new EnglishResearcher( runningPaper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
+
 		const result = assessment.getResult( runningPaper, researcher );
 
 		expect( result.getScore() ).toBe( 6 );
@@ -61,6 +68,8 @@ describe( "a test for an assessment that checks complex words in a text", functi
 
 	it( "should return with score 3 if the complex words are more than 10% in the text and the cornerstone toggle is on", function() {
 		const researcher = new EnglishResearcher( runningPaper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		assessment = new WordComplexityAssessment( {
 			scores: {
@@ -79,6 +88,8 @@ describe( "a test for an assessment that checks complex words in a text", functi
 	it( "should not break the assessment when the text contains backslashes ", function() {
 		runningPaper = new Paper( "It is a \\\"tortoiseshell\\\" cat. It is lovely and lovable." );
 		const researcher = new EnglishResearcher( runningPaper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
 
 		assessment = new WordComplexityAssessment( {
 			scores: {
@@ -98,22 +109,34 @@ describe( "a test for an assessment that checks complex words in a text", functi
 describe( "tests for the assessment applicability", function() {
 	it( "returns false if there is no text available.", function() {
 		const paper = new Paper( "" );
-		expect( assessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
+		expect( assessment.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
 	it( "returns false if the text is too short", function() {
 		const paper = new Paper( "hallo" );
-		expect( assessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
+		expect( assessment.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
 	it( "should return false for isApplicable for a paper with only an image.", function() {
 		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
-		expect( assessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
+		expect( assessment.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
 	it( "should return false for isApplicable for a paper with only spaces.", function() {
 		const paper = new Paper( "        " );
-		expect( assessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
+		expect( assessment.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
 	it( "should return false for isApplicable if the paper has enough content but the researcher doesn't have the wordComplexity research", () => {
@@ -133,7 +156,10 @@ describe( "tests for the assessment applicability", function() {
 			" and the \"black\" can instead be chocolate, gray, tabby, or blue. Tortoiseshell cats with the tabby pattern as one of their colors " +
 			"are sometimes referred to as a torbie. Cats having torbie coats are sometimes referred to as torbie cats.\n" +
 			"\"Tortoiseshell\" is typically reserved for particolored cats with relatively small or no white markings. " );
-		expect( assessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperEnglish );
+		expect( assessment.isApplicable( paper, researcher ) ).toBe( true );
 	} );
 } );
 

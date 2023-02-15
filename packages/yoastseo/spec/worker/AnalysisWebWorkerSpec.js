@@ -200,11 +200,6 @@ describe( "AnalysisWebWorker", () => {
 					.toEqual( updateReadability );
 			} );
 
-			test( "update readability with useWordComplexity", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useWordComplexity: true }, false, false, false ) )
-					.toEqual( updateReadability );
-			} );
-
 			test( "update seo with keywordAnalysisActive", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false, false ) )
 					.toEqual( updateSEO );
@@ -401,10 +396,6 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
 
-				// When switching useWordComplexity on/off.
-				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
-				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
-
 				// When changing locale.
 				scope.onmessage( createMessage( "initialize", { locale: "en_US" } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -424,10 +415,6 @@ describe( "AnalysisWebWorker", () => {
 
 				// Not when switching readability analysis on/off.
 				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: true } ) );
-				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
-
-				// Not when switching useWordComplexity on/off.
-				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
 
 				// When switching seo analysis on/off.
@@ -1254,33 +1241,6 @@ describe( "AnalysisWebWorker", () => {
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
-
-
-		test( "listens to useWordComplexity", () => {
-			worker._configuration.useWordComplexity = false;
-			let assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "contentAssessor" );
-			let assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).not.toBeDefined();
-
-			worker._configuration.useWordComplexity = true;
-			assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "contentAssessor" );
-			assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "wordComplexity" );
-
-			worker._configuration.useCornerstone = true;
-			worker._configuration.useWordComplexity = true;
-			assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
-			assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "wordComplexity" );
-		} );
 	} );
 
 	describe( "createSEOAssessor", () => {
@@ -1508,6 +1468,16 @@ describe( "AnalysisWebWorker", () => {
 			expect( worker._registeredAssessments.length ).toBe( 1 );
 			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
 			expect( worker._registeredAssessments[ 0 ].type ).toBe( "readability" );
+		} );
+
+		test( "add the readability assessment for cornerstone content to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._contentAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "cornerstoneReadability" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "cornerstoneReadability" );
 		} );
 
 		test( "add the related keyphrase assessment to the registered assessments", () => {
