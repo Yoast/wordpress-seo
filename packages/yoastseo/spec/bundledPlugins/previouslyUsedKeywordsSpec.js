@@ -71,7 +71,7 @@ describe( "replaces keyword usage", function() {
 } );
 
 describe( "previously used keyphrase when postTypeToDisplay is defined and count is 2 or more", () => {
-	const args = {
+	args = {
 		usedKeywords: { keyword: [ 2, 3, 4 ] },
 		searchUrl: searchUrl,
 		postUrl: postUrl,
@@ -94,7 +94,7 @@ describe( "previously used keyphrase when postTypeToDisplay is defined and count
 
 
 describe( "previously used keyphrase when postTypeToDisplay is defined and count is 1", () => {
-	const args = {
+	args = {
 		usedKeywords: { keyword: [ 42 ] },
 		searchUrl: searchUrl,
 		postUrl: postUrl,
@@ -116,7 +116,7 @@ describe( "previously used keyphrase when postTypeToDisplay is defined and count
 } );
 
 describe( "previously used keyphrase when postTypeToDisplay is defined and count is 0", () => {
-	const args = {
+	args = {
 		usedKeywords: { keyword: [ ] },
 		searchUrl: searchUrl,
 		postUrl: postUrl,
