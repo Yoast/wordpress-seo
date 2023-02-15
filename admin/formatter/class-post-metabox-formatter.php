@@ -61,8 +61,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	public function get_values() {
 
-		$keyword_usage = $this->get_focus_keyword_usage();
-
 		$values = [
 			'search_url'          => $this->search_url(),
 			'post_edit_url'       => $this->edit_url(),
@@ -71,6 +69,8 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		];
 
 		if ( $this->post instanceof WP_Post ) {
+			$keyword_usage = $this->get_focus_keyword_usage();
+
 			$values_to_set = [
 				'keyword_usage'               => $keyword_usage,
 				'keyword_usage_post_types'    => $this->get_post_types_for_all_ids( $keyword_usage ),
