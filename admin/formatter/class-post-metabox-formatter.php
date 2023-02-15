@@ -181,7 +181,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		$post_type_per_keyword_result = [];
 		foreach ( $post_ids_per_keyword as $keyword => $post_ids ) {
-			$post_type_per_keyword_result[ $keyword ] = $this->get_post_types_for_ids( $post_ids );
+			$post_type_per_keyword_result[ $keyword ] = WPSEO_Meta::post_types_for_ids( $post_ids );
 		}
 
 		return $post_type_per_keyword_result;
@@ -196,17 +196,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	protected function get_keyword_usage_for_current_post( $keyword ) {
 		return WPSEO_Meta::keyword_usage( $keyword, $this->post->ID );
-	}
-
-	/**
-	 * Retrieves the post types for the given post IDs.
-	 *
-	 * @param array $post_ids The post IDs to retrieve the post types for.
-	 *
-	 * @return array The post types for the given post IDs.
-	 */
-	protected function get_post_types_for_ids( $post_ids ) {
-		return WPSEO_Meta::post_types_for_ids( $post_ids );
 	}
 
 	/**
