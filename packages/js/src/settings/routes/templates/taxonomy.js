@@ -1,8 +1,8 @@
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { createInterpolateElement, useMemo, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link, ToggleField } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { initial, last, map, values, toLower, isEmpty } from "lodash";
+import { initial, last, map, values, isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -14,6 +14,7 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../../components";
+import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
 
@@ -25,16 +26,17 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  * @param {string[]} postTypes The connected post types.
  * @returns {JSX.Element} The taxonomy element.
  */
-const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
+const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
-	const labelLower = useMemo( () => toLower( label ), [ label ] );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 	const postTypeValues = useMemo( () => values( postTypes ), [ postTypes ] );
 	const initialPostTypeValues = useMemo( () => initial( postTypeValues ), [ postTypeValues ] );
 	const lastPostTypeValue = useMemo( () => last( postTypeValues ), [ postTypeValues ] );
@@ -55,6 +57,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+
 	const stripCategoryBaseDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %s expands to <code>/category/</code> */
@@ -65,6 +68,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 			code: <Code>/category/</Code>,
 		}
 	), [] );
+
 	const taxonomyMultiplePostTypesMessage = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -85,6 +89,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 			code2: <Code>{ lastPostTypeValue?.label }</Code>,
 		}
 	), [ label, initialPostTypeValues, lastPostTypeValue ] );
+
 	const taxonomySinglePostTypeMessage = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -101,6 +106,32 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 	const { values: formValues } = useFormikContext();
 	const { opengraph } = formValues.wpseo_social;
 
+	const taxonomyMessage = useMemo( () => {
+		return initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage;
+	}, [ initialPostTypeValues, taxonomyMultiplePostTypesMessage, taxonomySinglePostTypeMessage ] );
+
+	const enableSeoControl = useCallback( () => {
+		return showUi && <FormikValueChangeField
+			as={ ToggleField }
+			type="checkbox"
+			name={ `wpseo_titles.display-metabox-tax-${ name }` }
+			id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
+			label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
+			description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
+			className="yst-max-w-sm"
+		/>;
+	}, [ showUi, name ] );
+
+	const stripCategoryBase = useCallback( () => {
+		return name === "category" && <FormikFlippedToggleField
+			name="wpseo_titles.stripcategorybase"
+			id="input-wpseo_titles-stripcategorybase"
+			label={ __( "Show the categories prefix in the slug", "wordpress-seo" ) }
+			description={ stripCategoryBaseDescription }
+			className="yst-max-w-sm"
+		/>;
+	}, [ name, stripCategoryBaseDescription ] );
+
 	return (
 		<RouteLayout
 			title={ label }
@@ -113,7 +144,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 				{ ! isEmpty( postTypeValues ) && (
 					<>
 						<br />
-						{ initialPostTypeValues.length > 1 ? taxonomyMultiplePostTypesMessage : taxonomySinglePostTypeMessage }
+						{ taxonomyMessage }
 					</>
 				) }
 			</> }
@@ -141,7 +172,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 							description={ <>
 								{ sprintf(
 								// translators: %1$s expands to the taxonomy plural, e.g. Categories.
-									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+									__( "Disabling this means that archive pages for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
 									labelLower
 								) }
 								&nbsp;
@@ -229,27 +260,17 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames } ) => {
 							/>
 						</FeatureUpsell>
 					</FieldsetLayout>
-					<hr className="yst-my-8" />
-					<FieldsetLayout
-						title={ __( "Additional settings", "wordpress-seo" ) }
-					>
-						<FormikValueChangeField
-							as={ ToggleField }
-							type="checkbox"
-							name={ `wpseo_titles.display-metabox-tax-${ name }` }
-							id={ `input-wpseo_titles-display-metabox-tax-${ name }` }
-							label={ __( "Enable SEO controls and assessments", "wordpress-seo" ) }
-							description={ __( "Show or hide our tools and controls in the content editor.", "wordpress-seo" ) }
-							className="yst-max-w-sm"
-						/>
-						{ name === "category" && <FormikFlippedToggleField
-							name="wpseo_titles.stripcategorybase"
-							id="input-wpseo_titles-stripcategorybase"
-							label={ __( "Show the categories prefix in the slug", "wordpress-seo" ) }
-							description={ stripCategoryBaseDescription }
-							className="yst-max-w-sm"
-						/> }
-					</FieldsetLayout>
+
+					{ ( showUi || name === "category" ) &&
+					<>
+						<hr className="yst-my-8" />
+						<FieldsetLayout
+							title={ __( "Additional settings", "wordpress-seo" ) }
+						>
+							{ enableSeoControl() }
+							{ stripCategoryBase() }
+						</FieldsetLayout>
+					</> }
 				</div>
 			</FormLayout>
 		</RouteLayout>
@@ -260,6 +281,7 @@ Taxonomy.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	postTypes: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	showUi: PropTypes.bool.isRequired,
 };
 
 export default Taxonomy;

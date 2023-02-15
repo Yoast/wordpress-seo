@@ -37,7 +37,7 @@ export default class InclusiveLanguageAssessment {
 	 * @returns {void}
 	 */
 	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives,
-					 score, feedbackFormat, learnMoreUrl, rule, caseSensitive } ) {
+					 score, feedbackFormat, learnMoreUrl, rule, caseSensitive, category } ) {
 		this.identifier = identifier;
 		this.nonInclusivePhrases = nonInclusivePhrases;
 		this.inclusiveAlternatives = inclusiveAlternatives;
@@ -50,6 +50,7 @@ export default class InclusiveLanguageAssessment {
 
 		this.rule = rule || includesConsecutiveWords;
 		this.caseSensitive = caseSensitive || false;
+		this.category = category;
 	}
 
 	/**
@@ -70,11 +71,12 @@ export default class InclusiveLanguageAssessment {
 		this.foundPhrases = [];
 
 		sentences.forEach( sentence => {
-			let words = getWords( sentence );
+			let words = getWords( sentence, false );
 			if ( ! this.caseSensitive ) {
 				words = words.map( word => word.toLocaleLowerCase() );
 			}
-			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, phrase.split( " " ) ).length >= 1 );
+
+			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, getWords( phrase, false ) ).length >= 1 );
 
 			if ( foundPhrase ) {
 				this.foundPhrases.push( {
@@ -83,7 +85,6 @@ export default class InclusiveLanguageAssessment {
 				} );
 			}
 		} );
-
 		return this.foundPhrases.length >= 1;
 	}
 

@@ -1,8 +1,10 @@
 import { Card } from "./tailwind-components/card";
-import { Badge, Link } from "@yoast/ui-library";
+import { Badge, Link, Button } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
 import { ArrowSmRightIcon, CheckIcon } from "@heroicons/react/solid";
 import { PropTypes } from "prop-types";
+import { LockOpenIcon } from "@heroicons/react/outline";
+import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 
 /* eslint-disable complexity */
 /**
@@ -16,6 +18,10 @@ import { PropTypes } from "prop-types";
  */
 export const SimpleIntegration = ( { integration, isActive, children } ) => {
 	const IntegrationLogo = integration.logo;
+	// If integration is not active, and we have a different url for inactive state, use that url.
+	const learnMoreUrl = ! isActive && integration.linkInActive ? integration.linkInActive : integration.learnMoreLink;
+	// If integration is not active, and we have a different text for inactive state, use that text.
+	const learnMoreLinkText = ! isActive && integration.linkTextInActive ? integration.linkTextInActive : __( "Learn more", "wordpress-seo" );
 
 	return (
 		<Card>
@@ -51,25 +57,47 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 							);
 						} ) }
 					</ul> }
-					{ integration.learnMoreLink && <Link
-						href={ integration.learnMoreLink }
+					{ learnMoreUrl && <Link
+						href={ learnMoreUrl }
 						className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
 						target="_blank"
 					>
-						Learn more
+						{ learnMoreLinkText }
 						<span className="yst-sr-only">
 							{
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
 							}
 						</span>
-						<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1" />
+						<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
 					</Link> }
 				</div>
 			</Card.Content>
 			<Card.Footer>
-				<p className="yst-flex yst-items-start yst-justify-between">
+				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button
+					id={ `${ integration.name }-upsell-button` }
+					type="button"
+					as="a"
+					href={ integration.upsellLink }
+					variant="upsell"
+					data-action="load-nfd-ctb"
+					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
+					className="yst-w-full yst-text-slate-800"
+					target="_blank"
+				>
+					<LockOpenIcon
+						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+					/>
+					{ __( "Unlock with Premium", "wordpress-seo" ) }
+					<span className="yst-sr-only">
+						{
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+				</Button>
+				}
+				{  getIsFreeIntegrationOrPremiumAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
 					{ children }
-				</p>
+				</p> }
 			</Card.Footer>
 		</Card>
 	);
@@ -81,12 +109,15 @@ SimpleIntegration.propTypes = {
 		name: PropTypes.string,
 		claim: PropTypes.string,
 		learnMoreLink: PropTypes.string,
+		linkTextInActive: PropTypes.string,
+		linkInActive: PropTypes.string,
 		logoLink: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,
 		logo: PropTypes.func.isRequired,
 		isNew: PropTypes.bool,
+		upsellLink: PropTypes.string,
 	} ).isRequired,
 	isActive: PropTypes.bool,
 	children: PropTypes.oneOfType( [

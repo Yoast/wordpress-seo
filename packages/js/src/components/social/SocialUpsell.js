@@ -7,7 +7,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { addQueryArgs } from "@wordpress/url";
-import useRootContext from "../contexts/use-root-context";
+import { useRootContext }  from "@yoast/externals/contexts";
 
 const PremiumInfoText = styled( Alert )`
 	p {
@@ -52,7 +52,7 @@ const SocialUpsell = ( props ) => {
 				<br />
 				<YoastShortLink
 					data-action="load-nfd-ctb"
-					data-ctb-id="57d6a568-783c-45e2-a388-847cff155897"
+					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 					href={ addQueryArgs( wpseoAdminL10n[ "shortlinks.upsell.social_preview." + props.socialMediumName.toLowerCase() ], { context: locationContext } ) }
 				>
 					<p>{ upgradeText }</p>

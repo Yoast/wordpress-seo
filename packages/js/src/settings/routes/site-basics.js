@@ -45,7 +45,7 @@ const SiteBasics = () => {
 	const siteInfoDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to an opening and closing emphasis tag. %3$s and %4$s expand to an opening and closing anchor tag. */
-			__( "Set the basic info for your website. You can use %1$ssite title%2$s, %1$stagline%2$s and %1$sseparator%2$s as %3$sreplacement variables%4$s when configuring the search appearance of your content.", "wordpress-seo" ),
+			__( "Set the basic info for your website. You can use %1$stagline%2$s and %1$sseparator%2$s as %3$sreplacement variables%4$s when configuring the search appearance of your content.", "wordpress-seo" ),
 			"<em>",
 			"</em>",
 			"<a>",
@@ -60,7 +60,7 @@ const SiteBasics = () => {
 	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-			__( "We're sorry, you're not allowed to edit the %1$ssite title%2$s and %1$stagline%2$s.", "wordpress-seo" ),
+			__( "We're sorry, you're not allowed to edit the %1$swebsite name%2$s and %1$stagline%2$s.", "wordpress-seo" ),
 			"<em>",
 			"</em>"
 		),
@@ -190,6 +190,7 @@ const SiteBasics = () => {
 									__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here.", "wordpress-seo" ),
 									"Yoast SEO"
 								) }
+								className="yst-max-w-sm"
 							/>
 						) }
 						<FormikValueChangeField
@@ -200,7 +201,7 @@ const SiteBasics = () => {
 							label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
 							description={ sprintf(
 								/* translators: %1$s expands to "Yoast SEO" */
-								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
+								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar or metabox. Disabling this allows access to all users.", "wordpress-seo" ),
 								"Yoast SEO"
 							) }
 							className="yst-max-w-sm"

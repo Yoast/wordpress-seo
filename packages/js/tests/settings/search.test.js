@@ -1,6 +1,8 @@
 import Search from "../../src/settings/components/search";
 import { shallow } from "enzyme";
 
+jest.mock( "react-router-dom" );
+
 describe( "Search test", () => {
 	let wrapper;
 	beforeEach( () => {
@@ -8,7 +10,7 @@ describe( "Search test", () => {
 	} );
 
 	it( "Should have 'Quick Search' text on search button", () => {
-		expect( wrapper.find( "button" ).text() ).toContain( "Quick search..." );
+		expect( wrapper.find( "button" ).first().text() ).toContain( "Quick search..." );
 	} );
 
 	it( "should open Modal", () => {
@@ -30,7 +32,7 @@ describe( "Search test", () => {
 	it( "should match button text to input value", () => {
 		wrapper.find( "button" ).at( 0 ).simulate( "click" );
 		wrapper.find( "#input-search" ).at( 0 ).simulate( "change", { target: { value: "seo title" } } );
-		expect( wrapper.find( "button" ).text() ).toContain( "seo title" );
+		expect( wrapper.find( "button" ).first().text() ).toContain( "seo title" );
 	} );
 
 	it( "Results not found", () => {

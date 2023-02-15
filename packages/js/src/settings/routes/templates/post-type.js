@@ -3,7 +3,6 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
-import { toLower } from "lodash";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
@@ -14,9 +13,11 @@ import {
 	FormikTagField,
 	FormikValueChangeField,
 	FormLayout,
+	NewsSeoAlert,
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../../components";
+import { safeToLocaleLower } from "../../helpers";
 import { withFormikDummyField } from "../../hocs";
 import { useSelectSettings } from "../../hooks";
 
@@ -45,13 +46,14 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const hasWooCommerceShopPage = useSelectSettings( "selectPreference", [], "hasWooCommerceShopPage" );
 	const editWooCommerceShopPageUrl = useSelectSettings( "selectPreference", [], "editWooCommerceShopPageUrl" );
 	const wooCommerceShopPageSettingUrl = useSelectSettings( "selectPreference", [], "wooCommerceShopPageSettingUrl" );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
 
-	const labelLower = useMemo( () => toLower( label ), [ label ] );
-	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
+	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -109,7 +111,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 		sprintf(
 			// eslint-disable-next-line max-len
 			// translators: %1$s expands to the post type plural, e.g. posts. %2$s and %3$s expand to opening and closing anchor tag. %4$s expands to "Yoast SEO".
-			__( "Determine how your %1$s should be described by default in %2$syour site's Schema.org markup%3$s. You can always change the settings for individual %1$s in the %4$s sidebar.", "wordpress-seo" ),
+			__( "Determine how your %1$s should be described by default in %2$syour site's Schema.org markup%3$s. You can always change the settings for individual %1$s in the %4$s sidebar or metabox.", "wordpress-seo" ),
 			labelLower,
 			"<a>",
 			"</a>",
@@ -139,7 +141,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						description={ sprintf(
 							// eslint-disable-next-line max-len
 							// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
-							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s sidebar.", "wordpress-seo" ),
+							__( "Determine what your %1$s should look like in the search results by default. You can always customize the settings for individual %1$s in the %2$s sidebar or metabox.", "wordpress-seo" ),
 							labelLower,
 							"Yoast SEO"
 						) }
@@ -194,7 +196,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 						description={ sprintf(
 							// eslint-disable-next-line max-len
 							// translators: %1$s expands to the post type plural, e.g. posts. %2$s expands to "Yoast SEO".
-							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s sidebar.", "wordpress-seo" ),
+							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s sidebar or metabox.", "wordpress-seo" ),
 							labelLower,
 							"Yoast SEO"
 						) }
@@ -255,16 +257,21 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							id={ `input-wpseo_titles-schema-page-type-${ name }` }
 							label={ __( "Page type", "wordpress-seo" ) }
 							options={ pageTypes }
+							className="yst-max-w-sm"
 						/>
 						{ hasSchemaArticleType && (
-							<FormikValueChangeField
-								as={ SelectField }
-								type="select"
-								name={ `wpseo_titles.schema-article-type-${ name }` }
-								id={ `input-wpseo_titles-schema-article-type-${ name }` }
-								label={ __( "Article type", "wordpress-seo" ) }
-								options={ articleTypes }
-							/>
+							<div>
+								<FormikValueChangeField
+									as={ SelectField }
+									type="select"
+									name={ `wpseo_titles.schema-article-type-${ name }` }
+									id={ `input-wpseo_titles-schema-article-type-${ name }` }
+									label={ __( "Article type", "wordpress-seo" ) }
+									options={ articleTypes }
+									className="yst-max-w-sm"
+								/>
+								<NewsSeoAlert name={ name } />
+							</div>
 						) }
 					</FieldsetLayout>
 					<hr className="yst-my-8" />

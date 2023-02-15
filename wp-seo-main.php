@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '19.11' );
+define( 'WPSEO_VERSION', '20.2-RC3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -36,7 +36,7 @@ define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
 define( 'YOAST_SEO_WP_TESTED', '6.1.1' );
-define( 'YOAST_SEO_WP_REQUIRED', '5.9' );
+define( 'YOAST_SEO_WP_REQUIRED', '6.0' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );
@@ -212,11 +212,6 @@ function _wpseo_activate() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
-	// Reset tracking to be disabled by default.
-	if ( ! YoastSEO()->helpers->product->is_premium() ) {
-		WPSEO_Options::set( 'tracking', false );
-	}
-
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 	WPSEO_Options::set( 'first_time_install', true );
 	if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
@@ -226,6 +221,10 @@ function _wpseo_activate() {
 		WPSEO_Options::set( 'activation_redirect_timestamp_free', \time() );
 	}
 
+	// Reset tracking to be disabled by default.
+	if ( ! YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'toggled_tracking' ) !== true ) {
+		WPSEO_Options::set( 'tracking', false );
+	}
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();
 
@@ -413,8 +412,12 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
 
-			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' ) {
-				add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading the admin init class.
+			if ( isset( $_POST['action'] ) && is_string( $_POST['action'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information but only loading the admin init class, We are strictly comparing only.
+				if ( wp_unslash( $_POST['action'] ) === 'inline-save' ) {
+					add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+				}
 			}
 		}
 		else {
@@ -559,28 +562,6 @@ function yoast_wpseo_self_deactivate() {
 			unset( $_GET['activate'] );
 		}
 	}
-}
-
-/* ********************* DEPRECATED METHODS ********************* */
-
-/**
- * Instantiate the different social classes on the frontend.
- *
- * @deprecated 14.0
- * @codeCoverageIgnore
- */
-function wpseo_frontend_head_init() {
-	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-}
-
-/**
- * Used to load the required files on the plugins_loaded hook, instead of immediately.
- *
- * @deprecated 14.0
- * @codeCoverageIgnore
- */
-function wpseo_frontend_init() {
-	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }
 
 /**

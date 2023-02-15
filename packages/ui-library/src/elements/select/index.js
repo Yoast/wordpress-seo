@@ -1,9 +1,11 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, ExclamationCircleIcon, SelectorIcon } from "@heroicons/react/solid";
-import { Fragment, useCallback, useMemo } from "@wordpress/element";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { Fragment, useCallback, useMemo, forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
+import { ValidationInput } from "../validation";
+import Label from "../label";
 
 const optionPropType = {
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
@@ -50,28 +52,28 @@ Option.propTypes = optionPropType;
  * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {Function} onChange Change callback.
  * @param {boolean} [disabled] Disabled state.
- * @param {boolean} [isError] Error message.
+ * @param {Object} [validation] The validation state.
  * @param {string} [className] CSS class.
  * @param {Object} [buttonProps] Any extra props for the button.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
-const Select = ( {
+const Select = forwardRef( ( {
 	id,
 	value,
-	options = [],
-	children = null,
-	selectedLabel = "",
-	label = "",
-	labelProps = {},
-	labelSuffix = null,
+	options,
+	children,
+	selectedLabel,
+	label,
+	labelProps,
+	labelSuffix,
 	onChange,
-	disabled = false,
-	isError = false,
-	className = "",
+	disabled,
+	validation,
+	className,
 	buttonProps,
 	...props
-} ) => {
+}, ref ) => {
 	const selectedOption = useMemo( () => (
 		// Default to first option if value is missing.
 		options.find( ( option ) => value === option?.value ) || options[ 0 ]
@@ -80,29 +82,34 @@ const Select = ( {
 
 	return (
 		<Listbox
+			ref={ ref }
 			as="div"
 			value={ value }
 			onChange={ onChange }
+			disabled={ disabled }
 			className={ classNames(
 				"yst-select",
 				disabled && "yst-select--disabled",
-				isError && "yst-select--error",
 				className,
 			) }
 			{ ...props }
 		>
 			{ label && <div className="yst-flex yst-items-center yst-mb-2">
-				<Listbox.Label { ...labelProps }>{ label }</Listbox.Label>
+				<Listbox.Label as={ Label } { ...labelProps }>{ label }</Listbox.Label>
 				{ labelSuffix }
 			</div> }
-			<Listbox.Button data-id={ id } className="yst-select__button" { ...buttonProps }>
+			<ValidationInput
+				as={ Listbox.Button }
+				data-id={ id }
+				className="yst-select__button"
+				validation={ validation }
+				{ ...buttonProps }
+			>
 				<span className="yst-select__button-label">{ selectedLabel || selectedOption?.label || "" }</span>
-				{ isError ? (
-					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" { ...svgAriaProps } />
-				) : (
+				{ ! validation?.message && (
 					<SelectorIcon className="yst-select__button-icon" { ...svgAriaProps } />
 				) }
-			</Listbox.Button>
+			</ValidationInput>
 			<Transition
 				as={ Fragment }
 				enter="yst-transition yst-duration-100 yst-ease-out"
@@ -118,9 +125,9 @@ const Select = ( {
 			</Transition>
 		</Listbox>
 	);
-};
+} );
 
-Select.propTypes = {
+const propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( optionPropType ) ),
@@ -131,11 +138,36 @@ Select.propTypes = {
 	labelSuffix: PropTypes.node,
 	onChange: PropTypes.func.isRequired,
 	disabled: PropTypes.bool,
-	isError: PropTypes.bool,
+	validation: PropTypes.shape( {
+		variant: PropTypes.string,
+		message: PropTypes.node,
+	} ),
 	className: PropTypes.string,
 	buttonProps: PropTypes.object,
 };
 
+Select.propTypes = propTypes;
+
 Select.Option = Option;
+Select.Option.displayName = "Select.Option";
+
+Select.defaultProps = {
+	options: [],
+	children: null,
+	selectedLabel: "",
+	label: "",
+	labelProps: {},
+	labelSuffix: null,
+	disabled: false,
+	validation: {},
+	className: "",
+	buttonProps: {},
+};
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Select { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Select.defaultProps;
+StoryComponent.displayName = "Select";
 
 export default Select;

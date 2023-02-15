@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Date_Archive_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
 use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
@@ -99,6 +100,13 @@ class Indexable_Builder_Test extends TestCase {
 	protected $primary_term_builder;
 
 	/**
+	 * The link builder
+	 *
+	 * @var Mockery\MockInterface|Indexable_Link_Builder
+	 */
+	private $link_builder;
+
+	/**
 	 * Represents the indexable helper.
 	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Helper
@@ -150,6 +158,7 @@ class Indexable_Builder_Test extends TestCase {
 		$this->system_page_builder       = Mockery::mock( Indexable_System_Page_Builder::class );
 		$this->hierarchy_builder         = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->primary_term_builder      = Mockery::mock( Primary_Term_Builder::class );
+		$this->link_builder              = Mockery::mock( Indexable_Link_Builder::class );
 		$this->indexable_helper          = Mockery::mock( Indexable_Helper::class );
 		$this->version_manager           = Mockery::mock( Indexable_Version_Manager::class );
 		$this->indexable_repository      = Mockery::mock( Indexable_Repository::class );
@@ -171,7 +180,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			$this->version_manager
+			$this->version_manager,
+			$this->link_builder
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -188,7 +198,7 @@ class Indexable_Builder_Test extends TestCase {
 	public function test_build_for_id_and_type_with_post_given_and_no_author_indexable_found() {
 		$this->indexable
 			->expects( 'save' )
-			->twice();
+			->once();
 
 		$this->indexable
 			->expects( 'as_array' )
@@ -224,7 +234,7 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->times( 3 )
+			->twice()
 			->withNoArgs()
 			->andReturnTrue();
 
@@ -308,7 +318,7 @@ class Indexable_Builder_Test extends TestCase {
 		// The test is complex enough in its current state.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->times( 3 )
+			->times( 2 )
 			->withNoArgs()
 			->andReturnFalse();
 
@@ -399,7 +409,7 @@ class Indexable_Builder_Test extends TestCase {
 		// The test is complex enough in its current state.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->times( 3 )
+			->times( 2 )
 			->withNoArgs()
 			->andReturnFalse();
 
@@ -961,7 +971,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			$this->version_manager
+			$this->version_manager,
+			$this->link_builder
 		);
 
 		$result = $instance->exposed_save_indexable( $this->indexable, null );
@@ -1008,7 +1019,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			$this->version_manager
+			$this->version_manager,
+			$this->link_builder
 		);
 
 		$before = Mockery::mock( Indexable::class );
@@ -1057,7 +1069,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			$this->version_manager
+			$this->version_manager,
+			$this->link_builder
 		);
 
 		$result = $instance->exposed_save_indexable( $this->indexable, null );

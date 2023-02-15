@@ -1,8 +1,8 @@
+/* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
-import { toLower } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -12,6 +12,7 @@ import {
 	OpenGraphDisabledAlert,
 	RouteLayout,
 } from "../components";
+import { safeToLocaleLower } from "../helpers";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
 
@@ -28,8 +29,9 @@ const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( Form
  */
 const FormatArchives = () => {
 	const { name, label, singularLabel } = useSelectSettings( "selectTaxonomy", [], "post_format" );
-	const labelLower = useMemo( ()=> toLower( label ), [ label ] );
-	const singularLabelLower = useMemo( () => toLower( singularLabel ), [ singularLabel ] );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
+	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
 
 	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
@@ -68,11 +70,14 @@ const FormatArchives = () => {
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-post_format": isFormatArchivesDisabled } = values.wpseo_titles;
+	const {
+		"disable-post_format": isFormatArchivesDisabled,
+		"noindex-tax-post_format": isFormatArchivesNoIndex,
+	} = values.wpseo_titles;
 
 	return (
 		<RouteLayout
-			title={ label }
+			title={ __( "Format archives", "wordpress-seo" ) }
 			description={ description }
 		>
 			<FormLayout>
@@ -109,13 +114,15 @@ const FormatArchives = () => {
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
 									labelLower
 								) }
-										&nbsp;
+								&nbsp;
 								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
 							disabled={ isFormatArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isFormatArchivesDisabled ? false : ! isFormatArchivesNoIndex }
 							className="yst-max-w-sm"
 						/>
 						<FormikReplacementVariableEditorField

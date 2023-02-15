@@ -85,7 +85,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function register_hooks() {
 		$this->register_setting_labels();
 
-		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_crawl_settings_tab' ] );
 		if ( ! $this->product_helper->is_premium() || ! $this->is_premium_upgraded() ) {
 			\add_action( 'wpseo_settings_tab_crawl_cleanup_internal', [ $this, 'add_crawl_settings_tab_content' ] );
 			\add_action( 'wpseo_settings_tab_crawl_cleanup_network', [ $this, 'add_crawl_settings_tab_content_network' ] );
@@ -325,7 +324,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * Displays the Premium upsell button.
 	 */
 	public function display_premium_upsell_btn() {
-		echo '<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" href="';
+		echo '<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="';
 		echo \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/crawl-settings-upsell' ) );
 		echo '" target="_blank" style=" margin-top: 16px; margin-bottom: 16px; ">';
 

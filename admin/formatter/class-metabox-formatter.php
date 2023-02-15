@@ -61,7 +61,7 @@ class WPSEO_Metabox_Formatter {
 
 		return [
 			'author_name'                     => get_the_author_meta( 'display_name' ),
-			'site_name'                       => get_bloginfo( 'name' ),
+			'site_name'                       => YoastSEO()->meta->for_current_page()->site_name,
 			'sitewide_social_image'           => WPSEO_Options::get( 'og_default_image' ),
 			'search_url'                      => '',
 			'post_edit_url'                   => '',
@@ -186,7 +186,7 @@ class WPSEO_Metabox_Formatter {
 							__( '%1$sInclusive language%2$s: %3$s', 'wordpress-seo' ),
 							'<a href="#yoast-inclusive-language-analysis-collapsible-metabox">',
 							'</a>',
-							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
+							'<strong>' . __( 'Potentially non-inclusive', 'wordpress-seo' ) . '</strong>'
 						),
 						'good' => sprintf(
 						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the inclusive language score. */
@@ -320,45 +320,5 @@ class WPSEO_Metabox_Formatter {
 		$translatepress_active = YoastSEO()->classes->get( TranslatePress_Conditional::class )->is_met();
 
 		return ( $wpml_active || $polylang_active || $translatepress_active );
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Returns the translations for the Add Keyword modal.
-	 *
-	 * These strings are not escaped because they're meant to be used with React
-	 * which already takes care of that. If used in PHP, they should be escaped.
-	 *
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return array Translated text strings for the Add Keyword modal.
-	 */
-	public function get_add_keyword_upsell_translations() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		return [
-			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
-			'intro'                    => sprintf(
-			/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-				__( 'Great news: you can, with %s!', 'wordpress-seo' ),
-				'{{link}}Yoast SEO Premium{{/link}}'
-			),
-			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
-			'other'                    => sprintf(
-			/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Other benefits of %s for you:', 'wordpress-seo' ),
-				'Yoast SEO Premium'
-			),
-			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
-			'buy'                      => sprintf(
-			/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Get %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
-			),
-			'small'                    => __( '1 year free support and updates included!', 'wordpress-seo' ),
-			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-		];
 	}
 }
