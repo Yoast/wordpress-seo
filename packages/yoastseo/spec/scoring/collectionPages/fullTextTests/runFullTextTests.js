@@ -1,7 +1,10 @@
+import { getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
+import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
+import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -30,6 +33,7 @@ import WordComplexityAssessment from "../../../../src/scoring/assessments/readab
 // Import test papers
 import testPapers from "./testTexts";
 
+
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
@@ -39,6 +43,11 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		// Also register the research and helper for Word Complexity for testing purposes.
+		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
+			researcher.addResearch( "wordComplexity", wordComplexity );
+			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( getLanguage( locale ) ) );
+		}
 
 		const expectedResults = testPaper.expectedResults;
 		const result = {};

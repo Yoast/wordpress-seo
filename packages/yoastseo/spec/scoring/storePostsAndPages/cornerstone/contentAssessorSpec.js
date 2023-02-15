@@ -257,14 +257,15 @@ describe( "A content assessor", function() {
 			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
-		it( "Should have 8 available assessments for a fully supported language", function() {
+		it( "Should have 7 available assessments for a fully supported language. " +
+			"This doesn't include Word complexity assessment since the registration is done from Shopify side.", function() {
 			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 8;
+			const expected = 7;
 			expect( actual ).toBe( expected );
 		} );
 

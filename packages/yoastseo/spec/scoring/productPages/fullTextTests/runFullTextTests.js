@@ -1,8 +1,10 @@
+import { getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
-import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
+import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -35,6 +37,8 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import PassiveVoiceAssessment from "../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
 import TextPresenceAssessment from "../../../../src/scoring/assessments/readability/TextPresenceAssessment";
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+
 // Import test papers
 import testPapers from "./testTexts";
 
@@ -47,6 +51,11 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		// Also register the research and helper for Word Complexity for testing purposes.
+		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
+			researcher.addResearch( "wordComplexity", wordComplexity );
+			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( getLanguage( locale ) ) );
+		}
 
 		const expectedResults = testPaper.expectedResults;
 		const result = {};

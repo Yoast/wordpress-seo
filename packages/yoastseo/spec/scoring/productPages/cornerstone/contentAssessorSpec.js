@@ -37,14 +37,15 @@ describe( "A cornerstone product page content assessor", function() {
 			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
-		it( "Should have 7 available assessments for a fully supported language", function() {
+		it( "Should have 6 available assessments for a fully supported language. " +
+			"This doesn't include Word complexity assessment since the registration is done from Shopify side.", function() {
 			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 7;
+			const expected = 6;
 			expect( actual ).toBe( expected );
 		} );
 
@@ -62,14 +63,14 @@ describe( "A cornerstone product page content assessor", function() {
 
 	describe( "Checks the applicable assessments for text that contains more than 300 words", function() {
 		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
-		it( "Should have 8 available assessments for a fully supported language", function() {
+		it( "Should have 7 available assessments for a fully supported language", function() {
 			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 8;
+			const expected = 7;
 			expect( actual ).toBe( expected );
 		} );
 
