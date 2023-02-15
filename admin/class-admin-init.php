@@ -111,13 +111,11 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Determine whether we should load the meta box class and if so, load it.
+	 * Whether we should load the meta box classes.
+	 *
+	 * @return bool true if we should load the meta box classes, false otherwise.
 	 */
-	private function load_meta_boxes() {
-
-		$is_editor      = WPSEO_Metabox::is_post_overview( $this->pagenow ) || WPSEO_Metabox::is_post_edit( $this->pagenow );
-		$is_inline_save = filter_input( INPUT_POST, 'action' ) === 'inline-save';
-
+	private function should_load_meta_boxes() {
 		/**
 		 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
 		 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
@@ -125,8 +123,28 @@ class WPSEO_Admin_Init {
 		 *
 		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
 		 */
-		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
-		) {
+		if ( apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
+			return true;
+		}
+
+		// If we are in a post editor.
+		if ( WPSEO_Metabox::is_post_overview( $this->pagenow ) || WPSEO_Metabox::is_post_edit( $this->pagenow ) ) {
+			return true;
+		}
+
+		// If we are doing an inline save.
+		if ( check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) && isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'inline-save' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determine whether we should load the meta box class and if so, load it.
+	 */
+	private function load_meta_boxes() {
+		if ( $this->should_load_meta_boxes() ) {
 			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 		}
