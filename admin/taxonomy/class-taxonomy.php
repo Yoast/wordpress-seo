@@ -153,7 +153,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
 			$script_data = [
-				'analysis'         => [
+				'analysis'          => [
 					'plugins' => [
 						'replaceVars' => [
 							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -169,14 +169,15 @@ class WPSEO_Taxonomy {
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 					],
 				],
-				'media'            => [
+				'media'             => [
 					// @todo replace this translation with JavaScript translations.
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
-				'metabox'          => $this->localize_term_scraper_script(),
-				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-				'isTerm'           => true,
-				'postId'           => $tag_id,
+				'metabox'           => $this->localize_term_scraper_script(),
+				'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+				'isTerm'            => true,
+				'postId'            => $tag_id,
+				'usedKeywordsNonce' => \wp_create_nonce( 'wpseo-keyword-usage' ),
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
