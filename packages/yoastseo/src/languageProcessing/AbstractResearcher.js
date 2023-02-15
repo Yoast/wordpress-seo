@@ -154,6 +154,24 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Add a custom configuration that will be available within the Researcher.
+	 *
+	 * @param {string}          name     A name to reference the helper by.
+	 * @param {Object|Array}    config   The configuration to be added to the Researcher.
+	 *
+	 * @throws {MissingArgument}  Configuration name cannot be empty.
+	 *
+	 * @returns {void}
+	 */
+	addConfig( name, config ) {
+		if ( isUndefined( name ) || isEmpty( name ) ) {
+			throw new MissingArgument( "Helper name cannot be empty" );
+		}
+
+		this.config[ name ] = config;
+	}
+
+	/**
 	 * Check whether or not the research is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the research by.
@@ -182,6 +200,20 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Check whether or not the config is known by the Researcher.
+	 *
+	 * @param {string} name The name to reference the config by.
+	 *
+	 * @returns {boolean} Whether or not the config is known by the Researcher.
+	 */
+	hasConfig( name ) {
+		return Object.keys( this.getAvailableConfig() ).filter(
+			function( config ) {
+				return config === name;
+			} ).length > 0;
+	}
+
+	/**
 	 * Return all available researches.
 	 *
 	 * @returns {Object} An object containing all available researches.
@@ -197,6 +229,15 @@ export default class AbstractResearcher {
 	 */
 	getAvailableHelpers() {
 		return this.helpers;
+	}
+
+	/**
+	 * Return all available configuration.
+	 *
+	 * @returns {Object} An object containing all available configuration.
+	 */
+	getAvailableConfig() {
+		return this.config;
 	}
 
 	/**
