@@ -61,16 +61,11 @@ export default class IntroQualityCheck extends Assessment {
 	 * @returns {boolean}	Returns true if there is at least one sentence that is too long.
 	 */
 	containsTooLongSentences( sentences ) {
-		console.log( sentences, "TEST4" );
-		// const tooLongSentences = checkForTooLongSentences( sentences, this._config.recommendedLength );
 		const sentenceLengths = sentences.map( sentence => {
-			console.log( sentence, "SENTENCE1" );
 			const words = getWords( sentence );
 			return words.length;
 		} );
-		console.log( sentenceLengths, "TEST5" );
-		console.log(sentenceLengths.some( number => number > this._config.recommendedLength ), "TEST8");
-		// return tooLongSentences.length > 0;
+
 		return sentenceLengths.some( number => number > this._config.recommendedLength );
 	}
 
