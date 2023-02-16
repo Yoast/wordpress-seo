@@ -17,7 +17,7 @@ class Cornerstone_Enabled_Conditional implements Conditional {
 	protected $options_helper;
 
 	/**
-	 * Should_Index_Links_Conditional constructor.
+	 * Cornerstone_Enabled_Conditional constructor.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
 	 */
@@ -26,9 +26,9 @@ class Cornerstone_Enabled_Conditional implements Conditional {
 	}
 
 	/**
-	 * Returns `true` when the links on this website should be indexed.
+	 * Returns `true` when the cornerstone content feature is enabled.
 	 *
-	 * @return bool `true` when the links on this website should be indexed.
+	 * @return bool `true` when the cornerstone content feature is enabled.
 	 */
 	public function is_met() {
 		return $this->options_helper->get( 'enable_cornerstone_content' );
