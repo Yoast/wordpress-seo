@@ -8,6 +8,7 @@ import { filter } from "lodash-es";
  */
 export default function( sentences, recommendedValue ) {
 	return filter( sentences, function( sentence ) {
+		console.log(sentence.sentenceLength, "TEST7");
 		return sentence.sentenceLength > recommendedValue;
 	} );
 }

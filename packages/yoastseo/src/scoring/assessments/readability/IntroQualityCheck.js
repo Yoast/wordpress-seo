@@ -5,7 +5,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { getSentences } from "../../../languageProcessing";
 import checkForTooLongSentences from "../../helpers/assessments/checkForTooLongSentences";
-
+import getWords from "../../../languageProcessing/helpers/word/getWords.js";
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
  */
@@ -37,7 +37,7 @@ export default class IntroQualityCheck extends Assessment {
 		// Add cornerstone and/or product-specific config if applicable.
 		// this._config = merge( defaultConfig, config );
 		this._config = defaultConfig;
-		console.log(this._config, "TEST1");
+		console.log( this._config, "TEST1" );
 
 		this.identifier = "introQualityCheck";
 	}
@@ -54,7 +54,7 @@ export default class IntroQualityCheck extends Assessment {
 		const text = paper.getText();
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
-		return getSentences( text, memoizedTokenizer ).slice( 4 );
+		return getSentences( text, memoizedTokenizer ).slice( 0, 4 );
 	}
 
 	/**
@@ -65,11 +65,17 @@ export default class IntroQualityCheck extends Assessment {
 	 * @returns {boolean}	Returns true if there is at least one sentence that is too long.
 	 */
 	containsTooLongSentences( sentences ) {
-		console.log(sentences, "TEST4")
-		const tooLongSentences = checkForTooLongSentences( sentences, this._config.recommendedLength );
-		console.log(tooLongSentences, "TEST5")
-		console.log(tooLongSentences.length > 0, "TEST6")
-		return tooLongSentences.length > 0;
+		console.log( sentences, "TEST4" );
+		// const tooLongSentences = checkForTooLongSentences( sentences, this._config.recommendedLength );
+		const sentenceLengths = sentences.map( sentence => {
+			console.log( sentence, "SENTENCE1" );
+			const words = getWords( sentence );
+			return words.length;
+		} );
+		console.log( sentenceLengths, "TEST5" );
+		console.log(sentenceLengths.some( number => number > this._config.recommendedLength ), "TEST8");
+		// return tooLongSentences.length > 0;
+		return sentenceLengths.some( number => number > this._config.recommendedLength );
 	}
 
 	/**
