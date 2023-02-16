@@ -22,8 +22,8 @@ export default class TextAlignmentAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: createAnchorOpeningTag(),
-			urlCallToAction: createAnchorOpeningTag(),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/assessment-alignment" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/assessment-alignment-cta" ),
 			scores: {
 				bad: 2,
 			},
