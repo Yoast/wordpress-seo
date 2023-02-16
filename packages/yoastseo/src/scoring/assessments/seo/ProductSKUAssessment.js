@@ -52,6 +52,11 @@ export default class ProductSKUAssessment extends Assessment {
 			assessmentResult.setText( result.text );
 		}
 
+		if ( assessmentResult.getScore() < 9  ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "SKU", "wordpress-seo" ) );
+		}
+
 		return assessmentResult;
 	}
 

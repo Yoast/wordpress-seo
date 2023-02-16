@@ -1,4 +1,5 @@
 import { __ } from "@wordpress/i18n";
+import { doAction } from "@wordpress/hooks";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
@@ -131,8 +132,7 @@ class Results extends Component {
 		// The keyword key is used for labelling the related keyphrase(s).
 		const keywordKey = this.props.keywordKey;
 		const elementID = keywordKey === "" ? "focus-keyword-input-" + inputFieldLocation
-			: "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation;
-
+			: "yoast-keyword-input-" + keywordKey + "-" + inputFieldLocation;
 
 		const element = document.getElementById( elementID );
 		element.focus();
@@ -186,29 +186,34 @@ class Results extends Component {
 			this.focusOnKeyphraseField( inputFieldLocation );
 			return;
 		}
+
 		/*
 		 * For all the other assessments that have an edit button, we need to jump to the relevant Google preview fields.
 		 * (metadescription, slug, or title). If the user is in the sidebar, these are accessed through a modal. So if the
 		 * inputFieldLocation string is 'sidebar' it should now be changed to 'modal'.
 	     */
-		if ( inputFieldLocation === "sidebar" ) {
-			inputFieldLocation = "modal";
-			// Open the modal.
-			document.getElementById( "yoast-google-preview-modal-open-button" ).click();
-			// Wait for the input field elements to become available, then focus on the relevant field.
-			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
-		} else {
-			const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
-			// Check if the collapsible is closed before clicking on it.
-			if ( googlePreviewCollapsible && googlePreviewCollapsible.getAttribute( "aria-expanded" ) === "false" ) {
-				// If it is closed, click on it to open it, and wait a bit before focusing on the edit field.
-				googlePreviewCollapsible.click();
-				setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
+		if ( [ "metaDescriptionKeyword", "metaDescriptionLength", "titleWidth", "keyphraseInSEOTitle", "slugKeyword" ].includes( id ) ) {
+			if ( inputFieldLocation === "sidebar" ) {
+				inputFieldLocation = "modal";
+				// Open the modal.
+				document.getElementById( "yoast-google-preview-modal-open-button" ).click();
+				// Wait for the input field elements to become available, then focus on the relevant field.
+				setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
 			} else {
-				// Collapsible already open, we can click on the field directly.
-				this.focusOnGooglePreviewField( id, inputFieldLocation );
+				const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
+				// Check if the collapsible is closed before clicking on it.
+				if ( googlePreviewCollapsible && googlePreviewCollapsible.getAttribute( "aria-expanded" ) === "false" ) {
+					// If it is closed, click on it to open it, and wait a bit before focusing on the edit field.
+					googlePreviewCollapsible.click();
+					setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
+				} else {
+					// Collapsible already open, we can click on the field directly.
+					this.focusOnGooglePreviewField( id, inputFieldLocation );
+				}
 			}
 		}
+
+		doAction( "yoast.focus.input", id );
 	}
 
 	/**
