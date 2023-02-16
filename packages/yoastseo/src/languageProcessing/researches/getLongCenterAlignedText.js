@@ -7,12 +7,12 @@ const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
 const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
 
 /**
- * Matches the paragraphs in <p>-tags and returns the text in them.
+ * Finds all instances of a specified HTML element in the text.
  *
  * @param {string} text 		The text to match the element in.
  * @param {RegExp} elementRegex The regex for matching the element.
  *
- * @returns {array} An array containing all paragraphs texts.
+ * @returns {string[]} An array with all the matched elements.
  */
 const getAllElementsFromText = function( text, elementRegex ) {
 	const elements = [];
@@ -30,8 +30,11 @@ const getAllElementsFromText = function( text, elementRegex ) {
 
 /**
  *
- * @param elements
- * @returns {*[]}
+ * Filters out all elements that are center-aligned and longer than 50 characters (after stripping HTML tags).
+ *
+ * @param {string[]} elements	An array containing all cases of a specific element that were found in a text.
+ *
+ * @returns {string[]}	An array containing all elements of a specific type that are center-aligned and longer than 50 characters.
  */
 const getLongCenterAlignedElements = function( elements ) {
 	const elementsWithCenterAlignedText = [];
@@ -56,8 +59,14 @@ const getLongCenterAlignedElements = function( elements ) {
 
 /**
  *
- * @param paper
- * @returns {Array}
+ * Finds all paragraphs and headings that are center-aligned and longer than 50 characters (after stripping html tags).
+ *
+ * Returns an array with one object per paragraph/heading.
+ * For example: [ {text: "abc", typeOfBlock: "heading"}, {text: "123", typeOfBlock: "paragraph"} ].
+ *
+ * @param {string}	paper	The paper to analyze.
+ *
+ * @returns {Object[]}	An array of objects for each too long center-aligned paragraph/heading.
  */
 export default function getLongBlocksOfCenterAlignedText( paper ) {
 	const text = paper.getText();
