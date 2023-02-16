@@ -1,8 +1,11 @@
 import { __, sprintf } from "@wordpress/i18n";
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
+import { Assessment, AssessmentResult, helpers, languageProcessing, values, markers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+const { stripIncompleteTags } = languageProcessing;
+const { Mark } = values;
+const { addMark } = markers;
+
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
