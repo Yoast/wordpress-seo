@@ -133,7 +133,6 @@ export default class IntroQualityCheck extends Assessment {
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
-				this._config.urlCallToAction,
 				"</a>"
 			),
 		};
