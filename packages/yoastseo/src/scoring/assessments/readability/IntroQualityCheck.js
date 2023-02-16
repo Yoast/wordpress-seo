@@ -5,6 +5,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { getSentences } from "../../../languageProcessing";
 import getWords from "../../../languageProcessing/helpers/word/getWords.js";
+import matchParagraphs from "../../../languageProcessing/helpers/html/matchParagraphs";
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
  */
@@ -20,7 +21,8 @@ export default class IntroQualityCheck extends Assessment {
 		super();
 
 		const defaultConfig = {
-			recommendedLength: 25,
+			recommendedSentenceLength: 25,
+			recommendedParagraphLength: 200,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34w" ),
 			scores: {
@@ -63,8 +65,35 @@ export default class IntroQualityCheck extends Assessment {
 			return words.length;
 		} );
 
-		return sentenceLengths.some( number => number > this._config.recommendedLength );
+		return sentenceLengths.some( number => number > this._config.recommendedSentenceLength );
 	}
+
+	/**
+	 * Gets the first two paragraphs from the text.
+	 *
+	 * @param {Paper} paper The paper object to get the text from.
+	 * @returns {string[]} The first two paragraphs from the text.
+	 */
+	getFirstTwoParagraphs( paper ) {
+		const text = paper.getText();
+		const paragraphs = matchParagraphs( text );
+		return paragraphs.slice( 0, 2 );
+	}
+
+	/**
+	 * Checks whether the first two paragraphs contain paragraphs that are too long.
+	 * @param {string[]} paragraphs The first two paragraphs from the text.
+	 * @returns {boolean} Returns true if there is at least one paragraph that is too long.
+	 */
+	containsTooLongParagraphs( paragraphs ) {
+		const paragraphLengths = paragraphs.map( paragraph => {
+			const words = getWords( paragraph );
+			return words.length;
+		} );
+
+		return paragraphLengths.some( number => number > this._config.recommendedLength );
+	}
+
 
 	/**
 	 * Execute the Assessment and return a result.
@@ -78,11 +107,13 @@ export default class IntroQualityCheck extends Assessment {
 		const firstFiveSentences = this.getFirstFiveSentences( paper, researcher );
 		this.doesContainTooLongSentences = this.containsTooLongSentences( firstFiveSentences );
 
-		const calculatedScore = this.calculateResult();
+		const firstTwoParagraphs = this.getFirstTwoParagraphs( paper );
+		this.doesContainTooLongParagraphs = this.containsTooLongParagraphs( firstTwoParagraphs );
+		// const calculatedScore = this.calculateResult();
 
 		const assessmentResult = new AssessmentResult();
-		assessmentResult.setScore( calculatedScore.score );
-		assessmentResult.setText( calculatedScore.resultText );
+		// assessmentResult.setScore( calculatedScore.score );
+		// assessmentResult.setText( calculatedScore.resultText );
 
 		return assessmentResult;
 	}
@@ -120,7 +151,23 @@ export default class IntroQualityCheck extends Assessment {
 					"</a>"
 				),
 			};
+		} else if ( this.doesContainTooLongParagraphs ) {
+			return {
+				score: this._config.scores.bad,
+				resultText: sprintf(
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					__(
+						"%1$sIQCheck%3$s: There is at least one paragraph in your introduction, which is too long. " +
+						"%2$sTry to shorten your sentences%3$s.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.urlCallToAction, // TODO: Change url. 
+					"</a>"
+				),
+			};
 		}
+
 
 		// Introduction which doesn't contain sentences that are too long.
 		return {
