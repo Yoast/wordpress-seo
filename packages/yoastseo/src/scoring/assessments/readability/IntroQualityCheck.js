@@ -33,9 +33,7 @@ export default class IntroQualityCheck extends Assessment {
 		};
 
 		// Add cornerstone and/or product-specific config if applicable.
-		// this._config = merge( defaultConfig, config );
-		this._config = defaultConfig;
-		console.log( this._config, "TEST1" );
+		this._config = merge( defaultConfig, config );
 
 		this.identifier = "introQualityCheck";
 	}
