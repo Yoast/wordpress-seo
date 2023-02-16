@@ -292,6 +292,34 @@ class Icons {
 	}
 
 	/**
+	 * The Heroicons check svg icon.
+	 *
+	 * @param int $size The Height and Width of the SVG icon.
+	 *
+	 * @return string The generated icon.
+	 */
+	public static function heroicons_check( $size = self::SIZE_DEFAULT ) {
+		return self::svg(
+			"<path stroke-linecap='round' stroke-linejoin='round' d='M5 13l4 4L19 7' />",
+			$size
+		);
+	}
+
+	/**
+	 * The Heroicons X svg icon.
+	 *
+	 * @param int $size The Height and Width of the SVG icon.
+	 *
+	 * @return string The generated icon.
+	 */
+	public static function heroicons_x( $size = self::SIZE_DEFAULT ) {
+		return self::svg(
+			"<path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12' />",
+			$size
+		);
+	}
+
+	/**
 	 * Generates the SVG based on given path.
 	 *
 	 * @param string $path     The path to generate svg for.
