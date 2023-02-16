@@ -214,20 +214,6 @@ th.column-wpseo-cornerstone .yoast-tooltip {
   padding: 8px 0;
 }
 
-th.column-wpseo-cornerstone .yoast-tooltip::after {
-  max-width: 60px;
-}
-
-td.column-wpseo-cornerstone {
-  padding: 8px 10px 8px 0px;
-}
-
-td.column-wpseo-cornerstone svg {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-}
-
 th.column-wpseo-score .yoast-tooltip,
 th.column-wpseo-score-readability .yoast-tooltip {
   /* 11+20+11=42px */
