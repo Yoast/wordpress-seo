@@ -43,13 +43,18 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		this.textContainsCenterAlignedText =  researcher.getResearch( "getLongCenterAlignedText" );
+		this.textContainsCenterAlignedText = researcher.getResearch( "getLongCenterAlignedText" );
 
 		const calculatedScore = this.calculateResult( paper, researcher, this.textContainsCenterAlignedText );
 
 		const assessmentResult = new AssessmentResult();
+		if ( this.textContainsCenterAlignedText.length === 0 ) {
+			return assessmentResult;
+		}
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
+		// We always want to highlight the long center-aligned element.
+		assessmentResult.setHasMarks( true );
 
 		return assessmentResult;
 	}
@@ -94,14 +99,15 @@ export default class TextAlignmentAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
-	 * @param textContainsCenterAlignedText  The array containing each paragraph or heading with center aligned text that’s longer than 50 characters.
+	 * @param {array} textContainsCenterAlignedText  The array containing each paragraph or heading
+	 * with center aligned text that’s longer than 50 characters.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult( paper, researcher, textContainsCenterAlignedText ) {
 		// Text in an RTL language with one block of center-aligned text.
 		if ( paper.isRTL() ) {
-			if ( textContainsCenterAlignedText.length === 1 ) {
+			if ( textContainsCenterAlignedText.length > 1 ) {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
@@ -117,7 +123,7 @@ export default class TextAlignmentAssessment extends Assessment {
 				};
 			}
 			// Text in an RTL language with multiple blocks of center-aligned text.
-			if ( textContainsCenterAlignedText.length > 1 ) {
+			if ( textContainsCenterAlignedText.length === 1 ) {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
@@ -133,7 +139,7 @@ export default class TextAlignmentAssessment extends Assessment {
 			}
 		}
 		// Text with one block of center-aligned text in a LTR language.
-		if ( textContainsCenterAlignedText.length === 1 ) {
+		if ( textContainsCenterAlignedText.length > 1 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
@@ -149,7 +155,7 @@ export default class TextAlignmentAssessment extends Assessment {
 			};
 		}
 		// Text with multiple blocks of center-aligned text in an LTR language.
-		if ( textContainsCenterAlignedText.length > 1  ) {
+		if ( textContainsCenterAlignedText.length === 1  ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
