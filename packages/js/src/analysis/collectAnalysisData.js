@@ -6,6 +6,7 @@ import {
 
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";
+import getL10nObject from "./getL10nObject";
 
 import { Paper } from "yoastseo";
 
@@ -86,6 +87,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
 		wpBlocks: blocks,
 		date: storeData.settings.snippetEditor.date,
+		isRTL: getL10nObject().isRTL,
 	};
 
 	// Modify the data through pluggable.
