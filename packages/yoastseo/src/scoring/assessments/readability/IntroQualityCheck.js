@@ -54,7 +54,7 @@ export default class IntroQualityCheck extends Assessment {
 		const text = paper.getText();
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
-		return getSentences( text, memoizedTokenizer ).slice( 0, 4 );
+		return getSentences( text, memoizedTokenizer ).slice( 0, 5 );
 	}
 
 	/**
