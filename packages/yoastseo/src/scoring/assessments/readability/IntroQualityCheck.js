@@ -25,9 +25,7 @@ export default class IntroQualityCheck extends Assessment {
 			slightlyTooMany: 25,
 			farTooMany: 30,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
-			bogus: "bogus",
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34w" ),
-			// countTextIn: __( "words", "wordpress-seo" ),
 			scores: {
 				good: 9,
 				bad: 3,
