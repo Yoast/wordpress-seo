@@ -77,9 +77,22 @@ export default class IntroQualityCheck extends Assessment {
 	getFirstTwoParagraphs( paper ) {
 		const text = paper.getText();
 		const paragraphs = matchParagraphs( text );
-		console.log( paragraphs.slice( 0, 2 ), "FIRST TWO PARAGRAPHS" );
 
-		return paragraphs.slice( 0, 2 );
+		const twoParagraphs = [];
+
+		// Dirty hack since sometimes the first paragraph is empty in block editor.
+		let i = 0;
+		while ( twoParagraphs.length < 2 && i < paragraphs.length ) {
+			if ( paragraphs[ i ].length > 0 ) {
+				twoParagraphs.push( paragraphs[ i ] );
+			}
+			i++;
+		}
+
+		console.log(twoParagraphs, "FIRST TWO PARAGRAPHS" );
+
+		// return paragraphs.slice( 0, 2 );
+		return twoParagraphs;
 	}
 
 	/**
@@ -93,6 +106,7 @@ export default class IntroQualityCheck extends Assessment {
 			return words.length;
 		} );
 
+		console.log( paragraphLengths, "PARAGRAPH LENGTHS" );
 		return paragraphLengths.some( number => number > this._config.recommendedParagraphLength );
 	}
 
