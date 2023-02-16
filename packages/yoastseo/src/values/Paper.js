@@ -1,9 +1,9 @@
-import { defaults, isEmpty, isEqual, isNil } from "lodash-es";
+import { defaults, isEmpty, isEqual, isNil, isUndefined } from "lodash-es";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
  * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
- * 		   slug: string, locale: string, permalink: string, date: string}}
+ * 		   slug: string, locale: string, permalink: string, date: string, customData: object, textTitle: string, isRTL: boolean }}
  */
 const defaultAttributes = {
 	keyword: "",
@@ -17,24 +17,27 @@ const defaultAttributes = {
 	date: "",
 	customData: {},
 	textTitle: "",
+	isRTL: false,
 };
 
 /**
  * Constructs the Paper object and sets the keyword property.
  *
- * @param {string} text                     The text to use in the analysis.
- * @param {object} [attributes]             The object containing all attributes.
- * @param {string} [attributes.keyword]     The main keyword.
- * @param {string} [attributes.synonyms]    The main keyword's synonyms.
- * @param {string} [attributes.description] The SEO description.
- * @param {string} [attributes.title]       The SEO title.
- * @param {number} [attributes.titleWidth]  The width of the title in pixels.
- * @param {string} [attributes.slug]        The slug.
- * @param {string} [attributes.locale]      The locale.
- * @param {string} [attributes.permalink]   The base url + slug.
- * @param {string} [attributes.date]        The date.
- * @param {Object} [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
- * @param {Object} [attributes.customData]  Custom data.
+ * @param {string}  text                     The text to use in the analysis.
+ * @param {object}  [attributes]             The object containing all attributes.
+ * @param {string}  [attributes.keyword]     The main keyword.
+ * @param {string}  [attributes.synonyms]    The main keyword's synonyms.
+ * @param {string}  [attributes.description] The SEO description.
+ * @param {string}  [attributes.title]       The SEO title.
+ * @param {number}  [attributes.titleWidth]  The width of the title in pixels.
+ * @param {string}  [attributes.slug]        The slug.
+ * @param {string}  [attributes.locale]      The locale.
+ * @param {string}  [attributes.permalink]   The base url + slug.
+ * @param {string}  [attributes.date]        The date.
+ * @param {Object}  [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
+ * @param {Object}  [attributes.customData]  Custom data.
+ * @param {string}  [attributes.textTitle]   The title of the text.
+ * @param {boolean} [attributes.isRTL]       Whether the locale is an RTL.
  *
  * @constructor
  */
@@ -46,6 +49,11 @@ function Paper( text, attributes ) {
 
 	if ( attributes.locale === "" ) {
 		attributes.locale = defaultAttributes.locale;
+	}
+
+	// If isRTL attribute is not provided, use the default attribute.
+	if ( isUndefined( attributes.isRTL ) ) {
+		attributes.isRTL = defaultAttributes.isRTL;
 	}
 
 	if ( attributes.hasOwnProperty( "url" ) ) {
@@ -209,6 +217,16 @@ Paper.prototype.hasLocale = function() {
  */
 Paper.prototype.getLocale = function() {
 	return this._attributes.locale;
+};
+
+/**
+ * Gets the information whether the locale is an RTL or not.
+ * It returns false if this attribute is not provided.
+ *
+ * @returns {boolean} Returns the information whether the locale is an RTL or not.
+ */
+Paper.prototype.isRTL = function() {
+	return this._attributes.isRTL;
 };
 
 /**

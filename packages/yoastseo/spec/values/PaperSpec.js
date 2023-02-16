@@ -124,6 +124,22 @@ describe( "Paper", function() {
 			expect( paper.hasTextTitle() ).toBe( true );
 			expect( paper.getTextTitle() ).toEqual( "A text title" );
 		} );
+
+		it( "returns the information whether the locale is an RTL", function() {
+			const attributes = {
+				isRTL: true,
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.isRTL() ).toBe( true );
+		} );
+
+		it( "returns the default value (false) for isRTL when it's not provided during Paper initialization", function() {
+			const attributes = {
+				textTitle: "A text title",
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.isRTL() ).toBe( false );
+		} );
 	} );
 
 	describe( "hasPermalink", function() {
