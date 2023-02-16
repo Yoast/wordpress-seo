@@ -87,7 +87,6 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
 		wpBlocks: blocks,
 		date: storeData.settings.snippetEditor.date,
-		isRTL: getL10nObject().isRTL,
 	};
 
 	// Modify the data through pluggable.
@@ -101,6 +100,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 
 	data.titleWidth = measureTextWidth( data.title );
 	data.locale = getContentLocale();
+	data.isRTL = getL10nObject().isRtl;
 
 	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }
