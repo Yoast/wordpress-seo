@@ -6,6 +6,7 @@ import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAs
 import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment";
 import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
+import IntroQualityCheck from "./readability/IntroQualityCheck";
 
 // SEO assessments.
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
@@ -40,6 +41,7 @@ const readability = {
 	SubheadingDistributionTooLongAssessment,
 	TextPresenceAssessment,
 	TransitionWordsAssessment,
+	IntroQualityCheck,
 };
 
 // We expose the deprecated UrlKeywordAssessment for backwards compatibility.
