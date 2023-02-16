@@ -117,6 +117,7 @@ class Integrations_Page implements Integration_Interface {
 		$acf_active                        = \class_exists( 'acf' );
 		$algolia_active                    = $wpseo_plugin_availability_checker->is_active( $algolia_file );
 		$edd_active                        = \class_exists( \Easy_Digital_Downloads::class );
+		$jetpack_boost_active              = $wpseo_plugin_availability_checker->is_active( 'jetpack-boost/jetpack-boost.php' );
 		$old_algolia_active                = $wpseo_plugin_availability_checker->is_active( $old_algolia_file );
 		$tec_active                        = \class_exists( \TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema::class );
 		$ssp_active                        = \class_exists( \SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode::class );
@@ -179,6 +180,7 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
+				'jetpack-boost_integration_active'   => $jetpack_boost_active,
 			]
 		);
 	}
