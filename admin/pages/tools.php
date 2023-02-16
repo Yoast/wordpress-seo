@@ -11,7 +11,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$tool_page = (string) filter_input( INPUT_GET, 'tool' );
+$tool_page = '';
+
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+if ( isset( $_GET['tool'] ) && is_string( $_GET['tool'] ) ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+	$tool_page = sanitize_text_field( wp_unslash( $_GET['tool'] ) );
+}
 
 $yform = Yoast_Form::get_instance();
 $yform->admin_header( false );
@@ -60,9 +66,23 @@ if ( $tool_page === '' ) {
 	}
 
 	/**
-	 * Action: 'wpseo_tools_overview_list_items' - Hook to add additional tools to the overview.
+	 * WARNING: This hook is intended for internal use only.
+	 * Don't use it in your code as it will be removed shortly.
 	 */
-	do_action( 'wpseo_tools_overview_list_items' );
+	do_action( 'wpseo_tools_overview_list_items_internal' );
+
+	/**
+	 * Action: 'wpseo_tools_overview_list_items' - Hook to add additional tools to the overview.
+	 *
+	 * @deprecated 19.10 No replacement available.
+	 */
+	do_action_deprecated(
+		'wpseo_tools_overview_list_items',
+		[],
+		'19.10',
+		'',
+		'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
+	);
 
 	echo '</ul>';
 }

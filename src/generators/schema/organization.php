@@ -33,15 +33,26 @@ class Organization extends Abstract_Schema_Piece {
 			$logo = $this->helpers->schema->image->generate_from_attachment_id( $logo_schema_id, $this->context->company_logo_id, $this->context->company_name );
 		}
 
-		return [
-			'@type'  => 'Organization',
-			'@id'    => $this->context->site_url . Schema_IDs::ORGANIZATION_HASH,
-			'name'   => $this->helpers->schema->html->smart_strip_tags( $this->context->company_name ),
-			'url'    => $this->context->site_url,
-			'sameAs' => \array_values( \array_unique( $this->fetch_social_profiles() ) ),
-			'logo'   => $logo,
-			'image'  => [ '@id' => $logo['@id'] ],
+		$organization = [
+			'@type' => 'Organization',
+			'@id'   => $this->context->site_url . Schema_IDs::ORGANIZATION_HASH,
+			'name'  => $this->helpers->schema->html->smart_strip_tags( $this->context->company_name ),
 		];
+
+		if ( ! empty( $this->context->company_alternate_name ) ) {
+			$organization['alternateName'] = $this->context->company_alternate_name;
+		}
+
+		$organization['url']   = $this->context->site_url;
+		$organization['logo']  = $logo;
+		$organization['image'] = [ '@id' => $logo['@id'] ];
+
+		$same_as = \array_values( \array_unique( \array_filter( $this->fetch_social_profiles() ) ) );
+		if ( ! empty( $same_as ) ) {
+			$organization['sameAs'] = $same_as;
+		}
+
+		return $organization;
 	}
 
 	/**
@@ -50,17 +61,12 @@ class Organization extends Abstract_Schema_Piece {
 	 * @return array An array of social profiles.
 	 */
 	private function fetch_social_profiles() {
-		$social_profiles = $this->helpers->options->get( 'other_social_urls', [] );
-		$profiles        = \array_map( '\urldecode', \array_filter( $social_profiles ) );
+		$profiles = $this->helpers->social_profiles->get_organization_social_profiles();
 
-		$facebook = $this->helpers->options->get( 'facebook_site', '' );
-		if ( $facebook !== '' ) {
-			$profiles[] = \urldecode( $facebook );
-		}
-
-		$twitter = $this->helpers->options->get( 'twitter_site', '' );
-		if ( $twitter !== '' ) {
-			$profiles[] = 'https://twitter.com/' . $twitter;
+		if ( isset( $profiles['other_social_urls'] ) ) {
+			$other_social_urls = $profiles['other_social_urls'];
+			unset( $profiles['other_social_urls'] );
+			$profiles = \array_merge( $profiles, $other_social_urls );
 		}
 
 		/**

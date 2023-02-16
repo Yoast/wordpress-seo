@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
@@ -193,6 +194,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 					"companyOrPersonLabel": "%s",
 					"companyName": "%s",
 					"fallbackCompanyName": "%s",
+					"websiteName": "%s",
+					"fallbackWebsiteName": "%s",
 					"companyLogo": "%s",
 					"companyLogoFallback": "%s",
 					"companyLogoId": %d,
@@ -221,11 +224,13 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 						"configIndexablesBenefits": "%s",
 					},
 				};',
-				$this->social_profiles_helper->can_edit_profile( $person_id ),
+				$this->can_edit_profile( $person_id ),
 				$this->is_company_or_person(),
 				$selected_option_label,
 				$this->get_company_name(),
 				$this->get_fallback_company_name( $this->get_company_name() ),
+				$this->get_website_name(),
+				$this->get_fallback_website_name( $this->get_website_name() ),
 				$this->get_company_logo(),
 				$this->get_company_fallback_logo( $this->get_company_logo() ),
 				$this->get_company_logo_id(),
@@ -236,8 +241,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$this->get_person_fallback_logo( $this->get_person_logo() ),
 				$this->get_person_logo_id(),
 				$this->get_site_tagline(),
-				$social_profiles['facebook_url'],
-				$social_profiles['twitter_username'],
+				$social_profiles['facebook_site'],
+				$social_profiles['twitter_site'],
 				WPSEO_Utils::format_json_encode( $social_profiles['other_social_urls'] ),
 				$this->product_helper->is_premium(),
 				$this->has_tracking_enabled(),
@@ -316,6 +321,30 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function get_fallback_company_name( $company_name ) {
 		if ( $company_name ) {
+			return false;
+		}
+
+		return \get_bloginfo( 'name' );
+	}
+
+	/**
+	 * Gets the website name from the option in the database.
+	 *
+	 * @return string The website name.
+	 */
+	private function get_website_name() {
+		return $this->options_helper->get( 'website_name', '' );
+	}
+
+	/**
+	 * Gets the fallback website name from the option in the database if there is no website name.
+	 *
+	 * @param string $website_name The given website name by the user, default empty string.
+	 *
+	 * @return string|false The website name.
+	 */
+	private function get_fallback_website_name( $website_name ) {
+		if ( $website_name ) {
 			return false;
 		}
 
@@ -428,11 +457,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @return string[] The social profiles.
 	 */
 	private function get_social_profiles() {
-		return [
-			'facebook_url'      => $this->options_helper->get( 'facebook_site', '' ),
-			'twitter_username'  => $this->options_helper->get( 'twitter_site', '' ),
-			'other_social_urls' => $this->options_helper->get( 'other_social_urls', [] ),
-		];
+		return $this->social_profiles_helper->get_organization_social_profiles();
 	}
 
 	/**
@@ -513,5 +538,16 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function should_force_company() {
 		return $this->addon_manager->is_installed( WPSEO_Addon_Manager::LOCAL_SLUG );
+	}
+
+	/**
+	 * Checks if the current user has the capability to edit a specific user.
+	 *
+	 * @param int $person_id The id of the person to edit.
+	 *
+	 * @return bool
+	 */
+	private function can_edit_profile( $person_id ) {
+		return \current_user_can( 'edit_user', $person_id );
 	}
 }

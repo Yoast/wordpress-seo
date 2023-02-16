@@ -39,6 +39,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"post-edit": `${ sourceDirectory }/post-edit.js`,
 	"quick-edit-handler": `${ sourceDirectory }/quick-edit-handler.js`,
 	"reindex-links": `${ sourceDirectory }/reindex-links.js`,
+	"redirect-old-features-tab": `${ sourceDirectory }/redirect-old-features-tab.js`,
 	settings: `${ sourceDirectory }/settings.js`,
 	"new-settings": `${ sourceDirectory }/settings/initialize.js`,
 	"structured-data-blocks": `${ sourceDirectory }/structured-data-blocks.js`,
@@ -69,6 +70,5 @@ function flattenVersionForFile( version ) {
 module.exports = {
 	entry: getEntries(),
 	jsDist: jsDistPath,
-	select2: path.resolve( "node_modules", "select2", "dist" ),
 	flattenVersionForFile,
 };

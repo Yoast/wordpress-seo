@@ -60,7 +60,7 @@ export const AcfIntegration = ( {
 			isActive={ isActive }
 		>
 			{ ! isPrerequisiteActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">
+				<span className="yst-text-slate-700 yst-font-medium">
 					{
 						__( "Plugin not detected", "wordpress-seo" )
 					}
@@ -70,7 +70,7 @@ export const AcfIntegration = ( {
 				/>
 			</Fragment> }
 			{ isPrerequisiteActive && isActive && <Fragment>
-				<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
+				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
 				<CheckIcon
 					className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0"
 				/>
@@ -82,7 +82,7 @@ export const AcfIntegration = ( {
 					as="a"
 					variant="secondary"
 					href={ activationLink }
-					className="yst-w-full yst-text-gray-800 yst-text-center"
+					className="yst-w-full yst-text-slate-800 yst-text-center"
 				>
 					{
 						sprintf(
@@ -101,7 +101,7 @@ export const AcfIntegration = ( {
 					as="a"
 					href={ installationLink }
 					variant="secondary"
-					className="yst-w-full yst-text-gray-800 yst-text-center"
+					className="yst-w-full yst-text-slate-800 yst-text-center"
 				>
 					{
 						sprintf(
@@ -122,7 +122,6 @@ AcfIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
 		claim: PropTypes.string,
-		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,

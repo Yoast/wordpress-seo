@@ -1,6 +1,6 @@
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
-import React from "react";
+import React from "@wordpress/element";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import noop from "lodash/noop";
@@ -51,6 +51,7 @@ export function renderRatingToColor( rating ) {
  * @param {string}          props.marksButtonStatus             The overall status of the mark buttons.
  * @param {string}          props.marksButtonClassName          A class name to set on the mark buttons.
  * @param {string}          props.editButtonClassName           A class name to set on the edit buttons.
+ * @param {Function}        [props.markButtonFactory]           Injectable factory to create custom mark buttons.
  * @param {Function}        props.onMarksButtonClick            Function that is called when the user
  *                                                              clicks one of the mark buttons.
  * @param {Function}        props.onEditButtonClick             Function that is called when the user
@@ -86,7 +87,9 @@ export default function AnalysisList( props ) {
 
 			return <AnalysisResult
 				key={ result.id }
+				id={ result.id }
 				text={ result.text }
+				marker={ result.marker }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
 				hasEditButton={ result.hasJumps }
@@ -103,6 +106,8 @@ export default function AnalysisList( props ) {
 				marksButtonStatus={ props.marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
 				isPremium={ props.isPremium }
+				onResultChange={ props.onResultChange }
+				markButtonFactory={ props.markButtonFactory }
 			/>;
 		} ) }
 	</AnalysisListBase>;
@@ -114,9 +119,11 @@ AnalysisList.propTypes = {
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
 	editButtonClassName: PropTypes.string,
+	markButtonFactory: PropTypes.func,
 	onMarksButtonClick: PropTypes.func,
 	onEditButtonClick: PropTypes.func,
 	isPremium: PropTypes.bool,
+	onResultChange: PropTypes.func,
 };
 
 AnalysisList.defaultProps = {
@@ -127,4 +134,5 @@ AnalysisList.defaultProps = {
 	onMarksButtonClick: noop,
 	onEditButtonClick: noop,
 	isPremium: false,
+	onResultChange: noop,
 };

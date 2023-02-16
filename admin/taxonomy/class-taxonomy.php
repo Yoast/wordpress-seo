@@ -34,6 +34,13 @@ class WPSEO_Taxonomy {
 	private $analysis_readability;
 
 	/**
+	 * Holds the metabox inclusive language analysis instance.
+	 *
+	 * @var WPSEO_Metabox_Analysis_Inclusive_Language
+	 */
+	private $analysis_inclusive_language;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -46,8 +53,9 @@ class WPSEO_Taxonomy {
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
-		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$this->analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
+		$this->analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
+		$this->analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
 	}
 
 	/**
@@ -145,7 +153,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
 			$script_data = [
-				'analysis'         => [
+				'analysis'          => [
 					'plugins' => [
 						'replaceVars' => [
 							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -161,14 +169,15 @@ class WPSEO_Taxonomy {
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 					],
 				],
-				'media'            => [
+				'media'             => [
 					// @todo replace this translation with JavaScript translations.
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
-				'metabox'          => $this->localize_term_scraper_script(),
-				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-				'isTerm'           => true,
-				'postId'           => $tag_id,
+				'metabox'           => $this->localize_term_scraper_script(),
+				'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+				'isTerm'            => true,
+				'postId'            => $tag_id,
+				'usedKeywordsNonce' => \wp_create_nonce( 'wpseo-keyword-usage' ),
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
@@ -223,6 +232,10 @@ class WPSEO_Taxonomy {
 		}
 
 		if ( $key === 'wpseo_content_score' && ! $this->analysis_readability->is_enabled() ) {
+			return true;
+		}
+
+		if ( $key === 'wpseo_inclusive_language_score' && ! $this->analysis_inclusive_language->is_enabled() ) {
 			return true;
 		}
 

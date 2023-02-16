@@ -13,24 +13,24 @@ const Link = makeOutboundLink();
 
 const readingList = [
 	{
-		title: "Blogging: The ultimate guide",
-		link: wpseoIndexablesPageData.shortlinks.ultimateGuide,
+		title: "How to write a blog post: A step-by-step guide from preparation to publication",
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingOne,
 	},
 	{
 		title: "10 tips for an awesome and SEO-friendly blog post",
-		link: wpseoIndexablesPageData.shortlinks.friendlyBlogpost,
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingTwo,
 	},
 	{
-		title: "How to optimize a blog post for search engines: a checklist!",
-		link: wpseoIndexablesPageData.shortlinks.blogpostChecklist,
+		title: "Keyword research for SEO: the ultimate guide",
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingThree,
 	},
 	{
-		title: "Why the purpose of your text is important for SEO",
-		link: wpseoIndexablesPageData.shortlinks.textPurpose,
+		title: "How to start a blog",
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingFour,
 	},
 	{
-		title: "How to write an SEO-friendly introduction for a blog post",
-		link: wpseoIndexablesPageData.shortlinks.seoIntroduction,
+		title: "SEO copywriting must-reads",
+		link: wpseoIndexablesPageData.shortlinks.recommendedReadingFive,
 	},
 ];
 
@@ -90,7 +90,7 @@ const NotEnoughContent = () => {
 			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-flow-row yst-gap-6"
 		>
 			<IndexablesPageCard title={ __( "Start writing content!", "wordpress-seo" ) }>
-				<div className="yst-mb-6 yst-text-gray-500">
+				<div className="yst-mb-6 yst-text-slate-500">
 					<p>{ __( "You need to have more content on your site to make your website rank well in the search engines.", "wordpress-seo" ) }</p><br />
 					<p>
 						{ __( "There are three major elements you need to consider when writing good content for SEO:", "wordpress-seo" ) }
@@ -108,13 +108,13 @@ const NotEnoughContent = () => {
 					<PlusIcon className="yst-w-4 yst-h-4 yst-mr-1" />{ __( "Start writing a new post", "wordpress-seo" ) }
 				</Link>
 			</IndexablesPageCard>
-			<IndexablesPageCard title={ __( "Recommended reading list", "wordpress-seo" ) }>
-				<ul className="yst-divide-y yst-divide-gray-200">
+			<IndexablesPageCard title={ __( "Yoast's recommended reading list", "wordpress-seo" ) }>
+				<ul className="yst-divide-y yst-divide-slate-200">
 					{ readingList.map(
 						( article, index ) => {
 							return <li
 								key={ `article-${ index }-li` }
-								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-h-14 " }
+								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-slate-700 yst-flex yst-flex-row yst-items-center yst-h-14 " }
 							>
 								<Checkbox
 									id={ `article-${ index }-checkbox` }
@@ -128,8 +128,8 @@ const NotEnoughContent = () => {
 								/>
 								{ ( readingListState[ index ] )
 									? <Fragment>
-										<span className="yst-font-medium yst-text-gray-400 yst-text-sm yst-line-through yst-mr-2">{ article.title }</span>
-										<ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px] yst-text-gray-400" />
+										<span className="yst-font-medium yst-text-slate-400 yst-text-sm yst-line-through yst-mr-2">{ article.title }</span>
+										<ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px] yst-text-slate-400" />
 									</Fragment>
 									: <Link href={ article.link } className="yst-min-w-0 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit hover:yst-text-indigo-500">
 										<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ article.title }</span><ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px]" />

@@ -125,11 +125,11 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$child_indexables    = $this->indexable_repository->find_by_ids( $child_indexable_ids );
 
 		\array_walk( $child_indexables, [ $this, 'update_hierarchy_and_permalink' ] );
-
 		if ( $indexable->object_type === 'term' ) {
 			$child_indexables_for_term = $this->get_children_for_term( $indexable->object_id, $child_indexables );
 
 			\array_walk( $child_indexables_for_term, [ $this, 'update_hierarchy_and_permalink' ] );
+
 		}
 
 		return true;
@@ -176,29 +176,17 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Builds the hierarchy for a post.
-	 *
-	 * @deprecated 16.4
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $object_id The post id.
-	 * @param int $post_type The post type.
-	 */
-	public function build_post_hierarchy( $object_id, $post_type ) {
-		\_deprecated_function( __METHOD__, '16.4', 'Primary_Category_Quick_Edit_Watcher::build_post_hierarchy' );
-	}
-
-	/**
 	 * Updates the indexable hierarchy and indexable permalink.
 	 *
 	 * @param Indexable $indexable The indexable to update the hierarchy and permalink for.
 	 */
 	protected function update_hierarchy_and_permalink( $indexable ) {
-		$this->indexable_hierarchy_builder->build( $indexable );
+		if ( \is_a( $indexable, Indexable::class ) ) {
+			$this->indexable_hierarchy_builder->build( $indexable );
 
-		$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
-		$indexable->save();
+			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
+			$indexable->save();
+		}
 	}
 
 	/**

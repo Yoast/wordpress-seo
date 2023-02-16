@@ -1,10 +1,16 @@
-import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
+import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { STORE_NAME } from "../constants";
-import { mediaClient } from "../helpers";
 import { breadcrumbsSelectors } from "./breadcrumbs";
+import defaultSettingValues, {
+	createInitialDefaultSettingValuesState,
+	defaultSettingValuesActions,
+	defaultSettingValuesSelectors,
+} from "./default-setting-values";
+import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
+import introduction, { createInitialIntroductionState, introductionActions, introductionControls, introductionSelectors } from "./introduction";
 import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
-import media, { createInitialMediaState, FETCH_MEDIA_ACTION_NAME, mediaActions, mediaSelectors } from "./media";
+import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
@@ -16,16 +22,9 @@ import replacementVariables, {
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
+import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
-
-/**
- * @param {string} selector The name of the sselector.
- * @param {array} [deps] List of dependencies.
- * @param {*} [args] Selector arguments.
- * @returns {*} The result.
- */
-export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( select => select( STORE_NAME )[ selector ]?.( ...args ), deps );
 
 /**
  * @param {Object} initialState Initial state.
@@ -34,6 +33,9 @@ export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( 
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
+			...defaultSettingValuesActions,
+			...fallbacksActions,
+			...introductionActions,
 			...linkParamsActions,
 			...mediaActions,
 			...notificationsActions,
@@ -43,9 +45,13 @@ const createStore = ( { initialState } ) => {
 			...schemaActions,
 			...searchActions,
 			...taxonomiesActions,
+			...usersActions,
 		},
 		selectors: {
 			...breadcrumbsSelectors,
+			...defaultSettingValuesSelectors,
+			...fallbacksSelectors,
+			...introductionSelectors,
 			...linkParamsSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
@@ -55,10 +61,14 @@ const createStore = ( { initialState } ) => {
 			...schemaSelectors,
 			...searchSelectors,
 			...taxonomiesSelectors,
+			...usersSelectors,
 		},
 		initialState: merge(
 			{},
 			{
+				defaultSettingValues: createInitialDefaultSettingValuesState(),
+				fallbacks: createInitialFallbacksState(),
+				introduction: createInitialIntroductionState(),
 				linkParams: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
 				notifications: createInitialNotificationsState(),
@@ -68,10 +78,14 @@ const createStore = ( { initialState } ) => {
 				schema: createInitialSchemaState(),
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
+				users: createInitialUsersState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
+			defaultSettingValues,
+			fallbacks,
+			introduction,
 			linkParams,
 			media,
 			notifications,
@@ -81,9 +95,12 @@ const createStore = ( { initialState } ) => {
 			schema,
 			search,
 			taxonomies,
+			users,
 		} ),
 		controls: {
-			[ FETCH_MEDIA_ACTION_NAME ]: async( { payload } ) => mediaClient.fetch( payload ),
+			...mediaControls,
+			...usersControls,
+			...introductionControls,
 		},
 	} );
 };

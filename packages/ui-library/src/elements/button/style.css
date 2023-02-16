@@ -4,6 +4,7 @@
 			@apply
 			yst-inline-flex
 			yst-items-center
+			yst-justify-center
 			yst-py-2
 			yst-px-3
 			yst-border
@@ -14,11 +15,19 @@
 			yst-text-sm
 			yst-font-medium
 			yst-leading-4
+			yst-text-center
 
 			focus:yst-outline-none
 			focus:yst-ring-2
 			focus:yst-ring-offset-2
-			focus:yst-ring-primary-500
+			focus:yst-ring-primary-500;
+		}
+
+		/* Special styling for buttons rendered `as` "a" (to override anchor defaults). */
+		a.yst-button {
+			@apply
+			focus:yst-ring-offset-white
+			focus:yst-rounded-md;
 		}
 
 		/* Variants */
@@ -29,17 +38,26 @@
 			yst-bg-primary-500
 			yst-border-transparent
 
-			hover:yst-bg-primary-700;
+			hover:yst-text-white
+			hover:yst-bg-primary-700
+			focus:yst-text-white
+			focus:yst-ring-primary-700
+			visited:yst-text-white
+			visited:hover:yst-text-white;
 		}
 
 		.yst-button--secondary {
 			@apply
-			yst-text-gray-800
+			yst-text-slate-800
 			yst-bg-white
-			yst-border-gray-300
+			yst-border-slate-300
 
-			hover:yst-bg-gray-50
-			hover:yst-text-gray-800;
+			hover:yst-text-slate-800
+			hover:yst-bg-slate-50
+			focus:yst-text-slate-800
+			focus:yst-ring-primary-700
+			visited:yst-text-slate-800
+			visited:hover:yst-text-slate-800;
 		}
 
 		.yst-button--error {
@@ -48,8 +66,12 @@
 			yst-bg-red-600
 			yst-border-transparent
 
+			hover:yst-text-white
 			hover:yst-bg-red-700
-			focus:yst-ring-red-600;
+			focus:yst-text-white
+			focus:yst-ring-red-600
+			visited:yst-text-white
+			visited:hover:yst-text-white;
 		}
 
 		.yst-button--upsell {
@@ -58,8 +80,12 @@
 			yst-bg-amber-300
 			yst-border-transparent
 
+			hover:yst-text-amber-900
 			hover:yst-bg-amber-400
-			focus:yst-ring-amber-400;
+			focus:yst-text-amber-900
+			focus:yst-ring-amber-400
+			visited:yst-text-amber-900
+			visited:hover:yst-text-amber-900;
 		}
 
 		/* Sizes */
@@ -68,7 +94,8 @@
 			@apply
 			yst-py-3
 			yst-px-6
-			yst-text-base;
+			yst-text-base
+			yst-leading-5;
 		}
 
 		.yst-button--small {

@@ -1,5 +1,5 @@
 /**
- * Keep constants centralized to avoid circulr dependency problems.
+ * Keep constants centralized to avoid circular dependency problems.
  */
 export const STORE_NAME = "@yoast/settings";
 
@@ -14,4 +14,10 @@ export const ASYNC_ACTION_STATUS = {
 	loading: "loading",
 	success: "success",
 	error: "error",
+};
+
+export const INTRODUCTION_VIDEO_FLOW = {
+	showPlay: "showPlay",
+	askPermission: "askPermission",
+	playing: "playing",
 };

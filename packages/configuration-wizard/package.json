@@ -13,7 +13,7 @@
   "private": false,
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --max-warnings=8",
+    "lint": "eslint . --max-warnings=1",
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && mkdir dist/src/helpers && cp src/helpers/_colors.scss dist/src/helpers/_colors.scss && cp .babelrc dist/.babelrc"
   },
   "dependencies": {

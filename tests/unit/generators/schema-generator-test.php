@@ -20,10 +20,9 @@ use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Indexable_Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -50,13 +49,6 @@ class Schema_Generator_Test extends TestCase {
 	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	protected $context;
-
-	/**
-	 * The schema id helper.
-	 *
-	 * @var ID_Helper|Mockery\MockInterface
-	 */
-	protected $id;
 
 	/**
 	 * The current page helper.
@@ -113,26 +105,22 @@ class Schema_Generator_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->id           = Mockery::mock( ID_Helper::class );
-		$this->current_page = Mockery::mock( Current_Page_Helper::class );
-
-		$this->html    = Mockery::mock( HTML_Helper::class )->makePartial();
-		$this->article = Mockery::mock( Article_Helper::class );
-		$this->date    = Mockery::mock( Date_Helper::class );
-
-		$helpers = Mockery::mock( Helpers_Surface::class );
-
-		$helpers->current_page = $this->current_page;
-		$helpers->options      = Mockery::mock( Options_Helper::class )->makePartial();
-		$helpers->schema       = (object) [
-			'id'       => $this->id,
-			'html'     => $this->html,
-			'language' => Mockery::mock( Language_Helper::class )->makePartial(),
-			'article'  => $this->article,
-		];
-		$helpers->date         = $this->date;
-
+		$this->current_page        = Mockery::mock( Current_Page_Helper::class );
+		$this->html                = Mockery::mock( HTML_Helper::class )->makePartial();
+		$this->article             = Mockery::mock( Article_Helper::class );
+		$this->date                = Mockery::mock( Date_Helper::class );
 		$this->replace_vars_helper = Mockery::mock( Replace_Vars_Helper::class );
+
+		$container = $this->create_container_with(
+			[
+				Current_Page_Helper::class => $this->current_page,
+				HTML_Helper::class         => $this->html,
+				Article_Helper::class      => $this->article,
+				Date_Helper::class         => $this->date,
+				Language_Helper::class     => new Language_Helper(),
+			]
+		);
+		$helpers   = $this->create_helper_surface( $container );
 
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
@@ -142,7 +130,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context = Mockery::mock(
 			Meta_Tags_Context_Mock::class,
 			[
-				$helpers->options,
+				Mockery::mock( Options_Helper::class ),
 				Mockery::mock( Url_Helper::class ),
 				Mockery::mock( Image_Helper::class ),
 				Mockery::mock( ID_Helper::class ),
@@ -178,7 +166,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->context->main_schema_id            = 'https://example.com/the-post/';
 		$this->context->indexable                 = Mockery::mock( Indexable_Mock::class );
-		$this->context->presentation              = Mockery::mock( Indexable_Presentation::class );
+		$this->context->presentation              = Mockery::mock( Indexable_Presentation_Mock::class );
 		$this->context->presentation->source      = Mockery::mock();
 		$this->context->presentation->breadcrumbs = [
 			'item' => [
@@ -206,6 +194,9 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
 		$expected = [
 			'@context' => 'https://schema.org',
 			'@graph'   => [],
@@ -220,10 +211,24 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_graph_pieces
+	 * @covers ::finalize_graph
+	 * @covers ::remove_empty_breadcrumb
 	 */
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->context->has_image                  = false;
+		$this->context->alternate_site_name        = '';
+		$this->context->schema_page_type           = [ 'WebPage' ];
+		$this->context->presentation->breadcrumbs  = [
+			[
+				'url'  => 'https://example.com',
+				'text' => 'Home',
+			],
+			[
+				'url'  => 'https://example.com/post1',
+				'text' => 'Post 1',
+			],
+		];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_search' )
@@ -237,6 +242,9 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
+		$this->current_page->expects( 'is_home_static_page' )->twice()->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
 		$this->context->blocks = [];
 
 		$this->assertEquals(
@@ -244,7 +252,7 @@ class Schema_Generator_Test extends TestCase {
 				'@context' => 'https://schema.org',
 				'@graph'   => [
 					[
-						'@type'           => null,
+						'@type'           => 'WebPage',
 						'@id'             => 'https://example.com/the-post/',
 						'url'             => null,
 						'name'            => '',
@@ -263,10 +271,113 @@ class Schema_Generator_Test extends TestCase {
 						],
 					],
 					[
+						'@type'           => 'BreadcrumbList',
+						'@id'             => '#breadcrumb',
+						'itemListElement' => [
+							[
+								'@type'    => 'ListItem',
+								'position' => 1,
+								'name'     => 'Home',
+								'item'     => 'https://example.com',
+							],
+							[
+								'@type'    => 'ListItem',
+								'position' => 2,
+								'name'     => 'Post 1',
+							],
+						],
+					],
+					[
 						'@type'           => 'WebSite',
 						'@id'             => '#website',
 						'url'             => null,
 						'name'            => '',
+						'description'     => 'description',
+						'potentialAction' => [
+							[
+								'@type'       => 'SearchAction',
+								'target'      => [
+									'@type'       => 'EntryPoint',
+									'urlTemplate' => '?s={search_term_string}',
+								],
+								'query-input' => 'required name=search_term_string',
+							],
+						],
+						'inLanguage'      => 'English',
+					],
+				],
+			],
+			$this->instance->generate( $this->context )
+		);
+	}
+
+	/**
+	 * Tests the generate method with having an empty breadcrumb.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 * @covers ::finalize_graph
+	 * @covers ::remove_empty_breadcrumb
+	 */
+	public function test_generate_with_empty_breadcrumb() {
+		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+		$this->context->has_image                  = false;
+		$this->context->alternate_site_name        = 'Alt Name';
+		$this->context->schema_page_type           = [ 'WebPage' ];
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
+
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
+		$this->current_page->expects( 'is_home_static_page' )->twice()->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
+		$this->context->blocks = [];
+
+		$this->context->presentation->breadcrumbs = [
+			[
+				'url'  => 'https://example.com',
+				'text' => 'Home',
+			],
+		];
+
+		$this->assertEquals(
+			[
+				'@context' => 'https://schema.org',
+				'@graph'   => [
+					[
+						'@type'           => 'WebPage',
+						'@id'             => 'https://example.com/the-post/',
+						'url'             => null,
+						'name'            => '',
+						'isPartOf'        => [
+							'@id' => '#website',
+						],
+						'inLanguage'      => 'English',
+						'potentialAction' => [
+							[
+								'@type'  => 'ReadAction',
+								'target' => [
+									null,
+								],
+							],
+						],
+					],
+					[
+						'@type'           => 'WebSite',
+						'@id'             => '#website',
+						'url'             => null,
+						'name'            => '',
+						'alternateName'   => 'Alt Name',
 						'description'     => 'description',
 						'potentialAction' => [
 							[
@@ -297,6 +408,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -343,6 +455,9 @@ class Schema_Generator_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_needs_faq' )
 			->with( true );
+
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
 
 		$this->assertEquals(
 			$this->get_expected_schema(),
@@ -415,6 +530,9 @@ class Schema_Generator_Test extends TestCase {
 			->with( $yoast_schema, $this->context->presentation )
 			->andReturn( $yoast_schema_replaced );
 
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
 		$expected = [
 			'@context' => 'https://schema.org',
 			'@graph'   => [
@@ -466,6 +584,9 @@ class Schema_Generator_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_schema_needs_faq_block' )
 			->with( true );
 
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
 		$this->instance->generate( $this->context );
 	}
 
@@ -480,6 +601,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -521,6 +643,9 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
 		$this->assertEquals(
 			$this->get_expected_schema(),
 			$this->instance->generate( $this->context )
@@ -539,6 +664,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->blocks = [];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -598,6 +724,9 @@ class Schema_Generator_Test extends TestCase {
 				]
 			);
 
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
 		$this->assertEquals(
 			[
 				'@type'           => 'WebSite',
@@ -633,6 +762,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->blocks = [];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -668,6 +798,9 @@ class Schema_Generator_Test extends TestCase {
 		$this->replace_vars_helper
 			->expects( 'register_replace_vars' )
 			->once();
+
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
@@ -722,6 +855,7 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_get_graph_pieces_on_single_post_with_password_required() {
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
 		$this->context->post                       = (object) [
@@ -766,6 +900,9 @@ class Schema_Generator_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage' )
 			->once()
 			->andReturn( $filtered_webpage_schema );
+
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
 
 		$this->assertEquals(
 			[
@@ -832,6 +969,7 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_search_page() {
+		$this->context->alternate_site_name        = '';
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->context->has_image                  = false;
 		$this->context->site_url                   = 'https://fake.url/';
@@ -860,23 +998,26 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->context->blocks = [];
 
+		$this->current_page->expects( 'is_home_static_page' )->andReturns( false );
+		$this->current_page->expects( 'is_home_posts_page' )->andReturns( false );
+
 		$this->assertEquals(
 			[
 				'@context' => 'https://schema.org',
 				'@graph'   => [
 					[
-						'@type'           => [
+						'@type'      => [
 							'CollectionPage',
 							'SearchResultsPage',
 						],
-						'@id'             => 'https://fake.url/?s=searchterm',
-						'url'             => 'https://fake.url/?s=searchterm',
-						'name'            => '',
-						'isPartOf'        => [
+						'@id'        => 'https://fake.url/?s=searchterm',
+						'url'        => 'https://fake.url/?s=searchterm',
+						'name'       => '',
+						'isPartOf'   => [
 							'@id' => 'https://fake.url/#website',
 						],
-						'inLanguage'      => 'English',
-						'breadcrumb'      => [ '@id' => '#breadcrumb' ],
+						'inLanguage' => 'English',
+						'breadcrumb' => [ '@id' => '#breadcrumb' ],
 					],
 					[
 						'@type'           => 'WebSite',

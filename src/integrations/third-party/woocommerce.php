@@ -172,13 +172,16 @@ class WooCommerce implements Integration_Interface {
 	public function add_shop_to_breadcrumbs( $indexables ) {
 		$shop_page_id = $this->woocommerce_helper->get_shop_page_id();
 
-		if ( ! is_int( $shop_page_id ) || $shop_page_id < 1 ) {
+		if ( ! \is_int( $shop_page_id ) || $shop_page_id < 1 ) {
 			return $indexables;
 		}
 
 		foreach ( $indexables as $index => $indexable ) {
 			if ( $indexable->object_type === 'post-type-archive' && $indexable->object_sub_type === 'product' ) {
-				$indexables[ $index ] = $this->repository->find_by_id_and_type( $shop_page_id, 'post' );
+				$shop_page_indexable = $this->repository->find_by_id_and_type( $shop_page_id, 'post' );
+				if ( \is_a( $shop_page_indexable, Indexable::class ) ) {
+					$indexables[ $index ] = $shop_page_indexable;
+				}
 			}
 		}
 

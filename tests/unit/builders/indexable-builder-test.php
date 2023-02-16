@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Date_Archive_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
 use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
@@ -99,6 +100,13 @@ class Indexable_Builder_Test extends TestCase {
 	protected $primary_term_builder;
 
 	/**
+	 * The link builder
+	 *
+	 * @var Mockery\MockInterface|Indexable_Link_Builder
+	 */
+	private $link_builder;
+
+	/**
 	 * Represents the indexable helper.
 	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Helper
@@ -150,6 +158,7 @@ class Indexable_Builder_Test extends TestCase {
 		$this->system_page_builder       = Mockery::mock( Indexable_System_Page_Builder::class );
 		$this->hierarchy_builder         = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->primary_term_builder      = Mockery::mock( Primary_Term_Builder::class );
+		$this->link_builder              = Mockery::mock( Indexable_Link_Builder::class );
 		$this->indexable_helper          = Mockery::mock( Indexable_Helper::class );
 		$this->version_manager           = Mockery::mock( Indexable_Version_Manager::class );
 		$this->indexable_repository      = Mockery::mock( Indexable_Repository::class );
@@ -171,7 +180,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			$this->version_manager
+			$this->version_manager,
+			$this->link_builder
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -308,7 +318,7 @@ class Indexable_Builder_Test extends TestCase {
 		// The test is complex enough in its current state.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->twice()
+			->times( 2 )
 			->withNoArgs()
 			->andReturnFalse();
 
@@ -399,7 +409,7 @@ class Indexable_Builder_Test extends TestCase {
 		// The test is complex enough in its current state.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
-			->twice()
+			->times( 2 )
 			->withNoArgs()
 			->andReturnFalse();
 
@@ -407,14 +417,14 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building an indexable for a post when the post builder throws an exception.
+	 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist anymore.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_id_and_type
 	 * @covers ::ensure_indexable
 	 */
-	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
+	public function test_build_for_id_and_type_with_post_and_indexable_given_and_no_indexable_build() {
 		$this->indexable
 			->expects( 'as_array' )
 			->once()
@@ -422,7 +432,7 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'query' )
-			->times( 2 )
+			->once()
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -443,29 +453,15 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'build' )
 			->never();
 
-		// Verify that the exception is caught and a placeholder indexable is created.
-		$fake_indexable              = Mockery::mock( Indexable_Mock::class );
-		$fake_indexable->post_status = 'unindexed';
-		$this->indexable_repository
-			->expects( 'create' )
-			->once()
-			->with(
-				[
-					'object_id'   => 1337,
-					'object_type' => 'post',
-					'post_status' => 'unindexed',
-					'version'     => 0,
-				]
-			)
-			->andReturn( $fake_indexable );
-
+		// Verify that the exception is caught and a placeholder indexable is saved instead.
 		$this->version_manager
 			->expects( 'set_latest' )
 			->once()
-			->with( $fake_indexable )
+			->with( $this->indexable )
 			->andReturnUsing(
 				static function ( $indexable ) {
 					$indexable->version = 2;
+
 					return $indexable;
 				}
 			);
@@ -479,7 +475,82 @@ class Indexable_Builder_Test extends TestCase {
 
 		$result = $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable );
 
-		$this->assertEquals( $fake_indexable, $result );
+		$expected_indexable              = clone $this->indexable;
+		$expected_indexable->post_status = 'unindexed';
+		$this->assertEquals( $expected_indexable, $result );
+	}
+
+	/**
+	 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
+	 * @covers ::build_for_id_and_type
+	 * @covers ::ensure_indexable
+	 */
+	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
+		$empty_indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->times( 1 )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with(
+				[
+					'object_type' => 'post',
+					'object_id'   => 1337,
+				]
+			)
+			->andReturnUsing(
+				static function () use ( $empty_indexable ) {
+					$empty_indexable->object_type = 'post';
+					$empty_indexable->object_id   = '1337';
+
+					return $empty_indexable;
+				}
+			);
+
+		// Force an exception during the build process.
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( 1337, $empty_indexable )
+			->andThrows( Post_Not_Found_Exception::class );
+
+		// Verify the code after exception is not run.
+		$this->primary_term_builder
+			->expects( 'build' )
+			->never();
+
+		// Verify that the exception is caught and a placeholder indexable is created.
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->with( $empty_indexable )
+			->andReturnUsing(
+				static function ( $indexable ) {
+					$indexable->version = 2;
+
+					return $indexable;
+				}
+			);
+
+		// Actually saving is outside the scope of this test.
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		$result = $this->instance->build_for_id_and_type( 1337, 'post' );
+
+		$expected_indexable              = clone $empty_indexable;
+		$expected_indexable->post_status = 'unindexed';
+		$this->assertEquals( $empty_indexable, $result );
 	}
 
 	/**
@@ -513,8 +584,9 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( 1337, $this->indexable )
 			->andReturnUsing(
-				static function( $id, Indexable $indexable ) {
+				static function ( $id, Indexable $indexable ) {
 					$indexable->version = 2;
+
 					return $indexable;
 				}
 			);
@@ -574,6 +646,33 @@ class Indexable_Builder_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'term', $this->indexable ) );
+	}
+
+	/**
+	 * Tests whether an indexable is not being built when the object id is invalid (0).
+	 *
+	 * @covers ::build
+	 */
+	public function test_not_being_built_if_object_id_is_invalid() {
+		$this->indexable
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable->object_id = 0;
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $this->indexable );
+
+		$this->assertFalse( $this->instance->build( $this->indexable ) );
 	}
 
 	/**
@@ -789,7 +888,7 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'query' )
-			->twice()
+			->once()
 			->andReturnSelf();
 
 		$this->indexable
@@ -808,30 +907,17 @@ class Indexable_Builder_Test extends TestCase {
 			->with( 1337, $this->indexable )
 			->andThrows( Invalid_Term_Exception::class );
 
-		$fake_indexable              = Mockery::mock( Indexable_Mock::class );
-		$fake_indexable->object_type = 'term';
-		$fake_indexable->object_id   = 1337;
-		$fake_indexable->object_type = 'term';
-		$fake_indexable->post_status = 'unindexed';
-		$fake_indexable->version     = 0;
-
-		$this->indexable_repository
-			->expects( 'create' )
-			->once()
-			->with(
-				[
-					'object_id'   => 1337,
-					'object_type' => 'term',
-					'post_status' => 'unindexed',
-					'version'     => 0,
-				]
-			)->andReturn( $fake_indexable );
-
 		$this->version_manager
 			->expects( 'set_latest' )
 			->once()
-			->with( $fake_indexable )
-			->andReturn( $fake_indexable );
+			->with( $this->indexable )
+			->andReturnUsing(
+				static function ( $indexable ) {
+					$indexable->version = 2;
+
+					return $indexable;
+				}
+			);
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
@@ -841,7 +927,9 @@ class Indexable_Builder_Test extends TestCase {
 
 		$result = $this->instance->build_for_id_and_type( 1337, 'term', $this->indexable );
 
-		$this->assertEquals( $fake_indexable, $result );
+		$expected_indexable              = clone $this->indexable;
+		$expected_indexable->post_status = 'unindexed';
+		$this->assertEquals( $expected_indexable, $result );
 	}
 
 	/**
@@ -883,7 +971,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			$this->version_manager
+			$this->version_manager,
+			$this->link_builder
 		);
 
 		$result = $instance->exposed_save_indexable( $this->indexable, null );
@@ -930,7 +1019,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			$this->version_manager
+			$this->version_manager,
+			$this->link_builder
 		);
 
 		$before = Mockery::mock( Indexable::class );
@@ -979,7 +1069,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			$this->version_manager
+			$this->version_manager,
+			$this->link_builder
 		);
 
 		$result = $instance->exposed_save_indexable( $this->indexable, null );

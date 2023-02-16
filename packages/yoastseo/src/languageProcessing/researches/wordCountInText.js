@@ -17,6 +17,7 @@ import wordCount from "../helpers/word/countWords.js";
  */
 export default function( paper ) {
 	return {
+		text: paper.getText(),
 		count: wordCount( paper.getText() ),
 		unit: "word",
 	};

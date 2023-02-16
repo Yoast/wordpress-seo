@@ -65,6 +65,12 @@ Another JavaScript alternative is `grunt webpack:watch`, this command will keep 
 
 This repository uses [the Yoast grunt tasks plugin](https://github.com/Yoast/plugin-grunt-tasks).
 
+## Testing packages
+
+To run tests for js packages, run the following command from `packages/js` folder:
+```bash
+yarn test
+```
 ## Support
 
 This is a developer's portal for Yoast SEO and should not be used for support. Please visit the

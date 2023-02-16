@@ -27,6 +27,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
 		'tracking'                                 => null,
+		'toggled_tracking'                         => false,
 		'license_server_version'                   => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
@@ -87,6 +88,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'configuration_finished_steps'             => [],
 		'dismiss_configuration_workout_notice'     => false,
 		'dismiss_premium_deactivated_notice'       => false,
+		'dismiss_old_premium_version_notice'       => '',
 		'importing_completed'                      => [],
 		'wincher_integration_active'               => true,
 		'wincher_tokens'                           => [],
@@ -124,12 +126,15 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_character_limit'                   => 50,
 		'deny_search_crawling'                     => false,
 		'deny_wp_json_crawling'                    => false,
+		'redirect_search_pretty_urls'              => false,
 		'least_readability_ignore_list'            => [],
 		'least_seo_score_ignore_list'              => [],
 		'most_linked_ignore_list'                  => [],
 		'least_linked_ignore_list'                 => [],
 		'indexables_page_reading_list'             => [ false, false, false, false, false ],
 		'indexables_overview_state'                => 'dashboard-not-visited',
+		'last_known_public_post_types'             => [],
+		'last_known_public_taxonomies'             => [],
 	];
 
 	/**
@@ -168,6 +173,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $environment_types = [
 		'',
+		'local',
 		'production',
 		'staging',
 		'development',
@@ -318,6 +324,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'wincher_website_id':
 				case 'clean_permalinks_extra_variables':
 				case 'indexables_overview_state':
+				case 'dismiss_old_premium_version_notice':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -399,6 +406,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'most_linked_ignore_list':
 				case 'least_linked_ignore_list':
 				case 'indexables_page_reading_list':
+				case 'last_known_public_post_types':
+				case 'last_known_public_taxonomies':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -479,6 +488,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'search_cleanup_emoji'
 				 *  'search_cleanup_patterns'
 				 *  'deny_wp_json_crawling'
+				 *  'redirect_search_pretty_urls'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */
@@ -546,6 +556,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'search_cleanup'                     => false,
 			'search_cleanup_emoji'               => false,
 			'search_cleanup_patterns'            => false,
+			'redirect_search_pretty_urls'        => false,
 			'algolia_integration_active'         => false,
 		];
 

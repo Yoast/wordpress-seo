@@ -1,38 +1,90 @@
-import PropTypes from "prop-types";
-import { Form, useFormikContext } from "formik";
+/* eslint-disable react/jsx-max-depth */
+import { ExclamationIcon } from "@heroicons/react/outline";
+import { useCallback, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Title, Button } from "@yoast/ui-library";
+import { Button, Modal, useSvgAria, useToggleState } from "@yoast/ui-library";
+import { Form, useFormikContext } from "formik";
+import { includes, values } from "lodash";
+import PropTypes from "prop-types";
+import AnimateHeight from "react-animate-height";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The form layout component.
  */
-const FormLayout = ( {
-	children,
-	title,
-	description = null,
-} ) => {
-	const { isSubmitting } = useFormikContext();
+const FormLayout = ( { children } ) => {
+	const { isSubmitting, status, dirty, resetForm, initialValues } = useFormikContext();
+	const isMediaLoading = useSelectSettings( "selectIsMediaLoading" );
+	const isStatusBlocked = useMemo( () => includes( values( status ), true ), [ status ] );
+	const svgAriaProps = useSvgAria();
+
+	const [ isRequestUndo, , , setRequestUndo, unsetRequestUndo ] = useToggleState( false );
+	const handleUndo = useCallback( () => {
+		unsetRequestUndo();
+		resetForm( { values: initialValues } );
+	}, [ resetForm, initialValues, unsetRequestUndo ] );
 
 	return (
-		<Form className="yst-flex yst-flex-col yst-h-full yst-min-h-[75vh]">
-			<header className="yst-border-b yst-border-gray-200">
-				<div className="yst-max-w-screen-sm yst-p-8">
-					<Title>{ title }</Title>
-					{ description && <p className="yst-text-tiny yst-mt-3">{ description }</p> }
-				</div>
-			</header>
-			<div className="yst-flex-grow yst-p-8 yst-max-w-5xl">
+		<Form className="yst-flex yst-flex-col yst-h-full">
+			<div className="yst-flex-grow yst-p-8">
 				{ children }
 			</div>
-			<footer className="yst-rounded-b-lg yst-p-8 yst-bg-gray-50">
-				<Button
-					id="button-submit-settings"
-					type="submit"
-					isLoading={ isSubmitting }
-					disabled={ isSubmitting }
+			<footer className="yst-sticky yst-bottom-0 yst-z-10">
+				<AnimateHeight
+					easing="ease-in-out"
+					duration={ 300 }
+					height={ dirty ? "auto" : 0 }
+					animateOpacity={ true }
 				>
-					{ __( "Save changes", "wordpress-seo" ) }
-				</Button>
+					<div className="yst-bg-slate-50 yst-border-slate-200 yst-border-t yst-rounded-b-lg">
+						<div className="yst-flex yst-align-middle yst-space-x-3 yst-p-8">
+							<Button
+								id="button-submit-settings"
+								type="submit"
+								isLoading={ isSubmitting }
+								disabled={ isSubmitting || isMediaLoading || isStatusBlocked }
+							>
+								{ __( "Save changes", "wordpress-seo" ) }
+							</Button>
+							<Button
+								id="button-undo-settings"
+								type="button"
+								variant="secondary"
+								disabled={ ! dirty }
+								onClick={ setRequestUndo }
+							>
+								{ __( "Discard changes", "wordpress-seo" ) }
+							</Button>
+							<Modal onClose={ unsetRequestUndo } isOpen={ isRequestUndo }>
+								<Modal.Panel closeButtonScreenReaderText={ __( "Close", "wordpress-seo" ) }>
+									<div className="sm:yst-flex sm:yst-items-start">
+										<div
+											className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-12 yst-w-12 yst-rounded-full yst-bg-red-100 sm:yst-mx-0 sm:yst-h-10 sm:yst-w-10"
+										>
+											<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" { ...svgAriaProps } />
+										</div>
+										<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
+											<Modal.Title className="yst-text-lg yst-leading-6 yst-font-medium yst-text-slate-900">
+												{ __( "Discard all changes", "wordpress-seo" ) }
+											</Modal.Title>
+											<Modal.Description className="yst-text-sm yst-text-slate-500">
+												{ __( "You are about to discard all unsaved changes. All of your settings will be reset to the point where you last saved. Are you sure you want to do this?", "wordpress-seo" ) }
+											</Modal.Description>
+										</div>
+									</div>
+									<div className="yst-flex yst-flex-col sm:yst-flex-row-reverse yst-gap-3 yst-mt-6">
+										<Button type="button" variant="error" onClick={ handleUndo } className="yst-block">
+											{ __( "Yes, discard changes", "wordpress-seo" ) }
+										</Button>
+										<Button type="button" variant="secondary" onClick={ unsetRequestUndo } className="yst-block">
+											{ __( "No, continue editing", "wordpress-seo" ) }
+										</Button>
+									</div>
+								</Modal.Panel>
+							</Modal>
+						</div>
+					</div>
+				</AnimateHeight>
 			</footer>
 		</Form>
 	);
@@ -40,8 +92,6 @@ const FormLayout = ( {
 
 FormLayout.propTypes = {
 	children: PropTypes.node.isRequired,
-	title: PropTypes.node.isRequired,
-	description: PropTypes.node,
 };
 
 export default FormLayout;

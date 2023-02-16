@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
+use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 
 /**
  * Class First_Time_Configuration_Action.
@@ -16,6 +16,7 @@ class First_Time_Configuration_Action {
 	const SITE_REPRESENTATION_FIELDS = [
 		'company_or_person',
 		'company_name',
+		'website_name',
 		'company_logo',
 		'company_logo_id',
 		'person_logo',
@@ -86,6 +87,7 @@ class First_Time_Configuration_Action {
 				'status'  => 200,
 			];
 		}
+
 		return (object) [
 			'success'  => false,
 			'status'   => 500,
@@ -143,6 +145,7 @@ class First_Time_Configuration_Action {
 				'status'  => 200,
 			];
 		}
+
 		return (object) [
 			'success'  => false,
 			'status'   => 200,
@@ -179,6 +182,7 @@ class First_Time_Configuration_Action {
 		$option_value = $this->options_helper->get( 'tracking' );
 
 		if ( $option_value !== $params['tracking'] ) {
+			$this->options_helper->set( 'toggled_tracking', true );
 			$success = $this->options_helper->set( 'tracking', $params['tracking'] );
 		}
 
@@ -188,6 +192,7 @@ class First_Time_Configuration_Action {
 				'status'  => 200,
 			];
 		}
+
 		return (object) [
 			'success' => false,
 			'status'  => 500,
@@ -203,7 +208,7 @@ class First_Time_Configuration_Action {
 	 * @return object The response object.
 	 */
 	public function check_capability( $user_id ) {
-		if ( $this->social_profiles_helper->can_edit_profile( $user_id ) ) {
+		if ( $this->can_edit_profile( $user_id ) ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,
@@ -278,5 +283,16 @@ class First_Time_Configuration_Action {
 			'status'  => 500,
 			'error'   => 'Could not get data from the database',
 		];
+	}
+
+	/**
+	 * Checks if the current user has the capability to edit a specific user.
+	 *
+	 * @param int $person_id The id of the person to edit.
+	 *
+	 * @return bool
+	 */
+	private function can_edit_profile( $person_id ) {
+		return \current_user_can( 'edit_user', $person_id );
 	}
 }

@@ -69,6 +69,10 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -107,6 +111,10 @@ class Canonical_Test extends TestCase {
 			);
 
 		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
 			->once()
 			->andReturn( false );
 

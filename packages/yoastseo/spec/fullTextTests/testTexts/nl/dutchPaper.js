@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Het schaap (Ovis orientalis aries) is een evenhoevig zoogdier.",
 	title: "Schaap (dier)",
 	titleWidth: 450,
+	textTitle: "Schaap (dier)",
 	locale: "nl_NL",
 	permalink: "https://nl.wikipedia.org/wiki/Schaap_(dier)",
 	slug: "Schaap_(dier)",

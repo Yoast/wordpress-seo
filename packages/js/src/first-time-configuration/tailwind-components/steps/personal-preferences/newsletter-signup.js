@@ -80,7 +80,7 @@ export function NewsletterSignup( { gdprLink } ) {
 
 	return (
 		<Fragment>
-			<h4 className="yst-text-gray-900 yst-text-base yst-leading-6 yst-font-normal">
+			<h4 className="yst-text-slate-900 yst-text-base yst-leading-6 yst-font-normal">
 				{
 					// translators: %s is replaced by "Yoast"
 					sprintf( __( "%s newsletter", "wordpress-seo" ), "Yoast" )
@@ -126,7 +126,7 @@ export function NewsletterSignup( { gdprLink } ) {
 					{ __( "Sign up!", "wordpress-seo" ) }
 				</button>
 			</div>
-			<p className="yst-text-gray-500 yst-text-xxs yst-leading-4">
+			<p className="yst-text-slate-500 yst-text-xxs yst-leading-4">
 				{
 					addLinkToString(
 						sprintf(

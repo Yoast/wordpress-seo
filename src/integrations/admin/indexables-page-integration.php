@@ -2,18 +2,19 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use WPSEO_Admin_Asset_Manager;
 use WPSEO_Addon_Manager;
-
+use WPSEO_Admin_Asset_Manager;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
 use Yoast\WP\SEO\Routes\Indexing_Route;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+
 /**
  * Indexables_Page_Integration class
  */
@@ -72,7 +73,10 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [
+			Admin_Conditional::class,
+			Indexables_Page_Conditional::class,
+		];
 	}
 
 	/**
@@ -162,15 +166,15 @@ class Indexables_Page_Integration implements Integration_Interface {
 					'least_linked'      => $this->options_helper->get( 'least_linked_ignore_list', [] ),
 				],
 				'shortlinks'               => [
-					'orphanedContent'    => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-orphaned-content' ),
-					'cornerstoneContent' => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-cornerstone-content' ),
-					'ultimateGuide'      => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-ultimate-guide-blogging' ),
-					'friendlyBlogpost'   => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-seo-friendly-blog-post' ),
-					'blogpostChecklist'  => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-optimize-blog-post-checklist' ),
-					'textPurpose'        => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-purpose-text-seo' ),
-					'seoIntroduction'    => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-seo-friendly-introduction' ),
-					'internalLinks'      => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-internal-linking-suggestions' ),
-					'getPremium'         => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-get-premium' ),
+					'orphanedContent'         => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-orphaned-content' ),
+					'cornerstoneContent'      => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-cornerstone-content' ),
+					'recommendedReadingOne'   => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-recommended-reading-1' ),
+					'recommendedReadingTwo'   => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-recommended-reading-2' ),
+					'recommendedReadingThree' => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-recommended-reading-3' ),
+					'recommendedReadingFour'  => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-recommended-reading-4' ),
+					'recommendedReadingFive'  => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-recommended-reading-5' ),
+					'internalLinks'           => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-internal-linking-suggestions' ),
+					'getPremium'              => $this->shortlinker->build_shortlink( 'https://yoa.st/indexables-get-premium' ),
 				],
 			]
 		);

@@ -324,7 +324,6 @@ ul.wpseo-metabox-tabs li .wpseo-keyword {
 .wpseo-form input,
 .wpseo-form label,
 .wpseo-form textarea,
-.wpseo-form .select2-container,
 .wpseo-form p.error-message {
   max-width: 600px;
 }
@@ -556,6 +555,15 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   display: inline;
 }
 
+.yoast-zapier-text {
+  display: flex;
+}
+
+.yoast-zapier-text .yoast-logo.svg {
+  max-width: 18px;
+  width: 100% !important;
+}
+
 /**
 * Content and SEO score in publish bar
 */
@@ -566,6 +574,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   height: 18px;
   background: var(--yoast-svg-icon-yoast) no-repeat;
   background-size: 18px;
+  flex-shrink: 0;
 }
 
 .yoast-seo-score .yoast-logo.svg.good {
@@ -689,6 +698,20 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   align-items: center;
 }
 
+.yoast-seo-sidebar-panel .yoast-analysis-check {
+  display: flex;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check svg {
+  margin-right: 5px;
+  margin-top: 6px;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check span {
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
 .yoast-seo-sidebar-panel div {
 	line-height: 2;
 }
@@ -712,6 +735,14 @@ ul.yoast-seo-social-share-buttons a {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.yoast.yoast-zapier {
+  margin: 8px 0 25px;
+}
+
+.yoast-field-group.yoast-wincher-post-publish {
+  margin-bottom: 10px;
 }
 
 div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
@@ -821,7 +852,9 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 .yoast .yoast-insights-card__description {
 	line-height: 1.4em;
 }
-.yoast .yoast-prominent-words p, .yoast .yoast-prominent-words ul {
+.yoast .yoast-prominent-words p,
+.yoast .yoast-prominent-words ul,
+.yoast .yoast-text-formality p {
 	margin-block: 1.2em;
 }
 .yoast #wpseo-metabox-root .yoast-prominent-words {

@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Maine coon (MCO) er en storvokst semi-langhåret rasekatt med opprinnelse fra delstaten Maine, " +
 		"i det nord-østligste hjørnet av USA. Katterasen regnes i dag som verdens største tamkattrase, men selve opprinnelsen er uklar.",
 	title: "Maine coon",
+	textTitle: "Maine coon",
 	titleWidth: 450,
 	locale: "nb_NO",
 	permalink: "https://no.wikipedia.org/wiki/Maine_coon",
@@ -125,10 +126,8 @@ const expectedResults = {
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.6% of the sentences contain passive voice, " +
-			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
-			"Try to use their active counterparts</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,

@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -35,6 +37,8 @@ class Notice_Presenter_Test extends TestCase {
 	public function test_construct() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
+		$this->setup_indexables_page_condition_is_met( true );
+
 		$test = new Notice_Presenter( 'title', 'content', 'image.png', null, true );
 
 		$this->assertSame( 'title', $this->getPropertyValue( $test, 'title' ) );
@@ -55,6 +59,8 @@ class Notice_Presenter_Test extends TestCase {
 	 */
 	public function test_default_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
+
+		$this->setup_indexables_page_condition_is_met( true );
 
 		$test = new Notice_Presenter( 'title', 'content' );
 
@@ -81,6 +87,8 @@ class Notice_Presenter_Test extends TestCase {
 	 */
 	public function test_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
+
+		$this->setup_indexables_page_condition_is_met( true );
 
 		$test = new Notice_Presenter( 'title', 'content', 'image.png' );
 
@@ -110,6 +118,8 @@ class Notice_Presenter_Test extends TestCase {
 	public function test_dismissble_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
+		$this->setup_indexables_page_condition_is_met( true );
+
 		$test = new Notice_Presenter( 'title', 'content', null, null, true );
 
 		$expected = '<div class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container">'
@@ -136,6 +146,8 @@ class Notice_Presenter_Test extends TestCase {
 	 */
 	public function test_dismissble_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
+
+		$this->setup_indexables_page_condition_is_met( true );
 
 		$test = new Notice_Presenter( 'title', 'content', 'image.png', null, true );
 
@@ -165,6 +177,8 @@ class Notice_Presenter_Test extends TestCase {
 	public function test_dismissble_notice_with_image_and_button() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
+		$this->setup_indexables_page_condition_is_met( true );
+
 		$button = '<a class="yoast-button yoast-button-upsell" href="https://yoa.st/somewhere">Some text</a>';
 
 		$test = new Notice_Presenter( 'title', 'content', 'image.png', $button, true );
@@ -186,5 +200,23 @@ class Notice_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->assertEquals( $expected, (string) $test );
+	}
+
+	/**
+	 * Prepares the Indexables_Page_Conditional in the classes surface and mock a return value for is_met.
+	 *
+	 * @param boolean $is_met Whether the Indexable_Page_Conditional is met.
+	 *
+	 * @return void
+	 */
+	private function setup_indexables_page_condition_is_met( $is_met ) {
+		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
+		$conditional->expects( 'is_met' )->once()->andReturn( $is_met );
+
+		$container = $this->create_container_with( [ Indexables_Page_Conditional::class => $conditional ] );
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $container ) ] );
 	}
 }

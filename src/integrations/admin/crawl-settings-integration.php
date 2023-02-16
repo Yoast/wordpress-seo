@@ -85,9 +85,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function register_hooks() {
 		$this->register_setting_labels();
 
-		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_crawl_settings_tab' ] );
 		if ( ! $this->product_helper->is_premium() || ! $this->is_premium_upgraded() ) {
-			\add_action( 'wpseo_settings_tab_crawl_cleanup', [ $this, 'add_crawl_settings_tab_content' ] );
+			\add_action( 'wpseo_settings_tab_crawl_cleanup_internal', [ $this, 'add_crawl_settings_tab_content' ] );
 			\add_action( 'wpseo_settings_tab_crawl_cleanup_network', [ $this, 'add_crawl_settings_tab_content_network' ] );
 		}
 	}
@@ -138,10 +137,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		];
 
 		$this->search_cleanup_settings = [
-			'search_cleanup'          => \__( 'Filter search terms', 'wordpress-seo' ),
-			'search_cleanup_emoji'    => \__( 'Filter searches with emojis and other special characters', 'wordpress-seo' ),
-			'search_cleanup_patterns' => \__( 'Filter searches with common spam patterns', 'wordpress-seo' ),
-			'deny_search_crawling'    => \__( 'Prevent search engines from crawling site search URLs', 'wordpress-seo' ),
+			'search_cleanup'              => \__( 'Filter search terms', 'wordpress-seo' ),
+			'search_cleanup_emoji'        => \__( 'Filter searches with emojis and other special characters', 'wordpress-seo' ),
+			'search_cleanup_patterns'     => \__( 'Filter searches with common spam patterns', 'wordpress-seo' ),
+			'deny_search_crawling'        => \__( 'Prevent search engines from crawling site search URLs', 'wordpress-seo' ),
+			'redirect_search_pretty_urls' => \__( 'Redirect pretty URLs for search pages to raw format', 'wordpress-seo' ),
 		];
 
 		$this->unused_resources_settings = [
@@ -324,8 +324,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * Displays the Premium upsell button.
 	 */
 	public function display_premium_upsell_btn() {
-		echo '<a class="yoast-button-upsell" href="';
-		echo \esc_url( WPSEO_Shortlinker::get( 'http://yoa.st/crawl-settings-upsell' ) );
+		echo '<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="';
+		echo \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/crawl-settings-upsell' ) );
 		echo '" target="_blank" style=" margin-top: 16px; margin-bottom: 16px; ">';
 
 		$button_msg = ( $this->product_helper->is_premium() && ! $this->is_premium_upgraded() ) ? \esc_html__( 'Upgrade Premium', 'wordpress-seo' ) : \esc_html__( 'Unlock with Premium', 'wordpress-seo' );

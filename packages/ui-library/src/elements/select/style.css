@@ -1,20 +1,13 @@
 @layer components {
 	.yst-root {
 		.yst-select {
-			@apply yst-max-w-sm yst-relative;
+			@apply yst-relative;
 		}
 
-		.yst-select--error {
+		.yst-select--disabled {
+			.yst-select__label,
 			.yst-select__button {
-				@apply
-				yst-border-red-300
-				yst-text-red-900
-				yst-placeholder-red-300
-
-
-				focus:yst-outline-none
-				focus:yst-ring-red-500
-				focus:yst-border-red-500;
+				@apply yst-opacity-50 yst-cursor-not-allowed;
 			}
 		}
 
@@ -26,10 +19,10 @@
 			yst-py-2
 			yst-px-3
 			yst-text-left
-			yst-text-gray-800
+			yst-text-slate-800
 			yst-bg-white
 			yst-border
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-cursor-default
@@ -44,17 +37,7 @@
 		}
 
 		.yst-select__button-icon {
-			@apply
-			yst-w-5
-			yst-h-5
-			yst-shrink-0
-			yst-grow-0
-			yst-text-gray-400
-			yst-pointer-events-none;
-		}
-
-		.yst-select__button-icon--error {
-			@apply yst-text-red-500;
+			@apply yst-absolute yst-top-2.5 yst-right-2.5 yst-text-slate-400 yst-pointer-events-none yst-w-5 yst-h-5;
 		}
 
 		.yst-select__options {
@@ -62,7 +45,6 @@
 			yst-absolute
 			yst-z-10
 			yst-w-full
-			yst-py-1
 			yst-mt-1
 			yst-overflow-auto
 			yst-bg-white
@@ -72,7 +54,8 @@
 			yst-ring-1
 			yst-ring-black
 			yst-ring-opacity-5
-			focus:yst-outline-none sm:yst-text-sm;
+			focus:yst-outline-none
+			yst-text-sm;
 		}
 
 		.yst-select__option {
@@ -83,13 +66,17 @@
 			yst-flex
 			yst-items-center
 			yst-justify-between
-			yst-py-2
 			yst-px-3
-			yst-text-gray-900;
-		}
+			yst-py-2
+			yst-text-slate-700;
 
-		.yst-select__option--active {
-			@apply yst-text-white yst-bg-primary-600;
+			&--active {
+				@apply yst-bg-slate-200;
+			}
+
+			&--selected {
+				@apply yst-text-white yst-bg-primary-600;
+			}
 		}
 
 		.yst-select__option-label,
@@ -97,20 +84,12 @@
 			@apply yst-block yst-truncate;
 		}
 
-		.yst-select__option-label--selected {
-			@apply yst-font-semibold;
-		}
-
-		.yst-select__option-icon {
+		.yst-select__option-check {
 			@apply
 			yst-w-5
 			yst-h-5
-			yst-text-primary-600
+			yst-text-white
 			yst-shrink-0;
-		}
-
-		.yst-select__option-icon--active {
-			@apply yst-text-white;
 		}
 	}
 }

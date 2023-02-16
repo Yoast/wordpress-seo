@@ -27,8 +27,21 @@ echo '<p>';
 esc_html_e( 'Enable this feature if you want Twitter to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
 echo '</p>';
 
-echo '<br />';
+/**
+ * WARNING: This hook is intended for internal use only.
+ * Don't use it in your code as it will be removed shortly.
+ */
+do_action( 'wpseo_admin_twitter_section_internal' );
 
-$yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
-
-do_action( 'wpseo_admin_twitter_section' );
+/**
+ * Admin Twitter section hook.
+ *
+ * @deprecated 19.10 No replacement available.
+ */
+do_action_deprecated(
+	'wpseo_admin_twitter_section',
+	[],
+	'19.10',
+	'',
+	'This action is going away with no replacement. If you want to add settings that interact with Yoast SEO, please create your own settings page.'
+);

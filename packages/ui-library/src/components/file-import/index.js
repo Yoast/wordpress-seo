@@ -1,12 +1,12 @@
-import { useCallback, useContext, createContext, useMemo } from "@wordpress/element";
+import { useCallback, useContext, createContext, useMemo, forwardRef } from "@wordpress/element";
 import { values, includes, isEmpty, isNull, capitalize } from "lodash";
 import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon, ExclamationCircleIcon, ExclamationIcon, InformationCircleIcon } from "@heroicons/react/solid";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 
 import FileInput from "../../elements/file-input";
 import ProgressBar from "../../elements/progress-bar";
+import { ValidationIcon } from "../../elements/validation";
 
 export const FILE_IMPORT_STATUS = {
 	idle: "idle",
@@ -74,7 +74,7 @@ const createStatusConditionalRender = ( status ) => {
  * @param {string} dropLabel The label for custom drop file functionality.
  * @param {string} screenReaderLabel The screen reader label for the file select.
  * @param {string} abortScreenReaderLabel The screen reader label for the abort button.
- * @param {JSX.Node} selectDescription The selectDescription.
+ * @param {JSX.node} selectDescription The selectDescription.
  * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
  * @param {Function} onChange The callback for when a file is imported.
  * @param {Function} onAbort The callback for when an file import is aborted.
@@ -85,7 +85,7 @@ const createStatusConditionalRender = ( status ) => {
  * @param {number} progress The import progress.
  * @returns {JSX.Element} The FileImport component.
  */
-const FileImport = ( {
+const FileImport = forwardRef( ( {
 	children = "",
 	id,
 	name,
@@ -94,15 +94,15 @@ const FileImport = ( {
 	screenReaderLabel,
 	abortScreenReaderLabel,
 	selectDescription,
-	status = FILE_IMPORT_STATUS.idle,
+	status,
 	onChange,
 	onAbort,
 	feedbackTitle,
-	feedbackDescription = "",
-	progressMin = null,
-	progressMax = null,
-	progress = null,
-} ) => {
+	feedbackDescription,
+	progressMin,
+	progressMax,
+	progress,
+}, ref ) => {
 	const isSelected = useMemo( () => status === FILE_IMPORT_STATUS.selected, [ status ] );
 	const isLoading = useMemo( () => status === FILE_IMPORT_STATUS.loading, [ status ] );
 	const isSuccess = useMemo( () => status === FILE_IMPORT_STATUS.success, [ status ] );
@@ -124,6 +124,7 @@ const FileImport = ( {
 		<FileImportContext.Provider value={ { status } }>
 			<div className="yst-file-import">
 				<FileInput
+					ref={ ref }
 					id={ id }
 					name={ name }
 					// Don't control value here to allow consecutive imports of the same file.
@@ -155,7 +156,7 @@ const FileImport = ( {
 							</div>
 							<div className="yst-relative yst-h-5 yst-w-5">
 								<Transition show={ isSelected } { ...statusIconTransitionProps }>
-									<InformationCircleIcon className="yst-h-5 yst-w-5 yst-text-blue-500" />
+									<ValidationIcon variant="info" className="yst-w-5 yst-h-5" />
 								</Transition>
 								<Transition show={ isLoading } { ...statusIconTransitionProps }>
 									<button onClick={ onAbort } className="yst-file-import__abort-button">
@@ -164,13 +165,13 @@ const FileImport = ( {
 									</button>
 								</Transition>
 								<Transition show={ isSuccess } { ...statusIconTransitionProps }>
-									<CheckCircleIcon className="yst-h-5 yst-w-5 yst-text-green-500" />
+									<ValidationIcon variant="success" className="yst-w-5 yst-h-5" />
 								</Transition>
 								<Transition show={ isAborted } { ...statusIconTransitionProps }>
-									<ExclamationIcon className="yst-h-5 yst-w-5 yst-text-amber-500" />
+									<ValidationIcon variant="warning" className="yst-w-5 yst-h-5" />
 								</Transition>
 								<Transition show={ isError } { ...statusIconTransitionProps }>
-									<ExclamationCircleIcon className="yst-h-5 yst-w-5 yst-text-red-500" />
+									<ValidationIcon variant="error" className="yst-w-5 yst-h-5" />
 								</Transition>
 							</div>
 						</header>
@@ -180,9 +181,9 @@ const FileImport = ( {
 			</div>
 		</FileImportContext.Provider>
 	);
-};
+} );
 
-FileImport.propTypes = {
+const propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
@@ -201,10 +202,26 @@ FileImport.propTypes = {
 	onAbort: PropTypes.func.isRequired,
 };
 
+FileImport.propTypes = propTypes;
+
+FileImport.defaultProps = {
+	feedbackDescription: "",
+	progressMin: null,
+	progressMax: null,
+	progress: null,
+	status: FILE_IMPORT_STATUS.idle,
+};
+
 FileImport.Selected = createStatusConditionalRender( FILE_IMPORT_STATUS.selected );
 FileImport.Loading = createStatusConditionalRender( FILE_IMPORT_STATUS.loading );
 FileImport.Success = createStatusConditionalRender( FILE_IMPORT_STATUS.success );
 FileImport.Aborted = createStatusConditionalRender( FILE_IMPORT_STATUS.aborted );
 FileImport.Error = createStatusConditionalRender( FILE_IMPORT_STATUS.error );
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <FileImport { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = FileImport.defaultProps;
+StoryComponent.displayName = "FileImport";
 
 export default FileImport;

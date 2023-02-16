@@ -26,6 +26,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'alternate_website_name',
 		'company_logo',
 		'company_name',
+		'company_alternate_name',
 		'person_name',
 		'person_logo',
 		'person_logo_id',
@@ -45,6 +46,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'open_graph_frontpage_image',
 		'open_graph_frontpage_image_id',
 		'other_social_urls',
+		'mastodon_url',
 		'pinterest_url',
 		'pinterestverify',
 		'twitter_site',
@@ -172,6 +174,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'twitter_card_type',
 		'youtube_url',
 		'wikipedia_url',
+		'mastodon_url',
 		'indexables_indexing_completed',
 		'semrush_integration_active',
 		'semrush_tokens',
@@ -214,8 +217,11 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'search_cleanup_emoji',
 		'search_cleanup_patterns',
 		'search_character_limit',
+		'redirect_search_pretty_urls',
 		'wordproof_integration_active',
 		'indexables_overview_state',
+		'deny_search_crawling',
+		'deny_wp_json_crawling',
 	];
 
 	/**

@@ -92,9 +92,36 @@ class Installation_Success_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertNotFalse( Monkey\Filters\has( 'admin_menu', [ $this->instance, 'add_submenu_page' ] ), 'Does not have expected admin_menu filter' );
-		$this->assertNotFalse( Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] ), 'Does not have expected admin_enqueue_scripts action' );
-		$this->assertNotFalse( Monkey\Actions\has( 'admin_init', [ $this->instance, 'maybe_redirect' ] ), 'Does not have expected admin_init action' );
+		$this->assertNotFalse(
+			Monkey\Filters\has(
+				'admin_menu',
+				[
+					$this->instance,
+					'add_submenu_page',
+				]
+			),
+			'Does not have expected admin_menu filter'
+		);
+		$this->assertNotFalse(
+			Monkey\Actions\has(
+				'admin_enqueue_scripts',
+				[
+					$this->instance,
+					'enqueue_assets',
+				]
+			),
+			'Does not have expected admin_enqueue_scripts action'
+		);
+		$this->assertNotFalse(
+			Monkey\Actions\has(
+				'admin_init',
+				[
+					$this->instance,
+					'maybe_redirect',
+				]
+			),
+			'Does not have expected admin_init action'
+		);
 	}
 
 	/**
@@ -346,7 +373,18 @@ class Installation_Success_Integration_Test extends TestCase {
 		Monkey\Functions\expect( '__' )
 			->andReturnFirstArg();
 
-		Monkey\Functions\expect( 'add_submenu_page' );
+		Monkey\Functions\expect( 'add_submenu_page' )
+			->with(
+				'',
+				'Installation Successful',
+				'',
+				'manage_options',
+				'wpseo_installation_successful_free',
+				[
+					$this->instance,
+					'render_page',
+				]
+			);
 
 		$submenu_pages = [
 			'array',

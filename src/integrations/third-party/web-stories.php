@@ -3,10 +3,12 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Title_Presenter;
 
 /**
  * Web Stories integration.
@@ -46,7 +48,12 @@ class Web_Stories implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'web_stories_enable_metadata', '__return_false' );
+		// Disable default title and meta description output in the Web Stories plugin,
+		// and force-add title & meta description presenter, regardless of theme support.
+		\add_filter( 'web_stories_enable_document_title', '__return_false' );
+		\add_filter( 'web_stories_enable_metadata', '__return_false' );
+		\add_filter( 'wpseo_frontend_presenters', [ $this, 'filter_frontend_presenters' ], 10, 2 );
+
 		\add_action( 'web_stories_enable_schemaorg_metadata', '__return_false' );
 		\add_action( 'web_stories_enable_open_graph_metadata', '__return_false' );
 		\add_action( 'web_stories_enable_twitter_metadata', '__return_false' );
@@ -54,6 +61,33 @@ class Web_Stories implements Integration_Interface {
 		\add_action( 'web_stories_story_head', [ $this, 'web_stories_story_head' ], 1 );
 		\add_filter( 'wpseo_schema_article_type', [ $this, 'filter_schema_article_type' ], 10, 2 );
 		\add_filter( 'wpseo_metadesc', [ $this, 'filter_meta_description' ], 10, 2 );
+	}
+
+	/**
+	 * Filter 'wpseo_frontend_presenters' - Allow filtering the presenter instances in or out of the request.
+	 *
+	 * @param array             $presenters The presenters.
+	 * @param Meta_Tags_Context $context    The meta tags context for the current page.
+	 * @return array Filtered presenters.
+	 */
+	public function filter_frontend_presenters( $presenters, $context ) {
+		if ( $context->indexable->object_sub_type !== 'web-story' ) {
+			return $presenters;
+		}
+
+		$has_title_presenter = false;
+
+		foreach ( $presenters as $presenter ) {
+			if ( $presenter instanceof Title_Presenter ) {
+				$has_title_presenter = true;
+			}
+		}
+
+		if ( ! $has_title_presenter ) {
+			$presenters[] = new Title_Presenter();
+		}
+
+		return $presenters;
 	}
 
 	/**

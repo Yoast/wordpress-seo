@@ -7,9 +7,9 @@ use Yoast\WP\SEO\Generators\Schema\Breadcrumb;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Indexable_Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -69,7 +69,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->html         = Mockery::mock( HTML_Helper::class );
 
 		$this->meta_tags_context               = Mockery::mock( Meta_Tags_Context_Mock::class );
-		$this->meta_tags_context->presentation = Mockery::mock( Indexable_Presentation::class );
+		$this->meta_tags_context->presentation = Mockery::mock( Indexable_Presentation_Mock::class );
 		$this->meta_tags_context->indexable    = Mockery::mock( Indexable_Mock::class );
 		$this->meta_tags_context->canonical    = 'https://wordpress.example.com/canonical';
 
@@ -523,9 +523,8 @@ class Breadcrumb_Test extends TestCase {
 	}
 
 	/**
-	 * Generate method should fall back to the page title when the
-	 * text is empty, but only for the current page.
-	 * (last item in the breadcrumb list).
+	 * Generate method should omit the entity when
+	 * text is empty.
 	 *
 	 * @covers ::generate
 	 * @covers ::not_hidden
@@ -557,11 +556,6 @@ class Breadcrumb_Test extends TestCase {
 			->once()
 			->with( 'Home' )
 			->andReturn( 'Home' );
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->once()
-			->with( '' )
-			->andReturn( '' );
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
@@ -572,11 +566,6 @@ class Breadcrumb_Test extends TestCase {
 					'position' => 1,
 					'name'     => 'Home',
 					'item'     => 'https://wordpress.example.com/',
-				],
-				[
-					'@type'    => 'ListItem',
-					'position' => 2,
-					'name'     => '',
 				],
 			],
 		];

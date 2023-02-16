@@ -43,7 +43,7 @@ Make sure your problem does not exist as a ticket already by searching through [
 
 #### Fixing an issue
 
-* Fork the repository on GitHub (make sure to use the trunk branch, not master).
+* Fork the repository on GitHub (make sure to use the trunk branch, not main).
 * Make the changes to your forked repository.
 * Ensure you stick to the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/) and you properly document any new functions, actions and filters following the [documentation standards](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/).
 * When committing, reference your issue and include a note about the fix.

@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Upaya untuk menjalin persekutuan Franka-Mongol melawan kekhalifahan Islam (yang merupakan musuh bersama mereka) telah" +
 		" dilancarkan oleh pemimpin-pemimpin Tentara Salib Franka dan Kekaisaran Mongol pada tahun 1200-an.",
 	title: "Persekutuan Franka-Mongol",
+	textTitle: "Persekutuan Franka-Mongol",
 	titleWidth: 450,
 	locale: "id_ID",
 	permalink: "https://id.wikipedia.org/wiki/Persekutuan_Franka-Mongol",
@@ -118,7 +119,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 25.3% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 24.7% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

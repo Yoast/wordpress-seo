@@ -177,11 +177,11 @@ describe( "AnalysisWebWorker", () => {
 		} );
 
 		describe( "shouldAssessorsUpdate", () => {
-			const updateAll = { readability: true, seo: true };
-			const updateNone = { readability: false, seo: false };
-			const updateReadability = { readability: true, seo: false };
-			const updateSEO = { readability: false, seo: true };
-			const updateSEOAndReadability = { readability: true, seo: true };
+			const updateAll = { readability: true, seo: true, inclusiveLanguage: true };
+			const updateNone = { readability: false, seo: false, inclusiveLanguage: false };
+			const updateReadability = { readability: true, seo: false, inclusiveLanguage: false };
+			const updateSEO = { readability: false, seo: true, inclusiveLanguage: false };
+			const updateSEOAndReadability = { readability: true, seo: true, inclusiveLanguage: false };
 
 			test( "update all when an empty configuration is passed", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( {} ) ).toEqual( updateAll );
@@ -1528,13 +1528,34 @@ describe( "AnalysisWebWorker", () => {
 			expect( actualAssessment ).toBe( assessment );
 		} );
 
-		test( "add the assessment to the registered assessments", () => {
+		test( "add the seo assessment to the registered assessments", () => {
 			scope.onmessage( createMessage( "initialize" ) );
 			expect( worker._seoAssessor ).not.toBeNull();
 
 			worker.registerAssessment( assessmentName, assessment, pluginName );
 			expect( worker._registeredAssessments.length ).toBe( 1 );
 			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "seo" );
+		} );
+
+		test( "add the readability assessment to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._contentAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "readability" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "readability" );
+		} );
+
+		test( "add the related keyphrase assessment to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._relatedKeywordAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "relatedKeyphrase" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "relatedKeyphrase" );
 		} );
 
 		test( "call refresh assessment", () => {
@@ -1709,6 +1730,43 @@ describe( "AnalysisWebWorker", () => {
 		test( "returns false when the keyword and synonyms are the same", () => {
 			worker._relatedKeywords[ key ] = { keyword, synonyms };
 			expect( worker.shouldSeoUpdate( key, { keyword, synonyms } ) ).toBe( false );
+		} );
+	} );
+
+	describe( "shouldInclusiveLanguageUpdate", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+		} );
+
+		test( "returns true when the existing paper is null", () => {
+			const paper = new Paper( "This does not matter here." );
+			worker._paper = null;
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the paper text is different", () => {
+			const paper = new Paper( "This is different content." );
+			worker._paper = new Paper( "This is the content." );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the paper locale is different", () => {
+			const paper = new Paper( "This is the content.", { locale: "en_US" } );
+			worker._paper = new Paper( "This is the content.", { locale: "nl_NL" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns true when the text title of the paper is different", () => {
+			const paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			worker._paper = new Paper( "This is the content.", { textTitle: "A different text title" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( true );
+		} );
+
+		test( "returns false when the text and text title are the same", () => {
+			const paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			worker._paper = new Paper( "This is the content.", { textTitle: "A text title" } );
+			expect( worker.shouldInclusiveLanguageUpdate( paper ) ).toBe( false );
 		} );
 	} );
 

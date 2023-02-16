@@ -65,13 +65,6 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * The mocked instance under test.
-	 *
-	 * @var Mockery\MockInterface|Search_Engines_Discouraged_Watcher
-	 */
-	protected $mocked_instance;
-
-	/**
 	 * Sets up the class under test and mock objects.
 	 */
 	public function set_up() {
@@ -90,13 +83,6 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 			$this->options_helper,
 			$this->capability_helper
 		);
-
-		$this->mocked_instance = Mockery::mock(
-			Search_Engines_Discouraged_Watcher::class,
-			[ $this->notification_center, $this->notification_helper, $this->current_page_helper, $this->options_helper, $this->capability_helper ]
-		)
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
 	}
 
 	/**
@@ -137,6 +123,28 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 		Monkey\Actions\expectAdded( 'admin_notices' );
 
 		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Mocks functions associated with Search_Engines_Discouraged_Presenter.
+	 *
+	 * @return void
+	 */
+	public function mock_notification_message() {
+		Monkey\Functions\expect( 'esc_html__' )
+			->andReturn( 'This is a test message' );
+
+		Monkey\Functions\expect( 'esc_url' )
+			->andReturn( 'http://test.url/' );
+
+		Monkey\Functions\expect( 'admin_url' )
+			->andReturn( '' );
+
+		Monkey\Functions\expect( 'esc_js' )
+			->andReturn( 'This is a test message' );
+
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->andReturn( 'test_nonce' );
 	}
 
 	/**
@@ -190,18 +198,16 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 			->allows( 'get_current_yoast_seo_page' )
 			->andReturn( $current_yoast_page );
 
+		$this->mock_notification_message();
+
 		if ( $expect_called ) {
-			$this->mocked_instance
-				->expects( 'show_search_engines_discouraged_notice' )
-				->once()
-				->andReturns();
+			$this->expectOutputContains( 'robotsmessage' );
 		}
 		else {
-			$this->mocked_instance
-				->shouldNotReceive( 'show_search_engines_discouraged_notice' );
+			$this->assertEquals( $this->getActualOutput(), '' );
 		}
 
-		$this->mocked_instance->maybe_show_search_engines_discouraged_notice();
+		$this->instance->maybe_show_search_engines_discouraged_notice();
 	}
 
 	/**
@@ -291,12 +297,14 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::manage_search_engines_discouraged_notification
 	 *
-	 * @param string $blog_public_option_value   The option value for blog_public.
-	 * @param bool   $ignore_notice              Whether the user ignored the notice before.
-	 * @param bool   $remove_notification_called Whether the remove notification function should be called.
-	 * @param bool   $add_notification_called    Whether the add notification function should be called.
+	 * @param string $blog_public_option_value      The option value for blog_public.
+	 * @param bool   $ignore_notice                 Whether the user ignored the notice before.
+	 * @param bool   $notification_exists           Whether the notification that should be added already is added to the notification helper.
+	 * @param bool   $remove_notification_called    Whether the remove notification function should be called.
+	 * @param bool   $maybe_add_notification_called Whether the add notification function should be called.
+	 * @param bool   $notification_should_be_added  Whether the notification should be added.
 	 */
-	public function test_manage_search_engines_discouraged_notification( $blog_public_option_value, $ignore_notice, $remove_notification_called, $add_notification_called ) {
+	public function test_manage_search_engines_discouraged_notification( $blog_public_option_value, $ignore_notice, $notification_exists, $remove_notification_called, $maybe_add_notification_called, $notification_should_be_added ) {
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'blog_public' )
 			->once()
@@ -308,28 +316,40 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 			->andReturn( $ignore_notice );
 
 		if ( $remove_notification_called ) {
-			$this->mocked_instance
-				->expects( 'remove_search_engines_discouraged_notification_if_exists' )
+			$this->notification_center
+				->expects( 'remove_notification_by_id' )
 				->once()
 				->andReturns();
 		}
 		else {
-			$this->mocked_instance
-				->shouldNotReceive( 'remove_search_engines_discouraged_notification_if_exists' );
+			$this->notification_center
+				->shouldNotReceive( 'remove_notification_by_id' );
 		}
 
-		if ( $add_notification_called ) {
-			$this->mocked_instance
-				->expects( 'maybe_add_search_engines_discouraged_notification' )
+		if ( $maybe_add_notification_called ) {
+			$this->notification_center
+				->expects( 'get_notification_by_id' )
+				->andReturn( $notification_exists );
+		}
+
+		if ( $notification_should_be_added ) {
+			$this->mock_notification_message();
+			$this->notification_helper
+				->expects( 'restore_notification' );
+			$this->notification_center
+				->expects( 'add_notification' );
+			Monkey\Functions\expect( 'wp_get_current_user' )
 				->once()
-				->andReturns();
+				->andReturn( null );
 		}
 		else {
-			$this->mocked_instance
-				->shouldNotReceive( 'maybe_add_search_engines_discouraged_notification' );
+			$this->notification_helper
+				->shouldNotReceive( 'restore_notification' );
+			$this->notification_center
+				->shouldNotReceive( 'add_notification' );
 		}
 
-		$this->mocked_instance->manage_search_engines_discouraged_notification();
+		$this->instance->manage_search_engines_discouraged_notification();
 	}
 
 	/**
@@ -338,28 +358,61 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * @return array data for manage_search_engines_discouraged_notification.
 	 */
 	public function manage_search_engines_discouraged_notification_dataprovider() {
-		$should_add_notification = [
-			'blog_public_option_value'   => '0',
-			'ignore_notice'              => false,
-			'remove_notification_called' => false,
-			'add_notification_called'    => true,
+		$should_add_notification        = [
+			'blog_public_option_value'      => '0',
+			'ignore_notice'                 => false,
+			'notification_exists'           => false,
+			'remove_notification_called'    => false,
+			'maybe_add_notification_called' => true,
+			'notification_should_be_added'  => true,
 		];
-		$blog_not_public         = [
-			'blog_public_option_value'   => '1',
-			'ignore_notice'              => false,
-			'remove_notification_called' => true,
-			'add_notification_called'    => false,
+		$blog_not_public                = [
+			'blog_public_option_value'      => '1',
+			'ignore_notice'                 => false,
+			'notification_exists'           => false,
+			'remove_notification_called'    => true,
+			'maybe_add_notification_called' => false,
+			'notification_should_be_added'  => false,
 		];
-		$notice_ignored          = [
-			'blog_public_option_value'   => '0',
-			'ignore_notice'              => true,
-			'remove_notification_called' => true,
-			'add_notification_called'    => false,
+		$notice_ignored                 = [
+			'blog_public_option_value'      => '0',
+			'ignore_notice'                 => true,
+			'notification_exists'           => false,
+			'remove_notification_called'    => true,
+			'maybe_add_notification_called' => false,
+			'notification_should_be_added'  => false,
+		];
+		$notification_exists            = [
+			'blog_public_option_value'      => '0',
+			'ignore_notice'                 => false,
+			'notification_exists'           => true,
+			'remove_notification_called'    => false,
+			'maybe_add_notification_called' => true,
+			'notification_should_be_added'  => false,
+		];
+		$notification_does_not_exist    = [
+			'blog_public_option_value'      => '0',
+			'ignore_notice'                 => false,
+			'notification_exists'           => false,
+			'remove_notification_called'    => false,
+			'maybe_add_notification_called' => true,
+			'notification_should_be_added'  => true,
+		];
+		$notification_should_be_removed = [
+			'blog_public_option_value'      => '1',
+			'ignore_notice'                 => false,
+			'notification_exists'           => true,
+			'remove_notification_called'    => true,
+			'maybe_add_notification_called' => false,
+			'notification_should_be_added'  => false,
 		];
 		return [
-			'Should add notification' => $should_add_notification,
-			'Blog not public'         => $blog_not_public,
-			'Notice ignored'          => $notice_ignored,
+			'Should add notification'        => $should_add_notification,
+			'Blog not public'                => $blog_not_public,
+			'Notice ignored'                 => $notice_ignored,
+			'Notification exists'            => $notification_exists,
+			'Notification does not exist'    => $notification_does_not_exist,
+			'Notification should be removed' => $notification_should_be_removed,
 		];
 	}
 }

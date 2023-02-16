@@ -1,8 +1,7 @@
-import { Transition } from "@headlessui/react";
+/* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Link } from "@yoast/ui-library";
-import classNames from "classnames";
+import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import {
 	FieldsetLayout,
@@ -11,18 +10,29 @@ import {
 	FormikReplacementVariableEditorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
+	RouteLayout,
 } from "../components";
-import { useSelectSettings } from "../store";
+import { safeToLocaleLower } from "../helpers";
+import { withFormikDummyField } from "../hocs";
+import { useSelectSettings } from "../hooks";
+
+const FormikReplacementVariableEditorFieldWithDummy = withFormikDummyField( FormikReplacementVariableEditorField );
 
 /**
  * @returns {JSX.Element} The date archives route.
  */
 const DateArchives = () => {
 	const label = __( "Date archives", "wordpress-seo" );
-	const singularLabel = __( "Date archive", "wordpress-seo" );
+	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
+	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
+
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "date_archive", "custom-post-type_archive" );
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
+	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/2020/" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -40,87 +50,87 @@ const DateArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const descriptionExample = useMemo( () => createInterpolateElement(
+	const description = useMemo( () => createInterpolateElement(
 		sprintf(
-			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-			__( "(e.g., %1$shttps://www.example.com/2020/%2$s)", "wordpress-seo" ),
-			"<code>",
-			"</code>"
+			/**
+			 * translators: %1$s expands to "Date archives".
+			 * %2$s expands to an example URL, e.g. https://example.com/author/example/.
+			 * %3$s expands to "date archives".
+			 */
+			__( "%1$s (e.g. %2$s) are based on publication dates. From an SEO perspective, the posts in these archives have no real relation to the other posts except for their publication dates, which doesn’t say much about the content. They could also lead to duplicate content issues. This is why we recommend you to disable %3$s.", "wordpress-seo" ),
+			label,
+			"<exampleUrl />",
+			labelLower
 		),
 		{
-			code: <code className="yst-text-xs" />,
+			exampleUrl: <Code>{ exampleUrl }</Code>,
 		}
 	) );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "disable-date": disableDate } = values.wpseo_titles;
+	const {
+		"disable-date": isDateArchivesDisabled,
+		"noindex-archive-wpseo": isDateArchivesNoIndex,
+	} = values.wpseo_titles;
 
 	return (
-		<FormLayout
+		<RouteLayout
 			title={ label }
-			description={ <>
-				<span className="yst-block">{ descriptionExample }</span>
-				<span className="yst-block yst-mt-4">{ sprintf(
-					/* translators: %1$s is replaced by the "Date archives" translation. */
-					__( "Date archives are based on publication dates. From an SEO perspective, the posts in these archives have no real relation to the other posts except for their publication dates, which doesn’t say much about the content. They could also lead to duplicate content issues. This is why we recommend you to disable date archives.", "wordpress-seo" ),
-					"<a>",
-					"</a>",
-					singularLabel
-				) }</span>
-			</> }
+			description={ description }
 		>
-			<fieldset className="yst-space-y-8">
-				<FormikFlippedToggleField
-					name={ "wpseo_titles.disable-date" }
-					data-id={ "input-wpseo_titles-disable-date" }
-					label={ label }
-					description={ sprintf(
-						/* translators: %1$s expands to "Date archives". */
-						__( "%1$s can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ),
-						label
-					) }
-				/>
-			</fieldset>
-			<hr className="yst-my-8" />
-			<div className="yst-relative">
-				<Transition
-					show={ ! disableDate }
-					enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
-					enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-					enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leave="yst-transition yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
-					leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-				>
+			<FormLayout>
+				<div className="yst-max-w-5xl">
+					<fieldset className="yst-min-width-0 yst-space-y-8">
+						<FormikFlippedToggleField
+							name={ "wpseo_titles.disable-date" }
+							id={ "input-wpseo_titles-disable-date" }
+							label={ sprintf(
+								// translators: %1$s expands to "date archives".
+								__( "Enable %1$s", "wordpress-seo" ),
+								labelLower
+							) }
+							description={ sprintf(
+								// translators: %1$s expands to "Date archives".
+								__( "%1$s can cause duplicate content issues. For most sites, we recommend that you disable this setting.", "wordpress-seo" ),
+								label
+							) }
+							className="yst-max-w-sm"
+						/>
+					</fieldset>
+					<hr className="yst-my-8" />
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Posts.
-							__( "Choose how your %1$s should look in search engines.", "wordpress-seo" ),
-							label
+							// translators: %1$s expands to "date archives".
+							__( "Determine how your %1$s should look in search engines.", "wordpress-seo" ),
+							labelLower
 						) }
 					>
 						<FormikFlippedToggleField
-							name={ "wpseo_titles.noindex-archive-wpseo" }
-							data-id={ "input-wpseo_titles-noindex-archive-wpseo" }
+							name="wpseo_titles.noindex-archive-wpseo"
+							id="input-wpseo_titles-noindex-archive-wpseo"
 							label={ sprintf(
-								// translators: %1$s expands to the post type plural, e.g. Posts.
+								// translators: %1$s expands to "date archives".
 								__( "Show %1$s in search results", "wordpress-seo" ),
-								label
+								labelLower
 							) }
 							description={ <>
 								{ sprintf(
-									// translators: %1$s expands to the post type plural, e.g. Posts.
+									// translators: %1$s expands to "date archives".
 									__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps. We recommend that you disable this setting.", "wordpress-seo" ),
-									label
+									labelLower
 								) }
-								<br />
-								<Link href={ noIndexInfoLink } target="_blank" rel="noreferrer">
+								&nbsp;
+								<Link href={ noIndexInfoLink } target="_blank" rel="noopener">
 									{ __( "Read more about the search results settings", "wordpress-seo" ) }
 								</Link>
 								.
 							</> }
+							disabled={ isDateArchivesDisabled }
+							/* If the archive is disabled then show as disabled. Otherwise, use the actual value (but flipped). */
+							checked={ isDateArchivesDisabled ? false : ! isDateArchivesNoIndex }
+							className="yst-max-w-sm"
 						/>
 						<FormikReplacementVariableEditorField
 							type="title"
@@ -129,6 +139,7 @@ const DateArchives = () => {
 							label={ __( "SEO title", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
+							disabled={ isDateArchivesDisabled }
 						/>
 						<FormikReplacementVariableEditorField
 							type="description"
@@ -137,6 +148,7 @@ const DateArchives = () => {
 							label={ __( "Meta description", "wordpress-seo" ) }
 							replacementVariables={ replacementVariables }
 							recommendedReplacementVariables={ recommendedReplacementVariables }
+							disabled={ isDateArchivesDisabled }
 							className="yst-replacevar--description"
 						/>
 					</FieldsetLayout>
@@ -144,47 +156,61 @@ const DateArchives = () => {
 					<FieldsetLayout
 						title={ <div className="yst-flex yst-items-center yst-gap-1.5">
 							<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-							<Badge variant="upsell">Premium</Badge>
+							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Posts.
-							__( "Choose how your %1$s should look on social media by default.", "wordpress-seo" ),
-							label
+							// translators: %1$s expands to "date archives".
+							__( "Determine how your %1$s should look on social media by default.", "wordpress-seo" ),
+							labelLower
 						) }
 					>
-						<OpenGraphDisabledAlert isEnabled={ opengraph } />
-						<FormikMediaSelectField
-							id="wpseo_titles-social-image-archive-wpseo"
-							label={ __( "Social image", "wordpress-seo" ) }
-							previewLabel={ recommendedSize }
-							mediaUrlName="wpseo_titles.social-image-url-archive-wpseo"
-							mediaIdName="wpseo_titles.social-image-id-archive-wpseo"
-							disabled={ ! opengraph }
-						/>
-						<FormikReplacementVariableEditorField
-							type="title"
-							name="wpseo_titles.social-title-archive-wpseo"
-							fieldId="input-wpseo_titles-social-title-archive-wpseo"
-							label={ __( "Social title", "wordpress-seo" ) }
-							replacementVariables={ replacementVariables }
-							recommendedReplacementVariables={ recommendedReplacementVariables }
-							className={ classNames( ! opengraph && "yst-opacity-50" ) }
-							isDisabled={ ! opengraph }
-						/>
-						<FormikReplacementVariableEditorField
-							type="description"
-							name="wpseo_titles.social-description-archive-wpseo"
-							fieldId="input-wpseo_titles-social-description-archive-wpseo"
-							label={ __( "Social description", "wordpress-seo" ) }
-							replacementVariables={ replacementVariables }
-							recommendedReplacementVariables={ recommendedReplacementVariables }
-							className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
-							isDisabled={ ! opengraph }
-						/>
+						<FeatureUpsell
+							shouldUpsell={ ! isPremium }
+							variant="card"
+							cardLink={ socialAppearancePremiumLink }
+							cardText={ sprintf(
+								// translators: %1$s expands to Premium.
+								__( "Unlock with %1$s", "wordpress-seo" ),
+								"Premium"
+							) }
+							{ ...premiumUpsellConfig }
+						>
+							<OpenGraphDisabledAlert isEnabled={ ! isPremium || opengraph } />
+							<FormikMediaSelectField
+								id="wpseo_titles-social-image-archive-wpseo"
+								label={ __( "Social image", "wordpress-seo" ) }
+								previewLabel={ recommendedSize }
+								mediaUrlName="wpseo_titles.social-image-url-archive-wpseo"
+								mediaIdName="wpseo_titles.social-image-id-archive-wpseo"
+								disabled={ isDateArchivesDisabled || ! opengraph }
+								isDummy={ ! isPremium }
+							/>
+							<FormikReplacementVariableEditorFieldWithDummy
+								type="title"
+								name="wpseo_titles.social-title-archive-wpseo"
+								fieldId="input-wpseo_titles-social-title-archive-wpseo"
+								label={ __( "Social title", "wordpress-seo" ) }
+								replacementVariables={ replacementVariables }
+								recommendedReplacementVariables={ recommendedReplacementVariables }
+								disabled={ isDateArchivesDisabled || ! opengraph }
+								isDummy={ ! isPremium }
+							/>
+							<FormikReplacementVariableEditorFieldWithDummy
+								type="description"
+								name="wpseo_titles.social-description-archive-wpseo"
+								fieldId="input-wpseo_titles-social-description-archive-wpseo"
+								label={ __( "Social description", "wordpress-seo" ) }
+								replacementVariables={ replacementVariables }
+								recommendedReplacementVariables={ recommendedReplacementVariables }
+								className="yst-replacevar--description"
+								disabled={ isDateArchivesDisabled || ! opengraph }
+								isDummy={ ! isPremium }
+							/>
+						</FeatureUpsell>
 					</FieldsetLayout>
-				</Transition>
-			</div>
-		</FormLayout>
+				</div>
+			</FormLayout>
+		</RouteLayout>
 	);
 };
 

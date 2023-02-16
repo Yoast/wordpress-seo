@@ -63,7 +63,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 
 			$notification = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin );
 
-			if ( ! $checker->is_installed( $plugin ) || ! $checker->is_active( $plugin['slug'] ) ) {
+			if ( ! $checker->is_installed( $plugin ) ) {
 				$this->notification_center->add_notification( $notification );
 
 				continue;
@@ -85,7 +85,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 		$message = $this->create_install_suggested_plugin_message( $plugin );
 
 		if ( $this->availability_checker->is_installed( $plugin ) && ! $this->availability_checker->is_active( $plugin['slug'] ) ) {
-			$message = $this->create_activate_suggested_plugin_message( $plugin );
+			$message = '';
 		}
 
 		return new Yoast_Notification(
@@ -134,28 +134,6 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 			$url,
 			/* translators: %1$s expands to the dependency name. */
 			sprintf( __( 'More information about %1$s', 'wordpress-seo' ), $name )
-		);
-	}
-
-	/**
-	 * Creates a message to suggest the activation of a particular plugin.
-	 *
-	 * @param array $suggested_plugin The suggested plugin.
-	 *
-	 * @return string The activate suggested plugin message.
-	 */
-	protected function create_activate_suggested_plugin_message( $suggested_plugin ) {
-		/* translators: %1$s expands to an opening strong tag, %2$s expands to the dependency name, %3$s expands to a closing strong tag, %4$s expands to and opening anchor tag, %5$s expands to a closing anchor tag. */
-		$message        = __( 'It looks like you\'ve installed our %1$s%2$s addon%3$s. %4$sActivate it now%5$s to unlock more tools and SEO features to make your products stand out in search results.', 'wordpress-seo' );
-		$activation_url = WPSEO_Admin_Utils::get_activation_url( $suggested_plugin['slug'] );
-
-		return sprintf(
-			$message,
-			'<strong>',
-			$suggested_plugin['title'],
-			'</strong>',
-			'<a href="' . $activation_url . '">',
-			'</a>'
 		);
 	}
 }

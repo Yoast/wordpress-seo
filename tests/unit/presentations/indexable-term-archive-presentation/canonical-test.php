@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Term_Archive_Presentat
 
 use Brain\Monkey;
 use Mockery;
+use WP_Query;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -71,6 +72,10 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_attachment' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEmpty( $this->instance->generate_canonical() );
 	}
 
@@ -96,6 +101,10 @@ class Canonical_Test extends TestCase {
 			->andReturn( 0 );
 
 		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
 			->once()
 			->andReturn( false );
 
@@ -130,6 +139,10 @@ class Canonical_Test extends TestCase {
 			->andReturn( 'https://example.com/term-archive/page/2/' );
 
 		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_attachment' )
 			->once()
 			->andReturn( false );
 
@@ -215,7 +228,7 @@ class Canonical_Test extends TestCase {
 			$terms = [ 'term1', 'term2', 'term3' ];
 		}
 
-		$wp_query            = Mockery::mock( 'WP_Query' );
+		$wp_query            = Mockery::mock( WP_Query::class );
 		$wp_query->tax_query = (object) [
 			'queried_terms' => [
 				'my-taxonomy' => [

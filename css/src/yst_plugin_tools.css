@@ -571,7 +571,17 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-weight: bold;
 }
 
+.yoast-get-premium-title {
+  line-height: 27px;
+}
+
+.yoast-get-premium-title span {
+  white-space: nowrap;
+}
+
 .yoast-sidebar__product .product-image {
+	position: relative;
+	z-index: 2;
 	max-width: 75px;
 	max-height: 75px;
 	margin: -50px auto 16px;

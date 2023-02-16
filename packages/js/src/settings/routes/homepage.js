@@ -1,11 +1,17 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
-import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikReplacementVariableEditorField, FormLayout, OpenGraphDisabledAlert } from "../components";
-import { useSelectSettings } from "../store";
+import {
+	FieldsetLayout,
+	FormikMediaSelectField,
+	FormikReplacementVariableEditorField,
+	FormLayout,
+	OpenGraphDisabledAlert,
+	RouteLayout,
+} from "../components";
+import { useSelectSettings } from "../hooks";
 
 /**
  * @returns {JSX.Element} The element.
@@ -37,7 +43,7 @@ const LatestPosts = () => {
 	return <>
 		<FieldsetLayout
 			title={ __( "Search appearance", "wordpress-seo" ) }
-			description={ __( "Choose how your Homepage should look in search engines.", "wordpress-seo" ) }
+			description={ __( "Determine how your homepage should look in the search results.", "wordpress-seo" ) }
 		>
 			<FormikReplacementVariableEditorField
 				type="title"
@@ -60,12 +66,12 @@ const LatestPosts = () => {
 		<hr className="yst-my-8" />
 		<FieldsetLayout
 			title={ __( "Social appearance", "wordpress-seo" ) }
-			description={ __( "Choose how your Homepage should look on social media. Note that this is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
+			description={ __( "Determine how your homepage should look on social media.", "wordpress-seo" ) }
 		>
 			<OpenGraphDisabledAlert
 				isEnabled={ opengraph }
 				/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-				text={ __( "The %1$sSocial image%2$s, %1$sSocial title%2$s and %1$sSocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" ) }
+				text={ __( "The %1$ssocial image%2$s, %1$ssocial title%2$s and %1$ssocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" ) }
 			/>
 			<FormikMediaSelectField
 				id="wpseo_titles-open_graph_frontpage_image"
@@ -82,8 +88,7 @@ const LatestPosts = () => {
 				label={ __( "Social title", "wordpress-seo" ) }
 				replacementVariables={ replacementVariables }
 				recommendedReplacementVariables={ recommendedReplacementVariables }
-				className={ classNames( ! opengraph && "yst-opacity-50" ) }
-				isDisabled={ ! opengraph }
+				disabled={ ! opengraph }
 			/>
 			<FormikReplacementVariableEditorField
 				type="description"
@@ -92,8 +97,8 @@ const LatestPosts = () => {
 				label={ __( "Social description", "wordpress-seo" ) }
 				replacementVariables={ replacementVariables }
 				recommendedReplacementVariables={ recommendedReplacementVariables }
-				className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
-				isDisabled={ ! opengraph }
+				className="yst-replacevar--description"
+				disabled={ ! opengraph }
 			/>
 		</FieldsetLayout>
 	</>;
@@ -119,7 +124,7 @@ const PageAndPosts = () => {
 	const homepagePostsEditDescription = useMemo( () => addLinkToString(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-			__( "You can determine the title and description for the posts page by %1$sediting the posts page itself%2$s.", "wordpress-seo" ),
+			__( "You can determine the title and description for the blog page by %1$sediting the blog page itself%2$s.", "wordpress-seo" ),
 			"<a>",
 			"</a>"
 		),
@@ -144,13 +149,17 @@ const Homepage = () => {
 	const homepageIsLatestPosts = useSelectSettings( "selectPreference", [], "homepageIsLatestPosts" );
 
 	return (
-		<FormLayout
+		<RouteLayout
 			title={ __( "Homepage", "wordpress-seo" ) }
-			description={ __( "Choose how your Homepage should look in search engines and on social media. Note that this is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
+			description={ __( "Determine how your homepage should look in the search results and on social media. This is what people probably will see when they search for your brand name.", "wordpress-seo" ) }
 		>
-			{ homepageIsLatestPosts && <LatestPosts /> }
-			{ ! homepageIsLatestPosts && <PageAndPosts /> }
-		</FormLayout>
+			<FormLayout>
+				<div className="yst-max-w-5xl">
+					{ homepageIsLatestPosts && <LatestPosts /> }
+					{ ! homepageIsLatestPosts && <PageAndPosts /> }
+				</div>
+			</FormLayout>
+		</RouteLayout>
 	);
 };
 

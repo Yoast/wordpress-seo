@@ -101,7 +101,7 @@ class ReplacementVariableEditor extends React.Component {
 
 		return (
 			<FormSection
-				className="yst-replacevar"
+				className={ [ "yst-replacevar", isDisabled && "yst-replacevar--disabled" ].filter( Boolean ).join( " " ) }
 				onMouseEnter={ onMouseEnter }
 				onMouseLeave={ onMouseLeave }
 			>

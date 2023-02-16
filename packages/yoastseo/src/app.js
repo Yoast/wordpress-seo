@@ -1,7 +1,7 @@
 import SnippetPreview from "./snippetPreview/snippetPreview.js";
 
 import { setLocaleData } from "@wordpress/i18n";
-import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isString, isUndefined, merge, throttle } from "lodash-es";
+import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isString, isUndefined, merge, noop, throttle } from "lodash-es";
 import MissingArgument from "./errors/missingArgument";
 
 import SEOAssessor from "./scoring/seoAssessor.js";
@@ -29,12 +29,12 @@ var inputDebounceDelay = 800;
  */
 var defaults = {
 	callbacks: {
-		bindElementEvents: function() {},
-		updateSnippetValues: function() {},
-		saveScores: function() {},
-		saveContentScore: function() {},
-		updatedContentResults: function() {},
-		updatedKeywordsResults: function() {},
+		bindElementEvents: noop,
+		updateSnippetValues: noop,
+		saveScores: noop,
+		saveContentScore: noop,
+		updatedContentResults: noop,
+		updatedKeywordsResults: noop,
 	},
 	sampleText: {
 		baseUrl: "example.org/",
@@ -75,7 +75,7 @@ var defaults = {
 	replaceTarget: [],
 	resetTarget: [],
 	elementTarget: [],
-	marker: function() {},
+	marker: noop,
 	keywordAnalysisActive: true,
 	contentAnalysisActive: true,
 	hasSnippetPreview: true,

@@ -6,12 +6,19 @@
 			yst-items-center;
 		}
 
+		.yst-checkbox--disabled {
+			.yst-checkbox__input,
+			.yst-checkbox__label {
+				@apply yst-opacity-50 yst-cursor-not-allowed;
+			}
+		}
+
 		.yst-checkbox__input {
 			@apply
 			yst-h-4
 			yst-w-4
 			yst-text-primary-500
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-rounded
 
 			focus:yst-ring-primary-500;

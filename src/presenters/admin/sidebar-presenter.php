@@ -16,8 +16,8 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	 * @return string The sidebar HTML.
 	 */
 	public function present() {
-		$assets_uri              = \trailingslashit( \plugin_dir_url( WPSEO_FILE ) );
-		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
+		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
+		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 		\ob_start();
 		?>
 			<div class="wpseo_content_cell" id="sidebar-container">
@@ -42,17 +42,20 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									sizes="(min-width: 1321px) 75px">
 							</figure>
 						</figure>
-						<h2>
+						<h2 class="yoast-get-premium-title">
 							<?php
-							/* translators: %s expands to Yoast SEO Premium */
-							\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+							/* translators: %1$s and %2$s expand to a span wrap to avoid linebreaks. %3$s expands to "Yoast SEO Premium". */
+							\printf( \esc_html__( '%1$sGet%2$s %3$s', 'wordpress-seo' ), '<span>', '</span>', 'Yoast SEO Premium' );
 							?>
 						</h2>
 						<p>
-							<?php \esc_html_e( 'Be the first to get new features & tools, before everyone else. Get 24/7 support and boost your website’s visibility.', 'wordpress-seo' ); ?>
+							<?php
+							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
+							\printf( \esc_html__( 'Be the first to get %1$snew features & tools%2$s, before everyone else. Get %1$s 24/7 support%2$s and boost your website’s visibility.', 'wordpress-seo' ), '<strong>', '</strong>' );
+							?>
 						</p>
 						<p class="plugin-buy-button">
-							<a class="yoast-button-upsell" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
+							<a class="yoast-button-upsell" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" target="_blank" href="<?php echo \esc_url( $buy_yoast_seo_shortlink ); ?>">
 								<?php
 								/* translators: %s expands to Yoast SEO Premium */
 								\printf( \esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
@@ -66,14 +69,15 @@ class Sidebar_Presenter extends Abstract_Presenter {
 									<?php \esc_html_e( 'Read reviews from real users', 'wordpress-seo' ); ?>
 								</h3>
 								<span class="rating">
-								<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/logo-g2-white.svg' ); ?>">
-								<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-								<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-								<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-								<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
-								<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-half.svg' ); ?>">
-								<span class="rating-text">4.6 / 5</span>
-							</span>
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/logo-g2-white.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-star.svg' ); ?>">
+									<img alt="" loading="lazy" fetchpriority="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/star-rating-half.svg' ); ?>">
+									<span class="rating-text">4.6 / 5</span>
+
+								</span>
 							</a>
 						</div>
 					</div>

@@ -25,8 +25,8 @@
     ]
   },
   "scripts": {
-    "lint": "lerna run lint --",
-    "test": "lerna run test --stream --",
+    "lint": "lerna run lint --no-sort --",
+    "test": "lerna run test --no-sort --stream --",
     "build": "wp-scripts build --config config/webpack/webpack.config.js",
     "build:dev": "cross-env NODE_ENV=development wp-scripts build --config config/webpack/webpack.config.js",
     "build:css": "cross-env NODE_ENV=production postcss css/dist/*.css --verbose --replace",
@@ -45,12 +45,12 @@
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^17.1.0",
     "@wordproof/uikit": "1.0.41",
-    "@yoast/babel-preset": "^1.0.1",
+    "@yoast/babel-preset": "^1.1.0",
     "@yoast/browserslist-config": "^1.2.2",
-    "@yoast/grunt-plugin-tasks": "^2.3",
-    "@yoast/postcss-preset": "^1.0.1",
-    "@yoast/tailwindcss-preset": "^2.0.0",
-    "@yoast/ui-library": "^2.0.0",
+    "@yoast/grunt-plugin-tasks": "^2.4",
+    "@yoast/postcss-preset": "^1.2.0",
+    "@yoast/tailwindcss-preset": "^2.2.0",
+    "@yoast/ui-library": "^3.1.0",
     "autoprefixer": "^10.4.7",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "1.4.0",
@@ -61,7 +61,7 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-to-json": "^3.6.1",
     "eslint": "^7.32.0",
-    "eslint-config-yoast": "^5.0.17",
+    "eslint-config-yoast": "^5.1.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "grunt-git": "^1.0.14",
@@ -71,7 +71,7 @@
     "i18n-calypso": "^1.8.4",
     "jest": "^23.6.0",
     "jest-styled-components": "^7.0.3",
-    "lerna": "^4.0.0",
+    "lerna": "^6.4.1",
     "node-fetch": "^2.6.1",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
@@ -84,7 +84,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "19.7-RC10"
+    "pluginVersion": "20.2-RC3"
   },
   "version": "0.0.0"
 }

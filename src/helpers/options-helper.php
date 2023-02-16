@@ -118,25 +118,24 @@ class Options_Helper {
 	}
 
 	/**
-	 * Validates a social URL.
+	 * Checks whether a social URL is valid, with empty strings being valid social URLs.
 	 *
-	 * @param string $url The url to be validated.
+	 * @param string $url The url to be checked.
 	 *
-	 * @return string|false The validated URL or false if the URL is not valid.
+	 * @return bool Whether the URL is valid.
 	 */
-	public function validate_social_url( $url ) {
+	public function is_social_url_valid( $url ) {
 		return $url === '' || WPSEO_Option_Social::get_instance()->validate_social_url( $url );
 	}
 
 	/**
-	 * Validates a twitter id.
+	 * Checks whether a twitter id is valid, with empty strings being valid twitter id.
 	 *
-	 * @param string $twitter_id    The twitter id to be validated.
-	 * @param bool   $strip_at_sign Whether or not to strip the `@` sign.
+	 * @param string $twitter_id The twitter id to be checked.
 	 *
-	 * @return string|false The validated twitter id or false if it is not valid.
+	 * @return bool Whether the twitter id is valid.
 	 */
-	public function validate_twitter_id( $twitter_id, $strip_at_sign = true ) {
-		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, $strip_at_sign );
+	public function is_twitter_id_valid( $twitter_id ) {
+		return empty( $twitter_id ) || WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, false );
 	}
 }

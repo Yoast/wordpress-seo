@@ -11,6 +11,7 @@ const paper = new Paper( content, {
 		" como os suevos e os visigodos. No século VIII, as terras foram conquistadas pelos mouros. ",
 	title: "Portugal",
 	titleWidth: 450,
+	textTitle: "Portugal",
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/Portugal",
 	slug: "Portugal",
@@ -126,13 +127,13 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 7.8% of the sentences contain transition words," +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 9% of the sentences contain transition words," +
 			" which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.6% of the sentences contain passive voice, " +
+		score: 3,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 15.3% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Exceptions\Indexable\Not_Built_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -79,6 +80,13 @@ class Indexable_Builder {
 	private $primary_term_builder;
 
 	/**
+	 * The link builder
+	 *
+	 * @var Indexable_Link_Builder
+	 */
+	private $link_builder;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -113,6 +121,7 @@ class Indexable_Builder {
 	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
 	 * @param Indexable_Helper                    $indexable_helper          The indexable helper.
 	 * @param Indexable_Version_Manager           $version_manager           The indexable version manager.
+	 * @param Indexable_Link_Builder              $link_builder              The link builder for creating missing SEO links.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -125,7 +134,8 @@ class Indexable_Builder {
 		Indexable_Hierarchy_Builder $hierarchy_builder,
 		Primary_Term_Builder $primary_term_builder,
 		Indexable_Helper $indexable_helper,
-		Indexable_Version_Manager $version_manager
+		Indexable_Version_Manager $version_manager,
+		Indexable_Link_Builder $link_builder
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -138,6 +148,7 @@ class Indexable_Builder {
 		$this->primary_term_builder      = $primary_term_builder;
 		$this->indexable_helper          = $indexable_helper;
 		$this->version_manager           = $version_manager;
+		$this->link_builder              = $link_builder;
 	}
 
 	/**
@@ -300,6 +311,43 @@ class Indexable_Builder {
 	}
 
 	/**
+	 * Build and author indexable from an author id if it does not exist yet, or if the author indexable needs to be upgraded.
+	 *
+	 * @param int $author_id The author id.
+	 *
+	 * @return Indexable|false The author indexable if it has been built, `false` if it could not be built.
+	 */
+	protected function maybe_build_author_indexable( $author_id ) {
+		$author_indexable = $this->indexable_repository->find_by_id_and_type(
+			$author_id,
+			'user',
+			false
+		);
+		if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
+			// Try to build the author.
+			$author_defaults  = [
+				'object_type' => 'user',
+				'object_id'   => $author_id,
+			];
+			$author_indexable = $this->build( $author_indexable, $author_defaults );
+		}
+		return $author_indexable;
+	}
+
+	/**
+	 * Checks if the indexable type is one that is not supposed to have object ID for.
+	 *
+	 * @param string $type The type of the indexable.
+	 *
+	 * @return bool Whether the indexable type is one that is not supposed to have object ID for.
+	 */
+	private function is_type_with_no_id( $type ) {
+		return \in_array( $type, [ 'home-page', 'date-archive', 'post-type-archive', 'system-page' ], true );
+	}
+
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.Missing -- Exceptions are handled by the catch statement in the method.
+
+	/**
 	 * Rebuilds an Indexable from scratch.
 	 *
 	 * @param Indexable  $indexable The Indexable to (re)build.
@@ -315,6 +363,9 @@ class Indexable_Builder {
 		$indexable = $this->ensure_indexable( $indexable, $defaults );
 
 		try {
+			if ( $indexable->object_id === 0 ) {
+				throw Not_Built_Exception::invalid_object_id( $indexable->object_id );
+			}
 			switch ( $indexable->object_type ) {
 
 				case 'post':
@@ -324,26 +375,24 @@ class Indexable_Builder {
 						return $indexable;
 					}
 
+					// Save indexable, to make sure it can be queried when building related objects like the author indexable and hierarchy.
+					$indexable = $this->save_indexable( $indexable, $indexable_before );
+
+					// For attachments, we have to make sure to patch any potentially previously cleaned up SEO links.
+					if ( \is_a( $indexable, Indexable::class ) && $indexable->object_sub_type === 'attachment' ) {
+						$this->link_builder->patch_seo_links( $indexable );
+					}
+
 					// Always rebuild the primary term.
 					$this->primary_term_builder->build( $indexable->object_id );
 
 					// Always rebuild the hierarchy; this needs the primary term to run correctly.
 					$this->hierarchy_builder->build( $indexable );
 
-					// Rebuild the author indexable only when necessary.
-					$author_indexable = $this->indexable_repository->find_by_id_and_type(
-						$indexable->author_id,
-						'user',
-						false
-					);
-					if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
-						$author_defaults = [
-							'object_type' => 'user',
-							'object_id'   => $indexable->author_id,
-						];
-						$this->build( $author_indexable, $author_defaults );
-					}
-					break;
+					$this->maybe_build_author_indexable( $indexable->author_id );
+
+					// The indexable is already saved, so return early.
+					return $indexable;
 
 				case 'user':
 					$indexable = $this->author_builder->build( $indexable->object_id, $indexable );
@@ -351,8 +400,14 @@ class Indexable_Builder {
 
 				case 'term':
 					$indexable = $this->term_builder->build( $indexable->object_id, $indexable );
+
+					// Save indexable, to make sure it can be queried when building hierarchy.
+					$indexable = $this->save_indexable( $indexable, $indexable_before );
+
 					$this->hierarchy_builder->build( $indexable );
-					break;
+
+					// The indexable is already saved, so return early.
+					return $indexable;
 
 				case 'home-page':
 					$indexable = $this->home_page_builder->build( $indexable );
@@ -374,26 +429,35 @@ class Indexable_Builder {
 			return $this->save_indexable( $indexable, $indexable_before );
 		}
 		catch ( Source_Exception $exception ) {
+			if ( ! $this->is_type_with_no_id( $indexable->object_type ) && ( ! isset( $indexable->object_id ) || \is_null( $indexable->object_id ) ) ) {
+				return false;
+			}
 			/**
 			 * The current indexable could not be indexed. Create a placeholder indexable, so we can
 			 * skip this indexable in future indexing runs.
 			 *
 			 * @var Indexable $indexable
 			 */
-			$indexable = $this->indexable_repository
-				->query()
-				->create(
-					[
-						'object_id'   => $indexable->object_id,
-						'object_type' => $indexable->object_type,
-						'post_status' => 'unindexed',
-						'version'     => 0,
-					]
-				);
+			$indexable = $this->ensure_indexable(
+				$indexable,
+				[
+					'object_id'   => $indexable->object_id,
+					'object_type' => $indexable->object_type,
+					'post_status' => 'unindexed',
+					'version'     => 0,
+				]
+			);
+			// If we already had an existing indexable, mark it as unindexed. We cannot rely on its validity anymore.
+			$indexable->post_status = 'unindexed';
 			// Make sure that the indexing process doesn't get stuck in a loop on this broken indexable.
 			$indexable = $this->version_manager->set_latest( $indexable );
 
 			return $this->save_indexable( $indexable, $indexable_before );
 		}
+		catch ( Not_Built_Exception $exception ) {
+			return false;
+		}
 	}
+
+	// phpcs:enable
 }

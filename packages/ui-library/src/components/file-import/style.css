@@ -9,7 +9,7 @@
 			yst-rounded-md
 			yst-shadow-md
 			yst-border
-			yst-border-gray-300
+			yst-border-slate-300
 			yst-bg-white
 			yst-p-4;
 		}
@@ -27,7 +27,7 @@
 		}
 
 		.yst-file-import__feedback-title {
-			@apply yst-block yst-text-gray-800 yst-font-medium yst-mb-0.5 yst-break-words;
+			@apply yst-block yst-text-slate-800 yst-font-medium yst-mb-0.5 yst-break-words;
 		}
 
 		.yst-file-import__feedback-description {
@@ -43,10 +43,10 @@
 			yst-inline-flex
 			yst-items-center
 			yst-justify-center
-			yst-text-gray-500
-			yst-bg-gray-100
-			hover:yst-bg-gray-200
-			hover:yst-text-gray-600
+			yst-text-slate-500
+			yst-bg-slate-100
+			hover:yst-bg-slate-200
+			hover:yst-text-slate-600
 			focus:yst-outline-none
 			focus:yst-bg-primary-500
 			focus:yst-text-white;

@@ -1,14 +1,20 @@
+/* eslint-disable complexity */
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Radio, RadioGroup, SelectField, TextField } from "@yoast/ui-library";
+import { Alert, Badge, Button, FeatureUpsell, Link, Radio, RadioGroup, TextField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
-import { find, get, map } from "lodash";
+import { isEmpty } from "lodash";
+import AnimateHeight from "react-animate-height";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
-import { useSelectSettings } from "../store";
+import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
+import { withFormikDummyField } from "../hocs";
+import { useSelectSettings } from "../hooks";
+import { useCallback } from "@wordpress/element";
+
+const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -16,25 +22,41 @@ import { useSelectSettings } from "../store";
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
 	// eslint-disable-next-line camelcase
-	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
+	const {
+		website_name: websiteName,
+		company_or_person: companyOrPerson,
+		company_or_person_user_id: companyOrPersonId,
+		company_name: companyName,
+		company_logo_id: companyLogoId,
+	} = values.wpseo_titles;
 	const { other_social_urls: otherSocialUrls } = values.wpseo_social;
 
-	const users = useMemo( () => get( window, "wpseoScriptData.users", [] ), [] );
-	const userOptions = useMemo( () => map( users, user => ( { value: parseInt( user.id, 10 ), label: user.display_name } ) ), [ users ] );
-	const selectedUser = useMemo( () => (
-		find( users, user => companyOrPersonId === parseInt( user.id, 10 ) ) || users[ 0 ] || {}
-	), [ users, companyOrPersonId ] );
+	const personUser = useSelectSettings( "selectUserById", [ companyOrPersonId ], companyOrPersonId );
 	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
 	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
+	const organizationPersonLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-organization-person" );
 	const editUserUrl = useSelectSettings( "selectPreference", [], "editUserUrl" );
+	const isLocalSeoActive = useSelectSettings( "selectPreference", [], "isLocalSeoActive" );
+	const companyOrPersonMessage = useSelectSettings( "selectPreference", [], "companyOrPersonMessage" );
+	const siteLogoId = useSelectSettings( "selectFallback", [], "siteLogoId" );
+	const canEditUser = useSelectSettings( "selectCanEditUser", [ personUser?.id ], personUser?.id );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
+	const mastodonPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-mastodon-integration" );
+	const mastodonUrlLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-representation-mastodon" );
+
+	const handleAddProfile = useCallback( async( arrayHelpers ) => {
+		await arrayHelpers.push( "" );
+		document.getElementById( `input-wpseo_social-other_social_urls-${ otherSocialUrls.length }` )?.focus();
+	}, [ otherSocialUrls ] );
 
 	return (
-		<FormLayout
+		<RouteLayout
 			title={ __( "Site representation", "wordpress-seo" ) }
 			description={ addLinkToString(
 				sprintf(
 					// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-					__( "This info is intended to appear in %1$sGoogle's Knowledge Graph%2$s. You can be either an organization, or a person.", "wordpress-seo" ),
+					__( "This info is intended to appear in %1$sGoogle's Knowledge Graph%2$s.", "wordpress-seo" ),
 					"<a>",
 					"</a>"
 				),
@@ -42,194 +64,286 @@ const SiteRepresentation = () => {
 				"link-google-knowledge-graph"
 			) }
 		>
-			<section>
-				<RadioGroup label={ __( "Choose whether your site represents an organization or a person.", "wordpress-seo" ) }>
-					<Field
-						as={ Radio }
-						type="radio"
-						name="wpseo_titles.company_or_person"
-						id="input-wpseo_titles-company_or_person-company"
-						label={ __( "Organization", "wordpress-seo" ) }
-						value="company"
-					/>
-					<Field
-						as={ Radio }
-						type="radio"
-						name="wpseo_titles.company_or_person"
-						id="input-wpseo_titles-company_or_person-person"
-						label={ __( "Person", "wordpress-seo" ) }
-						value="person"
-					/>
-				</RadioGroup>
-			</section>
-			<hr className="yst-my-8" />
-			<div className="yst-relative">
-				<Transition
-					show={ companyOrPerson === "company" }
-					enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
-					enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-					enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leave="yst-transition yst-absolute yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
-					leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-				>
-					<FieldsetLayout title={ __( "Organization", "wordpress-seo" ) }>
-						<Alert id="alert-organization-name-logo" variant="warning">
-							{ addLinkToString(
-								sprintf(
-									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-									__( "An organization name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
-									"<a>",
-									"</a>"
-								),
-								structuredDataLink,
-								"link-structured-data"
-							) }
-						</Alert>
-						<Field
-							as={ TextField }
-							name="wpseo_titles.company_name"
-							id="input-wpseo_titles-company_name"
-							label={ __( "Organization name", "wordpress-seo" ) }
-						/>
-						<FormikMediaSelectField
-							id="wpseo_titles-company_logo"
-							label={ __( "Organization logo", "wordpress-seo" ) }
-							previewLabel={ createInterpolateElement(
-								// translators: %1$s expands to an opening strong tag.
-								// %2$s expands to a closing strong tag.
-								// %3$s expands to the recommended image size.
-								sprintf(
-									__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
-									"<strong>",
-									"</strong>",
-									"1200x675px"
-								), {
-									strong: <strong className="yst-font-semibold" />,
-								} ) }
-							mediaUrlName="wpseo_titles.company_logo"
-							mediaIdName="wpseo_titles.company_logo_id"
-						/>
+			<FormLayout>
+				<div className="yst-max-w-5xl">
+					<FieldsetLayout
+						title={ __( "Organization/person", "wordpress-seo" ) }
+						description={ addLinkToString(
+							sprintf(
+								// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+								__( "Choose whether your site represents an organization or a person. %1$sLearn more about the differences and choosing between Organization and Person%2$s.", "wordpress-seo" ),
+								"<a>",
+								"</a>"
+							),
+							organizationPersonLink,
+							"link-site-representation-organization-person"
+						) }
+					>
+						{ isLocalSeoActive && (
+							<Alert id="alert-local-seo-company-or-person" variant="info">
+								{ companyOrPersonMessage }
+							</Alert>
+						) }
+						<RadioGroup disabled={ isLocalSeoActive }>
+							<Field
+								as={ Radio }
+								type="radio"
+								name="wpseo_titles.company_or_person"
+								id="input-wpseo_titles-company_or_person-company"
+								label={ __( "Organization", "wordpress-seo" ) }
+								value="company"
+								disabled={ isLocalSeoActive }
+							/>
+							<Field
+								as={ Radio }
+								type="radio"
+								name="wpseo_titles.company_or_person"
+								id="input-wpseo_titles-company_or_person-person"
+								label={ __( "Person", "wordpress-seo" ) }
+								value="person"
+								disabled={ isLocalSeoActive }
+							/>
+						</RadioGroup>
 					</FieldsetLayout>
-				</Transition>
-				<Transition
-					show={ companyOrPerson === "person" }
-					enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
-					enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-					enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leave="yst-transition yst-absolute yst-top-0 yst-left-0 yst-ease-out yst-duration-300"
-					leaveFrom="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
-					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
-				>
-					<FieldsetLayout title={ __( "Personal info", "wordpress-seo" ) }>
-						<FormikValueChangeField
-							as={ SelectField }
-							name="wpseo_titles.company_or_person_user_id"
-							id="input-wpseo_titles-company_or_person_user_id"
-							label={ __( "Select a user", "wordpress-seo" ) }
-							options={ userOptions }
-						/>
-						<Alert id="alert-person-user-profile">
-							{ createInterpolateElement(
-								sprintf(
-									// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
-									// %3$s and %4$s are replaced by opening and closing <a> tags.
-									// %5$s is replaced by the selected user display name.
-									__( "You have selected the user %1$s%5$s%2$s as the person this site represents. Their user profile information will now be used in search results. %3$sUpdate their profile to make sure the information is correct%4$s.", "wordpress-seo" ),
-									"<strong>",
-									"</strong>",
-									"<a>",
-									"</a>",
-									selectedUser.display_name
-								), {
-									strong: <strong className="yst-font-medium" />,
-									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a
-										id="link-person-user-profile" href={ `${ editUserUrl }?user_id=${ selectedUser.id }` } target="_blank"
-										rel="noopener noreferrer"
-									/>,
-								} ) }
-						</Alert>
-						<FormikMediaSelectField
-							id="wpseo_titles-person_logo"
-							label={ __( "Personal logo or avatar", "wordpress-seo" ) }
-							variant="square"
-							previewLabel={ createInterpolateElement(
-								sprintf(
-									// translators: %1$s expands to an opening strong tag.
-									// %2$s expands to a closing strong tag.
-									// %3$s expands to the recommended image size.
-									__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
-									"<strong>",
-									"</strong>",
-									"696x696px"
-								), {
-									strong: <strong className="yst-font-semibold" />,
-								} ) }
-							mediaUrlName="wpseo_titles.person_logo"
-							mediaIdName="wpseo_titles.person_logo_id"
-						/>
-					</FieldsetLayout>
-				</Transition>
-			</div>
-			<hr className="yst-my-8" />
-			<FieldsetLayout
-				title={ __( "Other profiles", "wordpress-seo" ) }
-				description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
-			>
-				<FormikWithErrorField
-					as={ TextField }
-					name="wpseo_social.facebook_site"
-					id="input-wpseo_social-facebook_site"
-					label={ __( "Facebook", "wordpress-seo" ) }
-					placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
-				/>
-				<FormikWithErrorField
-					as={ TextField }
-					name="wpseo_social.instagram_site"
-					id="input-wpseo_social-instagram_site"
-					label={ __( "Instagram", "wordpress-seo" ) }
-					placeholder={ __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
-				/>
-				<FormikWithErrorField
-					as={ TextField }
-					name="wpseo_social.twitter_site"
-					id="input-wpseo_social-twitter_site"
-					label={ __( "Twitter", "wordpress-seo" ) }
-					placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
-				/>
-				<FieldArray name="wpseo_social.other_social_urls">
-					{ arrayHelpers => (
-						<>
-							{ otherSocialUrls.map( ( _, index ) => (
-								<div key={ `wpseo_social.other_social_urls.${ index }` } className="yst-w-full yst-flex yst-items-start yst-gap-2">
-									<FormikWithErrorField
+					<section className="yst-space-y-8" />
+					<hr className="yst-my-8" />
+					<div className="yst-relative">
+						<AnimateHeight
+							easing="ease-out"
+							duration={ 300 }
+							delay={ 300 }
+							height={ companyOrPerson === "company" ? "auto" : 0 }
+							animateOpacity={ true }
+						>
+							<FieldsetLayout
+								title={ __( "Organization", "wordpress-seo" ) }
+								description={ __( "Please tell us more about your organization. This information will help Google to understand your website, and improve your chance of getting rich results.", "wordpress-seo" ) }
+							>
+								{ ( ! companyName || companyLogoId < 1 ) && (
+									<Alert id="alert-organization-name-logo" variant="info">
+										{ addLinkToString(
+											sprintf(
+												// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
+												__( "An organization name and logo need to be set for structured data to work properly. Since you haven’t set these yet, we are using the site name and logo as default values. %1$sLearn more about the importance of structured data%2$s.", "wordpress-seo" ),
+												"<a>",
+												"</a>"
+											),
+											structuredDataLink,
+											"link-structured-data"
+										) }
+									</Alert>
+								) }
+								<Field
+									as={ TextField }
+									name="wpseo_titles.company_name"
+									id="input-wpseo_titles-company_name"
+									label={ __( "Organization name", "wordpress-seo" ) }
+									placeholder={ websiteName }
+								/>
+								<Field
+									as={ TextField }
+									name="wpseo_titles.company_alternate_name"
+									id="input-wpseo_titles-company_alternate_name"
+									label={ __( "Alternate organization name", "wordpress-seo" ) }
+									description={ __( "Use the alternate organization name for acronyms, or a shorter version of your organization's name.", "wordpress-seo" ) }
+								/>
+								<FormikMediaSelectField
+									id="wpseo_titles-company_logo"
+									label={ __( "Organization logo", "wordpress-seo" ) }
+									variant="square"
+									previewLabel={ createInterpolateElement(
+										sprintf(
+											// translators: %1$s expands to an opening strong tag.
+											// %2$s expands to a closing strong tag.
+											// %3$s expands to the recommended image size.
+											__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
+											"<strong>",
+											"</strong>",
+											"696x696px"
+										), {
+											strong: <strong className="yst-font-semibold" />,
+										} ) }
+									mediaUrlName="wpseo_titles.company_logo"
+									mediaIdName="wpseo_titles.company_logo_id"
+									fallbackMediaId={ siteLogoId }
+								/>
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								id="fieldset-wpseo_social-other_social_urls"
+								title={ __( "Other profiles", "wordpress-seo" ) }
+								description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
+							>
+								<FormikWithErrorField
+									as={ TextField }
+									name="wpseo_social.facebook_site"
+									id="input-wpseo_social-facebook_site"
+									label={ __( "Facebook", "wordpress-seo" ) }
+									placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
+								/>
+								<FormikWithErrorField
+									as={ TextField }
+									name="wpseo_social.twitter_site"
+									id="input-wpseo_social-twitter_site"
+									label={ __( "Twitter", "wordpress-seo" ) }
+									placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
+								/>
+								<FeatureUpsell
+									shouldUpsell={ ! isPremium }
+									variant="card"
+									cardLink={ mastodonPremiumLink }
+									cardText={ sprintf(
+										/* translators: %1$s expands to Premium. */
+										__( "Unlock with %1$s", "wordpress-seo" ),
+										"Premium"
+									) }
+									{ ...premiumUpsellConfig }
+								>
+									<FormikWithErrorFieldWithDummy
 										as={ TextField }
-										name={ `wpseo_social.other_social_urls.${ index }` }
-										id={ `input-wpseo_social-other_social_urls-${ index }` }
-										label={ __( "Add another profile", "wordpress-seo" ) }
-										placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
-										className="yst-grow"
+										name="wpseo_social.mastodon_url"
+										id="input-wpseo_social-mastodon_url"
+										label={ __( "Mastodon", "wordpress-seo" ) }
+										placeholder={ __( "E.g. https://mastodon.social/@yoast", "wordpress-seo" ) }
+										labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
+										isDummy={ ! isPremium }
+										description={ <>
+											{ __( "Get your site verified in your Mastodon profile.", "wordpress-seo" )	}
+											{ " " }
+											<Link id="link-wpseo_social-mastodon_url" href={ mastodonUrlLink } target="_blank" rel="noopener">
+												{ __( "Read more about how to get your site verified.", "wordpress-seo" ) }
+											</Link>
+										</> }
 									/>
-									<button
-										// eslint-disable-next-line react/jsx-no-bind
-										onClick={ arrayHelpers.remove.bind( null, index ) }
-										className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
-									>
-										<TrashIcon className="yst-h-5 yst-w-5" />
-									</button>
-								</div>
-							) ) }
-							{ /* eslint-disable-next-line react/jsx-no-bind */ }
-							<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
-								<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-gray-400" />
-								{ __( "Add another profile", "wordpress-seo" ) }
-							</Button>
-						</>
-					) }
-				</FieldArray>
-			</FieldsetLayout>
-		</FormLayout>
+								</FeatureUpsell>
+								<FieldArray name="wpseo_social.other_social_urls">
+									{ arrayHelpers => (
+										<>
+											{ otherSocialUrls.map( ( _, index ) => (
+												<Transition
+													key={ `wpseo_social.other_social_urls.${ index }` }
+													as={ Fragment }
+													appear={ true }
+													show={ true }
+													enter="yst-transition yst-ease-out yst-duration-300"
+													enterFrom="yst-transform yst-opacity-0"
+													enterTo="yst-transform yst-opacity-100"
+													leave="yst-transition yst-ease-out yst-duration-300"
+													leaveFrom="yst-transform yst-opacity-100"
+													leaveTo="yst-transform yst-opacity-0"
+												>
+													<div className="yst-w-full yst-flex yst-items-start yst-gap-2">
+														<FormikWithErrorField
+															as={ TextField }
+															name={ `wpseo_social.other_social_urls.${ index }` }
+															id={ `input-wpseo_social-other_social_urls-${ index }` }
+															// translators: %1$s expands to array index + 1.
+															label={ sprintf( __( "Other profile %1$s", "wordpress-seo" ), index + 1 ) }
+															placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
+															className="yst-grow"
+														/>
+														<Button
+															variant="secondary"
+															// eslint-disable-next-line react/jsx-no-bind
+															onClick={ arrayHelpers.remove.bind( null, index ) }
+															className="yst-mt-7 yst-p-2.5"
+															// translators: %1$s expands to array index + 1.
+															aria-label={ sprintf( __( "Remove Other profile %1$s", "wordpress-seo" ), index + 1 ) }
+														>
+															<TrashIcon className="yst-h-5 yst-w-5" />
+														</Button>
+													</div>
+												</Transition>
+											) ) }
+											{ /* eslint-disable-next-line react/jsx-no-bind */ }
+											<Button id="button-add-social-profile" variant="secondary" onClick={ ()=>handleAddProfile( arrayHelpers ) }>
+												<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-slate-400" />
+												{ __( "Add another profile", "wordpress-seo" ) }
+											</Button>
+										</>
+									) }
+								</FieldArray>
+							</FieldsetLayout>
+						</AnimateHeight>
+						<AnimateHeight
+							easing="ease-out"
+							duration={ 300 }
+							delay={ 300 }
+							height={ companyOrPerson === "person" ? "auto" : 0 }
+							animateOpacity={ true }
+						>
+							<FieldsetLayout
+								title={ __( "Personal info", "wordpress-seo" ) }
+								description={ __( "Please tell us more about the person this site represents.", "wordpress-seo" ) }
+							>
+								<FormikUserSelectField
+									name="wpseo_titles.company_or_person_user_id"
+									id="input-wpseo_titles-company_or_person_user_id"
+									label={ __( "Select a user", "wordpress-seo" ) }
+									className="yst-max-w-sm"
+								/>
+								{ ! isEmpty( personUser ) && (
+									<Alert id="alert-person-user-profile">
+										{ canEditUser && createInterpolateElement(
+											sprintf(
+												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+												// %3$s and %4$s are replaced by opening and closing <a> tags.
+												// %5$s is replaced by the selected user display name.
+												__( "You have selected the user %1$s%5$s%2$s as the person this site represents. Their user profile information will now be used in search results. %3$sUpdate their profile to make sure the information is correct%4$s.", "wordpress-seo" ),
+												"<strong>",
+												"</strong>",
+												"<a>",
+												"</a>",
+												personUser?.name
+											), {
+												strong: <strong className="yst-font-medium" />,
+												// eslint-disable-next-line jsx-a11y/anchor-has-content
+												a: <a
+													id="link-person-user-profile" href={ `${ editUserUrl }?user_id=${ personUser?.id }` }
+													target="_blank" rel="noopener noreferrer"
+												/>,
+											} ) }
+										{ ! canEditUser && createInterpolateElement(
+											sprintf(
+												// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
+												// %3$s is replaced by the selected user display name.
+												__( "You have selected the user %1$s%3$s%2$s as the person this site represents. Their user profile information will now be used in search results. We're sorry, you're not allowed to edit this user's profile. Please contact your admin or %1$s%3$s%2$s to check and/or update the profile.", "wordpress-seo" ),
+												"<strong>",
+												"</strong>",
+												personUser?.name
+											), {
+												strong: <strong className="yst-font-medium" />,
+											} ) }
+									</Alert>
+								) }
+
+								<FormikMediaSelectField
+									id="wpseo_titles-person_logo"
+									label={ __( "Personal logo or avatar", "wordpress-seo" ) }
+									variant="square"
+									previewLabel={ createInterpolateElement(
+										sprintf(
+											// translators: %1$s expands to an opening strong tag.
+											// %2$s expands to a closing strong tag.
+											// %3$s expands to the recommended image size.
+											__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
+											"<strong>",
+											"</strong>",
+											"696x696px"
+										), {
+											strong: <strong className="yst-font-semibold" />,
+										} ) }
+									mediaUrlName="wpseo_titles.person_logo"
+									mediaIdName="wpseo_titles.person_logo_id"
+									fallbackMediaId={ siteLogoId }
+									disabled={ ! companyOrPersonId }
+								/>
+							</FieldsetLayout>
+						</AnimateHeight>
+					</div>
+				</div>
+			</FormLayout>
+		</RouteLayout>
 	);
 };
 

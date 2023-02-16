@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "完了形（かんりょうけい）とは、述語で表現される事象が、叙述中で基準となる時点で完了していることを表現する文法的形式。" +
 		"英語の\"have＋過去分詞\"などが代表的である。",
 	title: "完了形",
+	textTitle: "完了形",
 	titleWidth: 450,
 	locale: "ja",
 	permalink: "https://ja.wikipedia.org/wiki/%E5%AE%8C%E4%BA%86%E5%BD%A2",
@@ -65,7 +66,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 3165 characters. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 3022 characters. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,

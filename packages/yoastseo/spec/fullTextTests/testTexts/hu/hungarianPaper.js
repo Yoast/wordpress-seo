@@ -8,6 +8,7 @@ const paper = new Paper( content, {
 	synonyms: "világegyetem",
 	description: "A világegyetem (latinosan univerzum) csillagászati fogalom, minden létező összességét jelenti.",
 	title: "Világegyetem",
+	textTitle: "Világegyetem",
 	titleWidth: 450,
 	locale: "hu_HU",
 	permalink: "https://hu.wikipedia.org/wiki/Vil%C3%A1gegyetem",
@@ -111,7 +112,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 13.1% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 12.5% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,

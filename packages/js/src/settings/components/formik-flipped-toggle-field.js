@@ -22,9 +22,9 @@ const FormikFlippedToggleField = props => {
 	return (
 		<ToggleField
 			{ ...field }
-			{ ...props }
 			checked={ isUndefined( props.checked ) ? ! field.checked : ! props.checked }
 			onChange={ handleChange }
+			{ ...props }
 		/>
 	);
 };

@@ -197,6 +197,11 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 */
 	public function sanitize_url_provider() {
 		return [
+			// Related issue: https://github.com/Yoast/wordpress-seo/issues/17099.
+			'with_at_sign_in_url_path'       => [
+				'expected'        => 'https://example.org/test1/@test2',
+				'url_to_sanitize' => 'https://example.org/test1/@test2',
+			],
 			// Related issue: https://github.com/Yoast/wordpress-seo/issues/14476.
 			'with_encoded_url'               => [
 				'expected'        => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',

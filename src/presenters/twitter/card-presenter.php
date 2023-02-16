@@ -26,8 +26,7 @@ class Card_Presenter extends Abstract_Indexable_Tag_Presenter {
 		/**
 		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter card type.
 		 *
-		 * @api string $card_type The card type.
-		 *
+		 * @param string $card_type The card type.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return \trim( \apply_filters( 'wpseo_twitter_card_type', $this->presentation->twitter_card, $this->presentation ) );
