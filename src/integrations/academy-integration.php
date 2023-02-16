@@ -81,7 +81,6 @@ class Academy_Integration implements Integration_Interface {
 		}
 	}
 
-
 	/**
 	 * Adds the page.
 	 *
