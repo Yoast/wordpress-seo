@@ -55,6 +55,30 @@ export default class TextAlignmentAssessment extends Assessment {
 	}
 
 	/**
+	 * Marks all long center-aligned texts.
+	 *
+	 * @param {object} paper        The paper to use for the assessment.
+	 * @param {object} researcher   The researcher used for calling research.
+	 *
+	 * @returns {object} All marked long center-aligned texts.
+	 */
+	getMarks( paper, researcher ) {
+		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedText" );
+		// For example: [ {text: "abc", typeOfBlock: "heading"}, {text: "123", typeOfBlock: "paragraph"} ].
+		return longCenterAlignedTexts.map( longCenterAlignedText => {
+			let text = longCenterAlignedText.text;
+			const fieldsToMark = longCenterAlignedText.typeOfBlock;
+			text = stripIncompleteTags( text );
+			const marked = addMark( text );
+			return new Mark( {
+				original: text,
+				marked: marked,
+				fieldsToMark: fieldsToMark,
+			} );
+		} );
+	}
+
+	/**
 	 * Checks whether the paper has text.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
