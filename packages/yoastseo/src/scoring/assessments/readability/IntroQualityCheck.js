@@ -30,7 +30,7 @@ export default class IntroQualityCheck extends Assessment {
 				bad: 3,
 			},
 		};
-
+		console.log( "config", config );
 		// Add cornerstone and/or product-specific config if applicable.
 		this._config = merge( defaultConfig, config );
 
@@ -77,6 +77,8 @@ export default class IntroQualityCheck extends Assessment {
 	getFirstTwoParagraphs( paper ) {
 		const text = paper.getText();
 		const paragraphs = matchParagraphs( text );
+		console.log( paragraphs.slice( 0, 2 ), "FIRST TWO PARAGRAPHS" );
+
 		return paragraphs.slice( 0, 2 );
 	}
 
@@ -109,11 +111,11 @@ export default class IntroQualityCheck extends Assessment {
 
 		const firstTwoParagraphs = this.getFirstTwoParagraphs( paper );
 		this.doesContainTooLongParagraphs = this.containsTooLongParagraphs( firstTwoParagraphs );
-		// const calculatedScore = this.calculateResult();
+		const calculatedScore = this.calculateResult();
 
 		const assessmentResult = new AssessmentResult();
-		// assessmentResult.setScore( calculatedScore.score );
-		// assessmentResult.setText( calculatedScore.resultText );
+		assessmentResult.setScore( calculatedScore.score );
+		assessmentResult.setText( calculatedScore.resultText );
 
 		return assessmentResult;
 	}
