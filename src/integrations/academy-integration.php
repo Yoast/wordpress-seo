@@ -3,11 +3,11 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Product_Helper;
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
-use WPSEO_Shortlinker;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 
 /**
  * Class Settings_Integration.
@@ -51,7 +51,7 @@ class Academy_Integration implements Integration_Interface {
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->current_page_helper = $current_page_helper;
-		$this->product_helper = $product_helper;
+		$this->product_helper      = $product_helper;
 	}
 
 	/**
@@ -109,7 +109,6 @@ class Academy_Integration implements Integration_Interface {
 		return $pages;
 	}
 
-
 	/**
 	 * Displays the page.
 	 */
@@ -143,14 +142,23 @@ class Academy_Integration implements Integration_Interface {
 		\remove_all_actions( 'all_admin_notices' );
 	}
 
+	/**
+	 * Creates the script data.
+	 *
+	 * @return array The script data.
+	 */
 	public function get_script_data() {
 		return [
 			'preferences' => [
-				'isPremium' => $this->product_helper->is_premium(),
-				'isRtl'     => \is_rtl(),
+				'isPremium'      => $this->product_helper->is_premium(),
+				'isRtl'          => \is_rtl(),
+				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
+				'upsellSettings' => [
+					'actionId'     => 'load-nfd-ctb',
+					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
+				],
 			],
 			'linkParams'  => WPSEO_Shortlinker::get_query_params(),
 		];
 	}
-
 }

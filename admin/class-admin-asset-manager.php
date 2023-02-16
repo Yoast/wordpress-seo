@@ -631,6 +631,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'new-settings-' . $flat_version,
 			],
 			[
+				'name' => 'academy',
+				'src'  => 'academy-' . $flat_version,
+			],
+			[
 				'name' => 'workouts',
 				'src'  => 'workouts-' . $flat_version,
 				'deps' => [
