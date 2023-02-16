@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { defaultTo, get, isEmpty } from "lodash";
+import { get } from "lodash";
 
 /**
  * @returns {Object} The initial state.
