@@ -42,6 +42,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"redirect-old-features-tab": `${ sourceDirectory }/redirect-old-features-tab.js`,
 	settings: `${ sourceDirectory }/settings.js`,
 	"new-settings": `${ sourceDirectory }/settings/initialize.js`,
+	"academy": `${ sourceDirectory }/academy/initialize.js`,
 	"structured-data-blocks": `${ sourceDirectory }/structured-data-blocks.js`,
 	"term-edit": `${ sourceDirectory }/term-edit.js`,
 	"used-keywords-assessment": `${ sourceDirectory }/used-keywords-assessment.js`,
