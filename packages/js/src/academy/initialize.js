@@ -3,12 +3,9 @@ import { select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
-import { get } from "lodash";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import registerStore from "./store";
-
-
 
 /**
  * Enforce a minimum height on the WP content that is the height of the WP menu.
