@@ -91,7 +91,7 @@ export default class IntroQualityCheck extends Assessment {
 			return words.length;
 		} );
 
-		return paragraphLengths.some( number => number > this._config.recommendedLength );
+		return paragraphLengths.some( number => number > this._config.recommendedParagraphLength );
 	}
 
 
@@ -162,7 +162,7 @@ export default class IntroQualityCheck extends Assessment {
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					this._config.urlCallToAction, // TODO: Change url. 
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
