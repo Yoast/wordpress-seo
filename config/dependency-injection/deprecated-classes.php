@@ -31,6 +31,7 @@ use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\Events_Calendar_Schema;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexables_Page_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Social_Templates_Integration;
 use Yoast\WP\SEO\Integrations\Schema_Blocks;
 use Yoast\WP\SEO\Integrations\Third_Party\CoAuthors_Plus;
@@ -56,6 +57,7 @@ $deprecated_classes = [
 	Schema_Blocks_Conditional::class            => '20.5',
 	Schema_Blocks::class                        => '20.5',
 	Icons::class                                => '20.5',
+	Old_Premium_Integration::class              => '20.7',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
