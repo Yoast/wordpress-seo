@@ -40,6 +40,13 @@ describe( "a test for getting blocks of too long center aligned text", function(
 			{ text: "This is a heading with a bit more than fifty characters.", typeOfBlock: "heading" },
 		] );
 	} );
+	it( "also detects the center-aligned elements if the class name is in single quotes", function() {
+		const mockPaper = new Paper( "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters." +
+			"</p><p class='has-text-align-center'>This is a short text.</p>" );
+		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [
+			{ text: "This is a paragraph with a bit more than fifty characters.", typeOfBlock: "paragraph" },
+		] );
+	} );
 	it( "does not include html tags in the character count", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This text is too long if you count html tags.</p>" );
 		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [] );

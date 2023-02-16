@@ -31,6 +31,7 @@ import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLengt
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
 import { getFieldsToMark } from "./helpers/html/getFieldsToMark";
+import { normalize } from "./helpers/sanitize/quotes";
 
 export {
 	AbstractResearcher,
@@ -68,4 +69,5 @@ export {
 	unifyAllSpaces,
 	normalizeHTML,
 	stripIncompleteTags,
+	normalize,
 };

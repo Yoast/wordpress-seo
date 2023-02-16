@@ -1,8 +1,8 @@
 import { map } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { sanitizeString } = languageProcessing;
+const { sanitizeString, normalize } = languageProcessing;
 
-const centerAlignClass = "class=\"has-text-align-center\"";
+const centerAlignRegex = /class=["']has-text-align-center["']/i;
 const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
 const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
 
@@ -41,7 +41,7 @@ const getLongCenterAlignedElements = function( elements ) {
 
 	// Get all elements that have the .has-text-align-center class.
 	elements.forEach( element => {
-		if ( element.includes( centerAlignClass ) ) {
+		if ( centerAlignRegex.test( element ) ) {
 			elementsWithCenterAlignedText.push( element );
 		}
 	} );
@@ -69,7 +69,10 @@ const getLongCenterAlignedElements = function( elements ) {
  * @returns {Object[]}	An array of objects for each too long center-aligned paragraph/heading.
  */
 export default function getLongBlocksOfCenterAlignedText( paper ) {
-	const text = paper.getText();
+	let text = paper.getText();
+	// Normalize quotes.
+	text = normalize( text );
+	console.log( text, "Text" );
 	const allParagraphs = getAllElementsFromText( text, paragraphsRegex );
 	const allHeadings = getAllElementsFromText( text, headingsRegex );
 	const longBlocksOfCenterAlignedText = [];
