@@ -31,6 +31,7 @@ export const Variants = ( args ) => (
 		<StoryComponent variant="info">Info (default)</StoryComponent>
 		<StoryComponent variant="upsell">Upsell</StoryComponent>
 		<StoryComponent variant="plain">Plain</StoryComponent>
+		<StoryComponent variant="primary">Primary</StoryComponent>
 	</div>
 );
 

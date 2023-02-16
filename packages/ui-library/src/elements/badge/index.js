@@ -8,6 +8,7 @@ const classNameMap = {
 		info: "yst-badge--info",
 		upsell: "yst-badge--upsell",
 		plain: "yst-badge--plain",
+		primary: "yst-badge--primary",
 	},
 	size: {
 		"default": "",
