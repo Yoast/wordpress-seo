@@ -186,7 +186,8 @@ td .wpseo-score-icon {
 .fixed th.column-wpseo-score,
 .fixed th.column-wpseo-score-readability,
 .fixed th.column-wpseo-links,
-.fixed th.column-wpseo-linked {
+.fixed th.column-wpseo-linked,
+.fixed th.column-wpseo-cornerstone {
   /* 42px */
   width: 3em;
   padding: 0;
@@ -203,7 +204,8 @@ td .wpseo-score-icon {
 th.column-wpseo-links a,
 th.column-wpseo-linked a,
 th.column-wpseo-score .yoast-tooltip,
-th.column-wpseo-score-readability .yoast-tooltip {
+th.column-wpseo-score-readability .yoast-tooltip,
+th.column-wpseo-cornerstone .yoast-tooltip {
   overflow: visible;
   /* Override WP property to make tooltips visible. */
   display: inline-block;
@@ -267,6 +269,11 @@ th.column-wpseo-score-readability.sorted .yoast-tooltip {
 
 .manage-column .yoast-column-readability:before {
   background: transparent url("../../images/readability-icon.svg") no-repeat 0 0;
+  background-size: 20px;
+}
+
+.manage-column .yoast-column-cornerstone:before {
+  background: transparent url("../../images/cornerstone-icon.svg") no-repeat 0 3px;
   background-size: 20px;
 }
 
