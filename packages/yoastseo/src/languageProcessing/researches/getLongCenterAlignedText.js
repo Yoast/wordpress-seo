@@ -3,54 +3,30 @@ import { languageProcessing } from "yoastseo";
 const { sanitizeString } = languageProcessing;
 
 const centerAlignClass = "class=\"has-text-align-center\"";
+const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
+const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
 
-// TODO: mostly duplicate code from matchParagraphs.js, see if we can avoid the duplicate code.
 /**
  * Matches the paragraphs in <p>-tags and returns the text in them.
  *
- * @param {string} text The text to match paragraph in.
+ * @param {string} text 		The text to match the element in.
+ * @param {RegExp} elementRegex The regex for matching the element.
  *
  * @returns {array} An array containing all paragraphs texts.
  */
-const getParagraphsInTags = function( text ) {
-	const paragraphs = [];
-	// Matches everything between the <p> and </p> tags.
-	const regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
+const getAllElementsFromText = function( text, elementRegex ) {
+	const elements = [];
 	let match;
 
-	while ( ( match = regex.exec( text ) ) !== null ) {
-		paragraphs.push( match );
+	while ( ( match = elementRegex.exec( text ) ) !== null ) {
+		elements.push( match );
 	}
 
-	// Returns the content of the paragraphs.
-	return map( paragraphs, function( paragraph ) {
-		return paragraph[ 0 ];
+	// Returns the whole element, including html tags.
+	return map( elements, function( element ) {
+		return element[ 0 ];
 	} );
 };
-
-// TODO: consider adding this function inside getSubheadings.js so that all functions related to getting subheadings are in one place. Make into function and pass regex.
-/**
- * Gets all subheadings from the text and returns these in an array.
- *
- * @param {string} text The text to return the headings from.
- *
- * @returns {Array<string[]>} Matches of subheadings in the text, first key is everything including tags,
- *                            second is the heading level, third is the content of the subheading.
- */
-function getAllSubheadings( text ) {
-	const subheadings = [];
-	const regex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
-	let match;
-
-	while ( ( match = regex.exec( text ) ) !== null ) {
-		subheadings.push( match );
-	}
-
-	// Returns content of the headings.
-	return map( subheadings, function( subheading ) {
-		return subheading[ 0 ];
-	} );
-}
 
 /**
  *
@@ -85,8 +61,8 @@ const getLongCenterAlignedElements = function( elements ) {
  */
 export default function getLongBlocksOfCenterAlignedText( paper ) {
 	const text = paper.getText();
-	const allParagraphs = getParagraphsInTags( text );
-	const allHeadings = getAllSubheadings( text );
+	const allParagraphs = getAllElementsFromText( text, paragraphsRegex );
+	const allHeadings = getAllElementsFromText( text, headingsRegex );
 	const longBlocksOfCenterAlignedText = [];
 
 	const longParagraphsWithCenterAlignedText = getLongCenterAlignedElements( allParagraphs );
@@ -106,9 +82,3 @@ export default function getLongBlocksOfCenterAlignedText( paper ) {
 
 	return longBlocksOfCenterAlignedText;
 }
-
-
-/*
-[
-	{ text: "gsdg", typeOfBlock: "heading" }, { text: "gfgss", typeOfBlock: "paragraph" }
-]*/

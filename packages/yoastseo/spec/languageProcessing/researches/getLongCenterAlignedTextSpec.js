@@ -2,14 +2,6 @@ import getLongCenterAlignedText from "../../../src/languageProcessing/researches
 import Paper from "../../../src/values/Paper.js";
 
 describe( "a test for getting blocks of too long center aligned text", function() {
-	it( "returns an empty array if no long blocks of center aligned text are found", function() {
-		const mockPaper = new Paper( "<p>Lorem ipsum</p><h3>heading</h3>" );
-		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [] );
-	} );
-	it( "returns an empty array if a block with center aligned text that's not too long is found", function() {
-		const mockPaper = new Paper( "<p class=\"has-text-align-center\">Lorem ipsum</p><h4 class=\"has-text-align-center\">Lorem ipsum</h4>" );
-		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [] );
-	} );
 	it( "returns the text and type of block if a too long paragraph with center aligned text is found", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters." +
 			"</p><p class=\"has-text-align-center\">This is a short text.</p>" );
@@ -50,6 +42,18 @@ describe( "a test for getting blocks of too long center aligned text", function(
 	} );
 	it( "does not include html tags in the character count", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This text is too long if you count html tags.</p>" );
+		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [] );
+	} );
+	it( "returns an empty array if no long blocks of center aligned text are found", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum</p><h3>heading</h3>" );
+		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [] );
+	} );
+	it( "returns an empty array if a block with short center aligned text is found", function() {
+		const mockPaper = new Paper( "<p class=\"has-text-align-center\">Lorem ipsum</p><h4 class=\"has-text-align-center\">Lorem ipsum</h4>" );
+		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [] );
+	} );
+	it( "returns an empty array if the element with center alignment is not a paragraph or a heading", function() {
+		const mockPaper = new Paper( "<ul class=\"has-text-align-center\"><li>List item</li></ul>" );
 		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [] );
 	} );
 } );
