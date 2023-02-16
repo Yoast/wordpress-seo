@@ -4,7 +4,6 @@ import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { getSentences } from "../../../languageProcessing";
-import checkForTooLongSentences from "../../helpers/assessments/checkForTooLongSentences";
 import getWords from "../../../languageProcessing/helpers/word/getWords.js";
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
