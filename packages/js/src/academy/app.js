@@ -2,14 +2,8 @@ import { LockOpenIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-import { Badge, Button, Card, Title, useSvgAria } from "@yoast/ui-library";
+import { Badge, Button, Card, Link, Title, useSvgAria } from "@yoast/ui-library";
 import { useSelectAcademy } from "./hooks";
-
-const AVAILABILITY = {
-	premium: "premium",
-	free: "free",
-	sample: "sample",
-};
 
 /**
  * @returns {JSX.Element} The app component.
@@ -30,7 +24,7 @@ const App = () => {
 			imageAlt: __( "Logo with a spider", "wordpress-seo" ),
 			startLink: addQueryArgs( "https://academy.yoast.com/courses/technical-seo-crawlability-and-indexability/", linkParams ),
 			upsellLink: addQueryArgs( "https://academy.yoast.com/courses/technical-seo-crawlability-and-indexability/", linkParams ),
-			availability: AVAILABILITY.premium,
+			isPremium: true,
 		},
 		{
 			id: "crawlability_free",
@@ -40,7 +34,7 @@ const App = () => {
 			imageAlt: __( "Logo with a spider", "wordpress-seo" ),
 			startLink: addQueryArgs( "https://academy.yoast.com/courses/technical-seo-crawlability-and-indexability/", linkParams ),
 			upsellLink: addQueryArgs( "https://academy.yoast.com/courses/technical-seo-crawlability-and-indexability/", linkParams ),
-			availability: AVAILABILITY.free,
+			isPremium: false,
 		},
 		{
 			id: "crawlability_sample",
@@ -50,7 +44,7 @@ const App = () => {
 			imageAlt: __( "Logo with a spider", "wordpress-seo" ),
 			startLink: addQueryArgs( "https://academy.yoast.com/courses/technical-seo-crawlability-and-indexability/", linkParams ),
 			upsellLink: addQueryArgs( "https://academy.yoast.com/courses/technical-seo-crawlability-and-indexability/", linkParams ),
-			availability: AVAILABILITY.sample,
+			isPremium: true,
 		},
 	] ), [ linkParams ] );
 
@@ -79,14 +73,9 @@ const App = () => {
 										loading="lazy"
 										decoding="async"
 									/>
-									{ ( course.availability === AVAILABILITY.free || course.availability === AVAILABILITY.sample ) && (
+									{ ! course.isPremium && (
 										<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-											{ course.availability === AVAILABILITY.free &&
-												<Badge size="small" variant="primary">{ __( "Free", "wordpress-seo" ) }</Badge>
-											}
-											{ course.availability === AVAILABILITY.sample &&
-												<Badge size="small" variant="primary">{ __( "Free sample available", "wordpress-seo" ) }</Badge>
-											}
+											<Badge size="small" variant="primary">{ __( "Free", "wordpress-seo" ) }</Badge>
 										</div>
 									) }
 								</Card.Header>
@@ -96,26 +85,36 @@ const App = () => {
 								</Card.Content>
 								<Card.Footer>
 									<>
-										{ course.availability === AVAILABILITY.premium && ! isPremium && (
-											<Button
-												as="a"
-												id={ `button-get-course-${ course.id }` }
-												className="yst-gap-2 yst-w-full yst-px-2"
-												variant="upsell"
-												href={ course.upsellLink }
-												target="_blank"
-												rel="noopener"
-												{ ...premiumUpsellConfig }
-											>
-												<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
-												{ sprintf(
-													/* translators: %1$s expands to Premium. */
-													__( "Unlock with %1$s", "wordpress-seo" ),
-													"Premium"
-												) }
-											</Button>
+										{ ( course.isPremium && ! isPremium ) && (
+											<>
+												<Link
+													className="yst-block yst-mb-4"
+													href={ course.startLink }
+													target="_blank"
+													rel="noopener noreferrer"
+												>
+													{ __( "Start your free trial lesson now", "wordpress-seo" ) }
+												</Link>
+												<Button
+													as="a"
+													id={ `button-get-course-${ course.id }` }
+													className="yst-gap-2 yst-w-full yst-px-2"
+													variant="upsell"
+													href={ course.upsellLink }
+													target="_blank"
+													rel="noopener"
+													{ ...premiumUpsellConfig }
+												>
+													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+													{ sprintf(
+														/* translators: %1$s expands to Premium. */
+														__( "Unlock with %1$s", "wordpress-seo" ),
+														"Premium"
+													) }
+												</Button>
+											</>
 										) }
-										{ ( course.availability === AVAILABILITY.free || ( course.availability === AVAILABILITY.premium && isPremium ) || course.availability === AVAILABILITY.sample ) && (
+										{ ( ! course.isPremium || isPremium ) && (
 											<Button
 												as="a"
 												id={ `button-start-course-${ course.id }` }
