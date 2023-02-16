@@ -20,9 +20,7 @@ export default class IntroQualityCheck extends Assessment {
 		super();
 
 		const defaultConfig = {
-			recommendedLength: 20,
-			slightlyTooMany: 25,
-			farTooMany: 30,
+			recommendedLength: 25,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34w" ),
 			scores: {
