@@ -1,8 +1,9 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
+import getWordComplexityConfig from "../specHelpers/getWordComplexityConfig";
 import getWordComplexityHelper from "../specHelpers/getWordComplexityHelper";
-// Import SEO assessments
+// Import SEO assessments.
 import IntroductionKeywordAssessment from "../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "../../src/scoring/assessments/seo/KeywordDensityAssessment";
@@ -19,7 +20,7 @@ import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordA
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
-// Import content assessments
+// Import readability/content assessments.
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
@@ -32,7 +33,7 @@ import WordComplexityAssessment from "../../src/scoring/assessments/readability/
 import wordComplexity from "../../src/languageProcessing/researches/wordComplexity";
 
 import { getLanguagesWithWordComplexity } from "../../src/helpers";
-// Import test papers
+// Import test papers.
 import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
@@ -40,14 +41,16 @@ testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();
+		const language = getLanguage( locale );
 
-		const LanguageResearcher = getResearcher( getLanguage( locale ) );
+		const LanguageResearcher = getResearcher( language );
 		const researcher = new LanguageResearcher( paper );
-		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
-		// Also register the research and helper for Word Complexity for testing purposes.
+		researcher.addResearchData( "morphology", getMorphologyData( language ) );
+		// Also register the research, helper, and config for Word Complexity for testing purposes.
 		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
 			researcher.addResearch( "wordComplexity", wordComplexity );
-			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( getLanguage( locale ) ) );
+			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( language ) );
+			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
 		}
 
 		const expectedResults = testPaper.expectedResults;

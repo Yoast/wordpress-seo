@@ -3,10 +3,11 @@ import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
+import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
 import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
 import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
 
-// Import SEO assessments
+// Import SEO assessments.
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
@@ -30,23 +31,24 @@ import TextPresenceAssessment from "../../../../src/scoring/assessments/readabil
 import SentenceBeginningsAssessment from "../../../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
 import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
-// Import test papers
+// Import test papers.
 import testPapers from "./testTexts";
-
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();
+		const language = getLanguage( locale );
 
-		const LanguageResearcher = getResearcher( getLanguage( locale ) );
+		const LanguageResearcher = getResearcher( language );
 		const researcher = new LanguageResearcher( paper );
-		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
-		// Also register the research and helper for Word Complexity for testing purposes.
+		researcher.addResearchData( "morphology", getMorphologyData( language ) );
+		// Also register the research, helper, and config for Word Complexity for testing purposes.
 		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
 			researcher.addResearch( "wordComplexity", wordComplexity );
-			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( getLanguage( locale ) ) );
+			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( language ) );
+			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
 		}
 
 		const expectedResults = testPaper.expectedResults;
