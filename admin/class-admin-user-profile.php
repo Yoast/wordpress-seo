@@ -50,18 +50,19 @@ class WPSEO_Admin_User_Profile {
 			return;
 		}
 
-		$wpseo_author_title             = isset( $_POST['wpseo_author_title'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_author_title'] ) ) : '';
-		$wpseo_author_metadesc          = isset( $_POST['wpseo_author_metadesc'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_author_metadesc'] ) ) : '';
-		$wpseo_noindex_author           = isset( $_POST['wpseo_noindex_author'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_noindex_author'] ) ) : '';
-		$wpseo_content_analysis_disable = isset( $_POST['wpseo_content_analysis_disable'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_content_analysis_disable'] ) ) : '';
-		$wpseo_keyword_analysis_disable = isset( $_POST['wpseo_keyword_analysis_disable'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_keyword_analysis_disable'] ) ) : '';
+		$wpseo_author_title                        = isset( $_POST['wpseo_author_title'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_author_title'] ) ) : '';
+		$wpseo_author_metadesc                     = isset( $_POST['wpseo_author_metadesc'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_author_metadesc'] ) ) : '';
+		$wpseo_noindex_author                      = isset( $_POST['wpseo_noindex_author'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_noindex_author'] ) ) : '';
+		$wpseo_content_analysis_disable            = isset( $_POST['wpseo_content_analysis_disable'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_content_analysis_disable'] ) ) : '';
+		$wpseo_keyword_analysis_disable            = isset( $_POST['wpseo_keyword_analysis_disable'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_keyword_analysis_disable'] ) ) : '';
+		$wpseo_inclusive_language_analysis_disable = isset( $_POST['wpseo_inclusive_language_analysis_disable'] ) ? sanitize_text_field( wp_unslash( $_POST['wpseo_inclusive_language_analysis_disable'] ) ) : '';
 
 		update_user_meta( $user_id, 'wpseo_title', $wpseo_author_title );
 		update_user_meta( $user_id, 'wpseo_metadesc', $wpseo_author_metadesc );
 		update_user_meta( $user_id, 'wpseo_noindex_author', $wpseo_noindex_author );
 		update_user_meta( $user_id, 'wpseo_content_analysis_disable', $wpseo_content_analysis_disable );
 		update_user_meta( $user_id, 'wpseo_keyword_analysis_disable', $wpseo_keyword_analysis_disable );
-		update_user_meta( $user_id, 'wpseo_inclusive_language_analysis_disable', $this->filter_input_post( 'wpseo_inclusive_language_analysis_disable' ) );
+		update_user_meta( $user_id, 'wpseo_inclusive_language_analysis_disable', $wpseo_inclusive_language_analysis_disable );
 	}
 
 	/**
