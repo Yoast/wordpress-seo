@@ -140,7 +140,9 @@ class WPSEO_Admin {
 	 * Register assets needed on admin pages.
 	 */
 	public function enqueue_assets() {
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_licenses' ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form data.
+		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+		if ( $page === 'wpseo_licenses' ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_style( 'extensions' );
 		}
@@ -212,6 +214,8 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	public function add_action_link( $links, $file ) {
+		$first_time_configuration_notice_helper = \YoastSEO()->helpers->first_time_configuration_notice;
+
 		if ( $file === WPSEO_BASENAME && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			if ( is_network_admin() ) {
 				$settings_url = network_admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER );
@@ -226,6 +230,15 @@ class WPSEO_Admin {
 		// Add link to docs.
 		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $faq_link );
+
+		if ( $first_time_configuration_notice_helper->first_time_configuration_not_finished() && ! is_network_admin() ) {
+			$configuration_title = ( ! $first_time_configuration_notice_helper->should_show_alternate_message() ) ? 'first-time configuration' : 'SEO configuration';
+			/* translators: CTA to finish the first time configuration. %s: Either first-time SEO configuration or SEO configuration. */
+			$message  = sprintf( __( 'Finish your %s', 'wordpress-seo' ), $configuration_title );
+			$ftc_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '" target="_blank">' . $message . '</a>';
+			array_unshift( $links, $ftc_link );
+		}
+
 
 		$addon_manager = new WPSEO_Addon_Manager();
 		if ( YoastSEO()->helpers->product->is_premium() ) {
@@ -252,7 +265,7 @@ class WPSEO_Admin {
 		}
 
 		// Add link to premium landing page.
-		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank">' . __( 'Get Premium', 'wordpress-seo' ) . '</a>';
+		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2">' . __( 'Get Premium', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $premium_link );
 
 		return $links;
@@ -331,7 +344,7 @@ class WPSEO_Admin {
 			[
 				'isRtl'                   => is_rtl(),
 				'variable_warning'        => sprintf(
-					/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
+				/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 					__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
 					'<code>%s</code>',
 					'HelpScout beacon'

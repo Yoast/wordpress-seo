@@ -100,7 +100,6 @@ WoocommerceIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
 		claim: PropTypes.string,
-		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,

@@ -17,11 +17,18 @@ export default function initializeUsedKeywords() {
 		"used-keywords-assessment.js"
 	);
 
+	const nonce = get(
+		window,
+		[ "wpseoScriptData", "usedKeywordsNonce" ],
+		""
+	);
+
 	const usedKeywords = new UsedKeywords(
 		"get_focus_keyword_usage",
 		localizedData,
 		dispatch( "yoast-seo/editor" ).runAnalysis,
-		scriptUrl
+		scriptUrl,
+		nonce
 	);
 	usedKeywords.init();
 

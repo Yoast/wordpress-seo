@@ -15,6 +15,7 @@ import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
 import { Slot } from "@wordpress/components";
 import { actions } from "@yoast/externals/redux";
+import { Root } from "@yoast/externals/contexts";
 import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 
 /* Internal dependencies */
@@ -42,6 +43,13 @@ import { isWordProofIntegrationActive } from "../helpers/wordproof";
  */
 function registerFormats() {
 	if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+		const unknownSettings = select( "core/rich-text" )
+			.getFormatType( "core/unknown" );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			dispatch( "core/rich-text" ).removeFormatTypes( "core/unknown" );
+		}
+
 		[
 			link,
 		].forEach( ( { name, replaces, ...settings } ) => {
@@ -52,6 +60,10 @@ function registerFormats() {
 				registerFormatType( name, settings );
 			}
 		} );
+
+		if ( typeof( unknownSettings ) !== "undefined" ) {
+			registerFormatType( "core/unknown", unknownSettings );
+		}
 	} else {
 		console.warn(
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
@@ -70,7 +82,8 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
+	const openedPanels = select( "core/preferences" ).get( "core/edit-post", "openPanels" );
+	const firstLoad = ! openedPanels.includes( "yoast-seo/document-panel" );
 	if ( firstLoad ) {
 		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
 	}
@@ -101,6 +114,9 @@ function registerFills( store ) {
 	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
+	const blockSidebarContext = { locationContext: "block-sidebar" };
+	const blockMetaboxContext = { locationContext: "block-metabox" };
+
 	/**
 	 * Renders the yoast editor fills.
 	 *
@@ -118,11 +134,15 @@ function registerFills( store ) {
 				name="seo-sidebar"
 				title={ pluginTitle }
 			>
-				<SidebarSlot store={ store } theme={ theme } />
+				<Root context={ blockSidebarContext }>
+					<SidebarSlot store={ store } theme={ theme } />
+				</Root>
 			</PluginSidebar>
 			<Fragment>
 				<SidebarFill store={ store } theme={ theme } />
-				<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				<Root context={ blockMetaboxContext }>
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Root>
 			</Fragment>
 			{ analysesEnabled && <PluginPrePublishPanel
 				className="yoast-seo-sidebar-panel"

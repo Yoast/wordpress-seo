@@ -251,7 +251,7 @@ function InlineLinkUI( {
 	return (
 		<Popover
 			key={ mountingKey }
-			anchorRef={ anchorRef }
+			anchor={ anchorRef }
 			focusOnMount={ addingLink ? "firstElement" : false }
 			onClose={ stopAddingLink }
 			position="bottom center"

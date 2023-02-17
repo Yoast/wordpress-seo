@@ -2,8 +2,13 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { STORE_NAME } from "../constants";
 import { breadcrumbsSelectors } from "./breadcrumbs";
-import defaultSettings, { createInitialDefaultSettingsState, defaultSettingsActions, defaultSettingsSelectors } from "./default-settings";
+import defaultSettingValues, {
+	createInitialDefaultSettingValuesState,
+	defaultSettingValuesActions,
+	defaultSettingValuesSelectors,
+} from "./default-setting-values";
 import fallbacks, { createInitialFallbacksState, fallbacksActions, fallbacksSelectors } from "./fallbacks";
+import introduction, { createInitialIntroductionState, introductionActions, introductionControls, introductionSelectors } from "./introduction";
 import linkParams, { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
 import media, { createInitialMediaState, mediaActions, mediaControls, mediaSelectors } from "./media";
 import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
@@ -28,8 +33,9 @@ import users, { createInitialUsersState, usersActions, usersControls, usersSelec
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
-			...defaultSettingsActions,
+			...defaultSettingValuesActions,
 			...fallbacksActions,
+			...introductionActions,
 			...linkParamsActions,
 			...mediaActions,
 			...notificationsActions,
@@ -43,8 +49,9 @@ const createStore = ( { initialState } ) => {
 		},
 		selectors: {
 			...breadcrumbsSelectors,
-			...defaultSettingsSelectors,
+			...defaultSettingValuesSelectors,
 			...fallbacksSelectors,
+			...introductionSelectors,
 			...linkParamsSelectors,
 			...mediaSelectors,
 			...notificationsSelectors,
@@ -59,8 +66,9 @@ const createStore = ( { initialState } ) => {
 		initialState: merge(
 			{},
 			{
-				defaultSettings: createInitialDefaultSettingsState(),
+				defaultSettingValues: createInitialDefaultSettingValuesState(),
 				fallbacks: createInitialFallbacksState(),
+				introduction: createInitialIntroductionState(),
 				linkParams: createInitialLinkParamsState(),
 				media: createInitialMediaState(),
 				notifications: createInitialNotificationsState(),
@@ -75,8 +83,9 @@ const createStore = ( { initialState } ) => {
 			initialState
 		),
 		reducer: combineReducers( {
-			defaultSettings,
+			defaultSettingValues,
 			fallbacks,
+			introduction,
 			linkParams,
 			media,
 			notifications,
@@ -91,6 +100,7 @@ const createStore = ( { initialState } ) => {
 		controls: {
 			...mediaControls,
 			...usersControls,
+			...introductionControls,
 		},
 	} );
 };
