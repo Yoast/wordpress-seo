@@ -1,7 +1,7 @@
 import FeatureUpsell from ".";
 
 export default {
-	title: "2. Components/Feature Upsell",
+	title: "2) Components/Feature Upsell",
 	component: FeatureUpsell,
 	parameters: {
 		docs: {

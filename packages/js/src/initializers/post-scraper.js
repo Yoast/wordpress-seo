@@ -33,6 +33,7 @@ import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
+import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 import snippetEditorHelpers from "../analysis/snippetEditor";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
@@ -183,6 +184,23 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
+	 * Initializes the inclusive languauge analysis.
+	 *
+	 * @param {Object} activePublishBox The publish box object.
+	 *
+	 * @returns {void}
+	 */
+	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
+		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
+
+		const indicator = getIndicatorForScore( savedContentScore );
+
+		updateAdminBar( indicator );
+
+		activePublishBox.updateScore( "inclusive-language", indicator.className );
+	}
+
+	/**
 	 * Retrieves the target to be passed to the App.
 	 *
 	 * @returns {Object} The targets object for the App.
@@ -301,6 +319,10 @@ export default function initPostScraper( $, store, editorData ) {
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis( publishBox );
+		}
+
+		if ( isInclusiveLanguageAnalysisActive() ) {
+			initializeInclusiveLanguageAnalysis( publishBox );
 		}
 	}
 

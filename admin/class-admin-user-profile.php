@@ -61,6 +61,7 @@ class WPSEO_Admin_User_Profile {
 		update_user_meta( $user_id, 'wpseo_noindex_author', $wpseo_noindex_author );
 		update_user_meta( $user_id, 'wpseo_content_analysis_disable', $wpseo_content_analysis_disable );
 		update_user_meta( $user_id, 'wpseo_keyword_analysis_disable', $wpseo_keyword_analysis_disable );
+		update_user_meta( $user_id, 'wpseo_inclusive_language_analysis_disable', $this->filter_input_post( 'wpseo_inclusive_language_analysis_disable' ) );
 	}
 
 	/**

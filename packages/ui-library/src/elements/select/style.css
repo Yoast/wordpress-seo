@@ -1,20 +1,13 @@
 @layer components {
 	.yst-root {
 		.yst-select {
-			@apply yst-max-w-sm yst-relative;
+			@apply yst-relative;
 		}
 
-		.yst-select--error {
+		.yst-select--disabled {
+			.yst-select__label,
 			.yst-select__button {
-				@apply
-				yst-border-red-300
-				yst-text-red-900
-				yst-placeholder-red-300
-
-
-				focus:yst-outline-none
-				focus:yst-ring-red-500
-				focus:yst-border-red-500;
+				@apply yst-opacity-50 yst-cursor-not-allowed;
 			}
 		}
 
@@ -44,17 +37,7 @@
 		}
 
 		.yst-select__button-icon {
-			@apply
-			yst-w-5
-			yst-h-5
-			yst-shrink-0
-			yst-grow-0
-			yst-text-slate-400
-			yst-pointer-events-none;
-		}
-
-		.yst-select__button-icon--error {
-			@apply yst-text-red-500;
+			@apply yst-absolute yst-top-2.5 yst-right-2.5 yst-text-slate-400 yst-pointer-events-none yst-w-5 yst-h-5;
 		}
 
 		.yst-select__options {
@@ -88,7 +71,7 @@
 			yst-text-slate-700;
 
 			&--active {
-				@apply yst-bg-primary-200;
+				@apply yst-bg-slate-200;
 			}
 
 			&--selected {

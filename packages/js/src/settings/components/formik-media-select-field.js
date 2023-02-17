@@ -40,7 +40,7 @@ const FormikMediaSelectField = ( {
 	label = "",
 	description = "",
 	icon: Icon = PhotographIcon,
-	disabled = false,
+	disabled: isDisabled = false,
 	isDummy = false,
 	libraryType = "image",
 	variant = "landscape",
@@ -59,9 +59,11 @@ const FormikMediaSelectField = ( {
 	const wpMedia = useMemo( () => get( window, "wp.media", null ), [] );
 	const mediaId = useMemo( () => get( values, mediaIdName, "" ), [ values, mediaIdName ] );
 	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
+	const isMediaError = useSelectSettings( "selectIsMediaError" );
 	const fallbackMedia = useSelectSettings( "selectMediaById", [ fallbackMediaId ], fallbackMediaId );
 	const { fetchMedia, addOneMedia } = useDispatchSettings();
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
+	const disabled = useMemo( () => isDisabled || isDummy || isMediaError, [ isDummy, isDisabled, isMediaError ] );
 	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
 	const previewMedia = useMemo( () => {
 		if ( mediaId > 0 ) {
@@ -141,14 +143,14 @@ const FormikMediaSelectField = ( {
 			<Field
 				type="hidden"
 				name={ mediaIdName }
-				id={ `field-${ id }-id` }
+				id={ `input-${ id }-id` }
 				aria-describedby={ describedBy }
 				disabled={ disabled }
 			/>
 			<Field
 				type="hidden"
 				name={ mediaUrlName }
-				id={ `field-${ id }-url` }
+				id={ `input-${ id }-url` }
 				aria-describedby={ describedBy }
 				disabled={ disabled }
 			/>
@@ -195,7 +197,7 @@ const FormikMediaSelectField = ( {
 					</div>
 				) }
 			</button>
-			<div className="yst-flex yst-gap-4">
+			<div className="yst-flex yst-gap-1">
 				{ ! isDummy && ( mediaId > 0 ) ? (
 					<Button
 						id={ `button-${ id }-replace` }
@@ -220,7 +222,10 @@ const FormikMediaSelectField = ( {
 						type="button"
 						variant="error"
 						onClick={ handleRemoveMediaClick }
-						className={ classNames( disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }
+						className={ classNames(
+							"yst-px-3 yst-py-2 yst-rounded-md",
+							disabled && "yst-opacity-50 yst-cursor-not-allowed"
+						) }
 						disabled={ disabled }
 					>
 						{ removeLabel }
@@ -228,6 +233,7 @@ const FormikMediaSelectField = ( {
 				) }
 			</div>
 			{ error && <p id={ describedByIds.error } className="yst-mt-2 yst-text-sm yst-text-red-600">{ error }</p> }
+			{ isMediaError && <p className="yst-mt-2 yst-text-sm yst-text-red-600">{ __( "Failed to retrieve media.", "wordpress-seo" ) }</p> }
 			{ description && (
 				<p id={ describedByIds.description } className={ classNames( "yst-mt-2", disabled && "yst-opacity-50 yst-cursor-not-allowed" ) }>
 					{ description }

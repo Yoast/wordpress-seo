@@ -47,7 +47,7 @@ function applyMarks( paper, marks ) {
 		// Apply marks to Classic editor blocks
 		applyMarksTinyMCE( paper, marks );
 		// Apply marks to other blocks
-		applyAsAnnotations( paper, marks );
+		applyAsAnnotations( marks );
 	}
 }
 

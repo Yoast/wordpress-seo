@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Rewrite;
 use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Txt_Helper;
@@ -116,7 +117,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	public function test_public_site_with_sitemaps() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -186,7 +187,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -304,7 +305,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	public function test_multisite_sitemaps_without_yoast_seo_active() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )
@@ -386,7 +387,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	public function test_multisite_sitemaps_option_not_found() {
 		global $wp_rewrite;
 
-		$wp_rewrite = Mockery::mock();
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'home_url' )

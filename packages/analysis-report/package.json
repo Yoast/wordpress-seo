@@ -17,7 +17,7 @@
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
     "@yoast/components": "^2.19.0",
@@ -25,7 +25,7 @@
     "@yoast/style-guide": "^0.13.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
@@ -33,7 +33,7 @@
     "@yoast/jest-preset": "^1.0.1",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "^7.32.0",
-    "eslint-config-yoast": "^5.0.17",
+    "eslint-config-yoast": "^5.1.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
     "jest": "^27.5.1",

@@ -135,7 +135,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 11.8% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 11.5% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

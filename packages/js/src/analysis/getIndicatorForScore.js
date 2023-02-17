@@ -16,30 +16,35 @@ function getIndicatorForRating( rating ) {
 				className: "na",
 				screenReaderText: __( "Feedback", "wordpress-seo" ),
 				screenReaderReadabilityText: "",
+				screenReaderInclusiveLanguageText: "",
 			};
 		case "bad":
 			return {
 				className: "bad",
 				screenReaderText: __( "Needs improvement", "wordpress-seo" ),
 				screenReaderReadabilityText: __( "Needs improvement", "wordpress-seo" ),
+				screenReaderInclusiveLanguageText: __( "Needs improvement", "wordpress-seo" ),
 			};
 		case "ok":
 			return {
 				className: "ok",
 				screenReaderText: __( "OK SEO score", "wordpress-seo" ),
 				screenReaderReadabilityText: __( "OK", "wordpress-seo" ),
+				screenReaderInclusiveLanguageText: __( "Potentially non-inclusive", "wordpress-seo" ),
 			};
 		case "good":
 			return {
 				className: "good",
 				screenReaderText: __( "Good SEO score", "wordpress-seo" ),
 				screenReaderReadabilityText: __( "Good", "wordpress-seo" ),
+				screenReaderInclusiveLanguageText: __( "Good", "wordpress-seo" ),
 			};
 		default:
 			return {
 				className: "loading",
 				screenReaderText: "",
 				screenReaderReadabilityText: "",
+				screenReaderInclusiveLanguageText: "",
 			};
 	}
 }
@@ -55,6 +60,5 @@ export default function getIndicatorForScore( score ) {
 		// Scale because scoreToRating works from 0 to 10.
 		score /= 10;
 	}
-
 	return getIndicatorForRating( interpreters.scoreToRating( score ) );
 }
