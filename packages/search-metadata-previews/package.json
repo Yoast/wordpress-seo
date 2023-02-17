@@ -26,8 +26,8 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
-    "styled-components": "^5.2.1",
-    "yoastseo": "^1.91.0"
+    "styled-components": "^5.3.6",
+    "yoastseo": "^1.91.1"
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.2",

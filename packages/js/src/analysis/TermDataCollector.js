@@ -5,6 +5,7 @@ import { get } from "lodash-es";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
+import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import * as tmceHelper from "../lib/tinymce";
 import { termsTmceId as tmceId } from "../lib/tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
@@ -299,6 +300,24 @@ TermDataCollector.prototype.saveContentScore = function( score ) {
 	}
 
 	$( "#hidden_wpseo_content_score" ).val( score );
+};
+
+/**
+ * Saves the inclusive language score to a hidden field.
+ *
+ * @param {number} score The score calculated by the inclusive language assessor.
+ *
+ * @returns {void}
+ */
+TermDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
+	const indicator = getIndicatorForScore( score );
+
+	if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	$( "#hidden_wpseo_inclusive_language_score" ).val( score );
 };
 
 /**

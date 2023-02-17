@@ -53,7 +53,7 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->wpdb          = Mockery::mock( 'wpdb' );
+		$this->wpdb          = Mockery::mock( wpdb::class );
 		$this->options       = Mockery::mock( Options_Helper::class );
 		$this->aioseo_helper = Mockery::mock( Aioseo_Helper::class );
 

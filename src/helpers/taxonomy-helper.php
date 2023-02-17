@@ -161,4 +161,22 @@ class Taxonomy_Helper {
 		// `array_values`, to make sure that the keys are reset.
 		return \array_values( \array_diff( $public_taxonomies, $excluded_taxonomies ) );
 	}
+
+	/**
+	 * Returns an array of complete taxonomy objects for all indexable taxonomies.
+	 *
+	 * @return array List of indexable indexables objects.
+	 */
+	public function get_indexable_taxonomy_objects() {
+		$taxonomy_objects     = [];
+		$indexable_taxonomies = $this->get_indexable_taxonomies();
+		foreach ( $indexable_taxonomies as $taxonomy ) {
+			$taxonomy_object = \get_taxonomy( $taxonomy );
+			if ( ! empty( $taxonomy_object ) ) {
+				$taxonomy_objects[ $taxonomy ] = $taxonomy_object;
+			}
+		}
+
+		return $taxonomy_objects;
+	}
 }

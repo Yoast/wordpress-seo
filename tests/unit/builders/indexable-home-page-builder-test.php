@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use WPSEO_Utils;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
@@ -178,7 +179,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 			->andReturn( 2 );
 
 		$this->post_helper = Mockery::mock( Post_Helper::class );
-		$this->wpdb        = Mockery::mock( 'wpdb' );
+		$this->wpdb        = Mockery::mock( wpdb::class );
 		$this->wpdb->posts = 'wp_posts';
 
 		$this->instance = new Indexable_Home_Page_Builder(

@@ -312,11 +312,16 @@ export default function initAdmin( jQuery ) {
 	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
+	// eslint-disable-next-line
 	jQuery( document ).ready( function() {
 		/**
 		 * When the hash changes, get the base url from the action and then add the current hash.
 		 */
 		wpseoSetTabHash();
+
+		if ( typeof window.wpseoRedirectOldFeaturesTabToNewSettings === "function" ) {
+			window.wpseoRedirectOldFeaturesTabToNewSettings();
+		}
 
 		// Toggle the Author archives section.
 		jQuery( "#disable-author input[type='radio']" ).on( "change", function() {
