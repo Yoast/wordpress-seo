@@ -1598,6 +1598,31 @@ describe( "AnalysisWebWorker", () => {
 		} );
 	} );
 
+	describe( "registerResearcherConfig", () => {
+		const name = "petsConfig";
+		const researcherConfig = { pets: [ "cats", "dogs" ] };
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom researcher config. Expected parameter `name` to be a string.";
+			expect( () => worker.registerResearcherConfig( null, researcherConfig ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the researcher config", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerResearcherConfig( name, researcherConfig );
+			const configFromResearcher = researcher.getConfig( name );
+			expect( configFromResearcher ).toBeDefined();
+			expect( configFromResearcher ).toBe( researcherConfig );
+		} );
+	} );
+
 	describe( "registerMessageHandler", () => {
 		const handlerName = "Knock knock";
 		const pluginName = "Who?";
