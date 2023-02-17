@@ -135,6 +135,7 @@ export default class AnalysisWebWorker {
 		this.registerAssessor = this.registerAssessor.bind( this );
 		this.registerResearch = this.registerResearch.bind( this );
 		this.registerHelper = this.registerHelper.bind( this );
+		this.registerResearcherConfig = this.registerResearcherConfig.bind( this );
 		this.setInclusiveLanguageOptions = this.setInclusiveLanguageOptions.bind( this );
 
 		// Bind event handlers to this scope.
@@ -1456,6 +1457,26 @@ export default class AnalysisWebWorker {
 
 		if ( ! researcher.hasHelper( name ) ) {
 			researcher.addHelper( name, helper );
+		}
+	}
+
+	/**
+	 * Registers a configuration to the researcher.
+	 *
+	 * @param {string}          name                The name of the researcher configuration.
+	 * @param {object|array}    researcherConfig    The researcher configuration to add.
+	 *
+	 * @returns {void}
+	 */
+	registerResearcherConfig( name, researcherConfig ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom researcher config. Expected parameter `name` to be a string." );
+		}
+
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasConfig( name ) ) {
+			researcher.addConfig( name, researcherConfig );
 		}
 	}
 }
