@@ -846,9 +846,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$post_id = get_queried_object_id();
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
-			$post_id = sanitize_text_field( filter_input( INPUT_GET, 'post' ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( empty( $post_id ) && isset( $_GET['post'] ) && is_string( $_GET['post'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$post_id = sanitize_text_field( wp_unslash( $_GET['post'] ) );
 		}
 
 		if ( $post_id !== 0 ) {
@@ -941,9 +942,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return $this->post;
 		}
 
-		$post = filter_input( INPUT_GET, 'post' );
-		if ( ! empty( $post ) ) {
-			$post_id = (int) WPSEO_Utils::validate_int( $post );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['post'] ) && is_string( $_GET['post'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, Sanitization happens in the validate_int function.
+			$post_id = (int) WPSEO_Utils::validate_int( wp_unslash( $_GET['post'] ) );
 
 			$this->post = get_post( $post_id );
 
