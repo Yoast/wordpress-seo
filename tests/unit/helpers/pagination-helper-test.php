@@ -105,6 +105,7 @@ class Pagination_Helper_Test extends TestCase {
 	 */
 	public function test_get_paginated_url_using_permalinks_without_pagination_base() {
 		$this->using_permalinks( true );
+		$url = 'https://example.com/my-post/';
 
 		$parsed_url = [
 			'scheme' => 'https',
@@ -114,9 +115,10 @@ class Pagination_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->once()
+			->with( $url )
 			->andReturn( $parsed_url );
 
-		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post/', 2, false );
+		$actual   = $this->instance->get_paginated_url( $url, 2, false );
 		$expected = 'https://example.com/my-post/2/';
 
 		$this->assertEquals( $expected, $actual );
@@ -129,6 +131,7 @@ class Pagination_Helper_Test extends TestCase {
 	 */
 	public function test_get_paginated_url_using_permalinks_with_pagination_base() {
 		$this->using_permalinks( true );
+		$url = 'https://example.com/my-post/';
 
 		$parsed_url = [
 			'scheme' => 'https',
@@ -138,6 +141,7 @@ class Pagination_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->once()
+			->with( $url )
 			->andReturn( $parsed_url );
 
 		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post/', 2, true );
