@@ -81,7 +81,7 @@ class Pagination_Helper {
 					$url .= \trailingslashit( $wp_rewrite->pagination_base );
 				}
 
-				// We can now re-add the query params, after appending the last pagination parts. 
+				// We can now re-add the query params, after appending the last pagination parts.
 				return \add_query_arg( $query_parts, \user_trailingslashit( $url . $page ) );
 			}
 
