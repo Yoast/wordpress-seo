@@ -236,6 +236,7 @@ class WPSEO_Admin_Asset_Manager {
 			'classic-editor',
 			'post-edit',
 			'help-scout-beacon',
+			'redirect-old-features-tab',
 		];
 		$additional_dependencies = [
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],

@@ -82,8 +82,8 @@ class Wincher_Helper {
 	 */
 	public function get_admin_global_links() {
 		return [
-			'links.wincher.website' => 'https://www.wincher.com?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
-			'links.wincher.pricing' => 'https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.website' => \WPSEO_Shortlinker::get( 'https://yoa.st/wincher-popup' ),
+			'links.wincher.pricing' => \WPSEO_Shortlinker::get( 'https://yoa.st/wincher-popup-pricing' ),
 			'links.wincher.login'   => 'https://app.wincher.com/login?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
 		];
 	}

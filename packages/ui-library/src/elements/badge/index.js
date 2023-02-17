@@ -1,6 +1,7 @@
 /* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { forwardRef } from "@wordpress/element";
 
 const classNameMap = {
 	variant: {
@@ -23,15 +24,16 @@ const classNameMap = {
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Badge component.
  */
-const Badge = ( {
+const Badge = forwardRef( ( {
 	children,
-	as: Component = "span",
-	variant = "info",
-	size = "default",
-	className = "",
+	as: Component,
+	variant,
+	size,
+	className,
 	...props
-} ) => (
+}, ref ) => (
 	<Component
+		ref={ ref }
 		className={ classNames(
 			"yst-badge",
 			classNameMap.variant[ variant ],
@@ -42,9 +44,9 @@ const Badge = ( {
 	>
 		{ children }
 	</Component>
-);
+) );
 
-Badge.propTypes = {
+const propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
@@ -52,4 +54,19 @@ Badge.propTypes = {
 	className: PropTypes.string,
 };
 
+Badge.propTypes = propTypes;
+
+Badge.defaultProps = {
+	as: "span",
+	variant: "info",
+	size: "default",
+	className: "",
+};
+
 export default Badge;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Badge { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Badge.defaultProps;
+StoryComponent.displayName = "Badge";

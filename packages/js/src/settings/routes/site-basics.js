@@ -7,6 +7,7 @@ import {
 	FieldsetLayout,
 	FormikMediaSelectField,
 	FormikValueChangeField,
+	FormikWithErrorField,
 	FormLayout,
 	OpenGraphDisabledAlert,
 	RouteLayout,
@@ -26,6 +27,7 @@ const SiteBasics = () => {
 	const showForceRewriteTitlesSetting = useSelectSettings( "selectPreference", [], "showForceRewriteTitlesSetting", false );
 	const replacementVariablesLink = useSelectSettings( "selectLink", [], "https://yoa.st/site-basics-replacement-variables" );
 	const usageTrackingLink = useSelectSettings( "selectLink", [], "https://yoa.st/usage-tracking-2" );
+	const siteTitle = useSelectSettings( "selectPreference", [], "siteTitle", "" );
 
 	const usageTrackingDescription = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -43,7 +45,7 @@ const SiteBasics = () => {
 	const siteInfoDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s and %2$s expand to an opening and closing emphasis tag. %3$s and %4$s expand to an opening and closing anchor tag. */
-			__( "Set the basic info for your website. You can use %1$ssite title%2$s, %1$stagline%2$s and %1$sseparator%2$s as %3$sreplacement variables%4$s when configuring the search appearance of your content.", "wordpress-seo" ),
+			__( "Set the basic info for your website. You can use %1$stagline%2$s and %1$sseparator%2$s as %3$sreplacement variables%4$s when configuring the search appearance of your content.", "wordpress-seo" ),
 			"<em>",
 			"</em>",
 			"<a>",
@@ -58,7 +60,7 @@ const SiteBasics = () => {
 	const canNotManageOptionsAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-			__( "We're sorry, you're not allowed to edit the %1$ssite title%2$s and %1$stagline%2$s.", "wordpress-seo" ),
+			__( "We're sorry, you're not allowed to edit the %1$swebsite name%2$s and %1$stagline%2$s.", "wordpress-seo" ),
 			"<em>",
 			"</em>"
 		),
@@ -78,21 +80,6 @@ const SiteBasics = () => {
 		),
 		{
 			strong: <strong className="yst-font-semibold" />,
-		}
-	), [] );
-	const siteTitleDescription = useMemo( () => createInterpolateElement(
-		sprintf(
-			/**
-			 * translators: %1$s expands to an opening anchor tag.
-			 * %2$s expands to a closing anchor tag.
-			 */
-			__( "This field updates the %1$ssite title in your WordPress settings%2$s.", "wordpress-seo" ),
-			"<a>",
-			"</a>"
-		),
-		{
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a href={ `${ generalSettingsUrl }#blogname` } target="_blank" rel="noopener noreferrer" />,
 		}
 	), [] );
 	const taglineDescription = useMemo( () => createInterpolateElement(
@@ -126,19 +113,24 @@ const SiteBasics = () => {
 						description={ siteInfoDescription }
 					>
 						{ ! canManageOptions && (
-							<Alert variant="warning" id="alert-site-defaults-variables">
-								{  canNotManageOptionsAlertText }
+							<Alert variant="warning" id="alert-site-defaults-variables" className="yst-mb-8">
+								{ canNotManageOptionsAlertText }
 							</Alert>
 						) }
-						<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
-							<Field
+						<div className="lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
+							<FormikWithErrorField
 								as={ TextField }
-								type="text"
-								name="blogname"
-								id="input-blogname"
-								label={ __( "Site title", "wordpress-seo" ) }
-								description={ canManageOptions && siteTitleDescription }
-								readOnly={ ! canManageOptions }
+								name="wpseo_titles.website_name"
+								id="input-wpseo_titles-website_name"
+								label={ __( "Website name", "wordpress-seo" ) }
+								placeholder={ siteTitle }
+							/>
+							<FormikWithErrorField
+								as={ TextField }
+								name="wpseo_titles.alternate_website_name"
+								id="input-wpseo_titles-alternate_website_name"
+								label={ __( "Alternate website name", "wordpress-seo" ) }
+								description={ __( "Use the alternate website name for acronyms, or a shorter version of your website's name.", "wordpress-seo" ) }
 							/>
 							<Field
 								as={ TextField }
@@ -169,7 +161,7 @@ const SiteBasics = () => {
 						<OpenGraphDisabledAlert
 							isEnabled={ opengraph }
 							text={
-							/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
+								/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
 								__( "The %1$sSite image%2$s requires Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite features%4$s.", "wordpress-seo" )
 							}
 						/>
@@ -191,34 +183,37 @@ const SiteBasics = () => {
 								as={ ToggleField }
 								type="checkbox"
 								name="wpseo_titles.forcerewritetitle"
-								data-id="input-wpseo_titles-forcerewritetitle"
+								id="input-wpseo_titles-forcerewritetitle"
 								label={ __( "Force rewrite titles", "wordpress-seo" ) }
 								description={ sprintf(
-								/* translators: %1$s expands to "Yoast SEO" */
+									/* translators: %1$s expands to "Yoast SEO" */
 									__( "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here.", "wordpress-seo" ),
 									"Yoast SEO"
 								) }
+								className="yst-max-w-sm"
 							/>
 						) }
 						<FormikValueChangeField
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.disableadvanced_meta"
-							data-id="input-wpseo-disableadvanced_meta"
+							id="input-wpseo-disableadvanced_meta"
 							label={ __( "Restrict advanced settings for authors", "wordpress-seo" ) }
 							description={ sprintf(
-							/* translators: %1$s expands to "Yoast SEO" */
-								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar. Disabling this allows access to all users.", "wordpress-seo" ),
+								/* translators: %1$s expands to "Yoast SEO" */
+								__( "By default only editors and administrators can access the Advanced and Schema section of the %1$s sidebar or metabox. Disabling this allows access to all users.", "wordpress-seo" ),
 								"Yoast SEO"
 							) }
+							className="yst-max-w-sm"
 						/>
 						<FormikValueChangeField
 							as={ ToggleFieldWithDisabledMessageSupport }
 							type="checkbox"
 							name="wpseo.tracking"
-							data-id="input-wpseo-tracking"
+							id="input-wpseo-tracking"
 							label={ __( "Usage tracking", "wordpress-seo" ) }
 							description={ usageTrackingDescription }
+							className="yst-max-w-sm"
 						/>
 					</FieldsetLayout>
 				</div>

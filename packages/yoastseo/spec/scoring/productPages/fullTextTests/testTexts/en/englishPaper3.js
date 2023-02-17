@@ -160,7 +160,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 21.1% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 19% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -177,8 +177,9 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.59% of the words in your text are considered complex. " +
-			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.59% of the words in " +
+			"your text are considered complex. <a href='https://yoa.st/shopify78' target='_blank'>" +
+			"Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
 
