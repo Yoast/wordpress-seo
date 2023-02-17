@@ -4,6 +4,32 @@
   margin: 10px 0 0 4px !important;
 }
 
+#wp-admin-bar-wpseo-menu .wpseo-score-icon.adminbar-sub-menu-score {
+  margin: 11px 0 0 4px !important;
+}
+
+#wp-admin-bar-wpseo-menu-default .ab-item {
+  line-height: 2.46153846 !important;
+}
+
+#wp-admin-bar-wpseo-menu .ab-submenu {
+  margin-bottom: 5px;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu #wp-admin-bar-wpseo-menu-default li#wp-admin-bar-wpseo-get-premium a {
+	font-weight: bold !important;
+	color: #fff !important;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-wpseo-menu .wpseo-focus-keyword {
+	max-width: 100px !important;
+	display: inline-block !important;
+	text-overflow: ellipsis !important;
+	white-space: nowrap;
+	overflow: hidden;
+	vertical-align: bottom;                                                                       
+}
+
 #wpadminbar .yoast-badge {
 	display: inline-block;
 	padding: 0 8px;
@@ -16,6 +42,11 @@
 #wpadminbar .yoast-beta-badge {
 	background-color: #CCE5FF;
 	color: #004973;
+}
+
+#wpadminbar .yoast-premium-badge {
+	background-color: #fff3cd;
+	color: #674e00;
 }
 
 #wpadminbar .yoast-issue-added,

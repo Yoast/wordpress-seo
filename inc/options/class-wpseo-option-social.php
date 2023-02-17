@@ -45,6 +45,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'youtube_url'           => '',
 		'wikipedia_url'         => '',
 		'other_social_urls'     => [],
+		'mastodon_url'          => '',
 	];
 
 	/**
@@ -151,6 +152,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'og_frontpage_image':
 				case 'youtube_url':
 				case 'wikipedia_url':
+				case 'mastodon_url':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
@@ -254,8 +256,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 * @return string|false The validated URL or false if the URL is not valid.
 	 */
 	public function validate_social_url( $url ) {
-		$submitted_url = trim( htmlspecialchars( $url, ENT_COMPAT, get_bloginfo( 'charset' ), true ) );
-		$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
+		$validated_url = filter_var( WPSEO_Utils::sanitize_url( trim( $url ) ), FILTER_VALIDATE_URL );
 
 		return $validated_url;
 	}

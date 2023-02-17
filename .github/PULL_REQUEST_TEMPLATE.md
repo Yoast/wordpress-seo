@@ -82,8 +82,9 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 ## Quality assurance
 
-* [ ] I have tested this code to the best of my abilities
-* [ ] I have added unit tests to verify the code works as intended
+* [ ] I have tested this code to the best of my abilities.
+* [ ] During testing, I had activated all plugins Yoast SEO provides integrations for.
+* [ ] I have added unit tests to verify the code works as intended.
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 * [ ] I have written this PR in accordance with my team's definition of done.
 

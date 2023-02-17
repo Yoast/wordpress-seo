@@ -68,7 +68,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 		$this->taxonomy            = Mockery::mock( Taxonomy_Helper::class );
 		$this->repository          = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb                = Mockery::mock( 'wpdb' );
+		$this->wpdb                = Mockery::mock( wpdb::class );
 		$this->wpdb->term_taxonomy = 'wp_term_taxonomy';
 		$this->versions            = Mockery::mock( Indexable_Builder_Versions::class );
 

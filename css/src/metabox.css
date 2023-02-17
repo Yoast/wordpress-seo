@@ -574,6 +574,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   height: 18px;
   background: var(--yoast-svg-icon-yoast) no-repeat;
   background-size: 18px;
+  flex-shrink: 0;
 }
 
 .yoast-seo-score .yoast-logo.svg.good {
@@ -695,6 +696,20 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check {
+  display: flex;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check svg {
+  margin-right: 5px;
+  margin-top: 6px;
+}
+
+.yoast-seo-sidebar-panel .yoast-analysis-check span {
+  line-height: 1.5;
+  margin-top: 3px;
 }
 
 .yoast-seo-sidebar-panel div {

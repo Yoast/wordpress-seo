@@ -112,41 +112,6 @@ class Yoast_Plugin_Conflict {
 	}
 
 	/**
-	 * Getting all the conflicting plugins and return them as a string.
-	 *
-	 * This method will loop through all conflicting plugins to get the details of each plugin. The plugin name
-	 * will be taken from the details to parse a comma separated string, which can be use for by example a notice
-	 *
-	 * @deprecated 17.7 This method is unused and will be removed in the future
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $plugin_section Plugin conflict type (such as Open Graph or sitemap).
-	 *
-	 * @return string
-	 */
-	public function get_conflicting_plugins_as_string( $plugin_section ) {
-		if ( ! \function_exists( 'get_plugin_data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-
-		// Getting the active plugins by given section.
-		$plugins = $this->active_conflicting_plugins[ $plugin_section ];
-
-		$plugin_names = [];
-		foreach ( $plugins as $plugin ) {
-			$name = $this->get_plugin_name( $plugin );
-			if ( ! empty( $name ) ) {
-				$plugin_names[] = '<em>' . $name . '</em>';
-			}
-		}
-		unset( $plugins, $plugin );
-
-		if ( ! empty( $plugin_names ) ) {
-			return \implode( ' &amp; ', $plugin_names );
-		}
-	}
-
-	/**
 	 * Checks for given $plugin_sections for conflicts.
 	 *
 	 * @param array $plugin_sections Set of sections.
