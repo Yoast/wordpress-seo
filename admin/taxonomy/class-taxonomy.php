@@ -129,7 +129,7 @@ class WPSEO_Taxonomy {
 
 		if (
 			self::is_term_edit( $pagenow )
-			&& ! is_null( $tag_id )  // After we drop support for <4.5 this can be removed.
+			&& ! is_null( $tag_id )
 		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
