@@ -85,6 +85,8 @@ class Pagination_Helper {
 				return \add_query_arg( $query_parts, \user_trailingslashit( $url . $page ) );
 			}
 
+			$url = \trailingslashit( $url );
+
 			if ( $add_pagination_base ) {
 				$url .= \trailingslashit( $wp_rewrite->pagination_base );
 			}
