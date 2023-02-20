@@ -412,18 +412,13 @@ class Current_Page_Helper {
 	 * @return bool True when current page is a yoast seo plugin page.
 	 */
 	public function is_yoast_seo_page() {
-		private $is_yoast_seo;
-
-		if ( $is_yoast_seo === null ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-			if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-				// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only using the variable in the strpos function.
-				$current_page = \wp_unslash( $_GET['page'] );
-				$is_yoast_seo = \strpos( $current_page, 'wpseo_' ) === 0;
-			}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only using the variable in the strpos function.
+			$current_page = \wp_unslash( $_GET['page'] );
+			return \strpos( $current_page, 'wpseo_' ) === 0;
 		}
-
-		return $is_yoast_seo;
+		return null;
 	}
 
 	/**
