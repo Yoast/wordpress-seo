@@ -412,7 +412,7 @@ class Current_Page_Helper {
 	 * @return bool True when current page is a yoast seo plugin page.
 	 */
 	public function is_yoast_seo_page() {
-		static $is_yoast_seo;
+		private $is_yoast_seo;
 
 		if ( $is_yoast_seo === null ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
