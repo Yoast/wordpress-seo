@@ -168,8 +168,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 */
 	isApplicable( paper, researcher ) {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-
-		return paper.hasText() && paper.hasKeyword() && getSentences( paper.getText(), memoizedTokenizer ).length >= 15;
+		const sentences = getSentences( paper.getText(), memoizedTokenizer );
+		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );
 	}
 }
 
