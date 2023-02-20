@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Query;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -106,7 +107,7 @@ class Front_End_Integration_Test extends TestCase {
 		)->makePartial();
 
 		// Set up mocks for classes which which are used in multiple tests.
-		$this->context   = Mockery::mock( Meta_Tags_Context::class );
+		$this->context   = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->presenter = Mockery::mock( Abstract_Indexable_Presenter::class );
 
 		$this->context->page_type    = 'page_type';
@@ -147,7 +148,7 @@ class Front_End_Integration_Test extends TestCase {
 	public function test_call_wpseo_head() {
 		global $wp_query;
 
-		$initial_wp_query = Mockery::mock( 'WP_Query' );
+		$initial_wp_query = Mockery::mock( WP_Query::class );
 		$wp_query         = $initial_wp_query;
 		Monkey\Functions\expect( 'wp_reset_query' )->once();
 

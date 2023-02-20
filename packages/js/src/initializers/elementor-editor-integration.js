@@ -7,6 +7,7 @@ import { registerElementorDataHookAfter } from "../helpers/elementorHook";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
+import { Root } from "@yoast/externals/contexts";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
@@ -162,14 +163,18 @@ function sendFormData( form ) {
  * @returns {void}
  */
 function renderYoastTabReactContent() {
+	const elementorSidebarContext = { locationContext: "elementor-sidebar" };
+
 	setTimeout( () => {
 		renderReactRoot( "elementor-panel-page-settings-controls", (
-			<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-				<div className="yoast yoast-elementor-panel__fills">
-					<ElementorSlot />
-					<ElementorFill />
-				</div>
-			</StyleSheetManager>
+			<Root context={ elementorSidebarContext }>
+				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
+					<div className="yoast yoast-elementor-panel__fills">
+						<ElementorSlot />
+						<ElementorFill />
+					</div>
+				</StyleSheetManager>
+			</Root>
 		) );
 	}, 200 );
 }

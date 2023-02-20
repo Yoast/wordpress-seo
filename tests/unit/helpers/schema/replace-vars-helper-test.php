@@ -9,10 +9,10 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Schema\Replace_Vars_Helper_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Indexable_Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -253,7 +253,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 			],
 		];
 
-		$presentation         = Mockery::mock( Indexable_Presentation::class );
+		$presentation         = Mockery::mock( Indexable_Presentation_Mock::class );
 		$presentation->source = [ 'post_content' => 'some text' ];
 
 		$values = $this->array_values_recursively( $schema_data );

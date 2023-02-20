@@ -1,8 +1,9 @@
-import Code from ".";
+// eslint-disable react/display-name
+import { StoryComponent } from ".";
 
 export default {
-	title: "1. Elements/Code",
-	component: Code,
+	title: "1) Elements/Code",
+	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
 	},
@@ -16,7 +17,7 @@ export default {
 };
 
 export const Factory = {
-	component: ( args ) => <Code { ...args } />,
+	component: ( args ) => <StoryComponent { ...args } />,
 	parameters: {
 		controls: { disable: false },
 	},
@@ -28,13 +29,13 @@ export const Factory = {
 
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-2">
-		<Code>https://example.com/ (default)</Code>
-		<Code className="yst-w-fit">https://example.com/ (default with class `yst-w-fit`)</Code>
-		<Code variant="block">
+		<StoryComponent>https://example.com/ (default)</StoryComponent>
+		<StoryComponent className="yst-w-fit">https://example.com/ (default with class `yst-w-fit`)</StoryComponent>
+		<StoryComponent variant="block">
 			{ /* eslint-disable-next-line max-len */ }
 			https://example.com/that_is_really_long/so_you_see_that_it_will_start_scrolling?oh_my_this_is_not_enough_text=lets_add_some_parameters&more_parameters=yes_please&one_more=for_good_measure
 			(block)
-		</Code>
+		</StoryComponent>
 	</div>
 );
 Variants.parameters = {

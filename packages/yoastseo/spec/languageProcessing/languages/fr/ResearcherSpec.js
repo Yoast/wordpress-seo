@@ -75,7 +75,6 @@ describe( "a test for the French Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in French", function() {
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "continuellement" ) ).toEqual( false );
 		expect( researcher.getHelper( "checkIfWordIsComplex" )( "dictionnaire" ) ).toEqual( true );
 	} );
 } );

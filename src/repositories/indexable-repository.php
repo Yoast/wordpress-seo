@@ -107,7 +107,7 @@ class Indexable_Repository {
 	 * This may be the result of the indexable not existing or of being unable to determine what type of page the
 	 * current page is.
 	 *
-	 * @return bool|Indexable The indexable, false if none could be found.
+	 * @return bool|Indexable The indexable. If no indexable is found returns an empty indexable. Returns false if there is a database error.
 	 */
 	public function for_current_page() {
 		$indexable = false;

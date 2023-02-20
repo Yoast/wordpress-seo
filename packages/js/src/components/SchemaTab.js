@@ -6,7 +6,6 @@ import { makeOutboundLink, join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { schemaTypeOptionsPropType } from "./SchemaSettings";
 import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const NewsLandingPageLink = makeOutboundLink();
@@ -90,8 +89,8 @@ const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) =>
  * @returns {string} A string that contains tags that will be interpolated.
  */
 const footerText = ( postTypeName ) => sprintf(
-	/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Search Appearance Settings page */
-	__( "You can change the default type for %1$s in your %2$sSearch Appearance Settings%3$s.", "wordpress-seo" ),
+	/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Settings page */
+	__( "You can change the default type for %1$s under Content types in the %2$sSettings%3$s.", "wordpress-seo" ),
 	postTypeName,
 	"{{link}}",
 	"{{/link}}"
@@ -108,7 +107,7 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
 	{
 		mixedString: footerText( postTypeName ),
 		// eslint-disable-next-line jsx-a11y/anchor-has-content
-		components: { link: <a href="/wp-admin/admin.php?page=wpseo_titles#top#post-types" target="_blank" /> },
+		components: { link: <a href="/wp-admin/admin.php?page=wpseo_page_settings" target="_blank" /> },
 	}
 );
 
@@ -228,6 +227,11 @@ const Content = ( props ) => {
 		</Fragment>
 	);
 };
+
+const schemaTypeOptionsPropType = PropTypes.arrayOf( PropTypes.shape( {
+	name: PropTypes.string,
+	value: PropTypes.string,
+} ) );
 
 Content.propTypes = {
 	schemaPageTypeChange: PropTypes.func,

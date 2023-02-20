@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Mockery;
+use WP_REST_Response;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Routes\Abstract_Indexation_Route_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -26,8 +27,8 @@ class Abstract_Indexation_Route_Test extends TestCase {
 		$options_helper = Mockery::mock( Options_Helper::class );
 		$instance       = new Abstract_Indexation_Route_Mock( $options_helper );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
-		$this->assertInstanceOf( 'WP_Rest_Response', $instance->respond_with( [], 'https://example.org/next/url' ) );
+		$this->assertInstanceOf( WP_REST_Response::class, $instance->respond_with( [], 'https://example.org/next/url' ) );
 	}
 }

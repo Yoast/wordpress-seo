@@ -36,6 +36,13 @@ class Indexables_Page_Helper {
 	const ANALYSED_POSTS_THRESHOLD = 0.5;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options;
+
+	/**
 	 * Indexables_Page_Helper constructor.
 	 *
 	 * @param Options_Helper $options The options helper.

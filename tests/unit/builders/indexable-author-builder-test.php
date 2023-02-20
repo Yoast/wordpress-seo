@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
@@ -81,7 +82,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
 
 		$this->post_helper = Mockery::mock( Post_Helper::class );
-		$this->wpdb        = Mockery::mock( 'wpdb' );
+		$this->wpdb        = Mockery::mock( wpdb::class );
 		$this->wpdb->posts = 'wp_posts';
 
 		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->post_helper, $this->wpdb );

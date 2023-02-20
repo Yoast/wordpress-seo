@@ -2,8 +2,9 @@ import classNames from "classnames";
 import { keys } from "lodash";
 import PropTypes from "prop-types";
 import Spinner from "../spinner";
+import { forwardRef } from "@wordpress/element";
 
-const classNameMap = {
+export const classNameMap = {
 	variant: {
 		primary: "yst-button--primary",
 		secondary: "yst-button--secondary",
@@ -28,7 +29,7 @@ const classNameMap = {
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Button component.
  */
-const Button = ( {
+const Button = forwardRef( ( {
 	children,
 	as: Component,
 	type,
@@ -38,11 +39,12 @@ const Button = ( {
 	disabled,
 	className,
 	...props
-} ) => (
+}, ref ) => (
 	<Component
 		// eslint-disable-next-line no-undefined
 		type={ type || ( Component === "button" && "button" ) || undefined }
 		disabled={ disabled }
+		ref={ ref }
 		className={ classNames(
 			"yst-button",
 			classNameMap.variant[ variant ],
@@ -56,9 +58,9 @@ const Button = ( {
 		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-mr-2" /> }
 		{ children }
 	</Component>
-);
+) );
 
-Button.propTypes = {
+const propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
 	type: PropTypes.oneOf( [ "button", "submit" ] ),
@@ -68,6 +70,8 @@ Button.propTypes = {
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
+
+Button.propTypes = propTypes;
 
 Button.defaultProps = {
 	as: "button",
@@ -81,3 +85,9 @@ Button.defaultProps = {
 };
 
 export default Button;
+
+// eslint-disable-next-line require-jsdoc
+export const StoryComponent = props => <Button { ...props } />;
+StoryComponent.propTypes = propTypes;
+StoryComponent.defaultProps = Button.defaultProps;
+StoryComponent.displayName = "Button";

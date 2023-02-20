@@ -18,7 +18,7 @@ export const breadcrumbsSelectors = {
 				const linkedTaxonomies = filter( taxonomies, taxonomy => includes( taxonomy.postTypes, postTypeName ) );
 				if ( ! isEmpty( linkedTaxonomies ) ) {
 					options[ postTypeName ] = {
-						label: postType.label,
+						...postType,
 						options: [
 							none,
 							...map( linkedTaxonomies, ( { name, label } ) => ( { value: name, label } ) ),
@@ -45,7 +45,7 @@ export const breadcrumbsSelectors = {
 			const filteredPostTypes = filter( postTypes, ( { hasArchive } ) => hasArchive );
 			options = options.concat( map( filteredPostTypes, ( { name, label } ) => ( { value: name, label } ) ) );
 
-			return mapValues( taxonomies, taxonomy => ( { label: taxonomy.label, options } ) );
+			return mapValues( taxonomies, taxonomy => ( { name: taxonomy.name, label: taxonomy.label, options } ) );
 		}
 	),
 };
