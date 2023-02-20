@@ -1,7 +1,6 @@
-import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../../src/helpers";
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import Paper from "../../../../src/values/Paper";
-import Factory from "../../../specHelpers/factory";
 
 const paper = new Paper( "" );
 
@@ -15,6 +14,38 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasVariants: false,
 			doAllVariantsHaveIdentifier: false,
 			productType: "simple",
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
+
+		expect( assessmentResult.getScore() ).toEqual( 9 );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: " +
+			"Your product has an identifier. Good job!" );
+	} );
+
+	it( "returns the score 9 when a grouped product has a global identifier and no variants", function() {
+		const customData = {
+			hasGlobalIdentifier: true,
+			hasVariants: false,
+			doAllVariantsHaveIdentifier: false,
+			productType: "grouped",
+		};
+
+		const paperWithCustomData = new Paper( "", { customData } );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
+
+		expect( assessmentResult.getScore() ).toEqual( 9 );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: " +
+			"Your product has an identifier. Good job!" );
+	} );
+
+	it( "returns the score 9 when an external product has a global identifier and no variants", function() {
+		const customData = {
+			hasGlobalIdentifier: true,
+			hasVariants: false,
+			doAllVariantsHaveIdentifier: false,
+			productType: "external",
 		};
 
 		const paperWithCustomData = new Paper( "", { customData } );
@@ -145,11 +176,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		};
 
 		const paperWithCustomData = new Paper( "", { customData } );
-		const assessmentResult = assessment.getResult( paperWithCustomData, Factory.buildMockResearcher( {
-			hasGlobalIdentifier: true,
-			hasVariants: false,
-			productType: "simple",
-		} ) );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: " +
@@ -165,12 +192,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		};
 
 		const paperWithCustomData = new Paper( "", { customData } );
-
-		const assessmentResult = assessment.getResult( paperWithCustomData, Factory.buildMockResearcher( {
-			hasGlobalIdentifier: false,
-			hasVariants: false,
-			productType: "simple",
-		} ) );
+		const assessmentResult = assessment.getResult( paperWithCustomData );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>:" +
