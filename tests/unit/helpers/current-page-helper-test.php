@@ -41,6 +41,13 @@ class Current_Page_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The original value of $_GET['page'].
+	 *
+	 * @var string
+	 */
+	private $original_get_page;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
@@ -52,6 +59,19 @@ class Current_Page_Helper_Test extends TestCase {
 		$this->instance = Mockery::mock( Current_Page_Helper::class, [ $this->wp_query_wrapper ] )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+
+		if ( isset( $_GET['page'] ) ) {
+			$this->original_get_page = $_GET['page'];
+		}
+	}
+
+	/**
+	 * Performs the operations to restore the status quo ante.
+	 */
+	protected function tear_down() {
+		$_GET['page'] = $this->original_get_page;
+
+		parent::tear_down();
 	}
 
 	/**
@@ -769,8 +789,6 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test is_yoast_seo_page function when page is not set.
 	 *
 	 * @covers ::is_yoast_seo_page
-	 *
-	 * @runInSeparateProcess
 	 */
 	public function test_is_yoast_seo_page_page_not_set() {
 		unset( $_GET['page'] );
@@ -782,8 +800,6 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test is_yoast_seo_page function when page is null.
 	 *
 	 * @covers ::is_yoast_seo_page
-	 *
-	 * @runInSeparateProcess
 	 */
 	public function test_is_yoast_seo_page_page_is_null() {
 		$_GET['page'] = null;
@@ -795,8 +811,6 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test is_yoast_seo_page function when page is something else than a string.
 	 *
 	 * @covers ::is_yoast_seo_page
-	 *
-	 * @runInSeparateProcess
 	 */
 	public function test_is_yoast_seo_page_page_is_int() {
 		$_GET['page'] = 13;
@@ -808,8 +822,6 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test get_current_yoast_seo_page function.
 	 *
 	 * @covers ::get_current_yoast_seo_page
-	 *
-	 * @runInSeparateProcess
 	 */
 	public function test_get_current_yoast_seo_page() {
 		$_GET['page'] = 'wpseo_something';
@@ -821,8 +833,6 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test get_current_yoast_seo_page function when page is not set.
 	 *
 	 * @covers ::get_current_yoast_seo_page
-	 *
-	 * @runInSeparateProcess
 	 */
 	public function test_get_current_yoast_seo_page_page_not_set() {
 		unset( $_GET['page'] );
@@ -834,8 +844,6 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test get_current_yoast_seo_page function when page is null.
 	 *
 	 * @covers ::get_current_yoast_seo_page
-	 *
-	 * @runInSeparateProcess
 	 */
 	public function test_get_current_yoast_seo_page_page_is_null() {
 		$_GET['page'] = null;
@@ -847,8 +855,6 @@ class Current_Page_Helper_Test extends TestCase {
 	 * Test get_current_yoast_seo_page function when page is something else than a string.
 	 *
 	 * @covers ::get_current_yoast_seo_page
-	 *
-	 * @runInSeparateProcess
 	 */
 	public function test_get_current_yoast_seo_page_page_is_int() {
 		$_GET['page'] = 13;
