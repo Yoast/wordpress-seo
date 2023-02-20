@@ -19,7 +19,6 @@ import TextLength from "../../assessments/seo/TextLengthAssessment";
 import TitleWidth from "../../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment";
-import KeyphraseDistribution from "../../assessments/seo/KeyphraseDistributionAssessment";
 import ProductIdentifiersAssessment from "../../assessments/seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "../../assessments/seo/ProductSKUAssessment";
 
@@ -136,10 +135,6 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 		new ImageAltTags( {
 			urlTitle: createAnchorOpeningTag( options.imageAltTagsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageAltTagsCTAUrl ),
-		} ),
-		new KeyphraseDistribution( {
-			urlTitle: createAnchorOpeningTag( options.keyphraseDistributionUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.keyphraseDistributionCTAUrl ),
 		} ),
 		new ProductIdentifiersAssessment( {
 			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
