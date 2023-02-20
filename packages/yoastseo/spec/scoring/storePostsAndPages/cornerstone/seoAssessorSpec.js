@@ -2,12 +2,15 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import Assessor from "../../../../src/scoring/storePostsAndPages/cornerstone/seoAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
 import getResults from "../../../specHelpers/getAssessorResults";
+import keyPhraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 
 describe( "running assessments in the assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( new EnglishResearcher() );
+		const researcher = new EnglishResearcher();
+		researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
+		assessor = new Assessor( researcher );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {

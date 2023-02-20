@@ -5,7 +5,6 @@ import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
 import Pluggable from "./pluggable.js";
-import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import ContentAssessor from "./scoring/contentAssessor.js";
 import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
 import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
@@ -14,8 +13,6 @@ import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
 import SEOAssessor from "./scoring/seoAssessor.js";
 import SnippetPreview from "./snippetPreview/snippetPreview.js";
 import Paper from "./values/Paper.js";
-
-const keyphraseDistribution = new KeyphraseDistributionAssessment();
 
 var inputDebounceDelay = 800;
 
@@ -284,7 +281,6 @@ var App = function( args ) {
 
 	this._assessorOptions = {
 		useCornerStone: false,
-		useKeywordDistribution: false,
 	};
 
 	this.initSnippetPreview();
@@ -333,12 +329,9 @@ App.prototype.changeAssessorOptions = function( assessorOptions ) {
  * @returns {Assessor} The assessor instance.
  */
 App.prototype.getSeoAssessor = function() {
-	const { useCornerStone, useKeywordDistribution } = this._assessorOptions;
+	const { useCornerStone } = this._assessorOptions;
 
 	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
-	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
-		assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
-	}
 
 	return assessor;
 };

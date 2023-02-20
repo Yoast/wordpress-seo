@@ -1,10 +1,10 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
-import AssessmentResult from "../../../values/AssessmentResult";
+import { languageProcessing, AssessmentResult, Assessment, helpers } from "yoastseo";
+
+const { getSentences } = languageProcessing;
+const { createAnchorOpeningTag } = helpers;
 
 /**
  * Returns a score based on the largest percentage of text in

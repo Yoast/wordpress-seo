@@ -2,12 +2,15 @@ import DefaultResearcher from "../../../src/languageProcessing/languages/_defaul
 import Assessor from "../../../src/scoring/collectionPages/seoAssessor.js";
 import Paper from "../../../src/values/Paper.js";
 import getResults from "../../specHelpers/getAssessorResults";
+import keyPhraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
 
 describe( "running assessments in the collection page SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( new DefaultResearcher() );
+		const researcher = new DefaultResearcher();
+		researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
+		assessor = new Assessor( researcher );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {
@@ -153,7 +156,6 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
-
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",

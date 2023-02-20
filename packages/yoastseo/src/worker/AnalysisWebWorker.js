@@ -7,7 +7,6 @@ import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefine
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
-import * as assessments from "../scoring/assessments";
 import SEOAssessor from "../scoring/seoAssessor";
 import ContentAssessor from "../scoring/contentAssessor";
 import TaxonomyAssessor from "../scoring/taxonomyAssessor";
@@ -60,7 +59,6 @@ export default class AnalysisWebWorker {
 			inclusiveLanguageAnalysisActive: false,
 			useCornerstone: false,
 			useTaxonomy: false,
-			useKeywordDistribution: false,
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 			customAnalysisType: "",
@@ -473,11 +471,9 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen SEO assessor.
 	 */
 	createSEOAssessor() {
-		const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
-			useKeywordDistribution,
 			useTaxonomy,
 			customAnalysisType,
 		} = this._configuration;
@@ -510,10 +506,6 @@ export default class AnalysisWebWorker {
 						this._CustomSEOAssessorOptions[ customAnalysisType ] )
 					: new SEOAssessor( this._researcher );
 			}
-		}
-
-		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
-			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
@@ -659,7 +651,6 @@ export default class AnalysisWebWorker {
 			"keywordAnalysisActive",
 			"useCornerstone",
 			"useTaxonomy",
-			"useKeywordDistribution",
 			"locale",
 			"translations",
 			"researchData",
@@ -689,7 +680,6 @@ export default class AnalysisWebWorker {
 	 * @param {boolean}  [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
 	 * @param {boolean}  [configuration.useCornerstone]         Whether the paper is cornerstone or not.
 	 * @param {boolean}  [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
-	 * @param {boolean}  [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
 	 * @param {string}   [configuration.locale]                 The locale used in the seo assessor.
 	 * @param {Object}   [configuration.translations]           The translation strings.
 	 * @param {Object}   [configuration.researchData]           Extra research data.
