@@ -66,7 +66,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( this._keyphraseDistribution.sentencesToHighlight.length > 0 );
+		assessmentResult.setHasMarks( calculatedResult.hasMark );
 
 		return assessmentResult;
 	}
@@ -78,10 +78,12 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 */
 	calculateResult() {
 		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
+		const hasMark = this._keyphraseDistribution.sentencesToHighlight.length > 0;
 
 		if ( distributionScore === 100 ) {
 			return {
 				score: this._config.scores.consideration,
+				hasMark: hasMark,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
@@ -100,6 +102,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
 			return {
 				score: this._config.scores.bad,
+				hasMark: hasMark,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
@@ -120,6 +123,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 		) {
 			return {
 				score: this._config.scores.okay,
+				hasMark: hasMark,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
@@ -137,6 +141,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		return {
 			score: this._config.scores.good,
+			hasMark: hasMark,
 			resultText: sprintf(
 				/* Translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
 				__(
