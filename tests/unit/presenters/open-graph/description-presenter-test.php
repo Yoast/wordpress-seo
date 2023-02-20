@@ -42,6 +42,13 @@ class Description_Presenter_Test extends TestCase {
 	protected $replace_vars;
 
 	/**
+	 * The string helper mock.
+	 *
+	 * @var Mockery\MockInterface|String_Helper
+	 */
+	protected $string;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {

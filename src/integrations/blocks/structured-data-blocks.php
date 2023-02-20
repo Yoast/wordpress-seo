@@ -346,16 +346,18 @@ class Structured_Data_Blocks implements Integration_Interface {
 			if ( ! isset( $element[ $key ] ) ) {
 				continue;
 			}
-			foreach ( $element[ $key ] as $part ) {
-				if ( ! \is_array( $part ) || ! isset( $part['type'] ) || $part['type'] !== 'img' ) {
-					continue;
-				}
+			if ( isset( $element[ $key ] ) && is_array( $element[ $key ] ) ) {
+				foreach ( $element[ $key ] as $part ) {
+					if ( ! \is_array( $part ) || ! isset( $part['type'] ) || $part['type'] !== 'img' ) {
+						continue;
+					}
 
-				if ( ! isset( $part['key'] ) || ! isset( $part['props']['src'] ) ) {
-					continue;
-				}
+					if ( ! isset( $part['key'] ) || ! isset( $part['props']['src'] ) ) {
+						continue;
+					}
 
-				$images[ $part['props']['src'] ] = (int) $part['key'];
+					$images[ $part['props']['src'] ] = (int) $part['key'];
+				}
 			}
 		}
 

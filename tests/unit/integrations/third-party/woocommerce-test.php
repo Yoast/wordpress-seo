@@ -12,9 +12,11 @@ use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Indexable_Presentation_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -52,7 +54,7 @@ class WooCommerce_Test extends TestCase {
 	/**
 	 * The presentation.
 	 *
-	 * @var Indexable_Presentation
+	 * @var Indexable_Presentation|Indexable_Presentation_Mock|Mockery\MockInterface
 	 */
 	private $presentation;
 
@@ -184,9 +186,33 @@ class WooCommerce_Test extends TestCase {
 			->once()
 			->andReturn( 707 );
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 707, 'post' )->andReturn( 'shop' );
+		$indexable_mock = Mockery::mock( Indexable::class );
 
-		$this->assertEquals( [ 'shop' ], $this->instance->add_shop_to_breadcrumbs( $indexables ) );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 707, 'post' )->andReturn( $indexable_mock );
+
+		$this->assertEquals( [ $indexable_mock ], $this->instance->add_shop_to_breadcrumbs( $indexables ) );
+	}
+
+	/**
+	 * Tests the add shop to breadcrumbs function when finding no indexable for the shop page.
+	 *
+	 * @covers ::add_shop_to_breadcrumbs
+	 */
+	public function test_add_shop_to_breadcrumbs_no_indexable_shop_page() {
+		$indexables = [
+			(object) [
+				'object_type'     => 'post-type-archive',
+				'object_sub_type' => 'product',
+			],
+		];
+
+		$this->woocommerce_helper->expects( 'get_shop_page_id' )
+			->once()
+			->andReturn( 707 );
+
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 707, 'post' )->andReturn( false );
+
+		$this->assertEquals( $indexables, $this->instance->add_shop_to_breadcrumbs( $indexables ) );
 	}
 
 	/**
@@ -462,7 +488,7 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::canonical
 	 */
 	public function test_canonical_on_paginated_shop_page() {
-		$presentation = Mockery::mock( Indexable_Presentation::class );
+		$presentation = Mockery::mock( Indexable_Presentation_Mock::class );
 
 		$presentation->permalink = 'https://example.com/permalink/';
 
@@ -489,7 +515,7 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::canonical
 	 */
 	public function test_canonical_on_non_paginated_shop_page() {
-		$presentation = Mockery::mock( Indexable_Presentation::class );
+		$presentation = Mockery::mock( Indexable_Presentation_Mock::class );
 
 		$presentation->permalink = 'https://example.com/permalink/';
 
@@ -512,7 +538,7 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::canonical
 	 */
 	public function test_canonical_on_non_shop_page() {
-		$presentation = Mockery::mock( Indexable_Presentation::class );
+		$presentation = Mockery::mock( Indexable_Presentation_Mock::class );
 
 		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()
@@ -529,7 +555,7 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::canonical
 	 */
 	public function test_canonical_on_invalid_permalink() {
-		$presentation = Mockery::mock( Indexable_Presentation::class );
+		$presentation = Mockery::mock( Indexable_Presentation_Mock::class );
 
 		$this->woocommerce_helper->expects( 'is_shop_page' )
 			->once()

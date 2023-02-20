@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Surfaces;
 use Brain\Monkey;
 use Brain\Monkey\Filters;
 use Mockery;
+use WP_Rewrite;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -26,35 +27,35 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 class Meta_Surface_Test extends TestCase {
 
 	/**
-	 * The container
+	 * The container.
 	 *
 	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
-	 * The context memoizer
+	 * The context memoizer.
 	 *
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	protected $context_memoizer;
 
 	/**
-	 * The repository
+	 * The repository.
 	 *
 	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
-	 * The context
+	 * The context.
 	 *
 	 * @var Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
 	/**
-	 * The indexable
+	 * The indexable.
 	 *
 	 * @var Indexable_Mock
 	 */
@@ -75,7 +76,7 @@ class Meta_Surface_Test extends TestCase {
 	private $indexable_helper;
 
 	/**
-	 * The instance
+	 * The instance.
 	 *
 	 * @var Meta_Surface
 	 */
@@ -437,7 +438,7 @@ class Meta_Surface_Test extends TestCase {
 	 * @param bool   $is_date_archive Optional. Whether the page is a date archive. Defaults to false.
 	 */
 	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $is_date_archive = false ) {
-		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );
+		$wp_rewrite = Mockery::mock( WP_Rewrite::class );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->times( 3 )

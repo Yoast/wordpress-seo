@@ -36,25 +36,6 @@ class WPSEO_Language_Utils {
 	}
 
 	/**
-	 * Returns the user locale for the language to be used in the admin.
-	 *
-	 * WordPress 4.7 introduced the ability for users to specify an Admin language
-	 * different from the language used on the front end. This checks if the feature
-	 * is available and returns the user's language, with a fallback to the site's language.
-	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
-	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
-	 *
-	 * @deprecated 15.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return string The locale.
-	 */
-	public static function get_user_locale() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5', 'get_user_locale' );
-		return get_user_locale();
-	}
-
-	/**
 	 * Returns the full name for the sites' language.
 	 *
 	 * @return string The language name.
@@ -72,9 +53,14 @@ class WPSEO_Language_Utils {
 	/**
 	 * Returns the l10n array for the knowledge graph company info missing.
 	 *
+	 * @deprecated 20.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return array The l10n array.
 	 */
 	public static function get_knowledge_graph_company_info_missing_l10n() {
+		_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+
 		return [
 			'URL'     => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3r3' ) ),
 			/* translators: 1: expands to a link opening tag; 2: expands to a link closing tag */

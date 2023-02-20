@@ -174,7 +174,7 @@ class Importable_Detector_Service_Test extends TestCase {
 		parent::set_up();
 
 		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb                   = Mockery::mock( 'wpdb' );
+		$this->wpdb                   = Mockery::mock( wpdb::class );
 		$this->import_cursor          = Mockery::mock( Import_Cursor_Helper::class );
 		$this->aioseo_helper          = Mockery::mock( Aioseo_Helper::class );
 		$this->meta                   = Mockery::mock( Meta_Helper::class );
