@@ -26,9 +26,11 @@ import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags
 import sanitizeString from "./helpers/sanitize/sanitizeString";
 import { unifyAllSpaces } from "./helpers/sanitize/unifyWhitespace";
 import removePunctuation from "./helpers/sanitize/removePunctuation";
+import normalizeHTML from "./helpers/html/normalizeHTML";
 import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
+import { getFieldsToMark } from "./helpers/html/getFieldsToMark";
 
 export {
 	AbstractResearcher,
@@ -62,5 +64,7 @@ export {
 	removePunctuation,
 	getLanguage,
 	getSentences,
+	getFieldsToMark,
 	unifyAllSpaces,
+	normalizeHTML,
 };

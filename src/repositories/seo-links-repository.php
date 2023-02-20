@@ -47,6 +47,48 @@ class SEO_Links_Repository {
 	}
 
 	/**
+	 * Retrieves an SEO Link by url.
+	 *
+	 * @param string $url The SEO Link's url.
+	 *
+	 * @return SEO_Links|false The SEO Link, or false if none found.
+	 */
+	public function find_one_by_url( $url ) {
+		return $this->query()
+			->select( 'target_post_id' )
+			->where( 'url', $url )
+			->find_one();
+	}
+
+	/**
+	 * Retrieves all SEO Links by target post ID.
+	 *
+	 * @param string $target_post_id The SEO Link's target post ID.
+	 *
+	 * @return SEO_Links[] The SEO Links.
+	 */
+	public function find_all_by_target_post_id( $target_post_id ) {
+		return $this->query()
+			->where( 'target_post_id', $target_post_id )
+			->find_many();
+	}
+
+	/**
+	 * Updates the ID of the target indexable of a link.
+	 *
+	 * @param int $link_id             The ID of the link to be updated.
+	 * @param int $target_indexable_id The ID of the target indexable.
+	 *
+	 * @return bool Whether or not the update was succeful.
+	 */
+	public function update_target_indexable_id( $link_id, $target_indexable_id ) {
+		return (bool) $this->query()
+			->set( 'target_indexable_id', $target_indexable_id )
+			->where( 'id', $link_id )
+			->update_many();
+	}
+
+	/**
 	 * Clears all SEO Links by post ID.
 	 *
 	 * @param int $post_id The post ID.

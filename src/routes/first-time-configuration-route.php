@@ -39,6 +39,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 	/**
 	 * Represents a person's social profiles route.
 	 *
+	 * @deprecated 20.2
 	 * @var string
 	 */
 	const PERSON_SOCIAL_PROFILES_ROUTE = '/person_social_profiles';
@@ -151,60 +152,6 @@ class First_Time_Configuration_Route implements Route_Interface {
 		];
 		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::SOCIAL_PROFILES_ROUTE, $social_profiles_route );
 
-		$person_social_profiles_route = [
-			[
-				'methods'             => 'GET',
-				'callback'            => [ $this, 'get_person_social_profiles' ],
-				'permission_callback' => [ $this, 'can_manage_options' ],
-				'args'                => [
-					'user_id' => [
-						'required' => true,
-					],
-				],
-			],
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'set_person_social_profiles' ],
-				'permission_callback' => [ $this, 'can_edit_user' ],
-				'args'                => [
-					'user_id' => [
-						'type'     => 'integer',
-					],
-					'facebook' => [
-						'type'     => 'string',
-					],
-					'instagram' => [
-						'type'     => 'string',
-					],
-					'linkedin' => [
-						'type'     => 'string',
-					],
-					'myspace' => [
-						'type'     => 'string',
-					],
-					'pinterest' => [
-						'type'     => 'string',
-					],
-					'soundcloud' => [
-						'type'     => 'string',
-					],
-					'tumblr' => [
-						'type'     => 'string',
-					],
-					'twitter' => [
-						'type'     => 'string',
-					],
-					'youtube' => [
-						'type'     => 'string',
-					],
-					'wikipedia' => [
-						'type'     => 'string',
-					],
-				],
-			],
-		];
-		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::PERSON_SOCIAL_PROFILES_ROUTE, $person_social_profiles_route );
-
 		$check_capability_route = [
 			'methods'             => 'GET',
 			'callback'            => [ $this, 'check_capability' ],
@@ -279,38 +226,6 @@ class First_Time_Configuration_Route implements Route_Interface {
 		$data = $this
 			->first_time_configuration_action
 			->set_social_profiles( $request->get_json_params() );
-
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
-	}
-
-	/**
-	 * Gets a person's social profiles values.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function get_person_social_profiles( WP_REST_Request $request ) {
-		$data = $this
-			->first_time_configuration_action
-			->get_person_social_profiles( $request->get_param( 'user_id' ) );
-
-		return new WP_REST_Response( $data, $data->status );
-	}
-
-	/**
-	 * Sets a person's social profiles values.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 *
-	 * @return WP_REST_Response
-	 */
-	public function set_person_social_profiles( WP_REST_Request $request ) {
-		$data = $this
-			->first_time_configuration_action
-			->set_person_social_profiles( $request->get_json_params() );
 
 		return new WP_REST_Response(
 			[ 'json' => $data ]
@@ -403,5 +318,49 @@ class First_Time_Configuration_Route implements Route_Interface {
 			->get_configuration_state();
 
 		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/*** DEPRECATED METHODS ***/
+
+	/**
+	 * Gets a person's social profiles values.
+	 *
+	 * @deprecated 20.2
+	 * @codeCoverageIgnore
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function get_person_social_profiles( WP_REST_Request $request ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.2' );
+
+		$data = $this
+			->first_time_configuration_action
+			->get_person_social_profiles( $request->get_param( 'user_id' ) );
+
+		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/**
+	 * Sets a person's social profiles values.
+	 *
+	 * @deprecated 20.2
+	 * @codeCoverageIgnore
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function set_person_social_profiles( WP_REST_Request $request ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.2' );
+
+		$data = $this
+			->first_time_configuration_action
+			->set_person_social_profiles( $request->get_json_params() );
+
+		return new WP_REST_Response(
+			[ 'json' => $data ]
+		);
 	}
 }

@@ -21,6 +21,8 @@ class Indexable_Mock extends Indexable {
 
 	public $author_id;
 
+	public $post_parent;
+
 	public $created_at;
 
 	public $updated_at;
@@ -30,8 +32,6 @@ class Indexable_Mock extends Indexable {
 	public $permalink_hash;
 
 	public $canonical;
-
-	public $content_score;
 
 	public $is_robots_noindex;
 
@@ -97,15 +97,23 @@ class Indexable_Mock extends Indexable {
 
 	public $has_public_posts;
 
-	public $has_ancestors;
+	public $blog_id;
+
+	public $language;
+
+	public $region;
 
 	public $schema_page_type;
 
 	public $schema_article_type;
 
-	public $language;
+	public $has_ancestors;
 
-	public $region;
+	public $estimated_reading_time_minutes;
+
+	public $object_last_modified;
+
+	public $object_published_at;
 
 	public $version;
 }

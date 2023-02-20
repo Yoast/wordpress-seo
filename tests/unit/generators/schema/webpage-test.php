@@ -115,8 +115,6 @@ class WebPage_Test extends TestCase {
 			'object_type'     => 'post',
 			'object_sub_type' => 'page',
 		];
-
-		$this->id->website_hash = '#website';
 	}
 
 	/**
@@ -198,9 +196,6 @@ class WebPage_Test extends TestCase {
 		if ( $this->meta_tags_context->has_image ) {
 			$this->meta_tags_context->main_image_url = $values_to_test['image_url'];
 		}
-
-		$this->id->primary_image_hash = '#primaryimage';
-		$this->id->breadcrumb_hash    = '#breadcrumb';
 
 		$this->setup_generate_test(
 			false,

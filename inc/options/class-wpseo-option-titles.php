@@ -331,9 +331,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'social-image-url-tax-' . $tax->name ]   = ''; // Hidden input field.
 				$enriched_defaults[ 'social-image-id-tax-' . $tax->name ]    = 0; // Hidden input field.
 
-				if ( ! $tax->_builtin ) {
-					$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
-				}
+				$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
 			}
 		}
 

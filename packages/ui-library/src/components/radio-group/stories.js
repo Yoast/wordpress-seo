@@ -4,7 +4,7 @@ import { noop } from "lodash";
 import RadioGroup from ".";
 
 export default {
-	title: "2. Components/Radio Group",
+	title: "2) Components/Radio Group",
 	component: RadioGroup,
 	argTypes: {
 		children: { control: "text" },
@@ -93,7 +93,7 @@ WithLabelAndDescription.args = {
 		{ value: "3", label: "3", screenReaderLabel: "Option #3" },
 		{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 	],
-	children: "Radio group with a description.",
+	description: "Radio group with a description.",
 };
 
 export const WithValue = Template.bind();
@@ -109,3 +109,19 @@ WithValue.args = {
 		{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 	],
 };
+
+export const ChildrenProp = Template.bind();
+ChildrenProp.args = {
+	id: "radio-group-5",
+	name: "name-5",
+	label: "Radio group label.",
+	children: <>
+		<RadioGroup.Radio defaultChecked={ true } value="child 1" label="Option 1" id="radio-1" name="name-5" />
+		<RadioGroup.Radio value="child 2" label="Option 2" id="radio-2" name="name-5" />
+		<RadioGroup.Radio value="child 3" label="Option 3" id="radio-3" name="name-5" />
+	</>,
+};
+
+ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the sub component `Radio` (`RadioGroup.Radio` is equal to `Radio` element). Default values should be set inside the child component and not the `value` prop." } } };
+
+

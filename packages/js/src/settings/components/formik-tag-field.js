@@ -28,13 +28,17 @@ const FormikTagField = props => {
 		setTouched( true, false );
 		setValue( [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ].join( "," ) );
 	}, [ setTouched, setValue, tags ] );
-
+	const handleSetTags = useCallback( tagValue => {
+		setTouched( true, false );
+		setValue( tagValue.join( "," )  );
+	}, [ setTouched, setValue ] );
 	return (
 		<TagField
 			{ ...field }
 			tags={ tags }
 			onAddTag={ handleAddTag }
 			onRemoveTag={ handleRemoveTag }
+			onSetTags={ handleSetTags }
 			{ ...props }
 		/>
 	);
