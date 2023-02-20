@@ -2,13 +2,58 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import Assessor from "../../../../src/scoring/collectionPages/cornerstone/seoAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
 import getResults from "../../../specHelpers/getAssessorResults";
+import keyPhraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 
 
 describe( "running assessments in the collection page cornerstone SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( new EnglishResearcher() );
+		const researcher = new EnglishResearcher();
+		const options = {
+			assessVariants: true,
+			introductionKeyphraseUrlTitle: "https://yoast.com/1",
+			introductionKeyphraseCTAUrl: "https://yoast.com/2",
+			keyphraseLengthUrlTitle: "https://yoast.com/3",
+			keyphraseLengthCTAUrl: "https://yoast.com/4",
+			keyphraseDensityUrlTitle: "https://yoast.com/5",
+			keyphraseDensityCTAUrl: "https://yoast.com/6",
+			metaDescriptionKeyphraseUrlTitle: "https://yoast.com/7",
+			metaDescriptionKeyphraseCTAUrl: "https://yoast.com/8",
+			metaDescriptionLengthUrlTitle: "https://yoast.com/9",
+			metaDescriptionLengthCTAUrl: "https://yoast.com/10",
+			subheadingsKeyphraseUrlTitle: "https://yoast.com/11",
+			subheadingsKeyphraseCTAUrl: "https://yoast.com/12",
+			textCompetingLinksUrlTitle: "https://yoast.com/13",
+			textCompetingLinksCTAUrl: "https://yoast.com/14",
+			textLengthUrlTitle: "https://yoast.com/15",
+			textLengthCTAUrl: "https://yoast.com/16",
+			titleKeyphraseUrlTitle: "https://yoast.com/17",
+			titleKeyphraseCTAUrl: "https://yoast.com/18",
+			titleWidthUrlTitle: "https://yoast.com/19",
+			titleWidthCTAUrl: "https://yoast.com/20",
+			urlKeyphraseUrlTitle: "https://yoast.com/21",
+			urlKeyphraseCTAUrl: "https://yoast.com/22",
+			functionWordsInKeyphraseUrlTitle: "https://yoast.com/23",
+			functionWordsInKeyphraseCTAUrl: "https://yoast.com/24",
+			singleH1UrlTitle: "https://yoast.com/25",
+			singleH1CTAUrl: "https://yoast.com/26",
+			imageCountUrlTitle: "https://yoast.com/27",
+			imageCountCTAUrl: "https://yoast.com/28",
+			imageKeyphraseUrlTitle: "https://yoast.com/29",
+			imageKeyphraseCTAUrl: "https://yoast.com/30",
+			imageAltTagsUrlTitle: "https://yoast.com/31",
+			imageAltTagsCTAUrl: "https://yoast.com/32",
+			keyphraseDistributionUrlTitle: "https://yoast.com/33",
+			keyphraseDistributionCTAUrl: "https://yoast.com/34",
+			productIdentifierUrlTitle: "https://yoast.com/35",
+			productIdentifierCTAUrl: "https://yoast.com/36",
+			productSKUUrlTitle: "https://yoast.com/37",
+			productSKUCTAUrl: "https://yoast.com/38",
+		};
+
+		researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
+		assessor = new Assessor( researcher, options );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {

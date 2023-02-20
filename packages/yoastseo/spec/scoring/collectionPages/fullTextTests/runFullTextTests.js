@@ -4,6 +4,7 @@ import getLanguage from "../../../../src/languageProcessing/helpers/language/get
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
 import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
+import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
 import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
 
@@ -43,7 +44,8 @@ testPapers.forEach( function( testPaper ) {
 
 		const LanguageResearcher = getResearcher( language );
 		const researcher = new LanguageResearcher( paper );
-		researcher.addResearchData( "morphology", getMorphologyData( language ) );
+		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
 		// Also register the research, helper, and config for Word Complexity for testing purposes.
 		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
 			researcher.addResearch( "wordComplexity", wordComplexity );

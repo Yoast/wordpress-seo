@@ -11,7 +11,6 @@ import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
-import KeyphraseDistributionAssessment from "./seo/KeyphraseDistributionAssessment";
 import KeyphraseLengthAssessment from "./seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./seo/MetaDescriptionKeywordAssessment";
@@ -49,7 +48,6 @@ const seo = {
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
 	KeywordDensityAssessment,
-	KeyphraseDistributionAssessment,
 	MetaDescriptionKeywordAssessment,
 	MetaDescriptionLengthAssessment,
 	OutboundLinksAssessment,

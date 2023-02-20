@@ -2,12 +2,14 @@ import DefaultResearcher from "../../../src/languageProcessing/languages/_defaul
 import Assessor from "../../../src/scoring/productPages/seoAssessor.js";
 import Paper from "../../../src/values/Paper.js";
 import getResults from "../../specHelpers/getAssessorResults";
+import keyPhraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
 
 describe( "running assessments in the product page SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( new DefaultResearcher(), {
+		const researcher = new DefaultResearcher();
+		const options = {
 			assessVariants: true,
 			introductionKeyphraseUrlTitle: "https://yoast.com/1",
 			introductionKeyphraseCTAUrl: "https://yoast.com/2",
@@ -47,7 +49,10 @@ describe( "running assessments in the product page SEO assessor", function() {
 			productIdentifierCTAUrl: "https://yoast.com/36",
 			productSKUUrlTitle: "https://yoast.com/37",
 			productSKUCTAUrl: "https://yoast.com/38",
-		} );
+		};
+
+		researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
+		assessor = new Assessor( researcher, options );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {

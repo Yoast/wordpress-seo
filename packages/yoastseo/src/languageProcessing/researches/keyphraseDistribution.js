@@ -1,12 +1,9 @@
-import parseSynonyms from "../helpers/sanitize/parseSynonyms";
-import getSentences from "../helpers/sentence/getSentences";
-import { mergeListItems } from "../helpers/sanitize/mergeListItems";
-import { findWordFormsInString } from "../helpers/match/findKeywordFormsInString";
 import { max, uniq as unique } from "lodash-es";
 import { zipWith } from "lodash-es";
 import { flattenDeep } from "lodash-es";
-import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
+import { languageProcessing } from "yoastseo";
 
+const { parseSynonyms, getSentences, mergeListItems, findWordFormsInString, markWordsInSentences } = languageProcessing;
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.

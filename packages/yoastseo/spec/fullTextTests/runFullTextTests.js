@@ -31,8 +31,9 @@ import SentenceBeginningsAssessment from "../../src/scoring/assessments/readabil
 import WordComplexityAssessment from "../../src/scoring/assessments/readability/WordComplexityAssessment";
 
 import wordComplexity from "../../src/languageProcessing/researches/wordComplexity";
-
+import keyphraseDistribution from "../../src/languageProcessing/researches/keyphraseDistribution";
 import { getLanguagesWithWordComplexity } from "../../src/helpers";
+
 // Import test papers.
 import testPapers from "./testTexts";
 
@@ -45,7 +46,8 @@ testPapers.forEach( function( testPaper ) {
 
 		const LanguageResearcher = getResearcher( language );
 		const researcher = new LanguageResearcher( paper );
-		researcher.addResearchData( "morphology", getMorphologyData( language ) );
+		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
 		// Also register the research, helper, and config for Word Complexity for testing purposes.
 		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
 			researcher.addResearch( "wordComplexity", wordComplexity );
