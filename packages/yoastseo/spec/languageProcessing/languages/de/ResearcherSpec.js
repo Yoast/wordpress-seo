@@ -80,10 +80,4 @@ describe( "a test for the German Researcher", function() {
 		expect( researcher.getHelper( "checkIfWordIsComplex" )( "optimierungen" ) ).toEqual( true );
 		expect( researcher.getHelper( "checkIfWordIsComplex" )( "boxen" ) ).toEqual( false );
 	} );
-
-	it( "checks if a word is function in German", function() {
-		expect( researcher.getHelper( "checkIfWordIsFunction" )( "verhältnismäßig" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsFunction" )( "Verhältnismäßig" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsFunction" )( "gebildeten" ) ).toEqual( false );
-	} );
 } );

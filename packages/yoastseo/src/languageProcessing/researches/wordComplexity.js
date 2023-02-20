@@ -28,12 +28,10 @@ import { flatMap } from "lodash-es";
 const getComplexWords = function( currentSentence, researcher ) {
 	const checkIfWordIsComplex = researcher.getHelper( "checkIfWordIsComplex" );
 	const functionWords = researcher.getConfig( "functionWords" );
-	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
 
 	const allWords = getWords( currentSentence );
 	// Filters out function words because function words are not complex.
-	// Words are converted to lower case before processing to avoid excluding functional words what starts with a capital latter.
-	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
+	const words = allWords.filter( word => ! functionWords.includes( word ) );
 	const results = [];
 
 	words.forEach( word => {
