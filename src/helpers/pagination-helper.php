@@ -86,7 +86,6 @@ class Pagination_Helper {
 			}
 
 			$url = \trailingslashit( $url );
-
 			if ( $add_pagination_base ) {
 				$url .= \trailingslashit( $wp_rewrite->pagination_base );
 			}
