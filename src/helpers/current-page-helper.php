@@ -428,17 +428,13 @@ class Current_Page_Helper {
 	 * @return string The current Yoast SEO page.
 	 */
 	public function get_current_yoast_seo_page() {
-		static $current_yoast_seo_page;
-
-		if ( $current_yoast_seo_page === null ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-			if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
-				$current_yoast_seo_page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
-			}
+			return \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 		}
 
-		return $current_yoast_seo_page;
+		return null;
 	}
 
 	/**
