@@ -130,6 +130,22 @@ describe( "Adding a custom config to a Researcher", function() {
 		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
 	} );
 
+	it( "throws an error if an empty object is given as the config", function() {
+		expect( function() {
+			researcher.addConfig( "pets", {} );
+		} ).toThrowError( MissingArgument );
+
+		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+	} );
+
+	it( "throws an error if no config is given", function() {
+		expect( function() {
+			researcher.addConfig( "pets" );
+		} ).toThrowError( MissingArgument );
+
+		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+	} );
+
 	it( "adds a config to the config object", function() {
 		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
 		const petsList1 = [ "cats", "dogs", "rabbits" ];

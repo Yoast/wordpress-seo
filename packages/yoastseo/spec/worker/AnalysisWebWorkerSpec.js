@@ -1574,7 +1574,11 @@ describe( "AnalysisWebWorker", () => {
 			const errorMessage = "Failed to register the custom researcher config. Expected parameter `name` to be a string.";
 			expect( () => worker.registerResearcherConfig( null, researcherConfig ) ).toThrowError( errorMessage );
 		} );
-
+		test( "throws an error when passing an empty or undefined config", () => {
+			const errorMessage = "Failed to register the custom researcher config. Expected parameter `researcherConfig` to be defined.";
+			expect( () => worker.registerResearcherConfig( name, {} ) ).toThrowError( errorMessage );
+			expect( () => worker.registerResearcherConfig( name ) ).toThrowError( errorMessage );
+		} );
 		test( "adds the researcher config", () => {
 			scope.onmessage( createMessage( "initialize" ) );
 
