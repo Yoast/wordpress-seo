@@ -116,6 +116,28 @@ describe( "Checks if the assessment is applicable", function() {
 
 		expect( assessment ).toBe( false );
 	} );
+
+	it( "is not applicable when the researcher doesn't have the research", function() {
+		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
+			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
+			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
+			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
+			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
+			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse. Lorem ipsum dolor sit amet, vim illum aeque" +
+			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
+			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
+			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
+			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
+			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
+			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
+		const researcher = new EnglishResearcher( mockPaper );
+		delete researcher.defaultResearches.keyphraseDistribution;
+
+		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
+
+		expect( assessment ).toBe( false );
+	} );
 } );
 
 describe( "A test for marking keywords in the text", function() {
@@ -149,5 +171,17 @@ describe( "A test for marking keywords in the text", function() {
 			} ),
 		];
 		expect( keyphraseDistributionAssessment.getMarks() ).toEqual( expected );
+	} );
+	it( "doesn't return markers the research doesn't have sentences to highlight", function() {
+		const mockPaper = new Paper( "A sentence. A sentence containing keywords. Another sentence.", { keyword: "keyword" } );
+		keyphraseDistributionAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher(
+				{
+					keyphraseDistributionScore: 5,
+					sentencesToHighlight: [],
+				} )
+		);
+		expect( keyphraseDistributionAssessment.getMarks() ).toEqual( [] );
 	} );
 } );
