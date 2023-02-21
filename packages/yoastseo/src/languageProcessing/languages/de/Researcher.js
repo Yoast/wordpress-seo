@@ -20,7 +20,7 @@ import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
 import checkIfWordIsFunction from "./helpers/checkIfWordIsFunction";
 
 /**
- * The researches contain all the researches
+ * The researcher contains all the researches.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
