@@ -399,6 +399,9 @@ class WPSEO_Admin_Asset_Manager {
 			if ( in_array( self::PREFIX . 'analysis-package', $script['deps'], true ) ) {
 				$scripts[ $name ]['deps'][] = self::PREFIX . YoastSEO()->helpers->language->get_researcher_language() . '-language';
 			}
+			if ( in_array( 'wp-element', $script['deps'], true ) ) {
+				$scripts[ $name ]['deps'][] = self::PREFIX . 'wp-element-patch';
+			}
 		}
 
 		return $scripts;

@@ -1,5 +1,5 @@
 import { get } from "lodash";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { ThemeProvider } from "styled-components";
 import WebinarPromoNotification from "../components/WebinarPromoNotification";
 
@@ -14,11 +14,10 @@ const initSettingsHeader = () => {
 	const webinarIntroSettingsUrl = get( window, "wpseoScriptData.webinarIntroSettingsUrl", "https://yoa.st/webinar-intro-settings" );
 
 	if ( reactRoot ) {
-		render(
+		createRoot( reactRoot ).render(
 			<ThemeProvider theme={ { isRtl } }>
 				<WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } />
-			</ThemeProvider>,
-			reactRoot
+			</ThemeProvider>
 		);
 	}
 };

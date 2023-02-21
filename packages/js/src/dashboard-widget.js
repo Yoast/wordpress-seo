@@ -1,6 +1,6 @@
 /* global wpseoDashboardWidgetL10n, wpseoApi */
 // External dependencies.
-import { Component, render } from "@wordpress/element";
+import { Component, createRoot } from "@wordpress/element";
 
 /* Yoast dependencies */
 import { ArticleList as WordpressFeed } from "@yoast/components";
@@ -316,5 +316,5 @@ class DashboardWidget extends Component {
 const element = document.getElementById( "yoast-seo-dashboard-widget" );
 
 if ( element ) {
-	render( <DashboardWidget />, element );
+	createRoot( element ).render( <DashboardWidget /> );
 }

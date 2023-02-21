@@ -15,7 +15,7 @@
     "@wordpress/blocks": "^11.1.2",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
-    "@wordpress/element": "^2.19.1",
+    "@wordpress/element": "^5.3.1",
     "@wordpress/i18n": "^4.14.0",
     "@wordpress/url": "^3.17.0",
     "@yoast/analysis-report": "^1.21.0",
@@ -55,7 +55,7 @@
     "yup": "^0.32.11",
     "bowser": "^2.11.0",
     "react-hotkeys-hook": "^4.0.5",
-	"react-aria-live": "^2.0.5"
+    "react-aria-live": "^2.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
@@ -75,7 +75,7 @@
     "jest": "^27.5.1"
   },
   "peerDependencies": {
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "react": "16.14.0 || ^17.0.2 || ^18.2.0",
+    "react-dom": "16.14.0 || ^17.0.2 || ^18.2.0"
   }
 }

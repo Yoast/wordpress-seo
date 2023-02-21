@@ -1,4 +1,4 @@
-import { render, useState, Fragment } from "@wordpress/element";
+import { createRoot, useState, Fragment } from "@wordpress/element";
 import styled, { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
 
@@ -21,7 +21,7 @@ function renderComponent( component ) {
 	const element = document.createElement( "div" );
 	element.setAttribute( "id", "yoast-helpscout-beacon" );
 
-	render( component, element );
+	createRoot( element ).render( component );
 
 	document.body.appendChild( element );
 }

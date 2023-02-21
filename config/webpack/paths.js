@@ -49,6 +49,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	workouts: `${ sourceDirectory }/workouts.js`,
 	"wordproof-uikit": `${ sourceDirectory }/wordproof-uikit.js`,
 	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
+	"wp-element-patch": `${ sourceDirectory }/wp-element-patch.js`,
 } );
 
 /**
