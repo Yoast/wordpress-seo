@@ -124,6 +124,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 
 		paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
 		researcher = new GermanResearcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
@@ -132,6 +133,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		// eslint-disable-next-line max-len
 		const paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
 		const researcher = new GermanResearcher( paper );
+		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
