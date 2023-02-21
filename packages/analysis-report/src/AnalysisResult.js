@@ -149,7 +149,7 @@ AnalysisResult.propTypes = {
 	isPremium: PropTypes.bool,
 	onResultChange: PropTypes.func,
 	id: PropTypes.string,
-	marker: PropTypes.array,
+	marker: PropTypes.func,
 };
 
 AnalysisResult.defaultProps = {
@@ -165,7 +165,7 @@ AnalysisResult.defaultProps = {
 	isPremium: false,
 	onResultChange: noop,
 	id: "",
-	marker: [],
+	marker: noop,
 };
 
 export default AnalysisResult;
