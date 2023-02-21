@@ -154,16 +154,20 @@ export default class AbstractResearcher {
 	/**
 	 * Add a custom configuration that will be available within the Researcher.
 	 *
-	 * @param {string}          name     A name to reference the helper by.
-	 * @param {Object|Array}    config   The configuration to be added to the Researcher.
+	 * @param {string}  name     A name to reference the helper by.
+	 * @param {*}       config   The configuration to be added to the Researcher.
 	 *
-	 * @throws {MissingArgument}  Configuration name cannot be empty.
+	 * @throws {MissingArgument}  Configuration name and the configuration itself cannot be empty.
 	 *
 	 * @returns {void}
 	 */
 	addConfig( name, config ) {
 		if ( isUndefined( name ) || isEmpty( name ) ) {
-			throw new MissingArgument( "Helper name cannot be empty" );
+			throw new MissingArgument( "Failed to add the custom researcher config. Config name cannot be empty." );
+		}
+
+		if ( isUndefined( config ) || isEmpty( config ) ) {
+			throw new MissingArgument( "Failed to add the custom researcher config. Config cannot be empty." );
 		}
 
 		this.config[ name ] = config;
