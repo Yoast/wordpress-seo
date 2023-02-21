@@ -294,7 +294,6 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
-	isYoastSEOWooActive: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -304,7 +303,6 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
-	isYoastSEOWooActive: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
