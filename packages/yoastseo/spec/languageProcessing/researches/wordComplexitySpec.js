@@ -114,7 +114,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
 
-	it( "Test", () => {
+	it( "should not recognize German function words to be complex, no matter whether they are capitalized or not", () => {
 		// eslint-disable-next-line max-len
 		const paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
 		const researcher = new GermanResearcher( paper );
