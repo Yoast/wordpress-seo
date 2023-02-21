@@ -32,7 +32,7 @@ const getComplexWords = function( currentSentence, researcher ) {
 
 	const allWords = getWords( currentSentence );
 	// Filters out function words because function words are not complex.
-	// Words are converted to lower case before processing to avoid excluding functional words what starts with a capital latter.
+	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
 	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
 	const results = [];
 
