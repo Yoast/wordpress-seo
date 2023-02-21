@@ -121,5 +121,18 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperFrench );
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+
+		paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
+		researcher = new GermanResearcher( paper );
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+	} );
+
+	it( "should not recognize German function words to be complex, no matter whether they are capitalized or not", () => {
+		// eslint-disable-next-line max-len
+		const paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
+		const researcher = new GermanResearcher( paper );
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
 } );
