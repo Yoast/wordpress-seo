@@ -84,6 +84,15 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		},
 
 		/**
+		 * Return whether the worker has the research.
+		 *
+		 * @returns {boolean} Whether the worker has the research.
+		 */
+		hasResearch: function() {
+			return expectedValue;
+		},
+
+		/**
 		 * Check whether morphology data is available.
 		 *
 		 * @returns {boolean} True if the researcher has access to morphology data.
