@@ -10,7 +10,7 @@ import AssessmentResult from "../values/AssessmentResult.js";
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
  * @param {object} args.usedKeywords An object with keywords and ids where they are used.
- * @param {object} args.usedKeywordsPostTypes An object with the post types of belonging to the post ids from usedKeywords.
+ * @param {object} args.usedKeywordsPostTypes An object with the post types of the post ids from usedKeywords.
  * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
  * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
  * @constructor
