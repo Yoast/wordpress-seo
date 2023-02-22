@@ -911,6 +911,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isBlockEditor'              => $is_block_editor,
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
+			'usedKeywordsNonce'          => \wp_create_nonce( 'wpseo-keyword-usage' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
