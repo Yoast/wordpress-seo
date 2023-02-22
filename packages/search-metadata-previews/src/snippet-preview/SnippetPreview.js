@@ -39,7 +39,7 @@ const colorUrlRestMobile        = "#70757a";
 const colorDescriptionDesktop   = "#4d5156";
 const colorDescriptionMobile    = "#3c4043";
 // Changed to have 4.5:1 contrast.
-const colorGeneratedDescription = "4d5156";
+const colorGeneratedDescription = "#4d5156";
 // Was #70757f for both desktop and mobile
 const colorDateDesktop          = "#777";
 const colorDateMobile           = "#70757a";
@@ -192,7 +192,7 @@ min-width: 28px;
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
 const DesktopDescription = styled.div`
-	color: #${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescriptionDesktop };
+	color: ${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescriptionDesktop };
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
