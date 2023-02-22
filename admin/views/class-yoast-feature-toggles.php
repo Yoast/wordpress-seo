@@ -89,7 +89,6 @@ class Yoast_Feature_Toggles {
 			],
 			(object) [
 				'name'                => __( 'Inclusive language analysis', 'wordpress-seo' ),
-				'in_beta'             => true,
 				'supported_languages' => Language_Helper::$languages_with_inclusive_language_support,
 				'setting'             => 'inclusive_language_analysis_active',
 				'label'               => __( 'The inclusive language analysis offers suggestions to write more inclusive copy.', 'wordpress-seo' ),
