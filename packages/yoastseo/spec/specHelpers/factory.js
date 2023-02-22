@@ -3,6 +3,8 @@
  *
  * @returns {void}
  */
+import { isUndefined } from "lodash-es";
+
 const FactoryProto = function() {};
 
 /**
@@ -44,6 +46,15 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			},
 
 			/**
+			 * Return whether the worker has the research.
+			 * @param {string} research The name of the research.
+			 * @returns {boolean} Whether the worker has the research.
+			 */
+			hasResearch: function( research ) {
+				return ! isUndefined( expectedValue[ research ] );
+			},
+
+			/**
 			 * Check whether morphology data is available.
 			 *
 			 * @returns {boolean} True if the researcher has access to morphology data.
@@ -80,15 +91,6 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		 * @returns {Object} The results of the research.
 		 */
 		getResearch: function() {
-			return expectedValue;
-		},
-
-		/**
-		 * Return whether the worker has the research.
-		 *
-		 * @returns {boolean} Whether the worker has the research.
-		 */
-		hasResearch: function() {
 			return expectedValue;
 		},
 
