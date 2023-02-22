@@ -583,7 +583,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'id'     => 'wpseo-get-premium',
 				// Circumvent an issue in the WP admin bar API in order to pass `data` attributes. See https://core.trac.wordpress.org/ticket/38636.
 				'title'  => sprintf(
-					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" style="padding:0;">%2$s &raquo;</a>',
+					'<a href="%1$s" target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" style="padding:0;">%2$s &raquo;</a>',
 					$this->shortlinker->build_shortlink( 'https://yoa.st/admin-bar-get-premium' ),
 					__( 'Get Yoast SEO Premium', 'wordpress-seo' )
 				),

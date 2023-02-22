@@ -115,12 +115,22 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * @param WP_Term $taxonomy Taxonomy to save primary term for.
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
-		$primary_term = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', \FILTER_SANITIZE_NUMBER_INT );
+		if ( isset( $_POST[ WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term' ] ) && \is_string( $_POST[ WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term' ] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are casting to an integer.
+			$primary_term_id = (int) \wp_unslash( $_POST[ WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term' ] );
 
-		// We accept an empty string here because we need to save that if no terms are selected.
-		if ( $primary_term && \check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) !== null ) {
-			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
-			$primary_term_object->set_primary_term( $primary_term );
+			if ( $primary_term_id <= 0 ) {
+				$primary_term = '';
+			}
+			else {
+				$primary_term = (string) $primary_term_id;
+			}
+
+			// We accept an empty string here because we need to save that if no terms are selected.
+			if ( \check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) !== null ) {
+				$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
+				$primary_term_object->set_primary_term( $primary_term );
+			}
 		}
 	}
 

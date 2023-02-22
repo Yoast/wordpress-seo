@@ -107,17 +107,26 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		return $this->pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! isset( $_GET['page'] ) || ! is_string( $_GET['page'] ) ) {
+			return false;
+		}
+
+		if ( $this->pagenow !== 'admin.php' ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$current_page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+		return strpos( $current_page, 'wpseo' ) === 0;
 	}
 
 	/**
-	 * Determine whether we should load the meta box class and if so, load it.
+	 * Whether we should load the meta box classes.
+	 *
+	 * @return bool true if we should load the meta box classes, false otherwise.
 	 */
-	private function load_meta_boxes() {
-
-		$is_editor      = WPSEO_Metabox::is_post_overview( $this->pagenow ) || WPSEO_Metabox::is_post_edit( $this->pagenow );
-		$is_inline_save = filter_input( INPUT_POST, 'action' ) === 'inline-save';
-
+	private function should_load_meta_boxes() {
 		/**
 		 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
 		 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
@@ -125,8 +134,28 @@ class WPSEO_Admin_Init {
 		 *
 		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
 		 */
-		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
-		) {
+		if ( apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
+			return true;
+		}
+
+		// If we are in a post editor.
+		if ( WPSEO_Metabox::is_post_overview( $this->pagenow ) || WPSEO_Metabox::is_post_edit( $this->pagenow ) ) {
+			return true;
+		}
+
+		// If we are doing an inline save.
+		if ( check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) && isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'inline-save' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determine whether we should load the meta box class and if so, load it.
+	 */
+	private function load_meta_boxes() {
+		if ( $this->should_load_meta_boxes() ) {
 			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox();
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 		}
@@ -178,9 +207,7 @@ class WPSEO_Admin_Init {
 
 			// Only register the yoast i18n when the page is a Yoast SEO page.
 			if ( $page !== null && WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
-				if ( $page !== 'wpseo_titles' ) {
-					$this->register_premium_upsell_admin_block();
-				}
+				$this->register_premium_upsell_admin_block();
 			}
 		}
 	}

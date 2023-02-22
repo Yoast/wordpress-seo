@@ -67,6 +67,10 @@
 			}
 		}
 	}
+
+	#modal-search .yst-modal__close {
+		margin-top: -0.25rem;
+	}
 }
 
 @layer base {

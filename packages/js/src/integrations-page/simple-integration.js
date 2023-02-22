@@ -76,7 +76,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 					href={ integration.upsellLink }
 					variant="upsell"
 					data-action="load-nfd-ctb"
-					data-ctb-id="57d6a568-783c-45e2-a388-847cff155897"
+					data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 					className="yst-w-full yst-text-slate-800"
 					target="_blank"
 				>

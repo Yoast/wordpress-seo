@@ -374,7 +374,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Renders the how to steps.
+	 * Renders the how-to steps.
 	 *
 	 * @param {array} steps The steps data.
 	 *
@@ -507,7 +507,7 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Handles the on change event for the how to description field.
+	 * Handles the on change event for the how-to description field.
 	 *
 	 * @param {string} value The new description.
 	 *
@@ -730,6 +730,7 @@ export default class HowTo extends Component {
 			<div className={ classNames }>
 				{ this.getDuration() }
 				<RichText
+					identifier="description"
 					tagName="p"
 					className="schema-how-to-description"
 					value={ attributes.description }

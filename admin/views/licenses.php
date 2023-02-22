@@ -28,14 +28,14 @@ $extensions = [
 		'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zt' ),
 		'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zs' ),
 		'title'         => 'Local SEO',
-		'display_title' => __( 'Reach customers that live near your business', 'wordpress-seo' ),
+		'display_title' => __( 'Maximize your visibility for local searches', 'wordpress-seo' ),
 		'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 		'image'         => plugins_url( 'images/local_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits'      => [
-			__( 'Rank higher with your physical business, office, or store', 'wordpress-seo' ),
-			__( 'Make an optimized contact page in minutes', 'wordpress-seo' ),
-			__( 'Allow customers to pick up their orders locally', 'wordpress-seo' ),
-			__( 'Easily define your organization type to search engines', 'wordpress-seo' ),
+			__( 'Attract more local customers to your website and physical store', 'wordpress-seo' ),
+			__( 'Automatically get technical SEO best practices for local businesses', 'wordpress-seo' ),
+			__( 'Easily add maps, address finders, and opening hours to your content', 'wordpress-seo' ),
+			__( 'Optimize your business for multiple locations', 'wordpress-seo' ),
 		],
 	],
 	WPSEO_Addon_Manager::VIDEO_SLUG => [
@@ -217,7 +217,7 @@ $new_tab_message         = sprintf(
 
 			<?php else : ?>
 
-				<a target="_blank" data-action="load-nfd-ctb" data-ctb-id="57d6a568-783c-45e2-a388-847cff155897" href="<?php echo esc_url( $premium_extension['buyUrl'] ); ?>" class="yoast-button-upsell">
+				<a target="_blank" data-action="load-nfd-ctb" data-ctb-id="f6a84663-465f-4cb5-8ba5-f7a6d72224b2" href="<?php echo esc_url( $premium_extension['buyUrl'] ); ?>" class="yoast-button-upsell">
 					<?php
 					printf(
 						/* translators: $s expands to Yoast SEO Premium */

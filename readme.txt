@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 20.0
+Stable tag: 20.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -247,51 +247,63 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.2 =
+
+Release date: 2023-02-28
+
+#### Enhancements
+
+* Changes replacement variable name from `Page number` to `Page` in the `Settings` page.
+* Changes the copy for notices in social profiles for person.
+* Improves accessibility for the extra other profiles in the Settings' Site representation when Organization is selected.
+* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
+* Improves the performance of image schema creation for really large images.
+* Improves the Settings' search modal accessibility.
+* Removes person's social profiles form from first time configuration.
+* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error would be thrown when building a hierarchy indexable when the parent indexable did not exists.
+* Fixes a bug where a fatal error would be thrown when the post type `posts` was excluded and the post overview was visited.
+* Fixes a bug where  deprecation notices would be thrown when editing `FAQ` and `How to` blocks.
+* Fixes a bug where the settings page of a post type would not load when a special character like ט was added as permalink.
+
+#### Other
+
+* Adds a `wpseo_indexable_forced_included_post_types` filter to force creation of indexables for post types.
+* Hides \"Enable SEO controls and assessments\" option from taxonomies that has no standard WP UI.
+
 = 20.1 =
 
 Release date: 2023-02-07
+
+Create a more inclusive online world with Yoast SEO 20.1. Our improved inclusive language analysis provides real-time feedback and offers suggestions to help your content reach a broader audience. For our Premium users, there's a bonus - a new Mastodon integration to take your online presence to the next level. Get it now! Find out more about what's new in Yoast SEO 20.1 in [our release post](https://yoa.st/release-7-2-23)!
 
 #### Enhancements
 
 * Adds a link to the first time configuration in the plugin overview when this is not completed yet.
 * Adds the site name to the Google preview for mobile.
-* Improves the inclusive language analysis by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies.
+* Improves the _inclusive language analysis_ by expanding the number of non-inclusive phrases recognized as well as by improving the feedback, for example by adding more inclusive alternatives or fixing inconsistencies. Specifically, this includes the following changes:
+  * Adds word form support (singular vs. plural, different verb forms) for some non-inclusive phrases.
+  * Improves the feedback strings and suggested alternatives for phrases containing the terms "crazy" and "OCD".
+  * Improves the feedback strings pertaining to medical conditions.
+  * Improves the feedback strings for "binge", "preferred pronouns", and "preferred name".
+  * Changes the scoring and improves the feedback string for "ladies and gentleman".
+  * Changes the feedback in the publish box from "OK" to "Potentially non-inclusive".
+  * Excludes the phrases "binge drinking/drinks/drink" and "exotic shorthairs/longhairs" from being targeted as non-inclusive.
 
 #### Bugfixes
 
 * Fixes a bug where the _Format archives_ settings would not work correctly when the `post_format` taxonomy is disabled.
-* Fixes a bug where the highlighting feature in the Classic editor would not work when inline HTML tags were present.
 * Fixes a bug where the _Media pages_ settings would not work correctly when the `attachment` post type is filtered out via `wpseo_indexable_excluded_post_types`.
+* Fixes a bug where the highlighting feature in the Classic editor would not work when inline HTML tags were present.
 * Fixes a bug where the settings' introduction modal would not be visible on wider screens with less than ~700 pixels height.
 * Fixes a bug where `wpseo_opengraph_image_size` is used to set custom size to `og:image` but doesn't work when uploading an image with the same size as the custom size.
 
 #### Other
 
 * Improves the translations comments in _Settings > Site connections_ and a translatable string used by screen readers.
-
-= 20.0 =
-
-Release date: 2023-01-24
-
-We're proud to introduce a brand new settings interface in Yoast SEO 20.0. We've worked hard to make this interface both beautiful and helpful. It's now much easier and enjoyable to work on your SEO. Plus, it's the start of much more cool stuff to come! Find out more about what's new in Yoast SEO 20.0 in [our release post](https://yoa.st/release-24-1-23)!
-
-#### Enhancements
-
-* NEW: Introduces a brand-new design for Yoast SEO's settings pages:
- * Completely overhauled the old 'settings' admin pages with a sleek and modern interface.
- * Combines, moves and improves various admin pages.
- * Adds the ability to search through site settings to quickly discover and modify your desired setting.
- * Adds extra information and help for all controls.
- * Vastly improves accessibility (including better support for keyboard navigation).
- * Key features are now listed on the 'Site features' page under 'General'.
- * Webmaster Tools settings have moved to 'Site connections' page under 'General'.
- * Open Graph settings can now be found in 'Site features' under 'General'.
- * Adds an introduction modal with videos to quickly help you on your way.
-* Improves the link focus styles in the first time configuration.
-
-#### Other
-
-* Displays a notification urging to upgrade Premium if the version is below 20.0, since some settings might be missing from the new user interface.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

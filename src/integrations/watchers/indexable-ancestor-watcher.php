@@ -125,11 +125,11 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$child_indexables    = $this->indexable_repository->find_by_ids( $child_indexable_ids );
 
 		\array_walk( $child_indexables, [ $this, 'update_hierarchy_and_permalink' ] );
-
 		if ( $indexable->object_type === 'term' ) {
 			$child_indexables_for_term = $this->get_children_for_term( $indexable->object_id, $child_indexables );
 
 			\array_walk( $child_indexables_for_term, [ $this, 'update_hierarchy_and_permalink' ] );
+
 		}
 
 		return true;
@@ -181,10 +181,12 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @param Indexable $indexable The indexable to update the hierarchy and permalink for.
 	 */
 	protected function update_hierarchy_and_permalink( $indexable ) {
-		$this->indexable_hierarchy_builder->build( $indexable );
+		if ( \is_a( $indexable, Indexable::class ) ) {
+			$this->indexable_hierarchy_builder->build( $indexable );
 
-		$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
-		$indexable->save();
+			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
+			$indexable->save();
+		}
 	}
 
 	/**
