@@ -1,11 +1,7 @@
-import { getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
-import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
-import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
-import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -24,7 +20,6 @@ import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1
 import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
-import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
@@ -38,7 +33,6 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import PassiveVoiceAssessment from "../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
 import TextPresenceAssessment from "../../../../src/scoring/assessments/readability/TextPresenceAssessment";
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
-import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
 // Import test papers
 import testPapers from "./testTexts";
@@ -52,12 +46,6 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
-		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
-		// Also register the research and helper for Word Complexity for testing purposes.
-		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
-			researcher.addResearch( "wordComplexity", wordComplexity );
-			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( getLanguage( locale ) ) );
-		}
 
 		const expectedResults = testPaper.expectedResults;
 		const result = {};
@@ -156,10 +144,6 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify40" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),
 		} );
-		const keyphraseDistributionAssessment = new KeyphraseDistribution( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
-		} );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment( {
 			shouldNotAppearInShortText: true,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
@@ -194,10 +178,6 @@ testPapers.forEach( function( testPaper ) {
 		const listPresenceAssessment = new ListAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
-		} );
-		const wordComplexityAssessment = new WordComplexityAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
 		} );
 
 		// SEO assessments.
@@ -403,17 +383,6 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the keyphraseDistribution assessment", function() {
-			const isApplicable = keyphraseDistributionAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
-
-			if ( isApplicable ) {
-				result.keyphraseDistribution = keyphraseDistributionAssessment.getResult( paper, researcher );
-				expect( result.keyphraseDistribution.getScore() ).toBe( expectedResults.keyphraseDistribution.score );
-				expect( result.keyphraseDistribution.getText() ).toBe( expectedResults.keyphraseDistribution.resultText );
-			}
-		} );
-
 		// Readability assessments.
 		it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {
 			const isApplicable = subheadingDistributionTooLongAssessment.isApplicable( paper, researcher );
@@ -484,16 +453,6 @@ testPapers.forEach( function( testPaper ) {
 				result.listPresence = listPresenceAssessment.getResult( paper, researcher );
 				expect( result.listPresence.getScore() ).toBe( expectedResults.listPresence.score );
 				expect( result.listPresence.getText() ).toBe( expectedResults.listPresence.resultText );
-			}
-		} );
-		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
-			const isApplicable = wordComplexityAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.wordComplexity.isApplicable );
-
-			if ( isApplicable ) {
-				result.wordComplexity = wordComplexityAssessment.getResult( paper, researcher );
-				expect( result.wordComplexity.getScore() ).toBe( expectedResults.wordComplexity.score );
-				expect( result.wordComplexity.getText() ).toBe( expectedResults.wordComplexity.resultText );
 			}
 		} );
 	} );
