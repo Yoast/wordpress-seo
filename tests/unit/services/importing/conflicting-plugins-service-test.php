@@ -96,6 +96,8 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 			);
 		Monkey\Functions\expect( 'wp_unslash' )
 			->andReturnFirstArg();
+		Monkey\Functions\expect( 'sanitize_text_field' )
+			->andReturnFirstArg();
 		Monkey\Functions\expect( 'check_admin_referer' )
 			->with( 'deactivate-plugin_xml-sitemaps/xml-sitemaps.php' )
 			->once();
