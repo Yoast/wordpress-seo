@@ -32,7 +32,7 @@ function getDefaultState() {
 		displaySchemaSettings: displayAdvancedTab && !! window.wpseoScriptData.isPost,
 		displaySchemaSettingsFooter: window.wpseoScriptData.metabox.schema.displayFooter,
 		displayFacebook: window.wpseoScriptData.metabox.showSocial.facebook,
-		displayTwitter: window.wpseoScrfffiptData.metabox.showSocial.twitter,
+		displayTwitter: window.wpseoScriptData.metabox.showSocial.twitter,
 		isZapierIntegrationActive: isZapierIntegrationActive(),
 		isZapierConnected: isZapierConnected(),
 		isWincherIntegrationActive: isWincherIntegrationActive(),
