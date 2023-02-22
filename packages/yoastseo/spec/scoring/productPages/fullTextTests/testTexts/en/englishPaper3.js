@@ -128,6 +128,11 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!",
 	},
+	keyphraseDistribution: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Good job!",
+	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
@@ -168,6 +173,13 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: There is at least one list on this page. Great!",
+	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.59% of the words in " +
+			"your text are considered complex. <a href='https://yoa.st/shopify78' target='_blank'>" +
+			"Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
 
