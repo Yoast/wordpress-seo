@@ -192,7 +192,7 @@ min-width: 28px;
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
 const DesktopDescription = styled.div`
-	color: ${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescriptionDesktop };
+	color: #${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescriptionDesktop };
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
