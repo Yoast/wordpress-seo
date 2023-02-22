@@ -206,6 +206,7 @@ const MobileDescription = styled.div`
 	font-size: 14px;
 	cursor: pointer;
 	position: relative;
+	line-height: 1.4;
 	max-width: ${ MAX_WIDTH }px;
 
 	/* Clearing pseudo element to contain the floated image. */
