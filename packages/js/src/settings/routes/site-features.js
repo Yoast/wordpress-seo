@@ -214,7 +214,6 @@ const SiteFeatures = () => {
 								cardId="card-wpseo-inclusive_language_analysis_active"
 								inputId="input-wpseo-inclusive_language_analysis_active"
 								imageSrc="/images/inclusive_language_analysis.png"
-								isBetaFeature={ true }
 								title={ __( "Inclusive language analysis", "wordpress-seo" ) }
 							>
 								<p>{ __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ) }</p>
