@@ -140,6 +140,8 @@ describe( "test with different language specific helper and config", () => {
 		paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
 		researcher = new GermanResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
+		researcher.addConfig( "wordComplexity", wordComplexityConfigGerman );
+
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
@@ -149,6 +151,8 @@ describe( "test with different language specific helper and config", () => {
 		const paper = new Paper( "Nach der von Erzbischof Hinkmar von Reims gebildeten Legende hat gegen Ende des 5. Wahrscheinlichkeit verhältnismäßig." );
 		const researcher = new GermanResearcher( paper );
 		researcher.addHelper( "checkIfWordIsComplex", wordComplexityHelperGerman );
+		researcher.addConfig( "wordComplexity", wordComplexityConfigGerman );
+
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
