@@ -10,7 +10,6 @@ import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
 import keyphraseLength from "./config/keyphraseLength";
 import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
-import wordComplexity from "./config/wordComplexity";
 
 // All helpers
 import getClauses from "./helpers/getClauses";
@@ -40,7 +39,6 @@ export default class Researcher extends AbstractResearcher {
 			twoPartTransitionWords,
 			syllables,
 			keyphraseLength,
-			wordComplexity,
 		} );
 
 		Object.assign( this.helpers, {
