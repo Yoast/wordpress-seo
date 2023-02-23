@@ -266,7 +266,6 @@ Release date: 2023-02-28
 
 * Fixes a bug where a fatal error would be thrown when building a hierarchy indexable when the parent indexable did not exists.
 * Fixes a bug where a fatal error would be thrown when the post type `posts` was excluded and the post overview was visited.
-* Fixes a bug where  deprecation notices would be thrown when editing `FAQ` and `How to` blocks.
 * Fixes a bug where the settings page of a post type would not load when a special character like ט was added as permalink.
 
 #### Other
