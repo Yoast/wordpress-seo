@@ -22,7 +22,7 @@
     "browserslist": "^4.7.3",
     "@yoast/helpers": "^0.16.0",
     "json": "^11.0.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.3.6"
   },
   "publishConfig": {
     "access": "public"

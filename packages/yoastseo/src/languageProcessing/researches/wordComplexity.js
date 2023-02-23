@@ -30,10 +30,12 @@ const getComplexWords = function( currentSentence, researcher ) {
 	const checkIfWordIsComplex = researcher.getHelper( "checkIfWordIsComplex" );
 	const functionWords = researcher.getConfig( "functionWords" );
 	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
+	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
 
 	const allWords = getWords( currentSentence );
 	// Filters out function words because function words are not complex.
-	const words = allWords.filter( word => ! functionWords.includes( word ) );
+	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
+	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
 	const results = [];
 
 	words.forEach( word => {

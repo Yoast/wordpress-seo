@@ -671,7 +671,12 @@ class WPSEO_Addon_Manager {
 		global $pagenow;
 
 		// Force re-check on license & dashboard pages.
-		$current_page = $this->get_current_page();
+		$current_page = null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing and thus no need to sanitize.
+			$current_page = wp_unslash( $_GET['page'] );
+		}
 
 		// Check whether the licenses are valid or whether we need to show notifications.
 		$quick = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
@@ -685,17 +690,6 @@ class WPSEO_Addon_Manager {
 		}
 
 		return get_transient( self::SITE_INFORMATION_TRANSIENT );
-	}
-
-	/**
-	 * Returns the current page.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return string The current page.
-	 */
-	protected function get_current_page() {
-		return filter_input( INPUT_GET, 'page' );
 	}
 
 	/**
