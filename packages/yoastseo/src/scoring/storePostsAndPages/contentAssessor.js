@@ -62,8 +62,8 @@ const StorePostsAndPagesContentAssessor = function( researcher, options = {} ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} ),
 		new WordComplexityAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
+			urlTitle: "https://yoa.st/shopify77",
+			urlCallToAction: "https://yoa.st/shopify78",
 		} ),
 	];
 };

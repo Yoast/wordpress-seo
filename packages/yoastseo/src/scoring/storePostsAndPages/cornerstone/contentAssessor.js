@@ -70,8 +70,8 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, optio
 			scores: {
 				acceptableAmount: 3,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
+			urlTitle: "https://yoa.st/shopify77",
+			urlCallToAction: "https://yoa.st/shopify78",
 		} ),
 	];
 };
