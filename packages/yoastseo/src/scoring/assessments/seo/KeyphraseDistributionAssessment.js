@@ -23,7 +23,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
 	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
-	 * @param {string} [config.url]                     The URL to the relevant KB article.
+	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
 	 *
 	 * @returns {void}
 	 */
