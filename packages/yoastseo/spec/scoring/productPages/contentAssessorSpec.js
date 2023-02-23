@@ -2,7 +2,6 @@ import EnglishResearcher from "../../../src/languageProcessing/languages/en/Rese
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import ContentAssessor from "../../../src/scoring/productPages/contentAssessor.js";
 import Paper from "../../../src/values/Paper.js";
-import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity";
 
 const options = {
 	subheadingUrlTitle: "https://yoast.com/1",
@@ -19,8 +18,6 @@ const options = {
 	textPresenceCTAUrl: "https://yoast.com/12",
 	listsUrlTitle: "https://yoast.com/13",
 	listsCTAUrl: "https://yoast.com/14",
-	wordComplexityCTAUrl: "https://yoast.com/15",
-	wordComplexityTitleUrl: "https://yoast.com/16",
 };
 
 describe( "A product page content assessor", function() {
@@ -73,7 +70,6 @@ describe( "A product page content assessor", function() {
 				"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 				"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "en_US" } );
 			const researcher = new EnglishResearcher( paper );
-			researcher.addResearch( "wordComplexity", wordComplexity );
 			const contentAssessor = new ContentAssessor( researcher, options );
 
 			contentAssessor.getPaper = function() {
@@ -87,7 +83,6 @@ describe( "A product page content assessor", function() {
 				"passiveVoice",
 				"textPresence",
 				"listsPresence",
-				"wordComplexity",
 			];
 			expect( actual ).toEqual( expected );
 		} );
@@ -171,8 +166,6 @@ describe( "A product page content assessor", function() {
 			textPresenceCTAUrl: "https://yoast.com/12",
 			listsUrlTitle: "https://yoast.com/13",
 			listsCTAUrl: "https://yoast.com/14",
-			wordComplexityCTAUrl: "https://yoast.com/15",
-			wordComplexityTitleUrl: "https://yoast.com/16",
 		} );
 
 		test( "SubheadingsDistributionTooLong", () => {
@@ -243,15 +236,6 @@ describe( "A product page content assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/13' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/14' target='_blank'>" );
-		} );
-
-		test( "WordComplexity", () => {
-			const assessment = assessor.getAssessment( "wordComplexity" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/15' target='_blank'>" );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/16' target='_blank'>" );
 		} );
 	} );
 } );

@@ -18,8 +18,6 @@ const options = {
 	textPresenceCTAUrl: "https://yoast.com/12",
 	listsUrlTitle: "https://yoast.com/13",
 	listsCTAUrl: "https://yoast.com/14",
-	wordComplexityCTAUrl: "https://yoast.com/15",
-	wordComplexityTitleUrl: "https://yoast.com/16",
 };
 
 describe( "A cornerstone product page content assessor", function() {
@@ -103,8 +101,6 @@ describe( "A cornerstone product page content assessor", function() {
 			textPresenceCTAUrl: "https://yoast.com/12",
 			listsUrlTitle: "https://yoast.com/13",
 			listsCTAUrl: "https://yoast.com/14",
-			wordComplexityCTAUrl: "https://yoast.com/15",
-			wordComplexityTitleUrl: "https://yoast.com/16",
 		} );
 
 		test( "SubheadingsDistributionTooLong", () => {
@@ -176,16 +172,6 @@ describe( "A cornerstone product page content assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/13' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/14' target='_blank'>" );
-		} );
-
-		test( "WordComplexity", () => {
-			const assessment = assessor.getAssessment( "wordComplexity" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores.acceptableAmount ).toBe( 3 );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/15' target='_blank'>" );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/16' target='_blank'>" );
 		} );
 	} );
 } );

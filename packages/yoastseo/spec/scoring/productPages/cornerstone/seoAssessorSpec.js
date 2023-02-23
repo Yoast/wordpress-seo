@@ -2,7 +2,6 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import Assessor from "../../../../src/scoring/productPages/cornerstone/seoAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
 import getResults from "../../../specHelpers/getAssessorResults";
-import keyPhraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 
 describe( "running assessments in the product page SEO assessor", function() {
 	let assessor;
@@ -43,15 +42,11 @@ describe( "running assessments in the product page SEO assessor", function() {
 			imageKeyphraseCTAUrl: "https://yoast.com/30",
 			imageAltTagsUrlTitle: "https://yoast.com/31",
 			imageAltTagsCTAUrl: "https://yoast.com/32",
-			keyphraseDistributionUrlTitle: "https://yoast.com/33",
-			keyphraseDistributionCTAUrl: "https://yoast.com/34",
 			productIdentifierUrlTitle: "https://yoast.com/35",
 			productIdentifierCTAUrl: "https://yoast.com/36",
 			productSKUUrlTitle: "https://yoast.com/37",
 			productSKUCTAUrl: "https://yoast.com/38",
 		};
-
-		researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
 		assessor = new Assessor( researcher, options );
 	} );
 
@@ -227,7 +222,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			"keyphraseDistribution",
 		] );
 	} );
 
@@ -256,7 +250,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			"keyphraseDistribution",
 		] );
 	} );
 
@@ -419,15 +412,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/31' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/32' target='_blank'>" );
-		} );
-
-		test( "KeyphraseDistribution", () => {
-			const assessment = assessor.getAssessment( "keyphraseDistribution" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
 		} );
 		test( "ProductIdentifierAssessment", () => {
 			const assessment = assessor.getAssessment( "productIdentifier" );
