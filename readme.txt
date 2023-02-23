@@ -253,14 +253,14 @@ Release date: 2023-02-28
 
 #### Enhancements
 
+* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
+* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
 * Changes replacement variable name from `Page number` to `Page` in the `Settings` page.
 * Changes the copy for notices in social profiles for person.
 * Improves accessibility for the extra other profiles in the Settings' Site representation when Organization is selected.
-* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
 * Improves the performance of image schema creation for really large images.
 * Improves the Settings' search modal accessibility.
 * Removes person's social profiles form from first time configuration.
-* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
 
 #### Bugfixes
 
