@@ -41,12 +41,16 @@ class KeyphraseDistributionAssessment extends Assessment {
 				bad: 1,
 				consideration: 0,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33q" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33u" ),
+			urlTitle: "https://yoa.st/33q",
+			urlCallToAction: "https://yoa.st/33u",
 		};
 
 		this.identifier = "keyphraseDistribution";
 		this._config = merge( defaultConfig, config );
+
+		// Creates an anchor opening tag for the shortlinks.
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
