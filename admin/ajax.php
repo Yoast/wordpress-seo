@@ -318,7 +318,6 @@ function ajax_get_keyword_usage_and_post_types() {
 		$post_types = [];
 	}
 
-
 	$return_object = [
 		'keyword_usage' => $post_ids,
 		'post_types'    => $post_types,
