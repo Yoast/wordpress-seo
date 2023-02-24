@@ -63,7 +63,7 @@ PreviouslyUsedKeyword.prototype.registerPlugin = function() {
  * Updates the usedKeywords.
  *
  * @param {object} usedKeywords An object with keywords and ids where they are used.
- * @param {object} usedKeywordsPostTypes An object with keywords and in which post types they are used. 
+ * @param {object} usedKeywordsPostTypes An object with keywords and in which post types they are used.
  * The post types correspond with the ids in the usedKeywords parameter.
  * @returns {void}
  */
