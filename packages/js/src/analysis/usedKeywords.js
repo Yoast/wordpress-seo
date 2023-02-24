@@ -119,7 +119,7 @@ UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 		this._usedKeywordsPostTypes[ keyword ] = postTypes;
 
 		if ( this._initialized ) {
-			worker.sendMessage( "updateKeywordUsage", { usedKeywords: this._keywordUsage, usedKeywordsPostTypes: this._usedKeywordsPostTypes}, "used-keywords-assessment" )
+			worker.sendMessage( "updateKeywordUsage", { usedKeywords: this._keywordUsage, usedKeywordsPostTypes: this._usedKeywordsPostTypes }, "used-keywords-assessment" )
 				.then( () => this._refreshAnalysis() );
 		}
 	}
