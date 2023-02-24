@@ -7,8 +7,7 @@ const { getSentences } = languageProcessing;
 const { createAnchorOpeningTag } = helpers;
 
 /**
- * Returns a score based on the largest percentage of text in
- * which no keyword occurs.
+ * Represents an assessment that returns a score based on the largest percentage of text in which no keyword occurs.
  */
 class KeyphraseDistributionAssessment extends Assessment {
 	/**
