@@ -172,8 +172,8 @@ describe( "A test for marking keywords in the text", function() {
 		];
 		expect( keyphraseDistributionAssessment.getMarks() ).toEqual( expected );
 	} );
-	it( "doesn't return markers the research doesn't have sentences to highlight", function() {
-		const mockPaper = new Paper( "A sentence. A sentence containing keywords. Another sentence.", { keyword: "keyword" } );
+	it( "doesn't return markers if the research doesn't have sentences to highlight", function() {
+		const mockPaper = new Paper( "A sentence. Another sentence.", { keyword: "keyword" } );
 		keyphraseDistributionAssessment.getResult(
 			mockPaper,
 			Factory.buildMockResearcher(
