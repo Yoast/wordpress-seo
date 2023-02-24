@@ -33,6 +33,7 @@ export default function UsedKeywords( ajaxAction, options, refreshAnalysis, scri
 		postUrl: options.post_edit_url,
 	};
 	this._keywordUsage = options.keyword_usage;
+	this._usedKeywordsPostTypes = options.keyword_usage_post_types;
 	this._postID = $( "#post_ID, [name=tag_ID]" ).val();
 	this._taxonomy = $( "[name=taxonomy]" ).val() || "";
 	this._nonce = nonce;
@@ -110,12 +111,15 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 	const { worker } = window.YoastSEO.analysis;
+	const keywordUsage = response.keyword_usage;
+	const postTypes = response.post_types;
 
-	if ( response && isArray( response ) ) {
-		this._keywordUsage[ keyword ] = response;
+	if ( keywordUsage && isArray( keywordUsage ) ) {
+		this._keywordUsage[ keyword ] = keywordUsage;
+		this._usedKeywordsPostTypes[ keyword ] = postTypes;
 
 		if ( this._initialized ) {
-			worker.sendMessage( "updateKeywordUsage", this._keywordUsage, "used-keywords-assessment" )
+			worker.sendMessage( "updateKeywordUsage", { usedKeywords: this._keywordUsage, usedKeywordsPostTypes: this._usedKeywordsPostTypes}, "used-keywords-assessment" )
 				.then( () => this._refreshAnalysis() );
 		}
 	}
