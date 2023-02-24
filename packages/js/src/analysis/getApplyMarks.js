@@ -58,8 +58,9 @@ function applyMarks( paper, marks ) {
  */
 export default function getApplyMarks() {
 	const showMarkers = select( "yoast-seo/editor" ).isMarkingAvailable();
+	const markersPaused = select( "yoast-seo/editor" ).getMarkerPauseStatus();
 
-	if ( ! showMarkers ) {
+	if ( ! showMarkers || markersPaused ) {
 		return noop;
 	}
 

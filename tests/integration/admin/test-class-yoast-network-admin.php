@@ -125,7 +125,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::handle_update_options_request
 	 */
 	public function test_handle_update_options_request() {
-		$admin = $this
+		$_POST['network_option_group'] = 'wpseo';
+		$admin                         = $this
 			->getMockBuilder( 'Yoast_Network_Admin' )
 			->setMethods( [ 'verify_request', 'terminate_request' ] )
 			->getMock();
@@ -133,7 +134,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$admin
 			->expects( $this->once() )
 			->method( 'verify_request' )
-			->with( '-network-options' );
+			->with( 'wpseo-network-options' );
 
 		$admin
 			->expects( $this->once() )
