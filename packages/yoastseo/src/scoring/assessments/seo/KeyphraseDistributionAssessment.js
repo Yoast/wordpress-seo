@@ -163,16 +163,19 @@ class KeyphraseDistributionAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has a text with at least 15 sentences and a keyword.
+	 * Checks whether the paper has a text with at least 15 sentences and a keyword,
+	 * and whether the researcher has keyphraseDistribution research.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} True when there is a keyword and a text with 15 sentences or more.
+	 * @returns {boolean}   Returns true when there is a keyword and a text with 15 sentences or more
+	 *                      and the researcher has keyphraseDistribution research.
 	 */
 	isApplicable( paper, researcher ) {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 		const sentences = getSentences( paper.getText(), memoizedTokenizer );
+
 		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );
 	}
 }
