@@ -63,10 +63,13 @@ PreviouslyUsedKeyword.prototype.registerPlugin = function() {
  * Updates the usedKeywords.
  *
  * @param {object} usedKeywords An object with keywords and ids where they are used.
+ * @param {object} usedKeywordsPostTypes An object with keywords and in which post types they are used. 
+ * The post types correspond with the ids in the usedKeywords parameter.
  * @returns {void}
  */
-PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
+PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords, usedKeywordsPostTypes ) {
 	this.usedKeywords = usedKeywords;
+	this.usedKeywordsPostTypes = usedKeywordsPostTypes;
 };
 
 /**
@@ -158,7 +161,10 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 
 	if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
 		count = this.usedKeywords[ keyword ].length;
-		postTypeToDisplay = this.usedKeywordsPostTypes[ keyword ][ 0 ];
+
+		if ( count > 0 ) {
+			postTypeToDisplay = this.usedKeywordsPostTypes[ keyword ][ 0 ];
+		}
 		id = this.usedKeywords[ keyword ][ 0 ];
 	}
 
