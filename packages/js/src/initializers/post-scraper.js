@@ -481,7 +481,7 @@ export default function initPostScraper( $, store, editorData ) {
 			window.YoastSEO.app.refresh();
 		};
 
-		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage", store );
+		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		// Backwards compatibility.
