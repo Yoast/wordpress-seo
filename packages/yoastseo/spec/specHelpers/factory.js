@@ -113,6 +113,15 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		},
 
 		/**
+		 * Return whether the worker has the helper.
+		 *
+		 * @returns {boolean} Whether the worker has the helper.
+		 */
+		hasHelper: function() {
+			return expectedValue;
+		},
+
+		/**
 		 * Return the config to be used for the assessment.
 		 *
 		 * @returns {Object} The config for the assessment results.
