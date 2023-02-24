@@ -1,14 +1,15 @@
-import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
 
-import Assessor from "../assessor.js";
-import ContentAssessor from "../contentAssessor";
-import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
-import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
-import TransitionWords from "../assessments/readability/TransitionWordsAssessment.js";
-import PassiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
-import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
-import ListsPresence from "../assessments/readability/ListAssessment.js";
+const {
+	ParagraphTooLong,
+	SentenceLengthInText,
+	SubheadingDistributionTooLong,
+	TransitionWords,
+	PassiveVoice,
+	TextPresence,
+	ListsPresence,
+} = assessments.readability;
 
 /**
  * Creates the Assessor

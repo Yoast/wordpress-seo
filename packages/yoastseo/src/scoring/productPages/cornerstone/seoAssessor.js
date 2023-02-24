@@ -1,26 +1,28 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import ImageAltTags from "../../assessments/seo/ImageAltTagsAssessment";
 
-import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
-import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment";
-import KeyphraseInSEOTitleAssessment from "../../assessments/seo/KeyphraseInSEOTitleAssessment";
-import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
-import Assessor from "../../assessor";
-import SEOAssessor from "../seoAssessor";
-import MetaDescriptionLength from "../../assessments/seo/MetaDescriptionLengthAssessment";
-import SubheadingsKeyword from "../../assessments/seo/SubHeadingsKeywordAssessment";
-import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCount from "../../assessments/seo/ImageCountAssessment";
-import TextLength from "../../assessments/seo/TextLengthAssessment";
-import TitleWidth from "../../assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment";
-import ProductIdentifiersAssessment from "../../assessments/seo/ProductIdentifiersAssessment";
-import ProductSKUAssessment from "../../assessments/seo/ProductSKUAssessment";
+import { Assessor, SEOAssessor, assessments, helpers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	IntroductionKeywordAssessment,
+	KeyphraseLengthAssessment,
+	KeywordDensityAssessment,
+	MetaDescriptionKeywordAssessment,
+	TextCompetingLinksAssessment,
+	KeyphraseInSEOTitleAssessment,
+	SlugKeywordAssessment,
+	MetaDescriptionLengthAssessment,
+	SubheadingsKeywordAssessment,
+	ImageKeyphraseAssessment,
+	ImageCountAssessment,
+	TextLengthAssessment,
+	PageTitleWidthAssessment,
+	FunctionWordsInKeyphraseAssessment,
+	SingleH1Assessment,
+	ProductIdentifiersAssessment,
+	ProductSKUAssessment,
+	ImageAltTagsAssessment,
+} = assessments.seo;
 
 /**
  * Creates the Assessor
@@ -57,7 +59,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.metaDescriptionKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.metaDescriptionKeyphraseCTAUrl ),
 		} ),
-		new MetaDescriptionLength( {
+		new MetaDescriptionLengthAssessment( {
 			scores:	{
 				tooLong: 3,
 				tooShort: 3,
@@ -65,7 +67,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.metaDescriptionLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.metaDescriptionLengthCTAUrl ),
 		} ),
-		new SubheadingsKeyword( {
+		new SubheadingsKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( options.subheadingsKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.subheadingsKeyphraseCTAUrl ),
 		} ),
@@ -73,7 +75,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.textCompetingLinksUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textCompetingLinksCTAUrl ),
 		} ),
-		new TextLength( {
+		new TextLengthAssessment( {
 			recommendedMinimum: 400,
 			slightlyBelowMinimum: 300,
 			belowMinimum: 200,
@@ -91,7 +93,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.titleKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.titleKeyphraseCTAUrl ),
 		} ),
-		new TitleWidth( {
+		new PageTitleWidthAssessment( {
 			scores: {
 				widthTooShort: 9,
 			},
@@ -107,7 +109,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 				urlCallToAction: createAnchorOpeningTag( options.urlKeyphraseCTAUrl ),
 			}
 		),
-		new FunctionWordsInKeyphrase( {
+		new FunctionWordsInKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( options.functionWordsInKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.functionWordsInKeyphraseCTAUrl ),
 		} ),
@@ -115,7 +117,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.singleH1UrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.singleH1CTAUrl ),
 		} ),
-		new ImageCount( {
+		new ImageCountAssessment( {
 			scores: {
 				okay: 6,
 			},
@@ -123,7 +125,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.imageCountUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageCountCTAUrl ),
 		}, options.countVideos ),
-		new ImageKeyphrase( {
+		new ImageKeyphraseAssessment( {
 			scores: {
 				withAltNonKeyword: 3,
 				withAlt: 3,
@@ -132,7 +134,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 		} ),
-		new ImageAltTags( {
+		new ImageAltTagsAssessment( {
 			urlTitle: createAnchorOpeningTag( options.imageAltTagsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageAltTagsCTAUrl ),
 		} ),
