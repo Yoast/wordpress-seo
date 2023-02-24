@@ -2,6 +2,7 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import Assessor from "../../../../src/scoring/storePostsAndPages/cornerstone/seoAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
 import getResults from "../../../specHelpers/getAssessorResults";
+import KeyphraseDistributionAssessment from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import keyPhraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 
 describe( "running assessments in the assessor", function() {
@@ -11,6 +12,11 @@ describe( "running assessments in the assessor", function() {
 		const researcher = new EnglishResearcher();
 		researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
 		assessor = new Assessor( researcher );
+		// Add Keyphrase distribution assessment to the assessor, which is available in this assessor in Shopify.
+		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment( {
+			urlTitle: "https://yoa.st/shopify30",
+			urlCallToAction: "https://yoa.st/shopify31",
+		} ) );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {
