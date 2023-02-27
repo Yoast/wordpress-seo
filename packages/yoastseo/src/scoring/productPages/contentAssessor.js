@@ -1,14 +1,16 @@
+import { inherits } from "util";
+
 import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
+import ListsPresenceAssessment  from "../assessments/readability/ListAssessment";
 const { createAnchorOpeningTag } = helpers;
 
 const {
-	ParagraphTooLong,
-	SentenceLengthInText,
-	SubheadingDistributionTooLong,
-	TransitionWords,
-	PassiveVoice,
-	TextPresence,
-	ListsPresence,
+	ParagraphTooLongAssessment,
+	SentenceLengthInTextAssessment,
+	SubheadingDistributionTooLongAssessment,
+	TransitionWordsAssessment,
+	PassiveVoiceAssessment,
+	TextPresenceAssessment,
 } = assessments.readability;
 
 /**
@@ -24,12 +26,12 @@ const ProductContentAssessor = function( researcher, options ) {
 	this.type = "productContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong( {
+		new SubheadingDistributionTooLongAssessment( {
 			shouldNotAppearInShortText: true,
 			urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
 		} ),
-		new ParagraphTooLong( {
+		new ParagraphTooLongAssessment( {
 			parameters: {
 				recommendedLength: 70,
 				maximumRecommendedLength: 100,
@@ -37,32 +39,32 @@ const ProductContentAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
 		}, true ),
-		new SentenceLengthInText( {
+		new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlTitle: createAnchorOpeningTag( options.sentenceLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.sentenceLengthCTAUrl ),
 		}, false, true ),
-		new TransitionWords( {
+		new TransitionWordsAssessment( {
 			urlTitle: createAnchorOpeningTag( options.transitionWordsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.transitionWordsCTAUrl ),
 		} ),
-		new PassiveVoice( {
+		new PassiveVoiceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.passiveVoiceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.passiveVoiceCTAUrl ),
 		} ),
-		new TextPresence( {
+		new TextPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.textPresenceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textPresenceCTAUrl ),
 		} ),
-		new ListsPresence( {
+		new ListsPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
 		} ),
 	];
 };
 
-require( "util" ).inherits( ProductContentAssessor, ContentAssessor );
+inherits( ProductContentAssessor, ContentAssessor );
 
 
 export default ProductContentAssessor;

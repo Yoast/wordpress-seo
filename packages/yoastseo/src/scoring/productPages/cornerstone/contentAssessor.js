@@ -1,14 +1,16 @@
+import { inherits } from "util";
+
 import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
+import ListsPresenceAssessment  from "../../assessments/readability/ListAssessment";
 const { createAnchorOpeningTag } = helpers;
 
 const {
-	ParagraphTooLong,
-	SentenceLengthInText,
-	SubheadingDistributionTooLong,
-	TransitionWords,
-	PassiveVoice,
-	TextPresence,
-	ListsPresence,
+	ParagraphTooLongAssessment,
+	SentenceLengthInTextAssessment,
+	SubheadingDistributionTooLongAssessment,
+	TransitionWordsAssessment,
+	PassiveVoiceAssessment,
+	TextPresenceAssessment,
 } = assessments.readability;
 
 
@@ -25,7 +27,7 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 	this.type = "productCornerstoneContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong( {
+		new SubheadingDistributionTooLongAssessment( {
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
@@ -37,7 +39,7 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
 			cornerstoneContent: true,
 		} ),
-		new ParagraphTooLong( {
+		new ParagraphTooLongAssessment( {
 			parameters: {
 				recommendedLength: 70,
 				maximumRecommendedLength: 100,
@@ -45,32 +47,32 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
 		}, true ),
-		new SentenceLengthInText( {
+		new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 15,
 			farTooMany: 20,
 			urlTitle: createAnchorOpeningTag( options.sentenceLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.sentenceLengthCTAUrl ),
 		}, true, true ),
-		new TransitionWords( {
+		new TransitionWordsAssessment( {
 			urlTitle: createAnchorOpeningTag( options.transitionWordsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.transitionWordsCTAUrl ),
 		} ),
-		new PassiveVoice( {
+		new PassiveVoiceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.passiveVoiceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.passiveVoiceCTAUrl ),
 		} ),
-		new TextPresence( {
+		new TextPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.textPresenceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textPresenceCTAUrl ),
 		} ),
-		new ListsPresence( {
+		new ListsPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
 		} ),
 	];
 };
 
-require( "util" ).inherits( ProductCornerstoneContentAssessor, ContentAssessor );
+inherits( ProductCornerstoneContentAssessor, ContentAssessor );
 
 
 export default ProductCornerstoneContentAssessor;
