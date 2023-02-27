@@ -136,7 +136,7 @@ describe( "Checks if the assessment is applicable", function() {
 
 		const assessmentIsApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
 
-		expect( assessment ).toBe( false );
+		expect( assessmentIsApplicable ).toBe( false );
 	} );
 } );
 
