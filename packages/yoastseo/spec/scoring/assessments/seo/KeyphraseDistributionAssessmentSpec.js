@@ -1,4 +1,5 @@
 import KeyphraseDistributionAssessment from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment.js";
+import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -71,6 +72,13 @@ describe( "An assessment to check the keyphrase distribution in the text", funct
 } );
 
 describe( "Checks if the assessment is applicable", function() {
+	let researcher;
+
+	beforeEach( () => {
+		researcher = new EnglishResearcher();
+		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
+	} );
+
 	it( "is applicable to papers with more than 10 sentences when a keyword is set", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, vim illum aeque" +
 			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
@@ -85,9 +93,11 @@ describe( "Checks if the assessment is applicable", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
-		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
+		researcher.setPaper( mockPaper );
 
-		expect( assessment ).toBe( true );
+		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
+
+		expect( isAssessmentApplicable ).toBe( true );
 	} );
 
 	it( "is not applicable to papers with more than 10 sentences when no keyword is set", function() {
@@ -104,17 +114,21 @@ describe( "Checks if the assessment is applicable", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse." );
-		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
+		researcher.setPaper( mockPaper );
 
-		expect( assessment ).toBe( false );
+		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
+
+		expect( isAssessmentApplicable ).toBe( false );
 	} );
 
 
 	it( "is not applicable to papers with less than 15 sentences", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet.", { keyword: "keyword" } );
-		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
+		researcher.setPaper( mockPaper );
 
-		expect( assessment ).toBe( false );
+		const isAssessmentApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
+
+		expect( isAssessmentApplicable ).toBe( false );
 	} );
 
 	it( "is not applicable when the researcher doesn't have the research", function() {
@@ -131,9 +145,8 @@ describe( "Checks if the assessment is applicable", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
-		const researcher = new EnglishResearcher( mockPaper );
-		delete researcher.defaultResearches.keyphraseDistribution;
-
+		researcher.setPaper( mockPaper );
+		delete researcher.customResearches.keyphraseDistribution;
 		const assessmentIsApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
 
 		expect( assessmentIsApplicable ).toBe( false );
