@@ -406,14 +406,14 @@ class WPSEO_Meta_Columns {
 			 */
 			$keyphrase_filter = \apply_filters(
 				'wpseo_change_keyphrase_filter_in_request',
-				[ $this->get_keyword_filter( $current_keyword_filter ) ],
+				$this->get_keyword_filter( $current_keyword_filter ),
 				$current_keyword_filter
 			);
 
 			if ( \is_array( $keyphrase_filter ) ) {
 				$active_filters = array_merge(
 					$active_filters,
-					$keyphrase_filter
+					[ $keyphrase_filter ]
 				);
 			}
 		}
