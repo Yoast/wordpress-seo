@@ -9,6 +9,9 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Redirect_Old_Features_Tab_Integration class
+ *
+ * @deprecated 20.3
+ * @codeCoverageIgnore
  */
 class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 
@@ -30,9 +33,12 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated 20.3
+	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_redirect_old_features_tab_script' ] );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
 	}
 
 	/**
@@ -40,9 +46,13 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 	 *
 	 * In this case: only when on an admin page and on a non-multisite installation.
 	 *
+	 * @deprecated 20.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
 		return [
 			Admin_Conditional::class,
 			Non_Network_Admin_Conditional::class,
@@ -52,13 +62,12 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 	/**
 	 * Enqueues the redirect-old-features-tab script.
 	 *
+	 * @deprecated 20.3
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function enqueue_redirect_old_features_tab_script() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
-		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' ) {
-			return;
-		}
-		$this->asset_manager->enqueue_script( 'redirect-old-features-tab' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
 	}
 }
