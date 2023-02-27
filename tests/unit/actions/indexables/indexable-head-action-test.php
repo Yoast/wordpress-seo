@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexables;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
@@ -79,6 +80,12 @@ class Indexable_Head_Action_Test extends TestCase {
 			->with( $input )
 			->andReturn( $meta );
 
+		if ( $method === 'for_url' ) {
+			Monkey\Functions\expect( 'get_home_url' )
+				->once()
+				->andReturn( 'https://homepage.org' );
+		}
+
 		$output = $this->instance->{$method}( $input );
 
 		$this->assertEquals(
@@ -150,6 +157,12 @@ class Indexable_Head_Action_Test extends TestCase {
 		$this->meta_surface
 			->expects( 'for_404' )
 			->andReturn( $meta );
+
+		if ( $method === 'for_url' ) {
+			Monkey\Functions\expect( 'get_home_url' )
+				->once()
+				->andReturn( 'https://homepage.org' );
+		}
 
 		$this->assertEquals(
 			(object) [

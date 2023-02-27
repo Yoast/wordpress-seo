@@ -42,6 +42,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 		\add_action( 'update_option_wpseo', [ $this, 'check_semrush_option_disabled' ], 10, 2 );
 		\add_action( 'update_option_wpseo', [ $this, 'check_wincher_option_disabled' ], 10, 2 );
 		\add_action( 'update_option_wpseo', [ $this, 'check_wordproof_option_disabled' ], 10, 2 );
+		\add_action( 'update_option_wpseo', [ $this, 'check_toggle_usage_tracking' ], 10, 2 );
 	}
 
 	/**
@@ -76,6 +77,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 		if ( $disabled ) {
 			\YoastSEO()->helpers->options->set( 'wincher_website_id', '' );
 		}
+
 		return $disabled;
 	}
 
@@ -95,7 +97,28 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 		if ( $disabled ) {
 			$this->wordproof->remove_site_options();
 		}
+
 		return $disabled;
+	}
+
+	/**
+	 * Checks if the usage tracking feature is toggled; if so, set an option to stop us from messing with it.
+	 *
+	 * @param array $old_value The old value of the option.
+	 * @param array $new_value The new value of the option.
+	 *
+	 * @return bool Whether the option is set.
+	 */
+	public function check_toggle_usage_tracking( $old_value, $new_value ) {
+		$option_name = 'tracking';
+
+		if ( \array_key_exists( $option_name, $old_value ) && \array_key_exists( $option_name, $new_value ) && $old_value[ $option_name ] !== $new_value[ $option_name ] && $old_value['toggled_tracking'] === false ) {
+			\YoastSEO()->helpers->options->set( 'toggled_tracking', true );
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -113,8 +136,10 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	protected function check_token_option_disabled( $integration_option, $target_option, $new_value ) {
 		if ( \array_key_exists( $integration_option, $new_value ) && $new_value[ $integration_option ] === false ) {
 			\YoastSEO()->helpers->options->set( $target_option, [] );
+
 			return true;
 		}
+
 		return false;
 	}
 }

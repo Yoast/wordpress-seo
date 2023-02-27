@@ -1,4 +1,19 @@
-# CHANGELOG.md
+# Changelog
+
+## 3.1.0
+
+* Improves the focus style of anchors by making it more pronounced. This affects: all anchors within the `yst-root` and `yst-validation-message` classes as well as the `Link` and `SidebarNavigation.SubmenuItem` components. And lastly, the `Button` element, if rendered `as` an anchor. [#19535](https://github.com/Yoast/wordpress-seo/pull/19535)
+* Removes the `TagInput` _tabindex_ override. [#19535](https://github.com/Yoast/wordpress-seo/pull/19535)
+* Adds `openButtonId` and `closeButtonId` props to the _SidebarNavigation.Mobile_ component. [#19646](https://github.com/Yoast/wordpress-seo/pull/19646)
+* Adds focus to radio buttons with `inline-block` variant. [#19633](https://github.com/Yoast/wordpress-seo/pull/19633)
+* Notifications will now provide vertical scrolling if the content does not fit. [#19658](https://github.com/Yoast/wordpress-seo/pull/19658)
+* Uses `forwardRef` for the `Modal` component to get a references of the `Dialog` DOM node, necessary to move keyboard focus on it. [#19652](https://github.com/Yoast/wordpress-seo/pull/19652)
+* Increases the contrast of the `Toggle`. [#19608](https://github.com/Yoast/wordpress-seo/pull/19608)
+* Adds `aria-label` support for `label` in `ToggleField` component. [#19536](https://github.com/Yoast/wordpress-seo/pull/19536)
+* Improves accessibility for mobile navigation by changing style of menu open and close button, and the default screen reader text of that component. [#19604](https://github.com/Yoast/wordpress-seo/pull/19604)
+* Adds the ability to use xs text format for `title` elements [#19592](https://github.com/Yoast/wordpress-seo/pull/19592)
+* Exports the `useNavigationContext` hook for when you use the `SidebarNavigation`. [#19497](https://github.com/Yoast/wordpress-seo/pull/19497)
+* Adds the ability to clear a tag input field by using the `ctrl + backspace` keyboard shortcut. [#19589](https://github.com/Yoast/wordpress-seo/pull/19589)
 
 ## 3.0.0 (2022-12-15)
 

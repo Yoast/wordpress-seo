@@ -80,6 +80,19 @@ class WPSEO_Addon_Manager {
 	];
 
 	/**
+	 * Mapping of internal slugs to public slugs.
+	 *
+	 * @var array
+	 */
+	protected static $public_slugs = [
+		self::PREMIUM_SLUG      => 'wordpress-seo-premium',
+		self::NEWS_SLUG         => 'wpseo-news',
+		self::VIDEO_SLUG        => 'wpseo-video',
+		self::WOOCOMMERCE_SLUG  => 'wpseo-woocommerce',
+		self::LOCAL_SLUG        => 'wordpress-seo-local',
+	];
+
+	/**
 	 * Holds the site information data.
 	 *
 	 * @var stdClass
@@ -506,10 +519,13 @@ class WPSEO_Addon_Manager {
 			'requires'     => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
 		];
 
+		$slug = ( $plugin_info ) ? self::$public_slugs[ $subscription->product->slug ] : $subscription->product->slug;
+
 		return (object) [
+			'version'          => $subscription->product->version,
 			'new_version'      => $subscription->product->version,
 			'name'             => $subscription->product->name,
-			'slug'             => $subscription->product->slug,
+			'slug'             => $slug,
 			'plugin'           => $plugin_file,
 			'url'              => $subscription->product->store_url,
 			'last_update'      => $subscription->product->last_updated,
@@ -671,7 +687,12 @@ class WPSEO_Addon_Manager {
 		global $pagenow;
 
 		// Force re-check on license & dashboard pages.
-		$current_page = $this->get_current_page();
+		$current_page = null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing and thus no need to sanitize.
+			$current_page = wp_unslash( $_GET['page'] );
+		}
 
 		// Check whether the licenses are valid or whether we need to show notifications.
 		$quick = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
@@ -685,17 +706,6 @@ class WPSEO_Addon_Manager {
 		}
 
 		return get_transient( self::SITE_INFORMATION_TRANSIENT );
-	}
-
-	/**
-	 * Returns the current page.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return string The current page.
-	 */
-	protected function get_current_page() {
-		return filter_input( INPUT_GET, 'page' );
 	}
 
 	/**

@@ -29,8 +29,6 @@ class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->stubEscapeFunctions();
-
 		$this->instance = new Exclude_Oembed_Cache_Post_Type();
 	}
 
