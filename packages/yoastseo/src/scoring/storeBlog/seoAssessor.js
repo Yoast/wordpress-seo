@@ -9,6 +9,7 @@ import Assessor from "../assessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+
 /**
  * Creates the Assessor
  *

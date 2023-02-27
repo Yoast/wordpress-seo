@@ -3,7 +3,7 @@ import Assessor from "../../../../src/scoring/collectionPages/cornerstone/seoAss
 import Paper from "../../../../src/values/Paper.js";
 import getResults from "../../../specHelpers/getAssessorResults";
 import keyPhraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
-
+import KeyphraseDistributionAssessment from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 
 describe( "running assessments in the collection page cornerstone SEO assessor", function() {
 	let assessor;
@@ -44,8 +44,6 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			imageKeyphraseCTAUrl: "https://yoast.com/30",
 			imageAltTagsUrlTitle: "https://yoast.com/31",
 			imageAltTagsCTAUrl: "https://yoast.com/32",
-			keyphraseDistributionUrlTitle: "https://yoast.com/33",
-			keyphraseDistributionCTAUrl: "https://yoast.com/34",
 			productIdentifierUrlTitle: "https://yoast.com/35",
 			productIdentifierCTAUrl: "https://yoast.com/36",
 			productSKUUrlTitle: "https://yoast.com/37",
@@ -54,6 +52,11 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 
 		researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
 		assessor = new Assessor( researcher, options );
+		// Add Keyphrase distribution assessment to the assessor, which is available in this assessor in Shopify.
+		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment( {
+			urlTitle: "https://yoa.st/shopify30",
+			urlCallToAction: "https://yoa.st/shopify31",
+		} ) );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {

@@ -13,7 +13,6 @@ import TextLengthAssessment from "./../../assessments/seo/TextLengthAssessment";
 import PageTitleWidthAssessment from "./../../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "./../../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "./../../assessments/seo/SingleH1Assessment";
-import KeyphraseDistribution from "./../../assessments/seo/KeyphraseDistributionAssessment";
 
 /**
  * Creates the Assessor used for collection pages.
@@ -92,10 +91,6 @@ const CollectionCornerstoneSEOAssessor = function( researcher, options ) {
 		new SingleH1Assessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
-		} ),
-		new KeyphraseDistribution( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
 		} ),
 	];
 };

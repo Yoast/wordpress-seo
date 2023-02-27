@@ -27,8 +27,8 @@ export default class WordComplexityAssessment extends Assessment {
 				acceptableAmount: 6,
 				goodAmount: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ls" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lt" ),
+			urlTitle: "https://yoa.st/4ls",
+			urlCallToAction: "https://yoa.st/4lt",
 		};
 
 		/*
@@ -39,6 +39,10 @@ export default class WordComplexityAssessment extends Assessment {
 		this.name = __( "Word complexity", "wordpress-seo" );
 		this.identifier = "wordComplexity";
 		this._config = merge( defaultConfig, config );
+
+		// Creates an anchor opening tag for the shortlinks.
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
