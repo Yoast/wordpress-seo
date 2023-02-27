@@ -65,10 +65,6 @@ class WPSEO_Admin_Pages {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( $page === 'wpseo_titles' ) {
-			$this->asset_manager->enqueue_style( 'search-appearance' );
-		}
-
 		if ( $page === 'wpseo_social' || $page === 'wpseo_licenses' ) {
 			$this->asset_manager->enqueue_style( 'tailwind' );
 		}
