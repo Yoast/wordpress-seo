@@ -8,7 +8,6 @@ import TransitionWords from "../../assessments/readability/TransitionWordsAssess
 import PassiveVoice from "../../assessments/readability/PassiveVoiceAssessment.js";
 import SentenceBeginnings from "../../assessments/readability/SentenceBeginningsAssessment.js";
 import TextPresence from "../../assessments/readability/TextPresenceAssessment.js";
-import WordComplexityAssessment from "../../assessments/readability/WordComplexityAssessment";
 
 /*
  Temporarily disabled:
@@ -65,13 +64,6 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, optio
 		new SentenceBeginnings( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
-		} ),
-		new WordComplexityAssessment( {
-			scores: {
-				acceptableAmount: 3,
-			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
 		} ),
 	];
 };
