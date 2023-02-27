@@ -1,6 +1,6 @@
 import { inherits } from "util";
 
-import { Assessor, SEOAssessor, assessments, helpers } from "yoastseo";
+import { Assessor, SeoAssessor, assessments, helpers } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
 
 const {
@@ -153,6 +153,6 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 	];
 };
 
-inherits( ProductCornerstoneSEOAssessor, SEOAssessor );
+inherits( ProductCornerstoneSEOAssessor, SeoAssessor );
 
 export default ProductCornerstoneSEOAssessor;
