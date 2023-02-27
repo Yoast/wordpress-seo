@@ -610,6 +610,7 @@ class Addon_Manager_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'new_version'      => '10.0',
+				'version'          => '10.0',
 				'name'             => 'Extension',
 				'slug'             => 'yoast-seo-wordpress-premium',
 				'plugin'           => '',
@@ -858,6 +859,7 @@ class Addon_Manager_Test extends TestCase {
 					'response' => [
 						'wp-seo-premium.php' => (object) [
 							'new_version'      => '10.0',
+							'version'          => '10.0',
 							'name'             => 'Extension',
 							'slug'             => 'yoast-seo-wordpress-premium',
 							'plugin'           => '',
@@ -919,8 +921,9 @@ class Addon_Manager_Test extends TestCase {
 				'args'     => [ 'slug' => 'yoast-seo-wordpress-premium' ],
 				'expected' => (object) [
 					'new_version'      => '10.0',
+					'version'          => '10.0',
 					'name'             => 'Extension',
-					'slug'             => 'yoast-seo-wordpress-premium',
+					'slug'             => 'wordpress-seo-premium',
 					'plugin'           => '',
 					'url'              => 'https://example.org/store',
 					'last_update'      => 'yesterday',
