@@ -1,22 +1,24 @@
-import { createAnchorOpeningTag } from "../../helpers/shortlinker";
-import Assessor from "../assessor.js";
-import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
-import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
-import TransitionWords from "../assessments/readability/TransitionWordsAssessment.js";
-import PassiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
-import SentenceBeginnings from "../assessments/readability/SentenceBeginningsAssessment.js";
-import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
+import { map, sum } from "lodash-es";
+import { inherits } from "util";
+
+import { Assessor, assessments, helpers, interpreters } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+const { scoreToRating } = interpreters;
+
+const {
+	ParagraphTooLongAssessment,
+	SentenceLengthInTextAssessment,
+	SubheadingDistributionTooLongAssessment,
+	TransitionWordsAssessment,
+	PassiveVoiceAssessment,
+	TextPresenceAssessment,
+	SentenceBeginningsAssessment,
+} = assessments.readability;
 
 /*
 	Temporarily disabled:
 	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
-
-import scoreToRating from "../interpreters/scoreToRating";
-
-import { map } from "lodash-es";
-import { sum } from "lodash-es";
 
 /**
  * Creates the Assessor
@@ -32,38 +34,38 @@ const StorePostsAndPagesContentAssessor = function( researcher, options = {} ) {
 	this.type = "storePostsAndPagesContentAssessor";
 	this._assessments = [
 
-		new SubheadingDistributionTooLong( {
+		new SubheadingDistributionTooLongAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
 		} ),
-		new ParagraphTooLong( {
+		new ParagraphTooLongAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
 		} ),
-		new SentenceLengthInText( {
+		new SentenceLengthInTextAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
 		} ),
-		new TransitionWords( {
+		new TransitionWordsAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
 		} ),
-		new PassiveVoice( {
+		new PassiveVoiceAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
 		} ),
-		new TextPresence( {
+		new TextPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
 		} ),
-		new SentenceBeginnings( {
+		new SentenceBeginningsAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} ),
 	];
 };
 
-require( "util" ).inherits( StorePostsAndPagesContentAssessor, Assessor );
+inherits( StorePostsAndPagesContentAssessor, Assessor );
 
 /**
  * Calculates the weighted rating for languages that have all assessments based on a given rating.
