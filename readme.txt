@@ -251,6 +251,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-02-28
 
+In Yoast SEO 20.2, we've improved our innovative indexables technology. We've developed a faster and more reliable way of indexing your site's data. In turn, we make better use of this data to improve your site's SEO. Find out more about what's new in Yoast SEO 20.2 in [our release post](https://yoa.st/release-28-2-23)!
+
 #### Enhancements
 
 * Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
