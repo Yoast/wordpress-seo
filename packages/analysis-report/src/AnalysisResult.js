@@ -149,7 +149,10 @@ AnalysisResult.propTypes = {
 	isPremium: PropTypes.bool,
 	onResultChange: PropTypes.func,
 	id: PropTypes.string,
-	marker: PropTypes.func,
+	marker: PropTypes.oneOfType( [
+		PropTypes.func,
+		PropTypes.array,
+	] ),
 };
 
 AnalysisResult.defaultProps = {
