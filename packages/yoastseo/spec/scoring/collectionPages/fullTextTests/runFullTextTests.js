@@ -106,8 +106,8 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 		} );
 		const keyphraseDistributionAssessment = new KeyphraseDistribution( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+			urlTitle: "https://yoa.st/shopify30",
+			urlCallToAction: "https://yoa.st/shopify31",
 		} );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment( {
 			shouldNotAppearInShortText: true,
@@ -139,8 +139,8 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} );
 		const wordComplexityAssessment = new WordComplexityAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
+			urlTitle: "https://yoa.st/shopify77",
+			urlCallToAction: "https://yoa.st/shopify78",
 		} );
 
 		// SEO assessments.

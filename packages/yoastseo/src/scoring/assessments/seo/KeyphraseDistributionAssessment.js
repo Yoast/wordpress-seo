@@ -23,7 +23,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
 	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
-	 * @param {string} [config.url]                     The URL to the relevant KB article.
+	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
 	 *
 	 * @returns {void}
 	 */
@@ -41,12 +42,16 @@ class KeyphraseDistributionAssessment extends Assessment {
 				bad: 1,
 				consideration: 0,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33q" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33u" ),
+			urlTitle: "https://yoa.st/33q",
+			urlCallToAction: "https://yoa.st/33u",
 		};
 
 		this.identifier = "keyphraseDistribution";
 		this._config = merge( defaultConfig, config );
+
+		// Creates an anchor opening tag for the shortlinks.
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
