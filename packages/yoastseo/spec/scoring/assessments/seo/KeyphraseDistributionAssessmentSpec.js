@@ -134,7 +134,7 @@ describe( "Checks if the assessment is applicable", function() {
 		const researcher = new EnglishResearcher( mockPaper );
 		delete researcher.defaultResearches.keyphraseDistribution;
 
-		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
+		const assessmentIsApplicable = keyphraseDistributionAssessment.isApplicable( mockPaper, researcher );
 
 		expect( assessment ).toBe( false );
 	} );
