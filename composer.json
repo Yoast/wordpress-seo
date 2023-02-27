@@ -24,7 +24,8 @@
 	"require": {
 		"php": "^5.6.20 || ^7.0 || ^8.0",
 		"composer/installers": "^1.12 || ^2.0",
-		"yoast/whip": "^1.2"
+		"yoast/whip": "^1.2",
+		"symfony/http-foundation": "^5.4"
 	},
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
@@ -109,7 +110,8 @@
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
-			"composer prefix-wordproof"
+			"composer prefix-wordproof",
+			"composer prefix-http-foundation"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
@@ -121,6 +123,9 @@
 		],
 		"prefix-wordproof": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/wordproof/wordpress-sdk --config=config/php-scoper/wordproof.inc.php --force --quiet"
+		],
+		"prefix-http-foundation": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/http-foundation --config=config/php-scoper/http-foundation.inc.php --force --quiet"
 		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
