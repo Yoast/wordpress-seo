@@ -1,9 +1,7 @@
-import { map, sum } from "lodash-es";
 import { inherits } from "util";
 
-import { Assessor, ContentAssessor, assessments, helpers, interpreters } from "yoastseo";
+import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
-const { scoreToRating } = interpreters;
 
 const {
 	ParagraphTooLongAssessment,
