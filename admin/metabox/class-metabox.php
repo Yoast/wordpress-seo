@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Conditionals\Jetpack_Boost_Inactive_Conditional;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 
@@ -902,7 +904,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
+		$alert_dismissal_action = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
@@ -921,6 +923,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			],
 			'dismissedAlerts'            => $dismissed_alerts,
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'isJetpackBoostInactive'     => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Inactive_Conditional::class )->is_met() : '',
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
