@@ -780,6 +780,7 @@ class Settings_Integration implements Integration_Interface {
 				'name'          => $taxonomy->name,
 				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 				'label'         => $taxonomy->label,
+				'showUi'        => $taxonomy->show_ui,
 				'singularLabel' => $taxonomy->labels->singular_name,
 				'postTypes'     => \array_filter(
 					$taxonomy->object_type,
@@ -822,7 +823,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = \substr( $route, 1 );
 		}
 
-		return $route;
+		return \rawurlencode( $route );
 	}
 
 	/**

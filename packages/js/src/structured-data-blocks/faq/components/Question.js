@@ -2,7 +2,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
@@ -332,6 +331,7 @@ export default class Question extends Component {
 			question,
 			answer,
 		} = attributes;
+
 
 		return (
 			<div className="schema-faq-section" key={ id }>

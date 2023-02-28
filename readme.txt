@@ -247,6 +247,34 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.2 =
+
+Release date: 2023-02-28
+
+In Yoast SEO 20.2, we've improved our innovative indexables technology. We've developed a faster and more reliable way of indexing your site's data. In turn, we make better use of this data to improve your site's SEO. Find out more about what's new in Yoast SEO 20.2 in [our release post](https://yoa.st/release-28-2-23)!
+
+#### Enhancements
+
+* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
+* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
+* Changes replacement variable name from `Page number` to `Page` in the `Settings` page.
+* Changes the copy for notices in social profiles for person.
+* Improves accessibility for the extra other profiles in the Settings' Site representation when Organization is selected.
+* Improves the performance of image schema creation for really large images.
+* Improves the Settings' search modal accessibility.
+* Removes person's social profiles form from first time configuration.
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error would be thrown when building a hierarchy indexable when the parent indexable did not exists.
+* Fixes a bug where a fatal error would be thrown when the post type `posts` was excluded and the post overview was visited.
+* Fixes a bug where the settings page of a post type would not load when a special character like ט was added as permalink.
+
+#### Other
+
+* Adds a `wpseo_indexable_forced_included_post_types` filter to force creation of indexables for post types.
+* Hides \"Enable SEO controls and assessments\" option from taxonomies that has no standard WP UI.
+
 = 20.1 =
 
 Release date: 2023-02-07
@@ -277,30 +305,6 @@ Create a more inclusive online world with Yoast SEO 20.1. Our improved inclusive
 #### Other
 
 * Improves the translations comments in _Settings > Site connections_ and a translatable string used by screen readers.
-
-= 20.0 =
-
-Release date: 2023-01-24
-
-We're proud to introduce a brand new settings interface in Yoast SEO 20.0. We've worked hard to make this interface both beautiful and helpful. It's now much easier and enjoyable to work on your SEO. Plus, it's the start of much more cool stuff to come! Find out more about what's new in Yoast SEO 20.0 in [our release post](https://yoa.st/release-24-1-23)!
-
-#### Enhancements
-
-* NEW: Introduces a brand-new design for Yoast SEO's settings pages:
- * Completely overhauled the old 'settings' admin pages with a sleek and modern interface.
- * Combines, moves and improves various admin pages.
- * Adds the ability to search through site settings to quickly discover and modify your desired setting.
- * Adds extra information and help for all controls.
- * Vastly improves accessibility (including better support for keyboard navigation).
- * Key features are now listed on the 'Site features' page under 'General'.
- * Webmaster Tools settings have moved to 'Site connections' page under 'General'.
- * Open Graph settings can now be found in 'Site features' under 'General'.
- * Adds an introduction modal with videos to quickly help you on your way.
-* Improves the link focus styles in the first time configuration.
-
-#### Other
-
-* Displays a notification urging to upgrade Premium if the version is below 20.0, since some settings might be missing from the new user interface.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

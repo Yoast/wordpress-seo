@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import appendSpace from "../../../components/higherorder/appendSpace";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
@@ -315,7 +314,6 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		const { id, name, text } = step;
-
 		return (
 			<li className="schema-how-to-step" key={ id }>
 				<span className="schema-how-to-step-number">
