@@ -866,6 +866,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';
 		}
+		else {
+			$asset_manager->enqueue_style( 'editor' );
+		}
 		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );
 
