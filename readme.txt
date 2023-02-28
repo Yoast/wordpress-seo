@@ -255,8 +255,8 @@ In Yoast SEO 20.2, we've improved our innovative indexables technology. We've de
 
 #### Enhancements
 
-* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
 * Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
+* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
 * Changes replacement variable name from `Page number` to `Page` in the `Settings` page.
 * Changes the copy for notices in social profiles for person.
 * Improves accessibility for the extra other profiles in the Settings' Site representation when Organization is selected.
