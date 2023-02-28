@@ -1,7 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import AssessmentResult from "../../../values/AssessmentResult";
+import { AssessmentResult } from "yoastseo";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { unifyAllSpaces } from "../../../languageProcessing";
 
