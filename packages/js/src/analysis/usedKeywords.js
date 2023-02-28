@@ -19,10 +19,11 @@ var $ = jQuery;
  * @param {Object}   options.post_edit_url The URL to link the user to if the keyword has been used a single time.
  * @param {Function} refreshAnalysis       Function that triggers a refresh of the analysis.
  * @param {string}   scriptUrl             The URL to the used keywords assessment script.
+ * @param {string}   nonce                 The nonce to use for the POST request to get the used keywords.
  *
  * @returns {void}
  */
-export default function UsedKeywords( ajaxAction, options, refreshAnalysis, scriptUrl ) {
+export default function UsedKeywords( ajaxAction, options, refreshAnalysis, scriptUrl, nonce ) {
 	this._scriptUrl = scriptUrl;
 	this._options = {
 		usedKeywords: options.keyword_usage,
@@ -32,6 +33,7 @@ export default function UsedKeywords( ajaxAction, options, refreshAnalysis, scri
 	this._keywordUsage = options.keyword_usage;
 	this._postID = $( "#post_ID, [name=tag_ID]" ).val();
 	this._taxonomy = $( "[name=taxonomy]" ).val() || "";
+	this._nonce = nonce;
 	this._ajaxAction = ajaxAction;
 	this._refreshAnalysis = refreshAnalysis;
 	this._initialized = false;
@@ -92,6 +94,7 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
 		post_id: this._postID,
 		keyword: keyword,
 		taxonomy: this._taxonomy,
+		nonce: this._nonce,
 	}, this.updateKeywordUsage.bind( this, keyword ), "json" );
 };
 

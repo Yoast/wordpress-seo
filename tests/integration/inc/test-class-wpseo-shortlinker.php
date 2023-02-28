@@ -30,6 +30,51 @@ class WPSEO_Shortlinker_Test extends TestCase {
 	}
 
 	/**
+	 * Tests building a shortlink with page.
+	 *
+	 * @covers WPSEO_Shortlinker::build_shortlink
+	 * @covers WPSEO_Shortlinker::collect_additional_shortlink_data
+	 */
+	public function test_build_shortlink_page_set() {
+		$_GET['page'] = 'wpseo_dashboard';
+		$shortlinks   = new WPSEO_Shortlinker();
+
+		$shortlink = $shortlinks->build_shortlink( 'http://yoa.st/abcdefg' );
+
+		$this->assertStringContainsString( 'screen', $shortlink );
+	}
+
+	/**
+	 * Tests building a shortlink with page set to null.
+	 *
+	 * @covers WPSEO_Shortlinker::build_shortlink
+	 * @covers WPSEO_Shortlinker::collect_additional_shortlink_data
+	 */
+	public function test_build_shortlink_page_set_to_null() {
+		$_GET['page'] = null;
+		$shortlinks   = new WPSEO_Shortlinker();
+
+		$shortlink = $shortlinks->build_shortlink( 'http://yoa.st/abcdefg' );
+
+		$this->assertStringNotContainsString( 'screen', $shortlink );
+	}
+
+	/**
+	 * Tests building a shortlink with page set to something else than a string.
+	 *
+	 * @covers WPSEO_Shortlinker::build_shortlink
+	 * @covers WPSEO_Shortlinker::collect_additional_shortlink_data
+	 */
+	public function test_build_shortlink_page_set_to_int() {
+		$_GET['page'] = 13;
+		$shortlinks   = new WPSEO_Shortlinker();
+
+		$shortlink = $shortlinks->build_shortlink( 'http://yoa.st/abcdefg' );
+
+		$this->assertStringNotContainsString( 'screen', $shortlink );
+	}
+
+	/**
 	 * Tests getting a shortlink.
 	 *
 	 * @covers WPSEO_Shortlinker::get

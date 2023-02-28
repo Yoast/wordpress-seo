@@ -80,6 +80,19 @@ class WPSEO_Addon_Manager {
 	];
 
 	/**
+	 * Mapping of internal slugs to public slugs.
+	 *
+	 * @var array
+	 */
+	protected static $public_slugs = [
+		self::PREMIUM_SLUG      => 'wordpress-seo-premium',
+		self::NEWS_SLUG         => 'wpseo-news',
+		self::VIDEO_SLUG        => 'wpseo-video',
+		self::WOOCOMMERCE_SLUG  => 'wpseo-woocommerce',
+		self::LOCAL_SLUG        => 'wordpress-seo-local',
+	];
+
+	/**
 	 * Holds the site information data.
 	 *
 	 * @var stdClass
@@ -506,10 +519,13 @@ class WPSEO_Addon_Manager {
 			'requires'     => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
 		];
 
+		$slug = ( $plugin_info ) ? self::$public_slugs[ $subscription->product->slug ] : $subscription->product->slug;
+
 		return (object) [
+			'version'          => $subscription->product->version,
 			'new_version'      => $subscription->product->version,
 			'name'             => $subscription->product->name,
-			'slug'             => $subscription->product->slug,
+			'slug'             => $slug,
 			'plugin'           => $plugin_file,
 			'url'              => $subscription->product->store_url,
 			'last_update'      => $subscription->product->last_updated,
