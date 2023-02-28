@@ -1,9 +1,9 @@
-# CHANGELOG.md
+# Changelog
 
 ## 3.1.0
 
 * Improves the focus style of anchors by making it more pronounced. This affects: all anchors within the `yst-root` and `yst-validation-message` classes as well as the `Link` and `SidebarNavigation.SubmenuItem` components. And lastly, the `Button` element, if rendered `as` an anchor. [#19535](https://github.com/Yoast/wordpress-seo/pull/19535)
-* Removes the `TagInput`' _tabindex_ override. [#19535](https://github.com/Yoast/wordpress-seo/pull/19535)
+* Removes the `TagInput` _tabindex_ override. [#19535](https://github.com/Yoast/wordpress-seo/pull/19535)
 * Adds `openButtonId` and `closeButtonId` props to the _SidebarNavigation.Mobile_ component. [#19646](https://github.com/Yoast/wordpress-seo/pull/19646)
 * Adds focus to radio buttons with `inline-block` variant. [#19633](https://github.com/Yoast/wordpress-seo/pull/19633)
 * Notifications will now provide vertical scrolling if the content does not fit. [#19658](https://github.com/Yoast/wordpress-seo/pull/19658)
