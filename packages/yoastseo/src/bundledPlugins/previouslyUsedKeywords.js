@@ -159,12 +159,9 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 	let postTypeToDisplay = "";
 	let id = 0;
 
-	if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
+	if ( ! isUndefined( this.usedKeywords[ keyword ] ) && this.usedKeywords[ keyword ].length > 0 ) {
 		count = this.usedKeywords[ keyword ].length;
-
-		if ( count > 0 ) {
-			postTypeToDisplay = this.usedKeywordsPostTypes[ keyword ][ 0 ];
-		}
+		postTypeToDisplay = this.usedKeywordsPostTypes[ keyword ][ 0 ];
 		id = this.usedKeywords[ keyword ][ 0 ];
 	}
 
