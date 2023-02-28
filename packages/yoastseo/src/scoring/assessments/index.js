@@ -28,7 +28,6 @@ import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
 import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "./seo/ProductSKUAssessment";
-import TextTitleAssessment from "./seo/TextTitleAssessment";
 
 import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
@@ -65,7 +64,6 @@ const seo = {
 	ImageAltTagsAssessment,
 	ProductIdentifiersAssessment,
 	ProductSKUAssessment,
-	TextTitleAssessment,
 };
 
 const inclusiveLanguage = {
