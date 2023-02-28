@@ -1,10 +1,15 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { AssessmentResult, helpers, languageProcessing } from "yoastseo";
+// import { AssessmentResult, helpers, languageProcessing } from "yoastseo";
 
-const { createAnchorOpeningTag } = helpers;
-const { unifyAllSpaces } = languageProcessing;
+// import { AssessmentResult, helpers, languageProcessing } from "../index";
+import AssessmentResult from "../../../values/AssessmentResult";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { unifyAllSpaces } from "../../../languageProcessing";
+
+// const { createAnchorOpeningTag } = helpers;
+// const { unifyAllSpaces } = languageProcessing;
 
 /**
  * Represents the assessment that checks whether a text has a title.
