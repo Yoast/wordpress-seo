@@ -49,7 +49,7 @@ class Article extends Abstract_Schema_Piece {
 			'@id'              => $this->context->canonical . Schema_IDs::ARTICLE_HASH,
 			'isPartOf'         => [ '@id' => $this->context->main_schema_id ],
 			'author'           => [
-				'name' => $this->helpers->schema->html->smart_strip_tags( $author->display_name ),
+				'name' => ( $author instanceof \WP_User ) ? $this->helpers->schema->html->smart_strip_tags( $author->display_name ) : '',
 				'@id'  => $this->helpers->schema->id->get_user_schema_id( $this->context->post->post_author, $this->context ),
 			],
 			'headline'         => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
