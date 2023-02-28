@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 20.1
+Stable tag: 20.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -251,22 +251,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-02-28
 
+In Yoast SEO 20.2, we've improved our innovative indexables technology. We've developed a faster and more reliable way of indexing your site's data. In turn, we make better use of this data to improve your site's SEO. Find out more about what's new in Yoast SEO 20.2 in [our release post](https://yoa.st/release-28-2-23)!
+
 #### Enhancements
 
+* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
+* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
 * Changes replacement variable name from `Page number` to `Page` in the `Settings` page.
 * Changes the copy for notices in social profiles for person.
 * Improves accessibility for the extra other profiles in the Settings' Site representation when Organization is selected.
-* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
 * Improves the performance of image schema creation for really large images.
 * Improves the Settings' search modal accessibility.
 * Removes person's social profiles form from first time configuration.
-* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
 
 #### Bugfixes
 
 * Fixes a bug where a fatal error would be thrown when building a hierarchy indexable when the parent indexable did not exists.
 * Fixes a bug where a fatal error would be thrown when the post type `posts` was excluded and the post overview was visited.
-* Fixes a bug where  deprecation notices would be thrown when editing `FAQ` and `How to` blocks.
 * Fixes a bug where the settings page of a post type would not load when a special character like ט was added as permalink.
 
 #### Other
