@@ -129,6 +129,15 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		getConfig: function() {
 			return config;
 		},
+
+		/**
+		 * Return whether the worker has the config.
+		 * @param {string} research The name of the config.
+		 * @returns {boolean} Whether the worker has the research.
+		 */
+		hasConfig: function( research ) {
+			return ! isUndefined( expectedValue[ research ] );
+		},
 	};
 };
 
