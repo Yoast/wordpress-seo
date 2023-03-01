@@ -1,9 +1,7 @@
 /* eslint-disable complexity */
-import { LockOpenIcon } from "@heroicons/react/outline";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Button, Code, TextField, ToggleField, useSvgAria } from "@yoast/ui-library";
-import classNames from "classnames";
+import { Alert, Code, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { FieldsetLayout, FormikTagField, FormikValueChangeField, FormLayout, RouteLayout } from "../components";
 import { withDisabledMessageSupport, withFormikDummyField, withFormikError } from "../hocs";
@@ -19,12 +17,8 @@ const FormikValueChangeFieldWithDummy = withFormikDummyField( withDisabledMessag
  * @returns {JSX.Element} The crawl optimization route.
  */
 const CrawlOptimization = () => {
-	const premiumUpsellConfig = useSelectSettings( "selectUpsellSettingsAsProps" );
 	const crawlSettingsLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings" );
 	const permalinkCleanupLink = useSelectSettings( "selectLink", [], "https://yoa.st/permalink-cleanup" );
-	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-	const premiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings-upsell" );
-	const svgAriaProps = useSvgAria();
 
 	const codeExample = useMemo( () => sprintf(
 		/* translators: %1$s expands to an example within a code tag. */
@@ -277,27 +271,7 @@ const CrawlOptimization = () => {
 	return (
 		<RouteLayout
 			title={ __( "Crawl optimization", "wordpress-seo" ) }
-			description={ <>
-				{ descriptions.page }
-				{ ! isPremium && <div className="yst-mt-6">
-					<Button
-						as="a"
-						className="yst-gap-2"
-						variant="upsell"
-						href={ premiumLink }
-						target="_blank"
-						rel="noopener"
-						{ ...premiumUpsellConfig }
-					>
-						<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
-						{ sprintf(
-							/* translators: %1$s expands to Premium. */
-							__( "Unlock with %1$s", "wordpress-seo" ),
-							"Premium"
-						) }
-					</Button>
-				</div> }
-			</> }
+			description={ descriptions.page }
 		>
 			<FormLayout>
 				<div className="yst-max-w-5xl">
@@ -311,7 +285,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_shortlinks"
 							id="input-wpseo-remove_shortlinks"
 							label={ __( "Remove shortlinks", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links to WordPress' internal 'shortlink' URLs for your posts.", "wordpress-seo" ) }
@@ -324,7 +298,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_rest_api_links"
 							id="input-wpseo-remove_rest_api_links"
 							label={ __( "Remove REST API links", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links to the location of your site’s REST API endpoints.", "wordpress-seo" ) }
@@ -337,7 +311,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_rsd_wlw_links"
 							id="input-wpseo-remove_rsd_wlw_links"
 							label={ __( "Remove RSD / WLW links", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links used by external systems for publishing content to your blog.", "wordpress-seo" ) }
@@ -350,7 +324,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_oembed_links"
 							id="input-wpseo-remove_oembed_links"
 							label={ __( "Remove oEmbed links", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links used for embedding your content on other sites.", "wordpress-seo" ) }
@@ -363,7 +337,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_generator"
 							id="input-wpseo-remove_generator"
 							label={ __( "Remove generator tag", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove information about the plugins and software used by your site.", "wordpress-seo" ) }
@@ -376,7 +350,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_pingback_header"
 							id="input-wpseo-remove_pingback_header"
 							label={ __( "Pingback HTTP header", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove links which allow others sites to ‘ping’ yours when they link to you.", "wordpress-seo" ) }
@@ -389,7 +363,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_powered_by_header"
 							id="input-wpseo-remove_powered_by_header"
 							label={ __( "Remove powered by HTTP header", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove information about the plugins and software used by your site.", "wordpress-seo" ) }
@@ -408,7 +382,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_global"
 							id="input-wpseo-remove_feed_global"
 							label={ __( "Remove global feed", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide an overview of your recent posts.", "wordpress-seo" ) }
@@ -421,7 +395,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_global_comments"
 							id="input-wpseo-remove_feed_global_comments"
 							label={ __( "Remove global comment feeds", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide an overview of recent comments on your site.", "wordpress-seo" ) }
@@ -437,7 +411,7 @@ const CrawlOptimization = () => {
 							label={ __( "Remove post comments feeds", "wordpress-seo" ) }
 							disabled={ removeFeedGlobalComments }
 							checked={ removeFeedGlobalComments || removeFeedPostComments }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about recent comments on each post.", "wordpress-seo" ) }
@@ -450,7 +424,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_authors"
 							id="input-wpseo-remove_feed_authors"
 							label={ __( "Remove post authors feeds", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about recent posts by specific authors.", "wordpress-seo" ) }
@@ -463,7 +437,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_post_types"
 							id="input-wpseo-remove_feed_post_types"
 							label={ __( "Remove post type feeds", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your recent posts, for each post type.", "wordpress-seo" ) }
@@ -476,7 +450,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_categories"
 							id="input-wpseo-remove_feed_categories"
 							label={ __( "Remove category feeds", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your recent posts, for each category.", "wordpress-seo" ) }
@@ -489,7 +463,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_tags"
 							id="input-wpseo-remove_feed_tags"
 							label={ __( "Remove tag feeds", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your recent posts, for each tag.", "wordpress-seo" ) }
@@ -502,7 +476,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_custom_taxonomies"
 							id="input-wpseo-remove_feed_custom_taxonomies"
 							label={ __( "Remove custom taxonomy feeds", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your recent posts, for each custom taxonomy.", "wordpress-seo" ) }
@@ -515,7 +489,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_feed_search"
 							id="input-wpseo-remove_feed_search"
 							label={ __( "Remove search results feeds", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide information about your search results.", "wordpress-seo" ) }
@@ -528,7 +502,7 @@ const CrawlOptimization = () => {
 							name="wpseo.remove_atom_rdf_feeds"
 							id="input-wpseo-remove_atom_rdf_feeds"
 							label={ __( "Remove Atom / RDF feeds", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Remove URLs which provide alternative (legacy) formats of all of the above.", "wordpress-seo" ) }
@@ -548,7 +522,7 @@ const CrawlOptimization = () => {
 							id="input-wpseo-remove_emoji_scripts"
 							label={ __( "Remove emoji scripts", "wordpress-seo" ) }
 							description={ __( "Remove JavaScript used for converting emoji characters in older browsers.", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						/>
 						<FormikValueChangeFieldWithDummy
@@ -557,7 +531,7 @@ const CrawlOptimization = () => {
 							name="wpseo.deny_wp_json_crawling"
 							id="input-wpseo-deny_wp_json_crawling"
 							label={ __( "Remove WP-JSON API", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						>
 							{ __( "Add a ‘disallow’ rule to your robots.txt file to prevent crawling of WordPress' JSON API endpoints.", "wordpress-seo" ) }
@@ -577,7 +551,7 @@ const CrawlOptimization = () => {
 							id="input-wpseo-search_cleanup"
 							label={ __( "Filter search terms", "wordpress-seo" ) }
 							description={ __( "Enables advanced settings for protecting your internal site search URLs.", "wordpress-seo" ) }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						/>
 						<FormikFieldWithDummyAndError
@@ -588,7 +562,7 @@ const CrawlOptimization = () => {
 							label={ __( "Max number of characters to allow in searches", "wordpress-seo" ) }
 							description={ __( "Limit the length of internal site search queries to reduce the impact of spam attacks and confusing URLs. Please enter a number between 1 and 50.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
-							isDummy={ ! isPremium }
+
 						/>
 						<FormikValueChangeFieldWithDummy
 							as={ ToggleField }
@@ -599,7 +573,7 @@ const CrawlOptimization = () => {
 							description={ __( "Block internal site searches which contain complex and non-alphanumeric characters, as they may be part of a spam attack.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
 							checked={ searchCleanup && searchCleanupEmoji }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						/>
 						<FormikValueChangeFieldWithDummy
@@ -611,7 +585,7 @@ const CrawlOptimization = () => {
 							description={ __( "Block internal site searches which match the patterns of known spam attacks.", "wordpress-seo" ) }
 							disabled={ ! searchCleanup }
 							checked={ searchCleanup && searchCleanupPatterns }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						/>
 						<FormikValueChangeFieldWithDummy
@@ -621,7 +595,7 @@ const CrawlOptimization = () => {
 							id="input-wpseo-redirect_search_pretty_urls"
 							label={ __( "Redirect pretty URLs to ‘raw’ formats", "wordpress-seo" ) }
 							description={ descriptions.redirectSearchPrettyUrls }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						/>
 						<FormikValueChangeFieldWithDummy
@@ -631,7 +605,7 @@ const CrawlOptimization = () => {
 							id="input-wpseo-deny_search_crawling"
 							label={ __( "Prevent crawling of internal site search URLs", "wordpress-seo" ) }
 							description={ descriptions.denySearchCrawling }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						/>
 					</FieldsetLayout>
@@ -640,7 +614,7 @@ const CrawlOptimization = () => {
 						title={ __( "Advanced: URL cleanup", "wordpress-seo" ) }
 						description={ descriptions.advancedUrlCleanup }
 					>
-						<Alert id="alert-permalink-cleanup-settings" variant="warning" className={ classNames( ! isPremium && "yst-opacity-50 yst-cursor-not-allowed" ) }>
+						<Alert id="alert-permalink-cleanup-settings" variant="warning">
 							{ createInterpolateElement(
 								sprintf(
 									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
@@ -649,7 +623,7 @@ const CrawlOptimization = () => {
 									"</a>"
 								), {
 									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a id="link-permalink-cleanup-info" href={ permalinkCleanupLink } target="_blank" rel="noopener noreferrer" className={ classNames( ! isPremium && "yst-pointer-events-none" ) } />,
+									a: <a id="link-permalink-cleanup-info" href={ permalinkCleanupLink } target="_blank" rel="noopener noreferrer" />,
 								}
 							) }
 						</Alert>
@@ -660,7 +634,7 @@ const CrawlOptimization = () => {
 							id="input-wpseo-clean_campaign_tracking_urls"
 							label={ __( "Optimize Google Analytics utm tracking parameters", "wordpress-seo" ) }
 							description={ descriptions.cleanCampaignTrackingUrls }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						/>
 						<FormikValueChangeFieldWithDummy
@@ -670,7 +644,7 @@ const CrawlOptimization = () => {
 							id="input-wpseo-clean_permalinks"
 							label={ __( "Remove unregistered URL parameters", "wordpress-seo" ) }
 							description={ descriptions.cleanPermalinks }
-							isDummy={ ! isPremium }
+
 							className="yst-max-w-2xl"
 						/>
 						<FormikTagFieldWithDummy
@@ -679,7 +653,7 @@ const CrawlOptimization = () => {
 							label={ __( "Additional URL parameters to allow", "wordpress-seo" ) }
 							description={ descriptions.cleanPermalinksExtraVariables }
 							disabled={ ! cleanPermalinks }
-							isDummy={ ! isPremium }
+
 						/>
 					</FieldsetLayout>
 				</div>
