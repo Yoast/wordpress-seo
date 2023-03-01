@@ -4,15 +4,16 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Crawl_Settings_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Cron_Integration_Test
+ * Class Crawl_Settings_Integration_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Crawl_Settings_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Premium\Integrations\Admin\Crawl_Settings_Integration
  *
  * @group integrations
  */
@@ -26,11 +27,18 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * The admin asset manager.
+	 * The options helper.
 	 *
-	 * @var Mockery\MockInterface|Product_Helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
-	protected $product_helper;
+	protected $options_helper;
+
+	/**
+	 * The shortlinker.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Shortlinker
+	 */
+	private $shortlinker;
 
 	/**
 	 * Set up the fixtures for the tests.
@@ -38,10 +46,9 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->stubTranslationFunctions();
-
-		$this->product_helper = Mockery::mock( Product_Helper::class );
-		$this->instance       = new Crawl_Settings_Integration( $this->product_helper );
+		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->shortlinker    = Mockery::mock( WPSEO_Shortlinker::class );
+		$this->instance       = new Crawl_Settings_Integration( $this->options_helper, $this->shortlinker );
 	}
 
 	/**
@@ -64,17 +71,11 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\has( 'wpseo_settings_tabs_dashboard', [ $this->instance, 'add_crawl_settings_tab' ] );
+		Monkey\Functions\stubTranslationFunctions();
 
-		$this->product_helper
-			->expects( 'is_premium' )
-			->once()
-			->andReturn( true );
-
-		$this->product_helper
-			->expects( 'get_premium_version' )
-			->once()
-			->andReturn( '18.6' );
+		Monkey\Actions\has( 'wpseo_settings_tab_crawl_cleanup_internal', [ $this->instance, 'add_crawl_settings_tab_content' ] );
+		Monkey\Actions\has( 'wpseo_settings_tab_crawl_cleanup_network', [ $this->instance, 'add_crawl_settings_tab_content_network' ] );
+		Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] );
 
 		$this->instance->register_hooks();
 	}
