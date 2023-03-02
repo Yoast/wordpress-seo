@@ -3,7 +3,11 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.91.1 January 25nd, 2023
+## 1.91.2 March 2nd, 2023
+### Bugfixes
+* Fixes a potential security issue.
+
+## 1.91.1 January 25th, 2023
 ### Bugfixes
 * Fixes a bug where an invalid browser field in package.json would cause Vite to throw an error when building.
 

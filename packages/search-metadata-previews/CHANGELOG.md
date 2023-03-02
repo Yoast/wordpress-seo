@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.24.1 March 2nd, 2023
+### Bugfixes
+* Fixes a security issue.
+
 ## 2.19.0 May 17th, 2021
 ### Enhancements
 * When product data like rating, number of reviews, price or availability is provided, it is now shown in the Google Preview.
