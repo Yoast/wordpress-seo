@@ -103,9 +103,9 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->options_helper
-		->expects( 'get' )
-		->twice()
-		->andReturnTrue();
+			->expects( 'get' )
+			->twice()
+			->andReturnTrue();
 
 		$this->instance->register_hooks();
 
