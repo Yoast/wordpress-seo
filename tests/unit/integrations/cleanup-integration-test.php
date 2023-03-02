@@ -153,6 +153,12 @@ class Cleanup_Integration_Test extends TestCase {
 		/* Clean up of seo links target ids for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'target_indexable_id', $query_limit );
 
+		/* Clean up of seo links target ids for deleted indexables */
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_users', 'ID', 'user', $query_limit );
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_posts', 'ID', 'post', $query_limit );
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_terms', 'term_id', 'term', $query_limit );
+
+
 		$this->instance->run_cleanup();
 	}
 
@@ -283,6 +289,7 @@ class Cleanup_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
 
 		Monkey\Functions\expect( 'wp_unschedule_hook' )
 			->once()
@@ -605,6 +612,36 @@ class Cleanup_Integration_Test extends TestCase {
 					AND post_status IN ( %s )
 				) LIMIT %d',
 				[ 'post', 'publish', $limit ]
+			)
+			->andReturn( 'prepared_clean_query' );
+
+		$this->wpdb->expects( 'query' )
+			->once()
+			->with( 'prepared_clean_query' )
+			->andReturn( $return_value );
+	}
+
+	/**
+	 * Sets up expectations for the setup_clean_indexables_for_object_type_and_source_table cleanup task.
+	 *
+	 * @param int    $return_value The number of deleted items to return.
+	 * @param string $source_table The source table which we need to check the indexables against.
+	 * @param string $source_identifier The identifier which the indexables are matched to.
+	 * @param string $object_type The indexable object type.
+	 * @param int    $limit        The query limit.
+	 *
+	 * @return void
+	 */
+	private function setup_clean_indexables_for_object_type_and_source_table( $return_value, $source_table, $source_identifier, $object_type, $limit ) {
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				"DELETE FROM wp_yoast_indexable
+				WHERE object_type = '$object_type'
+				AND object_id NOT IN (
+					SELECT $source_identifier FROM $source_table
+				) LIMIT %d",
+				[ $limit ]
 			)
 			->andReturn( 'prepared_clean_query' );
 
