@@ -12,7 +12,7 @@ describe( "a test to check whether a text has a title or not", () => {
 
 		expect( assessment.getResult( mockPaper ).score ).toEqual( 9 );
 		expect( assessment.getResult( mockPaper ).text ).toEqual(
-			"<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
+			"<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!"
 		);
 	} );
 	it( "should return a bad score if the text doesn't have a title", () => {
@@ -21,7 +21,7 @@ describe( "a test to check whether a text has a title or not", () => {
 		expect( assessment.getResult( mockPaper ).score ).toEqual( -10000 );
 		expect( assessment.getResult( mockPaper ).text ).toEqual(
 			"<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page does not have a title yet. " +
-			"<a href='https://yoa.st/4ni' target='_blank'>Add one</a>!",
+			"<a href='https://yoa.st/4ni' target='_blank'>Add one</a>!"
 		);
 	} );
 	it( "should still return a bad score if the text title only contains spaces", () => {
@@ -30,7 +30,7 @@ describe( "a test to check whether a text has a title or not", () => {
 		expect( assessment.getResult( mockPaper ).score ).toEqual( -10000 );
 		expect( assessment.getResult( mockPaper ).text ).toEqual(
 			"<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page does not have a title yet. " +
-			"<a href='https://yoa.st/4ni' target='_blank'>Add one</a>!",
+			"<a href='https://yoa.st/4ni' target='_blank'>Add one</a>!"
 		);
 
 		mockPaper = new Paper( "A text about a beautiful cat.", { textTitle: "&nbsp;   " } );
@@ -38,7 +38,7 @@ describe( "a test to check whether a text has a title or not", () => {
 		expect( assessment.getResult( mockPaper ).score ).toEqual( -10000 );
 		expect( assessment.getResult( mockPaper ).text ).toEqual(
 			"<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page does not have a title yet. " +
-			"<a href='https://yoa.st/4ni' target='_blank'>Add one</a>!",
+			"<a href='https://yoa.st/4ni' target='_blank'>Add one</a>!"
 		);
 	} );
 } );
