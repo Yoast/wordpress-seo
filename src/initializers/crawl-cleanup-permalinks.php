@@ -129,7 +129,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 
 		$message = \sprintf(
 			/* translators: %1$s: Yoast SEO Premium */
-			\__( '%1$s: redirect utm variables to #', 'wordpress-seo-premium' ),
+			\__( '%1$s: redirect utm variables to #', 'wordpress-seo' ),
 			'Yoast SEO Premium'
 		);
 
@@ -271,7 +271,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 
 			$message = \sprintf(
 				/* translators: %1$s: Yoast SEO Premium */
-				\__( '%1$s: unregistered URL parameter removed', 'wordpress-seo-premium' ),
+				\__( '%1$s: unregistered URL parameter removed', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			);
 
