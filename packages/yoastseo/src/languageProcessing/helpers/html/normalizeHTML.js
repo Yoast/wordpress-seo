@@ -8,9 +8,8 @@
  * @returns {string} The string with single quotes around HTML attributes replaced with double quotes.
  */
 export default function( str ) {
-	const element = document.createElement( "body" );
-	element.innerHTML = str;
-	const normalizedHTML = element.innerHTML;
+	const doc = new DOMParser().parseFromString( str, "text/html" );
+	const normalizedHTML = doc.body.innerHTML;
 
 	// Replace `&nbsp;` with an actual non breaking space (U+00A0).
 	return normalizedHTML.replace( /&nbsp;/g, "\u00A0" );
