@@ -108,7 +108,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	 * @covers       Crawl_Cleanup_Searches::validate_search
 	 */
 	public function test_validate_search_not_search() {
-		$query = Mockery::mock( 'overload:' . WP_Query::class );
+		$query = Mockery::mock( WP_Query::class );
 		$query->shouldReceive( 'is_search' )
 			->andReturnFalse();
 
@@ -156,7 +156,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 			->with()
 			->andReturn( $search_query_string );
 
-		$query = Mockery::mock( 'overload:' . WP_Query::class );
+		$query = Mockery::mock( WP_Query::class );
 		$query->shouldReceive( 'is_search' )
 			->andReturnTrue();
 
@@ -201,7 +201,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 			->with()
 			->andReturn( $search_query_string );
 
-		$query = Mockery::mock( 'overload:' . WP_Query::class );
+		$query = Mockery::mock( WP_Query::class );
 		$query->shouldReceive( 'is_search' )
 			->andReturnTrue();
 
@@ -252,7 +252,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 			->with( 's', $output_query_string )
 			->andReturn( $input_query_string );
 
-		$query = Mockery::mock( 'overload:' . WP_Query::class );
+		$query = Mockery::mock( WP_Query::class );
 		$query->shouldReceive( 'is_search' )
 			->andReturnTrue();
 
