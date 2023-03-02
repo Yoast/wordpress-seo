@@ -102,9 +102,17 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
+		$this->options_helper
+		->expects( 'get' )
+		->twice()
+		->andReturnTrue();
+
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_filter( 'robots_txt', [ $this->instance, 'filter_robots' ] ) );
+
+		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\register_robots_rules', [ $this->instance, 'add_disallow_wp_json_to_robots' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\register_robots_rules', [ $this->instance, 'add_disallow_search_to_robots' ] ) );
 	}
 
 	/**
@@ -543,5 +551,51 @@ class Robots_Txt_Integration_Test extends TestCase {
 				'expected' => '',
 			],
 		];
+	}
+
+	/**
+	 * Tests if the right disallow rule is added to the Robots_Txt_Helper.
+	 *
+	 * @covers ::add_disallow_search_to_robots
+	 */
+	public function test_add_disallow_search_to_robots() {
+		$robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/?s=' )
+			->once()
+			->andReturn();
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/search/' )
+			->once()
+			->andReturn();
+
+		$this->instance->add_disallow_search_to_robots( $robots_txt_helper );
+	}
+
+	/**
+	 * Tests if the right disallow rule is added to the Robots_Txt_Helper.
+	 *
+	 * @covers ::add_disallow_wp_json_to_robots
+	 */
+	public function test_add_disallow_wp_json_to_robots() {
+		$robots_txt_helper = Mockery::mock( Robots_Txt_Helper::class );
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/wp-json/' )
+			->once()
+			->andReturn();
+
+		$robots_txt_helper
+			->expects( 'add_disallow' )
+			->with( '*', '/?rest_route=' )
+			->once()
+			->andReturn();
+
+		$this->instance->add_disallow_wp_json_to_robots( $robots_txt_helper );
 	}
 }
