@@ -4,11 +4,12 @@ import { merge } from "lodash-es";
 import { AssessmentResult } from "yoastseo";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { unifyAllSpaces } from "../../../languageProcessing";
+import Assessment from "../assessment";
 
 /**
  * Represents the assessment that checks whether a text has a title.
  */
-export default class TextTitleAssessment {
+export default class TextTitleAssessment extends Assessment {
 	/**
 	 * Constructs a text title assessment.
 	 *
@@ -17,6 +18,7 @@ export default class TextTitleAssessment {
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
+		super();
 		const defaultConfig = {
 			scores: {
 				good: 9,
