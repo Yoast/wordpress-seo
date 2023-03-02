@@ -378,7 +378,7 @@ abstract class WPSEO_Option {
 	public function validate_url( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
-			$submitted_url = trim( htmlspecialchars( $dirty[ $key ], ENT_COMPAT, get_bloginfo( 'charset' ), true ) );
+			$submitted_url = trim( $dirty[ $key ] );
 			$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
 
 			if ( $validated_url === false ) {
@@ -392,7 +392,7 @@ abstract class WPSEO_Option {
 						sprintf(
 							/* translators: %s expands to an invalid URL. */
 							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
-							'<strong>' . esc_html( $submitted_url ) . '</strong>'
+							'<strong>' . esc_url( $submitted_url ) . '</strong>'
 						),
 						// Message type.
 						'error'

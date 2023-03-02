@@ -10,6 +10,7 @@ import AssessmentResult from "../values/AssessmentResult.js";
  * @param {object} app The app
  * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
  * @param {object} args.usedKeywords An object with keywords and ids where they are used.
+ * @param {object} args.usedKeywordsPostTypes An object with the post types of the post ids from usedKeywords.
  * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
  * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
  * @constructor
@@ -22,6 +23,7 @@ var PreviouslyUsedKeyword = function( app, args ) {
 	if ( isUndefined( args ) ) {
 		args = {
 			usedKeywords: {},
+			usedKeywordsPostTypes: {},
 			searchUrl: "",
 			postUrl: "",
 		};
@@ -29,6 +31,7 @@ var PreviouslyUsedKeyword = function( app, args ) {
 
 	this.app = app;
 	this.usedKeywords = args.usedKeywords;
+	this.usedKeywordsPostTypes = args.usedKeywordsPostTypes;
 	this.searchUrl = args.searchUrl;
 	this.postUrl = args.postUrl;
 	this.urlTitle = createAnchorOpeningTag( "https://yoa.st/33x" );
@@ -60,10 +63,13 @@ PreviouslyUsedKeyword.prototype.registerPlugin = function() {
  * Updates the usedKeywords.
  *
  * @param {object} usedKeywords An object with keywords and ids where they are used.
+ * @param {object} usedKeywordsPostTypes An object with keywords and in which post types they are used.
+ * The post types correspond with the ids in the usedKeywords parameter.
  * @returns {void}
  */
-PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
+PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords, usedKeywordsPostTypes ) {
 	this.usedKeywords = usedKeywords;
+	this.usedKeywordsPostTypes = usedKeywordsPostTypes;
 };
 
 /**
@@ -153,15 +159,9 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
 	let postTypeToDisplay = "";
 	let id = 0;
 
-	if ( ! isUndefined( this.usedKeywords[ keyword ] ) && ! isUndefined( this.usedKeywords[ keyword ].post_ids ) ) {
-		count = this.usedKeywords[ keyword ].post_ids.length;
-
-		postTypeToDisplay = this.usedKeywords[ keyword ].post_types[ 0 ];
-
-		id = this.usedKeywords[ keyword ].post_ids[ 0 ];
-	} else if ( ! isUndefined( this.usedKeywords[ keyword ] ) ) {
-		// This situation is true when we are dealing with taxonomies instead of posts.
+	if ( ! isUndefined( this.usedKeywords[ keyword ] ) && this.usedKeywords[ keyword ].length > 0 ) {
 		count = this.usedKeywords[ keyword ].length;
+		postTypeToDisplay = this.usedKeywordsPostTypes[ keyword ][ 0 ];
 		id = this.usedKeywords[ keyword ][ 0 ];
 	}
 
