@@ -54,7 +54,7 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'user_register', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'profile_update', [ $this, 'build_indexable' ], \PHP_INT_MAX );
-		\add_action( 'deleted_user', [ $this, 'delete_indexable' ] );
+		\add_action( 'deleted_user', [ $this, 'handle_user_delete' ], 10, 2 );
 	}
 
 	/**
@@ -89,6 +89,44 @@ class Indexable_Author_Watcher implements Integration_Interface {
 		if ( $indexable ) {
 			$indexable->object_last_modified = \max( $indexable->object_last_modified, \current_time( 'mysql' ) );
 			$indexable->save();
+		}
+	}
+
+	/**
+	 * Handles the case in which an author is deleted.
+	 *
+	 * @param int      $user_id  User ID.
+	 * @param int|null $reassign The ID of the user the old author's posts are reassigned to.
+	 *
+	 * @return void
+	 */
+	public function handle_user_delete( $user_id, $reassign ) {
+		if ( $reassign !== null ) {
+			$this->maybe_reassign_user_indexables( $user_id, $reassign );
+		}
+
+		$this->delete_indexable( $user_id );
+	}
+
+	/**
+	 * Reassigns the indexables of a user to another user.
+	 *
+	 * @param int $user_id   The user ID.
+	 * @param int $reassign  The user ID to reassign the indexables to.
+	 *
+	 * @return void
+	 */
+	public function maybe_reassign_user_indexables( $user_id, $reassign ) {
+		$indexables = $this->repository
+			->query()
+			->where( 'author_id', $user_id )
+			->find_many();
+
+		if ( count( $indexables ) > 0 ) {
+			foreach ( $indexables as $indexable ) {
+				$indexable->author_id = $reassign;
+				$indexable->save();
+			}
 		}
 	}
 }
