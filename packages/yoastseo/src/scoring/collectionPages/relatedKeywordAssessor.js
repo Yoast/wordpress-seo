@@ -1,12 +1,15 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 
-import IntroductionKeywordAssessment from "./../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "./../assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "./../assessments/seo/MetaDescriptionKeywordAssessment";
-import Assessor from "./../assessor";
-import FunctionWordsInKeyphrase from "./../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import { Assessor, assessments, helpers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	IntroductionKeywordAssessment,
+	KeyphraseLengthAssessment,
+	KeywordDensityAssessment,
+	MetaDescriptionKeywordAssessment,
+	FunctionWordsInKeyphraseAssessment,
+} = assessments.seo;
 
 /**
  * Creates the Assessor used for collection pages.
@@ -38,8 +41,7 @@ const CollectionRelatedKeywordAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 		} ),
-		// Text Images assessment here.
-		new FunctionWordsInKeyphrase( {
+		new FunctionWordsInKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
 		} ),

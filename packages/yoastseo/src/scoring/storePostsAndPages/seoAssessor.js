@@ -1,24 +1,27 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 
-import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
-import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
-import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
-import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
-import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
-import Assessor from "../assessor";
-import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
-import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
-import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCount from "../assessments/seo/ImageCountAssessment";
-import TextLength from "../assessments/seo/TextLengthAssessment";
-import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
-import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
+import { Assessor, assessments, helpers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	IntroductionKeywordAssessment,
+	KeyphraseLengthAssessment,
+	KeywordDensityAssessment,
+	MetaDescriptionKeywordAssessment,
+	KeyphraseInSEOTitleAssessment,
+	SlugKeywordAssessment,
+	MetaDescriptionLengthAssessment,
+	TextLengthAssessment,
+	PageTitleWidthAssessment,
+	FunctionWordsInKeyphraseAssessment,
+	SingleH1Assessment,
+	OutboundLinksAssessment,
+	InternalLinksAssessment,
+	ImageCountAssessment,
+	ImageKeyphraseAssessment,
+	TextCompetingLinksAssessment,
+	SubheadingsKeywordAssessment,
+} = assessments.seo;
 
 /**
  * Creates the Assessor
@@ -50,11 +53,11 @@ const StorePostsAndPagesSEOAssessor = function( researcher,  options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 		} ),
-		new MetaDescriptionLength( {
+		new MetaDescriptionLengthAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
 		} ),
-		new SubheadingsKeyword( {
+		new SubheadingsKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify16" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify17" ),
 		} ),
@@ -62,19 +65,19 @@ const StorePostsAndPagesSEOAssessor = function( researcher,  options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
 		} ),
-		new ImageKeyphrase( {
+		new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 		} ),
-		new ImageCount( {
+		new ImageCountAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
 		} ),
-		new TextLength( {
+		new TextLengthAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 		} ),
-		new OutboundLinks( {
+		new OutboundLinksAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify62" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify63" ),
 		} ),
@@ -86,7 +89,7 @@ const StorePostsAndPagesSEOAssessor = function( researcher,  options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify60" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify61" ),
 		} ),
-		new TitleWidth( {
+		new PageTitleWidthAssessment( {
 			scores: {
 				widthTooShort: 9,
 			},
@@ -97,7 +100,7 @@ const StorePostsAndPagesSEOAssessor = function( researcher,  options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 		} ),
-		new FunctionWordsInKeyphrase( {
+		new FunctionWordsInKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
 		} ),
