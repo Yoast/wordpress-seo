@@ -13,7 +13,6 @@ const {
 	TextPresenceAssessment,
 } = assessments.readability;
 
-
 /**
  * Creates the Assessor
  *

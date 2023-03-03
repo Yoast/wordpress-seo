@@ -13,7 +13,6 @@ const {
 	FunctionWordsInKeyphraseAssessment,
 } = assessments.seo;
 
-
 /**
  * Creates the Assessor
  *

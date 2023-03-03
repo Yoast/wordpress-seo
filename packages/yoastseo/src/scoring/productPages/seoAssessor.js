@@ -24,7 +24,6 @@ const {
 	ImageAltTagsAssessment,
 } = assessments.seo;
 
-
 /**
  * Creates the Assessor
  *
@@ -119,8 +118,7 @@ const ProductSEOAssessor = function( researcher, options ) {
 		new ImageAltTagsAssessment( {
 			urlTitle: createAnchorOpeningTag( options.imageAltTagsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageAltTagsCTAUrl ),
-		}
-		),
+		} ),
 		new ProductIdentifiersAssessment( {
 			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
