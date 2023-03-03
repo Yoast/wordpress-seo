@@ -262,6 +262,7 @@ Release date: 2023-03-14
 #### Bugfixes
 
 * Fixes a bug in which shortcodes in the Block editor were treated as words in the content analysis.
+* Fixes a bug where a fatal error would appear in oEmbed pages for media pages, when those are disabled from Yoast settings.
 * Fixes a bug where editing text in Classic editor while the highlighting feature is enabled would make the text unfocused and the cursor jump to the beginning of the text.
 * Fixes a bug where self-closing break tags (`</br>`) would not be removed when analyzing content.
 * Fixes a bug where the color and line height in the _Google preview_ modal would be shown incorrectly when editing in Elementor.
