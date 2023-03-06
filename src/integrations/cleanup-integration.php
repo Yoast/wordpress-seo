@@ -139,18 +139,18 @@ class Cleanup_Integration implements Integration_Interface {
 				'clean_indexables_for_authors_without_archive' => function ( $limit ) {
 					return $this->clean_indexables_for_authors_without_archive( $limit );
 				},
+				'clean_orphaned_user_indexables_without_wp_user' => function( $limit ) {
+					return $this->clean_indexables_for_object_type_and_source_table( 'users', 'ID', 'user', $limit );
+				},
+				'clean_orphaned_user_indexables_without_wp_post' => function( $limit ) {
+					return $this->clean_indexables_for_object_type_and_source_table( 'posts', 'ID', 'post', $limit );
+				},
+				'clean_orphaned_user_indexables_without_wp_term' => function( $limit ) {
+					return $this->clean_indexables_for_object_type_and_source_table( 'terms', 'term_id', 'term', $limit );
+				},
 			],
 			$this->get_additional_tasks(),
 			[
-				'clean_orphaned_user_indexables_without_wp_user' => function( $limit ) {
-					return $this->clean_indexables_for_object_type_and_source_table( 'wp_users', 'ID', 'user', $limit );
-				},
-				'clean_orphaned_user_indexables_without_wp_post' => function( $limit ) {
-					return $this->clean_indexables_for_object_type_and_source_table( 'wp_posts', 'ID', 'post', $limit );
-				},
-				'clean_orphaned_user_indexables_without_wp_term' => function( $limit ) {
-					return $this->clean_indexables_for_object_type_and_source_table( 'wp_terms', 'term_id', 'term', $limit );
-				},
 				/* These should always be the last ones to be called. */
 				'clean_orphaned_content_indexable_hierarchy' => function( $limit ) {
 					return $this->cleanup_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id', $limit );
@@ -545,19 +545,31 @@ class Cleanup_Integration implements Integration_Interface {
 		global $wpdb;
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
-
+		$source_table    = $wpdb->prefix . $source_table;
+		// Warning: If this query is changed, make sure to update the query in cleanup_orphaned_from_table in Premium as well.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-		$delete_query = $wpdb->prepare(
-			"DELETE FROM $indexable_table
-				WHERE object_type = '$object_type'
-				AND object_id NOT IN (
-					SELECT $source_identifier FROM $source_table
-				) LIMIT %d",
-			[ $limit ]
+		$query = $wpdb->prepare(
+			"
+			SELECT indexable_table.object_id
+			FROM {$indexable_table} indexable_table
+			LEFT JOIN {$source_table} AS source_table
+			ON indexable_table.object_id = source_table.{$source_identifier}
+			WHERE source_table.{$source_identifier} IS NULL
+			AND indexable_table.object_id IS NOT NULL
+			AND indexable_table.object_type = '{$object_type}'
+			LIMIT %d",
+			$limit
 		);
 		// phpcs:enable
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		return $wpdb->query( $delete_query );
+		$orphans = $wpdb->get_col( $query );
+
+		if ( empty( $orphans ) ) {
+			return 0;
+		}
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		return $wpdb->query( "DELETE FROM $indexable_table WHERE object_id IN( " . \implode( ',', $orphans ) . ' )' );
 	}
 }

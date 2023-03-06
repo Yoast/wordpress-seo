@@ -143,6 +143,10 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of indexables of users without an author archive */
 		$this->setup_clean_indexables_for_authors_without_archive( 50, $query_limit );
+		/* Clean up of seo links target ids for deleted indexables */
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_users', 'ID', 'user', $query_limit );
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_posts', 'ID', 'post', $query_limit );
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_terms', 'term_id', 'term', $query_limit );
 
 		/* Clean up of indexable hierarchy for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'Indexable_Hierarchy', 'indexable_id', $query_limit );
@@ -153,10 +157,6 @@ class Cleanup_Integration_Test extends TestCase {
 		/* Clean up of seo links target ids for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'target_indexable_id', $query_limit );
 
-		/* Clean up of seo links target ids for deleted indexables */
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_users', 'ID', 'user', $query_limit );
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_posts', 'ID', 'post', $query_limit );
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_terms', 'term_id', 'term', $query_limit );
 
 
 		$this->instance->run_cleanup();
@@ -636,18 +636,33 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()
 			->with(
-				"DELETE FROM wp_yoast_indexable
-				WHERE object_type = '$object_type'
-				AND object_id NOT IN (
-					SELECT $source_identifier FROM $source_table
-				) LIMIT %d",
-				[ $limit ]
+				"
+			SELECT indexable_table.object_id
+			FROM wp_yoast_indexable indexable_table
+			LEFT JOIN {$source_table} AS source_table
+			ON indexable_table.object_id = source_table.{$source_identifier}
+			WHERE source_table.{$source_identifier} IS NULL
+			AND indexable_table.object_id IS NOT NULL
+			AND indexable_table.object_type = '{$object_type}'
+			LIMIT %d",
+				$limit
 			)
 			->andReturn( 'prepared_clean_query' );
 
-		$this->wpdb->expects( 'query' )
+		$ids = \array_fill( 0, $return_value, 1 );
+
+		$this->wpdb->shouldReceive( 'get_col' )
 			->once()
 			->with( 'prepared_clean_query' )
-			->andReturn( $return_value );
+			->andReturn( $ids );
+
+		if ( $return_value === 0 ) {
+			return;
+		}
+
+		$this->wpdb->shouldReceive( 'query' )
+			->once()
+			->with( 'DELETE FROM wp_yoast_indexable WHERE object_id IN( ' . \implode( ',', $ids ) . ' )' )
+			->andReturn( 50 );
 	}
 }
