@@ -179,7 +179,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content( $yform ) {
-		_deprecated_function( __METHOD__, 'WPSEO 20.4' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
 		$this->add_crawl_settings( $yform, false );
 	}
 
