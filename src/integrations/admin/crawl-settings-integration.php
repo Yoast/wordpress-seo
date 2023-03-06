@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WPSEO_Admin_Asset_Manager;
 use WPSEO_Option;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -14,6 +15,13 @@ use Yoast_Form;
  * Crawl_Settings_Integration class
  */
 class Crawl_Settings_Integration implements Integration_Interface {
+
+	/**
+	 * The admin asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	private $admin_asset_manager;
 
 	/**
 	 * Holds the settings + labels for the head clean up piece.
@@ -76,12 +84,14 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Crawl_Settings_Integration constructor.
 	 *
-	 * @param Options_Helper    $options_helper The options helper.
-	 * @param WPSEO_Shortlinker $shortlinker    The shortlinker.
+	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
+	 * @param WPSEO_Shortlinker         $shortlinker         The shortlinker.
 	 */
-	public function __construct( Options_Helper $options_helper, WPSEO_Shortlinker $shortlinker ) {
-		$this->options_helper = $options_helper;
-		$this->shortlinker    = $shortlinker;
+	public function __construct( Options_Helper $options_helper, WPSEO_Admin_Asset_Manager $admin_asset_manager, WPSEO_Shortlinker $shortlinker ) {
+		$this->options_helper      = $options_helper;
+		$this->admin_asset_manager = $admin_asset_manager;
+		$this->shortlinker         = $shortlinker;
 	}
 
 	/**
@@ -90,8 +100,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function register_hooks() {
 		$this->register_setting_labels();
 
-		\add_action( 'wpseo_settings_tab_crawl_cleanup_internal', [ $this, 'add_crawl_settings_tab_content' ] );
 		\add_action( 'wpseo_settings_tab_crawl_cleanup_network', [ $this, 'add_crawl_settings_tab_content_network' ] );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
 
 	/**
@@ -102,8 +112,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' ) {
 			return;
 		}
-
-		\wp_enqueue_script( 'wp-seo-premium-crawl-settings' );
+		$this->admin_asset_manager->enqueue_script( 'crawl-settings' );
 	}
 
 	/**
