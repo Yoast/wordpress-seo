@@ -395,10 +395,27 @@ class WPSEO_Meta_Columns {
 		}
 
 		if ( $this->is_valid_filter( $current_keyword_filter ) ) {
-			$active_filters = array_merge(
-				$active_filters,
-				$this->get_keyword_filter( $current_keyword_filter )
+			/**
+			 * Adapt the meta query used to filter the post overview on keyphrase.
+			 *
+			 * @internal
+			 *
+			 * @api array $keyword_filter The current keyword filter.
+			 *
+			 * @param array $keyphrase The keyphrase used in the filter.
+			 */
+			$keyphrase_filter = \apply_filters(
+				'wpseo_change_keyphrase_filter_in_request',
+				$this->get_keyword_filter( $current_keyword_filter ),
+				$current_keyword_filter
 			);
+
+			if ( \is_array( $keyphrase_filter ) ) {
+				$active_filters = array_merge(
+					$active_filters,
+					[ $keyphrase_filter ]
+				);
+			}
 		}
 
 		return $active_filters;
