@@ -86,7 +86,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		$this->register_setting_labels();
 
 		if ( ! $this->product_helper->is_premium() || ! $this->is_premium_upgraded() ) {
-			\add_action( 'wpseo_settings_tab_crawl_cleanup_internal', [ $this, 'add_crawl_settings_tab_content' ] );
 			\add_action( 'wpseo_settings_tab_crawl_cleanup_network', [ $this, 'add_crawl_settings_tab_content_network' ] );
 		}
 	}
@@ -174,9 +173,13 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Adds content to the Crawl Cleanup tab.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content( $yform ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
 		$this->add_crawl_settings( $yform, false );
 	}
 
