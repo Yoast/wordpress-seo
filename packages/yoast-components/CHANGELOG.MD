@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 5.24.1 March 2nd, 2023
+### Bugfixes
+* Fixes a security issue.
+
 ## 5.12.1 November 2nd, 2020
 ### Bugfixes
 * Deprecates `OnboardingWizard`, `MessageBox`, `LoadingIndicator`. Use the `@yoast/configuration-wizard` instead.
