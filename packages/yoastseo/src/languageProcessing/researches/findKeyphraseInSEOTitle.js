@@ -99,6 +99,15 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 		return result;
 	}
 
+	if ( keywordMatched.count === 0 ) {
+		const keywordMatchedBeforeSanitizing = keyword;
+		if ( keywordMatchedBeforeSanitizing.count > 0 ) {
+			result.exactMatchFound = true;
+			result.allWordsFound = true;
+			result.position = adjustPosition( title, keywordMatchedBeforeSanitizing.position );
+		}
+		return result;
+	}
 	// Check 2: Are all content words from the keyphrase in the SEO title?
 	const topicForms = researcher.getResearch( "morphology" );
 
