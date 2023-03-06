@@ -59,7 +59,7 @@ class WPSEO_Language_Utils {
 	 * @return array The l10n array.
 	 */
 	public static function get_knowledge_graph_company_info_missing_l10n() {
-		_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
 
 		return [
 			'URL'     => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3r3' ) ),

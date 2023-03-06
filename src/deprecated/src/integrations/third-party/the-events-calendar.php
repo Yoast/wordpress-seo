@@ -24,7 +24,7 @@ class The_Events_Calendar implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return [ Front_End_Conditional::class, Open_Graph_Conditional::class ];
 	}
 
@@ -39,7 +39,7 @@ class The_Events_Calendar implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class The_Events_Calendar implements Integration_Interface {
 	 * @return array Extended graph pieces.
 	 */
 	public function add_graph_pieces( $pieces, $context ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 
 		return $pieces;
 	}

@@ -25,7 +25,7 @@ class Yoast_I18n_v3 {
 	 * @param bool  $show_translation_box Whether the translation box should be shown.
 	 */
 	public function __construct( $args, $show_translation_box = true ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Yoast_I18n_v3 {
 	 * @return bool Returns true if the language is en_US.
 	 */
 	protected function is_default_language( $language ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return true;
 	}
 
@@ -54,7 +54,7 @@ class Yoast_I18n_v3 {
 	 * @return string The i18n promo message.
 	 */
 	public function get_promo_message() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return '';
 	}
 
@@ -69,7 +69,7 @@ class Yoast_I18n_v3 {
 	 * @return string
 	 */
 	public function get_dismiss_i18n_message_button() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return '';
 	}
 
@@ -82,7 +82,7 @@ class Yoast_I18n_v3 {
 	 * @access public
 	 */
 	public function promo() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 	}
 
 	/**
@@ -94,6 +94,6 @@ class Yoast_I18n_v3 {
 	 * @param string $api_url The new API URL.
 	 */
 	public function set_api_url( $api_url ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 	}
 }

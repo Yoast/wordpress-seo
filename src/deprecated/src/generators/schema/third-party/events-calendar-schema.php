@@ -37,7 +37,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return false;
 	}
 
@@ -53,7 +53,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 	 * @return array Event Schema markup
 	 */
 	public function generate() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return [];
 	}
 }
