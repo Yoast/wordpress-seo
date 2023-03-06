@@ -22,6 +22,7 @@ import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
 import CornerstoneRelatedKeywordAssessor from "../scoring/cornerstone/relatedKeywordAssessor";
 import CornerstoneSEOAssessor from "../scoring/cornerstone/seoAssessor";
 import InvalidTypeError from "../errors/invalidType";
+import MissingArgumentError from "../errors/missingArgument";
 import includesAny from "../helpers/includesAny";
 import { configureShortlinker } from "../helpers/shortlinker";
 import RelatedKeywordTaxonomyAssessor from "../scoring/relatedKeywordTaxonomyAssessor";
@@ -133,6 +134,7 @@ export default class AnalysisWebWorker {
 		this.registerAssessor = this.registerAssessor.bind( this );
 		this.registerResearch = this.registerResearch.bind( this );
 		this.registerHelper = this.registerHelper.bind( this );
+		this.registerResearcherConfig = this.registerResearcherConfig.bind( this );
 		this.setInclusiveLanguageOptions = this.setInclusiveLanguageOptions.bind( this );
 
 		// Bind event handlers to this scope.
@@ -1446,6 +1448,28 @@ export default class AnalysisWebWorker {
 
 		if ( ! researcher.hasHelper( name ) ) {
 			researcher.addHelper( name, helper );
+		}
+	}
+
+	/**
+	 * Registers a configuration to the researcher.
+	 *
+	 * @param {string}  name                The name of the researcher configuration.
+	 * @param {*}       researcherConfig    The researcher configuration to add.
+	 *
+	 * @returns {void}
+	 */
+	registerResearcherConfig( name, researcherConfig ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom researcher config. Expected parameter `name` to be a string." );
+		}
+		if ( isUndefined( researcherConfig ) || isEmpty( researcherConfig ) ) {
+			throw new MissingArgumentError( "Failed to register the custom researcher config. Expected parameter `researcherConfig` to be defined." );
+		}
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasConfig( name ) ) {
+			researcher.addConfig( name, researcherConfig );
 		}
 	}
 }

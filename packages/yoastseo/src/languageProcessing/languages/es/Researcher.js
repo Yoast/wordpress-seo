@@ -9,7 +9,6 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
 import sentenceLength from "./config/sentenceLength";
-import wordComplexity from "./config/wordComplexity";
 
 // All helpers
 import getClauses from "./helpers/getClauses";
@@ -38,7 +37,6 @@ export default class Researcher extends AbstractResearcher {
 			twoPartTransitionWords,
 			syllables,
 			sentenceLength,
-			wordComplexity,
 		} );
 
 		Object.assign( this.helpers, {

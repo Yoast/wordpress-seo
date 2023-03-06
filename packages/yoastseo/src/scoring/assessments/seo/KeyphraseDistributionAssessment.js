@@ -7,8 +7,7 @@ const { getSentences } = languageProcessing;
 const { createAnchorOpeningTag } = helpers;
 
 /**
- * Returns a score based on the largest percentage of text in
- * which no keyword occurs.
+ * Represents an assessment that returns a score based on the largest percentage of text in which no keyword occurs.
  */
 class KeyphraseDistributionAssessment extends Assessment {
 	/**
@@ -23,7 +22,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * @param {number} [config.scores.okay]             The score to return if keyword occurrences are somewhat unevenly distributed.
 	 * @param {number} [config.scores.bad]              The score to return if there is way too much text between keyword occurrences.
 	 * @param {number} [config.scores.consideration]    The score to return if there are no keyword occurrences.
-	 * @param {string} [config.url]                     The URL to the relevant KB article.
+	 * @param {string} [config.urlTitle]                The URL to the article about this assessment.
+	 * @param {string} [config.urlCallToAction]         The URL to the help article for this assessment.
 	 *
 	 * @returns {void}
 	 */
@@ -41,12 +41,16 @@ class KeyphraseDistributionAssessment extends Assessment {
 				bad: 1,
 				consideration: 0,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33q" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33u" ),
+			urlTitle: "https://yoa.st/33q",
+			urlCallToAction: "https://yoa.st/33u",
 		};
 
 		this.identifier = "keyphraseDistribution";
 		this._config = merge( defaultConfig, config );
+
+		// Creates an anchor opening tag for the shortlinks.
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
@@ -66,7 +70,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasMarks( this._keyphraseDistribution.sentencesToHighlight.length > 0 );
+		assessmentResult.setHasMarks( calculatedResult.hasMarks );
 
 		return assessmentResult;
 	}
@@ -78,10 +82,12 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 */
 	calculateResult() {
 		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
+		const hasMarks = this._keyphraseDistribution.sentencesToHighlight.length > 0;
 
 		if ( distributionScore === 100 ) {
 			return {
 				score: this._config.scores.consideration,
+				hasMarks: hasMarks,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
@@ -100,6 +106,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
 			return {
 				score: this._config.scores.bad,
+				hasMarks: hasMarks,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
@@ -120,6 +127,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 		) {
 			return {
 				score: this._config.scores.okay,
+				hasMarks: hasMarks,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
@@ -137,6 +145,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		return {
 			score: this._config.scores.good,
+			hasMarks: hasMarks,
 			resultText: sprintf(
 				/* Translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
 				__(
@@ -159,17 +168,20 @@ class KeyphraseDistributionAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has a text with at least 15 sentences and a keyword.
+	 * Checks whether the paper has a text with at least 15 sentences and a keyword,
+	 * and whether the researcher has keyphraseDistribution research.
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} True when there is a keyword and a text with 15 sentences or more.
+	 * @returns {boolean}   Returns true when there is a keyword and a text with 15 sentences or more
+	 *                      and the researcher has keyphraseDistribution research.
 	 */
 	isApplicable( paper, researcher ) {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+		const sentences = getSentences( paper.getText(), memoizedTokenizer );
 
-		return paper.hasText() && paper.hasKeyword() && getSentences( paper.getText(), memoizedTokenizer ).length >= 15;
+		return paper.hasText() && paper.hasKeyword() && sentences.length >= 15 && researcher.hasResearch( "keyphraseDistribution" );
 	}
 }
 

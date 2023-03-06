@@ -539,7 +539,7 @@ App.prototype.initSnippetPreview = function() {
 };
 
 /**
- * Initializes the assessorpresenters for content and SEO.
+ * Initializes the assessor presenters for content and SEO.
  *
  * @returns {void}
  */
