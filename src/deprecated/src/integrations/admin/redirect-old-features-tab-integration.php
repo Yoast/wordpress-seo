@@ -39,6 +39,8 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
+
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_redirect_old_features_tab_script' ] );
 	}
 
 	/**
@@ -69,5 +71,11 @@ class Redirect_Old_Features_Tab_Integration implements Integration_Interface {
 	 */
 	public function enqueue_redirect_old_features_tab_script() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
+		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' ) {
+			return;
+		}
+		$this->asset_manager->enqueue_script( 'redirect-old-features-tab' );
 	}
 }
