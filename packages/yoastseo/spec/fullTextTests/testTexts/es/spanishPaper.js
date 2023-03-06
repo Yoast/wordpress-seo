@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "«Hey Jude» es una canción de la banda británica de rock The Beatles, lanzada en agosto de 1968 como primer " +
 		"sencillo del sello discográfico de la formación, Apple Records.",
 	title: "Hey Jude - la canción de la banda británica de rock The Beatles",
+	textTitle: "Hey Jude - la canción de la banda británica de rock The Beatles",
 	titleWidth: 450,
 	locale: "es_ES",
 	permalink: "https://es.wikipedia.org/wiki/Hey_Jude",
@@ -156,6 +157,11 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: You are not using too many complex words, " +
 			"which makes your text easy to read. Good job!",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 
