@@ -13,6 +13,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
+
 ?>
 <h2><?php esc_html_e( 'Crawl settings', 'wordpress-seo' ); ?></h2>
 <div class="yoast-measure">
