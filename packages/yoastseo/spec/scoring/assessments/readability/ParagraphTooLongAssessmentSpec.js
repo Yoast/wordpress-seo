@@ -252,6 +252,41 @@ describe( "A test for marking the sentences", function() {
 		];
 		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
+	xit( "should return markers for a long paragraph inside image caption", function() {
+		const longText = "A study was carried out to determine the effect of dietary probiotic L on production performance," +
+			" some blood parameters and caecal microflora of male mule ducklings raised in 93 days under field conditions. " +
+			"The probiotic preparation L consisted of freeze-dried pure cultures of Streptococcus thermophilus, " +
+			"Enterococcus faecium and 4 strains of Lactobacillus. Each gram of L contained 0.1x109 CFU. " +
+			"Day-old birds were randomly allocated to -L (n = 2240) and +L (n = 2330) groups. The difference between treatments " +
+			"on these birds was the supplementation of the probiotic in the feeds (300 g/t) of +L group. L significantly " +
+			"improved body weight gain, feed conversion ratio and liver weight of mules. The probiotic supplementation " +
+			"did not affect the intestine length, the weight of gizzard, heart, and blood constituents comprising, " +
+			"haemoglobin, total protein and cholesterol concentrations. L fed ducklings had reduced total counts of bacteria," +
+			" E. coli and Salmonella and elevated number of Lactobacilli in the caecal digesta. In addition, lower cost " +
+			"of body weight yield and lower mortality rate was found for the same treatment. In modern poultry production, " +
+			"different types of growth promoters are being applied. The public concern about pathogenic resistant bacteria in" +
+			" humans determines the increasing pressure by the consumer for a reduction or ban on use of nutritive antibiotics." +
+			" This situation then calls for active search for alternative products that would replace the antibiotic growth promoters. S" +
+			"ome of these new products -probiotics – are live microbes, which grow in the gastrointestinal tract and create " +
+			"beneficial conditions for nutrients’ utilisation, inhibit pathogenic bacteria in the host. Utilising probiotics " +
+			"in animal nutrition provides not only economic and health benefits they produce also safe foods. Blood haemoglobin, " +
+			"total protein and total cholesterol concentrations were not significantly affected by the probiotic.";
+		const assessment = new ParagraphTooLongAssessment();
+		const paper = new Paper( "<p>A short text.</p>" +
+			"<p><br></br>\n" +
+			"<img class='size-medium wp-image-34' src='http://basic.wordpress.test/wp-content/uploads" +
+			"/2021/08/cat-4797096_1280-300x196.jpeg' alt='Not a rabbit' width='300' height='196'></img> " +
+			longText + "<br></br>\n" +
+			"</p>"
+		);
+		const paragraphTooLong = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: longText,
+				marked: "<yoastmark class='yoast-text-mark'>longText</yoastmark>" } ),
+		];
+		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+	} );
 	it( "should return markers for a text in Japanese", function() {
 		const paper = new Paper( "接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。学校文法では、接続詞は文の成分" +
 			"としては独立語として扱われておりますが、独立語でないとする文法学説もあります。松下文法では一品詞としないで副詞に含め、山田文法では副詞の一類として接続副詞" +
