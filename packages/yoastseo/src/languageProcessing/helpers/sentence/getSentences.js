@@ -8,6 +8,7 @@ import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime";
 import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import SentenceTokenizer from "./SentenceTokenizer";
+import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
@@ -36,6 +37,7 @@ function getSentenceTokenizer( block ) {
 }
 
 const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
+
 /**
  * Returns sentences in a string.
  *
@@ -66,7 +68,8 @@ export default function( text, memoizedTokenizer ) {
 		return block.split( newLineRegex );
 	} );
 
-	const sentences = flatMap( blocks, memoizedTokenizer );
+	let sentences = flatMap( blocks, memoizedTokenizer );
+	sentences = sentences.map( sentence => stripBlockTagsAtStartEnd( sentence ) );
 
 	return filter( sentences, negate( isEmpty ) );
 }
