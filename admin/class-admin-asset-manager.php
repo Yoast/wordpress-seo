@@ -538,10 +538,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'notifications-' . $flat_version,
 			],
 			[
-				'name' => 'notifications-new',
-				'src'  => 'notifications-new-' . $flat_version,
-			],
-			[
 				'name' => 'alert',
 				'src'  => 'alerts-' . $flat_version,
 			],
