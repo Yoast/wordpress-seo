@@ -5,8 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
-
 /**
  * Notifications template variables.
  *
@@ -37,16 +35,6 @@ $wpseo_contributors_phrase = sprintf(
 
 	</div>
 </div>
-
-<?php
-if ( YoastSEO()->classes->get( Indexables_Page_Conditional::class )->is_met() ) {
-	?>
-<div class="tab-block">
-	<div id="wpseo-indexables-page"></div>
-</div>
-	<?php
-}
-?>
 
 <div class="tab-block">
 	<h2><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h2>
