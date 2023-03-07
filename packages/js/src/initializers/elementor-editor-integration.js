@@ -109,6 +109,11 @@ function detectChange( input ) {
 		return;
 	}
 
+	// The estimated reading time do not require a new save (based on the content anyway).
+	if ( input.name === "yoast_wpseo_estimated-reading-time-minutes" ) {
+		return;
+	}
+
 	if ( input.value !== input.oldValue ) {
 		hasUnsavedSeoChanges = true;
 		debouncedUpdateSaveAsDraftWarning();
