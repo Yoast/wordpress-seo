@@ -94,8 +94,8 @@ describe( "Get sentences from text", function() {
 				expected: [ "Some text.", "More Text." ],
 			},
 			{
-				input: "<p> However, a cat with toy looks happier. She is given raw food. Seniors don't like it.<br></br>",
-				expected: [ "However, a cat with toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+				input: "<p> However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>",
+				expected: [ "However, a cat with the toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
 			},
 		];
 
@@ -234,24 +234,24 @@ describe( "Get sentences from text", function() {
 				// The input contains <br> tags and \n tag.
 				input: "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
 					"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
-					"However, a cat with toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
+					"However, a cat the with toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
 					"</p>",
-				expected: [ "However, a cat with toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+				expected: [ "However, a cat with the toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
 			},
 			{
 				// The input contains <br> tags without \n tag.
 				input: "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
 					"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
-					"However, a cat with toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
+					"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
 					"</p>",
-				expected: [ "However, a cat with toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+				expected: [ "However, a cat with the toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
 			},
 			{
 				// The input contains <p> tags, but doesn't contain <br> tags and \n tag.
 				input: "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
 					"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
-					"However, a cat with toy looks happier. She is given raw food. Seniors don't like it.</p>",
-				expected: [ "However, a cat with toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+					"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.</p>",
+				expected: [ "However, a cat with the toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
 			},
 		];
 
