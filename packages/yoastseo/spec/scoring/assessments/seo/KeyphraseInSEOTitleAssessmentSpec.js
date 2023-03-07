@@ -127,10 +127,10 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 		} );
 		const assessment = new KeyphraseInSEOTitleAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: 0, exactMatchKeyphrase: false } )
+			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 0, exactMatchKeyphrase: false } )
 		);
 
-		expect( assessment.getScore() ).toBe( 2 );
+		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe(
 			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the " +
 			"focus keyphrase appears at the beginning of the SEO title. Good job!"
