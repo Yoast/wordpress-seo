@@ -1,4 +1,4 @@
-import adapt from "./adapt";
+import build from "./build";
 
 /**
  * @module parse/build
@@ -6,5 +6,5 @@ import adapt from "./adapt";
  * Module containing functions to build a tree for the analysis.
  */
 export {
-	adapt,
+	build,
 };

@@ -1,10 +1,10 @@
-import parse from "../../src/parse/parse";
+import build from "../../../src/parse/build/build";
 
 describe( "The parse function", () => {
 	it( "parses a basic HTML text", () => {
 		const html = "<div><p class='yoast'>Hello, world!</p></div>";
 
-		expect( parse( html ) ).toEqual( {
+		expect( build( html ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -40,7 +40,7 @@ describe( "The parse function", () => {
 		 * [/#document-fragment]
 		 * ```
 		 */
-		expect( parse( html ) ).toEqual( {
+		expect( build( html ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -87,7 +87,7 @@ describe( "The parse function", () => {
 		 * [/#document-fragment]
 		 * ```
 		 */
-		expect( parse( html ) ).toEqual( {
+		expect( build( html ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [

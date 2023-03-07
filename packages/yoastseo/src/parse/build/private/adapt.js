@@ -1,8 +1,8 @@
-import combineIntoImplicitParagraphs from "./private/combineIntoImplicitParagraphs";
-import adaptAttributes from "./private/adaptAttributes";
-import isPhrasingContent from "./private/isPhrasingContent";
+import combineIntoImplicitParagraphs from "./combineIntoImplicitParagraphs";
+import adaptAttributes from "./adaptAttributes";
+import isPhrasingContent from "./isPhrasingContent";
 
-import { Paragraph, Text, Heading, Node } from "../structure";
+import { Paragraph, Text, Heading, Node } from "../../structure";
 
 /**
  * Whether the element with the specified name is a paragraph.

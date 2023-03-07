@@ -18,7 +18,7 @@ import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
 import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 
-import parse from "../parse/parse";
+import { build } from "../parse/build";
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
@@ -1088,7 +1088,9 @@ export default class AnalysisWebWorker {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
-			this._paper.setTree( parse( this._paper.getText() ) );
+			this._paper.setTree( build( this._paper.getText() ) );
+
+			console.log( this._paper.getTree() );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
