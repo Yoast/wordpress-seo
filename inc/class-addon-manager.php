@@ -89,7 +89,7 @@ class WPSEO_Addon_Manager {
 		self::NEWS_SLUG         => 'wpseo-news',
 		self::VIDEO_SLUG        => 'wpseo-video',
 		self::WOOCOMMERCE_SLUG  => 'wpseo-woocommerce',
-		self::LOCAL_SLUG        => 'wordpress-seo-local',
+		self::LOCAL_SLUG        => 'wpseo-local',
 	];
 
 	/**
