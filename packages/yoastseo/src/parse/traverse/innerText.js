@@ -10,7 +10,7 @@ export default function innerText( node ) {
 
 	if ( node.childNodes ) {
 		node.childNodes.forEach( child => {
-			if ( child.nodeName === "#text" ) {
+			if ( child.name === "#text" ) {
 				text += child.value;
 			} else {
 				text += innerText( child );
