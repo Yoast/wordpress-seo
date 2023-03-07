@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Admin_Asset_Manager;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Crawl_Settings_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -27,11 +27,11 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * The options helper.
+	 * The asset manager for admin pages.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
-	protected $options_helper;
+	protected $admin_asset_manager;
 
 	/**
 	 * The shortlinker.
@@ -46,9 +46,9 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->shortlinker    = Mockery::mock( WPSEO_Shortlinker::class );
-		$this->instance       = new Crawl_Settings_Integration( $this->options_helper, $this->shortlinker );
+		$this->admin_asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->shortlinker         = Mockery::mock( WPSEO_Shortlinker::class );
+		$this->instance            = new Crawl_Settings_Integration( $this->admin_asset_manager, $this->shortlinker );
 	}
 
 	/**
