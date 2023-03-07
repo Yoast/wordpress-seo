@@ -69,7 +69,7 @@ export default function( text, memoizedTokenizer ) {
 	} );
 
 	let sentences = flatMap( blocks, memoizedTokenizer );
-	sentences = sentences.map( sentence => stripBlockTagsAtStartEnd( sentence ) );
+	sentences = sentences.map( sentence => stripBlockTagsAtStartEnd( sentence ).trim() );
 
 	return filter( sentences, negate( isEmpty ) );
 }
