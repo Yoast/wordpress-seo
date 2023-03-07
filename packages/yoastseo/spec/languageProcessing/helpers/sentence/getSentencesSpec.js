@@ -88,8 +88,18 @@ describe( "Get sentences from text", function() {
 	} );
 
 	it( "returns a sentence with incomplete tags", function() {
-		const text = "<p>Some text. More Text.</p>";
-		expect( getSentences( text ) ).toEqual( [ "Some text.", "More Text." ] );
+		const testCases = [
+			{
+				input: "<p>Some text. More Text.</p>",
+				expected: [ "Some text.", "More Text." ],
+			},
+			{
+				input: "<p> However, a cat with toy looks happier. She is given raw food. Seniors don't like it.<br></br>",
+				expected: [ "However, a cat with toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+			},
+		];
+
+		testGetSentences( testCases );
 	} );
 
 	it( "returns a sentence with incomplete tags per sentence", function() {
@@ -210,12 +220,42 @@ describe( "Get sentences from text", function() {
 			"    If you want to end the discussion you&#8217;re having in the car and need to know exactly how many people live in France.</p>";
 
 		expect( getSentences( texts ) ).toEqual( [
-			"<p>The results that voice gives us are always singular.",
+			"The results that voice gives us are always singular.",
 			"Siri will set a timer, Google Home will play the song.",
 			"Joost:  &#8216;Voice results only make sense if you&#8217;re looking for a singular result.",
 			"If you want to know something specific.",
 			"If you want to end the discussion you&#8217;re having in the car and need to know exactly how many people live in France.",
-			"</p>" ] );
+		] );
+	} );
+
+	it( "splits correctly text with image tags", function() {
+		const testCases = [
+			{
+				// The input contains <br> tags and \n tag.
+				input: "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+					"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+					"However, a cat with toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
+					"</p>",
+				expected: [ "However, a cat with toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+			},
+			{
+				// The input contains <br> tags without \n tag.
+				input: "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+					"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+					"However, a cat with toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
+					"</p>",
+				expected: [ "However, a cat with toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+			},
+			{
+				// The input contains <p> tags, but doesn't contain <br> tags and \n tag.
+				input: "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+					"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+					"However, a cat with toy looks happier. She is given raw food. Seniors don't like it.</p>",
+				expected: [ "However, a cat with toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+			},
+		];
+
+		testGetSentences( testCases );
 	} );
 
 	it( "can deal with a longer text", function() {
