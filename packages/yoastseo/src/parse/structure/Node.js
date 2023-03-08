@@ -1,4 +1,4 @@
-import { findAllInTree } from "../traverse";
+import { findAllInTree, innerText } from "../traverse";
 
 /**
  * A node in the tree.
@@ -26,6 +26,15 @@ class Node {
 	 */
 	findAll( condition ) {
 		return findAllInTree( this, condition );
+	}
+
+	/**
+	 * Returns the inner text (text without any markup) from this node.
+	 *
+	 * @returns {string} The inner text from this node.
+	 */
+	innerText() {
+		return innerText( this );
 	}
 }
 

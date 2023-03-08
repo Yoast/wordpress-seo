@@ -1,6 +1,5 @@
 /* eslint-disable max-statements */
 // External dependencies.
-import { autop } from "@wordpress/autop";
 import { enableFeatures } from "@yoast/feature-flag";
 import { __, setLocaleData, sprintf } from "@wordpress/i18n";
 import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
@@ -19,6 +18,7 @@ import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 
 import { build } from "../parse/build";
+import LanguageProcessor from "../parse/language/LanguageProcessor";
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
@@ -1088,7 +1088,8 @@ export default class AnalysisWebWorker {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
-			this._paper.setTree( build( this._paper.getText() ) );
+			const languageProcessor = new LanguageProcessor( this._researcher );
+			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
 
 			console.log( this._paper.getTree() );
 

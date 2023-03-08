@@ -1,10 +1,15 @@
 import build from "../../../src/parse/build/build";
+import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
+import Factory from "../../specHelpers/factory";
 
 describe( "The parse function", () => {
 	it( "parses a basic HTML text", () => {
 		const html = "<div><p class='yoast'>Hello, world!</p></div>";
 
-		expect( build( html ) ).toEqual( {
+		const researcher = Factory.buildMockResearcher( {} );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -16,6 +21,7 @@ describe( "The parse function", () => {
 					attributes: {
 						"class": "yoast",
 					},
+					sentences: [],
 					childNodes: [ {
 						name: "#text",
 						value: "Hello, world!",
@@ -27,6 +33,9 @@ describe( "The parse function", () => {
 
 	it( "adds implicit paragraphs around phrasing content outside of paragraphs and headings", () => {
 		const html = "<div>Hello <span>World!</span></div>";
+
+		const researcher = Factory.buildMockResearcher( {} );
+		const languageProcessor = new LanguageProcessor( researcher );
 
 		/*
 		 * Should become
@@ -40,7 +49,7 @@ describe( "The parse function", () => {
 		 * [/#document-fragment]
 		 * ```
 		 */
-		expect( build( html ) ).toEqual( {
+		expect( build( html, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
@@ -50,6 +59,7 @@ describe( "The parse function", () => {
 					name: "p",
 					isImplicit: true,
 					attributes: {},
+					sentences: [],
 					childNodes: [
 						{
 							name: "#text",
@@ -72,6 +82,9 @@ describe( "The parse function", () => {
 	it( "parses another HTML text and adds implicit paragraphs where needed", () => {
 		const html = "<div>Hello <p>World!</p></div>";
 
+		const researcher = Factory.buildMockResearcher( {} );
+		const languageProcessor = new LanguageProcessor( researcher );
+
 		/*
 		 * Should become
 		 * ```
@@ -87,7 +100,7 @@ describe( "The parse function", () => {
 		 * [/#document-fragment]
 		 * ```
 		 */
-		expect( build( html ) ).toEqual( {
+		expect( build( html, languageProcessor ) ).toEqual( {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [
@@ -99,6 +112,7 @@ describe( "The parse function", () => {
 							name: "p",
 							isImplicit: true,
 							attributes: {},
+							sentences: [],
 							childNodes: [
 								{
 									name: "#text",
@@ -111,6 +125,7 @@ describe( "The parse function", () => {
 							name: "p",
 							isImplicit: false,
 							attributes: {},
+							sentences: [],
 							childNodes: [
 								{
 									name: "#text",
