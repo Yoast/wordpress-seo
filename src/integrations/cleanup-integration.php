@@ -546,7 +546,6 @@ class Cleanup_Integration implements Integration_Interface {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$source_table    = $wpdb->prefix . $source_table;
-		// Warning: If this query is changed, make sure to update the query in cleanup_orphaned_from_table in Premium as well.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		$query = $wpdb->prepare(
 			"

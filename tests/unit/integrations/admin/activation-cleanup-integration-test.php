@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Integrations\Admin\Activation_Indexation_Integration;
+use Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 
@@ -15,14 +15,14 @@ use Yoast\WP\SEO\Integrations\Cleanup_Integration;
  * @group integrations
  * @group indexing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Activation_Indexation_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration
  */
-class Activation_Indexation_Integration_Test extends TestCase {
+class Activation_Cleanup_Integration_Test extends TestCase {
 
 	/**
 	 * Holds the activation indexation integration.
 	 *
-	 * @var \Yoast\WP\SEO\Integrations\Admin\Activation_Indexation_Integration
+	 * @var \Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration
 	 */
 	private $instance;
 
@@ -32,7 +32,7 @@ class Activation_Indexation_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Activation_Indexation_Integration();
+		$this->instance = new Activation_Cleanup_Integration();
 	}
 
 	/**
@@ -45,7 +45,7 @@ class Activation_Indexation_Integration_Test extends TestCase {
 			[
 				Admin_Conditional::class,
 			],
-			Activation_Indexation_Integration::get_conditionals()
+			Activation_Cleanup_Integration::get_conditionals()
 		);
 	}
 

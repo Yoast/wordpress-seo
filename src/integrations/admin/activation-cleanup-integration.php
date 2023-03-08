@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 /**
  * This integration registers a run of the cleanup routine whenever the plugin is activated.
  */
-class Activation_Indexation_Integration implements Integration_Interface {
+class Activation_Cleanup_Integration implements Integration_Interface {
 
 	use Admin_Conditional_Trait;
 
