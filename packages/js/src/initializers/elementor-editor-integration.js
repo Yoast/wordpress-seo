@@ -99,18 +99,14 @@ function initializePostStatusListener() {
  * @returns {void}
  */
 function detectChange( input ) {
-	// The SEO score and the content score changing do not require a new save.
-	if ( input.name === "yoast_wpseo_linkdex" || input.name === "yoast_wpseo_content_score" ) {
-		return;
-	}
-
-	// The prominent words do not require a new save (based on the content anyway).
-	if ( input.name === "yoast_wpseo_words_for_linking" ) {
-		return;
-	}
-
-	// The estimated reading time do not require a new save (based on the content anyway).
-	if ( input.name === "yoast_wpseo_estimated-reading-time-minutes" ) {
+	// SEO fields that  do not require a new save.
+	const skipFields = [
+		"yoast_wpseo_linkdex",
+		"yoast_wpseo_content_score",
+		"yoast_wpseo_words_for_linking",
+		"yoast_wpseo_estimated-reading-time-minutes",
+	];
+	if ( skipFields.includes( input.name ) ) {
 		return;
 	}
 
