@@ -59,7 +59,13 @@ export default function( text, memoizedTokenizer ) {
 	// This step is done here so that applying highlight in captions is possible for all assessments that use this helper.
 	text = text.replace( imageRegex, "" );
 
+	// Remove any HTML whitespace padding and replace it with a single whitespace.
+    text = text.replace( /[\n]+/g, " " );
+
+	console.log( text, "text" );
+
 	let blocks = getBlocks( text );
+	console.log( blocks, "blocks" );
 
 	// Split each block on newlines.
 	blocks = flatMap( blocks, function( block ) {
