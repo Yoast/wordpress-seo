@@ -212,7 +212,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	/**
 	 * Tests whether the function do_safe_redirect gets the proper URL to redirect to.
 	 *
-	 * @covers       Crawl_Cleanup_Searches::validate_search
+	 * @covers ::validate_search
 	 *
 	 * @dataProvider provide_query_string_parameters
 	 *
