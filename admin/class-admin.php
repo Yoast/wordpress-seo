@@ -5,7 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Helpers\Wordpress_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
@@ -316,16 +315,8 @@ class WPSEO_Admin {
 	 * Log the updated timestamp for user profiles when theme is changed.
 	 */
 	public function switch_theme() {
-		$wordpress_helper  = new Wordpress_Helper();
-		$wordpress_version = $wordpress_helper->get_wordpress_version();
 
-		// Capability queries were only introduced in WP 5.9.
-		if ( version_compare( $wordpress_version, '5.8.99', '<' ) ) {
-			$users = get_users( [ 'who' => 'authors' ] );
-		}
-		else {
-			$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
-		}
+		$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
 
 		if ( is_array( $users ) && $users !== [] ) {
 			foreach ( $users as $user ) {

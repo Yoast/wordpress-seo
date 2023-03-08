@@ -447,17 +447,11 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Adds custom category description editor.
-	 * Needs a hook that runs before the description field. Prior to WP version 4.5 we need to use edit_form as
-	 * term_edit_form_top was introduced in WP 4.5. This can be removed after <4.5 is no longer supported.
+	 * Needs a hook that runs before the description field.
 	 *
 	 * @return void
 	 */
 	private function insert_description_field_editor() {
-		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {
-			add_action( "{$this->taxonomy}_edit_form", [ $this, 'custom_category_description_editor' ] );
-			return;
-		}
-
 		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
 	}
 }
