@@ -167,7 +167,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	/**
 	 * Tests if there is no redirect when the string is valid.
 	 *
-	 * @covers       Crawl_Cleanup_Searches::validate_search
+	 * @covers ::validate_search
 	 * @return void
 	 */
 	public function test_validate_search_valid_query() {
