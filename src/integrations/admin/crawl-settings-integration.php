@@ -102,7 +102,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Page is not processed or saved.
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' ) {
 			return;
 		}
