@@ -105,7 +105,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	/**
 	 * Tests that nothing happens on a non search page.
 	 *
-	 * @covers       Crawl_Cleanup_Searches::validate_search
+	 * @covers ::validate_search
 	 */
 	public function test_validate_search_not_search() {
 		$query = Mockery::mock( WP_Query::class );
