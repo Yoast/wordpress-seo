@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Crawl_Settings_Integration_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Premium\Integrations\Admin\Crawl_Settings_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Crawl_Settings_Integration
  *
  * @group integrations
  */
