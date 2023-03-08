@@ -7,6 +7,7 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Adds cleanup hooks.
@@ -50,16 +51,25 @@ class Cleanup_Integration implements Integration_Interface {
 	private $author_archive;
 
 	/**
+	 * The indexables repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param Taxonomy_Helper       $taxonomy       A helper for taxonomies.
 	 * @param Post_Type_Helper      $post_type      A helper for post types.
 	 * @param Author_Archive_Helper $author_archive A helper for author archives.
+	 * @param Indexable_Repository  $indexable_repository The indexables repository.
 	 */
-	public function __construct( Taxonomy_Helper $taxonomy, Post_Type_Helper $post_type, Author_Archive_Helper $author_archive ) {
-		$this->taxonomy       = $taxonomy;
-		$this->post_type      = $post_type;
-		$this->author_archive = $author_archive;
+	public function __construct( Taxonomy_Helper $taxonomy, Post_Type_Helper $post_type, Author_Archive_Helper $author_archive, Indexable_Repository $indexable_repository ) {
+		$this->taxonomy             = $taxonomy;
+		$this->post_type            = $post_type;
+		$this->author_archive       = $author_archive;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -139,6 +149,9 @@ class Cleanup_Integration implements Integration_Interface {
 				'clean_indexables_for_authors_without_archive' => function ( $limit ) {
 					return $this->clean_indexables_for_authors_without_archive( $limit );
 				},
+				'update_indexables_author_to_reassigned' => function ( $limit ) {
+					return $this->update_indexables_author_to_reassigned( $limit );
+				},
 			],
 			$this->get_additional_tasks(),
 			[
@@ -197,10 +210,10 @@ class Cleanup_Integration implements Integration_Interface {
 		 *
 		 * @api int $limit Maximum number of indexables to be cleaned up per query.
 		 */
-		$limit = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
+		$limit = \apply_filters( 'wpseo_cron_query_limit_size', 3 );
 
 		if ( ! \is_int( $limit ) ) {
-			$limit = 1000;
+			$limit = 3;
 		}
 
 		return \abs( $limit );
@@ -520,4 +533,59 @@ class Cleanup_Integration implements Integration_Interface {
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( "DELETE FROM $table WHERE {$column} IN( " . \implode( ',', $orphans ) . ' )' );
 	}
+
+	/**
+	 * Updates the author_id of indexables which author_id is not in the wp_users table with the id of the reassingned user.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return int|bool The number of updated rows, false if query to get data fails.
+	 */
+	protected function update_indexables_author_to_reassigned( $limit ) {
+		$reassigned_authors = $this->get_reassigned_authors( $limit );
+
+		if ( $reassigned_authors === false ) {
+			return false;
+		}
+
+		foreach ( $reassigned_authors as $reassigned_author ) {
+			$indexable            = $this->indexable_repository->find_by_id_and_type( $reassigned_author->object_id, 'post' );
+			$indexable->author_id = $reassigned_author->post_author;
+			$indexable->save( $indexable );
+		}
+
+		return count( $reassigned_authors );
+	}
+
+	/**
+	 * Gets data about indexables with author_id referring to a non-existing user, and associate it to the id of the new (reassigned) user.
+	 *
+	 * @param int $limit The limit we'll apply to the queries.
+	 *
+	 * @return array|bool Array of elements with shape [ post_id, author_id, reassigned_author_id ], false if query fails.
+	 */
+	private function get_reassigned_authors( $limit ) {
+		global $wpdb;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$users_table     = $wpdb->users;
+		$posts_table     = $wpdb->posts;
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		$query = $wpdb->prepare(
+			"
+			SELECT {$indexable_table}.object_id, {$indexable_table}.author_id, {$posts_table}.post_author
+			FROM {$indexable_table} JOIN {$posts_table} on {$indexable_table}.object_id =  {$posts_table}.id
+			WHERE object_type='post'
+			AND author_id NOT IN(SELECT id from {$users_table})
+			ORDER BY {$indexable_table}.author_id
+			LIMIT %d",
+			$limit
+		);
+		// phpcs:enable
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		return $wpdb->get_results( $query );
+	}
 }
+
