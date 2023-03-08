@@ -8,6 +8,7 @@ import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime
 import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import SentenceTokenizer from "./SentenceTokenizer";
 import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags";
+import { imageRegex } from "../image/imageInText";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
@@ -56,6 +57,11 @@ export default function( text, memoizedTokenizer ) {
 	text = excludeEstimatedReadingTime( text );
 	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
 	text = unifyNonBreakingSpace( text );
+	/*
+	 * Remove images from text before tokenizing it into sentences.
+	 * This step is done here so that applying highlight in captions is possible for all assessments that use this helper.
+	 */
+	text = text.replace( imageRegex, "" );
 
 	let blocks = getBlocks( text );
 
