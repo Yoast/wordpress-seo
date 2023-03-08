@@ -26,6 +26,7 @@ function getSentenceTokenizer( block ) {
 	const sentenceTokenizer = new SentenceTokenizer();
 	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
 	sentenceTokenizer.tokenize( tokenizer, block );
+	console.log( tokens, "tokens" );
 	const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
 	/*
 	 * Filter block that contain only paragraph tags. This step is necessary
@@ -65,12 +66,13 @@ export default function( text, memoizedTokenizer ) {
 	console.log( text, "text" );
 
 	let blocks = getBlocks( text );
-	console.log( blocks, "blocks" );
 
 	// Split each block on newlines.
 	blocks = flatMap( blocks, function( block ) {
 		return block.split( newLineRegex );
 	} );
+	console.log( blocks, "blocks" );
+
 
 	const sentences = flatMap( blocks, memoizedTokenizer );
 

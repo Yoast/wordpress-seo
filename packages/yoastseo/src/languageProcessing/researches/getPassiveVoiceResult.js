@@ -59,6 +59,7 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 		.map( function( sentence ) {
 			return new Sentence( sentence );
 		} );
+	console.log( sentences, "sentences in get passive voice result" );
 	const totalNumberSentences = sentences.length;
 	const passiveSentences = [];
 

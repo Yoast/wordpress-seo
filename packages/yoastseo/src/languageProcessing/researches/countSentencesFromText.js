@@ -10,5 +10,6 @@ import sentencesLength from "../helpers/sentence/sentencesLength.js";
 export default function( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const sentences = getSentences( paper.getText(), memoizedTokenizer );
+	console.log( sentences, "sentences in countSentencesFromText (sentence length assessment)" );
 	return sentencesLength( sentences, researcher );
 }
