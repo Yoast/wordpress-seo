@@ -36,7 +36,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		\add_filter( 'wpseo_schema_graph', [ $this, 'filter_graph' ], 11, 2 );
 		\add_filter( 'wpseo_schema_author', [ $this, 'filter_author_graph' ], 11, 4 );
 	}
@@ -50,7 +50,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		return [
 			CoAuthors_Plus_Activated_Conditional::class,
 			CoAuthors_Plus_Flag_Conditional::class,
@@ -66,7 +66,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @param Helpers_Surface $helpers The helper surface.
 	 */
 	public function __construct( Helpers_Surface $helpers ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		$this->helpers = $helpers;
 	}
 
@@ -84,7 +84,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @return array The (potentially altered) schema graph.
 	 */
 	public function filter_author_graph( $data, $context, $graph_piece_generator, $graph_piece_generators ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		if ( ! isset( $data['image']['url'] ) ) {
 			return $data;
 		}
@@ -112,7 +112,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @return array The (potentially altered) schema graph.
 	 */
 	public function filter_graph( $data, $context ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		if ( ! \is_singular() ) {
 			return $data;
 		}

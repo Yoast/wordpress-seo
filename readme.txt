@@ -253,21 +253,21 @@ Release date: 2023-03-14
 
 #### Enhancements
 
-* Allows the highlighting feature to highlight content in captions of audio, embed, gallery, image, table, and video blocks.
-* Allows the highlighting feature to highlight content in _FAQ_ and _How-to_ blocks.
+* Allows the highlighting feature to highlight content in captions of _Audio_, _Embed_, _Gallery_, _Image_, _Table_, and _Video_ blocks in the Block editor.
+* Allows the highlighting feature to highlight content in _FAQ_ and _How-to_ blocks in the Block editor.
 * Improves the detection of participles in the _passive voice_ assessment for Portuguese.
 * Improves the  _transition words_ assessment for Portuguese by adding new transition words. Props to [mathiasribeiro](https://github.com/mathiasribeiro).
-* Shows correct buttons in the plugin overview `view details` modal.
+* Shows the correct version information in the plugin overview _view details_ modal.
 
 #### Bugfixes
 
-* Fixes a bug in which shortcodes in the Block editor were treated as words in the content analysis.
+* Fixes a bug where a fatal error would appear in oEmbed pages for media pages when those were disabled from Yoast settings.
 * Fixes a bug where editing text in Classic editor while the highlighting feature is enabled would make the text unfocused and the cursor jump to the beginning of the text.
 * Fixes a bug where self-closing break tags (`</br>`) would not be removed when analyzing content.
+* Fixes a bug where shortcodes in the Block editor would be treated as words when analyzing content.
 * Fixes a bug where the color and line height in the _Google preview_ modal would be shown incorrectly when editing in Elementor.
-* Fixes a bug where the `fetchpriority` attribute of the rating stars image was mistyped. Props to [@fellyph](https://github.com/fellyph).
+* Fixes a bug where the `fetchpriority` attribute of the rating stars image was mistyped. Props to [fellyph](https://github.com/fellyph).
 * Fixes a bug where the `get_head` REST endpoint would return wrong values for some meta tags when called with the hompage URL as argument.
-* Fixes a bug where the highlighting feature would not highlight content in image captions in the Classic editor.
 * Fixes a bug where the query parameters would be added in the middle of canonical and previous and next links in paginated pages. Props to [andreas-pa](https://github.com/andreas-pa).
 
 #### Other
