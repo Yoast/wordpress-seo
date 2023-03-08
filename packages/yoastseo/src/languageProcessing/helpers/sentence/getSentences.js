@@ -61,7 +61,7 @@ export default function( text, memoizedTokenizer ) {
 	text = text.replace( imageRegex, "" );
 
 	// Remove any HTML whitespace padding and replace it with a single whitespace.
-    text = text.replace( /[\n]+/g, " " );
+    //text = text.replace( /[\n]+/g, " " );
 
 	console.log( text, "text" );
 
