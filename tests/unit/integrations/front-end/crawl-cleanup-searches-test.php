@@ -118,7 +118,7 @@ class Crawl_Cleanup_Searches_Test extends TestCase {
 	/**
 	 * Tests if there is a redirect when there is an emoji in the search query when they are disabled.
 	 *
-	 * @covers       Crawl_Cleanup_Searches::validate_search
+	 * @covers ::validate_search
 	 * @return void
 	 */
 	public function test_validate_search_has_emoji() {
