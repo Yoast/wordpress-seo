@@ -69,6 +69,11 @@ export default function( text, memoizedTokenizer ) {
 	} );
 
 	let sentences = flatMap( blocks, memoizedTokenizer );
+	/*
+	 * Strip block tags from the start and/or the end of each sentence and whitespaces if present.
+	 * After tokenized, sometimes there are still block tags present in the beginning/end of a sentence.
+	 * Unstripped, these tags could potentially break the highlighting functionality.
+	 */
 	sentences = sentences.map( sentence => stripBlockTagsAtStartEnd( sentence ).trim() );
 
 	return filter( sentences, negate( isEmpty ) );
