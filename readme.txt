@@ -255,7 +255,6 @@ Release date: 2023-03-14
 
 * Allows the highlighting feature to highlight content in captions of _Audio_, _Embed_, _Gallery_, _Image_, _Table_, and _Video_ blocks in the Block editor.
 * Allows the highlighting feature to highlight content in _FAQ_ and _How-to_ blocks in the Block editor.
-* Allows the highlighting feature to highlight content in image captions in the Classic editor.
 * Improves the detection of participles in the _passive voice_ assessment for Portuguese.
 * Improves the  _transition words_ assessment for Portuguese by adding new transition words. Props to [mathiasribeiro](https://github.com/mathiasribeiro).
 * Shows the correct version information in the plugin overview _view details_ modal.
