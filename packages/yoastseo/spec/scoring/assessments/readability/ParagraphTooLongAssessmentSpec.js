@@ -252,8 +252,8 @@ describe( "A test for marking the sentences", function() {
 		];
 		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
-	xit( "should return markers for a long paragraph inside image caption", function() {
-		const longText = "A study was carried out to determine the effect of dietary probiotic L on production performance," +
+	it( "should return markers for a long paragraph inside image caption", function() {
+		const longText = " A study was carried out to determine the effect of dietary probiotic L on production performance," +
 			" some blood parameters and caecal microflora of male mule ducklings raised in 93 days under field conditions. " +
 			"The probiotic preparation L consisted of freeze-dried pure cultures of Streptococcus thermophilus, " +
 			"Enterococcus faecium and 4 strains of Lactobacillus. Each gram of L contained 0.1x109 CFU. " +
@@ -273,9 +273,8 @@ describe( "A test for marking the sentences", function() {
 			"total protein and total cholesterol concentrations were not significantly affected by the probiotic.";
 		const assessment = new ParagraphTooLongAssessment();
 		const paper = new Paper( "<p>A short text.</p>" +
-			"<p><br></br>\n" +
-			"<img class='size-medium wp-image-34' src='http://basic.wordpress.test/wp-content/uploads" +
-			"/2021/08/cat-4797096_1280-300x196.jpeg' alt='Not a rabbit' width='300' height='196'></img> " +
+			"<p><img class='size-medium wp-image-34' src='http://basic.wordpress.test/wp-content/uploads" +
+			"/2021/08/cat-4797096_1280-300x196.jpeg' alt='Not a rabbit' width='300' height='196'></img>" +
 			longText + "<br></br>\n" +
 			"</p>"
 		);
@@ -283,7 +282,7 @@ describe( "A test for marking the sentences", function() {
 		const expected = [
 			new Mark( {
 				original: longText,
-				marked: "<yoastmark class='yoast-text-mark'>longText</yoastmark>" } ),
+				marked: `<yoastmark class='yoast-text-mark'>${ longText }</yoastmark>` } ),
 		];
 		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
