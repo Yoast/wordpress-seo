@@ -253,6 +253,13 @@ describe( "Get sentences from text", function() {
 					"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.</p>",
 				expected: [ "However, a cat with the toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
 			},
+			{
+				// The input contains the image and caption tags.
+				input: "<figure class='wp-block-image size-large'><img class='wp-image-33' src='http://basic.wordpress.test/wp-content/uploads" +
+					"/2021/08/cat-3957861_1280-719x1024.jpeg' alt='a different cat with toy'></img><figcaption class='wp-element-caption'>" +
+					"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.</figcaption></figure>",
+				expected: [ "However, a cat with the toy looks happier.", "She is given raw food.", "Seniors don't like it." ],
+			},
 		];
 
 		testGetSentences( testCases );
