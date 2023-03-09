@@ -187,10 +187,10 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	private function add_crawl_settings( $yform ) {
-		$this->print_toggles( $this->basic_settings, $yform, \__( 'Basic crawl settings', 'wordpress-seo' ), \__( 'Remove links added by WordPress to the header and &lt;head&gt;.', 'wordpress-seo' ) );
+		$this->print_toggles( $this->basic_settings, $yform, \__( 'Basic crawl settings', 'wordpress-seo' ) );
 
-		$this->print_toggles( $this->feed_settings, $yform, \__( 'Feed crawl settings', 'wordpress-seo' ), \__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' ) );
-		$this->print_toggles( $this->unused_resources_settings, $yform, \__( 'Remove unused resources', 'wordpress-seo' ), \__( 'WordPress loads lots of resources, some of which your site might not need. If you’re not using these, removing them can speed up your pages and save resources.', 'wordpress-seo' ) );
+		$this->print_toggles( $this->feed_settings, $yform, \__( 'Feed crawl settings', 'wordpress-seo' ) );
+		$this->print_toggles( $this->unused_resources_settings, $yform, \__( 'Remove unused resources', 'wordpress-seo' ) );
 
 		$first_search_setting    = \array_slice( $this->search_cleanup_settings, 0, 1 );
 		$rest_search_settings    = \array_slice( $this->search_cleanup_settings, 1 );
@@ -199,9 +199,9 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			'on'  => \__( 'Enabled', 'wordpress-seo' ),
 		];
 
-		$this->print_toggles( $first_search_setting, $yform, \__( 'Search cleanup settings', 'wordpress-seo' ), \__( 'Clean up and filter searches to prevent search spam.', 'wordpress-seo' ), $search_settings_toggles );
+		$this->print_toggles( $first_search_setting, $yform, \__( 'Search cleanup settings', 'wordpress-seo' ), $search_settings_toggles );
 
-		$this->print_toggles( $rest_search_settings, $yform, '', '', $search_settings_toggles );
+		$this->print_toggles( $rest_search_settings, $yform, '', $search_settings_toggles );
 
 		$permalink_warning = \sprintf(
 		/* Translators: %1$s expands to an opening anchor tag for a link leading to the Yoast SEO page of the Permalink Cleanup features, %2$s expands to a closing anchor tag. */
@@ -214,7 +214,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		);
 
 
-		$this->print_toggles( $this->permalink_cleanup_settings, $yform, \__( 'Permalink cleanup settings', 'wordpress-seo' ), \__( 'Remove unwanted URL parameters from your URLs.', 'wordpress-seo' ), [], $permalink_warning );
+		$this->print_toggles( $this->permalink_cleanup_settings, $yform, \__( 'Permalink cleanup settings', 'wordpress-seo' ), [], $permalink_warning );
 
 		// Add the original option as hidden, so as not to lose any values if it's disabled and the form is saved.
 		$yform->hidden( 'clean_permalinks_extra_variables', 'clean_permalinks_extra_variables' );
