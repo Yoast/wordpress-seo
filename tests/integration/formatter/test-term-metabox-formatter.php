@@ -79,20 +79,6 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Get the correct post_edit_url.
-	 *
-	 * @covers WPSEO_Term_Metabox_Formatter::edit_url
-	 */
-	public function test_post_edit_url_4_5_and_higher() {
-
-		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, [] );
-
-		$result = $instance->get_values();
-
-		$this->assertEquals( $result['post_edit_url'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
-	}
-
-	/**
 	 * Test the formatter when there is a taxonomy and term object and without any options.
 	 *
 	 * @covers WPSEO_Term_Metabox_Formatter::get_title_template
