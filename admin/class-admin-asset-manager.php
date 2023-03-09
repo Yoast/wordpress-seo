@@ -241,6 +241,7 @@ class WPSEO_Admin_Asset_Manager {
 		$additional_dependencies = [
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
+			'crawl-settings'           => [ 'jquery' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
