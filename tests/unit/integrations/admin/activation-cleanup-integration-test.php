@@ -62,10 +62,6 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	 * @covers ::register_cleanup_routine
 	 */
 	public function test_register_cleanup_routine_no_running() {
-
-		Monkey\Functions\expect( 'get_option' )
-			->andReturnTrue();
-
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->once()
 			->andReturnFalse();
@@ -84,10 +80,6 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	 * @covers ::register_cleanup_routine
 	 */
 	public function test_register_cleanup_routine_already_running() {
-
-		Monkey\Functions\expect( 'get_option' )
-			->andReturnTrue();
-
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->once()
 			->with( Cleanup_Integration::START_HOOK )

@@ -28,9 +28,6 @@ class Activation_Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_cleanup_routine() {
-		if ( \get_option( 'wpseo' ) === false ) {
-			return;
-		}
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
