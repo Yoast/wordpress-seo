@@ -69,7 +69,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$result = $instance->get_values();
 
-		$this->assertEquals( $result['search_url'], admin_url( 'term.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
+		$this->assertEquals( $result['search_url'], admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
 		$this->assertEquals( $result['post_edit_url'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
 
 		$this->assertEquals( trailingslashit( home_url( 'tag' ) ), $result['base_url'] );
@@ -79,7 +79,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Get the correct post_edit_url for WP 4.5 and higher.
+	 * Get the correct post_edit_url.
 	 *
 	 * @covers WPSEO_Term_Metabox_Formatter::edit_url
 	 */
