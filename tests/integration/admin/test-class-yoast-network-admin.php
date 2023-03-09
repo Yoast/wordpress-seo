@@ -243,9 +243,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wpnonce']         = '';
 
 		$expected_message = 'The link you followed has expired.';
-		if ( version_compare( $GLOBALS['wp_version'], '4.9', '<' ) ) {
-			$expected_message = 'Are you sure you want to do this?';
-		}
 
 		$this->expectException( 'WPDieException' );
 		$this->expectExceptionMessage( $expected_message );
