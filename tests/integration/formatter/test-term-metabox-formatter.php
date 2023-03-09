@@ -67,16 +67,10 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term );
 
-		global $wp_version;
-		$_wp_version = $wp_version;
-		$wp_version  = '4.4.2';
-
 		$result = $instance->get_values();
 
-		$wp_version = $_wp_version;
-
-		$this->assertEquals( $result['search_url'], admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
-		$this->assertEquals( $result['post_edit_url'], admin_url( 'edit-tags.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
+		$this->assertEquals( $result['search_url'], admin_url( 'term.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
+		$this->assertEquals( $result['post_edit_url'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
 
 		$this->assertEquals( trailingslashit( home_url( 'tag' ) ), $result['base_url'] );
 		$this->assertEquals( [ '' => [] ], $result['keyword_usage'] );
@@ -90,16 +84,10 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::edit_url
 	 */
 	public function test_post_edit_url_4_5_and_higher() {
-		global $wp_version;
 
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, [] );
 
-		$_wp_version = $wp_version;
-		$wp_version  = '4.5.0';
-
 		$result = $instance->get_values();
-
-		$wp_version = $_wp_version;
 
 		$this->assertEquals( $result['post_edit_url'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
 	}
