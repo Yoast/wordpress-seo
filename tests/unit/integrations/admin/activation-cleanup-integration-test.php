@@ -3,10 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
-use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 
 /**
@@ -42,9 +40,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		static::assertEquals(
-			[
-				Admin_Conditional::class,
-			],
+			[],
 			Activation_Cleanup_Integration::get_conditionals()
 		);
 	}
@@ -67,9 +63,11 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	 */
 	public function test_register_cleanup_routine_no_running() {
 
+		Monkey\Functions\expect( 'get_option' )
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->once()
-			->with( Cleanup_Integration::START_HOOK )
 			->andReturnFalse();
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
@@ -86,6 +84,9 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	 * @covers ::register_cleanup_routine
 	 */
 	public function test_register_cleanup_routine_already_running() {
+
+		Monkey\Functions\expect( 'get_option' )
+			->andReturnTrue();
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->once()
