@@ -69,6 +69,7 @@ class WPSEO_Taxonomy {
 			return;
 		}
 
+		// Adds custom category description editor. Needs a hook that runs before the description field.
 		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
 
 		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', [ $this, 'term_metabox' ], 90, 1 );
