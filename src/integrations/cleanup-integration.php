@@ -542,29 +542,6 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return int|bool The number of updated rows, false if query to get data fails.
 	 */
 	protected function update_indexables_author_to_reassigned( $limit ) {
-		$reassigned_authors = $this->get_reassigned_authors( $limit );
-
-		if ( $reassigned_authors === false ) {
-			return false;
-		}
-
-		foreach ( $reassigned_authors as $reassigned_author ) {
-			$indexable            = $this->indexable_repository->find_by_id_and_type( $reassigned_author->object_id, 'post' );
-			$indexable->author_id = $reassigned_author->post_author;
-			$indexable->save( $indexable );
-		}
-
-		return count( $reassigned_authors );
-	}
-
-	/**
-	 * Gets data about indexables with author_id referring to a non-existing user, and associate it to the id of the new (reassigned) user.
-	 *
-	 * @param int $limit The limit we'll apply to the queries.
-	 *
-	 * @return array|bool Array of elements with shape [ post_id, author_id, reassigned_author_id ], false if query fails.
-	 */
-	private function get_reassigned_authors( $limit ) {
 		global $wpdb;
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
@@ -585,7 +562,19 @@ class Cleanup_Integration implements Integration_Interface {
 		// phpcs:enable
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		return $wpdb->get_results( $query );
+		$reassigned_authors = $wpdb->get_results( $query );
+
+		if ( $reassigned_authors === false ) {
+			return false;
+		}
+
+		foreach ( $reassigned_authors as $reassigned_author ) {
+			$indexable            = $this->indexable_repository->find_by_id_and_type( $reassigned_author->object_id, 'post' );
+			$indexable->author_id = $reassigned_author->post_author;
+			$indexable->save( $indexable );
+		}
+
+		return count( $reassigned_authors );
 	}
 }
 
