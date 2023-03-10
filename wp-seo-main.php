@@ -442,15 +442,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
 register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 
-// Wpmu_new_blog has been deprecated in 5.1 and replaced by wp_insert_site.
-global $wp_version;
-if ( version_compare( $wp_version, '5.1', '<' ) ) {
-	add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
-}
-else {
-	add_action( 'wp_initialize_site', 'wpseo_on_activate_blog', 99 );
-}
-
+add_action( 'wp_initialize_site', 'wpseo_on_activate_blog', 99 );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
 // Registers SEO capabilities.
