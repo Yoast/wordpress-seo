@@ -70,9 +70,9 @@ class Cleanup_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->taxonomy       = Mockery::mock( Taxonomy_Helper::class );
-		$this->post_type      = Mockery::mock( Post_Type_Helper::class );
-		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
+		$this->taxonomy             = Mockery::mock( Taxonomy_Helper::class );
+		$this->post_type            = Mockery::mock( Post_Type_Helper::class );
+		$this->author_archive       = Mockery::mock( Author_Archive_Helper::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 
 		$this->instance = new Cleanup_Integration(
