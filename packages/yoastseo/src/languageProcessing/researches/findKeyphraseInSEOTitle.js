@@ -98,7 +98,7 @@ const findKeyphraseInSEOTitle = function( paper, researcher ) {
 
 		return result;
 	}
-	// If exact match was not found, check the presanitized version of the keyphrase for matching.
+	// If an exact match was not found, check the presanitized version of the keyphrase for matching.
 	if ( ! keywordMatched ) {
 		const keywordMatchedBeforeSanitizing = keyword;
 		if ( keywordMatchedBeforeSanitizing.count > 0 ) {
