@@ -10,7 +10,7 @@ export default function( text ) {
 	// Replace multiple spaces with single space
 	text = text.replace( /\s{2,}/g, " " );
 
-	// Remove first/last character if space
+	// Remove first/last character if space.
 	text = text.replace( /^\s+|\s+$/g, "" );
 
 	// Replace spaces before Japanese periods with only the period.
