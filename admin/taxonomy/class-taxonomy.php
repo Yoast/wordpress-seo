@@ -69,7 +69,7 @@ class WPSEO_Taxonomy {
 			return;
 		}
 
-		$this->insert_description_field_editor();
+		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
 
 		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', [ $this, 'term_metabox' ], 90, 1 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
@@ -443,15 +443,5 @@ class WPSEO_Taxonomy {
 		$page_type = $recommended_replace_vars->determine_for_term( $taxonomy );
 
 		return $recommended_replace_vars->get_recommended_replacevars_for( $page_type );
-	}
-
-	/**
-	 * Adds custom category description editor.
-	 * Needs a hook that runs before the description field.
-	 *
-	 * @return void
-	 */
-	private function insert_description_field_editor() {
-		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
 	}
 }
