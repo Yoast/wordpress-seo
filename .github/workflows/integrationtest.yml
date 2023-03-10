@@ -27,8 +27,8 @@ jobs:
       matrix:
         include:
           - php_version: "7.2"
-            wp_version: "latest"
-            multisite: false
+            wp_version: "6.0"
+            multisite: true
 
           - php_version: "7.3"
             wp_version: "trunk"
@@ -60,9 +60,9 @@ jobs:
 
     services:
       mysql:
-        # Use MySQL 5.7 for PHP 7.2 < 7.4, otherwise MySQL 8.0.
+        # Use MySQL 5.6 for PHP 7.2, use MySQL 5.7 for PHP 7.3 < 7.4, otherwise MySQL 8.0.
         # Also see: https://core.trac.wordpress.org/ticket/52496
-        image: mysql:${{ ( matrix.php_version < '7.4' && '5.7' ) || '8.0' }}
+        image: mysql:${{ ( matrix.php_version == '7.2' && '5.6' ) || ( matrix.php_version < '7.4' && '5.7' ) || '8.0' }}
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
         ports:
