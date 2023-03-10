@@ -19,7 +19,7 @@ class Activation_Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_activate', [ $this, 'register_cleanup_routine' ], 9 );
+		add_action( 'wpseo_activate', [ $this, 'register_cleanup_routine' ], 11 );
 	}
 
 	/**
@@ -28,8 +28,12 @@ class Activation_Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_cleanup_routine() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		$first_activated_on = \WPSEO_Options::get( 'first_activated_on', false );
+
+		if ( ! $first_activated_on || time() > ( $first_activated_on + ( MINUTE_IN_SECONDS * 5 ) ) ) {
+			if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+				\wp_schedule_single_event( ( time() + HOUR_IN_SECONDS ), Cleanup_Integration::START_HOOK );
+			}
 		}
 	}
 }

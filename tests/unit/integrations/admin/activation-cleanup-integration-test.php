@@ -29,7 +29,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-
+		\WPSEO_Options::set( 'first_activated_on', ( time() - ( HOUR_IN_SECONDS * 5 ) ) );
 		$this->instance = new Activation_Cleanup_Integration();
 	}
 
@@ -68,7 +68,7 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
-			->with( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+			->with( ( time() + HOUR_IN_SECONDS ), Cleanup_Integration::START_HOOK );
 
 
 		$this->instance->register_cleanup_routine();
@@ -82,6 +82,26 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	public function test_register_cleanup_routine_already_running() {
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->once()
+			->with( Cleanup_Integration::START_HOOK )
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'wp_schedule_single_event' )
+			->never();
+
+
+		$this->instance->register_cleanup_routine();
+	}
+
+	/**
+	 * Tests that there is no registration of the cleanup routine if it is the first time the plugin is installed.
+	 * This is measured by checking if the first_activated_on is less than 5minutes ago.
+	 *
+	 * @covers ::register_cleanup_routine
+	 */
+	public function test_register_cleanup_routine_first_time_install() {
+		\WPSEO_Options::set( 'first_activated_on', time() );
+		Monkey\Functions\expect( 'wp_next_scheduled' )
+			->never()
 			->with( Cleanup_Integration::START_HOOK )
 			->andReturnTrue();
 
