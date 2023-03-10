@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
+use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 
@@ -18,6 +20,13 @@ use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 class Activation_Cleanup_Integration_Test extends TestCase {
 
 	/**
+	 * Represents the indexable repository.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Holds the activation indexation integration.
 	 *
 	 * @var \Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration
@@ -29,8 +38,9 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		\WPSEO_Options::set( 'first_activated_on', ( time() - ( HOUR_IN_SECONDS * 5 ) ) );
-		$this->instance = new Activation_Cleanup_Integration();
+
+		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->instance       = new Activation_Cleanup_Integration( $this->options_helper );
 	}
 
 	/**
@@ -70,6 +80,10 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 			->once()
 			->with( ( time() + HOUR_IN_SECONDS ), Cleanup_Integration::START_HOOK );
 
+		$this->options_helper->expects( 'get' )
+			->once()
+			->with( 'first_activated_on', false )
+			->andReturn( ( time() - ( HOUR_IN_SECONDS * 5 ) ) );
 
 		$this->instance->register_cleanup_routine();
 	}
@@ -88,6 +102,10 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->never();
 
+		$this->options_helper->expects( 'get' )
+			->once()
+			->with( 'first_activated_on', false )
+			->andReturn( ( time() - ( HOUR_IN_SECONDS * 5 ) ) );
 
 		$this->instance->register_cleanup_routine();
 	}
@@ -99,7 +117,11 @@ class Activation_Cleanup_Integration_Test extends TestCase {
 	 * @covers ::register_cleanup_routine
 	 */
 	public function test_register_cleanup_routine_first_time_install() {
-		\WPSEO_Options::set( 'first_activated_on', time() );
+		$this->options_helper->expects( 'get' )
+			->once()
+			->with( 'first_activated_on', false )
+			->andReturn( time() );
+
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->never()
 			->with( Cleanup_Integration::START_HOOK )
