@@ -111,22 +111,15 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	/**
 	 * Reassigns the indexables of a user to another user.
 	 *
-	 * @param int $user_id   The user ID.
-	 * @param int $reassign  The user ID to reassign the indexables to.
+	 * @param int $user_id  The user ID.
+	 * @param int $reassign The user ID to reassign the indexables to.
 	 *
 	 * @return void
 	 */
 	public function maybe_reassign_user_indexables( $user_id, $reassign ) {
-		$indexables = $this->repository
-			->query()
+		$this->repository->query()
+			->set( 'author_id', $reassign )
 			->where( 'author_id', $user_id )
-			->find_many();
-
-		if ( count( $indexables ) > 0 ) {
-			foreach ( $indexables as $indexable ) {
-				$indexable->author_id = $reassign;
-				$indexable->save();
-			}
-		}
+			->update_many();
 	}
 }
