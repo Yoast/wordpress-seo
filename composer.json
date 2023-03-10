@@ -139,6 +139,9 @@
 		]
 	},
 	"config": {
+    	"platform": {
+			"php": "7.2.0"
+		},
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
 			"composer/package-versions-deprecated": true,
