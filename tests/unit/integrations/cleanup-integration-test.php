@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -50,6 +51,13 @@ class Cleanup_Integration_Test extends TestCase {
 	private $author_archive;
 
 	/**
+	 * The indexables repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
 	 * The WPDB mock.
 	 *
 	 * @var Mockery\MockInterface|wpdb
@@ -65,11 +73,13 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->taxonomy       = Mockery::mock( Taxonomy_Helper::class );
 		$this->post_type      = Mockery::mock( Post_Type_Helper::class );
 		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
+		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 
 		$this->instance = new Cleanup_Integration(
 			$this->taxonomy,
 			$this->post_type,
-			$this->author_archive
+			$this->author_archive,
+			$this->indexable_repository
 		);
 
 		global $wpdb;
