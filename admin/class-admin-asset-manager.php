@@ -250,12 +250,6 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
 			],
-			'indexables-page'          => [
-				self::PREFIX . 'api-client',
-				self::PREFIX . 'externals-components',
-				self::PREFIX . 'externals-contexts',
-				self::PREFIX . 'externals-redux',
-			],
 			'indexation'               => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
@@ -536,10 +530,6 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'notifications',
 				'src'  => 'notifications-' . $flat_version,
-			],
-			[
-				'name' => 'notifications-new',
-				'src'  => 'notifications-new-' . $flat_version,
 			],
 			[
 				'name' => 'alert',

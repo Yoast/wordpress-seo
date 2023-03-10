@@ -12,6 +12,9 @@ use Yoast\WP\SEO\Main;
 
 /**
  * Indexables_Page_Route class.
+ *
+ * @deprecated 20.4
+ * @codeCoverageIgnore
  */
 class Indexables_Page_Route implements Route_Interface {
 
@@ -109,18 +112,27 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Indexables_Route constructor.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param Indexables_Page_Action $indexables_page_action The indexable actions.
 	 * @param Indexables_Page_Helper $indexables_page_helper The indexables page helper.
 	 */
 	public function __construct( Indexables_Page_Action $indexables_page_action, Indexables_Page_Helper $indexables_page_helper ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$this->indexables_page_action = $indexables_page_action;
 		$this->indexables_page_helper = $indexables_page_helper;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
 		return [
 			Indexables_Page_Conditional::class,
 		];
@@ -129,18 +141,27 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Permission callback.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool true when user has 'edit_others_posts' permission.
 	 */
 	public static function permission_edit_others_posts() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
 		return \current_user_can( 'edit_others_posts' );
 	}
 
 	/**
 	 * Registers routes with WordPress.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_routes() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$setup_info_route = [
 			[
 				'methods'             => 'GET',
@@ -299,11 +320,16 @@ class Indexables_Page_Route implements Route_Interface {
 	}
 
 	/**
-	 * Gets the neccessary information to set up the indexables page.
+	 * Gets the necessary information to set up the indexables page.
+	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
 	 *
 	 * @return WP_REST_Response The neccessary information to set up the indexables page.
 	 */
 	public function get_setup_info() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$setup_info = $this->indexables_page_action->get_setup_info( $this->indexables_page_helper->get_minimum_posts_threshold(), $this->indexables_page_helper->get_minimum_analyzed_posts_threshold() );
 		return new WP_REST_Response(
 			[
@@ -315,9 +341,14 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Gets the posts with the smallest readability scores.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response The posts with the smallest readability scores.
 	 */
 	public function get_least_readable() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$least_readable = $this->indexables_page_action->get_least_readable( $this->indexables_page_helper->get_buffer_size() );
 		return new WP_REST_Response(
 			[
@@ -332,9 +363,14 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Gets the posts with the smallest readability scores.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response The posts with the smallest readability scores.
 	 */
 	public function get_least_seo_score() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$least_seo_score = $this->indexables_page_action->get_least_seo_score( $this->indexables_page_helper->get_buffer_size() );
 		return new WP_REST_Response(
 			[
@@ -349,9 +385,14 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Gets the most linked posts.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response The most linked posts.
 	 */
 	public function get_most_linked() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$most_linked = $this->indexables_page_action->get_most_linked( $this->indexables_page_helper->get_buffer_size() );
 		return new WP_REST_Response(
 			[
@@ -366,9 +407,14 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Gets the least linked posts.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response The most linked posts.
 	 */
 	public function get_least_linked() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$least_linked = $this->indexables_page_action->get_least_linked( $this->indexables_page_helper->get_buffer_size() );
 		return new WP_REST_Response(
 			[
@@ -383,11 +429,16 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Adds an indexable id in the ignore list.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function update_ignored_indexables( WP_REST_Request $request ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$params           = $request->get_json_params();
 		$ignore_list_name = $params['type'] . '_ignore_list';
 
@@ -419,11 +470,16 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Restores an indexable id from the ignore list.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function restore_indexable( WP_REST_Request $request ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$params           = $request->get_json_params();
 		$ignore_list_name = $params['type'] . '_ignore_list';
 		$indexable_id     = \intval( $params['id'] );
@@ -449,9 +505,14 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Restores all indexables from all ignore lists.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function restore_all_indexables() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$list_names = $this->indexables_page_helper->get_ignore_list_names();
 		$success    = true;
 		foreach ( $list_names as $list_name ) {
@@ -483,11 +544,16 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Restores all indexables from a specific ignore list.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function restore_all_indexables_for_list( WP_REST_Request $request ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$params           = $request->get_json_params();
 		$ignore_list_name = $params['type'] . '_ignore_list';
 
@@ -512,9 +578,14 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Gets the state of the reading list.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response A list of boolean values which are true if an article has been flagged as read.
 	 */
 	public function get_reading_list() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$reading_list = $this->indexables_page_action->get_reading_list();
 		return new WP_REST_Response(
 			[
@@ -528,11 +599,16 @@ class Indexables_Page_Route implements Route_Interface {
 	/**
 	 * Sets the state of the reading list.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function set_reading_list( WP_REST_Request $request ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$params             = $request->get_json_params();
 		$reading_list_state = \array_map(
 			static function ( $article ) {
