@@ -210,10 +210,10 @@ class Cleanup_Integration implements Integration_Interface {
 		 *
 		 * @api int $limit Maximum number of indexables to be cleaned up per query.
 		 */
-		$limit = \apply_filters( 'wpseo_cron_query_limit_size', 3 );
+		$limit = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
 
 		if ( ! \is_int( $limit ) ) {
-			$limit = 3;
+			$limit = 1000;
 		}
 
 		return \abs( $limit );
