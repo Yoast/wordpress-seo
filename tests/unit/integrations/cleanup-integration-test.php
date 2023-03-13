@@ -155,6 +155,10 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of indexables of users without an author archive */
 		$this->setup_clean_indexables_for_authors_without_archive( 50, $query_limit );
+		/* Clean up of seo links target ids for deleted indexables */
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_users', 'ID', 'user', $query_limit );
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_posts', 'ID', 'post', $query_limit );
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_terms', 'term_id', 'term', $query_limit );
 
 		$query_return              = new stdClass();
 		$query_return->object_id   = 10;
@@ -172,7 +176,6 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of seo links target ids for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'target_indexable_id', $query_limit );
-
 
 		$this->instance->run_cleanup();
 	}
@@ -304,6 +307,7 @@ class Cleanup_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
 
 		Monkey\Functions\expect( 'wp_unschedule_hook' )
 			->once()
@@ -635,14 +639,14 @@ class Cleanup_Integration_Test extends TestCase {
 			->andReturn( $return_value );
 	}
 
-		/**
-		 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
-		 *
-		 * @param int $return_value The number of deleted items to return.
-		 * @param int $limit        The query limit.
-		 *
-		 * @return void
-		 */
+	/**
+	 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
+	 *
+	 * @param int $return_value The number of deleted items to return.
+	 * @param int $limit        The query limit.
+	 *
+	 * @return void
+	 */
 	private function setup_update_indexables_author_to_reassigned( $return_value, $limit ) {
 		$this->wpdb->posts = 'wp_posts';
 		$this->wpdb->users = 'wp_users';
@@ -662,18 +666,63 @@ class Cleanup_Integration_Test extends TestCase {
 			LIMIT %d",
 				$limit
 			)
-			->andReturn( 'prepared_query' );
+		->andReturn( 'prepared_query' );
 
-			$this->wpdb->shouldReceive( 'get_results' )
-				->once()
-				->with( 'prepared_query' )
-				->andReturn( $return_value );
+		$this->wpdb->shouldReceive( 'get_results' )
+			->once()
+			->with( 'prepared_query' )
+			->andReturn( $return_value );
 
-			$this->indexable_repository->expects( 'find_by_id_and_type' )
-				->once()
-				->with( $return_value[0]->object_id, 'post' )
-				->andReturn( $indexable );
+		$this->indexable_repository->expects( 'find_by_id_and_type' )
+			->once()
+			->with( $return_value[0]->object_id, 'post' )
+			->andReturn( $indexable );
 
-			$indexable->expects( 'save' );
+		$indexable->expects( 'save' );
+	}
+
+	/**
+	 * Sets up expectations for the setup_clean_indexables_for_object_type_and_source_table cleanup task.
+	 *
+	 * @param int    $return_value      The number of deleted items to return.
+	 * @param string $source_table      The source table which we need to check the indexables against.
+	 * @param string $source_identifier The identifier which the indexables are matched to.
+	 * @param string $object_type       The indexable object type.
+	 * @param int    $limit             The query limit.
+	 *
+	 * @return void
+	 */
+	private function setup_clean_indexables_for_object_type_and_source_table( $return_value, $source_table, $source_identifier, $object_type, $limit ) {
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				"
+			SELECT indexable_table.object_id
+			FROM wp_yoast_indexable indexable_table
+			LEFT JOIN {$source_table} AS source_table
+			ON indexable_table.object_id = source_table.{$source_identifier}
+			WHERE source_table.{$source_identifier} IS NULL
+			AND indexable_table.object_id IS NOT NULL
+			AND indexable_table.object_type = '{$object_type}'
+			LIMIT %d",
+				$limit
+			)
+			->andReturn( 'prepared_clean_query' );
+
+		$ids = \array_fill( 0, $return_value, 1 );
+
+		$this->wpdb->shouldReceive( 'get_col' )
+			->once()
+			->with( 'prepared_clean_query' )
+			->andReturn( $ids );
+
+		if ( $return_value === 0 ) {
+			return;
+		}
+
+		$this->wpdb->shouldReceive( 'query' )
+			->once()
+			->with( 'DELETE FROM wp_yoast_indexable WHERE object_id IN( ' . \implode( ',', $ids ) . ' )' )
+			->andReturn( 50 );
 	}
 }

@@ -152,6 +152,15 @@ class Cleanup_Integration implements Integration_Interface {
 				'update_indexables_author_to_reassigned' => function ( $limit ) {
 					return $this->update_indexables_author_to_reassigned( $limit );
 				},
+				'clean_orphaned_user_indexables_without_wp_user' => function( $limit ) {
+					return $this->clean_indexables_for_object_type_and_source_table( 'users', 'ID', 'user', $limit );
+				},
+				'clean_orphaned_user_indexables_without_wp_post' => function( $limit ) {
+					return $this->clean_indexables_for_object_type_and_source_table( 'posts', 'ID', 'post', $limit );
+				},
+				'clean_orphaned_user_indexables_without_wp_term' => function( $limit ) {
+					return $this->clean_indexables_for_object_type_and_source_table( 'terms', 'term_id', 'term', $limit );
+				},
 			],
 			$this->get_additional_tasks(),
 			[
@@ -165,6 +174,7 @@ class Cleanup_Integration implements Integration_Interface {
 				'clean_orphaned_content_seo_links_target_indexable_id' => function( $limit ) {
 					return $this->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', $limit );
 				},
+
 			]
 		);
 	}
@@ -559,7 +569,6 @@ class Cleanup_Integration implements Integration_Interface {
 			LIMIT %d",
 			$limit
 		);
-		// phpcs:enable
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		$reassigned_authors = $wpdb->get_results( $query );
@@ -575,6 +584,47 @@ class Cleanup_Integration implements Integration_Interface {
 		}
 
 		return count( $reassigned_authors );
+	}
+
+	/**
+	 * Deletes rows from the indexable table where the source is no longer there.
+	 *
+	 * @param string $source_table The source table which we need to check the indexables against.
+	 * @param string $source_identifier The identifier which the indexables are matched to.
+	 * @param string $object_type The indexable object type.
+	 * @param int    $limit The limit we'll apply to the delete query.
+	 *
+	 * @return int|bool The number of rows that was deleted or false if the query failed.
+	 */
+	protected function clean_indexables_for_object_type_and_source_table( $source_table, $source_identifier, $object_type, $limit ) {
+		global $wpdb;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$source_table    = $wpdb->prefix . $source_table;
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		$query = $wpdb->prepare(
+			"
+			SELECT indexable_table.object_id
+			FROM {$indexable_table} indexable_table
+			LEFT JOIN {$source_table} AS source_table
+			ON indexable_table.object_id = source_table.{$source_identifier}
+			WHERE source_table.{$source_identifier} IS NULL
+			AND indexable_table.object_id IS NOT NULL
+			AND indexable_table.object_type = '{$object_type}'
+			LIMIT %d",
+			$limit
+		);
+		// phpcs:enable
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		$orphans = $wpdb->get_col( $query );
+
+		if ( empty( $orphans ) ) {
+			return 0;
+		}
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		return $wpdb->query( "DELETE FROM $indexable_table WHERE object_id IN( " . \implode( ',', $orphans ) . ' )' );
 	}
 }
 

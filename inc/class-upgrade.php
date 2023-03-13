@@ -989,7 +989,6 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_204() {
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			// This schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table. We also want to cleanup possible orphaned hierarchies from the above cleanups.
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}

@@ -23,7 +23,7 @@ class Input_Helper {
 	 * @return string The result of the get input.
 	 */
 	public function filter( $input_type, $search_string, $filter = \FILTER_DEFAULT ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
 
 		return \filter_input( $input_type, $search_string, $filter );
 	}
