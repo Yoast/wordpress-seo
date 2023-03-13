@@ -51,7 +51,7 @@ class Activation_Cleanup_Integration implements Integration_Interface {
 
 		if ( ! $first_activated_on || time() > ( $first_activated_on + ( MINUTE_IN_SECONDS * 5 ) ) ) {
 			if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-				\wp_schedule_single_event( ( time() + HOUR_IN_SECONDS ), Cleanup_Integration::START_HOOK );
+				\wp_schedule_single_event( ( time() + DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
 			}
 		}
 	}
