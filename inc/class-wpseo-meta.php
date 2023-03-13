@@ -1024,13 +1024,17 @@ class WPSEO_Meta {
 			->where( 'primary_focus_keyword', $keyword )
 			->where( 'object_type', 'post' )
 			->where_not_equal( 'object_id', $post_id )
-			->limit( 2 )
+			->where_not_equal( 'post_status', 'trash' )
+			->limit( 2 )    // Limit to 2 results to save time and resources.
 			->find_array();
 
-		$callback = static function ( $row ) {
-			return (int) $row['object_id'];
-		};
-		$post_ids = array_map( $callback, $post_ids );
+		// Get object_id from each subarray in $post_ids.
+		$post_ids = array_map(
+			function( $row ) {
+				return $row['object_id'];
+			},
+			$post_ids
+		);
 
 		/*
 		 * If Premium is installed, get the additional keywords as well.
@@ -1050,6 +1054,45 @@ class WPSEO_Meta {
 		}
 
 		return $post_ids;
+	}
+
+	/**
+	 * Returns the post types for the given post ids.
+	 *
+	 * @param array $post_ids The post ids to get the post types for.
+	 *
+	 * @return array The post types.
+	 */
+	public static function post_types_for_ids( $post_ids ) {
+
+		/**
+		 * The indexable repository.
+		 *
+		 * @var Indexable_Repository
+		 */
+		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
+
+		// Check if post ids is not empty.
+		if ( ! empty( $post_ids ) ) {
+			// Get the post subtypes for the posts that share the keyword.
+			$post_types = $repository->query()
+				->select( 'object_sub_type' )
+				->where_in( 'object_id', $post_ids )
+				->find_array();
+
+			// Get object_sub_type from each subarray in $post_ids.
+			$post_types = array_map(
+				function( $row ) {
+					return $row['object_sub_type'];
+				},
+				$post_types
+			);
+		}
+		else {
+			$post_types = [];
+		}
+
+		return $post_types;
 	}
 
 	/**

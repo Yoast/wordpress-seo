@@ -39,6 +39,11 @@ class Admin_Features_Test extends TestCase {
 			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
 			->andReturn( 'https://example.org' );
 
+		Monkey\Functions\expect( 'wp_nonce_url' )
+			->once()
+			->with( 'https://example.org', 'dismiss-5star-upsell' )
+			->andReturn( 'https://example.org?_wpnonce=test-nonce' );
+
 		// Mock the current user for notifications.
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->times( 1 )
