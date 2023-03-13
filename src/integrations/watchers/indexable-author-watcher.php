@@ -95,14 +95,14 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	/**
 	 * Handles the case in which an author is deleted.
 	 *
-	 * @param int      $user_id  User ID.
-	 * @param int|null $reassign The ID of the user the old author's posts are reassigned to.
+	 * @param int      $user_id     User ID.
+	 * @param int|null $new_user_id The ID of the user the old author's posts are reassigned to.
 	 *
 	 * @return void
 	 */
-	public function handle_user_delete( $user_id, $reassign ) {
-		if ( $reassign !== null ) {
-			$this->maybe_reassign_user_indexables( $user_id, $reassign );
+	public function handle_user_delete( $user_id, $new_user_id ) {
+		if ( $new_user_id !== null ) {
+			$this->maybe_reassign_user_indexables( $user_id, $new_user_id );
 		}
 
 		$this->delete_indexable( $user_id );
@@ -111,14 +111,14 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	/**
 	 * Reassigns the indexables of a user to another user.
 	 *
-	 * @param int $user_id  The user ID.
-	 * @param int $reassign The user ID to reassign the indexables to.
+	 * @param int $user_id     The user ID.
+	 * @param int $new_user_id The user ID to reassign the indexables to.
 	 *
 	 * @return void
 	 */
-	public function maybe_reassign_user_indexables( $user_id, $reassign ) {
+	public function maybe_reassign_user_indexables( $user_id, $new_user_id ) {
 		$this->repository->query()
-			->set( 'author_id', $reassign )
+			->set( 'author_id', $new_user_id )
 			->where( 'author_id', $user_id )
 			->update_many();
 	}
