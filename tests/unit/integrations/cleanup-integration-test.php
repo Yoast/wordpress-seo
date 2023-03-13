@@ -651,28 +651,28 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->wpdb->posts = 'wp_posts';
 		$this->wpdb->users = 'wp_users';
 
-		$indexable      = Mockery::mock( Indexable::class );
-		$indexable->orm = Mockery::mock( ORM::class );
-
+		
 		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				"
+		->once()
+		->with(
+			"
 			SELECT wp_yoast_indexable.object_id, wp_yoast_indexable.author_id, wp_posts.post_author
 			FROM wp_yoast_indexable JOIN wp_posts on wp_yoast_indexable.object_id = wp_posts.id
 			WHERE object_type='post'
 			AND author_id NOT IN(SELECT id from wp_users)
 			ORDER BY wp_yoast_indexable.author_id
 			LIMIT %d",
-				$limit
+			$limit
 			)
-		->andReturn( 'prepared_query' );
-
-		$this->wpdb->shouldReceive( 'get_results' )
+			->andReturn( 'prepared_query' );
+			
+			$this->wpdb->shouldReceive( 'get_results' )
 			->once()
 			->with( 'prepared_query' )
 			->andReturn( $return_value );
-
+			
+		$indexable = Mockery::mock( Indexable::class );
+		
 		$this->indexable_repository->expects( 'find_by_id_and_type' )
 			->once()
 			->with( $return_value[0]->object_id, 'post' )
