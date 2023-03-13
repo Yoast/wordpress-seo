@@ -241,15 +241,10 @@ class WPSEO_Admin_Asset_Manager {
 		$additional_dependencies = [
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
+			'crawl-settings'           => [ 'jquery' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
-				self::PREFIX . 'api-client',
-				self::PREFIX . 'externals-components',
-				self::PREFIX . 'externals-contexts',
-				self::PREFIX . 'externals-redux',
-			],
-			'indexables-page'          => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
@@ -537,10 +532,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'notifications-' . $flat_version,
 			],
 			[
-				'name' => 'notifications-new',
-				'src'  => 'notifications-new-' . $flat_version,
-			],
-			[
 				'name' => 'alert',
 				'src'  => 'alerts-' . $flat_version,
 			],
@@ -599,13 +590,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'filter-explanation-' . $flat_version,
 			],
 			[
-				'name' => 'search-appearance',
-				'src'  => 'search-appearance-' . $flat_version,
-				'deps' => [
-					self::PREFIX . 'monorepo',
-				],
-			],
-			[
 				'name' => 'monorepo',
 				'src'  => 'monorepo-' . $flat_version,
 			],
@@ -640,6 +624,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'inside-editor',
 				'src'  => 'inside-editor-' . $flat_version,
+			],
+			[
+				'name' => 'editor',
+				'src'  => 'editor-' . $flat_version,
 			],
 		];
 	}

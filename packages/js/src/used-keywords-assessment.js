@@ -39,16 +39,19 @@ class UsedKeywordsAssessment {
 	/**
 	 * Updates keyword usage in the used keywords plugin.
 	 *
-	 * @param {Object} keywordUsage Information about when keywords are used in other posts.
+	 * @param {Object} keywordUsageData Information about when keywords are used in other posts and what the post types of those posts are..
 	 *
 	 * @returns {void}
 	 */
-	updateKeywordUsage( keywordUsage ) {
+	updateKeywordUsage( keywordUsageData ) {
 		if ( ! this._initialized ) {
 			throw new Error( "UsedKeywordsAssessment must be initialized before keyphrases can be updated." );
 		}
 
-		this._plugin.updateKeywordUsage( keywordUsage );
+		const keywordUsage = keywordUsageData.usedKeywords;
+		const usedKeywordsPostTypes = keywordUsageData.usedKeywordsPostTypes;
+
+		this._plugin.updateKeywordUsage( keywordUsage, usedKeywordsPostTypes );
 
 		// Refresh assessment in the worker to make sure our assessment is refreshed.
 		analysisWorker.refreshAssessment( "usedKeywords", "previouslyUsedKeywords" );

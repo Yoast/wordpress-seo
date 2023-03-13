@@ -24,7 +24,7 @@ export default function initializeUsedKeywords() {
 	);
 
 	const usedKeywords = new UsedKeywords(
-		"get_focus_keyword_usage",
+		"get_focus_keyword_usage_and_post_types",
 		localizedData,
 		dispatch( "yoast-seo/editor" ).runAnalysis,
 		scriptUrl,

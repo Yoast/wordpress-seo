@@ -21,7 +21,7 @@ class Auto_Update_Notification_Presenter extends Abstract_Presenter {
 	 * @return string The notification in an HTML string representation.
 	 */
 	public function present() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.8' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.8' );
 
 		return '';
 	}
@@ -35,7 +35,7 @@ class Auto_Update_Notification_Presenter extends Abstract_Presenter {
 	 * @return string The message.
 	 */
 	protected function get_message() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.8' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.8' );
 
 		return '';
 	}
