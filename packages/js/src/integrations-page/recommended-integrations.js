@@ -4,7 +4,7 @@ import { PluginIntegration } from "./plugin-integration";
 import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
-import { ReactComponent as JetpackBoostLogo } from "../../images/jetpack-boost-logo.svg";
+import { ReactComponent as JetpackBoostLogo } from "../../images/jetpack-boost-integration-logo.svg";
 
 import { ToggleableIntegration } from "./toggleable-integration";
 
