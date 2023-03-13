@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
+use stdClass;
 use wpdb;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
@@ -154,6 +155,14 @@ class Cleanup_Integration_Test extends TestCase {
 		/* Clean up of indexables of users without an author archive */
 		$this->setup_clean_indexables_for_authors_without_archive( 50, $query_limit );
 
+		$query_return              = new stdClass();
+		$query_return->object_id   = 10;
+		$query_return->author_id   = 1;
+		$query_return->post_author = 2;
+
+		/* Update indexables that has been reassigned to another user */
+		$this->setup_update_indexables_author_to_reassigned( [ $query_return ], $query_limit );
+
 		/* Clean up of indexable hierarchy for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'Indexable_Hierarchy', 'indexable_id', $query_limit );
 
@@ -162,6 +171,7 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of seo links target ids for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'target_indexable_id', $query_limit );
+
 
 		$this->instance->run_cleanup();
 	}
@@ -622,5 +632,47 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->with( 'prepared_clean_query' )
 			->andReturn( $return_value );
+	}
+
+		/**
+		 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
+		 *
+		 * @param int $return_value The number of deleted items to return.
+		 * @param int $limit        The query limit.
+		 *
+		 * @return void
+		 */
+	private function setup_update_indexables_author_to_reassigned( $return_value, $limit ) {
+		$this->wpdb->posts = 'wp_posts';
+		$this->wpdb->users = 'wp_users';
+
+		$indexable      = Mockery::mock( Indexable::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				"
+			SELECT wp_yoast_indexable.object_id, wp_yoast_indexable.author_id, wp_posts.post_author
+			FROM wp_yoast_indexable JOIN wp_posts on wp_yoast_indexable.object_id = wp_posts.id
+			WHERE object_type='post'
+			AND author_id NOT IN(SELECT id from wp_users)
+			ORDER BY wp_yoast_indexable.author_id
+			LIMIT %d",
+				$limit
+			)
+			->andReturn( 'prepared_query' );
+
+			$this->wpdb->shouldReceive( 'get_results' )
+				->once()
+				->with( 'prepared_query' )
+				->andReturn( $return_value );
+
+			$this->indexable_repository->expects( 'find_by_id_and_type' )
+				->once()
+				->with( $return_value[0]->object_id, 'post' )
+				->andReturn( $indexable );
+
+			$indexable->expects( 'save' );
 	}
 }
