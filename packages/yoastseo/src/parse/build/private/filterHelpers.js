@@ -27,3 +27,17 @@ export function elementHasClass( className ) {
 		return false;
 	};
 }
+
+/**
+ * Returns a function that checks if an element is an estimatedReadingTime tag.
+ * @returns {function(*): boolean} A function that returns true if a node is an estimatedReadingtime block.
+ */
+export function isEstimatedReadingtimetag() {
+	return ( elementThing ) => {
+		if ( elementThing.attributes ) {
+			const className = elementThing.attributes.class;
+			return className.startsWith( "yoast-reading-time" );
+		}
+		return false;
+	};
+}
