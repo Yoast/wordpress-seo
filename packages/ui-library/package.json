@@ -52,6 +52,7 @@
     "babel-loader": "^9.1.0",
     "eslint": "^7.32.0",
     "eslint-config-yoast": "^5.1.0",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "^7.31.11",
     "jest": "^27.5.1",
     "postcss": "^8.4.19",
