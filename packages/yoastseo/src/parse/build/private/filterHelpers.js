@@ -36,7 +36,9 @@ export function isEstimatedReadingtimetag() {
 	return ( elementThing ) => {
 		if ( elementThing.attributes ) {
 			const className = elementThing.attributes.class;
-			return className.startsWith( "yoast-reading-time" );
+			if ( className ) {
+				return className.startsWith( "yoast-reading-time" );
+			}
 		}
 		return false;
 	};
