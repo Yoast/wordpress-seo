@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * Old_Premium_Integration class
  *
- * @deprecated 20.3
+ * @deprecated 20.7
  * @codeCoverageIgnore
  */
 class Old_Premium_Integration implements Integration_Interface {
@@ -63,7 +63,7 @@ class Old_Premium_Integration implements Integration_Interface {
 	/**
 	 * Old_Premium_Integration constructor.
 	 *
-	 * @deprecated 20.3
+	 * @deprecated 20.7
 	 * @codeCoverageIgnore
 	 *
 	 * @param Options_Helper            $options_helper      The options helper.
@@ -89,35 +89,35 @@ class Old_Premium_Integration implements Integration_Interface {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @deprecated 20.3
+	 * @deprecated 20.7
 	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		\_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
 	}
 
 	/**
 	 * Shows a notice if Premium is older than 20.0-RC1 so Settings might be missing from the UI.
 	 *
-	 * @deprecated 20.3
+	 * @deprecated 20.7
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function old_premium_notice() {
-		\_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
 	}
 
 	/**
 	 * Dismisses the old premium notice.
 	 *
-	 * @deprecated 20.3
+	 * @deprecated 20.7
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
 	public function dismiss_old_premium_notice() {
-		\_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
 
 		return false;
 	}
