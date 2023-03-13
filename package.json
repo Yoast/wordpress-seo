@@ -27,8 +27,8 @@
   "scripts": {
     "lint": "lerna run lint --no-sort --",
     "test": "lerna run test --no-sort --stream --",
-    "build": "wp-scripts build --config config/webpack/webpack.config.js",
-    "build:dev": "cross-env NODE_ENV=development wp-scripts build --config config/webpack/webpack.config.js",
+    "build": "lerna run build",
+    "build:dev": "cross-env NODE_ENV=development lerna run build",
     "build:css": "cross-env NODE_ENV=production postcss css/dist/*.css --verbose --replace",
     "build:css:dev": "cross-env NODE_ENV=development postcss css/dist/*.css --verbose --replace",
     "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
