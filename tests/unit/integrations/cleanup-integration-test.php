@@ -7,7 +7,7 @@ use Mockery;
 use stdClass;
 use wpdb;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\Lib\ORM;
+
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -162,12 +162,11 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_terms', 'term_id', 'term', $query_limit );
 
 		$query_return              = new stdClass();
-		$query_return->object_id   = 10;
 		$query_return->author_id   = 1;
 		$query_return->post_author = 2;
 
 		/* Update indexables that has been reassigned to another user */
-		$this->setup_update_indexables_author_to_reassigned( [ $query_return ], $query_limit );
+		$this->setup_update_indexables_author_to_reassigned( [ 1 => $query_return ], $query_limit );
 
 		/* Clean up of indexable hierarchy for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'Indexable_Hierarchy', 'indexable_id', $query_limit );
@@ -643,21 +642,21 @@ class Cleanup_Integration_Test extends TestCase {
 	/**
 	 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
 	 *
-	 * @param int $return_value The number of deleted items to return.
-	 * @param int $limit        The query limit.
+	 * @param int $select_return_value The number of deleted items to return.
+	 * @param int $limit               The query limit.
 	 *
 	 * @return void
 	 */
-	private function setup_update_indexables_author_to_reassigned( $return_value, $limit ) {
+	private function setup_update_indexables_author_to_reassigned( $select_return_value, $limit ) {
 		$this->wpdb->posts = 'wp_posts';
 		$this->wpdb->users = 'wp_users';
-
+		define( 'OBJECT_K', 'OBJECT_K' );
 
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()
 			->with(
 				"
-			SELECT wp_yoast_indexable.object_id, wp_yoast_indexable.author_id, wp_posts.post_author
+			SELECT wp_yoast_indexable.author_id, wp_posts.post_author
 			FROM wp_yoast_indexable JOIN wp_posts on wp_yoast_indexable.object_id = wp_posts.id
 			WHERE object_type='post'
 			AND author_id NOT IN(SELECT id from wp_users)
@@ -665,21 +664,28 @@ class Cleanup_Integration_Test extends TestCase {
 			LIMIT %d",
 				$limit
 			)
-			->andReturn( 'prepared_query' );
+			->andReturn( 'prepared_select_query' );
 
 			$this->wpdb->shouldReceive( 'get_results' )
 				->once()
-				->with( 'prepared_query' )
-				->andReturn( $return_value );
+				->with( 'prepared_select_query', OBJECT_K )
+				->andReturn( $select_return_value );
 
-		$indexable = Mockery::mock( Indexable_Mock::class );
+			$this->wpdb->shouldReceive( 'prepare' )
+				->once()
+				->with(
+					'
+				UPDATE wp_yoast_indexable
+				SET wp_yoast_indexable.author_id = 2
+				WHERE wp_yoast_indexable.author_id = 1
+				LIMIT %d',
+					$limit
+				)
+				->andReturn( 'prepared_update_query' );
 
-		$this->indexable_repository->expects( 'find_by_id_and_type' )
-			->once()
-			->with( $return_value[0]->object_id, 'post' )
-			->andReturn( $indexable );
-
-		$indexable->expects( 'save' );
+			$this->wpdb->shouldReceive( 'query' )
+				->once()
+				->with( 'prepared_update_query' );
 	}
 
 	/**
