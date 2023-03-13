@@ -73,6 +73,8 @@ overrides:
       react/jsx-no-target-blank: 1
       react/require-default-props: 1
       react/forbid-foreign-prop-types: 1
+      import/no-duplicates: 0
+      import/named: 0
     env:
       jest: true
   - files:
