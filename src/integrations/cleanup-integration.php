@@ -552,7 +552,7 @@ class Cleanup_Integration implements Integration_Interface {
 		$query = $wpdb->prepare(
 			"
 			SELECT {$indexable_table}.object_id, {$indexable_table}.author_id, {$posts_table}.post_author
-			FROM {$indexable_table} JOIN {$posts_table} on {$indexable_table}.object_id =  {$posts_table}.id
+			FROM {$indexable_table} JOIN {$posts_table} on {$indexable_table}.object_id = {$posts_table}.id
 			WHERE object_type='post'
 			AND author_id NOT IN(SELECT id from {$users_table})
 			ORDER BY {$indexable_table}.author_id
