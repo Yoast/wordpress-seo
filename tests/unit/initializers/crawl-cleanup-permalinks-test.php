@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Initializers\Crawl_Cleanup_Permalinks;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 
 
 /**
@@ -50,21 +51,32 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	private $url_helper;
 
 	/**
+	 * The Redirect helper.
+	 *
+	 * @var Mockery\MockInterface
+	 */
+	private $redirect_helper;
+
+	/**
 	 * Sets up the tests.
 	 *
 	 * @covers ::__construct
 	 */
 	protected function set_up() {
 		parent::set_up();
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
 
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->options_helper      = Mockery::mock( Options_Helper::class );
 		$this->url_helper          = Mockery::mock( Url_Helper::class );
+		$this->redirect_helper     = Mockery::mock( Redirect_Helper::class );
 
 		$this->instance = new Crawl_Cleanup_Permalinks(
 			$this->current_page_helper,
 			$this->options_helper,
-			$this->url_helper
+			$this->url_helper,
+			$this->redirect_helper
 		);
 	}
 
@@ -126,8 +138,6 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	/**
 	 * Data provider for test_register_hooks.
 	 *
-	 * register_hooks_provider
-	 *
 	 * @return array
 	 */
 	public function register_hooks_provider() {
@@ -151,35 +161,66 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 		$this->assertEquals( [ Front_End_Conditional::class ], $this->instance->get_conditionals() );
 	}
 
+	/**
+	 * Tests utm_redirect.
+	 *
+	 * @covers ::utm_redirect
+	 *
+	 * @dataProvider utm_redirect_provider
+	 *
+	 * @param string $request_uri $_SERVER['REQUEST_URI'].
+	 * @param array  $wp_parse_url wp_parse_url return value.
+	 * @param int    $is_wp_safe_redirect Is wp_safe_redirect called.
+	 */
+	public function test_utm_redirect( $request_uri, $wp_parse_url, $is_wp_safe_redirect ) {
+		$_SERVER['REQUEST_URI'] = $request_uri;
 
-    /**
-     * Tests utm_redirect.
-     *
-     * @covers ::utm_redirect
-     */
-    public function test_utm_redirect() {
-        $this->current_page_helper
-            ->expects( 'is_404' )
-            ->once()
-            ->andReturn( true );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( $request_uri )
+			->andReturn( $wp_parse_url );
 
-        $this->url_helper
-            ->expects( 'get_current_url' )
-            ->once()
-            ->andReturn( 'http://example.org/?utm_source=source&utm_medium=medium&utm_campaign=campaign&utm_term=term&utm_content=content' );
+		Monkey\Functions\expect( 'trailingslashit' )
+			->times( $is_wp_safe_redirect );
 
-        $this->url_helper
-            ->expects( 'get_home_url' )
-            ->once()
-            ->andReturn( 'http://example.org/' );
+		$this->url_helper
+			 ->expects( 'recreate_current_url' )
+			 ->with( false )
+			->times( $is_wp_safe_redirect )
+			->andReturn( 'www.example.com/' );
 
-        $this->url_helper
-            ->expects( 'redirect' )
-            ->once()
-            ->with( 'http://example.org/' );
+		$this->redirect_helper
+			->expects( 'do_safe_redirect' )
+			->times( $is_wp_safe_redirect );
 
-        $this->instance->utm_redirect();
+		$this->instance->utm_redirect();
+	}
 
-       
-    }
+	/**
+	 * Data provider for utm_redirect.
+	 *
+	 * @return array $_SERVER['REQUEST_URI'], wp_parse_url return value, is wp_safe_redirect.
+	 */
+	public function utm_redirect_provider() {
+		return [
+			[ null, null, 0 ],
+			[ 'random_post_slug', null, 0 ],
+			[ '/?page=1234', null, 0 ],
+			[
+				'/?page=4&testing=123utm_',
+				[
+					'path'  => '/',
+					'query' => 'page=4&testing=123utm_',
+				],
+				0,
+			],
+			[
+				'/?utm_medium=organic',
+				[
+					'path'  => '/',
+					'query' => 'utm_medium=organic',
+				],
+				1,
+			],
+		];
+	}
 }

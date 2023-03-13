@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 
 /**
  * Class Crawl_Cleanup_Permalinks.
@@ -34,6 +35,13 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	private $url_helper;
 
 	/**
+	 * The Redirect_Helper.
+	 *
+	 * @var Redirect_Helper
+	 */
+	private $redirect_helper;
+
+	/**
 	 * Crawl Cleanup Basic integration constructor.
 	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
@@ -43,11 +51,13 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	public function __construct(
 		Current_Page_Helper $current_page_helper,
 		Options_Helper $options_helper,
-		Url_Helper $url_helper
+		Url_Helper $url_helper,
+		Redirect_Helper $redirect_helper
 	) {
 		$this->current_page_helper = $current_page_helper;
 		$this->options_helper      = $options_helper;
 		$this->url_helper          = $url_helper;
+		$this->redirect_helper     = $redirect_helper;
 	}
 
 	/**
@@ -107,6 +117,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		$utms       = [];
 		$other_args = [];
 
+
 		foreach ( $query as $query_arg ) {
 			if ( \stripos( $query_arg, 'utm_' ) === 0 ) {
 				$utms[] = $query_arg;
@@ -132,8 +143,9 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			'Yoast SEO'
 		);
 
-		\wp_safe_redirect( \trailingslashit( $this->url_helper->recreate_current_url( false ) ) . \ltrim( $new_path, '/' ), 301, $message );
-		exit;
+		$this->redirect_helper->do_safe_redirect( \trailingslashit( $this->url_helper->recreate_current_url( false ) ) . \ltrim( $new_path, '/' ), 301, $message );
+
+		return;
 	}
 
 	/**
