@@ -176,7 +176,7 @@ class Schema_Types {
 	 * @return array[] The values of the Schema article type options.
 	 */
 	public function get_article_type_options_values() {
-		\_deprecated_function( __METHOD__, 'WPSEO 19.12' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 19.12' );
 		$article_types       = $this->get_article_type_options();
 		$article_type_values = [];
 

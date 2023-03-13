@@ -660,8 +660,6 @@ class WPSEO_Utils {
 	public static function is_yoast_seo_free_page( $current_page ) {
 		$yoast_seo_free_pages = [
 			'wpseo_dashboard',
-			'wpseo_social',
-			'wpseo_advanced',
 			'wpseo_tools',
 			'wpseo_search_console',
 			'wpseo_licenses',
@@ -1113,7 +1111,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function translate_score( $val, $css_value = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO 19.5', 'YoastSEO()->helpers->score_icon' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.5', 'YoastSEO()->helpers->score_icon' );
 
 		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
 

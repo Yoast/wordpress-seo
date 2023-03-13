@@ -4,7 +4,7 @@ import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputer
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
@@ -124,12 +124,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			>
 				<SidebarNavigation.SubmenuItem
 					to="/crawl-optimization"
-					label={
-						<span className="yst-inline-flex yst-items-center yst-gap-1.5">
-							{ __( "Crawl optimization", "wordpress-seo" ) }
-							<Badge variant="upsell">Premium</Badge>
-						</span>
-					}
+					label={ __( "Crawl optimization", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
 				/>
 				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />

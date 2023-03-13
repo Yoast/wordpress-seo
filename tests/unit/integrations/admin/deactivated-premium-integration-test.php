@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Deactivated_Premium_Integration;
@@ -99,15 +98,6 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_nonce_url' )->with( 'https://example.org/wp-admin/plugins.php?action=activate&plugin=' . $premium_file, 'activate-plugin_' . $premium_file )->andReturnFirstArg();
 		Monkey\Functions\expect( 'wp_enqueue_style' )->with( 'yoast-seo-notifications' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( 'https://example.org/wp-content/plugins/' );
-
-		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
-		$conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$container = $this->create_container_with( [ Indexables_Page_Conditional::class => $conditional ] );
-
-		Monkey\Functions\expect( 'YoastSEO' )
-			->once()
-			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $container ) ] );
 
 		// Output should contain the nonce URL.
 		$this->expectOutputContains( 'plugins.php?action=activate&plugin=' . $premium_file );
