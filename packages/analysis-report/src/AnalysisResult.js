@@ -74,7 +74,7 @@ const createMarkButton = ( {
  *
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
-export const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	markButtonFactory = markButtonFactory || createMarkButton;
 	const { id, marker, hasMarksButton } = props;
 
