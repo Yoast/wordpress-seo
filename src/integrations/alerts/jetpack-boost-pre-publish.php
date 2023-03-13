@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Alerts;
 
-use Yoast\WP\SEO\Conditionals\Jetpack_Boost_Inactive_Conditional;
+use Yoast\WP\SEO\Conditionals\Jetpack_Boost_Not_Premium_Conditional;
 
 /**
  * Jetpack_Boost_Pre_Publish class.
@@ -20,6 +20,6 @@ class Jetpack_Boost_Pre_Publish extends Abstract_Dismissable_Alert {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Jetpack_Boost_Inactive_Conditional::class ];
+		return [ Jetpack_Boost_Not_Premium_Conditional::class ];
 	}
 }

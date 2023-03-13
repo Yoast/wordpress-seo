@@ -16,10 +16,10 @@ import withPersistentDismiss from "../containers/withPersistentDismiss";
  * @returns {JSX.Element} The JetpackBoost element (which is null when dismissed).
  */
 const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
-	const isJetpackBoostInactive = get( window, "wpseoScriptData.isJetpackBoostInactive", "" ) === "1";
+	const isJetpackBoostNotPremium = get( window, "wpseoScriptData.isJetpackBoostNotPremium", "" ) === "1";
 	const getJetpackBoostPrePublishLink = get( window, "wpseoScriptData.metabox.getJetpackBoostPrePublishLink", "" );
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
-	if ( isPremium || isAlertDismissed || ! isJetpackBoostInactive ) {
+	if ( isPremium || isAlertDismissed || ! isJetpackBoostNotPremium ) {
 		return null;
 	}
 
