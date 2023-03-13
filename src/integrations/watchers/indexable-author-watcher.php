@@ -100,7 +100,7 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function handle_user_delete( $user_id, $new_user_id ) {
+	public function handle_user_delete( $user_id, $new_user_id = null ) {
 		if ( $new_user_id !== null ) {
 			$this->maybe_reassign_user_indexables( $user_id, $new_user_id );
 		}
