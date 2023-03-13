@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Conditionals\Jetpack_Boost_Not_Premium_Conditional;
 
 /**
  * Integrations_Page class
@@ -99,6 +100,7 @@ class Integrations_Page implements Integration_Interface {
 		$elementor_conditional   = new Elementor_Activated_Conditional();
 		$jetpack_conditional     = new Jetpack_Conditional();
 		$woocommerce_conditional = new WooCommerce_Conditional();
+		$boost_conditional       = new Jetpack_Boost_Not_Premium_Conditional();
 
 		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
 		$acf_seo_file         = 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php';
@@ -117,7 +119,7 @@ class Integrations_Page implements Integration_Interface {
 		$acf_active                        = \class_exists( 'acf' );
 		$algolia_active                    = $wpseo_plugin_availability_checker->is_active( $algolia_file );
 		$edd_active                        = \class_exists( \Easy_Digital_Downloads::class );
-		$jetpack_boost_active              = $wpseo_plugin_availability_checker->is_active( 'jetpack-boost/jetpack-boost.php' );
+		$jetpack_boost_active              = ( ! $boost_conditional->is_met() );
 		$old_algolia_active                = $wpseo_plugin_availability_checker->is_active( $old_algolia_file );
 		$tec_active                        = \class_exists( \TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema::class );
 		$ssp_active                        = \class_exists( \SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode::class );
