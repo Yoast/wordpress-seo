@@ -68,10 +68,16 @@ export default function adapt( tree ) {
 		return new Text( tree.value );
 	}
 
-	let children = tree.childNodes.map( adapt );
-	if ( isBlockElement( tree.nodeName ) ) {
-		children = combineIntoImplicitParagraphs( children );
+	let children;
+	if ( tree.childNodes ) {
+		children = tree.childNodes.map( adapt );
+		if ( isBlockElement( tree.nodeName ) ) {
+			children = combineIntoImplicitParagraphs( children );
+		}
+	} else {
+		children = [];
 	}
+
 
 	const attributes = adaptAttributes( tree.attrs );
 
