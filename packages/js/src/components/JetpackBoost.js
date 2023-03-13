@@ -28,6 +28,7 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 			className="yoast-seo-sidebar-panel"
 			initialOpen={ true }
 		>
+			{ /* If this UI library Root is available up the chain, there is no need for it here anymore. */ }
 			<Root className="yst-root yst-relative">
 				<div
 					className="yst-absolute yst-top-0 yst-bottom-0 yst--m-[16px] yst-w-[3px] yst-bg-primary-500"

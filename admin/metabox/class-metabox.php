@@ -923,7 +923,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			],
 			'dismissedAlerts'            => $dismissed_alerts,
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
-			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : '',
+			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
