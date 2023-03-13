@@ -58,6 +58,7 @@ class WPSEO_Metabox_Formatter {
 		$analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
 		$schema_types                = new Schema_Types();
 		$is_wincher_active           = YoastSEO()->helpers->wincher->is_active();
+		$host                        = YoastSEO()->helpers->url->get_url_host( get_site_url() );
 
 		return [
 			'author_name'                     => get_the_author_meta( 'display_name' ),
@@ -214,6 +215,7 @@ class WPSEO_Metabox_Formatter {
 			 * @param bool $previouslyUsedKeywordActive Whether the PreviouslyUsedKeyword assessment should run.
 			 */
 			'previouslyUsedKeywordActive'     => apply_filters( 'wpseo_previously_used_keyword_active', true ),
+			'getJetpackBoostPrePublishLink'   => WPSEO_Shortlinker::get( 'https://yoa.st/jetpack-ads-prepublish?domain=' . $host ),
 		];
 	}
 
