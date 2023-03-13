@@ -59,6 +59,7 @@ export default function( text, memoizedTokenizer ) {
 	text = unifyNonBreakingSpace( text );
 	/*
 	 * Remove images from text before tokenizing it into sentences.
+	 * This is necessary since the highlighting feature doesn't work if the yoastmark tags are enclosing a sentence starting with an image.
 	 * This step is done here so that applying highlight in captions is possible for all assessments that use this helper.
 	 */
 	text = text.replace( imageRegex, "" );
