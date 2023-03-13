@@ -54,7 +54,6 @@ if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
 // Create the necessary test doubles for WP native classes on which properties are being set (PHP 8.2 compat).
 Yoast\WPTestUtils\BrainMonkey\makeDoublesForUnavailableClasses(
 	[
-		'ORM',
 		'WP',
 		'WP_Post',
 		'WP_Query',
