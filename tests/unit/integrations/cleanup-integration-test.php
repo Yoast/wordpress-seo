@@ -156,10 +156,6 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of indexables of users without an author archive */
 		$this->setup_clean_indexables_for_authors_without_archive( 50, $query_limit );
-		/* Clean up of seo links target ids for deleted indexables */
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_users', 'ID', 'user', $query_limit );
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_posts', 'ID', 'post', $query_limit );
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_terms', 'term_id', 'term', $query_limit );
 
 		$query_return              = new stdClass();
 		$query_return->author_id   = 1;
@@ -167,6 +163,12 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Update indexables that has been reassigned to another user */
 		$this->setup_update_indexables_author_to_reassigned( [ 1 => $query_return ], $query_limit );
+
+		/* Clean up of seo links target ids for deleted indexables */
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_users', 'ID', 'user', $query_limit );
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_posts', 'ID', 'post', $query_limit );
+		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_terms', 'term_id', 'term', $query_limit );
+
 
 		/* Clean up of indexable hierarchy for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'Indexable_Hierarchy', 'indexable_id', $query_limit );
@@ -650,6 +652,7 @@ class Cleanup_Integration_Test extends TestCase {
 	private function setup_update_indexables_author_to_reassigned( $select_return_value, $limit ) {
 		$this->wpdb->posts = 'wp_posts';
 		$this->wpdb->users = 'wp_users';
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- This is a WordPress constant.
 		define( 'OBJECT_K', 'OBJECT_K' );
 
 		$this->wpdb->shouldReceive( 'prepare' )
