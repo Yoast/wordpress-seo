@@ -319,4 +319,94 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			],
 		];
 	}
+
+	/**
+	 * Tests front_page_url.
+	 *
+	 * @covers ::front_page_url
+	 *
+	 * @dataProvider front_page_url_provider
+	 *
+	 * @param boolean                                           $is_home_posts_page is_home_posts_page return value.
+	 * @param boolean                                           $is_home_static_page is_home_static_page return value.
+	 * @param int static_times is_home_static_page times called.
+	 * @param int home_url_times home_url times called.
+	 * @param int permalink_times get_permalink times called.
+	 * @param string                                            $expected expected return value.
+	 */
+	public function test_front_page_url( $is_home_posts_page, $is_home_static_page, $static_times, $home_url_times, $permalink_times, $expected ) {
+
+		$GLOBALS['post'] = (object) [ 'ID' => 5 ];
+
+		$this->current_page_helper
+			->expects( 'is_home_posts_page' )
+			->once()
+			->andReturn( $is_home_posts_page );
+
+		Monkey\Functions\expect( 'home_url' )
+			->with( '/' )
+			->times( $home_url_times )
+			->andReturn( 'http://basic.wordpress.test/' );
+
+		$this->current_page_helper
+			->expects( 'is_home_static_page' )
+			->times( $static_times )
+			->andReturn( $is_home_static_page );
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->with( 5 )
+			->times( $permalink_times )
+			->andReturn( 'http://basic.wordpress.test/permalink' );
+
+		$this->assertSame( $expected, $this->instance->front_page_url() );
+	}
+
+	/**
+	 * Provider for test_front_page_url.
+	 *
+	 * @return array is_home_posts_page, is_home_static_page, static_times, home_url_times,permalink_times, expected.
+	 */
+	public function front_page_url_provider() {
+		return [
+			[ true, false, 0, 1, 0, 'http://basic.wordpress.test/' ],
+			[ false, true, 1, 0, 1, 'http://basic.wordpress.test/permalink' ],
+			[ false, false, 1, 0, 0, '' ],
+		];
+	}
+
+	/**
+	 * Tests clean_permalinks.
+	 *
+	 * @covers ::clean_permalinks
+	 *
+	 * @dataProvider clean_permalinks_provider
+	 * @param bool $clean_permalinks_avoid_redirect
+	 * @param int $expected
+	 */
+	// public function test_clean_permalinks( $clean_permalinks_avoid_redirect, $expected ){
+
+	// $crawl_cleanup_permalinks = Mockery::mock( Crawl_Cleanup_Permalinks::class );
+	// $crawl_cleanup_permalinks
+	// ->expects( 'clean_permalinks_avoid_redirect' )
+	// ->once()
+	// ->andReturn( $clean_permalinks_avoid_redirect );
+
+	// $this->redirect_helper
+	// ->expects( 'do_safe_redirect' )
+	// ->times( $expected );
+
+	// $this->instance->clean_permalinks();
+	// }
+
+	/**
+	 * Data provider for test_clean_permalinks.
+	 *
+	 * @return array clean_permalinks_avoid_redirect, expected.
+	 */
+
+	// public function clean_permalinks_provider(){
+	// return [
+	// [ true ,0 ],
+	// ];
+	// }
 }
