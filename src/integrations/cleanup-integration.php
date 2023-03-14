@@ -559,7 +559,8 @@ class Cleanup_Integration implements Integration_Interface {
 			return false;
 		}
 
-		return $this->update_indexable_authors( $reassigned_authors_objs, $limit );
+		$updated_indexables = $this->update_indexable_authors( $reassigned_authors_objs, $limit );
+		return $updated_indexables;
 	}
 
 	/**
