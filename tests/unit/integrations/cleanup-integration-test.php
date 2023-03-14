@@ -662,7 +662,7 @@ class Cleanup_Integration_Test extends TestCase {
 			SELECT wp_yoast_indexable.author_id, wp_posts.post_author
 			FROM wp_yoast_indexable JOIN wp_posts on wp_yoast_indexable.object_id = wp_posts.id
 			WHERE object_type='post'
-			AND author_id NOT IN(SELECT id from wp_users)
+			AND wp_yoast_indexable.author_id <> wp_posts.post_author
 			ORDER BY wp_yoast_indexable.author_id
 			LIMIT %d",
 				$limit
