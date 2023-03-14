@@ -559,8 +559,7 @@ class Cleanup_Integration implements Integration_Interface {
 			return false;
 		}
 
-		$updated_indexables = $this->update_indexable_authors( $reassigned_authors_objs, $limit );
-		return $updated_indexables;
+		return $this->update_indexable_authors( $reassigned_authors_objs, $limit );
 	}
 
 	/**
@@ -649,7 +648,15 @@ class Cleanup_Integration implements Integration_Interface {
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$reassigned_authors = \array_combine( \array_column( $reassigned_authors_objs, 'author_id' ), \array_column( $reassigned_authors_objs, 'post_author' ) );
+		// This is a workaround for the fact that the array_column function does not work on objects in PHP 5.6.
+		$reassingned_authors_array = \array_map(
+			function ( $obj ) {
+				return (array) $obj;
+			},
+			$reassigned_authors_objs
+		);
+
+		$reassigned_authors = \array_combine( \array_column( $reassingned_authors_array, 'author_id' ), \array_column( $reassingned_authors_array, 'post_author' ) );
 
 		foreach ( $reassigned_authors as $old_author_id => $new_author_id ) {
 			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
