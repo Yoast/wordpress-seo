@@ -666,27 +666,27 @@ class Cleanup_Integration_Test extends TestCase {
 			)
 			->andReturn( 'prepared_select_query' );
 
-			$this->wpdb->shouldReceive( 'get_results' )
-				->once()
-				->with( 'prepared_select_query', OBJECT_K )
-				->andReturn( $select_return_value );
+		$this->wpdb->shouldReceive( 'get_results' )
+			->once()
+			->with( 'prepared_select_query', OBJECT_K )
+			->andReturn( $select_return_value );
 
-			$this->wpdb->shouldReceive( 'prepare' )
-				->once()
-				->with(
-					'
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+					"
 				UPDATE wp_yoast_indexable
 				SET wp_yoast_indexable.author_id = 2
 				WHERE wp_yoast_indexable.author_id = 1
-				AND object_type=\'post\'
-				LIMIT %d',
+				AND object_type='post'
+				LIMIT %d",
 					$limit
 				)
-				->andReturn( 'prepared_update_query' );
+			->andReturn( 'prepared_update_query' );
 
-			$this->wpdb->shouldReceive( 'query' )
-				->once()
-				->with( 'prepared_update_query' );
+		$this->wpdb->shouldReceive( 'query' )
+			->once()
+			->with( 'prepared_update_query' );
 	}
 
 	/**
