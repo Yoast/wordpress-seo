@@ -553,14 +553,55 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	protected function update_indexables_author_to_reassigned( $limit ) {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		$reassigned_authors_objs = $this->get_reassigned_authors( $limit );
+		global $wpdb;
 
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$users_table     = $wpdb->users;
+		$posts_table     = $wpdb->posts;
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		$query = $wpdb->prepare(
+			"
+			SELECT {$indexable_table}.author_id, {$posts_table}.post_author
+			FROM {$indexable_table} JOIN {$posts_table} on {$indexable_table}.object_id = {$posts_table}.id
+			WHERE object_type='post'
+			AND author_id NOT IN(SELECT id from {$users_table})
+			ORDER BY {$indexable_table}.author_id
+			LIMIT %d",
+			$limit
+		);
+		// phpcs:enable
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		$reassigned_authors_objs = $wpdb->get_results( $query, \OBJECT_K );
+
+//		$reassigned_authors_objs = $this->get_reassigned_authors( $limit );
 		if ( $reassigned_authors_objs === false ) {
 			return false;
 		}
 
-		$updated_indexables = $this->update_indexable_authors( $reassigned_authors_objs, $limit );
-		return $updated_indexables;
+		$reassigned_authors = \array_combine( \array_column( $reassigned_authors_objs, 'author_id' ), \array_column( $reassigned_authors_objs, 'post_author' ) );
+
+		foreach ( $reassigned_authors as $old_author_id => $new_author_id ) {
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+			$query = $wpdb->prepare(
+				"
+				UPDATE {$indexable_table}
+				SET {$indexable_table}.author_id = {$new_author_id}
+				WHERE {$indexable_table}.author_id = {$old_author_id}
+				AND object_type='post'
+				LIMIT %d",
+				$limit
+			);
+			// phpcs:enable
+
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+			$wpdb->query( $query );
+		}
+
+		return count( $reassigned_authors );
+		
+		//return $this->update_indexable_authors( $reassigned_authors_objs, $limit );
 	}
 
 	/**
