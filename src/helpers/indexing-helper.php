@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast_Notification_Center;
 
 /**
@@ -56,20 +57,30 @@ class Indexing_Helper {
 	protected $indexable_repository;
 
 	/**
+	 * Stores the version of each Indexable type.
+	 *
+	 * @var Indexable_Builder_Versions The current versions of all indexable builders.
+	 */
+	protected $indexable_builder_versions;
+
+	/**
 	 * Indexing_Helper constructor.
 	 *
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Date_Helper               $date_helper         The date helper.
-	 * @param Yoast_Notification_Center $notification_center The notification center.
+	 * @param Options_Helper             $options_helper             The options helper.
+	 * @param Date_Helper                $date_helper                The date helper.
+	 * @param Yoast_Notification_Center  $notification_center        The notification center.
+	 * @param Indexable_Builder_Versions $indexable_builder_versions Stores the version of each Indexable type.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Date_Helper $date_helper,
-		Yoast_Notification_Center $notification_center
+		Yoast_Notification_Center $notification_center,
+		Indexable_Builder_Versions $indexable_builder_versions
 	) {
-		$this->options_helper      = $options_helper;
-		$this->date_helper         = $date_helper;
-		$this->notification_center = $notification_center;
+		$this->options_helper             = $options_helper;
+		$this->date_helper                = $date_helper;
+		$this->notification_center        = $notification_center;
+		$this->indexable_builder_versions = $indexable_builder_versions;
 	}
 
 	/**
@@ -235,6 +246,28 @@ class Indexing_Helper {
 	 */
 	public function is_finished_indexables_indexing() {
 		return $this->options_helper->get( 'indexables_indexing_completed', false );
+	}
+
+	/**
+	 * Checks if all indexables are complete and up to date.
+	 * If the indexables are complete, they will always be considered complete until one or more
+	 * indexable builders get a version bump.
+	 *
+	 * @return bool Whether the index is up to date.
+	 */
+	public function is_index_up_to_date() {
+		$last_completed_index_version = $this->options_helper->get( 'last_completely_indexed_versions' );
+		$combined_version_key         = $this->indexable_builder_versions->get_combined_version_key();
+		if ( $last_completed_index_version === $combined_version_key ) {
+			return true;
+		}
+
+		$has_unindexed = $this->get_limited_filtered_unindexed_count( 1 ) > 0;
+		if ( $has_unindexed === false ) {
+			$this->options_helper->set( 'last_completely_indexed_versions', $combined_version_key );
+		}
+
+		return ! $has_unindexed;
 	}
 
 	/**

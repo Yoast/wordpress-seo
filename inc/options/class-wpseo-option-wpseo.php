@@ -36,6 +36,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexing_reason'                          => '',
 		'indexables_indexing_completed'            => false,
 		'index_now_key'                            => '',
+		'last_completely_indexed_versions'         => '',
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                         => '',
@@ -325,6 +326,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'clean_permalinks_extra_variables':
 				case 'indexables_overview_state':
 				case 'dismiss_old_premium_version_notice':
+				case 'last_completely_indexed_versions':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
