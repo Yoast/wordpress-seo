@@ -36,6 +36,7 @@ module.exports = {
 			"error",
 			{
 				ignore: [
+					// This is our internal externals used within `packages/js`, not actually a package.
 					"^@yoast/externals/(components|contexts|redux)$",
 					// Ignore UI library and schema-blocks, or we have to build the code before linting.
 					// Because `main` in `package.json` points to the `build/index.js` (in the UI library), which is not present before building.
