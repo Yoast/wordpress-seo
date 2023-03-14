@@ -32,4 +32,76 @@ describe( "The combineIntoImplicitParagraphs function", () => {
 			},
 		] );
 	} );
+	it( "correctly handles an InterElementWhitespace", () => {
+		const nodes = [
+			{ name: "p" },
+			{ name: "span" },
+			{ name: "#text" },
+			{ name: "#text", value: "  " },
+			{ name: "#text" },
+			{ name: "div" },
+			{ name: "a" },
+		];
+
+		const implicitParagraphs = combineIntoImplicitParagraphs( nodes );
+
+		const expected =  [
+			{ name: "p" },
+			{
+				name: "p",
+				attributes: {},
+				childNodes: [ { name: "span" }, { name: "#text" } ],
+				isImplicit: true,
+			},
+			// The InterElementWhitespace
+			{ name: "#text", value: "  " },
+			{
+				name: "p",
+				attributes: {},
+				childNodes: [ { name: "#text" } ],
+				isImplicit: true,
+			},
+			{ name: "div" },
+			{
+				name: "p",
+				attributes: {},
+				childNodes: [ { name: "a" } ],
+				isImplicit: true,
+			},
+		];
+
+		expect( implicitParagraphs ).toEqual( expected );
+	} );
+
+	it( "correctly handles an element with childs", () => {
+		const nodes = [
+			{ name: "p" },
+			{ name: "span" },
+			{ name: "#text" },
+			{ name: "div", childNodes: [
+				{ name: "p" },
+				{ name: "span" },
+				{ name: "#text" },
+				{ name: "a" },
+			] },
+		];
+
+		const implicitParagraphs = combineIntoImplicitParagraphs( nodes );
+
+		const expected = [
+			{ name: "p" },
+			{
+				name: "p",
+				attributes: {},
+				childNodes: [ { name: "span" }, { name: "#text" } ],
+				isImplicit: true,
+			},
+			{
+				name: "div",
+				childNodes: [ { name: "p" }, { name: "span" }, { name: "#text" }, { name: "a" } ],
+			},
+		];
+
+		expect( implicitParagraphs ).toEqual( expected );
+	} );
 } );
