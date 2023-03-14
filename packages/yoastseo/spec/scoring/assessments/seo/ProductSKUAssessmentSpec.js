@@ -80,7 +80,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Your product is missing a SKU. You can add a SKU via the \"Inventory\" tab in the Product data box. " +
+			" Your product is missing a SKU. " +
 			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search engines " +
 			"to better understand your content.</a>" );
 	} );
@@ -149,7 +149,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Your product is missing a SKU. You can add a SKU via the \"Inventory\" tab in the Product data box. " +
+			" Your product is missing a SKU. " +
 			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will help search engines to " +
 			"better understand your content.</a>" );
 	} );

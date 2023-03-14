@@ -100,7 +100,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Not all your product variants" +
-			" have an identifier. You can add a product identifier via the \"Variations\" tab in the Product data box. " +
+			" have an identifier. " +
 			"<a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it" +
 			" will help search engines to better understand your content.</a>",
 	},

@@ -103,14 +103,6 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		// Check if we want to add information about where to add the SKU in the feedback string or not.
-		// Currently we want to implement it only for Woo Product pages.
-		let feedbackString = "";
-		if ( this._config.addSKULocation === true ) {
-			// Translators: please keep the space at the start of the sentence in your translation unless your language does not use spaces.
-			feedbackString = __( " You can add a SKU via the \"Inventory\" tab in the Product data box.", "wordpress-seo" );
-		}
-
 		// Apply the following scoring conditions to products without variants.
 		if ( [ "simple", "external", "grouped" ].includes( productSKUData.productType ) ||
 			( productSKUData.productType === "variable" && ! productSKUData.hasVariants ) ) {
@@ -119,16 +111,14 @@ export default class ProductSKUAssessment extends Assessment {
 					score: config.scores.ok,
 					text: sprintf(
 						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
-						// %4$s expands to "You can add a SKU via the "Inventory" tab in the Product data box." or to an empty string.
 						__(
-							"%1$sSKU%3$s: Your product is missing a SKU.%4$s" +
+							"%1$sSKU%3$s: Your product is missing a SKU." +
 							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
-						"</a>",
-						feedbackString
+						"</a>"
 					),
 				};
 			}

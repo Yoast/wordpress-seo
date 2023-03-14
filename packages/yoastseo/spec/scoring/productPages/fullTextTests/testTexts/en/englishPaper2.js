@@ -108,7 +108,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Your product is missing a SKU. " +
-			"You can add a SKU via the \"Inventory\" tab in the Product data box. " +
 			"<a href='https://yoa.st/4lx' target='_blank'>Include it if you can, as it will " +
 			"help search engines to better understand your content.</a>",
 	},
@@ -179,7 +178,8 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 14.71% of the words in your text are considered complex." +
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 14.71% of the words in your " +
+			"text are considered complex." +
 			" <a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };

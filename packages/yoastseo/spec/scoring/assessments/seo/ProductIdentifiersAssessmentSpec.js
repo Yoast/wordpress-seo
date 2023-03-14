@@ -103,8 +103,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Not all your product variants have an identifier. You can add a product identifier via the \"Variations\" " +
-			"tab in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it " +
+			" Not all your product variants have an identifier. " +
+			"<a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it " +
 			"will help search engines to better understand your content.</a>" );
 	} );
 
@@ -121,8 +121,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Not all your product variants have an identifier. You can add a product identifier via the \"Variations\"" +
-			" tab in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Not all your product variants have an identifier." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 

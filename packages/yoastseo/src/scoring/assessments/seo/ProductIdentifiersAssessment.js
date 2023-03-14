@@ -108,8 +108,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				okNoVariants: __( "Your product is missing an identifier (like a GTIN code). " +
 					"You can add a product identifier via the \"Yoast SEO\" tab in the Product data box", "wordpress-seo" ),
 				goodNoVariants: __( "Your product has an identifier", "wordpress-seo" ),
-				okWithVariants: __( "Not all your product variants have an identifier. " +
-					"You can add a product identifier via the \"Variations\" tab in the Product data box", "wordpress-seo" ),
+				okWithVariants: __( "Not all your product variants have an identifier", "wordpress-seo" ),
 				goodWithVariants: __( "All your product variants have an identifier", "wordpress-seo" ),
 			};
 		} else {
