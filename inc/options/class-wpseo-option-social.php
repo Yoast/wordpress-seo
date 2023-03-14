@@ -256,8 +256,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 * @return string|false The validated URL or false if the URL is not valid.
 	 */
 	public function validate_social_url( $url ) {
-		$submitted_url = trim( htmlspecialchars( $url, ENT_COMPAT, get_bloginfo( 'charset' ), true ) );
-		$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
+		$validated_url = filter_var( WPSEO_Utils::sanitize_url( trim( $url ) ), FILTER_VALIDATE_URL );
 
 		return $validated_url;
 	}

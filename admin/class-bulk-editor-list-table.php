@@ -188,12 +188,17 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Will show the navigation for the table like pagenavigation and pagefilter.
+	 * Will show the navigation for the table like page navigation and page filter.
 	 *
 	 * @param string $which Table nav location (such as top).
 	 */
 	public function display_tablenav( $which ) {
-		$post_status = sanitize_text_field( filter_input( INPUT_GET, 'post_status' ) );
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$post_status      = isset( $_GET['post_status'] ) && is_string( $_GET['post_status'] ) ? sanitize_text_field( wp_unslash( $_GET['post_status'] ) ) : '';
+		$order_by         = isset( $_GET['orderby'] ) && is_string( $_GET['orderby'] ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : '';
+		$order            = isset( $_GET['order'] ) && is_string( $_GET['order'] ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : '';
+		$post_type_filter = isset( $_GET['post_type_filter'] ) && is_string( $_GET['post_type_filter'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type_filter'] ) ) : '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended;
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
@@ -204,11 +209,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				<input type="hidden" name="tool" value="bulk-editor"/>
 				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>"/>
 				<input type="hidden" name="orderby"
-					value="<?php echo esc_attr( filter_input( INPUT_GET, 'orderby' ) ); ?>"/>
+					value="<?php echo esc_attr( $order_by ); ?>"/>
 				<input type="hidden" name="order"
-					value="<?php echo esc_attr( filter_input( INPUT_GET, 'order' ) ); ?>"/>
+					value="<?php echo esc_attr( $order ); ?>"/>
 				<input type="hidden" name="post_type_filter"
-					value="<?php echo esc_attr( filter_input( INPUT_GET, 'post_type_filter' ) ); ?>"/>
+					value="<?php echo esc_attr( $post_type_filter ); ?>"/>
 				<?php if ( ! empty( $post_status ) ) { ?>
 					<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>"/>
 				<?php } ?>
@@ -281,7 +286,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			)
 		);
 
-		$post_status             = filter_input( INPUT_GET, 'post_status' );
+		$post_status             = isset( $_GET['post_status'] ) && is_string( $_GET['post_status'] ) ? sanitize_text_field( wp_unslash( $_GET['post_status'] ) ) : '';
 		$current_link_attributes = empty( $post_status ) ? ' class="current" aria-current="page"' : '';
 		$localized_text          = sprintf(
 			/* translators: %s expands to the number of posts in localized format. */
@@ -383,8 +388,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					)
 				);
 
-				$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
-				$selected         = ( ! empty( $post_type_filter ) ) ? sanitize_text_field( $post_type_filter ) : '-1';
+				$post_type_filter = isset( $_GET['post_type_filter'] ) && is_string( $_GET['post_type_filter'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type_filter'] ) ) : '';
+				$selected         = ( ! empty( $post_type_filter ) ) ? $post_type_filter : '-1';
 
 				$options = '<option value="-1">' . esc_html__( 'Show All Content Types', 'wordpress-seo' ) . '</option>';
 
@@ -547,12 +552,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function get_post_type_clause() {
 		// Filter Block.
-		$post_types       = null;
 		$post_type_clause = '';
-		$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
+		$post_type_filter = isset( $_GET['post_type_filter'] ) && is_string( $_GET['post_type_filter'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type_filter'] ) ) : '';
 
-		if ( ! empty( $post_type_filter ) && get_post_type_object( sanitize_text_field( $post_type_filter ) ) ) {
-			$post_types       = esc_sql( sanitize_text_field( $post_type_filter ) );
+		if ( ! empty( $post_type_filter ) && get_post_type_object( $post_type_filter ) ) {
+			$post_types       = esc_sql( $post_type_filter );
 			$post_type_clause = "AND post_type IN ('{$post_types}')";
 		}
 
@@ -567,12 +571,18 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @param int $total_items Total items counts.
 	 */
 	protected function set_pagination( $total_items ) {
-
 		// Calculate items per page.
 		$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
-		$paged    = esc_sql( sanitize_text_field( filter_input( INPUT_GET, 'paged' ) ) );
+		$paged    = isset( $_GET['paged'] ) && is_string( $_GET['paged'] ) ? esc_sql( sanitize_text_field( wp_unslash( $_GET['paged'] ) ) ) : '';
 
-		if ( empty( $paged ) || ! is_numeric( $paged ) || $paged <= 0 ) {
+		if ( empty( $paged ) || ! is_numeric( $paged ) ) {
+			$paged = 1;
+		}
+		else {
+			$paged = (int) $paged;
+		}
+
+		if ( $paged <= 0 ) {
 			$paged = 1;
 		}
 
@@ -604,14 +614,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
 		// Order By block.
-		$orderby = filter_input( INPUT_GET, 'orderby' );
+		$orderby = isset( $_GET['orderby'] ) && is_string( $_GET['orderby'] ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : '';
 
-		$orderby = ! empty( $orderby ) ? esc_sql( sanitize_text_field( $orderby ) ) : 'post_title';
+		$orderby = ! empty( $orderby ) ? esc_sql( $orderby ) : 'post_title';
 		$orderby = $this->sanitize_orderby( $orderby );
 
 		// Order clause.
-		$order = filter_input( INPUT_GET, 'order' );
-		$order = ! empty( $order ) ? esc_sql( strtoupper( sanitize_text_field( $order ) ) ) : 'ASC';
+		$order = isset( $_GET['order'] ) && is_string( $_GET['order'] ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : '';
+		$order = ! empty( $order ) ? esc_sql( strtoupper( $order ) ) : 'ASC';
 		$order = $this->sanitize_order( $order );
 
 		// Get all needed results.

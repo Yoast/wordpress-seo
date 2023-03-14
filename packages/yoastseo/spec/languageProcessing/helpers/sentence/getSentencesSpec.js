@@ -103,8 +103,8 @@ describe( "Get sentences from text", function() {
 	} );
 
 	it( "can deal with self-closing tags", function() {
-		const text = "A sentence with an image <img src='http://google.com' />";
-		expect( getSentences( text ) ).toEqual( [ "A sentence with an image <img src='http://google.com' />" ] );
+		const text = "A sentence with an image <samp src='http://google.com' />";
+		expect( getSentences( text ) ).toEqual( [ "A sentence with an image <samp src='http://google.com' />" ] );
 	} );
 
 	it( "can deal with newlines", function() {
@@ -331,6 +331,20 @@ describe( "Get sentences from text", function() {
 			{
 				input: "First sentence. Second sentence. &nbsp;",
 				expected: [ "First sentence.", "Second sentence." ],
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	xit( "should strip images from the sentence", function() {
+		const testCases = [
+			{
+				input: "<img class=\"size-medium wp-image-32\" src=\"https://basic.wordpress.test/wp-content/uploads/2021/" +
+					"08/cat-199969_1280-300x199.jpeg\" alt=\"\" width=\"300\" height=\"199\" /> This is a very majestic cat." +
+					" <img class=\"size-medium wp-image-32\" src=\"https://basic.wordpress.test/wp-content/uploads/2021/" +
+					"08/cat-199969_1280-300x199.jpeg\" alt=\"\" width=\"300\" height=\"199\" ></img> Second sentence.",
+				expected: [ "This is a very majestic cat.", "Second sentence." ],
 			},
 		];
 

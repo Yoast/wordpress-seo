@@ -1,6 +1,4 @@
-import wordComplexity from "../config/internal/wordComplexity";
-import functionWords from "../config/functionWords";
-
+import wordComplexityConfig from "../config/internal/wordComplexity";
 
 const vowels = "aeiuoyáéíóúñ";
 const consonants = "bcdfghjklmnpqrstvwxzñ";
@@ -14,6 +12,9 @@ const consonantSuffixRegex = new RegExp( consonantSuffix );
 const suffixes = "(s|es)$";
 const suffixesRegex = new RegExp( suffixes );
 
+const lengthLimit = wordComplexityConfig.wordLength;
+const frequencyList = wordComplexityConfig.frequencyList;
+
 /**
  * Checks if a word is complex.
  *
@@ -22,10 +23,6 @@ const suffixesRegex = new RegExp( suffixes );
  * @returns {boolean} Whether or not a word is complex.
  */
 export default function checkIfWordIsComplex( word ) {
-	const wordComplexityConfig = wordComplexity;
-	const lengthLimit = wordComplexityConfig.wordLength;
-	const frequencyList = wordComplexityConfig.frequencyList;
-
 	// The Spanish word is not complex if its length is 7 characters or fewer.
 	if ( word.length <= lengthLimit ) {
 		return false;
@@ -36,8 +33,8 @@ export default function checkIfWordIsComplex( word ) {
 		return false;
 	}
 
-	// The word is not complex if it's in the frequency list or the function words list.
-	if ( frequencyList.includes( word ) || functionWords.all.includes( word )  ) {
+	// The word is not complex if it's in the frequency list.
+	if ( frequencyList.includes( word ) ) {
 		return false;
 	}
 	/*

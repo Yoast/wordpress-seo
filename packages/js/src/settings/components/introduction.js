@@ -175,7 +175,7 @@ const Introduction = () => {
 									onClick={ handleRequestPlay }
 									ref={ index === 0 ? buttonRef : null }
 								>
-									<img alt={ __( "Play video", "wordpress-seo" ) } className="yst-w-full yst-h-auto" { ...step.thumbnail } />
+									<img alt={ __( "Play video", "wordpress-seo" ) } className="yst-w-full yst-h-auto" { ...step.thumbnail } loading="lazy" decoding="async" />
 								</button>
 							) ) }
 

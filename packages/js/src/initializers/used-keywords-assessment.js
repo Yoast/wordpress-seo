@@ -25,11 +25,18 @@ export default function initializeUsedKeywords( refreshAnalysis, ajaxAction, sto
 		"used-keywords-assessment.js"
 	);
 
+	const nonce = get(
+		window,
+		[ "wpseoScriptData", "usedKeywordsNonce" ],
+		""
+	);
+
 	const usedKeywords = new UsedKeywords(
 		ajaxAction,
 		localizedData,
 		refreshAnalysis,
-		scriptUrl
+		scriptUrl,
+		nonce
 	);
 	usedKeywords.init();
 

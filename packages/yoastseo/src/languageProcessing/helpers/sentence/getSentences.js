@@ -14,6 +14,7 @@ const newLines = "\n\r|\n|\r";
 // Regular expressions.
 const newLineRegex = new RegExp( newLines );
 
+
 /**
  * Returns the sentences from a certain block.
  *

@@ -133,9 +133,8 @@ const expectedResults = {
 	keyphraseDistribution: {
 		isApplicable: true,
 		score: 1,
-		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
-			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' " +
-			"target='_blank'>Distribute them more evenly</a>.",
+		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your text do not " +
+			"contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -180,7 +179,7 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 15.02% of the words in your text are considered complex." +
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 14.71% of the words in your text are considered complex." +
 			" <a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
