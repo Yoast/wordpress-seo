@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 
-import SEMrushCountrySelector
+import { PureSEMrushCountrySelector as SEMrushCountrySelector }
 	from "../../../js/src/components/modals/SEMrushCountrySelector";
 import React from "react";
 import { noop } from "lodash";

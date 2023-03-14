@@ -349,4 +349,6 @@ const CountrySelectorWithErrorBoundary = ( props ) => (
 	</ErrorBoundary>
 );
 
+export { SEMrushCountrySelector as PureSEMrushCountrySelector };
+
 export default CountrySelectorWithErrorBoundary;
