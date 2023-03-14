@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5135b6f10c078d811239ebd42ee690f",
+    "content-hash": "5535262f35d4a3f25fdcd77e118795a4",
     "packages": [
         {
             "name": "composer/installers",
@@ -881,9 +881,6 @@
                 "symfony/filesystem": "^3.2 || ^4.0",
                 "symfony/finder": "^3.2 || ^4.0"
             },
-            "replace": {
-                "humbug/php-scoper": "self.version"
-            },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.1",
                 "humbug/box": "^3.8",
@@ -960,7 +957,7 @@
                 "nikic/php-parser": "@stable",
                 "php": "^8.0",
                 "phpdocumentor/reflection-docblock": "@stable",
-                "phpunit/phpunit": "@stable"
+                "phpunit/phpunit": "^9.6"
             },
             "default-branch": true,
             "type": "library",
@@ -4562,5 +4559,8 @@
         "php": "^7.2 || ^8.0"
     },
     "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.2.5"
+    },
     "plugin-api-version": "2.2.0"
 }
