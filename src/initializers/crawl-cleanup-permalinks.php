@@ -155,44 +155,16 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 */
 	public function clean_permalinks() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing anything yet...
-		if ( \is_robots() || \get_query_var( 'sitemap' ) || empty( $_GET ) || \is_user_logged_in() ) {
+		if ( $this->clean_permalinks_avoid_redirect() ) {
 			return;
 		}
 
 		$current_url = $this->url_helper->recreate_current_url();
 
-		/**
-		 * Filter: 'Yoast\WP\SEO\allowlist_permalink_vars' - Allows plugins to register their own variables not to clean.
-		 *
-		 * Note: This is a Premium plugin-only hook.
-		 *
-		 * @since 19.2.0
-		 *
-		 * @param array $allowed_extravars The list of the allowed vars (empty by default).
-		 */
-		$allowed_extravars = \apply_filters( 'Yoast\WP\SEO\allowlist_permalink_vars', [] );
-
-		if ( $this->options_helper->get( 'clean_permalinks_extra_variables' ) !== '' ) {
-			$allowed_extravars = \array_merge( $allowed_extravars, \explode( ',', $this->options_helper->get( 'clean_permalinks_extra_variables' ) ) );
-		}
-
-		$allowed_query = [];
-
-		// @todo parse_str changes spaces in param names into `_`, we should find a better way to support them.
-		\wp_parse_str( \wp_parse_url( $current_url, \PHP_URL_QUERY ), $query );
-
-		if ( ! empty( $allowed_extravars ) ) {
-			foreach ( $allowed_extravars as $get ) {
-				$get = \trim( $get );
-				if ( isset( $query[ $get ] ) ) {
-					$allowed_query[ $get ] = \rawurlencode_deep( $query[ $get ] );
-					unset( $query[ $get ] );
-				}
-			}
-		}
+		$is_only_allowed_params = $this->is_only_allowed_params( $current_url );
 
 		// If we had only allowed params, let's just bail out, no further processing needed.
-		if ( \count( $query ) === 0 ) {
+		if ( $is_only_allowed_params ) {
 			return;
 		}
 
@@ -286,8 +258,75 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 				'Yoast SEO'
 			);
 
-			\wp_safe_redirect( $proper_url, 301, $message );
-			exit;
+			$this->redirect_helper->do_safe_redirect( $proper_url, 301, $message );
+			return;
 		}
+	}
+
+		/**
+		 * Returns the list of the allowed extra vars.
+		 *
+		 * @return array The list of the allowed extra vars.
+		 */
+	public function get_allowed_extravars() {
+		/**
+		 * Filter: 'Yoast\WP\SEO\allowlist_permalink_vars' - Allows plugins to register their own variables not to clean.
+		 *
+		 * Note: This is a Premium plugin-only hook.
+		 *
+		 * @since 19.2.0
+		 *
+		 * @param array $allowed_extravars The list of the allowed vars (empty by default).
+		 */
+		$allowed_extravars = \apply_filters( 'Yoast\WP\SEO\allowlist_permalink_vars', [] );
+
+		$clean_permalinks_extra_variables = $this->options_helper->get( 'clean_permalinks_extra_variables' );
+
+		if ( $clean_permalinks_extra_variables !== '' ) {
+			$allowed_extravars = \array_merge( $allowed_extravars, \explode( ',', $clean_permalinks_extra_variables ) );
+		}
+		return $allowed_extravars;
+	}
+
+		/**
+		 * Gets the allowed query vars from the current URL.
+		 *
+		 * @param string $current_url The current URL.
+		 *
+		 * @return bool is_only_allowed_params.
+		 */
+	public function is_only_allowed_params( $current_url ) {
+		// This is a Premium plugin-only function: Allows plugins to register their own variables not to clean.
+		$allowed_extravars = $this->get_allowed_extravars();
+
+		$allowed_query = [];
+
+		// @todo parse_str changes spaces in param names into `_`, we should find a better way to support them.
+		\wp_parse_str( \wp_parse_url( $current_url, \PHP_URL_QUERY ), $query );
+
+		if ( ! empty( $allowed_extravars ) ) {
+			foreach ( $allowed_extravars as $get ) {
+				$get = \trim( $get );
+				if ( isset( $query[ $get ] ) ) {
+					$allowed_query[ $get ] = \rawurlencode_deep( $query[ $get ] );
+					unset( $query[ $get ] );
+				}
+			}
+		}
+		if ( \count( $query ) === 0 ) {
+			return true;
+		}
+		return false;
+	}
+
+	public function clean_permalinks_avoid_redirect() {
+		$is_robots         = \is_robots();
+		$is_sitemap        = \get_query_var( 'sitemap' );
+		$is_user_logged_in = \is_user_logged_in();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing anything yet...
+		if ( $is_robots || $is_sitemap || empty( $_GET ) || $is_user_logged_in ) {
+			return true;
+		}
+		return false;
 	}
 }
