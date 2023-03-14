@@ -615,7 +615,6 @@ class Cleanup_Integration implements Integration_Interface {
 		global $wpdb;
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
-		$users_table     = $wpdb->users;
 		$posts_table     = $wpdb->posts;
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
@@ -624,7 +623,7 @@ class Cleanup_Integration implements Integration_Interface {
 			SELECT {$indexable_table}.author_id, {$posts_table}.post_author
 			FROM {$indexable_table} JOIN {$posts_table} on {$indexable_table}.object_id = {$posts_table}.id
 			WHERE object_type='post'
-			AND author_id NOT IN(SELECT id from {$users_table})
+			AND {$indexable_table}.author_id <> {$posts_table}.post_author
 			ORDER BY {$indexable_table}.author_id
 			LIMIT %d",
 			$limit
