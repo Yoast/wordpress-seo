@@ -33,11 +33,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
-      - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
+      - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.2
+          php-version: ${{ matrix.php_version }}
+          ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: none
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
@@ -57,13 +57,6 @@ jobs:
 
       - name: Remove vendor directory
         run: rm -rf vendor/*
-
-      - name: Install PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php_version }}
-          ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
-          coverage: none
 
       - name: "Composer: remove PHPUnit root requirement"
         run: composer remove --dev phpunit/phpunit --no-update --no-scripts
