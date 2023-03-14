@@ -159,12 +159,11 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			return;
 		}
 
-		$current_url = $this->url_helper->recreate_current_url();
-
-		$is_only_allowed_params = $this->is_only_allowed_params( $current_url );
+		$current_url    = $this->url_helper->recreate_current_url();
+		$allowed_params = $this->allowed_params( $current_url );
 
 		// If we had only allowed params, let's just bail out, no further processing needed.
-		if ( $is_only_allowed_params ) {
+		if ( empty( $allowed_params['query'] ) ) {
 			return;
 		}
 
@@ -173,67 +172,27 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		$proper_url = '';
 
 		if ( \is_singular() ) {
-			global $post;
-			$proper_url = \get_permalink( $post->ID );
-
-			$page = \get_query_var( 'page' );
-			if ( $page && $page !== 1 ) {
-				$the_post   = \get_post( $post->ID );
-				$page_count = \substr_count( $the_post->post_content, '<!--nextpage-->' );
-				$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . $page );
-				if ( $page > ( $page_count + 1 ) ) {
-					$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . ( $page_count + 1 ) );
-				}
-			}
-
-			// Fix reply to comment links, whoever decided this should be a GET variable?
-			// phpcs:ignore WordPress.Security -- We know this is scary.
-			if ( isset( $_SERVER['REQUEST_URI'] ) && \preg_match( '`(\?replytocom=[^&]+)`', \sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches ) ) {
-				$proper_url .= \str_replace( '?replytocom=', '#comment-', $matches[0] );
-			}
-			unset( $matches );
-
 			// Prevent cleaning out posts & page previews for people capable of viewing them.
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We know this is scary.
 			if ( isset( $_GET['preview'] ) && isset( $_GET['preview_nonce'] ) && \current_user_can( 'edit_post' ) ) {
 				return;
 			}
+			$proper_url = $this->singular_url();
 		}
 		elseif ( \is_front_page() ) {
-			if ( $this->current_page_helper->is_home_posts_page() ) {
-				$proper_url = \home_url( '/' );
-			}
-			elseif ( $this->current_page_helper->is_home_static_page() ) {
-				$proper_url = \get_permalink( $GLOBALS['post']->ID );
-			}
+			$proper_url = $this->front_page_url();
 		}
 		elseif ( $this->current_page_helper->is_posts_page() ) {
 			$proper_url = \get_permalink( \get_option( 'page_for_posts' ) );
 		}
 		elseif ( \is_category() || \is_tag() || \is_tax() ) {
-			$term = $wp_query->get_queried_object();
-			if ( \is_feed() ) {
-				$proper_url = \get_term_feed_link( $term->term_id, $term->taxonomy );
-			}
-			else {
-				$proper_url = \get_term_link( $term, $term->taxonomy );
-			}
+			$proper_url = $this->taxonomy_url();
 		}
 		elseif ( \is_search() ) {
-			$s          = \get_search_query();
-			$proper_url = \get_bloginfo( 'url' ) . '/?s=' . \rawurlencode( $s );
+			$proper_url = $this->search_url();
 		}
 		elseif ( \is_404() ) {
-			if ( \is_multisite() && ! \is_subdomain_install() && \is_main_site() ) {
-				if ( $current_url === \get_bloginfo( 'url' ) . '/blog/' || $current_url === \get_bloginfo( 'url' ) . '/blog' ) {
-					if ( $this->current_page_helper->is_home_static_page() ) {
-						$proper_url = \get_permalink( \get_option( 'page_for_posts' ) );
-					}
-					else {
-						$proper_url = \get_bloginfo( 'url' );
-					}
-				}
-			}
+			$proper_url = $this->error404_url( $current_url );
 		}
 		if ( ! empty( $proper_url ) && $wp_query->query_vars['paged'] !== 0 && $wp_query->post_count !== 0 ) {
 			if ( \is_search() ) {
@@ -244,7 +203,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			}
 		}
 
-		$proper_url = \add_query_arg( $allowed_query, $proper_url );
+		$proper_url = \add_query_arg( $allowed_params['allowed_query'], $proper_url );
 
 		if ( ! empty( $proper_url ) && $current_url !== $proper_url ) {
 			\header( 'Content-Type: redirect', true );
@@ -293,9 +252,9 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		 *
 		 * @param string $current_url The current URL.
 		 *
-		 * @return bool is_only_allowed_params.
+		 * @return array is_allowed and allowed_query.
 		 */
-	public function is_only_allowed_params( $current_url ) {
+	public function allowed_params( $current_url ) {
 		// This is a Premium plugin-only function: Allows plugins to register their own variables not to clean.
 		$allowed_extravars = $this->get_allowed_extravars();
 
@@ -313,10 +272,10 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 				}
 			}
 		}
-		if ( \count( $query ) === 0 ) {
-			return true;
-		}
-		return false;
+		return [
+			'query'         => $query,
+			'allowed_query' => $allowed_query,
+		];
 	}
 
 	public function clean_permalinks_avoid_redirect() {
@@ -328,5 +287,98 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Returns the proper URL for singular pages.
+	 *
+	 * @return string The proper URL.
+	 */
+	public function singular_url() {
+
+			global $post;
+			$proper_url = \get_permalink( $post->ID );
+
+			$page = \get_query_var( 'page' );
+		if ( $page && $page !== 1 ) {
+			$the_post   = \get_post( $post->ID );
+			$page_count = \substr_count( $the_post->post_content, '<!--nextpage-->' );
+			$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . $page );
+			if ( $page > ( $page_count + 1 ) ) {
+				$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . ( $page_count + 1 ) );
+			}
+		}
+
+			// Fix reply to comment links, whoever decided this should be a GET variable?
+			// phpcs:ignore WordPress.Security -- We know this is scary.
+		if ( isset( $_SERVER['REQUEST_URI'] ) && \preg_match( '`(\?replytocom=[^&]+)`', \sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches ) ) {
+			$proper_url .= \str_replace( '?replytocom=', '#comment-', $matches[0] );
+		}
+			unset( $matches );
+
+			return $proper_url;
+	}
+
+	/**
+	 * Returns the proper URL for front page.
+	 *
+	 * @return string The proper URL.
+	 */
+	public function front_page_url() {
+		$proper_url = '';
+		if ( $this->current_page_helper->is_home_posts_page() ) {
+			$proper_url = \home_url( '/' );
+		}
+		elseif ( $this->current_page_helper->is_home_static_page() ) {
+			$proper_url = \get_permalink( $GLOBALS['post']->ID );
+		}
+
+		return $proper_url;
+	}
+
+	/**
+	 * Returns the proper URL for taxonomy page.
+	 *
+	 * @return string The proper URL.
+	 */
+	public function taxonomy_url() {
+		$term = $wp_query->get_queried_object();
+		if ( \is_feed() ) {
+			$proper_url = \get_term_feed_link( $term->term_id, $term->taxonomy );
+		}
+		else {
+			$proper_url = \get_term_link( $term, $term->taxonomy );
+		}
+		return $proper_url;
+	}
+
+	/**
+	 * Returns the proper URL for search page.
+	 *
+	 * @return string The proper URL.
+	 */
+	public function search_url() {
+		$s = \get_search_query();
+		return \get_bloginfo( 'url' ) . '/?s=' . \rawurlencode( $s );
+	}
+
+	/**
+	 * Returns the proper URL for 404 page.
+	 *
+	 * @return string The proper URL.
+	 */
+	public function error404_url( $current_url ) {
+		$proper_url = '';
+		if ( \is_multisite() && ! \is_subdomain_install() && \is_main_site() ) {
+			if ( $current_url === \get_bloginfo( 'url' ) . '/blog/' || $current_url === \get_bloginfo( 'url' ) . '/blog' ) {
+				if ( $this->current_page_helper->is_home_static_page() ) {
+					$proper_url = \get_permalink( \get_option( 'page_for_posts' ) );
+				}
+				else {
+					$proper_url = \get_bloginfo( 'url' );
+				}
+			}
+		}
+		return $proper_url;
 	}
 }
