@@ -46,9 +46,6 @@ jobs:
       - name: Delete dev dependencies which are not cross-version compatible
         run: composer remove --dev --no-scripts humbug/php-scoper league/oauth2-client
 
-      - name: Delete dependencies which are not cross-version compatible
-        run: composer remove --no-scripts composer/installers
-
       - name: "Composer: remove PHPUnit root requirement"
         run: composer remove --dev phpunit/phpunit --no-update --no-scripts
 
