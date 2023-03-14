@@ -678,6 +678,7 @@ class Cleanup_Integration_Test extends TestCase {
 				UPDATE wp_yoast_indexable
 				SET wp_yoast_indexable.author_id = 2
 				WHERE wp_yoast_indexable.author_id = 1
+				AND object_type=\'post\'
 				LIMIT %d',
 					$limit
 				)
