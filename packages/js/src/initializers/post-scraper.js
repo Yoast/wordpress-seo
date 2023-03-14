@@ -34,7 +34,13 @@ import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
-import snippetEditorHelpers from "../analysis/snippetEditor";
+import {
+	getDataFromCollector,
+	getDataFromStore,
+	getDataWithoutTemplates,
+	getDataWithTemplates,
+	getTemplatesFromL10n,
+} from "../analysis/snippetEditor";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
@@ -538,9 +544,9 @@ export default function initPostScraper( $, store, editorData ) {
 		}
 
 		// Initialize the snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
-		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+		let snippetEditorData = getDataFromCollector( postDataCollector );
+		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
+		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
@@ -567,8 +573,8 @@ export default function initPostScraper( $, store, editorData ) {
 				refreshAfterFocusKeywordChange();
 			}
 
-			const data = snippetEditorHelpers.getDataFromStore( store );
-			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+			const data = getDataFromStore( store );
+			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
 
 
 			if ( snippetEditorData.title !== data.title ) {

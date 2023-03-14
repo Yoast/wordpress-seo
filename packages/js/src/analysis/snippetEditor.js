@@ -12,7 +12,7 @@ import {
  *
  * @returns {Object} The snippet editor data object.
  */
-function getDataFromCollector( collector ) {
+export function getDataFromCollector( collector ) {
 	return {
 		title: collector.getSnippetTitle(),
 		slug: collector.getSnippetCite(),
@@ -27,7 +27,7 @@ function getDataFromCollector( collector ) {
  *
  * @returns {Object} The snippet editor data object.
  */
-function getDataFromStore( store ) {
+export function getDataFromStore( store ) {
 	const state = store.getState();
 	const data = state.snippetEditor.data;
 
@@ -45,7 +45,7 @@ function getDataFromStore( store ) {
  *
  * @returns {Object} The templates object.
  */
-function getTemplatesFromL10n( l10nObject ) {
+export function getTemplatesFromL10n( l10nObject ) {
 	const templates = {};
 
 	if ( isUndefined( l10nObject ) ) {
@@ -70,7 +70,7 @@ function getTemplatesFromL10n( l10nObject ) {
  *
  * @returns {Object} A copy of the data with the templates applied.
  */
-function getDataWithTemplates( data, templates ) {
+export function getDataWithTemplates( data, templates ) {
 	const dataWithTemplates = { ...data };
 
 	forEach( templates, ( template, key ) => {
@@ -108,11 +108,3 @@ export function getDataWithoutTemplates( data, templates ) {
 
 	return dataWithoutTemplates;
 }
-
-export default {
-	getDataFromCollector,
-	getDataFromStore,
-	getTemplatesFromL10n,
-	getDataWithTemplates,
-	getDataWithoutTemplates,
-};
