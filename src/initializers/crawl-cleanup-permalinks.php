@@ -358,8 +358,9 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 * @return string The proper URL.
 	 */
 	public function search_url() {
-		$s = \get_search_query();
-		return \get_bloginfo( 'url' ) . '/?s=' . \rawurlencode( $s );
+		$s          = \get_search_query();
+		$proper_url = \home_url() . '/?s=' . \rawurlencode( $s );
+		return $proper_url;
 	}
 
 	/**
