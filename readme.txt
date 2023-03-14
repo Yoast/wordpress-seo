@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 20.2.1
+Stable tag: 20.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -251,12 +251,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-03-14
 
+Yoast SEO 20.3 is out and comes with several enhancements, fixes, and improvements. With an improved highlighting feature and enhanced support for the Portuguese language, Yoast SEO 20.3 helps you find where you need to make SEO edits quickly and easily. Upgrade now and take your website's SEO to the next level! Find out more about what's new in Yoast SEO 20.3 in [our release post](https://yoa.st/release-14-3-23)!
+
 #### Enhancements
 
 * Allows the highlighting feature to highlight content in captions of _Audio_, _Embed_, _Gallery_, _Image_, _Table_, and _Video_ blocks in the Block editor.
 * Allows the highlighting feature to highlight content in _FAQ_ and _How-to_ blocks in the Block editor.
 * Improves the detection of participles in the _passive voice_ assessment for Portuguese.
-* Improves the  _transition words_ assessment for Portuguese by adding new transition words. Props to [mathiasribeiro](https://github.com/mathiasribeiro).
+* Improves the _transition words_ assessment for Portuguese by adding new transition words. Props to [mathiasribeiro](https://github.com/mathiasribeiro).
 
 #### Bugfixes
 
@@ -266,7 +268,7 @@ Release date: 2023-03-14
 * Fixes a bug where shortcodes in the Block editor would be treated as words when analyzing content.
 * Fixes a bug where the color and line height in the _Google preview_ modal would be shown incorrectly when editing in Elementor.
 * Fixes a bug where the `fetchpriority` attribute of the rating stars image was mistyped. Props to [fellyph](https://github.com/fellyph).
-* Fixes a bug where the `get_head` REST endpoint would return wrong values for some meta tags when called with the hompage URL as argument.
+* Fixes a bug where the `get_head` REST endpoint would return wrong values for some meta tags when called with the homepage URL as an argument.
 * Fixes a bug where the query parameters would be added in the middle of canonical and previous and next links in paginated pages. Props to [andreas-pa](https://github.com/andreas-pa).
 
 #### Other
