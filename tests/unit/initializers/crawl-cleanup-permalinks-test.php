@@ -362,6 +362,23 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	}
 
 	/**
+	 * Tests search_url.
+	 *
+	 * @covers ::search_url
+	 */
+	public function test_search_url() {
+		Monkey\Functions\expect( 'get_search_query' )
+			->once()
+			->andReturn( 'test' );
+
+		Monkey\Functions\expect( 'home_url' )
+			->once()
+			->andReturn( 'http://basic.wordpress.test' );
+
+		$this->assertSame( 'http://basic.wordpress.test/?s=test', $this->instance->search_url() );
+	}
+
+	/**
 	 * Provider for test_front_page_url.
 	 *
 	 * @return array is_home_posts_page, is_home_static_page, static_times, home_url_times,permalink_times, expected.
