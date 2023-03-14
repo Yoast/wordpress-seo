@@ -32,6 +32,16 @@ module.exports = {
 				functions: "never",
 			},
 		],
+		"import/no-unresolved": [
+			"error",
+			{
+				ignore: [
+					"^@yoast/externals/(components|contexts|redux)$",
+					"^@wordpress/(annotations|api|edit-post|sanitize)$",
+					"^jquery$",
+				],
+			},
+		],
 	},
 	overrides: [
 		{
