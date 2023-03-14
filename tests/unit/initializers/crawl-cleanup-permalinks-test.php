@@ -223,4 +223,100 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			],
 		];
 	}
+
+	/**
+	 * Tests get_allowed_extravars.
+	 *
+	 * @covers ::get_allowed_extravars
+	 *
+	 * @dataProvider get_allowed_extravars_provider
+	 *
+	 * @param string $clean_permalinks_extra_variables return value.
+	 * @param array  $permalink_vars.
+	 * @param array  $expeted.
+	 */
+	public function test_get_allowed_extravars( $clean_permalinks_extra_variables, $permalink_vars, $expeted ) {
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'Yoast\WP\SEO\allowlist_permalink_vars', [] )
+			->andReturn( $permalink_vars );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'clean_permalinks_extra_variables' )
+			->once()
+			->andReturn( $clean_permalinks_extra_variables );
+
+		$this->assertSame( $expeted, $this->instance->get_allowed_extravars() );
+	}
+
+	/**
+	 *
+	 * Data provider for test_clean_permalinks.
+	 *
+	 * @return array avoid_redirect, expected.
+	 */
+	function get_allowed_extravars_provider() {
+		return [
+			[ 'variable1,variable2,variable3', [], [ 'variable1', 'variable2', 'variable3' ] ],
+			[ '', [], [] ],
+			[ 'variable1,variable2,variable3', [ 'variable4', 'variable5' ], [ 'variable4', 'variable5', 'variable1', 'variable2', 'variable3' ] ],
+		];
+	}
+
+	/**
+	 * Tests clean_permalinks_avoid_redirect.
+	 *
+	 * @covers ::clean_permalinks_avoid_redirect
+	 *
+	 * @dataProvider clean_permalinks_avoid_redirect_provider
+	 *
+	 * @param boolean $is_robots is_robots return value.
+	 * @param string  $sitemap get_query_var return value.
+	 * @param array   $get_response get_response value.
+	 * @param boolean $is_user_logged_in is_user_logged_in return value.
+	 * @param int     $expeted.
+	 */
+	public function test_clean_permalinks_avoid_redirect( $is_robots, $sitemap, $get_response, $is_user_logged_in, $expeted ) {
+
+		$_GET = $get_response;
+
+		Monkey\Functions\expect( 'is_robots' )
+		->andReturn( $is_robots );
+
+		Monkey\Functions\expect( 'get_query_var' )
+			->with( 'sitemap' )
+			->andReturn( $sitemap );
+
+		Monkey\Functions\expect( 'is_user_logged_in' )
+		->andReturn( $is_user_logged_in );
+
+		$this->assertSame( $expeted, $this->instance->clean_permalinks_avoid_redirect() );
+	}
+
+	/**
+	 *
+	 * Data provider for test_clean_permalinks_avoid_redirect.
+	 *
+	 * @return array is_roboto, get_query_var( 'sitemap' ), $_GET, is_user_logged_in(), expected.
+	 */
+	public function clean_permalinks_avoid_redirect_provider() {
+		return [
+			[ true, false, null, false, true ],
+			[ false, true, null, false, true ],
+			[ false, false, null, true, true ],
+			[ false, false, null, false, true ],
+			[
+				false,
+				false,
+				[
+					'preview'       => 'random preview',
+					'preview_nonce' => '1234',
+				],
+				false,
+				false,
+			],
+		];
+	}
 }
