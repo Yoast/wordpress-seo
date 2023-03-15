@@ -522,20 +522,19 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				$type = 'CollectionPage';
 				break;
 			default:
-				$additional_type = $this->indexable->schema_page_type;
-				if ( \is_null( $additional_type ) ) {
-					$additional_type = $this->options->get( 'schema-page-type-' . $this->indexable->object_sub_type );
+				$additional_type = $this->get_additional_type();
+				$type            = [ 'WebPage' ];
+				if ( ! \is_null( $additional_type ) ) {
+					$type = [ 'WebPage', $additional_type ];
 				}
-
-				$type = [ 'WebPage', $additional_type ];
 
 				// Is this indexable set as a page for posts, e.g. in the WordPress reading settings as a static homepage?
 				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
 					$type[] = 'CollectionPage';
 				}
 
-				// Ensure we get only unique values, and remove any null values and the index.
-				$type = \array_filter( \array_values( \array_unique( $type ) ) );
+				// Ensure we get only unique values.
+				$type = \array_values( \array_unique( $type ) );
 		}
 
 		/**
@@ -674,6 +673,28 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			'indexable'    => $this->indexable,
 			'presentation' => $this->presentation,
 		];
+	}
+
+	/**
+	 * Get the additional page type (set in page settings).
+	 *
+	 * @return string|null The additional type as a string, null if no additional type was selected as page type.
+	 */
+	protected function get_additional_type() {
+		// Get the page type as set in the page settings.
+		$additional_type = $this->indexable->schema_page_type;
+
+		if ( \is_null( $additional_type ) ) {
+			// Get the page type as set in the global settings.
+			$additional_type = (string) $this->options->get( 'schema-page-type-' . $this->indexable->object_sub_type );
+		}
+
+		if ( $additional_type === 'FAQPage' ) {
+			// Do not output FAQPage page type if it is set because this is already outputted in faq.php.
+			$additional_type = null;
+		}
+
+		return $additional_type;
 	}
 
 	/**

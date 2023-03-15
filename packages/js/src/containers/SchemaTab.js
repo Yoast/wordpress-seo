@@ -59,6 +59,7 @@ const SchemaTabContainer = ( props ) => {
 			"This helps search engines understand your website and your content. You can change some of your settings for this page below.",
 			"wordpress-seo"
 		),
+		hasFAQBlock: props.editorContent.includes( "<!-- wp:yoast/faq-block" ),
 		showArticleTypeInput,
 		pageTypeOptions,
 		articleTypeOptions,
@@ -84,6 +85,8 @@ SchemaTabContainer.propTypes = {
 	schemaPageTypeChange: PropTypes.func.isRequired,
 	schemaArticleTypeChange: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
+	editorContent: PropTypes.string.isRequired,
+	editorType: PropTypes.string.isRequired,
 };
 
 export default compose( [
@@ -94,6 +97,8 @@ export default compose( [
 			getDefaultPageType,
 			getArticleType,
 			getDefaultArticleType,
+			getEditorDataContent,
+			getEditorType,
 		} = select( "yoast-seo/editor" );
 
 		const { displaySchemaSettingsFooter: displayFooter, isNewsEnabled } = getPreferences();
@@ -105,6 +110,8 @@ export default compose( [
 			schemaArticleTypeSelected: getArticleType(),
 			defaultArticleType: getDefaultArticleType(),
 			defaultPageType: getDefaultPageType(),
+			editorContent: getEditorDataContent(),
+			editorType: getEditorType(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

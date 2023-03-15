@@ -869,4 +869,12 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 	background: #fdf4f8;
 }
 
+.yoast .yoast-schema-faq-alert-active {
+	margin-bottom: 16px;
+}
+
+.yoast .yoast-schema-faq-alert {
+	margin-bottom: 24px;
+}
+
 /*# sourceMappingURL=metabox.css.map */
