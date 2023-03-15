@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 
 use Mockery;
+use WP_Query;
 use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -257,7 +258,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @return array avoid_redirect, expected.
 	 */
-	function get_allowed_extravars_provider() {
+	public function get_allowed_extravars_provider() {
 		return [
 			[ 'variable1,variable2,variable3', [], [ 'variable1', 'variable2', 'variable3' ] ],
 			[ '', [], [] ],
@@ -282,15 +283,16 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 
 		$_GET = $get_response;
 
-		Monkey\Functions\expect( 'is_robots' )
-		->andReturn( $is_robots );
-
 		Monkey\Functions\expect( 'get_query_var' )
 			->with( 'sitemap' )
 			->andReturn( $sitemap );
 
-		Monkey\Functions\expect( 'is_user_logged_in' )
-		->andReturn( $is_user_logged_in );
+		Monkey\Functions\stubs(
+			[
+				'is_robots'         => $is_robots,
+				'is_user_logged_in' => $is_user_logged_in,
+			]
+		);
 
 		$this->assertSame( $expeted, $this->instance->clean_permalinks_avoid_redirect() );
 	}
@@ -392,38 +394,127 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	}
 
 	/**
-	 * Tests clean_permalinks.
+	 * Tests page_not_found_url.
 	 *
-	 * @covers ::clean_permalinks
+	 * @covers ::page_not_found_url
 	 *
-	 * @dataProvider clean_permalinks_provider
-	 * @param bool $clean_permalinks_avoid_redirect
-	 * @param int $expected
+	 * @dataProvider page_not_found_url_provider
+	 * @param bool   $is_multisite is_multisite return value.
+	 * @param bool   $is_subdomain_install is_subdomain_install return value.
+	 * @param bool   $is_main_site is_main_site return value.
+	 * @param string $home_url home_url return value.
+	 * @param bool   $is_home_static_page is_home_static_page return value.
+	 * @param int    $get_permalink_times get_permalink times called.
+	 * @param int    $page_for_posts_times times get_option(page_for_posts) is called.
+	 * @param string $expected expected return value.
 	 */
-	// public function test_clean_permalinks( $clean_permalinks_avoid_redirect, $expected ){
+	public function test_page_not_found_url( $is_multisite, $is_subdomain_install, $is_main_site, $home_url, $is_home_static_page, $home_static_page_times, $get_permalink_times, $page_for_posts_times, $current_url, $expected ) {
 
-	// $crawl_cleanup_permalinks = Mockery::mock( Crawl_Cleanup_Permalinks::class );
-	// $crawl_cleanup_permalinks
-	// ->expects( 'clean_permalinks_avoid_redirect' )
-	// ->once()
-	// ->andReturn( $clean_permalinks_avoid_redirect );
+		Monkey\Functions\stubs(
+			[
+				'is_multisite'         => $is_multisite,
+				'is_subdomain_install' => $is_subdomain_install,
+				'is_main_site'         => $is_main_site,
+			]
+		);
 
-	// $this->redirect_helper
-	// ->expects( 'do_safe_redirect' )
-	// ->times( $expected );
+		Monkey\Functions\expect( 'home_url' )
+		   ->andReturn( $home_url );
 
-	// $this->instance->clean_permalinks();
-	// }
+		$this->current_page_helper
+			->expects( 'is_home_static_page' )
+			->times( $home_static_page_times )
+			->andReturn( $is_home_static_page );
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->times( $get_permalink_times )
+			->andReturn( 'http://basic.wordpress.test/sub-domain' );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->times( $page_for_posts_times );
+
+		$this->assertSame( $expected, $this->instance->page_not_found_url( $current_url ) );
+	}
 
 	/**
-	 * Data provider for test_clean_permalinks.
+	 * Data provider for test_page_not_found_url.
 	 *
-	 * @return array clean_permalinks_avoid_redirect, expected.
+	 * @return array is_multisite,is_subdomain_install,is_main_site,home_url,is_home_static_page,home_static_page_times,get_permalink_times,page_for_posts_times, current_url, expected.
 	 */
 
-	// public function clean_permalinks_provider(){
-	// return [
-	// [ true ,0 ],
-	// ];
-	// }
+	public function page_not_found_url_provider() {
+		return [
+			[ true, true, true, '', null, 0, 0, 0, '', '' ],
+			[ false, false, true, '', null, 0, 0, 0, '', '' ],
+			[ false, true, false, '', null, 0, 0, 0, '', '' ],
+			[ true, false, true, 'http://basic.wordpress.test', null, 0, 0, 0, 'http://basic.wordpress.test/not-blog', '' ],
+			[ true, false, true, 'http://basic.wordpress.test', false, 1, 0, 0, 'http://basic.wordpress.test/blog', 'http://basic.wordpress.test' ],
+			[ true, false, true, 'http://basic.wordpress.test', false, 1, 0, 0, 'http://basic.wordpress.test/blog/', 'http://basic.wordpress.test' ],
+			[ true, false, true, 'http://basic.wordpress.test', true, 1, 1, 1, 'http://basic.wordpress.test/blog', 'http://basic.wordpress.test/sub-domain' ],
+		];
+	}
+
+	/**
+	 * Tests taxonomy_url.
+	 *
+	 * @covers ::taxonomy_url
+	 *
+	 * @dataProvider taxonomy_url_provider
+	 *
+	 * @param bool   $is_feed is_feed return value.
+	 * @param int    $get_term_feed_link_times times get_term_feed_link is called.
+	 * @param int    $get_term_link_times times get_term_link is called.
+	 * @param string $expected expected return value.
+	 */
+	public function test_taxonomy_url( $is_feed, $get_term_feed_link_times, $get_term_link_times, $expected ) {
+
+		$term_mock = (object) [
+			'term_id'  => 108,
+			'taxonomy' => 'products',
+		];
+
+		global $wp_query;
+		$wp_query = Mockery::mock( WP_Query::class );
+
+		$wp_query->expects( 'get_queried_object' )
+			->once()
+			->andReturn(
+				(object) [
+					'term_id'  => 108,
+					'taxonomy' => 'products',
+				]
+			);
+
+		Monkey\Functions\expect( 'is_feed' )
+			->once()
+			->andReturn( $is_feed );
+
+		Monkey\Functions\expect( 'get_term_feed_link' )
+			->with( $term_mock->term_id, $term_mock->taxonomy )
+			->times( $get_term_feed_link_times )
+			->andReturn( 'http://basic.wordpress.test/products/feed' );
+
+		Monkey\Functions\expect( 'get_term_link' )
+			->with( $term_mock, $term_mock->taxonomy )
+			->times( $get_term_link_times )
+			->andReturn( 'http://basic.wordpress.test/products' );
+
+		$this->assertSame( $expected, $this->instance->taxonomy_url() );
+	}
+
+	/**
+	 *
+	 * Data provider for test_taxonomy_url.
+	 *
+	 * @return array $is_feed, $get_term_feed_link_times, $get_term_link_times, $expected
+	 */
+	public function taxonomy_url_provider() {
+		return [
+			[ false, 0, 1, 'http://basic.wordpress.test/products' ],
+			[ true, 1, 0, 'http://basic.wordpress.test/products/feed' ],
+		];
+	}
 }
+
+

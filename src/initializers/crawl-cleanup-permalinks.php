@@ -369,7 +369,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 * @return string The proper URL.
 	 */
 	public function page_not_found_url( $current_url ) {
-		if ( !\is_multisite() || \is_subdomain_install() || !\is_main_site() ) {
+		if ( ! \is_multisite() || \is_subdomain_install() || ! \is_main_site() ) {
 			return '';
 		}
 
@@ -380,9 +380,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		if ( $this->current_page_helper->is_home_static_page() ) {
 			return \get_permalink( \get_option( 'page_for_posts' ) );
 		}
-		 
-		return \home_url();
-		
-	}
 
+		return \home_url();
+	}
 }
