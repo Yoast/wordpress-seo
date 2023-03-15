@@ -100,7 +100,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product is missing an identifier " +
-			"(like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab in the Product data box." +
+			"(like a GTIN code)." +
 			" <a href='https://yoa.st/4lz' target='_blank'>Include it if you can, as it will " +
 			"help search engines to better understand your content.</a>",
 	},

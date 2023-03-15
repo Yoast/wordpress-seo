@@ -85,8 +85,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Your product is missing an identifier (like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab " +
-			"in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Your product is missing an identifier (like a GTIN code)." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
@@ -156,8 +156,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Your product is missing an identifier (like a GTIN code). You can add a product identifier via the \"Yoast SEO\" tab " +
-			"in the Product data box. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Your product is missing an identifier (like a GTIN code)." +
+			" <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" it if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 } );
