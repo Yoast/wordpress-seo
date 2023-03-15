@@ -187,7 +187,7 @@ export default class BlockEditorData {
 		let baseUrl = "";
 		try {
 			url = new URL( permalink );
-			baseUrl = url.href;
+			baseUrl = url.origin + url.pathname;
 		} catch ( e ) {
 			// Fallback on the base url retrieved from the wpseoScriptData.
 			baseUrl = window.wpseoScriptData.metabox.base_url;
