@@ -41,9 +41,6 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		this.altTagsProperties = researcher.getResearch( "altTagCount" );
-		this.imageCount = researcher.getResearch( "imageCount" );
-
 		const calculatedScore = this.calculateResult();
 
 		const assessmentResult = new AssessmentResult();
@@ -62,8 +59,8 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 * @returns {boolean} True when there is text.
 	 */
 	isApplicable( paper, researcher ) {
-		this.imageCount = researcher.getResearch( "imageCount" );
-		return paper.hasText() && this.imageCount > 0;
+		this.altTagsProperties = researcher.getResearch( "altTagCount" );
+		return paper.hasText() && this.altTagsProperties.totalNrOfImages > 0;
 	}
 
 	/**
@@ -73,10 +70,10 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 */
 	calculateResult() {
 		// The number of images with no alt tags.
-		const imagesNoAlt = this.altTagsProperties.noAlt;
+		const { nrOfImagesWithNoAlt, totalNrOfImages } = this.altTagsProperties;
 
 		// None of the images has alt tags.
-		if ( imagesNoAlt === this.imageCount ) {
+		if ( nrOfImagesWithNoAlt === totalNrOfImages ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
@@ -93,7 +90,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 		}
 
 		// Not all images have alt tags.
-		if ( imagesNoAlt > 0 ) {
+		if ( nrOfImagesWithNoAlt > 0 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
@@ -103,11 +100,11 @@ export default class ImageAltTagsAssessment extends Assessment {
 					_n(
 						"%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
 						"%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
-						imagesNoAlt,
+						nrOfImagesWithNoAlt,
 						"wordpress-seo"
 					),
-					imagesNoAlt,
-					this.imageCount,
+					nrOfImagesWithNoAlt,
+					totalNrOfImages,
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>"

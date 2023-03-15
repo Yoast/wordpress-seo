@@ -11,6 +11,7 @@ import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import urlHelper from "../helpers/url/url.js";
 import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
 import getWords from "../helpers/word/getWords";
+import { innerText } from "../../parse/traverse";
 
 let functionWords = [];
 
@@ -65,7 +66,8 @@ const filterAnchorsLinkingToSelf = function( anchors, siteUrlOrDomain ) {
  */
 const filterAnchorsContainingTopic = function( anchors, topicForms, locale, matchWordCustomHelper ) {
 	const anchorsContainingKeyphraseOrSynonyms = anchors.map( function( anchor ) {
-		return findKeywordInUrl( anchor, topicForms, locale, matchWordCustomHelper );
+		const text = innerText( anchor );
+		return findKeywordInUrl( text, topicForms, locale, matchWordCustomHelper );
 	} );
 	anchors = anchors.filter( function( anchor, index ) {
 		return anchorsContainingKeyphraseOrSynonyms[ index ] === true;
@@ -210,7 +212,7 @@ const keywordInAnchor = function( paper, researcher, anchors, siteUrlOrDomain ) 
  */
 const countLinkTypes = function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
-	const anchors = getAnchors( paper.getText() );
+	const anchors = getAnchors( paper.getTree() );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
 	 * In case of WordPress, the variable is a URL. In case of Shopify, it is a domain.
