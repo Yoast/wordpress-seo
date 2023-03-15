@@ -16,13 +16,14 @@ use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Index_Command_Test.
  *
- * @group commands
+ * @group  commands
  *
  * @coversDefaultClass \Yoast\WP\SEO\Commands\Index_Command
  * @covers \Yoast\WP\SEO\Commands\Index_Command
@@ -86,6 +87,13 @@ class Index_Command_Test extends TestCase {
 	private $prepare_indexing_action;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper|Mockery\MockInterface
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * The instance
 	 *
 	 * @var Index_Command
@@ -106,6 +114,7 @@ class Index_Command_Test extends TestCase {
 		$this->term_link_indexation_action         = Mockery::mock( Term_Link_Indexing_Action::class );
 		$this->complete_indexation_action          = Mockery::mock( Indexable_Indexing_Complete_Action::class );
 		$this->prepare_indexing_action             = Mockery::mock( Indexing_Prepare_Action::class );
+		$this->indexable_helper                    = Mockery::mock( Indexable_Helper::class );
 
 		$this->instance = new Index_Command(
 			$this->post_indexation_action,
@@ -115,7 +124,8 @@ class Index_Command_Test extends TestCase {
 			$this->complete_indexation_action,
 			$this->prepare_indexing_action,
 			$this->post_link_indexation_action,
-			$this->term_link_indexation_action
+			$this->term_link_indexation_action,
+			$this->indexable_helper
 		);
 	}
 
@@ -171,6 +181,8 @@ class Index_Command_Test extends TestCase {
 				->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
 		}
 
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+
 		$this->prepare_indexing_action->expects( 'prepare' )->once();
 
 		$this->complete_indexation_action->expects( 'complete' )->once();
@@ -213,6 +225,8 @@ class Index_Command_Test extends TestCase {
 				->times( 2 )
 				->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
 		}
+
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
 
 		$this->complete_indexation_action->expects( 'complete' )->once();
 
@@ -326,6 +340,8 @@ class Index_Command_Test extends TestCase {
 					\array_fill( 0, 5, true )
 				);
 		}
+
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
 
 		// Expect the complete and prepare actions twice: once for each site in the multisite.
 		$this->complete_indexation_action->expects( 'complete' )->twice();
