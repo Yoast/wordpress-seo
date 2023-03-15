@@ -193,7 +193,7 @@ export default class BlockEditorData {
 			baseUrl = window.wpseoScriptData.metabox.base_url;
 		}
 		// Strip slug from the url.
-		baseUrl = baseUrl.replace( new RegExp( slug + "/$" ), "" );
+		baseUrl = baseUrl.replace( new RegExp( encodeURI( slug ) + "/$", "i" ), "" );
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
 		if ( ! baseUrl.endsWith( "/" ) ) {
 			baseUrl += "/";
