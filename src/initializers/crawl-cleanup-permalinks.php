@@ -302,8 +302,8 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 
 			global $post;
 			$proper_url = \get_permalink( $post->ID );
+			$page       = \get_query_var( 'page' );
 
-			$page = \get_query_var( 'page' );
 		if ( $page && $page !== 1 ) {
 			$the_post   = \get_post( $post->ID );
 			$page_count = \substr_count( $the_post->post_content, '<!--nextpage-->' );

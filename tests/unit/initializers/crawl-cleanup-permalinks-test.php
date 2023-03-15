@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 
 use Mockery;
 use WP_Query;
+use WP_Post;
 use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -513,6 +514,58 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 		return [
 			[ false, 0, 1, 'http://basic.wordpress.test/products' ],
 			[ true, 1, 0, 'http://basic.wordpress.test/products/feed' ],
+		];
+	}
+
+	/**
+	 * Tests singular_url.
+	 *
+	 * @covers ::singular_url
+	 *
+	 * @dataProvider singular_url_provider
+	 *
+	 * @param $permalink the permalink.
+	 * @param int                     $page param.
+	 * @param string                  $server_request_uri $_SERVER['REQUEST_URI'].
+	 * @param string                  $expected expected return value.
+	 */
+	public function test_singular_url( $permalink, $page, $server_request_uri, $expected ) {
+
+		global $post;
+		$post = Mockery::mock( WP_Post::class );
+
+		$post->ID           = 108;
+		$post->post_content = '<!--nextpage--><!--nextpage--><!--nextpage-->';
+
+		$_SERVER['REQUEST_URI'] = $server_request_uri;
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->with( $post->ID )
+			->once()
+			->andReturn( $permalink );
+
+		Monkey\Functions\expect( 'get_query_var' )
+			->with( 'page' )
+			->once()
+			->andReturn( $page );
+
+		Monkey\Functions\expect( 'get_post' )
+			->with( $post->ID )
+			->andReturn( $post );
+
+		$this->assertSame( $expected, $this->instance->singular_url() );
+	}
+
+	/**
+	 *
+	 * Data provider for test_singular_url.
+	 *
+	 * @return array $permalink, $page, $server_request_uri ,$expected.
+	 */
+	public function singular_url_provider() {
+		return [
+			[ 'http://basic.wordpress.test/products/108', 0, null, 'http://basic.wordpress.test/products/108' ],
+			[ 'http://basic.wordpress.test/products/108', 0, 'http://basic.wordpress.test/products/108?replytocom=123', 'http://basic.wordpress.test/products/108#comment-123' ],
 		];
 	}
 }
