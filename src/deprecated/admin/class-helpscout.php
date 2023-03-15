@@ -14,13 +14,6 @@
 class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Whether to asks the user's consent before loading in HelpScout.
-	 *
-	 * @var bool
-	 */
-	protected $ask_consent;
-
-	/**
 	 * WPSEO_HelpScout constructor.
 	 *
 	 * @codeCoverageIgnore
@@ -42,10 +35,6 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 * @deprecated 20.3
 	 */
 	public function register_hooks() {
-		if ( ! $this->is_beacon_page() ) {
-			return;
-		}
-
 		_deprecated_function( __METHOD__, 'Yoast SEO 20.3', 'HelpScout_Beacon::register_hooks' );
 	}
 
