@@ -15,16 +15,16 @@ describe( "A Test", () => {
 
 		const filteredTree = filterElements( tree, [ elementHasName( "a" ), elementHasClass( "yoast-schema-graph" ) ] );
 
-		expect( filteredTree.findAll( child => child.name === "script" ).length ).toEqual( 0 );
-		expect( filteredTree.findAll( child => child.name === "style" ).length ).toEqual( 0 );
-		expect( filteredTree.findAll( child => child.name === "code" ).length ).toEqual( 0 );
-		expect( filteredTree.findAll( child => child.name === "blockQuote" ).length ).toEqual( 0 );
-		expect( filteredTree.findAll( child => child.name === "a" ).length ).toEqual( 0 );
+		expect( filteredTree.findAll( child => child.name === "script" ) ).toHaveLength( 0 );
+		expect( filteredTree.findAll( child => child.name === "style" ) ).toHaveLength( 0 );
+		expect( filteredTree.findAll( child => child.name === "code" ) ).toHaveLength( 0 );
+		expect( filteredTree.findAll( child => child.name === "blockQuote" ) ).toHaveLength( 0 );
+		expect( filteredTree.findAll( child => child.name === "a" ) ).toHaveLength( 0 );
 		expect( filteredTree.findAll( child => {
 			if ( child.attributes ) {
 				return child.attributes.class === "yoast-schema-graph";
 			}
 			return false;
-		} ).length ).toEqual( 0 );
+		} ) ).toHaveLength( 0 );
 	} );
 } );
