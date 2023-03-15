@@ -2,7 +2,7 @@ import { uniqBy } from "lodash-es";
 
 /**
  * Removes duplicate marks from an array
- *
+ * @category Markers
  * @param {Array} marks The marks to remove duplications from
  * @returns {Array} A list of de-duplicated marks.
  */

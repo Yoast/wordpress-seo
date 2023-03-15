@@ -16,7 +16,7 @@ const ScoreRating = 9;
 
 /**
  * Creates the Assessor.
- *
+ * @category Scoring
  * @param {Object} researcher       The researcher to use in the assessor.
  * @param {Object} options          The options for this assessor.
  * @param {Object} options.marker   The marker to pass the list of marks to.

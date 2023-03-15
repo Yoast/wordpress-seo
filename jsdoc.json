@@ -1,0 +1,45 @@
+
+{
+	"tags": {
+	  "allowUnknownTags": ["category", "subcategory"]
+	},
+	"source": {
+	  "include": [
+		"./packages/yoastseo/src/markers",
+		"./packages/yoastseo/src/values",
+		"./packages/yoastseo/src/scoring"
+
+	  ],
+	  "includePattern": ".js$",
+	  "excludePattern": "(node_modules/|docs)"
+	},
+	"plugins": [
+	  "plugins/markdown",
+	  "node_modules/better-docs/category"
+	],
+	"opts": {
+	  "encoding": "utf8",
+	  "destination": "docs/jsdocs",
+	  "readme": "packages/yoastseo/README.md",
+	  "recurse": true,
+	  "template": "better-docs"
+	},
+	"templates": {
+	  "cleverLinks": false,
+	  "monospaceLinks": false,
+	  "search": true,
+	  "better-docs": {
+		"name": "Yoast SEO Documentation",
+		"logo": "../images/hackathon.png",
+		"title": "",
+		"css": "style.css",
+		"hideGenerator": false,
+		"navLinks": [
+		  {
+			"label": "GitHub",
+			"href": "https://github.com/yoast/wordpress-seo"
+		  }
+		]
+	  }
+	}
+  }

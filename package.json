@@ -81,7 +81,11 @@
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
     "tmp": "^0.1.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "better-docs": "^2.7.2",
+    "grunt-jsdoc": "^2.4.1",
+    "jsdoc": "^4.0.0",
+    "taffydb": "^2.7.3"
   },
   "yoast": {
     "pluginVersion": "20.4-RC1"

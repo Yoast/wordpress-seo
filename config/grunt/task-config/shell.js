@@ -23,7 +23,9 @@ module.exports = function( grunt ) {
 		webpack: {
 			command: "cross-env NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js",
 		},
-
+		jsdoc: {
+			command: "jsdoc -c jsdoc.json -t ./node_modules/better-docs"
+		},
 		"webpack-prod": {
 			command: "yarn run wp-scripts build --config config/webpack/webpack.config.js",
 		},
