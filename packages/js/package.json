@@ -36,7 +36,7 @@
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "marked": "^0.7.0",
-    "moment": "2.22.2",
+    "moment": "2.29.4",
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.5.10",
     "react-animate-height": "^2.0.23",
