@@ -192,7 +192,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			$proper_url = $this->search_url();
 		}
 		elseif ( \is_404() ) {
-			$proper_url = $this->error404_url( $current_url );
+			$proper_url = $this->page_not_found_url( $current_url );
 		}
 		if ( ! empty( $proper_url ) && $wp_query->query_vars['paged'] !== 0 && $wp_query->post_count !== 0 ) {
 			if ( \is_search() ) {
@@ -247,21 +247,23 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		return $allowed_extravars;
 	}
 
-		/**
-		 * Gets the allowed query vars from the current URL.
-		 *
-		 * @param string $current_url The current URL.
-		 *
-		 * @return array is_allowed and allowed_query.
-		 */
+	/**
+	 * Gets the allowed query vars from the current URL.
+	 *
+	 * @param string $current_url The current URL.
+	 *
+	 * @return array is_allowed and allowed_query.
+	 */
 	public function allowed_params( $current_url ) {
 		// This is a Premium plugin-only function: Allows plugins to register their own variables not to clean.
 		$allowed_extravars = $this->get_allowed_extravars();
 
 		$allowed_query = [];
 
+		$parsed_url = \wp_parse_url( $current_url, \PHP_URL_QUERY );
+
 		// @todo parse_str changes spaces in param names into `_`, we should find a better way to support them.
-		\wp_parse_str( \wp_parse_url( $current_url, \PHP_URL_QUERY ), $query );
+		\wp_parse_str( $parsed_url, $query );
 
 		if ( ! empty( $allowed_extravars ) ) {
 			foreach ( $allowed_extravars as $get ) {
@@ -278,12 +280,14 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		];
 	}
 
+	/**
+	 * Checks if the current URL is not robots, sitemap, empty or user is logged in.
+	 *
+	 * @return bool True if the current URL is a valid URL.
+	 */
 	public function clean_permalinks_avoid_redirect() {
-		$is_robots         = \is_robots();
-		$is_sitemap        = \get_query_var( 'sitemap' );
-		$is_user_logged_in = \is_user_logged_in();
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing anything yet...
-		if ( $is_robots || $is_sitemap || empty( $_GET ) || $is_user_logged_in ) {
+		if ( \is_robots() || \get_query_var( 'sitemap' ) || empty( $_GET ) || \is_user_logged_in() ) {
 			return true;
 		}
 		return false;
@@ -325,15 +329,13 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 * @return string The proper URL.
 	 */
 	public function front_page_url() {
-		$proper_url = '';
 		if ( $this->current_page_helper->is_home_posts_page() ) {
-			$proper_url = \home_url( '/' );
+			return \home_url( '/' );
 		}
-		elseif ( $this->current_page_helper->is_home_static_page() ) {
-			$proper_url = \get_permalink( $GLOBALS['post']->ID );
+		if ( $this->current_page_helper->is_home_static_page() ) {
+			return \get_permalink( $GLOBALS['post']->ID );
 		}
-
-		return $proper_url;
+		return '';
 	}
 
 	/**
@@ -342,14 +344,13 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 * @return string The proper URL.
 	 */
 	public function taxonomy_url() {
+		global $wp_query;
 		$term = $wp_query->get_queried_object();
+
 		if ( \is_feed() ) {
-			$proper_url = \get_term_feed_link( $term->term_id, $term->taxonomy );
+			return \get_term_feed_link( $term->term_id, $term->taxonomy );
 		}
-		else {
-			$proper_url = \get_term_link( $term, $term->taxonomy );
-		}
-		return $proper_url;
+		return \get_term_link( $term, $term->taxonomy );
 	}
 
 	/**
@@ -358,9 +359,8 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 * @return string The proper URL.
 	 */
 	public function search_url() {
-		$s          = \get_search_query();
-		$proper_url = \home_url() . '/?s=' . \rawurlencode( $s );
-		return $proper_url;
+		$s = \get_search_query();
+		return \home_url() . '/?s=' . \rawurlencode( $s );
 	}
 
 	/**
@@ -368,18 +368,21 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 *
 	 * @return string The proper URL.
 	 */
-	public function error404_url( $current_url ) {
-		$proper_url = '';
-		if ( \is_multisite() && ! \is_subdomain_install() && \is_main_site() ) {
-			if ( $current_url === \get_bloginfo( 'url' ) . '/blog/' || $current_url === \get_bloginfo( 'url' ) . '/blog' ) {
-				if ( $this->current_page_helper->is_home_static_page() ) {
-					$proper_url = \get_permalink( \get_option( 'page_for_posts' ) );
-				}
-				else {
-					$proper_url = \get_bloginfo( 'url' );
-				}
-			}
+	public function page_not_found_url( $current_url ) {
+		if ( !\is_multisite() || \is_subdomain_install() || !\is_main_site() ) {
+			return '';
 		}
-		return $proper_url;
+
+		if ( $current_url !== \home_url() . '/blog/' && $current_url !== \home_url() . '/blog' ) {
+			return '';
+		}
+
+		if ( $this->current_page_helper->is_home_static_page() ) {
+			return \get_permalink( \get_option( 'page_for_posts' ) );
+		}
+		 
+		return \home_url();
+		
 	}
+
 }
