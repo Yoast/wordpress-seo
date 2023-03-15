@@ -73,7 +73,7 @@ describe( "The combineIntoImplicitParagraphs function", () => {
 		expect( implicitParagraphs ).toEqual( expected );
 	} );
 
-	it( "correctly handles an element with childs", () => {
+	it( "correctly handles an element with children", () => {
 		const nodes = [
 			{ name: "p" },
 			{ name: "span" },

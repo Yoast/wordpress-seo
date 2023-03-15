@@ -39,7 +39,7 @@ describe( "A test for the findAll method", () => {
 	} );
 } );
 
-describe( "A test for the innerText methods", () => {
+describe( "A test for the innerText method", () => {
 	const html = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>";
 
 	const researcher = Factory.buildMockResearcher( {} );
