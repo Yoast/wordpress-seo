@@ -6,9 +6,8 @@ const { stripHTMLTags } = languageProcessing;
 const { Mark } = values;
 const { addMark } = markers;
 
-
 /**
- * Represents the assessment that will look if the text has a list (only applicable for product pages).
+ * Represents the assessment that checks whether there is an over-use of center-alignment in the text.
  */
 export default class TextAlignmentAssessment extends Assessment {
 	/**
@@ -35,10 +34,10 @@ export default class TextAlignmentAssessment extends Assessment {
 	}
 
 	/**
-	 * Execute the Assessment and return a result.
+	 * Executes the assessment and returns a result.
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
-	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 * @param {Researcher}  researcher  The researcher used in the assessment.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
@@ -48,9 +47,11 @@ export default class TextAlignmentAssessment extends Assessment {
 		const calculatedScore = this.calculateResult( paper, researcher, this.textContainsCenterAlignedText );
 
 		const assessmentResult = new AssessmentResult();
+		// We don't want to show the assessment and its feedback when the paper doesn't contain center-aligned text.
 		if ( this.textContainsCenterAlignedText.length === 0 ) {
 			return assessmentResult;
 		}
+
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 		// We always want to highlight the long center-aligned element.
@@ -60,12 +61,12 @@ export default class TextAlignmentAssessment extends Assessment {
 	}
 
 	/**
-	 * Marks all long center-aligned texts.
+	 * Creates the mark objects for all long center-aligned texts.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Paper}       paper        The paper to use for the assessment.
+	 * @param {Researcher}  researcher   The researcher used in the assessment.
 	 *
-	 * @returns {object} All marked long center-aligned texts.
+	 * @returns {object} Mark objects for all long center-aligned texts.
 	 */
 	getMarks( paper, researcher ) {
 		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedText" );
@@ -73,7 +74,10 @@ export default class TextAlignmentAssessment extends Assessment {
 		return longCenterAlignedTexts.map( longCenterAlignedText => {
 			const text = longCenterAlignedText.text;
 			const fieldsToMark = longCenterAlignedText.typeOfBlock;
-
+			/*
+			 * Strip the HTML tags before applying the yoastmark.
+			 * This is because applying yoastmark tags to unsanitized text could lead to highlighting problem(s).
+			 */
 			const marked = addMark( stripHTMLTags( text ) );
 
 			return new Mark( {
@@ -85,90 +89,65 @@ export default class TextAlignmentAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text.
+	 * Checks whether the assessment is applicable.
+	 * The assessment is applicable when the paper has at least 50 characters (after sanitation)
+	 * and when the researcher has `getLongCenterAlignedText` research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher   The researcher used in the assessment.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */
-	isApplicable( paper ) {
-		return this.hasEnoughContentForAssessment( paper );
+	isApplicable( paper, researcher ) {
+		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getLongCenterAlignedText" );
 	}
 
 	/**
-	 * Calculate the result based on the availability of lists in the text.
+	 * Calculates the result based on the number of center-aligned text found in the paper.
 	 *
-	 * @param {Paper}       paper       The Paper object to assess.
-	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
-	 * @param {array} textContainsCenterAlignedText  The array containing each paragraph or heading
+	 * @param {Paper}       paper                   The Paper object to assess.
+	 * @param {Researcher}  researcher              The researcher used in the assessment.
+	 * @param {array} textContainsCenterAlignedText The array containing each paragraph or heading
 	 * with center aligned text that’s longer than 50 characters.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult( paper, researcher, textContainsCenterAlignedText ) {
-		// Text in an RTL language with one block of center-aligned text.
-		if ( paper.isRTL() ) {
-			if ( textContainsCenterAlignedText.length > 1 ) {
-				return {
-					score: this._config.scores.bad,
-					resultText: sprintf(
-						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						__(
-							"%1$sAlignment%2$s: Your text contains multiple long blocks of center-aligned text. We recommend changing that " +
-							"to right-aligned.",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						"</a>"
-					),
-				};
-			}
-			// Text in an RTL language with multiple blocks of center-aligned text.
-			if ( textContainsCenterAlignedText.length === 1 ) {
-				return {
-					score: this._config.scores.bad,
-					resultText: sprintf(
-						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						__(
-							"%1$sAlignment%2$s: Your text has a long block of center-aligned text. We recommend changing that to right-aligned.",
-							"wordpress-seo"
-						),
-						this._config.urlTitle,
-						"</a>"
-					),
-				};
-			}
-		}
-		// Text with one block of center-aligned text in a LTR language.
-		if ( textContainsCenterAlignedText.length > 1 ) {
+		const preferredAlignment = paper.isRTL() ? "right-aligned" : "left-aligned";
+
+		if ( textContainsCenterAlignedText.length === 1 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+					%4$s expands to "right-aligned" when the string is shown in an RTL
+					and expands to "left-aligned" when the string is shown in LTR */
 					__(
-						"%1$sAlignment%2$s: Your text contains multiple long blocks of center-aligned text. We recommend changing that " +
-						"to left-aligned.",
+						"%1$sAlignment%3$s: Your text has a long block of center-aligned text. %2$sWe recommend changing that to %4$s%3$s.",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					"</a>"
+					this._config.urlCallToAction,
+					"</a>",
+					preferredAlignment
 				),
 			};
 		}
-		// Text with multiple blocks of center-aligned text in an LTR language.
-		if ( textContainsCenterAlignedText.length === 1  ) {
-			return {
-				score: this._config.scores.bad,
-				resultText: sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					__(
-						"%1$sAlignment%2$s: Your text has a long block of center-aligned text. We recommend changing that to left-aligned.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					"</a>"
+
+		return {
+			score: this._config.scores.bad,
+			resultText: sprintf(
+				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+				%4$s expands to "right-aligned" when the string is shown in an RTL and expands to "left-aligned" when the string is shown in LTR */
+				__(
+					"%1$sAlignment%3$s: Your text contains multiple long blocks of center-aligned text. %2$sWe recommend changing that to %4$s%3$s.",
+					"wordpress-seo"
 				),
-			};
-		}
+				this._config.urlTitle,
+				this._config.urlCallToAction,
+				"</a>",
+				preferredAlignment
+			),
+		};
 	}
 }
