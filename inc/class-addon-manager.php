@@ -422,18 +422,33 @@ class WPSEO_Addon_Manager {
 		}
 
 		$addons = [
-			'Yoast SEO Premium'     => static::PREMIUM_SLUG,
-			'News SEO'              => static::NEWS_SLUG,
-			'Yoast WooCommerce SEO' => static::WOOCOMMERCE_SLUG,
-			'Video SEO'             => static::VIDEO_SLUG,
-			'Local SEO'             => static::LOCAL_SLUG,
+			'Yoast SEO Premium'     => [
+				'slug'       => static::PREMIUM_SLUG,
+				'short_link' => 'yoa.st/13j',
+			],
+			'News SEO'              => [
+				'slug'       => static::NEWS_SLUG,
+				'short_link' => 'yoa.st/13j',
+			],
+			'Yoast WooCommerce SEO' => [
+				'slug'       => static::WOOCOMMERCE_SLUG,
+				'short_link' => 'yoa.st/13j',
+			],
+			'Video SEO'             => [
+				'slug'       => static::VIDEO_SLUG,
+				'short_link' => 'yoa.st/13j',
+			],
+			'Local SEO'             => [
+				'slug'       => static::LOCAL_SLUG,
+				'short_link' => 'yoa.st/13j',
+			],
 		];
 
-		foreach ( $addons as $product_name => $slug ) {
-			$notification = $this->create_notification( $product_name );
+		foreach ( $addons as $product_name => $addon_info ) {
+			$notification = $this->create_notification( $product_name, $addon_info['short_link'] );
 
 			// Add a notification when the installed plugin isn't activated in My Yoast.
-			if ( $this->is_installed( $slug ) && ! $this->has_valid_subscription( $slug ) ) {
+			if ( $this->is_installed( $addon_info['slug'] ) && ! $this->has_valid_subscription( $addon_info['slug'] ) ) {
 				$notification_center->add_notification( $notification );
 
 				continue;
@@ -459,10 +474,11 @@ class WPSEO_Addon_Manager {
 	 * Creates an instance of Yoast_Notification.
 	 *
 	 * @param string $product_name The product to create the notification for.
+	 * @param string $short_link   The short link for the addon notification.
 	 *
 	 * @return Yoast_Notification The created notification.
 	 */
-	protected function create_notification( $product_name ) {
+	protected function create_notification( $product_name, $short_link ) {
 		$notification_options = [
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
@@ -476,8 +492,8 @@ class WPSEO_Addon_Manager {
 				'<strong>',
 				$product_name,
 				'</strong>',
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">activate your product subscription in MyYoast</a>',
-				$product_name,
+				'<a href="' . WPSEO_Shortlinker::get( $short_link ) . '" target="_blank">activate your product subscription in MyYoast</a>',
+				$product_name
 			),
 			$notification_options
 		);
