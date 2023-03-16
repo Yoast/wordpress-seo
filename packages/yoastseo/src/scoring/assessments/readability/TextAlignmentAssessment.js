@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 import { Assessment, AssessmentResult, helpers, languageProcessing, values, markers } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
-const { stripIncompleteTags } = languageProcessing;
+const { stripHTMLTags } = languageProcessing;
 const { Mark } = values;
 const { addMark } = markers;
 
@@ -71,10 +71,11 @@ export default class TextAlignmentAssessment extends Assessment {
 		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedText" );
 		// For example: [ {text: "abc", typeOfBlock: "heading"}, {text: "123", typeOfBlock: "paragraph"} ].
 		return longCenterAlignedTexts.map( longCenterAlignedText => {
-			let text = longCenterAlignedText.text;
+			const text = longCenterAlignedText.text;
 			const fieldsToMark = longCenterAlignedText.typeOfBlock;
-			text = stripIncompleteTags( text );
-			const marked = addMark( text );
+
+			const marked = addMark( stripHTMLTags( text ) );
+
 			return new Mark( {
 				original: text,
 				marked: marked,
