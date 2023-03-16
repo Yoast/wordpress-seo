@@ -15,7 +15,6 @@ describe( "The adapt function",
 
 			const expected = { attributes: {}, childNodes: [ { attributes: {}, childNodes: [ { attributes: { "class": new Set( [ "yoast" ] ) }, childNodes: [ { name: "#text", value: "Hello, world!" } ], isImplicit: false, name: "p" } ], name: "div" } ], name: "#document-fragment" };
 
-
 			expect( adaptedTree ).toEqual( expected );
 		} );
 
