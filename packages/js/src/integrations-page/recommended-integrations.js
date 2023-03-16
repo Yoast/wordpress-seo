@@ -63,31 +63,93 @@ const integrations = [
 	},
 ];
 
-const jetpackBoostSlug = "jetpack-boost";
-const jetpackBoostIsActive = getInitialState( { slug: jetpackBoostSlug } );
-const jetpackBoostIntegration = {
-	name: "Jetpack Boost",
-	claim: createInterpolateElement(
+const jetpackBoostActive  = Boolean( window.wpseoIntegrationsData[ "jetpack-boost_active" ] );
+const jetpackBoostPremium = Boolean( window.wpseoIntegrationsData[ "jetpack-boost_premium" ] );
+
+let claim = createInterpolateElement(
+	sprintf(
+		/* translators: 1: bold open tag; 2: Yoast SEO; 3: Jetpack Boost; 4: bold close tag. */
+		__( "Speed up your site with %1$s%2$s and %3$s%4$s", "wordpress-seo" ),
+		"<strong>",
+		"Yoast SEO",
+		"Jetpack Boost",
+		"</strong>"
+	), {
+		strong: <strong />,
+	}
+);
+if ( jetpackBoostActive ) {
+	claim = createInterpolateElement(
 		sprintf(
-			/* translators: 1: bold open tag; 2: Jetpack Boost; 3: bold close tag. */
-			__( "Speed up your website with %1$s%2$s%3$s", "wordpress-seo" ),
+			/* translators: 1: bold open tag; 2: Jetpack Boost Premium ; 3: bold close tag. */
+			__( "Speed up your site with %1$s%2$s%3$s", "wordpress-seo" ),
 			"<strong>",
-			"Jetpack Boost",
+			"Jetpack Boost Premium",
 			"</strong>"
 		), {
 			strong: <strong />,
 		}
-	),
-	learnMoreLink: "https://yoa.st/integrations-about-jetpack-boost",
-	linkTextInActive: __( "Get Jetpack Boost", "wordpress-seo" ),
-	linkInActive: "https://yoa.st/integrations-get-jetpack-boost",
-	linkUpgrade: "https://yoa.st/integrations-upgrade-jetpack-boost",
-	logoLink: "https://yoa.st/integrations-logo-jetpack-boost",
-	slug: jetpackBoostSlug,
-	description: __( "Optimize your CSS, defer non-essential JavaScript and Lazy-load your images to optimize your site for speed!", "wordpress-seo" ),
-	isPremium: false,
-	isNew: false,
-	isMultisiteAvailable: false,
+	);
+}
+
+let description = sprintf(
+	/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
+	__( "%1$s recommends using %2$s to speed up your site. Optimize CSS, defer non-essential Javascript, and lazy load images. Install %3$s, speed up your site, and improve its ranking!", "wordpress-seo" ),
+	"Yoast",
+	"Jetpack Boost",
+	"Boost"
+);
+if ( jetpackBoostActive ) {
+	description = sprintf(
+		/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
+		__( "%1$s recommends using %2$s for automated Critical CSS generation. Whenever you change your site, %3$s will automatically regenerate your site’s Critical CSS and performance scores. Upgrade %3$s, speed up your site, and improve its ranking!", "wordpress-seo" ),
+		"Yoast",
+		"Jetpack Boost",
+		"Boost"
+	);
+}
+if ( jetpackBoostPremium ) {
+	description = sprintf(
+		/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
+		__( "%1$s recommends using %2$s for automated Critical CSS generation. Whenever you change your site, %3$s will automatically regenerate your site’s Critical CSS and performance scores.", "wordpress-seo" ),
+		"Yoast",
+		"Jetpack Boost",
+		"Boost"
+	);
+}
+
+let learnMoreLinkText = sprintf(
+	/* translators: Jetpack Boost. */
+	__( "Get %s", "wordpress-seo" ),
+	"Jetpack Boost"
+);
+if ( jetpackBoostActive ) {
+	learnMoreLinkText = sprintf(
+		/* translators: Jetpack Boost. */
+		__( "Upgrade %s", "wordpress-seo" ),
+		"Jetpack Boost"
+	);
+}
+if ( jetpackBoostPremium ) {
+	learnMoreLinkText = __( "Learn more", "wordpress-seo" );
+}
+
+let learnMoreLink = window.wpseoIntegrationsData[ "jetpack-boost_get_link" ];
+if ( jetpackBoostActive ) {
+	learnMoreLink = window.wpseoIntegrationsData[ "jetpack-boost_upgrade_link" ];
+}
+if ( jetpackBoostPremium ) {
+	learnMoreLink = window.wpseoIntegrationsData[ "jetpack-boost_learn_more_link" ];
+}
+
+const jetpackBoostIntegration = {
+	name: "Jetpack Boost",
+	claim: claim,
+	learnMoreLinkText: learnMoreLinkText,
+	learnMoreLink: learnMoreLink,
+	logoLink: window.wpseoIntegrationsData[ "jetpack-boost_logo_link" ],
+	slug: "jetpack-boost",
+	description: description,
 	logo: JetpackBoostLogo,
 };
 
@@ -108,7 +170,7 @@ export const RecommendedIntegrations = [
 	<JetpackBoostIntegration
 		key={ integrations.length }
 		integration={ jetpackBoostIntegration }
-		isActive={ jetpackBoostIsActive }
-		isIntegrationPremium={ Boolean( window.wpseoIntegrationsData[ "jetpack-boost_premium" ] ) }
+		isJetpackBoostActive={ jetpackBoostActive }
+		isJetpackBoostPremium={ jetpackBoostPremium }
 	/>,
 ];

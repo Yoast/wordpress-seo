@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Plugin_Availability;
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
@@ -110,6 +111,8 @@ class Integrations_Page implements Integration_Interface {
 		$algolia_file         = 'wp-search-with-algolia/algolia.php';
 		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
 
+		$host = YoastSEO()->helpers->url->get_url_host( get_site_url() );
+
 		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
 		$woocommerce_seo_installed         = \file_exists( \WP_PLUGIN_DIR . '/' . $woocommerce_seo_file );
 		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
@@ -185,8 +188,12 @@ class Integrations_Page implements Integration_Interface {
 				'mastodon_active'                    => $mastodon_active,
 				'is_multisite'                       => \is_multisite(),
 				'plugin_url'                         => \plugins_url( '', \WPSEO_FILE ),
-				'jetpack-boost_integration_active'   => $jetpack_boost_active,
+				'jetpack-boost_active'               => $jetpack_boost_active,
 				'jetpack-boost_premium'              => $jetpack_boost_premium,
+				'jetpack-boost_logo_link'            => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-logo-jetpack-boost' ),
+				'jetpack-boost_get_link'             => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-get-jetpack-boost?domain=' . $host ),
+				'jetpack-boost_upgrade_link'         => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-upgrade-jetpack-boost?domain=' . $host ),
+				'jetpack-boost_learn_more_link'      => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-about-jetpack-boost' ),
 			]
 		);
 	}
