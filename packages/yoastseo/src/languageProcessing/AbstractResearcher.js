@@ -38,6 +38,9 @@ import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
 import wordComplexity from "./researches/wordComplexity";
 
+// All helpers.
+import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
+
 /**
  * The researches contains all the researches
  */
@@ -93,7 +96,9 @@ export default class AbstractResearcher {
 
 		this.customResearches = {};
 
-		this.helpers = {};
+		this.helpers = {
+			memoizedTokenizer,
+		};
 
 		this.config = {};
 	}
