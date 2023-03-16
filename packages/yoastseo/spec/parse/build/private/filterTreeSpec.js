@@ -28,7 +28,8 @@ describe( "A Test", () => {
 			}
 			return false;
 		} ) ).toHaveLength( 0 );
-		// TODO: add check to check that tree is not empty...
-		console.log( filteredTree );
+
+		// A smoke test check to check if not the entire tree was deleted.
+		expect( filteredTree.findAll( child => child.name === "div" ).length ).toBeGreaterThan( 0 );
 	} );
 } );
