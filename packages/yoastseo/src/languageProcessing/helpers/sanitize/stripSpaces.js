@@ -1,22 +1,22 @@
 /** @module stringProcessing/stripSpaces */
 
 /**
- * Replaces multiple spaces with single space.
- * Removes spaces followed by a period and spaces in the beginning or ending of a string.
+ * Replaces multiple spaces with a single space.
+ * Removes spaces followed by a period (if there's no text after the period) and spaces in the beginning or end of a string.
  *
  * @param {String} text The text to strip spaces from.
- * @returns {String} The text without double spaces
+ * @returns {String} The text with stripped spaces.
  */
 export default function( text ) {
-	// Replace multiple spaces with single space.
+	// Replaces multiple spaces with a single space.
 	text = text.replace( /\s{2,}/g, " " );
-	// Replace multiple spaces before a full stop, if the last character is a full stop.
+	// Replaces space(s) followed by a period, if the period is the last character.
 	text = text.replace( /\s\.$/, "." );
-	// Remove first/last character if space.
+	// Removes first/last character if it's a space.
 	text = text.replace( /^\s+|\s+$/g, "" );
-	// Replace spaces before Japanese periods with only the period.
+	// Replaces spaces followed by a Japanese period with only the period.
 	text = text.replace( /\s。/g, "。" );
-	// Replace spaces after Japanese periods with only the period.
+	// Replaces spaces after a Japanese period with only the period.
 	text = text.replace( /。\s/g, "。" );
 
 	return text;
