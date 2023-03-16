@@ -1,32 +1,9 @@
-import { map } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { sanitizeString, normalize } = languageProcessing;
+const { sanitizeString, normalize, helpers } = languageProcessing;
 
 const centerAlignRegex = /class=["']has-text-align-center["']/i;
 const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
 const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
-
-/**
- * Finds all instances of a specified HTML element in the text.
- *
- * @param {string} text 		The text to match the element in.
- * @param {RegExp} elementRegex The regex for matching the element.
- *
- * @returns {string[]} An array with all the matched elements.
- */
-const getAllElementsFromText = function( text, elementRegex ) {
-	const elements = [];
-	let match;
-
-	while ( ( match = elementRegex.exec( text ) ) !== null ) {
-		elements.push( match );
-	}
-
-	// Returns the whole element, including html tags.
-	return map( elements, function( element ) {
-		return element[ 0 ];
-	} );
-};
 
 /**
  *
@@ -43,6 +20,7 @@ const getLongCenterAlignedElements = function( elements ) {
 	elements.forEach( element => {
 		if ( centerAlignRegex.test( element ) ) {
 			elementsWithCenterAlignedText.push( {
+				// Return the unsanitized text. This text will be used for highlighting feature where we will match this with the html of a post.
 				text: element,
 				// Remove HTML tags from the elements before counting characters and returning too long elements.
 				textLength: sanitizeString( element ).length,
@@ -55,6 +33,7 @@ const getLongCenterAlignedElements = function( elements ) {
 		return [];
 	}
 
+	// Only return the element with center aligned texts that are longer than 50 characters.
 	return elementsWithCenterAlignedText.filter( element => element.textLength > 50 );
 };
 
@@ -73,9 +52,12 @@ export default function getLongBlocksOfCenterAlignedText( paper ) {
 	let text = paper.getText();
 	// Normalize quotes.
 	text = normalize( text );
-	const allParagraphs = getAllElementsFromText( text, paragraphsRegex );
-	const allHeadings = getAllElementsFromText( text, headingsRegex );
+
 	const longBlocksOfCenterAlignedText = [];
+	// Get all paragraphs from the text. We only retrieve the paragraphs with <p> tags.
+	const allParagraphs = helpers.matchStringWithRegex( text, paragraphsRegex );
+	// Get all the headings from the text. Here we retrieve the headings from level 1-6.
+	const allHeadings = helpers.matchStringWithRegex( text, headingsRegex );
 
 	const longParagraphsWithCenterAlignedText = getLongCenterAlignedElements( allParagraphs );
 	const longHeadingsWithCenterAlignedText = getLongCenterAlignedElements( allHeadings );
