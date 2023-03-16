@@ -27,9 +27,6 @@ export default function( text, memoizedTokenizer ) {
 	if ( ! memoizedTokenizer ) {
 		memoizedTokenizer = defaultMemoizedSentenceTokenizer;
 	}
-	const cache = memoizedTokenizer.cache.__data__.hash.__data__;
-	const formatted = JSON.stringify(cache);
-	console.log( formatted, "Tokenizer Cache" );
 
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
 	// Remove Table of Contents.
@@ -49,8 +46,11 @@ export default function( text, memoizedTokenizer ) {
 		return block.split( newLineRegex );
 	} );
 
-	const sentences = flatMap( blocks, memoizedTokenizer );
-	console.log( sentences, "sentences" );
+	/*
+	 * We use the `map` method followed by `flat` instead of `flatMap` because `flatMap` would override the second
+	 * argument of the memoizedTokenizer with the index of the iteratee.
+	 */
+	let sentences = blocks.map( block => memoizedTokenizer( block ) );
 
-	return filter( sentences, negate( isEmpty ) );
+	return filter( sentences.flat(), negate( isEmpty ) );
 }
