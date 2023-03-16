@@ -32,6 +32,7 @@ import getLanguage from "./helpers/language/getLanguage";
 import getSentences from "./helpers/sentence/getSentences";
 import { getFieldsToMark } from "./helpers/html/getFieldsToMark";
 import { normalize } from "./helpers/sanitize/quotes";
+import * as helpers from "./helpers";
 
 export {
 	AbstractResearcher,
@@ -70,4 +71,5 @@ export {
 	normalizeHTML,
 	stripIncompleteTags,
 	normalize,
+	helpers,
 };
