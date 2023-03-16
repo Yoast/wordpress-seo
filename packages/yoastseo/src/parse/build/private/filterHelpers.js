@@ -21,8 +21,8 @@ export function elementHasName( name ) {
  */
 export function elementHasClass( className ) {
 	return ( elementThing ) => {
-		if ( elementThing.attributes ) {
-			return elementThing.attributes.class === className;
+		if ( elementThing.attributes.class ) {
+			return elementThing.attributes.class.has( className );
 		}
 		return false;
 	};
@@ -33,11 +33,10 @@ export function elementHasClass( className ) {
  * @returns {function(*): boolean} A function that returns true if a node is an estimatedReadingtime block.
  */
 export function isEstimatedReadingtimetag() {
-	return ( elementThing ) => {
-		if ( elementThing.attributes ) {
-			const className = elementThing.attributes.class;
-			if ( className ) {
-				return className.startsWith( "yoast-reading-time" );
+	return ( elem ) => {
+		if ( elem.attributes ) {
+			if ( elem.attributes.class ) {
+				return elem.attributes.class.has( "yoast-reading-time" );
 			}
 		}
 		return false;
