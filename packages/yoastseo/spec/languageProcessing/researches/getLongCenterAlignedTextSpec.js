@@ -6,45 +6,57 @@ describe( "a test for getting blocks of too long center aligned text", function(
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters." +
 			"</p><p class=\"has-text-align-center\">This is a short text.</p>" );
 		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [
-			{ text: "This is a paragraph with a bit more than fifty characters.", typeOfBlock: "paragraph" },
+			{ text: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>", typeOfBlock: "paragraph" },
 		] );
 	} );
 	it( "returns one object for each too long paragraph", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters." +
 			"</p><p class=\"has-text-align-center\">This is another paragraph with a bit more than fifty characters.</p>" );
 		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [
-			{ text: "This is a paragraph with a bit more than fifty characters.", typeOfBlock: "paragraph" },
-			{ text: "This is another paragraph with a bit more than fifty characters.", typeOfBlock: "paragraph" },
+			{
+				text: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>",
+				typeOfBlock: "paragraph",
+			},
+			{
+				text: "<p class=\"has-text-align-center\">This is another paragraph with a bit more than fifty characters.</p>",
+				typeOfBlock: "paragraph",
+			},
 		] );
 	} );
 	it( "returns the text and type of block if a too long heading with center aligned text is found", function() {
 		const mockPaper = new Paper( "<h2 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters." +
 			"</h2><h2 class=\"has-text-align-center\">This is a short heading.</h2>" );
 		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [
-			{ text: "This is a heading with a bit more than fifty characters.", typeOfBlock: "heading" },
+			{ text: "<h2 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h2>", typeOfBlock: "heading" },
 		] );
 	} );
 	it( "returns one object for each too long heading", function() {
 		const mockPaper = new Paper( "<h3 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters." +
 			"</h3><h4 class=\"has-text-align-center\">This is another heading with a bit more than fifty characters.</h4>" );
 		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [
-			{ text: "This is a heading with a bit more than fifty characters.", typeOfBlock: "heading" },
-			{ text: "This is another heading with a bit more than fifty characters.", typeOfBlock: "heading" },
+			{
+				text: "<h3 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h3>",
+				typeOfBlock: "heading",
+			},
+			{
+				text: "<h4 class=\"has-text-align-center\">This is another heading with a bit more than fifty characters.</h4>",
+				typeOfBlock: "heading",
+			},
 		] );
 	} );
 	it( "returns the objects for both headings and paragraphs when both contain too long center aligned text", function() {
 		const mockPaper = new Paper( "<h5 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters." +
 			"</h5><p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>" );
 		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [
-			{ text: "This is a paragraph with a bit more than fifty characters.", typeOfBlock: "paragraph" },
-			{ text: "This is a heading with a bit more than fifty characters.", typeOfBlock: "heading" },
+			{ text: "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>", typeOfBlock: "paragraph" },
+			{ text: "<h5 class=\"has-text-align-center\">This is a heading with a bit more than fifty characters.</h5>", typeOfBlock: "heading" },
 		] );
 	} );
 	it( "also detects the center-aligned elements if the class name is in single quotes", function() {
 		const mockPaper = new Paper( "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters." +
 			"</p><p class='has-text-align-center'>This is a short text.</p>" );
 		expect( getLongCenterAlignedText( mockPaper ) ).toEqual( [
-			{ text: "This is a paragraph with a bit more than fifty characters.", typeOfBlock: "paragraph" },
+			{ text: "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>", typeOfBlock: "paragraph" },
 		] );
 	} );
 	it( "does not include html tags in the character count", function() {
