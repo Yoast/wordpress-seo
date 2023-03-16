@@ -9,8 +9,8 @@
  * @returns {function(*)} A function that returns true if the element has a specific name.
  */
 export function elementHasName( name ) {
-	return ( elementThing ) => {
-		return elementThing.name === name;
+	return ( elem ) => {
+		return elem.name === name;
 	};
 }
 
