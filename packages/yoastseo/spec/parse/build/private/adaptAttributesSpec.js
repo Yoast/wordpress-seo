@@ -7,7 +7,7 @@ describe( "The adaptAttributes function", () => {
 			{ name: "href", value: "https://example.org/" },
 		];
 		expect( adaptAttributes( attributePairs ) ).toEqual( {
-			"class": "cat",
+			"class": new Set( [ "cat" ] ),
 			href: "https://example.org/",
 		} );
 	} );
