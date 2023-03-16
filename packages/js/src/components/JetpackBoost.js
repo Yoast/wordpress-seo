@@ -16,6 +16,7 @@ import withPersistentDismiss from "../containers/withPersistentDismiss";
  * @returns {JSX.Element} The JetpackBoost element (which is null when dismissed).
  */
 const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
+	const isJetpackBoostActive = get( window, "wpseoScriptData.isJetpackBoostActive", "" ) === "1";
 	const isJetpackBoostNotPremium = get( window, "wpseoScriptData.isJetpackBoostNotPremium", "" ) === "1";
 	const getJetpackBoostPrePublishLink = get( window, "wpseoScriptData.metabox.getJetpackBoostPrePublishLink", "" );
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
@@ -49,10 +50,22 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 					) }
 				</Title>
 				<p className="yst-mt-2 yst-text-slate-600">
-					{ __( "Optimize your CSS, defer non-essential JavaScript and Lazy-load your images to optimize your site for speed!", "wordpress-seo" ) }
+					{ sprintf(
+						isJetpackBoostActive
+							/* translators: %1$s expands to Yoast. */
+							? __( "%1$s recommends using Jetpack Boost for automated Critical CSS generation. Whenever you change your site, Boost will automatically generate optimal CSS and performance scores. Upgrade Boost, speed up your site, and improve its ranking!", "wordpress-seo" )
+							/* translators: %1$s expands to Yoast. */
+							: __( "%1$s recommends using Jetpack Boost to speed up your site. Optimize CSS, defer non-essential Javascript, and lazy load images. Install Boost, speed up your site, and improve its ranking!", "wordpress-seo" ),
+						"Yoast"
+					) }
 				</p>
 				<Link className="yst-block yst-mt-4" href={ getJetpackBoostPrePublishLink } target="_blank" rel="noopener noreferrer">
-					<span>{ __( "Get Jetpack Boost", "wordpress-seo" ) }</span>
+					<span>
+						{ isJetpackBoostActive
+							? __( "Upgrade Jetpack Boost", "wordpress-seo" )
+							: __( "Get Jetpack Boost", "wordpress-seo" )
+						}
+					</span>
 					<ExternalLinkIcon className="yst-inline yst-ml-1 yst-h-4 yst-w-4 yst-text-indigo-600" />
 					<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 				</Link>
