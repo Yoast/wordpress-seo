@@ -1,3 +1,5 @@
+import parseClassAttribute from "./helpers/parseClassAttribute"
+
 /**
  * @typedef Parse5Attribute
  * @property {string} name The name of the attribute.
@@ -21,8 +23,13 @@ function adaptAttributes( parse5attributes ) {
 	const attributes = {};
 
 	parse5attributes.forEach( ( { name, value } ) => {
+		if (name === "class"){
+			value = parseClassAttribute( value );
+		}
 		attributes[ name ] = value;
 	} );
+
+
 
 	return attributes;
 }
