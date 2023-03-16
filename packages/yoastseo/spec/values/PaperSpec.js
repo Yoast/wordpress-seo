@@ -1,4 +1,5 @@
 import Paper from "../../src/values/Paper.js";
+import Node from "../../src/parse/structure/Node";
 
 describe( "Paper", function() {
 	describe( "Creating a Paper", function() {
@@ -253,6 +254,16 @@ describe( "Paper", function() {
 			it( "does not contain the _parseClass", () => {
 				expect( paper._attributes._parseClass ).not.toBeDefined();
 			} );
+		} );
+	} );
+	describe( "A test for setters and getters", function() {
+		it( "should properly set and get a tree.", function() {
+			const tree = new Node( "a" );
+			const mockPaper = new Paper( "" );
+
+			mockPaper.setTree( tree );
+			expect( mockPaper._tree ).toEqual( tree );
+			expect( mockPaper.getTree() ).toEqual( tree );
 		} );
 	} );
 } );
