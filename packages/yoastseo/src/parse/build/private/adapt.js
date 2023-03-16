@@ -1,7 +1,7 @@
 import combineIntoImplicitParagraphs from "./combineIntoImplicitParagraphs";
 import adaptAttributes from "./adaptAttributes";
 import isPhrasingContent from "./isPhrasingContent";
-
+import { isEmpty } from "lodash-es";
 import { Paragraph, Text, Heading, Node } from "../../structure";
 
 /**
@@ -69,7 +69,7 @@ export default function adapt( tree ) {
 	}
 
 	let children = [];
-	if ( tree.childNodes ) {
+	if ( ! isEmpty( tree.childNodes ) ) {
 		children = tree.childNodes.map( adapt );
 		if ( isBlockElement( tree.nodeName ) ) {
 			children = combineIntoImplicitParagraphs( children );
