@@ -26,5 +26,7 @@ describe( "A Test", () => {
 			}
 			return false;
 		} ) ).toHaveLength( 0 );
+		// TODO: add check to check that tree is not empty...
+		console.log(filteredTree);
 	} );
 } );

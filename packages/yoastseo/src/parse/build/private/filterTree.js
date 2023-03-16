@@ -7,19 +7,19 @@ import Node from "../../structure/Node";
  * @param {array} filters An array of filter callbacks.
  * @returns {boolean} true if the node should be kept, false if the node should be discarded.
  */
-function keepNode( node, filters ) {
-	// Allways keep text nodes.
+function shouldRemoveNode( node, filters ) {
+	// Always keep text nodes.
 	if ( node.name === "#text" ) {
-		return true;
+		return false;
 	}
 	for ( const filter of filters ) {
 		// If any of the filters returns true, the node will be disregarded.
 		if ( filter( node ) ) {
-			return false;
+			return true;
 		}
 	}
 	// If all filters are not true, then keep the node.
-	return true;
+	return false;
 }
 
 /**
@@ -30,16 +30,13 @@ function keepNode( node, filters ) {
  */
 function filterTree( node, filters ) {
 	// If the node should be disregarded. Return an empy node.
-	if ( ! keepNode( node, filters ) ) {
-		return new Node( "emptynode" );
+	if ( shouldRemoveNode( node, filters ) ) {
+		return;
 	}
 
 	// If the node has childs.
 	if ( node.childNodes ) {
-		// For each childnode, check if it should be kept.
-		node.childNodes = node.childNodes.map( childNode => filterTree( childNode, filters ) );
-		// Filter all emptynodes from the childnode.
-		node.childNodes = node.childNodes.filter( ( childnode ) => childnode.name !== "emptynode" );
+		node.childNodes = node.childNodes.filter( childNode => filterTree( childNode, filters ) );
 	}
 
 
