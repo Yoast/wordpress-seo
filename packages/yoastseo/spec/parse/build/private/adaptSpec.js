@@ -1,7 +1,7 @@
 import adapt from "../../../../src/parse/build/private/adapt";
 import { parseFragment } from "parse5";
 import Node from "../../../../src/parse/structure/Node";
-import  Paragraph from  "../../../../src/parse/structure/Paragraph";
+import Paragraph from  "../../../../src/parse/structure/Paragraph";
 import Text from "../../../../src/parse/structure/Text";
 import Heading from "../../../../src/parse/structure/Heading";
 

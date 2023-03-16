@@ -32,6 +32,7 @@ describe( "The combineIntoImplicitParagraphs function", () => {
 			},
 		] );
 	} );
+
 	it( "correctly handles an InterElementWhitespace", () => {
 		const nodes = [
 			{ name: "p" },
