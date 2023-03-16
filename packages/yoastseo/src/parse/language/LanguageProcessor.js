@@ -1,3 +1,5 @@
+import Sentence from "../structure/Sentence";
+
 /**
  * Contains language-specific logic for splitting a text into sentences and tokens.
  */
@@ -19,8 +21,11 @@ class LanguageProcessor {
 	 * @returns {Sentence[]} The sentences.
 	 */
 	splitIntoSentences( text ) {
-		// TODO: split text into sentences.
-		return [];
+		const memoizedTokenizer = this.researcher.getHelper( "memoizedTokenizer" );
+		return memoizedTokenizer( text, false )
+			.map( function( sentence ) {
+				return new Sentence( sentence );
+			} );
 	}
 
 	/**
