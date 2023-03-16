@@ -4,7 +4,7 @@ import Factory from "../../specHelpers/factory";
 import build from "../../../src/parse/build/build";
 
 describe( "A test for the Node object", () => {
-	it( "should correctly create a simple node", function() {
+	it( "should correctly create a simple Node object", function() {
 		expect( new Node( "name", {}, [] ) ).toEqual( { name: "name", attributes: {}, childNodes: [] } );
 	} );
 } );
