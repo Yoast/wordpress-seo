@@ -1,9 +1,10 @@
-import filterElements from "../../../../src/parse/build/private/filterTree";
+import filterTree from "../../../../src/parse/build/private/filterTree";
 import content from "./testPage.html";
 import build from "../../../../src/parse/build/build";
 import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
 import Factory from "../../../specHelpers/factory";
 import { elementHasName, elementHasClass } from "../../../../src/parse/build/private/filterHelpers";
+import permanentFilters from "../../../../src/parse/build/private/alwaysFilterElements";
 
 describe( "A Test", () => {
 	it( "Something", () => {
@@ -12,8 +13,9 @@ describe( "A Test", () => {
 		const languageProcessor = new LanguageProcessor( researcher );
 
 		const tree = build( html, languageProcessor );
+		const fullFilter = permanentFilters.concat( [ elementHasName( "a" ), elementHasClass( "yoast-schema-graph" ) ] );
 
-		const filteredTree = filterElements( tree, [ elementHasName( "a" ), elementHasClass( "yoast-schema-graph" ) ] );
+		const filteredTree = filterTree( tree, fullFilter );
 
 		expect( filteredTree.findAll( child => child.name === "script" ) ).toHaveLength( 0 );
 		expect( filteredTree.findAll( child => child.name === "style" ) ).toHaveLength( 0 );
@@ -27,6 +29,6 @@ describe( "A Test", () => {
 			return false;
 		} ) ).toHaveLength( 0 );
 		// TODO: add check to check that tree is not empty...
-		console.log(filteredTree);
+		console.log( filteredTree );
 	} );
 } );

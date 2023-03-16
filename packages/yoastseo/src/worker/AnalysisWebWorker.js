@@ -19,6 +19,7 @@ import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 
 import { build } from "../parse/build";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
+import permanentFilters from "../parse/build/private/alwaysFilterElements";
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
@@ -1089,7 +1090,8 @@ export default class AnalysisWebWorker {
 			this._researcher.setPaper( this._paper );
 
 			const languageProcessor = new LanguageProcessor( this._researcher );
-			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
+			// const tree = filterTree(tree);
+			this._paper.setTree( filterTree(build( this._paper.getText(), languageProcessor ), permanentFilters ) );
 
 			console.log( this._paper.getTree() );
 

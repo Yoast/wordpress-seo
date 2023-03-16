@@ -1,4 +1,3 @@
-import permanentFilters from "./alwaysFilterElements";
 import Node from "../../structure/Node";
 
 /**
@@ -28,7 +27,7 @@ function shouldRemoveNode( node, filters ) {
  * @param {array} filters An array of callbacks. If a callback returns true, the node is discarded.
  * @returns {Node} A Node with all undesired subtrees removed.
  */
-function filterTree( node, filters ) {
+export default function filterTree( node, filters ) {
 	// If the node should be disregarded. Return an empy node.
 	if ( shouldRemoveNode( node, filters ) ) {
 		return;
@@ -41,16 +40,4 @@ function filterTree( node, filters ) {
 
 
 	return node;
-}
-
-/**
- * A 'manager function' that starts of the recursive filter.
- * @param {Node} tree A node that should be filtered.
- * @param {CallableFunction[]} additionalFilters An array of additional filters that.
- * @returns {Node} A node without the filtered elements.
- */
-export default function filterElements( tree, additionalFilters = [] ) {
-	const fullFilter = permanentFilters.concat( additionalFilters );
-	const newTree = new Node( tree.name, tree.attributes, tree.childNodes );
-	return filterTree( newTree, fullFilter );
 }
