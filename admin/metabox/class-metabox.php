@@ -6,8 +6,8 @@
  */
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\Jetpack_Boost_Active_Conditional;
-use Yoast\WP\SEO\Conditionals\Jetpack_Boost_Not_Premium_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 

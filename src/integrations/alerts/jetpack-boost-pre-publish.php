@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Alerts;
 
-use Yoast\WP\SEO\Conditionals\Jetpack_Boost_Not_Premium_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 
 /**
