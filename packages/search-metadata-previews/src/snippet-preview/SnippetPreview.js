@@ -24,6 +24,7 @@ import FixedWidthContainer from "./FixedWidthContainer";
 import ProductDataDesktop from "./ProductDataDesktop";
 import ProductDataMobile from "./ProductDataMobile";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
+import { ReactComponent as VerticalDots } from "../../../js/images/google-preview-vertical-dots.svg";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -144,6 +145,7 @@ const TitleUnboundedMobile = styled.span`
 	text-overflow: ellipsis;
 `;
 
+// ${ props => props.screenMode === MODE_DESKTOP ? "flex" : "inline" }
 const BaseUrl = styled.div`
 	display: inline-block;
 	cursor: pointer;
@@ -156,7 +158,7 @@ const BaseUrl = styled.div`
 `;
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
-    display:flex;
+    display: flex;
     align-items: center;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -177,7 +179,7 @@ const UrlBaseContainer = styled.span`
 	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
 `;
 
-const MobileFaviconContainer = styled.div`
+const FaviconContainer = styled.div`
 width: 28px;
 height: 28px;
 margin-right: 12px;
@@ -252,14 +254,14 @@ color: black;`;
 const DesktopPartContainer = styled.div`
 `;
 
-const UrlDownArrow = styled.div`
+const VerticalDotsContainer = styled.span`
 	display: inline-block;
-	margin-top: 9px;
-	margin-left: 6px;
-	border-top: 5px solid #70757a;
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
-	vertical-align: top;
+	width: 18px;
+	height: 18px;
+	min-width: 18px;
+	line-height: 18px;
+	margin-left: 8px;
+	vertical-align:bottom;
 `;
 
 const DatePreview = styled.span`
@@ -614,12 +616,14 @@ export default class SnippetPreview extends PureComponent {
 					onMouseLeave={ onMouseLeave.bind( null ) }
 					screenMode={ mode }
 				>
-					{ isMobileMode && <MobileFaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></MobileFaviconContainer> }
+					<FaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></FaviconContainer>
 					<UrlContentContainer screenMode={ mode }>
-						{ isMobileMode && <SiteName>{ siteName }</SiteName> }
+						<SiteName>{ siteName }</SiteName>
 						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
+						{ ! isMobileMode && <VerticalDotsContainer><VerticalDots /></VerticalDotsContainer> }
 					</UrlContentContainer>
+					{ isMobileMode && <VerticalDotsContainer><VerticalDots /></VerticalDotsContainer> }
 				</BaseUrlOverflowContainer>
 			</Url>
 		</React.Fragment>;
@@ -813,7 +817,6 @@ export default class SnippetPreview extends PureComponent {
 		} = this.getPreparedComponents( mode );
 
 		const isDesktopMode = mode === MODE_DESKTOP;
-		const downArrow     = isDesktopMode ? <UrlDownArrow /> : null;
 		const amp           = isDesktopMode || ! isAmp ? null : <Amp />;
 
 		/*
@@ -835,7 +838,6 @@ export default class SnippetPreview extends PureComponent {
 				>
 					<PartContainer>
 						{ this.renderUrl() }
-						{ downArrow }
 						<ScreenReaderText>
 							{ __( "SEO title preview", "wordpress-seo" ) + ":" }
 						</ScreenReaderText>
