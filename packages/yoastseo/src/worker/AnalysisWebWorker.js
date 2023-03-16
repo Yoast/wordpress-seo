@@ -1090,7 +1090,6 @@ export default class AnalysisWebWorker {
 			this._researcher.setPaper( this._paper );
 
 			const languageProcessor = new LanguageProcessor( this._researcher );
-			// const tree = filterTree(tree);
 			this._paper.setTree( filterTree(build( this._paper.getText(), languageProcessor ), permanentFilters ) );
 
 			console.log( this._paper.getTree() );
