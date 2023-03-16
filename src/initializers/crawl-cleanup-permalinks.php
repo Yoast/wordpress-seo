@@ -231,8 +231,6 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		/**
 		 * Filter: 'Yoast\WP\SEO\allowlist_permalink_vars' - Allows plugins to register their own variables not to clean.
 		 *
-		 * Note: This is a Premium plugin-only hook.
-		 *
 		 * @since 19.2.0
 		 *
 		 * @param array $allowed_extravars The list of the allowed vars (empty by default).
@@ -262,8 +260,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 
 		$parsed_url = \wp_parse_url( $current_url, \PHP_URL_QUERY );
 
-		// @todo parse_str changes spaces in param names into `_`, we should find a better way to support them.
-		\wp_parse_str( $parsed_url, $query );
+		$query = $this->url_helper->parse_str_params( $parsed_url );
 
 		if ( ! empty( $allowed_extravars ) ) {
 			foreach ( $allowed_extravars as $get ) {
