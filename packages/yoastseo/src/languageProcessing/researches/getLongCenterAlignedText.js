@@ -42,7 +42,11 @@ const getLongCenterAlignedElements = function( elements ) {
 	// Get all elements that have the .has-text-align-center class.
 	elements.forEach( element => {
 		if ( centerAlignRegex.test( element ) ) {
-			elementsWithCenterAlignedText.push( element );
+			elementsWithCenterAlignedText.push( {
+				text: element,
+				// Remove HTML tags from the elements before counting characters and returning too long elements.
+				textLength: sanitizeString( element ).length,
+			} );
 		}
 	} );
 
@@ -51,10 +55,7 @@ const getLongCenterAlignedElements = function( elements ) {
 		return [];
 	}
 
-	// Remove HTML tags from the elements before counting characters and returning too long elements.
-	const sanitizedElements = elementsWithCenterAlignedText.map( element => sanitizeString( element ) );
-
-	return sanitizedElements.filter( element => element.length > 50 );
+	return elementsWithCenterAlignedText.filter( element => element.textLength > 50 );
 };
 
 /**
@@ -72,7 +73,6 @@ export default function getLongBlocksOfCenterAlignedText( paper ) {
 	let text = paper.getText();
 	// Normalize quotes.
 	text = normalize( text );
-	console.log( text, "Text" );
 	const allParagraphs = getAllElementsFromText( text, paragraphsRegex );
 	const allHeadings = getAllElementsFromText( text, headingsRegex );
 	const longBlocksOfCenterAlignedText = [];
@@ -82,13 +82,13 @@ export default function getLongBlocksOfCenterAlignedText( paper ) {
 
 	if ( longParagraphsWithCenterAlignedText.length > 0 ) {
 		longParagraphsWithCenterAlignedText.forEach( paragraph => {
-			longBlocksOfCenterAlignedText.push( { text: paragraph, typeOfBlock: "paragraph" } );
+			longBlocksOfCenterAlignedText.push( { text: paragraph.text, typeOfBlock: "paragraph" } );
 		} );
 	}
 
 	if ( longHeadingsWithCenterAlignedText.length > 0 ) {
 		longHeadingsWithCenterAlignedText.forEach( heading => {
-			longBlocksOfCenterAlignedText.push( { text: heading, typeOfBlock: "heading" } );
+			longBlocksOfCenterAlignedText.push( { text: heading.text, typeOfBlock: "heading" } );
 		} );
 	}
 
