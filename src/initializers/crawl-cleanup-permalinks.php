@@ -269,9 +269,10 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			\header_remove( 'X-Pingback' );
 
 			$message = \sprintf(
-				/* translators: %1$s: Yoast SEO */
-				\__( '%1$s: unregistered URL parameter removed', 'wordpress-seo' ),
-				'Yoast SEO'
+				/* translators: %1$s: Yoast SEO, %2$s: URL pointing to documentation.  */
+				\__( '%1$s: unregistered URL parameter removed. See %2$s', 'wordpress-seo' ),
+				'Yoast SEO',
+				'https://yoa.st/advanced-crawl-settings'
 			);
 
 			\wp_safe_redirect( $proper_url, 301, $message );
