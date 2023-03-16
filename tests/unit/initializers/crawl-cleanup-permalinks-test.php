@@ -529,29 +529,24 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 * @param string                  $server_request_uri $_SERVER['REQUEST_URI'].
 	 * @param string                  $expected expected return value.
 	 */
-	public function test_singular_url( $permalink, $page, $server_request_uri, $expected ) {
+	public function test_singular_url( $permalink, $page, $server_request_uri, $content, $expected ) {
 
 		global $post;
 		$post = Mockery::mock( WP_Post::class );
 
 		$post->ID           = 108;
-		$post->post_content = '<!--nextpage--><!--nextpage--><!--nextpage-->';
+		$post->post_content = $content;
 
 		$_SERVER['REQUEST_URI'] = $server_request_uri;
 
-		Monkey\Functions\expect( 'get_permalink' )
-			->with( $post->ID )
-			->once()
-			->andReturn( $permalink );
+		Monkey\Functions\stubs(
+			[
+				'get_permalink' => $permalink,
+				'get_query_var' => $page,
+				'get_post'      => $post,
 
-		Monkey\Functions\expect( 'get_query_var' )
-			->with( 'page' )
-			->once()
-			->andReturn( $page );
-
-		Monkey\Functions\expect( 'get_post' )
-			->with( $post->ID )
-			->andReturn( $post );
+			]
+		);
 
 		$this->assertSame( $expected, $this->instance->singular_url() );
 	}
@@ -560,12 +555,14 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * Data provider for test_singular_url.
 	 *
-	 * @return array $permalink, $page, $server_request_uri ,$expected.
+	 * @return array $permalink, $page, $server_request_uri, $content ,$expected.
 	 */
 	public function singular_url_provider() {
 		return [
-			[ 'http://basic.wordpress.test/products/108', 0, null, 'http://basic.wordpress.test/products/108' ],
-			[ 'http://basic.wordpress.test/products/108', 0, 'http://basic.wordpress.test/products/108?replytocom=123', 'http://basic.wordpress.test/products/108#comment-123' ],
+			[ 'http://basic.wordpress.test/products/108', 0, null, null, 'http://basic.wordpress.test/products/108' ],
+			[ 'http://basic.wordpress.test/products/108', 0, 'http://basic.wordpress.test/products/108?replytocom=123', null, 'http://basic.wordpress.test/products/108#comment-123' ],
+			[ 'http://basic.wordpress.test/?page_id=123', 2, 'http://basic.wordpress.test/?page_id=123&unknown=123', '<!--nextpage--><!--nextpage--><!--nextpage-->', 'http://basic.wordpress.test/?page_id=123/2/' ],
+			[ 'http://basic.wordpress.test/?page_id=123', 2, 'http://basic.wordpress.test/?page_id=123&unknown=123', '', 'http://basic.wordpress.test/?page_id=123/2/1/' ],
 		];
 	}
 }
