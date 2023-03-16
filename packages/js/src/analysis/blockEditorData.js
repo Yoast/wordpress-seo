@@ -187,13 +187,13 @@ export default class BlockEditorData {
 		let baseUrl = "";
 		try {
 			url = new URL( permalink );
-			baseUrl = url.href;
+			baseUrl = url.origin + url.pathname;
 		} catch ( e ) {
 			// Fallback on the base url retrieved from the wpseoScriptData.
 			baseUrl = window.wpseoScriptData.metabox.base_url;
 		}
 		// Strip slug from the url.
-		baseUrl = baseUrl.replace( new RegExp( slug + "/$" ), "" );
+		baseUrl = baseUrl.replace( new RegExp( encodeURI( slug ) + "/$", "i" ), "" );
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
 		if ( ! baseUrl.endsWith( "/" ) ) {
 			baseUrl += "/";

@@ -9,6 +9,9 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Get action for indexables.
+ *
+ * @deprecated 20.4
+ * @codeCoverageIgnore
  */
 class Indexables_Page_Action {
 
@@ -43,6 +46,9 @@ class Indexables_Page_Action {
 	/**
 	 * Indexable_Action constructor.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param Indexable_Repository   $indexable_repository   The indexable repository.
 	 * @param Post_Type_Helper       $post_type_helper       The post type helper.
 	 * @param Options_Helper         $options_helper         The options helper.
@@ -54,6 +60,8 @@ class Indexables_Page_Action {
 		Options_Helper $options_helper,
 		Indexables_Page_Helper $indexables_page_helper
 	) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$this->indexable_repository   = $indexable_repository;
 		$this->post_type_helper       = $post_type_helper;
 		$this->options_helper         = $options_helper;
@@ -62,6 +70,9 @@ class Indexables_Page_Action {
 
 	/**
 	 * Get public sub types that are relevant for the indexable page.
+	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The subtypes.
 	 */
@@ -75,7 +86,7 @@ class Indexables_Page_Action {
 		 *
 		 * @param array $included_post_types The currently included post types.
 		 */
-		$included_post_types = \apply_filters( 'wpseo_indexable_included_post_types', [ 'post', 'page' ] );
+		$included_post_types = \apply_filters_deprecated( 'wpseo_indexable_included_post_types', [ [ 'post', 'page' ] ], 'Yoast SEO 20.4' );
 		$object_sub_types    = \array_diff( $object_sub_types, $excluded_post_types );
 		$only_post_pages     = \array_intersect( $object_sub_types, $included_post_types );
 
@@ -90,6 +101,9 @@ class Indexables_Page_Action {
 
 	/**
 	 * Creates a query that can find public indexables.
+	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
 	 *
 	 * @return ORM Returns an ORM instance that can be used to execute the query.
 	 */
@@ -118,12 +132,17 @@ class Indexables_Page_Action {
 	/**
 	 * Gets the neccessary information to set up the indexables page.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $content_threshold  The threshold to check against for enough content.
 	 * @param int $analysis_threshold The threshold to check against for enough analyzed content.
 	 *
 	 * @return array The neccessary information to set up the indexables page.
 	 */
 	public function get_setup_info( $content_threshold, $analysis_threshold ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$features = [
 			'isSeoScoreEnabled'    => $this->options_helper->get( 'keyword_analysis_active', true ),
 			'isReadabilityEnabled' => $this->options_helper->get( 'content_analysis_active', true ),
@@ -193,11 +212,16 @@ class Indexables_Page_Action {
 	/**
 	 * Gets the posts with the smallest readability scores.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $limit The maximum amount of results to return.
 	 *
 	 * @return array The posts with the smallest readability scores as an array.
 	 */
 	public function get_least_readable( $limit ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		$least_readability_ignore_list = $this->options_helper->get( 'least_readability_ignore_list', [] );
 		$ignore_list                   = empty( $least_readability_ignore_list ) ? [ -1 ] : $least_readability_ignore_list;
 
@@ -215,11 +239,16 @@ class Indexables_Page_Action {
 	/**
 	 * Gets the posts with the lowest seo scores.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $limit The maximum amount of results to return.
 	 *
 	 * @return array The posts with the lowest seo scores as an array.
 	 */
 	public function get_least_seo_score( $limit ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		// Where_not_equal needs the set to check against not to be empty.
 		$least_seo_score_ignore_list = $this->options_helper->get( 'least_seo_score_ignore_list', [] );
 		$ignore_list                 = empty( $least_seo_score_ignore_list ) ? [ -1 ] : $least_seo_score_ignore_list;
@@ -238,11 +267,16 @@ class Indexables_Page_Action {
 	/**
 	 * Gets the most linked posts.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $limit The maximum amount of results to return.
 	 *
 	 * @return array The most linked posts as an array.
 	 */
 	public function get_most_linked( $limit ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		// Where_not_equal needs the set to check against not to be empty.
 		$most_linked_ignore_list = $this->options_helper->get( 'most_linked_ignore_list', [] );
 		$ignore_list             = empty( $most_linked_ignore_list ) ? [ -1 ] : $most_linked_ignore_list;
@@ -262,11 +296,16 @@ class Indexables_Page_Action {
 	/**
 	 * Gets the least linked posts.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $limit The maximum amount of results to return.
 	 *
 	 * @return array The most linked posts as an array.
 	 */
 	public function get_least_linked( $limit ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		// Where_not_equal needs the set to check against not to be empty.
 		$least_linked_ignore_list = $this->options_helper->get( 'least_linked_ignore_list', [] );
 		$ignore_list              = empty( $least_linked_ignore_list ) ? [ -1 ] : $least_linked_ignore_list;
@@ -294,12 +333,17 @@ class Indexables_Page_Action {
 	/**
 	 * Stores an indexable in an ignore-list.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $ignore_list_name      The name of the ignore-list.
 	 * @param array  $ignored_indexable_ids The IDs of the updated ignored indexables.
 	 *
 	 * @return bool Whether saving the ignore-list to the database succeeded.
 	 */
 	public function update_ignored_indexables( $ignore_list_name, $ignored_indexable_ids ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
 		}
@@ -310,12 +354,17 @@ class Indexables_Page_Action {
 	/**
 	 * Removes an indexable from its ignore-list.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $ignore_list_name The name of the ignore-list.
 	 * @param int    $indexable_id     The ID of the indexable to store in the ignore-list.
 	 *
 	 * @return bool Whether saving the ignore-list to the database succeeded.
 	 */
 	public function remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
 		}
@@ -337,11 +386,16 @@ class Indexables_Page_Action {
 	/**
 	 * Removes all indexables from an ignore-list.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $ignore_list_name The name of the ignore-list.
 	 *
 	 * @return bool Whether saving the ignore-list to the database succeeded.
 	 */
 	public function remove_all_indexables_from_ignore_list( $ignore_list_name ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		if ( ! $this->indexables_page_helper->is_valid_ignore_list_name( $ignore_list_name ) ) {
 			return false;
 		}
@@ -351,31 +405,46 @@ class Indexables_Page_Action {
 	/**
 	 * Gets the reading list state.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @return array The state of each element in the reading list.
 	 */
 	public function get_reading_list() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		return $this->options_helper->get( 'indexables_page_reading_list', [ false, false, false, false, false ] );
 	}
 
 	/**
 	 * Sets the reading list state.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $state The state to be saved.
 	 *
 	 * @return bool Whether saving the reading list state succeeded.
 	 */
 	public function set_reading_list( $state ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		return $this->options_helper->set( 'indexables_page_reading_list', $state );
 	}
 
 	/**
 	 * Sets the indexables overview state.
 	 *
+	 * @deprecated 20.4
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $state The state to be saved.
 	 *
 	 * @return bool Whether saving the indexables overview state succeeded.
 	 */
 	public function set_indexables_state( $state ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
+
 		return $this->options_helper->set( 'indexables_overview_state', $state );
 	}
 }

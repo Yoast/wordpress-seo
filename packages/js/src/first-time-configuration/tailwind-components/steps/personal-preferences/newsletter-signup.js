@@ -31,6 +31,7 @@ async function postSignUp( email ) {
 					email,
 				},
 				list: "Yoast newsletter",
+				source: "free",
 			}
 		),
 	} );
