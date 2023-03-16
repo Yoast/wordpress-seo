@@ -44,27 +44,34 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 				</div>
 				<Title as="h2" size="3" className="yst-mt-3 yst-text-sm yst-leading-normal yst-font-semibold">
 					{ sprintf(
-						/* translators: %1$s expands to Yoast SEO. */
-						__( "Speed up your website with %1$s and Jetpack Boost", "wordpress-seo" ),
-						"Yoast SEO"
+						/* translators: 1: Yoast SEO; 2: Jetpack Boost. */
+						__( "Speed up your website with %1$s and %2$s", "wordpress-seo" ),
+						"Yoast SEO",
+						"Jetpack Boost"
 					) }
 				</Title>
 				<p className="yst-mt-2 yst-text-slate-600">
 					{ sprintf(
 						isJetpackBoostActive
-							/* translators: %1$s expands to Yoast. */
-							? __( "%1$s recommends using Jetpack Boost for automated Critical CSS generation. Whenever you change your site, Boost will automatically generate optimal CSS and performance scores. Upgrade Boost, speed up your site, and improve its ranking!", "wordpress-seo" )
-							/* translators: %1$s expands to Yoast. */
-							: __( "%1$s recommends using Jetpack Boost to speed up your site. Optimize CSS, defer non-essential Javascript, and lazy load images. Install Boost, speed up your site, and improve its ranking!", "wordpress-seo" ),
-						"Yoast"
+							/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
+							? __( "%1$s recommends using %2$s for automated Critical CSS generation. Whenever you change your site, %3$s will automatically generate optimal CSS and performance scores. Upgrade %3$s, speed up your site, and improve its ranking!", "wordpress-seo" )
+							/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
+							: __( "%1$s recommends using %2$s to speed up your site. Optimize CSS, defer non-essential Javascript, and lazy load images. Install %3$s, speed up your site, and improve its ranking!", "wordpress-seo" ),
+						"Yoast",
+						"Jetpack Boost",
+						"Boost"
 					) }
 				</p>
 				<Link className="yst-block yst-mt-4" href={ getJetpackBoostPrePublishLink } target="_blank" rel="noopener noreferrer">
 					<span>
-						{ isJetpackBoostActive
-							? __( "Upgrade Jetpack Boost", "wordpress-seo" )
-							: __( "Get Jetpack Boost", "wordpress-seo" )
-						}
+						{ sprintf(
+							isJetpackBoostActive
+								/* translators: Jetpack Boost. */
+								? __( "Upgrade %s", "wordpress-seo" )
+								/* translators: Jetpack Boost. */
+								: __( "Get %s", "wordpress-seo" ),
+							"Jetpack Boost"
+						) }
 					</span>
 					<ExternalLinkIcon className="yst-inline yst-ml-1 yst-h-4 yst-w-4 yst-text-indigo-600" />
 					<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
