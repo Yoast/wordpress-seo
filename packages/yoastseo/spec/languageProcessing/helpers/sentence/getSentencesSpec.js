@@ -18,6 +18,7 @@ import {
 } from "../sanitize/mergeListItemsSpec";
 
 import { forEach } from "lodash-es";
+import memoizedSentenceTokenizer from "../../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
 /**
  * Helper to test sentence detection.
@@ -33,6 +34,7 @@ function testGetSentences( testCases ) {
 }
 
 describe( "Get sentences from text", function() {
+	memoizedSentenceTokenizer.cache.clear();
 	it( "does not split sentences ending on a quotation mark without a preceding period", function() {
 		const sentence = "Hello. \"How are you\" Bye";
 		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\" Bye" ] );
