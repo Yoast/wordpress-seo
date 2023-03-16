@@ -101,7 +101,7 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 		);
 	} );
 
-	it( "returns a okay result for an exact match keyphrase starting with a period when the title does not start with the keyword", function() {
+	it( "returns an okay result for an exact match keyphrase starting with a period when the title does not start with the keyword", function() {
 		const paper = new Paper( "", {
 			keyword: ".rar",
 			title: "files in .rar",

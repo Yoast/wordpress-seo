@@ -68,7 +68,6 @@ describe( "Matches keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
@@ -82,7 +81,6 @@ describe( "Matches keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
@@ -138,7 +136,6 @@ describe( "Matches keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
@@ -148,11 +145,10 @@ describe( "Matches keywords in string", function() {
 	it( "returns no match with dot", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "focus keyword",
-			title: "focus-keyword",
+			title: "focus .keyword",
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
