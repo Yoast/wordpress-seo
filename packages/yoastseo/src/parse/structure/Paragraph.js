@@ -11,7 +11,7 @@ class Paragraph extends Node {
 	 *
 	 * @param {Object} attributes The paragraph's attributes.
 	 * @param {(Node|Text)[]} childNodes This paragraph's child nodes.
-	 * @param {Object} sourceCodeLocation This node's location in the source code, from parse5.
+	 * @param {Object} sourceCodeLocationInfo This paragraph's location in the source code, from parse5.
 	 * @param {boolean} isImplicit Whether this paragraph is an implicit paragraph, or an explicit paragraph.
 	 */
 	constructor( attributes = {}, childNodes = [], sourceCodeLocationInfo = {}, isImplicit = false ) {
