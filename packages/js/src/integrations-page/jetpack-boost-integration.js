@@ -55,7 +55,7 @@ export const JetpackBoostIntegration = () => {
 		"Jetpack Boost",
 		"Boost"
 	);
-	if ( isJetpackBoostActive ) {
+	if ( isJetpackBoostActive && ! isJetpackBoostPremium ) {
 		description = sprintf(
 			/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
 			__( "%1$s recommends using %2$s for automated Critical CSS generation. Whenever you change your site, %3$s will automatically regenerate your site’s Critical CSS and performance scores. Upgrade %3$s, speed up your site, and improve its ranking!", "wordpress-seo" ),
@@ -64,7 +64,7 @@ export const JetpackBoostIntegration = () => {
 			"Boost"
 		);
 	}
-	if ( isJetpackBoostActive ) {
+	if ( isJetpackBoostActive && isJetpackBoostPremium ) {
 		description = sprintf(
 			/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
 			__( "%1$s recommends using %2$s for automated Critical CSS generation. Whenever you change your site, %3$s will automatically regenerate your site’s Critical CSS and performance scores.", "wordpress-seo" ),
