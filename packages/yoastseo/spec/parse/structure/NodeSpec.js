@@ -26,6 +26,18 @@ describe( "A test for the findAll method", () => {
 			childNodes: [ { name: "#text", value: "Hello, world! " } ],
 			isImplicit: false,
 			sentences: [],
+			sourceCodeLocation: {
+				startOffset: 5,
+				endOffset: 40,
+				startTag: {
+					startOffset: 5,
+					endOffset: 22,
+				},
+				endTag: {
+					startOffset: 36,
+					endOffset: 40,
+				},
+			},
 		},
 		{
 			name: "p",
@@ -33,6 +45,18 @@ describe( "A test for the findAll method", () => {
 			childNodes: [ { name: "#text", value: "Hello, yoast!" } ],
 			isImplicit: false,
 			sentences: [],
+			sourceCodeLocation: {
+				startOffset: 40,
+				endOffset: 74,
+				startTag: {
+					startOffset: 40,
+					endOffset: 57,
+				},
+				endTag: {
+					startOffset: 70,
+					endOffset: 74,
+				},
+			},
 		} ];
 
 		expect( searchResult ).toEqual( expected );

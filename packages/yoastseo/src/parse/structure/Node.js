@@ -1,4 +1,6 @@
 import { findAllInTree, innerText } from "../traverse";
+import SourceCodeLocation from "./SourceCodeLocation";
+import { isEmpty } from "lodash-es";
 
 /**
  * A node in the tree.
@@ -10,11 +12,35 @@ class Node {
 	 * @param {string} name The node's name or tag.
 	 * @param {Object} attributes This node's attributes.
 	 * @param {(Node|Text)[]} childNodes This node's child nodes.
+	 * @param {Object} sourceCodeLocationInfo This node's location in the source code, from parse5.
 	 */
-	constructor( name, attributes = {}, childNodes = [] ) {
+	constructor( name, attributes = {}, childNodes = [], sourceCodeLocationInfo = {} ) {
+		/**
+		 * This node's name or tag.
+		 * @type {string}
+		 */
 		this.name = name;
+
+		/**
+		 * This node's attributes.
+		 * @type {Object}
+		 */
 		this.attributes = attributes;
+
+		/**
+		 * This node's child nodes.
+		 * @type {(Node|Text)[]}
+		 */
 		this.childNodes = childNodes;
+
+		// Don't add source code location when unavailable, nor for the root element.
+		if ( ! isEmpty( sourceCodeLocationInfo ) && name !== "#document-fragment" ) {
+			/**
+			 * The location of this node inside the HTML.
+			 * @type {SourceCodeLocation}
+			 */
+			this.sourceCodeLocation = new SourceCodeLocation( sourceCodeLocationInfo );
+		}
 	}
 
 	/**

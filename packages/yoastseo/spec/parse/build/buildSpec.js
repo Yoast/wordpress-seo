@@ -14,6 +14,18 @@ describe( "The parse function", () => {
 			attributes: {},
 			childNodes: [ {
 				name: "div",
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 45,
+					startTag: {
+						startOffset: 0,
+						endOffset: 5,
+					},
+					endTag: {
+						startOffset: 39,
+						endOffset: 45,
+					},
+				},
 				attributes: {},
 				childNodes: [ {
 					name: "p",
@@ -26,6 +38,18 @@ describe( "The parse function", () => {
 						name: "#text",
 						value: "Hello, world!",
 					} ],
+					sourceCodeLocation: {
+						startOffset: 5,
+						endOffset: 39,
+						startTag: {
+							startOffset: 5,
+							endOffset: 22,
+						},
+						endTag: {
+							startOffset: 35,
+							endOffset: 39,
+						},
+					},
 				} ],
 			} ],
 		} );
@@ -72,9 +96,33 @@ describe( "The parse function", () => {
 								name: "#text",
 								value: "World!",
 							} ],
+							sourceCodeLocation: {
+								startOffset: 11,
+								endOffset: 30,
+								startTag: {
+									startOffset: 11,
+									endOffset: 17,
+								},
+								endTag: {
+									startOffset: 23,
+									endOffset: 30,
+								},
+							},
 						},
 					],
 				} ],
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 36,
+					startTag: {
+						startOffset: 0,
+						endOffset: 5,
+					},
+					endTag: {
+						startOffset: 30,
+						endOffset: 36,
+					},
+				},
 			} ],
 		} );
 	} );
@@ -132,8 +180,32 @@ describe( "The parse function", () => {
 									value: "World!",
 								},
 							],
+							sourceCodeLocation: {
+								startOffset: 11,
+								endOffset: 24,
+								startTag: {
+									startOffset: 11,
+									endOffset: 14,
+								},
+								endTag: {
+									startOffset: 20,
+									endOffset: 24,
+								},
+							},
 						},
 					],
+					sourceCodeLocation: {
+						startOffset: 0,
+						endOffset: 30,
+						startTag: {
+							startOffset: 0,
+							endOffset: 5,
+						},
+						endTag: {
+							startOffset: 24,
+							endOffset: 30,
+						},
+					},
 				},
 			],
 		} );

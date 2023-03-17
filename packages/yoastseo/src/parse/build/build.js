@@ -14,6 +14,6 @@ import tokenize from "./private/tokenize";
  * @returns {Node} The tree representation of the HTML string.
  */
 export default function build( htmlString, languageProcessor ) {
-	const tree = adapt( parseFragment( htmlString ) );
+	const tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
 	return tokenize( tree, languageProcessor );
 }

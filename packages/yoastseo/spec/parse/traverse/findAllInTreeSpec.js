@@ -22,11 +22,41 @@ describe( "A test for findAllInTree", () => {
 				attributes: { "class": "yoast" },
 				childNodes: [
 					{ name: "#text", value: "Hello, world! " },
-				], isImplicit: false, name: "p", sentences: [],
+				],
+				isImplicit: false,
+				name: "p",
+				sentences: [],
+				sourceCodeLocation: {
+					startOffset: 5,
+					endOffset: 40,
+					startTag: {
+						startOffset: 5,
+						endOffset: 22,
+					},
+					endTag: {
+						startOffset: 36,
+						endOffset: 40,
+					},
+				},
 			}, { attributes: { "class": "yoast" },
 				childNodes: [
 					{ name: "#text", value: "Hello, yoast! " },
-				], isImplicit: false, name: "p", sentences: [],
+				],
+				isImplicit: false,
+				name: "p",
+				sentences: [],
+				sourceCodeLocation: {
+					startOffset: 40,
+					endOffset: 75,
+					startTag: {
+						startOffset: 40,
+						endOffset: 57,
+					},
+					endTag: {
+						startOffset: 71,
+						endOffset: 75,
+					},
+				},
 			} ];
 
 		expect( searchResult ).toEqual( expected );

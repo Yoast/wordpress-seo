@@ -76,13 +76,13 @@ export default function adapt( tree ) {
 	const attributes = adaptAttributes( tree.attrs );
 
 	if ( isParagraph( tree.nodeName ) ) {
-		return new Paragraph( attributes, children );
+		return new Paragraph( attributes, children, tree.sourceCodeLocation );
 	}
 
 	if ( isHeading( tree.nodeName ) ) {
 		const headingLevel = parseInt( tree.nodeName[ 1 ], 10 );
-		return new Heading( headingLevel, attributes, children );
+		return new Heading( headingLevel, attributes, children, tree.sourceCodeLocation );
 	}
 
-	return new Node( tree.nodeName, attributes, children );
+	return new Node( tree.nodeName, attributes, children, tree.sourceCodeLocation );
 }
