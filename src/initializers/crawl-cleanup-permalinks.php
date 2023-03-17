@@ -182,11 +182,6 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		$proper_url = '';
 
 		if ( \is_singular() ) {
-			// Prevent cleaning out posts & page previews for people capable of viewing them.
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We know this is scary.
-			if ( isset( $_GET['preview'] ) && isset( $_GET['preview_nonce'] ) && \current_user_can( 'edit_post' ) ) {
-				return;
-			}
 			$proper_url = $this->crawl_cleanup_helper->singular_url();
 		}
 		elseif ( \is_front_page() ) {
