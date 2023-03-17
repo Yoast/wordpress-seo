@@ -1,4 +1,4 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 import { Assessment, AssessmentResult, helpers, languageProcessing, values, markers } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
@@ -113,16 +113,20 @@ export default class TextAlignmentAssessment extends Assessment {
 	 */
 	calculateResult( paper, researcher, textContainsCenterAlignedText ) {
 		const preferredAlignment = paper.isRTL() ? __( "right-aligned", "wordpress-seo" ) : __( "left-aligned", "wordpress-seo" );
+		const foundLongCenterAlignedText = textContainsCenterAlignedText.length;
 
-		if ( textContainsCenterAlignedText.length === 1 ) {
+		if (  foundLongCenterAlignedText > 0 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 					%4$s expands to "right-aligned" when the string is shown in an RTL
 					and expands to "left-aligned" when the string is shown in LTR */
-					__(
+					_n(
 						"%1$sAlignment%3$s: Your text has a long block of center-aligned text. %2$sWe recommend changing that to %4$s%3$s.",
+						"%1$sAlignment%3$s: Your text contains multiple long blocks of center-aligned text. " +
+						"%2$sWe recommend changing that to %4$s%3$s.",
+						foundLongCenterAlignedText,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -132,21 +136,5 @@ export default class TextAlignmentAssessment extends Assessment {
 				),
 			};
 		}
-
-		return {
-			score: this._config.scores.bad,
-			resultText: sprintf(
-				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
-				%4$s expands to "right-aligned" when the string is shown in an RTL and expands to "left-aligned" when the string is shown in LTR */
-				__(
-					"%1$sAlignment%3$s: Your text contains multiple long blocks of center-aligned text. %2$sWe recommend changing that to %4$s%3$s.",
-					"wordpress-seo"
-				),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
-				"</a>",
-				preferredAlignment
-			),
-		};
 	}
 }
