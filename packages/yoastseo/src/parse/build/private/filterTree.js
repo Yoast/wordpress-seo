@@ -1,5 +1,3 @@
-import Node from "../../structure/Node";
-
 /**
  * Checks if a node should be kept or discarded.
  * @param {Object} node A node.

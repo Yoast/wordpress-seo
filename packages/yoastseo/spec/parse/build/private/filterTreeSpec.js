@@ -1,9 +1,7 @@
 import filterTree from "../../../../src/parse/build/private/filterTree";
-import content from "./testPage.html";
 import build from "../../../../src/parse/build/build";
 import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
 import Factory from "../../../specHelpers/factory";
-import { elementHasName, elementHasClass } from "../../../../src/parse/build/private/filterHelpers";
 import permanentFilters from "../../../../src/parse/build/private/alwaysFilterElements";
 
 

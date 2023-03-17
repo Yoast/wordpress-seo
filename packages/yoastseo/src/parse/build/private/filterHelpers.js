@@ -1,5 +1,5 @@
 /**
- * Filter helpers fort the html treefilter.
+ * Filter helpers for the html treefilter.
  * Are all functions that return a callback with the element as only argument.
  */
 
