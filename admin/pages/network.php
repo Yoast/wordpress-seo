@@ -19,17 +19,12 @@ $network_tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpre
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'features', __( 'Features', 'wordpress-seo' ) ) );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'integrations', __( 'Integrations', 'wordpress-seo' ) ) );
 
-$premium_installed = YoastSEO()->helpers->product->is_premium();
-$premium_version   = YoastSEO()->helpers->product->get_premium_version();
-$premium           = $premium_installed && $premium_version !== null && version_compare( $premium_version, '18.6-RC1', '>=' );
 $network_tabs->add_tab(
 	new WPSEO_Option_Tab(
 		'crawl-settings',
 		__( 'Crawl settings', 'wordpress-seo' ),
 		[
-			'save_button' => $premium,
-			'beta'        => $premium,
-			'premium'     => ! $premium,
+			'save_button' => true,
 		]
 	)
 );

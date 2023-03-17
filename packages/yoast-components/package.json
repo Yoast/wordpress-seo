@@ -53,7 +53,7 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+      "/node_modules/(?!lodash-es).+\\.js$"
     ]
   },
   "author": "Yoast",
@@ -63,7 +63,6 @@
     "@wordpress/i18n": "^1.1.0",
     "@yoast/analysis-report": "^1.21.0",
     "@yoast/components": "^2.19.0",
-    "@yoast/configuration-wizard": "^2.22.0",
     "@yoast/helpers": "^0.16.0",
     "@yoast/replacement-variable-editor": "^1.17.0",
     "@yoast/search-metadata-previews": "^2.24.1",
@@ -80,8 +79,7 @@
     "redux": "^3.7.2",
     "styled-components": "^5.3.6",
     "whatwg-fetch": "^1.0.0",
-    "wicked-good-xpath": "^1.3.0",
-    "yoastseo": "^1.91.2"
+    "wicked-good-xpath": "^1.3.0"
   },
   "devDependencies": {
     "@lodder/grunt-postcss": "^3.1.1",
