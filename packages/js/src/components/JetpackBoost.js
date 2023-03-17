@@ -10,6 +10,26 @@ import { ReactComponent as YoastLogo } from "../../images/yoast-seo-simple-logo.
 import withPersistentDismiss from "../containers/withPersistentDismiss";
 
 /**
+ * The JetpackBoost ad description.
+ * Used to avoid eslint complexity warning.
+ * @param {boolean} isJetpackBoostActive The component props.
+ * @returns {string} The JetpackBoost ad description.
+ */
+const getDescription = ( isJetpackBoostActive ) => {
+	return sprintf(
+		isJetpackBoostActive
+			/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
+			? __( "%1$s recommends using %2$s for automated Critical CSS generation. Whenever you change your site, %3$s will automatically generate optimal CSS and performance scores. Upgrade %3$s, speed up your site, and improve its ranking!", "wordpress-seo" )
+			/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
+			: __( "%1$s recommends using %2$s to speed up your site. Optimize CSS, defer non-essential Javascript, and lazy load images. Install %3$s, speed up your site, and improve its ranking!", "wordpress-seo" ),
+		"Yoast",
+		"Jetpack Boost",
+		"Boost"
+	);
+};
+
+
+/**
  * @param {string} store The redux store key.
  * @param {boolean} isAlertDismissed Whether the "alert" is dismissed.
  * @param {function} onDismissed Function that will dismiss the "alert".
@@ -19,6 +39,7 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 	const isJetpackBoostActive = get( window, "wpseoScriptData.isJetpackBoostActive", "" ) === "1";
 	const isJetpackBoostNotPremium = get( window, "wpseoScriptData.isJetpackBoostNotPremium", "" ) === "1";
 	const getJetpackBoostPrePublishLink = get( window, "wpseoScriptData.metabox.getJetpackBoostPrePublishLink", "" );
+	const upgradeJetpackBoostPrePublishLink = get( window, "wpseoScriptData.metabox.upgradeJetpackBoostPrePublishLink", "" );
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
 	if ( isPremium || isAlertDismissed || ! isJetpackBoostNotPremium ) {
 		return null;
@@ -51,18 +72,10 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 					) }
 				</Title>
 				<p className="yst-mt-2 yst-text-slate-600">
-					{ sprintf(
-						isJetpackBoostActive
-							/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
-							? __( "%1$s recommends using %2$s for automated Critical CSS generation. Whenever you change your site, %3$s will automatically generate optimal CSS and performance scores. Upgrade %3$s, speed up your site, and improve its ranking!", "wordpress-seo" )
-							/* translators: 1: Yoast, 2: Jetpack Boost, 3: Boost (short for Jetpack Boost). */
-							: __( "%1$s recommends using %2$s to speed up your site. Optimize CSS, defer non-essential Javascript, and lazy load images. Install %3$s, speed up your site, and improve its ranking!", "wordpress-seo" ),
-						"Yoast",
-						"Jetpack Boost",
-						"Boost"
-					) }
+					{ getDescription( isJetpackBoostActive ) }
 				</p>
-				<Link className="yst-block yst-mt-4" href={ getJetpackBoostPrePublishLink } target="_blank" rel="noopener noreferrer">
+
+				<Link className="yst-block yst-mt-4" href={ isJetpackBoostActive ? upgradeJetpackBoostPrePublishLink : getJetpackBoostPrePublishLink } target="_blank" rel="noopener noreferrer">
 					<span>
 						{ sprintf(
 							isJetpackBoostActive
