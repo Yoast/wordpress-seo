@@ -33,9 +33,9 @@ import { ReactComponent as VerticalDots } from "../../../js/images/google-previe
 // Was #1e0fbe
 const colorTitleDesktop         = "#1a0dab";
 const colorTitleMobile          = "#1558d6";
-const colorUrlBaseDesktop       = "#202124";
-const colorUrlRestDesktop       = "#5f6368";
-const colorUrlBaseMobile        = "#202124";
+const colorUrlBaseDesktop       = "#4d5156";
+const colorUrlRestDesktop       = "#4d5156";
+const colorUrlBaseMobile        = "#3c4043";
 const colorUrlRestMobile        = "#70757a";
 const colorDescriptionDesktop   = "#4d5156";
 const colorDescriptionMobile    = "#3c4043";
@@ -44,6 +44,9 @@ const colorGeneratedDescription = "#4d5156";
 // Was #70757f for both desktop and mobile
 const colorDateDesktop          = "#777";
 const colorDateMobile           = "#70757a";
+
+const colorVerticalDotsDesktop  = "#4d5156";
+const colorVerticalDotsMobile   = "#70757a";
 
 // Font sizes and line-heights.
 const fontSizeTitleMobile    = "20px";
@@ -145,38 +148,41 @@ const TitleUnboundedMobile = styled.span`
 	text-overflow: ellipsis;
 `;
 
-// ${ props => props.screenMode === MODE_DESKTOP ? "flex" : "inline" }
 const BaseUrl = styled.div`
 	display: inline-block;
 	cursor: pointer;
 	position: relative;
-	max-width: 90%;
+	width: calc( 100% + 7px );
 	white-space: nowrap;
 	font-size: 14px;
 	line-height: 16px;
 	vertical-align: top;
 `;
+BaseUrl.displayName = "BaseUrl";
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 	overflow: hidden;
+	justify-content: space-between;
 	text-overflow: ellipsis;
 	max-width: 100%;
-	margin-bottom: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "12px" };
+	margin-bottom: 12px;
 	padding-top: 1px;
-	line-height: ${ props => props.screenMode === MODE_DESKTOP ? "1.5" : "20px" };
-	vertical-align: ${ props => props.screenMode === MODE_DESKTOP ? "baseline" : "top" };
+	line-height: 20px;
+	vertical-align: bottom;
 `;
+BaseUrlOverflowContainer.displayName = "BaseUrlOverflowContainer";
 
 const UrlContentContainer = styled.span`
 	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeUrlDesktop : fontSizeUrlMobile };
 	line-height: ${ props => props.screenMode === MODE_DESKTOP ? lineHeightUrlDesktop : lineHeightUrlMobile };
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlRestMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
+	flex-grow: 1;
 `;
 
 const UrlBaseContainer = styled.span`
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlRestMobile };
 `;
 
 const FaviconContainer = styled.div`
@@ -256,11 +262,9 @@ const DesktopPartContainer = styled.div`
 
 const VerticalDotsContainer = styled.span`
 	display: inline-block;
-	width: 18px;
 	height: 18px;
-	min-width: 18px;
 	line-height: 18px;
-	margin-left: 8px;
+	padding-left: 8px;
 	vertical-align:bottom;
 `;
 
@@ -619,11 +623,13 @@ export default class SnippetPreview extends PureComponent {
 					<FaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></FaviconContainer>
 					<UrlContentContainer screenMode={ mode }>
 						<SiteName>{ siteName }</SiteName>
-						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
+						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
-						{ ! isMobileMode && <VerticalDotsContainer><VerticalDots /></VerticalDotsContainer> }
+						{ ! isMobileMode && <VerticalDotsContainer>
+							<VerticalDots fill={ colorVerticalDotsDesktop } style={ { width: "18px" } } />
+						</VerticalDotsContainer> }
 					</UrlContentContainer>
-					{ isMobileMode && <VerticalDotsContainer><VerticalDots /></VerticalDotsContainer> }
+					{ isMobileMode && <VerticalDots fill={ colorVerticalDotsMobile } style={ { width: "18px" } } /> }
 				</BaseUrlOverflowContainer>
 			</Url>
 		</React.Fragment>;
