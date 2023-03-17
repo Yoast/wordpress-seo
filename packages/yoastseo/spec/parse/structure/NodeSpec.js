@@ -22,14 +22,14 @@ describe( "A test for the findAll method", () => {
 
 		const expected = [ {
 			name: "p",
-			attributes: { "class": "yoast" },
+			attributes: { "class": new Set( [ "yoast" ] ) },
 			childNodes: [ { name: "#text", value: "Hello, world! " } ],
 			isImplicit: false,
 			sentences: [],
 		},
 		{
 			name: "p",
-			attributes: { "class": "yoast" },
+			attributes: { "class": new Set( [ "yoast" ] ) },
 			childNodes: [ { name: "#text", value: "Hello, yoast!" } ],
 			isImplicit: false,
 			sentences: [],
