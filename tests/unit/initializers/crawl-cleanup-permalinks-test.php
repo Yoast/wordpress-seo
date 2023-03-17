@@ -244,9 +244,10 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 * @param int    $recreate_current_url_times times recreate_current_url is called.
 	 * @param string $current_url current url.
 	 * @param array  $allowed_params allowed params.
+	 * @param bool   $is_singular is a single post.
 	 * @param int    $expected times redirect is done.
 	 */
-	public function test_clean_permalinks( $avoid_redirect, $recreate_current_url_times, $current_url, $allowed_params, $expected ) {
+	public function test_clean_permalinks( $avoid_redirect, $recreate_current_url_times, $current_url, $allowed_params, $is_singular, $expected ) {
 
 		$this->crawl_cleanup_helper
 			->expects( 'avoid_redirect' )
@@ -274,14 +275,12 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	/**
 	 * Data provider for clean_permalinks.
 	 *
-	 * @return array avoid_redirect, recreate_current_url_times, allowed_params, current_url, expected.
+	 * @return array avoid_redirect, recreate_current_url_times, allowed_params, current_url,is_singular, expected.
 	 */
 	public function clean_permalinks_provider() {
 		return [
-			[ true, 0, null, null, 0 ],
-			[ false, 1, 'http://www.example.com/?unknown=123', [ 'query' => [] ], 0 ],
+			[ true, 0, null, null, null, 0 ],
+			[ false, 1, 'http://www.example.com/?unknown=123', [ 'query' => [] ], true, 0 ],
 		];
 	}
 }
-
-
