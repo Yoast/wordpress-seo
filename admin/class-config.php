@@ -65,11 +65,7 @@ class WPSEO_Admin_Pages {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( $page === 'wpseo_titles' ) {
-			$this->asset_manager->enqueue_style( 'search-appearance' );
-		}
-
-		if ( $page === 'wpseo_social' || $page === 'wpseo_licenses' ) {
+		if ( $page === 'wpseo_licenses' ) {
 			$this->asset_manager->enqueue_style( 'tailwind' );
 		}
 	}
@@ -97,7 +93,7 @@ class WPSEO_Admin_Pages {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_workouts' ], true ) ) {
+		if ( in_array( $page, [ WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_workouts' ], true ) ) {
 			wp_enqueue_media();
 
 			$script_data['media'] = [
@@ -109,30 +105,6 @@ class WPSEO_Admin_Pages {
 
 		if ( $page === 'wpseo_tools' ) {
 			$this->enqueue_tools_scripts();
-		}
-
-		if ( $page === 'wpseo_social' ) {
-			$user_id = WPSEO_Options::get( 'company_or_person_user_id', '' );
-			$user    = \get_userdata( $user_id );
-
-			$user_name = '';
-			if ( $user instanceof \WP_User ) {
-				$user_name = $user->get( 'display_name' );
-			}
-
-			$script_data['social'] = [
-				'facebook_url'      => WPSEO_Options::get( 'facebook_site', '' ),
-				'twitter_username'  => WPSEO_Options::get( 'twitter_site', '' ),
-				'mastodon_url'      => WPSEO_Options::get( 'mastodon_url', '' ),
-				'other_social_urls' => WPSEO_Options::get( 'other_social_urls', [] ),
-				'company_or_person' => WPSEO_Options::get( 'company_or_person', '' ),
-				'user_id'           => $user_id,
-				'user_name'         => $user_name,
-			];
-
-			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' );
-
-			$script_data['force_organization'] = ( defined( 'WPSEO_LOCAL_FILE' ) );
 		}
 
 		$this->asset_manager->localize_script( 'settings', 'wpseoScriptData', $script_data );
@@ -148,7 +120,7 @@ class WPSEO_Admin_Pages {
 	 * @return array The replacement and recommended replacement variables.
 	 */
 	public function get_replace_vars_script_data() {
-		_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
 		$replace_vars                 = new WPSEO_Replace_Vars();
 		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();

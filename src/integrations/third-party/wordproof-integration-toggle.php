@@ -117,7 +117,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
 	 */
 	public function after_integration_toggle( $integration ) {
-		_deprecated_function( __METHOD__, 'WPSEO 20.3' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 20.3' );
 		if ( $integration->setting === 'wordproof_integration_active' ) {
 			if ( $integration->disabled ) {
 
