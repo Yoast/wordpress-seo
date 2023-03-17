@@ -23,12 +23,8 @@ const getLongCenterAlignedElements = function( elements ) {
 
 		// Only retrieve center-aligned element that is longer than 50 characters.
 		if ( centerAlignRegex.test( element ) && elementLength > 50 ) {
-			elementsWithCenterAlignedText.push( {
-				// The unsanitized text. This text will be used for highlighting feature where we will match this with the html of a post.
-				text: element,
-				// The sanitized element length.
-				textLength: elementLength,
-			} );
+			// The unsanitized text. This text will be used for highlighting feature where we will match this with the html of a post.
+			elementsWithCenterAlignedText.push( element );
 		}
 	} );
 
@@ -42,7 +38,7 @@ const getLongCenterAlignedElements = function( elements ) {
  * Returns an array with one object per paragraph/heading.
  * For example: [ {text: "abc", typeOfBlock: "heading"}, {text: "123", typeOfBlock: "paragraph"} ].
  *
- * @param {string}	paper	The paper to analyze.
+ * @param {Paper}	paper	The paper to analyze.
  *
  * @returns {Object[]}	An array of objects for each too long center-aligned paragraph/heading.
  */
@@ -62,13 +58,13 @@ export default function getLongBlocksOfCenterAlignedText( paper ) {
 
 	if ( longParagraphsWithCenterAlignedText.length > 0 ) {
 		longParagraphsWithCenterAlignedText.forEach( paragraph => {
-			longBlocksOfCenterAlignedText.push( { text: paragraph.text, typeOfBlock: "paragraph" } );
+			longBlocksOfCenterAlignedText.push( { text: paragraph, typeOfBlock: "paragraph" } );
 		} );
 	}
 
 	if ( longHeadingsWithCenterAlignedText.length > 0 ) {
 		longHeadingsWithCenterAlignedText.forEach( heading => {
-			longBlocksOfCenterAlignedText.push( { text: heading.text, typeOfBlock: "heading" } );
+			longBlocksOfCenterAlignedText.push( { text: heading, typeOfBlock: "heading" } );
 		} );
 	}
 
