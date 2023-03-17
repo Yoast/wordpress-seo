@@ -18,19 +18,19 @@ const getLongCenterAlignedElements = function( elements ) {
 
 	// Get all elements that have the .has-text-align-center class.
 	elements.forEach( element => {
+		// Remove HTML tags from the elements before counting characters.
 		const elementLength = sanitizeString( element ).length;
 
 		if ( centerAlignRegex.test( element ) && elementLength > 50 ) {
 			elementsWithCenterAlignedText.push( {
-				// Return the unsanitized text. This text will be used for highlighting feature where we will match this with the html of a post.
+				// The unsanitized text. This text will be used for highlighting feature where we will match this with the html of a post.
 				text: element,
-				// Remove HTML tags from the elements before counting characters and returning too long elements.
+				// The sanitized element length.
 				textLength: elementLength,
 			} );
 		}
 	} );
 
-	// Only return the element with center aligned texts that are longer than 50 characters.
 	return elementsWithCenterAlignedText;
 };
 
