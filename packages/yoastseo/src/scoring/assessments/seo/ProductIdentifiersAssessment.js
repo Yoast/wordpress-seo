@@ -5,7 +5,7 @@ import { Assessment, AssessmentResult, helpers } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
 
 /**
- * Represents the assessment for the product identifiers.
+ * Represents the assessment that checks whether a product has identifier(s).
  */
 export default class ProductIdentifiersAssessment extends Assessment {
 	/**
@@ -35,7 +35,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
-	 * Tests whether a product has product identifiers and returns an assessment result based on the research.
+	 * Executes the assessment and returns a result based on the research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 *
