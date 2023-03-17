@@ -43,14 +43,13 @@ export default class TextAlignmentAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		this.textContainsCenterAlignedText = researcher.getResearch( "getLongCenterAlignedText" );
-
-		const calculatedScore = this.calculateResult( paper, researcher, this.textContainsCenterAlignedText );
-
 		const assessmentResult = new AssessmentResult();
 		// We don't want to show the assessment and its feedback when the paper doesn't contain center-aligned text.
 		if ( this.textContainsCenterAlignedText.length === 0 ) {
 			return assessmentResult;
 		}
+
+		const calculatedScore = this.calculateResult( paper, researcher, this.textContainsCenterAlignedText );
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
