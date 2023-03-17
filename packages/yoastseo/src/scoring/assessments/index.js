@@ -25,9 +25,6 @@ import KeyphraseInSEOTitleAssessment from "./seo/KeyphraseInSEOTitleAssessment";
 import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
-import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
-import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
-import ProductSKUAssessment from "./seo/ProductSKUAssessment";
 
 import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
@@ -61,9 +58,6 @@ const seo = {
 	UrlKeywordAssessment,
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
-	ImageAltTagsAssessment,
-	ProductIdentifiersAssessment,
-	ProductSKUAssessment,
 };
 
 const inclusiveLanguage = {
