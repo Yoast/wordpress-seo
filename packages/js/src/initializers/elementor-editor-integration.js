@@ -96,7 +96,7 @@ function initializePostStatusListener() {
  *
  * @param {HTMLElement} input The input.
  *
- * @returns {boolean}
+ * @returns {boolean} true if input is keyword field and input by user value not changed.
  */
 function isKeywordFieldUnchanged( input ) {
 	const keywordsFields = [
