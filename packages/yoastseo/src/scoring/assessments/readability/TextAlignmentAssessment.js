@@ -113,7 +113,7 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult( paper, researcher, textContainsCenterAlignedText ) {
-		const preferredAlignment = paper.isRTL() ? "right-aligned" : "left-aligned";
+		const preferredAlignment = paper.isRTL() ? __( "right-aligned", "wordpress-seo" ) : __( "left-aligned", "wordpress-seo" );
 
 		if ( textContainsCenterAlignedText.length === 1 ) {
 			return {
