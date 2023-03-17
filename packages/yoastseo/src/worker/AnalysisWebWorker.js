@@ -1093,8 +1093,6 @@ export default class AnalysisWebWorker {
 			const languageProcessor = new LanguageProcessor( this._researcher );
 			this._paper.setTree( filterTree( build( this._paper.getText(), languageProcessor ), permanentFilters ) );
 
-			console.log( this._paper.getTree() );
-
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
 		}
