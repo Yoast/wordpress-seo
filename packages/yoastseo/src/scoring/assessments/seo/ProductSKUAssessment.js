@@ -1,8 +1,8 @@
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
+import { Assessment, AssessmentResult, helpers } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
 
 /**
  * Represents the assessment for the product SKU.
