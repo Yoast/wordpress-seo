@@ -565,6 +565,129 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			[ 'http://basic.wordpress.test/?page_id=123', 2, 'http://basic.wordpress.test/?page_id=123&unknown=123', '', 'http://basic.wordpress.test/?page_id=123/2/1/' ],
 		];
 	}
+
+	/**
+	 * Tests allowed_params.
+	 *
+	 * @covers ::allowed_params
+	 *
+	 * @dataProvider allowed_params_provider
+	 *
+	 * @param string $extravars Extra variables.
+	 * @param string $current_url Current URL.
+	 * @param string $parsed_url Parse URL.
+	 * @param array  $query Query.
+	 * @param int    $rawurlencode_deep_times Times rawurlencode_deep is called.
+	 * @param array  $expected Expected result.
+	 */
+	public function test_allowed_params( $extravars, $current_url, $parsed_url, $query, $rawurlencode_deep_times, $expected ) {
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'clean_permalinks_extra_variables' )
+			->once()
+			->andReturn( $extravars );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( $current_url, \PHP_URL_QUERY )
+			->andReturn( $parsed_url );
+
+		$this->url_helper
+			->expects( 'parse_str_params' )
+			->with( $parsed_url )
+			->once()
+			->andReturn( $query );
+
+		Monkey\Functions\expect( 'rawurlencode_deep' )
+			->times( $rawurlencode_deep_times )
+			->andReturn( '456' );
+
+		 $this->assertSame( $expected, $this->instance->allowed_params( $current_url ) );
+	}
+
+	/**
+	 * Data provider for allowed_params.
+	 *
+	 * @return array $extravars, $current_url, $parsed_url, $query, $rawurlencode_deep_times, $expected.
+	 */
+	public function allowed_params_provider() {
+		return [
+			[
+				'',
+				'http://www.example.com/?unknown=123',
+				'unknown=123',
+				[ 'unknown' => '123' ],
+				0,
+				[
+					'query'         => [ 'unknown' => '123' ],
+					'allowed_query' => [],
+				],
+			],
+			[
+				'utm_source,utm_medium,utm_campaign,utm_term,utm_content',
+				'http://www.example.com/?unknown=123',
+				'unknown=123',
+				[ 'unknown' => '123' ],
+				0,
+				[
+					'query'         => [ 'unknown' => '123' ],
+					'allowed_query' => [],
+				],
+			],
+			[
+				'utm_source,utm_medium,utm_campaign,utm_term,utm_content',
+				'http://www.example.com/?unknown=123&utm_medium=456',
+				'unknown=123&utm_medium=456',
+				[
+					'unknown'    => '123',
+					'utm_medium' => '456',
+				],
+				1,
+				[
+					'query'         => [ 'unknown' => '123' ],
+					'allowed_query' => [ 'utm_medium' => '456' ],
+				],
+			],
+		];
+	}
+
+	/**
+	 * Tests clean_permalinks.
+	 *
+	 * @covers ::clean_permalinks
+	 */
+	public function test_clean_permalinks() {
+
+		Monkey\Functions\stubs(
+			[
+				'is_robots'         => false,
+				'get_query_var'     => 0,
+				'is_user_logged_in' => false,
+				'wp_parse_url'      => 'unknown=123',
+				'is_singular'       => true,
+				'is_front_page'     => false,
+
+			]
+		);
+
+		$this->url_helper
+			->expects( 'recreate_current_url' )
+			->andReturn( 'http://www.example.com/?unknown=123' );
+
+		$this->options_helper
+			->expects( 'get' );
+
+		$this->url_helper
+			->expects( 'parse_str_params' )
+			->andReturn( [ 'unknown' => '123' ] );
+
+		$this->redirect_helper
+			->expects( 'do_safe_redirect' )
+			->times( 0 );
+
+		 $this->instance->clean_permalinks();
+	}
 }
 
 
