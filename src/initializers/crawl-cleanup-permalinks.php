@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper;
 
 /**
  * Class Crawl_Cleanup_Permalinks.
@@ -42,6 +43,13 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	private $redirect_helper;
 
 	/**
+	 * The Crawl_Cleanup_Helper.
+	 *
+	 * @var Crawl_Cleanup_Helper
+	 */
+	private $crawl_cleanup_helper;
+
+	/**
 	 * Crawl Cleanup Basic integration constructor.
 	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
@@ -52,12 +60,14 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		Current_Page_Helper $current_page_helper,
 		Options_Helper $options_helper,
 		Url_Helper $url_helper,
-		Redirect_Helper $redirect_helper
+		Redirect_Helper $redirect_helper,
+		Crawl_Cleanup_Helper $crawl_cleanup_helper
 	) {
-		$this->current_page_helper = $current_page_helper;
-		$this->options_helper      = $options_helper;
-		$this->url_helper          = $url_helper;
-		$this->redirect_helper     = $redirect_helper;
+		$this->current_page_helper  = $current_page_helper;
+		$this->options_helper       = $options_helper;
+		$this->url_helper           = $url_helper;
+		$this->redirect_helper      = $redirect_helper;
+		$this->crawl_cleanup_helper = $crawl_cleanup_helper;
 	}
 
 	/**
@@ -155,12 +165,12 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 */
 	public function clean_permalinks() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing anything yet...
-		if ( $this->clean_permalinks_avoid_redirect() ) {
+		if ( $this->crawl_cleanup_helper->avoid_redirect() ) {
 			return;
 		}
 
 		$current_url    = $this->url_helper->recreate_current_url();
-		$allowed_params = $this->allowed_params( $current_url );
+		$allowed_params = $this->crawl_cleanup_helper->allowed_params( $current_url );
 
 		// If we had only allowed params, let's just bail out, no further processing needed.
 		if ( empty( $allowed_params['query'] ) ) {
@@ -177,22 +187,22 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			if ( isset( $_GET['preview'] ) && isset( $_GET['preview_nonce'] ) && \current_user_can( 'edit_post' ) ) {
 				return;
 			}
-			$proper_url = $this->singular_url();
+			$proper_url = $this->crawl_cleanup_helper->singular_url();
 		}
 		elseif ( \is_front_page() ) {
-			$proper_url = $this->front_page_url();
+			$proper_url = $this->crawl_cleanup_helper->front_page_url();
 		}
 		elseif ( $this->current_page_helper->is_posts_page() ) {
 			$proper_url = \get_permalink( \get_option( 'page_for_posts' ) );
 		}
 		elseif ( \is_category() || \is_tag() || \is_tax() ) {
-			$proper_url = $this->taxonomy_url();
+			$proper_url = $this->crawl_cleanup_helper->taxonomy_url();
 		}
 		elseif ( \is_search() ) {
-			$proper_url = $this->search_url();
+			$proper_url = $this->crawl_cleanup_helper->search_url();
 		}
 		elseif ( \is_404() ) {
-			$proper_url = $this->page_not_found_url( $current_url );
+			$proper_url = $this->crawl_cleanup_helper->page_not_found_url( $current_url );
 		}
 		if ( ! empty( $proper_url ) && $wp_query->query_vars['paged'] !== 0 && $wp_query->post_count !== 0 ) {
 			if ( \is_search() ) {
@@ -220,164 +230,5 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			$this->redirect_helper->do_safe_redirect( $proper_url, 301, $message );
 			return;
 		}
-	}
-
-		/**
-		 * Returns the list of the allowed extra vars.
-		 *
-		 * @return array The list of the allowed extra vars.
-		 */
-	public function get_allowed_extravars() {
-		/**
-		 * Filter: 'Yoast\WP\SEO\allowlist_permalink_vars' - Allows plugins to register their own variables not to clean.
-		 *
-		 * @since 19.2.0
-		 *
-		 * @param array $allowed_extravars The list of the allowed vars (empty by default).
-		 */
-		$allowed_extravars = \apply_filters( 'Yoast\WP\SEO\allowlist_permalink_vars', [] );
-
-		$clean_permalinks_extra_variables = $this->options_helper->get( 'clean_permalinks_extra_variables' );
-
-		if ( $clean_permalinks_extra_variables !== '' ) {
-			$allowed_extravars = \array_merge( $allowed_extravars, \explode( ',', $clean_permalinks_extra_variables ) );
-		}
-		return $allowed_extravars;
-	}
-
-	/**
-	 * Gets the allowed query vars from the current URL.
-	 *
-	 * @param string $current_url The current URL.
-	 *
-	 * @return array is_allowed and allowed_query.
-	 */
-	public function allowed_params( $current_url ) {
-		// This is a Premium plugin-only function: Allows plugins to register their own variables not to clean.
-		$allowed_extravars = $this->get_allowed_extravars();
-
-		$allowed_query = [];
-
-		$parsed_url = \wp_parse_url( $current_url, \PHP_URL_QUERY );
-
-		$query = $this->url_helper->parse_str_params( $parsed_url );
-
-		if ( ! empty( $allowed_extravars ) ) {
-			foreach ( $allowed_extravars as $get ) {
-				$get = \trim( $get );
-				if ( isset( $query[ $get ] ) ) {
-					$allowed_query[ $get ] = \rawurlencode_deep( $query[ $get ] );
-					unset( $query[ $get ] );
-				}
-			}
-		}
-		return [
-			'query'         => $query,
-			'allowed_query' => $allowed_query,
-		];
-	}
-
-	/**
-	 * Checks if the current URL is not robots, sitemap, empty or user is logged in.
-	 *
-	 * @return bool True if the current URL is a valid URL.
-	 */
-	public function clean_permalinks_avoid_redirect() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing anything yet...
-		if ( \is_robots() || \get_query_var( 'sitemap' ) || empty( $_GET ) || \is_user_logged_in() ) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns the proper URL for singular pages.
-	 *
-	 * @return string The proper URL.
-	 */
-	public function singular_url() {
-
-			global $post;
-			$proper_url = \get_permalink( $post->ID );
-			$page       = \get_query_var( 'page' );
-
-		if ( $page && $page !== 1 ) {
-			$the_post   = \get_post( $post->ID );
-			$page_count = \substr_count( $the_post->post_content, '<!--nextpage-->' );
-			$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . $page );
-			if ( $page > ( $page_count + 1 ) ) {
-				$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . ( $page_count + 1 ) );
-			}
-		}
-
-			// Fix reply to comment links, whoever decided this should be a GET variable?
-			// phpcs:ignore WordPress.Security -- We know this is scary.
-		if ( isset( $_SERVER['REQUEST_URI'] ) && \preg_match( '`(\?replytocom=[^&]+)`', \sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches ) ) {
-			$proper_url .= \str_replace( '?replytocom=', '#comment-', $matches[0] );
-		}
-			unset( $matches );
-
-			return $proper_url;
-	}
-
-	/**
-	 * Returns the proper URL for front page.
-	 *
-	 * @return string The proper URL.
-	 */
-	public function front_page_url() {
-		if ( $this->current_page_helper->is_home_posts_page() ) {
-			return \home_url( '/' );
-		}
-		if ( $this->current_page_helper->is_home_static_page() ) {
-			return \get_permalink( $GLOBALS['post']->ID );
-		}
-		return '';
-	}
-
-	/**
-	 * Returns the proper URL for taxonomy page.
-	 *
-	 * @return string The proper URL.
-	 */
-	public function taxonomy_url() {
-		global $wp_query;
-		$term = $wp_query->get_queried_object();
-
-		if ( \is_feed() ) {
-			return \get_term_feed_link( $term->term_id, $term->taxonomy );
-		}
-		return \get_term_link( $term, $term->taxonomy );
-	}
-
-	/**
-	 * Returns the proper URL for search page.
-	 *
-	 * @return string The proper URL.
-	 */
-	public function search_url() {
-		$s = \get_search_query();
-		return \home_url() . '/?s=' . \rawurlencode( $s );
-	}
-
-	/**
-	 * Returns the proper URL for 404 page.
-	 *
-	 * @return string The proper URL.
-	 */
-	public function page_not_found_url( $current_url ) {
-		if ( ! \is_multisite() || \is_subdomain_install() || ! \is_main_site() ) {
-			return '';
-		}
-
-		if ( $current_url !== \home_url() . '/blog/' && $current_url !== \home_url() . '/blog' ) {
-			return '';
-		}
-
-		if ( $this->current_page_helper->is_home_static_page() ) {
-			return \get_permalink( \get_option( 'page_for_posts' ) );
-		}
-
-		return \home_url();
 	}
 }

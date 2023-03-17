@@ -3,8 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 
 use Mockery;
-use WP_Query;
-use WP_Post;
 use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -13,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Initializers\Crawl_Cleanup_Permalinks;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper;
 
 
 /**
@@ -60,6 +59,12 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	private $redirect_helper;
 
 	/**
+	 * The Crawl_Cleanup_Helper.
+	 *
+	 * @var Mockery\MockInterface
+	 */
+
+	/**
 	 * Sets up the tests.
 	 *
 	 * @covers ::__construct
@@ -69,16 +74,18 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$this->options_helper      = Mockery::mock( Options_Helper::class );
-		$this->url_helper          = Mockery::mock( Url_Helper::class );
-		$this->redirect_helper     = Mockery::mock( Redirect_Helper::class );
+		$this->current_page_helper  = Mockery::mock( Current_Page_Helper::class );
+		$this->options_helper       = Mockery::mock( Options_Helper::class );
+		$this->url_helper           = Mockery::mock( Url_Helper::class );
+		$this->redirect_helper      = Mockery::mock( Redirect_Helper::class );
+		$this->crawl_cleanup_helper = Mockery::mock( Crawl_Cleanup_Helper::class );
 
 		$this->instance = new Crawl_Cleanup_Permalinks(
 			$this->current_page_helper,
 			$this->options_helper,
 			$this->url_helper,
-			$this->redirect_helper
+			$this->redirect_helper,
+			$this->crawl_cleanup_helper
 		);
 	}
 
@@ -227,466 +234,53 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	}
 
 	/**
-	 * Tests get_allowed_extravars.
-	 *
-	 * @covers ::get_allowed_extravars
-	 *
-	 * @dataProvider get_allowed_extravars_provider
-	 *
-	 * @param string $clean_permalinks_extra_variables return value.
-	 * @param array  $permalink_vars.
-	 * @param array  $expeted.
-	 */
-	public function test_get_allowed_extravars( $clean_permalinks_extra_variables, $permalink_vars, $expeted ) {
-
-		Monkey\Functions\expect( 'apply_filters' )
-			->once()
-			->with( 'Yoast\WP\SEO\allowlist_permalink_vars', [] )
-			->andReturn( $permalink_vars );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'clean_permalinks_extra_variables' )
-			->once()
-			->andReturn( $clean_permalinks_extra_variables );
-
-		$this->assertSame( $expeted, $this->instance->get_allowed_extravars() );
-	}
-
-	/**
-	 *
-	 * Data provider for test_clean_permalinks.
-	 *
-	 * @return array avoid_redirect, expected.
-	 */
-	public function get_allowed_extravars_provider() {
-		return [
-			[ 'variable1,variable2,variable3', [], [ 'variable1', 'variable2', 'variable3' ] ],
-			[ '', [], [] ],
-			[ 'variable1,variable2,variable3', [ 'variable4', 'variable5' ], [ 'variable4', 'variable5', 'variable1', 'variable2', 'variable3' ] ],
-		];
-	}
-
-	/**
-	 * Tests clean_permalinks_avoid_redirect.
-	 *
-	 * @covers ::clean_permalinks_avoid_redirect
-	 *
-	 * @dataProvider clean_permalinks_avoid_redirect_provider
-	 *
-	 * @param boolean $is_robots is_robots return value.
-	 * @param string  $sitemap get_query_var return value.
-	 * @param array   $get_response get_response value.
-	 * @param boolean $is_user_logged_in is_user_logged_in return value.
-	 * @param int     $expeted.
-	 */
-	public function test_clean_permalinks_avoid_redirect( $is_robots, $sitemap, $get_response, $is_user_logged_in, $expeted ) {
-
-		$_GET = $get_response;
-
-		Monkey\Functions\expect( 'get_query_var' )
-			->with( 'sitemap' )
-			->andReturn( $sitemap );
-
-		Monkey\Functions\stubs(
-			[
-				'is_robots'         => $is_robots,
-				'is_user_logged_in' => $is_user_logged_in,
-			]
-		);
-
-		$this->assertSame( $expeted, $this->instance->clean_permalinks_avoid_redirect() );
-	}
-
-	/**
-	 *
-	 * Data provider for test_clean_permalinks_avoid_redirect.
-	 *
-	 * @return array is_roboto, get_query_var( 'sitemap' ), $_GET, is_user_logged_in(), expected.
-	 */
-	public function clean_permalinks_avoid_redirect_provider() {
-		return [
-			[ true, false, null, false, true ],
-			[ false, true, null, false, true ],
-			[ false, false, null, true, true ],
-			[ false, false, null, false, true ],
-			[
-				false,
-				false,
-				[
-					'preview'       => 'random preview',
-					'preview_nonce' => '1234',
-				],
-				false,
-				false,
-			],
-		];
-	}
-
-	/**
-	 * Tests front_page_url.
-	 *
-	 * @covers ::front_page_url
-	 *
-	 * @dataProvider front_page_url_provider
-	 *
-	 * @param boolean                                           $is_home_posts_page is_home_posts_page return value.
-	 * @param boolean                                           $is_home_static_page is_home_static_page return value.
-	 * @param int static_times is_home_static_page times called.
-	 * @param int home_url_times home_url times called.
-	 * @param int permalink_times get_permalink times called.
-	 * @param string                                            $expected expected return value.
-	 */
-	public function test_front_page_url( $is_home_posts_page, $is_home_static_page, $static_times, $home_url_times, $permalink_times, $expected ) {
-
-		$GLOBALS['post'] = (object) [ 'ID' => 5 ];
-
-		$this->current_page_helper
-			->expects( 'is_home_posts_page' )
-			->once()
-			->andReturn( $is_home_posts_page );
-
-		Monkey\Functions\expect( 'home_url' )
-			->with( '/' )
-			->times( $home_url_times )
-			->andReturn( 'http://basic.wordpress.test/' );
-
-		$this->current_page_helper
-			->expects( 'is_home_static_page' )
-			->times( $static_times )
-			->andReturn( $is_home_static_page );
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->with( 5 )
-			->times( $permalink_times )
-			->andReturn( 'http://basic.wordpress.test/permalink' );
-
-		$this->assertSame( $expected, $this->instance->front_page_url() );
-	}
-
-	/**
-	 * Tests search_url.
-	 *
-	 * @covers ::search_url
-	 */
-	public function test_search_url() {
-		Monkey\Functions\expect( 'get_search_query' )
-			->once()
-			->andReturn( 'test' );
-
-		Monkey\Functions\expect( 'home_url' )
-			->once()
-			->andReturn( 'http://basic.wordpress.test' );
-
-		$this->assertSame( 'http://basic.wordpress.test/?s=test', $this->instance->search_url() );
-	}
-
-	/**
-	 * Provider for test_front_page_url.
-	 *
-	 * @return array is_home_posts_page, is_home_static_page, static_times, home_url_times,permalink_times, expected.
-	 */
-	public function front_page_url_provider() {
-		return [
-			[ true, false, 0, 1, 0, 'http://basic.wordpress.test/' ],
-			[ false, true, 1, 0, 1, 'http://basic.wordpress.test/permalink' ],
-			[ false, false, 1, 0, 0, '' ],
-		];
-	}
-
-	/**
-	 * Tests page_not_found_url.
-	 *
-	 * @covers ::page_not_found_url
-	 *
-	 * @dataProvider page_not_found_url_provider
-	 * @param bool   $is_multisite is_multisite return value.
-	 * @param bool   $is_subdomain_install is_subdomain_install return value.
-	 * @param bool   $is_main_site is_main_site return value.
-	 * @param string $home_url home_url return value.
-	 * @param bool   $is_home_static_page is_home_static_page return value.
-	 * @param int    $get_permalink_times get_permalink times called.
-	 * @param int    $page_for_posts_times times get_option(page_for_posts) is called.
-	 * @param string $expected expected return value.
-	 */
-	public function test_page_not_found_url( $is_multisite, $is_subdomain_install, $is_main_site, $home_url, $is_home_static_page, $home_static_page_times, $get_permalink_times, $page_for_posts_times, $current_url, $expected ) {
-
-		Monkey\Functions\stubs(
-			[
-				'is_multisite'         => $is_multisite,
-				'is_subdomain_install' => $is_subdomain_install,
-				'is_main_site'         => $is_main_site,
-			]
-		);
-
-		Monkey\Functions\expect( 'home_url' )
-		   ->andReturn( $home_url );
-
-		$this->current_page_helper
-			->expects( 'is_home_static_page' )
-			->times( $home_static_page_times )
-			->andReturn( $is_home_static_page );
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->times( $get_permalink_times )
-			->andReturn( 'http://basic.wordpress.test/sub-domain' );
-
-		Monkey\Functions\expect( 'get_option' )
-			->with( 'page_for_posts' )
-			->times( $page_for_posts_times );
-
-		$this->assertSame( $expected, $this->instance->page_not_found_url( $current_url ) );
-	}
-
-	/**
-	 * Data provider for test_page_not_found_url.
-	 *
-	 * @return array is_multisite,is_subdomain_install,is_main_site,home_url,is_home_static_page,home_static_page_times,get_permalink_times,page_for_posts_times, current_url, expected.
-	 */
-
-	public function page_not_found_url_provider() {
-		return [
-			[ true, true, true, '', null, 0, 0, 0, '', '' ],
-			[ false, false, true, '', null, 0, 0, 0, '', '' ],
-			[ false, true, false, '', null, 0, 0, 0, '', '' ],
-			[ true, false, true, 'http://basic.wordpress.test', null, 0, 0, 0, 'http://basic.wordpress.test/not-blog', '' ],
-			[ true, false, true, 'http://basic.wordpress.test', false, 1, 0, 0, 'http://basic.wordpress.test/blog', 'http://basic.wordpress.test' ],
-			[ true, false, true, 'http://basic.wordpress.test', false, 1, 0, 0, 'http://basic.wordpress.test/blog/', 'http://basic.wordpress.test' ],
-			[ true, false, true, 'http://basic.wordpress.test', true, 1, 1, 1, 'http://basic.wordpress.test/blog', 'http://basic.wordpress.test/sub-domain' ],
-		];
-	}
-
-	/**
-	 * Tests taxonomy_url.
-	 *
-	 * @covers ::taxonomy_url
-	 *
-	 * @dataProvider taxonomy_url_provider
-	 *
-	 * @param bool   $is_feed is_feed return value.
-	 * @param int    $get_term_feed_link_times times get_term_feed_link is called.
-	 * @param int    $get_term_link_times times get_term_link is called.
-	 * @param string $expected expected return value.
-	 */
-	public function test_taxonomy_url( $is_feed, $get_term_feed_link_times, $get_term_link_times, $expected ) {
-
-		$term_mock = (object) [
-			'term_id'  => 108,
-			'taxonomy' => 'products',
-		];
-
-		global $wp_query;
-		$wp_query = Mockery::mock( WP_Query::class );
-
-		$wp_query->expects( 'get_queried_object' )
-			->once()
-			->andReturn(
-				(object) [
-					'term_id'  => 108,
-					'taxonomy' => 'products',
-				]
-			);
-
-		Monkey\Functions\expect( 'is_feed' )
-			->once()
-			->andReturn( $is_feed );
-
-		Monkey\Functions\expect( 'get_term_feed_link' )
-			->with( $term_mock->term_id, $term_mock->taxonomy )
-			->times( $get_term_feed_link_times )
-			->andReturn( 'http://basic.wordpress.test/products/feed' );
-
-		Monkey\Functions\expect( 'get_term_link' )
-			->with( $term_mock, $term_mock->taxonomy )
-			->times( $get_term_link_times )
-			->andReturn( 'http://basic.wordpress.test/products' );
-
-		$this->assertSame( $expected, $this->instance->taxonomy_url() );
-	}
-
-	/**
-	 *
-	 * Data provider for test_taxonomy_url.
-	 *
-	 * @return array $is_feed, $get_term_feed_link_times, $get_term_link_times, $expected
-	 */
-	public function taxonomy_url_provider() {
-		return [
-			[ false, 0, 1, 'http://basic.wordpress.test/products' ],
-			[ true, 1, 0, 'http://basic.wordpress.test/products/feed' ],
-		];
-	}
-
-	/**
-	 * Tests singular_url.
-	 *
-	 * @covers ::singular_url
-	 *
-	 * @dataProvider singular_url_provider
-	 *
-	 * @param $permalink the permalink.
-	 * @param int                     $page param.
-	 * @param string                  $server_request_uri $_SERVER['REQUEST_URI'].
-	 * @param string                  $expected expected return value.
-	 */
-	public function test_singular_url( $permalink, $page, $server_request_uri, $content, $expected ) {
-
-		global $post;
-		$post = Mockery::mock( WP_Post::class );
-
-		$post->ID           = 108;
-		$post->post_content = $content;
-
-		$_SERVER['REQUEST_URI'] = $server_request_uri;
-
-		Monkey\Functions\stubs(
-			[
-				'get_permalink' => $permalink,
-				'get_query_var' => $page,
-				'get_post'      => $post,
-
-			]
-		);
-
-		$this->assertSame( $expected, $this->instance->singular_url() );
-	}
-
-	/**
-	 *
-	 * Data provider for test_singular_url.
-	 *
-	 * @return array $permalink, $page, $server_request_uri, $content ,$expected.
-	 */
-	public function singular_url_provider() {
-		return [
-			[ 'http://basic.wordpress.test/products/108', 0, null, null, 'http://basic.wordpress.test/products/108' ],
-			[ 'http://basic.wordpress.test/products/108', 0, 'http://basic.wordpress.test/products/108?replytocom=123', null, 'http://basic.wordpress.test/products/108#comment-123' ],
-			[ 'http://basic.wordpress.test/?page_id=123', 2, 'http://basic.wordpress.test/?page_id=123&unknown=123', '<!--nextpage--><!--nextpage--><!--nextpage-->', 'http://basic.wordpress.test/?page_id=123/2/' ],
-			[ 'http://basic.wordpress.test/?page_id=123', 2, 'http://basic.wordpress.test/?page_id=123&unknown=123', '', 'http://basic.wordpress.test/?page_id=123/2/1/' ],
-		];
-	}
-
-	/**
-	 * Tests allowed_params.
-	 *
-	 * @covers ::allowed_params
-	 *
-	 * @dataProvider allowed_params_provider
-	 *
-	 * @param string $extravars Extra variables.
-	 * @param string $current_url Current URL.
-	 * @param string $parsed_url Parse URL.
-	 * @param array  $query Query.
-	 * @param int    $rawurlencode_deep_times Times rawurlencode_deep is called.
-	 * @param array  $expected Expected result.
-	 */
-	public function test_allowed_params( $extravars, $current_url, $parsed_url, $query, $rawurlencode_deep_times, $expected ) {
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'clean_permalinks_extra_variables' )
-			->once()
-			->andReturn( $extravars );
-
-		Monkey\Functions\expect( 'wp_parse_url' )
-			->once()
-			->with( $current_url, \PHP_URL_QUERY )
-			->andReturn( $parsed_url );
-
-		$this->url_helper
-			->expects( 'parse_str_params' )
-			->with( $parsed_url )
-			->once()
-			->andReturn( $query );
-
-		Monkey\Functions\expect( 'rawurlencode_deep' )
-			->times( $rawurlencode_deep_times )
-			->andReturn( '456' );
-
-		 $this->assertSame( $expected, $this->instance->allowed_params( $current_url ) );
-	}
-
-	/**
-	 * Data provider for allowed_params.
-	 *
-	 * @return array $extravars, $current_url, $parsed_url, $query, $rawurlencode_deep_times, $expected.
-	 */
-	public function allowed_params_provider() {
-		return [
-			[
-				'',
-				'http://www.example.com/?unknown=123',
-				'unknown=123',
-				[ 'unknown' => '123' ],
-				0,
-				[
-					'query'         => [ 'unknown' => '123' ],
-					'allowed_query' => [],
-				],
-			],
-			[
-				'utm_source,utm_medium,utm_campaign,utm_term,utm_content',
-				'http://www.example.com/?unknown=123',
-				'unknown=123',
-				[ 'unknown' => '123' ],
-				0,
-				[
-					'query'         => [ 'unknown' => '123' ],
-					'allowed_query' => [],
-				],
-			],
-			[
-				'utm_source,utm_medium,utm_campaign,utm_term,utm_content',
-				'http://www.example.com/?unknown=123&utm_medium=456',
-				'unknown=123&utm_medium=456',
-				[
-					'unknown'    => '123',
-					'utm_medium' => '456',
-				],
-				1,
-				[
-					'query'         => [ 'unknown' => '123' ],
-					'allowed_query' => [ 'utm_medium' => '456' ],
-				],
-			],
-		];
-	}
-
-	/**
 	 * Tests clean_permalinks.
 	 *
 	 * @covers ::clean_permalinks
+	 *
+	 * @dataProvider clean_permalinks_provider
+	 *
+	 * @param bool   $avoid_redirect should avoid redirect.
+	 * @param int    $recreate_current_url_times times recreate_current_url is called.
+	 * @param string $current_url current url.
+	 * @param array  $allowed_params allowed params.
+	 * @param int    $expected times redirect is done.
 	 */
-	public function test_clean_permalinks() {
+	public function test_clean_permalinks( $avoid_redirect, $recreate_current_url_times, $current_url, $allowed_params, $expected ) {
 
-		Monkey\Functions\stubs(
-			[
-				'is_robots'         => false,
-				'get_query_var'     => 0,
-				'is_user_logged_in' => false,
-				'wp_parse_url'      => 'unknown=123',
-				'is_singular'       => true,
-				'is_front_page'     => false,
-
-			]
-		);
+		$this->crawl_cleanup_helper
+			->expects( 'avoid_redirect' )
+			->once()
+			->andReturn( $avoid_redirect );
 
 		$this->url_helper
 			->expects( 'recreate_current_url' )
-			->andReturn( 'http://www.example.com/?unknown=123' );
+			->times( $recreate_current_url_times )
+			->andReturn( $current_url );
 
-		$this->options_helper
-			->expects( 'get' );
-
-		$this->url_helper
-			->expects( 'parse_str_params' )
-			->andReturn( [ 'unknown' => '123' ] );
+		$this->crawl_cleanup_helper
+			->expects( 'allowed_params' )
+			->times( $recreate_current_url_times )
+			->with( $current_url )
+			->andReturn( $allowed_params );
 
 		$this->redirect_helper
 			->expects( 'do_safe_redirect' )
-			->times( 0 );
+			->times( $expected );
 
 		 $this->instance->clean_permalinks();
+	}
+
+	/**
+	 * Data provider for clean_permalinks.
+	 *
+	 * @return array avoid_redirect, recreate_current_url_times, allowed_params, current_url, expected.
+	 */
+	public function clean_permalinks_provider() {
+		return [
+			[ true, 0, null, null, 0 ],
+			[ false, 1, 'http://www.example.com/?unknown=123', [ 'query' => [] ], 0 ],
+		];
 	}
 }
 
