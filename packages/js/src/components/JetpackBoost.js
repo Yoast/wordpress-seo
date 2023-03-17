@@ -35,8 +35,8 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 					className="yst-absolute yst-top-0 yst-bottom-0 yst--m-[16px] yst-w-[3px] yst-bg-primary-500"
 				/>
 				<div className="yst-flex">
-					<YoastLogo className="yst-h-5 yst-w-5 yst-text-primary-500 yst-bg-white yst-z-10" />
-					<JetpackBoostLogo className="yst-h-5 yst-w-5 yst-ml-1" />
+					<YoastLogo className="yst-h-5 yst-w-5 yst-text-primary-500 yst-bg-white yst-z-10 yst-border-r yst-border-white" />
+					<JetpackBoostLogo className="yst-h-5 yst-w-5 yst--ml-0.5" />
 					<button className="yst-ml-auto" onClick={ onDismissed }>
 						<XIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />
 						<span className="yst-sr-only">{ __( "Dismiss get Jetpack Boost", "wordpress-seo" ) }</span>
