@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { sanitizeString, normalize, helpers } = languageProcessing;
+const { sanitizeString, helpers } = languageProcessing;
 
 const centerAlignRegex = /class=["']has-text-align-center["']/i;
 const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
@@ -51,7 +51,7 @@ const getLongCenterAlignedElements = function( elements ) {
 export default function getLongBlocksOfCenterAlignedText( paper ) {
 	let text = paper.getText();
 	// Normalize quotes.
-	text = normalize( text );
+	text = helpers.normalize( text );
 
 	const longBlocksOfCenterAlignedText = [];
 	// Get all paragraphs from the text. We only retrieve the paragraphs with <p> tags.
