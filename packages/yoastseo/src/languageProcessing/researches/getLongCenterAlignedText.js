@@ -21,6 +21,7 @@ const getLongCenterAlignedElements = function( elements ) {
 		// Remove HTML tags from the elements before counting characters.
 		const elementLength = sanitizeString( element ).length;
 
+		// Only retrieve center-aligned element that is longer than 50 characters.
 		if ( centerAlignRegex.test( element ) && elementLength > 50 ) {
 			elementsWithCenterAlignedText.push( {
 				// The unsanitized text. This text will be used for highlighting feature where we will match this with the html of a post.
