@@ -20,6 +20,7 @@ import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 import { build } from "../parse/build";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
 import permanentFilters from "../parse/build/private/alwaysFilterElements";
+import filterTree from "../parse/build/private/filterTree";
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";

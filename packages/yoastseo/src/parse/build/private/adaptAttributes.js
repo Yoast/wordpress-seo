@@ -1,4 +1,4 @@
-import parseClassAttribute from "./helpers/parseClassAttribute"
+import parseClassAttribute from "./helpers/parseClassAttribute";
 
 /**
  * @typedef Parse5Attribute
@@ -23,12 +23,11 @@ function adaptAttributes( parse5attributes ) {
 	const attributes = {};
 
 	parse5attributes.forEach( ( { name, value } ) => {
-		if (name === "class"){
+		if ( name === "class" ) {
 			value = parseClassAttribute( value );
 		}
 		attributes[ name ] = value;
 	} );
-
 
 
 	return attributes;
