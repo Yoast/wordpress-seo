@@ -1,4 +1,5 @@
 import { ArrowSmRightIcon, CheckIcon, XIcon } from "@heroicons/react/solid";
+import { ExclamationIcon } from "@heroicons/react/outline";
 import { __, sprintf } from "@wordpress/i18n";
 import { Link } from "@yoast/ui-library";
 import { PropTypes } from "prop-types";
@@ -79,7 +80,7 @@ export const JetpackBoostIntegration = ( {
 					<span className="yst-text-slate-700 yst-font-medium">
 						{ __( "Integration active, upgrade available", "wordpress-seo" ) }
 					</span>
-					<XIcon className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0" />
+					<ExclamationIcon className="yst-h-5 yst-w-5 yst-text-orange-400 yst-flex-shrink-0" />
 				</p> }
 				{ isJetpackBoostActive && isJetpackBoostPremium && <p className="yst-flex yst-items-start yst-justify-between">
 					<span className="yst-text-slate-700 yst-font-medium">
