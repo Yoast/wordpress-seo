@@ -92,6 +92,43 @@ function initializePostStatusListener() {
 }
 
 /**
+ * Checks if field is keyword field and detect if it is not changed.
+ *
+ * @param {HTMLElement} input The input.
+ *
+ * @returns {boolean}
+ */
+function isKeywordFieldUnchanged( input ) {
+	const keywordsFields = [
+		"yoast_wpseo_focuskeywords",
+		"hidden_wpseo_focuskeywords",
+		"yoast_wpseo_keywordsynonyms",
+		"hidden_wpseo_keywordsynonyms",
+	];
+
+	if ( ! keywordsFields.includes( input.name ) ) {
+		return false;
+	}
+
+	if ( input.value === input.oldValue ) {
+		return true;
+	}
+
+	if ( input.value === "" || input.oldValue === "" ) {
+		return false;
+	}
+
+	const valueJson = JSON.parse( input.value );
+	const oldValueJson = JSON.parse( input.oldValue );
+
+	if ( valueJson.lengh !== oldValueJson.length ) {
+		return false;
+	}
+	// Check only input value and skip calculated.
+	return valueJson.every( ( v, index ) => v.keyword === oldValueJson[ index ].keyword );
+}
+
+/**
  * Activates the save button if a change is detected.
  *
  * @param {HTMLElement} input The input.
@@ -106,7 +143,12 @@ function detectChange( input ) {
 		"yoast_wpseo_words_for_linking",
 		"yoast_wpseo_estimated-reading-time-minutes",
 	];
+
 	if ( skipFields.includes( input.name ) ) {
+		return;
+	}
+
+	if ( isKeywordFieldUnchanged( input ) ) {
 		return;
 	}
 
@@ -117,6 +159,7 @@ function detectChange( input ) {
 		storeValueAsOldValue( input );
 	}
 }
+
 
 /**
  * Saves the form via AJAX action.
