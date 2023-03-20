@@ -14,22 +14,13 @@ const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
  * @returns {string[]}	An array containing all elements of a specific type that are center-aligned and longer than 50 characters.
  */
 function getLongCenterAlignedElements( elements ) {
-	const elementsWithCenterAlignedText = [];
-
-	// Get all elements that have the .has-text-align-center class.
-	elements.forEach( element => {
-		// Remove HTML tags from the elements before counting characters.
-		const elementLength = sanitizeString( element ).length;
-
-		// Only retrieve center-aligned element that is longer than 50 characters.
-		if ( centerAlignRegex.test( element ) && elementLength > 50 ) {
-			// The unsanitized text. This text will be used for highlighting feature where we will match this with the html of a post.
-			elementsWithCenterAlignedText.push( element );
-		}
-	} );
-
-	return elementsWithCenterAlignedText;
-};
+	/**
+	 * Before counting characters of the text, we sanitize the text first by removing HTML tags.
+	 * In the filtered array, we save the unsanitized text.
+	 * This text will be used for highlighting feature where we will match this with the html of a post.
+	 */
+	return elements.filter( element => centerAlignRegex.test( element ) && sanitizeString( element ).length > 50  );
+}
 
 /**
  *
@@ -42,7 +33,7 @@ function getLongCenterAlignedElements( elements ) {
  *
  * @returns {Object[]}	An array of objects for each too long center-aligned paragraph/heading.
  */
-export default function getLongBlocksOfCenterAlignedText( paper ) {
+export default function( paper ) {
 	let text = paper.getText();
 	// Normalize quotes.
 	text = helpers.normalize( text );
