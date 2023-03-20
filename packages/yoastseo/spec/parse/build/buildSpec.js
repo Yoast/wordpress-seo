@@ -110,6 +110,10 @@ describe( "The parse function", () => {
 							},
 						},
 					],
+					sourceCodeLocation: {
+						startOffset: 5,
+						endOffset: 30,
+					},
 				} ],
 				sourceCodeLocation: {
 					startOffset: 0,
@@ -167,6 +171,10 @@ describe( "The parse function", () => {
 									value: "Hello ",
 								},
 							],
+							sourceCodeLocation: {
+								startOffset: 5,
+								endOffset: 11,
+							},
 						},
 
 						{
@@ -204,6 +212,210 @@ describe( "The parse function", () => {
 						endTag: {
 							startOffset: 24,
 							endOffset: 30,
+						},
+					},
+				},
+			],
+		} );
+	} );
+
+	it( "parses an HTML text with implicit paragraphs before, between, and after p tags", () => {
+		const html = "<div>So <em>long</em>, and <p>thanks</p> for <p>all</p> the <strong>fish</strong>!</div>";
+
+		const researcher = Factory.buildMockResearcher( {} );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		/*
+		 * Should become
+		 * ```
+		 * [#document-fragment]
+		 * 		<div>
+		 * 			[p]
+		 * 				So <em>long</em>, and
+		 * 			[/p]
+		 * 			<p>
+		 * 				thanks
+		 * 			</p>
+		 * 			[p]
+		 * 				for
+		 * 			[/p]
+		 * 			<p>
+		 * 				all
+		 * 			</p>
+		 * 			[p]
+		 * 				the <strong>fish</strong>
+		 * 			[/p]
+		 * 		</div>
+		 * [/#document-fragment]
+		 * ```
+		 */
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
+				{
+					name: "div",
+					attributes: {},
+					childNodes: [
+						{
+							name: "p",
+							isImplicit: true,
+							attributes: {},
+							childNodes: [
+								{
+									name: "#text",
+									value: "So ",
+								},
+								{
+									name: "em",
+									attributes: {},
+									childNodes: [
+										{
+											name: "#text",
+											value: "long",
+										},
+									],
+									sourceCodeLocation: {
+										startOffset: 8,
+										endOffset: 21,
+										startTag: {
+											startOffset: 8,
+											endOffset: 12,
+										},
+										endTag: {
+											startOffset: 16,
+											endOffset: 21,
+										},
+									},
+								},
+								{
+									name: "#text",
+									value: ", and ",
+								},
+							],
+							sentences: [],
+							sourceCodeLocation: {
+								startOffset: 5,
+								endOffset: 27,
+							},
+						},
+						{
+							name: "p",
+							isImplicit: false,
+							attributes: {},
+							childNodes: [
+								{
+									name: "#text",
+									value: "thanks",
+								},
+							],
+							sentences: [],
+							sourceCodeLocation: {
+								startOffset: 27,
+								endOffset: 40,
+								startTag: {
+									startOffset: 27,
+									endOffset: 30,
+								},
+								endTag: {
+									startOffset: 36,
+									endOffset: 40,
+								},
+							},
+						},
+						{
+							name: "p",
+							isImplicit: true,
+							attributes: {},
+							childNodes: [
+								{
+									name: "#text",
+									value: " for ",
+								},
+							],
+							sentences: [],
+							sourceCodeLocation: {
+								startOffset: 40,
+								endOffset: 45,
+							},
+						},
+						{
+							name: "p",
+							isImplicit: false,
+							attributes: {},
+							childNodes: [
+								{
+									name: "#text",
+									value: "all",
+								},
+							],
+							sentences: [],
+							sourceCodeLocation: {
+								startOffset: 45,
+								endOffset: 55,
+								startTag: {
+									startOffset: 45,
+									endOffset: 48,
+								},
+								endTag: {
+									startOffset: 51,
+									endOffset: 55,
+								},
+							},
+						},
+						{
+							name: "p",
+							isImplicit: true,
+							attributes: {},
+							childNodes: [
+								{
+									name: "#text",
+									value: " the ",
+								},
+								{
+									name: "strong",
+									attributes: {},
+									childNodes: [
+										{
+											name: "#text",
+											value: "fish",
+										},
+									],
+									sourceCodeLocation: {
+										startOffset: 60,
+										endOffset: 81,
+										startTag: {
+											startOffset: 60,
+											endOffset: 68,
+										},
+										endTag: {
+											startOffset: 72,
+											endOffset: 81,
+										},
+									},
+								},
+								{
+									name: "#text",
+									value: "!",
+								},
+							],
+							sentences: [],
+							sourceCodeLocation: {
+								startOffset: 55,
+								endOffset: 82,
+							},
+						},
+					],
+					sourceCodeLocation: {
+						startOffset: 0,
+						endOffset: 88,
+						startTag: {
+							startOffset: 0,
+							endOffset: 5,
+						},
+						endTag: {
+							startOffset: 82,
+							endOffset: 88,
 						},
 					},
 				},

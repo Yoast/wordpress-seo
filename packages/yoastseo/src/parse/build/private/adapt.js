@@ -70,7 +70,7 @@ export default function adapt( tree ) {
 
 	let children = tree.childNodes.map( adapt );
 	if ( isBlockElement( tree.nodeName ) ) {
-		children = combineIntoImplicitParagraphs( children );
+		children = combineIntoImplicitParagraphs( children, tree.sourceCodeLocation );
 	}
 
 	const attributes = adaptAttributes( tree.attrs );
