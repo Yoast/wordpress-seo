@@ -81,17 +81,17 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests avoid_redirect.
+	 * Tests should_avoid_redirect.
 	 *
-	 * @covers ::avoid_redirect
+	 * @covers ::should_avoid_redirect
 	 *
-	 * @dataProvider avoid_redirect_provider
+	 * @dataProvider should_avoid_redirect_provider
 	 *
 	 * @param boolean $is_robots is_robots return value.
 	 * @param string  $sitemap get_query_var return value.
 	 * @param array   $get_response get_response value.
 	 * @param boolean $is_user_logged_in is_user_logged_in return value.
-	 * @param int     $expected The return value from the avoid_redirect function.
+	 * @param int     $expected The return value from the should_avoid_redirect function.
 	 */
 	public function test_should_avoid_redirect( $is_robots, $sitemap, $get_response, $is_user_logged_in, $expected ) {
 
@@ -108,7 +108,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 			]
 		);
 
-		$this->assertSame( $expected, $this->instance->avoid_redirect() );
+		$this->assertSame( $expected, $this->instance->should_avoid_redirect() );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * @return array is_roboto, get_query_var( 'sitemap' ), $_GET, is_user_logged_in(), expected.
 	 */
-	public function avoid_redirect_provider() {
+	public function should_avoid_redirect_provider() {
 		return [
 			[ true, false, null, false, true ],
 			[ false, true, null, false, true ],
