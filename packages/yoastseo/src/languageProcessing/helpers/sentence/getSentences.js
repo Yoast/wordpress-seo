@@ -57,7 +57,7 @@ export default function( text, memoizedTokenizer ) {
 	 * We use the `map` method followed by `flat` instead of `flatMap` because `flatMap` would override the second
 	 * argument of the memoizedTokenizer with the index of the iteratee.
 	 */
-	let sentences = blocks.map( block => memoizedTokenizer( block ) );
+	const sentences = blocks.map( block => memoizedTokenizer( block ) );
 
 	return filter( sentences.flat(), negate( isEmpty ) );
 }
