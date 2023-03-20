@@ -1,4 +1,4 @@
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 
@@ -25,12 +25,20 @@ const WebinarPromoNotification = ( {
 			alertKey="webinar-promo-notification"
 			store={ store }
 			id="webinar-promo-notification"
-			title={ __( "Get the most out of Yoast SEO", "wordpress-seo" ) }
+			title={ sprintf(
+				/* translators: 1: Yoast SEO. */
+				__( "Get the most out of %1$s", "wordpress-seo" ),
+				"Yoast SEO"
+			) }
 			image={ Image }
 			url={ url }
 			{ ...props }
 		>
-			{ __( "Learn how to improve your rankings with Yoast SEO. Ask your questions to our SEO experts during the free live Q&A.", "wordpress-seo" ) }
+			{ sprintf(
+				/* translators: 1: Yoast SEO. */
+				__( "Learn how to improve your rankings with %1$s. Ask your questions to our SEO experts during the free live Q&A.", "wordpress-seo" ),
+				"Yoast SEO"
+			) }
 			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
