@@ -30,7 +30,7 @@ const WebinarPromoNotification = ( {
 			url={ url }
 			{ ...props }
 		>
-			{ __( "Want to optimize even further with the help of our SEO experts? Sign up for our free weekly webinar!", "wordpress-seo" ) }
+			{ __( "Learn how to improve your rankings with Yoast SEO. Ask your questions to our SEO experts during the free live Q&A.", "wordpress-seo" ) }
 			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
