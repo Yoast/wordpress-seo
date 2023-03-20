@@ -56,17 +56,13 @@ export default function getLongBlocksOfCenterAlignedText( paper ) {
 	const longParagraphsWithCenterAlignedText = getLongCenterAlignedElements( allParagraphs );
 	const longHeadingsWithCenterAlignedText = getLongCenterAlignedElements( allHeadings );
 
-	if ( longParagraphsWithCenterAlignedText.length > 0 ) {
-		longParagraphsWithCenterAlignedText.forEach( paragraph => {
-			longBlocksOfCenterAlignedText.push( { text: paragraph, typeOfBlock: "paragraph" } );
-		} );
-	}
+	longParagraphsWithCenterAlignedText.forEach( paragraph => {
+		longBlocksOfCenterAlignedText.push( { text: paragraph, typeOfBlock: "paragraph" } );
+	} );
 
-	if ( longHeadingsWithCenterAlignedText.length > 0 ) {
-		longHeadingsWithCenterAlignedText.forEach( heading => {
-			longBlocksOfCenterAlignedText.push( { text: heading, typeOfBlock: "heading" } );
-		} );
-	}
+	longHeadingsWithCenterAlignedText.forEach( heading => {
+		longBlocksOfCenterAlignedText.push( { text: heading, typeOfBlock: "heading" } );
+	} );
 
 	return longBlocksOfCenterAlignedText;
 }
