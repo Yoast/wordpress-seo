@@ -185,6 +185,13 @@ export default class BlockEditorData {
 		const permalink = select( "core/editor" ).getPermalink();
 		let url;
 		let baseUrl = "";
+
+		if ( slug === "" ) {
+			// Fall back to the snippet editor's slug.
+			// This case should only happen with auto-drafts, where we save "our" slug before we pass it to the editor.
+			slug = select( "yoast-seo/editor" ).getSnippetEditorSlug();
+		}
+
 		try {
 			url = new URL( permalink );
 			baseUrl = url.origin + url.pathname;
