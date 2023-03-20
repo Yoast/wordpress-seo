@@ -164,7 +164,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 * @return void
 	 */
 	public function clean_permalinks() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing anything yet...
+
 		if ( $this->crawl_cleanup_helper->avoid_redirect() ) {
 			return;
 		}
@@ -179,51 +179,41 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 
 		global $wp_query;
 
-		$proper_url = '';
+		$url_type = $this->crawl_cleanup_helper->get_url_type();
 
-		if ( \is_singular() ) {
-			$proper_url = $this->crawl_cleanup_helper->singular_url();
+		switch ( $url_type ) {
+			case 'singular_url':
+				$proper_url = $this->crawl_cleanup_helper->singular_url();
+				break;
+			case 'front_page_url':
+				$proper_url = $this->crawl_cleanup_helper->front_page_url();
+				break;
+			case 'page_for_posts_url':
+				$proper_url = $this->crawl_cleanup_helper->page_for_posts_url();
+				break;
+			case 'taxonomy_url':
+				$proper_url = $this->crawl_cleanup_helper->taxonomy_url();
+				break;
+			case 'search_url':
+				$proper_url = $this->crawl_cleanup_helper->search_url();
+				break;
+			case 'page_not_found_url':
+				$proper_url = $this->crawl_cleanup_helper->page_not_found_url( $current_url );
+				break;
+			default:
+				$proper_url = '';
 		}
-		elseif ( \is_front_page() ) {
-			$proper_url = $this->crawl_cleanup_helper->front_page_url();
-		}
-		elseif ( $this->current_page_helper->is_posts_page() ) {
-			$proper_url = \get_permalink( \get_option( 'page_for_posts' ) );
-		}
-		elseif ( \is_category() || \is_tag() || \is_tax() ) {
-			$proper_url = $this->crawl_cleanup_helper->taxonomy_url();
-		}
-		elseif ( \is_search() ) {
-			$proper_url = $this->crawl_cleanup_helper->search_url();
-		}
-		elseif ( \is_404() ) {
-			$proper_url = $this->crawl_cleanup_helper->page_not_found_url( $current_url );
-		}
-		if ( ! empty( $proper_url ) && $wp_query->query_vars['paged'] !== 0 && $wp_query->post_count !== 0 ) {
-			if ( \is_search() ) {
-				$proper_url = \get_bloginfo( 'url' ) . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . \rawurlencode( \get_search_query() );
-			}
-			else {
-				$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . 'page/' . $wp_query->query_vars['paged'] );
-			}
+
+		if ( $this->crawl_cleanup_helper->is_query_var_page( $proper_url ) ) {
+			$proper_url = $this->crawl_cleanup_helper->query_var_page_url( $proper_url );
 		}
 
 		$proper_url = \add_query_arg( $allowed_params['allowed_query'], $proper_url );
 
-		if ( ! empty( $proper_url ) && $current_url !== $proper_url ) {
-			\header( 'Content-Type: redirect', true );
-			\header_remove( 'Content-Type' );
-			\header_remove( 'Last-Modified' );
-			\header_remove( 'X-Pingback' );
-
-			$message = \sprintf(
-				/* translators: %1$s: Yoast SEO */
-				\__( '%1$s: unregistered URL parameter removed', 'wordpress-seo' ),
-				'Yoast SEO'
-			);
-
-			$this->redirect_helper->do_safe_redirect( $proper_url, 301, $message );
+		if ( empty( $proper_url ) || $current_url == $proper_url ) {
 			return;
 		}
+
+		$this->crawl_cleanup_helper->do_clean_redirect( $proper_url );
 	}
 }

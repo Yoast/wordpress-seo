@@ -238,16 +238,15 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @covers ::clean_permalinks
 	 *
-	 * @dataProvider clean_permalinks_provider
+	 * @dataProvider clean_permalinks_no_redirect_provider
 	 *
 	 * @param bool   $avoid_redirect should avoid redirect.
 	 * @param int    $recreate_current_url_times times recreate_current_url is called.
 	 * @param string $current_url current url.
 	 * @param array  $allowed_params allowed params.
-	 * @param bool   $is_singular is a single post.
 	 * @param int    $expected times redirect is done.
 	 */
-	public function test_clean_permalinks( $avoid_redirect, $recreate_current_url_times, $current_url, $allowed_params, $is_singular, $expected ) {
+	public function test_clean_permalinks_no_redirect( $avoid_redirect, $recreate_current_url_times, $current_url, $allowed_params, $expected ) {
 
 		$this->crawl_cleanup_helper
 			->expects( 'avoid_redirect' )
@@ -265,8 +264,84 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			->with( $current_url )
 			->andReturn( $allowed_params );
 
-		$this->redirect_helper
-			->expects( 'do_safe_redirect' )
+
+		$this->crawl_cleanup_helper
+			->expects( 'do_clean_redirect' )
+			->times( $expected );
+
+		 $this->instance->clean_permalinks();
+	}
+
+	/**
+	 * Data provider for clean_permalinks when there is no redirect in the begining of the function.
+	 *
+	 * Checks:
+	 * 1. If avoid_redirect is true then do_clean_redirect shouldn't be called.
+	 * 2. If avoid_redirect is false and 'query' is empty then do_clean_redirect shouldn't be called.
+	 *
+	 * @return array avoid_redirect, recreate_current_url_times, current_url, allowed_params, expected.
+	 */
+	public function clean_permalinks_no_redirect_provider() {
+		return [
+			[ true, 0, null, null, 0 ],
+			[ false, 1, 'http://www.example.com/?unknown=123', [ 'query' => [] ], 0 ],
+		];
+	}
+
+	/**
+	 * Tests clean_permalinks.
+	 *
+	 * @covers ::clean_permalinks
+	 *
+	 * @dataProvider clean_permalinks_provider
+	 *
+	 * @param bool   $avoid_redirect should avoid redirect.
+	 * @param int    $recreate_current_url_times times recreate_current_url is called.
+	 * @param string $current_url current url.
+	 * @param array  $allowed_params allowed params.
+	 * @param string $url_type is url type and the function name in the helper.
+	 * @param int    $expected times redirect is done.
+	 */
+	public function test_clean_permalinks( $current_url, $allowed_params, $url_type, $proper_url, $expected ) {
+
+		$this->crawl_cleanup_helper
+			->expects( 'avoid_redirect' )
+			->once()
+			->andReturn( false );
+
+		$this->url_helper
+			->expects( 'recreate_current_url' )
+			->once()
+			->andReturn( $current_url );
+
+		$this->crawl_cleanup_helper
+			->expects( 'allowed_params' )
+			->once()
+			->with( $current_url )
+			->andReturn( $allowed_params );
+
+		$this->crawl_cleanup_helper
+			->expects( 'get_url_type' )
+			->once()
+			->andReturn( $url_type );
+
+		$this->crawl_cleanup_helper
+			->expects( $url_type )
+			->once()
+			->andReturn( $proper_url );
+
+		$this->crawl_cleanup_helper
+			->expects( 'is_query_var_page' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'add_query_arg' )
+			->once()
+			->with( $allowed_params['allowed_query'], $proper_url )
+			->andReturn( $proper_url . '?utm_medium=allowed' );
+
+		$this->crawl_cleanup_helper
+			->expects( 'do_clean_redirect' )
 			->times( $expected );
 
 		 $this->instance->clean_permalinks();
@@ -275,12 +350,154 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	/**
 	 * Data provider for clean_permalinks.
 	 *
-	 * @return array avoid_redirect, recreate_current_url_times, allowed_params, current_url,is_singular, expected.
+	 * Checks ( When avoid_redirect and is_query_var_page are false, and proper_url is not null and not equal to current url ):
+	 * 1. If url type is singular, then singular_url should be called and do_clean_redirect should be called.
+	 * 2. If url type is front page, then front_page_url should be called and do_clean_redirect should be called.
+	 * 3. If url type is taxonomy, then taxonomy_url should be called and do_clean_redirect should be called.
+	 * 4. If url type is search, then search_url should be called and do_clean_redirect should be called.
+	 * 5. If url type is page_not_found_url, then page_not_found_url should be called and do_clean_redirect should be called.
+	 *
+	 * @return array avoid_redirect, recreate_current_url_times, allowed_params, current_url,$url_type,$proper_url,get_url_type_times, expected.
 	 */
 	public function clean_permalinks_provider() {
+		$allowed_params = [
+			'query'         => [ 'unknown' => '123' ],
+			'allowed_query' => [ 'utm_medium' => 'allowed' ],
+		];
+		$base_url       = 'http://www.example.com';
 		return [
-			[ true, 0, null, null, null, 0 ],
-			[ false, 1, 'http://www.example.com/?unknown=123', [ 'query' => [] ], true, 0 ],
+			[
+				$base_url . '/product/?unknown=123&utm_medium=allowed',
+				$allowed_params,
+				'singular_url',
+				$base_url . '/product/book',
+				1,
+			],
+			[
+				$base_url . '/?unknown=123&utm_medium=allowed',
+				$allowed_params,
+				'front_page_url',
+				$base_url,
+				1,
+			],
+			[
+				$base_url . '/products/?unknown=123&utm_medium=allowed',
+				$allowed_params,
+				'taxonomy_url',
+				$base_url . '/products',
+				1,
+			],
+			[
+				$base_url . '/?unknown=123&utm_medium=allowed&s=book',
+				$allowed_params,
+				'search_url',
+				$base_url,
+				1,
+			],
+			[
+				$base_url . '/non-existing?unknown=123&utm_medium=allowed',
+				$allowed_params,
+				'page_not_found_url',
+				$base_url . '/page_for_posts',
+				1,
+			],
+		];
+	}
+
+	/**
+	 * Tests clean_permalinks with page var.
+	 *
+	 * @covers ::clean_permalinks
+	 *
+	 * @dataProvider clean_permalinks_with_page_var_provider
+	 *
+	 * @param bool   $avoid_redirect should avoid redirect.
+	 * @param int    $recreate_current_url_times times recreate_current_url is called.
+	 * @param string $current_url current url.
+	 * @param array  $allowed_params allowed params.
+	 * @param string $url_type is url type and the function name in the helper.
+	 * @param int    $expected times redirect is done.
+	 */
+	public function test_clean_permalinks_with_page_var( $current_url, $allowed_params, $proper_url, $expected ) {
+
+		$this->crawl_cleanup_helper
+			->expects( 'avoid_redirect' )
+			->once()
+			->andReturn( false );
+
+		$this->url_helper
+			->expects( 'recreate_current_url' )
+			->once()
+			->andReturn( $current_url );
+
+		$this->crawl_cleanup_helper
+			->expects( 'allowed_params' )
+			->once()
+			->with( $current_url )
+			->andReturn( $allowed_params );
+
+		$this->crawl_cleanup_helper
+				->expects( 'get_url_type' )
+				->once()
+				->andReturn( '' );
+
+		$this->crawl_cleanup_helper
+			->expects( 'is_query_var_page' )
+			->once()
+			->andReturn( true );
+
+			$this->crawl_cleanup_helper
+				->expects( 'query_var_page_url' )
+				->once()
+				->andReturn( $proper_url );
+
+		Monkey\Functions\expect( 'add_query_arg' )
+			->once()
+			->with( $allowed_params['allowed_query'], $proper_url )
+			->andReturn( $proper_url );
+
+		$this->crawl_cleanup_helper
+			->expects( 'do_clean_redirect' )
+			->times( $expected );
+
+		 $this->instance->clean_permalinks();
+	}
+
+	/**
+	 * Data provider for test_clean_permalinks_with_page_var.
+	 *
+	 * Checks ( When avoid_redirect and is_query_var_page are false, and proper_url is not null and not equal to current url ):
+	 * 1. If is_query_var_page true and if so, does query_var_page_url is called.
+	 * 2. If $proper_url is empty, then do_clean_redirect should not be called.
+	 * 3. If $proper_url is equal to $current_url, then do_clean_redirect should not be called.
+	 *
+	 * @return array  current_url, allowed_params, $proper_url, expected.
+	 */
+	public function clean_permalinks_with_page_var_provider() {
+		$allowed_params = [
+			'query'         => [ 'unknown' => '123' ],
+			'allowed_query' => [ 'utm_medium' => 'allowed' ],
+		];
+		$base_url       = 'http://www.example.com';
+		return [
+			[
+				$base_url . '/page/?unknown=123&utm_medium=allowed',
+				$allowed_params,
+				$base_url . '/page',
+				1,
+			],
+			[
+				$base_url . '/page',
+				$allowed_params,
+				$base_url . '/page',
+				0,
+			],
+			[
+				$base_url . '/page123/?unknown=123',
+				$allowed_params,
+				'',
+				0,
+			],
 		];
 	}
 }
