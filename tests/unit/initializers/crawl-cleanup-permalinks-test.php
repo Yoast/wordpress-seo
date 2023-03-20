@@ -63,6 +63,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface
 	 */
+	private $crawl_cleanup_helper;
 
 	/**
 	 * Sets up the tests.
