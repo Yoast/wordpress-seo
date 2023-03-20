@@ -268,4 +268,89 @@ class Crawl_Cleanup_Helper {
 		$s = \get_search_query();
 		return \home_url() . '/?s=' . \rawurlencode( $s );
 	}
+
+	/**
+	 * Returns the proper URL for url with page param.
+	 *
+	 * @return string The proper URL.
+	 */
+	public function query_var_page_url( $proper_url ) {
+		global $wp_query;
+		if ( \is_search( $proper_url ) ) {
+			return \home_url() . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . \rawurlencode( \get_search_query() );
+		}
+		else {
+			return \user_trailingslashit( \trailingslashit( $proper_url ) . 'page/' . $wp_query->query_vars['paged'] );
+		}
+	}
+
+	/**
+	 * Returns true if query is with page param.
+	 *
+	 * @return bool is query with page param.
+	 */
+	public function is_query_var_page( $proper_url ) {
+		global $wp_query;
+		if ( empty( $proper_url ) || $wp_query->query_vars['paged'] == 0 || $wp_query->post_count == 0 ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Redirects clean permalink.
+	 *
+	 * @return void.
+	 */
+	public function do_clean_redirect( $proper_url ) {
+		$this->redirect_helper->set_header( 'Content-Type: redirect', true );
+		$this->redirect_helper->remove_header( 'Content-Type' );
+		$this->redirect_helper->remove_header( 'Last-Modified' );
+		$this->redirect_helper->remove_header( 'X-Pingback' );
+
+			$message = \sprintf(
+				/* translators: %1$s: Yoast SEO */
+				\__( '%1$s: unregistered URL parameter removed. See %2$s', 'wordpress-seo' ),
+				'Yoast SEO',
+				'https://yoa.st/advanced-crawl-settings'
+			);
+
+			$this->redirect_helper->do_safe_redirect( $proper_url, 301, $message );
+	}
+
+	/**
+	 * Gets the type of URL.
+	 *
+	 * @return string The type of URL.
+	 */
+	public function get_url_type() {
+		if ( \is_singular() ) {
+			return 'singular_url';
+		}
+		if ( \is_front_page() ) {
+			return 'front_page_url';
+		}
+		if ( $this->current_page_helper->is_posts_page() ) {
+			return 'page_for_posts_url';
+		}
+		if ( \is_category() || \is_tag() || \is_tax() ) {
+			return 'taxonomy_url';
+		}
+		if ( \is_search() ) {
+			return 'search_url';
+		}
+		if ( \is_404() ) {
+			return 'page_not_found_url';
+		}
+		return '';
+	}
+
+	/**
+	 * Returns the proper URL for posts page.
+	 *
+	 * @return string The proper URL.
+	 */
+	public function page_for_posts_url() {
+		return \get_permalink( \get_option( 'page_for_posts' ) );
+	}
 }

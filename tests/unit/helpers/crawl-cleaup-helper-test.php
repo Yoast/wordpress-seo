@@ -4,9 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
 use WP_Query;
-use WP_Post;
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -355,11 +353,11 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 		];
 	}
 
-		/**
-		 * Tests search_url.
-		 *
-		 * @covers ::search_url
-		 */
+	/**
+	 * Tests search_url.
+	 *
+	 * @covers ::search_url
+	 */
 	public function test_search_url() {
 		Monkey\Functions\expect( 'get_search_query' )
 			->once()
@@ -370,5 +368,204 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 			->andReturn( 'http://basic.wordpress.test' );
 
 		$this->assertSame( 'http://basic.wordpress.test/?s=test', $this->instance->search_url() );
+	}
+
+	/**
+	 * Tests query_var_page_url.
+	 *
+	 * @covers ::query_var_page_url
+	 *
+	 * @dataProvider query_var_page_url_provider
+	 *
+	 * @param bool   $is_search is_search return value.
+	 * @param string $proper_url proper url.
+	 * @param int    $home_url times home_url is called.
+	 * @param int    $get_search_query times get_search_query is called.
+	 * @param string $expected expected return value.
+	 */
+	public function test_query_var_page_url( $is_search, $proper_url, $home_url, $get_search_query, $expected ) {
+		global $wp_query;
+		$wp_query = Mockery::mock( WP_Query::class );
+
+
+		Monkey\Functions\expect( 'is_search' )
+			->once()
+			->with( $proper_url )
+			->andReturn( $is_search );
+
+			Monkey\Functions\expect( 'home_url' )
+				->times( $home_url )
+				->andReturn( 'http://basic.wordpress.test' );
+
+			Monkey\Functions\expect( 'get_search_query' )
+				->times( $get_search_query )
+				->andReturn( 'test' );
+
+		global $wp_query;
+
+		$wp_query = Mockery::mock( WP_Query::class );
+
+		 $wp_query->query_vars['paged'] = 'test';
+
+		$this->assertSame( $expected, $this->instance->query_var_page_url( $proper_url ) );
+	}
+
+	/**
+	 * Data provider for test_query_var_page_url.
+	 *
+	 * @return array $is_search, $expected
+	 */
+	public function query_var_page_url_provider() {
+		$proper_url = 'http://basic.wordpress.test';
+		return [
+			[ true, $proper_url, 1, 1, 'http://basic.wordpress.test/page/test/?s=test' ],
+			[ false, $proper_url, 0, 0, 'http://basic.wordpress.test/page/test/' ],
+
+		];
+	}
+
+	/**
+	 * Tests is_query_var_page.
+	 *
+	 * @covers ::is_query_var_page
+	 *
+	 * @dataProvider is_query_var_page_provider
+	 *
+	 * @param string $proper_url proper url.
+	 * @param string $query_vars_paged query_vars_paged.
+	 * @param bool   $expected expected return value.
+	 */
+	public function test_is_query_var_page( $proper_url, $query_vars_paged, $post_count, $expected ) {
+		global $wp_query;
+
+		$wp_query = Mockery::mock( WP_Query::class );
+
+		 $wp_query->query_vars['paged'] = $query_vars_paged;
+
+		 $wp_query->post_count = $post_count;
+
+		 $this->assertSame( $expected, $this->instance->is_query_var_page( $proper_url ) );
+	}
+
+	/**
+	 * Data provider for test_is_query_var_page.
+	 *
+	 * @return array $is_search, $expected
+	 */
+	public function is_query_var_page_provider() {
+		$proper_url = 'http://basic.wordpress.test';
+		return [
+			[ '', null, null, false ],
+			[ 'http://basic.wordpress.test', 0, null, false ],
+			[ 'http://basic.wordpress.test', 1, 0, false ],
+			[ 'http://basic.wordpress.test', 1, 3, true ],
+		];
+	}
+
+	/**
+	 * Tests page_for_posts_url.
+	 *
+	 * @covers ::page_for_posts_url
+	 */
+	public function test_page_for_posts_url() {
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->once()
+			->andReturn( 5 );
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->once()
+			->andReturn( 'http://basic.wordpress.test/posts-page' );
+
+		$this->assertSame( 'http://basic.wordpress.test/posts-page', $this->instance->page_for_posts_url() );
+	}
+
+	/**
+	 * Tests get_url_type.
+	 *
+	 * @covers ::get_url_type
+	 *
+	 * @dataProvider get_url_type_provider
+	 *
+	 * @param string $url_type url type.
+	 * @param string $expected expected return value.
+	 */
+	public function test_get_url_type( $singular, $front, $category, $tag, $tax, $search, $is404, $post_page, $post_page_times, $expected ) {
+
+		Monkey\Functions\stubs(
+			[
+				'is_singular'   => $singular,
+				'is_front_page' => $front,
+				'is_category'   => $category,
+				'is_tag'        => $tag,
+				'is_tax'        => $tax,
+				'is_search'     => $search,
+				'is_404'        => $is404,
+			]
+		);
+
+		$this->current_page_helper
+			->expects( 'is_posts_page' )
+			->times( $post_page_times )
+			->andReturn( $post_page );
+
+
+		$this->assertSame( $expected, $this->instance->get_url_type() );
+	}
+
+	/**
+	 * Data provider for test_get_url_type.
+	 *
+	 * @return array $singular,$front,$category,$tag,$tax,$search,$is404,$post_page,$post_page_times, $expected
+	 */
+	public function get_url_type_provider() {
+		return [
+			[ true, false, false, false, false, false, false, false, 0, 'singular_url' ],
+			[ false, true, false, false, false, false, false, false, 0, 'front_page_url' ],
+			[ false, false, true, false, false, false, false, false, 1, 'taxonomy_url' ],
+			[ false, false, false, true, false, false, false, false, 1, 'taxonomy_url' ],
+			[ false, false, false, false, true, false, false, false, 1, 'taxonomy_url' ],
+			[ false, false, false, false, false, true, false, false, 1, 'search_url' ],
+			[ false, false, false, false, false, false, true, false, 1, 'page_not_found_url' ],
+			[ false, false, false, false, false, false, false, false, 1, '' ],
+		];
+	}
+
+	public function test_do_clean_redirect() {
+		 $proper_url = 'http://basic.wordpress.test';
+		 $this->redirect_helper
+			 ->expects( 'set_header' )
+			 ->with( 'Content-Type: redirect', true )
+			 ->once();
+
+		$this->redirect_helper
+			->expects( 'remove_header' )
+			->with( 'Content-Type' )
+			->once();
+
+		 $this->redirect_helper
+			 ->expects( 'remove_header' )
+			 ->with( 'Last-Modified' )
+			 ->once();
+
+		 $this->redirect_helper
+			 ->expects( 'remove_header' )
+			 ->with( 'X-Pingback' )
+			 ->once();
+
+		$message = \sprintf(
+			 /* translators: %1$s: Yoast SEO */
+			\__( '%1$s: unregistered URL parameter removed. See %2$s', 'wordpress-seo' ),
+			'Yoast SEO',
+			'https://yoa.st/advanced-crawl-settings'
+		);
+
+		 $this->redirect_helper
+			 ->expects( 'do_safe_redirect' )
+			 ->with( $proper_url, 301, $message )
+			 ->once();
+
+		 $this->instance->do_clean_redirect( $proper_url );
 	}
 }
