@@ -253,20 +253,19 @@ Release date: 2023-03-28
 
 #### Enhancements
 
-* Makes the crawl optimization functionalities accessible to users of Yoast SEO.
+* NEW in Free: Adds the crawl optimization features to Yoast SEO Free, enabling 13M+ users to reduce their website's carbon footprint!
 
 #### Bugfixes
 
 * Adds a hook to adapt the meta query used to filter the post overview based on the focus keyphrase.
 * Fixes a bug where a fatal error related to HelpScout would be thrown when using a more-than-2-year-old Yoast addon.
 * Fixes a bug where a PHP warning would be thrown when exporting Yoast settings.
-* Fixes a bug where the Google preview in Block editor would show the post ID in the breadcrumbs when creating a new post with a slug but without a title yet.
+* Fixes a bug where the Google preview in the Block editor would show the post ID in the breadcrumbs when creating a new post, or it would show the slug twice or show `auto-draft` when creating a new page or custom post. This would only happen before (auto-)saving the post.
 * Fixes a bug where the _previously used keyword_ assessment would potentially link to an empty page of results when the focus keyphrase had been used across different post types.
 
 #### Other
 
 * Adds Jetpack Boost to the recommended integrations.
-* Opens the upsell links for the _keyphrase distribution_ and _word complexity_ assessments in a new tab.
 
 = 20.3 =
 
