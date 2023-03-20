@@ -14,6 +14,7 @@ const newLines = "\n\r|\n|\r";
 
 // Regular expressions.
 const newLineRegex = new RegExp( newLines );
+const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
 
 /**
  * Returns sentences in a string.
@@ -44,6 +45,13 @@ export default function( text, memoizedTokenizer ) {
 	blocks = flatMap( blocks, function( block ) {
 		return block.split( newLineRegex );
 	} );
+
+	/*
+	 * Filter blocks that contain only paragraph tags. This step is necessary
+	 * since switching between editors might add extra paragraph tags with a new line tag in the end
+	 * that are incorrectly converted into separate blocks.
+	 */
+	blocks = blocks.filter( block => ! paragraphTagsRegex.test( block ) );
 
 	/*
 	 * We use the `map` method followed by `flat` instead of `flatMap` because `flatMap` would override the second

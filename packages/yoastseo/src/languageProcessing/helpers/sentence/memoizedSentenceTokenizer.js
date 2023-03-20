@@ -13,13 +13,8 @@ function getSentenceTokenizer( block, trimSentences = true ) {
 	const sentenceTokenizer = new SentenceTokenizer();
 	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
 	sentenceTokenizer.tokenize( tokenizer, block );
-	const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
-	/*
-	 * Filter block that contain only paragraph tags. This step is necessary
-	 * since switching between editors might add extra paragraph tags with a new line tag in the end
-	 * that are incorrectly converted into separate blocks.
-	 */
-	return ( tokens.length === 0 || paragraphTagsRegex.test( block ) ) ? [] : sentenceTokenizer.getSentencesFromTokens( tokens, trimSentences );
+
+	return ( tokens.length === 0 ? [] : sentenceTokenizer.getSentencesFromTokens( tokens, trimSentences ) );
 }
 
 /*
