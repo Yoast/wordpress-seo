@@ -13,7 +13,7 @@ const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
  *
  * @returns {string[]}	An array containing all elements of a specific type that are center-aligned and longer than 50 characters.
  */
-const getLongCenterAlignedElements = function( elements ) {
+function getLongCenterAlignedElements( elements ) {
 	const elementsWithCenterAlignedText = [];
 
 	// Get all elements that have the .has-text-align-center class.
