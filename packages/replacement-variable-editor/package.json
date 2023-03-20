@@ -28,7 +28,7 @@
       "^lodash-es$": "lodash"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+      "/node_modules/(?!lodash-es).+\\.js$"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js"
   },
@@ -45,8 +45,7 @@
     "draft-js-single-line-plugin": "^2.0.5",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
-    "styled-components": "^5.2.1",
-    "yoastseo": "^1.91.1"
+    "styled-components": "^5.3.6"
   },
   "peerDependencies": {
     "@draft-js-plugins/mention": "^5.0.0",

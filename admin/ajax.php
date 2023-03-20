@@ -32,7 +32,11 @@ function wpseo_set_option() {
 
 	check_ajax_referer( 'wpseo-setoption' );
 
-	$option = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
+	if ( ! isset( $_POST['option'] ) || ! is_string( $_POST['option'] ) ) {
+		die( '-1' );
+	}
+
+	$option = sanitize_text_field( wp_unslash( $_POST['option'] ) );
 	if ( $option !== 'page_comments' ) {
 		die( '-1' );
 	}
@@ -96,9 +100,18 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
 function wpseo_save_what( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
 
-	$new      = filter_input( INPUT_POST, 'new_value' );
-	$post_id  = intval( filter_input( INPUT_POST, 'wpseo_post_id' ) );
-	$original = filter_input( INPUT_POST, 'existing_value' );
+	if ( ! isset( $_POST['new_value'], $_POST['wpseo_post_id'], $_POST['existing_value'] ) || ! is_string( $_POST['new_value'] ) || ! is_string( $_POST['existing_value'] ) ) {
+		die( '-1' );
+	}
+
+	$new = sanitize_text_field( wp_unslash( $_POST['new_value'] ) );
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are casting the unsafe value to an integer.
+	$post_id  = (int) wp_unslash( $_POST['wpseo_post_id'] );
+	$original = sanitize_text_field( wp_unslash( $_POST['existing_value'] ) );
+
+	if ( $post_id === 0 ) {
+		die( '-1' );
+	}
 
 	$results = wpseo_upsert_new( $what, $post_id, $new, $original );
 
@@ -250,31 +263,66 @@ function wpseo_upsert_new( $what, $post_id, $new_value, $original ) {
 }
 
 /**
- * Retrieves the keyword for the keyword doubles.
+ * Retrieves the post ids where the keyword is used before as well as the types of those posts.
  */
-function ajax_get_keyword_usage() {
-	$post_id = filter_input( INPUT_POST, 'post_id' );
-	$keyword = filter_input( INPUT_POST, 'keyword' );
+function ajax_get_keyword_usage_and_post_types() {
+	check_ajax_referer( 'wpseo-keyword-usage-and-post-types', 'nonce' );
 
-	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+	if ( ! isset( $_POST['post_id'], $_POST['keyword'] ) || ! is_string( $_POST['keyword'] ) ) {
 		die( '-1' );
 	}
 
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We are casting to an integer.
+	$post_id = (int) wp_unslash( $_POST['post_id'] );
+
+	if ( $post_id === 0 || ! current_user_can( 'edit_post', $post_id ) ) {
+		die( '-1' );
+	}
+
+	$keyword = sanitize_text_field( wp_unslash( $_POST['keyword'] ) );
+
+	$post_ids = WPSEO_Meta::keyword_usage( $keyword, $post_id );
+
+	if ( ! empty( $post_ids ) ) {
+		$post_types = WPSEO_Meta::post_types_for_ids( $post_ids );
+	}
+	else {
+		$post_types = [];
+	}
+
+	$return_object = [
+		'keyword_usage' => $post_ids,
+		'post_types'    => $post_types,
+	];
+
 	wp_die(
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
-		WPSEO_Utils::format_json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
+		WPSEO_Utils::format_json_encode( $return_object )
 	);
 }
 
-add_action( 'wp_ajax_get_focus_keyword_usage', 'ajax_get_keyword_usage' );
+add_action( 'wp_ajax_get_focus_keyword_usage_and_post_types', 'ajax_get_keyword_usage_and_post_types' );
+
 
 /**
  * Retrieves the keyword for the keyword doubles of the termpages.
  */
 function ajax_get_term_keyword_usage() {
-	$post_id       = filter_input( INPUT_POST, 'post_id' );
-	$keyword       = filter_input( INPUT_POST, 'keyword' );
-	$taxonomy_name = filter_input( INPUT_POST, 'taxonomy' );
+	check_ajax_referer( 'wpseo-keyword-usage', 'nonce' );
+
+	if ( ! isset( $_POST['post_id'], $_POST['keyword'], $_POST['taxonomy'] ) || ! is_string( $_POST['keyword'] ) || ! is_string( $_POST['taxonomy'] ) ) {
+		wp_die( -1 );
+	}
+
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are casting the unsafe input to an integer.
+	$post_id = (int) wp_unslash( $_POST['post_id'] );
+
+	if ( $post_id === 0 ) {
+		wp_die( -1 );
+	}
+
+	$keyword       = sanitize_text_field( wp_unslash( $_POST['keyword'] ) );
+	$taxonomy_name = sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) );
 
 	$taxonomy = get_taxonomy( $taxonomy_name );
 
@@ -288,7 +336,7 @@ function ajax_get_term_keyword_usage() {
 
 	$usage = WPSEO_Taxonomy_Meta::get_keyword_usage( $keyword, $post_id, $taxonomy_name );
 
-	// Normalize the result so it it the same as the post keyword usage AJAX request.
+	// Normalize the result so it is the same as the post keyword usage AJAX request.
 	$usage = $usage[ $keyword ];
 
 	wp_die(
@@ -317,3 +365,30 @@ wpseo_register_ajax_integrations();
 new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();
+
+/* ********************* DEPRECATED FUNCTIONS ********************* */
+/**
+ * Retrieves the keyword for the keyword doubles.
+ */
+function ajax_get_keyword_usage() {
+	_deprecated_function( __METHOD__, 'WPSEO 20.4' );
+	check_ajax_referer( 'wpseo-keyword-usage', 'nonce' );
+
+	if ( ! isset( $_POST['post_id'], $_POST['keyword'] ) || ! is_string( $_POST['keyword'] ) ) {
+		die( '-1' );
+	}
+
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We are casting to an integer.
+	$post_id = (int) wp_unslash( $_POST['post_id'] );
+
+	if ( $post_id === 0 || ! current_user_can( 'edit_post', $post_id ) ) {
+		die( '-1' );
+	}
+
+	$keyword = sanitize_text_field( wp_unslash( $_POST['keyword'] ) );
+
+	wp_die(
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
+		WPSEO_Utils::format_json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
+	);
+}

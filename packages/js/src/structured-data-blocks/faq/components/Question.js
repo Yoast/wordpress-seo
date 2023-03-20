@@ -2,7 +2,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
-import convertValueToStringRichText from "../../convertValueToStringRichText";
 import { Component } from "@wordpress/element";
 import { Button } from "@wordpress/components";
 import { RichText, MediaUpload } from "@wordpress/block-editor";
@@ -290,13 +289,13 @@ export default class Question extends Component {
 					tagName="strong"
 					className="schema-faq-question"
 					key={ question.id + "-question" }
-					value={ convertValueToStringRichText( question.question ) }
+					value={ question.question }
 				/>
 				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-faq-answer"
 					key={ question.id + "-answer" }
-					value={ convertValueToStringRichText( question.answer ) }
+					value={ question.answer }
 				/>
 			</div>
 		);
@@ -341,7 +340,7 @@ export default class Question extends Component {
 					className="schema-faq-question"
 					tagName="p"
 					key={ id + "-question" }
-					value={ convertValueToStringRichText( question ) }
+					value={ question }
 					onChange={ this.onChangeQuestion }
 					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
@@ -352,7 +351,7 @@ export default class Question extends Component {
 					className="schema-faq-answer"
 					tagName="p"
 					key={ id + "-answer" }
-					value={ convertValueToStringRichText( answer ) }
+					value={ answer }
 					onChange={ this.onChangeAnswer }
 					unstableOnFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }

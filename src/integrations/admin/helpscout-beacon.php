@@ -39,7 +39,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $products = [];
 
 	/**
-	 * Whether to asks the user's consent before loading in HelpScout.
+	 * Whether to ask the user's consent before loading in HelpScout.
 	 *
 	 * @var bool
 	 */
@@ -67,9 +67,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $base_pages = [
 		'wpseo_dashboard',
 		Settings_Integration::PAGE,
-		'wpseo_titles',
 		'wpseo_search_console',
-		'wpseo_social',
 		'wpseo_tools',
 		'wpseo_licenses',
 		'wpseo_workouts',
@@ -78,7 +76,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	/**
 	 * The current admin page
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	protected $page;
 
@@ -107,8 +105,14 @@ class HelpScout_Beacon implements Integration_Interface {
 		$this->options       = $options;
 		$this->asset_manager = $asset_manager;
 		$this->ask_consent   = ! $this->options->get( 'tracking' );
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- This deprecation will be addressed later.
-		$this->page             = \filter_input( \INPUT_GET, 'page', @\FILTER_SANITIZE_STRING );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$this->page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
+		}
+		else {
+			$this->page = null;
+		}
 		$this->migration_status = $migration_status;
 
 		foreach ( $this->base_pages as $page ) {

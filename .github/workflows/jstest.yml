@@ -34,7 +34,6 @@ jobs:
           - 'analysis-report'
           - 'browserslist-config'
           - 'components'
-          - 'configuration-wizard'
           - 'feature-flag'
           - 'helpers'
           - 'js'

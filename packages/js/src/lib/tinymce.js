@@ -169,6 +169,28 @@ export function enableMarkerButtons() {
 }
 
 /**
+ * Calls the function in the YoastSEO.js app that pauses to display the markers in the TinyMCE editor.
+ *
+ * @returns {void}
+ */
+export function pauseMarkers() {
+	if ( ! isUndefined( store ) ) {
+		store.dispatch( actions.setMarkerPauseStatus( true ) );
+	}
+}
+
+/**
+ * Calls the function in the YoastSEO.js app that restores showing markers in the TinyMCE editor.
+ *
+ * @returns {void}
+ */
+export function resumeMarkers() {
+	if ( ! isUndefined( store ) ) {
+		store.dispatch( actions.setMarkerPauseStatus( false ) );
+	}
+}
+
+/**
  * If #wp-content-wrap has the 'html-active' class, text view is enabled in WordPress.
  * TMCE is not available, the text cannot be marked and so the marker buttons are disabled.
  *
@@ -224,12 +246,18 @@ export function tinyMceEventBinder( refreshAnalysis, tinyMceId ) {
 	addEventHandler( tinyMceId, enableEvents, enableMarkerButtons );
 
 	addEventHandler( "content", [ "focus" ], function( evt ) {
-		var editor = evt.target;
+		const editor = evt.target;
 
 		if ( editorHasMarks( editor ) ) {
 			editorRemoveMarks( editor );
 
 			YoastSEO.app.disableMarkers();
 		}
+
+		pauseMarkers();
+	} );
+
+	addEventHandler( "content", [ "blur" ], function() {
+		resumeMarkers();
 	} );
 }

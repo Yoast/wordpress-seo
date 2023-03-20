@@ -5,8 +5,6 @@
  * @package WPSEO\Admin\Notifications
  */
 
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
-
 /**
  * Class Yoast_Notifications.
  */
@@ -80,10 +78,13 @@ class Yoast_Notifications {
 	 * Add hooks
 	 */
 	private function add_hooks() {
-
-		$page = filter_input( INPUT_GET, 'page' );
-		if ( $page === self::ADMIN_PAGE ) {
-			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+			if ( $page === self::ADMIN_PAGE ) {
+				add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+			}
 		}
 
 		// Needed for adminbar and Notifications page.
@@ -100,12 +101,7 @@ class Yoast_Notifications {
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
-		if ( YoastSEO()->classes->get( Indexables_Page_Conditional::class )->is_met() ) {
-			$asset_manager->enqueue_style( 'notifications-new' );
-		}
-		else {
-			$asset_manager->enqueue_style( 'notifications' );
-		}
+		$asset_manager->enqueue_style( 'notifications' );
 	}
 
 	/**
@@ -198,13 +194,22 @@ class Yoast_Notifications {
 	/**
 	 * Extract the Yoast Notification from the AJAX request.
 	 *
-	 * @return Yoast_Notification|null
+	 * This function does not handle nonce verification.
+	 *
+	 * @return Yoast_Notification|null A Yoast_Notification on success, null on failure.
 	 */
 	private function get_notification_from_ajax_request() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: This function does not handle nonce verification.
+		if ( ! isset( $_POST['notification'] ) || ! is_string( $_POST['notification'] ) ) {
+			return null;
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: This function does not handle nonce verification.
+		$notification_id = sanitize_text_field( wp_unslash( $_POST['notification'] ) );
 
+		if ( empty( $notification_id ) ) {
+			return null;
+		}
 		$notification_center = Yoast_Notification_Center::get();
-		$notification_id     = filter_input( INPUT_POST, 'notification' );
-
 		return $notification_center->get_notification_by_id( $notification_id );
 	}
 

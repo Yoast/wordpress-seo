@@ -5,7 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Helpers\Wordpress_Helper;
 use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
@@ -140,7 +139,9 @@ class WPSEO_Admin {
 	 * Register assets needed on admin pages.
 	 */
 	public function enqueue_assets() {
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_licenses' ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form data.
+		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+		if ( $page === 'wpseo_licenses' ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_style( 'extensions' );
 		}
@@ -314,16 +315,8 @@ class WPSEO_Admin {
 	 * Log the updated timestamp for user profiles when theme is changed.
 	 */
 	public function switch_theme() {
-		$wordpress_helper  = new Wordpress_Helper();
-		$wordpress_version = $wordpress_helper->get_wordpress_version();
 
-		// Capability queries were only introduced in WP 5.9.
-		if ( version_compare( $wordpress_version, '5.8.99', '<' ) ) {
-			$users = get_users( [ 'who' => 'authors' ] );
-		}
-		else {
-			$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
-		}
+		$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
 
 		if ( is_array( $users ) && $users !== [] ) {
 			foreach ( $users as $user ) {
