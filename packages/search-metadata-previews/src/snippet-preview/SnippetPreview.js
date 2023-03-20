@@ -24,7 +24,6 @@ import FixedWidthContainer from "./FixedWidthContainer";
 import ProductDataDesktop from "./ProductDataDesktop";
 import ProductDataMobile from "./ProductDataMobile";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
-import { ReactComponent as VerticalDots } from "../../../js/images/google-preview-vertical-dots.svg";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -366,6 +365,25 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 }
 
 /**
+ * Renders Google vertical dots.
+ *
+ * @param {string} fillColor The color to render the vertical dots in.
+ *
+ * @returns {ReactComponent} The vertical dots.
+ */
+const VerticalDots = ( { fillColor } ) => {
+	/* eslint-disable max-len */
+	return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={ fillColor } style= { { width: "18px" } }>
+		<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+	</svg>;
+	/* eslint-enable max-len */
+};
+
+VerticalDots.propTypes = {
+	fillColor: PropTypes.string.isRequired,
+};
+
+/**
  * The snippet preview class.
  */
 export default class SnippetPreview extends PureComponent {
@@ -626,10 +644,10 @@ export default class SnippetPreview extends PureComponent {
 						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
 						{ ! isMobileMode && <VerticalDotsContainer>
-							<VerticalDots fill={ colorVerticalDotsDesktop } style={ { width: "18px" } } />
+							<VerticalDots fillColor={ colorVerticalDotsDesktop } />
 						</VerticalDotsContainer> }
 					</UrlContentContainer>
-					{ isMobileMode && <VerticalDots fill={ colorVerticalDotsMobile } style={ { width: "18px" } } /> }
+					{ isMobileMode && <VerticalDots fillColor={ colorVerticalDotsMobile } /> }
 				</BaseUrlOverflowContainer>
 			</Url>
 		</React.Fragment>;
