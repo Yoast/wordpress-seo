@@ -33,8 +33,8 @@ class Node {
 		 */
 		this.childNodes = childNodes;
 
-		// Don't add source code location when unavailable, nor for the root element.
-		if ( ! isEmpty( sourceCodeLocationInfo ) && name !== "#document-fragment" ) {
+		// Don't add the source code location when unavailable.
+		if ( ! isEmpty( sourceCodeLocationInfo ) ) {
 			/**
 			 * The location of this node inside the HTML.
 			 * @type {SourceCodeLocation}
