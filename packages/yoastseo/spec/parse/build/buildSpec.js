@@ -116,7 +116,7 @@ describe( "The parse function", () => {
 							name: "p",
 							isImplicit: true,
 							attributes: {},
-							sentences: [ { text: "Hello " , tokens: [] } ],
+							sentences: [ { text: "Hello ", tokens: [] } ],
 							childNodes: [
 								{
 									name: "#text",
@@ -129,7 +129,7 @@ describe( "The parse function", () => {
 							name: "p",
 							isImplicit: false,
 							attributes: {},
-							sentences: [ { text: "World!" , tokens: [] } ],
+							sentences: [ { text: "World!", tokens: [] } ],
 							childNodes: [
 								{
 									name: "#text",

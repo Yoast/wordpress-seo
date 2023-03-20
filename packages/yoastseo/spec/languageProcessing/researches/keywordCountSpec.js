@@ -19,7 +19,7 @@ const buildMorphologyMockResearcher = function( keyphraseForms ) {
 		morphology: {
 			keyphraseForms: keyphraseForms,
 		},
-	}, true, false,false, { memoizedTokenizer: memoizedSentenceTokenizer } );
+	}, true, false, false, { memoizedTokenizer: memoizedSentenceTokenizer } );
 };
 
 const mockResearcher = buildMorphologyMockResearcher( [ [ "keyword", "keywords" ] ] );
