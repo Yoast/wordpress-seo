@@ -32,9 +32,9 @@ import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
 // Was #1e0fbe
 const colorTitleDesktop         = "#1a0dab";
 const colorTitleMobile          = "#1558d6";
-const colorUrlBaseDesktop       = "#202124";
-const colorUrlRestDesktop       = "#5f6368";
-const colorUrlBaseMobile        = "#202124";
+const colorUrlBaseDesktop       = "#4d5156";
+const colorUrlRestDesktop       = "#4d5156";
+const colorUrlBaseMobile        = "#3c4043";
 const colorUrlRestMobile        = "#70757a";
 const colorDescriptionDesktop   = "#4d5156";
 const colorDescriptionMobile    = "#3c4043";
@@ -43,6 +43,9 @@ const colorGeneratedDescription = "#4d5156";
 // Was #70757f for both desktop and mobile
 const colorDateDesktop          = "#777";
 const colorDateMobile           = "#70757a";
+
+const colorVerticalDotsDesktop  = "#4d5156";
+const colorVerticalDotsMobile   = "#70757a";
 
 // Font sizes and line-heights.
 const fontSizeTitleMobile    = "20px";
@@ -148,36 +151,40 @@ const BaseUrl = styled.div`
 	display: inline-block;
 	cursor: pointer;
 	position: relative;
-	max-width: 90%;
+	width: calc( 100% + 7px );
 	white-space: nowrap;
 	font-size: 14px;
 	line-height: 16px;
 	vertical-align: top;
 `;
+BaseUrl.displayName = "BaseUrl";
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
-    display:flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 	overflow: hidden;
+	justify-content: space-between;
 	text-overflow: ellipsis;
 	max-width: 100%;
-	margin-bottom: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "12px" };
+	margin-bottom: 12px;
 	padding-top: 1px;
-	line-height: ${ props => props.screenMode === MODE_DESKTOP ? "1.5" : "20px" };
-	vertical-align: ${ props => props.screenMode === MODE_DESKTOP ? "baseline" : "top" };
+	line-height: 20px;
+	vertical-align: bottom;
 `;
+BaseUrlOverflowContainer.displayName = "BaseUrlOverflowContainer";
 
 const UrlContentContainer = styled.span`
 	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeUrlDesktop : fontSizeUrlMobile };
 	line-height: ${ props => props.screenMode === MODE_DESKTOP ? lineHeightUrlDesktop : lineHeightUrlMobile };
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlRestMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
+	flex-grow: 1;
 `;
 
 const UrlBaseContainer = styled.span`
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlRestMobile };
 `;
 
-const MobileFaviconContainer = styled.div`
+const FaviconContainer = styled.div`
 width: 28px;
 height: 28px;
 margin-right: 12px;
@@ -252,14 +259,12 @@ color: black;`;
 const DesktopPartContainer = styled.div`
 `;
 
-const UrlDownArrow = styled.div`
+const VerticalDotsContainer = styled.span`
 	display: inline-block;
-	margin-top: 9px;
-	margin-left: 6px;
-	border-top: 5px solid #70757a;
-	border-right: 4px solid transparent;
-	border-left: 4px solid transparent;
-	vertical-align: top;
+	height: 18px;
+	line-height: 18px;
+	padding-left: 8px;
+	vertical-align:bottom;
 `;
 
 const DatePreview = styled.span`
@@ -358,6 +363,25 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 		components: { strong: <strong /> },
 	} );
 }
+
+/**
+ * Renders Google vertical dots.
+ *
+ * @param {string} fillColor The color to render the vertical dots in.
+ *
+ * @returns {ReactComponent} The vertical dots.
+ */
+const VerticalDots = ( { fillColor } ) => {
+	/* eslint-disable max-len */
+	return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={ fillColor } style={ { width: "18px" } }>
+		<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+	</svg>;
+	/* eslint-enable max-len */
+};
+
+VerticalDots.propTypes = {
+	fillColor: PropTypes.string.isRequired,
+};
 
 /**
  * The snippet preview class.
@@ -614,12 +638,16 @@ export default class SnippetPreview extends PureComponent {
 					onMouseLeave={ onMouseLeave.bind( null ) }
 					screenMode={ mode }
 				>
-					{ isMobileMode && <MobileFaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></MobileFaviconContainer> }
+					<FaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></FaviconContainer>
 					<UrlContentContainer screenMode={ mode }>
-						{ isMobileMode && <SiteName>{ siteName }</SiteName> }
-						<UrlBaseContainer>{ hostname }</UrlBaseContainer>
+						<SiteName>{ siteName }</SiteName>
+						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
 						{ breadcrumbs }
+						{ ! isMobileMode && <VerticalDotsContainer>
+							<VerticalDots fillColor={ colorVerticalDotsDesktop } />
+						</VerticalDotsContainer> }
 					</UrlContentContainer>
+					{ isMobileMode && <VerticalDots fillColor={ colorVerticalDotsMobile } /> }
 				</BaseUrlOverflowContainer>
 			</Url>
 		</React.Fragment>;
@@ -813,7 +841,6 @@ export default class SnippetPreview extends PureComponent {
 		} = this.getPreparedComponents( mode );
 
 		const isDesktopMode = mode === MODE_DESKTOP;
-		const downArrow     = isDesktopMode ? <UrlDownArrow /> : null;
 		const amp           = isDesktopMode || ! isAmp ? null : <Amp />;
 
 		/*
@@ -835,7 +862,6 @@ export default class SnippetPreview extends PureComponent {
 				>
 					<PartContainer>
 						{ this.renderUrl() }
-						{ downArrow }
 						<ScreenReaderText>
 							{ __( "SEO title preview", "wordpress-seo" ) + ":" }
 						</ScreenReaderText>
