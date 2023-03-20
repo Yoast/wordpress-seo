@@ -10,10 +10,6 @@ import { Card } from "./tailwind-components/card";
 /**
  * An integration for Jetpack Boost.
  *
- * @param {object} integration           The integration data object.
- * @param {bool}   isJetpackBoostActive  True if the Jetpack Boost is active.
- * @param {bool}   isJetpackBoostPremium True if the Jetpack Boost is premium.
- *
  * @returns {WPElement} A card representing an integration for Jetpack Boost.
  */
 export const JetpackBoostIntegration = () => {
@@ -152,11 +148,11 @@ export const JetpackBoostIntegration = () => {
 					</span>
 					<XIcon className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0" />
 				</p> }
-				{ isJetpackBoostActive && ! isJetpackBoostPremium && <p className="yst-flex yst-items-start yst-justify-between">
+				{ isJetpackBoostActive && ! isJetpackBoostPremium && <p className="yst-flex yst-items-center yst-justify-between">
 					<span className="yst-text-slate-700 yst-font-medium">
 						{ __( "Integration active, upgrade available", "wordpress-seo" ) }
 					</span>
-					<ExclamationIcon className="yst-h-5 yst-w-5 yst-text-orange-400 yst-flex-shrink-0" />
+					<ExclamationIcon className="yst-h-5 yst-w-5 yst-text-amber-500 yst-flex-shrink-0" />
 				</p> }
 				{ isJetpackBoostActive && isJetpackBoostPremium && <p className="yst-flex yst-items-start yst-justify-between">
 					<span className="yst-text-slate-700 yst-font-medium">
