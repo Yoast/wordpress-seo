@@ -199,8 +199,15 @@ export default class BlockEditorData {
 			// Fallback on the base url retrieved from the wpseoScriptData.
 			baseUrl = window.wpseoScriptData.metabox.base_url;
 		}
-		// Strip slug from the url.
-		baseUrl = baseUrl.replace( new RegExp( encodeURI( slug ) + "/$", "i" ), "" );
+		try {
+			// Encode the slug, because the permalink is expected to be encoded.
+			slug = encodeURI( slug );
+		} catch ( e ) {
+			// Ignore this error.
+		}
+
+		// Strip slug from the url. Can also be `auto-draft` (which we filter out in `getSlug()`).
+		baseUrl = baseUrl.replace( new RegExp( `(?:${ slug }|auto-draft)/$`, "i" ), "" );
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
 		if ( ! baseUrl.endsWith( "/" ) ) {
 			baseUrl += "/";
