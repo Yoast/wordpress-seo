@@ -79,6 +79,34 @@ class WPSEO_Addon_Manager {
 		'local-seo.php'         => self::LOCAL_SLUG,
 	];
 
+	private $addon_details = [
+		self::PREMIUM_SLUG     => [
+			'name'                  => 'Yoast SEO Premium',
+			'short_link_activation' => 'https://yoa.st/13j',
+			'short_link_renewal'    => 'https://yoa.st/4ey',
+		],
+		self::NEWS_SLUG        => [
+			'name'                  => 'News SEO',
+			'short_link_activation' => 'https://yoa.st/4xq',
+			'short_link_renewal'    => 'https://yoa.st/4xv',
+		],
+		self::WOOCOMMERCE_SLUG => [
+			'name'                  => 'Yoast WooCommerce SEO',
+			'short_link_activation' => 'https://yoa.st/4xs',
+			'short_link_renewal'    => 'https://yoa.st/4xx',
+		],
+		self::VIDEO_SLUG       => [
+			'name'                  => 'Video SEO',
+			'short_link_activation' => 'https://yoa.st/4xr',
+			'short_link_renewal'    => 'https://yoa.st/4xw',
+		],
+		self::LOCAL_SLUG       => [
+			'name'                  => 'Local SEO',
+			'short_link_activation' => 'https://yoa.st/4xp',
+			'short_link_renewal'    => 'https://yoa.st/4xu',
+		],
+	];
+
 	/**
 	 * Holds the site information data.
 	 *
@@ -365,13 +393,14 @@ class WPSEO_Addon_Manager {
 	public function expired_subscription_warning( $plugin_data ) {
 		$subscription = $this->get_subscription( $plugin_data['slug'] );
 		if ( $subscription && $this->has_subscription_expired( $subscription ) ) {
+			$addon_link = ( isset( $this->addon_details[ $plugin_data['slug'] ] ) ) ? $this->addon_details[ $plugin_data['slug'] ]['short_link_renewal'] : $this->addon_details[ self::PREMIUM_SLUG ]['short_link_renewal'];
 			echo '<br><br>';
 			/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
 			echo '<strong><span class="wp-ui-text-notification warning dashicons dashicons-warning"></span> ' .
 				sprintf(
 					esc_html__( '%1$s can\'t be updated because your product subscription is expired. %2$sRenew your product subscription%3$s to get updates again and use all the features of %1$s.', 'wordpress-seo' ),
 					esc_html( $plugin_data['name'] ),
-					'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4ey' ) ) . '">',
+					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
 					'</a>'
 				) . '</strong>';
 		}
@@ -421,34 +450,12 @@ class WPSEO_Addon_Manager {
 			return;
 		}
 
-		$addons = [
-			'Yoast SEO Premium'     => [
-				'slug'       => static::PREMIUM_SLUG,
-				'short_link' => 'yoa.st/13j',
-			],
-			'News SEO'              => [
-				'slug'       => static::NEWS_SLUG,
-				'short_link' => 'yoa.st/13j',
-			],
-			'Yoast WooCommerce SEO' => [
-				'slug'       => static::WOOCOMMERCE_SLUG,
-				'short_link' => 'yoa.st/13j',
-			],
-			'Video SEO'             => [
-				'slug'       => static::VIDEO_SLUG,
-				'short_link' => 'yoa.st/13j',
-			],
-			'Local SEO'             => [
-				'slug'       => static::LOCAL_SLUG,
-				'short_link' => 'yoa.st/13j',
-			],
-		];
 
-		foreach ( $addons as $product_name => $addon_info ) {
-			$notification = $this->create_notification( $product_name, $addon_info['short_link'] );
+		foreach ( $this->addon_details as $slug => $addon_info ) {
+			$notification = $this->create_notification( $addon_info['name'], $addon_info['short_link_activation'] );
 
 			// Add a notification when the installed plugin isn't activated in My Yoast.
-			if ( $this->is_installed( $addon_info['slug'] ) && ! $this->has_valid_subscription( $addon_info['slug'] ) ) {
+			if ( $this->is_installed( $slug ) && ! $this->has_valid_subscription( $slug ) ) {
 				$notification_center->add_notification( $notification );
 
 				continue;
@@ -528,7 +535,7 @@ class WPSEO_Addon_Manager {
 		// If we're running this because we want to just show the plugin info in the version details modal, we can fallback to the Yoast Free constants, since that modal will not be accessible anyway in the event that the new Free version increases those constants.
 		$defaults = [
 			// It can be expanded if we have the 'tested' and 'requires_php' data be returned from wp.org in the future.
-			'requires'     => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
+			'requires' => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
 		];
 
 		return (object) [
@@ -833,12 +840,12 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function get_support_section() {
 		return '<h4>' . __( 'Need support?', 'wordpress-seo' ) . '</h4>'
-			. '<p>'
-			/* translators: 1: expands to <a> that refers to the help page, 2: </a> closing tag. */
-			. sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
-			. ' '
-			/* translators: %s expands to a mailto support link. */
-			. sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
-			. '</p>';
+			   . '<p>'
+			   /* translators: 1: expands to <a> that refers to the help page, 2: </a> closing tag. */
+			   . sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
+			   . ' '
+			   /* translators: %s expands to a mailto support link. */
+			   . sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
+			   . '</p>';
 	}
 }
