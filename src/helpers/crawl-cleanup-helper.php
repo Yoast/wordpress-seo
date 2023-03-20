@@ -36,7 +36,7 @@ class Crawl_Cleanup_Helper {
 	private $url_helper;
 
 	/**
-	 * The Redirect_Helper.
+	 * The Redirect Helper.
 	 *
 	 * @var Redirect_Helper
 	 */
@@ -48,6 +48,7 @@ class Crawl_Cleanup_Helper {
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 * @param Options_Helper      $options_helper      The option helper.
 	 * @param Url_Helper          $url_helper          The URL helper.
+	 * @param Redirect_Helper     $redirect_helper     The Redirect Helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page_helper,
@@ -101,7 +102,6 @@ class Crawl_Cleanup_Helper {
 	 * Gets the allowed query vars from the current URL.
 	 *
 	 * @param string $current_url The current URL.
-	 *
 	 * @return array is_allowed and allowed_query.
 	 */
 	public function allowed_params( $current_url ) {
@@ -160,55 +160,6 @@ class Crawl_Cleanup_Helper {
 	}
 
 	/**
-	 * Tests singular_url.
-	 *
-	 * @covers ::singular_url
-	 *
-	 * @dataProvider singular_url_provider
-	 *
-	 * @param $permalink the permalink.
-	 * @param int                     $page param.
-	 * @param string                  $server_request_uri $_SERVER['REQUEST_URI'].
-	 * @param string                  $expected expected return value.
-	 */
-	public function test_singular_url( $permalink, $page, $server_request_uri, $content, $expected ) {
-
-		global $post;
-		$post = Mockery::mock( WP_Post::class );
-
-		$post->ID           = 108;
-		$post->post_content = $content;
-
-		$_SERVER['REQUEST_URI'] = $server_request_uri;
-
-		Monkey\Functions\stubs(
-			[
-				'get_permalink' => $permalink,
-				'get_query_var' => $page,
-				'get_post'      => $post,
-
-			]
-		);
-
-		$this->assertSame( $expected, $this->instance->singular_url() );
-	}
-
-	/**
-	 *
-	 * Data provider for test_singular_url.
-	 *
-	 * @return array $permalink, $page, $server_request_uri, $content ,$expected.
-	 */
-	public function singular_url_provider() {
-		return [
-			[ 'http://basic.wordpress.test/products/108', 0, null, null, 'http://basic.wordpress.test/products/108' ],
-			[ 'http://basic.wordpress.test/products/108', 0, 'http://basic.wordpress.test/products/108?replytocom=123', null, 'http://basic.wordpress.test/products/108#comment-123' ],
-			[ 'http://basic.wordpress.test/?page_id=123', 2, 'http://basic.wordpress.test/?page_id=123&unknown=123', '<!--nextpage--><!--nextpage--><!--nextpage-->', 'http://basic.wordpress.test/?page_id=123/2/' ],
-			[ 'http://basic.wordpress.test/?page_id=123', 2, 'http://basic.wordpress.test/?page_id=123&unknown=123', '', 'http://basic.wordpress.test/?page_id=123/2/1/' ],
-		];
-	}
-
-	/**
 	 * Returns the proper URL for front page.
 	 *
 	 * @return string The proper URL.
@@ -223,11 +174,12 @@ class Crawl_Cleanup_Helper {
 		return '';
 	}
 
-		/**
-		 * Returns the proper URL for 404 page.
-		 *
-		 * @return string The proper URL.
-		 */
+	/**
+	 * Returns the proper URL for 404 page.
+	 *
+	 * @param string $current_url The current URL.
+	 * @return string The proper URL.
+	 */
 	public function page_not_found_url( $current_url ) {
 		if ( ! \is_multisite() || \is_subdomain_install() || ! \is_main_site() ) {
 			return '';
@@ -272,6 +224,7 @@ class Crawl_Cleanup_Helper {
 	/**
 	 * Returns the proper URL for url with page param.
 	 *
+	 * @param string $proper_url The proper URL.
 	 * @return string The proper URL.
 	 */
 	public function query_var_page_url( $proper_url ) {
@@ -287,11 +240,12 @@ class Crawl_Cleanup_Helper {
 	/**
 	 * Returns true if query is with page param.
 	 *
+	 * @param string $proper_url The proper URL.
 	 * @return bool is query with page param.
 	 */
 	public function is_query_var_page( $proper_url ) {
 		global $wp_query;
-		if ( empty( $proper_url ) || $wp_query->query_vars['paged'] == 0 || $wp_query->post_count == 0 ) {
+		if ( empty( $proper_url ) || $wp_query->query_vars['paged'] === 0 || $wp_query->post_count === 0 ) {
 			return false;
 		}
 		return true;
@@ -300,6 +254,7 @@ class Crawl_Cleanup_Helper {
 	/**
 	 * Redirects clean permalink.
 	 *
+	 * @param string $proper_url The proper URL.
 	 * @return void.
 	 */
 	public function do_clean_redirect( $proper_url ) {
