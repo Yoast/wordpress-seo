@@ -179,39 +179,29 @@ export default class BlockEditorData {
 	}
 
 	/**
-	 * Gets the base url from the permalink. The base url is the full url retrieved from permalink minus the slug.
-	 *
-	 * @param {string} slug The slug to strip from the permalink.
+	 * Gets the base url from the permalink parts.
 	 *
 	 * @returns {string} The base url.
 	 */
-	getPostBaseUrl( slug ) {
-		const permalink = select( "core/editor" ).getPermalink();
-		let url;
-		let baseUrl = "";
-
-		if ( slug === "" ) {
-			// Fall back to the snippet editor's slug.
-			// This case should only happen with auto-drafts, where we save "our" slug before we pass it to the editor.
-			slug = select( "yoast-seo/editor" ).getSnippetEditorSlug();
-		}
-
-		try {
-			url = new URL( permalink );
-			baseUrl = url.origin + url.pathname;
-		} catch ( e ) {
+	getPostBaseUrl() {
+		const permalinkParts = select( "core/editor" ).getPermalinkParts();
+		if ( permalinkParts === null || ! permalinkParts?.prefix ) {
 			// Fallback on the base url retrieved from the wpseoScriptData.
-			baseUrl = window.wpseoScriptData.metabox.base_url;
-		}
-		try {
-			// Encode the slug, because the permalink is expected to be encoded.
-			slug = encodeURI( slug );
-		} catch ( e ) {
-			// Ignore this error.
+			return window.wpseoScriptData.metabox.base_url;
 		}
 
-		// Strip slug from the url. Can also be `auto-draft` (which we filter out in `getSlug()`).
-		baseUrl = baseUrl.replace( new RegExp( `(?:${ slug }|auto-draft)/$`, "i" ), "" );
+		let baseUrl = permalinkParts.prefix;
+		const isAutoDraft = select( "core/editor" ).isEditedPostNew();
+		if ( isAutoDraft ) {
+			// For post auto-drafts, the `baseUrl` includes the `?={ID}` that we do not want.
+			try {
+				const url = new URL( baseUrl );
+				baseUrl = url.origin + url.pathname;
+			} catch ( e ) {
+				// Ignore this error.
+			}
+		}
+
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
 		if ( ! baseUrl.endsWith( "/" ) ) {
 			baseUrl += "/";
@@ -229,18 +219,17 @@ export default class BlockEditorData {
 		const content = this.getPostAttribute( "content" );
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
-		const slug = this.getSlug();
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
-			slug,
+			slug: this.getSlug(),
 			excerpt: excerpt || excerptFromContent( content, getContentLocale() === "ja" ? 80 : 156 ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
 			contentImage,
-			baseUrl: this.getPostBaseUrl( slug ),
+			baseUrl: this.getPostBaseUrl(),
 		};
 	}
 
