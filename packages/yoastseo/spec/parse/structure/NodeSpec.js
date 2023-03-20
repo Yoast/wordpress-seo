@@ -27,7 +27,7 @@ describe( "A test for the findAll method", () => {
 			attributes: { "class": "yoast" },
 			childNodes: [ { name: "#text", value: "Hello, world! " } ],
 			isImplicit: false,
-			sentences: [ { text: "Hello, world!", tokens: [] }, { text: " ", tokens: [] } ],
+			sentences: [ { text: "Hello, world!", tokens: [] } ],
 		},
 		{
 			name: "p",

@@ -24,11 +24,11 @@ describe( "A test for findAllInTree", () => {
 				attributes: { "class": "yoast" },
 				childNodes: [
 					{ name: "#text", value: "Hello, world! " },
-				], isImplicit: false, name: "p", sentences: [ { text: "Hello, world!", tokens: [] }, { text: " ", tokens: [] } ],
+				], isImplicit: false, name: "p", sentences: [ { text: "Hello, world!", tokens: [] } ],
 			}, { attributes: { "class": "yoast" },
 				childNodes: [
 					{ name: "#text", value: "Hello, yoast! " },
-				], isImplicit: false, name: "p", sentences: [ { text: "Hello, yoast!", tokens: [] }, { text: " ", tokens: [] } ],
+				], isImplicit: false, name: "p", sentences: [ { text: "Hello, yoast!", tokens: [] } ],
 			} ];
 
 		expect( searchResult ).toEqual( expected );

@@ -1,5 +1,5 @@
 import Sentence from "../structure/Sentence";
-
+const whitespaceRegex = /^\s+$/
 /**
  * Contains language-specific logic for splitting a text into sentences and tokens.
  */
@@ -22,8 +22,20 @@ class LanguageProcessor {
 	 */
 	splitIntoSentences( text ) {
 		const memoizedTokenizer = this.researcher.getHelper( "memoizedTokenizer" );
-		return memoizedTokenizer( text, false )
-			.map( function( sentence ) {
+		let sentences = memoizedTokenizer( text, false );
+
+		/*
+		 * If the last element in the array of sentences contains only whitespaces, remove it.
+		 * This will be the case if the text ends in a whitespace - that whitespace ends up being tokenized as a
+		 * separate sentence.
+		 * We don't want to remove any potential whitespace "sentences" that are not at the end,
+		 * because they are needed to ensure correct calculation of the sentence positions later on.
+		 */
+		if ( whitespaceRegex.test( sentences[ sentences.length - 1 ] ) ) {
+			sentences.pop();
+		}
+
+		return sentences.map( function( sentence ) {
 				return new Sentence( sentence );
 			} );
 	}
