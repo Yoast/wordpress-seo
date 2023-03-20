@@ -116,6 +116,24 @@ class Url_Helper {
 	}
 
 	/**
+	 * Gets the host from the passed URL.
+	 *
+	 * @param string $url The URL to get the host from.
+	 *
+	 * @return string The host of the URL. Returns an empty string if URL parsing fails.
+	 */
+	public function get_url_host( $url ) {
+		if ( \is_string( $url ) === false
+			&& \is_object( $url ) === false
+			|| ( \is_object( $url ) === true && \method_exists( $url, '__toString' ) === false )
+		) {
+			return '';
+		}
+
+		return (string) \wp_parse_url( $url, \PHP_URL_HOST );
+	}
+
+	/**
 	 * Determines the file extension of the given url.
 	 *
 	 * @param string $url The URL.

@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.1
-Stable tag: 20.2.1
+Stable tag: 20.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -247,16 +247,39 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.4 =
+
+Release date: 2023-03-28
+
+#### Enhancements
+
+* Makes the crawl optimization functionalities accessible to users of Yoast SEO.
+
+#### Bugfixes
+
+* Adds a hook to adapt the meta query used to filter the post overview based on the focus keyphrase.
+* Fixes a bug where a fatal error related to HelpScout would be thrown when using a more-than-2-year-old Yoast addon.
+* Fixes a bug where a PHP warning would be thrown when exporting Yoast settings.
+* Fixes a bug where the Google preview in Block editor would show the post ID in the breadcrumbs when creating a new post with a slug but without a title yet.
+* Fixes a bug where the _previously used keyword_ assessment would potentially link to an empty page of results when the focus keyphrase had been used across different post types.
+
+#### Other
+
+* Adds Jetpack Boost to the recommended integrations.
+* Opens the upsell links for the _keyphrase distribution_ and _word complexity_ assessments in a new tab.
+
 = 20.3 =
 
 Release date: 2023-03-14
+
+Yoast SEO 20.3 is out and comes with several enhancements, fixes, and improvements. With an improved highlighting feature and enhanced support for the Portuguese language, Yoast SEO 20.3 helps you find where you need to make SEO edits quickly and easily. Upgrade now and take your website's SEO to the next level! Find out more about what's new in Yoast SEO 20.3 in [our release post](https://yoa.st/release-14-3-23)!
 
 #### Enhancements
 
 * Allows the highlighting feature to highlight content in captions of _Audio_, _Embed_, _Gallery_, _Image_, _Table_, and _Video_ blocks in the Block editor.
 * Allows the highlighting feature to highlight content in _FAQ_ and _How-to_ blocks in the Block editor.
 * Improves the detection of participles in the _passive voice_ assessment for Portuguese.
-* Improves the  _transition words_ assessment for Portuguese by adding new transition words. Props to [mathiasribeiro](https://github.com/mathiasribeiro).
+* Improves the _transition words_ assessment for Portuguese by adding new transition words. Props to [mathiasribeiro](https://github.com/mathiasribeiro).
 
 #### Bugfixes
 
@@ -266,49 +289,13 @@ Release date: 2023-03-14
 * Fixes a bug where shortcodes in the Block editor would be treated as words when analyzing content.
 * Fixes a bug where the color and line height in the _Google preview_ modal would be shown incorrectly when editing in Elementor.
 * Fixes a bug where the `fetchpriority` attribute of the rating stars image was mistyped. Props to [fellyph](https://github.com/fellyph).
-* Fixes a bug where the `get_head` REST endpoint would return wrong values for some meta tags when called with the hompage URL as argument.
+* Fixes a bug where the `get_head` REST endpoint would return wrong values for some meta tags when called with the homepage URL as an argument.
 * Fixes a bug where the query parameters would be added in the middle of canonical and previous and next links in paginated pages. Props to [andreas-pa](https://github.com/andreas-pa).
 
 #### Other
 
 * Avoids issuing a PHP warning because of a wrong variable type.
 * Removes the beta badge for the _inclusive language_ assessment.
-
-= 20.2.1 =
-
-Release date: 2023-03-02
-
-#### Bugfixes
-
-* Fixes a security issue in the post editor.
-
-= 20.2 =
-
-Release date: 2023-02-28
-
-In Yoast SEO 20.2, we've improved our innovative indexables technology. We've developed a faster and more reliable way of indexing your site's data. In turn, we make better use of this data to improve your site's SEO. Find out more about what's new in Yoast SEO 20.2 in [our release post](https://yoa.st/release-28-2-23)!
-
-#### Enhancements
-
-* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
-* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
-* Changes replacement variable name from `Page number` to `Page` in the `Settings` page.
-* Changes the copy for notices in social profiles for person.
-* Improves accessibility for the extra other profiles in the Settings' Site representation when Organization is selected.
-* Improves the performance of image schema creation for really large images.
-* Improves the Settings' search modal accessibility.
-* Removes person's social profiles form from first time configuration.
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would be thrown when building a hierarchy indexable when the parent indexable did not exists.
-* Fixes a bug where a fatal error would be thrown when the post type `posts` was excluded and the post overview was visited.
-* Fixes a bug where the settings page of a post type would not load when a special character like ט was added as permalink.
-
-#### Other
-
-* Adds a `wpseo_indexable_forced_included_post_types` filter to force creation of indexables for post types.
-* Hides \"Enable SEO controls and assessments\" option from taxonomies that has no standard WP UI.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

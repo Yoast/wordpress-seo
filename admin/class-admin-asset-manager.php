@@ -625,6 +625,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'inside-editor',
 				'src'  => 'inside-editor-' . $flat_version,
 			],
+			[
+				'name' => 'editor',
+				'src'  => 'editor-' . $flat_version,
+			],
 		];
 	}
 
