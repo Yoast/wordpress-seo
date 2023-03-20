@@ -22,14 +22,17 @@ class LanguageProcessor {
 	 */
 	splitIntoSentences( text ) {
 		const memoizedTokenizer = this.researcher.getHelper( "memoizedTokenizer" );
+		/*
+		 * Set the `trimSentences` flag to false. We want to keep whitespaces to be able to correctly assess the
+		 * position of sentences within the source code.
+		 */
 		const sentences = memoizedTokenizer( text, false );
 
 		/*
 		 * If the last element in the array of sentences contains only whitespaces, remove it.
 		 * This will be the case if the text ends in a whitespace - that whitespace ends up being tokenized as a
-		 * separate sentence.
-		 * We don't want to remove any potential whitespace "sentences" that are not at the end,
-		 * because they are needed to ensure correct calculation of the sentence positions later on.
+		 * separate sentence. A space at the end of the text is not needed for calculating the position of
+		 * sentences so it can be safely removed.
 		 */
 		if ( whitespaceRegex.test( sentences[ sentences.length - 1 ] ) ) {
 			sentences.pop();
