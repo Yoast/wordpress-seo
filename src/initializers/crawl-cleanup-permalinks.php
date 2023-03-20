@@ -52,9 +52,11 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	/**
 	 * Crawl Cleanup Basic integration constructor.
 	 *
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param Options_Helper      $options_helper      The option helper.
-	 * @param Url_Helper          $url_helper          The URL helper.
+	 * @param Current_Page_Helper  $current_page_helper The current page helper.
+	 * @param Options_Helper       $options_helper      The option helper.
+	 * @param Url_Helper           $url_helper          The URL helper.
+	 * @param Redirect_Helper      $redirect_helper     The Redirect Helper.
+	 * @param Crawl_Cleanup_Helper $crawl_cleanup_helper The Crawl_Cleanup_Helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page_helper,
@@ -154,8 +156,6 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		);
 
 		$this->redirect_helper->do_safe_redirect( \trailingslashit( $this->url_helper->recreate_current_url( false ) ) . \ltrim( $new_path, '/' ), 301, $message );
-
-		return;
 	}
 
 	/**
@@ -210,7 +210,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 
 		$proper_url = \add_query_arg( $allowed_params['allowed_query'], $proper_url );
 
-		if ( empty( $proper_url ) || $current_url == $proper_url ) {
+		if ( empty( $proper_url ) || $current_url === $proper_url ) {
 			return;
 		}
 

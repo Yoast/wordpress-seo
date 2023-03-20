@@ -192,8 +192,8 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			->times( $is_wp_safe_redirect );
 
 		$this->url_helper
-			 ->expects( 'recreate_current_url' )
-			 ->with( false )
+			->expects( 'recreate_current_url' )
+			->with( false )
 			->times( $is_wp_safe_redirect )
 			->andReturn( 'www.example.com/' );
 
@@ -249,7 +249,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	public function test_clean_permalinks_no_redirect( $avoid_redirect, $recreate_current_url_times, $current_url, $allowed_params, $expected ) {
 
 		$this->crawl_cleanup_helper
-			->expects( 'avoid_redirect' )
+			->expects( 'should_avoid_redirect' )
 			->once()
 			->andReturn( $avoid_redirect );
 
@@ -269,7 +269,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			->expects( 'do_clean_redirect' )
 			->times( $expected );
 
-		 $this->instance->clean_permalinks();
+		$this->instance->clean_permalinks();
 	}
 
 	/**
@@ -295,17 +295,16 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider clean_permalinks_provider
 	 *
-	 * @param bool   $avoid_redirect should avoid redirect.
-	 * @param int    $recreate_current_url_times times recreate_current_url is called.
 	 * @param string $current_url current url.
 	 * @param array  $allowed_params allowed params.
 	 * @param string $url_type is url type and the function name in the helper.
+	 * @param string $proper_url proper url.
 	 * @param int    $expected times redirect is done.
 	 */
 	public function test_clean_permalinks( $current_url, $allowed_params, $url_type, $proper_url, $expected ) {
 
 		$this->crawl_cleanup_helper
-			->expects( 'avoid_redirect' )
+			->expects( 'should_avoid_redirect' )
 			->once()
 			->andReturn( false );
 
@@ -344,7 +343,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			->expects( 'do_clean_redirect' )
 			->times( $expected );
 
-		 $this->instance->clean_permalinks();
+		$this->instance->clean_permalinks();
 	}
 
 	/**
@@ -411,17 +410,15 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 *
 	 * @dataProvider clean_permalinks_with_page_var_provider
 	 *
-	 * @param bool   $avoid_redirect should avoid redirect.
-	 * @param int    $recreate_current_url_times times recreate_current_url is called.
 	 * @param string $current_url current url.
 	 * @param array  $allowed_params allowed params.
-	 * @param string $url_type is url type and the function name in the helper.
+	 * @param string $proper_url proper url.
 	 * @param int    $expected times redirect is done.
 	 */
 	public function test_clean_permalinks_with_page_var( $current_url, $allowed_params, $proper_url, $expected ) {
 
 		$this->crawl_cleanup_helper
-			->expects( 'avoid_redirect' )
+			->expects( 'should_avoid_redirect' )
 			->once()
 			->andReturn( false );
 
@@ -460,7 +457,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 			->expects( 'do_clean_redirect' )
 			->times( $expected );
 
-		 $this->instance->clean_permalinks();
+		$this->instance->clean_permalinks();
 	}
 
 	/**
