@@ -13,21 +13,34 @@ describe( "Creating a Researcher", function() {
 	} );
 } );
 
-describe( "Calling a Researcher", function() {
+describe( "Calling a Research", function() {
 	var researcher = new Researcher( new Paper( "This is another paper!" ) );
 
-	it( "throws an error if no name is given", function() {
+	it( "throws an error if no research name is given", function() {
 		expect( function() {
 			researcher.getResearch( "" );
 		} ).toThrowError( MissingArgument );
 	} );
 
-	it( "returns false if an unknown name is given", function() {
+	it( "returns false if an unknown research name is given", function() {
 		expect( researcher.getResearch( "foobar" ) ).toBeFalsy();
 	} );
 
-	it( "returns a word count result when calling the wordCountInText researcher", function() {
+	it( "returns a word count result when calling the wordCountInText research", function() {
 		expect( researcher.getResearch( "wordCountInText" ).count ).toEqual( 4 );
+	} );
+} );
+
+describe( "Calling a helper", function() {
+	const researcher = new Researcher( new Paper( "This is another paper!" ) );
+
+	it( "returns false if an unknown helper name is given", function() {
+		expect( researcher.getHelper( "foobar" ) ).toBeFalsy();
+	} );
+
+	it( "returns an array of sentences when calling the memoizedTokenizer helper", function() {
+		expect( researcher.getHelper( "memoizedTokenizer" )( "One sentence. Another sentence." ) )
+			.toEqual( [ "One sentence.", "Another sentence." ] );
 	} );
 } );
 
