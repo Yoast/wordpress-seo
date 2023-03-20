@@ -165,7 +165,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	 */
 	public function clean_permalinks() {
 
-		if ( $this->crawl_cleanup_helper->avoid_redirect() ) {
+		if ( $this->crawl_cleanup_helper->should_avoid_redirect() ) {
 			return;
 		}
 

@@ -67,7 +67,7 @@ class Crawl_Cleanup_Helper {
 	 *
 	 * @return bool True if the current URL is a valid URL.
 	 */
-	public function avoid_redirect() {
+	public function should_avoid_redirect() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing anything yet...
 		if ( \is_robots() || \get_query_var( 'sitemap' ) || empty( $_GET ) || \is_user_logged_in() ) {
 			return true;
