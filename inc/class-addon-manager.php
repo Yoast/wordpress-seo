@@ -79,6 +79,11 @@ class WPSEO_Addon_Manager {
 		'local-seo.php'         => self::LOCAL_SLUG,
 	];
 
+	/**
+	 * The addon data for the shortlinks.
+	 *
+	 * @var array
+	 */
 	private $addon_details = [
 		self::PREMIUM_SLUG     => [
 			'name'                  => 'Yoast SEO Premium',
@@ -535,7 +540,7 @@ class WPSEO_Addon_Manager {
 		// If we're running this because we want to just show the plugin info in the version details modal, we can fallback to the Yoast Free constants, since that modal will not be accessible anyway in the event that the new Free version increases those constants.
 		$defaults = [
 			// It can be expanded if we have the 'tested' and 'requires_php' data be returned from wp.org in the future.
-			'requires' => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
+			'requires'     => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
 		];
 
 		return (object) [
@@ -840,12 +845,12 @@ class WPSEO_Addon_Manager {
 	 */
 	protected function get_support_section() {
 		return '<h4>' . __( 'Need support?', 'wordpress-seo' ) . '</h4>'
-			   . '<p>'
-			   /* translators: 1: expands to <a> that refers to the help page, 2: </a> closing tag. */
-			   . sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
-			   . ' '
-			   /* translators: %s expands to a mailto support link. */
-			   . sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
-			   . '</p>';
+			. '<p>'
+			/* translators: 1: expands to <a> that refers to the help page, 2: </a> closing tag. */
+			. sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
+			. ' '
+			/* translators: %s expands to a mailto support link. */
+			. sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
+			. '</p>';
 	}
 }
