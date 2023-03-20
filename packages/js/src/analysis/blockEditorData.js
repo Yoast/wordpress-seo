@@ -171,7 +171,11 @@ export default class BlockEditorData {
 
 		// When no custom slug is provided we should use the generated_slug attribute.
 		const slug = this.getPostAttribute( "slug" ) || generatedSlug;
-		return decodeURIComponent( slug );
+		try {
+			return decodeURI( slug );
+		} catch ( e ) {
+			return slug;
+		}
 	}
 
 	/**
