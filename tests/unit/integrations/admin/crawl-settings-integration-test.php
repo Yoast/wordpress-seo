@@ -45,6 +45,8 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
 
 		$this->admin_asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->shortlinker         = Mockery::mock( WPSEO_Shortlinker::class );
@@ -78,5 +80,59 @@ class Crawl_Settings_Integration_Test extends TestCase {
 		Monkey\Actions\has( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] );
 
 		$this->instance->register_hooks();
+	}
+
+	/**
+	 * Tests enqueue_assets.
+	 *
+	 * @covers ::enqueue_assets
+	 *
+	 * @dataProvider enqueue_assets_provider
+	 *
+	 * @param bool   $is_network_admin Whether the current page is a network admin page.
+	 * @param string $get_response The response of the GET request.
+	 * @param int    $expected The times admin_asset_manager->enqueue_script( 'crawl-settings' ) is called.
+	 */
+	public function test_enqueue_assets( $is_network_admin, $get_response, $expected ) {
+
+		Monkey\Functions\expect( 'is_network_admin' )
+			->once()
+			->andReturn( $is_network_admin );
+
+		$_GET['page'] = $get_response;
+
+		$this->admin_asset_manager
+			->expects( 'enqueue_script' )
+			->with( 'crawl-settings' )
+			->times( $expected );
+
+		$this->instance->enqueue_assets();
+	}
+
+	/**
+	 * Data provider for test_enqueue_assets.
+	 *
+	 * @return array The data for the test: $is_network_admin, $get_response, $expected.
+	 */
+	public function enqueue_assets_provider() {
+		return [
+			[ true, null, 0 ],
+			[ false, null, 0 ],
+			[ false, 'page is set but not equal to wpseo_dashboard', 0 ],
+			[ true, 'wpseo_dashboard', 1 ],
+		];
+	}
+
+	/**
+	 * Tests the add_crawl_settings_tab_content method.
+	 *
+	 * @covers ::add_crawl_settings_tab_content
+	 */
+	public function add_crawl_settings_tab_content() {
+
+		Monkey\Functions\expect( '_deprecated_function' )
+			->once();
+
+		$this->instance->add_crawl_settings_tab_content();
 	}
 }
