@@ -7,6 +7,7 @@ import { imageRegex } from "../image/imageInText";
 import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime";
 import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
+import defaultSentenceTokenizer from "./memoizedSentenceTokenizer";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
@@ -23,6 +24,9 @@ const newLineRegex = new RegExp( newLines );
  * @returns {Array} Sentences found in the text.
  */
 export default function( text, memoizedTokenizer ) {
+	if ( ! memoizedTokenizer ) {
+		memoizedTokenizer = defaultSentenceTokenizer;
+	}
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
 	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );
