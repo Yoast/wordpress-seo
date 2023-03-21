@@ -7,7 +7,6 @@ use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Feature_Flag_Conditional;
-use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 use Yoast\WP\SEO\Integrations\Feature_Flag_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -114,7 +113,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag, in this case the Schema_Blocks_Conditional, to be set.
-		$schema_blocks_conditional = Mockery::mock( Schema_Blocks_Conditional::class );
+		$schema_blocks_conditional = Mockery::mock( 'Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional' );
 
 		$schema_blocks_conditional
 			->expects( 'get_feature_name' )
