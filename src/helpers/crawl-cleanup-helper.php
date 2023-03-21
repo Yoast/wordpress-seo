@@ -232,9 +232,7 @@ class Crawl_Cleanup_Helper {
 		if ( \is_search( $proper_url ) ) {
 			return \home_url() . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . \rawurlencode( \get_search_query() );
 		}
-		else {
-			return \user_trailingslashit( \trailingslashit( $proper_url ) . 'page/' . $wp_query->query_vars['paged'] );
-		}
+		return \user_trailingslashit( \trailingslashit( $proper_url ) . 'page/' . $wp_query->query_vars['paged'] );
 	}
 
 	/**
@@ -263,14 +261,14 @@ class Crawl_Cleanup_Helper {
 		$this->redirect_helper->remove_header( 'Last-Modified' );
 		$this->redirect_helper->remove_header( 'X-Pingback' );
 
-			$message = \sprintf(
-				/* translators: %1$s: Yoast SEO */
-				\__( '%1$s: unregistered URL parameter removed. See %2$s', 'wordpress-seo' ),
-				'Yoast SEO',
-				'https://yoa.st/advanced-crawl-settings'
-			);
+		$message = \sprintf(
+			/* translators: %1$s: Yoast SEO */
+			\__( '%1$s: unregistered URL parameter removed. See %2$s', 'wordpress-seo' ),
+			'Yoast SEO',
+			'https://yoa.st/advanced-crawl-settings'
+		);
 
-			$this->redirect_helper->do_safe_redirect( $proper_url, 301, $message );
+		$this->redirect_helper->do_safe_redirect( $proper_url, 301, $message );
 	}
 
 	/**

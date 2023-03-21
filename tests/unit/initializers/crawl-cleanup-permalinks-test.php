@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Initializers\Crawl_Cleanup_Permalinks;
@@ -29,13 +28,6 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 * @var Crawl_Cleanup_Permalinks
 	 */
 	private $instance;
-
-	/**
-	 * The current page helper
-	 *
-	 * @var Mockery\MockInterface
-	 */
-	private $current_page_helper;
 
 	/**
 	 * The options helper.
@@ -75,14 +67,12 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
-		$this->current_page_helper  = Mockery::mock( Current_Page_Helper::class );
 		$this->options_helper       = Mockery::mock( Options_Helper::class );
 		$this->url_helper           = Mockery::mock( Url_Helper::class );
 		$this->redirect_helper      = Mockery::mock( Redirect_Helper::class );
 		$this->crawl_cleanup_helper = Mockery::mock( Crawl_Cleanup_Helper::class );
 
 		$this->instance = new Crawl_Cleanup_Permalinks(
-			$this->current_page_helper,
 			$this->options_helper,
 			$this->url_helper,
 			$this->redirect_helper,

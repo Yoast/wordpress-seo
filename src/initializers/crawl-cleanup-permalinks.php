@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Initializers;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
@@ -13,13 +12,6 @@ use Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper;
  * Class Crawl_Cleanup_Permalinks.
  */
 class Crawl_Cleanup_Permalinks implements Initializer_Interface {
-
-	/**
-	 * The current page helper
-	 *
-	 * @var Current_Page_Helper
-	 */
-	private $current_page_helper;
 
 	/**
 	 * The options helper.
@@ -52,20 +44,17 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 	/**
 	 * Crawl Cleanup Basic integration constructor.
 	 *
-	 * @param Current_Page_Helper  $current_page_helper The current page helper.
 	 * @param Options_Helper       $options_helper      The option helper.
 	 * @param Url_Helper           $url_helper          The URL helper.
 	 * @param Redirect_Helper      $redirect_helper     The Redirect Helper.
 	 * @param Crawl_Cleanup_Helper $crawl_cleanup_helper The Crawl_Cleanup_Helper.
 	 */
 	public function __construct(
-		Current_Page_Helper $current_page_helper,
 		Options_Helper $options_helper,
 		Url_Helper $url_helper,
 		Redirect_Helper $redirect_helper,
 		Crawl_Cleanup_Helper $crawl_cleanup_helper
 	) {
-		$this->current_page_helper  = $current_page_helper;
 		$this->options_helper       = $options_helper;
 		$this->url_helper           = $url_helper;
 		$this->redirect_helper      = $redirect_helper;
@@ -176,8 +165,6 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		if ( empty( $allowed_params['query'] ) ) {
 			return;
 		}
-
-		global $wp_query;
 
 		$url_type = $this->crawl_cleanup_helper->get_url_type();
 
