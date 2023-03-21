@@ -984,21 +984,26 @@ class WPSEO_Upgrade {
 		}
 	}
 
+	/**
+	 * Performs the 20.4 upgrade routine.
+	 * The routine initializes the jetpack_ad_start_date option to a random date between 1 and MAX_DELAY_IN_DAYS.
+	 * This option will then be used to determine when the Jetpack Ad should be shown.
+	 */
 	private function upgrade_204() {
-		define( "MAX_DELAY_IN_DAYS", 12) ;
-		$now = new DateTime('now', new DateTimeZone('Europe/Amsterdam'));
+		define( 'MAX_DELAY_IN_DAYS', 12 );
+		$now = new DateTime( 'now', new DateTimeZone( 'Europe/Amsterdam' ) );
 
-		if ( \function_exists( 'random_int') ) {
-			$days = \random_int(1, MAX_DELAY_IN_DAYS);
+		if ( \function_exists( 'random_int' ) ) {
+			$days = \random_int( 1, MAX_DELAY_IN_DAYS );
 		}
 		// Needed to support PHP 5.6.
 		else {
-			$days = \rand(1, MAX_DELAY_IN_DAYS);
+			$days = \rand( 1, MAX_DELAY_IN_DAYS );
 		}
-		$interval = DateInterval::createFromDateString("$days days");
-		
-		$start_date = date_add($now,$interval);
-		WPSEO_Options::set( 'jetpack_ad_start_date', $start_date->format('Y-m-d H:i:s'));
+		$interval = DateInterval::createFromDateString( "$days days" );
+
+		$start_date = date_add( $now, $interval );
+		WPSEO_Options::set( 'jetpack_ad_start_date', $start_date->format( 'Y-m-d H:i:s' ) );
 	}
 
 	/**

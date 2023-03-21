@@ -1161,9 +1161,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the Jetpack Boost ad must be shown.
 	 */
 	private function checkJetpackBoostAdDate() {
-		$now = new DateTime("now");
+		$now                          = new DateTime( 'now' );
 		$jetpack_boost_ad_date_string = WPSEO_Options::get( 'jetpack_ad_start_date' );
-		$jetpack_boost_ad_date = new DateTime( $jetpack_boost_ad_date_string );
+		$jetpack_boost_ad_date        = new DateTime( $jetpack_boost_ad_date_string );
 
 		if ( $now > $jetpack_boost_ad_date ) {
 			return true;
