@@ -42,14 +42,16 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		this.textContainsCenterAlignedText = researcher.getResearch( "getLongCenterAlignedText" );
+		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedText" );
+		const numberOfLongCenterAlignedTexts = longCenterAlignedTexts.length;
+
 		const assessmentResult = new AssessmentResult();
 		// We don't want to show the assessment and its feedback when the paper doesn't contain center-aligned text.
-		if ( this.textContainsCenterAlignedText.length === 0 ) {
+		if ( numberOfLongCenterAlignedTexts === 0 ) {
 			return assessmentResult;
 		}
 
-		const calculatedScore = this.calculateResult( paper, researcher, this.textContainsCenterAlignedText );
+		const calculatedScore = this.calculateResult( paper, researcher, numberOfLongCenterAlignedTexts );
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
@@ -95,7 +97,8 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher   The researcher used in the assessment.
 	 *
-	 * @returns {boolean} True when there is text.
+	 * @returns {boolean} True when the paper has at least 50 characters (after sanitation)
+	 * and when the researcher has `getLongCenterAlignedText` research.
 	 */
 	isApplicable( paper, researcher ) {
 		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getLongCenterAlignedText" );
@@ -106,27 +109,32 @@ export default class TextAlignmentAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper                   The Paper object to assess.
 	 * @param {Researcher}  researcher              The researcher used in the assessment.
-	 * @param {array} textContainsCenterAlignedText The array containing each paragraph or heading
-	 * with center aligned text that’s longer than 50 characters.
+	 * @param {number}      numberOfLongCenterAlignedTexts  The number of paragraphs and/or headings
+	 * that are center aligned and longer than 50 characters.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( paper, researcher, textContainsCenterAlignedText ) {
-		const preferredAlignment = paper.isRTL() ? __( "right-aligned", "wordpress-seo" ) : __( "left-aligned", "wordpress-seo" );
-		const foundLongCenterAlignedText = textContainsCenterAlignedText.length;
+	calculateResult( paper, researcher, numberOfLongCenterAlignedTexts ) {
+		/*
+		 * When the paper's writing direction is right to left, the suggested alignment in the case of center-aligned text is "right-aligned".
+		 * Otherwise, the suggestion would be "left-aligned".
+		 */
+		const preferredAlignment = paper.isRTL()
+			? __( "right-aligned", "wordpress-seo" )
+			: __( "left-aligned", "wordpress-seo" );
 
-		if (  foundLongCenterAlignedText > 0 ) {
+		if (  numberOfLongCenterAlignedTexts > 0 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
-					%4$s expands to "right-aligned" when the string is shown in an RTL
-					and expands to "left-aligned" when the string is shown in LTR */
+					%4$s expands to "right-aligned" when the string is shown in a language written from right to left
+					and expands to "left-aligned" when the string is shown in a language written from left to right */
 					_n(
 						"%1$sAlignment%3$s: Your text has a long block of center-aligned text. %2$sWe recommend changing that to %4$s%3$s.",
 						"%1$sAlignment%3$s: Your text contains multiple long blocks of center-aligned text. " +
 						"%2$sWe recommend changing that to %4$s%3$s.",
-						foundLongCenterAlignedText,
+						numberOfLongCenterAlignedTexts,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
