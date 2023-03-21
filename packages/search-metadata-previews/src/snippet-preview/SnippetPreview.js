@@ -4,7 +4,6 @@ import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
-import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
@@ -314,6 +313,20 @@ const Amp = styled.div`
 `;
 
 /**
+ * Try `decodeURI` on a string.
+ *
+ * @param {string} uri The part maybe needing decoding.
+ * @returns {string} The decoded URI or the same URI.
+ */
+const tryDecodeUri = ( uri ) => {
+	try {
+		return decodeURI( uri );
+	} catch ( e ) {
+		return uri;
+	}
+};
+
+/**
  * Highlights a keyword with strong React elements.
  *
  * @param {string} locale ISO 639 (2/3 characters) locale.
@@ -572,25 +585,30 @@ export default class SnippetPreview extends PureComponent {
 	/**
 	 * Returns the breadcrumbs string to be rendered.
 	 *
-	 * @param {string} url The url to use to build the breadcrumbs.
+	 * @param {string} urlInputString The url to use to build the breadcrumbs.
 	 *
 	 * @returns {{hostname: string, breadcrumbs: string}} An Object with the hostPart and the breadcrumbs.
 	 */
-	getBreadcrumbs( url ) {
+	getBreadcrumbs( urlInputString ) {
 		const { breadcrumbs } = this.props;
-		/*
-		 * Strip out question mark and hash characters from the raw URL and percent-encode
-		 * characters that are not allowed in a URI.
-		 */
-		const cleanEncodedUrl = encodeURI( url.replace( /\?|#/g, "" ) );
+		const separator = " › ";
+		let url;
 
-		const { hostname, pathname } = parse( cleanEncodedUrl );
+		try {
+			url = new URL( urlInputString );
+		} catch ( e ) {
+			return { hostname: urlInputString, breadcrumbs: "" };
+		}
 
-		const urlParts = breadcrumbs || pathname.split( "/" );
+		const hostname = tryDecodeUri( url.hostname );
+		let crumbs = breadcrumbs || url.pathname.split( "/" );
+		// Decode per part instead of all or nothing; In case one part fails.
+		crumbs = crumbs.filter( part => Boolean( part ) ).map( part => tryDecodeUri( part ) );
 
-		const breadCrumbs = " › " + urlParts.filter( part => !! part ).join( " › " );
-
-		return { hostname: decodeURI( hostname ), breadcrumbs: decodeURI( breadCrumbs ) };
+		return {
+			hostname,
+			breadcrumbs: separator + crumbs.join( separator ),
+		};
 	}
 
 	/**
@@ -611,15 +629,7 @@ export default class SnippetPreview extends PureComponent {
 
 		const isMobileMode = mode === MODE_MOBILE;
 
-		/*
-		 * We need to replace special characters and diacritics only on the url
-		 * string because when highlightWords kicks in, interpolateComponents
-		 * returns an array of strings plus a strong React element, and replace()
-		 * can't run on an array.
-		 */
-		const urlContent = replaceSpecialCharactersAndDiacritics( url );
-
-		const { hostname, breadcrumbs } = this.getBreadcrumbs( urlContent );
+		const { hostname, breadcrumbs } = this.getBreadcrumbs( url );
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
 		/*
