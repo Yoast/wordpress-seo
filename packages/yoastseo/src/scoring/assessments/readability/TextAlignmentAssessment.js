@@ -130,16 +130,17 @@ export default class TextAlignmentAssessment extends Assessment {
 					%4$s expands to "right-aligned" when the string is shown in a language written from right to left
 					and expands to "left-aligned" when the string is shown in a language written from left to right */
 					_n(
-						"%1$sAlignment%3$s: Your text has a long block of center-aligned text. %2$sWe recommend changing that to %4$s%3$s.",
-						"%1$sAlignment%3$s: Your text contains multiple long blocks of center-aligned text. " +
-						"%2$sWe recommend changing that to %4$s%3$s.",
+						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it %4$s%3$s.",
+						"%1$sAlignment%3$s: There are %5$s long sections of center-aligned text. " +
+						"%2$sWe recommend making them %4$s%3$s.",
 						numberOfLongCenterAlignedTexts,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>",
-					preferredAlignment
+					preferredAlignment,
+					numberOfLongCenterAlignedTexts
 				),
 			};
 		}
