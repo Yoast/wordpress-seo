@@ -283,8 +283,7 @@ class Url_Helper {
 	/**
 	 * Parses a URL and returns its components, this wrapper function was created to support unit tests.
 	 *
-	 * @param string $url The URL to parse.
-	 *
+	 * @param string $parsed_url The URL to parse.
 	 * @return array The parsed components of the URL.
 	 */
 	public function parse_str_params( $parsed_url ) {
