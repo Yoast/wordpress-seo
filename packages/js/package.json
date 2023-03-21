@@ -23,7 +23,6 @@
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.16.0",
     "@yoast/replacement-variable-editor": "^1.17.0",
-    "@yoast/schema-blocks": "^1.7.0",
     "@yoast/search-metadata-previews": "^2.24.0",
     "@yoast/social-metadata-forms": "^1.16.0",
     "@yoast/style-guide": "^0.13.0",
