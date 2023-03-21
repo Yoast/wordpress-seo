@@ -135,7 +135,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
-		'jetpack_ad_start_date'                         => '', // Date.
+		'jetpack_ad_start_date'                    => '', // Date.
 	];
 
 	/**
