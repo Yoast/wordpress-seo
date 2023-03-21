@@ -51,7 +51,7 @@ export default class TextAlignmentAssessment extends Assessment {
 			return assessmentResult;
 		}
 
-		const calculatedScore = this.calculateResult( paper, researcher, numberOfLongCenterAlignedTexts );
+		const calculatedScore = this.calculateResult( paper, numberOfLongCenterAlignedTexts );
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
@@ -108,13 +108,12 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * Calculates the result based on the number of center-aligned text found in the paper.
 	 *
 	 * @param {Paper}       paper                   The Paper object to assess.
-	 * @param {Researcher}  researcher              The researcher used in the assessment.
 	 * @param {number}      numberOfLongCenterAlignedTexts  The number of paragraphs and/or headings
 	 * that are center aligned and longer than 50 characters.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( paper, researcher, numberOfLongCenterAlignedTexts ) {
+	calculateResult( paper, numberOfLongCenterAlignedTexts ) {
 		/*
 		 * When the paper's writing direction is right to left (RTL), the suggested alignment in the case of center-aligned text is "right-aligned".
 		 * Otherwise, the suggestion would be "left-aligned".
