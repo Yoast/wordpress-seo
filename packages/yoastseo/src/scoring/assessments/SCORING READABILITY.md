@@ -165,7 +165,13 @@
 **Call to action URL**: https://yoa.st/assessment-alignment-cta (link placement is in bold in the feedback strings)
 
 
-| Bullet         | Score 	| Criterion    | Feedback    	|
+| Bullet         | Score 	| Criterion    | Feedback	|
 |----------------|-------	|-------- |---------------------------------	|
-| Red     | 2     	| There is one element with `.has-text-align-center` that is over 50 characters long                 	| **Alignment**: Your text a long block of center-aligned text. **We recommend changing that to left-aligned (RTL: right-aligned)**. |
-| Red     | 2     	| There are multiple elements with <br>`.has-text-align-center`<br> that are over 50 characters long 	| **Alignment**: Your text contains multiple long blocks of center-aligned text. **We recommend changing that to left-aligned (RTL: right-aligned)**. 	|
+| Red     | 2     	| There is one element with `.has-text-align-center` that is over 50 characters long                 	| LTR: **Alignment**: There is a long section of center-aligned text. **We recommend making it left-aligned**. |
+|      |     	|  	| RTL: **Alignment**: There are X long sections of center-aligned text. **We recommend making them right-aligned**. 	|
+| Red     | 2     	| There are multiple elements with <br>`.has-text-align-center`<br> that are over 50 characters long 	| LTR: **Alignment**: There are X long sections of center-aligned text. **We recommend making them left-aligned**. 	|
+|      |     	| 	| RTL: **Alignment**: There are X long sections of center-aligned text. **We recommend making them right-aligned**. 	|
+
+**Notes**:
+* LTR: The feedback shown for languages written from left to right.
+* RTL: The feedback shown for languages written from right to left.
