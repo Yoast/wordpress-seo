@@ -115,7 +115,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	 *
 	 * Data provider for test_clean_permalinks_avoid_redirect.
 	 *
-	 * @return array is_roboto, get_query_var( 'sitemap' ), $_GET, is_user_logged_in(), expected.
+	 * @return array is_robots, get_query_var( 'sitemap' ), $_GET, is_user_logged_in(), $expected.
 	 */
 	public function should_avoid_redirect_provider() {
 		return [
