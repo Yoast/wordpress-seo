@@ -10,7 +10,7 @@ class LanguageProcessor {
 	constructor( researcher ) {
 		this.researcher = researcher;
 	}
-
+	
 	/**
 	 * Split text into sentences.
 	 *
@@ -18,7 +18,9 @@ class LanguageProcessor {
 	 *
 	 * @returns {Sentence[]} The sentences.
 	 */
+	// eslint-disable-next-line no-unused-vars
 	splitIntoSentences( text ) {
+		// eslint-disable-next-line no-warning-comments
 		// TODO: split text into sentences.
 		return [];
 	}
@@ -30,7 +32,9 @@ class LanguageProcessor {
 	 *
 	 * @returns {Token[]} The tokens.
 	 */
+	// eslint-disable-next-line no-unused-vars
 	splitIntoTokens( sentence ) {
+		// eslint-disable-next-line no-warning-comments
 		// TODO: Split sentence into tokens.
 		return [];
 	}
