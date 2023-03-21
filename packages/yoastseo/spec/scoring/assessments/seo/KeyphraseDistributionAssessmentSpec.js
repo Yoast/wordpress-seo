@@ -150,4 +150,18 @@ describe( "A test for marking keywords in the text", function() {
 		];
 		expect( keyphraseDistributionAssessment.getMarks() ).toEqual( expected );
 	} );
+	it( "returns markers for a keyphrase found in image caption", function() {
+		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"A flamboyant cat with a toy<br></br>\n" +
+			"</p>",
+		{ keyword: "cat toy" } );
+		const researcher = new EnglishResearcher( paper );
+		keyphraseDistributionAssessment.getResult( paper, researcher );
+		const expected = [
+			new Mark( {
+				marked: "A flamboyant <yoastmark class='yoast-text-mark'>cat</yoastmark> with a <yoastmark class='yoast-text-mark'>toy</yoastmark>",
+				original: "A flamboyant cat with a toy" } ) ];
+		expect( keyphraseDistributionAssessment.getMarks() ).toEqual( expected );
+	} );
 } );
