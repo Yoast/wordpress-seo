@@ -7,7 +7,7 @@ import getLongBlocksOfCenterAlignedText from "../../../../src/languageProcessing
 
 const textAlignmentAssessment = new TextAlignmentAssessment();
 
-describe( "tests assessment results in LTR languages.", function() {
+describe( "tests assessment results in languages written from left to right (LTR).", function() {
 	let researcher;
 	beforeEach( () => {
 		researcher = new EnglishResearcher();
@@ -138,7 +138,7 @@ describe( "tests assessment results in LTR languages.", function() {
 	} );
 } );
 
-describe( "tests the feedback strings of an RTL language.", function() {
+describe( "tests the feedback strings of the assessment run for languages written from right to left (RTL).", function() {
 	let researcher;
 	beforeEach( () => {
 		researcher = new HebrewResearcher();
