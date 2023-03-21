@@ -990,19 +990,19 @@ class WPSEO_Upgrade {
 	 * This option will then be used to determine when the Jetpack Ad should be shown.
 	 */
 	private function upgrade_204() {
-		define( 'MAX_DELAY_IN_DAYS', 12 );
-		$now = new DateTime( 'now', new \DateTimeZone( 'Europe/Amsterdam' ) );
+		$max_delay_in_days = 12;
+		$now               = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
 
-		if ( \function_exists( 'random_int' ) ) {
-			$days = \random_int( 1, MAX_DELAY_IN_DAYS );
+		if ( function_exists( 'random_int' ) ) {
+			$days = random_int( 1, $max_delay_in_days );
 		}
 		// Needed to support PHP 5.6.
 		else {
-			$days = \wp_rand( 1, MAX_DELAY_IN_DAYS );
+			$days = wp_rand( 1, $max_delay_in_days );
 		}
-		$interval = \DateInterval::createFromDateString( "$days days" );
+		$interval = DateInterval::createFromDateString( "$days days" );
 
-		$start_date = \date_add( $now, $interval );
+		$start_date = date_add( $now, $interval );
 		WPSEO_Options::set( 'jetpack_ad_start_date', $start_date->format( 'Y-m-d H:i:s' ) );
 	}
 
