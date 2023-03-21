@@ -6,7 +6,7 @@ import {
 
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";
-import getL10nObject from "./getL10nObject";
+import getWritingDirection from "./getWritingDirection";
 
 import { Paper } from "yoastseo";
 
@@ -100,7 +100,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 
 	data.titleWidth = measureTextWidth( data.title );
 	data.locale = getContentLocale();
-	data.isRTL = getL10nObject().isRtl;
+	data.writingDirection = getWritingDirection();
 
 	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }
