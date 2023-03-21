@@ -20,9 +20,9 @@ describe( "tests assessment results in languages written from left to right (LTR
 
 		const assessmentResult = textAlignmentAssessment.getResult( mockPaperLTR, researcher );
 		expect( assessmentResult.getScore() ).toBe( 2 );
-		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
-			"Your text has a long block of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
-			"We recommend changing that to left-aligned</a>." );
+		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
+			" There is a long section of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			"We recommend making it left-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
@@ -39,9 +39,9 @@ describe( "tests assessment results in languages written from left to right (LTR
 
 		const assessmentResult = textAlignmentAssessment.getResult( mockPaperLTR, researcher );
 		expect( assessmentResult.getScore() ).toBe( 2 );
-		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
-			"Your text has a long block of center-aligned text." +
-			" <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>We recommend changing that to left-aligned</a>." );
+		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
+			" There is a long section of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			"We recommend making it left-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
@@ -60,9 +60,9 @@ describe( "tests assessment results in languages written from left to right (LTR
 		const assessmentResult = textAlignmentAssessment.getResult( mockPaperLTR, researcher );
 
 		expect( assessmentResult.getScore() ).toBe( 2 );
-		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
-			"Your text contains multiple long blocks of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
-			"We recommend changing that to left-aligned</a>." );
+		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
+			" There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			"We recommend making them left-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
@@ -85,9 +85,9 @@ describe( "tests assessment results in languages written from left to right (LTR
 		const assessmentResult = textAlignmentAssessment.getResult( mockPaperLTR, researcher );
 
 		expect( assessmentResult.getScore() ).toBe( 2 );
-		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
-			"Your text contains multiple long blocks of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
-			"We recommend changing that to left-aligned</a>." );
+		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
+			" There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			"We recommend making them left-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
@@ -110,9 +110,9 @@ describe( "tests assessment results in languages written from left to right (LTR
 		const assessmentResult = textAlignmentAssessment.getResult( mockPaperLTR, researcher );
 
 		expect( assessmentResult.getScore() ).toBe( 2 );
-		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
-			"Your text contains multiple long blocks of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
-			"We recommend changing that to left-aligned</a>." );
+		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
+			" There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			"We recommend making them left-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
 			new Mark( {
@@ -153,9 +153,9 @@ describe( "tests the feedback strings of the assessment run for languages writte
 
 		const assessmentResult = textAlignmentAssessment.getResult( mockPaperRTL, researcher );
 		expect( assessmentResult.getScore() ).toBe( 2 );
-		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: Your text has " +
-			"a long block of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
-			"We recommend changing that to right-aligned</a>." );
+		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>:" +
+			" There is a long section of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			"We recommend making it right-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperRTL, researcher ) ).toEqual( [
 			new Mark( {
@@ -177,8 +177,8 @@ describe( "tests the feedback strings of the assessment run for languages writte
 
 		expect( assessmentResult.getScore() ).toBe( 2 );
 		expect( assessmentResult.getText() ).toBe( "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
-			"Your text contains multiple long blocks of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' " +
-			"target='_blank'>We recommend changing that to right-aligned</a>." );
+			"There are 2 long sections of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta' target='_blank'>" +
+			"We recommend making them right-aligned</a>." );
 		expect( assessmentResult.hasMarks() ).toBe( true );
 		expect( textAlignmentAssessment.getMarks( mockPaperRTL, researcher ) ).toEqual( [
 			new Mark( {
