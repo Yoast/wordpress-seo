@@ -147,7 +147,7 @@ describe( "tests the feedback strings of the assessment run for languages writte
 
 	it( "recommends right-alignment instead of left-alignment for RTL languages when one block of center-aligned text is detected", function() {
 		const mockPaperRTL = new Paper( "<p class=\"has-text-align-center\">שמענו סיפורים רבים על כלבים שהצילו חיים של בני אדם.</p>", {
-			isRTL: true,
+			writingDirection: "RTL",
 		} );
 		researcher.setPaper( mockPaperRTL );
 
@@ -169,7 +169,7 @@ describe( "tests the feedback strings of the assessment run for languages writte
 	it( "recommends right-alignment for RTL languages when multiple blocks of center-aligned text are detected", function() {
 		const mockPaperRTL = new Paper( "<h2 class=\"has-text-align-center\">שמענו סיפורים רבים על כלבים שהצילו חיים של בני אדם.</h2>" +
 			"<p class=\"has-text-align-center\">אתה ערערת את הכח שלנו ועשה את החתולים להיראות חלשים.</p>", {
-			isRTL: true,
+			writingDirection: "RTL",
 		} );
 		researcher.setPaper( mockPaperRTL );
 

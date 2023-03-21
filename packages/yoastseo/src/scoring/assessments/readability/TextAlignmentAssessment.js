@@ -116,10 +116,10 @@ export default class TextAlignmentAssessment extends Assessment {
 	 */
 	calculateResult( paper, researcher, numberOfLongCenterAlignedTexts ) {
 		/*
-		 * When the paper's writing direction is right to left, the suggested alignment in the case of center-aligned text is "right-aligned".
+		 * When the paper's writing direction is right to left (RTL), the suggested alignment in the case of center-aligned text is "right-aligned".
 		 * Otherwise, the suggestion would be "left-aligned".
 		 */
-		const preferredAlignment = paper.isRTL()
+		const preferredAlignment = paper.getWritingDirection() === "RTL"
 			? __( "right-aligned", "wordpress-seo" )
 			: __( "left-aligned", "wordpress-seo" );
 
