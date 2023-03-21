@@ -99,7 +99,7 @@ describe( "serialize", () => {
 			date: "8 September 2021",
 			customData: { hasGlobalIdentifier: true, hasVariants: true },
 			textTitle: "The title of the text",
-			isRTL: false,
+			writingDirection: "LTR",
 		} );
 	} );
 
