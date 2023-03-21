@@ -3,7 +3,7 @@ import Paper from "../../../../src/values/Paper.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import HebrewResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import TextAlignmentAssessment from "../../../../src/scoring/assessments/readability/TextAlignmentAssessment.js";
-import getLongBlocksOfCenterAlignedText from "../../../../src/languageProcessing/researches/getLongCenterAlignedText";
+import getLongCenterAlignedTexts from "../../../../src/languageProcessing/researches/getLongCenterAlignedTexts";
 
 const textAlignmentAssessment = new TextAlignmentAssessment();
 
@@ -11,7 +11,7 @@ describe( "tests assessment results in languages written from left to right (LTR
 	let researcher;
 	beforeEach( () => {
 		researcher = new EnglishResearcher();
-		researcher.addResearch( "getLongCenterAlignedText", getLongBlocksOfCenterAlignedText );
+		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
 	} );
 
 	it( "returns a bad score when there is a paragraph of center-aligned text in an LTR language", function() {
@@ -142,7 +142,7 @@ describe( "tests the feedback strings of the assessment run for languages writte
 	let researcher;
 	beforeEach( () => {
 		researcher = new HebrewResearcher();
-		researcher.addResearch( "getLongCenterAlignedText", getLongBlocksOfCenterAlignedText );
+		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
 	} );
 
 	it( "recommends right-alignment instead of left-alignment for RTL languages when one block of center-aligned text is detected", function() {
@@ -199,7 +199,7 @@ describe( "tests for the assessment's applicability.", function() {
 	it( "returns false when the paper is empty.", function() {
 		const paperWithNoText = new Paper( "" );
 		const researcher = new EnglishResearcher( paperWithNoText );
-		researcher.addResearch( "getLongCenterAlignedText", getLongBlocksOfCenterAlignedText );
+		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
 		expect( textAlignmentAssessment.isApplicable( paperWithNoText, researcher ) ).toBe( false );
 	} );
 
@@ -212,7 +212,7 @@ describe( "tests for the assessment's applicability.", function() {
 	it( "returns true when the paper has more than 50 characters and the researcher has the research.", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This is a paragraph with a bit more than fifty characters.</p>" );
 		const researcher = new EnglishResearcher( mockPaper );
-		researcher.addResearch( "getLongCenterAlignedText", getLongBlocksOfCenterAlignedText );
+		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
 		expect( textAlignmentAssessment.isApplicable( mockPaper, researcher ) ).toBe( true );
 	} );
 } );

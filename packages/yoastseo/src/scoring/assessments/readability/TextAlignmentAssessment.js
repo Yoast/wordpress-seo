@@ -42,7 +42,7 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedText" );
+		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedTexts" );
 		const numberOfLongCenterAlignedTexts = longCenterAlignedTexts.length;
 
 		const assessmentResult = new AssessmentResult();
@@ -70,7 +70,7 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {object} Mark objects for all long center-aligned texts.
 	 */
 	getMarks( paper, researcher ) {
-		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedText" );
+		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedTexts" );
 		// For example: [ {text: "abc", typeOfBlock: "heading"}, {text: "123", typeOfBlock: "paragraph"} ].
 		return longCenterAlignedTexts.map( longCenterAlignedText => {
 			const text = longCenterAlignedText.text;
@@ -101,7 +101,7 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * and when the researcher has `getLongCenterAlignedText` research.
 	 */
 	isApplicable( paper, researcher ) {
-		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getLongCenterAlignedText" );
+		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getLongCenterAlignedTexts" );
 	}
 
 	/**
