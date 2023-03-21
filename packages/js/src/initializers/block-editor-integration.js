@@ -114,6 +114,8 @@ function registerFills( store ) {
 	const blockSidebarContext = { locationContext: "block-sidebar" };
 	const blockMetaboxContext = { locationContext: "block-metabox" };
 
+	const showJetpackBoostAd = get( window, "wpseoScriptData.canShowJetpackBoostAd", false );
+
 	/**
 	 * Renders the yoast editor fills.
 	 *
@@ -149,7 +151,7 @@ function registerFills( store ) {
 			>
 				<PrePublish />
 			</PluginPrePublishPanel> }
-			<JetpackBoost alertKey="get-jetpack-boost-pre-publish-notification" />
+			{ showJetpackBoostAd && <JetpackBoost alertKey="get-jetpack-boost-pre-publish-notification" /> }
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"
 				title={ __( "Yoast SEO", "wordpress-seo" ) }
