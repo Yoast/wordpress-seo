@@ -991,7 +991,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_204() {
 		define( 'MAX_DELAY_IN_DAYS', 12 );
-		$now = new DateTime( 'now', new DateTimeZone( 'Europe/Amsterdam' ) );
+		$now = new DateTime( 'now', new \DateTimeZone( 'Europe/Amsterdam' ) );
 
 		if ( \function_exists( 'random_int' ) ) {
 			$days = \random_int( 1, MAX_DELAY_IN_DAYS );
@@ -1000,9 +1000,9 @@ class WPSEO_Upgrade {
 		else {
 			$days = \rand( 1, MAX_DELAY_IN_DAYS );
 		}
-		$interval = DateInterval::createFromDateString( "$days days" );
+		$interval = \DateInterval::createFromDateString( "$days days" );
 
-		$start_date = date_add( $now, $interval );
+		$start_date = \date_add( $now, $interval );
 		WPSEO_Options::set( 'jetpack_ad_start_date', $start_date->format( 'Y-m-d H:i:s' ) );
 	}
 
