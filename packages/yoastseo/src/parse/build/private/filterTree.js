@@ -9,14 +9,10 @@ function shouldRemoveNode( node, filters ) {
 	if ( node.name === "#text" ) {
 		return false;
 	}
-	for ( const filter of filters ) {
-		// If any of the filters returns true, the node will be disregarded.
-		if ( filter( node ) ) {
-			return true;
-		}
-	}
+
+	// If any of the filters returns true, the node will be disregarded.
 	// If all filters are not true, then keep the node.
-	return false;
+	return filters.some( filter => filter( node ) );
 }
 
 /**
