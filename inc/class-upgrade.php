@@ -86,6 +86,7 @@ class WPSEO_Upgrade {
 			'19.6-RC0'   => 'upgrade_196',
 			'19.11-RC0'  => 'upgrade_1911',
 			'20.2-RC0'   => 'upgrade_202',
+			'20.4-RC0'   => 'upgrade_204',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -981,6 +982,23 @@ class WPSEO_Upgrade {
 			// This schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table. We also want to cleanup possible orphaned hierarchies from the above cleanups.
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
+	}
+
+	private function upgrade_204() {
+		define( "MAX_DELAY_IN_DAYS", 12) ;
+		$now = new DateTime('now', new DateTimeZone('Europe/Amsterdam'));
+
+		if ( \function_exists( 'random_int') ) {
+			$days = \random_int(1, MAX_DELAY_IN_DAYS);
+		}
+		// Needed to support PHP 5.6.
+		else {
+			$days = \rand(1, MAX_DELAY_IN_DAYS);
+		}
+		$interval = DateInterval::createFromDateString("$days days");
+		
+		$start_date = date_add($now,$interval);
+		WPSEO_Options::set( 'jetpack_ad_start_date', $start_date->format('Y-m-d H:i:s'));
 	}
 
 	/**
