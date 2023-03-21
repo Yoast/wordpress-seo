@@ -125,20 +125,18 @@ describe( "Paper", function() {
 			expect( paper.getTextTitle() ).toEqual( "A text title" );
 		} );
 
-		it( "returns the information whether the locale is an RTL", function() {
+		it( "returns the information of the paper's writing direction", function() {
 			const attributes = {
-				isRTL: true,
+				writingDirection: "RTL",
 			};
 			const paper = new Paper( "", attributes );
-			expect( paper.isRTL() ).toBe( true );
+			expect( paper.getWritingDirection() ).toBe( "RTL" );
 		} );
 
-		it( "returns the default value (false) for isRTL when it's not provided during Paper initialization", function() {
-			const attributes = {
-				textTitle: "A text title",
-			};
+		it( "returns the default value (LTR) for the writing direction when it's not provided during Paper initialization", function() {
+			const attributes = {};
 			const paper = new Paper( "", attributes );
-			expect( paper.isRTL() ).toBe( false );
+			expect( paper.getWritingDirection() ).toBe( "LTR" );
 		} );
 	} );
 
