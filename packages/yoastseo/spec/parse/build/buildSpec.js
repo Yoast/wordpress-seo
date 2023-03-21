@@ -19,7 +19,7 @@ describe( "The parse function", () => {
 					name: "p",
 					isImplicit: false,
 					attributes: {
-						"class": "yoast",
+						"class": new Set( [ "yoast" ] ),
 					},
 					sentences: [],
 					childNodes: [ {
