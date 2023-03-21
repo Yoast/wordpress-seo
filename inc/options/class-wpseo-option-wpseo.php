@@ -135,7 +135,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
-		'jetpack_ad_start_date'                    => '', // Date.
+		'jetpack_ad_start_date'                    => '1970-01-01 00:00:00', // Date.
 	];
 
 	/**
@@ -326,7 +326,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'clean_permalinks_extra_variables':
 				case 'indexables_overview_state':
 				case 'dismiss_old_premium_version_notice':
-				case 'jetpack_ad_start_date':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -451,6 +450,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					// If the setting has changed, record it.
 					if ( $old[ $key ] !== $clean[ $key ] ) {
 						$clean['wordproof_integration_changed'] = true;
+					}
+					break;
+
+				// Date fields.
+				case 'jetpack_ad_start_date':
+					if ( isset( $dirty[ $key ] ) && WPSEO_Utils::is_valid_datetime( $dirty[ $key ] ) ) {
+						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
 
