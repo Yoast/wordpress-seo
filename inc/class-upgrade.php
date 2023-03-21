@@ -998,7 +998,7 @@ class WPSEO_Upgrade {
 		}
 		// Needed to support PHP 5.6.
 		else {
-			$days = \rand( 1, MAX_DELAY_IN_DAYS );
+			$days = \wp_rand( 1, MAX_DELAY_IN_DAYS );
 		}
 		$interval = \DateInterval::createFromDateString( "$days days" );
 
