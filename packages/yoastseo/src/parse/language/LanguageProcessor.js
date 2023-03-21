@@ -10,7 +10,7 @@ class LanguageProcessor {
 	constructor( researcher ) {
 		this.researcher = researcher;
 	}
-	
+
 	/**
 	 * Split text into sentences.
 	 *
