@@ -135,6 +135,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
+		'jetpack_ad_start_date'                         => '', // Date.
 	];
 
 	/**
@@ -325,6 +326,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'clean_permalinks_extra_variables':
 				case 'indexables_overview_state':
 				case 'dismiss_old_premium_version_notice':
+				case 'jetpack_ad_start_date':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
