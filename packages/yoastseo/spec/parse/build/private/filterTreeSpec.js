@@ -7,10 +7,12 @@ import permanentFilters from "../../../../src/parse/build/private/alwaysFilterEl
 
 describe( "A test for filterTree", () => {
 	let languageProcessor;
+
 	beforeEach( () => {
 		const researcher = Factory.buildMockResearcher( {} );
 		languageProcessor = new LanguageProcessor( researcher );
 	} );
+
 	it( "should filter script elements", () => {
 		const html = "<script>console.log(\"Hello, world!\")</script><div>A div</div>";
 
@@ -19,6 +21,7 @@ describe( "A test for filterTree", () => {
 		const filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.name === "script" ) ).toHaveLength( 0 );
 	} );
+
 	it( "should filter style elements", () => {
 		const html = "<style>div { color: #FF00FF}</style><div>A div</div>";
 
@@ -27,6 +30,7 @@ describe( "A test for filterTree", () => {
 		const filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.name === "style" ) ).toHaveLength( 0 );
 	} );
+
 	it( "should filter style elements", () => {
 		const html = "<blockquote cite=\"http://www.worldwildlife.org/who/index.html\">\n" +
 			"For 50 years, WWF has been protecting the future of nature. The world's leading conservation organization, " +
@@ -38,60 +42,95 @@ describe( "A test for filterTree", () => {
 		const filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.name === "blockquote" ) ).toHaveLength( 0 );
 	} );
+
 	it( "should filter yoast table of contents block", () => {
 		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div>" +
 			"<div>A div</div>";
 
 		const tree = build( html, languageProcessor );
-
 		const filteredTree = filterTree( tree, permanentFilters );
 
 		expect( filteredTree ).toEqual( {
+			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
+				name: "div",
 				attributes: {},
 				childNodes: [ {
-					attributes: {},
-					childNodes: [ {
-						name: "#text",
-						value: "A div",
-					} ],
-					isImplicit: true,
 					name: "p",
+					isImplicit: true,
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "A div",
+						},
+					],
 					sentences: [],
+					sourceCodeLocation: {
+						startOffset: 118,
+						endOffset: 123,
+					},
 				} ],
-				name: "div",
+				sourceCodeLocation: {
+					startOffset: 113,
+					endOffset: 129,
+					startTag: {
+						startOffset: 113,
+						endOffset: 118,
+					},
+					endTag: {
+						startOffset: 123,
+						endOffset: 129,
+					},
+				},
 			} ],
-			name: "#document-fragment" }
-		);
+		} );
 	} );
+
 	it( "should filter yoast estimated reading time block", () => {
 		const html = "<p class='yoast-reading-time__wrapper'></p>" +
 			"<div>A div</div>";
 
 		const tree = build( html, languageProcessor );
-
 		const filteredTree = filterTree( tree, permanentFilters );
 
 		expect( filteredTree ).toEqual( {
+			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
+				name: "div",
 				attributes: {},
 				childNodes: [ {
-					attributes: {},
-					childNodes: [ {
-						name: "#text",
-						value: "A div",
-					} ],
-					isImplicit: true,
 					name: "p",
+					isImplicit: true,
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "A div",
+						},
+					],
 					sentences: [],
+					sourceCodeLocation: {
+						startOffset: 48,
+						endOffset: 53,
+					},
 				} ],
-				name: "div",
+				sourceCodeLocation: {
+					startOffset: 43,
+					endOffset: 59,
+					startTag: {
+						startOffset: 43,
+						endOffset: 48,
+					},
+					endTag: {
+						startOffset: 53,
+						endOffset: 59,
+					},
+				},
 			} ],
-			name: "#document-fragment",
-		}
-		);
+		} );
 	} );
 
 	it( "should filter yoast breadcrumbs block", () => {
@@ -99,56 +138,93 @@ describe( "A test for filterTree", () => {
 			"<div>Hello world!</div>";
 
 		const tree = build( html, languageProcessor );
-
 		const filteredTree = filterTree( tree, permanentFilters );
 
 		expect( filteredTree ).toEqual( {
+			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
-				attributes: {},
-				childNodes: [ {
-					attributes: {},
-					childNodes: [ {
-						name: "#text",
-						value: "Hello world!",
-					} ],
-					isImplicit: true,
-					name: "p",
-					sentences: [],
-				} ],
 				name: "div",
+				attributes: {},
+				childNodes: [
+					{
+						name: "p",
+						isImplicit: true,
+						attributes: {},
+						childNodes: [
+							{
+								name: "#text",
+								value: "Hello world!",
+							},
+						],
+						sentences: [],
+						sourceCodeLocation: {
+							startOffset: 109,
+							endOffset: 121,
+						},
+					},
+				],
+				sourceCodeLocation: {
+					startOffset: 104,
+					endOffset: 127,
+					startTag: {
+						startOffset: 104,
+						endOffset: 109,
+					},
+					endTag: {
+						startOffset: 121,
+						endOffset: 127,
+					},
+				},
 			} ],
-			name: "#document-fragment",
-		}
-		);
+		} );
 	} );
 
 	it( "should correctly filter when a custom filter is provided.", function() {
-		const html = "<div nonsensical_attriute='blah'></div><div>Hello world!</div>";
-		const tree = build( html, languageProcessor );
+		const html = "<div data-test='blah'></div><div>Hello world!</div>";
 
+		const tree = build( html, languageProcessor );
 		const filteredTree = filterTree( tree, [ ( elem ) => {
-			return elem.name === "div" && elem.attributes.nonsensical_attriute && elem.attributes.nonsensical_attriute === "blah";
+			return elem.name === "div" && elem.attributes[ "data-test" ] && elem.attributes[ "data-test" ] === "blah";
 		} ] );
 
-		expect( filteredTree ).toEqual(  {
+		expect( filteredTree ).toEqual( {
+			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
-				attributes: {},
-				childNodes: [ {
-					attributes: {},
-					childNodes: [ {
-						name: "#text",
-						value: "Hello world!",
-					} ],
-					isImplicit: true,
-					name: "p",
-					sentences: [],
-				} ],
 				name: "div",
+				attributes: {},
+				childNodes: [
+					{
+						name: "p",
+						isImplicit: true,
+						attributes: {},
+						childNodes: [
+							{
+								name: "#text",
+								value: "Hello world!",
+							},
+						],
+						sentences: [],
+						sourceCodeLocation: {
+							startOffset: 33,
+							endOffset: 45,
+						},
+					},
+				],
+				sourceCodeLocation: {
+					startOffset: 28,
+					endOffset: 51,
+					startTag: {
+						startOffset: 28,
+						endOffset: 33,
+					},
+					endTag: {
+						startOffset: 45,
+						endOffset: 51,
+					},
+				},
 			} ],
-			name: "#document-fragment",
-		}
-		);
+		} );
 	} );
 } );
