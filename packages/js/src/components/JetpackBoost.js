@@ -28,20 +28,22 @@ const getDescription = ( isJetpackBoostActive ) => {
 	);
 };
 
-
+/* eslint-disable complexity */
 /**
  * @param {string} store The redux store key.
  * @param {boolean} isAlertDismissed Whether the "alert" is dismissed.
  * @param {function} onDismissed Function that will dismiss the "alert".
  * @returns {JSX.Element} The JetpackBoost element (which is null when dismissed).
- */
+*/
 const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 	const isJetpackBoostActive = get( window, "wpseoScriptData.isJetpackBoostActive", "" ) === "1";
 	const isJetpackBoostNotPremium = get( window, "wpseoScriptData.isJetpackBoostNotPremium", "" ) === "1";
 	const getJetpackBoostPrePublishLink = get( window, "wpseoScriptData.metabox.getJetpackBoostPrePublishLink", "" );
 	const upgradeJetpackBoostPrePublishLink = get( window, "wpseoScriptData.metabox.upgradeJetpackBoostPrePublishLink", "" );
+	const showJetpackBoostAd = get( window, "wpseoScriptData.canShowJetpackBoostAd", false );
+
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
-	if ( isPremium || isAlertDismissed || ! isJetpackBoostNotPremium ) {
+	if ( ! showJetpackBoostAd || isPremium || isAlertDismissed || ! isJetpackBoostNotPremium ) {
 		return null;
 	}
 
@@ -93,6 +95,7 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 		</PluginPrePublishPanel>
 	);
 };
+/* eslint-enable complexity */
 
 JetpackBoost.propTypes = {
 	store: PropTypes.string,
