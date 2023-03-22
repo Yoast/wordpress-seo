@@ -48,12 +48,8 @@ jobs:
 
       # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
       # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
-      # - league/oauth2-client and its dependencies *are* the packages being prefixed.
       - name: Delete dev dependencies which are not cross-version compatible
-        run: composer remove --dev --no-scripts humbug/php-scoper league/oauth2-client
-
-      - name: Delete dependencies which are not cross-version compatible
-        run: composer remove --no-scripts composer/installers
+        run: composer remove --dev --no-scripts humbug/php-scoper
 
       - name: Remove vendor directory
         run: rm -rf vendor/*
@@ -65,8 +61,10 @@ jobs:
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: none
 
-      - name: "Composer: remove PHPUnit root requirement"
-        run: composer remove --dev phpunit/phpunit --no-update --no-scripts
+      # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
+      # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
+      - name: "Composer: remove the PHP platform requirement"
+        run: composer config --unset platform.php
 
       # Install dependencies and handle caching in one go.
       # - Updates the test utilities (and only those!) to the most appropriate version
