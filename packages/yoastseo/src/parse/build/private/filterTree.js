@@ -16,18 +16,18 @@ function shouldRemoveNode( node, filters ) {
 }
 
 /**
- * A recursive fuunction that removes all nodes based on an array of filters.
+ * A recursive function that removes all nodes based on an array of filters.
  * @param {Node} node A node. (Could be the entire tree.)
  * @param {array} filters An array of callbacks. If a callback returns true, the node is discarded.
  * @returns {Node} A Node with all undesired subtrees removed.
  */
 export default function filterTree( node, filters ) {
-	// If the node should be disregarded. Return an empy node.
+	// If the node should be disregarded. Return an empty node.
 	if ( shouldRemoveNode( node, filters ) ) {
 		return;
 	}
 
-	// If the node has childs.
+	// If the node has children.
 	if ( node.childNodes ) {
 		node.childNodes = node.childNodes.filter( childNode => filterTree( childNode, filters ) );
 	}

@@ -2,11 +2,13 @@ import findAllInTree from "../../../src/parse/traverse/findAllInTree";
 import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
+import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
 let languageProcessor;
 
 beforeEach( () => {
-	const researcher = Factory.buildMockResearcher( {} );
+	const researcher = Factory.buildMockResearcher( {}, true, false, false,
+		{ memoizedTokenizer: memoizedSentenceTokenizer } );
 	languageProcessor = new LanguageProcessor( researcher );
 } );
 
@@ -22,11 +24,11 @@ describe( "A test for findAllInTree", () => {
 				attributes: { "class": new Set( [ "yoast" ] ) },
 				childNodes: [
 					{ name: "#text", value: "Hello, world! " },
-				], isImplicit: false, name: "p", sentences: [],
+				], isImplicit: false, name: "p", sentences: [ { text: "Hello, world!", tokens: [] } ],
 			}, { attributes: { "class": new Set( [ "yoast" ] ) },
 				childNodes: [
 					{ name: "#text", value: "Hello, yoast! " },
-				], isImplicit: false, name: "p", sentences: [],
+				], isImplicit: false, name: "p", sentences: [ { text: "Hello, yoast!", tokens: [] } ],
 			} ];
 
 		expect( searchResult ).toEqual( expected );

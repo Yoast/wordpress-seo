@@ -1,10 +1,10 @@
+import SentenceTokenizer from "./SentenceTokenizer";
 import { memoize } from "lodash-es";
-import SentenceTokenizer from "./internal/SentenceTokenizer";
 
 /**
  * Returns the sentences from a certain text.
  *
- * @param {string} text 					The text to retrieve sentences from..
+ * @param {string} text 					The text to retrieve sentences from.
  * @param {boolean} [trimSentences=true] 	Whether to trim whitespace from the beginning and end of the sentences or not.
  *
  * @returns {Array<string>} The list of sentences in the text.
