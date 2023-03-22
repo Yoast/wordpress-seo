@@ -3,12 +3,14 @@ import build from "../../../../src/parse/build/build";
 import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
 import Factory from "../../../specHelpers/factory";
 import permanentFilters from "../../../../src/parse/build/private/alwaysFilterElements";
+import memoizedSentenceTokenizer from "../../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
 
 describe( "A test for filterTree", () => {
 	let languageProcessor;
 	beforeEach( () => {
-		const researcher = Factory.buildMockResearcher( {} );
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		languageProcessor = new LanguageProcessor( researcher );
 	} );
 	it( "should filter script elements", () => {
@@ -58,7 +60,7 @@ describe( "A test for filterTree", () => {
 					} ],
 					isImplicit: true,
 					name: "p",
-					sentences: [],
+					sentences: [ { text: "A div", tokens: [] } ],
 				} ],
 				name: "div",
 			} ],
@@ -85,7 +87,7 @@ describe( "A test for filterTree", () => {
 					} ],
 					isImplicit: true,
 					name: "p",
-					sentences: [],
+					sentences: [ { text: "A div", tokens: [] } ],
 				} ],
 				name: "div",
 			} ],
@@ -114,7 +116,7 @@ describe( "A test for filterTree", () => {
 					} ],
 					isImplicit: true,
 					name: "p",
-					sentences: [],
+					sentences: [ { text: "Hello world!", tokens: [] } ],
 				} ],
 				name: "div",
 			} ],
@@ -143,7 +145,7 @@ describe( "A test for filterTree", () => {
 					} ],
 					isImplicit: true,
 					name: "p",
-					sentences: [],
+					sentences: [ { text: "Hello world!", tokens: [] } ],
 				} ],
 				name: "div",
 			} ],
