@@ -449,7 +449,7 @@ class Elementor implements Integration_Interface {
 			],
 			'dismissedAlerts'          => $dismissed_alerts,
 			'webinarIntroElementorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
-			'usedKeywordsNonce'        => \wp_create_nonce( 'wpseo-keyword-usage' ),
+			'usedKeywordsNonce'        => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
