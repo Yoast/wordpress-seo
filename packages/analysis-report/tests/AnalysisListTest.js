@@ -1,7 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { AnalysisList } from "yoast-components";
-import { AnalysisResult } from "../src";
+import { AnalysisResult, AnalysisList } from "../src";
 
 describe( "The AnalysisList component", () => {
 	it( "renders a list of analysis results", () => {
