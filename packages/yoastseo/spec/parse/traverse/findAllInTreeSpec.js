@@ -21,11 +21,11 @@ describe( "A test for findAllInTree", () => {
 
 		const expected =   [
 			{
-				attributes: { "class": "yoast" },
+				attributes: { "class": new Set( [ "yoast" ] ) },
 				childNodes: [
 					{ name: "#text", value: "Hello, world! " },
 				], isImplicit: false, name: "p", sentences: [ { text: "Hello, world!", tokens: [] } ],
-			}, { attributes: { "class": "yoast" },
+			}, { attributes: { "class": new Set( [ "yoast" ] ) },
 				childNodes: [
 					{ name: "#text", value: "Hello, yoast! " },
 				], isImplicit: false, name: "p", sentences: [ { text: "Hello, yoast!", tokens: [] } ],

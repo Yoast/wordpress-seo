@@ -20,6 +20,7 @@ class LanguageProcessor {
 	 *
 	 * @returns {Sentence[]} The sentences.
 	 */
+	// eslint-disable-next-line no-unused-vars
 	splitIntoSentences( text ) {
 		const memoizedTokenizer = this.researcher.getHelper( "memoizedTokenizer" );
 		/*
@@ -50,7 +51,9 @@ class LanguageProcessor {
 	 *
 	 * @returns {Token[]} The tokens.
 	 */
+	// eslint-disable-next-line no-unused-vars
 	splitIntoTokens( sentence ) {
+		// eslint-disable-next-line no-warning-comments
 		// TODO: Split sentence into tokens.
 		return [];
 	}
