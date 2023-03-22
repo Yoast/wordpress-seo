@@ -2,17 +2,17 @@ import SentenceTokenizer from "./SentenceTokenizer";
 import { memoize } from "lodash-es";
 
 /**
- * Returns the sentences from a certain block.
+ * Returns the sentences from a certain text.
  *
- * @param {string} block 					The HTML inside a HTML block.
+ * @param {string} text 					The text to retrieve sentences from.
  * @param {boolean} [trimSentences=true] 	Whether to trim whitespace from the beginning and end of the sentences or not.
  *
- * @returns {Array<string>} The list of sentences in the block.
+ * @returns {Array<string>} The list of sentences in the text.
  */
-function getSentenceTokenizer( block, trimSentences = true ) {
+function getSentenceTokenizer( text, trimSentences = true ) {
 	const sentenceTokenizer = new SentenceTokenizer();
 	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
-	sentenceTokenizer.tokenize( tokenizer, block );
+	sentenceTokenizer.tokenize( tokenizer, text );
 
 	return ( tokens.length === 0 ? [] : sentenceTokenizer.getSentencesFromTokens( tokens, trimSentences ) );
 }
