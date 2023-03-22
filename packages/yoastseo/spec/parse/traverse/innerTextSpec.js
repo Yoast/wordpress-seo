@@ -3,11 +3,13 @@ import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import Node from "../../../src/parse/structure/Node";
+import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
 let languageProcessor;
 
 beforeEach( () => {
-	const researcher = Factory.buildMockResearcher( {} );
+	const researcher = Factory.buildMockResearcher( {}, true, false, false,
+		{ memoizedTokenizer: memoizedSentenceTokenizer } );
 	languageProcessor = new LanguageProcessor( researcher );
 } );
 

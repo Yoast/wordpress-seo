@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -184,15 +183,6 @@ class Old_Premium_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'self_admin_url' )
 			->with( 'plugins.php' )
 			->andReturn( 'https://example.org/wp-admin/plugins/' );
-
-		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
-		$conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$container = $this->create_container_with( [ Indexables_Page_Conditional::class => $conditional ] );
-
-		Monkey\Functions\expect( 'YoastSEO' )
-			->once()
-			->andReturn( (object) [ 'classes' => $this->create_classes_surface( $container ) ] );
 
 		// Output should contain the ajax action script.
 		$this->expectOutputContains(

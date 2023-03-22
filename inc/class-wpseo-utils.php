@@ -1111,7 +1111,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function translate_score( $val, $css_value = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO 19.5', 'YoastSEO()->helpers->score_icon' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.5', 'YoastSEO()->helpers->score_icon' );
 
 		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
 

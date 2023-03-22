@@ -3,13 +3,15 @@ import build from "../../../../src/parse/build/build";
 import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
 import Factory from "../../../specHelpers/factory";
 import permanentFilters from "../../../../src/parse/build/private/alwaysFilterElements";
+import memoizedSentenceTokenizer from "../../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
 
 describe( "A test for filterTree", () => {
 	let languageProcessor;
 
 	beforeEach( () => {
-		const researcher = Factory.buildMockResearcher( {} );
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		languageProcessor = new LanguageProcessor( researcher );
 	} );
 
@@ -66,7 +68,7 @@ describe( "A test for filterTree", () => {
 							value: "A div",
 						},
 					],
-					sentences: [],
+					sentences: [ { text: "A div", tokens: [] } ],
 					sourceCodeLocation: {
 						startOffset: 118,
 						endOffset: 123,
@@ -111,7 +113,7 @@ describe( "A test for filterTree", () => {
 							value: "A div",
 						},
 					],
-					sentences: [],
+					sentences: [ { text: "A div", tokens: [] } ],
 					sourceCodeLocation: {
 						startOffset: 48,
 						endOffset: 53,
@@ -157,7 +159,7 @@ describe( "A test for filterTree", () => {
 								value: "Hello world!",
 							},
 						],
-						sentences: [],
+						sentences: [ { text: "Hello world!", tokens: [] } ],
 						sourceCodeLocation: {
 							startOffset: 109,
 							endOffset: 121,
@@ -205,7 +207,7 @@ describe( "A test for filterTree", () => {
 								value: "Hello world!",
 							},
 						],
-						sentences: [],
+						sentences: [ { text: "Hello world!", tokens: [] } ],
 						sourceCodeLocation: {
 							startOffset: 33,
 							endOffset: 45,

@@ -2,11 +2,13 @@ import findAllInTree from "../../../src/parse/traverse/findAllInTree";
 import build from "../../../src/parse/build/build";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
+import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
 let languageProcessor;
 
 beforeEach( () => {
-	const researcher = Factory.buildMockResearcher( {} );
+	const researcher = Factory.buildMockResearcher( {}, true, false, false,
+		{ memoizedTokenizer: memoizedSentenceTokenizer } );
 	languageProcessor = new LanguageProcessor( researcher );
 } );
 
@@ -26,7 +28,7 @@ describe( "A test for findAllInTree", () => {
 					name: "#text",
 					value: "Hello, world! ",
 				} ],
-				sentences: [],
+				sentences: [ { text: "Hello, world!", tokens: [] } ],
 				sourceCodeLocation: {
 					startOffset: 5,
 					endOffset: 40,
@@ -48,7 +50,7 @@ describe( "A test for findAllInTree", () => {
 					name: "#text",
 					value: "Hello, yoast! ",
 				} ],
-				sentences: [],
+				sentences: [ { text: "Hello, yoast!", tokens: [] } ],
 				sourceCodeLocation: {
 					startOffset: 40,
 					endOffset: 75,

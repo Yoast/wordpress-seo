@@ -2,6 +2,7 @@ import Node from "../../../src/parse/structure/Node";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
 import Factory from "../../specHelpers/factory";
 import build from "../../../src/parse/build/build";
+import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 
 describe( "A test for the Node object", () => {
 	it( "should correctly create a simple Node object", function() {
@@ -13,7 +14,8 @@ describe( "A test for the findAll method", () => {
 	it( "should find all occurrences of a p tag", function() {
 		const html = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>";
 
-		const researcher = Factory.buildMockResearcher( {} );
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
 		const tree = build( html, languageProcessor );
@@ -25,7 +27,7 @@ describe( "A test for the findAll method", () => {
 			attributes: { "class": new Set( [ "yoast" ] ) },
 			childNodes: [ { name: "#text", value: "Hello, world! " } ],
 			isImplicit: false,
-			sentences: [],
+			sentences: [ { text: "Hello, world!", tokens: [] } ],
 			sourceCodeLocation: {
 				startOffset: 5,
 				endOffset: 40,
@@ -44,7 +46,7 @@ describe( "A test for the findAll method", () => {
 			attributes: { "class": new Set( [ "yoast" ] ) },
 			childNodes: [ { name: "#text", value: "Hello, yoast!" } ],
 			isImplicit: false,
-			sentences: [],
+			sentences: [ { text: "Hello, yoast!", tokens: [] } ],
 			sourceCodeLocation: {
 				startOffset: 40,
 				endOffset: 74,
@@ -66,7 +68,8 @@ describe( "A test for the findAll method", () => {
 describe( "A test for the innerText method", () => {
 	const html = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast!</p></div>";
 
-	const researcher = Factory.buildMockResearcher( {} );
+	const researcher = Factory.buildMockResearcher( {}, true, false, false,
+		{ memoizedTokenizer: memoizedSentenceTokenizer } );
 	const languageProcessor = new LanguageProcessor( researcher );
 
 	const tree = build( html, languageProcessor );
