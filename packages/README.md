@@ -10,8 +10,6 @@ This monorepo includes reusable packages:
   - React components that can be used to visualise the outcome of the Yoast content analysis provided by [the yoastseo package](packages/yoastseo).
 - [@yoast/components](components)
   - All-purpose React components.
-- [@yoast/configuration-wizard](configuration-wizard)
-  - A wizard that guides users trough their initial Yoast SEO plugin setup.
 - [@yoast/feature-flag](feature-flag)
   - A utility that keeps track of enabled and disabled features.
 - [@yoast/helpers](helpers)

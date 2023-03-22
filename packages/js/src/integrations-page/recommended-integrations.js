@@ -1,9 +1,10 @@
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-
-import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
+import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
+import { JetpackBoostIntegration } from "./jetpack-boost-integration";
+
 import { ToggleableIntegration } from "./toggleable-integration";
 
 const integrations = [
@@ -75,4 +76,5 @@ export const RecommendedIntegrations = [
 			/>
 		);
 	} ),
+	<JetpackBoostIntegration key={ integrations.length } />,
 ];

@@ -552,7 +552,7 @@ class WPSEO_Sitemaps {
 	 * @param string|null $url Optional URL to make the ping for.
 	 */
 	public static function ping_search_engines( $url = null ) {
-		_deprecated_function( __METHOD__, 'WPSEO 19.2', 'WPSEO_Sitemaps_Admin::ping_search_engines' );
+		_deprecated_function( __METHOD__, 'Yoast SEO 19.2', 'WPSEO_Sitemaps_Admin::ping_search_engines' );
 
 		$admin = new WPSEO_Sitemaps_Admin();
 		$admin->ping_search_engines();
