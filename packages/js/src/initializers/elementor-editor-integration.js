@@ -92,40 +92,66 @@ function initializePostStatusListener() {
 }
 
 /**
- * Checks if field is keyword field and detect if it is not changed.
+ * Checks if field is in the skip list.
  *
  * @param {HTMLElement} input The input.
  *
- * @returns {boolean} true if input is keyword field and input by user value not changed.
+ * @returns {boolean} true if input is field that should be skipped.
  */
-function isKeywordFieldUnchanged( input ) {
+function isSkipField( input ) {
+	// SEO fields that  do not require a new save.
+	const skipFields = [
+		"yoast_wpseo_linkdex",
+		"yoast_wpseo_content_score",
+		"yoast_wpseo_words_for_linking",
+		"yoast_wpseo_estimated-reading-time-minutes",
+	];
+
+	return skipFields.includes( input.name );
+}
+
+/**
+ * Checks if field is keyword field.
+ *
+ * @param {string} name the input name.
+ *
+ * @returns {boolean} true if input is keyword field.
+ */
+function isKeywordField( name ) {
 	const keywordsFields = [
 		"yoast_wpseo_focuskeywords",
 		"hidden_wpseo_focuskeywords",
-		"yoast_wpseo_keywordsynonyms",
-		"hidden_wpseo_keywordsynonyms",
 	];
 
-	if ( ! keywordsFields.includes( input.name ) ) {
-		return false;
-	}
+	return keywordsFields.includes( name );
+}
 
-	if ( input.value === input.oldValue ) {
+/**
+ * Detects if keyword field value is not changed.
+ *
+ * @param {string} oldValue the input old value.
+ * @param {string} newValue the input new value.
+ *
+ * @returns {boolean} true if keyword field value is not changed.
+ */
+function isKeywordValueUnchanged( oldValue, newValue ) {
+	if ( newValue === oldValue ) {
 		return true;
 	}
 
-	if ( input.value === "" || input.oldValue === "" ) {
+	if ( newValue === "" || oldValue === "" ) {
 		return false;
 	}
 
-	const valueJson = JSON.parse( input.value );
-	const oldValueJson = JSON.parse( input.oldValue );
+	const newValueJson = JSON.parse( newValue );
+	const oldValueJson = JSON.parse( oldValue );
 
-	if ( valueJson.lengh !== oldValueJson.length ) {
+	if ( newValueJson.length !== oldValueJson.length ) {
 		return false;
 	}
+
 	// Check only input value and skip calculated.
-	return valueJson.every( ( v, index ) => v.keyword === oldValueJson[ index ].keyword );
+	return newValueJson.every( ( v, index ) => v.keyword === oldValueJson[ index ].keyword );
 }
 
 /**
@@ -136,19 +162,11 @@ function isKeywordFieldUnchanged( input ) {
  * @returns {void}
  */
 function detectChange( input ) {
-	// SEO fields that  do not require a new save.
-	const skipFields = [
-		"yoast_wpseo_linkdex",
-		"yoast_wpseo_content_score",
-		"yoast_wpseo_words_for_linking",
-		"yoast_wpseo_estimated-reading-time-minutes",
-	];
-
-	if ( skipFields.includes( input.name ) ) {
+	if ( isSkipField( input ) ) {
 		return;
 	}
 
-	if ( isKeywordFieldUnchanged( input ) ) {
+	if ( isKeywordField( input.name ) && isKeywordValueUnchanged( input.oldValue, input.value ) ) {
 		return;
 	}
 
