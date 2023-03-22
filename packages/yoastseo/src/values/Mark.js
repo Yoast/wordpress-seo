@@ -5,15 +5,13 @@ import { defaults } from "lodash-es";
  * We allow both replacement-based highlighting (through providing `original`, `marked`, and potentially `fieldsToMark`) and
  * position-based highlighting (through providing a `position`).
  *
- * @param {Object}   properties                The properties of this Mark.
+ * @param {Object}   properties                  The properties of this Mark.
  *
- * @param {string?}  properties.original       The original text that should be marked.
- * @param {string?}  properties.marked         The new text including marks.
- * @param {array?}   properties.fieldsToMark   The array that specifies which text section(s) to mark.
+ * @param {string?}  properties.original         The original text that should be marked.
+ * @param {string?}  properties.marked           The new text including marks.
+ * @param {array?}   properties.fieldsToMark     The array that specifies which text section(s) to mark.
  *
- * @param {Object?}  properties.position       The position object.
- * @param {int}      properties.position.start The start position of the HTML that should be marked.
- * @param {int}      properties.position.end   The end position of the HTML that should be marked.
+ * @param {SourceCodeRange?} properties.position The position object: a range in the source code.
  *
  * @constructor
  */
@@ -55,7 +53,7 @@ Mark.prototype.getFieldsToMark = function() {
  * @returns {int} The start position.
  */
 Mark.prototype.getPositionStart = function() {
-	return this._properties.position.start;
+	return this._properties.position.startOffset;
 };
 
 /**
@@ -64,7 +62,7 @@ Mark.prototype.getPositionStart = function() {
  * @returns {int} The end position.
  */
 Mark.prototype.getPositionEnd = function() {
-	return this._properties.position.end;
+	return this._properties.position.endOffset;
 };
 
 /**
@@ -88,10 +86,10 @@ Mark.prototype.applyWithPosition = function( text ) {
 	const markStart = "<yoastmark class='yoast-text-mark'>";
 	const markEnd = "</yoastmark>";
 
-	const newEndOffset = this.getPositionEnd() + markStart.length;
+	const newPositionEnd = this.getPositionEnd() + markStart.length;
 
 	text = text.substring( 0, this.getPositionStart() ) + markStart + text.substring( this.getPositionStart() );
-	text = text.substring( 0, newEndOffset ) + markEnd + text.substring( newEndOffset );
+	text = text.substring( 0, newPositionEnd ) + markEnd + text.substring( newPositionEnd );
 
 	return text;
 };

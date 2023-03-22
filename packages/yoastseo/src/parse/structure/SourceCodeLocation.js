@@ -1,16 +1,17 @@
 /**
+ * Represents a range in the source code.
+ *
+ * @typedef {Object} SourceCodeRange
+ * @property {number} startOffset The start position of the range.
+ * @property {number} endOffset The end position of the range.
+ */
+
+/**
  * Represents a location of a node in the HTML tree.
  *
- * @param {Object?} startTag The location of the start tag of the element, if it has one.
- * @param {number} startTag.startOffset The start position of the start tag.
- * @param {number} startTag.endOffset The end position of the start tag.
- *
- * @param {Object?} endTag The location of the end tag of the element, if it has one.
- * @param {number} endTag.startOffset The start position of the end tag.
- * @param {number} endTag.endOffset The end position of the end tag.
- *
- * @param {Object} startOffset The start position of the element.
- * @param {Object} endOffset The end position of the element.
+ * @extends SourceCodeRange
+ * @property {SourceCodeRange?} startTag The location of the start tag of the element, if it has one.
+ * @property {SourceCodeRange?} endTag The location of the end tag of the element, if it has one.
  */
 class SourceCodeLocation {
 	/**
