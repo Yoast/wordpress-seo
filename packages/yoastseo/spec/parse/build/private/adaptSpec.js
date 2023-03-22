@@ -1,7 +1,6 @@
 import adapt from "../../../../src/parse/build/private/adapt";
 import { parseFragment } from "parse5";
 import Node from "../../../../src/parse/structure/Node";
-import Paragraph from  "../../../../src/parse/structure/Paragraph";
 import Text from "../../../../src/parse/structure/Text";
 import Heading from "../../../../src/parse/structure/Heading";
 
@@ -13,13 +12,25 @@ describe( "The adapt function",
 
 			const adaptedTree = adapt( tree );
 
-			const expected = new Node( "#document-fragment", {}, [
-				new Node( "div", {}, [
-					new Paragraph( { "class": "yoast" }, [
-						new Text( "Hello, world!" ),
-					], false ),
-				] ),
-			] );
+			const expected = {
+				attributes: {},
+				childNodes: [ {
+					attributes: {},
+					childNodes: [ {
+						attributes: {
+							"class": new Set( [ "yoast" ] ),
+						},
+						childNodes: [ {
+							name: "#text",
+							value: "Hello, world!",
+						} ],
+						isImplicit: false,
+						name: "p",
+					} ],
+					name: "div",
+				} ],
+				name: "#document-fragment",
+			};
 
 			expect( adaptedTree ).toEqual( expected );
 		} );
@@ -35,6 +46,14 @@ describe( "The adapt function",
 					new Text( "Hello World!" ),
 				] ),
 			] );
+			expect( adaptedTree ).toEqual( expected );
+		} );
+
+		it( "should correctly adapt a node with no childnodes.", () => {
+			const tree = { nodeName: "div" };
+			const adaptedTree = adapt( tree );
+
+			const expected = { attributes: {}, childNodes: [], name: "div" };
 			expect( adaptedTree ).toEqual( expected );
 		} );
 	}

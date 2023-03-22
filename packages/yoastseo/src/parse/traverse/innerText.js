@@ -10,8 +10,7 @@ import { isEmpty } from "lodash-es";
 export default function innerText( node ) {
 	let text = "";
 
-	if ( ! isEmpty(node.childNodes) ) {
-
+	if ( ! isEmpty( node.childNodes ) ) {
 		node.childNodes.forEach( child => {
 			if ( child.name === "#text" ) {
 				text += child.value;
