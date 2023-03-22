@@ -993,13 +993,7 @@ class WPSEO_Upgrade {
 		$max_delay_in_days = 12;
 		$now               = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
 
-		if ( function_exists( 'random_int' ) ) {
-			$days = random_int( 1, $max_delay_in_days );
-		}
-		// Needed to support PHP 5.6.
-		else {
-			$days = wp_rand( 1, $max_delay_in_days );
-		}
+		$days     = random_int( 1, $max_delay_in_days );
 		$interval = DateInterval::createFromDateString( "$days days" );
 
 		$start_date = date_add( $now, $interval );
