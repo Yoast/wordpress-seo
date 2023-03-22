@@ -266,6 +266,7 @@ Release date: 2023-03-28
 #### Other
 
 * Adds Jetpack Boost to the recommended integrations.
+* Sets the WordPress tested up to version to 6.2.
 
 = 20.3 =
 
