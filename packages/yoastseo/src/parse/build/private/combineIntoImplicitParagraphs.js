@@ -64,7 +64,9 @@ function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 
 				if ( ! isEmpty( node.sourceCodeLocation ) ) {
 					// Update the endOffset of the current implicit paragraph to be the start of the current node.
-					implicitParagraph.sourceCodeLocation.endOffset = node.sourceCodeLocation.startOffset;
+					if ( ! isEmpty( implicitParagraph.sourceCodeLocation ) ) {
+						implicitParagraph.sourceCodeLocation.endOffset = node.sourceCodeLocation.startOffset;
+					}
 					// Update the startOffset of the next implicit paragraph to be the end of the current node.
 					currentSourceCodeLocation.startOffset = node.sourceCodeLocation.endOffset;
 				}
