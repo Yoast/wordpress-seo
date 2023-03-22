@@ -1,4 +1,4 @@
-import { __, _n, sprintf } from "@wordpress/i18n";
+import { _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 import { Assessment, AssessmentResult, helpers, languageProcessing, values, markers } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
@@ -114,32 +114,42 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult( paper, numberOfLongCenterAlignedTexts ) {
-		/*
-		 * When the paper's writing direction is right to left (RTL), the suggested alignment in the case of center-aligned text is "right-aligned".
-		 * Otherwise, the suggestion would be "left-aligned".
-		 */
-		const preferredAlignment = paper.getWritingDirection() === "RTL"
-			? __( "right-aligned", "wordpress-seo" )
-			: __( "left-aligned", "wordpress-seo" );
-
 		if (  numberOfLongCenterAlignedTexts > 0 ) {
+			if ( paper.getWritingDirection() === "RTL" ) {
+				return {
+					score: this._config.scores.bad,
+					resultText: sprintf(
+						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+						%4$s expands to the number of the long center-aligned sections in the text */
+						_n(
+							"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it right-aligned%3$s.",
+							"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. " +
+							"%2$sWe recommend making them right-aligned%3$s.",
+							numberOfLongCenterAlignedTexts,
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>",
+						numberOfLongCenterAlignedTexts
+					),
+				};
+			}
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
-					%4$s expands to "right-aligned" when the string is shown in a language written from right to left
-					and expands to "left-aligned" when the string is shown in a language written from left to right */
+						%4$s expands to the number of the long center-aligned sections in the text */
 					_n(
-						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it %4$s%3$s.",
-						"%1$sAlignment%3$s: There are %5$s long sections of center-aligned text. " +
-						"%2$sWe recommend making them %4$s%3$s.",
+						"%1$sAlignment%3$s: There is a long section of center-aligned text. %2$sWe recommend making it left-aligned%3$s.",
+						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. " +
+						"%2$sWe recommend making them left-aligned%3$s.",
 						numberOfLongCenterAlignedTexts,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>",
-					preferredAlignment,
 					numberOfLongCenterAlignedTexts
 				),
 			};

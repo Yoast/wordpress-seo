@@ -137,7 +137,7 @@
 |-------|------	|----- |------- |
 |Red	|3	|< 50 characters	|**Not enough content**: **please add some content to enable a good analysis**.|
 
-## 8) Word complexity (only in Premium)
+## 9) Word complexity (only in Premium)
 **What it does**: Checks whether the text contains complex words
 
 **When applies**: When there is at least 50 characters in the text
@@ -153,7 +153,7 @@
 |Orange	(cornerstone: red) |6 (cornerstone: 3) |	If the complex words are more than 10% in the text | **Word complexity**: X% of the words in your text are considered complex. **Try to use shorter and more familiar words to improve readability**. |
 |Green	|9 |	If the complex words are less than 10% in the text              | **Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job!                                     |
 
-## 9) Text alignment (only in Premium)
+## 10) Text alignment (only in Premium)
 **What it does**: Checks whether there is an over-use of center-alignment in the text.
 
 **When applies**: When there is at least 50 characters in the text and has at least one element with center-alignment.
