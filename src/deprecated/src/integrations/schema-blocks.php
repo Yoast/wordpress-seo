@@ -60,7 +60,7 @@ class Schema_Blocks implements Integration_Interface {
 		Schema_Blocks_Conditional $blocks_conditional,
 		Short_Link_Helper $short_link_helper
 	) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
 		$this->asset_manager      = $asset_manager;
 		$this->blocks_conditional = $blocks_conditional;
 		$this->short_link_helper  = $short_link_helper;
@@ -77,7 +77,7 @@ class Schema_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Schema_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_template( $template ) {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Schema_Blocks implements Integration_Interface {
 	 * @return void
 	 */
 	public function load() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Schema_Blocks implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public function output() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.5' );
 	}
 
 	/**
