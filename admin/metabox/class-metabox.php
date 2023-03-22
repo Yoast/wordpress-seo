@@ -1165,11 +1165,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$jetpack_boost_ad_date_string = WPSEO_Options::get( 'jetpack_ad_start_date', '1970-01-01 00:00:00' );
 		$jetpack_boost_ad_date        = new DateTime( $jetpack_boost_ad_date_string, new DateTimeZone( 'UTC' ) );
 
-		if ( $now > $jetpack_boost_ad_date ) {
-			return true;
-		}
-
-		return false;
+		return $now > $jetpack_boost_ad_date;
 	}
 
 	/**
