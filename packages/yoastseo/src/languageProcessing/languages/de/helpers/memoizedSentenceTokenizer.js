@@ -23,6 +23,6 @@ function getSentenceTokenizer( block, trimSentences = true ) {
  * This is needed because by default, only the first argument to a function is used as the map cache key by the memoize function.
  * This means that a function is only re-run if the value of the first argument changes.
  * We want to re-run the getSentenceTokenizer function also when only the second argument changes to prevent cache collisions.
- * See: https://lodash.com/docs/4.17.15#memoize
+ * @see https://lodash.com/docs/4.17.15#memoize
  */
 export default memoize( getSentenceTokenizer, ( ...args ) => JSON.stringify( args ) );
