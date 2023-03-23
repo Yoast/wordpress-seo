@@ -990,10 +990,10 @@ class WPSEO_Upgrade {
 	 * This option will then be used to determine when the Jetpack Ad should be shown.
 	 */
 	private function upgrade_204() {
-		$max_delay_in_days = 12;
+		$max_delay_in_days = 3;
 		$now               = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
 
-		$days     = random_int( 1, $max_delay_in_days );
+		$days     = random_int( 0, $max_delay_in_days );
 		$interval = DateInterval::createFromDateString( "$days days" );
 
 		$start_date = date_add( $now, $interval );
