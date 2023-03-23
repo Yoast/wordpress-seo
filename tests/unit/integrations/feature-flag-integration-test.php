@@ -103,7 +103,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::filter_enabled_features
 	 */
 	public function test_add_feature_flags() {
-		$expected_enabled_feature_flags = [ 'SCHEMA_BLOCKS' ];
+		$expected_enabled_feature_flags = [ 'NON_EXISTING_FEATURE' ];
 
 		$this->asset_manager
 			->expects( 'localize_script' )
@@ -112,12 +112,12 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
-		// Mock a feature flag, in this case the Schema_Blocks_Conditional, to be set.
-		$schema_blocks_conditional = Mockery::mock( 'Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional' );
+		// Mock a feature flag to be set.
+		$schema_blocks_conditional = Mockery::mock( 'Yoast\WP\SEO\Conditionals\Non_Existing_Feature_Flag_Conditional' );
 
 		$schema_blocks_conditional
 			->expects( 'get_feature_name' )
-			->andReturn( 'SCHEMA_BLOCKS' );
+			->andReturn( 'NON_EXISTING_FEATURE' );
 
 		$schema_blocks_conditional
 			->expects( 'is_met' )
