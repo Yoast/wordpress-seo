@@ -45,8 +45,6 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->stubEscapeFunctions();
-		$this->stubTranslationFunctions();
 
 		$this->admin_asset_manager = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->shortlinker         = Mockery::mock( WPSEO_Shortlinker::class );
