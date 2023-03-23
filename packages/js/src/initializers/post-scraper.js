@@ -5,7 +5,7 @@ import { App } from "yoastseo";
 import {
 	isUndefined,
 	debounce,
-} from "lodash-es";
+} from "lodash";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 

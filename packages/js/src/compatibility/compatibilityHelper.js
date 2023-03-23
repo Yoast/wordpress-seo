@@ -2,7 +2,7 @@
 import {
 	defaults,
 	noop,
-} from "lodash-es";
+} from "lodash";
 
 /* Internal dependencies */
 import DiviHelper from "./diviHelper";

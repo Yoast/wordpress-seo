@@ -3,7 +3,7 @@ import {
 	has,
 	forEach,
 	isEmpty,
-} from "lodash-es";
+} from "lodash";
 
 /**
  * Gets the snippet editor data from a data collector.

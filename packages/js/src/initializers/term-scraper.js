@@ -6,7 +6,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import {
 	isUndefined,
 	debounce,
-} from "lodash-es";
+} from "lodash";
 
 // Internal dependencies.
 import { termsTmceId } from "../lib/tinymce";
