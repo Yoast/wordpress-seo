@@ -32,7 +32,7 @@ export default function FinishStep() {
 				</p>
 				<Button
 					as="a"
-					id="link-webinar-register"
+					id="button-webinar-seo-dashboard"
 					href={ webinarIntroFirstTimeConfigUrl }
 					target="_blank"
 				>
@@ -41,15 +41,14 @@ export default function FinishStep() {
 				</Button>
 				<p className="yst-mt-4">
 					<Link
-						as="button"
-						id="button-webinar-seo-dashboard"
+						id="link-webinar-register"
 						onClick={ goToSEODashboard }
 					>
 						{ __( "Or go to your SEO dashboard", "wordpress-seo" ) }
 					</Link>
 				</p>
 			</div>
-			<ConfigurationFinishImage className="yst-shrink-0 yst-h-28" />
+			<ConfigurationFinishImage className="yst-shrink-0 yst-h-28 yst-ml-9" />
 		</div>
 	);
 }
