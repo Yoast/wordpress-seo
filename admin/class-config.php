@@ -158,7 +158,7 @@ class WPSEO_Admin_Pages {
 		if ( YoastSEO()->helpers->product->is_premium() ) {
 			return WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-first-time-config-premium' );
 		}
-		
+
 		return WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-first-time-config' );
 	}
 }
