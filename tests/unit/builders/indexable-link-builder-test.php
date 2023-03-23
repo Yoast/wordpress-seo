@@ -369,4 +369,129 @@ class Indexable_Link_Builder_Test extends TestCase {
 			],
 		];
 	}
+
+	/**
+	 * Data provider for test_patch_seo_links;
+	 *
+	 * @return array $indexableId, $objectId, $links_times, $links.
+	 */
+	public function patch_seo_links_provider() {
+		$object                                  = (object) [ 'type' => 'not SEO_Links' ];
+		$seo_link                                = new SEO_Links_Mock();
+		$seo_link->target_indexable_id           = null;
+		$seo_link_not_empty                      = new SEO_Links_Mock();
+		$seo_link_not_empty->target_indexable_id = 3;
+
+		return [
+			[ null, 1, 0, null, 0 ],
+			[ 1, null, 0, null, 0 ],
+			[ null, null, 0, null, 0 ],
+			[ 1, 1, 1, [], 0 ],
+			[ 1, 1, 1, [ $object ], 0 ],
+			[ 1, 1, 1, [ $seo_link_not_empty ], 0 ],
+			[ 1, 1, 1, [ $seo_link ], 1 ],
+		];
+	}
+
+	/**
+	 * Tests patch_seo_links
+	 *
+	 * @covers ::patch_seo_links
+	 *
+	 * @dataProvider patch_seo_links_provider
+	 *
+	 * @param int   $indexable_id The indexable id.
+	 * @param int   $object_id   The object id.
+	 * @param int   $links_times The number of times the find_all_by_target_post_id method should be called.
+	 * @param array $links The links.
+	 * @param int   $update_target_indexable_id_times The number of times the update_target_indexable_id method should be called.
+	 */
+	public function test_patch_seo_links( $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times ) {
+		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->id        = $indexable_id;
+		$indexable->object_id = $object_id;
+
+		$this->seo_links_repository
+			->expects( 'find_all_by_target_post_id' )
+			->with( $indexable->object_id )
+			->times( $links_times )
+			->andReturn( $links );
+
+		$this->seo_links_repository
+			->expects( 'update_target_indexable_id' )
+			->times( $update_target_indexable_id_times );
+
+		$this->seo_links_repository
+			->expects( 'get_incoming_link_counts_for_indexable_ids' )
+			->times( $update_target_indexable_id_times )
+			->andReturn( [] );
+
+			$this->instance->patch_seo_links( $indexable );
+	}
+
+	/**
+	 * Tests the delete method.
+	 *
+	 * @covers ::delete
+	 */
+	public function test_delete() {
+		$indexable     = Mockery::mock( Indexable_Mock::class );
+		$indexable->id = 5;
+
+		$this->seo_links_repository
+			->expects( 'find_all_by_indexable_id' )
+			->with( $indexable->id )
+			->once()
+			->andReturn( [] );
+
+		$this->seo_links_repository
+			->expects( 'delete_all_by_indexable_id' )
+			->with( $indexable->id )
+			->once();
+
+		$this->instance->delete( $indexable );
+	}
+
+	/**
+	 * Tests the delete method and update_incoming_links_for_related_indexables.
+	 *
+	 * @covers ::update_incoming_links_for_related_indexables
+	 */
+	public function test_delete_and_update_incoming_links_for_related_indexables() {
+		$indexable                     = Mockery::mock( Indexable_Mock::class );
+		$indexable->id                 = 5;
+		$seo_link                      = new SEO_Links_Mock();
+		$seo_link->target_indexable_id = 3;
+
+		$this->seo_links_repository
+			->expects( 'find_all_by_indexable_id' )
+			->with( $indexable->id )
+			->once()
+			->andReturn( [ $seo_link ] );
+
+		$this->seo_links_repository
+			->expects( 'delete_all_by_indexable_id' )
+			->with( $indexable->id )
+			->once();
+
+		$this->seo_links_repository
+			->expects( 'get_incoming_link_counts_for_indexable_ids' )
+			->with( [ 3 ] )
+			->once()
+			->andReturn(
+				[
+					[
+						'target_indexable_id' => 3,
+						'incoming'            => 7,
+					],
+				]
+			);
+
+		$this->indexable_repository
+			->expects( 'update_incoming_link_count' )
+			->with( 3, 7 )
+			->once();
+
+		$this->instance->delete( $indexable );
+	}
 }
