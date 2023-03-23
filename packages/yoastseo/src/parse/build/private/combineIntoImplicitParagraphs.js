@@ -1,5 +1,6 @@
 import isPhrasingContent from "./isPhrasingContent";
 import { Paragraph } from "../../structure";
+import { isEmpty } from "lodash-es";
 
 /**
  * Checks whether a node is inter-element whitespace.
@@ -31,20 +32,47 @@ function hasChildren( node ) {
  * @see https://html.spec.whatwg.org/#paragraphs
  *
  * @param {Array} nodes The nodes to combine where able to.
+ * @param {Object} parentSourceCodeLocation This parent node's location in the source code, from parse5.
  *
  * @returns {Array} The combined nodes.
  */
-function combineIntoImplicitParagraphs( nodes ) {
+function combineIntoImplicitParagraphs( nodes, parentSourceCodeLocation = {} ) {
 	const newNodes = [];
-	let implicitParagraph = Paragraph.createImplicit();
+
+	let currentSourceCodeLocation = {};
+
+	// For implicit paragraphs, strip off the start and end tag information from the parent's source code location.
+	if ( ! isEmpty( parentSourceCodeLocation ) ) {
+		currentSourceCodeLocation = {
+			startOffset: parentSourceCodeLocation.startTag
+				? parentSourceCodeLocation.startTag.endOffset
+				: parentSourceCodeLocation.startOffset,
+			endOffset: parentSourceCodeLocation.endTag
+				? parentSourceCodeLocation.endTag.startOffset
+				: parentSourceCodeLocation.endOffset,
+		};
+	}
+
+	let implicitParagraph = Paragraph.createImplicit( {}, [], currentSourceCodeLocation );
 
 	nodes.forEach( node => {
 		if ( isPhrasingContent( node.name ) && ! isInterElementWhitespace( node ) ) {
 			implicitParagraph.childNodes.push( node );
 		} else {
 			if ( hasChildren( implicitParagraph ) ) {
+				// The implicit paragraph has children: end the current implicit paragraph and start a new one.
+
+				if ( ! isEmpty( node.sourceCodeLocation ) ) {
+					// Update the endOffset of the current implicit paragraph to be the start of the current node.
+					if ( ! isEmpty( implicitParagraph.sourceCodeLocation ) ) {
+						implicitParagraph.sourceCodeLocation.endOffset = node.sourceCodeLocation.startOffset;
+					}
+					// Update the startOffset of the next implicit paragraph to be the end of the current node.
+					currentSourceCodeLocation.startOffset = node.sourceCodeLocation.endOffset;
+				}
+
 				newNodes.push( implicitParagraph );
-				implicitParagraph = Paragraph.createImplicit();
+				implicitParagraph = Paragraph.createImplicit( {}, [], currentSourceCodeLocation );
 			}
 			newNodes.push( node );
 		}
