@@ -1,7 +1,8 @@
-import { useSelect } from "@wordpress/data";
+import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { ReactComponent as ConfigurationFinishImage } from "../../../../../images/indexables_2_left_bubble_optm.svg";
+import { Button, Link } from "@yoast/ui-library";
 
 /**
  * Goes to the Dashboard tab by clicking the tab button.
@@ -13,61 +14,40 @@ function goToSEODashboard() {
 }
 
 /**
- * @returns {WPElement} The regular content.
- */
-function regularContent() {
-	return (
-		<>
-			<p className="yst-text-sm yst-mb-6">{ __( "That’s it! By providing this information our indexables squad has been able to do a lot of optimization for your site already. Now, let's have a look at the SEO fitness of your site!", "wordpress-seo" ) }</p>
-			<button
-				type="button"
-				id="button-seo-dashboard"
-				onClick={ goToSEODashboard }
-				className={ "yst-button yst-button--primary" }
-			>{ __( "Go to your SEO dashboard", "wordpress-seo" ) }</button>
-		</>
-	);
-}
-
-/**
- * @returns {WPElement} The webinar promo content.
- */
-function webinarPromoContent() {
-	const webinarIntroFirstTimeConfigUrl = get( window, "wpseoScriptData.webinarIntroFirstTimeConfigUrl", "https://yoa.st/webinar-intro-first-time-config" );
-
-	return (
-		<>
-			<p className="yst-text-sm yst-mb-4">
-				{ __( "That's it! By providing this information our Indexables squad has been able to do a lot of optimization for your site already.", "wordpress-seo" ) }
-			</p>
-			<p className="yst-text-sm yst-mb-6">
-				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our free weekly webinar!", "wordpress-seo" ) }
-			</p>
-			<a href={ webinarIntroFirstTimeConfigUrl } id="link-webinar-register" target="_blank" className="yst-button yst-button--primary yst-text-white" rel="noreferrer">
-				{ __( "Register now!", "wordpress-seo" ) }
-			</a>
-			<button
-				type="button"
-				id="button-webinar-seo-dashboard"
-				onClick={ goToSEODashboard }
-				className={ "yst-ml-4 yst-text-indigo-600 hover:yst-text-indigo-500" }
-			>{ __( "Or visit your SEO dashboard", "wordpress-seo" ) }</button>
-		</>
-	);
-}
-
-/**
  * The last step of the Stepper: the Finish step.
  *
  * @returns {WPElement} The Finish step.
  */
 export default function FinishStep() {
-	const isPremium = useSelect( select => select( "yoast-seo/settings" ).getIsPremium() );
+	const webinarIntroFirstTimeConfigUrl = get( window, "wpseoScriptData.webinarIntroFirstTimeConfigUrl", "https://yoa.st/webinar-intro-first-time-config" );
 
 	return (
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
 			<div className="yst-mr-6">
-				{ isPremium ? regularContent() : webinarPromoContent() }
+				<p className="yst-text-sm yst-mb-4">
+					{ __( "That's it! By providing this information, our Indexables squad has been able to do a lot of optimization for your site already. But there's more to do!", "wordpress-seo" ) }
+				</p>
+				<p className="yst-text-sm yst-mb-6">
+					{ __( "Learn how to get the most out of Yoast SEO in an easy-to-follow video, ask questions in the live Q&A with our experts, or sign up for Yoast Academy for free to take control of your SEO!", "wordpress-seo" ) }
+				</p>
+				<Button
+					as="a"
+					id="link-webinar-register"
+					href={ webinarIntroFirstTimeConfigUrl }
+					target="_blank"
+				>
+					{ __( "Learn how to get the most out of Yoast SEO!", "wordpress-seo" ) }
+					<ArrowNarrowRightIcon className="yst-w-4 yst-h-4 yst-icon-rtl yst-ml-2" />
+				</Button>
+				<p className="yst-mt-4">
+					<Link
+						as="button"
+						id="button-webinar-seo-dashboard"
+						onClick={ goToSEODashboard }
+					>
+						{ __( "Or go to your SEO dashboard", "wordpress-seo" ) }
+					</Link>
+				</p>
 			</div>
 			<ConfigurationFinishImage className="yst-shrink-0 yst-h-28" />
 		</div>
