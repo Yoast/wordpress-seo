@@ -400,9 +400,9 @@ class WPSEO_Addon_Manager {
 		if ( $subscription && $this->has_subscription_expired( $subscription ) ) {
 			$addon_link = ( isset( $this->addon_details[ $plugin_data['slug'] ] ) ) ? $this->addon_details[ $plugin_data['slug'] ]['short_link_renewal'] : $this->addon_details[ self::PREMIUM_SLUG ]['short_link_renewal'];
 			echo '<br><br>';
-			/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
 			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> ' .
 				sprintf(
+					/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
 					esc_html__( '%1$s can\'t be updated because your product subscription is expired. %2$sRenew your product subscription%3$s to get updates again and use all the features of %1$s.', 'wordpress-seo' ),
 					esc_html( $plugin_data['name'] ),
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
