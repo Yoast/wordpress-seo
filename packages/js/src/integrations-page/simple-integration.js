@@ -18,10 +18,6 @@ import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
  */
 export const SimpleIntegration = ( { integration, isActive, children } ) => {
 	const IntegrationLogo = integration.logo;
-	// If integration is not active, and we have a different url for inactive state, use that url.
-	const learnMoreUrl = ! isActive && integration.linkInActive ? integration.linkInActive : integration.learnMoreLink;
-	// If integration is not active, and we have a different text for inactive state, use that text.
-	const learnMoreLinkText = ! isActive && integration.linkTextInActive ? integration.linkTextInActive : __( "Learn more", "wordpress-seo" );
 
 	return (
 		<Card>
@@ -57,12 +53,12 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 							);
 						} ) }
 					</ul> }
-					{ learnMoreUrl && <Link
-						href={ learnMoreUrl }
+					{ integration.learnMoreLink && <Link
+						href={ integration.learnMoreLink }
 						className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
 						target="_blank"
 					>
-						{ learnMoreLinkText }
+						Learn more
 						<span className="yst-sr-only">
 							{
 								__( "(Opens in a new browser tab)", "wordpress-seo" )
@@ -109,8 +105,6 @@ SimpleIntegration.propTypes = {
 		name: PropTypes.string,
 		claim: PropTypes.string,
 		learnMoreLink: PropTypes.string,
-		linkTextInActive: PropTypes.string,
-		linkInActive: PropTypes.string,
 		logoLink: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,

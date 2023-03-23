@@ -586,11 +586,11 @@ const CrawlOptimization = () => {
 						title={ __( "Advanced: URL cleanup", "wordpress-seo" ) }
 						description={ descriptions.advancedUrlCleanup }
 					>
-						<Alert id="alert-permalink-cleanup-settings" variant="warning">
+						<Alert id="alert-permalink-cleanup-settings" variant="error">
 							{ createInterpolateElement(
 								sprintf(
 									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
-									__( "These are expert features, so make sure you know what you're doing before removing the parameters. %1$sRead more about how your site can be affected%2$s.", "wordpress-seo" ),
+									__( "Warning! These are expert features, so make sure you know what you're doing before using this setting. You might break your site. %1$sRead more about how your site can be affected%2$s.", "wordpress-seo" ),
 									"<a>",
 									"</a>"
 								), {
