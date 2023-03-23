@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Feature_Flag_Conditional;
 use Yoast\WP\SEO\Integrations\Feature_Flag_Integration;
@@ -103,7 +104,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::filter_enabled_features
 	 */
 	public function test_add_feature_flags() {
-		$expected_enabled_feature_flags = [ 'NON_EXISTING_FEATURE' ];
+		$expected_enabled_feature_flags = [ 'ADDON_INSTALLATION' ];
 
 		$this->asset_manager
 			->expects( 'localize_script' )
@@ -113,13 +114,13 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
-		$schema_blocks_conditional = Mockery::mock( 'Yoast\WP\SEO\Conditionals\Non_Existing_Feature_Flag_Conditional' );
+		$conditional = Mockery::mock( Addon_Installation_Conditional::class );
 
-		$schema_blocks_conditional
+		$conditional
 			->expects( 'get_feature_name' )
-			->andReturn( 'NON_EXISTING_FEATURE' );
+			->andReturn( 'ADDON_INSTALLATION' );
 
-		$schema_blocks_conditional
+		$conditional
 			->expects( 'is_met' )
 			->andReturn( true );
 
@@ -128,7 +129,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->with( $expected_enabled_feature_flags )
 			->andReturn( $expected_enabled_feature_flags );
 
-		$this->instance = new Feature_Flag_Integration( $this->asset_manager, $schema_blocks_conditional );
+		$this->instance = new Feature_Flag_Integration( $this->asset_manager, $conditional );
 
 		$this->instance->add_feature_flags();
 	}
