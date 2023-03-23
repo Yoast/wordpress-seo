@@ -53,7 +53,7 @@ Mark.prototype.getFieldsToMark = function() {
  * @returns {number} The start position.
  */
 Mark.prototype.getPositionStart = function() {
-	return this._properties.position.startOffset;
+	return this._properties.position && this._properties.position.startOffset;
 };
 
 /**
@@ -62,7 +62,7 @@ Mark.prototype.getPositionStart = function() {
  * @returns {number} The end position.
  */
 Mark.prototype.getPositionEnd = function() {
-	return this._properties.position.endOffset;
+	return this._properties.position && this._properties.position.endOffset;
 };
 
 /**
