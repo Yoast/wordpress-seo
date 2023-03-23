@@ -226,7 +226,8 @@ describe( "The parse function", () => {
 	it( "parses an HTML text with implicit paragraphs before, between, and after p tags", () => {
 		const html = "<div>So <em>long</em>, and <p>thanks</p> for <p>all</p> the <strong>fish</strong>!</div>";
 
-		const researcher = Factory.buildMockResearcher( {} );
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
 		const languageProcessor = new LanguageProcessor( researcher );
 
 		/*
@@ -297,7 +298,7 @@ describe( "The parse function", () => {
 									value: ", and ",
 								},
 							],
-							sentences: [],
+							sentences: [ { text: "So long, and ", tokens: [] } ],
 							sourceCodeLocation: {
 								startOffset: 5,
 								endOffset: 27,
@@ -313,7 +314,7 @@ describe( "The parse function", () => {
 									value: "thanks",
 								},
 							],
-							sentences: [],
+							sentences: [ { text: "thanks", tokens: [] } ],
 							sourceCodeLocation: {
 								startOffset: 27,
 								endOffset: 40,
@@ -337,7 +338,7 @@ describe( "The parse function", () => {
 									value: " for ",
 								},
 							],
-							sentences: [],
+							sentences: [ { text: " for ", tokens: [] } ],
 							sourceCodeLocation: {
 								startOffset: 40,
 								endOffset: 45,
@@ -353,7 +354,7 @@ describe( "The parse function", () => {
 									value: "all",
 								},
 							],
-							sentences: [],
+							sentences: [ { text: "all", tokens: [] } ],
 							sourceCodeLocation: {
 								startOffset: 45,
 								endOffset: 55,
@@ -403,7 +404,7 @@ describe( "The parse function", () => {
 									value: "!",
 								},
 							],
-							sentences: [],
+							sentences: [ { text: " the fish!", tokens: [] } ],
 							sourceCodeLocation: {
 								startOffset: 55,
 								endOffset: 82,
