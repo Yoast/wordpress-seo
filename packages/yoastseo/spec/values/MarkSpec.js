@@ -35,6 +35,16 @@ describe( "a mark value object", function() {
 	} );
 
 	describe( "position-based application", function() {
+		it( "should return the start and end offset of the position set via the constructor", () => {
+			const mark = new Mark( { position: { startOffset: 3, endOffset: 28 } } );
+			expect( mark.getPositionStart() ).toBe( 3 );
+			expect( mark.getPositionEnd() ).toBe( 28 );
+		} );
+		it( "should return falsy for the start and end offset of the position when the position is not set via the constructor", () => {
+			const mark = new Mark( { original: "original", marked: "marked" } );
+			expect( mark.getPositionStart() ).toBeFalsy();
+			expect( mark.getPositionEnd() ).toBeFalsy();
+		} );
 		it( "should be able to apply itself by replacing at given positions", function() {
 			const mark = new Mark( { position: { startOffset: 3, endOffset: 28 } } );
 			const text = "<p>Hello <span>World!</span></p>";
