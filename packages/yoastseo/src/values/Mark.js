@@ -16,6 +16,8 @@ import { defaults } from "lodash-es";
  * @constructor
  */
 function Mark( properties ) {
+	// eslint-disable-next-line no-warning-comments
+	// TODO: decide later whether we want to add a default value for `position` property
 	defaults( properties, { original: "", marked: "", fieldsToMark: [] } );
 	this._properties = properties;
 }
