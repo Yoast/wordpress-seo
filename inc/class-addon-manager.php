@@ -91,7 +91,7 @@ class WPSEO_Addon_Manager {
 			'short_link_renewal'    => 'https://yoa.st/4ey',
 		],
 		self::NEWS_SLUG        => [
-			'name'                  => 'News SEO',
+			'name'                  => 'Yoast News SEO',
 			'short_link_activation' => 'https://yoa.st/4xq',
 			'short_link_renewal'    => 'https://yoa.st/4xv',
 		],
@@ -101,12 +101,12 @@ class WPSEO_Addon_Manager {
 			'short_link_renewal'    => 'https://yoa.st/4xx',
 		],
 		self::VIDEO_SLUG       => [
-			'name'                  => 'Video SEO',
+			'name'                  => 'Yoast Video SEO',
 			'short_link_activation' => 'https://yoa.st/4xr',
 			'short_link_renewal'    => 'https://yoa.st/4xw',
 		],
 		self::LOCAL_SLUG       => [
-			'name'                  => 'Local SEO',
+			'name'                  => 'Yoast Local SEO',
 			'short_link_activation' => 'https://yoa.st/4xp',
 			'short_link_renewal'    => 'https://yoa.st/4xu',
 		],
@@ -401,7 +401,7 @@ class WPSEO_Addon_Manager {
 			$addon_link = ( isset( $this->addon_details[ $plugin_data['slug'] ] ) ) ? $this->addon_details[ $plugin_data['slug'] ]['short_link_renewal'] : $this->addon_details[ self::PREMIUM_SLUG ]['short_link_renewal'];
 			echo '<br><br>';
 			/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
-			echo '<strong><span class="wp-ui-text-notification warning dashicons dashicons-warning"></span> ' .
+			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> ' .
 				sprintf(
 					esc_html__( '%1$s can\'t be updated because your product subscription is expired. %2$sRenew your product subscription%3$s to get updates again and use all the features of %1$s.', 'wordpress-seo' ),
 					esc_html( $plugin_data['name'] ),
@@ -499,12 +499,13 @@ class WPSEO_Addon_Manager {
 
 		return new Yoast_Notification(
 			sprintf(
-			/* translators: %1$s expands to a strong tag, %2$s expands to the product name, %3$s expands to a closing strong tag, %4$s expands to the product name. %5$s expands to activate your product subscription in MyYoast  */
-				__( '%1$s %2$s isn\'t working as expected %3$s and you are not receiving updates or support! Make sure to %4$s to unlock all the features of %5$s.', 'wordpress-seo' ),
+			/* translators: %1$s expands to a strong tag, %2$s expands to the product name, %3$s expands to a closing strong tag, %4$s expands to an a tag. %5$s expands to MyYoast with a closing a tag,  %6$s expands to the product name  */
+				__( '%1$s %2$s isn\'t working as expected %3$s and you are not receiving updates or support! Make sure to %4$s activate your product subscription in %5$s to unlock all the features of %6$s.', 'wordpress-seo' ),
 				'<strong>',
 				$product_name,
 				'</strong>',
-				'<a href="' . WPSEO_Shortlinker::get( $short_link ) . '" target="_blank">activate your product subscription in MyYoast</a>',
+				'<a href="' . WPSEO_Shortlinker::get( $short_link ) . '" target="_blank">',
+				' MyYoast</a>',
 				$product_name
 			),
 			$notification_options
