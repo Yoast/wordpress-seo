@@ -26,13 +26,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - php_version: "5.6"
-            wp_version: "5.9"
+          - php_version: "7.2"
+            wp_version: "6.0"
             multisite: true
-
-          - php_version: "7.0"
-            wp_version: "latest"
-            multisite: false
 
           - php_version: "7.3"
             wp_version: "trunk"
@@ -44,12 +40,17 @@ jobs:
 
           # WP 5.6 is the earliest version which (sort of) supports PHP 8.0.
           - php_version: "8.0"
-            wp_version: "5.9"
+            wp_version: "6.0"
             multisite: false
 
           # WP 5.9 is the earliest version which (sort of) supports PHP 8.1.
           - php_version: "8.1"
             wp_version: "latest"
+            multisite: true
+
+          # WP 6.1 is the earliest version which supports PHP 8.2.
+          - php_version: "8.2"
+            wp_version: "6.1"
             multisite: true
 
     name: "Integration Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
@@ -59,9 +60,9 @@ jobs:
 
     services:
       mysql:
-        # Use MySQL 5.6 for PHP 5.6, use MySQL 5.7 for PHP 7.0 < 7.4, otherwise MySQL 8.0.
+        # Use MySQL 5.6 for PHP 7.2, use MySQL 5.7 for PHP 7.3 < 7.4, otherwise MySQL 8.0.
         # Also see: https://core.trac.wordpress.org/ticket/52496
-        image: mysql:${{ ( matrix.php_version == '5.6' && '5.6' ) || ( matrix.php_version < '7.4' && '5.7' ) || '8.0' }}
+        image: mysql:${{ ( matrix.php_version == '7.2' && '5.6' ) || ( matrix.php_version < '7.4' && '5.7' ) || '8.0' }}
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
         ports:
@@ -81,15 +82,14 @@ jobs:
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
         uses: ramsey/composer-install@v2
+        with:
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
       # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
-      # - league/oauth2-client and its dependencies *are* the packages being prefixed.
       - name: Delete dev dependencies which are not cross-version compatible
-        run: composer remove --dev --no-scripts humbug/php-scoper league/oauth2-client
-
-      - name: Delete dependencies which are not cross-version compatible
-        run: composer remove --no-scripts composer/installers
+        run: composer remove --dev --no-scripts humbug/php-scoper
 
       - name: Remove vendor directory
         run: rm -rf vendor/*
@@ -101,10 +101,10 @@ jobs:
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: none
 
-      # Install dependencies and handle caching in one go.
-      # @link https://github.com/marketplace/actions/install-composer-dependencies
-      - name: "Composer: remove PHPUnit root requirement"
-        run: composer remove --dev phpunit/phpunit --no-update --no-scripts
+      # The PHP platform requirement would prevent updating the test utilities to the appropriate versions.
+      # As long as the `composer update` is run selectively to only update the test utils, removing this is fine.
+      - name: "Composer: remove the PHP platform requirement"
+        run: composer config --unset platform.php
 
       - name: "Install Composer dependencies"
         uses: ramsey/composer-install@v2
@@ -113,6 +113,8 @@ jobs:
           dependency-versions: "highest"
           # But make it selective.
           composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
+          # Bust the cache at least once a week - output format: YYYY-MM-DD.
+          custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
 
       - name: Install WP
         shell: bash

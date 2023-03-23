@@ -12,13 +12,13 @@ use WPSEO_Language_Utils;
 use WPSEO_Meta;
 use WPSEO_Metabox_Analysis_Readability;
 use WPSEO_Metabox_Analysis_SEO;
+use WPSEO_Metabox_Analysis_Inclusive_Language;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -92,11 +92,11 @@ class Elementor implements Integration_Interface {
 	protected $readability_analysis;
 
 	/**
-	 * Represents the estimated_reading_time_conditional.
+	 * Helper to determine whether or not the inclusive language analysis is enabled.
 	 *
-	 * @var Estimated_Reading_Time_Conditional
+	 * @var WPSEO_Metabox_Analysis_Inclusive_Language
 	 */
-	protected $estimated_reading_time_conditional;
+	protected $inclusive_language_analysis;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -110,27 +110,24 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager          $asset_manager                      The asset manager.
-	 * @param Options_Helper                     $options                            The options helper.
-	 * @param Capability_Helper                  $capability                         The capability helper.
-	 * @param Estimated_Reading_Time_Conditional $estimated_reading_time_conditional The Estimated Reading Time
-	 *                                                                               conditional.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager                      The asset manager.
+	 * @param Options_Helper            $options                            The options helper.
+	 * @param Capability_Helper         $capability                         The capability helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Options_Helper $options,
-		Capability_Helper $capability,
-		Estimated_Reading_Time_Conditional $estimated_reading_time_conditional
+		Capability_Helper $capability
 	) {
 		$this->asset_manager = $asset_manager;
 		$this->options       = $options;
 		$this->capability    = $capability;
 
-		$this->seo_analysis                       = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis               = new WPSEO_Metabox_Analysis_Readability();
-		$this->social_is_enabled                  = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
-		$this->is_advanced_metadata_enabled       = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
-		$this->estimated_reading_time_conditional = $estimated_reading_time_conditional;
+		$this->seo_analysis                 = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis         = new WPSEO_Metabox_Analysis_Readability();
+		$this->inclusive_language_analysis  = new WPSEO_Metabox_Analysis_Inclusive_Language();
+		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
+		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
 	}
 
 	/**
@@ -213,12 +210,12 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Determines whether the metabox should be shown for the passed identifier.
 	 *
-	 * By default the check is done for post types, but can also be used for taxonomies.
+	 * By default, the check is done for post types, but can also be used for taxonomies.
 	 *
 	 * @param string|null $identifier The identifier to check.
 	 * @param string      $type       The type of object to check. Defaults to post_type.
 	 *
-	 * @return bool Whether or not the metabox should be displayed.
+	 * @return bool Whether the metabox should be displayed.
 	 */
 	public function display_metabox( $identifier = null, $type = 'post_type' ) {
 		return WPSEO_Utils::is_metabox_active( $identifier, $type );
@@ -236,7 +233,16 @@ class Elementor implements Integration_Interface {
 	public function save_postdata() {
 		global $post;
 
-		$post_id = \filter_input( \INPUT_POST, 'post_id', \FILTER_SANITIZE_NUMBER_INT );
+		if ( ! isset( $_POST['post_id'] ) || ! \is_string( $_POST['post_id'] ) ) {
+			\wp_send_json_error( 'Bad Request', 400 );
+		}
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: No sanitization needed because we cast to an integer.
+		$post_id = (int) \wp_unslash( $_POST['post_id'] );
+
+		if ( $post_id <= 0 ) {
+			\wp_send_json_error( 'Bad Request', 400 );
+		}
 
 		if ( ! \current_user_can( 'edit_post', $post_id ) ) {
 			\wp_send_json_error( 'Forbidden', 403 );
@@ -318,22 +324,23 @@ class Elementor implements Integration_Interface {
 			}
 		}
 
-		// Saving the WP post to save the slug.
-		$slug = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', \FILTER_SANITIZE_STRING );
-		if ( $post->post_name !== $slug ) {
-			$post_array              = $post->to_array();
-			$post_array['post_name'] = $slug;
+		if ( isset( $_POST[ WPSEO_Meta::$form_prefix . 'slug' ] ) && \is_string( $_POST[ WPSEO_Meta::$form_prefix . 'slug' ] ) ) {
+			$slug = \sanitize_title( \wp_unslash( $_POST[ WPSEO_Meta::$form_prefix . 'slug' ] ) );
+			if ( $post->post_name !== $slug ) {
+				$post_array              = $post->to_array();
+				$post_array['post_name'] = $slug;
 
-			$save_successful = \wp_insert_post( $post_array );
-			if ( \is_wp_error( $save_successful ) ) {
-				\wp_send_json_error( 'Slug not saved', 400 );
-			}
+				$save_successful = \wp_insert_post( $post_array );
+				if ( \is_wp_error( $save_successful ) ) {
+					\wp_send_json_error( 'Slug not saved', 400 );
+				}
 
-			// Update the post object to ensure we have the actual slug.
-			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Updating the post is needed to get the current slug.
-			$post = \get_post( $post_id );
-			if ( ! \is_object( $post ) ) {
-				\wp_send_json_error( 'Updated slug not found', 400 );
+				// Update the post object to ensure we have the actual slug.
+				// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Updating the post is needed to get the current slug.
+				$post = \get_post( $post_id );
+				if ( ! \is_object( $post ) ) {
+					\wp_send_json_error( 'Updated slug not found', 400 );
+				}
 			}
 		}
 
@@ -359,6 +366,10 @@ class Elementor implements Integration_Interface {
 			return true;
 		}
 
+		if ( $key === 'inclusive_language_score' && ! $this->inclusive_language_analysis->is_enabled() ) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -370,7 +381,12 @@ class Elementor implements Integration_Interface {
 	public function enqueue() {
 		$post_id = \get_queried_object_id();
 		if ( empty( $post_id ) ) {
-			$post_id = \sanitize_text_field( \filter_input( \INPUT_GET, 'post' ) );
+			$post_id = 0;
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+			if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) ) {
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
+				$post_id = (int) \wp_unslash( $_GET['post'] );
+			}
 		}
 
 		if ( $post_id !== 0 ) {
@@ -381,7 +397,6 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'admin-global' );
 		$this->asset_manager->enqueue_style( 'metabox-css' );
 		$this->asset_manager->enqueue_style( 'scoring' );
-		$this->asset_manager->enqueue_style( 'select2' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
 		$this->asset_manager->enqueue_style( 'elementor' );
@@ -434,6 +449,7 @@ class Elementor implements Integration_Interface {
 			],
 			'dismissedAlerts'          => $dismissed_alerts,
 			'webinarIntroElementorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
+			'usedKeywordsNonce'        => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
@@ -527,11 +543,15 @@ class Elementor implements Integration_Interface {
 			return $this->post;
 		}
 
-		$post = \filter_input( \INPUT_GET, 'post' );
-		if ( ! empty( $post ) ) {
-			$post_id = (int) WPSEO_Utils::validate_int( $post );
+		$post = null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
+			$post = (int) \wp_unslash( $_GET['post'] );
+		}
 
-			$this->post = \get_post( $post_id );
+		if ( ! empty( $post ) ) {
+			$this->post = \get_post( $post );
 
 			return $this->post;
 		}
@@ -706,15 +726,15 @@ class Elementor implements Integration_Interface {
 		$custom_fields = \get_post_custom( $post->ID );
 
 		// Simply concatenate all fields containing replace vars so we can handle them all with a single regex find.
-		$replace_vars_fields = implode(
+		$replace_vars_fields = \implode(
 			' ',
 			[
-				YoastSEO()->meta->for_post( $post->ID )->presentation->title,
-				YoastSEO()->meta->for_post( $post->ID )->presentation->meta_description,
+				\YoastSEO()->meta->for_post( $post->ID )->presentation->title,
+				\YoastSEO()->meta->for_post( $post->ID )->presentation->meta_description,
 			]
 		);
 
-		preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
+		\preg_match_all( '/%%cf_([A-Za-z0-9_]+)%%/', $replace_vars_fields, $matches );
 		$fields_to_include = $matches[1];
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.
@@ -723,7 +743,7 @@ class Elementor implements Integration_Interface {
 			}
 
 			// Skip custom fields that are not used, new ones will be fetched dynamically.
-			if ( ! in_array( $custom_field_name, $fields_to_include, true ) ) {
+			if ( ! \in_array( $custom_field_name, $fields_to_include, true ) ) {
 				continue;
 			}
 

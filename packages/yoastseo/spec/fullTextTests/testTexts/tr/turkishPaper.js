@@ -29,7 +29,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: -50,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 5 times. That's way more than the recommended maximum of 3 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 6 times. That's way more than the recommended maximum of 4 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -54,7 +54,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: -10,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 112 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>.",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 124 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' target='_blank'>Add more content</a>.",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -90,8 +90,10 @@ const expectedResults = {
 		isApplicable: false,
 	},
 	keyphraseDistribution: {
-		// The text doesnt contain more than 15 sentences.
-		isApplicable: false,
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not " +
+			"contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,

@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
 import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
@@ -25,7 +25,6 @@ import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
 import KeywordUpsell from "../../../components/KeywordUpsell";
-import LinkSuggestions from "../../../components/link-suggestions";
 
 /* eslint-disable complexity */
 /**
@@ -51,7 +50,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
-
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
@@ -67,13 +65,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
-				</SidebarItem> }
-				{ ! window.wpseoScriptData.metabox.isPremium && <SidebarItem renderPriority={ 24 }>
-					<SidebarCollapsible
-						title={ __( "Internal linking suggestions", "wordpress-seo" ) }
-					>
-						<LinkSuggestions />
-					</SidebarCollapsible>
 				</SidebarItem> }
 				<SidebarItem renderPriority={ 25 }>
 					<GooglePreviewModal />
@@ -113,6 +104,9 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						shouldUpsell={ settings.shouldUpsell }
 						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
+				</SidebarItem> }
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
+					<InclusiveLanguageAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }

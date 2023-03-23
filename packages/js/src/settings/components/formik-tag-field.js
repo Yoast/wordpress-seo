@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { TagField } from "@yoast/ui-library";
 import { useField } from "formik";
-import { trim, reduce } from "lodash";
+import { trim, reduce, isString } from "lodash";
 import PropTypes from "prop-types";
 
 /**
@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 const FormikTagField = props => {
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( props );
 	const tags = useMemo( () => reduce(
-		value?.split( "," ) || [],
+		isString( value ) && value?.split( "," ) || [],
 		( acc, item ) => {
 			const trimmed = trim( item );
 			return trimmed ? [ ...acc, trimmed ] : acc;
@@ -28,13 +28,17 @@ const FormikTagField = props => {
 		setTouched( true, false );
 		setValue( [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ].join( "," ) );
 	}, [ setTouched, setValue, tags ] );
-
+	const handleSetTags = useCallback( tagValue => {
+		setTouched( true, false );
+		setValue( tagValue.join( "," )  );
+	}, [ setTouched, setValue ] );
 	return (
 		<TagField
 			{ ...field }
 			tags={ tags }
 			onAddTag={ handleAddTag }
 			onRemoveTag={ handleRemoveTag }
+			onSetTags={ handleSetTags }
 			{ ...props }
 		/>
 	);

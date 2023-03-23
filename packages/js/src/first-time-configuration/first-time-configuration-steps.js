@@ -15,12 +15,6 @@ import SiteRepresentationStep from "./tailwind-components/steps/site-representat
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
 import FinishStep from "./tailwind-components/steps/finish/finish-step";
 
-window.wpseoScriptData = window.wpseoScriptData || {};
-window.wpseoScriptData.searchAppearance = {
-	...window.wpseoScriptData.searchAppearance,
-	userEditUrl: "/wp-admin/user-edit.php?user_id={user_id}",
-};
-
 const STEPS = {
 	optimizeSeoData: "optimizeSeoData",
 	siteRepresentation: "siteRepresentation",
@@ -45,6 +39,7 @@ async function updateSiteRepresentation( state ) {
 		company_name: state.companyName,
 		company_logo: state.companyLogo,
 		company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
+		website_name: state.websiteName,
 		person_logo: state.personLogo,
 		person_logo_id: state.personLogoId ? state.personLogoId : 0,
 		company_or_person_user_id: state.personId,
@@ -82,38 +77,6 @@ async function updateSocialProfiles( state ) {
 	} );
 	return await response.json;
 }
-
-/**
- * Updates the person social profiles in the database.
- *
- * @param {Object} state The state to save.
- *
- * @returns {Promise|bool} A promise, or false if the call fails.
- */
-async function updatePersonSocialProfiles( state ) {
-	const socialProfiles = {
-		/* eslint-disable camelcase */
-		user_id: state.personId,
-		facebook: state.personSocialProfiles.facebook,
-		instagram: state.personSocialProfiles.instagram,
-		linkedin: state.personSocialProfiles.linkedin,
-		myspace: state.personSocialProfiles.myspace,
-		pinterest: state.personSocialProfiles.pinterest,
-		soundcloud: state.personSocialProfiles.soundcloud,
-		tumblr: state.personSocialProfiles.tumblr,
-		twitter: state.personSocialProfiles.twitter,
-		youtube: state.personSocialProfiles.youtube,
-		wikipedia: state.personSocialProfiles.wikipedia,
-		/* eslint-enable camelcase */
-	};
-	const response = await apiFetch( {
-		path: "yoast/v1/configuration/person_social_profiles",
-		method: "POST",
-		data: socialProfiles,
-	} );
-	return await response.json;
-}
-
 /**
  * Updates the tracking option in the database.
  *
@@ -174,7 +137,6 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		...windowObject,
 		companyOrPerson,
 		companyOrPersonOptions,
-		personSocialProfiles: {},
 		errorFields: [],
 		stepErrors: {},
 		editedSteps: [],
@@ -308,36 +270,8 @@ export default function FirstTimeConfigurationSteps() {
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( state.companyOrPerson === "person" ) {
-			if ( ! state.canEditUser ) {
-				return true;
-			}
-			return updatePersonSocialProfiles( state )
-				.then( ( response ) => {
-					if ( response.success === false ) {
-						setErrorFields( response.failures );
-						return Promise.reject( "There were errors saving social profiles" );
-					}
-					return response;
-				} )
-				.then( () => {
-					setErrorFields( [] );
-					removeStepError( STEPS.socialProfiles );
-					finishSteps( STEPS.socialProfiles );
-				} )
-				.then( () => {
-					return true;
-				} )
-				.catch(
-					( e ) => {
-						if ( e.failures ) {
-							setErrorFields( e.failures );
-						}
-						if ( e.message ) {
-							setStepError( STEPS.socialProfiles, e.message );
-						}
-						return false;
-					}
-				);
+			finishSteps( STEPS.socialProfiles );
+			return true;
 		}
 
 		return updateSocialProfiles( state )
@@ -376,13 +310,6 @@ export default function FirstTimeConfigurationSteps() {
 	 */
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
-			.then( () => {
-				if ( !! state.tracking === true ) {
-					document.getElementById( "tracking-on" ).checked = true;
-				} else {
-					document.getElementById( "tracking-off" ).checked = true;
-				}
-			} )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				removeStepError( STEPS.personalPreferences );
@@ -533,7 +460,7 @@ export default function FirstTimeConfigurationSteps() {
 	}, [ beforeUnloadEventHandler ] );
 
 	return (
-		<div id="yoast-configuration" className="yst-card yst-text-slate-500">
+		<div id="yoast-configuration" className="yst-max-w-[715px] yst-mt-6 yst-p-8 yst-rounded-lg yst-bg-white yst-shadow yst-text-slate-500">
 			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
 			<p className="yst-py-2">
 				{

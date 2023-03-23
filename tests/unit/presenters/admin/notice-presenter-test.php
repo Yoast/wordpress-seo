@@ -3,9 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
-use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -37,18 +35,6 @@ class Notice_Presenter_Test extends TestCase {
 	public function test_construct() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
-		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
-		$conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Indexables_Page_Conditional::class )->andReturn( $conditional );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
-
 		$test = new Notice_Presenter( 'title', 'content', 'image.png', null, true );
 
 		$this->assertSame( 'title', $this->getPropertyValue( $test, 'title' ) );
@@ -69,18 +55,6 @@ class Notice_Presenter_Test extends TestCase {
 	 */
 	public function test_default_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
-
-		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
-		$conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Indexables_Page_Conditional::class )->andReturn( $conditional );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
 
 		$test = new Notice_Presenter( 'title', 'content' );
 
@@ -107,18 +81,6 @@ class Notice_Presenter_Test extends TestCase {
 	 */
 	public function test_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
-
-		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
-		$conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Indexables_Page_Conditional::class )->andReturn( $conditional );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
 
 		$test = new Notice_Presenter( 'title', 'content', 'image.png' );
 
@@ -148,18 +110,6 @@ class Notice_Presenter_Test extends TestCase {
 	public function test_dismissble_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
-		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
-		$conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Indexables_Page_Conditional::class )->andReturn( $conditional );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
-
 		$test = new Notice_Presenter( 'title', 'content', null, null, true );
 
 		$expected = '<div class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container">'
@@ -186,18 +136,6 @@ class Notice_Presenter_Test extends TestCase {
 	 */
 	public function test_dismissble_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
-
-		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
-		$conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Indexables_Page_Conditional::class )->andReturn( $conditional );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
 
 		$test = new Notice_Presenter( 'title', 'content', 'image.png', null, true );
 
@@ -226,18 +164,6 @@ class Notice_Presenter_Test extends TestCase {
 	 */
 	public function test_dismissble_notice_with_image_and_button() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
-
-		$conditional = Mockery::mock( Indexables_Page_Conditional::class );
-		$conditional->expects( 'is_met' )->once()->andReturnFalse();
-
-		$classes = Mockery::mock();
-		$classes->expects( 'get' )->once()->with( Indexables_Page_Conditional::class )->andReturn( $conditional );
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'classes' => $classes,
-			]
-		);
 
 		$button = '<a class="yoast-button yoast-button-upsell" href="https://yoa.st/somewhere">Some text</a>';
 

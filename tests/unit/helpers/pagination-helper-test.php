@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Query;
+use WP_Rewrite;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -103,8 +105,20 @@ class Pagination_Helper_Test extends TestCase {
 	 */
 	public function test_get_paginated_url_using_permalinks_without_pagination_base() {
 		$this->using_permalinks( true );
+		$url = 'https://example.com/my-post/';
 
-		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post/', 2, false );
+		$parsed_url = [
+			'scheme' => 'https',
+			'host'   => 'example.com',
+			'path'   => 'my-post',
+		];
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( $url )
+			->andReturn( $parsed_url );
+
+		$actual   = $this->instance->get_paginated_url( $url, 2, false );
 		$expected = 'https://example.com/my-post/2/';
 
 		$this->assertEquals( $expected, $actual );
@@ -117,6 +131,18 @@ class Pagination_Helper_Test extends TestCase {
 	 */
 	public function test_get_paginated_url_using_permalinks_with_pagination_base() {
 		$this->using_permalinks( true );
+		$url = 'https://example.com/my-post/';
+
+		$parsed_url = [
+			'scheme' => 'https',
+			'host'   => 'example.com',
+			'path'   => 'my-post/page',
+		];
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( $url )
+			->andReturn( $parsed_url );
 
 		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post/', 2, true );
 		$expected = 'https://example.com/my-post/page/2/';
@@ -168,7 +194,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @covers ::get_number_of_archive_pages
 	 */
 	public function test_get_number_of_archive_pages() {
-		$wp_query                = Mockery::mock( 'WP_Query' );
+		$wp_query                = Mockery::mock( WP_Query::class );
 		$wp_query->max_num_pages = '6';
 
 		$this->wp_query_wrapper
@@ -185,7 +211,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @covers ::get_current_archive_page_number
 	 */
 	public function test_get_current_archive_page() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query->expects( 'get' )->with( 'paged' )->once()->andReturn( '2' );
 
 		$this->wp_query_wrapper
@@ -202,7 +228,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @covers ::get_current_post_page_number
 	 */
 	public function test_get_current_post_page() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query->expects( 'get' )->with( 'page' )->once()->andReturn( '2' );
 
 		$this->wp_query_wrapper
@@ -253,7 +279,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @param bool $using_permalinks Returns value of $wp_rewrite->using_permalinks.
 	 */
 	private function using_permalinks( $using_permalinks ) {
-		$wp_rewrite_mock                  = Mockery::mock( 'WP_Rewrite' );
+		$wp_rewrite_mock                  = Mockery::mock( WP_Rewrite::class );
 		$wp_rewrite_mock->pagination_base = 'page';
 
 		$wp_rewrite_mock

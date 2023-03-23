@@ -10,7 +10,7 @@ class Directive {
 	/**
 	 * Paths list.
 	 *
-	 * @var array $paths All paths affected by this directive.
+	 * @var array All paths affected by this directive.
 	 */
 	private $paths;
 

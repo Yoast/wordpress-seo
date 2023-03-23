@@ -10,7 +10,7 @@ import { colors } from "@yoast/style-guide";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
@@ -23,7 +23,6 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
-import LinkSuggestions from "../link-suggestions";
 
 /* eslint-disable complexity */
 /**
@@ -57,7 +56,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				>
 					<Warning />
 				</SidebarItem>
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 7 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
@@ -89,6 +88,9 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
 					</Fragment>
 				</SidebarItem> }
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
+					<InclusiveLanguageAnalysis />
+				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
@@ -105,15 +107,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<WincherSEOPerformance />
 					</MetaboxCollapsible>
 				</SidebarItem> }
-				{ ! window.wpseoScriptData.metabox.isPremium &&
-					<SidebarItem key="internal-linking-suggestions-upsell-metabox" renderPriority={ 26 }>
-						<MetaboxCollapsible
-							title={ __( "Internal linking suggestions", "wordpress-seo" ) }
-						>
-							<LinkSuggestions  location="metabox" />
-						</MetaboxCollapsible>
-					</SidebarItem>
-				}
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }

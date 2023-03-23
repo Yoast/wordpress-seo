@@ -267,8 +267,6 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		$this->indexable_indexing_complete_action  = $indexable_indexing_complete_action;
 		$this->indexing_complete_action            = $indexing_complete_action;
 		$this->prepare_indexing_action             = $prepare_indexing_action;
-		$this->post_link_indexing_action           = $post_link_indexing_action;
-		$this->term_link_indexing_action           = $term_link_indexing_action;
 		$this->options_helper                      = $options_helper;
 		$this->post_link_indexing_action           = $post_link_indexing_action;
 		$this->term_link_indexing_action           = $term_link_indexing_action;

@@ -2,11 +2,12 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
+import Mark from "../../../../src/values/Mark";
 
 let assessment = new WordComplexityAssessment();
 
 describe( "a test for an assessment that checks complex words in a text", function() {
-	it( "should returns with score 9 if the complex words are less than 10% in the text", function() {
+	it( "should return with score 9 if the complex words are less than 10% in the text", function() {
 		const paper = new Paper( "This is short text. This is another short text. This is another short text. " +
 			"This is another short text. This is another short text. This is another short text. This is another short text. " +
 			"This is another short text. This is another short text. This is another short text. This is another short text. " +
@@ -22,14 +23,15 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		expect( result.hasMarks() ).toBe( true );
 		expect( assessment.getMarks( paper, researcher ) ).toEqual( [
 			{ _properties:
-					{ marked: "Torbie cats with a <yoastmark class='yoast-text-mark'>predominantly</yoastmark> white " +
+					{ 	fieldsToMark: [],
+						marked: "Torbie cats with a <yoastmark class='yoast-text-mark'>predominantly</yoastmark> white " +
 							"<yoastmark class='yoast-text-mark'>undercoat</yoastmark> are often referred to as " +
 							"\"caliby\", an <yoastmark class='yoast-text-mark'>amalgamation</yoastmark> of Calico and Tabby.",
-					original: "Torbie cats with a predominantly white undercoat are often referred to as \"caliby\", " +
-							"an amalgamation of Calico and Tabby." },
+						original: "Torbie cats with a predominantly white undercoat are often referred to as \"caliby\", " +
+						"an amalgamation of Calico and Tabby." },
 			} ]
 		);
-		expect( result.hasBetaBadge() ).toBe( true );
+		expect( result.hasBetaBadge() ).toBe( false );
 	} );
 
 	let runningPaper = new Paper( "Also called torties for short, tortoiseshell cats combine two colors other than white, " +
@@ -47,7 +49,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		"Torbie cats with a predominantly white undercoat are often referred to as \"caliby\" by their respective owners, " +
 		"an amalgamation of Calico and Tabby." );
 
-	it( "should returns with score 6 if the complex words are more than 10% in the text", function() {
+	it( "should return with score 6 if the complex words are more than 10% in the text", function() {
 		const researcher = new EnglishResearcher( runningPaper );
 		const result = assessment.getResult( runningPaper, researcher );
 
@@ -58,7 +60,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		expect( result.hasMarks() ).toBe( true );
 	} );
 
-	it( "should returns with score 3 if the complex words are more than 10% in the text and the cornerstone toggle is on", function() {
+	it( "should return with score 3 if the complex words are more than 10% in the text and the cornerstone toggle is on", function() {
 		const researcher = new EnglishResearcher( runningPaper );
 
 		assessment = new WordComplexityAssessment( {
@@ -91,6 +93,20 @@ describe( "a test for an assessment that checks complex words in a text", functi
 			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
+	} );
+
+	it( "should be able recognize complex words in image caption and return maker", function() {
+		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"A flamboyant looking cat.<br></br>\n" +
+			"</p>" );
+		const researcher = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: "A flamboyant looking cat.",
+				marked: "A <yoastmark class='yoast-text-mark'>flamboyant</yoastmark> looking cat." } ),
+		];
+		expect( new WordComplexityAssessment().getMarks( paper, researcher ) ).toEqual( expected );
 	} );
 } );
 

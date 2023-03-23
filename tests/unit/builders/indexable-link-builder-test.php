@@ -5,8 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
@@ -56,6 +58,13 @@ class Indexable_Link_Builder_Test extends TestCase {
 	protected $post_helper;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
@@ -80,11 +89,13 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->image_helper         = Mockery::mock( Image_Helper::class );
 		$this->post_helper          = Mockery::mock( Post_Helper::class );
+		$this->options_helper       = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Indexable_Link_Builder(
 			$this->seo_links_repository,
 			$this->url_helper,
-			$this->post_helper
+			$this->post_helper,
+			$this->options_helper
 		);
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
 
@@ -154,7 +165,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_new_link_url, $parsed_home_url, $is_image )->andReturn( $link_type );
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_existing_link_url, $parsed_home_url, $is_image )->andReturn( $link_type );
 
-		$query_mock                 = Mockery::mock();
+		$query_mock                 = Mockery::mock( ORM::class );
 		$new_seo_link               = Mockery::mock( SEO_Links_Mock::class );
 		$new_seo_link->type         = $link_type;
 		$new_seo_link->url          = 'https://link.com/newly-added-in-post';
@@ -269,7 +280,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, false )->andReturn( $link_type );
 		$this->url_helper->expects( 'is_relative' )->with( $target_permalink )->andReturnFalse();
 
-		$query_mock                    = Mockery::mock();
+		$query_mock                    = Mockery::mock( ORM::class );
 		$seo_link                      = Mockery::mock( SEO_Links_Mock::class );
 		$seo_link->type                = $link_type;
 		$seo_link->url                 = $target_indexable->permalink;

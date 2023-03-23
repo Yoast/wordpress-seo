@@ -7,6 +7,7 @@ import { registerElementorDataHookAfter } from "../helpers/elementorHook";
 import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
+import { Root } from "@yoast/externals/contexts";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
@@ -91,6 +92,69 @@ function initializePostStatusListener() {
 }
 
 /**
+ * Checks if field is in the skip list.
+ *
+ * @param {HTMLElement} input The input.
+ *
+ * @returns {boolean} true if input is field that should be skipped.
+ */
+function isSkipField( input ) {
+	// SEO fields that  do not require a new save.
+	const skipFields = [
+		"yoast_wpseo_linkdex",
+		"yoast_wpseo_content_score",
+		"yoast_wpseo_words_for_linking",
+		"yoast_wpseo_estimated-reading-time-minutes",
+	];
+
+	return skipFields.includes( input.name );
+}
+
+/**
+ * Checks if field is keyword field.
+ *
+ * @param {string} name the input name.
+ *
+ * @returns {boolean} true if input is keyword field.
+ */
+function isKeywordField( name ) {
+	const keywordsFields = [
+		"yoast_wpseo_focuskeywords",
+		"hidden_wpseo_focuskeywords",
+	];
+
+	return keywordsFields.includes( name );
+}
+
+/**
+ * Detects if keyword field value is not changed.
+ *
+ * @param {string} oldValue the input old value.
+ * @param {string} newValue the input new value.
+ *
+ * @returns {boolean} true if keyword field value is not changed.
+ */
+function isKeywordValueUnchanged( oldValue, newValue ) {
+	if ( newValue === oldValue ) {
+		return true;
+	}
+
+	if ( newValue === "" || oldValue === "" ) {
+		return false;
+	}
+
+	const newValueJson = JSON.parse( newValue );
+	const oldValueJson = JSON.parse( oldValue );
+
+	if ( newValueJson.length !== oldValueJson.length ) {
+		return false;
+	}
+
+	// Check only input value and skip calculated.
+	return newValueJson.every( ( v, index ) => v.keyword === oldValueJson[ index ].keyword );
+}
+
+/**
  * Activates the save button if a change is detected.
  *
  * @param {HTMLElement} input The input.
@@ -98,13 +162,11 @@ function initializePostStatusListener() {
  * @returns {void}
  */
 function detectChange( input ) {
-	// The SEO score and the content score changing do not require a new save.
-	if ( input.name === "yoast_wpseo_linkdex" || input.name === "yoast_wpseo_content_score" ) {
+	if ( isSkipField( input ) ) {
 		return;
 	}
 
-	// The prominent words do not require a new save (based on the content anyway).
-	if ( input.name === "yoast_wpseo_words_for_linking" ) {
+	if ( isKeywordField( input.name ) && isKeywordValueUnchanged( input.oldValue, input.value ) ) {
 		return;
 	}
 
@@ -115,6 +177,7 @@ function detectChange( input ) {
 		storeValueAsOldValue( input );
 	}
 }
+
 
 /**
  * Saves the form via AJAX action.
@@ -162,14 +225,18 @@ function sendFormData( form ) {
  * @returns {void}
  */
 function renderYoastTabReactContent() {
+	const elementorSidebarContext = { locationContext: "elementor-sidebar" };
+
 	setTimeout( () => {
 		renderReactRoot( "elementor-panel-page-settings-controls", (
-			<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-				<div className="yoast yoast-elementor-panel__fills">
-					<ElementorSlot />
-					<ElementorFill />
-				</div>
-			</StyleSheetManager>
+			<Root context={ elementorSidebarContext }>
+				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
+					<div className="yoast yoast-elementor-panel__fills">
+						<ElementorSlot />
+						<ElementorFill />
+					</div>
+				</StyleSheetManager>
+			</Root>
 		) );
 	}, 200 );
 }

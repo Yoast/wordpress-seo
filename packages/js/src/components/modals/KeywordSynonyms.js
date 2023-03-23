@@ -66,6 +66,8 @@ const KeywordSynonyms = ( props ) => {
 				href: props.buyLink,
 				className: "yoast-button-upsell",
 				rel: null,
+				"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
+				"data-action": "load-nfd-ctb",
 			} }
 			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
 		/>

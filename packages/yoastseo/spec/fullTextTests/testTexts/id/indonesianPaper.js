@@ -55,7 +55,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 3216 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 3220 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -119,7 +119,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 25.3% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 24.7% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

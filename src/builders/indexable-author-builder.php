@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use wpdb;
+use Yoast\WP\SEO\Exceptions\Indexable\Author_Not_Built_Exception;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -72,8 +73,15 @@ class Indexable_Author_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return Indexable The extended indexable.
+	 *
+	 * @throws Author_Not_Built_Exception When author is not built.
 	 */
 	public function build( $user_id, Indexable $indexable ) {
+		$exception = $this->check_if_user_should_be_indexed( $user_id );
+		if ( $exception ) {
+			throw $exception;
+		}
+
 		$meta_data = $this->get_meta_data( $user_id );
 
 		$indexable->object_id              = $user_id;
@@ -189,5 +197,36 @@ class Indexable_Author_Builder {
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
 		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
+	}
+
+	/**
+	 * Checks if the user should be indexed.
+	 * Returns an exception with an appropriate message if not.
+	 *
+	 * @param string $user_id The user id.
+	 *
+	 * @return Author_Not_Built_Exception|null The exception if it should not be indexed, or `null` if it should.
+	 */
+	protected function check_if_user_should_be_indexed( $user_id ) {
+		$exception = null;
+
+		if ( $this->author_archive->are_disabled() ) {
+			$exception = Author_Not_Built_Exception::author_archives_are_disabled( $user_id );
+		}
+
+		// We will check if the author has public posts the WP way, instead of the indexable way, to make sure we get proper results even if SEO optimization is not run.
+		if ( $this->author_archive->author_has_public_posts_wp( $user_id ) === false ) {
+			$exception = Author_Not_Built_Exception::author_archives_are_not_indexed_for_users_without_posts( $user_id );
+		}
+
+		/**
+		 * Filter: Include or exclude a user from being build and saved as an indexable.
+		 * Return an `Author_Not_Built_Exception` when the indexable should not be build, with an appropriate message telling why it should not be built.
+		 * Return `null` if the indexable should be build.
+		 *
+		 * @param Author_Not_Built_Exception|null $exception An exception if the indexable is not being built, `null` if the indexable should be built.
+		 * @param string                          $user_id   The ID of the user that should or should not be excluded.
+		 */
+		return \apply_filters( 'wpseo_should_build_and_save_user_indexable', $exception, $user_id );
 	}
 }

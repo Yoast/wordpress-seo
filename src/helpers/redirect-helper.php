@@ -37,17 +37,26 @@ class Redirect_Helper {
 	}
 
 	/**
-	 * Wraps wp_redirect to allow testing for redirects.
+	 * Sets a header.
+	 * This is a tiny helper function to enable better testing.
 	 *
-	 * @deprecated 16.x
 	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
-	 * @param string $location The path to redirect to.
-	 * @param int    $status   The status code to use.
+	 * @param string $header The header to set.
 	 */
-	public function do_redirect( $location, $status = 302 ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 16.x', 'Yoast\WP\SEO\Helpers\Redirect_Helper::do_unsafe_redirect' );
+	public function set_header( $header ) {
+		header( $header );
+	}
 
-		$this->do_unsafe_redirect( $location, $status );
+	/**
+	 * Removes a header.
+	 * This is a tiny helper function to enable better testing.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
+	 * @param string $header The header to remove.
+	 */
+	public function remove_header( $header ) {
+		header_remove( $header );
 	}
 }

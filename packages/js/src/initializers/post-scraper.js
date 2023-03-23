@@ -33,6 +33,7 @@ import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
+import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 import snippetEditorHelpers from "../analysis/snippetEditor";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
@@ -183,6 +184,23 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
+	 * Initializes the inclusive languauge analysis.
+	 *
+	 * @param {Object} activePublishBox The publish box object.
+	 *
+	 * @returns {void}
+	 */
+	function initializeInclusiveLanguageAnalysis( activePublishBox ) {
+		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
+
+		const indicator = getIndicatorForScore( savedContentScore );
+
+		updateAdminBar( indicator );
+
+		activePublishBox.updateScore( "inclusive-language", indicator.className );
+	}
+
+	/**
 	 * Retrieves the target to be passed to the App.
 	 *
 	 * @returns {Object} The targets object for the App.
@@ -301,6 +319,10 @@ export default function initPostScraper( $, store, editorData ) {
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis( publishBox );
+		}
+
+		if ( isInclusiveLanguageAnalysisActive() ) {
+			initializeInclusiveLanguageAnalysis( publishBox );
 		}
 	}
 
@@ -459,7 +481,7 @@ export default function initPostScraper( $, store, editorData ) {
 			window.YoastSEO.app.refresh();
 		};
 
-		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage", store );
+		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage_and_post_types", store );
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		// Backwards compatibility.
@@ -468,19 +490,15 @@ export default function initPostScraper( $, store, editorData ) {
 		// Analysis plugins
 		window.YoastSEO.wp = {};
 		window.YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
-
+		window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
+			registerPlugin: app.registerPlugin,
+			registerModification: app.registerModification,
+			pluginReady: app.pluginReady,
+			pluginReloaded: app.pluginReloaded,
+		} );
 		if ( isBlockEditor() ) {
 			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
 			reusableBlocksPlugin.register();
-		}
-		// Only process shortcodes (for analysis) in the post text for editors other than the block editor.
-		if ( ! isBlockEditor() ) {
-			window.YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( {
-				registerPlugin: app.registerPlugin,
-				registerModification: app.registerModification,
-				pluginReady: app.pluginReady,
-				pluginReloaded: app.pluginReloaded,
-			} );
 		}
 		if ( wpseoScriptData.metabox.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );

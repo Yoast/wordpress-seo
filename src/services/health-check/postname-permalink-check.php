@@ -26,7 +26,6 @@ class Postname_Permalink_Check extends Health_Check {
 	 *
 	 * @param  Postname_Permalink_Runner  $runner  The object that implements the actual health check.
 	 * @param  Postname_Permalink_Reports $reports The object that generates WordPress-friendly results.
-	 * @return void
 	 */
 	public function __construct(
 		Postname_Permalink_Runner $runner,

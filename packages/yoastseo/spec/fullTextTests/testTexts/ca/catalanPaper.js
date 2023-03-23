@@ -99,15 +99,15 @@ const expectedResults = {
 	keyphraseDistribution: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text " +
-			"do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your " +
+			"text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 1 section of your text is longer than " +
-			"300 words and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings " +
-			"to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: The beginning of your " +
+			"text is longer than 300 words and is not separated by any subheadings. " +
+			"<a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability.</a>",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
@@ -123,7 +123,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 17.8% of the sentences contain transition words, " +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 18.6% of the sentences contain transition words, " +
 			"which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {

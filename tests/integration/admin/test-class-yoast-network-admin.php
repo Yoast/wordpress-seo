@@ -98,12 +98,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	public function test_get_site_states() {
 		$this->skipWithoutMultisite();
 
-		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
-			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
-
-			return;
-		}
-
 		$admin = new Yoast_Network_Admin();
 
 		$active_states = [
@@ -125,26 +119,20 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::handle_update_options_request
 	 */
 	public function test_handle_update_options_request() {
-		$admin = $this
+		$_POST['network_option_group'] = 'wpseo';
+		$admin                         = $this
 			->getMockBuilder( 'Yoast_Network_Admin' )
 			->setMethods( [ 'verify_request', 'terminate_request' ] )
 			->getMock();
 
-		// These two expectations should be removed once the underlying issue has been resolved.
-		if ( PHP_VERSION_ID >= 80100 ) {
-			$this->expectDeprecation();
-			$this->expectDeprecationMessage( 'Constant FILTER_SANITIZE_STRING is deprecated' );
-		}
-		else {
-			$admin
-				->expects( $this->once() )
-				->method( 'verify_request' )
-				->with( '-network-options' );
+		$admin
+			->expects( $this->once() )
+			->method( 'verify_request' )
+			->with( 'wpseo-network-options' );
 
-			$admin
-				->expects( $this->once() )
-				->method( 'terminate_request' );
-		}
+		$admin
+			->expects( $this->once() )
+			->method( 'terminate_request' );
 
 		$admin->handle_update_options_request();
 	}
@@ -249,9 +237,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$_REQUEST['_wpnonce']         = '';
 
 		$expected_message = 'The link you followed has expired.';
-		if ( version_compare( $GLOBALS['wp_version'], '4.9', '<' ) ) {
-			$expected_message = 'Are you sure you want to do this?';
-		}
 
 		$this->expectException( 'WPDieException' );
 		$this->expectExceptionMessage( $expected_message );

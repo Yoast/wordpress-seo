@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use WP_REST_Request;
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
 use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
 use Yoast\WP\SEO\Routes\Indexables_Head_Route;
@@ -103,7 +105,7 @@ class Indexables_Head_Route_Test extends TestCase {
 	public function test_get_head() {
 		$this->stubEscapeFunctions();
 
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request = Mockery::mock( WP_REST_Request::class, 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
 			->with( 'url' )
@@ -114,7 +116,7 @@ class Indexables_Head_Route_Test extends TestCase {
 			->with( 'https://example.org' )
 			->andReturn( (object) [ 'status' => 'yes' ] );
 
-		Mockery::mock( 'overload:WP_REST_Response' );
+		Mockery::mock( 'overload:' . WP_REST_Response::class );
 
 		Monkey\Functions\expect( 'utf8_uri_encode' )
 			->with( 'https://example.org' )

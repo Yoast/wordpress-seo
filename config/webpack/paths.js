@@ -19,6 +19,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"bulk-editor": `${ sourceDirectory }/bulk-editor.js`,
 	"schema-blocks": `${ sourceDirectory }/schema-blocks.js`,
 	"classic-editor": `${ sourceDirectory }/classic-editor.js`,
+	"crawl-settings": `${ sourceDirectory }/crawl-settings.js`,
 	"dashboard-widget": `${ sourceDirectory }/dashboard-widget.js`,
 	"dynamic-blocks": `${ sourceDirectory }/dynamic-blocks.js`,
 	"edit-page": `${ sourceDirectory }/edit-page.js`,
@@ -31,7 +32,6 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"first-time-configuration": `${ sourceDirectory }/first-time-configuration.js`,
 	"help-scout-beacon": `${ sourceDirectory }/help-scout-beacon.js`,
 	"import": `${ sourceDirectory }/import.js`,
-	"indexables-page": `${ sourceDirectory }/indexables-page.js`,
 	indexation: `${ sourceDirectory }/indexation.js`,
 	"installation-success": `${ sourceDirectory }/installation-success.js`,
 	"integrations-page": `${ sourceDirectory }/integrations-page.js`,
@@ -39,6 +39,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"post-edit": `${ sourceDirectory }/post-edit.js`,
 	"quick-edit-handler": `${ sourceDirectory }/quick-edit-handler.js`,
 	"reindex-links": `${ sourceDirectory }/reindex-links.js`,
+	"redirect-old-features-tab": `${ sourceDirectory }/redirect-old-features-tab.js`,
 	settings: `${ sourceDirectory }/settings.js`,
 	"new-settings": `${ sourceDirectory }/settings/initialize.js`,
 	"structured-data-blocks": `${ sourceDirectory }/structured-data-blocks.js`,
@@ -69,6 +70,5 @@ function flattenVersionForFile( version ) {
 module.exports = {
 	entry: getEntries(),
 	jsDist: jsDistPath,
-	select2: path.resolve( "node_modules", "select2", "dist" ),
 	flattenVersionForFile,
 };

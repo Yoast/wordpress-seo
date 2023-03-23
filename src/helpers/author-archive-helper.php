@@ -2,12 +2,41 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Query;
 use Yoast\WP\Lib\Model;
 
 /**
  * A helper object for author archives.
  */
 class Author_Archive_Helper {
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
+	 * Creates a new author archive helper.
+	 *
+	 * @param Options_Helper   $options_helper   The options helper.
+	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 */
+	public function __construct(
+		Options_Helper $options_helper,
+		Post_Type_Helper $post_type_helper
+	) {
+		$this->options_helper   = $options_helper;
+		$this->post_type_helper = $post_type_helper;
+	}
 
 	/**
 	 * Gets the array of post types that are shown on an author's archive.
@@ -44,6 +73,43 @@ class Author_Archive_Helper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns whether the author has at least one public post.
+	 *
+	 * **Note**: It uses WP_Query to determine the number of posts,
+	 * not the indexables table.
+	 *
+	 * @param string $user_id The user ID.
+	 *
+	 * @return bool Whether the author has at least one public post.
+	 */
+	public function author_has_public_posts_wp( $user_id ) {
+		$post_types        = \array_intersect( $this->get_author_archive_post_types(), $this->post_type_helper->get_indexable_post_types() );
+		$public_post_stati = \array_values( \array_filter( \get_post_stati(), 'is_post_status_viewable' ) );
+
+		$args  = [
+			'post_type'   => $post_types,
+			'post_status' => $public_post_stati,
+			'author'      => $user_id,
+		];
+		$query = new WP_Query( $args );
+
+		if ( ! empty( $query->posts ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks whether author archives are disabled.
+	 *
+	 * @return bool `true` if author archives are disabled, `false` if not.
+	 */
+	public function are_disabled() {
+		return $this->options_helper->get( 'disable-author' );
 	}
 
 	/**

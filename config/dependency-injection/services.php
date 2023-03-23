@@ -14,6 +14,7 @@ use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use Yoast_Notification_Center;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
+use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 
 /**
  * Holds the dependency injection container.
@@ -36,6 +37,9 @@ $container->register( WPSEO_Utils::class, WPSEO_Utils::class )->setFactory( [ Wr
 // Backwards-compatibility classes in the global namespace.
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
 $container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
+
+// Non-excluded from excluded directories.
+$container->register( Robots_Txt_Presenter::class, Robots_Txt_Presenter::class )->setAutowired( true )->setPublic( false );
 
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );

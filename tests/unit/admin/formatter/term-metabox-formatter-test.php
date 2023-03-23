@@ -46,7 +46,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 		parent::set_up();
 
 		$this->taxonomy           = (object) [];
-		$this->mock_term          = Mockery::mock( '\WP_Term' )->makePartial();
+		$this->mock_term          = Mockery::mock( WP_Term::class )->makePartial();
 		$this->mock_term->term_id = 1;
 
 		$this->instance = new Term_Metabox_Formatter_Double( $this->taxonomy, $this->mock_term );

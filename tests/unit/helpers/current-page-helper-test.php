@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Brain\Monkey;
 use Mockery;
 use WP_Post;
+use WP_Query;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -40,17 +41,37 @@ class Current_Page_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The original value of $_GET['page'].
+	 *
+	 * @var string
+	 */
+	private $original_get_page;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
-		$this->wp_query         = Mockery::mock();
+		$this->wp_query         = Mockery::mock( WP_Query::class );
 
 		$this->instance = Mockery::mock( Current_Page_Helper::class, [ $this->wp_query_wrapper ] )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+
+		if ( isset( $_GET['page'] ) ) {
+			$this->original_get_page = $_GET['page'];
+		}
+	}
+
+	/**
+	 * Performs the operations to restore the status quo ante.
+	 */
+	protected function tear_down() {
+		$_GET['page'] = $this->original_get_page;
+
+		parent::tear_down();
 	}
 
 	/**
@@ -751,5 +772,93 @@ class Current_Page_Helper_Test extends TestCase {
 		$this->instance->expects( 'count_queried_terms' )->andReturn( 10 );
 
 		$this->assertTrue( $this->instance->is_multiple_terms_page() );
+	}
+
+	/**
+	 * Test is_yoast_seo_page function.
+	 *
+	 * @covers ::is_yoast_seo_page
+	 */
+	public function test_is_yoast_seo_page() {
+		$_GET['page'] = 'wpseo_something';
+
+		$this->assertEquals( true, $this->instance->is_yoast_seo_page() );
+	}
+
+	/**
+	 * Test is_yoast_seo_page function when page is not set.
+	 *
+	 * @covers ::is_yoast_seo_page
+	 */
+	public function test_is_yoast_seo_page_page_not_set() {
+		unset( $_GET['page'] );
+
+		$this->assertEquals( null, $this->instance->is_yoast_seo_page() );
+	}
+
+	/**
+	 * Test is_yoast_seo_page function when page is null.
+	 *
+	 * @covers ::is_yoast_seo_page
+	 */
+	public function test_is_yoast_seo_page_page_is_null() {
+		$_GET['page'] = null;
+
+		$this->assertEquals( null, $this->instance->is_yoast_seo_page() );
+	}
+
+	/**
+	 * Test is_yoast_seo_page function when page is something else than a string.
+	 *
+	 * @covers ::is_yoast_seo_page
+	 */
+	public function test_is_yoast_seo_page_page_is_int() {
+		$_GET['page'] = 13;
+
+		$this->assertEquals( null, $this->instance->is_yoast_seo_page() );
+	}
+
+	/**
+	 * Test get_current_yoast_seo_page function.
+	 *
+	 * @covers ::get_current_yoast_seo_page
+	 */
+	public function test_get_current_yoast_seo_page() {
+		$_GET['page'] = 'wpseo_something';
+
+		$this->assertEquals( 'wpseo_something', $this->instance->get_current_yoast_seo_page() );
+	}
+
+	/**
+	 * Test get_current_yoast_seo_page function when page is not set.
+	 *
+	 * @covers ::get_current_yoast_seo_page
+	 */
+	public function test_get_current_yoast_seo_page_page_not_set() {
+		unset( $_GET['page'] );
+
+		$this->assertEquals( null, $this->instance->get_current_yoast_seo_page() );
+	}
+
+	/**
+	 * Test get_current_yoast_seo_page function when page is null.
+	 *
+	 * @covers ::get_current_yoast_seo_page
+	 */
+	public function test_get_current_yoast_seo_page_page_is_null() {
+		$_GET['page'] = null;
+
+		$this->assertEquals( null, $this->instance->get_current_yoast_seo_page() );
+	}
+
+	/**
+	 * Test get_current_yoast_seo_page function when page is something else than a string.
+	 *
+	 * @covers ::get_current_yoast_seo_page
+	 */
+	public function test_get_current_yoast_seo_page_page_is_int() {
+		$_GET['page'] = 13;
+
+		$this->assertEquals( null, $this->instance->get_current_yoast_seo_page() );
 	}
 }
