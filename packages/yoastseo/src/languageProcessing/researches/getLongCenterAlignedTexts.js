@@ -9,7 +9,7 @@ const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
 /**
  * Filters out all elements that are center-aligned and longer than 50 characters (after stripping HTML tags).
  *
- * @param {string[]}    elements	An array containing all cases of a specific element that were found in a text.
+ * @param {string[]}    elements    An array containing all cases of a specific element that were found in a text.
  * @param {string}      elementType The type of the elements.
  *
  * @returns {Object[]}	An array containing all elements of a specific type that are center-aligned and longer than 50 characters.
@@ -37,7 +37,7 @@ function getLongCenterAlignedElements( elements, elementType ) {
  * Returns an array with one object per paragraph/heading.
  * For example: [ {text: "abc", elementType: "heading"}, {text: "123", elementType: "paragraph"} ].
  *
- * @param {Paper}	paper	The paper to analyze.
+ * @param {Paper}   paper   The paper to analyze.
  *
  * @returns {Object[]}	An array of objects for each too long center-aligned paragraph/heading.
  */

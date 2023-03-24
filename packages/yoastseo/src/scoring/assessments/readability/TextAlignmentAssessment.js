@@ -11,7 +11,7 @@ const { addMark } = markers;
  */
 export default class TextAlignmentAssessment extends Assessment {
 	/**
-	 * Sets the identifier and the config.
+	 * Constructs a new TextAlignmentAssessment.
 	 *
 	 * @param {object} config The configuration to use.
 	 *
@@ -95,7 +95,7 @@ export default class TextAlignmentAssessment extends Assessment {
 	 * and when the researcher has `getLongCenterAlignedText` research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  researcher   The researcher used in the assessment.
+	 * @param {Researcher}  researcher  The researcher used in the assessment.
 	 *
 	 * @returns {boolean} True when the paper has at least 50 characters (after sanitation)
 	 * and when the researcher has `getLongCenterAlignedText` research.
@@ -107,8 +107,8 @@ export default class TextAlignmentAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the number of center-aligned text found in the paper.
 	 *
-	 * @param {Paper}       paper                   The Paper object to assess.
-	 * @param {number}      numberOfLongCenterAlignedTexts  The number of paragraphs and/or headings
+	 * @param {Paper}   paper                           The Paper object to assess.
+	 * @param {number}  numberOfLongCenterAlignedTexts  The number of paragraphs and/or headings
 	 * that are center aligned and longer than 50 characters.
 	 *
 	 * @returns {Object} The calculated result.
