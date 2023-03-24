@@ -27,7 +27,7 @@ function getLongCenterAlignedElements( elements, elementType ) {
 	 * This information will be used when applying the highlighting to the text in the editor.
 	 */
 	return longCenterAlignedTexts.map( text => {
-		return { text, elementType: elementType };
+		return { text, elementType };
 	} );
 }
 
