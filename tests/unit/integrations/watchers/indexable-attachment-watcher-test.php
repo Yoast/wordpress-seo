@@ -1,7 +1,8 @@
 <?php
 
-use Brain\Monkey;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
@@ -57,10 +58,6 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-
-		if ( ! defined( 'MINUTE_IN_SECONDS' ) ) {
-			define( 'MINUTE_IN_SECONDS', 60 );
-		}
 
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 		$this->attachment_cleanup  = Mockery::mock( Attachment_Cleanup_Helper::class );
@@ -158,7 +155,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 			->andReturn( $wp_next_scheduled );
 
 			Monkey\Functions\expect( 'wp_schedule_single_event' )
-				->with( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
+				->with( ( time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
 				->times( $schedule_event_times );
 
 		$this->instance->check_option( $old_value, $new_value );
