@@ -71,13 +71,13 @@ export default class TextAlignmentAssessment extends Assessment {
 	 */
 	getMarks( paper, researcher ) {
 		const longCenterAlignedTexts = researcher.getResearch( "getLongCenterAlignedTexts" );
-		// For example: [ {text: "abc", typeOfBlock: "heading"}, {text: "123", typeOfBlock: "paragraph"} ].
+		// For example: [ {text: "abc", elementType: "heading"}, {text: "123", elementType: "paragraph"} ].
 		return longCenterAlignedTexts.map( longCenterAlignedText => {
 			const text = longCenterAlignedText.text;
-			const fieldsToMark = longCenterAlignedText.typeOfBlock;
+			const fieldsToMark = longCenterAlignedText.elementType;
 			/*
 			 * Strip the HTML tags before applying the yoastmark.
-			 * This is because applying yoastmark tags to unsanitized text could lead to highlighting problem(s).
+			 * This is because applying yoastmark tags to un-sanitized text could lead to highlighting problem(s).
 			 */
 			const marked = addMark( stripHTMLTags( text ) );
 
