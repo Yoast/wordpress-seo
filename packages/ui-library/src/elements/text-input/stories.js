@@ -2,7 +2,7 @@
 import { StoryComponent } from ".";
 
 export default {
-	title: "1) Elements/Text Input",
+	title: "1) Elements/Text input",
 	component: StoryComponent,
 	parameters: {
 		docs: {

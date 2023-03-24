@@ -3,7 +3,7 @@ import { StoryComponent } from ".";
 import { DesktopComputerIcon } from "@heroicons/react/outline";
 
 export default {
-	title: "1) Elements/File Input",
+	title: "1) Elements/File input",
 	component: StoryComponent,
 	argTypes: {},
 	parameters: {
@@ -37,6 +37,8 @@ Factory.args = {
 
 export const WithDescription = Template.bind( {} );
 
+WithDescription.storyName = "With description";
+
 WithDescription.parameters = {
 	controls: { disable: false },
 	docs: { description: { story: "A file input with a description using `selectDescription` prop." } },
@@ -64,7 +66,7 @@ Disabled.args = {
 };
 
 export const DifferentIcon = Template.bind( {} );
-
+DifferentIcon.storyName = "Different icon";
 DifferentIcon.parameters = {
 	controls: { disable: false },
 	docs: { description: { story: "A file input with different icon using `iconAs` prop. The icon should be a react component." } },
