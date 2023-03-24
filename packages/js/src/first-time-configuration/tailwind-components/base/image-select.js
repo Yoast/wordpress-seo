@@ -59,7 +59,7 @@ export default function ImageSelect( {
 			return <img src={ fallbackUrl } alt={ imageAltText } className="yst-w-full yst-h-full yst-object-contain" />;
 		}
 
-		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-w-14 yst-h-14 yst-text-slate-600" />;
+		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-w-14 yst-h-14 yst-text-slate-500" />;
 	}, [ status, id, url, imageAltText ] );
 
 	return (
