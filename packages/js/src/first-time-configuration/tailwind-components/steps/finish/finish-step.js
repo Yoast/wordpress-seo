@@ -48,7 +48,7 @@ export default function FinishStep() {
 					</Link>
 				</p>
 			</div>
-			<ConfigurationFinishImage className="yst-shrink-0 yst-h-28 yst-ml-9" />
+			<ConfigurationFinishImage className="yst-shrink-0 yst-h-28 yst-mb-24" />
 		</div>
 	);
 }
