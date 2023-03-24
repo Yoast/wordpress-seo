@@ -2,7 +2,7 @@ import { flatten } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 const { sanitizeString, helpers } = languageProcessing;
 
-const centerAlignRegex = /class=["']has-text-align-center["']/i;
+const centerAlignRegex = /class=["'].*?has-text-align-center.*?["']/i;
 const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
 const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
 

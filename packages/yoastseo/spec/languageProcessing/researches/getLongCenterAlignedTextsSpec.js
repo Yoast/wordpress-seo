@@ -59,6 +59,15 @@ describe( "a test for getting blocks of too long center aligned text", function(
 			{ text: "<p class='has-text-align-center'>This is a paragraph with a bit more than fifty characters.</p>", typeOfBlock: "paragraph" },
 		] );
 	} );
+	it( "also detects the center-aligned elements if there are multiple class names", function() {
+		const mockPaper = new Paper( "<p class='block-editor-rich-text__editable block-editor-block-list__block" +
+			" wp-block has-text-align-center is-selected wp-block-heading rich-text'>This is a paragraph with a bit more than fifty characters." +
+			"</p><p class='has-text-align-center'>This is a short text.</p>" );
+		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [
+			{ text: "<p class='block-editor-rich-text__editable block-editor-block-list__block wp-block has-text-align-center is-selected " +
+					"wp-block-heading rich-text'>This is a paragraph with a bit more than fifty characters.</p>", elementType: "paragraph" },
+		] );
+	} );
 	it( "does not include html tags in the character count", function() {
 		const mockPaper = new Paper( "<p class=\"has-text-align-center\">This text is too long if you count html tags.</p>" );
 		expect( getLongCenterAlignedTexts( mockPaper ) ).toEqual( [] );
