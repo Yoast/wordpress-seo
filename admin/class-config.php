@@ -153,6 +153,8 @@ class WPSEO_Admin_Pages {
 
 	/**
 	 * Returns the appropriate shortlink for the Webinar.
+	 *
+	 * @return string The shortlink for the Webinar.
 	 */
 	private function get_webinar_shortlink() {
 		if ( YoastSEO()->helpers->product->is_premium() ) {
