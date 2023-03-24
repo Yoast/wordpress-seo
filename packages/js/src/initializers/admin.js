@@ -1,7 +1,6 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, ClipboardJS */
+/* global ajaxurl, ClipboardJS */
 
 import { __ } from "@wordpress/i18n";
-import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
 
 /**
