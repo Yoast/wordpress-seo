@@ -155,6 +155,13 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: " +
 			"You are not using too many complex words, which makes your text easy to read. Good job!",
 	},
+	textAlignment: {
+		isApplicable: true,
+		score: 2,
+		resultText: "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
+			"There is a long section of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta'" +
+			" target='_blank'>We recommend making it left-aligned</a>.",
+	},
 };
 
 export {

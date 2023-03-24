@@ -142,6 +142,11 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: false,
 	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
 };
 
 export {
