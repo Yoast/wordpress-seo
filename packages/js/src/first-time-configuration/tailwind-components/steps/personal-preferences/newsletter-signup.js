@@ -127,7 +127,7 @@ export function NewsletterSignup( { gdprLink } ) {
 					{ __( "Sign up!", "wordpress-seo" ) }
 				</button>
 			</div>
-			<p className="yst-text-slate-500 yst-text-xxs yst-leading-4">
+			<p className="yst-text-slate-600 yst-text-xxs yst-leading-4">
 				{
 					addLinkToString(
 						sprintf(
