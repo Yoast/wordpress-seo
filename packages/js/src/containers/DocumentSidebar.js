@@ -6,7 +6,6 @@ import {
 	maybeAddReadabilityCheck,
 	maybeAddSEOCheck,
 	maybeAddInclusiveLanguageCheck,
-	maybeAddSchemaBlocksValidationCheck,
 } from "../helpers/addCheckToChecklist";
 
 /**
@@ -18,15 +17,12 @@ import {
  */
 export function mapSelectToProps( select ) {
 	const yoastStore = select( "yoast-seo/editor" );
-	const yoastSchemaStore = select( "yoast-seo/schema-blocks" );
-	const wpBlockEditorStore = select( "core/block-editor" );
 
 	const checklist = [];
 
 	maybeAddReadabilityCheck( checklist, yoastStore );
 	maybeAddSEOCheck( checklist, yoastStore );
 	maybeAddInclusiveLanguageCheck( checklist, yoastStore );
-	maybeAddSchemaBlocksValidationCheck( checklist, yoastSchemaStore, wpBlockEditorStore );
 
 	checklist.push( ...Object.values( yoastStore.getChecklistItems() ) );
 
