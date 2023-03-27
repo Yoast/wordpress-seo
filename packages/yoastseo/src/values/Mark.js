@@ -1,4 +1,5 @@
 import { defaults } from "lodash-es";
+import { isUndefined } from "lodash";
 
 /**
  * Represents a place where highlighting should be applied.
@@ -20,6 +21,7 @@ function Mark( properties ) {
 	// TODO: decide later whether we want to add a default value for `position` property
 	defaults( properties, { original: "", marked: "", fieldsToMark: [] } );
 	this._properties = properties;
+	this.isValid();
 }
 
 /**
@@ -75,6 +77,7 @@ Mark.prototype.getPositionEnd = function() {
  */
 Mark.prototype.applyWithReplace = function( text ) {
 	// (=^ ◡ ^=) Cute method to replace everything in a string without using regex.
+	console.log( this._properties.original, "ORIG" );
 	return text.split( this._properties.original ).join( this._properties.marked );
 };
 
@@ -106,6 +109,23 @@ Mark.prototype.serialize = function() {
 		_parseClass: "Mark",
 		...this._properties,
 	};
+};
+
+/**
+ * Checks if the mark object is valid.
+ * @returns {boolean} true if the mark is valid.
+ */
+Mark.prototype.isValid = function() {
+	if ( ! isUndefined( this.getPositionStart() ) && this.getPositionStart() < 0 ) {
+		throw new RangeError( "positionStart should be larger or equal than 0." );
+	}
+	if ( ! isUndefined( this.getPositionEnd() ) && this.getPositionEnd() <= 0 ) {
+		throw new RangeError( "positionEnd should be larger than 0." );
+	}
+	if ( ! isUndefined( this.getPositionStart() ) && ! isUndefined( this.getPositionEnd() ) &&
+		this.getPositionStart() >= this.getPositionEnd() ) {
+		throw new RangeError( "The positionStart should be smaller than the positionEnd." );
+	}
 };
 
 /**
