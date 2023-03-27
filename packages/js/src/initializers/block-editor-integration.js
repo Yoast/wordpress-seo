@@ -17,7 +17,6 @@ import { actions } from "@yoast/externals/redux";
 import { get } from "lodash-es";
 import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 import getL10nObject from "../analysis/getL10nObject";
-import JetpackBoost from "../components/JetpackBoost";
 import YoastIcon from "../components/PluginIcon";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
 import SidebarSlot from "../components/slots/SidebarSlot";
@@ -149,7 +148,6 @@ function registerFills( store ) {
 			>
 				<PrePublish />
 			</PluginPrePublishPanel> }
-			<JetpackBoost alertKey="get-jetpack-boost-pre-publish-notification" />
 			<PluginPostPublishPanel
 				className="yoast-seo-sidebar-panel"
 				title={ __( "Yoast SEO", "wordpress-seo" ) }
