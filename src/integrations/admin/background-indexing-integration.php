@@ -303,7 +303,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return \apply_filters( 'wpseo_cron_link_indexing_limit_size', 3 );
 		}
 
-		return $indexation_limit;
+		return $link_indexation_limit;
 	}
 
 	/**
