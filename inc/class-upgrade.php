@@ -87,6 +87,7 @@ class WPSEO_Upgrade {
 			'19.11-RC0'  => 'upgrade_1911',
 			'20.2-RC0'   => 'upgrade_202',
 			'20.4-RC0'   => 'upgrade_204',
+			'20.5-RC0'   => 'upgrade_205',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -980,6 +981,15 @@ class WPSEO_Upgrade {
 
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			// This schedules the cleanup routine cron again, since in combination of premium cleans up the prominent words table. We also want to cleanup possible orphaned hierarchies from the above cleanups.
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
+	}
+
+	/**
+	 * Performs the 20.5 upgrade routine.
+	 */
+	private function upgrade_205() {
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
 	}
