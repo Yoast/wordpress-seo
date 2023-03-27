@@ -1,7 +1,7 @@
 /* global ajaxurl, ClipboardJS */
 
 import { __ } from "@wordpress/i18n";
-import { debounce } from "lodash-es";
+import { debounce } from "lodash";
 
 /**
  * @summary Initializes the admin script.

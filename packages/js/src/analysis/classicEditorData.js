@@ -2,12 +2,12 @@
 import { actions } from "@yoast/externals/redux";
 import jQuery from "jquery";
 import { debounce, isUndefined, isString } from "lodash";
-import analysis from "yoastseo";
+import { languageProcessing, markers } from "yoastseo";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
 import * as tmceHelper from "../lib/tinymce";
 import getContentLocale from "./getContentLocale";
 
-const { removeMarks } = analysis.markers;
+const { removeMarks } = markers;
 const {
 	updateReplacementVariable,
 	updateData,
@@ -264,7 +264,7 @@ export default class ClassicEditorData {
 			return "";
 		}
 
-		const images = analysis.languageProcessing.imageInText( content );
+		const images = languageProcessing.imageInText( content );
 
 		if ( images.length === 0 ) {
 			return "";

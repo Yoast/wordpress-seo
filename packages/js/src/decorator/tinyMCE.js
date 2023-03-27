@@ -1,5 +1,5 @@
 import { markers, languageProcessing } from "yoastseo";
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 
 var MARK_TAG = "yoastmark";
 

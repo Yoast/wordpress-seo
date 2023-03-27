@@ -1,4 +1,4 @@
-import { flatten, isUndefined, uniq } from "lodash-es";
+import { flatten, isUndefined, uniq } from "lodash";
 
 /**
  * A helper function to extract the fieldsToMark attribute from each Mark object.

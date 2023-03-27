@@ -1,7 +1,6 @@
 // Snippet preview exports.
 export { default as FixedWidthContainer } from "./snippet-preview/FixedWidthContainer";
 export { default as HelpTextWrapper } from "./snippet-preview/HelpTextWrapper";
-export * from "./snippet-preview/SnippetPreview";
 
 // Snippet editor exports.
 export {

@@ -4,7 +4,7 @@
 import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import styled from "styled-components";
 
 /* Yoast dependencies */

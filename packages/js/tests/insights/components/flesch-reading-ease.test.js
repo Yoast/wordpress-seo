@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { useSelect } from "@wordpress/data";
-import { set } from "lodash-es";
+import { set } from "lodash";
 
 import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
 import { DIFFICULTY } from "yoastseo";

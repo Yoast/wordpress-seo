@@ -4,7 +4,7 @@ import {
 	omit,
 	get,
 	identity,
-} from "lodash-es";
+} from "lodash";
 
 // @wordpress/sanitize loads directly from the wp-sanitize script handle.
 import { stripTags } from "@wordpress/sanitize";
