@@ -169,10 +169,23 @@ class Background_Indexing_Integration implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'register_shutdown_indexing' ] );
 		\add_action( 'wpseo_indexable_index_batch', [ $this, 'index' ] );
-		// phpcs:ignore WordPress.WP.CronInterval -- The sniff doesn't understand values with parentheses. https://github.com/WordPress/WordPress-Coding-Standards/issues/2025
 		\add_filter( 'cron_schedules', [ $this, 'add_cron_schedule' ] );
 		\add_action( 'init', [ $this, 'schedule_cron_indexing' ], 11 );
+
+		$this->add_limit_filters();
+	}
+
+	/**
+	 * Adds the filters that change the indexing limits.
+	 *
+	 * @return void.
+	 */
+	protected function add_limit_filters() {
 		\add_filter( 'wpseo_post_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
+		\add_filter( 'wpseo_post_type_archive_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
+		\add_filter( 'wpseo_term_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
+		\add_filter( 'wpseo_prominent_words_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
+		\add_filter( 'wpseo_link_indexing_limit', [ $this, 'throttle_cron_link_indexing' ] );
 	}
 
 	/**
@@ -250,7 +263,32 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 */
 	public function throttle_cron_indexing( $indexation_limit ) {
 		if ( wp_doing_cron() ) {
-			return 15;
+			/**
+			 * Filter: Adds the possibility to limit the number of items that are indexed when in cron action.
+			 *
+			 * @api int $limit Maximum number of indexables to be indexed per indexing action.
+			 */
+			return \apply_filters( 'wpseo_cron_indexing_limit_size', 15 );
+		}
+
+		return $indexation_limit;
+	}
+
+	/**
+	 * Limit cron indexing to 3 links per batch instead of 5.
+	 *
+	 * @param int $link_indexation_limit The current limit (filter input).
+	 *
+	 * @return int The new batch limit.
+	 */
+	public function throttle_cron_link_indexing( $link_indexation_limit ) {
+		if ( wp_doing_cron() ) {
+			/**
+			 * Filter: Adds the possibility to limit the number of links that are indexed when in cron action.
+			 *
+			 * @api int $limit Maximum number of link indexables to be indexed per link indexing action.
+			 */
+			return \apply_filters( 'wpseo_cron_link_indexing_limit_size', 3 );
 		}
 
 		return $indexation_limit;
