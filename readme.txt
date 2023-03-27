@@ -267,7 +267,6 @@ With Yoast SEO 20.4, you can reduce your site's carbon footprint and improve you
 
 #### Other
 
-* Adds Jetpack Boost to the recommended integrations.
 * Sets the WordPress tested up to version to 6.2.
 
 = 20.3 =
