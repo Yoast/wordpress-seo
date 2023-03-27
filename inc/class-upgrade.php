@@ -87,6 +87,7 @@ class WPSEO_Upgrade {
 			'19.11-RC0'  => 'upgrade_1911',
 			'20.2-RC0'   => 'upgrade_202',
 			'20.4-RC0'   => 'upgrade_204',
+			'20.5-RC0'   => 'upgrade_205',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -985,12 +986,28 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 20.4 upgrade routine.
+	 * Performs the 20.5 upgrade routine.
 	 */
-	private function upgrade_204() {
+	private function upgrade_205() {
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
+	}
+
+	/**
+	 * Performs the 20.4 upgrade routine.
+	 * The routine initializes the jetpack_ad_start_date option to a random date between 1 and MAX_DELAY_IN_DAYS.
+	 * This option will then be used to determine when the Jetpack Ad should be shown.
+	 */
+	private function upgrade_204() {
+		$max_delay_in_days = 3;
+		$now               = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+
+		$days     = random_int( 0, $max_delay_in_days );
+		$interval = DateInterval::createFromDateString( "$days days" );
+
+		$start_date = date_add( $now, $interval );
+		WPSEO_Options::set( 'jetpack_ad_start_date', $start_date->format( 'Y-m-d H:i:s' ) );
 	}
 
 	/**

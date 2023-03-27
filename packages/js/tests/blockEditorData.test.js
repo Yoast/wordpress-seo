@@ -22,7 +22,8 @@ jest.mock( "@wordpress/data", () => {
 				getEditedPostAttribute: mockGetEditedPostAttribute,
 				getEditedPostContent: jest.fn().mockReturnValue( "" ),
 				getActiveMarker: () => null,
-				getPermalink: jest.fn().mockReturnValue( "https://www.yoast.com/" ),
+				getPermalinkParts: jest.fn().mockReturnValue( { prefix: "https://www.yoast.com/", postName: "", suffix: "/" } ),
+				isEditedPostNew: jest.fn().mockReturnValue( false ),
 			};
 		},
 		subscribe: () => {},
