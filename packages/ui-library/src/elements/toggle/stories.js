@@ -1,5 +1,6 @@
 import { noop } from "lodash";
 import { StoryComponent } from ".";
+import { component } from "./docs";
 
 export default {
 	title: "1) Elements/Toggle",
@@ -7,13 +8,7 @@ export default {
 	argTypes: {
 		as: { options: [ "button", "div", "span" ] },
 	},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple toggle component.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = ( args ) => (
