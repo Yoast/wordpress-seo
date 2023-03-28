@@ -1,8 +1,8 @@
-import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../../src/helpers";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
-import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+import buildTree from "../../../../../yoastseo/spec/specHelpers/parse/buildTree";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -25,7 +25,7 @@ import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/Keyph
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
-// Import Readability assessments.
+// Import Readability assessments
 import SubheadingDistributionTooLongAssessment
 	from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
@@ -35,6 +35,8 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import PassiveVoiceAssessment from "../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
 import TextPresenceAssessment from "../../../../src/scoring/assessments/readability/TextPresenceAssessment";
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
+
 // Import test papers
 import testPapers from "./testTexts";
 
@@ -47,6 +49,7 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
 		const result = {};
