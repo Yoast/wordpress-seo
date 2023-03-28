@@ -494,4 +494,26 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->instance->delete( $indexable );
 	}
+
+	/**
+	 * Tests the build method with no links.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_no_links() {
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
+		$indexable->object_type = 'page';
+		$indexable->permalink   = 'https://site.com/page';
+
+		$this->seo_links_repository
+			->expects( 'find_all_by_indexable_id' )
+			->with( $indexable->id )
+			->once()
+			->andReturn( [] );
+
+		$this->assertSame( [], $this->instance->build( $indexable, '' ) );
+	}
 }
