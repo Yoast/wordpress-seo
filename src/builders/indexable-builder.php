@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 
+
 /**
  * Builder for the indexables.
  *
@@ -370,10 +371,6 @@ class Indexable_Builder {
 
 				case 'post':
 					$indexable = $this->post_builder->build( $indexable->object_id, $indexable );
-					if ( ! $indexable ) {
-						// Indexable for this Post was not built for a reason; e.g. if its post type is excluded.
-						return $indexable;
-					}
 
 					// Save indexable, to make sure it can be queried when building related objects like the author indexable and hierarchy.
 					$indexable = $this->save_indexable( $indexable, $indexable_before );
