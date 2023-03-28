@@ -19,6 +19,11 @@ class Sentence {
 		 * @type {Token[]}
 		 */
 		this.tokens = [];
+		/**
+		 * The start and end positions of the sentence in the source code.
+		 * @type {SourceCodeRange}
+		 */
+		this.sourceCodeRange = {};
 	}
 }
 
