@@ -168,7 +168,7 @@
 | Bullet         | Score 	| Criterion    | Feedback	|
 |----------------|-------	|-------- |---------------------------------	|
 | Red     | 2     	| There is one element with `.has-text-align-center` that is over 50 characters long                 	| LTR: **Alignment**: There is a long section of center-aligned text. **We recommend making it left-aligned**. |
-|      |     	|  	| RTL: **Alignment**: There are X long sections of center-aligned text. **We recommend making them right-aligned**. 	|
+|      |     	|  	| RTL: **Alignment**: There is a long section of center-aligned text. **We recommend making it right-aligned**. 	|
 | Red     | 2     	| There are multiple elements with <br>`.has-text-align-center`<br> that are over 50 characters long 	| LTR: **Alignment**: There are X long sections of center-aligned text. **We recommend making them left-aligned**. 	|
 |      |     	| 	| RTL: **Alignment**: There are X long sections of center-aligned text. **We recommend making them right-aligned**. 	|
 
