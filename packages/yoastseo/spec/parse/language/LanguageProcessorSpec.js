@@ -25,3 +25,24 @@ describe( "A test for the splitIntoSentences method", () => {
 		expect( sentences ).toEqual( [ { text: "Hello, world!", tokens: [] }, { text: " Hello, Yoast!", tokens: [] }  ] );
 	} );
 } );
+
+describe( "A test for the splitIntoTokens method", () => {
+	it( "should return an array of sentence tokens", function() {
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		const tokens = languageProcessor.splitIntoTokens( { text: "Hello, world!" } );
+		expect( tokens ).toEqual( [ "Hello", ",", " ", "world", "!" ] );
+	} );
+	// it( "should normalise the sentence", function() {
+	// 	const languageProcessor = new LanguageProcessor( researcher );
+	//
+	// 	const tokens = languageProcessor.splitIntoTokens( { text: "" } );
+	// 	expect( tokens ).toEqual( [ "" ] );
+	// } );
+	it( "the last sentence should not consist of a whitespace if the text ends in a whitespace", function() {
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		const sentences = languageProcessor.splitIntoSentences( "Hello, world! Hello, Yoast! " );
+		expect( sentences ).toEqual( [ { text: "Hello, world!", tokens: [] }, { text: " Hello, Yoast!", tokens: [] }  ] );
+	} );
+} );

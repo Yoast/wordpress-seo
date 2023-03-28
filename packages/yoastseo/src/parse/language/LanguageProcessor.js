@@ -1,4 +1,5 @@
 import Sentence from "../structure/Sentence";
+
 const whitespaceRegex = /^\s+$/;
 /**
  * Contains language-specific logic for splitting a text into sentences and tokens.
@@ -33,7 +34,7 @@ class LanguageProcessor {
 		 * If the last element in the array of sentences contains only whitespaces, remove it.
 		 * This will be the case if the text ends in a whitespace - that whitespace ends up being tokenized as a
 		 * separate sentence. A space at the end of the text is not needed for calculating the position of
-		 * sentences so it can be safely removed.
+		 * sentences, so it can be safely removed.
 		 */
 		if ( whitespaceRegex.test( sentences[ sentences.length - 1 ] ) ) {
 			sentences.pop();
@@ -47,16 +48,17 @@ class LanguageProcessor {
 	/**
 	 * Split sentence into tokens.
 	 *
-	 * @param {Sentence} sentence The sentences to split.
+	 * @param {{text: string}} sentence The sentence to split.
 	 *
-	 * @returns {Token[]} The tokens.
+	 * @returns {string[]} The tokens.
 	 */
-	// eslint-disable-next-line no-unused-vars
 	splitIntoTokens( sentence ) {
-		// eslint-disable-next-line no-warning-comments
-		// TODO: Split sentence into tokens.
-		return [];
+		// Retrieve sentence from sentence class
+		const sentenceText = sentence.text;
+		// Normalise the sentence
+		const sentenceTextNormalized = sentenceText.normalize( "NFC" );
+		// Split the sentence string into tokens
+		return sentenceTextNormalized.split( /([\s,.!?;:([\]'"¡¿)/])/g ).filter( x => x !== "" );
 	}
 }
-
 export default LanguageProcessor;
