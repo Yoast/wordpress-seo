@@ -60,11 +60,11 @@ describe( "a mark value object", function() {
 		} );
 
 		it( "should throw an error if the end position is 0", function() {
-			expect( () => new Mark( { position: { endOffset: 0 } } ) ).toThrow( RangeError );
+			expect( () => new Mark( { position: { endOffset: 0, startOffset: 10 } } ) ).toThrow( RangeError );
 		} );
 
 		it( "should throw an error if the end position is smaller than 0", function() {
-			expect( () => new Mark( { position: { endOffset: -1 } } ) ).toThrow( RangeError );
+			expect( () => new Mark( { position: { endOffset: -1, startOffset: 10 } } ) ).toThrow( RangeError );
 		} );
 
 		it( "should throw an error if the end position is smaller than the start position", function() {
@@ -73,6 +73,26 @@ describe( "a mark value object", function() {
 
 		it( "should throw an error if the end position is equal to the start position", function() {
 			expect( () => new Mark( { position: { startOffset: 10, endOffset: 10 } } ) ).toThrow( RangeError );
+		} );
+
+		it( "should throw an error if only the start offset is defined", function() {
+			expect( () => new Mark( { position: { startOffset: 10 } } ) ).toThrow( Error );
+		} );
+
+		it( "should throw an error if only the end offset is defined", function() {
+			expect( () => new Mark( { position: { endOffset: 10 } } ) ).toThrow( Error );
+		} );
+	} );
+
+	describe( "tests the hasPosition", function() {
+		it( "should return true if there is a position start", function() {
+			expect( () => new Mark( { position: { startOffset: 42, endOffset: 52 } } ).hasPosition() ).toBeTruthy();
+		} );
+		it( "should return false if there is no position start", function() {
+			expect( () => new Mark( { position: { endOffset: 52 } } ).hasPosition() ).toBeTruthy();
+		} );
+		it( "should return false if there is no position at all", function() {
+			expect( () => new Mark( { } ).hasPosition() ).toBeTruthy();
 		} );
 	} );
 } );

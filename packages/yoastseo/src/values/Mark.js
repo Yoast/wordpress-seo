@@ -77,7 +77,6 @@ Mark.prototype.getPositionEnd = function() {
  */
 Mark.prototype.applyWithReplace = function( text ) {
 	// (=^ ◡ ^=) Cute method to replace everything in a string without using regex.
-	console.log( this._properties.original, "ORIG" );
 	return text.split( this._properties.original ).join( this._properties.marked );
 };
 
@@ -113,7 +112,7 @@ Mark.prototype.serialize = function() {
 
 /**
  * Checks if the mark object is valid.
- * @returns {boolean} true if the mark is valid.
+ * @returns {void}
  */
 Mark.prototype.isValid = function() {
 	if ( ! isUndefined( this.getPositionStart() ) && this.getPositionStart() < 0 ) {
@@ -126,6 +125,18 @@ Mark.prototype.isValid = function() {
 		this.getPositionStart() >= this.getPositionEnd() ) {
 		throw new RangeError( "The positionStart should be smaller than the positionEnd." );
 	}
+	if ( isUndefined( this.getPositionStart() ) && ! isUndefined( this.getPositionEnd() ) ||
+		 isUndefined( this.getPositionEnd() ) && ! isUndefined( this.getPositionStart() ) ) {
+		throw new Error( "A mark object should either have start and end defined or start and end undefined." );
+	}
+};
+
+/**
+ * Checks if a mark has position information available.
+ * @returns {boolean} Returns true if the Mark object has position information, false otherwise.
+ */
+Mark.prototype.hasPosition = function() {
+	return this.getPositionStart && this.getPositionStart();
 };
 
 /**
