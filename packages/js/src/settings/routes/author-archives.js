@@ -1,8 +1,7 @@
 /* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, Code, Link } from "@yoast/ui-library";
-import FeatureUpsell from "@yoast/ui-library/src/components/feature-upsell";
+import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import {
 	FieldsetLayout,

@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.1
+Tested up to: 6.2
 Stable tag: 20.3
 Requires PHP: 5.6.20
 
@@ -36,8 +36,8 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
-* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
 * **[Premium]** **New!** Yoast SEO Premium comes with an IndexNow integration to ping search engines like Microsoft Bing whenever you publish or update content.
+* **New!** Yoast SEO comes with wide-ranging crawl settings that help you improve how search engines crawl your site, lowering its carbon footprint.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -228,7 +228,7 @@ The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium i
 
 = What happens to my data if I enable usage tracking? =
 
-[This page on yoast.com explains what data we collect to improve Yoast SEO](https://yoa.st/4w7). We only collect data when you explicitly opt in. Read more about how we handle your data in [our Privacy Policy](https://yoa.st/4w8). 
+[This page on yoast.com explains what data we collect to improve Yoast SEO](https://yoa.st/4w7). We only collect data when you explicitly opt in. Read more about how we handle your data in [our Privacy Policy](https://yoa.st/4w8).
 
 = I have a different question than listed here =
 
@@ -246,6 +246,28 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
+
+= 20.4 =
+
+Release date: 2023-03-28
+
+With Yoast SEO 20.4, you can reduce your site's carbon footprint and improve your SEO with just a few clicks. The crawl optimization settings let you turn off crawling for certain URLs, scripts, and metadata that WordPress automatically adds. Previously only available in Premium, but now available for all! Find out more about what's new in Yoast SEO 20.4 in [our release post](https://yoa.st/release-28-3-23)!
+
+#### Enhancements
+
+* NEW in Free: Adds the crawl optimization features to Yoast SEO Free, enabling 13M+ users to reduce their website's carbon footprint!
+
+#### Bugfixes
+
+* Adds a hook to adapt the meta query used to filter the post overview based on the focus keyphrase.
+* Fixes a bug where a fatal error related to HelpScout would be thrown when using a version of a Yoast add-on older than 2 years.
+* Fixes a bug where a PHP warning would be thrown when exporting Yoast settings.
+* Fixes a bug where the Google preview in the Block editor would show the post ID in the breadcrumbs when creating a new post, or it would show the slug twice or show `auto-draft` when creating a new page or custom post. This would only happen before (auto-)saving the post.
+* Fixes a bug where the _previously used keyword_ assessment would potentially link to an empty page of results when the focus keyphrase had been used across different post types.
+
+#### Other
+
+* Sets the WordPress tested up to version to 6.2.
 
 = 20.3 =
 
@@ -275,42 +297,6 @@ Yoast SEO 20.3 is out and comes with several enhancements, fixes, and improvemen
 
 * Avoids issuing a PHP warning because of a wrong variable type.
 * Removes the beta badge for the _inclusive language_ assessment.
-
-= 20.2.1 =
-
-Release date: 2023-03-02
-
-#### Bugfixes
-
-* Fixes a security issue in the post editor.
-
-= 20.2 =
-
-Release date: 2023-02-28
-
-In Yoast SEO 20.2, we've improved our innovative indexables technology. We've developed a faster and more reliable way of indexing your site's data. In turn, we make better use of this data to improve your site's SEO. Find out more about what's new in Yoast SEO 20.2 in [our release post](https://yoa.st/release-28-2-23)!
-
-#### Enhancements
-
-* Stops creating indexables for attachments when attachment pages are disabled, thus decreasing the size of the database.
-* Improves the indexables creation mechanism by avoiding duplicate `unindexed` entries when multiple invalid posts and terms are being used.
-* Changes replacement variable name from `Page number` to `Page` in the `Settings` page.
-* Changes the copy for notices in social profiles for person.
-* Improves accessibility for the extra other profiles in the Settings' Site representation when Organization is selected.
-* Improves the performance of image schema creation for really large images.
-* Improves the Settings' search modal accessibility.
-* Removes person's social profiles form from first time configuration.
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would be thrown when building a hierarchy indexable when the parent indexable did not exists.
-* Fixes a bug where a fatal error would be thrown when the post type `posts` was excluded and the post overview was visited.
-* Fixes a bug where the settings page of a post type would not load when a special character like ט was added as permalink.
-
-#### Other
-
-* Adds a `wpseo_indexable_forced_included_post_types` filter to force creation of indexables for post types.
-* Hides \"Enable SEO controls and assessments\" option from taxonomies that has no standard WP UI.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

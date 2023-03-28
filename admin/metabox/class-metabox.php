@@ -5,6 +5,9 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
+use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 
@@ -899,7 +902,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 		];
 
-		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
+		$alert_dismissal_action = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
@@ -911,13 +914,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isBlockEditor'              => $is_block_editor,
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
-			'usedKeywordsNonce'          => \wp_create_nonce( 'wpseo-keyword-usage' ),
+			'usedKeywordsNonce'          => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
 			'dismissedAlerts'            => $dismissed_alerts,
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
+			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

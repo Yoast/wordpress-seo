@@ -1,38 +1,34 @@
-/* External dependencies */
+import { updateCategory } from "@wordpress/blocks";
+import { Slot } from "@wordpress/components";
+import { dispatch, select } from "@wordpress/data";
 import {
-	PluginPrePublishPanel,
-	PluginPostPublishPanel,
 	PluginDocumentSettingPanel,
+	PluginPostPublishPanel,
+	PluginPrePublishPanel,
 	PluginSidebar,
 	PluginSidebarMoreMenuItem,
 } from "@wordpress/edit-post";
-import { registerPlugin } from "@wordpress/plugins";
 import { Fragment } from "@wordpress/element";
-import { updateCategory } from "@wordpress/blocks";
-import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
+import { registerPlugin } from "@wordpress/plugins";
 import { registerFormatType } from "@wordpress/rich-text";
-import { get } from "lodash-es";
-import { Slot } from "@wordpress/components";
-import { actions } from "@yoast/externals/redux";
 import { Root } from "@yoast/externals/contexts";
+import { actions } from "@yoast/externals/redux";
+import { get } from "lodash-es";
 import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
-
-/* Internal dependencies */
-import PluginIcon from "../containers/PluginIcon";
-import SidebarFill from "../containers/SidebarFill";
-import MetaboxPortal from "../components/portals/MetaboxPortal";
-import { isAnnotationAvailable } from "../decorator/gutenberg";
-import SidebarSlot from "../components/slots/SidebarSlot";
-import { link } from "../inline-links/edit-link";
-import PrePublish from "../containers/PrePublish";
-import DocumentSidebar from "../containers/DocumentSidebar";
-import PostPublish from "../containers/PostPublish";
-import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
+import MetaboxPortal from "../components/portals/MetaboxPortal";
+import SidebarSlot from "../components/slots/SidebarSlot";
+import DocumentSidebar from "../containers/DocumentSidebar";
+import PluginIcon from "../containers/PluginIcon";
+import PostPublish from "../containers/PostPublish";
+import PrePublish from "../containers/PrePublish";
+import SidebarFill from "../containers/SidebarFill";
+import WincherPostPublish from "../containers/WincherPostPublish";
+import { isAnnotationAvailable } from "../decorator/gutenberg";
 import { isWordProofIntegrationActive } from "../helpers/wordproof";
-
+import { link } from "../inline-links/edit-link";
 
 /**
  * Registers the Yoast inline link format.
