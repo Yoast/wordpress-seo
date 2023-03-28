@@ -1,4 +1,5 @@
 import { StoryComponent, classNameMap } from ".";
+import variants from "./variants.md";
 
 export default {
 	title: "1) Elements/Button",
@@ -47,6 +48,10 @@ export const Variants = ( args ) => (
 		<StoryComponent variant="upsell">Upsell</StoryComponent>
 	</div>
 );
+
+Variants.parameters = {
+	docs: { description: { story: variants } },
+};
 
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
