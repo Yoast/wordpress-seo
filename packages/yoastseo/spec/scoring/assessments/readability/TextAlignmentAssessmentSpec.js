@@ -1,7 +1,7 @@
 import Mark from "../../../../src/values/Mark";
 import Paper from "../../../../src/values/Paper.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import HebrewResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import HebrewResearcher from "../../../../src/languageProcessing/languages/he/Researcher";
 import TextAlignmentAssessment from "../../../../src/scoring/assessments/readability/TextAlignmentAssessment.js";
 import getLongCenterAlignedTexts from "../../../../src/languageProcessing/researches/getLongCenterAlignedTexts";
 
