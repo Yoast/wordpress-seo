@@ -255,8 +255,6 @@ Release date: 2023-04-11
 
 * Cleans up indexables that got orphaned because posts/terms/users got deleted while Yoast SEO was deactivated.
 * Improves the recognition of keyphrases starting with a period (e.g., \".net developer\") by the _keyphrase in title_ assessment.
-* Updates copy of the notification centre message when you don't have a valid subscription.
-* Updates copy of the update notification when there is a new update and you don't have a valid subscription.
 * Updates mobile and desktop Google snippet previews to be in line with current Google's styling.
 
 #### Bugfixes
@@ -272,8 +270,7 @@ Release date: 2023-04-11
 #### Other
 
 * Changes the last step of the `First-time configuration` to highlight the free webinar availability.
-* Drops compatibility with PHP 5.6, 7.0 and 7.1
-* Updates the copy of the `Get the most out of Yoast SEO` notification.
+* Drops compatibility with PHP 5.6, 7.0 and 7.1.
 
 = 20.4 =
 
