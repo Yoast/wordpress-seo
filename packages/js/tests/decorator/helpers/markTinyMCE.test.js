@@ -19,10 +19,14 @@ function mockEditor( dom ) {
 }
 
 describe( "tests markTinyMCE", function() {
-	it( "should correctly apply position based highlighting", () => {
-		const dom = mockDom();
-		const editor = mockEditor( dom );
+	let dom, editor;
 
+	beforeEach( () => {
+		dom = mockDom();
+		editor = mockEditor( dom );
+	} );
+
+	it( "should correctly apply position based highlighting", () => {
 		const html = "<h1>Hallo!</h1>";
 
 		editor.getContent.mockReturnValue( html );
@@ -43,9 +47,6 @@ describe( "tests markTinyMCE", function() {
 	} );
 
 	it( "should correctly apply search based highlighting.", function() {
-		const dom = mockDom();
-		const editor = mockEditor( dom );
-
 		const html = "<h1>Hallo!</h1>";
 
 		editor.getContent.mockReturnValue( html );
@@ -64,9 +65,6 @@ describe( "tests markTinyMCE", function() {
 	} );
 
 	it( "correctly applies marks on a RTL text (hebrew)", ()=> {
-		const dom = mockDom();
-		const editor = mockEditor( dom );
-
 		const html = "<span>התשובה לחיים היקום והכל.</span>";
 
 		editor.getContent.mockReturnValue( html );
@@ -91,9 +89,6 @@ describe( "tests markTinyMCE", function() {
 	} );
 
 	it( "should correctly mark multiple items in the same sentence", function() {
-		const dom = mockDom();
-		const editor = mockEditor( dom );
-
 		const html = "<p>The answer to <i>life</i> the <b>universe</b> and <strong>everything</strong>.</p>";
 
 		editor.getContent.mockReturnValue( html );
@@ -134,9 +129,6 @@ describe( "tests markTinyMCE", function() {
 
 	// This behaviour is set as default. Feel free to change this if needed.
 	it( "should return an empty string if there is no html", function() {
-		const dom = mockDom();
-		const editor = mockEditor( dom );
-
 		const html = "";
 
 		editor.getContent.mockReturnValue( html );
@@ -157,9 +149,6 @@ describe( "tests markTinyMCE", function() {
 	} );
 
 	it( "should exit early if Marks is empty", function() {
-		const dom = mockDom();
-		const editor = mockEditor( dom );
-
 		const html = "<h1>Hallo!</h1>";
 
 		editor.getContent.mockReturnValue( html );
@@ -174,9 +163,6 @@ describe( "tests markTinyMCE", function() {
 	} );
 
 	it( "should do the right thing if a mark contains 'out of bounds' position", () => {
-		const dom = mockDom();
-		const editor = mockEditor( dom );
-
 		const html = "<h1>Hallo!</h1>";
 
 		editor.getContent.mockReturnValue( html );
@@ -197,9 +183,6 @@ describe( "tests markTinyMCE", function() {
 	} );
 
 	it( "should correctly apply marks if the marks are presented in the wrong order", function() {
-		const dom = mockDom();
-		const editor = mockEditor( dom );
-
 		const html = "<p>The answer to <i>life</i> the <b>universe</b> and <strong>everything</strong>.</p>";
 
 		editor.getContent.mockReturnValue( html );
@@ -233,7 +216,6 @@ describe( "tests markTinyMCE", function() {
 			"<yoastmark class='yoast-text-mark'><b>universe</b></yoastmark> and " +
 			"<yoastmark class='yoast-text-mark'><strong>everything</strong>.</yoastmark></p>" );
 	} );
-
 } );
 
 // TODO: decide whether to test markTinyMCEPositionBased in isolation.
