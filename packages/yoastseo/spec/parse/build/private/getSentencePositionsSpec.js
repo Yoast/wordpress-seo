@@ -1,8 +1,9 @@
 import getSentencePositions from "../../../../src/parse/build/private/getSentencePositions";
 import Paragraph from "../../../../src/parse/structure/Paragraph";
+import Heading from "../../../../src/parse/structure/Heading";
 
 describe( "A test for getting positions of sentences", () => {
-	it( "gets the sentence positions from a node that doesn't have descendant nodes other than the Text node", function() {
+	it( "gets the sentence positions from a node that doesn't have descendants other than the Text node", function() {
 		// HTML: <p>Hello, world! Hello, yoast!</p>.
 		const node = new Paragraph( {}, [ { name: "#text", value: "Hello, world! Hello, yoast!" } ],
 			{
@@ -187,6 +188,62 @@ describe( "A test for getting positions of sentences", () => {
 		const sentences = [ { text: "Hello, world!" }, { text: " Hello, yoast!" } ];
 		const sentencesWithPositions = [ { text: "Hello, world!", sourceCodeRange: { startOffset: 8, endOffset: 21 } },
 			{ text: " Hello, yoast!", sourceCodeRange: { startOffset: 21, endOffset: 57 } } ];
+
+		expect( getSentencePositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
+	it( "gets the sentence positions from an implicit paragraph", function() {
+		// HTML: <div>Hello <em>World!</em></div>.
+		const node = new Paragraph( {}, [ { name: "#text", value: "Hello, World!" },
+				{
+					name: "em",
+					attributes: {},
+					childNodes: [ {
+						name: "#text",
+						value: "World!",
+					} ],
+					sourceCodeLocation: {
+						startOffset: 11,
+						endOffset: 26,
+						startTag: {
+							startOffset: 11,
+							endOffset: 15,
+						},
+						endTag: {
+							startOffset: 21,
+							endOffset: 26,
+						},
+					},
+				},],
+			{
+				startOffset: 5,
+				endOffset: 32,
+			},
+			true );
+
+		const sentences = [ { text: "Hello World!" } ];
+		const sentencesWithPositions = [ { text: "Hello World!", sourceCodeRange: { startOffset: 5, endOffset: 26 } } ];
+
+		expect( getSentencePositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
+	it( "gets the sentence positions from a heading", function() {
+		// HTML: <h2>Hello, world! Hello, yoast!</h2>.
+		const node = new Heading( 2, {}, [ { name: "#text", value: "Hello, world! Hello, yoast!" } ],
+			{
+				startOffset: 5,
+				endOffset: 40,
+				startTag: {
+					startOffset: 5,
+					endOffset: 9,
+				},
+				endTag: {
+					startOffset: 36,
+					endOffset: 40,
+				},
+			} );
+
+		const sentences = [ { text: "Hello, world!" }, { text: " Hello, yoast!" } ];
+		const sentencesWithPositions = [ { text: "Hello, world!", sourceCodeRange: { startOffset: 9, endOffset: 22 } },
+			{ text: " Hello, yoast!", sourceCodeRange: { startOffset: 22, endOffset: 36 } } ];
 
 		expect( getSentencePositions( node, sentences ) ).toEqual( sentencesWithPositions );
 	} );
