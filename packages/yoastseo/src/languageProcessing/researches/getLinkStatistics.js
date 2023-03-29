@@ -6,7 +6,6 @@ import getLinkType from "../helpers/link/getLinkType.js";
  * Counts the links found in the text.
  *
  * @param {Paper} paper The paper object containing text, keyword and url.
- * @param {Researcher} researcher The researcher to use for the paper.
  *
  * @returns {object} The object containing all linktypes.
  * total: the total number of links found.
@@ -20,7 +19,7 @@ import getLinkType from "../helpers/link/getLinkType.js";
  * otherDofollow: other links without a nofollow attribute.
  * otherNofollow: other links with a nofollow attribute.
  */
-const countLinkTypes = function( paper, researcher ) {
+const countLinkTypes = function( paper ) {
 	const anchors = getAnchors( paper.getText() );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
