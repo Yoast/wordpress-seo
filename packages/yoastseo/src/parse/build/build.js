@@ -3,6 +3,8 @@ import { parseFragment } from "parse5";
 // Internal dependencies.
 import adapt from "./private/adapt";
 import tokenize from "./private/tokenize";
+import filterTree from "./private/filterTree";
+import permanentFilters from "./private/alwaysFilterElements";
 
 /**
  * Parses the HTML string to a tree representation of
@@ -14,6 +16,7 @@ import tokenize from "./private/tokenize";
  * @returns {Node} The tree representation of the HTML string.
  */
 export default function build( htmlString, languageProcessor ) {
-	const tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
+	let tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
+	tree = filterTree( tree, permanentFilters );
 	return tokenize( tree, languageProcessor );
 }
