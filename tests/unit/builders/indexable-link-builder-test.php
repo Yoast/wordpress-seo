@@ -516,4 +516,118 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->assertSame( [], $this->instance->build( $indexable, '' ) );
 	}
+
+	/**
+	 * Tests the build other cases.
+	 *
+	 * @covers ::create_internal_link
+	 * @covers ::create_links
+	 * @covers ::build
+	 * @covers ::build_permalink
+	 * @covers ::update_incoming_links_for_related_indexables
+	 * @covers ::update_incoming_link_count
+	 * @covers ::update_related_indexables
+	 * @covers ::enhance_link_from_indexable
+	 * @covers ::get_post_id
+	 */
+	public function test_build_create_internal_link() {
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
+		$indexable->object_type = 'page';
+		$indexable->permalink   = 'https://site.com/page';
+
+		$model = new SEO_Links_Mock();
+
+		$model->type = SEO_Links::TYPE_INTERNAL_IMAGE;
+		$orm_mock    = $this
+			->getMockBuilder( ORM::class )
+			->disableOriginalConstructor()
+			->setMethods( [ 'create' ] )
+			->getMock();
+
+
+		Functions\stubs(
+			[
+				// Executed in build->create_links->create_internal_link.
+				'home_url'       => 'http://basic.wordpress.test',
+
+				// Executed in build->create_links->create_internal_link.
+				'wp_parse_url'   => [
+					'scheme' => 'http',
+					'host'   => 'basic.wordpress.test',
+				],
+
+				// Executed in build->create_links->create_internal_link->build_permalink->get_permalink.
+				'set_url_scheme' => 'http://basic.wordpress.test',
+			]
+		);
+
+		// Executed in build->create_links->create_internal_link.
+		$this->url_helper
+			->expects( 'get_link_type' )
+			->once()
+			->andReturn( SEO_Links::TYPE_INTERNAL_IMAGE );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->seo_links_repository
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_mock );
+
+		// Executed in build->create_links->create_internal_link.
+		$orm_mock->expects( $this->once() )
+			->method( 'create' )
+			->will( $this->returnValue( $model ) );
+
+		// Executed in build->create_links->create_internal_link->build_permalink.
+		$this->url_helper
+			->expects( 'is_relative' )
+			->once()
+			->andReturn( true );
+
+		// Executed in build->create_links->create_internal_link->build_permalink.
+		$this->url_helper
+			->expects( 'ensure_absolute_url' )
+			->once()
+			->andReturn( 'http://basic.wordpress.test' );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'disable-attachment' )
+			->andReturn( false );
+
+
+		// Executed in build->create_links->create_internal_link->enhance_link_from_indexable.
+		$this->indexable_repository
+			->expects( 'find_by_permalink' )
+			->once()
+			->with( 'http://basic.wordpress.test' )
+			->andReturn( false );
+
+		// Executed in build->create_links->create_internal_link->enhance_link_from_indexable->get_post_id.
+		$this->image_helper
+			->expects( 'get_attachment_by_url' )
+			->once()
+			->with( 'http://basic.wordpress.test' )
+			->andReturn( 0 );
+
+		// Executed in build->update_related_indexables.
+		$this->seo_links_repository
+			->expects( 'find_all_by_indexable_id' )
+			->with( $indexable->id )
+			->once()
+			->andReturn( [] );
+
+		// Executed in build->update_related_indexables.
+		$this->seo_links_repository
+			->expects( 'insert_many' )
+			->once()
+			->with( [ $model ] );
+
+		$this->assertSame( [ $model ], $this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' ) );
+	}
 }
