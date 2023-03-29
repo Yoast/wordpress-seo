@@ -143,7 +143,7 @@ export const filterAnchorsContainedInTopic = function( anchorTexts, topicForms, 
  */
 export default function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
-	let anchors = paper.getTree().findAll( treeNode => treeNode.name === "a" );
+	let anchors = ( paper.getText() !== "" ) && paper.getTree().findAll( treeNode => treeNode.name === "a" );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
 	 * In case of WordPress, the variable is a URL. In case of Shopify, it is a domain.
