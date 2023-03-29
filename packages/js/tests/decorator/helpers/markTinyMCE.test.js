@@ -83,11 +83,6 @@ describe( "tests markTinyMCE", function() {
 		expect( editor.setContent ).toBeCalledWith( "<span>התשובה לחיים <yoastmark class='yoast-text-mark'>היקום</yoastmark> והכל.</span>" );
 	} );
 
-	xit( "should correctly highlight an arabic text with position based highlighting.", function() {
-		// TODO: maybe implement this. (With aidas help)
-		expect( "A" ).toEqual( "B" );
-	} );
-
 	it( "should correctly mark multiple items in the same sentence", function() {
 		const html = "<p>The answer to <i>life</i> the <b>universe</b> and <strong>everything</strong>.</p>";
 
@@ -120,11 +115,6 @@ describe( "tests markTinyMCE", function() {
 		expect( editor.setContent ).toBeCalledWith( "<p>The answer to <i><yoastmark class='yoast-text-mark'>life</yoastmark></i> the " +
 			"<yoastmark class='yoast-text-mark'><b>universe</b></yoastmark> and " +
 			"<yoastmark class='yoast-text-mark'><strong>everything</strong>.</yoastmark></p>" );
-	} );
-
-	// TODO: maybe do the following. If I can work out how this works.
-	xit( "correctly applies marks on a text with multi-position-characters.", () => {
-
 	} );
 
 	// This behaviour is set as default. Feel free to change this if needed.
@@ -217,5 +207,3 @@ describe( "tests markTinyMCE", function() {
 			"<yoastmark class='yoast-text-mark'><strong>everything</strong>.</yoastmark></p>" );
 	} );
 } );
-
-// TODO: decide whether to test markTinyMCEPositionBased in isolation.
