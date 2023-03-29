@@ -1,15 +1,11 @@
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
-import { build } from "../../../../src/parse/build";
-import permanentFilters from "../../../../src/parse/build/private/alwaysFilterElements";
-import filterTree from "../../../../src/parse/build/private/filterTree";
-import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
 import TextCompetingLinksAssessment from "../../../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
 import Paper from "../../../../src/values/Paper";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 const morphologyData = getMorphologyData( "en" );
-
 
 describe( "An assessment for competing links in the text", function() {
 	it( "returns a 'bad' score if a paper is referring to another paper with the same keyword", function() {
@@ -22,8 +18,7 @@ describe( "An assessment for competing links in the text", function() {
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		const languageProcessor = new LanguageProcessor( researcher );
-		paper.setTree( filterTree( build( paper.getText(), languageProcessor ), permanentFilters ) );
+		buildTree( paper, researcher );
 
 		const result = new TextCompetingLinksAssessment().getResult(
 			paper,
