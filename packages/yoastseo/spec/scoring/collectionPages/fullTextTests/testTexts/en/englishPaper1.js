@@ -79,9 +79,8 @@ const expectedResults = {
 		resultText: "",
 	},
 	keyphraseDistribution: {
-		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Good job!",
+		// Not applicable because the text has less than 15 sentences.
+		isApplicable: false,
 	},
 	subheadingsTooLong: {
 		isApplicable: false,
@@ -101,13 +100,13 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 20% of the sentences contain " +
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 25% of the sentences contain " +
 			"transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 26.7% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 33.3% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

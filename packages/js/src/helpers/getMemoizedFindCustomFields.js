@@ -1,4 +1,4 @@
-import { debounce, memoize, noop } from "lodash-es";
+import { debounce, memoize, noop } from "lodash";
 
 // Memoize this so that prop changes of the container don't lead to a new debounce working on a different timer than the previous one.
 const getMemoizedFindCustomFields = memoize(

@@ -1,7 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { map } from "lodash-es";
-import { merge } from "lodash-es";
-import { isUndefined } from "lodash-es";
+import { isUndefined, map, merge } from "lodash-es";
 
 import Assessment from "../assessment.js";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";

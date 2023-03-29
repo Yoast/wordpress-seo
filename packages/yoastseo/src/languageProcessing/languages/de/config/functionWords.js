@@ -1,6 +1,5 @@
-import passiveVoiceAuxiliaries from "./internal/passiveVoiceAuxiliaries.js";
+import passiveVoiceAuxiliaries, { infinitiveAuxiliaries as passiveAuxiliariesInfinitive } from "./internal/passiveVoiceAuxiliaries.js";
 const filteredPassiveAuxiliaries = passiveVoiceAuxiliaries.filteredAuxiliaries;
-const passiveAuxiliariesInfinitive = passiveVoiceAuxiliaries.infinitiveAuxiliaries;
 import { singleWords as transitionWords } from "./transitionWords.js";
 
 /**

@@ -15,3 +15,7 @@ rules:
   no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
   require-jsdoc: [ 1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": false, "FunctionExpression": true}} ]
   no-useless-escape: 1
+  import/default: 0
+  import/namespace: 0
+  import/no-named-as-default: 0
+  import/no-named-as-default-member: 0
