@@ -11,6 +11,7 @@ import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
 import findList from "./researches/findList";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
+import getAnchorsWithKeyphrase from "./researches/getAnchorsWithKeyphrase";
 import getFleschReadingScore from "./researches/getFleschReadingScore";
 import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
@@ -63,6 +64,7 @@ export default class AbstractResearcher {
 			findList,
 			findTransitionWords,
 			functionWordsInKeyphrase,
+			getAnchorsWithKeyphrase,
 			getFleschReadingScore,
 			getKeywordDensity,
 			getLinks,

@@ -48,7 +48,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
 
-		this.linkCount = researcher.getResearch( "getLinkStatistics" );
+		this.foundAnchorsWithKeyphrase = researcher.getResearch( "getAnchorsWithKeyphrase" );
 
 		const calculatedResult = this.calculateResult();
 
@@ -80,7 +80,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	 * @returns {Object} ResultObject with score and text.
 	 */
 	calculateResult() {
-		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
+		if ( this.foundAnchorsWithKeyphrase.anchorsWithKeyphraseCount > this._config.parameters.recommendedMaximum ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
