@@ -9,19 +9,17 @@ import { findAllInTree } from "../../traverse";
  * @returns {Sentence[]} The sentences, with their positions in the source code.
  */
 export default function getSentencePositions( node, sentences ) {
-	// Set the start position of the first sentence to the end position of the node’s start tag.
-	let startPosition = node.sourceCodeLocation.startTag.endOffset;
-	let endPosition;
-	let allNodesWithSourceCodeLocation = [];
-	const descendantTagPositions = [];
-
 	/*
-	* Get all descendant nodes that have a sourceCodeLocation property (which all nodes apart from Text nodes should have).
-	* If any such nodes exist, they will have to be taken into account when calculating the position of the sentences.
-	*/
-	if ( node.childNodes ) {
-		allNodesWithSourceCodeLocation = findAllInTree(node, node => node.sourceCodeLocation);
-	}
+	 * Set the start position of the first sentence. If the node is an implicit paragraph, which don't have start and
+	 * end tags, set the start position to the start of the node. Otherwise, set the start position to the end of the
+	 * node's start tag.
+	 */
+	let startPosition = node.name === "p" && node.isImplicit ?
+		node.sourceCodeLocation.startOffset :
+		node.sourceCodeLocation.startTag.endOffset;
+	let endPosition;
+	let descendantNodes = [];
+	let descendantTagPositions = [];
 
 	/*
 	 * If descendant nodes with a sourceCodeLocation property are found, create an array of objects containing the
