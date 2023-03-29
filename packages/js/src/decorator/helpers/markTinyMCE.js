@@ -22,6 +22,14 @@ function removeInvalidMarks( editor ) {
 	editor.setContent( html );
 }
 
+/**
+ * Applies marks with the old search and replace method.
+ * @param {object} editor Editor object. Is retrieved from the tinyMCE global.
+ * @param {Paper} paper The paper.
+ * @param {Mark[]} marks An array of marks that need to be applied
+ * @param {string} html the html to which the marks need to be applied.
+ * @returns {string} The HTML with the marks applied.
+ */
 function markTinyMCESearchBased( editor, paper, marks, html ) {
 	/*
 	 * Get the information whether we want to mark a specific part of the HTML. If we do, `fieldsToMark` should return an array with that information.
@@ -59,6 +67,12 @@ function markTinyMCESearchBased( editor, paper, marks, html ) {
 	return html;
 }
 
+/**
+ * Checks if either the start offset or end offset is larger than the length of the text to highlight.
+ * @param {Mark} mark A Mark object.
+ * @param {string} html The html the mark will be checked against.
+ * @returns {boolean} true if the mark is out of bounds, false otherwise.
+ */
 function markOutOfBounds( mark, html ) {
 	return mark._properties.position.startOffset > html.length ||
 		mark._properties.position.endOffset > html.length;
@@ -108,7 +122,7 @@ export default function markTinyMCE( editor, paper, marks ) {
 	let html = editor.getContent();
 	html = markers.removeMarks( html );
 
-	if ( marks[ 0 ].getPositionStart && marks[ 0 ].getPositionStart() ) {
+	if ( marks[ 0 ].hasPosition() ) {
 		html = markTinyMCEPositionBased( marks, html );
 	} else {
 		html = markTinyMCESearchBased( editor, paper, marks, html );
