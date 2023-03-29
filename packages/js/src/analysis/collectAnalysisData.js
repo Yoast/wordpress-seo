@@ -2,7 +2,7 @@ import { applyFilters } from "@wordpress/hooks";
 import {
 	cloneDeep,
 	merge,
-} from "lodash-es";
+} from "lodash";
 
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";
