@@ -27,7 +27,9 @@ function getSentences( node, languageProcessor ) {
 	// Split text into sentences.
 	let sentences = languageProcessor.splitIntoSentences( node.innerText() );
 	// Add position information to the sentences.
-	sentences = getSentencePositions( node, sentences );
+	if ( sentences.length > 0 ) {
+		sentences = getSentencePositions( node, sentences );
+	}
 	// Tokenize sentences into tokens.
 	return sentences.map( sentence => getTokens( sentence, languageProcessor.splitIntoTokens ) );
 }
