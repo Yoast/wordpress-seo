@@ -72,7 +72,7 @@ export const filterAnchorsContainingTopic = function( anchorTexts, topicForms, l
 /**
  * Filters anchors that are contained within keyphrase or synonyms.
  *
- * @param {Array}       anchors             An array with all anchors from the paper.
+ * @param {Array}       anchorTexts             An array with all anchors from the paper.
  * @param {Object}      topicForms          An object containing word forms of words included in the keyphrase or a synonym.
  * @param {string}      locale              The locale of the paper.
  * @param {Object}      customHelpers       An object containing custom helpers.
@@ -80,7 +80,7 @@ export const filterAnchorsContainingTopic = function( anchorTexts, topicForms, l
  *
  * @returns {Array} The array of all anchors contained in the keyphrase or synonyms.
  */
-export const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, customHelpers, exactMatchRequest  ) {
+export const filterAnchorsContainedInTopic = function( anchorTexts, topicForms, locale, customHelpers, exactMatchRequest  ) {
 	const matchWordCustomHelper = customHelpers.matchWordCustomHelper;
 	const getWordsCustomHelper = customHelpers.getWordsCustomHelper;
 
@@ -93,9 +93,9 @@ export const filterAnchorsContainedInTopic = function( anchors, topicForms, loca
 
 	const anchorsContainedInTopic = [];
 
-	anchors.forEach( function( currentAnchor ) {
+	anchorTexts.forEach( function( currentAnchorText ) {
 		// Get single words from the anchor.
-		let anchorWords = uniq( getWordsCustomHelper ? getWordsCustomHelper( currentAnchor ) : getWords( currentAnchor ) );
+		let anchorWords = uniq( getWordsCustomHelper ? getWordsCustomHelper( currentAnchorText ) : getWords( currentAnchorText ) );
 
 		// Filter function words out of the anchor text.
 		const filteredAnchorWords = filterWordsFromArray( anchorWords, functionWords );
@@ -105,7 +105,7 @@ export const filterAnchorsContainedInTopic = function( anchors, topicForms, loca
 
 		exactMatchRequest.forEach( request => {
 			/*
-			 * Check if the exact match is requested for the keyword and every content words in the anchor text is included
+			 * Check if the exact match is requested for the keyphrase and every content words in the anchor text is included
 			 * in the keyphrase or synonym.
 			 */
 			if ( request.exactMatchRequested &&
@@ -125,11 +125,11 @@ export const filterAnchorsContainedInTopic = function( anchors, topicForms, loca
 		}
 	} );
 
-	anchors = anchors.filter( function( anchor, index ) {
+	anchorTexts = anchorTexts.filter( function( anchorText, index ) {
 		return anchorsContainedInTopic[ index ] === true;
 	} );
 
-	return anchors;
+	return anchorTexts;
 };
 
 /**
@@ -139,7 +139,7 @@ export const filterAnchorsContainedInTopic = function( anchors, topicForms, loca
  * @param {Paper} paper The paper to research.
  * @param {Researcher} researcher The researcher to use.
  *
- * @returns {Object} How many anchors contained the keyphrase or synonyms, what are these anchors
+ * @returns {number} How many anchors contained the keyphrase or synonyms, what are these anchors
  */
 export default function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
@@ -153,24 +153,20 @@ export default function( paper, researcher ) {
 		matchWordCustomHelper: researcher.getHelper( "matchWordCustomHelper" ),
 		getWordsCustomHelper: researcher.getHelper( "getWordsCustomHelper" ),
 	};
-	const result = {
-		anchorsWithKeyphraseCount: 0,
-		anchorsWithKeyphrase: [],
-	};
 
 	const keyphrase = paper.getKeyword();
 	const originalTopics = parseSynonyms( paper.getSynonyms() );
 	originalTopics.push( keyphrase );
 
-	// If no keyword is set, return empty result.
+	// If no keyphrase is set, return empty result.
 	if ( keyphrase === "" ) {
-		return result;
+		return 0;
 	}
 
 	// Filter out anchors that point at the paper itself.
 	anchors = filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain );
 	if ( anchors.length === 0 ) {
-		return result;
+		return 0;
 	}
 
 	const locale = paper.getLocale();
@@ -183,15 +179,12 @@ export default function( paper, researcher ) {
 
 	anchors = filterAnchorsContainingTopic( anchorTexts, topicForms, locale, customHelpers.matchWordCustomHelper );
 	if ( anchors.length === 0 ) {
-		return result;
+		return 0;
 	}
 
 	// Check if content words from the anchors are all within the keyphrase or the synonyms.
 	anchors = filterAnchorsContainedInTopic( anchorTexts, topicForms, locale, customHelpers, isExactMatchRequested );
 
-	return {
-		anchorsWithKeyphraseCount: anchors.length,
-		anchorsWithKeyphrase: anchors,
-	};
+	return anchors.length;
 }
 
