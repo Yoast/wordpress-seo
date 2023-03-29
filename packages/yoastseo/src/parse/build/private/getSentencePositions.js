@@ -71,6 +71,10 @@ function adjustEndPosition( descendantNodes, descendantTagPositions, startPositi
  * @returns {Sentence[]} The sentences, with their positions in the source code.
  */
 export default function getSentencePositions( node, sentences ) {
+	// We cannot calculate the sentence positions if we don't know the source code location of the node.
+	if( ! node.sourceCodeLocation ) {
+		return sentences;
+	}
 	/*
 	 * Set the start position of the first sentence. If the node is an implicit paragraph, which don't have start and
 	 * end tags, set the start position to the start of the node. Otherwise, set the start position to the end of the

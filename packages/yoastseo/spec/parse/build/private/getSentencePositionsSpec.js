@@ -247,4 +247,11 @@ describe( "A test for getting positions of sentences", () => {
 
 		expect( getSentencePositions( node, sentences ) ).toEqual( sentencesWithPositions );
 	} );
+	it( "don't calculate sentence position if the source code location of the node is unknown", function() {
+		const node = new Paragraph( {}, [ { name: "#text", value: "Hello, world! Hello, yoast!" } ] );
+
+		const sentences = [ { text: "Hello, world!" }, { text: " Hello, yoast!" } ];
+
+		expect( getSentencePositions( node, sentences ) ).toEqual( sentences );
+	} );
 } );
