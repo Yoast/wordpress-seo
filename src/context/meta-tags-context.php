@@ -702,7 +702,14 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			$thumbnail_id = \get_post_thumbnail_id( $id );
 			// Prevent returning something else than an int or null.
 			if ( \is_int( $thumbnail_id ) && $thumbnail_id > 0 ) {
-				return $thumbnail_id;
+				// Handle WP_Error object returned by get_post_thumbnail_id()
+				if ( $thumbnail_id instanceof WP_Error ) {
+					return null;
+				}
+				// Prevent returning something else than an int or null.
+				if ( \is_int( $thumbnail_id ) && $thumbnail_id > 0 ) {
+					return $thumbnail_id;
+				}
 			}
 		}
 
