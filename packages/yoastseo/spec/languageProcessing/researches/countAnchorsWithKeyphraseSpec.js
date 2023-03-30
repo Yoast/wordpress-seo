@@ -9,6 +9,19 @@ const morphologyData = getMorphologyData( "en" );
 const morphologyDataJA = getMorphologyData( "ja" );
 
 describe( "A test for getting the anchors that contain the keyphrase or synonym", () => {
+	it( "should return 0 if the paper text is empty", () => {
+		const attributes = {
+			permalink: "http://yoast.com",
+			keyword: "cats",
+		};
+		const mockPaper = new Paper( "", attributes );
+
+		const researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
+		expect( countAnchorsWithKeyphrase( mockPaper, researcher ) ).toEqual( 0 );
+	} );
+
 	it( "should return 0 if neither the keyphrase nor the synonym is set", () => {
 		const attributes = {
 			permalink: "http://yoast.com",

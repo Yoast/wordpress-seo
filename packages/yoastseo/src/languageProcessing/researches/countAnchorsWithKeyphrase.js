@@ -142,9 +142,13 @@ function filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpe
  */
 export default function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
+	// STEP 1.
+	// If the paper's text is empty, return 0.
+	if ( paper.getText() === "" ) {
+		return 0;
+	}
 
-	// Only retrieve the anchors from the paper when the paper text is not empty.
-	let anchors = ( paper.getText() !== "" ) && paper.getTree().findAll( treeNode => treeNode.name === "a" );
+	let anchors = paper.getTree().findAll( treeNode => treeNode.name === "a" );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
 	 * In case of WordPress, the variable is a URL. In case of Shopify, it is a domain.
@@ -155,7 +159,7 @@ export default function( paper, researcher ) {
 		getWordsCustomHelper: researcher.getHelper( "getWordsCustomHelper" ),
 	};
 
-	// STEP 1.
+	// STEP 2.
 	const keyphrase = paper.getKeyword();
 	/*
 	 * If no keyphrase is set, return 0.
@@ -173,7 +177,7 @@ export default function( paper, researcher ) {
 	const originalTopics = parseSynonyms( paper.getSynonyms() );
 	originalTopics.push( keyphrase );
 
-	// STEP 2.
+	// STEP 3.
 	// Filter anchors with urls that are not linking to the current site url/domain.
 	anchors = filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain );
 	// If all anchor urls are linking to the current site url/domain, return 0.
@@ -184,7 +188,7 @@ export default function( paper, researcher ) {
 	const locale = paper.getLocale();
 	const topicForms = researcher.getResearch( "morphology" );
 
-	// STEP 3.
+	// STEP 4.
 	// Filter anchors with text that contains the keyphrase/synonmys' content words.
 	anchors = filterAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper );
 	// If all anchor texts do not contain the keyphrase/synonmys' content words, return 0.
@@ -192,7 +196,7 @@ export default function( paper, researcher ) {
 		return 0;
 	}
 
-	// STEP 4.
+	// STEP 5.
 	// Check if exact match is requested for every topic (keyphrase or synonym).
 	const isExactMatchRequested = originalTopics.map( originalTopic => processExactMatchRequest( originalTopic ) );
 	// Filter anchors with text that has the same content words as the keyphrase/synonyms.
