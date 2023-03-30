@@ -89,14 +89,18 @@ function filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpe
 		keyphraseAndSynonymsWords.push( flatten( synonymsForms[ i ] ) );
 	}
 
+	// The variable that will save all the anchors with text that has the same content words as the keyphrase/synonyms.
 	const anchorsContainedInTopic = [];
 
 	anchors.forEach( function( currentAnchor ) {
 		const currentAnchorText = currentAnchor.innerText();
-		// Get single words from the anchor.
+		// Get the words from the anchor text, with the duplicates removed.
 		let anchorWords = uniq( getWordsCustomHelper ? getWordsCustomHelper( currentAnchorText ) : getWords( currentAnchorText ) );
 
-		// Filter function words out of the anchor text.
+		/*
+		 * Filter function words out of the anchor text.
+		 * If the anchor text contains only function words, we keep them.
+		 */
 		const filteredAnchorWords = filterWordsFromArray( anchorWords, functionWords );
 		if ( filteredAnchorWords.length > 0 ) {
 			anchorWords = filteredAnchorWords;
@@ -104,8 +108,8 @@ function filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpe
 
 		exactMatchRequest.forEach( request => {
 			/*
-			 * Check if the exact match is requested for the keyphrase and every content words in the anchor text is included
-			 * in the keyphrase or synonym.
+			 * Check a) if the exact match is requested for the keyphrase, and
+			 * b) if every content word in the anchor text is included in the keyphrase or synonym.
 			 */
 			if ( request.exactMatchRequested &&
 				anchorWords.every( anchorWord => request.keyphrase.includes( anchorWord ) ) ) {
@@ -113,7 +117,7 @@ function filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpe
 			}
 		} );
 
-		// Check if anchorWords are contained in the topic phrase words.
+		// Check if every word in the anchor text is also present in the keyphrase/synonym.
 		for ( let i = 0; i < keyphraseAndSynonymsWords.length; i++ ) {
 			const topicForm =  keyphraseAndSynonymsWords[ i ];
 
@@ -124,11 +128,9 @@ function filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpe
 		}
 	} );
 
-	anchors = anchors.filter( function( anchor, index ) {
+	return anchors.filter( function( anchor, index ) {
 		return anchorsContainedInTopic[ index ] === true;
 	} );
-
-	return anchors;
 }
 
 /**
@@ -138,62 +140,66 @@ function filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpe
  * @param {Paper}       paper       The paper to research.
  * @param {Researcher}  researcher  The researcher to use.
  *
- * @returns {number} The amount of anchor texts whose content words are the same as the keyphrase or synonyms' content words.
+ * @returns {Object} The amount of anchor texts whose content words are the same as the keyphrase or synonyms' content words.
  */
 export default function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
+	const result = {
+		anchorsWithKeyphrase: [],
+		anchorsWithKeyphraseCount: 0,
+	};
 	// STEP 1.
-	// If the paper's text is empty, return 0.
+	// If the paper's text is empty, return empty result.
 	if ( paper.getText() === "" ) {
-		return 0;
+		return result;
 	}
 
+	// STEP 2.
+	const keyphrase = paper.getKeyword();
+	/*
+	 * If no keyphrase is set, return empty result.
+	 * This is a conscious decision where we won't assess the paper if the keyphrase is not set.
+	 * This includes a case where only the synonym is set but not the keyphrase.
+	 */
+	if ( keyphrase === "" ) {
+		return result;
+	}
+	/*
+     * When the keyphrase is set, also retrieve the synonyms and save them in "topics" array.
+     * Eventually, the term topics here refers to either keyphrase or synonyms.
+    */
+	const originalTopics = parseSynonyms( paper.getSynonyms() );
+	originalTopics.push( keyphrase );
+
+	// Retrieve the anchors.
 	let anchors = paper.getTree().findAll( treeNode => treeNode.name === "a" );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
 	 * In case of WordPress, the variable is a URL. In case of Shopify, it is a domain.
 	 */
 	const siteUrlOrDomain = paper.getPermalink();
+
+	// STEP 3.
+	// Filter anchors with urls that are not linking to the current site url/domain.
+	anchors = filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain );
+	// If all anchor urls are linking to the current site url/domain, return empty result.
+	if ( anchors.length === 0 ) {
+		return result;
+	}
+
+	const locale = paper.getLocale();
+	const topicForms = researcher.getResearch( "morphology" );
 	const customHelpers = {
 		matchWordCustomHelper: researcher.getHelper( "matchWordCustomHelper" ),
 		getWordsCustomHelper: researcher.getHelper( "getWordsCustomHelper" ),
 	};
 
-	// STEP 2.
-	const keyphrase = paper.getKeyword();
-	/*
-	 * If no keyphrase is set, return 0.
-	 * This is a conscious decision where we won't assess the paper if the keyphrase is not set.
-	 * This includes a case where only the synonym is set but not the keyphrase.
-	 */
-	if ( keyphrase === "" ) {
-		return 0;
-	}
-
-	/*
-	 * When the keyphrase is set, also retrieve the synonyms and save them in "topics" array.
-	 * Eventually, the term topics here refers to either keyphrase or synonyms.
-	 */
-	const originalTopics = parseSynonyms( paper.getSynonyms() );
-	originalTopics.push( keyphrase );
-
-	// STEP 3.
-	// Filter anchors with urls that are not linking to the current site url/domain.
-	anchors = filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain );
-	// If all anchor urls are linking to the current site url/domain, return 0.
-	if ( anchors.length === 0 ) {
-		return 0;
-	}
-
-	const locale = paper.getLocale();
-	const topicForms = researcher.getResearch( "morphology" );
-
 	// STEP 4.
-	// Filter anchors with text that contains the keyphrase/synonmys' content words.
+	// Filter anchors with text that contains the keyphrase/synonyms' content words.
 	anchors = filterAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper );
-	// If all anchor texts do not contain the keyphrase/synonmys' content words, return 0.
+	// If all anchor texts do not contain the keyphrase/synonyms' content words, return empty result.
 	if ( anchors.length === 0 ) {
-		return 0;
+		return result;
 	}
 
 	// STEP 5.
@@ -202,6 +208,9 @@ export default function( paper, researcher ) {
 	// Filter anchors with text that has the same content words as the keyphrase/synonyms.
 	anchors = filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested );
 
-	return anchors.length;
+	return {
+		anchorsWithKeyphrase: anchors,
+		anchorsWithKeyphraseCount: anchors.length,
+	};
 }
 
