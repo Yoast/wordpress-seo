@@ -11,11 +11,11 @@
 function getDescendantPositions( descendantNodes ) {
 	const descendantTagPositions = [];
 	descendantNodes.forEach( ( node ) => {
-		descendantTagPositions.push( node.sourceCodeLocation.startTag )
-		descendantTagPositions.push( node.sourceCodeLocation.endTag )
+		descendantTagPositions.push( node.sourceCodeLocation.startTag );
+		descendantTagPositions.push( node.sourceCodeLocation.endTag );
 	} );
 	// Sort the tag position objects by the start tag position in ascending order.
-	descendantTagPositions.sort(( a, b ) => a.startOffset - b.startOffset );
+	descendantTagPositions.sort( ( a, b ) => a.startOffset - b.startOffset );
 
 	return descendantTagPositions;
 }
@@ -36,30 +36,30 @@ function getDescendantPositions( descendantNodes ) {
  * @returns {number}	The adjusted end position of the sentence.
  */
 function adjustEndPosition( descendantNodes, descendantTagPositions, startPosition, endPosition ) {
-		/*
-		 * If the start position of a descendant's node tag is between the start and end position of the sentence, or is
-		 * the same as the start/end position of the sentence, add the tag's length to the end position of the sentence.
-		 */
-		descendantTagPositions.forEach( ( position ) => {
-			if( position.startOffset >= startPosition && position.startOffset <= endPosition ) {
-				endPosition += ( position.endOffset - position.startOffset )
-			}
-		} )
-		/*
-		 * If the length of a start tag at the end of the sentence was added to the endPosition in the above step,
-		 * correct it. If any descendant node start tag has the same end position as the sentence, subtract that tag's
-		 * length from the endPosition of the sentence.
-		 * (The same step doesn't need to be executed for end tags at the start of the sentence, since they would be
-		 * included as part of the previous sentence when adjusting that sentence's end position.)
-		 */
-		const startTagAtEndOfSentence = descendantNodes.find( node =>
-			node.sourceCodeLocation.startTag.endOffset === endPosition );
-		if ( startTagAtEndOfSentence ) {
-			endPosition = endPosition - ( startTagAtEndOfSentence.sourceCodeLocation.startTag.endOffset -
-				startTagAtEndOfSentence.sourceCodeLocation.startTag.startOffset )
+	/*
+	 * If the start position of a descendant's node tag is between the start and end position of the sentence, or is
+	 * the same as the start/end position of the sentence, add the tag's length to the end position of the sentence.
+	 */
+	descendantTagPositions.forEach( ( position ) => {
+		if ( position.startOffset >= startPosition && position.startOffset <= endPosition ) {
+			endPosition += ( position.endOffset - position.startOffset );
 		}
+	} );
+	/*
+	 * If the length of a start tag at the end of the sentence was added to the endPosition in the above step,
+	 * correct it. If any descendant node start tag has the same end position as the sentence, subtract that tag's
+	 * length from the endPosition of the sentence.
+	 * (The same step doesn't need to be executed for end tags at the start of the sentence, since they would be
+	 * included as part of the previous sentence when adjusting that sentence's end position.)
+	 */
+	const startTagAtEndOfSentence = descendantNodes.find( node =>
+		node.sourceCodeLocation.startTag.endOffset === endPosition );
+	if ( startTagAtEndOfSentence ) {
+		endPosition = endPosition - ( startTagAtEndOfSentence.sourceCodeLocation.startTag.endOffset -
+			startTagAtEndOfSentence.sourceCodeLocation.startTag.startOffset );
+	}
 
-		return endPosition;
+	return endPosition;
 }
 
 /**
@@ -72,7 +72,7 @@ function adjustEndPosition( descendantNodes, descendantTagPositions, startPositi
  */
 export default function getSentencePositions( node, sentences ) {
 	// We cannot calculate the sentence positions if we don't know the source code location of the node.
-	if( ! node.sourceCodeLocation ) {
+	if ( ! node.sourceCodeLocation ) {
 		return sentences;
 	}
 	/*
@@ -80,9 +80,9 @@ export default function getSentencePositions( node, sentences ) {
 	 * end tags, set the start position to the start of the node. Otherwise, set the start position to the end of the
 	 * node's start tag.
 	 */
-	let startPosition = node.name === "p" && node.isImplicit ?
-		node.sourceCodeLocation.startOffset :
-		node.sourceCodeLocation.startTag.endOffset;
+	let startPosition = node.name === "p" && node.isImplicit
+		? node.sourceCodeLocation.startOffset
+		: node.sourceCodeLocation.startTag.endOffset;
 	let endPosition;
 	let descendantNodes = [];
 	let descendantTagPositions = [];
@@ -92,12 +92,12 @@ export default function getSentencePositions( node, sentences ) {
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
 	 * an array. These positions will have to be taken into account when when calculating the position of the sentences.
 	 */
-	descendantNodes = node.findAll( node => node.sourceCodeLocation );
+	descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation );
 	if ( descendantNodes.length > 0 ) {
 		descendantTagPositions = getDescendantPositions( descendantNodes );
 	}
 
-	for ( let i = 0; i < sentences.length; i++) {
+	for ( let i = 0; i < sentences.length; i++ ) {
 		// Set the end position to the start position + the length of the sentence.
 		endPosition = startPosition + sentences[ i ].text.length;
 
