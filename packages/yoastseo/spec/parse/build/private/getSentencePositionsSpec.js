@@ -247,6 +247,92 @@ describe( "A test for getting positions of sentences", () => {
 
 		expect( getSentencePositions( node, sentences ) ).toEqual( sentencesWithPositions );
 	} );
+	it( "gets the sentence positions for sentences written in an RTL script (Hebrew)", function() {
+		// HTML: <p>שלום עולם. זה החתול שלי.</p>.
+		const node = new Paragraph( {}, [ { name: "#text", value: "שלום עולם. זה החתול שלי." } ],
+			{
+				startOffset: 5,
+				endOffset: 31,
+				startTag: {
+					startOffset: 5,
+					endOffset: 8,
+				},
+				endTag: {
+					startOffset: 27,
+					endOffset: 31,
+				},
+			} );
+
+		const sentences = [ { text: "שלום עולם." }, { text: "זה החתול שלי." } ];
+		const sentencesWithPositions = [ { text: "שלום עולם.", sourceCodeRange: { startOffset: 8, endOffset: 18 } },
+			{ text: "זה החתול שלי.", sourceCodeRange: { startOffset: 18, endOffset: 31 } } ];
+
+		expect( getSentencePositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
+	it( "gets the sentence positions for sentences written in an RTL script (Arabic)", function() {
+		// HTML: <p>.مرحبا بالعالم. هذه قطتي</p>.
+		const node = new Paragraph( {}, [ { name: "#text", value: "مرحبا بالعالم. هذه قطتي." } ],
+			{
+				startOffset: 5,
+				endOffset: 32,
+				startTag: {
+					startOffset: 5,
+					endOffset: 8,
+				},
+				endTag: {
+					startOffset: 28,
+					endOffset: 32,
+				},
+			} );
+
+		const sentences = [ { text: "هذه قطتي." }, { text: "مرحبا بالعالم. " } ];
+		const sentencesWithPositions = [ { text: "هذه قطتي.", sourceCodeRange: { startOffset: 8, endOffset: 17 } },
+			{ text: "مرحبا بالعالم. ", sourceCodeRange: { startOffset: 17, endOffset: 32 } } ];
+
+		expect( getSentencePositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
+	it( "gets the sentence positions for sentences written in an RTL script with `span` tags.", function() {
+		// HTML: <p>.שלום<span> עולם</span> .זה החתול שלי</p>.
+		const node = new Paragraph( {}, [ { name: "#text", value: "שלום עולם. זה החתול שלי." },
+				{
+					name: "span",
+					attributes: {},
+					childNodes: [ {
+						name: "#text",
+						value: "עולם ",
+					} ],
+					sourceCodeLocation: {
+						startOffset: 12,
+						endOffset: 30,
+						startTag: {
+							startOffset: 12,
+							endOffset: 18,
+						},
+						endTag: {
+							startOffset: 23,
+							endOffset: 30,
+						},
+					},
+				},],
+			{
+				startOffset: 5,
+				endOffset: 48,
+				startTag: {
+					startOffset: 5,
+					endOffset: 8,
+				},
+				endTag: {
+					startOffset: 44,
+					endOffset: 48,
+				},
+			} );
+
+		const sentences = [ { text: "שלום עולם." }, { text: "זה החתול שלי." } ];
+		const sentencesWithPositions = [ { text: "שלום עולם.", sourceCodeRange: { startOffset: 8, endOffset: 31 } },
+			{ text: "זה החתול שלי.", sourceCodeRange: { startOffset: 31, endOffset: 44 } } ];
+
+		expect( getSentencePositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
 	it( "don't calculate sentence position if the source code location of the node is unknown", function() {
 		const node = new Paragraph( {}, [ { name: "#text", value: "Hello, world! Hello, yoast!" } ] );
 
