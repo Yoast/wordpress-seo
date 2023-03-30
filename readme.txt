@@ -253,9 +253,9 @@ Release date: 2023-04-11
 
 #### Enhancements
 
+* Updates mobile and desktop Google snippet previews to be in line with Google's current styling.
 * Cleans up indexables that got orphaned because posts/terms/users got deleted while Yoast SEO was deactivated.
 * Improves the recognition of keyphrases starting with a period (e.g., \".net developer\") by the _keyphrase in title_ assessment.
-* Updates mobile and desktop Google snippet previews to be in line with current Google's styling.
 
 #### Bugfixes
 
