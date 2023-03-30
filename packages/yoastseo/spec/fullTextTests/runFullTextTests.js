@@ -30,6 +30,7 @@ import WordComplexityAssessment from "../../src/scoring/assessments/readability/
 
 // Import test papers
 import testPapers from "./testTexts";
+import buildTree from "../specHelpers/parse/buildTree";
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
@@ -52,6 +53,8 @@ testPapers.forEach( function( testPaper ) {
 		 * @returns {void}
 		 */
 		function compare( assessment, expectedResult ) {
+			buildTree( paper, researcher );
+
 			const isApplicable = assessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResult.isApplicable );
 

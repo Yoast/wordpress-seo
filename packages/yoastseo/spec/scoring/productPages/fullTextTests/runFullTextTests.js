@@ -37,6 +37,7 @@ import TextPresenceAssessment from "../../../../src/scoring/assessments/readabil
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
 // Import test papers
 import testPapers from "./testTexts";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
@@ -360,6 +361,8 @@ testPapers.forEach( function( testPaper ) {
 
 		// Images-related assessments
 		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
+			buildTree( paper, researcher );
+
 			const isApplicable = imageKeyphraseAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.imageKeyphrase.isApplicable );
 
@@ -375,6 +378,8 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.imageCount.isApplicable );
 
 			if ( isApplicable ) {
+				buildTree( paper, researcher );
+
 				result.imageCount = imageCountAssessment.getResult( paper, researcher );
 				expect( result.imageCount.getScore() ).toBe( expectedResults.imageCount.score );
 				expect( result.imageCount.getText() ).toBe( expectedResults.imageCount.resultText );
@@ -386,6 +391,8 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.imageAltTags.isApplicable );
 
 			if ( isApplicable ) {
+				buildTree( paper, researcher );
+
 				result.imageAltTags = imageAltTagsAsessment.getResult( paper, researcher );
 				expect( result.imageAltTags.getScore() ).toBe( expectedResults.imageAltTags.score );
 				expect( result.imageAltTags.getText() ).toBe( expectedResults.imageAltTags.resultText );
