@@ -48,7 +48,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
 
-		this.totalAnchorsWithKeyphrase = researcher.getResearch( "countAnchorsWithKeyphrase" ).anchorsWithKeyphraseCount;
+		this.totalAnchorsWithKeyphrase = researcher.getResearch( "getAnchorsWithKeyphrase" ).anchorsWithKeyphraseCount;
 
 		const calculatedResult = this.calculateResult();
 
