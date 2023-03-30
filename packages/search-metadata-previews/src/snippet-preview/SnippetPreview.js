@@ -276,7 +276,6 @@ const VerticalDotsContainer = styled.span`
 	line-height: 18px;
 	padding-left: 8px;
 	vertical-align:bottom;
-	float: ${ props => props.screenMode === MODE_DESKTOP ? "none" : "right" };
 `;
 
 const DatePreview = styled.span`
@@ -645,6 +644,8 @@ export default class SnippetPreview extends PureComponent {
 			siteName,
 		} = this.props;
 
+		const isMobileMode = mode === MODE_MOBILE;
+
 		const { hostname, breadcrumbs } = this.getBreadcrumbs( url );
 
 		const Url = this.addCaretStyles( "url", BaseUrl );
@@ -671,10 +672,11 @@ export default class SnippetPreview extends PureComponent {
 						<BreacrumbsContainer screenMode={ mode }>
 							{ breadcrumbs }
 						</BreacrumbsContainer>
-						<VerticalDotsContainer screenMode={ mode }>
+						{ ! isMobileMode && <VerticalDotsContainer>
 							<VerticalDots screenMode={ mode } />
-						</VerticalDotsContainer>
+						</VerticalDotsContainer> }
 					</UrlContentContainer>
+					{ isMobileMode && <VerticalDots screenMode={ mode } /> }
 				</BaseUrlOverflowContainer>
 			</Url>
 		</React.Fragment>;
