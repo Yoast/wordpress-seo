@@ -1,5 +1,7 @@
 import getAllWordsFromPaper from "../../../../src/languageProcessing/helpers/morphology/getAllWordsFromPaper";
 import Paper from "../../../../src/values/Paper";
+import buildTree from "../../../specHelpers/parse/buildTree";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 const text = "Codenamed SN8, the uncrewed rocket lifted away from the Boca Chica R&D facility on what had been billed as a brief flight" +
 	" to 12.5km (41,000ft). The 50m-tall vehicle crashed on touchdown but Mr Musk was delighted with how much the test outing achieved." +
@@ -19,6 +21,8 @@ const testPaper = new Paper( text, {
 
 describe( "Test for getting all words found in the text, title, slug and meta description of a given paper", () => {
 	it( "gets all words found in the text, title, slug and meta description of a given paper", () => {
+		const researcher = new EnglishResearcher( testPaper );
+		buildTree( testPaper, researcher );
 		expect( getAllWordsFromPaper( testPaper ) ).toEqual(  [ "Codenamed", "SN8", "the", "uncrewed", "rocket",
 			"lifted", "away", "from", "the", "Boca", "Chica", "R&D", "facility", "on", "what", "had", "been", "billed",
 			"as", "a", "brief", "flight", "to", "12\\.5km", "41,000ft", "The", "50m-tall", "vehicle", "crashed", "on",

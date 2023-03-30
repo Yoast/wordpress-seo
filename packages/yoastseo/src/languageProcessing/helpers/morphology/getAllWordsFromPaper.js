@@ -1,9 +1,9 @@
 import { escapeRegExp } from "lodash-es";
 import getAlttagContent from "../image/getAlttagContent";
-import imageInText from "../image/imageInText";
 import { normalizeSingle } from "../sanitize/quotes";
 import parseSlug from "../url/parseSlug";
 import getWords from "../word/getWords";
+import imagesInTree from "../image/imagesInTree";
 
 /**
  * Gets all words found in the text, title, slug and meta description of a given paper.
@@ -14,7 +14,7 @@ import getWords from "../word/getWords";
  */
 export default function( paper ) {
 	const paperText = paper.getText();
-	const altTagsInText = imageInText( paperText ).map( image => getAlttagContent( image ) );
+	const altTagsInText = imagesInTree( paper ).map( image => getAlttagContent( image ) );
 
 	const paperContent = [
 		paperText,

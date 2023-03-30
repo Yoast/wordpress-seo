@@ -1,11 +1,23 @@
 import imageAlt from "../../../../src/languageProcessing/helpers/image/getAlttagContent.js";
+import { parseFragment } from "parse5";
+import adapt from "../../../../src/parse/build/private/adapt";
 
 describe( "Checks for an alt tag in an image", function() {
 	it( "returns the contents of the alt tag", function() {
-		expect( imageAlt( "<img src='img.com' alt='a test' />" ) ).toBe( "a test" );
-		expect( imageAlt( "<img src='img.com' alt='ä test' />" ) ).toBe( "ä test" );
+		const tree = adapt( parseFragment( "<img src='img.com' alt='a test' />", { sourceCodeLocationInfo: true } ) );
+		const imageNode = tree.findAll( node => node.name === "img" )[ 0 ];
+
+		expect( imageAlt( imageNode ) ).toBe( "a test" );
+
+		const secondTree = adapt( parseFragment( "<img src='img.com' alt='ä test' />", { sourceCodeLocationInfo: true } ) );
+		const secondImageNode = secondTree.findAll( node => node.name === "img" )[ 0 ];
+
+		expect( imageAlt( secondImageNode ) ).toBe( "ä test" );
 	} );
 	it( "returns empty string if there is no alt tag", function() {
-		expect( imageAlt( "<img src='img.com'>" ) ).toBe( "" );
+		const tree = adapt( parseFragment( "<img src='img.com'>", { sourceCodeLocationInfo: true } ) );
+		const imageNode = tree.findAll( node => node.name === "img" )[ 0 ];
+
+		expect( imageAlt( imageNode ) ).toBe( "" );
 	} );
 } );
