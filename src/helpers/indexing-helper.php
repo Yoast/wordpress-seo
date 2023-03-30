@@ -50,6 +50,13 @@ class Indexing_Helper {
 	protected $indexing_actions;
 
 	/**
+	 * The indexation actions that can be done in the background.
+	 *
+	 * @var Indexation_Action_Interface[]|Limited_Indexing_Action_Interface[]
+	 */
+	protected $background_indexing_actions;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -111,6 +118,9 @@ class Indexing_Helper {
 			$post_link_indexing_action,
 			$term_link_indexing_action,
 		];
+
+		// Coincidentally, the background indexing actions are the same with the Free indexing actions for now.
+		$this->background_indexing_actions = $this->indexing_actions;
 	}
 
 	/**
@@ -249,20 +259,20 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Checks if all indexables are complete and up to date.
-	 * If the indexables are complete, they will always be considered complete until one or more
-	 * indexable builders get a version bump.
+	 * Checks if indexables that can be background indexed are complete and up to date.
+	 * If those indexables are complete, they will always be considered complete here until one
+	 * or more indexable builders get a version bump.
 	 *
 	 * @return bool Whether the index is up to date.
 	 */
-	public function is_index_up_to_date() {
+	public function is_background_index_up_to_date() {
 		$last_completed_index_version = $this->options_helper->get( 'last_completely_indexed_versions' );
 		$combined_version_key         = $this->indexable_builder_versions->get_combined_version_key();
 		if ( $last_completed_index_version === $combined_version_key ) {
 			return true;
 		}
 
-		$has_unindexed = $this->get_limited_filtered_unindexed_count( 1 ) > 0;
+		$has_unindexed = $this->get_limited_filtered_unindexed_count_background( 1 ) > 0;
 		if ( $has_unindexed === false ) {
 			$this->options_helper->set( 'last_completely_indexed_versions', $combined_version_key );
 		}
@@ -380,5 +390,50 @@ class Indexing_Helper {
 		 *                                   False if it doesn't need to be limited.
 		 */
 		return \apply_filters( 'wpseo_indexing_get_limited_unindexed_count', $unindexed_count, $limit );
+	}
+
+	/**
+	 * Returns a limited number of unindexed objects that can be indexed in the background.
+	 *
+	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 *
+	 * @return int The total number of unindexed objects that can be indexed in the background.
+	 */
+	public function get_limited_unindexed_count_background( $limit ) {
+		$unindexed_count = 0;
+
+		foreach ( $this->background_indexing_actions as $background_indexing_action ) {
+			$unindexed_count += $background_indexing_action->get_limited_unindexed_count( $limit - $unindexed_count + 1 );
+			if ( $unindexed_count > $limit ) {
+				return $unindexed_count;
+			}
+		}
+
+		return $unindexed_count;
+	}
+
+	/**
+	 * Returns the total number of unindexed objects that can be indexed in the background and applies a filter for third party integrations.
+	 *
+	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 *
+	 * @return int The total number of unindexed objects that can be indexed in the background.
+	 */
+	public function get_limited_filtered_unindexed_count_background( $limit ) {
+		$unindexed_count = $this->get_limited_unindexed_count_background( $limit );
+
+		if ( $unindexed_count > $limit ) {
+			return $unindexed_count;
+		}
+
+		/**
+		 * Filter: 'wpseo_indexing_get_limited_unindexed_count_background' - Allow changing the amount of unindexed objects that can be indexed in the background,
+		 * and allow for a maximum number of items counted to improve performance.
+		 *
+		 * @param int       $unindexed_count The amount of unindexed objects.
+		 * @param int|false $limit           Limit the number of unindexed objects that need to be counted.
+		 *                                   False if it doesn't need to be limited.
+		 */
+		return \apply_filters( 'wpseo_indexing_get_limited_unindexed_count_background', $unindexed_count, $limit );
 	}
 }

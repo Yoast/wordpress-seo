@@ -223,6 +223,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return;
 		}
 
+		error_log('index2');
 		$this->post_indexation->index();
 		$this->term_indexation->index();
 		$this->general_indexation->index();
@@ -230,7 +231,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->post_link_indexing_action->index();
 		$this->term_link_indexing_action->index();
 
-		if ( $this->indexing_helper->is_index_up_to_date() ) {
+		if ( $this->indexing_helper->is_background_index_up_to_date() ) {
+			// We set this as complete, even though prominent words might not be complete. But that's the way we always treated that.
 			$this->complete_indexation_action->complete();
 		}
 	}
@@ -323,7 +325,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return false;
 		}
 
-		if ( ! $this->indexing_helper->is_index_up_to_date() ) {
+		if ( ! $this->indexing_helper->is_background_index_up_to_date() ) {
 			return true;
 		}
 
@@ -332,7 +334,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return false;
 		}
 
-		return $this->indexing_helper->get_limited_filtered_unindexed_count( 1 ) > 0;
+		return $this->indexing_helper->get_limited_filtered_unindexed_count_background( 1 ) > 0;
 	}
 
 	/**
@@ -351,7 +353,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return false;
 		}
 
-		$total_unindexed = $this->indexing_helper->get_limited_filtered_unindexed_count( $shutdown_limit );
+		$total_unindexed = $this->indexing_helper->get_limited_filtered_unindexed_count_background( $shutdown_limit );
 		if ( $total_unindexed === 0 || $total_unindexed > $shutdown_limit ) {
 			return false;
 		}
