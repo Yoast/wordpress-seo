@@ -37,7 +37,8 @@ function isLinkingToSelf( anchorLink, siteUrlOrDomain ) {
 function filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain ) {
 	const anchorsLinkingToSelf = anchors.map( function( anchor ) {
 		const anchorLink = anchor.attributes.href;
-		return isLinkingToSelf( anchorLink, siteUrlOrDomain );
+		// Return false if there is no href attribute.
+		return anchorLink ? isLinkingToSelf( anchorLink, siteUrlOrDomain ) : false;
 	} );
 
 	return  anchors.filter( function( anchor, index ) {

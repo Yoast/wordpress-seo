@@ -49,6 +49,19 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
+	it( "should return 0 if the anchor tag doesn't have href attribute", () => {
+		const attributes = {
+			permalink: "http://yoast.com",
+			keyword: "cats",
+		};
+		const mockPaper = new Paper( "string <a href=''>good companion for an orange cat</a>", attributes );
+
+		const researcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, researcher );
+
+		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+	} );
+
 	it( "should ignore the keyphrase in an url when referencing to the current url with a hash", () => {
 		let attributes = {
 			keyword: "cat",
