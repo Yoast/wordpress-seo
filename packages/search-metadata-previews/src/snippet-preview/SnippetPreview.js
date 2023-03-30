@@ -9,7 +9,7 @@ import { __ } from "@wordpress/i18n";
 // Yoast dependencies.
 import { colors, angleLeft, angleRight } from "@yoast/style-guide";
 import { languageProcessing } from "yoastseo";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { decodeHTML, getDirectionalStyle } from "@yoast/helpers";
 import { ScreenReaderText } from "@yoast/components";
 
 const {
@@ -800,15 +800,20 @@ export default class SnippetPreview extends PureComponent {
 			return null;
 		}
 
+		const safeShoppingData = {
+			availability: shoppingData.availability || "",
+			price: shoppingData.price ? decodeHTML( shoppingData.price ) : "",
+			rating: shoppingData.rating || 0,
+			reviewCount: shoppingData.reviewCount || 0,
+		};
+
 		if ( mode === MODE_DESKTOP ) {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--desktop">
 					<ScreenReaderText>
 						{ __( "Shopping data preview:", "wordpress-seo" ) }
 					</ScreenReaderText>
-					<ProductDataDesktop
-						shoppingData={ shoppingData }
-					/>
+					<ProductDataDesktop shoppingData={ safeShoppingData } />
 				</PartContainer>
 			);
 		}
@@ -819,9 +824,7 @@ export default class SnippetPreview extends PureComponent {
 					<ScreenReaderText>
 						{ __( "Shopping data preview:", "wordpress-seo" ) }
 					</ScreenReaderText>
-					<ProductDataMobile
-						shoppingData={ shoppingData }
-					/>
+					<ProductDataMobile shoppingData={ safeShoppingData } />
 				</PartContainer>
 			);
 		}
