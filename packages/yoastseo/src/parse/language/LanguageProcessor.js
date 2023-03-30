@@ -21,7 +21,6 @@ class LanguageProcessor {
 	 *
 	 * @returns {Sentence[]} The sentences.
 	 */
-	// eslint-disable-next-line no-unused-vars
 	splitIntoSentences( text ) {
 		const memoizedTokenizer = this.researcher.getHelper( "memoizedTokenizer" );
 		/*
@@ -55,10 +54,8 @@ class LanguageProcessor {
 	splitIntoTokens( sentence ) {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
-		// Normalise the sentence
-		const sentenceTextNormalized = sentenceText.normalize( "NFC" );
 		// Split the sentence string into tokens
-		return sentenceTextNormalized.split( /([\s,.!?;:([\]'"¡¿)/])/g ).filter( x => x !== "" );
+		return sentenceText.split( /([\s,.!?;:([\]'"¡¿)/])/g ).filter( x => x !== "" );
 	}
 }
 export default LanguageProcessor;
