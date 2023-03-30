@@ -168,7 +168,7 @@ export default function( paper, researcher ) {
 	/*
      * When the keyphrase is set, also retrieve the synonyms and save them in "topics" array.
      * Eventually, the term topics here refers to either keyphrase or synonyms.
-    */
+     */
 	const originalTopics = parseSynonyms( paper.getSynonyms() );
 	originalTopics.push( keyphrase );
 
