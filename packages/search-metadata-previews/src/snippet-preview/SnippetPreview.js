@@ -416,7 +416,7 @@ const VerticalDots = ( { screenMode } ) => {
 };
 
 VerticalDots.propTypes = {
-	fillColor: PropTypes.string.isRequired,
+	screenMode: PropTypes.string.isRequired,
 };
 
 /**
