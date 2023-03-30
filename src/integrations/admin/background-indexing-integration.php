@@ -223,7 +223,6 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return;
 		}
 
-		error_log('index2');
 		$this->post_indexation->index();
 		$this->term_indexation->index();
 		$this->general_indexation->index();
