@@ -2,6 +2,7 @@
  * Gets the start and end positions of all descendant nodes' tags and stores them in an array.
  * Each object in the array represents an opening or closing tag.
  * The startOffset and endOffset properties of the objects correspond to the start and end positions of the tags.
+ * Extracting this data into a separate array makes it easier to work with it (e.g. sort it and loop over it).
  *
  * @param {Node[]} descendantNodes	The descendant nodes to get tag positions from.
  *
@@ -25,8 +26,9 @@ function getDescendantPositions( descendantNodes ) {
  * Adjusts the end position of the sentence to account for any descendant node tags that overlap with the sentence.
  * We want to add the length of any tags that are within the sentence, as well as start tags at the beginning of the
  * sentence and end tags at the end of the sentence, to the end position of the sentence.
- * We don't want to include start tags at the end of the sentence, and end tags at the start of the sentence in order to
- * reduce the risk of invalid HTML after adding mark tags around the sentence.
+ * We don't want to include start tags at the end of the sentence in order to reduce the risk of invalid HTML after
+ * adding mark tags around the sentence. (Same goes for end tags at the start of the sentence, but this should already
+ * never happen, as these tags should be added to the end position of the previous sentence).
  *
  * @param {Node[]}		descendantNodes			The descendant nodes.
  * @param {Object[]}	descendantTagPositions	The positions of the descendant nodes' tags.
@@ -46,11 +48,9 @@ function adjustEndPosition( descendantNodes, descendantTagPositions, startPositi
 		}
 	} );
 	/*
-	 * If the length of a start tag at the end of the sentence was added to the endPosition in the above step,
-	 * correct it. If any descendant node start tag has the same end position as the sentence, subtract that tag's
-	 * length from the endPosition of the sentence.
-	 * (The same step doesn't need to be executed for end tags at the start of the sentence, since they would be
-	 * included as part of the previous sentence when adjusting that sentence's end position.)
+	 * If the length of a start tag at the end of the sentence was added to the endPosition in the step above,
+	 * remove it. We are using the data from the original descendantNodes array for this check, as the
+	 * descendantTagPositions array doesn't specify whether each tag is an opening or closing tag.
 	 */
 	const startTagAtEndOfSentence = descendantNodes.find( node =>
 		node.sourceCodeLocation.startTag.endOffset === endPosition );
@@ -90,7 +90,7 @@ export default function getSentencePositions( node, sentences ) {
 	/*
 	 * Check if the node has any descendant nodes that have a sourceCodeLocation property (all nodes other than Text nodes
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
-	 * an array. These positions will have to be taken into account when when calculating the position of the sentences.
+	 * an array. These positions will have to be taken into account when calculating the position of the sentences.
 	 */
 	descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation );
 	if ( descendantNodes.length > 0 ) {
