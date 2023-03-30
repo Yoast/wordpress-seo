@@ -19,7 +19,7 @@ import getLinkType from "../helpers/link/getLinkType.js";
  * otherDofollow: other links without a nofollow attribute.
  * otherNofollow: other links with a nofollow attribute.
  */
-const countLinkTypes = function( paper ) {
+export default function( paper ) {
 	const anchors = getAnchors( paper.getText() );
 	/*
 	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
@@ -51,6 +51,4 @@ const countLinkTypes = function( paper ) {
 	}
 
 	return linkCount;
-};
-
-export default countLinkTypes;
+}
