@@ -427,7 +427,7 @@ describe( "The parse function", () => {
 			],
 		} );
 	} );
-	it( "parses a basic HTML text and filters out an elements that should be filtered out", () => {
+	it( "parses a basic HTML text and filters out elements that should be filtered out", () => {
 		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div><div><p class='yoast'>Hello, world!<script>console.log(\"Hello, world!\")</script></p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
@@ -479,5 +479,4 @@ describe( "The parse function", () => {
 			} ],
 		} );
 	} );
-
 } );
