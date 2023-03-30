@@ -66,6 +66,8 @@ const WIDTH_PADDING             = 20;
 const DESCRIPTION_LIMIT         = 156;
 const DESKTOP_BREADCRUMBS_LIMIT = 240;
 const MOBILE_BREADCRUMBS_LIMIT  = 100;
+const MOBILE_SITENAME_LIMIT     = "300px";
+
 
 const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: #fff;
@@ -263,9 +265,13 @@ const MobilePartContainer = styled.div`
 `;
 
 const SiteName = styled.div`
-line-height: 18x; 
-font-size: 14px; 
-color: black;`;
+	line-height: 18x; 
+	font-size: 14px; 
+	color: black;
+	max-width: ${ props => props.screenMode === MODE_DESKTOP ? "100%" : MOBILE_SITENAME_LIMIT };
+	overflow: hidden;
+`;
+
 
 const DesktopPartContainer = styled.div`
 `;
@@ -667,7 +673,7 @@ export default class SnippetPreview extends PureComponent {
 				>
 					<FaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></FaviconContainer>
 					<UrlContentContainer screenMode={ mode }>
-						<SiteName>{ siteName }</SiteName>
+						<SiteName screenMode={ mode }>{ siteName }</SiteName>
 						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
 						<BreacrumbsContainer screenMode={ mode }>
 							{ breadcrumbs }
