@@ -1,3 +1,4 @@
+import buildTree from "../specHelpers/parse/buildTree";
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
@@ -40,7 +41,7 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
-
+		buildTree( paper, researcher );
 		const expectedResults = testPaper.expectedResults;
 
 		/**
