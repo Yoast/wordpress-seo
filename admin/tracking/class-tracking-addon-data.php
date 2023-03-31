@@ -104,7 +104,10 @@ class WPSEO_Tracking_Addon_Data implements WPSEO_Collection {
 	 * @return array
 	 */
 	public function get_local_addon_settings( array $addon_settings, $source_name, $slug, $option_include_list ) {
-		$source_options          = \get_option( $source_name );
+		$source_options = \get_option( $source_name, [] );
+		if ( ! \is_array( $source_options ) || empty( $source_options ) ) {
+			return $addon_settings;
+		}
 		$addon_settings[ $slug ] = \array_intersect_key( $source_options, \array_flip( $option_include_list ) );
 
 		if ( \array_key_exists( 'use_multiple_locations', $source_options ) && \array_key_exists( 'business_type', $addon_settings[ $slug ] ) && $source_options['use_multiple_locations'] === 'on' && $source_options['multiple_locations_shared_business_info'] === 'off' ) {
