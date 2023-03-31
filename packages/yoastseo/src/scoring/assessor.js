@@ -274,7 +274,7 @@ Assessor.prototype.removeAssessment = function( name ) {
  * Returns an assessment by identifier
  *
  * @param {string} identifier The identifier of the assessment.
- * @returns {undefined|Object} The object if found, otherwise undefined.
+ * @returns {undefined|Assessment} The object if found, otherwise undefined.
  */
 Assessor.prototype.getAssessment = function( identifier ) {
 	return find( this._assessments, function( assessment ) {
