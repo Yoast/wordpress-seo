@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Tracking
  */
 
+use Yoast\WP\SEO\Analystics\Framework\Missing_Indexables_Collector;
+
 /**
  * This class handles the tracking routine.
  */
@@ -189,6 +191,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		$collector->add_collection( new WPSEO_Tracking_Plugin_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Addon_Data() );
+		$collector->add_collection(YoastSEO()->classes->get( Missing_Indexables_Collector::class ));
 
 		return $collector;
 	}

@@ -53,6 +53,18 @@ class Loader_Pass implements CompilerPassInterface {
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
+		try {
+			$reflect = new ReflectionClass( $class );
+			$path    = $reflect->getFileName();
+			if ( strpos( $path, 'wordpress-seo/src/analytics' ) &&  !strpos( $path, 'missing-indexables-collector' )
+			) {
+				$definition->setPublic( false );
+			}
+		} catch ( \Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// Catch all for non-existing classes.
+		}
+
+
 		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
 		}
