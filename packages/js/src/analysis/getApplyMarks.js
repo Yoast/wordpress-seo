@@ -1,5 +1,5 @@
 /* global tinyMCE */
-import { isUndefined, noop } from "lodash-es";
+import { isUndefined, noop } from "lodash";
 import { select } from "@wordpress/data";
 import * as tinyMCEHelper from "../lib/tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";

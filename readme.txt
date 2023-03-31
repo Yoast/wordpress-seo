@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.3
-Requires PHP: 5.6.20
+Stable tag: 20.4
+Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -36,8 +36,8 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
-* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
 * **[Premium]** **New!** Yoast SEO Premium comes with an IndexNow integration to ping search engines like Microsoft Bing whenever you publish or update content.
+* **New!** Yoast SEO comes with wide-ranging crawl settings that help you improve how search engines crawl your site, lowering its carbon footprint.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -247,9 +247,36 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.5 =
+
+Release date: 2023-04-11
+
+#### Enhancements
+
+* Cleans up indexables that got orphaned because posts/terms/users got deleted while Yoast SEO was deactivated.
+* Improves the recognition of keyphrases starting with a period (e.g., \".net developer\") by the _keyphrase in title_ assessment.
+* Updates mobile and desktop Google snippet previews to be in line with current Google's styling.
+
+#### Bugfixes
+
+* Fixes a bug where, if a content pertaining to a deleted user is re-assigned to another user, the indexables related to the deleted user are not updated with the new `author_id`
+* Fixes a bug where posts in Elementor would persistently require an update when a related keyphrase was added.
+* Fixes a bug where the Google preview would show a duplicate slug in the breadcrumbs when the slug included encoded characters.
+* Fixes a bug where the highlighting for the _passive voice_, _sentence length_, _transition words_, and _inclusive language_ assessments would not be applied to the first sentence of a paragraph if the paragraph contained a new line character.
+* Fixes a bug where the highlighting would not be applied in the image captions in Classic editor when the match was found in the first sentence.
+* Fixes a bug where the highlighting would not be applied to the first sentence in Classic editor when an image without caption was added at the beginning of a paragraph.
+* Fixes a bug where the _passive voice_ and _transition words_ assessments would show an incorrect percentage in the feedback when a new line character was used inside a paragraph.
+
+#### Other
+
+* Changes the last step of the `First-time configuration` to highlight the free webinar availability.
+* Drops compatibility with PHP 5.6, 7.0 and 7.1.
+
 = 20.4 =
 
 Release date: 2023-03-28
+
+With Yoast SEO 20.4, you can reduce your site's carbon footprint and improve your SEO with just a few clicks. The crawl optimization settings let you turn off crawling for certain URLs, scripts, and metadata that WordPress automatically adds. Previously only available in Premium, but now available for all! Find out more about what's new in Yoast SEO 20.4 in [our release post](https://yoa.st/release-28-3-23)!
 
 #### Enhancements
 
@@ -258,44 +285,14 @@ Release date: 2023-03-28
 #### Bugfixes
 
 * Adds a hook to adapt the meta query used to filter the post overview based on the focus keyphrase.
-* Fixes a bug where a fatal error related to HelpScout would be thrown when using a more-than-2-year-old Yoast addon.
+* Fixes a bug where a fatal error related to HelpScout would be thrown when using a version of a Yoast add-on older than 2 years.
 * Fixes a bug where a PHP warning would be thrown when exporting Yoast settings.
 * Fixes a bug where the Google preview in the Block editor would show the post ID in the breadcrumbs when creating a new post, or it would show the slug twice or show `auto-draft` when creating a new page or custom post. This would only happen before (auto-)saving the post.
 * Fixes a bug where the _previously used keyword_ assessment would potentially link to an empty page of results when the focus keyphrase had been used across different post types.
 
 #### Other
 
-* Adds Jetpack Boost to the recommended integrations.
 * Sets the WordPress tested up to version to 6.2.
-
-= 20.3 =
-
-Release date: 2023-03-14
-
-Yoast SEO 20.3 is out and comes with several enhancements, fixes, and improvements. With an improved highlighting feature and enhanced support for the Portuguese language, Yoast SEO 20.3 helps you find where you need to make SEO edits quickly and easily. Upgrade now and take your website's SEO to the next level! Find out more about what's new in Yoast SEO 20.3 in [our release post](https://yoa.st/release-14-3-23)!
-
-#### Enhancements
-
-* Allows the highlighting feature to highlight content in captions of _Audio_, _Embed_, _Gallery_, _Image_, _Table_, and _Video_ blocks in the Block editor.
-* Allows the highlighting feature to highlight content in _FAQ_ and _How-to_ blocks in the Block editor.
-* Improves the detection of participles in the _passive voice_ assessment for Portuguese.
-* Improves the _transition words_ assessment for Portuguese by adding new transition words. Props to [mathiasribeiro](https://github.com/mathiasribeiro).
-
-#### Bugfixes
-
-* Fixes a bug where a fatal error would appear in oEmbed pages for media pages when those were disabled from Yoast settings.
-* Fixes a bug where editing text in Classic editor while the highlighting feature is enabled would make the text unfocused and the cursor jump to the beginning of the text.
-* Fixes a bug where self-closing break tags (`</br>`) would not be removed when analyzing content.
-* Fixes a bug where shortcodes in the Block editor would be treated as words when analyzing content.
-* Fixes a bug where the color and line height in the _Google preview_ modal would be shown incorrectly when editing in Elementor.
-* Fixes a bug where the `fetchpriority` attribute of the rating stars image was mistyped. Props to [fellyph](https://github.com/fellyph).
-* Fixes a bug where the `get_head` REST endpoint would return wrong values for some meta tags when called with the homepage URL as an argument.
-* Fixes a bug where the query parameters would be added in the middle of canonical and previous and next links in paginated pages. Props to [andreas-pa](https://github.com/andreas-pa).
-
-#### Other
-
-* Avoids issuing a PHP warning because of a wrong variable type.
-* Removes the beta badge for the _inclusive language_ assessment.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

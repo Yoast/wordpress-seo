@@ -11,6 +11,11 @@ module.exports = {
 	plugins: [
 		"@babel",
 	],
+	settings: {
+		react: {
+			version: "detect",
+		},
+	},
 	rules: {
 		// We use 'wp.element.createElement' instead of the 'react' package directly.
 		"react/react-in-jsx-scope": "off",
@@ -28,8 +33,8 @@ module.exports = {
 		"no-unused-expressions": [
 			"error",
 			{
-				"allowShortCircuit": true,
-				"allowTernary": true,
+				allowShortCircuit: true,
+				allowTernary: true,
 			},
 		],
 		"max-len": [

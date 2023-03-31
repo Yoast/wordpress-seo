@@ -1,16 +1,11 @@
-import indicesProcessing from "../../word/indices";
-const getIndicesOfList = indicesProcessing.getIndicesByWordList;
-const filterIndices = indicesProcessing.filterIndices;
-const sortIndices = indicesProcessing.sortIndices;
+import { getIndicesByWordList as getIndicesOfList, filterIndices, sortIndices } from "../../word/indices";
 import stripSpaces from "../../sanitize/stripSpaces.js";
 import { normalizeSingle as normalizeSingleQuotes } from "../../sanitize/quotes.js";
 import getWordIndices from "./getIndicesWithRegex.js";
 import includesIndex from "../../word/includesIndex";
 import followsIndex from "../../word/followsIndex";
 
-import { isUndefined } from "lodash-es";
-import { map } from "lodash-es";
-import { forEach } from "lodash-es";
+import { forEach, isUndefined, map } from "lodash-es";
 
 /**
  * Gets stop characters to determine sentence breakers.

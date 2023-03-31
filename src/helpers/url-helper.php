@@ -279,4 +279,19 @@ class Url_Helper {
 
 		return $current_url;
 	}
+
+	/**
+	 * Parses a URL and returns its components, this wrapper function was created to support unit tests.
+	 *
+	 * @param string $parsed_url The URL to parse.
+	 * @return array The parsed components of the URL.
+	 */
+	public function parse_str_params( $parsed_url ) {
+		$array = [];
+
+		// @todo parse_str changes spaces in param names into `_`, we should find a better way to support them.
+		\wp_parse_str( $parsed_url, $array );
+
+		return $array;
+	}
 }
