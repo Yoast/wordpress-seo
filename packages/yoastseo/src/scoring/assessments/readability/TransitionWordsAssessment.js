@@ -4,7 +4,7 @@ import { map, merge } from "lodash-es";
 import formatNumber from "../../../helpers/formatNumber";
 import { inRangeStartInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+import { stripFullTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark.js";
 import marker from "../../../markers/addMark.js";
@@ -168,7 +168,7 @@ export default class TransitionWordsAssessment extends Assessment {
 
 		return map( transitionWordSentences.sentenceResults, function( sentenceResult ) {
 			let sentence = sentenceResult.sentence;
-			sentence = stripTags( sentence );
+			sentence = stripFullTags( sentence );
 			return new Mark( {
 				original: sentence,
 				marked: marker( sentence ),

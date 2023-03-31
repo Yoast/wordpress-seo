@@ -7,7 +7,7 @@ import formatNumber from "../../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import addMark from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+import { stripFullTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 
@@ -102,7 +102,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const sentenceObjects = this.getTooLongSentences( sentenceCount );
 
 		return map( sentenceObjects, function( sentenceObject ) {
-			const sentence = stripTags( sentenceObject.sentence );
+			const sentence = stripFullTags( sentenceObject.sentence );
 			return new Mark( {
 				original: sentence,
 				marked: addMark( sentence ),

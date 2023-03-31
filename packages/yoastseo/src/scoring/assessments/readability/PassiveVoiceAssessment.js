@@ -5,7 +5,7 @@ import formatNumber from "../../../helpers/formatNumber";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import marker from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+import { stripFullTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
@@ -113,7 +113,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 	getMarks( paper, researcher ) {
 		const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
 		return map( passiveVoice.passives, function( sentence ) {
-			sentence = stripTags( sentence );
+			sentence = stripFullTags( sentence );
 			const marked = marker( sentence );
 			return new Mark( {
 				original: sentence,
