@@ -27,7 +27,16 @@ describe( "A test for the findAll method", () => {
 			attributes: { "class": new Set( [ "yoast" ] ) },
 			childNodes: [ { name: "#text", value: "Hello, world! " } ],
 			isImplicit: false,
-			sentences: [ { text: "Hello, world!", tokens: [ "Hello", ",", " ", "world", "!" ] } ],
+			sentences: [ {
+				text: "Hello, world!",
+				tokens: [
+					{ text: "Hello" },
+					{ text: "," },
+					{ text: " " },
+					{ text: "world" },
+					{ text: "!" },
+				],
+			} ],
 			sourceCodeLocation: {
 				startOffset: 5,
 				endOffset: 40,
@@ -46,7 +55,16 @@ describe( "A test for the findAll method", () => {
 			attributes: { "class": new Set( [ "yoast" ] ) },
 			childNodes: [ { name: "#text", value: "Hello, yoast!" } ],
 			isImplicit: false,
-			sentences: [ { text: "Hello, yoast!", tokens: [ "Hello", ",", " ", "yoast", "!" ] } ],
+			sentences: [ {
+				text: "Hello, yoast!",
+				tokens: [
+					{ text: "Hello" },
+					{ text: "," },
+					{ text: " " },
+					{ text: "yoast" },
+					{ text: "!" },
+				],
+			} ],
 			sourceCodeLocation: {
 				startOffset: 40,
 				endOffset: 74,
