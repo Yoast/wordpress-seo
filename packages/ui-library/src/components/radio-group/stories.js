@@ -57,7 +57,7 @@ export const Variants = ( args ) => (
 				{ value: "3", label: "3", screenReaderLabel: "Option #3" },
 				{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 			] }
-			label="Default Radio Group"
+			label="Default radio group"
 			onChange={ noop }
 		/>
 		<hr />
@@ -65,7 +65,7 @@ export const Variants = ( args ) => (
 			id="radio-group-2"
 			name="name-2"
 			value="2"
-			label="Inline-block Radio Group"
+			label="Inline-block radio group"
 			description="Radio group with a description."
 			options={ [
 				{ value: "1", label: "1", screenReaderLabel: "Option #1" },

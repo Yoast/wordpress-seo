@@ -35,7 +35,7 @@ Factory.parameters = {
 
 Factory.args = {
 	id: "factory-id",
-	label: "A Toggle Field",
+	label: "A toggle field",
 };
 
 export const WithLabelAndDescription = Template.bind( {} );

@@ -183,7 +183,7 @@ Mobile.args = {
 		openButtonScreenReaderText="Open sidebar"
 		closeButtonScreenReaderText="Close sidebar"
 	>
-		<div className="yst-m-4">MobileMenu</div>
+		<div className="yst-m-4">Mobile menu</div>
 		<SidebarNavigation.MenuItem
 			id={ "submenuitem-mobile" }
 			icon={ AdjustmentsIcon }

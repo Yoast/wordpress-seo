@@ -39,7 +39,7 @@ Factory.args = {
 		{ value: "3", label: "Option 3" },
 		{ value: "4", label: "Option 4" },
 	],
-	label: "A Checkbox Group",
+	label: "A checkbox group",
 };
 
 export const WithLabelAndDescription = Template.bind( {} );

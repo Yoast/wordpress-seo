@@ -58,7 +58,7 @@ Factory.args = {
 	name: "name-0",
 	value: "1",
 	children: options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
-	label: "A Select Field",
+	label: "A select field",
 };
 
 export const WithLabelAndDescription = Template.bind( {} );

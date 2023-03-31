@@ -21,7 +21,7 @@ export default {
 	args: {
 		id: "input-field",
 		onChange: noop,
-		label: "A Text Field",
+		label: "A text field",
 	},
 };
 

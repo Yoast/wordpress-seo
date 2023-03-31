@@ -32,12 +32,12 @@ export default {
 		title: { control: "text", type: "string" },
 		description: { control: "text", type: "string" },
 		onDismiss: { control: { disable: false } },
-		autoDismiss: { type: "number", description: "Miliseconds for Notification to dissapear." },
+		autoDismiss: { type: "number", description: "Milliseconds for Notification to disappear." },
 		dismissScreenReaderLabel: { control: "text", type: "string" },
 	},
 	args: {
 		title: "Notification title",
-		description: "Notifiation description",
+		description: "Notification description",
 		dismissScreenReaderLabel: "Dismiss",
 	},
 	parameters: {

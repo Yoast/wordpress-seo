@@ -18,7 +18,7 @@ export default {
 	},
 	args: {
 		id: "textarea-field",
-		label: "A Textarea Field",
+		label: "A textarea field",
 	},
 };
 
