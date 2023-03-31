@@ -4,13 +4,7 @@ import AssessmentResult from "../values/AssessmentResult.js";
 import { showTrace } from "../helpers/errors.js";
 
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined } from "lodash-es";
-import { isFunction } from "lodash-es";
-import { forEach } from "lodash-es";
-import { filter } from "lodash-es";
-import { map } from "lodash-es";
-import { findIndex } from "lodash-es";
-import { find } from "lodash-es";
+import { isUndefined, isFunction, filter, map, findIndex, find } from "lodash-es";
 
 const ScoreRating = 9;
 
@@ -228,11 +222,8 @@ Assessor.prototype.isValidResult = function( assessmentResult ) {
  */
 Assessor.prototype.calculateOverallScore  = function() {
 	const results = this.getValidResults();
-	let totalScore = 0;
 
-	forEach( results, function( assessmentResult ) {
-		totalScore += assessmentResult.getScore();
-	} );
+	const totalScore = results.reduce( ( total, assessmentResult ) => total + assessmentResult.getScore(), 0 );
 
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 ) || 0;
 };
