@@ -2,6 +2,7 @@ extends:
   - "eslint:recommended"
   - "plugin:react/recommended"
   - "plugin:jsx-a11y/recommended"
+  - "plugin:import/recommended"
 
 parserOptions:
   ecmaVersion: 2017
@@ -261,3 +262,6 @@ rules:
   react/default-props-match-prop-types: 2
   react/button-has-type: 0 # See https://github.com/yannickcr/eslint-plugin-react/issues/1555
   react/boolean-prop-naming: 2
+
+  # Import rules (https://github.com/import-js/eslint-plugin-import)
+  import/no-extraneous-dependencies: 2

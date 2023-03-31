@@ -1,4 +1,4 @@
-import Notifications, { Notification, notificationClassNameMap, notificationsClassNameMap, notificationsIconMap } from ".";
+import Notifications, { Notification, notificationClassNameMap } from ".";
 import { keys } from "lodash";
 
 export default {

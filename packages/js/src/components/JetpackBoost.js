@@ -40,10 +40,9 @@ const JetpackBoost = ( { store, isAlertDismissed, onDismissed } ) => {
 	const isJetpackBoostNotPremium = get( window, "wpseoScriptData.isJetpackBoostNotPremium", "" ) === "1";
 	const getJetpackBoostPrePublishLink = get( window, "wpseoScriptData.metabox.getJetpackBoostPrePublishLink", "" );
 	const upgradeJetpackBoostPrePublishLink = get( window, "wpseoScriptData.metabox.upgradeJetpackBoostPrePublishLink", "" );
-	const showJetpackBoostAd = get( window, "wpseoScriptData.canShowJetpackBoostAd", false );
 
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
-	if ( ! showJetpackBoostAd || isPremium || isAlertDismissed || ! isJetpackBoostNotPremium ) {
+	if ( isPremium || isAlertDismissed || ! isJetpackBoostNotPremium ) {
 		return null;
 	}
 

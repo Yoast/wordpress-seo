@@ -4,7 +4,7 @@ import {
 	debounce,
 	isArray,
 	isEqual,
-} from "lodash-es";
+} from "lodash";
 
 var $ = jQuery;
 

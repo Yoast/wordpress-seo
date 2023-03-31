@@ -3,9 +3,7 @@ import getSentences from "../helpers/sentence/getSentences";
 import stripSpaces from "../helpers/sanitize/stripSpaces.js";
 import { stripFullTags as stripTags } from "../helpers/sanitize/stripHTMLTags.js";
 
-import { isEmpty } from "lodash-es";
-import { forEach } from "lodash-es";
-import { filter } from "lodash-es";
+import { filter, forEach, isEmpty } from "lodash-es";
 
 /**
  * Compares the first word of each sentence with the first word of the following sentence.
