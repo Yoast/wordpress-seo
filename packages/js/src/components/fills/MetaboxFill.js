@@ -1,9 +1,8 @@
 /* External dependencies */
-import { Fragment } from "@wordpress/element";
+import { Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { useCallback } from "@wordpress/element";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */

@@ -2,6 +2,7 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
+import Mark from "../../../../src/values/Mark";
 
 let assessment = new WordComplexityAssessment();
 
@@ -92,6 +93,20 @@ describe( "a test for an assessment that checks complex words in a text", functi
 			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
+	} );
+
+	it( "should be able recognize complex words in image caption and return maker", function() {
+		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"A flamboyant looking cat.<br></br>\n" +
+			"</p>" );
+		const researcher = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: "A flamboyant looking cat.",
+				marked: "A <yoastmark class='yoast-text-mark'>flamboyant</yoastmark> looking cat." } ),
+		];
+		expect( new WordComplexityAssessment().getMarks( paper, researcher ) ).toEqual( expected );
 	} );
 } );
 

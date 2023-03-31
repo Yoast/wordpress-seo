@@ -1,7 +1,6 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
-import { Fragment } from "@wordpress/element";
-import { useEffect } from "@wordpress/element";
+import { Fragment, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import PropTypes from "prop-types";

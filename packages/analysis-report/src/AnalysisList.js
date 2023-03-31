@@ -1,6 +1,6 @@
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
-import React from "@wordpress/element";
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import noop from "lodash/noop";
@@ -14,7 +14,7 @@ import AnalysisResult from "./AnalysisResult";
 /**
  * Renders a styled list of analyses.
  *
- * @returns {React.Element} The rendered tree.
+ * @returns {JSX.Element} The rendered tree.
  */
 const AnalysisListBase = styled.ul`
 	margin: 8px 0;
@@ -58,7 +58,7 @@ export function renderRatingToColor( rating ) {
  *                                                              clicks one of the edit buttons.
  * @param {bool}            props.isPremium                     Whether the Premium plugin is active or not.
  *
- * @returns {React.Element} The rendered list.
+ * @returns {JSX.Element} The rendered list.
  */
 export default function AnalysisList( props ) {
 	return <AnalysisListBase role="list">

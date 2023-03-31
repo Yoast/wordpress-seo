@@ -2,7 +2,7 @@
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 
 /* Internal dependencies */
 import SEMrushLoading from "./modals/SEMrushLoading";

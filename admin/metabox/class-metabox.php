@@ -869,9 +869,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';
 		}
-		else {
-			$asset_manager->enqueue_style( 'editor' );
-		}
 		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );
 
@@ -926,7 +923,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
-			'canShowJetpackBoostAd'      => $this->checkJetpackBoostAdDate(),
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -1153,19 +1149,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $custom_replace_vars;
-	}
-
-	/**
-	 * Checks if we're past the date set for the Jetpack Boost ad.
-	 *
-	 * @return bool Whether the Jetpack Boost ad must be shown.
-	 */
-	private function checkJetpackBoostAdDate() {
-		$now                          = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
-		$jetpack_boost_ad_date_string = WPSEO_Options::get( 'jetpack_ad_start_date', '1970-01-01 00:00:00' );
-		$jetpack_boost_ad_date        = new DateTime( $jetpack_boost_ad_date_string, new DateTimeZone( 'UTC' ) );
-
-		return $now > $jetpack_boost_ad_date;
 	}
 
 	/**

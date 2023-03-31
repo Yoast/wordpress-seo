@@ -19,17 +19,11 @@ describe( "The DocumentSidebar container", () => {
 			scoreValue: "OK",
 		} );
 
-		expect( props.checklist ).toContainEqual( {
-			label: "Schema analysis:",
-			score: "bad",
-			scoreValue: "Needs improvement",
-		} );
-
 		expect( props.intro ).toEqual( undefined );
 	} );
 
 	it( "maps the select function to props when no schema validation results are present", () => {
-		const select = mockSelectors( name, { "1234-abcde": { result: 0 } } );
+		const select = mockSelectors( name );
 
 		const props = mapSelectToProps( select );
 
@@ -43,12 +37,6 @@ describe( "The DocumentSidebar container", () => {
 			label: "SEO analysis:",
 			score: "ok",
 			scoreValue: "OK",
-		} );
-
-		expect( props.checklist ).toContainEqual( {
-			label: "Schema analysis:",
-			score: "good",
-			scoreValue: "Good",
 		} );
 
 		expect( props.intro ).toEqual( undefined );

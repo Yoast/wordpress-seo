@@ -4,7 +4,7 @@ import AssessmentResult from "../values/AssessmentResult.js";
 import { showTrace } from "../helpers/errors.js";
 
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined, isFunction, filter, map, findIndex, find } from "lodash-es";
+import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash-es";
 
 const ScoreRating = 9;
 
