@@ -1,7 +1,5 @@
 import getResults from "../getListOfAssessmentResults";
 import Paper from "../../../src/values/Paper";
-import buildTree from "../parse/buildTree";
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 
 /**
  * Checks which assessment are available for a related keyphrase assessor, given a certain Paper.
@@ -38,11 +36,7 @@ export function checkAssessmentAvailability( assessor ) {
 	} );
 
 	it( "additionally runs assessments that require a text and a keyword", function() {
-		const paper = new Paper( "text", { keyword: "keyword" } );
-		const researcher = new EnglishResearcher( paper );
-		buildTree( paper, researcher );
-
-		assessor.assess( paper );
+		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
 		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
@@ -52,11 +46,7 @@ export function checkAssessmentAvailability( assessor ) {
 	} );
 
 	it( "additionally runs assessments that require a text, a keyword, and a meta description", function() {
-		const paper = new Paper( "text", { keyword: "keyword", description: "description" } );
-		const researcher = new EnglishResearcher( paper );
-		buildTree( paper, researcher );
-
-		assessor.assess( paper );
+		assessor.assess( new Paper( "text", { keyword: "keyword", description: "description" } ) );
 		const assessments = getResults( assessor.getValidResults() );
 
 		expect( assessments ).toEqual( [
@@ -75,9 +65,6 @@ export function checkAssessmentAvailability( assessor ) {
 			"ne enim constituam. Et summo mentitum mea. Cu his nusquam civibus officiis, vix tota appellantur" +
 			"no, fuisset invenire molestiae pro ne. Ne case essent mei, ut quo ferri malorum albucius. Id nonumes" +
 			"inimicus vix. Ei duo prompta electram, iudico.", { keyword: "keyword" } );
-		const researcher = new EnglishResearcher( paper );
-		buildTree( paper, researcher );
-
 		assessor.assess( paper );
 		const assessments = getResults( assessor.getValidResults() );
 

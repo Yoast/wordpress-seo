@@ -17,9 +17,6 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	 * @returns {string[]} The assessments with valid results.
 	 */
 	function assess( paper ) {
-		const researcher = new EnglishResearcher( paper );
-		buildTree( paper, researcher );
-
 		assessor.assess( paper );
 		return getResults( assessor.getValidResults() );
 	}
