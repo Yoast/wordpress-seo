@@ -1,7 +1,7 @@
 import Paper from "../../../src/values/Paper";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import countAnchorsWithKeyphrase from "../../../src/languageProcessing/researches/countAnchorsWithKeyphrase";
+import getAnchorsWithKeyphrase from "../../../src/languageProcessing/researches/getAnchorsWithKeyphrase";
 import buildTree from "../../specHelpers/parse/buildTree";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
@@ -19,7 +19,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should return 0 if neither the keyphrase nor the synonym is set", () => {
@@ -31,7 +31,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should return 0 if the keyphrase is found in an anchor text of a link" +
@@ -46,7 +46,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should return 0 if the anchor tag doesn't have href attribute", () => {
@@ -59,7 +59,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should ignore the keyphrase in an url when referencing to the current url with a hash", () => {
@@ -71,7 +71,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		let researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 
 		attributes = {
 			keyword: "cat",
@@ -82,7 +82,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should return 0 if the keyphrase is found in an anchor text of a fragment on the same page", () => {
@@ -96,7 +96,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should return 0 if neither the keyphrase nor the synonym is found in the anchors", () => {
@@ -110,7 +110,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should return 0 when the anchor text contains more content words than just the keyphrase or synonym", () => {
@@ -125,7 +125,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should find a match when the keyphrase is found in the anchor text, even when it only contains function words", () => {
@@ -140,7 +140,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 
 		buildTree( mockPaper, researcher );
 
-		const result = countAnchorsWithKeyphrase( mockPaper, researcher );
+		const result = getAnchorsWithKeyphrase( mockPaper, researcher );
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
@@ -167,7 +167,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		researcher.addResearchData( "morphology", morphologyData );
 
 		buildTree( mockPaper, researcher );
-		const result = countAnchorsWithKeyphrase( mockPaper, researcher );
+		const result = getAnchorsWithKeyphrase( mockPaper, researcher );
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
@@ -193,7 +193,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		researcher.addResearchData( "morphology", morphologyData );
 
 		buildTree( mockPaper, researcher );
-		const result = countAnchorsWithKeyphrase( mockPaper, researcher );
+		const result = getAnchorsWithKeyphrase( mockPaper, researcher );
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
@@ -220,7 +220,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		researcher.addResearchData( "morphology", morphologyData );
 
 		buildTree( mockPaper, researcher );
-		const result = countAnchorsWithKeyphrase( mockPaper, researcher );
+		const result = getAnchorsWithKeyphrase( mockPaper, researcher );
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
@@ -246,7 +246,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		researcher.addResearchData( "morphology", morphologyData );
 
 		buildTree( mockPaper, researcher );
-		const result = countAnchorsWithKeyphrase( mockPaper, researcher );
+		const result = getAnchorsWithKeyphrase( mockPaper, researcher );
 
 		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
 		expect( result.anchorsWithKeyphrase ).toEqual( [ {
@@ -287,7 +287,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		researcher.addResearchData( "morphology", morphologyData );
 
 		buildTree( mockPaper, researcher );
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 3 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 3 );
 	} );
 
 	it( "should not match a partial overlap", () => {
@@ -304,7 +304,7 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 		researcher.addResearchData( "morphology", morphologyData );
 
 		buildTree( mockPaper, researcher );
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 } );
 
@@ -319,7 +319,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 	} );
 
 	it( "should match all words from keyphrase in the link text and vice versa when the keyphrase is enclosed in double quotes " +
@@ -334,7 +334,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 	} );
 
 	it( "should not return a match of keyphrase in the anchor text and vice versa when the keyphrase is enclosed in double quotes " +
@@ -349,7 +349,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "should not return a match of keyphrase in the anchor text and vice versa when the keyphrase is enclosed in double quotes " +
@@ -365,7 +365,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		researcher.addResearchData( "morphology", morphologyData );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 	} );
 
 	it( "assesses the anchor text where all content words in the text are present in one of the synonyms, " +
@@ -380,7 +380,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 	} );
 
 	it( "assesses multiple anchor texts where all content words in the texts are present in the keyphrase and in one of the synonyms, " +
@@ -395,7 +395,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const researcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 2 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 2 );
 	} );
 
 	it( "should match the keyphrase in the anchor text when the keyphrase is enclosed in double quotes in Japanese", function() {
@@ -407,7 +407,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const researcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 	} );
 
 	it( "should match the keyphrase in the anchor text when the keyphrase is enclosed in double quotes " +
@@ -420,7 +420,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const researcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 	} );
 
 	it( "assesses the anchor text where all content words in the text are present in the synonym, " +
@@ -434,7 +434,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const researcher = new JapaneseResearcher( mockPaper );
 		buildTree( mockPaper, researcher );
 
-		expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 	} );
 } );
 
@@ -456,7 +456,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 		} );
 
 		it( "assesses the anchor text where all content words in the text present in the keyphrase: should find a match", function() {
@@ -468,7 +468,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 		} );
 
 		it( "assesses the anchor text where all content words in the text present in the keyphrase, but in a different form:" +
@@ -481,7 +481,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 		} );
 
 		it( "assesses the anchor text where all content words in the text are present in the synonym and in the keyphrase", function() {
@@ -495,7 +495,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 2 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 2 );
 		} );
 	} );
 
@@ -510,7 +510,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 		} );
 
 		it( "assesses the anchor text where all content words in the text present in the keyphrase: should find a match", function() {
@@ -523,7 +523,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 		} );
 
 		it( "assesses the anchor text where all content words in the text present in the keyphrase, but in a different form:" +
@@ -538,7 +538,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 2 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 2 );
 		} );
 
 		it( "assesses the anchor text where all content words in the text present in the synonyms, but in a different form", function() {
@@ -553,7 +553,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 1 );
 		} );
 
 		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes, " +
@@ -567,7 +567,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const researcher = new JapaneseResearcher( mockPaper );
 			buildTree( mockPaper, researcher );
 
-			expect( countAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
+			expect( getAnchorsWithKeyphrase( mockPaper, researcher ).anchorsWithKeyphraseCount ).toEqual( 0 );
 		} );
 	} );
 } );
