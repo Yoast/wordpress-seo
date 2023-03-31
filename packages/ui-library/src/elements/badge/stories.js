@@ -23,7 +23,7 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	children: "Badge Factory",
+	children: "Badge factory",
 };
 
 export const Variants = ( args ) => (

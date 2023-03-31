@@ -36,7 +36,7 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	children: "Button Factory",
+	children: "Button factory",
 };
 
 export const Variants = ( args ) => (
