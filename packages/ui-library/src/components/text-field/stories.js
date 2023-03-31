@@ -5,7 +5,7 @@ import { VALIDATION_VARIANTS } from "../../constants";
 import { StoryComponent } from ".";
 
 export default {
-	title: "2) Components/Text Field",
+	title: "2) Components/Text field",
 	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
@@ -40,6 +40,7 @@ export const Factory = {
 };
 
 export const WithLabelAndDescription = {
+	storyName: "With label and description",
 	component: Factory.component.bind( {} ),
 	args: {
 		id: "input-field-1",

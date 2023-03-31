@@ -49,7 +49,7 @@ Factory.args = {
 };
 
 export const WithoutHeader = Template.bind( {} );
-
+WithoutHeader.storyName = "Without header";
 WithoutHeader.args = {
 	children: (
 		<>

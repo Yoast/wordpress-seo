@@ -2,7 +2,7 @@ import { useCallback, useState } from "@wordpress/element";
 import CheckboxGroup from ".";
 
 export default {
-	title: "2) Components/Checkbox Group",
+	title: "2) Components/Checkbox group",
 	component: CheckboxGroup,
 	argTypes: {
 		children: { control: "text" },
@@ -43,7 +43,7 @@ Factory.args = {
 };
 
 export const WithLabelAndDescription = Template.bind( {} );
-
+WithLabelAndDescription.storyName = "With label and description";
 WithLabelAndDescription.args = {
 	id: "checkbox-group-1",
 	name: "name-1",
@@ -58,7 +58,7 @@ WithLabelAndDescription.args = {
 };
 
 export const WithValues = Template.bind( {} );
-
+WithValues.storyName = "With values";
 WithValues.args = {
 	id: "checkbox-group-2",
 	name: "name-2",
@@ -73,7 +73,7 @@ WithValues.args = {
 };
 
 export const ChildrenProp = Template.bind( {} );
-
+ChildrenProp.storyName = "Children prop";
 ChildrenProp.args = {
 	id: "checkbox-group-3",
 	name: "name-3",

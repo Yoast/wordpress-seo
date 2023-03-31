@@ -4,7 +4,7 @@ import { noop } from "lodash";
 import RadioGroup from ".";
 
 export default {
-	title: "2) Components/Radio Group",
+	title: "2) Components/Radio group",
 	component: RadioGroup,
 	argTypes: {
 		children: { control: "text" },
@@ -83,6 +83,7 @@ Variants.parameters = {
 };
 
 export const WithLabelAndDescription = Template.bind();
+WithLabelAndDescription.storyName = "With label and description";
 WithLabelAndDescription.args = {
 	id: "radio-group-3",
 	name: "name-3",
@@ -97,6 +98,7 @@ WithLabelAndDescription.args = {
 };
 
 export const WithValue = Template.bind();
+WithValue.storyName = "With value";
 WithValue.args = {
 	id: "radio-group-4",
 	name: "name-4",
@@ -111,6 +113,7 @@ WithValue.args = {
 };
 
 export const ChildrenProp = Template.bind();
+ChildrenProp.storyName = "Children prop";
 ChildrenProp.args = {
 	id: "radio-group-5",
 	name: "name-5",
