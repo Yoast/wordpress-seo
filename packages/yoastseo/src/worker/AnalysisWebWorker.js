@@ -1403,7 +1403,7 @@ export default class AnalysisWebWorker {
 			// Build and set the tree if it's not been set before.
 			if ( paper.getTree() === null ) {
 				const languageProcessor = new LanguageProcessor( researcher );
-				paper.setTree( filterTree( build( paper.getText(), languageProcessor ), permanentFilters ) );
+				paper.setTree( build( paper.getText(), languageProcessor ) );
 			}
 		}
 

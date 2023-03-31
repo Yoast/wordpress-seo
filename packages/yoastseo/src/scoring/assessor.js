@@ -6,9 +6,7 @@ import { showTrace } from "../helpers/errors.js";
 import { __, sprintf } from "@wordpress/i18n";
 import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash-es";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
-import filterTree from "../parse/build/private/filterTree";
 import { build } from "../parse/build";
-import permanentFilters from "../parse/build/private/alwaysFilterElements";
 
 const ScoreRating = 9;
 
@@ -125,7 +123,7 @@ Assessor.prototype.assess = function( paper ) {
 	this._researcher.setPaper( paper );
 
 	const languageProcessor = new LanguageProcessor( this._researcher );
-	paper.setTree( filterTree( build( paper.getText(), languageProcessor ), permanentFilters ) );
+	paper.setTree( build( paper.getText(), languageProcessor ) );
 
 	let assessments = this.getAvailableAssessments();
 	this.results = [];
