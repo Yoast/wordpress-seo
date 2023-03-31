@@ -27,6 +27,9 @@ import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/Pa
 import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
 import WordComplexityAssessment from "../../src/scoring/assessments/readability/WordComplexityAssessment";
+import TextAlignmentAssessment from "../../src/scoring/assessments/readability/TextAlignmentAssessment";
+
+import getLongCenterAlignedTexts from "../../src/languageProcessing/researches/getLongCenterAlignedTexts";
 
 // Import test papers
 import testPapers from "./testTexts";
@@ -40,6 +43,7 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
 
 		const expectedResults = testPaper.expectedResults;
 
@@ -158,6 +162,10 @@ testPapers.forEach( function( testPaper ) {
 
 		it( "returns a score and the associated feedback text for the imageCount assessment", function() {
 			compare( new ImageCountAssessment(), expectedResults.imageCount );
+		} );
+
+		it( "returns a score and the associated feedback text for the textAlignment assessment", function() {
+			compare( new TextAlignmentAssessment(), expectedResults.textAlignment );
 		} );
 	} );
 } );

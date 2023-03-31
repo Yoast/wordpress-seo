@@ -13,6 +13,7 @@ const paper = new Paper( content, {
 	locale: "he_IL",
 	permalink: "https://he.wikipedia.org/wiki/%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
 	slug: "%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
+	writingDirection: "RTL",
 } );
 
 const expectedResults = {
@@ -156,6 +157,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
 	},
 };
 
