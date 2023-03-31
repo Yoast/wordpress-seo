@@ -3,6 +3,7 @@ import getResults from "../getAssessorResults";
 import buildTree from "../parse/buildTree";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 
+/* eslint-disable complexity */
 /**
  * Checks which assessment are available for an SEO assessor, given a certain Paper.
  * @param {Assessor} assessor The SEO assessor.
@@ -28,9 +29,9 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	const isProduct = assessor.type.startsWith( "product" );
 	const isTaxonomy = assessor.type.startsWith( "taxonomy" );
 
-	let defaultAssessments = [ "keyphraseLength", "metaDescriptionLength", "textLength", "titleWidth" ];
+	const defaultAssessments = [ "keyphraseLength", "metaDescriptionLength", "titleWidth", "textLength" ];
 	if ( isStoreBlog ) {
-		defaultAssessments = [ "keyphraseLength", "metaDescriptionLength", "titleWidth" ];
+		defaultAssessments.pop();
 	}
 
 	let requiresTextAssessments = [ "images", "externalLinks", "internalLinks" ];
@@ -41,9 +42,9 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		requiresTextAssessments = [ "images" ];
 	}
 
-	let requiresKeyphraseAssessments = [ "introductionKeyword" ];
+	const requiresKeyphraseAssessments = [ "introductionKeyword" ];
 	if ( isStoreBlog ) {
-		requiresKeyphraseAssessments = [];
+		requiresKeyphraseAssessments.pop();
 	}
 
 	const mostAssessments = [ ...defaultAssessments, ...requiresTextAssessments, ...requiresKeyphraseAssessments ];
@@ -158,6 +159,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 		expect( assessments.sort() ).toEqual( expected.sort() );
 	} );
 }
+/* eslint-enable complexity */
 
 /**
  * Checks the config overrides for a given SEO assessor.
@@ -210,7 +212,7 @@ export function checkConfigOverrides( assessor ) {
 		expect( assessment._config.scores.noLinks ).toBe( 3 );
 	} );
 
-	test( "PageTitleWidthAssesment", () => {
+	test( "PageTitleWidthAssessment", () => {
 		const assessment = assessor.getAssessment( "titleWidth" );
 
 		expect( assessment ).toBeDefined();
@@ -335,7 +337,7 @@ export function checkUrls( assessor, isProductAssessor = false ) {
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
-	test( "PageTitleWidthAssesment", () => {
+	test( "PageTitleWidthAssessment", () => {
 		const assessment = assessor.getAssessment( "titleWidth" );
 		const urlTitle = isProductAssessor ? "https://yoa.st/shopify52" : "https://yoa.st/34h";
 		const urlCallToAction = isProductAssessor ? "https://yoa.st/shopify53" : "https://yoa.st/34i";
