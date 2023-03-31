@@ -427,4 +427,56 @@ describe( "The parse function", () => {
 			],
 		} );
 	} );
+	it( "parses a basic HTML text and filters out elements that should be filtered out", () => {
+		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div><div><p class='yoast'>Hello, world!<script>console.log(\"Hello, world!\")</script></p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [ {
+				name: "div",
+				sourceCodeLocation: {
+					startOffset: 113,
+					endOffset: 203,
+					startTag: {
+						startOffset: 113,
+						endOffset: 118,
+					},
+					endTag: {
+						startOffset: 197,
+						endOffset: 203,
+					},
+				},
+				attributes: {},
+				childNodes: [ {
+					name: "p",
+					isImplicit: false,
+					attributes: {
+						"class": new Set( [ "yoast" ] ),
+					},
+					sentences: [ { text: "Hello, world!", tokens: [] } ],
+					childNodes: [ {
+						name: "#text",
+						value: "Hello, world!",
+					} ],
+					sourceCodeLocation: {
+						startOffset: 118,
+						endOffset: 197,
+						startTag: {
+							startOffset: 118,
+							endOffset: 135,
+						},
+						endTag: {
+							startOffset: 193,
+							endOffset: 197,
+						},
+					},
+				} ],
+			} ],
+		} );
+	} );
 } );

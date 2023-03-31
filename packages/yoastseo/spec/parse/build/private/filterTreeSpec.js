@@ -1,24 +1,15 @@
+// External dependencies.
+import { parseFragment } from "parse5";
+// Internal dependencies.
 import filterTree from "../../../../src/parse/build/private/filterTree";
-import build from "../../../../src/parse/build/build";
-import LanguageProcessor from "../../../../src/parse/language/LanguageProcessor";
-import Factory from "../../../specHelpers/factory";
+import adapt from "../../../../src/parse/build/private/adapt";
 import permanentFilters from "../../../../src/parse/build/private/alwaysFilterElements";
-import memoizedSentenceTokenizer from "../../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
-
 
 describe( "A test for filterTree", () => {
-	let languageProcessor;
-
-	beforeEach( () => {
-		const researcher = Factory.buildMockResearcher( {}, true, false, false,
-			{ memoizedTokenizer: memoizedSentenceTokenizer } );
-		languageProcessor = new LanguageProcessor( researcher );
-	} );
-
 	it( "should filter script elements", () => {
 		const html = "<script>console.log(\"Hello, world!\")</script><div>A div</div>";
 
-		const tree = build( html, languageProcessor );
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "script" ) ).toHaveLength( 1 );
 		const filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.name === "script" ) ).toHaveLength( 0 );
@@ -27,7 +18,7 @@ describe( "A test for filterTree", () => {
 	it( "should filter style elements", () => {
 		const html = "<style>div { color: #FF00FF}</style><div>A div</div>";
 
-		const tree = build( html, languageProcessor );
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "style" ) ).toHaveLength( 1 );
 		const filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.name === "style" ) ).toHaveLength( 0 );
@@ -39,7 +30,7 @@ describe( "A test for filterTree", () => {
 			"WWF works in 100 countries and is supported by 1.2 million members in the United States and close to 5 million globally.\n" +
 			"</blockquote><div>A div</div>";
 
-		const tree = build( html, languageProcessor );
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		expect( tree.findAll( child => child.name === "blockquote" ) ).toHaveLength( 1 );
 		const filteredTree = filterTree( tree, permanentFilters );
 		expect( filteredTree.findAll( child => child.name === "blockquote" ) ).toHaveLength( 0 );
@@ -49,7 +40,7 @@ describe( "A test for filterTree", () => {
 		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div>" +
 			"<div>A div</div>";
 
-		const tree = build( html, languageProcessor );
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, permanentFilters );
 
 		expect( filteredTree ).toEqual( {
@@ -68,7 +59,6 @@ describe( "A test for filterTree", () => {
 							value: "A div",
 						},
 					],
-					sentences: [ { text: "A div", tokens: [] } ],
 					sourceCodeLocation: {
 						startOffset: 118,
 						endOffset: 123,
@@ -94,7 +84,7 @@ describe( "A test for filterTree", () => {
 		const html = "<p class='yoast-reading-time__wrapper'></p>" +
 			"<div>A div</div>";
 
-		const tree = build( html, languageProcessor );
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, permanentFilters );
 
 		expect( filteredTree ).toEqual( {
@@ -113,7 +103,6 @@ describe( "A test for filterTree", () => {
 							value: "A div",
 						},
 					],
-					sentences: [ { text: "A div", tokens: [] } ],
 					sourceCodeLocation: {
 						startOffset: 48,
 						endOffset: 53,
@@ -139,7 +128,7 @@ describe( "A test for filterTree", () => {
 		const html = "<div class=\"yoast-breadcrumbs\"><span><span><a href=\"http://wordpress.test/\">Home</a></span></span></div>" +
 			"<div>Hello world!</div>";
 
-		const tree = build( html, languageProcessor );
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, permanentFilters );
 
 		expect( filteredTree ).toEqual( {
@@ -159,7 +148,6 @@ describe( "A test for filterTree", () => {
 								value: "Hello world!",
 							},
 						],
-						sentences: [ { text: "Hello world!", tokens: [] } ],
 						sourceCodeLocation: {
 							startOffset: 109,
 							endOffset: 121,
@@ -185,7 +173,7 @@ describe( "A test for filterTree", () => {
 	it( "should correctly filter when a custom filter is provided.", function() {
 		const html = "<div data-test='blah'></div><div>Hello world!</div>";
 
-		const tree = build( html, languageProcessor );
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
 		const filteredTree = filterTree( tree, [ ( elem ) => {
 			return elem.name === "div" && elem.attributes[ "data-test" ] && elem.attributes[ "data-test" ] === "blah";
 		} ] );
@@ -207,7 +195,6 @@ describe( "A test for filterTree", () => {
 								value: "Hello world!",
 							},
 						],
-						sentences: [ { text: "Hello world!", tokens: [] } ],
 						sourceCodeLocation: {
 							startOffset: 33,
 							endOffset: 45,
