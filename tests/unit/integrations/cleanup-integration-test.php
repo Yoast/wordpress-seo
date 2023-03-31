@@ -733,7 +733,7 @@ class Cleanup_Integration_Test extends TestCase {
 
 		$this->wpdb->shouldReceive( 'query' )
 			->once()
-			->with( 'DELETE FROM wp_yoast_indexable WHERE object_id IN( ' . \implode( ',', $ids ) . ' )' )
+			->with( "DELETE FROM wp_yoast_indexable WHERE object_type = '{$object_type}' AND object_id IN( " . \implode( ',', $ids ) . ' )' )
 			->andReturn( 50 );
 	}
 }
