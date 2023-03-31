@@ -3,8 +3,10 @@ import { filter, flatMap, isEmpty, negate } from "lodash-es";
 
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";
+import { imageRegex } from "../image/imageInText";
 import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime";
+import { stripBlockTagsAtStartEnd } from "../sanitize/stripHTMLTags";
 import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import defaultSentenceTokenizer from "./memoizedSentenceTokenizer";
 
@@ -31,6 +33,12 @@ export default function( text, memoizedTokenizer = defaultSentenceTokenizer ) {
 	text = excludeEstimatedReadingTime( text );
 	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
 	text = unifyNonBreakingSpace( text );
+	/*
+	 * Remove images from text before tokenizing it into sentences.
+	 * This is necessary since the highlighting feature doesn't work if the yoastmark tags are enclosing a sentence starting with an image.
+	 * This step is done here so that applying highlight in captions is possible for all assessments that use this helper.
+	 */
+	text = text.replace( imageRegex, "" );
 
 	let blocks = getBlocks( text );
 
@@ -50,7 +58,14 @@ export default function( text, memoizedTokenizer = defaultSentenceTokenizer ) {
 	 * We use the `map` method followed by `flat` instead of `flatMap` because `flatMap` would override the second
 	 * argument of the memoizedTokenizer with the index of the iteratee.
 	 */
-	const sentences = blocks.map( block => memoizedTokenizer( block ) );
+	let sentences = blocks.map( block => memoizedTokenizer( block ) ).flat();
 
-	return filter( sentences.flat(), negate( isEmpty ) );
+	/*
+	 * Strip block tags from the start and/or the end of each sentence and whitespaces if present.
+	 * After tokenized, sometimes there are still block tags present in the beginning/end of a sentence.
+	 * Unstripped, these tags could potentially break the highlighting functionality.
+	 */
+	sentences = sentences.map( sentence => stripBlockTagsAtStartEnd( sentence ).trim() );
+
+	return filter( sentences, negate( isEmpty ) );
 }

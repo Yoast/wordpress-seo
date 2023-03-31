@@ -19,20 +19,56 @@ describe( "A test for findAllInTree", () => {
 
 		const searchResult = findAllInTree( tree, treeNode => treeNode.name === "p" );
 
-		const expected =   [
+		const expected = [
 			{
+				name: "p",
+				isImplicit: false,
 				attributes: { "class": new Set( [ "yoast" ] ) },
-				childNodes: [
-					{ name: "#text", value: "Hello, world! " },
-				], isImplicit: false, name: "p", sentences: [ { text: "Hello, world!", tokens: [] } ],
-			}, { attributes: { "class": new Set( [ "yoast" ] ) },
-				childNodes: [
-					{ name: "#text", value: "Hello, yoast! " },
-				], isImplicit: false, name: "p", sentences: [ { text: "Hello, yoast!", tokens: [] } ],
-			} ];
+				childNodes: [ {
+					name: "#text",
+					value: "Hello, world! ",
+				} ],
+				sentences: [ { text: "Hello, world!", tokens: [] } ],
+				sourceCodeLocation: {
+					startOffset: 5,
+					endOffset: 40,
+					startTag: {
+						startOffset: 5,
+						endOffset: 22,
+					},
+					endTag: {
+						startOffset: 36,
+						endOffset: 40,
+					},
+				},
+			},
+			{
+				name: "p",
+				isImplicit: false,
+				attributes: { "class": new Set( [ "yoast" ] ) },
+				childNodes: [ {
+					name: "#text",
+					value: "Hello, yoast! ",
+				} ],
+				sentences: [ { text: "Hello, yoast!", tokens: [] } ],
+				sourceCodeLocation: {
+					startOffset: 40,
+					endOffset: 75,
+					startTag: {
+						startOffset: 40,
+						endOffset: 57,
+					},
+					endTag: {
+						startOffset: 71,
+						endOffset: 75,
+					},
+				},
+			},
+		];
 
 		expect( searchResult ).toEqual( expected );
 	} );
+
 	it( "should return an empty result if the tag doesnt exist within the tree", function() {
 		const html = "<div><p class='yoast'>Hello, world! </p><p class='yoast'>Hello, yoast! </p></div>";
 		const tree = build( html, languageProcessor );

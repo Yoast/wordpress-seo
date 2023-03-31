@@ -2,7 +2,7 @@
 import { Transition } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { createInterpolateElement, Fragment } from "@wordpress/element";
+import { createInterpolateElement, Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, Badge, Button, FeatureUpsell, Link, Radio, RadioGroup, TextField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
@@ -12,7 +12,6 @@ import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
-import { useCallback } from "@wordpress/element";
 
 const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
 
@@ -208,7 +207,7 @@ const SiteRepresentation = () => {
 										labelSuffix={ isPremium && <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 										isDummy={ ! isPremium }
 										description={ <>
-											{ __( "Get your site verified in your Mastodon profile.", "wordpress-seo" )	}
+											{ __( "Get your site verified in your Mastodon profile.", "wordpress-seo" ) }
 											{ " " }
 											<Link id="link-wpseo_social-mastodon_url" href={ mastodonUrlLink } target="_blank" rel="noopener">
 												{ __( "Read more about how to get your site verified.", "wordpress-seo" ) }

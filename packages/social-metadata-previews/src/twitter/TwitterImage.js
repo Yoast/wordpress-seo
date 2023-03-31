@@ -1,16 +1,11 @@
-/* External dependencies */
+import { __ } from "@wordpress/i18n";
+import { TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-forms";
+import { noop } from "lodash";
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
-import { noop } from "lodash";
-
-/* Internal dependencies */
+import { handleImage } from "../helpers/determineImageProperties";
 import { SocialImage } from "../shared/SocialImage";
-import {
-	handleImage,
-	TWITTER_IMAGE_SIZES,
-} from "../helpers/determineImageProperties";
 
 /**
  * Will set height, width, and border properties on the image container as required by the summary/summary_large_image cards.

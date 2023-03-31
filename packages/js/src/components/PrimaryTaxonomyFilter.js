@@ -4,7 +4,7 @@ import { Component, Fragment } from "@wordpress/element";
 import {
 	get,
 	values,
-} from "lodash-es";
+} from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
 import { ClipboardButton } from "@wordpress/components";
 import styled from "styled-components";
