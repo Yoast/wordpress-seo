@@ -49,15 +49,16 @@ export default function( paper, researcher ) {
 	const useSynonyms = true;
 
 	if ( ! isEmpty( sentences ) ) {
-		sentences.forEach( function( sentence ) {
-			const resultSentence = findTopicFormsInString( topicForms, sentence, useSynonyms, locale, matchWordCustomHelper );
-			if ( resultSentence.percentWordMatches === 100 ) {
-				result.foundInOneSentence = true;
-				result.foundInParagraph = true;
-				result.keyphraseOrSynonym = resultSentence.keyphraseOrSynonym;
-				return result;
-			}
-		} );
+		const firstResultSentence = sentences
+			.map( sentence => findTopicFormsInString( topicForms, sentence, useSynonyms, locale, matchWordCustomHelper ) )
+			.find( resultSentence => resultSentence.percentWordMatches === 100 );
+
+		if ( firstResultSentence ) {
+			result.foundInOneSentence = true;
+			result.foundInParagraph = true;
+			result.keyphraseOrSynonym = firstResultSentence.keyphraseOrSynonym;
+			return result;
+		}
 
 		const resultParagraph = findTopicFormsInString( topicForms, firstParagraph.innerText(), useSynonyms, locale, matchWordCustomHelper );
 		if ( resultParagraph.percentWordMatches === 100 ) {
