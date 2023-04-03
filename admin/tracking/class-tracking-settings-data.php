@@ -222,7 +222,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'indexables_overview_state',
 		'deny_search_crawling',
 		'deny_wp_json_crawling',
-		'jetpack_ad_start_date',
 	];
 
 	/**

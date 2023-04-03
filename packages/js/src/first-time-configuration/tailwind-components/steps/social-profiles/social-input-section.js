@@ -72,7 +72,7 @@ SocialInputSectionContainer.defaultProps = {
  * @param {Object} props The props.
  * @returns {WPElement} The Social Input Section.
  */
-export function SocialInputSection(	{
+function SocialInputSection(	{
 	socialProfiles,
 	onChangeHandler,
 	onChangeOthersHandler,

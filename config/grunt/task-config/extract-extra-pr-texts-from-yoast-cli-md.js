@@ -6,9 +6,6 @@ module.exports = {
 			deleteOutputFile: true,
 			pluginSlug: "wordpress-seo",
 			findThesePackages: [
-				[ "[@yoast/schema-blocks]", "pg-schema-blocks.md" ],
-				[ "[schema-blocks]", "pg-schema-blocks.md" ],
-				[ "[schema blocks]", "pg-schema-blocks.md" ],
 				[ "[replacement-variable-editor]", "pg-replacement-variable-editor.md" ],
 				[ "[replacement variable editor]", "pg-replacement-variable-editor.md" ],
 				[ "[@yoast/replacement-variable-editor]", "pg-replacement-variable-editor.md" ],

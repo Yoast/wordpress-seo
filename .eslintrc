@@ -29,51 +29,6 @@ overrides:
     rules:
       no-restricted-imports: "off"
   - files:
-      - "packages/schema-blocks/src/**"
-    env:
-      jest: true
-    rules:
-      new-cap: 0
-      complexity:
-        - 2
-        - 10
-      "@typescript-eslint/no-parameter-properties":
-        - 2
-        - allows:
-            - protected readonly
-            - private readonly
-      "@typescript-eslint/explicit-function-return-type": 0
-      "@typescript-eslint/no-use-before-define":
-        - error
-        - functions: false
-      no-constant-condition:
-        - error
-        - checkLoops: false
-      max-statements:
-        - 2
-        - 33
-      no-unused-vars: 'off'
-      "@typescript-eslint/no-unused-vars":
-        - error
-        - varsIgnorePattern: "^createElement$"
-      no-dupe-class-members: 'off'
-      indent: 'off'
-      "@typescript-eslint/indent":
-        - 2
-        - tab
-        - SwitchCase: 1
-      space-before-function-paren:
-        - error
-        - anonymous: never
-          named: never
-          asyncArrow: always
-      valid-jsdoc:
-        - error
-        - requireReturn: false
-          requireReturnType: false
-          requireParamType: false
-      react/react-in-jsx-scope: 0
-  - files:
       - "packages/components/**/*.js"
     rules:
       react/jsx-no-bind: 1
@@ -96,12 +51,16 @@ overrides:
       react/default-props-match-prop-types: 1
   - files:
       - "packages/yoastseo/**/*.js"
+    settings:
+      import/core-modules: [ "yoastseo" ]
     rules:
       complexity: 1
       # Longer grace period for Yoast config.
       no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [ ] } ]
       require-jsdoc: [ 1, { "require": { "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } } ]
       no-useless-escape: 1
+      import/no-named-as-default: 0
+      import/no-unresolved: [ "error", { ignore: [ "premium-configuration/data/morphologyData" ] } ]
   - files:
       - "packages/yoast-components/**/*.js"
     rules:
@@ -118,6 +77,9 @@ overrides:
       react/jsx-no-target-blank: 1
       react/require-default-props: 1
       react/forbid-foreign-prop-types: 1
+      import/no-duplicates: 0
+      import/named: 0
+      import/no-extraneous-dependencies: 0
     env:
       jest: true
   - files:
