@@ -89,10 +89,10 @@ class SentenceLengthInTextAssessment extends Assessment {
 	/**
 	 * Mark the sentences.
 	 *
-	 * @param {Paper} paper The paper to use for the marking.
-	 * @param {Researcher} researcher The researcher to use.
+	 * @param {Paper}       paper       The paper to use for the marking.
+	 * @param {Researcher}  researcher  The researcher to use.
 	 *
-	 * @returns {Array} Array with all the marked sentences.
+	 * @returns {Array<Mark>} Array with all the marked sentences.
 	 */
 	getMarks( paper, researcher ) {
 		const sentenceCount = researcher.getResearch( "countSentencesFromText" );

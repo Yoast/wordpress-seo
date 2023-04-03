@@ -106,10 +106,10 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	/**
 	 * Marks all consecutive sentences with the same beginnings.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Paper}       paper        The paper to use for the assessment.
+	 * @param {Researcher}  researcher   The researcher used for calling research.
 	 *
-	 * @returns {object} All marked sentences.
+	 * @returns {Array<Mark>} All marked sentences.
 	 */
 	getMarks( paper, researcher ) {
 		let sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
