@@ -33,6 +33,11 @@ const WincherSEOPerformanceReportHeader = styled.h3`
 	font-size: 1em;
 `;
 
+const WincherSEOPerformanceBlurredTable = styled.table`
+	pointer-events: none;
+	user-select: none;
+`;
+
 const WincherSEOPerformanceTableWrapper = styled.div`
 	position: relative;
 	width: 100%;
@@ -298,6 +303,28 @@ const fakeWincherPerformanceData = {
 };
 
 /**
+ * The Wincher SEO performance table.
+ *
+ * @param {Object} props The component props.
+ *
+ * @returns {wp.Element} The react component.
+ */
+const WincherSEOPerformanceTable = ( { isBlurred, children } ) => {
+	if ( isBlurred ) {
+		return <WincherSEOPerformanceBlurredTable className="yoast yoast-table">
+			{ children }
+		</WincherSEOPerformanceBlurredTable>;
+	}
+
+	return <table className="yoast yoast-table">{ children }</table>;
+};
+
+WincherSEOPerformanceTable.propTypes = {
+	isBlurred: PropTypes.object,
+	children: PropTypes.any,
+};
+
+/**
  * The Dashboard Wincer SEO Performance component.
  *
  * @param {Object} props The component props.
@@ -307,6 +334,7 @@ const fakeWincherPerformanceData = {
 const WincherPerformanceReport = ( props ) => {
 	const { className, websiteId, isLoggedIn, onConnectAction } = props;
 	const data = isLoggedIn ? props.data : fakeWincherPerformanceData;
+	const isBlurred = ! isLoggedIn;
 
 	return (
 		<WicnherSEOPerformanceContainer
@@ -324,7 +352,7 @@ const WincherPerformanceReport = ( props ) => {
 				<TableExplanation isLoggedIn={ isLoggedIn } />
 
 				<WincherSEOPerformanceTableWrapper>
-					<table className="yoast yoast-table">
+					<WincherSEOPerformanceTable isBlurred={ isBlurred }>
 						<thead>
 							<tr>
 								<th
@@ -355,12 +383,12 @@ const WincherPerformanceReport = ( props ) => {
 										key={ `keyphrase-${index}` }
 										keyphrase={ entry }
 										websiteId={ websiteId }
-										isBlurred={ ! isLoggedIn }
+										isBlurred={ isBlurred }
 									/>;
 								} )
 							}
 						</tbody>
-					</table>
+					</WincherSEOPerformanceTable>
 				</WincherSEOPerformanceTableWrapper>
 				<ConnectToWincher isLoggedIn={ isLoggedIn } onConnectAction={ onConnectAction } />
 				<p style={ { marginBottom: 0, position: "relative" } }>
