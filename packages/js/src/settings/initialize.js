@@ -1,12 +1,9 @@
-import { SlotFillProvider } from "@wordpress/components";
-import { dispatch, select } from "@wordpress/data";
+import { dispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
-import { Root } from "@yoast/ui-library";
+import { __ } from "@wordpress/i18n";
 import { Formik } from "formik";
 import { chunk, filter, forEach, get, includes, map, reduce, toInteger } from "lodash";
 import { HashRouter } from "react-router-dom";
-import { StyleSheetManager } from "styled-components";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
@@ -45,56 +42,7 @@ const preloadUsers = async( { settings } ) => {
 	}
 };
 
-/**
- * Fixes the WordPress skip links.
- *
- * By disabling the default behavior of the links and focusing the elements.
- *
- * @returns {void}
- */
-const fixFocusLinkCompatibility = () => {
-	const wpContentBody = document.querySelector( "[href=\"#wpbody-content\"]" );
-	wpContentBody.addEventListener( "click", e => {
-		e.preventDefault();
-		// Try to focus the Yoast logo if in "mobile" view.
-		if ( window.outerWidth > 782 ) {
-			document.getElementById( "link-yoast-logo" )?.focus();
-			return;
-		}
-		// Try to focus the open sidebar navigation button.
-		document.getElementById( "button-open-settings-navigation-mobile" )?.focus();
-	} );
-	const wpToolbar = document.querySelector( "[href=\"#wp-toolbar\"]" );
-	wpToolbar.addEventListener( "click", e => {
-		e.preventDefault();
-		document.querySelector( "#wp-admin-bar-wp-logo a" )?.focus();
-	} );
-};
-
-/**
- * Enforce a minimum height on the WP content that is the height of the WP menu.
- *
- * This prevents it from going into the fixed mode.
- *
- * @returns {void}
- */
-const matchWpMenuHeight = () => {
-	const wpcontent = document.getElementById( "wpcontent" );
-	const menu = document.getElementById( "adminmenuwrap" );
-	wpcontent.style.minHeight = `${ menu.offsetHeight }px`;
-};
-
 domReady( () => {
-	const root = document.getElementById( "yoast-seo-settings" );
-	if ( ! root ) {
-		return;
-	}
-
-	// Prevent Styled Components' styles by adding the stylesheet to a div that is in the shadow DOM.
-	const shadowHost = document.createElement( "div" );
-	const shadowRoot = shadowHost.attachShadow( { mode: "open" } );
-	document.body.appendChild( shadowHost );
-
 	const settings = get( window, "wpseoScriptData.settings", {} );
 	const fallbacks = get( window, "wpseoScriptData.fallbacks", {} );
 	const postTypes = get( window, "wpseoScriptData.postTypes", {} );
@@ -103,27 +51,26 @@ domReady( () => {
 	registerStore();
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
-	fixFocusLinkCompatibility();
-	matchWpMenuHeight();
 
-	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
-
-	render(
-		<Root context={ { isRtl } }>
-			<StyleSheetManager target={ shadowRoot }>
-				<SlotFillProvider>
-					<HashRouter>
-						<Formik
-							initialValues={ settings }
-							validationSchema={ createValidationSchema( postTypes, taxonomies ) }
-							onSubmit={ handleSubmit }
-						>
-							<App />
-						</Formik>
-					</HashRouter>
-				</SlotFillProvider>
-			</StyleSheetManager>
-		</Root>,
-		root
+	if ( ! window?.YoastSEO?.admin?.registerRoute ) {
+		console.warn( "Can not initialize settings!" );
+		return;
+	}
+	window.YoastSEO.admin.registerRoute(
+		{
+			id: "settings",
+			priority: 6,
+			route: "/settings",
+			text: __( "Settings", "wordpress-seo" ),
+		},
+		<HashRouter basename="settings">
+			<Formik
+				initialValues={ settings }
+				validationSchema={ createValidationSchema( postTypes, taxonomies ) }
+				onSubmit={ handleSubmit }
+			>
+				<App />
+			</Formik>
+		</HashRouter>
 	);
 } );

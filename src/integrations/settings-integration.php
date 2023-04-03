@@ -31,7 +31,7 @@ use Yoast_Notification_Center;
  */
 class Settings_Integration implements Integration_Interface {
 
-	const PAGE = 'wpseo_page_settings';
+	const PAGE = 'wpseo_admin';
 
 	/**
 	 * Holds the included WordPress options.

@@ -7,7 +7,7 @@ import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
-import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ErrorFallback, Introduction, MoreOrLessButton, Notifications, Search, SidebarNavigation, SidebarRecommendations } from "./components";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
@@ -34,10 +34,9 @@ import {
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
  * @returns {JSX.Element} The menu element.
  */
+const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => (
+	<>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
-			<Link id={ `link-yoast-logo${ idSuffix }` } to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
-				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
-			</Link>
 			<Search buttonId={ `button-search${ idSuffix }` } />
 		</header>
 		<div className="yst-px-0.5 yst-space-y-6">
@@ -182,7 +181,7 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-	useRouterScrollRestore();
+	useRouterScrollRestore( "yoast-seo-admin" );
 
 	const { dirty } = useFormikContext();
 	useBeforeUnload(

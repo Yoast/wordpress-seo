@@ -10,9 +10,10 @@ import { STORE_NAME } from "../constants";
 const submitSettings = async( values ) => {
 	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
 	const formData = new FormData();
+	const page = "wpseo_admin";
 
-	formData.set( "option_page", "wpseo_page_settings" );
-	formData.set( "_wp_http_referer", "admin.php?page=wpseo_page_settings_saved" );
+	formData.set( "option_page", page );
+	formData.set( "_wp_http_referer", `admin.php?page=${ page }_saved` );
 	formData.set( "action", "update" );
 	formData.set( "_wpnonce", nonce );
 
