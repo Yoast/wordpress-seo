@@ -1,17 +1,14 @@
 /* eslint-disable react/jsx-max-depth */
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, ArrowNarrowRightIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import { useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload, useSvgAria } from "@yoast/ui-library";
+import { Button, ChildrenLimiter, ErrorBoundary, Title, useBeforeUnload } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { map } from "lodash";
 import PropTypes from "prop-types";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { ErrorFallback, Notifications, Search, SidebarNavigation, SidebarRecommendations, YoastLogo } from "./components";
-import Introduction from "./components/introduction";
+import { ErrorFallback, Introduction, MoreOrLessButton, Notifications, Search, SidebarNavigation, SidebarRecommendations } from "./components";
 import { useRouterScrollRestore, useSelectSettings } from "./hooks";
 import {
 	AuthorArchives,
@@ -37,32 +34,6 @@ import {
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
  * @returns {JSX.Element} The menu element.
  */
-const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
-	const svgAriaProps = useSvgAria();
-	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
-
-	const renderMoreOrLessButton = useCallback( ( { show, toggle, ariaProps } ) => {
-		const ChevronIcon = useMemo( () => show ? ChevronUpIcon : ChevronDownIcon, [ show ] );
-
-		return (
-			<div className="yst-relative">
-				<hr className="yst-absolute yst-inset-x-0 yst-top-1/2 yst-bg-slate-200" />
-				<button
-					className="yst-relative yst-flex yst-items-center yst-gap-1.5 yst-px-2.5 yst-py-1 yst-mx-auto yst-text-xs yst-font-medium yst-text-slate-700 yst-bg-slate-50 yst-rounded-full yst-border yst-border-slate-300 hover:yst-bg-white hover:yst-text-slate-800 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-ring-offset-2"
-					onClick={ toggle }
-					{ ...ariaProps }
-				>
-					{ show ? __( "Show less", "wordpress-seo" ) : __( "Show more", "wordpress-seo" ) }
-					<ChevronIcon
-						className="yst-h-4 yst-w-4 yst-flex-shrink-0 yst-text-slate-400 group-hover:yst-text-slate-500 yst-stroke-3"
-						{ ...svgAriaProps }
-					/>
-				</button>
-			</div>
-		);
-	}, [] );
-
-	return <>
 		<header className="yst-px-3 yst-mb-6 yst-space-y-6">
 			<Link id={ `link-yoast-logo${ idSuffix }` } to="/" className="yst-inline-block yst-rounded-md focus:yst-ring-primary-500" aria-label={ `Yoast SEO${ isPremium ? " Premium" : "" }` }>
 				<YoastLogo className="yst-w-40" { ...svgAriaProps } />
@@ -89,7 +60,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				icon={ NewspaperIcon }
 				label={ __( "Content types", "wordpress-seo" ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+				<ChildrenLimiter limit={ 5 } renderButton={ MoreOrLessButton }>
 					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
 					{ map( postTypes, ( { route, label } ) => (
 						<SidebarNavigation.SubmenuItem
@@ -106,7 +77,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				icon={ ColorSwatchIcon }
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 			>
-				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
+				<ChildrenLimiter limit={ 5 } renderButton={ MoreOrLessButton }>
 					{ map( taxonomies, ( { route, label } ) => (
 						<SidebarNavigation.SubmenuItem
 							key={ `link-taxonomy-${ route }${ idSuffix }` }
@@ -137,8 +108,8 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 		</div>
-	</>;
-};
+	</>
+);
 
 Menu.propTypes = {
 	postTypes: PropTypes.object.isRequired,
