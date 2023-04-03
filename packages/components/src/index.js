@@ -96,7 +96,6 @@ export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
 export { default as WordOccurrences } from "./WordOccurrences";
 export { VariableEditorInputContainer } from "./input/InputContainer";
-export { default as InsightsCard } from "./insights-card/InsightsCard";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";

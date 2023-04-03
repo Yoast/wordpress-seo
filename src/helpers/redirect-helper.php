@@ -35,4 +35,28 @@ class Redirect_Helper {
 		\wp_safe_redirect( $location, $status, $reason );
 		exit;
 	}
+
+	/**
+	 * Sets a header.
+	 * This is a tiny helper function to enable better testing.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
+	 * @param string $header The header to set.
+	 */
+	public function set_header( $header ) {
+		header( $header );
+	}
+
+	/**
+	 * Removes a header.
+	 * This is a tiny helper function to enable better testing.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
+	 * @param string $header The header to remove.
+	 */
+	public function remove_header( $header ) {
+		header_remove( $header );
+	}
 }

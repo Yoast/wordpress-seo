@@ -848,5 +848,7 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast .indexables-indexing-error summary {
   font-weight: 700;
 }
-
+.yoast-dashicons-notice {
+	color: #dba617;
+}
 /*# sourceMappingURL=admin-global.css.map */

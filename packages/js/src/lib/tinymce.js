@@ -2,7 +2,7 @@
 import {
 	forEach,
 	isUndefined,
-} from "lodash-es";
+} from "lodash";
 
 import { editorHasMarks, editorRemoveMarks } from "../decorator/tinyMCE";
 import CompatibilityHelper from "../compatibility/compatibilityHelper";

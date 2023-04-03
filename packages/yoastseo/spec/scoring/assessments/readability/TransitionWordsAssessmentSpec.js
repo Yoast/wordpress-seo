@@ -101,6 +101,18 @@ describe( "An assessment for transition word percentage", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
+	it( "should match transition word in image caption", function() {
+		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
+			"</p>" );
+		const researcher = new EnglishResearcher( paper );
+		const result = new TransitionWordsAssessment().getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
+	} );
+
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
@@ -155,7 +167,7 @@ describe( "An assessment for transition word percentage", function() {
 } );
 
 describe( "A test for marking sentences containing a transition word", function() {
-	it( "returns markers for too long sentences", function() {
+	it( "returns markers for sentences containing transition words", function() {
 		const paper = new Paper( "This sentence is marked, because it contains a transition word." );
 		const transitionWords = Factory.buildMockResearcher( { sentenceResults: [ { sentence: "This sentence is marked, " +
 					"because it contains a transition word.", transitionWords: [ "because" ] } ] } );
@@ -171,5 +183,19 @@ describe( "A test for marking sentences containing a transition word", function(
 		const transitionWords = Factory.buildMockResearcher( { sentenceResults: [ ] } );
 		const expected = [];
 		expect( new TransitionWordsAssessment().getMarks( paper, transitionWords ) ).toEqual( expected );
+	} );
+
+	it( "returns markers for an image caption containing transition words", function() {
+		const paper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"However, a cat with the toy looks happier. She is given raw food. Seniors don't like it.<br></br>\n" +
+			"</p>" );
+		const researcher = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: "However, a cat with the toy looks happier.",
+				marked: "<yoastmark class='yoast-text-mark'>However, a cat with the toy looks happier.</yoastmark>" } ),
+		];
+		expect( new TransitionWordsAssessment().getMarks( paper, researcher ) ).toEqual( expected );
 	} );
 } );

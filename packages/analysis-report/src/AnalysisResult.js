@@ -1,5 +1,4 @@
-import { useEffect } from "@wordpress/element";
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
@@ -74,7 +73,7 @@ const createMarkButton = ( {
  *
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
-export const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	markButtonFactory = markButtonFactory || createMarkButton;
 	const { id, marker, hasMarksButton } = props;
 
