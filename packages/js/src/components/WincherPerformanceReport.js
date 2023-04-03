@@ -20,6 +20,7 @@ import interpolateComponents from "interpolate-components";
 const ViewLink = makeOutboundLink();
 const GetMoreInsightsLink = makeOutboundLink();
 const WincherAccountLink = makeOutboundLink();
+const WincherLink = makeOutboundLink();
 
 /**
  * Wincher SEO Performance container.
@@ -195,15 +196,26 @@ GetUserMessage.propTypes = {
 /**
  * TableFootnote component.
  *
+ * @param {Object} props The props.
+ *
  * @returns {wp.Element} The footnote.
  */
-const TableExplanation = () => {
-	const message = sprintf(
+const TableExplanation = ( { isLoggedIn } ) => {
+	const loggedInMessage = sprintf(
 		/* translators: %s expands to a link to Wincher login */
 		// eslint-disable-next-line max-len
 		__( "This overview only shows you keyphrases added to Yoast SEO. There may be other keyphrases added to your %s.", "wordpress-seo" ),
 		"{{wincherAccountLink/}}"
 	);
+
+	const notLoggedInMessage = sprintf(
+		/* translators: %s expands to a link to Wincher login */
+		// eslint-disable-next-line max-len
+		__( "This overview will show you your top performing keyphrases in Google. Connect with %s to get started.", "wordpress-seo" ),
+		"{{wincherLink/}}"
+	);
+
+	const message = isLoggedIn ? loggedInMessage : notLoggedInMessage;
 
 	return <p>
 		{
@@ -219,10 +231,23 @@ const TableExplanation = () => {
 							)
 						}
 					</WincherAccountLink>,
+					wincherLink: <WincherLink href="https://yoa.st/integrations-about-wincher">
+						{
+							sprintf(
+								/* translators: %s : Expands to "Wincher". */
+								__( "%s", "wordpress-seo" ),
+								"Wincher"
+							)
+						}
+					</WincherLink>,
 				},
 			} )
 		}
 	</p>;
+};
+
+TableExplanation.propTypes = {
+	isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const fakeWincherPerformanceData = {
@@ -296,7 +321,7 @@ const WincherPerformanceReport = ( props ) => {
 			<GetUserMessage { ...props } data={ data } />
 
 			{ data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
-				<TableExplanation />
+				<TableExplanation isLoggedIn={ isLoggedIn } />
 
 				<WincherSEOPerformanceTableWrapper>
 					<table className="yoast yoast-table">
