@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import { isEmpty, map } from "lodash-es";
+import { isEmpty, map } from "lodash";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";

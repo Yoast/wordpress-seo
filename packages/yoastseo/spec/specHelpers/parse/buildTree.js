@@ -1,7 +1,5 @@
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
-import filterTree from "../../../src/parse/build/private/filterTree";
 import { build } from "../../../src/parse/build";
-import permanentFilters from "../../../src/parse/build/private/alwaysFilterElements";
 
 /**
  * Builds an HTML tree for a given paper and researcher, and adds it to the paper.
@@ -12,5 +10,5 @@ import permanentFilters from "../../../src/parse/build/private/alwaysFilterEleme
  */
 export default function buildTree( paper, researcher ) {
 	const languageProcessor = new LanguageProcessor( researcher );
-	paper.setTree( filterTree( build( paper.getText(), languageProcessor ), permanentFilters ) );
+	paper.setTree( build( paper.getText(), languageProcessor ) );
 }

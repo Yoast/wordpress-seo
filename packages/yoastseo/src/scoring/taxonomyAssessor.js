@@ -12,7 +12,7 @@ import TextLengthAssessment from "./assessments/seo/TextLengthAssessment";
 import PageTitleWidthAssessment from "./assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "./assessments/seo/SingleH1Assessment";
-import { createAnchorOpeningTag } from "../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../helpers";
 
 /**
  * Returns the text length assessment to use.
@@ -35,8 +35,8 @@ export const getTextLengthAssessment = function() {
 /**
  * Creates the Assessor used for taxonomy pages.
  *
- * @param {object} researcher   The researcher used for the analysis.
- * @param {Object} options      The options for this assessor.
+ * @param {Researcher} researcher   The researcher used for the analysis.
+ * @param {Object?} options         The options for this assessor.
  * @constructor
  */
 const TaxonomyAssessor = function( researcher, options ) {

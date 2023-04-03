@@ -5,7 +5,7 @@ import {
 	WINCHER_SET_WEBSITE_ID,
 } from "../actions";
 
-import { pickBy } from "lodash-es";
+import { pickBy } from "lodash";
 
 const INITIAL_STATE = {
 	websiteId: "",

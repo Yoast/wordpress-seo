@@ -1,6 +1,6 @@
 import getL10nObject from "./getL10nObject";
 
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 /**
  * Returns whether or not the keyword analysis is active

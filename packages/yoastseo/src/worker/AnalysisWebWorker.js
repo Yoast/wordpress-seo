@@ -19,8 +19,6 @@ import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 
 import { build } from "../parse/build";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
-import permanentFilters from "../parse/build/private/alwaysFilterElements";
-import filterTree from "../parse/build/private/filterTree";
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
@@ -1091,7 +1089,7 @@ export default class AnalysisWebWorker {
 			this._researcher.setPaper( this._paper );
 
 			const languageProcessor = new LanguageProcessor( this._researcher );
-			this._paper.setTree( filterTree( build( this._paper.getText(), languageProcessor ), permanentFilters ) );
+			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
@@ -1401,6 +1399,12 @@ export default class AnalysisWebWorker {
 		if ( paper !== null ) {
 			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
+
+			// Build and set the tree if it's not been set before.
+			if ( paper.getTree() === null ) {
+				const languageProcessor = new LanguageProcessor( researcher );
+				paper.setTree( build( paper.getText(), languageProcessor ) );
+			}
 		}
 
 		return researcher.getResearch( name );

@@ -1,12 +1,10 @@
 import { createPortal, Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, FieldGroup, Select } from "@yoast/components";
-import { Slot } from "@wordpress/components";
 import { makeOutboundLink, join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const NewsLandingPageLink = makeOutboundLink();
 
@@ -134,25 +132,6 @@ Header.propTypes = {
 };
 
 /**
- * The header for the Schema tab, for when the Schema blocks have been enabled.
- *
- * @param {Object} props The props.
- *
- * @returns {JSX.Element} The header.
- */
-const SchemaBlocksHeader = ( props ) => {
-	return <p>
-		{ props.helpTextDescription + " " }
-		<a href={ props.helpTextLink }>{ __( "Read more about Schema.", "wordpress-seo" ) }</a>
-	</p>;
-};
-
-SchemaBlocksHeader.propTypes = {
-	helpTextDescription: PropTypes.string.isRequired,
-	helpTextLink: PropTypes.string.isRequired,
-};
-
-/**
  * Whether or not NewsArticle is the Article Type.
  * @param {string} selectedValue The value that is selected.
  * @param {string} defaultValue  The default value for this post type.
@@ -178,8 +157,6 @@ const Content = ( props ) => {
 	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
 
-	const schemaBlocksEnabled = isFeatureEnabled( "SCHEMA_BLOCKS" );
-
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
 
 	const handleOptionChange = useCallback(
@@ -197,8 +174,6 @@ const Content = ( props ) => {
 
 	return (
 		<Fragment>
-			{ schemaBlocksEnabled ? <SchemaBlocksHeader { ...props } /> : <Header { ...props } /> }
-			{ schemaBlocksEnabled && <Slot name={ join( [ "yoast-schema-blocks-analysis", props.location ] ) } /> }
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ props.additionalHelpTextLink }
