@@ -114,6 +114,20 @@ describe( "A test for marking passive sentences", function() {
 		expect( new PassiveVoiceAssessment().getMarks( paper, passiveVoice ) ).toEqual( expected );
 	} );
 
+	it( "returns markers for a sentence preceded by the span tag", function() {
+		const paper = new Paper( "[caption id=\"attachment_1276\" align=\"alignnone\" width=\"225\"]<img class=\"size-medium wp-image-1276\" " +
+			"src=\"http://basic.wordpress.test/wp-content/uploads/2023/03/Cat_November_2010-1a-225x300.jpg\" alt=\"\" />" +
+			" <span style=\"font-weight: 400;\">Cats are hailed to be the loveliest pets. Cats are fun. Cats are adorable.</span>[/caption]" );
+		const researcher = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: "Cats are hailed to be the loveliest pets.",
+				marked: "<yoastmark class='yoast-text-mark'>Cats are hailed to be the loveliest pets.</yoastmark>" } ),
+		];
+		expect( new PassiveVoiceAssessment().getMarks( paper, researcher ) ).toEqual( expected );
+	} );
+
+
 	it( "returns no markers for active sentences", function() {
 		const paper = new Paper( "This is a very interesting paper." );
 		const passiveVoice = Factory.buildMockResearcher( [ { total: 0, passives: [] } ] );

@@ -86,6 +86,25 @@ describe( "A test for marking the sentences", function() {
 		expect( new SentenceBeginningsAssessment().getMarks( paper, sentenceBeginnings ) ).toEqual( expected );
 	} );
 
+	it( "returns markers for a sentence preceded by the span tag", function() {
+		const paper = new Paper( "[caption id=\"attachment_1276\" align=\"alignnone\" width=\"225\"]<img class=\"size-medium wp-image-1276\" " +
+			"src=\"http://basic.wordpress.test/wp-content/uploads/2023/03/Cat_November_2010-1a-225x300.jpg\" alt=\"\" />" +
+			" <span style=\"font-weight: 400;\">Cats are lovely. Cats are fun. Cats are adorable.</span>[/caption]" );
+		const researcher = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: "Cats are lovely.",
+				marked: "<yoastmark class='yoast-text-mark'>Cats are lovely.</yoastmark>" } ),
+			new Mark( {
+				original: "Cats are fun.",
+				marked: "<yoastmark class='yoast-text-mark'>Cats are fun.</yoastmark>" } ),
+			new Mark( {
+				original: "Cats are adorable.",
+				marked: "<yoastmark class='yoast-text-mark'>Cats are adorable.</yoastmark>" } ),
+		];
+		expect( new SentenceBeginningsAssessment().getMarks( paper, researcher ) ).toEqual( expected );
+	} );
+
 	it( "returns no markers", function() {
 		const sentenceBeginnings = Factory.buildMockResearcher( [ { word: "hey", count: 2, sentences: [ "Hey, hello.", "Hey, hey." ] } ] );
 		const expected = [];

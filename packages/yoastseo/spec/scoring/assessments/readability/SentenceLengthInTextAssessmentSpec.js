@@ -564,6 +564,22 @@ describe( "A test for marking too long sentences", function() {
 		const expected = [];
 		expect( new SentenceLengthInTextAssessment().getMarks( paper, sentenceLengthInText ) ).toEqual( expected );
 	} );
+
+	it( "returns markers for a sentence preceded by the span tag", function() {
+		const paper = new Paper( "[caption id=\"attachment_1276\" align=\"alignnone\" width=\"225\"]<img class=\"size-medium wp-image-1276\" " +
+			"src=\"http://basic.wordpress.test/wp-content/uploads/2023/03/Cat_November_2010-1a-225x300.jpg\" alt=\"\" />" +
+			" <span style=\"font-weight: 400;\">This is a too long sentence, because it has over twenty words, and that is hard too" +
+			" read, don't you think?. Cats are fun. Cats are adorable.</span>[/caption]" );
+		const researcher = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: "This is a too long sentence, because it has over twenty words, and that is hard too" +
+					" read, don't you think?.",
+				marked: "<yoastmark class='yoast-text-mark'>This is a too long sentence, because it has over twenty words, and that is hard too" +
+					" read, don't you think?.</yoastmark>" } ),
+		];
+		expect( new SentenceLengthInTextAssessment().getMarks( paper, researcher ) ).toEqual( expected );
+	} );
 } );
 
 describe( "A test for marking too long sentences", function() {

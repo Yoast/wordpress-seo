@@ -1,8 +1,9 @@
 import InclusiveLanguageAssessment from "../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../src/scoring/assessments/inclusiveLanguage/configuration/cultureAssessments";
 import { values } from "yoastseo";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
-const { Paper } = values;
+const { Paper, Mark } = values;
 
 describe( "inclusive Language Assessments", () => {
 	it( "should signal it does not have enough content for assessment for short texts", () => {
@@ -21,5 +22,21 @@ describe( "inclusive Language Assessments", () => {
 			"conversations in it, “and what is the use of a book,” thought Alice\n" +
 			"“without pictures or conversations?”" );
 		expect( assessment.hasEnoughContentForAssessment( mockPaper ) ).toBe( true );
+	} );
+
+	it( "creates the marks object for a sentence preceded by span tag", () => {
+		const assessment = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "exotic" ) );
+
+		const mockPaper = new Paper( "[caption id=\"attachment_1276\" align=\"alignnone\" width=\"225\"]<img class=\"size-medium wp-image-1276\" " +
+			"src=\"http://basic.wordpress.test/wp-content/uploads/2023/03/Cat_November_2010-1a-225x300.jpg\" alt=\"\" />" +
+			" <span style=\"font-weight: 400;\">Cats are exotic creatures. Cats are fun. Cats are adorable.</span>[/caption]" );
+		const researcher = new EnglishResearcher( mockPaper );
+		assessment.isApplicable( mockPaper, researcher );
+		expect( assessment.getMarks() ).toEqual( [
+			new Mark( {
+				original: "Cats are exotic creatures.",
+				marked: "<yoastmark class='yoast-text-mark'>Cats are exotic creatures.</yoastmark>",
+			} ),
+		] );
 	} );
 } );
