@@ -144,7 +144,7 @@ const Row = ( { keyphrase, websiteId, isBlurred } ) => {
 			</Cell>
 			<Cell isBlurred={ isBlurred } className="yoast-table--nobreak">
 				{
-					<ViewLink href={ viewLinkUrl( { websiteId, id } ) }>
+					<ViewLink href={ viewLinkUrl( { websiteId, id } ) } style={ { pointerEvents: isBlurred ? "none" : "initial" } }>
 						{ __( "View", "wordpress-seo" ) }
 					</ViewLink>
 				}
