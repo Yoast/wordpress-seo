@@ -70,8 +70,11 @@ function adjustSentenceEnd( descendantNodes, descendantTagPositions, sentenceSta
  * @returns {Sentence[]} The sentences, with their positions in the source code.
  */
 export default function getSentencePositions( node, sentences ) {
-	// We cannot calculate the sentence positions if we don't know the source code location of the node.
-	if ( ! node.sourceCodeLocation ) {
+	/*
+	 * We cannot calculate sentence positions if there are no sentences, or if we don't know the node's source code
+	 * location.
+	 */
+	if (  sentences.length === 0 || ! node.sourceCodeLocation ) {
 		return sentences;
 	}
 	/*
