@@ -6,7 +6,7 @@
  *
  * @param {Node[]} descendantNodes	The descendant nodes to get tag positions from.
  *
- * @returns {Object[]}	An array of tag objects with structure { startOffset: [number], endOffset: [number] }.
+ * @returns {SourceCodeRange[]}	An array of the locations of each start and end tag in the source code.
  *
  */
 function getDescendantPositions( descendantNodes ) {
@@ -31,9 +31,9 @@ function getDescendantPositions( descendantNodes ) {
  * never happen, as these tags should be added to the end position of the previous sentence).
  *
  * @param {Node[]}		descendantNodes			The descendant nodes.
- * @param {Object[]}	descendantTagPositions	The positions of the descendant nodes' tags.
  * @param {number}		startPosition			The start position of a sentence.
  * @param {number}		endPosition				The end position of a sentence.
+ * @param {SourceCodeRange[]}	descendantTagPositions	The positions of the descendant nodes' tags.
  *
  * @returns {number}	The adjusted end position of the sentence.
  */
