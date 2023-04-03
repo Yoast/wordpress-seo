@@ -12,7 +12,6 @@ import { makeOutboundLink } from "@yoast/helpers";
 import { NewButton } from "@yoast/components";
 
 /* Internal dependencies */
-import WincherConnectExplanation from "./modals/WincherConnectExplanation";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, PositionOverTimeChart } from "./WincherTableRow";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
@@ -28,23 +27,25 @@ const WincherAccountLink = makeOutboundLink();
 const WicnherSEOPerformanceContainer = styled.div`
 `;
 
-/**
- * Wincher SEO Performance top text.
- */
-const WincherSEOPerformanceReportText = styled.div`
-	font-size: 14px;
-`;
-
 const WincherSEOPerformanceReportHeader = styled.h3`
 	margin: 8px 0;
 	font-size: 1em;
 `;
 
 const WincherSEOPerformanceTableWrapper = styled.div`
+	position: relative;
 	width: 100%;
 	overflow-y: auto;
 `;
 
+const WincherSEOPerformanceTableBlurredCell = styled.p`
+	margin: 0;
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+`;
 
 /**
  * Creates a view link URL based on the passed props.
@@ -64,45 +65,60 @@ const viewLinkUrl = ( props ) => {
 };
 
 /**
- * Renders the 'Not connected' message.
+ * Creates the Connect to Wincher button.
  *
  * @param {Object} props The props to use.
  *
- * @returns {wp.Element} The message.
+ * @returns {void|wp.Element} The connect button or reconnect alert.
  */
-const NotConnectedMessage = ( props ) => {
-	const { className, onConnectAction } = props;
+const ConnectToWincher = ( props ) => {
+	const { isLoggedIn, onConnectAction } = props;
 
-	return (
-		<WincherSEOPerformanceReportText
-			className={ `${ className }__text` }
-		>
-			<WincherConnectExplanation />
+	if ( isLoggedIn ) {
+		return null;
+	}
 
-			<div className={ "yoast" }>
-				<NewButton
-					variant={ "secondary" }
-					id="yoast-connect-wincher-dashboard-widget"
-					onClick={ onConnectAction }
-				>
-					{ sprintf(
-						/* translators: %s expands to Wincher */
-						__( "Connect with %s", "wordpress-seo" ),
-						"Wincher"
-					) }
-				</NewButton>
-			</div>
-		</WincherSEOPerformanceReportText>
-	);
+	return <p style={ { bottom: "49%", left: "50%", position: "absolute" } }>
+		<NewButton onClick={ onConnectAction } variant="primary" style={ { left: "-50%", backgroundColor: "#2371B0" } }>
+			{ sprintf(
+			/* translators: %s expands to Wincher */
+				__( "Connect with %s", "wordpress-seo" ),
+				"Wincher"
+			) }
+		</NewButton>
+	</p>;
 };
 
-NotConnectedMessage.propTypes = {
-	className: PropTypes.string,
+ConnectToWincher.propTypes = {
+	isLoggedIn: PropTypes.bool.isRequired,
 	onConnectAction: PropTypes.func.isRequired,
 };
 
-NotConnectedMessage.defaultProps = {
-	className: "",
+/**
+ * Creates a new cell to be displayed in the table row.
+ *
+ * @param {bool} isBlurred Whether to blur the cell.
+ *
+ * @returns {wp.Element} The cell.
+ */
+const Cell = ( { isBlurred, children } ) => {
+	if ( isBlurred ) {
+		return (
+			<td>
+				<WincherSEOPerformanceTableBlurredCell>
+					{ children }
+				</WincherSEOPerformanceTableBlurredCell>
+			</td>
+		);
+	}
+	return (
+		<td>{ children }</td>
+	);
+};
+
+Cell.propTypes = {
+	isBlurred: PropTypes.bool,
+	children: PropTypes.object,
 };
 
 /**
@@ -110,23 +126,28 @@ NotConnectedMessage.defaultProps = {
  *
  * @param {string} keyphrase The keyphrase data to be used in the row.
  * @param {number} websiteId The website ID to link to.
+ * @param {bool} isBlurred Whether to blur the row.
  *
  * @returns {wp.Element} The row.
  */
-const Row = ( { keyphrase, websiteId } ) => {
+const Row = ( { keyphrase, websiteId, isBlurred } ) => {
 	const { id, keyword } = keyphrase;
 	return (
 		<tr>
-			<td>{ keyword }</td>
-			<td>{ getKeyphrasePosition( keyphrase ) }</td>
-			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ keyphrase } /> }</td>
-			<td className="yoast-table--nobreak">
+			<Cell isBlurred={ isBlurred }>{ keyword }</Cell>
+			<Cell isBlurred={ isBlurred }>{ getKeyphrasePosition( keyphrase ) }</Cell>
+			<Cell isBlurred={ isBlurred } className="yoast-table--nopadding">
+				{
+					<PositionOverTimeChart chartData={ keyphrase } />
+				}
+			</Cell>
+			<Cell isBlurred={ isBlurred } className="yoast-table--nobreak">
 				{
 					<ViewLink href={ viewLinkUrl( { websiteId, id } ) }>
 						{ __( "View", "wordpress-seo" ) }
 					</ViewLink>
 				}
-			</td>
+			</Cell>
 		</tr>
 	);
 };
@@ -134,6 +155,7 @@ const Row = ( { keyphrase, websiteId } ) => {
 Row.propTypes = {
 	keyphrase: PropTypes.object.isRequired,
 	websiteId: PropTypes.string.isRequired,
+	isBlurred: PropTypes.bool,
 };
 
 /**
@@ -144,11 +166,7 @@ Row.propTypes = {
  * @returns {wp.Element} The user message.
  */
 const GetUserMessage = ( props ) => {
-	const { isLoggedIn, data, onConnectAction } = props;
-
-	if ( ! isLoggedIn ) {
-		return <NotConnectedMessage { ...props } />;
-	}
+	const { data, onConnectAction } = props;
 
 	if ( data && [ 401, 403, 404 ].includes( data.status ) ) {
 		return <WincherReconnectAlert
@@ -164,7 +182,6 @@ const GetUserMessage = ( props ) => {
 };
 
 GetUserMessage.propTypes = {
-	isLoggedIn: PropTypes.bool.isRequired,
 	data: PropTypes.object.isRequired,
 	onConnectAction: PropTypes.func.isRequired,
 };
@@ -202,6 +219,53 @@ const TableExplanation = () => {
 	</p>;
 };
 
+const fakeWincherPerformanceData = {
+	results: [
+		{
+			id: 0,
+			keyword: "wincher",
+			position: {
+				value: 84,
+				history: [
+					{ value: 90 },
+					{ value: 89 },
+					{ value: 94 },
+					{ value: 98 },
+					{ value: 84 },
+				],
+			},
+		},
+		{
+			id: 1,
+			keyword: "rank tracker",
+			position: {
+				value: 20,
+				history: [
+					{ value: 50 },
+					{ value: 30 },
+					{ value: 66 },
+					{ value: 15 },
+					{ value: 20 },
+				],
+			},
+		},
+		{
+			id: 2,
+			keyword: "performance",
+			position: {
+				value: 2,
+				history: [
+					{ value: 44 },
+					{ value: 66 },
+					{ value: 18 },
+					{ value: 31 },
+					{ value: 2 },
+				],
+			},
+		},
+	],
+};
+
 /**
  * The Dashboard Wincer SEO Performance component.
  *
@@ -210,7 +274,8 @@ const TableExplanation = () => {
  * @returns {wp.Element} The react component.
  */
 const WincherPerformanceReport = ( props ) => {
-	const { className, websiteId, isLoggedIn, data } = props;
+	const { className, websiteId, isLoggedIn, onConnectAction } = props;
+	const data = isLoggedIn ? props.data : fakeWincherPerformanceData;
 
 	return (
 		<WicnherSEOPerformanceContainer
@@ -222,9 +287,9 @@ const WincherPerformanceReport = ( props ) => {
 				{ __( "Top performing keyphrases on your site", "wordpress-seo" ) }
 			</WincherSEOPerformanceReportHeader>
 
-			<GetUserMessage { ...props } />
+			<GetUserMessage { ...props } data={ data } />
 
-			{ isLoggedIn && data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
+			{ data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
 				<TableExplanation />
 
 				<WincherSEOPerformanceTableWrapper>
@@ -259,12 +324,14 @@ const WincherPerformanceReport = ( props ) => {
 										key={ `keyphrase-${index}` }
 										keyphrase={ entry }
 										websiteId={ websiteId }
+										isBlurred={ ! isLoggedIn }
 									/>;
 								} )
 							}
 						</tbody>
 					</table>
 				</WincherSEOPerformanceTableWrapper>
+				<ConnectToWincher isLoggedIn={ isLoggedIn } onConnectAction={ onConnectAction } />
 				<p style={ { marginBottom: 0, position: "relative" } }>
 					<GetMoreInsightsLink
 						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
@@ -287,6 +354,7 @@ WincherPerformanceReport.propTypes = {
 	data: PropTypes.object.isRequired,
 	websiteId: PropTypes.string.isRequired,
 	isLoggedIn: PropTypes.bool.isRequired,
+	onConnectAction: PropTypes.func.isRequired,
 };
 
 WincherPerformanceReport.defaultProps = {

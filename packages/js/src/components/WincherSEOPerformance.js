@@ -186,7 +186,7 @@ const onLoginOpen = async( props ) => {
  *
  * @returns {void|wp.Element} The connect button or reconnect alert.
  */
-const ConnectToWincher = ( props ) => {
+export const ConnectToWincher = ( props ) => {
 	if ( props.isLoggedIn ) {
 		return null;
 	}
