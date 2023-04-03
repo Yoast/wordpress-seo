@@ -11,6 +11,7 @@ const jsDistPath = path.resolve( "js", "dist" );
  */
 const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"addon-installation": `${ sourceDirectory }/addon-installation.js`,
+	admin: `${ sourceDirectory }/admin/initialize.js`,
 	"admin-global": `${ sourceDirectory }/admin-global.js`,
 	"admin-modules": `${ sourceDirectory }/admin-modules.js`,
 	"analysis-worker": `${ sourceDirectory }/analysis-worker.js`,
