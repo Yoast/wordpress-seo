@@ -113,6 +113,87 @@ describe( "An assessment for transition word percentage", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 	} );
 
+	it( "should return the same score for text with and without <strong> tags in English", function() {
+		const paper = new Paper( "<p dir=\"auto\"><strong>Lorem however ipsum dolor sit amet, ex vel harum iisque, " +
+			"cum nonumy vulputate dissentiet cu." +
+			" Id mei feugait constituam scriptorem, posse labitur vis cu, ad mel rebum saepe. No vix diam dolores. " +
+			"Eos id vidisse posidonium, veniam denique efficiendi te nec. Mea id legere prompta comprehensam. " +
+			"Ex errem docendi detraxit quo. Dicit viris in cum, unum modus voluptaria no eam. Id nonumes accusata qui," +
+			" blandit delectus cu sed. Ex saepe prodesset interesset vel, hence vel docendi percipit delicatissimi ad.</strong></p>" +
+			"<p dir=\"auto\">His ut laudem reprimique, id vis nisl dicta argumentum, has aeque partem ea. " +
+			"Nihil aliquam adipiscing has ex, ea atqui accusata reprimique sed, vix legimus accumsan salutatus in. " +
+			"Ceteros ancillae sapientem ei eam, bonorum insolens salutandi ei sit, soleat voluptatibus eu est. " +
+			"Cum porro dicit delicatissimi et, qui quis diam deleniti id, altera ornatus pericula usu ex." +
+			" Debitis suscipit aliquando an vis. Nam clita ignota ut, errem fierent mea te, eu sit falli meliore perpetua. </p> " );
+		const researcher = new EnglishResearcher( paper );
+		const result = new TransitionWordsAssessment().getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 12.5% of the sentences " +
+			"contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>." );
+	} );
+
+	it( "should return the same score for text with and without <strong> tags in English", function() {
+		const paper = new Paper( "<p dir=\"auto\">Lorem however ipsum dolor sit amet, ex vel harum iisque, " +
+			"cum nonumy vulputate dissentiet cu." +
+			" Id mei feugait constituam scriptorem, posse labitur vis cu, ad mel rebum saepe. No vix diam dolores. " +
+			"Eos id vidisse posidonium, veniam denique efficiendi te nec. Mea id legere prompta comprehensam. " +
+			"Ex errem docendi detraxit quo. Dicit viris in cum, unum modus voluptaria no eam. Id nonumes accusata qui," +
+			" blandit delectus cu sed. Ex saepe prodesset interesset vel, hence vel docendi percipit delicatissimi ad.</p>" +
+			"<p dir=\"auto\">His ut laudem reprimique, id vis nisl dicta argumentum, has aeque partem ea. " +
+			"Nihil aliquam adipiscing has ex, ea atqui accusata reprimique sed, vix legimus accumsan salutatus in. " +
+			"Ceteros ancillae sapientem ei eam, bonorum insolens salutandi ei sit, soleat voluptatibus eu est. " +
+			"Cum porro dicit delicatissimi et, qui quis diam deleniti id, altera ornatus pericula usu ex." +
+			" Debitis suscipit aliquando an vis. Nam clita ignota ut, errem fierent mea te, eu sit falli meliore perpetua. </p> " );
+		const researcher = new EnglishResearcher( paper );
+		const result = new TransitionWordsAssessment().getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 12.5% of the sentences " +
+			"contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>." );
+	} );
+
+	it( "should return the same score for text with and without <strong> tags in Japanese", function() {
+		const paper = new Paper( "<p dir=\"auto\"><strong>しかし半数の7名は幼少時に様々な病気で死亡し 第一子（長男）のイージドールも早世しており、" +
+			"グスタフはいわば長男として育てられた。そのなか心臓水腫に長期間苦しんだ弟エルンストは、少年期のグスタフにとって悲しい体験となった。" +
+			"グスタフは盲目のエルンストを愛し、彼が死去するまで数ヶ月間ベッドから離れずに世話をしたという。</strong></p>" +
+			"<p dir=\"auto\">母マリーもユダヤ人で、石鹸製造業者の娘だった。ベルンハルトとは20歳の時に結婚している。家柄は良かったが心臓が悪" +
+			"く生まれつき片足が不自由であり、自分の望む結婚はできなかったという。アルマ・マーラーは「あきらめの心境でベルンハルトと愛のない結婚をし、" +
+			"結婚生活は初日から不幸であった」と書き記している。その結婚自体は理想的な形で実現したとは言えないものの、夫妻の間には前述の通り多く" +
+			"の子供が生まれている。ただし身体の不自由なマリーは、教育熱心な夫ベルンハルトと違い母親としての理想的な教育を子供たちに施すことができなかった。" +
+			"グスタフは生涯この母親に対し「固定観念と言えるほど強い愛情」を持ち続けた。</p> " +
+			"<p dir=\"auto\">ベルンハルトの母（グスタフの祖母）も、行商を生業とする剛毅な人間だった。18歳の頃から大きな籠を背に売り歩いていた。" +
+			"晩年には、行商を規制したある法律に触れる事件を起こし、重刑を言い渡されたが、刑に服する気はなく、ただちにウィーンへ赴き皇帝フランツ・" +
+			"ヨーゼフ1世に直訴する。皇帝は彼女の体力と80歳という高齢に感動し、特赦した。グスタフ・マーラーの一徹な性格はこの祖母譲りだとアルマは語っている。</p>" );
+		const researcher = new JapaneseResearcher( paper );
+		const result = new TransitionWordsAssessment().getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
+			"Only 25% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' " +
+			"target='_blank'>Use more of them</a>." );
+	} );
+
+	it( "should match transition word in image caption", function() {
+		const paper = new Paper( "<p dir=\"auto\">しかし半数の7名は幼少時に様々な病気で死亡し 第一子（長男）のイージドールも早世しており、" +
+			"グスタフはいわば長男として育てられた。そのなか心臓水腫に長期間苦しんだ弟エルンストは、少年期のグスタフにとって悲しい体験となった。" +
+			"グスタフは盲目のエルンストを愛し、彼が死去するまで数ヶ月間ベッドから離れずに世話をしたという。</p>" +
+			"<p dir=\"auto\">母マリーもユダヤ人で、石鹸製造業者の娘だった。ベルンハルトとは20歳の時に結婚している。家柄は良かったが心臓が悪" +
+			"く生まれつき片足が不自由であり、自分の望む結婚はできなかったという。アルマ・マーラーは「あきらめの心境でベルンハルトと愛のない結婚をし、" +
+			"結婚生活は初日から不幸であった」と書き記している。その結婚自体は理想的な形で実現したとは言えないものの、夫妻の間には前述の通り多く" +
+			"の子供が生まれている。ただし身体の不自由なマリーは、教育熱心な夫ベルンハルトと違い母親としての理想的な教育を子供たちに施すことができなかった。" +
+			"グスタフは生涯この母親に対し「固定観念と言えるほど強い愛情」を持ち続けた。</p> " +
+			"<p dir=\"auto\">ベルンハルトの母（グスタフの祖母）も、行商を生業とする剛毅な人間だった。18歳の頃から大きな籠を背に売り歩いていた。" +
+			"晩年には、行商を規制したある法律に触れる事件を起こし、重刑を言い渡されたが、刑に服する気はなく、ただちにウィーンへ赴き皇帝フランツ・" +
+			"ヨーゼフ1世に直訴する。皇帝は彼女の体力と80歳という高齢に感動し、特赦した。グスタフ・マーラーの一徹な性格はこの祖母譲りだとアルマは語っている。</p>" );
+		const researcher = new JapaneseResearcher( paper );
+		const result = new TransitionWordsAssessment().getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
+			"Only 25% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' " +
+			"target='_blank'>Use more of them</a>." );
+	} );
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
