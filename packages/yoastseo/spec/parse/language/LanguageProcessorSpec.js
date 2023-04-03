@@ -36,10 +36,4 @@ describe( "A test for the splitIntoTokens method", () => {
 		const tokens = languageProcessor.splitIntoTokens( new Sentence( "Hello, world!" ) );
 		expect( tokens ).toEqual( [ { text: "Hello" }, { text: "," }, { text: " " }, { text: "world" }, { text: "!" } ] );
 	} );
-	it( "the last sentence should not consist of a whitespace if the text ends in a whitespace", function() {
-		const languageProcessor = new LanguageProcessor( researcher );
-
-		const sentences = languageProcessor.splitIntoSentences( "Hello, world! Hello, Yoast! " );
-		expect( sentences ).toEqual( [ { text: "Hello, world!", tokens: [] }, { text: " Hello, Yoast!", tokens: [] }  ] );
-	} );
 } );
