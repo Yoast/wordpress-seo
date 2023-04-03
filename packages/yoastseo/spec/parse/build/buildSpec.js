@@ -542,7 +542,7 @@ describe( "The parse function", () => {
 							{ text: "world" },
 							{ text: "!" },
 						],
-						sourceCodeRange: { startOffset: 135, endOffset: 148 }
+						sourceCodeRange: { startOffset: 135, endOffset: 148 },
 					} ],
 					childNodes: [ {
 						name: "#text",
