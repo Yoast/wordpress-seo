@@ -1,7 +1,5 @@
 import Paper from "../../../src/values/Paper";
 import getResults from "../getAssessorResults";
-import buildTree from "../parse/buildTree";
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 
 /* eslint-disable complexity */
 /**
