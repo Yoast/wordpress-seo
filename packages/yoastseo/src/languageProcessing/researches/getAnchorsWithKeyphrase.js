@@ -19,11 +19,7 @@ let functionWords = [];
  */
 function isLinkingToSelf( anchorLink, siteUrlOrDomain ) {
 	// Relative fragment links always point to the page itself.
-	if ( urlHelper.isRelativeFragmentURL( anchorLink ) ) {
-		return true;
-	}
-
-	return urlHelper.areEqual( anchorLink, siteUrlOrDomain );
+	return Boolean(urlHelper.areEqual( anchorLink, siteUrlOrDomain ) || urlHelper.isRelativeFragmentURL( anchorLink ) );
 }
 
 /**
