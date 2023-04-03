@@ -54,8 +54,7 @@ function adjustSentenceEnd( descendantNodes, descendantTagPositions, sentenceSta
 	const startTagAtEndOfSentence = descendantNodes.find( node =>
 		node.sourceCodeLocation.startTag.endOffset === sentenceEnd );
 	if ( startTagAtEndOfSentence ) {
-		endPosition = endPosition - ( startTagAtEndOfSentence.sourceCodeLocation.startTag.endOffset -
-			startTagAtEndOfSentence.sourceCodeLocation.startTag.startOffset );
+		const startTagLocation = startTagAtEndOfSentence.sourceCodeLocation.startTag;
 		sentenceEnd = sentenceEnd - ( startTagLocation.endOffset - startTagLocation.startOffset );
 	}
 
