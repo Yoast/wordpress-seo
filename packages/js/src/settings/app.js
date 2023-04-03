@@ -91,9 +91,9 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
 					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-					{ map( postTypes, ( { name, route, label } ) => (
+					{ map( postTypes, ( { route, label } ) => (
 						<SidebarNavigation.SubmenuItem
-							key={ `link-post-type-${ name }` }
+							key={ `link-post-type-${ route }${ idSuffix }` }
 							to={ `/post-type/${ route }` }
 							label={ label }
 							idSuffix={ idSuffix }
@@ -107,10 +107,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 				label={ __( "Categories & tags", "wordpress-seo" ) }
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ renderMoreOrLessButton }>
-					{ map( taxonomies, taxonomy => (
+					{ map( taxonomies, ( { route, label } ) => (
 						<SidebarNavigation.SubmenuItem
-							to={ `/taxonomy/${ taxonomy.route }` }
-							label={ taxonomy.label }
+							key={ `link-taxonomy-${ route }${ idSuffix }` }
+							to={ `/taxonomy/${ route }` }
+							label={ label }
 							idSuffix={ idSuffix }
 						/>
 					) ) }
