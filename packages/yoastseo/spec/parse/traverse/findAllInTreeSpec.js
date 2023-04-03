@@ -28,7 +28,16 @@ describe( "A test for findAllInTree", () => {
 					name: "#text",
 					value: "Hello, world! ",
 				} ],
-				sentences: [ { text: "Hello, world!", tokens: [] } ],
+				sentences: [ {
+					text: "Hello, world!",
+					tokens: [
+						{ text: "Hello" },
+						{ text: "," },
+						{ text: " " },
+						{ text: "world" },
+						{ text: "!" },
+					],
+				} ],
 				sourceCodeLocation: {
 					startOffset: 5,
 					endOffset: 40,
@@ -50,7 +59,16 @@ describe( "A test for findAllInTree", () => {
 					name: "#text",
 					value: "Hello, yoast! ",
 				} ],
-				sentences: [ { text: "Hello, yoast!", tokens: [] } ],
+				sentences: [ {
+					text: "Hello, yoast!",
+					tokens: [
+						{ text: "Hello" },
+						{ text: "," },
+						{ text: " " },
+						{ text: "yoast" },
+						{ text: "!" },
+					],
+				} ],
 				sourceCodeLocation: {
 					startOffset: 40,
 					endOffset: 75,
