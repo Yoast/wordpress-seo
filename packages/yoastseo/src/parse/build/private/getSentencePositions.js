@@ -43,7 +43,8 @@ function adjustSentenceEnd( descendantNodes, descendantTagPositions, sentenceSta
 	 * the same as the start/end position of the sentence, add the tag's length to the end position of the sentence.
 	 */
 	descendantTagPositions.forEach( ( position ) => {
-		if ( position.startOffset >= startPosition && position.startOffset <= endPosition ) {
+		if ( position.startOffset >= sentenceStart && position.startOffset <= sentenceEnd ) {
+			sentenceEnd += ( position.endOffset - position.startOffset );
 		}
 	} );
 	/*
