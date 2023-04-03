@@ -4,7 +4,7 @@ import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
-import { chunk, filter, forEach, get, includes, reduce } from "lodash";
+import { chunk, filter, forEach, get, includes, map, reduce, toInteger } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
@@ -19,14 +19,14 @@ import registerStore from "./store";
  */
 const preloadMedia = async( { settings, fallbacks } ) => {
 	const titleSettings = get( settings, "wpseo_titles", {} );
-	const mediaIds = filter( [
+	const mediaIds = filter( map( [
 		get( settings, "wpseo_social.og_default_image_id", "0" ),
 		get( settings, "wpseo_titles.open_graph_frontpage_image_id", "0" ),
 		get( settings, "wpseo_titles.company_logo_id", "0" ),
 		get( settings, "wpseo_titles.person_logo_id", "0" ),
 		get( fallbacks, "siteLogoId", "0" ),
 		...reduce( titleSettings, ( acc, value, key ) => includes( key, "social-image-id" ) ? [ ...acc, value ] : acc, [] ),
-	], Boolean );
+	], toInteger ), Boolean );
 	const mediaIdsChunks = chunk( mediaIds, 100 );
 	const { fetchMedia } = dispatch( STORE_NAME );
 	forEach( mediaIdsChunks, fetchMedia );
