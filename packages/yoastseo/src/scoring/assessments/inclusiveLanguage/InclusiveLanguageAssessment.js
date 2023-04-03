@@ -6,6 +6,7 @@ import Mark from "../../../values/Mark";
 import addMark from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getWords, sanitizeString } from "../../../languageProcessing";
+import { stripFullTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 
 import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
 
@@ -138,10 +139,12 @@ export default class InclusiveLanguageAssessment {
 		if ( ! this.foundPhrases ) {
 			return [];
 		}
-		return this.foundPhrases.map( foundPhrase =>
-			new Mark( {
-				original: foundPhrase.sentence,
-				marked: addMark( foundPhrase.sentence ),
-			} ) );
+		return this.foundPhrases.map( foundPhrase => {
+			const sentence = stripFullTags( foundPhrase.sentence );
+			return new Mark( {
+				original: sentence,
+				marked: addMark( sentence ),
+			} );
+		} );
 	}
 }
