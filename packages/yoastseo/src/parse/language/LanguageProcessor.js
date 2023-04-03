@@ -1,4 +1,6 @@
 import Sentence from "../structure/Sentence";
+import Token from "../structure/Token";
+
 const whitespaceRegex = /^\s+$/;
 /**
  * Contains language-specific logic for splitting a text into sentences and tokens.
@@ -20,7 +22,6 @@ class LanguageProcessor {
 	 *
 	 * @returns {Sentence[]} The sentences.
 	 */
-	// eslint-disable-next-line no-unused-vars
 	splitIntoSentences( text ) {
 		const memoizedTokenizer = this.researcher.getHelper( "memoizedTokenizer" );
 		/*
@@ -33,7 +34,7 @@ class LanguageProcessor {
 		 * If the last element in the array of sentences contains only whitespaces, remove it.
 		 * This will be the case if the text ends in a whitespace - that whitespace ends up being tokenized as a
 		 * separate sentence. A space at the end of the text is not needed for calculating the position of
-		 * sentences so it can be safely removed.
+		 * sentences, so it can be safely removed.
 		 */
 		if ( whitespaceRegex.test( sentences[ sentences.length - 1 ] ) ) {
 			sentences.pop();
@@ -47,16 +48,16 @@ class LanguageProcessor {
 	/**
 	 * Split sentence into tokens.
 	 *
-	 * @param {Sentence} sentence The sentences to split.
+	 * @param {Sentence} sentence The sentence to split.
 	 *
 	 * @returns {Token[]} The tokens.
 	 */
-	// eslint-disable-next-line no-unused-vars
 	splitIntoTokens( sentence ) {
-		// eslint-disable-next-line no-warning-comments
-		// TODO: Split sentence into tokens.
-		return [];
+		// Retrieve sentence from sentence class
+		const sentenceText = sentence.text;
+		// Split the sentence string into tokens
+		const tokenTexts = sentenceText.split( /([\s,.!?;:([\]'"¡¿)/])/g ).filter( x => x !== "" );
+		return tokenTexts.map( tokenText => new Token( tokenText ) );
 	}
 }
-
 export default LanguageProcessor;
