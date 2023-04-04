@@ -1,4 +1,4 @@
-/* eslint-disable max-statements */
+/* eslint-disable max-statements,complexity */
 // External dependencies.
 import { autop } from "@wordpress/autop";
 import { enableFeatures } from "@yoast/feature-flag";
