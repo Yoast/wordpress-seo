@@ -5,7 +5,7 @@ import { withSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { isNil } from "lodash-es";
+import { isNil } from "lodash";
 
 /* Internal components */
 import ScoreIconPortal from "../portals/ScoreIconPortal";

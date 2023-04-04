@@ -1,8 +1,7 @@
 // External dependencies.
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import { Component } from "react";
 import PropTypes from "prop-types";
 
 // Yoast dependencies

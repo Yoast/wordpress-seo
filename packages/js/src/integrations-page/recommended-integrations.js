@@ -1,10 +1,8 @@
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { PluginIntegration } from "./plugin-integration";
-import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
-import { ReactComponent as JetpackBoostLogo } from "../../images/jetpack-boost-integration-logo.svg";
+import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
 
 import { ToggleableIntegration } from "./toggleable-integration";
 
@@ -63,31 +61,6 @@ const integrations = [
 	},
 ];
 
-const JetpackBoostIntegration = {
-	name: "Jetpack Boost",
-	claim: createInterpolateElement(
-		sprintf(
-			/* translators: 1: bold open tag; 2: Jetpack Boost; 3: bold close tag. */
-			__( "Speed up your website with %1$s%2$s%3$s", "wordpress-seo" ),
-			"<strong>",
-			"Jetpack Boost",
-			"</strong>"
-		), {
-			strong: <strong />,
-		}
-	),
-	learnMoreLink: "https://yoa.st/integrations-about-jetpack-boost",
-	linkTextInActive: __( "Get Jetpack Boost", "wordpress-seo" ),
-	linkInActive: "https://yoa.st/integrations-get-jetpack-boost",
-	logoLink: "https://yoa.st/integrations-logo-jetpack-boost",
-	slug: "jetpack-boost",
-	description: __( "Optimize your CSS, defer non-essential JavaScript and Lazy-load your images to optimize your site for speed!", "wordpress-seo" ),
-	isPremium: false,
-	isNew: false,
-	isMultisiteAvailable: false,
-	logo: JetpackBoostLogo,
-};
-
 export const RecommendedIntegrations = [
 	integrations.map( ( integration, index ) => {
 		return (
@@ -102,9 +75,4 @@ export const RecommendedIntegrations = [
 			/>
 		);
 	} ),
-	<PluginIntegration
-		key={ integrations.length }
-		integration={ JetpackBoostIntegration }
-		isActive={ getInitialState( JetpackBoostIntegration ) }
-	/>,
 ];

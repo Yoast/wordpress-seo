@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { select, subscribe } from "@wordpress/data";
 import { actions } from "@yoast/externals/redux";
-import { debounce } from "lodash-es";
+import { debounce } from "lodash";
 import { languageProcessing } from "yoastseo";
 import { reapplyAnnotationsForSelectedBlock } from "../decorator/gutenberg";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
@@ -171,29 +171,37 @@ export default class BlockEditorData {
 
 		// When no custom slug is provided we should use the generated_slug attribute.
 		const slug = this.getPostAttribute( "slug" ) || generatedSlug;
-		return decodeURIComponent( slug );
+		try {
+			return decodeURI( slug );
+		} catch ( e ) {
+			return slug;
+		}
 	}
 
 	/**
-	 * Gets the base url from the permalink. The base url is the full url retrieved from permalink minus the slug.
-	 *
-	 * @param {string} slug The slug to strip from the permalink.
+	 * Gets the base url from the permalink parts.
 	 *
 	 * @returns {string} The base url.
 	 */
-	getPostBaseUrl( slug ) {
-		const permalink = select( "core/editor" ).getPermalink();
-		let url;
-		let baseUrl = "";
-		try {
-			url = new URL( permalink );
-			baseUrl = url.origin + url.pathname;
-		} catch ( e ) {
+	getPostBaseUrl() {
+		const permalinkParts = select( "core/editor" ).getPermalinkParts();
+		if ( permalinkParts === null || ! permalinkParts?.prefix ) {
 			// Fallback on the base url retrieved from the wpseoScriptData.
-			baseUrl = window.wpseoScriptData.metabox.base_url;
+			return window.wpseoScriptData.metabox.base_url;
 		}
-		// Strip slug from the url.
-		baseUrl = baseUrl.replace( new RegExp( encodeURI( slug ) + "/$", "i" ), "" );
+
+		let baseUrl = permalinkParts.prefix;
+		const isAutoDraft = select( "core/editor" ).isEditedPostNew();
+		if ( isAutoDraft ) {
+			// For post auto-drafts, the `baseUrl` includes the `?={ID}` that we do not want.
+			try {
+				const url = new URL( baseUrl );
+				baseUrl = url.origin + url.pathname;
+			} catch ( e ) {
+				// Ignore this error.
+			}
+		}
+
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
 		if ( ! baseUrl.endsWith( "/" ) ) {
 			baseUrl += "/";
@@ -211,18 +219,17 @@ export default class BlockEditorData {
 		const content = this.getPostAttribute( "content" );
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
-		const slug = this.getSlug();
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
-			slug,
+			slug: this.getSlug(),
 			excerpt: excerpt || excerptFromContent( content, getContentLocale() === "ja" ? 80 : 156 ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
 			contentImage,
-			baseUrl: this.getPostBaseUrl( slug ),
+			baseUrl: this.getPostBaseUrl(),
 		};
 	}
 

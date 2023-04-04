@@ -24,6 +24,10 @@ function _nx( single, plural, number ) {
 	return _n( single, plural, number );
 }
 
+function isRTL() {
+	return false;
+}
+
 export {
 	__,
 	_x,
@@ -31,4 +35,5 @@ export {
 	_nx,
 	setLocaleData,
 	sprintf,
+	isRTL,
 };

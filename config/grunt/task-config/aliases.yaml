@@ -13,14 +13,9 @@
 
 # Grunt command to only build CSS and JS
 'build:dev':
-  - 'build:ts'
   - 'build:packages'
   - 'build:js'
   - 'build:css'
-
-# Compile the TypeScript in the `schema-blocks` package
-'build:ts':
-  - 'shell:install-schema-blocks'
 
 # Compile the JavaScript packages that need it.
 'build:packages':
@@ -104,12 +99,9 @@ clean:build-assets:
 release:
   - 'clean:build-assets'
   - 'build:images'
-  - 'release:ts'
   - 'release:packages'
   - 'release:js'
   - 'release:css'
-'release:ts':
-  - 'shell:install-schema-blocks'
 # Compile the JavaScript packages that need it.
 'release:packages':
   - 'shell:build-ui-library'

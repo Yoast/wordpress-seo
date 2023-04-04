@@ -5,7 +5,6 @@ module.exports = {
 		options: {
 			pluginSlug: "wordpress-seo",
 			addTheseChangeLogs: [
-				[ "packages/schema-blocks/CHANGELOG.md", ".tmp/pg-schema-blocks.md" ],
 				[ "packages/replacement-variable-editor/CHANGELOG.md", ".tmp/pg-replacement-variable-editor.md" ],
 				[ "packages/analysis-report/CHANGELOG.MD", ".tmp/pg-analysis-report.md" ],
 				[ "packages/browserslist-config/CHANGELOG.md", ".tmp/pg-browserslist-config.md" ],

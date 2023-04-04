@@ -1,7 +1,7 @@
 import {
 	isFunction,
 	merge,
-} from "lodash-es";
+} from "lodash";
 
 /**
  * Gets data from custom callback functions.

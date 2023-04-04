@@ -1,2 +1,0 @@
-import "./blocks";
-import "./schema";

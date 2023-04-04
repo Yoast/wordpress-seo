@@ -144,9 +144,12 @@ const createReplaceFunction = ( { getReplacement, regexp } ) => {
  */
 const registerReplacementVariables = replacements => {
 	replacements.forEach( name => {
-		const replace = createReplaceFunction( replacementVariables[ name ] );
-
-		registerModifications( replace );
+		// eslint-disable-next-line import/namespace
+		const replacementVariable = replacementVariables?.[ name ];
+		if ( replacementVariable ) {
+			const replace = createReplaceFunction( replacementVariable );
+			registerModifications( replace );
+		}
 	} );
 };
 
@@ -174,7 +177,8 @@ export { default as ReplaceVar } from "../../values/replaceVar";
  */
 const getCurrentReplacementVariables = () => {
 	if ( currentReplaceVars === null ) {
-		currentReplaceVars = getReplacements().map( name => replacementVariables[ name ] );
+		// eslint-disable-next-line import/namespace
+		currentReplaceVars = getReplacements().map( name => replacementVariables?.[ name ] ).filter( Boolean );
 	}
 
 	return currentReplaceVars;

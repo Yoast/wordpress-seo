@@ -6,7 +6,8 @@
  */
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
-use Yoast\WP\SEO\Conditionals\Jetpack_Boost_Not_Premium_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Active_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Jetpack_Boost_Not_Premium_Conditional;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 
@@ -868,9 +869,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( ! $is_block_editor ) {
 			$post_edit_handle = 'post-edit-classic';
 		}
-		else {
-			$asset_manager->enqueue_style( 'editor' );
-		}
 		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );
 
@@ -923,6 +921,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			],
 			'dismissedAlerts'            => $dismissed_alerts,
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
+			'isJetpackBoostActive'       => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Active_Conditional::class )->is_met() : false,
 			'isJetpackBoostNotPremium'   => ( $is_block_editor ) ? YoastSEO()->classes->get( Jetpack_Boost_Not_Premium_Conditional::class )->is_met() : false,
 		];
 

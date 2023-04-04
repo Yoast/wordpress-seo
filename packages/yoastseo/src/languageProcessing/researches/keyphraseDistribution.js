@@ -1,6 +1,4 @@
-import { max, uniq as unique } from "lodash-es";
-import { zipWith } from "lodash-es";
-import { flattenDeep } from "lodash-es";
+import { flattenDeep, max, uniq as unique, zipWith } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 
 const { parseSynonyms, getSentences, mergeListItems, findWordFormsInString, markWordsInSentences } = languageProcessing;

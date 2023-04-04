@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import isArray from "lodash/isArray";
+import { isArray } from "lodash";
 
 /**
  * Styled SVG Component.
