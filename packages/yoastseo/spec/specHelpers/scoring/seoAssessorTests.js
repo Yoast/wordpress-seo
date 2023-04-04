@@ -1,5 +1,5 @@
-import Paper from "../../../src/values/Paper";
 import getResults from "../getAssessorResults";
+import Paper from "../../../src/values/Paper";
 
 /* eslint-disable complexity */
 /**

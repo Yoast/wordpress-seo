@@ -1,4 +1,4 @@
-import getResults from "../getListOfAssessmentResults";
+import getResults from "../getAssessorResults";
 import Paper from "../../../src/values/Paper";
 
 /**
