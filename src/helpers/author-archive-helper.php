@@ -89,7 +89,7 @@ class Author_Archive_Helper {
 		$post_types        = \array_intersect( $this->get_author_archive_post_types(), $this->post_type_helper->get_indexable_post_types() );
 		$public_post_stati = \array_values( \array_filter( \get_post_stati(), 'is_post_status_viewable' ) );
 
-		$args  = [
+		$args = [
 			'post_type'              => $post_types,
 			'post_status'            => $public_post_stati,
 			'author'                 => $user_id,
