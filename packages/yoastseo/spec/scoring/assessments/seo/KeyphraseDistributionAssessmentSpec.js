@@ -192,6 +192,8 @@ describe( "A test for marking keywords in the text", function() {
 			"</p>",
 		{ keyword: "cat toy" } );
 		const researcher = new EnglishResearcher( paper );
+		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
+
 		keyphraseDistributionAssessment.getResult( paper, researcher );
 		const expected = [
 			new Mark( {
