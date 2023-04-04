@@ -1,6 +1,5 @@
 
-import { MARK_TAG } from "./helpers/markTinyMCE";
-import markTinyMCE from  "./helpers/markTinyMCE";
+import markTinyMCE, { MARK_TAG } from "./helpers/markTinyMCE";
 
 /**
  * Returns a function that can decorate a tinyMCE editor
