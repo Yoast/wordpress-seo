@@ -12,38 +12,36 @@ let functionWords = [];
 /**
  * Checks whether the anchor's link is a relative fragment or the same as the site url/domain.
  *
- * @param {string} anchorLink       The link anchor.
- * @param {string} siteUrlOrDomain  The site URL or domain of the paper.
+ * @param {String} anchorLink       The link anchor.
+ * @param {String} siteUrlOrDomain  The site URL or domain of the paper.
  *
  * @returns {boolean} Whether the anchor's link is a relative fragment or the same as the site url/domain.
  */
 function isLinkingToSelf( anchorLink, siteUrlOrDomain ) {
 	// Relative fragment links always point to the page itself.
-	return Boolean(urlHelper.areEqual( anchorLink, siteUrlOrDomain ) || urlHelper.isRelativeFragmentURL( anchorLink ) );
+	return Boolean( urlHelper.areEqual( anchorLink, siteUrlOrDomain ) || urlHelper.isRelativeFragmentURL( anchorLink ) );
 }
 
 /**
- * Filters anchors whose url is not linking at the current site url/domain.
+ * Gets the anchors whose url is not linking at the current site url/domain.
  *
  * @param {Array}   anchors     	  An array with all anchors from the paper.
- * @param {string}  siteUrlOrDomain   The site URL or domain of the paper.
+ * @param {String}  siteUrlOrDomain   The site URL or domain of the paper.
  *
  * @returns {Array} The array of all anchors whose url is not linking at the current site url/domain.
  */
-function filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain ) {
+function getAnchorsLinkingToSelf( anchors, siteUrlOrDomain ) {
 	const anchorsLinkingToSelf = anchors.map( function( anchor ) {
 		const anchorLink = anchor.attributes.href;
 		// Return false if there is no href attribute.
 		return anchorLink ? isLinkingToSelf( anchorLink, siteUrlOrDomain ) : false;
 	} );
 
-	return  anchors.filter( function( anchor, index ) {
-		return anchorsLinkingToSelf[ index ] === false;
-	} );
+	return  anchors.filter( ( anchor, index ) => ! anchorsLinkingToSelf[ index ] );
 }
 
 /**
- * Filters anchors with text that contains all content words of the keyphrase or synonyms.
+ * Gets the anchors with text that contains all content words of the topic (i.e. keyphrase or synonyms).
  *
  * @param {Array}       anchors         An array with all anchors from the paper
  * @param {Object}      topicForms      The object with topicForms. It contains all forms of the keyphrase and synonyms.
@@ -52,20 +50,18 @@ function filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain ) {
  *
  * @returns {String[]} The array of all anchors with text that contains all content words of the keyphrase or synonyms.
  */
-function filterAnchorsContainingTopic( anchors, topicForms, locale, matchWordCustomHelper ) {
-	const anchorsContainingKeyphraseOrSynonyms = anchors.map( function( anchor ) {
+function getAnchorsContainingTopic( anchors, topicForms, locale, matchWordCustomHelper ) {
+	const anchorsContainingTopic = anchors.map( function( anchor ) {
 		// Only retrieve the anchor's text. This is because we only use the anchor text for the following check.
 		const anchorText = anchor.innerText();
 		return findTopicFormsInString( topicForms, anchorText, true, locale, matchWordCustomHelper  ).percentWordMatches === 100;
 	} );
 
-	return anchors.filter( function( anchor, index ) {
-		return anchorsContainingKeyphraseOrSynonyms[ index ] === true;
-	} );
+	return anchors.filter( ( anchor, index ) => anchorsContainingTopic[ index ] );
 }
 
 /**
- * Filters anchors with text that has the same content words as the keyphrase/synonyms.
+ * Gets the anchors with text that has the same content words as the keyphrase or synonyms.
  *
  * @param {Array}       anchors             An array with all anchors from the paper.
  * @param {Object}      topicForms          The object with topicForms. It contains all forms of the keyphrase and synonyms.
@@ -75,7 +71,7 @@ function filterAnchorsContainingTopic( anchors, topicForms, locale, matchWordCus
  *
  * @returns {Array} The array of all anchors with text that has the same content words as the keyphrase/synonyms.
  */
-function filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpers, exactMatchRequest  ) {
+function getAnchorsContainedInTopic( anchors, topicForms, locale, customHelpers, exactMatchRequest  ) {
 	const matchWordCustomHelper = customHelpers.matchWordCustomHelper;
 	const getWordsCustomHelper = customHelpers.getWordsCustomHelper;
 
@@ -125,9 +121,7 @@ function filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpe
 		}
 	} );
 
-	return anchors.filter( function( anchor, index ) {
-		return anchorsContainedInTopic[ index ] === true;
-	} );
+	return anchors.filter( ( anchor, index ) => anchorsContainedInTopic[ index ] );
 }
 
 /**
@@ -177,8 +171,8 @@ export default function( paper, researcher ) {
 	const siteUrlOrDomain = paper.getPermalink();
 
 	// STEP 3.
-	// Filter anchors with urls that are not linking to the current site url/domain.
-	anchors = filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain );
+	// Get the anchors with urls that are not linking to the current site url/domain.
+	anchors = getAnchorsLinkingToSelf( anchors, siteUrlOrDomain );
 	// If all anchor urls are linking to the current site url/domain, return empty result.
 	if ( anchors.length === 0 ) {
 		return result;
@@ -192,8 +186,8 @@ export default function( paper, researcher ) {
 	};
 
 	// STEP 4.
-	// Filter anchors with text that contains the keyphrase/synonyms' content words.
-	anchors = filterAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper );
+	// Get the anchors with text that contains the keyphrase/synonyms' content words.
+	anchors = getAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper );
 	// If all anchor texts do not contain the keyphrase/synonyms' content words, return empty result.
 	if ( anchors.length === 0 ) {
 		return result;
@@ -202,8 +196,8 @@ export default function( paper, researcher ) {
 	// STEP 5.
 	// Check if exact match is requested for every topic (keyphrase or synonym).
 	const isExactMatchRequested = originalTopics.map( originalTopic => processExactMatchRequest( originalTopic ) );
-	// Filter anchors with text that has the same content words as the keyphrase/synonyms.
-	anchors = filterAnchorsContainedInTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested );
+	// Get the anchors with text that has the same content words as the keyphrase/synonyms.
+	anchors = getAnchorsContainedInTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested );
 
 	return {
 		anchorsWithKeyphrase: anchors,
