@@ -90,13 +90,19 @@ class Author_Archive_Helper {
 		$public_post_stati = \array_values( \array_filter( \get_post_stati(), 'is_post_status_viewable' ) );
 
 		$args  = [
-			'post_type'   => $post_types,
-			'post_status' => $public_post_stati,
-			'author'      => $user_id,
+			'post_type'              => $post_types,
+			'post_status'            => $public_post_stati,
+			'author'                 => $user_id,
+			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
+			'no_found_rows'          => true,
+			'fields'                 => 'ids',
+			'posts_per_page'         => 1,
 		];
+
 		$query = new WP_Query( $args );
 
-		if ( ! empty( $query->posts ) ) {
+		if ( $query->have_posts() ) {
 			return true;
 		}
 
