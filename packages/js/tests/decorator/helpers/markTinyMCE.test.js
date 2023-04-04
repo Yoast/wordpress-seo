@@ -4,12 +4,21 @@ import markTinyMCE from "../../../src/decorator/helpers/markTinyMCE";
 import { Paper } from "yoastseo";
 import { Mark } from "yoastseo/src/values";
 
+/**
+ * Mocks the Dom.
+ * @returns {object} A mock of the DOM.
+ */
 function mockDom() {
 	return {
 		select: jest.fn(),
 	};
 }
 
+/**
+ * Mocks the TinyMCE.Editor object.
+ * @param {Object} dom A mock of the dom object.
+ * @returns {Object} A mock of the editor.
+ */
 function mockEditor( dom ) {
 	return {
 		dom,

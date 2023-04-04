@@ -1,10 +1,9 @@
-/* tinyMCE*/
 import markTinyMCE, { MARK_TAG } from "./helpers/markTinyMCE";
 
 /**
  * Returns a function that can decorate a tinyMCE editor
  *
- * @param {Editor} editor The editor to return a function for.
+ * @param {tinyMCE.Editor} editor The editor to return a function for.
  * @returns {Function} The function that can be called to decorate the editor.
  */
 export function tinyMCEDecorator( editor ) {
@@ -16,7 +15,7 @@ export function tinyMCEDecorator( editor ) {
 /**
  * Returns whether or not the editor has marks
  *
- * @param {Editor} editor The editor.
+ * @param {tinyMCE.Editor} editor The editor.
  * @returns {boolean} Whether or not there are marks inside the editor.
  */
 export function editorHasMarks( editor ) {
@@ -28,7 +27,7 @@ export function editorHasMarks( editor ) {
 /**
  * Removes marks currently in the given editor
  *
- * @param {Editor} editor The editor to remove all marks for.
+ * @param {tinyMCE.Editor} editor The editor to remove all marks for.
  *
  * @returns {void}
  */
