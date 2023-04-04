@@ -1,5 +1,5 @@
 import { languageProcessing, markers } from "yoastseo";
-import { forEach, isEmpty, orderBy } from "lodash-es";
+import { forEach, isEmpty, orderBy } from "lodash";
 
 export const MARK_TAG = "yoastmark";
 
