@@ -67,8 +67,8 @@ function adjustSentenceEnd( descendantNodes, descendantTagPositions, sentenceSta
 /**
  * Gets the start and end positions of the sentences in the source code.
  *
- * @param {Node} 		node  		The paragraph or heading node.
- * @param {Sentence[]} 	sentences 	The sentences in the node.
+ * @param {Paragraph|Heading} 		node  		The paragraph or heading node.
+ * @param {Sentence[]} 				sentences 	The sentences in the node.
  *
  * @returns {Sentence[]} The sentences, with their positions in the source code.
  */

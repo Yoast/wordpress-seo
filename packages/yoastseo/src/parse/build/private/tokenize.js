@@ -18,7 +18,7 @@ function getTokens( sentence, splitIntoTokens ) {
  * Splits the node's inner text into sentences, and the sentences into tokens,
  * using the language processor.
  *
- * @param {Node} node The node to split into sentences.
+ * @param {Paragraph|Heading} node 				The paragraph or heading node to split into sentences.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
  *
  * @returns {Sentence[]} The node's sentences.
