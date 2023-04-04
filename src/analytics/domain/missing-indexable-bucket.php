@@ -8,17 +8,17 @@ namespace Yoast\WP\SEO\Analytics\Domain;
 class Missing_Indexable_Bucket {
 
 	/**
-	 * @var array<Missing_Indexable_Count> $missing_indexble_counts all the missing
-	 *                                                                                              indexable count
-	 *                                                                                              objects.
+	 * All the missing indexable count objects.
+	 *
+	 * @var array<Missing_Indexable_Count> $missing_indexable_counts
 	 */
-	private $missing_indexble_counts;
+	private $missing_indexable_counts;
 
 	/**
 	 * The constructor.
 	 */
 	public function __construct() {
-		$this->missing_indexble_counts = []; }
+		$this->missing_indexable_counts = []; }
 
 	/**
 	 * Adds a missing indexable count object to this bucket.
@@ -28,7 +28,7 @@ class Missing_Indexable_Bucket {
 	 * @return void
 	 */
 	public function add_missing_indexable_count( Missing_Indexable_Count $missing_indexable_count ): void {
-		$this->missing_indexble_counts[] = $missing_indexable_count;
+		$this->missing_indexable_counts[] = $missing_indexable_count;
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Missing_Indexable_Bucket {
 			function ( $item ) {
 				return $item->to_array();
 			},
-			$this->missing_indexble_counts
+			$this->missing_indexable_counts
 		);
 	}
 }

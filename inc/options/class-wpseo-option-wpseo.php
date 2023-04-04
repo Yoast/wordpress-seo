@@ -135,6 +135,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
+		'last_known_no_unindexed'                  => [],
 	];
 
 	/**
@@ -408,6 +409,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'indexables_page_reading_list':
 				case 'last_known_public_post_types':
 				case 'last_known_public_taxonomies':
+				case 'last_known_no_unindexed':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {

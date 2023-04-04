@@ -5,7 +5,7 @@
  * @package WPSEO\Admin\Tracking
  */
 
-use Yoast\WP\SEO\Analystics\Framework\Missing_Indexables_Collector;
+use Yoast\WP\SEO\Analytics\Framework\Missing_Indexables_Collector;
 
 /**
  * This class handles the tracking routine.

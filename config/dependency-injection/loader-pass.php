@@ -71,6 +71,7 @@ class Loader_Pass implements CompilerPassInterface {
 
 		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
+			$definition->setPublic( true );
 		}
 
 		if ( \is_subclass_of( $class, Route_Interface::class ) ) {
