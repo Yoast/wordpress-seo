@@ -35,7 +35,17 @@ describe( "The parse function", () => {
 					attributes: {
 						"class": new Set( [ "yoast" ] ),
 					},
-					sentences: [ { text: "Hello, world!", tokens: [] } ],
+					sentences: [ {
+						text: "Hello, world!",
+						sourceCodeRange: { startOffset: 22, endOffset: 35 },
+						tokens: [
+							{ text: "Hello" },
+							{ text: "," },
+							{ text: " " },
+							{ text: "world" },
+							{ text: "!" },
+						],
+					} ],
 					childNodes: [ {
 						name: "#text",
 						value: "Hello, world!",
@@ -86,7 +96,16 @@ describe( "The parse function", () => {
 					name: "p",
 					isImplicit: true,
 					attributes: {},
-					sentences: [ { text: "Hello World!", tokens: [] } ],
+					sentences: [ {
+						text: "Hello World!",
+						sourceCodeRange: { startOffset: 5, endOffset: 30 },
+						tokens: [
+							{ text: "Hello" },
+							{ text: " " },
+							{ text: "World" },
+							{ text: "!" },
+						],
+					} ],
 					childNodes: [
 						{
 							name: "#text",
@@ -168,7 +187,14 @@ describe( "The parse function", () => {
 							name: "p",
 							isImplicit: true,
 							attributes: {},
-							sentences: [ { text: "Hello ", tokens: [] } ],
+							sentences: [ {
+								text: "Hello ",
+								sourceCodeRange: { startOffset: 5, endOffset: 11 },
+								tokens: [
+									{ text: "Hello" },
+									{ text: " " },
+								],
+							} ],
 							childNodes: [
 								{
 									name: "#text",
@@ -185,7 +211,14 @@ describe( "The parse function", () => {
 							name: "p",
 							isImplicit: false,
 							attributes: {},
-							sentences: [ { text: "World!", tokens: [] } ],
+							sentences: [ {
+								text: "World!",
+								sourceCodeRange: { startOffset: 14, endOffset: 20 },
+								tokens: [
+									{ text: "World" },
+									{ text: "!" },
+								],
+							} ],
 							childNodes: [
 								{
 									name: "#text",
@@ -298,7 +331,19 @@ describe( "The parse function", () => {
 									value: ", and ",
 								},
 							],
-							sentences: [ { text: "So long, and ", tokens: [] } ],
+							sentences: [ {
+								text: "So long, and ",
+								sourceCodeRange: { startOffset: 5, endOffset: 27 },
+								tokens: [
+									{ text: "So" },
+									{ text: " " },
+									{ text: "long" },
+									{ text: "," },
+									{ text: " " },
+									{ text: "and" },
+									{ text: " " },
+								],
+							} ],
 							sourceCodeLocation: {
 								startOffset: 5,
 								endOffset: 27,
@@ -314,7 +359,13 @@ describe( "The parse function", () => {
 									value: "thanks",
 								},
 							],
-							sentences: [ { text: "thanks", tokens: [] } ],
+							sentences: [ {
+								text: "thanks",
+								sourceCodeRange: { startOffset: 30, endOffset: 36 },
+								tokens: [
+									{ text: "thanks" },
+								],
+							} ],
 							sourceCodeLocation: {
 								startOffset: 27,
 								endOffset: 40,
@@ -338,7 +389,15 @@ describe( "The parse function", () => {
 									value: " for ",
 								},
 							],
-							sentences: [ { text: " for ", tokens: [] } ],
+							sentences: [ {
+								text: " for ",
+								sourceCodeRange: { startOffset: 40, endOffset: 45 },
+								tokens: [
+									{ text: " " },
+									{ text: "for" },
+									{ text: " " },
+								],
+							} ],
 							sourceCodeLocation: {
 								startOffset: 40,
 								endOffset: 45,
@@ -354,7 +413,13 @@ describe( "The parse function", () => {
 									value: "all",
 								},
 							],
-							sentences: [ { text: "all", tokens: [] } ],
+							sentences: [ {
+								text: "all",
+								sourceCodeRange: { startOffset: 48, endOffset: 51 },
+								tokens: [
+									{ text: "all" },
+								],
+							} ],
 							sourceCodeLocation: {
 								startOffset: 45,
 								endOffset: 55,
@@ -404,7 +469,17 @@ describe( "The parse function", () => {
 									value: "!",
 								},
 							],
-							sentences: [ { text: " the fish!", tokens: [] } ],
+							sentences: [ {
+								text: " the fish!",
+								sourceCodeRange: { startOffset: 55, endOffset: 82 },
+								tokens: [
+									{ text: " " },
+									{ text: "the" },
+									{ text: " " },
+									{ text: "fish" },
+									{ text: "!" },
+								],
+							} ],
 							sourceCodeLocation: {
 								startOffset: 55,
 								endOffset: 82,
@@ -458,7 +533,17 @@ describe( "The parse function", () => {
 					attributes: {
 						"class": new Set( [ "yoast" ] ),
 					},
-					sentences: [ { text: "Hello, world!", tokens: [] } ],
+					sentences: [ {
+						text: "Hello, world!",
+						tokens: [
+							{ text: "Hello" },
+							{ text: "," },
+							{ text: " " },
+							{ text: "world" },
+							{ text: "!" },
+						],
+						sourceCodeRange: { startOffset: 135, endOffset: 148 },
+					} ],
 					childNodes: [ {
 						name: "#text",
 						value: "Hello, world!",

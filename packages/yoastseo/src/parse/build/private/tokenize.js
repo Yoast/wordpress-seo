@@ -1,4 +1,5 @@
 import { Heading, Paragraph } from "../../structure";
+import getSentencePositions from "./getSentencePositions";
 
 /**
  * Splits the sentence into tokens and puts them on the sentence.
@@ -17,14 +18,16 @@ function getTokens( sentence, splitIntoTokens ) {
  * Splits the node's inner text into sentences, and the sentences into tokens,
  * using the language processor.
  *
- * @param {Node} node The node to split into sentences.
+ * @param {Paragraph|Heading} node 				The paragraph or heading node to split into sentences.
  * @param {LanguageProcessor} languageProcessor The language processor to use.
  *
  * @returns {Sentence[]} The node's sentences.
  */
 function getSentences( node, languageProcessor ) {
 	// Split text into sentences.
-	const sentences = languageProcessor.splitIntoSentences( node.innerText() );
+	let sentences = languageProcessor.splitIntoSentences( node.innerText() );
+	// Add position information to the sentences.
+	sentences = getSentencePositions( node, sentences );
 	// Tokenize sentences into tokens.
 	return sentences.map( sentence => getTokens( sentence, languageProcessor.splitIntoTokens ) );
 }
