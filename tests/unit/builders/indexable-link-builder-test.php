@@ -525,7 +525,6 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 * @covers ::build
 	 * @covers ::build_permalink
 	 * @covers ::update_incoming_links_for_related_indexables
-	 * @covers ::update_incoming_link_count
 	 * @covers ::update_related_indexables
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
