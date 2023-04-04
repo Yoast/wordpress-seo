@@ -113,6 +113,7 @@ Mark.prototype.serialize = function() {
  * Checks if the mark object is valid.
  * @returns {void}
  */
+// eslint-disable-next-line complexity
 Mark.prototype.isValid = function() {
 	if ( ! isUndefined( this.getPositionStart() ) && this.getPositionStart() < 0 ) {
 		throw new RangeError( "positionStart should be larger or equal than 0." );
