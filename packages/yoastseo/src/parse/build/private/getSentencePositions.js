@@ -1,3 +1,5 @@
+import { Paragraph } from "../../structure";
+
 /**
  * Gets the start and end positions of all descendant nodes' tags and stores them in an array.
  * Each object in the array represents an opening or closing tag.
@@ -83,7 +85,7 @@ export default function getSentencePositions( node, sentences ) {
 	 * end tags, set the start position to the start of the node. Otherwise, set the start position to the end of the
 	 * node's start tag.
 	 */
-	let sentenceStart = node.name === "p" && node.isImplicit
+	let sentenceStart = node instanceof Paragraph && node.isImplicit
 		? node.sourceCodeLocation.startOffset
 		: node.sourceCodeLocation.startTag.endOffset;
 	let sentenceEnd;
