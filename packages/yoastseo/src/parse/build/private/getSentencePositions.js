@@ -89,7 +89,6 @@ export default function getSentencePositions( node, sentences ) {
 		? node.sourceCodeLocation.startOffset
 		: node.sourceCodeLocation.startTag.endOffset;
 	let sentenceEnd;
-	let descendantNodes = [];
 	let descendantTagPositions = [];
 
 	/*
@@ -97,7 +96,7 @@ export default function getSentencePositions( node, sentences ) {
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
 	 * an array. These positions will have to be taken into account when calculating the position of the sentences.
 	 */
-	descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation );
+	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation );
 	if ( descendantNodes.length > 0 ) {
 		descendantTagPositions = getDescendantPositions( descendantNodes );
 	}
