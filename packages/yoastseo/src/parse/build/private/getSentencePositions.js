@@ -101,9 +101,9 @@ export default function getSentencePositions( node, sentences ) {
 		descendantTagPositions = getDescendantPositions( descendantNodes );
 	}
 
-	for ( let i = 0; i < sentences.length; i++ ) {
+	sentences.forEach( ( sentence ) => {
 		// Set the sentence end position to the start position + the length of the sentence.
-		sentenceEnd = sentenceStart + sentences[ i ].text.length;
+		sentenceEnd = sentenceStart + sentence.text.length;
 
 		// If there are descendant tags, possibly adjust the sentenceEnd to account for tags within/next to the sentence.
 		if ( descendantTagPositions.length > 0 ) {
@@ -111,11 +111,11 @@ export default function getSentencePositions( node, sentences ) {
 		}
 
 		// Add the start and end positions to the sentence object.
-		sentences[ i ].sourceCodeRange = { startOffset: sentenceStart, endOffset: sentenceEnd };
+		sentence.sourceCodeRange = { startOffset: sentenceStart, endOffset: sentenceEnd };
 
 		// Start position of the next sentence is the end position of current sentence.
 		sentenceStart = sentenceEnd;
-	}
+	} );
 
 	return sentences;
 }
