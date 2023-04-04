@@ -78,9 +78,7 @@ function getAnchorsContainedInTopic( anchors, topicForms, locale, customHelpers,
 	// Prepare keyphrase and synonym forms for comparison with anchors.
 	const keyphraseAndSynonymsWords = [ flatten( topicForms.keyphraseForms ) ];
 	const synonymsForms = topicForms.synonymsForms;
-	for ( let i = 0; i < synonymsForms.length; i++ ) {
-		keyphraseAndSynonymsWords.push( flatten( synonymsForms[ i ] ) );
-	}
+	synonymsForms.forEach( form => keyphraseAndSynonymsWords.push( flatten( form ) ) );
 
 	// The variable that will save all the anchors with text that has the same content words as the keyphrase/synonyms.
 	const anchorsContainedInTopic = [];
