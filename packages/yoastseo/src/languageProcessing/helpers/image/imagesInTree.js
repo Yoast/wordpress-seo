@@ -5,7 +5,7 @@
  *
  * @param {Paper}       paper       The paper to check for images.
  *
- * @returns {Array} Array containing all images in tree
+ * @returns {Array} Array containing all images in the tree
  */
 export default function( paper ) {
 	const tree = paper.getTree();

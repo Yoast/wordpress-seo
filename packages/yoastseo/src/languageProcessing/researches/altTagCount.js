@@ -1,6 +1,6 @@
 /** @module researches/imageAltTags */
 
-import imageAlttag from "../helpers/image/getAlttagContent";
+import imageAltAttribute from "../helpers/image/getAltAttribute";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 import { isEmpty } from "lodash-es";
 import imagesInTree from "../helpers/image/imagesInTree";
@@ -25,7 +25,7 @@ const matchAltProperties = function( imageNodes, topicForms, locale, matchWordCu
 	};
 
 	imageNodes.forEach( imageNode => {
-		const alttag = imageAlttag( imageNode );
+		const alttag = imageAltAttribute( imageNode );
 
 		// If no alt-tag is set
 		if ( alttag === "" ) {

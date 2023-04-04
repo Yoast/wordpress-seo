@@ -1,12 +1,12 @@
-/** @module stringProcessing/getAlttagContent */
+/** @module stringProcessing/getAltAttribute */
 
 import stripSpaces from "../sanitize/stripSpaces.js";
 
 /**
- * Checks for an alt tag in the image and returns its content
+ * Checks for an alt attribute in the image and returns its content.
  *
- * @param {Node} imageNode Text string to match alt
- * @returns {String} the contents of the alt tag, empty if none is set.
+ * @param {Node} imageNode Text string to match the alt attribute.
+ * @returns {String} The contents of the alt attribute, empty if none is set.
  */
 export default function( imageNode ) {
 	let alt = "";

@@ -1,9 +1,9 @@
-import imageAlt from "../../../../src/languageProcessing/helpers/image/getAlttagContent.js";
+import imageAlt from "../../../../src/languageProcessing/helpers/image/getAltAttribute.js";
 import { parseFragment } from "parse5";
 import adapt from "../../../../src/parse/build/private/adapt";
 
-describe( "Checks for an alt tag in an image", function() {
-	it( "returns the contents of the alt tag", function() {
+describe( "Checks for an alt attribute in an image", function() {
+	it( "returns the contents of the alt attribute", function() {
 		const tree = adapt( parseFragment( "<img src='img.com' alt='a test' />", { sourceCodeLocationInfo: true } ) );
 		const imageNode = tree.findAll( node => node.name === "img" )[ 0 ];
 

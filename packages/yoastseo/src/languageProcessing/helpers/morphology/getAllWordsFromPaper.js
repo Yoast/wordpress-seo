@@ -1,5 +1,5 @@
 import { escapeRegExp } from "lodash-es";
-import getAlttagContent from "../image/getAlttagContent";
+import getAltAttribute from "../image/getAltAttribute";
 import { normalizeSingle } from "../sanitize/quotes";
 import parseSlug from "../url/parseSlug";
 import getWords from "../word/getWords";
@@ -14,7 +14,7 @@ import imagesInTree from "../image/imagesInTree";
  */
 export default function( paper ) {
 	const paperText = paper.getText();
-	const altTagsInText = imagesInTree( paper ).map( image => getAlttagContent( image ) );
+	const altTagsInText = imagesInTree( paper ).map( image => getAltAttribute( image ) );
 
 	const paperContent = [
 		paperText,
