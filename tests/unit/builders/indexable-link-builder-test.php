@@ -426,7 +426,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 			->times( $update_target_indexable_id_times )
 			->andReturn( [] );
 
-			$this->instance->patch_seo_links( $indexable );
+		$this->instance->patch_seo_links( $indexable );
 	}
 
 	/**
