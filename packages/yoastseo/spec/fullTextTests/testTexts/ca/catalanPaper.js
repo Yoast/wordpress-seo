@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "El terme clàssic fa referència a un conjunt difús i alhora ampli de conceptes estètics que abracen la majoria " +
 		"de disciplines artístiques considerades canòniques. El significat és variable segons el país o l'època. Aquest conjunt " +
 		"té sentit en comparació a moviments estètics més recents.",
+	textTitle: "Clàssic",
 	title: "Clàssic",
 	titleWidth: 450,
 	locale: "ca",
@@ -151,6 +152,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

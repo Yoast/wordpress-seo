@@ -1,4 +1,4 @@
-/* eslint-disable max-statements */
+/* eslint-disable max-statements,complexity */
 // External dependencies.
 import { autop } from "@wordpress/autop";
 import { enableFeatures } from "@yoast/feature-flag";
@@ -7,7 +7,6 @@ import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefine
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
-import * as assessments from "../scoring/assessments";
 import SEOAssessor from "../scoring/seoAssessor";
 import ContentAssessor from "../scoring/contentAssessor";
 import TaxonomyAssessor from "../scoring/taxonomyAssessor";
@@ -23,6 +22,7 @@ import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
 import CornerstoneRelatedKeywordAssessor from "../scoring/cornerstone/relatedKeywordAssessor";
 import CornerstoneSEOAssessor from "../scoring/cornerstone/seoAssessor";
 import InvalidTypeError from "../errors/invalidType";
+import MissingArgumentError from "../errors/missingArgument";
 import includesAny from "../helpers/includesAny";
 import { configureShortlinker } from "../helpers/shortlinker";
 import RelatedKeywordTaxonomyAssessor from "../scoring/relatedKeywordTaxonomyAssessor";
@@ -60,11 +60,9 @@ export default class AnalysisWebWorker {
 			inclusiveLanguageAnalysisActive: false,
 			useCornerstone: false,
 			useTaxonomy: false,
-			useKeywordDistribution: false,
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
 			customAnalysisType: "",
-			useWordComplexity: false,
 		};
 
 		this._scheduler = new Scheduler();
@@ -135,6 +133,8 @@ export default class AnalysisWebWorker {
 		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
 		this.registerAssessor = this.registerAssessor.bind( this );
 		this.registerResearch = this.registerResearch.bind( this );
+		this.registerHelper = this.registerHelper.bind( this );
+		this.registerResearcherConfig = this.registerResearcherConfig.bind( this );
 		this.setInclusiveLanguageOptions = this.setInclusiveLanguageOptions.bind( this );
 
 		// Bind event handlers to this scope.
@@ -416,13 +416,10 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen content assessor.
 	 */
 	createContentAssessor() {
-		let wordComplexity = new assessments.readability.WordComplexityAssessment();
-
 		const {
 			contentAnalysisActive,
 			useCornerstone,
 			customAnalysisType,
-			useWordComplexity,
 		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
@@ -441,6 +438,13 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] )
 				: new CornerstoneContentAssessor( this._researcher );
+
+			// Add the readability assessment for cornerstone content to the cornerstone content assessor.
+			this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
+				if ( isUndefined( assessor.getAssessment( name ) ) && type === "cornerstoneReadability" ) {
+					assessor.addAssessment( name, assessment );
+				}
+			} );
 		} else {
 			/*
 			 * For non-cornerstone content, use a custom SEO assessor if available,
@@ -451,26 +455,14 @@ export default class AnalysisWebWorker {
 					this._researcher,
 					this._CustomContentAssessorOptions[ customAnalysisType ] )
 				: new ContentAssessor( this._researcher );
-		}
 
-		if ( useWordComplexity && isUndefined( assessor.getAssessment( "wordComplexity" ) ) ) {
-			if ( useCornerstone === true ) {
-				wordComplexity = new assessments.readability.WordComplexityAssessment( {
-					scores: {
-						acceptableAmount: 3,
-					},
-				} );
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			} else {
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			}
+			// Add the readability assessment for regular content to the regular content assessor.
+			this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
+				if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
+					assessor.addAssessment( name, assessment );
+				}
+			} );
 		}
-
-		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
-			if ( isUndefined( assessor.getAssessment( name ) ) && type === "readability" ) {
-				assessor.addAssessment( name, assessment );
-			}
-		} );
 
 		return assessor;
 	}
@@ -481,11 +473,9 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen SEO assessor.
 	 */
 	createSEOAssessor() {
-		const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
-			useKeywordDistribution,
 			useTaxonomy,
 			customAnalysisType,
 		} = this._configuration;
@@ -518,10 +508,6 @@ export default class AnalysisWebWorker {
 						this._CustomSEOAssessorOptions[ customAnalysisType ] )
 					: new SEOAssessor( this._researcher );
 			}
-		}
-
-		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
-			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment, type } ) => {
@@ -662,13 +648,11 @@ export default class AnalysisWebWorker {
 			"locale",
 			"translations",
 			"customAnalysisType",
-			"useWordComplexity",
 		];
 		const seo = [
 			"keywordAnalysisActive",
 			"useCornerstone",
 			"useTaxonomy",
-			"useKeywordDistribution",
 			"locale",
 			"translations",
 			"researchData",
@@ -698,7 +682,6 @@ export default class AnalysisWebWorker {
 	 * @param {boolean}  [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
 	 * @param {boolean}  [configuration.useCornerstone]         Whether the paper is cornerstone or not.
 	 * @param {boolean}  [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
-	 * @param {boolean}  [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
 	 * @param {string}   [configuration.locale]                 The locale used in the seo assessor.
 	 * @param {Object}   [configuration.translations]           The translation strings.
 	 * @param {Object}   [configuration.researchData]           Extra research data.
@@ -805,6 +788,8 @@ export default class AnalysisWebWorker {
 	 * @returns {boolean} Whether registering the assessment was successful.
 	 */
 	registerAssessment( name, assessment, pluginName, type = "seo" ) {
+		const { useCornerstone } = this._configuration;
+
 		if ( ! isString( name ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 		}
@@ -826,6 +811,9 @@ export default class AnalysisWebWorker {
 			this._seoAssessor.addAssessment( combinedName, assessment );
 		}
 		if ( this._contentAssessor !== null && type === "readability" ) {
+			this._contentAssessor.addAssessment( combinedName, assessment );
+		}
+		if ( this._contentAssessor !== null && type === "cornerstoneReadability" && useCornerstone ) {
 			this._contentAssessor.addAssessment( combinedName, assessment );
 		}
 		if ( this._relatedKeywordAssessor !== null && type === "relatedKeyphrase" ) {
@@ -1380,9 +1368,18 @@ export default class AnalysisWebWorker {
 	 *
 	 * @param {string} name         The name of the research.
 	 * @param {function} research   The research function to add.
+	 *
 	 * @returns {void}
 	 */
 	registerResearch( name, research ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom research. Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( research ) ) {
+			throw new InvalidTypeError( "Failed to register the custom research. Expected parameter `research` to be a function." );
+		}
+
 		const researcher = this._researcher;
 
 		if ( ! researcher.hasResearch( name ) ) {
@@ -1428,5 +1425,51 @@ export default class AnalysisWebWorker {
 			return;
 		}
 		this.send( "runResearch:done", id, result );
+	}
+
+	/**
+	 * Registers a custom helper to the researcher.
+	 *
+	 * @param {string} name       The name of the helper.
+	 * @param {function} helper   The helper function to add.
+	 *
+	 * @returns {void}
+	 */
+	registerHelper( name, helper ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom helper. Expected parameter `name` to be a string." );
+		}
+
+		if ( ! isObject( helper ) ) {
+			throw new InvalidTypeError( "Failed to register the custom helper. Expected parameter `helper` to be a function." );
+		}
+
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasHelper( name ) ) {
+			researcher.addHelper( name, helper );
+		}
+	}
+
+	/**
+	 * Registers a configuration to the researcher.
+	 *
+	 * @param {string}  name                The name of the researcher configuration.
+	 * @param {*}       researcherConfig    The researcher configuration to add.
+	 *
+	 * @returns {void}
+	 */
+	registerResearcherConfig( name, researcherConfig ) {
+		if ( ! isString( name ) ) {
+			throw new InvalidTypeError( "Failed to register the custom researcher config. Expected parameter `name` to be a string." );
+		}
+		if ( isUndefined( researcherConfig ) || isEmpty( researcherConfig ) ) {
+			throw new MissingArgumentError( "Failed to register the custom researcher config. Expected parameter `researcherConfig` to be defined." );
+		}
+		const researcher = this._researcher;
+
+		if ( ! researcher.hasConfig( name ) ) {
+			researcher.addConfig( name, researcherConfig );
+		}
 	}
 }
