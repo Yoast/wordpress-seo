@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Analytics\Framework\Missing_Indexables_Collector;
+use Yoast\WP\SEO\Analytics\Framework\To_Be_Cleaned_Indexables_Collector;
 
 /**
  * This class handles the tracking routine.
@@ -192,6 +193,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Addon_Data() );
 		$collector->add_collection( YoastSEO()->classes->get( Missing_Indexables_Collector::class ) );
+		$collector->add_collection( YoastSEO()->classes->get( To_Be_Cleaned_Indexables_Collector::class ) );
 
 		return $collector;
 	}

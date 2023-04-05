@@ -56,7 +56,7 @@ class Loader_Pass implements CompilerPassInterface {
 		try {
 			$reflect = new ReflectionClass( $class );
 			$path    = $reflect->getFileName();
-			if ( strpos( $path, 'wordpress-seo/src/analytics' ) && ! strpos( $path, 'missing-indexables-collector' )
+			if ( strpos( $path, 'wordpress-seo/src/analytics' ) && ! strpos( $path, 'missing-indexables-collector' ) && ! strpos( $path, 'to-be-cleaned-indexables-collector' )
 			) {
 				$definition->setPublic( false );
 			}
