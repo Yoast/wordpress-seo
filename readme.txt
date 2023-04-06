@@ -87,7 +87,6 @@ Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of extr
 * **Internal linking suggestions** while you’re writing.
 * Preview your content to see what it will look like in the search results and when shared on social media using the **Google preview** and **social preview**.
 * **Cornerstone content checks** that point search engines to your most important pages.
-* Connect Yoast SEO to Zapier to easily **create zaps that instantly share your published posts** with 2000+ destinations like Twitter, Facebook, and much more.
 
 If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
 
@@ -112,7 +111,6 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * Google’s [Web Stories](https://wordpress.org/plugins/web-stories/) plugin, which helps you to create ‘[web stories](https://amp.dev/about/stories/)’.
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
-* [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 * [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
 * [WordProof](https://wordproof.com/), which helps you prove ownership by adding timestamps.
 
