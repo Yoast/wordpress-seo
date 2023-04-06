@@ -1,5 +1,5 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 
 import IntroductionKeywordAssessment from "./../../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./../../assessments/seo/KeyphraseLengthAssessment";
@@ -11,8 +11,8 @@ import FunctionWordsInKeyphrase from "./../../assessments/seo/FunctionWordsInKey
 /**
  * Creates the Assessor used for collection pages.
  *
- * @param {object}  researcher  The researcher to use for the analysis.
- * @param {Object}  options     The options for this assessor.
+ * @param {Researcher} researcher  The researcher to use for the analysis.
+ * @param {Object?}    options     The options for this assessor.
  *
  * @constructor
  */

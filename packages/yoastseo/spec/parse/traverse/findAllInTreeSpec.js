@@ -30,6 +30,7 @@ describe( "A test for findAllInTree", () => {
 				} ],
 				sentences: [ {
 					text: "Hello, world!",
+					sourceCodeRange: { startOffset: 22, endOffset: 35 },
 					tokens: [
 						{ text: "Hello" },
 						{ text: "," },
@@ -61,6 +62,7 @@ describe( "A test for findAllInTree", () => {
 				} ],
 				sentences: [ {
 					text: "Hello, yoast!",
+					sourceCodeRange: { startOffset: 57, endOffset: 70 },
 					tokens: [
 						{ text: "Hello" },
 						{ text: "," },

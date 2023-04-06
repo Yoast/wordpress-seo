@@ -1,6 +1,8 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
+import buildTree from "../specHelpers/parse/buildTree";
+
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
@@ -18,7 +20,8 @@ import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordA
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
-// Import content assessments
+
+// Import Readability assessments
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
@@ -40,6 +43,7 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
 

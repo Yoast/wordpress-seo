@@ -1,91 +1,8 @@
 /** @module analyses/findKeywordInFirstParagraph */
 
-import matchParagraphs from "../helpers/html/matchParagraphs.js";
-import getSentences from "../helpers/sentence/getSentences.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
-import imageInText from "../helpers/image/imageInText";
-import findEmptyDivisions from "../helpers/html/findEmptyDivisions";
-import getAnchorsFromText from "../helpers/link/getAnchorsFromText";
-import matchStringWithRegex from "../helpers/regex/matchStringWithRegex";
-import excludeEstimatedReadingTime from "../helpers/sanitize/excludeEstimatedReadingTime";
 
 import { isEmpty, reject } from "lodash-es";
-
-/**
- * Removes links from text.
- *
- * @param {string} text The text string to analyze.
- *
- * @returns {string} The text with links stripped away.
- */
-function removeLinksFromText( text ) {
-	const anchors = getAnchorsFromText( text );
-	if ( anchors.length > 0 ) {
-		anchors.forEach( function( anchor ) {
-			text = text.replace( anchor, "" );
-		} );
-	}
-
-	return text;
-}
-
-
-/**
- * Removes images from text.
- *
- * @param {string} text The text string to analyze.
- *
- * @returns {string} The text with images stripped away.
- */
-function removeImagesFromText( text ) {
-	const images = imageInText( text );
-	const imageTags = matchStringWithRegex( text, "</img>" );
-
-	if ( images.length > 0 ) {
-		images.forEach( function( image ) {
-			text = text.replace( image, "" );
-		} );
-
-		imageTags.forEach( function( imageTag ) {
-			text = text.replace( imageTag, "" );
-		} );
-	}
-
-	return text;
-}
-
-
-/**
- * Checks if the paragraph has no text.
- *
- * @param {string} text The text string to analyze.
- *
- * @returns {boolean} True if the paragraph has no text, false otherwise.
- */
-function paragraphHasNoText( text ) {
-	// Strip links and check if paragraph consists of links only
-	text = removeLinksFromText( text );
-	if ( text === "" ) {
-		return true;
-	}
-
-	text = removeImagesFromText( text );
-	if ( text === "" ) {
-		return true;
-	}
-
-	// Remove empty divisions from the text
-	const emptyDivisions = findEmptyDivisions( text );
-	if ( emptyDivisions.length < 1 ) {
-		return false;
-	}
-
-	emptyDivisions.forEach( function( emptyDivision ) {
-		text = text.replace( emptyDivision, "" );
-	} );
-
-	return text === "";
-}
 
 /**
  * Checks if the introductory paragraph contains keyphrase or synonyms.
@@ -109,12 +26,13 @@ function paragraphHasNoText( text ) {
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const locale = paper.getLocale();
 
-	let paragraphs = matchParagraphs( excludeEstimatedReadingTime( paper.getText() ) );
-	paragraphs = reject( paragraphs, isEmpty );
-	paragraphs = reject( paragraphs, paragraphHasNoText )[ 0 ] || "";
+	let paragraphs = paper.getTree().findAll( treeNode => treeNode.name === "p" );
+	// Remove empty paragraphs without sentences and paragraphs only consisting of links.
+	paragraphs = reject( paragraphs, paragraph => paragraph.sentences.length === 0 );
+	paragraphs = reject( paragraphs, paragraph => paragraph.childNodes.every( node => node.name === "a" ) );
+	const firstParagraph = paragraphs[ 0 ];
 
 	const result = {
 		foundInOneSentence: false,
@@ -122,22 +40,27 @@ export default function( paper, researcher ) {
 		keyphraseOrSynonym: "",
 	};
 
-	const sentences = getSentences( paragraphs, memoizedTokenizer );
+	if ( isEmpty( firstParagraph ) ) {
+		return result;
+	}
+
+	const sentences = firstParagraph.sentences.map( sentence => sentence.text );
 	// Use both keyphrase and synonyms to match topic words in the first paragraph.
 	const useSynonyms = true;
 
 	if ( ! isEmpty( sentences ) ) {
-		sentences.forEach( function( sentence ) {
-			const resultSentence = findTopicFormsInString( topicForms, sentence, useSynonyms, locale, matchWordCustomHelper );
-			if ( resultSentence.percentWordMatches === 100 ) {
-				result.foundInOneSentence = true;
-				result.foundInParagraph = true;
-				result.keyphraseOrSynonym = resultSentence.keyphraseOrSynonym;
-				return result;
-			}
-		} );
+		const firstResultSentence = sentences
+			.map( sentence => findTopicFormsInString( topicForms, sentence, useSynonyms, locale, matchWordCustomHelper ) )
+			.find( resultSentence => resultSentence.percentWordMatches === 100 );
 
-		const resultParagraph = findTopicFormsInString( topicForms, paragraphs, useSynonyms, locale, matchWordCustomHelper );
+		if ( firstResultSentence ) {
+			result.foundInOneSentence = true;
+			result.foundInParagraph = true;
+			result.keyphraseOrSynonym = firstResultSentence.keyphraseOrSynonym;
+			return result;
+		}
+
+		const resultParagraph = findTopicFormsInString( topicForms, firstParagraph.innerText(), useSynonyms, locale, matchWordCustomHelper );
 		if ( resultParagraph.percentWordMatches === 100 ) {
 			result.foundInParagraph = true;
 			result.keyphraseOrSynonym = resultParagraph.keyphraseOrSynonym;

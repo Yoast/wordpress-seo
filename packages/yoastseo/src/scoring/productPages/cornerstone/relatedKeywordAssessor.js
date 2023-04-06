@@ -1,5 +1,5 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import Assessor from "../../assessor.js";
 
 import IntroductionKeyword from "../../assessments/seo/IntroductionKeywordAssessment.js";
@@ -13,8 +13,8 @@ import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyph
 /**
  * Creates the Assessor
  *
- * @param {object} researcher   The researcher to use for the analysis.
- * @param {Object} options      The options for this assessor.
+ * @param {Researcher} researcher   The researcher to use for the analysis.
+ * @param {Object?} options         The options for this assessor.
  *
  * @constructor
  */

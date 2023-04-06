@@ -1,7 +1,8 @@
-import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../../src/helpers";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
+import buildTree from "../../../../../yoastseo/spec/specHelpers/parse/buildTree";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -17,7 +18,7 @@ import FunctionWordsInKeyphrase from "../../../../src/scoring/assessments/seo/Fu
 import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 
-// Import Readability assessments.
+// Import Readability assessments
 import SubheadingDistributionTooLongAssessment from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
@@ -39,6 +40,7 @@ testPapers.forEach( function( testPaper ) {
 		const LanguageResearcher = getResearcher( getLanguage( locale ) );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
 		const result = {};
