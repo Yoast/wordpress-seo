@@ -220,10 +220,6 @@ class WPSEO_Meta {
 				'type'          => null,
 				'default_value' => '0',
 			],
-			'zapier_trigger_sent' => [
-				'type'          => null,
-				'default_value' => '0',
-			],
 		],
 	];
 
