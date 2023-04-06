@@ -163,6 +163,11 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 28.06% of the words in your text are considered complex." +
 			" <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
 	textTitleAssessment: {
 		isApplicable: true,
 		score: 9,

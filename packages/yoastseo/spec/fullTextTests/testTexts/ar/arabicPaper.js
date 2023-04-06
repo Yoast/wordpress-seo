@@ -14,6 +14,7 @@ const paper = new Paper( content, {
 	locale: "ar",
 	permalink: "",
 	slug: "العناية-بالنباتات",
+	writingDirection: "RTL",
 } );
 
 
@@ -151,6 +152,11 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
 	},
 	textTitleAssessment: {
 		isApplicable: true,

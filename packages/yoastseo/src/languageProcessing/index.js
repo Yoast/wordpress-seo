@@ -36,6 +36,7 @@ import parseSynonyms from "./helpers/sanitize/parseSynonyms";
 import { mergeListItems } from "./helpers/sanitize/mergeListItems";
 import { findWordFormsInString } from "./helpers/match/findKeywordFormsInString";
 import { collectMarkingsInSentence, markWordsInSentences } from "./helpers/word/markWordsInSentences";
+import * as helpers from "./helpers";
 
 export {
 	AbstractResearcher,
@@ -78,4 +79,5 @@ export {
 	mergeListItems,
 	findWordFormsInString,
 	markWordsInSentences,
+	helpers,
 };
