@@ -70,32 +70,36 @@ describe( "A test for getting positions of sentences", () => {
 	it( "gets the sentence positions from a node that has a descendant node without a closing tag (img)", function() {
 		// HTML: <p>Hello, world!<img src="image.jpg" alt="this is an image" width="500" height="600"> Hello, yoast!</p>
 		const node = new Paragraph( {}, [ { name: "#text", value: "Hello, world! Hello, yoast!" },
-				{
-					name: "img",
-					attributes: { "src": new Set( [ "image.jpg" ] ), "alt": new Set( [ "this is an image" ] ),
-					"width": new Set( [ "500" ] ), "height": new Set( [ "600" ] ) },
-					childNodes: [],
-					sourceCodeLocation: {
+			{
+				name: "img",
+				attributes: {
+					src: "image.jpg",
+					alt: "this is an image",
+					width: "500",
+					height: "600",
+				},
+				childNodes: [],
+				sourceCodeLocation: {
+					startOffset: 21,
+					endOffset: 90,
+					startTag: {
 						startOffset: 21,
 						endOffset: 90,
-						startTag: {
-							startOffset: 21,
-							endOffset: 90,
-						},
 					},
-				} ],
-			{
+				},
+			} ],
+		{
+			startOffset: 5,
+			endOffset: 108,
+			startTag: {
 				startOffset: 5,
+				endOffset: 8,
+			},
+			endTag: {
+				startOffset: 104,
 				endOffset: 108,
-				startTag: {
-					startOffset: 5,
-					endOffset: 8,
-				},
-				endTag: {
-					startOffset: 104,
-					endOffset: 108,
-				},
-			} );
+			},
+		} );
 
 		const sentences = [ { text: "Hello, world!" }, { text: " Hello, yoast!" } ];
 		const sentencesWithPositions = [ { text: "Hello, world!", sourceCodeRange: { startOffset: 8, endOffset: 21 } },
