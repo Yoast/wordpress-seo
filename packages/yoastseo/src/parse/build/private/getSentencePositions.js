@@ -15,7 +15,9 @@ function getDescendantPositions( descendantNodes ) {
 	const descendantTagPositions = [];
 	descendantNodes.forEach( ( node ) => {
 		descendantTagPositions.push( node.sourceCodeLocation.startTag );
-		descendantTagPositions.push( node.sourceCodeLocation.endTag );
+		if ( node.sourceCodeLocation.endTag ) {
+			descendantTagPositions.push( node.sourceCodeLocation.endTag );
+		}
 	} );
 	// Sort the tag position objects by the start tag position in ascending order.
 	descendantTagPositions.sort( ( a, b ) => a.startOffset - b.startOffset );
