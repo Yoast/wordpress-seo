@@ -136,7 +136,7 @@ Mark.prototype.isValid = function() {
  * @returns {boolean} Returns true if the Mark object has position information, false otherwise.
  */
 Mark.prototype.hasPosition = function() {
-	return this.getPositionStart && this.getPositionStart();
+	return !! this.getPositionStart && this.getPositionStart();
 };
 
 /**
