@@ -4,20 +4,18 @@ import AssessmentResult from "../values/AssessmentResult.js";
 import { showTrace } from "../helpers/errors.js";
 
 import { __, sprintf } from "@wordpress/i18n";
-import { filter, find, findIndex, forEach, isFunction, isUndefined, map } from "lodash-es";
+import { filter, find, findIndex, isFunction, isUndefined, map } from "lodash-es";
 import LanguageProcessor from "../parse/language/LanguageProcessor";
-import filterTree from "../parse/build/private/filterTree";
 import { build } from "../parse/build";
-import permanentFilters from "../parse/build/private/alwaysFilterElements";
 
 const ScoreRating = 9;
 
 /**
  * Creates the Assessor.
  *
- * @param {Object} researcher       The researcher to use in the assessor.
- * @param {Object} options          The options for this assessor.
- * @param {Object} options.marker   The marker to pass the list of marks to.
+ * @param {Researcher} researcher   The researcher to use in the assessor.
+ * @param {Object?} options         The options for this assessor.
+ * @param {Function} options.marker The marker to pass the list of marks to.
  *
  * @constructor
  */
@@ -32,7 +30,7 @@ const Assessor = function( researcher, options ) {
 /**
  * Checks if the researcher is defined and sets it.
  *
- * @param   {Object} researcher The researcher to use in the assessor.
+ * @param   {Researcher} researcher The researcher to use in the assessor.
  *
  * @throws  {MissingArgument} Parameter needs to be a valid researcher object.
  * @returns {void}
@@ -53,7 +51,7 @@ Assessor.prototype.getAvailableAssessments = function() {
 };
 
 /**
- * Checks whether or not the Assessment is applicable.
+ * Checks whether the Assessment is applicable.
  *
  * @param {Object} assessment The Assessment object that needs to be checked.
  * @param {Paper} paper The Paper object to check against.
@@ -69,7 +67,7 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
 };
 
 /**
- * Determines whether or not an assessment has a marker.
+ * Determines whether an assessment has a marker.
  *
  * @param {Object} assessment The assessment to check for.
  * @returns {boolean} Whether or not the assessment has a marker.
@@ -105,7 +103,7 @@ Assessor.prototype.getPaper = function() {
  * @returns {Function} A function that can mark the given paper according to the given assessment.
  */
 Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
-	var specificMarker = this._options.marker;
+	const specificMarker = this._options.marker;
 
 	return function() {
 		let marks = assessment.getMarks( paper, researcher );
@@ -116,7 +114,7 @@ Assessor.prototype.getMarker = function( assessment, paper, researcher ) {
 };
 
 /**
- * Runs the researches defined in the tasklist or the default researches.
+ * Runs the researches defined in the task list or the default researches.
  *
  * @param {Paper} paper The paper to run assessments on.
  * @returns {void}
@@ -125,9 +123,9 @@ Assessor.prototype.assess = function( paper ) {
 	this._researcher.setPaper( paper );
 
 	const languageProcessor = new LanguageProcessor( this._researcher );
-	paper.setTree( filterTree( build( paper.getText(), languageProcessor ), permanentFilters ) );
+	paper.setTree( build( paper.getText(), languageProcessor ) );
 
-	var assessments = this.getAvailableAssessments();
+	let assessments = this.getAvailableAssessments();
 	this.results = [];
 
 	assessments = filter( assessments, function( assessment ) {
@@ -168,7 +166,7 @@ Assessor.prototype.hasMarkers = function() {
  * @returns {AssessmentResult} The result of the assessment.
  */
 Assessor.prototype.executeAssessment = function( paper, researcher, assessment ) {
-	var result;
+	let result;
 
 	try {
 		result = assessment.getResult( paper, researcher );
@@ -201,7 +199,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 };
 
 /**
- * Filters out all assessmentresults that have no score and no text.
+ * Filters out all assessment results that have no score and no text.
  *
  * @returns {Array<AssessmentResult>} The array with all the valid assessments.
  */
@@ -222,18 +220,15 @@ Assessor.prototype.isValidResult = function( assessmentResult ) {
 };
 
 /**
- * Returns the overallscore. Calculates the totalscore by adding all scores and dividing these
+ * Returns the overall score. Calculates the total score by adding all scores and dividing these
  * by the number of results times the ScoreRating.
  *
- * @returns {number} The overallscore
+ * @returns {number} The overall score.
  */
 Assessor.prototype.calculateOverallScore  = function() {
-	var results = this.getValidResults();
-	var totalScore = 0;
+	const results = this.getValidResults();
 
-	forEach( results, function( assessmentResult ) {
-		totalScore += assessmentResult.getScore();
-	} );
+	const totalScore = results.reduce( ( total, assessmentResult ) => total + assessmentResult.getScore(), 0 );
 
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 ) || 0;
 };
@@ -262,7 +257,7 @@ Assessor.prototype.addAssessment = function( name, assessment ) {
  * @returns {void}
  */
 Assessor.prototype.removeAssessment = function( name ) {
-	var toDelete = findIndex( this._assessments, function( assessment ) {
+	const toDelete = findIndex( this._assessments, function( assessment ) {
 		return assessment.hasOwnProperty( "identifier" ) && name === assessment.identifier;
 	} );
 
@@ -275,7 +270,7 @@ Assessor.prototype.removeAssessment = function( name ) {
  * Returns an assessment by identifier
  *
  * @param {string} identifier The identifier of the assessment.
- * @returns {undefined|Object} The object if found, otherwise undefined.
+ * @returns {undefined|Assessment} The object if found, otherwise undefined.
  */
 Assessor.prototype.getAssessment = function( identifier ) {
 	return find( this._assessments, function( assessment ) {
@@ -289,7 +284,7 @@ Assessor.prototype.getAssessment = function( identifier ) {
  * @returns {Array} The array with applicable assessments.
  */
 Assessor.prototype.getApplicableAssessments = function() {
-	var availableAssessments = this.getAvailableAssessments();
+	const availableAssessments = this.getAvailableAssessments();
 	return filter(
 		availableAssessments,
 		function( availableAssessment ) {
