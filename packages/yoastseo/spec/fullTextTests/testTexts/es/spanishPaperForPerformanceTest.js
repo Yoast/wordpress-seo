@@ -15,6 +15,7 @@ const paper = new Paper( content, {
 	description: "Зелёная книга - краткое название ежегодного путеводителя для чернокожих автомобилистов, который издавался в США с 1936 по 1966 год",
 	title: "Зелёная книга (путеводитель)",
 	titleWidth: 450,
+	textTitle: "Зелёная книга (путеводитель)",
 	locale: "es_ES",
 	permalink: "https://ru.wikipedia.org/wiki/Зелёная_книга_(путеводитель)",
 	slug: "Зелёная_книга_(путеводитель)",
@@ -166,6 +167,11 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

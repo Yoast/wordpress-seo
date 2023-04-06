@@ -164,6 +164,11 @@ const expectedResults = {
 		score: 0,
 		resultText: "",
 	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
+	},
 };
 
 export {

@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Ein Artikel über den größten Flughafen von London, den größten in Europa und den sechstgrößten der Welt. " +
 		"Heathrow wurde 1946 eröffnet.",
 	title: "Heathrow London airport",
+	textTitle: "Heathrow London airport",
 	titleWidth: 450,
 	locale: "de_DE",
 	permalink: "https://de.wikipedia.org/wiki/Flughafen_London_Heathrow",
@@ -170,6 +171,11 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 
