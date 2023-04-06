@@ -14,6 +14,18 @@ export async function getAuthorizationUrl() {
 }
 
 /**
+ * Checks the tracking limit.
+ *
+ * @returns {Promise} The API response promise.
+ */
+export async function checkLimit() {
+	return await callEndpoint( {
+		path: "yoast/v1/wincher/account/limit",
+		method: "GET",
+	} );
+}
+
+/**
  * Authenticates the user with Wincher's OAuth server.
  *
  * @param {Object} responseData The message response data.

@@ -183,6 +183,17 @@ class Wincher_Route_Test extends TestCase {
 				]
 			);
 
+		Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
+				'wincher/account/limit',
+				[
+					'methods'             => 'GET',
+					'callback'            => [ $this->instance, 'check_limit' ],
+					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
+				]
+			);
+
 		$this->instance->register_routes();
 	}
 

@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { isEmpty, map } from "lodash";
+import interpolateComponents from "interpolate-components";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
@@ -15,7 +16,7 @@ import { NewButton } from "@yoast/components";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, PositionOverTimeChart } from "./WincherTableRow";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
-import interpolateComponents from "interpolate-components";
+import WincherUpgradeCallout from "./modals/WincherUpgradeCallout";
 
 const ViewLink = makeOutboundLink();
 const GetMoreInsightsLink = makeOutboundLink();
@@ -311,6 +312,8 @@ const WincherPerformanceReport = ( props ) => {
 			>
 				{ __( "Top performing keyphrases on your site", "wordpress-seo" ) }
 			</WincherSEOPerformanceReportHeader>
+
+			<WincherUpgradeCallout isTitleShortened={ true } />
 
 			<GetUserMessage { ...props } data={ data } />
 
