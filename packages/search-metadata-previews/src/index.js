@@ -11,6 +11,7 @@ export {
 } from "@yoast/replacement-variable-editor";
 
 export { default as SnippetEditor } from "./snippet-editor/SnippetEditor";
+export { default as SnippetPreview } from "./snippet-preview/SnippetPreview";
 
 export {
 	lengthProgressShape,
