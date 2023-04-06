@@ -24,10 +24,12 @@ function removeInvalidMarks( editor ) {
 
 /**
  * Applies marks with the old search and replace method.
- * @param {object} editor Editor object. Is retrieved from the tinyMCE global.
- * @param {Paper} paper The paper.
- * @param {Mark[]} marks An array of marks that need to be applied
- * @param {string} html the html to which the marks need to be applied.
+ *
+ * @param {object}  editor  Editor object. Is retrieved from the tinyMCE global.
+ * @param {Paper}   paper   The paper.
+ * @param {Mark[]}  marks   An array of marks that need to be applied.
+ * @param {string}  html    The html to which the marks need to be applied.
+ *
  * @returns {string} The HTML with the marks applied.
  */
 function markTinyMCESearchBased( editor, paper, marks, html ) {
@@ -69,8 +71,10 @@ function markTinyMCESearchBased( editor, paper, marks, html ) {
 
 /**
  * Checks if either the start offset or end offset is larger than the length of the text to highlight.
- * @param {Mark} mark A Mark object.
- * @param {string} html The html the mark will be checked against.
+ *
+ * @param {Mark}    mark    A Mark object.
+ * @param {string}  html    The html the mark will be checked against.
+ *
  * @returns {boolean} true if the mark is out of bounds, false otherwise.
  */
 function markOutOfBounds( mark, html ) {
@@ -80,8 +84,10 @@ function markOutOfBounds( mark, html ) {
 
 /**
  * Applies a list of mark objects to an html string.
- * @param {Mark[]} marks An array of mark objects that need to be applied.
- * @param {string} html The html to which the marks need to be applied to.
+ *
+ * @param {Mark[]}  marks   An array of mark objects that need to be applied.
+ * @param {string}  html    The html to which the marks need to be applied to.
+ *
  * @returns {string} The html with the marks applied.
  */
 function markTinyMCEPositionBased( marks, html ) {
@@ -105,11 +111,11 @@ function markTinyMCEPositionBased( marks, html ) {
 }
 
 /**
- * Puts a list of marks into the given tinyMCE editor
+ * Puts a list of marks into the given tinyMCE editor.
  *
- * @param {tinyMCE.Editor} editor The editor to apply the marks to.
- * @param {Paper} paper The paper for which the marks have been generated.
- * @param {Array.<Mark>} marks The marks to show in the editor.
+ * @param {tinyMCE.Editor}  editor  The editor to apply the marks to.
+ * @param {Paper}           paper   The paper for which the marks have been generated.
+ * @param {Array.<Mark>}    marks   The marks to show in the editor.
  *
  * @returns {void}
  */
