@@ -1399,6 +1399,12 @@ export default class AnalysisWebWorker {
 		if ( paper !== null ) {
 			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
+
+			// Build and set the tree if it's not been set before.
+			if ( paper.getTree() === null ) {
+				const languageProcessor = new LanguageProcessor( researcher );
+				paper.setTree( build( paper.getText(), languageProcessor ) );
+			}
 		}
 
 		return researcher.getResearch( name );

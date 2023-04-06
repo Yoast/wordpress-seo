@@ -37,6 +37,7 @@ describe( "The parse function", () => {
 					},
 					sentences: [ {
 						text: "Hello, world!",
+						sourceCodeRange: { startOffset: 22, endOffset: 35 },
 						tokens: [
 							{ text: "Hello" },
 							{ text: "," },
@@ -97,6 +98,7 @@ describe( "The parse function", () => {
 					attributes: {},
 					sentences: [ {
 						text: "Hello World!",
+						sourceCodeRange: { startOffset: 5, endOffset: 30 },
 						tokens: [
 							{ text: "Hello" },
 							{ text: " " },
@@ -187,6 +189,7 @@ describe( "The parse function", () => {
 							attributes: {},
 							sentences: [ {
 								text: "Hello ",
+								sourceCodeRange: { startOffset: 5, endOffset: 11 },
 								tokens: [
 									{ text: "Hello" },
 									{ text: " " },
@@ -210,6 +213,7 @@ describe( "The parse function", () => {
 							attributes: {},
 							sentences: [ {
 								text: "World!",
+								sourceCodeRange: { startOffset: 14, endOffset: 20 },
 								tokens: [
 									{ text: "World" },
 									{ text: "!" },
@@ -329,6 +333,7 @@ describe( "The parse function", () => {
 							],
 							sentences: [ {
 								text: "So long, and ",
+								sourceCodeRange: { startOffset: 5, endOffset: 27 },
 								tokens: [
 									{ text: "So" },
 									{ text: " " },
@@ -356,6 +361,7 @@ describe( "The parse function", () => {
 							],
 							sentences: [ {
 								text: "thanks",
+								sourceCodeRange: { startOffset: 30, endOffset: 36 },
 								tokens: [
 									{ text: "thanks" },
 								],
@@ -385,6 +391,7 @@ describe( "The parse function", () => {
 							],
 							sentences: [ {
 								text: " for ",
+								sourceCodeRange: { startOffset: 40, endOffset: 45 },
 								tokens: [
 									{ text: " " },
 									{ text: "for" },
@@ -408,6 +415,7 @@ describe( "The parse function", () => {
 							],
 							sentences: [ {
 								text: "all",
+								sourceCodeRange: { startOffset: 48, endOffset: 51 },
 								tokens: [
 									{ text: "all" },
 								],
@@ -463,6 +471,7 @@ describe( "The parse function", () => {
 							],
 							sentences: [ {
 								text: " the fish!",
+								sourceCodeRange: { startOffset: 55, endOffset: 82 },
 								tokens: [
 									{ text: " " },
 									{ text: "the" },
@@ -533,6 +542,7 @@ describe( "The parse function", () => {
 							{ text: "world" },
 							{ text: "!" },
 						],
+						sourceCodeRange: { startOffset: 135, endOffset: 148 },
 					} ],
 					childNodes: [ {
 						name: "#text",

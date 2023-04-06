@@ -1,5 +1,5 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../helpers";
 import ImageAltTags from "../assessments/seo/ImageAltTagsAssessment";
 import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
@@ -24,8 +24,8 @@ import ProductSKUAssessment from "../assessments/seo/ProductSKUAssessment";
 /**
  * Creates the Assessor
  *
- * @param {object}  researcher      The researcher to use for the analysis.
- * @param {Object}  options         The options for this assessor.
+ * @param {Researcher}  researcher   The researcher to use for the analysis.
+ * @param {Object?}  options         The options for this assessor.
  *
  * @constructor
  */

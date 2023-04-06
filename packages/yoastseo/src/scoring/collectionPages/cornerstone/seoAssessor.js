@@ -1,5 +1,5 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 
 import IntroductionKeywordAssessment from "./../../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./../../assessments/seo/KeyphraseLengthAssessment";
@@ -18,8 +18,8 @@ import KeyphraseDistribution from "./../../assessments/seo/KeyphraseDistribution
 /**
  * Creates the Assessor used for collection pages.
  *
- * @param {object} researcher   The researcher used for the analysis.
- * @param {Object} options      The options for this assessor.
+ * @param {Researcher} researcher   The researcher used for the analysis.
+ * @param {Object?} options         The options for this assessor.
  * @constructor
  */
 const CollectionCornerstoneSEOAssessor = function( researcher, options ) {

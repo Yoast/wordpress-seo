@@ -34,7 +34,7 @@ describe( "A test for innerText", () => {
 		expect( searchResult ).toEqual( expected );
 	} );
 
-	it( "should correctly extract the inner text from a tree there is a subtree without text.", function() {
+	it( "should correctly extract the inner text from a tree if there is a subtree without text.", function() {
 		const html = "<div><p class='yoast'>Hello, <i>world!</i> </p><p class='yoast'>Hello, <div><div>yoast</div></div>! </p></div>";
 		const tree = build( html, languageProcessor );
 
