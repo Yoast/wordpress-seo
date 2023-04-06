@@ -34,27 +34,6 @@ class Cleanup_Integration_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * A helper for taxonomies.
-	 *
-	 * @var Mockery\MockInterface|Taxonomy_Helper
-	 */
-	private $taxonomy;
-
-	/**
-	 * A helper for post types.
-	 *
-	 * @var Mockery\MockInterface|Post_Type_Helper
-	 */
-	private $post_type;
-
-	/**
-	 * A helper for author archives.
-	 *
-	 * @var Mockery\MockInterface|Author_Archive_Helper
-	 */
-	private $author_archive;
-
-	/**
 	 * The indexables repository.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository

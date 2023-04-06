@@ -1,0 +1,85 @@
+<?php
+
+namespace Yoast\WP\SEO\Analytics\Framework;
+
+use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Mockery;
+
+/**
+ * Class To_Be_Cleaned_Indexables_Collector_Test.
+ *
+ * @group  analytics
+ *
+ * @coversDefaultClass To_Be_Cleaned_Indexables_Collector
+ * @covers To_Be_Cleaned_Indexables_Collector
+ */
+class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
+
+	/**
+	 * The sut.
+	 *
+	 * @var \Yoast\WP\SEO\Analytics\Framework\To_Be_Cleaned_Indexables_Collector
+	 */
+	private $sut;
+
+	/**
+	 * Set up function.
+	 *
+	 * @return void
+	 */
+	protected function setUp(): void {
+		parent::setUp();
+		$indexable_cleanup_repository_mock = Mockery::mock( Indexable_Cleanup_Repository::class );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_with_object_type_and_object_sub_type' )
+			->once()
+			->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_with_post_status' )
+			->once()
+			->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_non_publicly_viewable_post' )
+			->once()
+			->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_non_publicly_viewable_taxonomies' )
+			->once()
+			->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_authors_archive_disabled' )
+			->once()
+			->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_authors_without_archive' )
+			->once()
+			->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_object_type_and_source_table' )
+			->times( 3 )
+			->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_orphaned_from_table' )
+			->times( 3 )
+			->andReturn( 0 );
+		$this->sut = new To_Be_Cleaned_Indexables_Collector( $indexable_cleanup_repository_mock );
+	}
+
+	/**
+	 * Gets the data for the collector.
+	 *
+	 * @covers ::get
+	 */
+	public function test_collector_get(): void {
+		$this->assertEquals(
+			[
+				'indexables_with_object_type_and_object_sub_type'   => 0,
+				'indexables_with_post_status'                       => 0,
+				'indexables_for_non_publicly_viewable_post'         => 0,
+				'indexables_for_non_publicly_viewable_taxonomies'   => 0,
+				'indexables_for_authors_archive_disabled'           => 0,
+				'indexables_for_authors_without_archive'            => 0,
+				'indexables_for_object_type_and_source_table_users' => 0,
+				'indexables_for_object_type_and_source_table_posts' => 0,
+				'indexables_for_object_type_and_source_table_terms' => 0,
+				'orphaned_from_table_indexable_hierarchy'           => 0,
+				'orphaned_from_table_indexable_id'                  => 0,
+				'orphaned_from_table_target_indexable_id'           => 0,
+			],
+			$this->sut->get()
+		);
+	}
+}
