@@ -110,7 +110,7 @@ Mark.prototype.serialize = function() {
 };
 
 /**
- * Checks if the mark object is valid.
+ * Checks if the mark object is valid for position-based highlighting.
  * @returns {void}
  */
 // eslint-disable-next-line complexity
