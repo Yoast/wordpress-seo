@@ -124,7 +124,7 @@ class Cleanup_Integration implements Integration_Interface {
 					return $this->cleanup_repository->clean_indexables_for_authors_without_archive( $limit );
 				},
 				'update_indexables_author_to_reassigned'                           => function ( $limit ) {
-					return $this->update_indexables_author_to_reassigned( $limit );
+					return $this->cleanup_repository->update_indexables_author_to_reassigned( $limit );
 				},
 				'clean_orphaned_user_indexables_without_wp_user'                   => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_object_type_and_source_table( 'users', 'ID', 'user', $limit );
@@ -285,107 +285,6 @@ class Cleanup_Integration implements Integration_Interface {
 			// There were items deleted for the current task, continue with the same task next cron call.
 			return;
 		}
-	}
-
-
-
-
-	/**
-	 * Updates the author_id of indexables which author_id is not in the wp_users table with the id of the reassingned
-	 * user.
-	 *
-	 * @param int $limit The limit we'll apply to the queries.
-	 *
-	 * @return int|bool The number of updated rows, false if query to get data fails.
-	 */
-	protected function update_indexables_author_to_reassigned( $limit ) {
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		$reassigned_authors_objs = $this->get_reassigned_authors( $limit );
-
-		if ( $reassigned_authors_objs === false ) {
-			return false;
-		}
-
-		return $this->update_indexable_authors( $reassigned_authors_objs, $limit );
-	}
-
-
-
-	/**
-	 * Fetches pairs of old_id -> new_id indexed by old_id.
-	 * By using the old_id (i.e. the id of the user that has been deleted) as key of the associative array, we can
-	 * easily compose an array of unique pairs of old_id -> new_id.
-	 *
-	 * @param int $limit The limit we'll apply to the queries.
-	 *
-	 * @return int|bool The associative array with shape [ old_id => [ old_id, new_author ] ] or false if query to get
-	 *                  data fails.
-	 */
-	private function get_reassigned_authors( $limit ) {
-		global $wpdb;
-
-		$indexable_table = Model::get_table_name( 'Indexable' );
-		$posts_table     = $wpdb->posts;
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-		$query = $wpdb->prepare(
-			"
-			SELECT {$indexable_table}.author_id, {$posts_table}.post_author
-			FROM {$indexable_table} JOIN {$posts_table} on {$indexable_table}.object_id = {$posts_table}.id
-			WHERE object_type='post'
-			AND {$indexable_table}.author_id <> {$posts_table}.post_author
-			ORDER BY {$indexable_table}.author_id
-			LIMIT %d",
-			$limit
-		);
-		// phpcs:enable
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		return $wpdb->get_results( $query, \OBJECT_K );
-	}
-
-	/**
-	 * Updates the indexable's author_id referring to a deleted author with the id of the reassigned user.
-	 *
-	 * @param array $reassigned_authors_objs The array of objects with shape [ old_id => [ old_id, new_id ] ].
-	 * @param int   $limit                   The limit we'll apply to the queries.
-	 *
-	 * @return int|bool The associative array with shape [ old_id => [ old_id, new_author ] ] or false if query to get
-	 *                  data fails.
-	 */
-	private function update_indexable_authors( $reassigned_authors_objs, $limit ) {
-		global $wpdb;
-
-		$indexable_table = Model::get_table_name( 'Indexable' );
-
-		// This is a workaround for the fact that the array_column function does not work on objects in PHP 5.6.
-		$reassingned_authors_array = \array_map(
-			function ( $obj ) {
-				return (array) $obj;
-			},
-			$reassigned_authors_objs
-		);
-
-		$reassigned_authors = \array_combine( \array_column( $reassingned_authors_array, 'author_id' ), \array_column( $reassingned_authors_array, 'post_author' ) );
-
-		foreach ( $reassigned_authors as $old_author_id => $new_author_id ) {
-			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-			$query = $wpdb->prepare(
-				"
-				UPDATE {$indexable_table}
-				SET {$indexable_table}.author_id = {$new_author_id}
-				WHERE {$indexable_table}.author_id = {$old_author_id}
-				AND object_type='post'
-				LIMIT %d",
-				$limit
-			);
-			// phpcs:enable
-
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-			$wpdb->query( $query );
-		}
-
-		return count( $reassigned_authors );
 	}
 }
 
