@@ -1,8 +1,10 @@
 /* eslint-disable complexity */
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { SnippetPreview } from "@yoast/search-metadata-previews";
 import { Badge, FeatureUpsell, Link, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
@@ -51,6 +53,8 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const pageAnalysisPremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/get-custom-fields" );
 	const schemaLink = useSelectSettings( "selectLink", [], "https://yoa.st/post-type-schema" );
+	const siteTitle = useSelectSettings( "selectPreference", [], "siteTitle", "" );
+	const siteUrl = useSelectSettings( "selectPreference", [], "siteUrl" );
 
 	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
 	const singularLabelLower = useMemo( () => safeToLocaleLower( singularLabel, userLocale ), [ singularLabel, userLocale ] );
@@ -123,7 +127,12 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
-	const { "breadcrumbs-enable": isBreadcrumbsEnabled } = values.wpseo_titles;
+	const {
+		"breadcrumbs-enable": isBreadcrumbsEnabled,
+		[ `description-${ name }` ]: description,
+		[ `title-${ name }` ]: title,
+		website_name: websiteName,
+	} = values.wpseo_titles;
 
 	return (
 		<RouteLayout
@@ -169,6 +178,13 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							className="yst-max-w-sm"
 						/>
 						<hr className="yst-my-8" />
+						<SnippetPreview
+							siteName={ websiteName || siteTitle }
+							description={ description }
+							title={ title }
+							url={ siteUrl }
+							onMouseUp={ noop }
+						/>
 						<FormikReplacementVariableEditorField
 							type="title"
 							name={ `wpseo_titles.title-${ name }` }
