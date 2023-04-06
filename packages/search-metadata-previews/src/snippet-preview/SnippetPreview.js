@@ -265,7 +265,7 @@ const MobilePartContainer = styled.div`
 `;
 
 const SiteName = styled.div`
-	line-height: 18x; 
+	line-height: 18px; 
 	font-size: 14px; 
 	color: black;
 	max-width: ${ props => props.screenMode === MODE_DESKTOP ? "100%" : MOBILE_SITENAME_LIMIT };
@@ -664,21 +664,26 @@ export default class SnippetPreview extends PureComponent {
 			<ScreenReaderText>
 				{ __( "Url preview", "wordpress-seo" ) + ":" }
 			</ScreenReaderText>
-			<Url>
+			<Url className="yst-snippet-preview__url">
 				<BaseUrlOverflowContainer
+					className="yst-snippet-preview__url-overflow"
 					onMouseUp={ onMouseUp.bind( null, "url" ) }
 					onMouseEnter={ onMouseEnter.bind( null, "url" ) }
 					onMouseLeave={ onMouseLeave.bind( null ) }
 					screenMode={ mode }
 				>
-					<FaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></FaviconContainer>
-					<UrlContentContainer screenMode={ mode }>
-						<SiteName screenMode={ mode }>{ siteName }</SiteName>
-						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
-						<BreacrumbsContainer screenMode={ mode }>
+					<FaviconContainer className="yst-snippet-preview__favicon">
+						<Favicon src={ faviconSrc || globeFaviconSrc } alt="" />
+					</FaviconContainer>
+					<UrlContentContainer className="yst-snippet-preview__url-content" screenMode={ mode }>
+						<SiteName className="yst-snippet-preview__site-name" screenMode={ mode }>{ siteName }</SiteName>
+						<UrlBaseContainer className="yst-snippet-preview__url-base" screenMode={ mode }>
+							{ hostname }
+						</UrlBaseContainer>
+						<BreacrumbsContainer className="yst-snippet-preview__breadcrumbs" screenMode={ mode }>
 							{ breadcrumbs }
 						</BreacrumbsContainer>
-						{ ! isMobileMode && <VerticalDotsContainer>
+						{ ! isMobileMode && <VerticalDotsContainer className="yst-snippet-preview__vertical-dots">
 							<VerticalDots screenMode={ mode } />
 						</VerticalDotsContainer> }
 					</UrlContentContainer>
@@ -780,6 +785,7 @@ export default class SnippetPreview extends PureComponent {
 			const DesktopDescriptionWithCaret = this.addCaretStyles( "description", DesktopDescription );
 			return (
 				<DesktopDescriptionWithCaret
+					className="yst-snippet-preview__description"
 					{ ...outerContainerProps }
 					ref={ this.setDescriptionRef }
 				>
@@ -791,6 +797,7 @@ export default class SnippetPreview extends PureComponent {
 			const MobileDescriptionWithCaret = this.addCaretStyles( "description", MobileDescription );
 			return (
 				<MobileDescriptionWithCaret
+					className="yst-snippet-preview__description"
 					{ ...outerContainerProps }
 				>
 					<MobileDescription
@@ -888,6 +895,7 @@ export default class SnippetPreview extends PureComponent {
 			<section>
 				<Container
 					id="yoast-snippet-preview-container"
+					className={ `yst-snippet-preview yst-snippet-preview--${ isDesktopMode ? "desktop" : "mobile" }` }
 					/*
 					 * MobileContainer doesn't use the width prop: avoid to
 					 * render an invalid `width` HTML attribute on the DOM node.
@@ -895,12 +903,13 @@ export default class SnippetPreview extends PureComponent {
 					width={ isDesktopMode ? MAX_WIDTH + ( 2 * WIDTH_PADDING ) : null }
 					padding={ WIDTH_PADDING }
 				>
-					<PartContainer>
+					<PartContainer className="yst-snippet-preview__part">
 						{ this.renderUrl() }
 						<ScreenReaderText>
 							{ __( "SEO title preview", "wordpress-seo" ) + ":" }
 						</ScreenReaderText>
 						<SnippetTitle
+							className="yst-snippet-preview__title"
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
 							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
 							onMouseLeave={ onMouseLeave.bind( null ) }
