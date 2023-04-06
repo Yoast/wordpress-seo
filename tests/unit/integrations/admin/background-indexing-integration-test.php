@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\WP_CRON_Enabled_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -122,6 +123,13 @@ class Background_Indexing_Integration_Test extends TestCase {
 	private $wp_cron_enabled_conditional;
 
 	/**
+	 * The Admin_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Admin_Conditional
+	 */
+	protected $admin_conditional;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -139,6 +147,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->yoast_admin_and_dashboard_conditional = Mockery::mock( Yoast_Admin_And_Dashboard_Conditional::class );
 		$this->get_request_conditional               = Mockery::mock( Get_Request_Conditional::class );
 		$this->wp_cron_enabled_conditional           = Mockery::mock( WP_CRON_Enabled_Conditional::class );
+		$this->admin_conditional                     = Mockery::mock( Admin_Conditional::class );
 
 		// This is a partial mock, so we can get test the registering of the shutdown hook.
 		$this->instance = Mockery::mock(
@@ -153,6 +162,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 				$this->term_link_indexing_action,
 				$this->indexing_helper,
 				$this->indexable_helper,
+				$this->admin_conditional,
 				$this->yoast_admin_and_dashboard_conditional,
 				$this->get_request_conditional,
 				$this->wp_cron_enabled_conditional,
@@ -234,7 +244,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_register_shutdown_indexing() {
 		$this->indexing_helper
-			->expects( 'get_limited_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count_background' )
 			->once()
 			->andReturn( 10 );
 
@@ -278,7 +288,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_register_shutdown_indexing_with_wp_cron_enabled() {
 		$this->indexing_helper
-			->expects( 'get_limited_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count_background' )
 			->once()
 			->andReturn( 10 );
 
@@ -403,7 +413,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->term_link_indexing_action->expects( 'index' )->once();
 
 		$this->indexing_helper
-			->expects( 'is_index_up_to_date' )
+			->expects( 'is_background_index_up_to_date' )
 			->once()
 			->andReturn( true );
 
@@ -433,7 +443,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		$this->indexing_helper
-			->expects( 'is_index_up_to_date' )
+			->expects( 'is_background_index_up_to_date' )
 			->times( 2 )
 			->andReturn( false );
 
@@ -506,6 +516,12 @@ class Background_Indexing_Integration_Test extends TestCase {
 	public function test_index_with_wp_cron_with_complete_index() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
 
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count_background' )
+			->with( 1 )
+			->once()
+			->andReturn( 0 );
+
 		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
 			->with( true )
 			->andReturn( true );
@@ -516,7 +532,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		$this->indexing_helper
-			->expects( 'is_index_up_to_date' )
+			->expects( 'is_background_index_up_to_date' )
 			->once()
 			->andReturn( true );
 
@@ -536,6 +552,12 @@ class Background_Indexing_Integration_Test extends TestCase {
 	public function test_index_with_wp_cron_with_complete_index_without_scheduled_task() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
 
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count_background' )
+			->with( 1 )
+			->once()
+			->andReturn( 0 );
+
 		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
 			->with( true )
 			->andReturn( true );
@@ -546,7 +568,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		$this->indexing_helper
-			->expects( 'is_index_up_to_date' )
+			->expects( 'is_background_index_up_to_date' )
 			->once()
 			->andReturn( true );
 
@@ -565,7 +587,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	public function test_schedule_cron_indexing() {
 		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
-		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( false );
+		$this->indexing_helper->expects( 'is_background_index_up_to_date' )->once()->andReturn( false );
 		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( time(), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
 
 		$this->instance->schedule_cron_indexing();
@@ -611,15 +633,74 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that no cron job is scheduled when the indexing process is already complete.
+	 * Tests that no cron job is scheduled when on admin and the indexing process is already complete.
 	 *
 	 * @covers ::schedule_cron_indexing
 	 */
-	public function test_schedule_cron_indexing_index_complete() {
+	public function test_schedule_cron_indexing_index_complete_on_admin() {
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
 		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
-		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( true );
+		$this->indexing_helper->expects( 'is_background_index_up_to_date' )->once()->andReturn( true );
 		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->admin_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count_background' )
+			->with( 1 )
+			->once()
+			->andReturn( 0 );
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	/**
+	 * Tests that no cron job is scheduled when on admin and the indexing process is not complete yet.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
+	public function test_schedule_cron_indexing_index_not_complete_on_admin() {
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+		$this->indexing_helper->expects( 'is_background_index_up_to_date' )->once()->andReturn( true );
+		Monkey\Functions\expect( 'wp_schedule_event' )->once();
+
+		$this->admin_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count_background' )
+			->with( 1 )
+			->once()
+			->andReturn( 1 );
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	/**
+	 * Tests that no unindexed count is calculated when on frontend and background index is up to date.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
+	public function test_schedule_cron_indexing_index_complete_on_frontend() {
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
+		$this->indexing_helper->expects( 'is_background_index_up_to_date' )->once()->andReturn( true );
+		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->admin_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count_background' )
+			->never();
 
 		$this->instance->schedule_cron_indexing();
 	}
