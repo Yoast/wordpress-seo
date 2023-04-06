@@ -11,6 +11,7 @@ let functionWords = [];
 
 /**
  * Checks whether the anchor's link is a relative fragment or the same as the site url/domain.
+ * Relative fragment links always point to the page itself.
  *
  * @param {String} anchorLink       The link anchor.
  * @param {String} siteUrlOrDomain  The site URL or domain of the paper.
@@ -18,15 +19,14 @@ let functionWords = [];
  * @returns {boolean} Whether the anchor's link is a relative fragment or the same as the site url/domain.
  */
 function isLinkingToSelf( anchorLink, siteUrlOrDomain ) {
-	// Relative fragment links always point to the page itself.
 	return Boolean( urlHelper.areEqual( anchorLink, siteUrlOrDomain ) || urlHelper.isRelativeFragmentURL( anchorLink ) );
 }
 
 /**
  * Gets the anchors whose url is not linking at the current site url/domain.
  *
- * @param {Array}   anchors     	  An array with all anchors from the paper.
- * @param {String}  siteUrlOrDomain   The site URL or domain of the paper.
+ * @param {Array}   anchors         An array with all anchors from the paper.
+ * @param {String}  siteUrlOrDomain The site URL or domain of the paper.
  *
  * @returns {Array} The array of all anchors whose url is not linking at the current site url/domain.
  */
@@ -71,7 +71,7 @@ function getAnchorsContainingTopic( anchors, topicForms, locale, matchWordCustom
  *
  * @returns {Array} The array of all anchors with text that has the same content words as the keyphrase/synonyms.
  */
-function getAnchorsContainedInTopic( anchors, topicForms, locale, customHelpers, exactMatchRequest  ) {
+function getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, exactMatchRequest  ) {
 	const matchWordCustomHelper = customHelpers.matchWordCustomHelper;
 	const getWordsCustomHelper = customHelpers.getWordsCustomHelper;
 
@@ -154,9 +154,9 @@ export default function( paper, researcher ) {
 		return result;
 	}
 	/*
-     * When the keyphrase is set, also retrieve the synonyms and save them in "topics" array.
-     * Eventually, the term topics here refers to either keyphrase or synonyms.
-     */
+	 * When the keyphrase is set, also retrieve the synonyms and save them in "topics" array.
+	 * Eventually, the term topics here refers to either keyphrase or synonyms.
+	 */
 	const originalTopics = parseSynonyms( paper.getSynonyms() );
 	originalTopics.push( keyphrase );
 
@@ -195,7 +195,7 @@ export default function( paper, researcher ) {
 	// Check if exact match is requested for every topic (keyphrase or synonym).
 	const isExactMatchRequested = originalTopics.map( originalTopic => processExactMatchRequest( originalTopic ) );
 	// Get the anchors with text that has the same content words as the keyphrase/synonyms.
-	anchors = getAnchorsContainedInTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested );
+	anchors = getAnchorsWithSameTextAsTopic( anchors, topicForms, locale, customHelpers, isExactMatchRequested );
 
 	return {
 		anchorsWithKeyphrase: anchors,
