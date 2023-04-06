@@ -58,6 +58,11 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 */
 	private $wpdb;
 
+	/**
+	 * The query limit.
+	 *
+	 * @var int $limit
+	 */
 	private $limit = 1000;
 
 	/**
@@ -87,6 +92,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	/**
 	 * Sets up expectations for the clean_indexables_with_object_type_and_object_sub_type cleanup task.
 	 *
+	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
 	 * @return void
 	 */
 	public function test_clean_indexables_with_object_type_and_object_sub_type_mocks() {
@@ -112,6 +118,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	/**
 	 * Sets up expectations for the clean_indexables_with_post_status cleanup task.
 	 *
+	 * @covers ::clean_indexables_with_post_status
 	 * @return void
 	 */
 	public function test_clean_indexables_with_post_status_mocks() {
@@ -136,7 +143,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * Sets up expectations for the cleanup_orphaned_from_table cleanup task.
 	 *
 	 * @dataProvider data_orphaned_from_table
-	 *
+	 * @covers ::cleanup_orphaned_from_table
 	 * @param int    $return_value The number of deleted items to return.
 	 * @param string $model_name   The human-readable model name.
 	 * @param string $column       The column.
@@ -173,7 +180,6 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 			->with( "DELETE FROM {$table} WHERE {$column} IN( " . \implode( ',', $ids ) . ' )' )
 			->andReturn( $return_value );
 		$this->instance->cleanup_orphaned_from_table( $model_name, $column, $this->limit );
-
 	}
 
 	/**
@@ -185,21 +191,24 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 		return [
 			[ 50, 'Indexable_Hierarchy', 'indexable_id' ],
 			[ 50, 'SEO_Links', 'indexable_id' ],
-			[ 50, 'SEO_Links', 'target_indexable_id', ],
+			[ 50, 'SEO_Links', 'target_indexable_id' ],
 		];
 	}
 
 	/**
 	 * Sets up expectations for the clean_indexables_for_non_publicly_viewable_post cleanup task.
 	 *
+	 * @covers ::clean_indexables_for_non_publicly_viewable_post
 	 * @return void
 	 */
 	public function test_clean_indexables_for_non_publicly_viewable_post() {
-		$this->post_type->expects( 'get_indexable_post_types' )->once()->andReturns( [
-			'my_cpt',
-			'post',
-			'attachment',
-		] );
+		$this->post_type->expects( 'get_indexable_post_types' )->once()->andReturns(
+			[
+				'my_cpt',
+				'post',
+				'attachment',
+			]
+		);
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()
 			->with(
@@ -223,15 +232,17 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	/**
 	 * Sets up expectations for the clean_indexables_for_non_publicly_viewable_taxonomies cleanup task.
 	 *
-	 *
+	 * @covers ::clean_indexables_for_non_publicly_viewable_taxonomies
 	 * @return void
 	 */
 	public function test_clean_indexables_for_non_publicly_viewable_taxonomies() {
-		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturns( [
-			'category',
-			'post_tag',
-			'my_custom_tax',
-		] );
+		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturns(
+			[
+				'category',
+				'post_tag',
+				'my_custom_tax',
+			]
+		);
 
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()
@@ -256,7 +267,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	/**
 	 * Sets up expectations for the clean_indexables_for_authors_archive_disabled cleanup task.
 	 *
-	 *
+	 * @covers ::clean_indexables_for_authors_archive_disabled
 	 * @return void
 	 */
 	public function test_clean_indexables_for_authors_archive_disabled() {
@@ -278,6 +289,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	/**
 	 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
 	 *
+	 * @covers ::clean_indexables_for_authors_without_archive
 	 * @return void
 	 */
 	public function test_clean_indexables_for_authors_without_archive() {
@@ -317,6 +329,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	/**
 	 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
 	 *
+	 * @covers ::update_indexables_author_to_reassigned
 	 * @return void
 	 */
 	public function test_update_indexables_author_to_reassigned() {
@@ -372,7 +385,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * Sets up expectations for the setup_clean_indexables_for_object_type_and_source_table cleanup task.
 	 *
 	 * @dataProvider data_clean_indexables_for_object_type_and_source_table
-	 *
+	 * @covers ::clean_indexables_for_object_type_and_source_table
 	 * @param int    $return_value      The number of deleted items to return.
 	 * @param string $source_table      The source table which we need to check the indexables against.
 	 * @param string $source_identifier The identifier which the indexables are matched to.
@@ -381,7 +394,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_clean_indexables_for_object_type_and_source_table( $return_value, $source_table, $source_identifier, $object_type ) {
-		$source_table_test    = $this->wpdb->prefix . $source_table;
+		$source_table_test = $this->wpdb->prefix . $source_table;
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()
 			->with(
@@ -425,8 +438,8 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	public function data_clean_indexables_for_object_type_and_source_table() {
 		return [
 			[ 50, 'users', 'ID', 'user' ],
-			[ 50, 'posts', 'ID', 'post', ],
-			[ 50, 'terms', 'term_id', 'term', ],
+			[ 50, 'posts', 'ID', 'post' ],
+			[ 50, 'terms', 'term_id', 'term' ],
 		];
 	}
 }

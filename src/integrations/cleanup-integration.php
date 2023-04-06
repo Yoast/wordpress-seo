@@ -40,10 +40,10 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Indexable_Cleanup_Repository    $cleanup_repository   The cleanup repository.
+	 * @param Indexable_Cleanup_Repository $cleanup_repository   The cleanup repository.
 	 */
-	public function __construct(Indexable_Cleanup_Repository $cleanup_repository ) {
-		$this->cleanup_repository   = $cleanup_repository;
+	public function __construct( Indexable_Cleanup_Repository $cleanup_repository ) {
+		$this->cleanup_repository = $cleanup_repository;
 	}
 
 	/**
@@ -108,41 +108,41 @@ class Cleanup_Integration implements Integration_Interface {
 				'clean_indexables_with_object_type_and_object_sub_type_shop_order' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_with_object_type_and_object_sub_type( 'post', 'shop_order', $limit );
 				},
-				'clean_indexables_by_post_status_auto-draft'                       => function ( $limit ) {
+				'clean_indexables_by_post_status_auto-draft' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_with_post_status( 'auto-draft', $limit );
 				},
-				'clean_indexables_for_non_publicly_viewable_post'                  => function ( $limit ) {
+				'clean_indexables_for_non_publicly_viewable_post' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_non_publicly_viewable_post( $limit );
 				},
-				'clean_indexables_for_non_publicly_viewable_taxonomies'            => function ( $limit ) {
+				'clean_indexables_for_non_publicly_viewable_taxonomies' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_non_publicly_viewable_taxonomies( $limit );
 				},
-				'clean_indexables_for_authors_archive_disabled'                    => function ( $limit ) {
+				'clean_indexables_for_authors_archive_disabled' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_authors_archive_disabled( $limit );
 				},
-				'clean_indexables_for_authors_without_archive'                     => function ( $limit ) {
+				'clean_indexables_for_authors_without_archive' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_authors_without_archive( $limit );
 				},
-				'update_indexables_author_to_reassigned'                           => function ( $limit ) {
+				'update_indexables_author_to_reassigned' => function ( $limit ) {
 					return $this->cleanup_repository->update_indexables_author_to_reassigned( $limit );
 				},
-				'clean_orphaned_user_indexables_without_wp_user'                   => function ( $limit ) {
+				'clean_orphaned_user_indexables_without_wp_user' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_object_type_and_source_table( 'users', 'ID', 'user', $limit );
 				},
-				'clean_orphaned_user_indexables_without_wp_post'                   => function ( $limit ) {
+				'clean_orphaned_user_indexables_without_wp_post' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_object_type_and_source_table( 'posts', 'ID', 'post', $limit );
 				},
-				'clean_orphaned_user_indexables_without_wp_term'                   => function ( $limit ) {
+				'clean_orphaned_user_indexables_without_wp_term' => function ( $limit ) {
 					return $this->cleanup_repository->clean_indexables_for_object_type_and_source_table( 'terms', 'term_id', 'term', $limit );
 				},
 			],
 			$this->get_additional_tasks(),
 			[
 				/* These should always be the last ones to be called. */
-				'clean_orphaned_content_indexable_hierarchy'           => function ( $limit ) {
+				'clean_orphaned_content_indexable_hierarchy' => function ( $limit ) {
 					return $this->cleanup_repository->cleanup_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id', $limit );
 				},
-				'clean_orphaned_content_seo_links_indexable_id'        => function ( $limit ) {
+				'clean_orphaned_content_seo_links_indexable_id' => function ( $limit ) {
 					return $this->cleanup_repository->cleanup_orphaned_from_table( 'SEO_Links', 'indexable_id', $limit );
 				},
 				'clean_orphaned_content_seo_links_target_indexable_id' => function ( $limit ) {

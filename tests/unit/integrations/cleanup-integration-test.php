@@ -141,8 +141,8 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_authors_archive_disabled' )->once();
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_authors_without_archive' )->once();
 		$this->indexable_repository->shouldReceive( 'update_indexables_author_to_reassigned' )->once();
-		$this->indexable_repository->shouldReceive( 'clean_indexables_for_object_type_and_source_table' )->times(3);
-		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->times(3);
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_object_type_and_source_table' )->times( 3 );
+		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->times( 3 );
 
 		$this->instance->run_cleanup();
 	}
@@ -173,7 +173,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->andReturn( $query_limit );
 
 		/* Clean up of indexables with object_sub_type shop-order */
-		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn(false);
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn( false );
 		$this->instance->run_cleanup();
 	}
 
@@ -202,7 +202,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn(1000);
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn( 1000 );
 		Monkey\Functions\expect( 'update_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION, 'clean_indexables_with_object_type_and_object_sub_type_shop_order' );
@@ -236,7 +236,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn(0);
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn( 0 );
 
 		Monkey\Functions\expect( 'update_option' )
 			->once()
@@ -267,7 +267,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->once()->andReturn(0);
+		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->once()->andReturn( 0 );
 
 
 		Monkey\Functions\expect( 'delete_option' )
@@ -327,7 +327,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn(false);
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn( false );
 
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
@@ -360,7 +360,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn(50);
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn( 50 );
 
 		$this->instance->run_cleanup_cron();
 	}
@@ -384,7 +384,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( null );
 
-		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn(50);
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn( 50 );
 
 		$this->instance->run_cleanup_cron();
 	}

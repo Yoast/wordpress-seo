@@ -8,8 +8,10 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 
+/**
+ * Repository containing all cleanup queries.
+ */
 class Indexable_Cleanup_Repository {
-
 
 	/**
 	 * A helper for taxonomies.
@@ -39,10 +41,10 @@ class Indexable_Cleanup_Repository {
 	 * @param Post_Type_Helper      $post_type            A helper for post types.
 	 * @param Author_Archive_Helper $author_archive       A helper for author archives.
 	 */
-	public function __construct( Taxonomy_Helper $taxonomy, Post_Type_Helper $post_type, Author_Archive_Helper $author_archive) {
-		$this->taxonomy             = $taxonomy;
-		$this->post_type            = $post_type;
-		$this->author_archive       = $author_archive;
+	public function __construct( Taxonomy_Helper $taxonomy, Post_Type_Helper $post_type, Author_Archive_Helper $author_archive ) {
+		$this->taxonomy       = $taxonomy;
+		$this->post_type      = $post_type;
+		$this->author_archive = $author_archive;
 	}
 
 	/**
@@ -63,7 +65,7 @@ class Indexable_Cleanup_Repository {
 	 *
 	 * @return int|bool The number of rows that was deleted or false if the query failed.
 	 */
-	public function clean_indexables_with_object_type_and_object_sub_type(string $object_type,string $object_sub_type,int $limit ) {
+	public function clean_indexables_with_object_type_and_object_sub_type( string $object_type, string $object_sub_type, int $limit ) {
 		global $wpdb;
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
@@ -75,7 +77,15 @@ class Indexable_Cleanup_Repository {
 		return $wpdb->query( $sql );
 	}
 
-	public function count_indexables_with_object_Type_and_object_sub_type( string $object_type,string $object_sub_type  ) {
+	/**
+	 * Counts amount of indexables by object type and object sub type.
+	 *
+	 * @param string $object_type The object type to check.
+	 * @param string $object_sub_type The object sub type to check.
+	 *
+	 * @return float|int
+	 */
+	public function count_indexables_with_object_type_and_object_sub_type( string $object_type, string $object_sub_type ) {
 		return $this
 			->query()
 			->where( 'object_type', $object_type )
@@ -103,7 +113,14 @@ class Indexable_Cleanup_Repository {
 		return $wpdb->query( $sql );
 	}
 
-	public function count_indexables_with_post_status( string $post_status  ) {
+	/**
+	 * Counts indexables with a certain post status.
+	 *
+	 * @param string $post_status The post status to count.
+	 *
+	 * @return float|int
+	 */
+	public function count_indexables_with_post_status( string $post_status ) {
 		return $this
 			->query()
 			->where( 'object_type', 'post' )
@@ -154,22 +171,27 @@ class Indexable_Cleanup_Repository {
 		// phpcs:enable
 	}
 
-	public function count_indexables_for_non_publicly_viewable_post(  ) {
+	/**
+	 * Counts all indexables for non public post types.
+	 *
+	 * @return float|int
+	 */
+	public function count_indexables_for_non_publicly_viewable_post() {
 		$included_post_types = $this->post_type->get_indexable_post_types();
 
 		if ( empty( $included_post_types ) ) {
 			return $this
 				->query()
 				->where( 'object_type', 'post' )
-				->where_not_equal( 'object_sub_type','null')
+				->where_not_equal( 'object_sub_type', 'null' )
 				->count();
 		}
-		else{
+		else {
 			return $this
 				->query()
 				->where( 'object_type', 'post' )
-				->where_not_equal( 'object_sub_type','null')
-				->where_not_in( 'object_sub_type',$included_post_types)
+				->where_not_equal( 'object_sub_type', 'null' )
+				->where_not_in( 'object_sub_type', $included_post_types )
 				->count();
 		}
 	}
@@ -217,21 +239,26 @@ class Indexable_Cleanup_Repository {
 		// phpcs:enable
 	}
 
-	public function count_indexables_for_non_publicly_viewable_taxonomies(  ) {
+	/**
+	 * Counts indexables for non publicly viewable taxonomies.
+	 *
+	 * @return float|int
+	 */
+	public function count_indexables_for_non_publicly_viewable_taxonomies() {
 		$included_taxonomies = $this->taxonomy->get_indexable_taxonomies();
 		if ( empty( $included_taxonomies ) ) {
 			return $this
 				->query()
 				->where( 'object_type', 'term' )
-				->where_not_equal( 'object_sub_type','null')
+				->where_not_equal( 'object_sub_type', 'null' )
 				->count();
 		}
-		else{
+		else {
 			return $this
 				->query()
 				->where( 'object_type', 'term' )
-				->where_not_equal( 'object_sub_type','null')
-				->where_not_in( 'object_sub_type',$included_taxonomies)
+				->where_not_equal( 'object_sub_type', 'null' )
+				->where_not_in( 'object_sub_type', $included_taxonomies )
 				->count();
 		}
 	}
@@ -263,7 +290,12 @@ class Indexable_Cleanup_Repository {
 		// phpcs:enable
 	}
 
-	public function count_indexables_for_authors_archive_disabled(  ) {
+	/**
+	 * Counts the amount of author archive indexables if they are not disabled.
+	 *
+	 * @return float|int
+	 */
+	public function count_indexables_for_authors_archive_disabled() {
 		if ( ! $this->author_archive->are_disabled() ) {
 			return 0;
 		}
@@ -273,6 +305,7 @@ class Indexable_Cleanup_Repository {
 			->where( 'object_type', 'user' )
 			->count();
 	}
+
 	/**
 	 * Cleans up any indexables that belong to users that have their author archives disabled.
 	 *
@@ -309,6 +342,11 @@ class Indexable_Cleanup_Repository {
 		// phpcs:enable
 	}
 
+	/**
+	 * Counts total amount of indexables for authors without archives.
+	 *
+	 * @return bool|int|\mysqli_result|resource|null
+	 */
 	public function count_indexables_for_authors_without_archive() {
 		global $wpdb;
 
@@ -318,7 +356,7 @@ class Indexable_Cleanup_Repository {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Reason: we're passing an array instead.
-		$delete_query = $wpdb->prepare(
+		$count_query = $wpdb->prepare(
 			"SELECT count(*) FROM $indexable_table
 				WHERE object_type = 'user'
 				AND object_id NOT IN (
@@ -334,7 +372,7 @@ class Indexable_Cleanup_Repository {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		return $wpdb->query( $delete_query );
+		return $wpdb->query( $count_query );
 		// phpcs:enable
 	}
 
@@ -379,7 +417,16 @@ class Indexable_Cleanup_Repository {
 		return $wpdb->query( "DELETE FROM $indexable_table WHERE object_id IN( " . \implode( ',', $orphans ) . ' )' );
 	}
 
-	public function count_indexables_for_object_type_and_source_table( $source_table, $source_identifier, $object_type ) {
+	/**
+	 * Counts indexables for given source table + source identifier + object type.
+	 *
+	 * @param string $source_table      The source table.
+	 * @param string $source_identifier The source identifier.
+	 * @param string $object_type       The object type.
+	 *
+	 * @return mixed
+	 */
+	public function count_indexables_for_object_type_and_source_table( string $source_table, string $source_identifier, string $object_type ) {
 		global $wpdb;
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$source_table    = $wpdb->prefix . $source_table;
@@ -397,9 +444,8 @@ class Indexable_Cleanup_Repository {
 		// phpcs:enable
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		return $wpdb->get_results( $query );
+		return $wpdb->get_col( $query )[0];
 	}
-
 
 	/**
 	 * Cleans orphaned rows from a yoast table.
@@ -441,6 +487,7 @@ class Indexable_Cleanup_Repository {
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( "DELETE FROM $table WHERE {$column} IN( " . \implode( ',', $orphans ) . ' )' );
 	}
+
 	/**
 	 * Counts orphaned rows from a yoast table.
 	 *
@@ -449,7 +496,7 @@ class Indexable_Cleanup_Repository {
 	 *
 	 * @return int|bool The number of deleted rows, false if the query fails.
 	 */
-	public function count_orphaned_from_table(string $table,string $column ) {
+	public function count_orphaned_from_table( string $table, string $column ) {
 		global $wpdb;
 
 		$table           = Model::get_table_name( $table );
@@ -469,7 +516,7 @@ class Indexable_Cleanup_Repository {
 		// phpcs:enable
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		return $wpdb->get_results( $query );
+		return $wpdb->get_col( $query )[0];
 	}
 
 	/**
@@ -490,8 +537,6 @@ class Indexable_Cleanup_Repository {
 
 		return $this->update_indexable_authors( $reassigned_authors_objs, $limit );
 	}
-
-
 
 	/**
 	 * Fetches pairs of old_id -> new_id indexed by old_id.
