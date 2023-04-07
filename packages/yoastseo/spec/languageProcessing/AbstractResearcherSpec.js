@@ -6,7 +6,7 @@ import MissingArgument from "../../src/errors/missingArgument";
 
 describe( "Creating a Researcher", function() {
 	it( "returns an instantiation", function() {
-		var researcher = new Researcher( new Paper( "This is a paper!" ) );
+		const researcher = new Researcher( new Paper( "This is a paper!" ) );
 
 		expect( researcher.paper.getText() ).toBe( "This is a paper!" );
 		expect( researcher.paper.getKeyword() ).toBe( "" );
@@ -14,7 +14,7 @@ describe( "Creating a Researcher", function() {
 } );
 
 describe( "Calling a Research", function() {
-	var researcher = new Researcher( new Paper( "This is another paper!" ) );
+	const researcher = new Researcher( new Paper( "This is another paper!" ) );
 
 	it( "throws an error if no research name is given", function() {
 		expect( function() {
@@ -45,7 +45,7 @@ describe( "Calling a helper", function() {
 } );
 
 describe( "Adding a research to a Researcher", function() {
-	var researcher = new Researcher( new Paper( "This is another paper!" ) );
+	const researcher = new Researcher( new Paper( "This is another paper!" ) );
 
 	it( "throws an error if no name is given", function() {
 		expect( function() {
@@ -104,7 +104,7 @@ describe( "Adding a custom helper to a Researcher", function() {
 			researcher.addHelper( "", function() {} );
 		} ).toThrowError( MissingArgument );
 
-		expect( Object.keys( researcher.helpers ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
 	} );
 
 	it( "throws an error if no function is given", function() {
@@ -112,23 +112,23 @@ describe( "Adding a custom helper to a Researcher", function() {
 			researcher.addHelper( "foobar", null );
 		} ).toThrowError( InvalidTypeError );
 
-		expect( Object.keys( researcher.helpers ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
 	} );
 
 	it( "adds a helper to the helpers object", function() {
-		expect( Object.keys( researcher.helpers ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
 		researcher.addHelper( "foo", function() {
 			return true;
 		} );
-		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 2 );
 	} );
 
 	it( "overwrites a helper in the helpers object", function() {
-		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 2 );
 		researcher.addHelper( "foo", function() {
 			return false;
 		} );
-		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
+		expect( Object.keys( researcher.helpers ).length ).toEqual( 2 );
 	} );
 } );
 
