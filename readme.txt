@@ -251,16 +251,18 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-04-11
 
+Our latest release, Yoast SEO 20.5, includes enhancements and fixes to elevate your SEO journey. One of the most exciting updates is our improved Google SERP preview, now aligned with Google's current styling for both mobile and desktop. This allows you to see how well your snippets are optimized for the search result pages. Read all about it! Find out more about what's new in Yoast SEO 20.5 in [our release post](https://yoa.st/release-11-4-23)!
+
 #### Enhancements
 
-* Cleans up indexables that got orphaned because posts/terms/users got deleted while Yoast SEO was deactivated.
-* Improves the recognition of keyphrases starting with a period (e.g., \".net developer\") by the _keyphrase in title_ assessment.
 * Updates mobile and desktop Google snippet previews to be in line with Google's current styling.
+* Improves the recognition of keyphrases starting with a period (e.g., ".net developer") by the _keyphrase in title_ assessment.
+* Cleans up indexables that got orphaned because posts/terms/users got deleted while Yoast SEO was deactivated.
 
 #### Bugfixes
 
 * Fixes a bug where a fatal error would be thrown when upgrading Yoast SEO while having Local SEO active but never executed.
-* Fixes a bug where, if a content pertaining to a deleted user is re-assigned to another user, the indexables related to the deleted user are not updated with the new `author_id`
+* Fixes a bug where, if a content pertaining to a deleted user is re-assigned to another user, the indexables related to the deleted user are not updated with the new `author_id`.
 * Fixes a bug where posts in Elementor would persistently require an update when a related keyphrase was added.
 * Fixes a bug where the Google preview would show a duplicate slug in the breadcrumbs when the slug included encoded characters.
 * Fixes a bug where the highlighting for the _passive voice_, _sentence length_, _transition words_, and _inclusive language_ assessments would not be applied to the first sentence of a paragraph if the paragraph contained a new line character.
