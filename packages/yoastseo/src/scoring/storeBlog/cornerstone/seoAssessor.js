@@ -1,15 +1,17 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../../helpers";
 
-import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment";
-import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
-import KeyphraseInSEOTitleAssessment from "../../assessments/seo/KeyphraseInSEOTitleAssessment";
-import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
-import Assessor from "../../assessor";
-import SEOAssessor from "../seoAssessor";
-import MetaDescriptionLength from "../../assessments/seo/MetaDescriptionLengthAssessment";
-import TitleWidth from "../../assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import { Assessor, SeoAssessor, assessments, helpers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	KeyphraseLengthAssessment,
+	MetaDescriptionKeywordAssessment,
+	KeyphraseInSEOTitleAssessment,
+	SlugKeywordAssessment,
+	MetaDescriptionLengthAssessment,
+	PageTitleWidthAssessment,
+	FunctionWordsInKeyphraseAssessment,
+} = assessments.seo;
 
 /**
  * Creates the Assessor
@@ -33,7 +35,7 @@ const StoreBlogCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 		} ),
-		new MetaDescriptionLength( {
+		new MetaDescriptionLengthAssessment( {
 			scores:	{
 				tooLong: 3,
 				tooShort: 3,
@@ -45,7 +47,7 @@ const StoreBlogCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} ),
-		new TitleWidth( {
+		new PageTitleWidthAssessment( {
 			scores: {
 				widthTooShort: 9,
 			},
@@ -61,13 +63,13 @@ const StoreBlogCornerstoneSEOAssessor = function( researcher, options ) {
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 			}
 		),
-		new FunctionWordsInKeyphrase( {
+		new FunctionWordsInKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
 		} ),
 	];
 };
 
-inherits( StoreBlogCornerstoneSEOAssessor, SEOAssessor );
+inherits( StoreBlogCornerstoneSEOAssessor, SeoAssessor );
 
 export default StoreBlogCornerstoneSEOAssessor;

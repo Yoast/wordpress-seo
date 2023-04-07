@@ -1,10 +1,15 @@
+import { getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import { createAnchorOpeningTag } from "../../../../src/helpers";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
+import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
+import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
+import keyphraseDistribution from "../../../../src/languageProcessing/researches/keyphraseDistribution";
 import buildTree from "../../../../../yoastseo/spec/specHelpers/parse/buildTree";
 
-// Import SEO assessments
+// Import SEO assessments.
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
@@ -37,7 +42,7 @@ import TextPresenceAssessment from "../../../../src/scoring/assessments/readabil
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
 import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
-// Import test papers
+// Import test papers.
 import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
@@ -45,10 +50,19 @@ testPapers.forEach( function( testPaper ) {
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();
+		const language = getLanguage( locale );
 
-		const LanguageResearcher = getResearcher( getLanguage( locale ) );
+		const LanguageResearcher = getResearcher( language );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
+		// Also register the research, helper, and config for Word Complexity for testing purposes.
+		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
+			researcher.addResearch( "wordComplexity", wordComplexity );
+			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( language ) );
+			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
+		}
+
 		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
@@ -149,8 +163,8 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),
 		} );
 		const keyphraseDistributionAssessment = new KeyphraseDistribution( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+			urlTitle: "https://yoa.st/shopify30",
+			urlCallToAction: "https://yoa.st/shopify31",
 		} );
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment( {
 			shouldNotAppearInShortText: true,
@@ -188,8 +202,8 @@ testPapers.forEach( function( testPaper ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
 		} );
 		const wordComplexityAssessment = new WordComplexityAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
+			urlTitle: "https://yoa.st/shopify77",
+			urlCallToAction: "https://yoa.st/shopify78",
 		} );
 
 		// SEO assessments.

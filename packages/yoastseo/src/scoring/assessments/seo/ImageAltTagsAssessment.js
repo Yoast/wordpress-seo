@@ -1,9 +1,9 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
+import { Assessment, AssessmentResult, helpers } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
 
 /**
  * Represents the assessment that checks if all images have alt tags (only applicable for product pages).
@@ -33,7 +33,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	}
 
 	/**
-	 * Execute the Assessment and return a result.
+	 * Executes the Assessment and return a result.
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
@@ -67,7 +67,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculate the result based on the availability of images in the text, including videos in product pages.
+	 * Calculates the result based on the availability of images in the text, including videos in product pages.
 	 *
 	 * @returns {Object} The calculated result.
 	 */

@@ -245,6 +245,10 @@ Assessor.prototype.addAssessment = function( name, assessment ) {
 	if ( ! assessment.hasOwnProperty( "identifier" ) ) {
 		assessment.identifier = name;
 	}
+	// If the assessor already has the same assessment, remove it and replace it with the new assessment with the same identifier.
+	if ( this.getAssessment( assessment.identifier ) ) {
+		this.removeAssessment( assessment.identifier );
+	}
 
 	this._assessments.push( assessment );
 	return true;

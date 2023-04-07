@@ -1,14 +1,17 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../../helpers";
-import Assessor from "../../assessor.js";
 
-import IntroductionKeyword from "../../assessments/seo/IntroductionKeywordAssessment.js";
-import KeyphraseLength from "../../assessments/seo/KeyphraseLengthAssessment.js";
-import KeywordDensity from "../../assessments/seo/KeywordDensityAssessment.js";
-import MetaDescriptionKeyword from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
-import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
-import TextCompetingLinks from "../../assessments/seo/TextCompetingLinksAssessment.js";
-import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import { Assessor, assessments, helpers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	IntroductionKeywordAssessment,
+	KeyphraseLengthAssessment,
+	KeywordDensityAssessment,
+	MetaDescriptionKeywordAssessment,
+	TextCompetingLinksAssessment,
+	ImageKeyphraseAssessment,
+	FunctionWordsInKeyphraseAssessment,
+} = assessments.seo;
 
 /**
  * Creates the Assessor
@@ -23,11 +26,11 @@ const ProductCornerStoneRelatedKeywordAssessor = function( researcher, options )
 	this.type = "productPageCornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
-		new IntroductionKeyword( {
+		new IntroductionKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( options.introductionKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.introductionKeyphraseCTAUrl ),
 		} ),
-		new KeyphraseLength( {
+		new KeyphraseLengthAssessment( {
 			parameters: {
 				recommendedMinimum: 4,
 				recommendedMaximum: 6,
@@ -38,23 +41,23 @@ const ProductCornerStoneRelatedKeywordAssessor = function( researcher, options )
 			urlTitle: createAnchorOpeningTag( options.keyphraseLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseLengthCTAUrl ),
 		}, true ),
-		new KeywordDensity( {
+		new KeywordDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( options.keyphraseDensityUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseDensityCTAUrl ),
 		} ),
-		new MetaDescriptionKeyword( {
+		new MetaDescriptionKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( options.metaDescriptionKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.metaDescriptionKeyphraseCTAUrl ),
 		} ),
-		new TextCompetingLinks( {
+		new TextCompetingLinksAssessment( {
 			urlTitle: createAnchorOpeningTag( options.textCompetingLinksUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textCompetingLinksCTAUrl ),
 		} ),
-		new FunctionWordsInKeyphrase( {
+		new FunctionWordsInKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( options.functionWordsInKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.functionWordsInKeyphraseCTAUrl ),
 		} ),
-		new ImageKeyphrase( {
+		new ImageKeyphraseAssessment( {
 			scores: {
 				withAltNonKeyword: 3,
 				withAlt: 3,
