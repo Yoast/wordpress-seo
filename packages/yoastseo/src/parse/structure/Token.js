@@ -9,6 +9,11 @@ class Token {
 	 */
 	constructor( text ) {
 		this.text = text;
+		/**
+		 * The start and end positions of the token in the source code.
+		 * @type {SourceCodeRange}
+		 */
+		this.sourceCodeRange = {};
 	}
 }
 
