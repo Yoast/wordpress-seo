@@ -96,8 +96,8 @@ const useUpgradeCampaign = () => {
  *
  * @returns {wp.Element | null} The Wincher upgrade callout title.
  */
-const WincherUpgradeCalloutTitle = ( { limit, usage, isTitleShortened } ) => {
-	const extended = sprintf(
+const WincherUpgradeCalloutTitle = ( { limit, usage, isTitleShortened, isFreeAccount } ) => {
+	const freeExtended = sprintf(
 		/* Translators: %1$s expands to the number of used keywords.
 		 * %2$s expands to the account keywords limit.
 		 */
@@ -108,6 +108,20 @@ const WincherUpgradeCalloutTitle = ( { limit, usage, isTitleShortened } ) => {
 		usage,
 		limit
 	);
+
+	const paidExtended = sprintf(
+		/* Translators: %1$s expands to the number of used keywords.
+		 * %2$s expands to the account keywords limit.
+		 */
+		__(
+			"Your are tracking %1$s out of %2$s keyphrases included in your account.",
+			"wordpress-seo"
+		),
+		usage,
+		limit
+	);
+
+	const extended = isFreeAccount ? freeExtended : paidExtended;
 
 	const shortened = sprintf(
 		/* Translators: %1$s expands to the number of used keywords.
@@ -135,6 +149,7 @@ WincherUpgradeCalloutTitle.propTypes = {
 	limit: PropTypes.number.isRequired,
 	usage: PropTypes.number.isRequired,
 	isTitleShortened: PropTypes.bool,
+	isFreeAccount: PropTypes.bool,
 };
 
 const WincherAccountUpgradeLink = makeOutboundLink();
@@ -207,6 +222,8 @@ const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 		return null;
 	}
 
+	const isFreeAccount = Boolean( upgradeCampaign?.discount );
+
 	return (
 		<CalloutContainer isTitleShortened={ isTitleShortened }>
 			{ onClose && (
@@ -215,9 +232,9 @@ const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 				</CloseButton>
 			) }
 
-			<WincherUpgradeCalloutTitle { ...trackingInfo } isTitleShortened={ isTitleShortened } />
+			<WincherUpgradeCalloutTitle { ...trackingInfo } isTitleShortened={ isTitleShortened } isFreeAccount={ isFreeAccount } />
 
-			{ upgradeCampaign?.discount && (
+			{ isFreeAccount && (
 				<WincherUpgradeCalloutDescription discount={ upgradeCampaign.discount } />
 			) }
 		</CalloutContainer>
