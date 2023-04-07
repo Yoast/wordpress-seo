@@ -35,6 +35,7 @@ export { default as TagField } from "./components/tag-field";
 export { default as TextField } from "./components/text-field";
 export { default as TextareaField } from "./components/textarea-field";
 export { default as ToggleField } from "./components/toggle-field";
+export { default as TopbarNavigation, useTopbarNavigationContext } from "./components/topbar-navigation";
 
 export * from "./hooks";
 export * from "./constants";
