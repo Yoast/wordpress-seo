@@ -26,6 +26,18 @@ export async function checkLimit() {
 }
 
 /**
+ * Gets the upgrade campaign.
+ *
+ * @returns {Promise} The API response promise.
+ */
+export async function getUpgradeCampaign() {
+	return await callEndpoint( {
+		path: "yoast/v1/wincher/account/upgrade-campaign",
+		method: "GET",
+	} );
+}
+
+/**
  * Authenticates the user with Wincher's OAuth server.
  *
  * @param {Object} responseData The message response data.

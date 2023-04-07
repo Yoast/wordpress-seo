@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 class Wincher_Account_Action {
 
 	const ACCOUNT_URL = 'https://api.wincher.com/beta/account';
+	const UPGRADE_CAMPAIGN_URL = 'https://api.wincher.com/v1/yoast/upgrade-campaign';
 
 	/**
 	 * The Wincher_Client instance.
@@ -54,6 +55,28 @@ class Wincher_Account_Action {
 				'canTrack'  => \is_null( $limit ) || $usage < $limit,
 				'limit'     => $limit,
 				'usage'     => $usage,
+				'status'    => 200,
+			];
+		} catch ( \Exception $e ) {
+			return (object) [
+				'status' => $e->getCode(),
+				'error'  => $e->getMessage(),
+			];
+		}
+	}
+
+	/**
+	 * Gets the upgrade campaign.
+	 *
+	 * @return object The response object.
+	 */
+	public function get_upgrade_campaign() {
+		try {
+			$result = $this->client->get( self::UPGRADE_CAMPAIGN_URL );
+			$discount = $result['value'];
+
+			return (object) [
+				'discount'  => $discount,
 				'status'    => 200,
 			];
 		} catch ( \Exception $e ) {

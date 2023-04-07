@@ -164,4 +164,29 @@ class Wincher_Account_Action_Test extends TestCase {
 			$this->instance->check_limit()
 		);
 	}
+
+	/**
+	 * Tests the fetched upgrade campaign.
+	 *
+	 * @covers ::get_upgrade_campaign
+	 */
+	public function test_get_upgrade_campaign() {
+		$this->client_instance
+			->expects( 'get' )
+			->with( 'https://api.wincher.com/v1/yoast/upgrade-campaign' )
+			->andReturn(
+				[
+					'value'	=> 0.9,
+					'status' 	=> 200,
+				]
+			);
+
+		$this->assertEquals(
+			(object) [
+				'discount'	=> 0.9,
+				'status' 	=> 200,
+			],
+			$this->instance->get_upgrade_campaign()
+		);
+	}
 }
