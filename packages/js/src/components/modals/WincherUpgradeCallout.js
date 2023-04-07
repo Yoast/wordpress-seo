@@ -13,7 +13,7 @@ import { colors } from "@yoast/style-guide";
 import { makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
-import { checkLimit } from "../../helpers/wincherEndpoints";
+import { checkLimit, getUpgradeCampaign } from "../../helpers/wincherEndpoints";
 
 const USAGE_UPGRADE_THRESHOLD = 0.8;
 
@@ -68,6 +68,23 @@ const useTrackingInfo = () => {
 	}, [ trackingInfo ] );
 
 	return trackingInfo;
+};
+
+/**
+ * Hook to fetch the upgrade campaign.
+ *
+ * @returns {object | null} The upgrade campaign.
+ */
+const useUpgradeCampaign = () => {
+	const [ upgradeCampaign, setUpgradeCampaign ] = useState( null );
+
+	useEffect( ()=>{
+		if ( ! upgradeCampaign ) {
+			getUpgradeCampaign().then( data => setUpgradeCampaign( data ) );
+		}
+	}, [ upgradeCampaign ] );
+
+	return upgradeCampaign;
 };
 
 /**
@@ -177,6 +194,7 @@ WincherUpgradeCalloutDescription.propTypes = {
  */
 const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 	const trackingInfo = useTrackingInfo();
+	const upgradeCampaign = useUpgradeCampaign();
 
 	if ( trackingInfo === null ) {
 		return null;
@@ -196,8 +214,12 @@ const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 					<SvgIcon icon="times-circle" color={ colors.$color_pink_dark } size="14px" />
 				</CloseButton>
 			) }
+
 			<WincherUpgradeCalloutTitle { ...trackingInfo } isTitleShortened={ isTitleShortened } />
-			<WincherUpgradeCalloutDescription discount={ 0.9 } />
+
+			{ upgradeCampaign?.discount && (
+				<WincherUpgradeCalloutDescription discount={ upgradeCampaign.discount } />
+			) }
 		</CalloutContainer>
 	);
 };
