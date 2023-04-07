@@ -79,7 +79,7 @@ class Index_Command implements Command_Interface {
 	private $prepare_indexing_action;
 
 	/**
-	 * Represents the environment helper.
+	 * Represents the indexable helper.
 	 *
 	 * @var Indexable_Helper
 	 */
@@ -104,7 +104,7 @@ class Index_Command implements Command_Interface {
 	 *                                                                                           action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexation
 	 *                                                                                           action.
-	 * @param Indexable_Helper                              $indexable_helper                    The Environment helper.
+	 * @param Indexable_Helper                              $indexable_helper                    The indexable helper.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation_action,
@@ -170,7 +170,9 @@ class Index_Command implements Command_Interface {
 	 */
 	public function index( $args = null, $assoc_args = null ) {
 		if ( ! $this->indexable_helper->should_index_indexables() ) {
-			WP_CLI::log( 'Your WordPress environment is running on a non-production site. Indexables can only be created on production environments. Please check your `WP_ENVIRONMENT_TYPE` settings.' );
+			WP_CLI::log(
+				\__( 'Your WordPress environment is running on a non-production site. Indexables can only be created on production environments. Please check your `WP_ENVIRONMENT_TYPE` settings.', 'wordpress-seo' )
+			);
 
 			return;
 		}
