@@ -19,7 +19,7 @@ const attributes = {
 export default () => {
 	registerBlockType( "yoast/faq-block", {
 		title: __( "Yoast FAQ", "wordpress-seo" ),
-		description: __( "List your Frequently Asked Questions in an SEO-friendly way. You can only use one FAQ block per post.", "wordpress-seo" ),
+		description: __( "List your Frequently Asked Questions in an SEO-friendly way.", "wordpress-seo" ),
 		icon: "editor-ul",
 		category: "yoast-structured-data-blocks",
 		keywords: [
