@@ -1,5 +1,4 @@
-import { getLanguagesWithWordComplexity } from "../../../../src/helpers";
-import { createAnchorOpeningTag } from "../../../../src/helpers";
+import { createAnchorOpeningTag, getLanguagesWithWordComplexity } from "../../../../src/helpers";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
