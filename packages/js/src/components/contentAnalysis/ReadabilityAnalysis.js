@@ -72,8 +72,8 @@ class ReadabilityAnalysis extends Component {
 	/**
 	 * Returns the list of results used to upsell the user to Premium.
 	 *
-	 * @param {string} location Where this component is rendered (metabox or sidebar).
-	 * @param {string} locationContext In which editor this component is rendered.
+	 * @param {string} location 		Where this component is rendered (metabox or sidebar).
+	 * @param {string} locationContext 	In which editor this component is rendered.
 	 *
 	 * @returns {Array} The upsell results.
 	 */
@@ -86,12 +86,9 @@ class ReadabilityAnalysis extends Component {
 		link = addQueryArgs( link, { context: locationContext } );
 
 		/*
-		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
-		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
-		 * Additionally, we also don't show the upsell for Word complexity assessment if it's not supported for the current locale.
+		 * We don't show the upsell for Word complexity assessment if it's not supported for the current locale.
 		 */
-		const contentType = wpseoAdminL10n.postType;
-		if ( ( this.props.isYoastSEOWooActive && contentType === "product" ) || ! isWordComplexitySupported() ) {
+		if ( ! isWordComplexitySupported() ) {
 			return [];
 		}
 
@@ -183,13 +180,11 @@ ReadabilityAnalysis.propTypes = {
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
-	isYoastSEOWooActive: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
-	isYoastSEOWooActive: false,
 };
 
 export default withSelect( select => {
