@@ -1,16 +1,14 @@
-/* External dependencies */
-import { get } from "lodash";
-
-/* Internal dependencies */
-import getL10nObject from "./getL10nObject";
+import { logOnce } from "@yoast/helpers";
 
 /**
  * Returns whether the Zapier integration is connected.
  *
+ * @deprecated 20.7
+ *
  * @returns {boolean} Whether the Zapier integration is connected.
  */
 export default function isZapierConnected() {
-	const l10nObject = getL10nObject();
+	logOnce( "@yoast/analysis/isZapierConnected", "The isZapierConnected function is deprecated since Yoast SEO 20.7." );
 
-	return get( l10nObject, "zapierConnectedStatus", 0 ) === 1;
+	return false;
 }
