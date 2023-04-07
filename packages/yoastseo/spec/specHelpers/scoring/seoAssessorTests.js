@@ -1,7 +1,10 @@
 import getResults from "../getAssessorResults";
 import Paper from "../../../src/values/Paper";
+import KeyphraseDistributionAssessment from "../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
+import keyPhraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
 
 /* eslint-disable complexity */
+/* eslint-disable max-statements */
 /**
  * Checks which assessment are available for an SEO assessor, given a certain Paper.
  * @param {Assessor} assessor The SEO assessor.
@@ -23,6 +26,15 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	const isCollection = assessor.type.startsWith( "collection" );
 	const isProduct = assessor.type.startsWith( "product" );
 	const isTaxonomy = assessor.type.startsWith( "taxonomy" );
+
+	if ( isProductAssessor && ! isStoreBlog ) {
+		// Add the Keyphrase distribution assessment to the assessor, which is available in these assessors in Shopify.
+		assessor._researcher.addResearch( "keyphraseDistribution", keyPhraseDistribution );
+		assessor.addAssessment( "keyphraseDistribution", new KeyphraseDistributionAssessment( {
+			urlTitle: isProduct ? "https://yoast.com/33" : "https://yoa.st/shopify30",
+			urlCallToAction: isProduct ? "https://yoast.com/34" : "https://yoa.st/shopify31",
+		} ) );
+	}
 
 	const defaultAssessments = [ "keyphraseLength", "metaDescriptionLength", "titleWidth", "textLength" ];
 	if ( isStoreBlog ) {
@@ -155,6 +167,7 @@ export function checkAssessmentAvailability( assessor, isProductAssessor = false
 	} );
 }
 /* eslint-enable complexity */
+/* eslint-enable max-statements */
 
 /**
  * Checks the config overrides for a given SEO assessor.
