@@ -8,6 +8,7 @@ import createSvgIconComponent from "./createSvgIconComponent";
 import getWordBoundaries from "./wordBoundaries";
 import * as strings from "./strings";
 import join from "./join";
+import { logOnce, createObjectWrapper } from "./deprecationHelper";
 
 export {
 	createSvgIconComponent,
@@ -20,6 +21,8 @@ export {
 	getWordBoundaries,
 	strings,
 	join,
+	logOnce,
+	createObjectWrapper,
 };
 
 export { makeOutboundLink } from "./makeOutboundLink";
