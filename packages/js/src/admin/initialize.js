@@ -8,21 +8,8 @@ import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
 import { STORE_NAME } from "./constants";
+import { createRegistry, ensureElement } from "./helpers";
 import { registerStore } from "./store";
-
-/**
- * @returns {HTMLElement} The root element.
- */
-const getRootElement = () => {
-	const id = "yoast-seo-admin";
-	let root = document.getElementById( id );
-	if ( ! root ) {
-		root = document.createElement( "div" );
-		root.id = id;
-		document.body.appendChild( root );
-	}
-	return root;
-};
 
 /**
  * Fixes the WordPress skip links.
@@ -63,31 +50,6 @@ const matchWpMenuHeight = () => {
 	content.style.minHeight = `${ menu.offsetHeight }px`;
 };
 
-/**
- * Creates a registry for a collection of { key, value }.
- * @returns {{collection: Object[], register: (function(string, *): function(): void)}} The registry.
- */
-const createRegistry = () => {
-	const collection = [];
-
-	/**
-	 * @param {string} key The key.
-	 * @param {*} value The value.
-	 * @returns {function} Function to unregister.
-	 */
-	const register = ( key, value ) => {
-		const index = collection.push( { key, value } ) - 1;
-		return () => {
-			collection.splice( index, 1 );
-		};
-	};
-
-	return {
-		collection,
-		register,
-	};
-};
-
 domReady( () => {
 	// Prevent Styled Components' styles by adding the stylesheet to a div that is in the shadow DOM.
 	const shadowHost = document.createElement( "div" );
@@ -106,15 +68,15 @@ domReady( () => {
 		{ id: "support", priority: 10, route: "/support", text: __( "Support", "wordpress-seo" ) },
 	] );
 
-	const elements = createRegistry();
+	const routeRegistry = createRegistry();
 	/**
 	 * Registers a route.
 	 * @param {{id: string, priority: Number, route: string, text: string}} route The route.
-	 * @param {JSX.node} children The route content.
+	 * @param {JSX.Element} element The route content.
 	 * @returns {function} The unregister method.
 	 */
-	const registerRoute = ( route, children ) => {
-		const unregister = elements.register( route.id, <Fill name={ `yoast/admin/route/${ route.id }` }>{ children }</Fill> );
+	const registerRoute = ( route, element ) => {
+		const unregister = routeRegistry.register( route.id, <Fill name={ `yoast/admin/route/${ route.id }` }>{ element }</Fill> );
 		dispatch( STORE_NAME ).addRoute( route );
 
 		return () => {
@@ -131,15 +93,17 @@ domReady( () => {
 	const isRtl = select( STORE_NAME ).selectFromShared( "isRtl", false );
 
 	render(
-		<Root context={ { isRtl, elements: elements.collection } }>
-			<StyleSheetManager target={ shadowRoot }>
-				<SlotFillProvider>
-					<HashRouter>
-						<App />
-					</HashRouter>
-				</SlotFillProvider>
-			</StyleSheetManager>
-		</Root>,
-		getRootElement()
+		(
+			<Root context={ { isRtl, elements: elements.collection } }>
+				<StyleSheetManager target={ shadowRoot }>
+					<SlotFillProvider>
+						<HashRouter>
+							<App />
+						</HashRouter>
+					</SlotFillProvider>
+				</StyleSheetManager>
+			</Root>
+		),
+		ensureElement( "yoast-seo-admin" )
 	);
 } );

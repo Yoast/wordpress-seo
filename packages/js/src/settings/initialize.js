@@ -63,14 +63,16 @@ domReady( () => {
 			route: "/settings",
 			text: __( "Settings", "wordpress-seo" ),
 		},
-		<HashRouter basename="settings">
-			<Formik
-				initialValues={ settings }
-				validationSchema={ createValidationSchema( postTypes, taxonomies ) }
-				onSubmit={ handleSubmit }
-			>
-				<App />
-			</Formik>
-		</HashRouter>
+		(
+			<HashRouter basename="settings">
+				<Formik
+					initialValues={ settings }
+					validationSchema={ createValidationSchema( postTypes, taxonomies ) }
+					onSubmit={ handleSubmit }
+				>
+					<App />
+				</Formik>
+			</HashRouter>
+		)
 	);
 } );
