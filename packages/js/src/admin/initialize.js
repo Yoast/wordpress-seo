@@ -2,6 +2,7 @@ import { Fill, SlotFillProvider } from "@wordpress/components";
 import { dispatch, select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import { Root } from "@yoast/ui-library";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
@@ -93,17 +94,31 @@ domReady( () => {
 	const shadowRoot = shadowHost.attachShadow( { mode: "open" } );
 	document.body.appendChild( shadowHost );
 
-	registerStore();
 	fixFocusLinkCompatibility();
 	matchWpMenuHeight();
 
+	registerStore();
+	dispatch( STORE_NAME ).addRoutes( [
+		{ id: "insights", priority: 0, route: "/insights", text: __( "Insights", "wordpress-seo" ) },
+		{ id: "workouts", priority: 2, route: "/workouts", text: __( "Workouts", "wordpress-seo" ) },
+		{ id: "features", priority: 4, route: "/features", text: __( "Features", "wordpress-seo" ) },
+		{ id: "tools", priority: 8, route: "/tools", text: __( "Tools", "wordpress-seo" ) },
+		{ id: "support", priority: 10, route: "/support", text: __( "Support", "wordpress-seo" ) },
+	] );
+
 	const elements = createRegistry();
+	/**
+	 * Registers a route.
+	 * @param {{id: string, priority: Number, route: string, text: string}} route The route.
+	 * @param {JSX.node} children The route content.
+	 * @returns {function} The unregister method.
+	 */
 	const registerRoute = ( route, children ) => {
 		const unregister = elements.register( route.id, <Fill name={ `yoast/admin/route/${ route.id }` }>{ children }</Fill> );
-		dispatch( STORE_NAME ).addMenu( route );
+		dispatch( STORE_NAME ).addRoute( route );
 
 		return () => {
-			dispatch( STORE_NAME ).removeMenu( route.id );
+			dispatch( STORE_NAME ).removeRoute( route.id );
 			unregister();
 		};
 	};

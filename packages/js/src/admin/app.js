@@ -10,13 +10,13 @@ import { useSelectAdmin } from "./hooks";
  * @returns {JSX.Element} The app.
  */
 const App = () => {
-	const menu = useSelectAdmin( "selectMenuArray" );
+	const routes = useSelectAdmin( "selectAllRoutes" );
 
 	return (
 		<>
 			<Topbar />
 			<Routes>
-				{ menu.map( ( { id, route } ) => (
+				{ routes.map( ( { id, route } ) => (
 					<Route
 						key={ `route-${ id }` }
 						path={ route }
@@ -27,7 +27,9 @@ const App = () => {
 						) }
 					/>
 				) ) }
-				{ menu?.[ 0 ]?.route && <Route path="*" element={ <Navigate to={ menu[ 0 ].route } replace={ true } /> } /> }
+				{ routes[ 0 ]?.route && (
+					<Route path="*" element={ <Navigate to={ routes[ 0 ].route } replace={ true } /> } />
+				) }
 			</Routes>
 			<RegisteredElements />
 		</>

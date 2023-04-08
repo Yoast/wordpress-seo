@@ -10,7 +10,7 @@ import { useSelectAdmin } from "../hooks";
  */
 const Topbar = () => {
 	const isPremium = useSelectAdmin( "selectFromShared", [], "isPremium", false );
-	const links = useSelectAdmin( "selectLinksFromMenu" );
+	const links = useSelectAdmin( "selectLinksFromRoutes" );
 	const svgAriaProps = useSvgAria();
 	const { pathname } = useLocation();
 
