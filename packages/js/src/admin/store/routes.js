@@ -5,21 +5,21 @@ const NAME = "routes";
 
 /**
  * @param {string} id The ID.
- * @param {string} route The route.
+ * @param {string} path The path.
  * @param {string} text The text.
  * @returns {{children: string, id: string, to: string}} The link.
  */
-const transformRouteToLink = ( { id, route, text } ) => ( { id: `link-nav-${ id }`, to: route, children: text } );
+const transformRouteToLink = ( { id, path, text } ) => ( { id: `link-nav-${ id }`, to: path, children: text } );
 
 /**
- * @param {{id: string, priority: Number, route: string, text: string}} route The route.
+ * @param {{id: string, priority: Number, path: string, text: string}} route The route.
  * @returns {Object} The prepared and predictable route.
  */
 const prepareRoute = route => ( {
-	id: route.id || route.route.replace( "/", "" ),
+	id: route.id || route.path.replace( "/", "" ),
 	priority: route.priority ?? Number.MAX_VALUE,
-	route: route.route ?? "",
-	text: route.text || route.id || route.route,
+	path: route.path ?? "",
+	text: route.text || route.id || route.path,
 } );
 
 const adapter = createEntityAdapter( {

@@ -56,11 +56,11 @@ domReady( () => {
 		console.warn( "Can not initialize settings!" );
 		return;
 	}
-	window.YoastSEO.admin.registerRoute(
+	window.unreg = window.YoastSEO.admin.registerRoute(
 		{
 			id: "settings",
 			priority: 6,
-			route: "/settings",
+			path: "/settings",
 			text: __( "Settings", "wordpress-seo" ),
 		},
 		(

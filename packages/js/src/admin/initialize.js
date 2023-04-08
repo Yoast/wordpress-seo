@@ -1,4 +1,4 @@
-import { Fill, SlotFillProvider } from "@wordpress/components";
+import { SlotFillProvider } from "@wordpress/components";
 import { dispatch, select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
@@ -61,22 +61,22 @@ domReady( () => {
 
 	registerStore();
 	dispatch( STORE_NAME ).addRoutes( [
-		{ id: "insights", priority: 0, route: "/insights", text: __( "Insights", "wordpress-seo" ) },
-		{ id: "workouts", priority: 2, route: "/workouts", text: __( "Workouts", "wordpress-seo" ) },
-		{ id: "features", priority: 4, route: "/features", text: __( "Features", "wordpress-seo" ) },
-		{ id: "tools", priority: 8, route: "/tools", text: __( "Tools", "wordpress-seo" ) },
-		{ id: "support", priority: 10, route: "/support", text: __( "Support", "wordpress-seo" ) },
+		{ id: "insights", priority: 0, path: "/insights", text: __( "Insights", "wordpress-seo" ) },
+		{ id: "workouts", priority: 2, path: "/workouts", text: __( "Workouts", "wordpress-seo" ) },
+		{ id: "features", priority: 4, path: "/features", text: __( "Features", "wordpress-seo" ) },
+		{ id: "tools", priority: 8, path: "/tools", text: __( "Tools", "wordpress-seo" ) },
+		{ id: "support", priority: 10, path: "/support", text: __( "Support", "wordpress-seo" ) },
 	] );
 
 	const routeRegistry = createRegistry();
 	/**
 	 * Registers a route.
-	 * @param {{id: string, priority: Number, route: string, text: string}} route The route.
+	 * @param {{id: string, priority: Number, path: string, text: string}} route The route.
 	 * @param {JSX.Element} element The route content.
 	 * @returns {function} The unregister method.
 	 */
 	const registerRoute = ( route, element ) => {
-		const unregister = routeRegistry.register( route.id, <Fill name={ `yoast/admin/route/${ route.id }` }>{ element }</Fill> );
+		const unregister = routeRegistry.register( route.id, element );
 		dispatch( STORE_NAME ).addRoute( route );
 
 		return () => {
@@ -94,11 +94,11 @@ domReady( () => {
 
 	render(
 		(
-			<Root context={ { isRtl, elements: elements.collection } }>
+			<Root context={ { isRtl } }>
 				<StyleSheetManager target={ shadowRoot }>
 					<SlotFillProvider>
 						<HashRouter>
-							<App />
+							<App routeCollection={ routeRegistry.collection } />
 						</HashRouter>
 					</SlotFillProvider>
 				</StyleSheetManager>

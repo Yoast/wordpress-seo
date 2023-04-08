@@ -1,39 +1,56 @@
-import { Slot } from "@wordpress/components";
+import { Fill, Slot } from "@wordpress/components";
 import { ErrorBoundary } from "@yoast/ui-library";
+import PropTypes from "prop-types";
 import { Navigate, Route, Routes } from "react-router-dom";
-import RegisteredElements from "./components/registered-elements";
-import RouteErrorFallback from "./components/route-error-fallback";
-import Topbar from "./components/topbar";
+import { RouteErrorFallback, Topbar } from "./components";
 import { useSelectAdmin } from "./hooks";
 
 /**
+ * @param {string} id The ID.
+ * @returns {string} The name of the slot/fill.
+ */
+const getRouteSlotFillName = id => `yoast/admin/route/${ id }`;
+
+/**
+ * @param {{key: string, value: JSX.Element}[]} routeCollection The registered elements belonging to the routes.
  * @returns {JSX.Element} The app.
  */
-const App = () => {
+const App = ( { routeCollection } ) => {
 	const routes = useSelectAdmin( "selectAllRoutes" );
 
 	return (
 		<>
 			<Topbar />
 			<Routes>
-				{ routes.map( ( { id, route } ) => (
+				{ routes.map( ( { id, path } ) => (
 					<Route
 						key={ `route-${ id }` }
-						path={ route }
+						path={ path }
 						element={ (
 							<ErrorBoundary FallbackComponent={ RouteErrorFallback }>
-								<Slot name={ `yoast/admin/route/${ id }` } />
+								<Slot name={ getRouteSlotFillName( id ) } />
 							</ErrorBoundary>
 						) }
 					/>
 				) ) }
-				{ routes[ 0 ]?.route && (
-					<Route path="*" element={ <Navigate to={ routes[ 0 ].route } replace={ true } /> } />
+				{ routes[ 0 ]?.path && (
+					<Route path="*" element={ <Navigate to={ routes[ 0 ].path } replace={ true } /> } />
 				) }
 			</Routes>
-			<RegisteredElements />
+			{ routeCollection.map( ( { key, value } ) => (
+				<Fill key={ `route-${ key }` } name={ getRouteSlotFillName( key ) }>
+					{ value }
+				</Fill>
+			) ) }
 		</>
 	);
+};
+
+App.propTypes = {
+	routeCollection: PropTypes.arrayOf( PropTypes.shape( {
+		key: PropTypes.string.isRequired,
+		value: PropTypes.node.isRequired,
+	} ) ).isRequired,
 };
 
 export default App;
