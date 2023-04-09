@@ -133,6 +133,15 @@ export function getKeyphrasePosition( keyphrase ) {
 }
 
 /**
+ * Humanize the last updated date string
+ *
+ * @param {string} dateString The date string to format.
+ *
+ * @returns {string} The formatted last updated date.
+ */
+const formatLastUpdated = ( dateString ) => moment( dateString ).fromNow();
+
+/**
  * Gets the positional data based on the current UI state and returns the appropiate UI element.
  *
  * @param {Object} props The props to use.
@@ -155,6 +164,7 @@ export function getPositionalDataByState( props ) {
 			<Fragment>
 				<td>?</td>
 				<td className="yoast-table--nopadding">?</td>
+				<td>?</td>
 				<td className="yoast-table--nobreak" />
 			</Fragment>
 		);
@@ -173,6 +183,7 @@ export function getPositionalDataByState( props ) {
 		<Fragment>
 			<td>{ getKeyphrasePosition( rowData ) }</td>
 			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ rowData } /> }</td>
+			<td>{ formatLastUpdated( rowData.updated_at ) }</td>
 			<td className="yoast-table--nobreak">
 				{
 					<ViewLink href={ viewLinkURL }>
