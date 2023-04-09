@@ -12,10 +12,10 @@ import { useSelectAdmin } from "./hooks";
 const getRouteSlotFillName = id => `yoast/admin/route/${ id }`;
 
 /**
- * @param {{key: string, value: JSX.Element}[]} routeCollection The registered elements belonging to the routes.
+ * @param {{key: string, value: JSX.Element}[]} routeElements The registered elements belonging to the routes.
  * @returns {JSX.Element} The app.
  */
-const App = ( { routeCollection } ) => {
+const App = ( { routeElements } ) => {
 	const routes = useSelectAdmin( "selectAllRoutes" );
 
 	return (
@@ -37,7 +37,7 @@ const App = ( { routeCollection } ) => {
 					<Route path="*" element={ <Navigate to={ routes[ 0 ].path } replace={ true } /> } />
 				) }
 			</Routes>
-			{ routeCollection.map( ( { key, value } ) => (
+			{ routeElements.map( ( { key, value } ) => (
 				<Fill key={ `route-${ key }` } name={ getRouteSlotFillName( key ) }>
 					{ value }
 				</Fill>
@@ -47,7 +47,7 @@ const App = ( { routeCollection } ) => {
 };
 
 App.propTypes = {
-	routeCollection: PropTypes.arrayOf( PropTypes.shape( {
+	routeElements: PropTypes.arrayOf( PropTypes.shape( {
 		key: PropTypes.string.isRequired,
 		value: PropTypes.node.isRequired,
 	} ) ).isRequired,
