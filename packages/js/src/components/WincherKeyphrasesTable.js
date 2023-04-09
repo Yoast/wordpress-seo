@@ -328,6 +328,12 @@ const WincherKeyphrasesTable = ( props ) => {
 							>
 								{ __( "Position over time", "wordpress-seo" ) }
 							</th>
+							<th
+								scope="col"
+								abbr={ __( "Last updated", "wordpress-seo" ) }
+							>
+								{ __( "Last updated", "wordpress-seo" ) }
+							</th>
 							<ViewColumn className="yoast-table--nobreak" />
 						</tr>
 					</thead>

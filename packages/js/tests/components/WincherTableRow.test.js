@@ -51,7 +51,7 @@ describe( "WincherTableRow", () => {
 			keyphrase="yoast seo"
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 5 );
+		expect( component.find( "td" ).length ).toEqual( 6 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( PositionOverTimeChart ).length ).toEqual( 1 );
 
@@ -61,6 +61,7 @@ describe( "WincherTableRow", () => {
 
 		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "yoast seo" );
 		expect( component.find( "td" ).at( 2 ).text() ).toEqual( "10" );
+		expect( component.find( "td" ).at( 4 ).text() ).toEqual( "a few seconds ago" );
 	} );
 
 	it( "should not render an enabled toggle or any position and chart data when no data is available", () => {
@@ -69,7 +70,7 @@ describe( "WincherTableRow", () => {
 			keyphrase="yoast seo"
 		/> );
 
-		expect( component.find( "td" ).length ).toEqual( 5 );
+		expect( component.find( "td" ).length ).toEqual( 6 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( PositionOverTimeChart ).length ).toEqual( 0 );
 
@@ -78,5 +79,6 @@ describe( "WincherTableRow", () => {
 		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "yoast seo" );
 		expect( component.find( "td" ).at( 2 ).text() ).toEqual( "?" );
 		expect( component.find( "td" ).at( 3 ).text() ).toEqual( "?" );
+		expect( component.find( "td" ).at( 4 ).text() ).toEqual( "?" );
 	} );
 } );
