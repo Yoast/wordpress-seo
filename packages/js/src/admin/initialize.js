@@ -8,7 +8,7 @@ import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
 import { STORE_NAME } from "./constants";
-import { createRegistry, ensureElement } from "./helpers";
+import { createRegistry, ensureElement, registerGlobalApis } from "./helpers";
 import { registerStore } from "./store";
 
 /**
@@ -85,10 +85,7 @@ domReady( () => {
 		};
 	};
 
-	window.YoastSEO ||= {};
-	window.YoastSEO.admin = {
-		registerRoute,
-	};
+	registerGlobalApis( "YoastSEO", { admin: { registerRoute } } );
 
 	const isRtl = select( STORE_NAME ).selectFromShared( "isRtl", false );
 
