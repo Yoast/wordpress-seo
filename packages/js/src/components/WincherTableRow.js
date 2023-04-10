@@ -12,8 +12,24 @@ import { makeOutboundLink } from "@yoast/helpers";
 /* Internal dependencies */
 import AreaChart from "./AreaChart";
 import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
+import styled from "styled-components";
 
 const ViewLink = makeOutboundLink();
+
+export const CaretIcon = styled( SvgIcon )`
+	margin-left: 2px;
+	flex-shrink: 0;
+	rotate: ${ props => props.isImproving ? "-90deg" : "90deg" };
+`;
+
+export const PositionChangeValue = styled.span`
+	color: ${ props => props.isImproving ? "#69AB56" : "#DC3332" };
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 20px;
+	margin-right: 2px;
+	margin-left: 12px;
+`;
 
 /**
  * Transforms the Wincher Position data to x/y points for the SVG area chart.
@@ -74,7 +90,6 @@ export function PositionOverTimeChart( { chartData } ) {
 		strokeWidth={ 1.8 }
 		strokeColor="#498afc"
 		fillColor="#ade3fc"
-		className="yoast-related-keyphrases-modal__chart"
 		mapChartDataToTableData={ mapAreaChartDataToTableData }
 		dataTableCaption={
 			__( "Keyphrase position in the last 90 days on a scale from 0 to 100.", "wordpress-seo" )
@@ -142,6 +157,36 @@ export function getKeyphrasePosition( keyphrase ) {
 const formatLastUpdated = ( dateString ) => moment( dateString ).fromNow();
 
 /**
+ * Displays the position over time cell.
+ *
+ * @param {object} rowData The position over time data.
+ *
+ * @returns {wp.Element} The position over time table cell.
+ */
+export const PositionOverTimeCell = ( { rowData } ) => {
+	if ( ! rowData?.position?.change ) {
+		return <PositionOverTimeChart chartData={ rowData } />;
+	}
+
+	const isImproving = rowData.position.change < 0;
+	return (
+		<Fragment>
+			<PositionOverTimeChart chartData={ rowData } />
+			<PositionChangeValue isImproving={ isImproving }>{ Math.abs( rowData.position.change ) }</PositionChangeValue>
+			<CaretIcon
+				icon={ "caret-right" }
+				color={ isImproving ? "#69AB56" : "#DC3332" }
+				size={ "14px" } isImproving={ isImproving }
+			/>
+		</Fragment>
+	);
+};
+
+PositionOverTimeCell.propTypes = {
+	rowData: PropTypes.object,
+};
+
+/**
  * Gets the positional data based on the current UI state and returns the appropiate UI element.
  *
  * @param {Object} props The props to use.
@@ -171,18 +216,18 @@ export function getPositionalDataByState( props ) {
 	}
 	if ( ! hasFreshData ) {
 		return (
-			<Fragment>
-				<td className="yoast-table--nopadding" colSpan="3">
-					<WincherSEOPerformanceLoading />
-				</td>
-			</Fragment>
+			<td className="yoast-table--nopadding" colSpan="3">
+				<WincherSEOPerformanceLoading />
+			</td>
 		);
 	}
 
 	return (
 		<Fragment>
 			<td>{ getKeyphrasePosition( rowData ) }</td>
-			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ rowData } /> }</td>
+			<td className="yoast-table--nopadding yoast-seo-performance-modal__mini-chart">
+				<PositionOverTimeCell rowData={ rowData } />
+			</td>
 			<td>{ formatLastUpdated( rowData.updated_at ) }</td>
 			<td className="yoast-table--nobreak">
 				{
