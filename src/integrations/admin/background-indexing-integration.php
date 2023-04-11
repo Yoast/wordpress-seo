@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\WP_CRON_Enabled_Conditional;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
@@ -82,13 +81,6 @@ class Background_Indexing_Integration implements Integration_Interface {
 	protected $indexing_helper;
 
 	/**
-	 * An object that checks if we are on an admin page.
-	 *
-	 * @var Admin_Conditional
-	 */
-	protected $admin_conditional;
-
-	/**
 	 * An object that checks if we are on the Yoast admin or on the dashboard page.
 	 *
 	 * @var Yoast_Admin_And_Dashboard_Conditional
@@ -139,7 +131,6 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action             The term indexing action.
 	 * @param Indexing_Helper                               $indexing_helper                       The indexing helper.
 	 * @param Indexable_Helper                              $indexable_helper                      The indexable helper.
-	 * @param Admin_Conditional                             $admin_conditional                     An object that checks if we are on an admin page.
 	 * @param Yoast_Admin_And_Dashboard_Conditional         $yoast_admin_and_dashboard_conditional An object that checks if we are on the Yoast admin or on the dashboard page.
 	 * @param Get_Request_Conditional                       $get_request_conditional               An object that checks if we are handling a GET request.
 	 * @param WP_CRON_Enabled_Conditional                   $wp_cron_enabled_conditional           An object that checks if WP_CRON is enabled.
@@ -154,7 +145,6 @@ class Background_Indexing_Integration implements Integration_Interface {
 		Term_Link_Indexing_Action $term_link_indexing_action,
 		Indexing_Helper $indexing_helper,
 		Indexable_Helper $indexable_helper,
-		Admin_Conditional $admin_conditional,
 		Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional,
 		Get_Request_Conditional $get_request_conditional,
 		WP_CRON_Enabled_Conditional $wp_cron_enabled_conditional
@@ -168,7 +158,6 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->term_link_indexing_action             = $term_link_indexing_action;
 		$this->indexing_helper                       = $indexing_helper;
 		$this->indexable_helper                      = $indexable_helper;
-		$this->admin_conditional                     = $admin_conditional;
 		$this->yoast_admin_and_dashboard_conditional = $yoast_admin_and_dashboard_conditional;
 		$this->get_request_conditional               = $get_request_conditional;
 		$this->wp_cron_enabled_conditional           = $wp_cron_enabled_conditional;
@@ -182,7 +171,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		\add_action( 'wpseo_indexable_index_batch', [ $this, 'index' ] );
 		// phpcs:ignore WordPress.WP.CronInterval -- The sniff doesn't understand values with parentheses. https://github.com/WordPress/WordPress-Coding-Standards/issues/2025
 		\add_filter( 'cron_schedules', [ $this, 'add_cron_schedule' ] );
-		\add_action( 'init', [ $this, 'schedule_cron_indexing' ], 11 );
+		\add_action( 'admin_init', [ $this, 'schedule_cron_indexing' ], 11 );
 
 		$this->add_limit_filters();
 	}
@@ -230,7 +219,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->post_link_indexing_action->index();
 		$this->term_link_indexing_action->index();
 
-		if ( $this->indexing_helper->is_background_index_up_to_date() ) {
+		if ( $this->indexing_helper->get_limited_filtered_unindexed_count_background( 1 ) > 0 ) {
 			// We set this as complete, even though prominent words might not be complete. But that's the way we always treated that.
 			$this->complete_indexation_action->complete();
 		}
@@ -257,7 +246,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Schedule background indexing every 5 minutes if the index isn't already up to date.
+	 * Schedule background indexing every 15 minutes if the index isn't already up to date.
 	 *
 	 * @return void
 	 */
@@ -310,26 +299,15 @@ class Background_Indexing_Integration implements Integration_Interface {
 	/**
 	 * Determine whether cron indexation should be performed.
 	 *
-	 * @param bool $doing_cron Whether we're on a cron action.
-	 *
 	 * @return bool Should cron indexation be performed.
 	 */
-	protected function should_index_on_cron( $doing_cron = false ) {
+	protected function should_index_on_cron() {
 		if ( ! $this->indexable_helper->should_index_indexables() ) {
 			return false;
 		}
 
 		// The filter supersedes everything when preventing cron indexation.
 		if ( apply_filters( 'Yoast\WP\SEO\enable_cron_indexing', true ) !== true ) {
-			return false;
-		}
-
-		if ( ! $this->indexing_helper->is_background_index_up_to_date() ) {
-			return true;
-		}
-
-		// We shouldn't check the existense of unindexes stuff when on the frontend, for performance reasons.
-		if ( ! $doing_cron && ! $this->admin_conditional->is_met() ) {
 			return false;
 		}
 

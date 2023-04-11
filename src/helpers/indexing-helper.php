@@ -259,28 +259,6 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Checks if indexables that can be background indexed are complete and up to date.
-	 * If those indexables are complete, they will always be considered complete here until one
-	 * or more indexable builders get a version bump.
-	 *
-	 * @return bool Whether the index is up to date.
-	 */
-	public function is_background_index_up_to_date() {
-		$last_completed_index_version = $this->options_helper->get( 'last_completely_indexed_versions' );
-		$combined_version_key         = $this->indexable_builder_versions->get_combined_version_key();
-		if ( $last_completed_index_version === $combined_version_key ) {
-			return true;
-		}
-
-		$has_unindexed = $this->get_limited_filtered_unindexed_count_background( 1 ) > 0;
-		if ( $has_unindexed === false ) {
-			$this->options_helper->set( 'last_completely_indexed_versions', $combined_version_key );
-		}
-
-		return ! $has_unindexed;
-	}
-
-	/**
 	 * Returns the total number of unindexed objects.
 	 *
 	 * @return int The total number of unindexed objects.

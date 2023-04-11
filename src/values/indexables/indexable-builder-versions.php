@@ -14,8 +14,6 @@ class Indexable_Builder_Versions {
 	 * If the key is not in this list, the indexable type will not be managed.
 	 * These numbers should be increased if one of the builders implements a new feature.
 	 *
-	 * Whenever a version is increased, we must delete the indexation transients on an upgrade routine, so that Indexing_Helper's `is_background_index_up_to_date` can get the correct data.
-	 *
 	 * @var array
 	 */
 	protected $indexable_builder_versions_by_type = [
