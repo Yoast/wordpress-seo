@@ -206,7 +206,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function index() {
-		if ( wp_doing_cron() && ! $this->should_index_on_cron( true ) ) {
+		if ( \wp_doing_cron() && ! $this->should_index_on_cron( true ) ) {
 			$this->unschedule_cron_indexing();
 
 			return;
@@ -251,8 +251,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function schedule_cron_indexing() {
-		if ( ! wp_next_scheduled( 'wpseo_indexable_index_batch' ) && $this->should_index_on_cron() ) {
-			wp_schedule_event( time(), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
+		if ( ! \wp_next_scheduled( 'wpseo_indexable_index_batch' ) && $this->should_index_on_cron() ) {
+			\wp_schedule_event( \time(), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
 		}
 	}
 
@@ -264,7 +264,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return int The new batch limit.
 	 */
 	public function throttle_cron_indexing( $indexation_limit ) {
-		if ( wp_doing_cron() ) {
+		if ( \wp_doing_cron() ) {
 			/**
 			 * Filter: Adds the possibility to limit the number of items that are indexed when in cron action.
 			 *
@@ -284,7 +284,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return int The new batch limit.
 	 */
 	public function throttle_cron_link_indexing( $link_indexation_limit ) {
-		if ( wp_doing_cron() ) {
+		if ( \wp_doing_cron() ) {
 			/**
 			 * Filter: Adds the possibility to limit the number of links that are indexed when in cron action.
 			 *
@@ -358,9 +358,9 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	protected function unschedule_cron_indexing() {
-		$scheduled = wp_next_scheduled( 'wpseo_indexable_index_batch' );
+		$scheduled = \wp_next_scheduled( 'wpseo_indexable_index_batch' );
 		if ( $scheduled ) {
-			wp_unschedule_event( $scheduled, 'wpseo_indexable_index_batch' );
+			\wp_unschedule_event( $scheduled, 'wpseo_indexable_index_batch' );
 		}
 	}
 
