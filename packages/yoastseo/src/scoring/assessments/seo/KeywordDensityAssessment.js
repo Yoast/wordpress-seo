@@ -101,23 +101,23 @@ class KeywordDensityAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
-		this._keywordCount = researcher.getResearch( "keywordCount" );
-		const keyphraseLength = this._keywordCount.length;
+		this._keyphraseCount = researcher.getResearch( "keywordCount" );
+		const keyphraseLength = this._keyphraseCount.length;
 
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
+		this._keyphraseDensity = researcher.getResearch( "getKeywordDensity" );
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
 		this.setBoundaries( paper.getText(), keyphraseLength, customGetWords );
 
-		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
+		this._keyphraseDensity = this._keyphraseDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
-		assessmentResult.setHasMarks( this._keywordCount.count > 0 );
+		assessmentResult.setHasMarks( this._keyphraseCount.count > 0 );
 
 		return assessmentResult;
 	}
@@ -128,7 +128,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the keyphrase count is 0.
 	 */
 	hasNoMatches() {
-		return this._keywordCount.count === 0;
+		return this._keyphraseCount.count === 0;
 	}
 
 	/**
@@ -139,10 +139,10 @@ class KeywordDensityAssessment extends Assessment {
 	 */
 	hasTooFewMatches() {
 		return inRangeStartInclusive(
-			this._keywordDensity,
+			this._keyphraseDensity,
 			0,
 			this._boundaries.minimum
-		) || this._keywordCount.count === 1;
+		) || this._keyphraseCount.count === 1;
 	}
 
 	/**
@@ -153,10 +153,10 @@ class KeywordDensityAssessment extends Assessment {
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive(
-			this._keywordDensity,
+			this._keyphraseDensity,
 			this._boundaries.minimum,
 			this._boundaries.maximum
-		) || ( this._keywordCount.count === 2 && this._minRecommendedKeywordCount <= 2 );
+		) || ( this._keyphraseCount.count === 2 && this._minRecommendedKeywordCount <= 2 );
 	}
 
 	/**
@@ -169,7 +169,7 @@ class KeywordDensityAssessment extends Assessment {
 	 */
 	hasTooManyMatches() {
 		return inRangeEndInclusive(
-			this._keywordDensity,
+			this._keyphraseDensity,
 			this._boundaries.maximum,
 			this._boundaries.overMaximum
 		);
@@ -216,14 +216,14 @@ class KeywordDensityAssessment extends Assessment {
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						// eslint-disable-next-line max-len
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						this._keywordCount.count,
+						this._keyphraseCount.count,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
 					this._minRecommendedKeywordCount,
 					this._config.urlCallToAction,
-					this._keywordCount.count
+					this._keyphraseCount.count
 				),
 			};
 		}
@@ -239,12 +239,12 @@ class KeywordDensityAssessment extends Assessment {
 					_n(
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d time. This is great!",
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d times. This is great!",
-						this._keywordCount.count,
+						this._keyphraseCount.count,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._keywordCount.count
+					this._keyphraseCount.count
 				),
 			};
 		}
@@ -263,14 +263,14 @@ class KeywordDensityAssessment extends Assessment {
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 						// eslint-disable-next-line max-len
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						this._keywordCount.count,
+						this._keyphraseCount.count,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
 					this._maxRecommendedKeywordCount,
 					this._config.urlCallToAction,
-					this._keywordCount.count
+					this._keyphraseCount.count
 				),
 			};
 		}
@@ -289,14 +289,14 @@ class KeywordDensityAssessment extends Assessment {
 					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 					// eslint-disable-next-line max-len
 					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					this._keywordCount.count,
+					this._keyphraseCount.count,
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>",
 				this._maxRecommendedKeywordCount,
 				this._config.urlCallToAction,
-				this._keywordCount.count
+				this._keyphraseCount.count
 			),
 		};
 	}
@@ -308,7 +308,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {Array<Mark>} Marks that should be applied.
 	 */
 	getMarks() {
-		return this._keywordCount.markings;
+		return this._keyphraseCount.markings;
 	}
 
 
