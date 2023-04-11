@@ -179,8 +179,8 @@ class SeoAnalysis extends Component {
 	/**
 	 * Returns the list of results used to upsell the user to Premium.
 	 *
-	 * @param {string} location Where this component is rendered (metabox or sidebar).
-	 * @param {string} locationContext In which editor this component is rendered.
+	 * @param {string} location 		Where this component is rendered (metabox or sidebar).
+	 * @param {string} locationContext 	In which editor this component is rendered.
 	 *
 	 * @returns {Array} The upsell results.
 	 */
@@ -190,15 +190,6 @@ class SeoAnalysis extends Component {
 			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.keyphrase_distribution" ];
 		}
 		link = addQueryArgs( link, { context: locationContext } );
-
-		/*
-		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
-		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
-		 */
-		const contentType = wpseoAdminL10n.postType;
-		if ( this.props.isYoastSEOWooActive && contentType === "product" ) {
-			return [];
-		}
 
 		const keyphraseDistributionUpsellText = sprintf(
 			/* Translators: %1$s is a span tag that adds styling to 'Keyphrase distribution', %2$s is a closing span tag.
@@ -303,7 +294,6 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
-	isYoastSEOWooActive: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -313,7 +303,6 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
-	isYoastSEOWooActive: false,
 };
 
 export default withSelect( ( select, ownProps ) => {

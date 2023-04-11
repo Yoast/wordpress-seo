@@ -60,10 +60,14 @@ const fontSizeUrlDesktop     = "14px";
 const lineHeightUrlDesktop   = "1.3";
 
 
-const MAX_WIDTH         = 600;
-const MAX_WIDTH_MOBILE  = 400;
-const WIDTH_PADDING     = 20;
-const DESCRIPTION_LIMIT = 156;
+const MAX_WIDTH                 = 600;
+const MAX_WIDTH_MOBILE          = 400;
+const WIDTH_PADDING             = 20;
+const DESCRIPTION_LIMIT         = 156;
+const DESKTOP_BREADCRUMBS_LIMIT = 240;
+const MOBILE_BREADCRUMBS_LIMIT  = 100;
+const MOBILE_SITENAME_LIMIT     = "300px";
+
 
 const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: #fff;
@@ -131,6 +135,16 @@ const TitleBounded = styled( Title )`
 	max-width: ${ MAX_WIDTH }px;
 	vertical-align: top;
 	text-overflow: ellipsis;
+`;
+
+const BreacrumbsContainer = styled.span`
+	display: inline-block;
+	max-width: ${ props => props.screenMode === MODE_DESKTOP ? DESKTOP_BREADCRUMBS_LIMIT : MOBILE_BREADCRUMBS_LIMIT }px;
+	overflow: hidden;
+	vertical-align: top;
+
+	text-overflow: ellipsis;
+	margin-left: 4px;
 `;
 
 const TitleUnboundedDesktop = styled.span`
@@ -251,9 +265,13 @@ const MobilePartContainer = styled.div`
 `;
 
 const SiteName = styled.div`
-line-height: 18x; 
-font-size: 14px; 
-color: black;`;
+	line-height: 18x; 
+	font-size: 14px; 
+	color: black;
+	max-width: ${ props => props.screenMode === MODE_DESKTOP ? "100%" : MOBILE_SITENAME_LIMIT };
+	overflow: hidden;
+`;
+
 
 const DesktopPartContainer = styled.div`
 `;
@@ -384,16 +402,21 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
  *
  * @returns {ReactComponent} The vertical dots.
  */
-const VerticalDots = ( { fillColor } ) => {
+const VerticalDots = ( { screenMode } ) => {
 	/* eslint-disable max-len */
-	return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={ fillColor } style={ { width: "18px" } }>
+	return <svg
+		xmlns="http://www.w3.org/2000/svg"
+		viewBox="0 0 24 24"
+		fill={ screenMode === MODE_DESKTOP ? colorVerticalDotsDesktop : colorVerticalDotsMobile }
+		style={ { width: "18px" } }
+	>
 		<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
 	</svg>;
 	/* eslint-enable max-len */
 };
 
 VerticalDots.propTypes = {
-	fillColor: PropTypes.string.isRequired,
+	screenMode: PropTypes.string.isRequired,
 };
 
 /**
@@ -650,14 +673,16 @@ export default class SnippetPreview extends PureComponent {
 				>
 					<FaviconContainer><Favicon src={ faviconSrc || globeFaviconSrc } alt="" /></FaviconContainer>
 					<UrlContentContainer screenMode={ mode }>
-						<SiteName>{ siteName }</SiteName>
+						<SiteName screenMode={ mode }>{ siteName }</SiteName>
 						<UrlBaseContainer screenMode={ mode }>{ hostname }</UrlBaseContainer>
-						{ breadcrumbs }
+						<BreacrumbsContainer screenMode={ mode }>
+							{ breadcrumbs }
+						</BreacrumbsContainer>
 						{ ! isMobileMode && <VerticalDotsContainer>
-							<VerticalDots fillColor={ colorVerticalDotsDesktop } />
+							<VerticalDots screenMode={ mode } />
 						</VerticalDotsContainer> }
 					</UrlContentContainer>
-					{ isMobileMode && <VerticalDots fillColor={ colorVerticalDotsMobile } /> }
+					{ isMobileMode && <VerticalDots screenMode={ mode } /> }
 				</BaseUrlOverflowContainer>
 			</Url>
 		</React.Fragment>;

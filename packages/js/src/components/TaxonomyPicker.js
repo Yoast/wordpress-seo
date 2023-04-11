@@ -1,7 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { unescape } from "lodash-es";
+import { unescape } from "lodash";
 
 const SelectContainer = styled.div`
 	padding-top: 6px;

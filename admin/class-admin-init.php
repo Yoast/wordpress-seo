@@ -205,7 +205,7 @@ class WPSEO_Admin_Init {
 				$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 			}
 
-			// Only register the yoast i18n when the page is a Yoast SEO page.
+			// Only renders Yoast SEO Premium upsells when the page is a Yoast SEO page.
 			if ( $page !== null && WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
 				$this->register_premium_upsell_admin_block();
 			}

@@ -1,9 +1,8 @@
 /* External dependencies */
-import { Fragment } from "@wordpress/element";
+import { Fragment, useCallback } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { useCallback } from "@wordpress/element";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
@@ -75,7 +74,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
-						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
@@ -83,7 +81,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
 					</Fragment>
