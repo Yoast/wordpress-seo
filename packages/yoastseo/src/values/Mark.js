@@ -1,4 +1,4 @@
-import { defaults } from "lodash-es";
+import { defaults, isUndefined } from "lodash-es";
 
 /**
  * Represents a place where highlighting should be applied.
@@ -20,6 +20,7 @@ function Mark( properties ) {
 	// TODO: decide later whether we want to add a default value for `position` property
 	defaults( properties, { original: "", marked: "", fieldsToMark: [] } );
 	this._properties = properties;
+	this.isValid();
 }
 
 /**
@@ -106,6 +107,36 @@ Mark.prototype.serialize = function() {
 		_parseClass: "Mark",
 		...this._properties,
 	};
+};
+
+/**
+ * Checks if the mark object is valid for position-based highlighting.
+ * @returns {void}
+ */
+// eslint-disable-next-line complexity
+Mark.prototype.isValid = function() {
+	if ( ! isUndefined( this.getPositionStart() ) && this.getPositionStart() < 0 ) {
+		throw new RangeError( "positionStart should be larger or equal than 0." );
+	}
+	if ( ! isUndefined( this.getPositionEnd() ) && this.getPositionEnd() <= 0 ) {
+		throw new RangeError( "positionEnd should be larger than 0." );
+	}
+	if ( ! isUndefined( this.getPositionStart() ) && ! isUndefined( this.getPositionEnd() ) &&
+		this.getPositionStart() >= this.getPositionEnd() ) {
+		throw new RangeError( "The positionStart should be smaller than the positionEnd." );
+	}
+	if ( isUndefined( this.getPositionStart() ) && ! isUndefined( this.getPositionEnd() ) ||
+		 isUndefined( this.getPositionEnd() ) && ! isUndefined( this.getPositionStart() ) ) {
+		throw new Error( "A mark object should either have start and end defined or start and end undefined." );
+	}
+};
+
+/**
+ * Checks if a mark has position information available.
+ * @returns {boolean} Returns true if the Mark object has position information, false otherwise.
+ */
+Mark.prototype.hasPosition = function() {
+	return !! this.getPositionStart && this.getPositionStart();
 };
 
 /**

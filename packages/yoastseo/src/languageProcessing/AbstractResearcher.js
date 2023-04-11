@@ -8,9 +8,9 @@ import altTagCount from "./researches/altTagCount.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
-import findList from "./researches/findList";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
+import getAnchorsWithKeyphrase from "./researches/getAnchorsWithKeyphrase";
 import getFleschReadingScore from "./researches/getFleschReadingScore";
 import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
@@ -23,7 +23,6 @@ import getSentenceBeginnings from "./researches/getSentenceBeginnings";
 import getSubheadingTextLengths from "./researches/getSubheadingTextLengths.js";
 import h1s from "./researches/h1s";
 import imageCount from "./researches/imageCount.js";
-import keyphraseDistribution from "./researches/keyphraseDistribution";
 import keyphraseLength from "./researches/keyphraseLength";
 import keywordCount from "./researches/keywordCount";
 import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl";
@@ -36,7 +35,6 @@ import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
-import wordComplexity from "./researches/wordComplexity";
 
 // All helpers.
 import memoizedTokenizer from "./helpers/sentence/memoizedSentenceTokenizer";
@@ -60,9 +58,9 @@ export default class AbstractResearcher {
 			countSentencesFromText,
 			findKeywordInFirstParagraph,
 			findKeyphraseInSEOTitle,
-			findList,
 			findTransitionWords,
 			functionWordsInKeyphrase,
+			getAnchorsWithKeyphrase,
 			getFleschReadingScore,
 			getKeywordDensity,
 			getLinks,
@@ -74,7 +72,6 @@ export default class AbstractResearcher {
 			getSubheadingTextLengths,
 			h1s,
 			imageCount,
-			keyphraseDistribution,
 			keyphraseLength,
 			keywordCount,
 			keywordCountInSlug,
@@ -89,7 +86,6 @@ export default class AbstractResearcher {
 			wordCountInText,
 			videoCount,
 			getPassiveVoiceResult,
-			wordComplexity,
 		};
 
 		this._data = {};
@@ -140,6 +136,51 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Add a custom helper that will be available within the Researcher.
+	 *
+	 * @param {string}   name     A name to reference the helper by.
+	 * @param {function} helper   The function to be added to the Researcher.
+	 *
+	 * @throws {MissingArgument}  Helper name cannot be empty.
+	 * @throws {InvalidTypeError} The helper requires a valid Function callback.
+	 *
+	 * @returns {void}
+	 */
+	addHelper( name, helper ) {
+		if ( isUndefined( name ) || isEmpty( name ) ) {
+			throw new MissingArgument( "Helper name cannot be empty" );
+		}
+
+		if ( ! ( helper instanceof Function ) ) {
+			throw new InvalidTypeError( "The research requires a Function callback." );
+		}
+
+		this.helpers[ name ] = helper;
+	}
+
+	/**
+	 * Add a custom configuration that will be available within the Researcher.
+	 *
+	 * @param {string}  name     A name to reference the helper by.
+	 * @param {*}       config   The configuration to be added to the Researcher.
+	 *
+	 * @throws {MissingArgument}  Configuration name and the configuration itself cannot be empty.
+	 *
+	 * @returns {void}
+	 */
+	addConfig( name, config ) {
+		if ( isUndefined( name ) || isEmpty( name ) ) {
+			throw new MissingArgument( "Failed to add the custom researcher config. Config name cannot be empty." );
+		}
+
+		if ( isUndefined( config ) || isEmpty( config ) ) {
+			throw new MissingArgument( "Failed to add the custom researcher config. Config cannot be empty." );
+		}
+
+		this.config[ name ] = config;
+	}
+
+	/**
 	 * Check whether or not the research is known by the Researcher.
 	 *
 	 * @param {string} name The name to reference the research by.
@@ -154,12 +195,58 @@ export default class AbstractResearcher {
 	}
 
 	/**
+	 * Check whether or not the helper is known by the Researcher.
+	 *
+	 * @param {string} name The name to reference the helper by.
+	 *
+	 * @returns {boolean} Whether or not the helper is known by the Researcher.
+	 */
+	hasHelper( name ) {
+		return Object.keys( this.getAvailableHelpers() ).filter(
+			function( helper ) {
+				return helper === name;
+			} ).length > 0;
+	}
+
+	/**
+	 * Check whether or not the config is known by the Researcher.
+	 *
+	 * @param {string} name The name to reference the config by.
+	 *
+	 * @returns {boolean} Whether or not the config is known by the Researcher.
+	 */
+	hasConfig( name ) {
+		return Object.keys( this.getAvailableConfig() ).filter(
+			function( config ) {
+				return config === name;
+			} ).length > 0;
+	}
+
+	/**
 	 * Return all available researches.
 	 *
 	 * @returns {Object} An object containing all available researches.
 	 */
 	getAvailableResearches() {
 		return merge( this.defaultResearches, this.customResearches );
+	}
+
+	/**
+	 * Return all available helpers.
+	 *
+	 * @returns {Object} An object containing all available helpers.
+	 */
+	getAvailableHelpers() {
+		return this.helpers;
+	}
+
+	/**
+	 * Return all available configuration.
+	 *
+	 * @returns {Object} An object containing all available configuration.
+	 */
+	getAvailableConfig() {
+		return this.config;
 	}
 
 	/**

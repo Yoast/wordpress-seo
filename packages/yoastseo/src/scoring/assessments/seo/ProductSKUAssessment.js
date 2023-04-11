@@ -1,11 +1,11 @@
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
+import { Assessment, AssessmentResult, helpers } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
 
 /**
- * Represents the assessment for the product SKU.
+ * Represents the assessment checks whether the product has a SKU.
  */
 export default class ProductSKUAssessment extends Assessment {
 	/**
@@ -34,7 +34,7 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Tests whether a product has a SKU and returns an assessment result based on the research.
+	 * Executes the assessment and returns an result based on the research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 *

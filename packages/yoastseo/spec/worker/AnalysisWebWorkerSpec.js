@@ -200,11 +200,6 @@ describe( "AnalysisWebWorker", () => {
 					.toEqual( updateReadability );
 			} );
 
-			test( "update readability with useWordComplexity", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useWordComplexity: true }, false, false, false ) )
-					.toEqual( updateReadability );
-			} );
-
 			test( "update seo with keywordAnalysisActive", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { keywordAnalysisActive: true }, false, false, false ) )
 					.toEqual( updateSEO );
@@ -217,10 +212,6 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "update seo with useTaxonomy", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useTaxonomy: true }, false, false, false ) ).toEqual( updateSEO );
-			} );
-
-			test( "update seo with useKeywordDistribution", () => {
-				expect( AnalysisWebWorker.shouldAssessorsUpdate( { useKeywordDistribution: true }, false, false, false ) ).toEqual( updateSEO );
 			} );
 
 			test( "update all with locale", () => {
@@ -405,14 +396,6 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
 
-				// Not when switching keyword distribution assessor on/off.
-				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
-				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( timesCalled );
-
-				// When switching useWordComplexity on/off.
-				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
-				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
-
 				// When changing locale.
 				scope.onmessage( createMessage( "initialize", { locale: "en_US" } ) );
 				expect( worker.createContentAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -434,10 +417,6 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize", { contentAnalysisActive: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
 
-				// Not when switching useWordComplexity on/off.
-				scope.onmessage( createMessage( "initialize", { useWordComplexity: true } ) );
-				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( timesCalled );
-
 				// When switching seo analysis on/off.
 				scope.onmessage( createMessage( "initialize", { keywordAnalysisActive: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
@@ -448,10 +427,6 @@ describe( "AnalysisWebWorker", () => {
 
 				// When switching taxonomy assessor on/off.
 				scope.onmessage( createMessage( "initialize", { useTaxonomy: true } ) );
-				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
-
-				// When switching keyword distribution assessor on/off.
-				scope.onmessage( createMessage( "initialize", { useKeywordDistribution: true } ) );
 				expect( worker.createSEOAssessor ).toHaveBeenCalledTimes( ++timesCalled );
 
 				// When changing locale.
@@ -1266,33 +1241,6 @@ describe( "AnalysisWebWorker", () => {
 			// Default assessor used.
 			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
-
-
-		test( "listens to useWordComplexity", () => {
-			worker._configuration.useWordComplexity = false;
-			let assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "contentAssessor" );
-			let assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).not.toBeDefined();
-
-			worker._configuration.useWordComplexity = true;
-			assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "contentAssessor" );
-			assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "wordComplexity" );
-
-			worker._configuration.useCornerstone = true;
-			worker._configuration.useWordComplexity = true;
-			assessor = worker.createContentAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
-			assessment = assessor.getAssessment( "wordComplexity" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "wordComplexity" );
-		} );
 	} );
 
 	describe( "createSEOAssessor", () => {
@@ -1331,32 +1279,6 @@ describe( "AnalysisWebWorker", () => {
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "taxonomyAssessor" );
-		} );
-
-		test( "listens to useKeywordDistribution", () => {
-			worker._configuration.useKeywordDistribution = false;
-			let assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "SEOAssessor" );
-			let assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).not.toBeDefined();
-
-			worker._configuration.useKeywordDistribution = true;
-			assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "SEOAssessor" );
-			assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
-
-			worker._configuration.useCornerstone = true;
-			worker._configuration.useKeywordDistribution = true;
-			assessor = worker.createSEOAssessor();
-			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
-			assessment = assessor.getAssessment( "keyphraseDistribution" );
-			expect( assessment ).toBeDefined();
-			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
 		} );
 
 		test( "listens to customAnalysisType and sets the custom SEO assessor if available", () => {
@@ -1548,6 +1470,16 @@ describe( "AnalysisWebWorker", () => {
 			expect( worker._registeredAssessments[ 0 ].type ).toBe( "readability" );
 		} );
 
+		test( "add the readability assessment for cornerstone content to the registered assessments", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+			expect( worker._contentAssessor ).not.toBeNull();
+
+			worker.registerAssessment( assessmentName, assessment, pluginName, "cornerstoneReadability" );
+			expect( worker._registeredAssessments.length ).toBe( 1 );
+			expect( worker._registeredAssessments[ 0 ].assessment ).toBe( assessment );
+			expect( worker._registeredAssessments[ 0 ].type ).toBe( "cornerstoneReadability" );
+		} );
+
 		test( "add the related keyphrase assessment to the registered assessments", () => {
 			scope.onmessage( createMessage( "initialize" ) );
 			expect( worker._relatedKeywordAssessor ).not.toBeNull();
@@ -1565,6 +1497,95 @@ describe( "AnalysisWebWorker", () => {
 
 			expect( worker.refreshAssessment ).toHaveBeenCalledTimes( 1 );
 			expect( worker.refreshAssessment ).toHaveBeenCalledWith( assessmentName, pluginName );
+		} );
+	} );
+
+	describe( "registerResearch", () => {
+		const researchName = "custom research";
+		const research = () => "hello";
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom research. Expected parameter `name` to be a string.";
+			expect( () => worker.registerResearch( null, research ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid research", () => {
+			const errorMessage = "Failed to register the custom research. Expected parameter `research` to be a function.";
+			expect( () => worker.registerResearch( researchName, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the research", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerResearch( researchName, research );
+			const researchFromResearcher = researcher.getResearch( researchName );
+			expect( researchFromResearcher ).toBeDefined();
+			expect( researchFromResearcher ).toBe( "hello" );
+		} );
+	} );
+
+	describe( "registerHelper", () => {
+		const helperName = "helpful helper";
+		const helper = () => true;
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom helper. Expected parameter `name` to be a string.";
+			expect( () => worker.registerHelper( null, helper ) ).toThrowError( errorMessage );
+		} );
+
+		test( "throws an error when passing an invalid helper", () => {
+			const errorMessage = "Failed to register the custom helper. Expected parameter `helper` to be a function.";
+			expect( () => worker.registerHelper( helperName, null ) ).toThrowError( errorMessage );
+		} );
+
+		test( "adds the helper", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerHelper( helperName, helper );
+			const helperFromResearcher = researcher.getHelper( helperName );
+			expect( helperFromResearcher ).toBeDefined();
+			expect( helperFromResearcher ).toBe( helper );
+		} );
+	} );
+
+	describe( "registerResearcherConfig", () => {
+		const name = "petsConfig";
+		const researcherConfig = { pets: [ "cats", "dogs" ] };
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+			worker.register();
+		} );
+
+		test( "throws an error when passing an invalid name", () => {
+			const errorMessage = "Failed to register the custom researcher config. Expected parameter `name` to be a string.";
+			expect( () => worker.registerResearcherConfig( null, researcherConfig ) ).toThrowError( errorMessage );
+		} );
+		test( "throws an error when passing an empty or undefined config", () => {
+			const errorMessage = "Failed to register the custom researcher config. Expected parameter `researcherConfig` to be defined.";
+			expect( () => worker.registerResearcherConfig( name, {} ) ).toThrowError( errorMessage );
+			expect( () => worker.registerResearcherConfig( name ) ).toThrowError( errorMessage );
+		} );
+		test( "adds the researcher config", () => {
+			scope.onmessage( createMessage( "initialize" ) );
+
+			worker.registerResearcherConfig( name, researcherConfig );
+			const configFromResearcher = researcher.getConfig( name );
+			expect( configFromResearcher ).toBeDefined();
+			expect( configFromResearcher ).toBe( researcherConfig );
 		} );
 	} );
 

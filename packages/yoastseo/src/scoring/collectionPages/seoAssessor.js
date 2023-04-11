@@ -1,19 +1,21 @@
 import { inherits } from "util";
-import { createAnchorOpeningTag } from "../../helpers";
 
-import IntroductionKeywordAssessment from "./../assessments/seo/IntroductionKeywordAssessment";
-import KeyphraseLengthAssessment from "./../assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "./../assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "./../assessments/seo/MetaDescriptionKeywordAssessment";
-import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
-import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
-import Assessor from "./../assessor";
-import MetaDescriptionLengthAssessment from "./../assessments/seo/MetaDescriptionLengthAssessment";
-import TextLengthAssessment from "./../assessments/seo/TextLengthAssessment";
-import PageTitleWidthAssessment from "./../assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "./../assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "./../assessments/seo/SingleH1Assessment";
-import KeyphraseDistribution from "./../assessments/seo/KeyphraseDistributionAssessment";
+import { Assessor, assessments, helpers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	IntroductionKeywordAssessment,
+	KeyphraseLengthAssessment,
+	KeywordDensityAssessment,
+	MetaDescriptionKeywordAssessment,
+	KeyphraseInSEOTitleAssessment,
+	SlugKeywordAssessment,
+	MetaDescriptionLengthAssessment,
+	TextLengthAssessment,
+	PageTitleWidthAssessment,
+	FunctionWordsInKeyphraseAssessment,
+	SingleH1Assessment,
+} = assessments.seo;
 
 /**
  * Creates the Assessor used for collection pages.
@@ -71,17 +73,13 @@ const CollectionSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 		} ),
-		new FunctionWordsInKeyphrase(  {
+		new FunctionWordsInKeyphraseAssessment(  {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
 		} ),
 		new SingleH1Assessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
-		} ),
-		new KeyphraseDistribution( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
 		} ),
 	];
 };

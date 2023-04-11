@@ -1,6 +1,9 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
+import getWordComplexityConfig from "../specHelpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../specHelpers/getWordComplexityHelper";
+import buildTree from "../specHelpers/parse/buildTree";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -19,8 +22,9 @@ import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordA
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
+import TextTitleAssessment from "../../src/scoring/assessments/seo/TextTitleAssessment";
 
-// Import Readability assessments
+// Import readability/content assessments.
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
@@ -29,20 +33,36 @@ import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/Pa
 import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
 import WordComplexityAssessment from "../../src/scoring/assessments/readability/WordComplexityAssessment";
+import TextAlignmentAssessment from "../../src/scoring/assessments/readability/TextAlignmentAssessment";
 
-// Import test papers
+import getLongCenterAlignedTexts from "../../src/languageProcessing/researches/getLongCenterAlignedTexts";
+
+import wordComplexity from "../../src/languageProcessing/researches/wordComplexity";
+import keyphraseDistribution from "../../src/languageProcessing/researches/keyphraseDistribution";
+import { getLanguagesWithWordComplexity } from "../../src/helpers";
+
+// Import test papers.
 import testPapers from "./testTexts";
-import buildTree from "../specHelpers/parse/buildTree";
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();
+		const language = getLanguage( locale );
 
-		const LanguageResearcher = getResearcher( getLanguage( locale ) );
+		const LanguageResearcher = getResearcher( language );
 		const researcher = new LanguageResearcher( paper );
 		researcher.addResearchData( "morphology", getMorphologyData( getLanguage( locale ) ) );
+		researcher.addResearch( "keyphraseDistribution", keyphraseDistribution );
+		// Also register the research, helper, and config for Word Complexity for testing purposes.
+		if ( getLanguagesWithWordComplexity().includes( getLanguage( locale ) ) ) {
+			researcher.addResearch( "wordComplexity", wordComplexity );
+			researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( language ) );
+			researcher.addConfig( "wordComplexity", getWordComplexityConfig( language ) );
+		}
+		researcher.addResearch( "getLongCenterAlignedTexts", getLongCenterAlignedTexts );
+
 		buildTree( paper, researcher );
 
 		const expectedResults = testPaper.expectedResults;
@@ -56,8 +76,6 @@ testPapers.forEach( function( testPaper ) {
 		 * @returns {void}
 		 */
 		function compare( assessment, expectedResult ) {
-			buildTree( paper, researcher );
-
 			const isApplicable = assessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResult.isApplicable );
 
@@ -164,6 +182,14 @@ testPapers.forEach( function( testPaper ) {
 
 		it( "returns a score and the associated feedback text for the imageCount assessment", function() {
 			compare( new ImageCountAssessment(), expectedResults.imageCount );
+		} );
+
+		it( "returns a score and the associated feedback text for the textAlignment assessment", function() {
+			compare( new TextAlignmentAssessment(), expectedResults.textAlignment );
+		} );
+
+		it( "returns a score and the associated feedback text for the textTitle assessment", function() {
+			compare( new TextTitleAssessment(), expectedResults.textTitleAssessment );
 		} );
 	} );
 } );
