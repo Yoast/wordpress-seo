@@ -56,12 +56,14 @@ class To_Be_Cleaned_Indexables_Collector implements \WPSEO_Collection {
 		$this->get_additional_counts( $to_be_cleaned_indexable_bucket );
 
 		return $to_be_cleaned_indexable_bucket->to_array();
-
 	}
-
 
 	/**
 	 * Gets additional tasks from the 'wpseo_cleanup_counts' filter.
+	 *
+	 * @param \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Bucket $to_be_cleaned_indexable_bucket The current bucket with data.
+	 *
+	 * @return void
 	 */
 	private function get_additional_counts( To_Be_Cleaned_Indexable_Bucket $to_be_cleaned_indexable_bucket ) {
 

@@ -46,7 +46,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.keywordCountInSlug;
-		delete this.defaultResearches.wordComplexity;
 
 		Object.assign( this.config, {
 			language: "ja",

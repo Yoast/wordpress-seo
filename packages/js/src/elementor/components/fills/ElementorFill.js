@@ -93,7 +93,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
 					</Fragment>
@@ -101,7 +100,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
-						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
 				</SidebarItem> }
 				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>

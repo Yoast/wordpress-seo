@@ -16,15 +16,6 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\indexing\Abstract_Indexing_Action_Do
 class Missing_Indexables_Collector_Test extends TestCase {
 
 	/**
-	 * Setup function.
-	 *
-	 * @return void
-	 */
-	protected function setUp(): void {
-		parent::setUp();
-	}
-
-	/**
 	 * Tests the get function
 	 *
 	 * @covers ::get

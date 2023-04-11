@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Indexing;
+namespace Yoast\WP\SEO\Actions\Importing;
 
 /**
  * Interface definition of reindexing action for indexables.

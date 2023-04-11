@@ -1,14 +1,15 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { collectMarkingsInSentence } from "../../../languageProcessing/helpers/word/markWordsInSentences";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
-import Assessment from "../assessment";
+import { AssessmentResult, helpers, languageProcessing, Assessment, values } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
+const { collectMarkingsInSentence } = languageProcessing;
+const { Mark } = values;
 
 /**
  * Represents the assessment that checks whether there are too many complex words in the text.
+ * This assessment is not bundled in Yoast SEO.
  */
 export default class WordComplexityAssessment extends Assessment {
 	/**
@@ -26,8 +27,8 @@ export default class WordComplexityAssessment extends Assessment {
 				acceptableAmount: 6,
 				goodAmount: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ls" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lt" ),
+			urlTitle: "https://yoa.st/4ls",
+			urlCallToAction: "https://yoa.st/4lt",
 		};
 
 		/*
@@ -38,13 +39,17 @@ export default class WordComplexityAssessment extends Assessment {
 		this.name = __( "Word complexity", "wordpress-seo" );
 		this.identifier = "wordComplexity";
 		this._config = merge( defaultConfig, config );
+
+		// Creates an anchor opening tag for the shortlinks.
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
 	 * Scores the percentage of sentences including one or more transition words.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Paper} paper        The paper to use for the assessment.
+	 * @param {Researcher} researcher   The researcher used for calling research.
 	 *
 	 * @returns {object} The Assessment result.
 	 */

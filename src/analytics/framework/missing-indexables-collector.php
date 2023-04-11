@@ -41,11 +41,16 @@ class Missing_Indexables_Collector implements \WPSEO_Collection {
 		}
 
 		$this->get_additional_missing_indexables( $missing_indexable_bucket );
+
 		return $missing_indexable_bucket->to_array();
 	}
 
 	/**
 	 * Gets additional tasks from the 'wpseo_missing_indexed_indexables' filter.
+	 *
+	 * @param \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Bucket $missing_indexable_bucket The current bucket of missing indexable data.
+	 *
+	 * @return void
 	 */
 	private function get_additional_missing_indexables( Missing_Indexable_Bucket $missing_indexable_bucket ): void {
 

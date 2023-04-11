@@ -424,7 +424,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 
 		$this->wpdb->shouldReceive( 'query' )
 			->once()
-			->with( 'DELETE FROM wp_yoast_indexable WHERE object_id IN( ' . \implode( ',', $ids ) . ' )' )
+			->with( "DELETE FROM wp_yoast_indexable WHERE object_type = '{$object_type}' AND object_id IN( " . \implode( ',', $ids ) . ' )' )
 			->andReturn( $return_value );
 
 		$this->instance->clean_indexables_for_object_type_and_source_table( $source_table, $source_identifier, $object_type, $this->limit );

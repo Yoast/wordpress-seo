@@ -414,7 +414,7 @@ class Indexable_Cleanup_Repository {
 		}
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		return $wpdb->query( "DELETE FROM $indexable_table WHERE object_id IN( " . \implode( ',', $orphans ) . ' )' );
+		return $wpdb->query( "DELETE FROM $indexable_table WHERE object_type = '{$object_type}' AND object_id IN( " . \implode( ',', $orphans ) . ' )' );
 	}
 
 	/**

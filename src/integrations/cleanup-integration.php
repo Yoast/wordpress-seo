@@ -3,11 +3,6 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
-use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**

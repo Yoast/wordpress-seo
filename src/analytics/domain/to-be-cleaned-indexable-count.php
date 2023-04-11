@@ -2,7 +2,11 @@
 
 namespace Yoast\WP\SEO\Analytics\Domain;
 
+/**
+ * The to be cleaned indexable domain object.
+ */
 class To_Be_Cleaned_Indexable_Count {
+
 	/**
 	 * The cleanup task that is represented by this.
 	 *
@@ -25,7 +29,7 @@ class To_Be_Cleaned_Indexable_Count {
 	 */
 	public function __construct( string $cleanup_name, int $count ) {
 		$this->cleanup_name = $cleanup_name;
-		$this->count          = $count;
+		$this->count        = $count;
 	}
 
 	/**
@@ -36,18 +40,18 @@ class To_Be_Cleaned_Indexable_Count {
 	public function to_array(): array {
 		return [
 			'cleanup_name' => $this->get_cleanup_name(),
-			'count'          => $this->get_count(),
+			'count'        => $this->get_count(),
 		];
 	}
 
 	/**
 	 * Gets the name.
+	 *
 	 * @return string
 	 */
 	public function get_cleanup_name(): string {
 		return $this->cleanup_name;
 	}
-
 
 	/**
 	 * Gets the count.
