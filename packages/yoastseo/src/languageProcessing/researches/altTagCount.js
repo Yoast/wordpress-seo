@@ -3,7 +3,7 @@
 import imageAltAttribute from "../helpers/image/getAltAttribute";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 import { isEmpty } from "lodash-es";
-import imagesInTree from "../helpers/image/imagesInTree";
+import getImagesInTree from "../helpers/image/getImagesInTree";
 
 /**
  * Matches the alt-tags in the images found in the text.
@@ -61,7 +61,7 @@ const matchAltProperties = function( imageNodes, topicForms, locale, matchWordCu
  * @returns {object} Object containing all types of found images
  */
 export default function altTagCount( paper, researcher ) {
-	const images = imagesInTree( paper );
+	const images = getImagesInTree( paper );
 
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );

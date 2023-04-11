@@ -3,7 +3,7 @@ import getAltAttribute from "../image/getAltAttribute";
 import { normalizeSingle } from "../sanitize/quotes";
 import parseSlug from "../url/parseSlug";
 import getWords from "../word/getWords";
-import imagesInTree from "../image/imagesInTree";
+import getImagesInTree from "../image/getImagesInTree";
 
 /**
  * Gets all words found in the text, title, slug and meta description of a given paper.
@@ -14,7 +14,7 @@ import imagesInTree from "../image/imagesInTree";
  */
 export default function( paper ) {
 	const paperText = paper.getText();
-	const altTagsInText = imagesInTree( paper ).map( image => getAltAttribute( image ) );
+	const altTagsInText = getImagesInTree( paper ).map( image => getAltAttribute( image ) );
 
 	const paperContent = [
 		paperText,
