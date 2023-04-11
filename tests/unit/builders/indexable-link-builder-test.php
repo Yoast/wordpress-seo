@@ -117,6 +117,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::set_dependencies
 	 * @covers ::build
+	 * @covers ::create_links
+	 * @covers ::create_internal_link
 	 *
 	 * @dataProvider build_provider
 	 *
@@ -304,9 +306,10 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$old_seo_link->target_indexable_id = 3;
 		$old_seo_link->url                 = 'https://link.com/no-longer-in-post/';
 		$old_seo_link->id                  = 567;
-		$this->seo_links_repository->expects( 'find_all_by_indexable_id' )->once()->with( $indexable->id )->andReturn( [ $old_seo_link ] );
 		$this->seo_links_repository->expects( 'delete_all_by_post_id_where_indexable_id_null' )->once()->with( $indexable->object_id );
-		$this->seo_links_repository->expects( 'insert_many' )->once()->with( [ $seo_link ] );
+
+		$this->expect_update_related_indexables( $indexable->id, [ $seo_link ], [ $old_seo_link ] );
+
 		$this->seo_links_repository->expects( 'get_incoming_link_counts_for_indexable_ids' )
 			->with( [ 2, 3 ] )
 			->andReturn(
@@ -373,7 +376,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 	/**
 	 * Data provider for test_patch_seo_links;
 	 *
-	 * @return array $indexableId, $objectId, $links_times, $links.
+	 * @return array $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times.
 	 */
 	public function patch_seo_links_provider() {
 		$object                                  = (object) [ 'type' => 'not SEO_Links' ];
@@ -383,13 +386,88 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$seo_link_not_empty->target_indexable_id = 3;
 
 		return [
-			[ null, 1, 0, null, 0 ],
-			[ 1, null, 0, null, 0 ],
-			[ null, null, 0, null, 0 ],
-			[ 1, 1, 1, [], 0 ],
-			[ 1, 1, 1, [ $object ], 0 ],
-			[ 1, 1, 1, [ $seo_link_not_empty ], 0 ],
-			[ 1, 1, 1, [ $seo_link ], 1 ],
+			// if ( ! empty( $indexable->id ) && ! empty( $indexable->object_id ) ).
+			// Check if indexable->id is empty and indexable->objectId is 1, will not execute other logic.
+			[
+				[
+					'indexable_id'                     => null,
+					'object_id'                        => 1,
+					'links_times'                      => 0,
+					'links'                            => null,
+					'update_target_indexable_id_times' => 0,
+				],
+			],
+
+			// if ( ! empty( $indexable->id ) && ! empty( $indexable->object_id ) ).
+			// Check if indexable->id is 1 and indexable->objectId is null, will not execute other logic.
+			[
+				[
+					'indexable_id'                     => 1,
+					'object_id'                        => null,
+					'links_times'                      => 0,
+					'links'                            => null,
+					'update_target_indexable_id_times' => 0,
+				],
+			],
+
+			// if ( ! empty( $indexable->id ) && ! empty( $indexable->object_id ) ).
+			// Check if indexable->id is null and indexable->objectId is null, will not execute other logic.
+			[
+				[
+					'indexable_id'                     => null,
+					'object_id'                        => null,
+					'links_times'                      => 0,
+					'links'                            => null,
+					'update_target_indexable_id_times' => 0,
+				],
+			],
+
+			// if $updated_indexable is false and stays false because $links array is empty.
+			[
+				[
+					'indexable_id'                     => 1,
+					'object_id'                        => 1,
+					'links_times'                      => 1,
+					'links'                            => [],
+					'update_target_indexable_id_times' => 0,
+				],
+			],
+
+			// if ( \is_a( $link, SEO_Links::class ) && empty( $link->target_indexable_id ) ).
+			// if $updated_indexable is false and stays false because $links array has an object that is not SEO_Links.
+			[
+				[
+					'indexable_id'                     => 1,
+					'object_id'                        => 1,
+					'links_times'                      => 1,
+					'links'                            => [ $object ],
+					'update_target_indexable_id_times' => 0,
+				],
+			],
+
+			// if ( \is_a( $link, SEO_Links::class ) && empty( $link->target_indexable_id ) ).
+			// if $updated_indexable is false and stays false because $links array has an object that is SEO_Links but has no target_indexable_id.
+			[
+				[
+					'indexable_id'                     => 1,
+					'object_id'                        => 1,
+					'links_times'                      => 1,
+					'links'                            => [ $seo_link_not_empty ],
+					'update_target_indexable_id_times' => 0,
+				],
+			],
+
+			// if ( \is_a( $link, SEO_Links::class ) && empty( $link->target_indexable_id ) ).
+			// Checks if $updated_indexable becomes true because $links array has an object that is SEO_Links and has target_indexable_id.
+			[
+				[
+					'indexable_id'                     => 1,
+					'object_id'                        => 1,
+					'links_times'                      => 1,
+					'links'                            => [ $seo_link ],
+					'update_target_indexable_id_times' => 1,
+				],
+			],
 		];
 	}
 
@@ -400,30 +478,29 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 *
 	 * @dataProvider patch_seo_links_provider
 	 *
-	 * @param int   $indexable_id The indexable id.
-	 * @param int   $object_id   The object id.
-	 * @param int   $links_times The number of times the find_all_by_target_post_id method should be called.
-	 * @param array $links The links.
-	 * @param int   $update_target_indexable_id_times The number of times the update_target_indexable_id method should be called.
+	 * @param array $expected array of indexable_id, object_id, links_times, links, update_target_indexable_id_times.
 	 */
-	public function test_patch_seo_links( $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times ) {
+	public function test_patch_seo_links( $expected ) {
 		$indexable            = Mockery::mock( Indexable_Mock::class );
-		$indexable->id        = $indexable_id;
-		$indexable->object_id = $object_id;
+		$indexable->id        = $expected['indexable_id'];
+		$indexable->object_id = $expected['object_id'];
 
+		// Executed if indexable has an id and object_id.
 		$this->seo_links_repository
 			->expects( 'find_all_by_target_post_id' )
 			->with( $indexable->object_id )
-			->times( $links_times )
-			->andReturn( $links );
+			->times( $expected['links_times'] )
+			->andReturn( $expected['links'] );
 
+		// Executed when $links has a object that is SEO_Links and has no target_indexable_id.
 		$this->seo_links_repository
 			->expects( 'update_target_indexable_id' )
-			->times( $update_target_indexable_id_times );
+			->times( $expected['update_target_indexable_id_times'] );
 
+		// Executed in update_incoming_links_for_related_indexables inside the patch_seo_links method when $updated_indexable is true.
 		$this->seo_links_repository
 			->expects( 'get_incoming_link_counts_for_indexable_ids' )
-			->times( $update_target_indexable_id_times )
+			->times( $expected['update_target_indexable_id_times'] )
 			->andReturn( [] );
 
 		$this->instance->patch_seo_links( $indexable );
@@ -518,16 +595,16 @@ class Indexable_Link_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the build other cases.
+	 * Tests the build in case of an image link and 'disable attachment` optionis false.
 	 *
-	 * @covers ::create_internal_link
-	 * @covers ::create_links
 	 * @covers ::build
+	 * @covers ::create_links
+	 * @covers ::create_internal_link
 	 * @covers ::build_permalink
-	 * @covers ::update_incoming_links_for_related_indexables
-	 * @covers ::update_related_indexables
+	 * @covers ::get_permalink
 	 * @covers ::enhance_link_from_indexable
 	 * @covers ::get_post_id
+	 * @covers ::update_related_indexables
 	 */
 	public function test_build_create_internal_link() {
 
@@ -537,15 +614,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$indexable->object_type = 'page';
 		$indexable->permalink   = 'https://site.com/page';
 
-		$model = new SEO_Links_Mock();
-
+		$model       = new SEO_Links_Mock();
 		$model->type = SEO_Links::TYPE_INTERNAL_IMAGE;
-		$orm_mock    = $this
-			->getMockBuilder( ORM::class )
-			->disableOriginalConstructor()
-			->setMethods( [ 'create' ] )
-			->getMock();
-
 
 		Functions\stubs(
 			[
@@ -557,9 +627,6 @@ class Indexable_Link_Builder_Test extends TestCase {
 					'scheme' => 'http',
 					'host'   => 'basic.wordpress.test',
 				],
-
-				// Executed in build->create_links->create_internal_link->build_permalink->get_permalink.
-				'set_url_scheme' => 'http://basic.wordpress.test',
 			]
 		);
 
@@ -570,27 +637,9 @@ class Indexable_Link_Builder_Test extends TestCase {
 			->andReturn( SEO_Links::TYPE_INTERNAL_IMAGE );
 
 		// Executed in build->create_links->create_internal_link.
-		$this->seo_links_repository
-			->expects( 'query' )
-			->once()
-			->andReturn( $orm_mock );
+		$this->expect_seo_links_repository_query_create( $indexable, $model );
 
-		// Executed in build->create_links->create_internal_link.
-		$orm_mock->expects( $this->once() )
-			->method( 'create' )
-			->will( $this->returnValue( $model ) );
-
-		// Executed in build->create_links->create_internal_link->build_permalink.
-		$this->url_helper
-			->expects( 'is_relative' )
-			->once()
-			->andReturn( true );
-
-		// Executed in build->create_links->create_internal_link->build_permalink.
-		$this->url_helper
-			->expects( 'ensure_absolute_url' )
-			->once()
-			->andReturn( 'http://basic.wordpress.test' );
+		$this->expect_build_permalink( 'http://basic.wordpress.test' );
 
 		// Executed in build->create_links->create_internal_link.
 		$this->options_helper
@@ -598,7 +647,6 @@ class Indexable_Link_Builder_Test extends TestCase {
 			->once()
 			->with( 'disable-attachment' )
 			->andReturn( false );
-
 
 		// Executed in build->create_links->create_internal_link->enhance_link_from_indexable.
 		$this->indexable_repository
@@ -614,19 +662,369 @@ class Indexable_Link_Builder_Test extends TestCase {
 			->with( 'http://basic.wordpress.test' )
 			->andReturn( 0 );
 
+
+		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
+
+		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+	}
+
+		/**
+		 * Tests the build in case of an image link and 'disable attachment` optionis false.
+		 *
+		 * @covers ::build
+		 * @covers ::create_links
+		 * @covers ::create_internal_link
+		 * @covers ::build_permalink
+		 * @covers ::get_permalink
+		 * @covers ::enhance_link_from_indexable
+		 * @covers ::get_post_id
+		 * @covers ::update_related_indexables
+		 */
+	public function test_build_create_internal_link_disable_attachment_true_file_doesnt_exist() {
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
+		$indexable->object_type = 'page';
+		$indexable->permalink   = 'https://site.com/page';
+
+		$model                 = new SEO_Links_Mock();
+		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
+		$model->target_post_id = 2;
+
+		Functions\stubs(
+			[
+				// Executed in build->create_links->create_internal_link.
+				'home_url'                    => 'http://basic.wordpress.test',
+
+				// Executed in build->create_links->create_internal_link.
+				'wp_parse_url'                => [
+					'scheme' => 'http',
+					'host'   => 'basic.wordpress.test',
+				],
+
+				// Executed in build->create_links->create_internal_link.
+				'get_attached_file'           => 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg',
+
+				'wp_get_attachment_image_src' => [ '55', '200', '300' ],
+			]
+		);
+
+		// Executed in build->create_links->create_internal_link.
+		$this->url_helper
+			->expects( 'get_link_type' )
+			->once()
+			->andReturn( SEO_Links::TYPE_INTERNAL_IMAGE );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->expect_seo_links_repository_query_create( $indexable, $model );
+
+		// Executed in build->create_links->create_internal_link->WPSEO_Image_Utils::get_attachment_by_url.
+		Functions\expect( 'wp_get_upload_dir' )
+			->with( 'http://basic.wordpress.test/wp-content/uploads' )
+			->once()
+			->andReturn( [ 'baseurl' => 'http://basic.wordpress.test/wp-content/uploads' ] );
+
+		$this->expect_build_permalink( 'http://basic.wordpress.test' );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'disable-attachment' )
+			->andReturn( true );
+
+		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
+
+		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+	}
+
+		/**
+		 * Tests the build in case of an image link and 'disable attachment` optionis false.
+		 *
+		 * @covers ::build
+		 * @covers ::create_links
+		 * @covers ::create_internal_link
+		 * @covers ::build_permalink
+		 * @covers ::get_permalink
+		 * @covers ::enhance_link_from_indexable
+		 * @covers ::get_post_id
+		 * @covers ::update_related_indexables
+		 */
+	public function test_build_create_internal_link_disable_attachment_true_file_exist() {
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
+		$indexable->object_type = 'page';
+		$indexable->permalink   = 'https://site.com/page';
+
+		$model                 = new SEO_Links_Mock();
+		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
+		$model->target_post_id = 5;
+
+		Functions\stubs(
+			[
+				// Executed in build->create_links->create_internal_link.
+				'home_url'                    => 'http://basic.wordpress.test',
+
+				// Executed in build->create_links->create_internal_link.
+				'wp_parse_url'                => [
+					'scheme' => 'http',
+					'host'   => 'basic.wordpress.test',
+				],
+
+				// Executed in build->create_links->create_internal_link.
+				'get_attached_file'           => 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg',
+
+				'wp_get_attachment_image_src' => [ '55', '200', '300' ],
+			]
+		);
+
+		// Executed in build->create_links->create_internal_link.
+		$this->url_helper
+			->expects( 'get_link_type' )
+			->once()
+			->andReturn( SEO_Links::TYPE_INTERNAL_IMAGE );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->expect_seo_links_repository_query_create( $indexable, $model );
+
+		Functions\when( 'file_exists' )
+			->justReturn( true );
+
+		Functions\when( 'filesize' )
+			->justReturn( '500' );
+
+		$this->expect_build_permalink( 'http://basic.wordpress.test' );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'disable-attachment' )
+			->andReturn( true );
+
+		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
+
+		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+	}
+
+	/**
+	 * Tests the build in case of an image link and 'disable attachment` option is true.
+	 *
+	 * @covers ::build
+	 * @covers ::create_links
+	 * @covers ::create_internal_link
+	 * @covers ::build_permalink
+	 * @covers ::get_permalink
+	 * @covers ::enhance_link_from_indexable
+	 * @covers ::get_post_id
+	 * @covers ::update_related_indexables
+	 */
+	public function test_build_create_internal_link_disable_attachment_true_file_not_found() {
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
+		$indexable->object_type = 'page';
+		$indexable->permalink   = 'https://site.com/page';
+
+		$model                 = new SEO_Links_Mock();
+		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
+		$model->target_post_id = 3;
+
+		Functions\stubs(
+			[
+				// Executed in build->create_links->create_internal_link.
+				'home_url'                    => 'http://basic.wordpress.test',
+
+				// Executed in build->create_links->create_internal_link.
+				'wp_parse_url'                => [
+					'scheme' => 'http',
+					'host'   => 'basic.wordpress.test',
+				],
+
+				// Executed in build->create_links->create_internal_link.
+				'wp_get_attachment_image_src' => [ '55', '200', '300' ],
+			]
+		);
+
+		// Executed in build->create_links->create_internal_link.
+		$this->url_helper
+			->expects( 'get_link_type' )
+			->once()
+			->andReturn( SEO_Links::TYPE_INTERNAL_IMAGE );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->expect_seo_links_repository_query_create( $indexable, $model );
+
+		// Executed in build->create_links->create_internal_link.
+		Functions\when( 'file_exists' )
+			->justReturn( true );
+
+		// Executed in build->create_links->create_internal_link.
+		Functions\when( 'filesize' )
+			->justReturn( '500' );
+
+		// Executed in build->create_links->create_internal_link.
+		Functions\when( 'get_attached_file' )
+			->justReturn( null );
+
+
+		$this->expect_build_permalink( 'http://basic.wordpress.test' );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'disable-attachment' )
+			->andReturn( true );
+
+		// Executed in build.
+		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
+
+		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+	}
+
+		/**
+		 * Tests the build in case of an image link and 'disable attachment` option is true.
+		 *
+		 * @covers ::build
+		 * @covers ::create_links
+		 * @covers ::create_internal_link
+		 * @covers ::build_permalink
+		 * @covers ::get_permalink
+		 * @covers ::enhance_link_from_indexable
+		 * @covers ::get_post_id
+		 * @covers ::update_related_indexables
+		 */
+	public function test_build_create_internal_link_disable_attachment_true_get_attachment_by_url_not_empty() {
+
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 9;
+		$indexable->object_type = 'page';
+		$indexable->permalink   = 'https://site.com/page';
+
+		$model                 = new SEO_Links_Mock();
+		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
+		$model->target_post_id = 2;
+
+
+		Functions\stubs(
+			[
+				// Executed in build->create_links.
+				'home_url'                    => 'http://basic.wordpress.test',
+
+				// Executed in build->create_links->create_internal_link.
+				'wp_parse_url'                => [
+					'scheme' => 'http',
+					'host'   => 'basic.wordpress.test',
+				],
+
+				// Executed in build->create_links->create_internal_link.
+				'get_attached_file'           => 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg',
+
+				'wp_get_attachment_image_src' => [ '55', '200', '300' ],
+
+				// Executed in build->create_links->create_internal_link->WPSEO_Image_Utils::get_attachment_by_url->attachment_url_to_postid.
+				'wp_cache_get'                => 108,
+			]
+		);
+
+		// Executed in build->create_links->create_internal_link.
+		$this->url_helper
+			->expects( 'get_link_type' )
+			->once()
+			->andReturn( SEO_Links::TYPE_INTERNAL_IMAGE );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->expect_seo_links_repository_query_create( $indexable, $model );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->expect_build_permalink( 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg' );
+
+		// Executed in build->create_links->create_internal_link.
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'disable-attachment' )
+			->andReturn( true );
+
+
+		// Executed in build.
+		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
+
+		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+	}
+
+	/**
+	 * Expectations for update_related_indexables.
+	 *
+	 * @param int   $indexable_id The indexable id.
+	 * @param array $insert_links The links to insert.
+	 * @param array $links_by_indexable_id The links by indexable id.
+	 */
+	public function expect_update_related_indexables( $indexable_id, $insert_links, $links_by_indexable_id = [] ) {
+
 		// Executed in build->update_related_indexables.
 		$this->seo_links_repository
 			->expects( 'find_all_by_indexable_id' )
-			->with( $indexable->id )
 			->once()
-			->andReturn( [] );
+			->with( $indexable_id )
+			->andReturn( $links_by_indexable_id );
 
 		// Executed in build->update_related_indexables.
 		$this->seo_links_repository
 			->expects( 'insert_many' )
 			->once()
-			->with( [ $model ] );
+			->with( $insert_links );
+	}
 
-		$this->assertSame( [ $model ], $this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' ) );
+	/**
+	 * Expectations for build_permalink.
+	 *
+	 * @param string $permalink The permalink.
+	 */
+	public function expect_build_permalink( $permalink ) {
+
+		// Executed in build->create_links->create_internal_link->build_permalink->get_permalink.
+		Functions\when( 'set_url_scheme' )
+		->justReturn( 'http://basic.wordpress.test' );
+
+		// Executed in build->create_links->create_internal_link->build_permalink.
+		$this->url_helper
+			->expects( 'is_relative' )
+			->once()
+			->andReturn( true );
+
+		// Executed in build->create_links->create_internal_link->build_permalink.
+		$this->url_helper
+			->expects( 'ensure_absolute_url' )
+			->once()
+			->andReturn( $permalink );
+	}
+
+	/**
+	 * Expectations for seo_links_repository->query->create.
+	 *
+	 * @param object $indexable The indexable.
+	 * @param object $seo_link The seo link.
+	 */
+	public function expect_seo_links_repository_query_create( $indexable, $seo_link ) {
+
+		$query_mock = Mockery::mock( ORM::class );
+
+		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
+
+		$query_mock->expects( 'create' )->once()->with(
+			[
+				'url'          => 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5',
+				'type'         => SEO_Links::TYPE_INTERNAL_IMAGE,
+				'indexable_id' => $indexable->id,
+				'post_id'      => $indexable->object_id,
+			]
+		)->andReturn( $seo_link );
 	}
 }
