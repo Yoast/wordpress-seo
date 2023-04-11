@@ -1,7 +1,7 @@
 /* External dependencies */
 import { applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { flowRight } from "lodash-es";
+import { flowRight } from "lodash";
 
 /**
  * Returns redux store enhancers.

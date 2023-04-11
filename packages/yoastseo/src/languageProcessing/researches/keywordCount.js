@@ -1,8 +1,7 @@
 /** @module analyses/getKeywordCount */
 
 import matchWords from "../helpers/match/matchTextWithArray";
-import { uniq as unique } from "lodash-es";
-import { flattenDeep } from "lodash-es";
+import { flattenDeep, uniq as unique } from "lodash-es";
 import getSentences from "../helpers/sentence/getSentences";
 import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
 

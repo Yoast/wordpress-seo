@@ -1,5 +1,5 @@
 /* External dependencies */
-import { isEmpty, filter, uniq } from "lodash-es";
+import { isEmpty, filter, uniq } from "lodash";
 
 /* Internal dependencies */
 import getL10nObject from "../../analysis/getL10nObject";

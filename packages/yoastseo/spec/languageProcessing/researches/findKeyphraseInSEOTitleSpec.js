@@ -61,6 +61,32 @@ describe( "Matches keywords in string", function() {
 		expect( result.position ).toBe( 17 );
 	} );
 
+	it( "returns the exact match and its position for keywords with a period in the beginning of a title", function() {
+		const mockPaper = new Paper( "", {
+			keyword: ".rar",
+			title: ".rar files",
+			locale: "en_EN",
+		} );
+		const researcher = new Researcher( mockPaper );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns the exact match and its position for keywords with a period not in the beginning of a title", function() {
+		const mockPaper = new Paper( "", {
+			keyword: ".rar",
+			title: "files in .rar",
+			locale: "en_EN",
+		} );
+		const researcher = new Researcher( mockPaper );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 10 );
+	} );
+
 	it( "returns no match for empty keyword", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "",
@@ -110,7 +136,19 @@ describe( "Matches keywords in string", function() {
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( -1 );
+	} );
+
+	it( "returns no match with dot", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "focus keyword",
+			title: "focus .keyword",
+			locale: "en_EN",
+		} );
+		const researcher = new Researcher( mockPaper );
 
 		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
