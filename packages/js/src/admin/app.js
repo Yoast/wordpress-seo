@@ -1,7 +1,7 @@
 import { Fill, Slot } from "@wordpress/components";
 import { ErrorBoundary } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { RouteErrorFallback, Topbar } from "./components";
 import { useSelectAdmin } from "./hooks";
 
@@ -23,9 +23,14 @@ const App = ( { routeElements } ) => {
 			<Topbar />
 			<Routes>
 				{ routes.map( ( { id, path } ) => (
+					/**
+					 * Changes the path to include a wildcard.
+					 * Otherwise, the initial route does not handle the sub-routes correctly.
+					 * There is more to this in the Topbar, to fix the active style.
+					 */
 					<Route
 						key={ `route-${ id }` }
-						path={ path }
+						path={ `${ path }/*` }
 						element={ (
 							<ErrorBoundary FallbackComponent={ RouteErrorFallback }>
 								<Slot name={ getRouteSlotFillName( id ) } />
@@ -33,9 +38,6 @@ const App = ( { routeElements } ) => {
 						) }
 					/>
 				) ) }
-				{ routes[ 0 ]?.path && (
-					<Route path="*" element={ <Navigate to={ routes[ 0 ].path } replace={ true } /> } />
-				) }
 			</Routes>
 			{ routeElements.map( ( { key, value } ) => (
 				<Fill key={ `route-${ key }` } name={ getRouteSlotFillName( key ) }>

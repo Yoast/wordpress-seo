@@ -1,3 +1,4 @@
+import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { TopbarNavigation, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -14,8 +15,14 @@ const Topbar = () => {
 	const svgAriaProps = useSvgAria();
 	const { pathname } = useLocation();
 
+	/**
+	 * Workaround for the sub-routes.
+	 * Bring the activePath back to the base path, to detect if a link is active.
+	 */
+	const basePath = useMemo( () => "/" + pathname.split( "/" ).filter( Boolean )[ 0 ], [ pathname ] );
+
 	return (
-		<TopbarNavigation activePath={ pathname }>
+		<TopbarNavigation activePath={ basePath }>
 			<TopbarNavigation.Container>
 				<TopbarNavigation.Topbar>
 					<TopbarNavigation.Start>
