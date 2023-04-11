@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast_Notification_Center;
 
 /**
@@ -64,30 +63,20 @@ class Indexing_Helper {
 	protected $indexable_repository;
 
 	/**
-	 * Stores the version of each Indexable type.
-	 *
-	 * @var Indexable_Builder_Versions The current versions of all indexable builders.
-	 */
-	protected $indexable_builder_versions;
-
-	/**
 	 * Indexing_Helper constructor.
 	 *
-	 * @param Options_Helper             $options_helper             The options helper.
-	 * @param Date_Helper                $date_helper                The date helper.
-	 * @param Yoast_Notification_Center  $notification_center        The notification center.
-	 * @param Indexable_Builder_Versions $indexable_builder_versions Stores the version of each Indexable type.
+	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param Date_Helper               $date_helper         The date helper.
+	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Date_Helper $date_helper,
-		Yoast_Notification_Center $notification_center,
-		Indexable_Builder_Versions $indexable_builder_versions
+		Yoast_Notification_Center $notification_center
 	) {
-		$this->options_helper             = $options_helper;
-		$this->date_helper                = $date_helper;
-		$this->notification_center        = $notification_center;
-		$this->indexable_builder_versions = $indexable_builder_versions;
+		$this->options_helper      = $options_helper;
+		$this->date_helper         = $date_helper;
+		$this->notification_center = $notification_center;
 	}
 
 	/**
