@@ -32,11 +32,11 @@ describe( "A test for findAllInTree", () => {
 					text: "Hello, world!",
 					sourceCodeRange: { startOffset: 22, endOffset: 35 },
 					tokens: [
-						{ text: "Hello" },
-						{ text: "," },
-						{ text: " " },
-						{ text: "world" },
-						{ text: "!" },
+						{ text: "Hello", sourceCodeRange: { startOffset: 22, endOffset: 27 } },
+						{ text: ",", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
+						{ text: " ", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+						{ text: "world", sourceCodeRange: { startOffset: 29, endOffset: 34 } },
+						{ text: "!", sourceCodeRange: { startOffset: 34, endOffset: 35 } },
 					],
 				} ],
 				sourceCodeLocation: {
@@ -64,11 +64,11 @@ describe( "A test for findAllInTree", () => {
 					text: "Hello, yoast!",
 					sourceCodeRange: { startOffset: 57, endOffset: 70 },
 					tokens: [
-						{ text: "Hello" },
-						{ text: "," },
-						{ text: " " },
-						{ text: "yoast" },
-						{ text: "!" },
+						{ text: "Hello", sourceCodeRange: { startOffset: 57, endOffset: 62 } },
+						{ text: ",", sourceCodeRange: { startOffset: 62, endOffset: 63 } },
+						{ text: " ", sourceCodeRange: { startOffset: 63, endOffset: 64 } },
+						{ text: "yoast", sourceCodeRange: { startOffset: 64, endOffset: 69 } },
+						{ text: "!", sourceCodeRange: { startOffset: 69, endOffset: 70 } },
 					],
 				} ],
 				sourceCodeLocation: {
