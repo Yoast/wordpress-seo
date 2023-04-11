@@ -102,12 +102,105 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 */
 	public function check_option_provider() {
 		return [
-			[ 1, 2, 0, 0, 0, null, 0 ],
-			[ [ 'test' => 'test' ], [ 'test' => 'test' ], 0, 0, 0, null, 0 ],
-			[ false, [ 'test' => 'test' ], 0, 0, 0, null, 0 ],
-			[ [ 'disable-attachment' => true ], [ 'disable-attachment' => false ], 1, 1, 0, null, 0 ],
-			[ [ 'disable-attachment' => false ], [ 'disable-attachment' => true ], 1, 0, 1, true, 0 ],
-			[ [ 'disable-attachment' => false ], [ 'disable-attachment' => true ], 1, 0, 1, false, 1 ],
+			[
+				[
+					'old_value'                => 1,
+					'new_value'                => 2,
+					'delete_transient_times'   => 0,
+					'set_reason_times'         => 0,
+					'attachment_cleanup_times' => 0,
+					'wp_next_scheduled'        => null,
+					'schedule_event_times'     => 0,
+				],
+			],
+			[
+				[
+					'old_value'                => [],
+					'new_value'                => [],
+					'delete_transient_times'   => 0,
+					'set_reason_times'         => 0,
+					'attachment_cleanup_times' => 0,
+					'wp_next_scheduled'        => null,
+					'schedule_event_times'     => 0,
+				],
+			],
+			[
+				[
+					'old_value'                => [],
+					'new_value'                => [ 'test' => 'test' ],
+					'delete_transient_times'   => 0,
+					'set_reason_times'         => 0,
+					'attachment_cleanup_times' => 0,
+					'wp_next_scheduled'        => null,
+					'schedule_event_times'     => 0,
+				],
+			],
+			[
+				[
+					'old_value'                => [ 'test' => 'test' ],
+					'new_value'                => [],
+					'delete_transient_times'   => 0,
+					'set_reason_times'         => 0,
+					'attachment_cleanup_times' => 0,
+					'wp_next_scheduled'        => null,
+					'schedule_event_times'     => 0,
+				],
+			],
+			[
+				[
+					'old_value'                => [ 'test' => 'test' ],
+					'new_value'                => [ 'test' => 'test' ],
+					'delete_transient_times'   => 0,
+					'set_reason_times'         => 0,
+					'attachment_cleanup_times' => 0,
+					'wp_next_scheduled'        => null,
+					'schedule_event_times'     => 0,
+				],
+			],
+			[
+				[
+					'old_value'                => false,
+					'new_value'                => [ 'test' => 'test' ],
+					'delete_transient_times'   => 0,
+					'set_reason_times'         => 0,
+					'attachment_cleanup_times' => 0,
+					'wp_next_scheduled'        => null,
+					'schedule_event_times'     => 0,
+				],
+			],
+			[
+				[
+					'old_value'                => [ 'disable-attachment' => true ],
+					'new_value'                => [ 'disable-attachment' => false ],
+					'delete_transient_times'   => 1,
+					'set_reason_times'         => 1,
+					'attachment_cleanup_times' => 0,
+					'wp_next_scheduled'        => null,
+					'schedule_event_times'     => 0,
+				],
+			],
+			[
+				[
+					'old_value'                => [ 'disable-attachment' => false ],
+					'new_value'                => [ 'disable-attachment' => true ],
+					'delete_transient_times'   => 1,
+					'set_reason_times'         => 0,
+					'attachment_cleanup_times' => 1,
+					'wp_next_scheduled'        => true,
+					'schedule_event_times'     => 0,
+				],
+			],
+			[
+				[
+					'old_value'                => [ 'disable-attachment' => false ],
+					'new_value'                => [ 'disable-attachment' => true ],
+					'delete_transient_times'   => 1,
+					'set_reason_times'         => 0,
+					'attachment_cleanup_times' => 1,
+					'wp_next_scheduled'        => false,
+					'schedule_event_times'     => 1,
+				],
+			],
 		];
 	}
 
@@ -118,48 +211,42 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 *
 	 * @dataProvider check_option_provider
 	 *
-	 * @param array|bool $old_value The old value.
-	 * @param array|bool $new_value The new value.
-	 * @param int        $delete_transient_times Whether to delete the transient.
-	 * @param int        $set_reason_times Whether to set the reason.
-	 * @param int        $attachment_cleanup_times Whether to clean up the attachment.
-	 * @param bool       $wp_next_scheduled Whether to schedule the cleanup.
-	 * @param int        $schedule_event_times Whether to schedule the cleanup.
+	 * @param array $expected An array of expected results.
 	 */
-	public function test_check_option( $old_value, $new_value, $delete_transient_times, $set_reason_times, $attachment_cleanup_times, $wp_next_scheduled, $schedule_event_times ) {
+	public function test_check_option( $expected ) {
 
 		Monkey\Functions\expect( 'delete_transient' )
 			->with( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT )
-			->times( $delete_transient_times );
+			->times( $expected['delete_transient_times'] );
 
 		Monkey\Functions\expect( 'delete_transient' )
 			->with( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT )
-			->times( $delete_transient_times );
+			->times( $expected['delete_transient_times'] );
 
 		$this->indexing_helper
 			->expects( 'set_reason' )
 			->with( Indexing_Reasons::REASON_ATTACHMENTS_MADE_ENABLED )
-			->times( $set_reason_times );
+			->times( $expected['set_reason_times'] );
 
 		$this->attachment_cleanup
 			->expects( 'remove_attachment_indexables' )
 			->with( false )
-			->times( $attachment_cleanup_times );
+			->times( $expected['attachment_cleanup_times'] );
 
 		$this->attachment_cleanup
 			->expects( 'clean_attachment_links_from_target_indexable_ids' )
 			->with( false )
-			->times( $attachment_cleanup_times );
+			->times( $expected['attachment_cleanup_times'] );
 
 		Monkey\Functions\expect( 'wp_next_scheduled' )
 			->with( Cleanup_Integration::START_HOOK )
-			->times( $attachment_cleanup_times )
-			->andReturn( $wp_next_scheduled );
+			->times( $expected['attachment_cleanup_times'] )
+			->andReturn( $expected['wp_next_scheduled'] );
 
 			Monkey\Functions\expect( 'wp_schedule_single_event' )
 				->with( ( time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
-				->times( $schedule_event_times );
+				->times( $expected['schedule_event_times'] );
 
-		$this->instance->check_option( $old_value, $new_value );
+		$this->instance->check_option( $expected['old_value'], $expected['new_value'] );
 	}
 }
