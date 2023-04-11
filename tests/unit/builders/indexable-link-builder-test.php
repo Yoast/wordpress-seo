@@ -79,6 +79,13 @@ class Indexable_Link_Builder_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The url for an image.
+	 *
+	 * @var string
+	 */
+	protected $image_url;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -109,6 +116,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 				);
 			}
 		);
+
+		$this->image_url = 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5';
 	}
 
 	/**
@@ -665,7 +674,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
 
-		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+		$this->instance->build( $indexable, '<img width="640" height="480" src="' . $this->image_url . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
 	}
 
 		/**
@@ -736,7 +745,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
 
-		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+		$this->instance->build( $indexable, '<img width="640" height="480" src="' . $this->image_url . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
 	}
 
 		/**
@@ -807,7 +816,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
 
-		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+		$this->instance->build( $indexable, '<img width="640" height="480" src="' . $this->image_url . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
 	}
 
 	/**
@@ -884,7 +893,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		// Executed in build.
 		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
 
-		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+		$this->instance->build( $indexable, '<img width="640" height="480" src="' . $this->image_url . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
 	}
 
 		/**
@@ -956,7 +965,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		// Executed in build.
 		$this->expect_update_related_indexables( $indexable->id, [ $model ] );
 
-		$this->instance->build( $indexable, '<img width="640" height="480" src="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
+		$this->instance->build( $indexable, '<img width="640" height="480" src="' . $this->image_url . '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" loading="lazy" srcset="http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg 640w, http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8-300x225.jpg 300w" sizes="(max-width: 640px) 100vw, 640px">' );
 	}
 
 	/**
@@ -1020,7 +1029,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$query_mock->expects( 'create' )->once()->with(
 			[
-				'url'          => 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg?quality=90&amp;grain=0.5',
+				'url'          => $this->image_url,
 				'type'         => SEO_Links::TYPE_INTERNAL_IMAGE,
 				'indexable_id' => $indexable->id,
 				'post_id'      => $indexable->object_id,
