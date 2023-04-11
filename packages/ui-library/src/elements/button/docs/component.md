@@ -1,1 +1,1 @@
-The button component is used for actions.
+Buttons are essential components in a user interface. They are used to trigger actions and provide users with feedback. A button should immediately trigger an action on a page or screen when clicked or tapped.
