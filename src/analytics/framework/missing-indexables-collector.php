@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Analytics\Framework;
 
-use Yoast\WP\SEO\Actions\Indexing\Abstract_Indexing_Action;
 use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Bucket;
 use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count;
+use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 
 /**
  * Manages the collection of the missing indexable data.
@@ -14,16 +14,17 @@ class Missing_Indexables_Collector implements \WPSEO_Collection {
 	/**
 	 * All the indexation actions.
 	 *
-	 * @var array<Abstract_Indexing_Action> $indexation_actions
+	 * @var array<Indexation_Action_Interface> $indexation_actions
 	 */
 	private $indexation_actions;
 
 	/**
 	 * The collector constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Actions\Indexing\Abstract_Indexing_Action ...$indexation_actions All the Indexation actions.
+	 * @param \Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface ...$indexation_actions All the Indexation
+	 *                                                                                          actions.
 	 */
-	public function __construct( Abstract_Indexing_Action ...$indexation_actions ) {
+	public function __construct( Indexation_Action_Interface ...$indexation_actions ) {
 		$this->indexation_actions = $indexation_actions;
 	}
 
@@ -39,6 +40,20 @@ class Missing_Indexables_Collector implements \WPSEO_Collection {
 			$missing_indexable_bucket->add_missing_indexable_count( $missing_indexable_count );
 		}
 
+		$this->get_additional_missing_indexables( $missing_indexable_bucket );
 		return $missing_indexable_bucket->to_array();
+	}
+
+	/**
+	 * Gets additional tasks from the 'wpseo_missing_indexed_indexables' filter.
+	 */
+	private function get_additional_missing_indexables( Missing_Indexable_Bucket $missing_indexable_bucket ): void {
+
+		/**
+		 * Filter: Adds the possibility to add additional missing indexable objects.
+		 *
+		 * @api Missing_Indexable_Bucket An indexable cleanup bucket. New values are instances of Missing_Indexable_Count.
+		 */
+		\apply_filters( 'wpseo_missing_indexed_indexables', $missing_indexable_bucket );
 	}
 }

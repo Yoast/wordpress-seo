@@ -66,18 +66,56 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 	public function test_collector_get(): void {
 		$this->assertEquals(
 			[
-				'indexables_with_object_type_and_object_sub_type'   => 0,
-				'indexables_with_post_status'                       => 0,
-				'indexables_for_non_publicly_viewable_post'         => 0,
-				'indexables_for_non_publicly_viewable_taxonomies'   => 0,
-				'indexables_for_authors_archive_disabled'           => 0,
-				'indexables_for_authors_without_archive'            => 0,
-				'indexables_for_object_type_and_source_table_users' => 0,
-				'indexables_for_object_type_and_source_table_posts' => 0,
-				'indexables_for_object_type_and_source_table_terms' => 0,
-				'orphaned_from_table_indexable_hierarchy'           => 0,
-				'orphaned_from_table_indexable_id'                  => 0,
-				'orphaned_from_table_target_indexable_id'           => 0,
+				[
+					'cleanup_name' => 'indexables_with_object_type_and_object_sub_type',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'indexables_with_post_status',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'indexables_for_non_publicly_viewable_post',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'indexables_for_non_publicly_viewable_taxonomies',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'indexables_for_authors_archive_disabled',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'indexables_for_authors_without_archive',
+					'count'        => 0,
+				],
+
+				[
+					'cleanup_name' => 'indexables_for_object_type_and_source_table_users',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'indexables_for_object_type_and_source_table_posts',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'indexables_for_object_type_and_source_table_terms',
+					'count'        => 0,
+				],
+
+				[
+					'cleanup_name' => 'orphaned_from_table_indexable_hierarchy',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'orphaned_from_table_indexable_id',
+					'count'        => 0,
+				],
+				[
+					'cleanup_name' => 'orphaned_from_table_target_indexable_id',
+					'count'        => 0,
+				],
 			],
 			$this->sut->get()
 		);
