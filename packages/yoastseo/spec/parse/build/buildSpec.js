@@ -39,11 +39,11 @@ describe( "The parse function", () => {
 						text: "Hello, world!",
 						sourceCodeRange: { startOffset: 22, endOffset: 35 },
 						tokens: [
-							{ text: "Hello" },
-							{ text: "," },
-							{ text: " " },
-							{ text: "world" },
-							{ text: "!" },
+							{ text: "Hello", sourceCodeRange: { startOffset: 22, endOffset: 27 } },
+							{ text: ",", sourceCodeRange: { startOffset: 27, endOffset: 28 } },
+							{ text: " ", sourceCodeRange: { startOffset: 28, endOffset: 29 } },
+							{ text: "world", sourceCodeRange: { startOffset: 29, endOffset: 34 } },
+							{ text: "!", sourceCodeRange: { startOffset: 34, endOffset: 35 } },
 						],
 					} ],
 					childNodes: [ {
@@ -100,10 +100,10 @@ describe( "The parse function", () => {
 						text: "Hello World!",
 						sourceCodeRange: { startOffset: 5, endOffset: 30 },
 						tokens: [
-							{ text: "Hello" },
-							{ text: " " },
-							{ text: "World" },
-							{ text: "!" },
+							{ text: "Hello", sourceCodeRange: { startOffset: 5, endOffset: 10 } },
+							{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+							{ text: "World", sourceCodeRange: { startOffset: 11, endOffset: 22 } },
+							{ text: "!", sourceCodeRange: { startOffset: 22, endOffset: 30 } },
 						],
 					} ],
 					childNodes: [
@@ -191,8 +191,8 @@ describe( "The parse function", () => {
 								text: "Hello ",
 								sourceCodeRange: { startOffset: 5, endOffset: 11 },
 								tokens: [
-									{ text: "Hello" },
-									{ text: " " },
+									{ text: "Hello", sourceCodeRange: { startOffset: 5, endOffset: 10 } },
+									{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
 								],
 							} ],
 							childNodes: [
@@ -215,8 +215,8 @@ describe( "The parse function", () => {
 								text: "World!",
 								sourceCodeRange: { startOffset: 14, endOffset: 20 },
 								tokens: [
-									{ text: "World" },
-									{ text: "!" },
+									{ text: "World", sourceCodeRange: { startOffset: 14, endOffset: 19 } },
+									{ text: "!", sourceCodeRange: { startOffset: 19, endOffset: 20 } },
 								],
 							} ],
 							childNodes: [
@@ -335,13 +335,13 @@ describe( "The parse function", () => {
 								text: "So long, and ",
 								sourceCodeRange: { startOffset: 5, endOffset: 27 },
 								tokens: [
-									{ text: "So" },
-									{ text: " " },
-									{ text: "long" },
-									{ text: "," },
-									{ text: " " },
-									{ text: "and" },
-									{ text: " " },
+									{ text: "So", sourceCodeRange: { startOffset: 5, endOffset: 7 } },
+									{ text: " ", sourceCodeRange: { startOffset: 7, endOffset: 8 } },
+									{ text: "long", sourceCodeRange: { startOffset: 8, endOffset: 21 } },
+									{ text: ",", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+									{ text: " ", sourceCodeRange: { startOffset: 22, endOffset: 23 } },
+									{ text: "and", sourceCodeRange: { startOffset: 23, endOffset: 26 } },
+									{ text: " ", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
 								],
 							} ],
 							sourceCodeLocation: {
@@ -363,7 +363,7 @@ describe( "The parse function", () => {
 								text: "thanks",
 								sourceCodeRange: { startOffset: 30, endOffset: 36 },
 								tokens: [
-									{ text: "thanks" },
+									{ text: "thanks", sourceCodeRange: { startOffset: 30, endOffset: 36 } },
 								],
 							} ],
 							sourceCodeLocation: {
@@ -393,9 +393,9 @@ describe( "The parse function", () => {
 								text: " for ",
 								sourceCodeRange: { startOffset: 40, endOffset: 45 },
 								tokens: [
-									{ text: " " },
-									{ text: "for" },
-									{ text: " " },
+									{ text: " ", sourceCodeRange: { startOffset: 40, endOffset: 41 } },
+									{ text: "for", sourceCodeRange: { startOffset: 41, endOffset: 44 } },
+									{ text: " ", sourceCodeRange: { startOffset: 44, endOffset: 45 } },
 								],
 							} ],
 							sourceCodeLocation: {
@@ -417,7 +417,7 @@ describe( "The parse function", () => {
 								text: "all",
 								sourceCodeRange: { startOffset: 48, endOffset: 51 },
 								tokens: [
-									{ text: "all" },
+									{ text: "all", sourceCodeRange: { startOffset: 48, endOffset: 51 } },
 								],
 							} ],
 							sourceCodeLocation: {
@@ -473,11 +473,11 @@ describe( "The parse function", () => {
 								text: " the fish!",
 								sourceCodeRange: { startOffset: 55, endOffset: 82 },
 								tokens: [
-									{ text: " " },
-									{ text: "the" },
-									{ text: " " },
-									{ text: "fish" },
-									{ text: "!" },
+									{ text: " ", sourceCodeRange: { startOffset: 55, endOffset: 56 } },
+									{ text: "the", sourceCodeRange: { startOffset: 56, endOffset: 59 } },
+									{ text: " ", sourceCodeRange: { startOffset: 59, endOffset: 60 } },
+									{ text: "fish", sourceCodeRange: { startOffset: 60, endOffset: 81 } },
+									{ text: "!", sourceCodeRange: { startOffset: 81, endOffset: 82 } },
 								],
 							} ],
 							sourceCodeLocation: {
@@ -503,7 +503,8 @@ describe( "The parse function", () => {
 		} );
 	} );
 	it( "parses a basic HTML text and filters out elements that should be filtered out", () => {
-		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div><div><p class='yoast'>Hello, world!<script>console.log(\"Hello, world!\")</script></p></div>";
+		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div>" +
+			"<div><p class='yoast'>Hello, world!<script>console.log(\"Hello, world!\")</script></p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -536,11 +537,11 @@ describe( "The parse function", () => {
 					sentences: [ {
 						text: "Hello, world!",
 						tokens: [
-							{ text: "Hello" },
-							{ text: "," },
-							{ text: " " },
-							{ text: "world" },
-							{ text: "!" },
+							{ text: "Hello", sourceCodeRange: { startOffset: 135, endOffset: 140 } },
+							{ text: ",", sourceCodeRange: { startOffset: 140, endOffset: 141 } },
+							{ text: " ", sourceCodeRange: { startOffset: 141, endOffset: 142 } },
+							{ text: "world", sourceCodeRange: { startOffset: 142, endOffset: 147 } },
+							{ text: "!", sourceCodeRange: { startOffset: 147, endOffset: 148 } },
 						],
 						sourceCodeRange: { startOffset: 135, endOffset: 148 },
 					} ],

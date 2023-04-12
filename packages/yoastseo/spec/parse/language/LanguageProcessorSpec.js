@@ -34,6 +34,12 @@ describe( "A test for the splitIntoTokens method", () => {
 		const languageProcessor = new LanguageProcessor( researcher );
 
 		const tokens = languageProcessor.splitIntoTokens( new Sentence( "Hello, world!" ) );
-		expect( tokens ).toEqual( [ { text: "Hello" }, { text: "," }, { text: " " }, { text: "world" }, { text: "!" } ] );
+		expect( tokens ).toEqual( [
+			{ text: "Hello", sourceCodeRange: {} },
+			{ text: ",", sourceCodeRange: {} },
+			{ text: " ", sourceCodeRange: {} },
+			{ text: "world", sourceCodeRange: {} },
+			{ text: "!", sourceCodeRange: {} },
+		] );
 	} );
 } );

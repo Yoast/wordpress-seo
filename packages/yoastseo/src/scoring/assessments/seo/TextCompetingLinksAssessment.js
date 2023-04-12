@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { isUndefined, merge } from "lodash-es";
 
 import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
@@ -48,7 +48,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
 
-		this.linkCount = researcher.getResearch( "getLinkStatistics" );
+		this.totalAnchorsWithKeyphrase = researcher.getResearch( "getAnchorsWithKeyphrase" ).anchorsWithKeyphraseCount;
 
 		const calculatedResult = this.calculateResult();
 
@@ -80,7 +80,7 @@ class TextCompetingLinksAssessment extends Assessment {
 	 * @returns {Object} ResultObject with score and text.
 	 */
 	calculateResult() {
-		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
+		if ( this.totalAnchorsWithKeyphrase > this._config.parameters.recommendedMaximum ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
