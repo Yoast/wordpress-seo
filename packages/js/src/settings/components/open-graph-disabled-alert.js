@@ -18,7 +18,7 @@ const OpenGraphDisabledAlert = ( {
 		sprintf( text, "<em>", "</em>", "<link>", "</link>" ),
 		{
 			em: <em />,
-			link: <Link to="/site-features#section-social-sharing" />,
+			link: <Link to="/settings/site-features#section-social-sharing" />,
 		}
 	), [] );
 

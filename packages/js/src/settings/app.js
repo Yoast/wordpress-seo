@@ -45,14 +45,14 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => (
 				icon={ DesktopComputerIcon }
 				label={ __( "General", "wordpress-seo" ) }
 			>
-				<SidebarNavigation.SubmenuItem to="/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/site-features" label={ __( "Site features", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/site-basics" label={ __( "Site basics", "wordpress-seo" ) } idSuffix={ idSuffix } />
 				<SidebarNavigation.SubmenuItem
-					to="/site-representation"
+					to="/settings/site-representation"
 					label={ __( "Site representation", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
 				/>
-				<SidebarNavigation.SubmenuItem to="/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/site-connections" label={ __( "Site connections", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 			<SidebarNavigation.MenuItem
 				id={ `menu-content-types${ idSuffix }` }
@@ -60,11 +60,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => (
 				label={ __( "Content types", "wordpress-seo" ) }
 			>
 				<ChildrenLimiter limit={ 5 } renderButton={ MoreOrLessButton }>
-					<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
+					<SidebarNavigation.SubmenuItem to="/settings/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
 					{ map( postTypes, ( { route, label } ) => (
 						<SidebarNavigation.SubmenuItem
 							key={ `link-post-type-${ route }${ idSuffix }` }
-							to={ `/post-type/${ route }` }
+							to={ `/settings/post-type/${ route }` }
 							label={ label }
 							idSuffix={ idSuffix }
 						/>
@@ -80,7 +80,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => (
 					{ map( taxonomies, ( { route, label } ) => (
 						<SidebarNavigation.SubmenuItem
 							key={ `link-taxonomy-${ route }${ idSuffix }` }
-							to={ `/taxonomy/${ route }` }
+							to={ `/settings/taxonomy/${ route }` }
 							label={ label }
 							idSuffix={ idSuffix }
 						/>
@@ -94,17 +94,17 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => (
 				defaultOpen={ false }
 			>
 				<SidebarNavigation.SubmenuItem
-					to="/crawl-optimization"
+					to="/settings/crawl-optimization"
 					label={ __( "Crawl optimization", "wordpress-seo" ) }
 					idSuffix={ idSuffix }
 				/>
-				<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/media-pages" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-				<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/format-archives" label={ __( "Format archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/special-pages" label={ __( "Special pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/media-pages" label={ __( "Media pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem to="/settings/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			</SidebarNavigation.MenuItem>
 		</div>
 	</>
@@ -253,7 +253,7 @@ const App = () => {
 													/>
 												) ) }
 											</Route>
-											<Route path="*" element={ <Navigate to="/site-features" replace={ true } /> } />
+											<Route path="*" element={ <Navigate to="/settings/site-features" replace={ true } /> } />
 										</Routes>
 									</Transition>
 								</ErrorBoundary>

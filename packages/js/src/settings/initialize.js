@@ -3,7 +3,6 @@ import domReady from "@wordpress/dom-ready";
 import { __ } from "@wordpress/i18n";
 import { Formik } from "formik";
 import { chunk, filter, forEach, get, includes, map, reduce, toInteger } from "lodash";
-import { HashRouter } from "react-router-dom";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
@@ -64,15 +63,13 @@ domReady( () => {
 			text: __( "Settings", "wordpress-seo" ),
 		},
 		(
-			<HashRouter basename="settings">
-				<Formik
-					initialValues={ settings }
-					validationSchema={ createValidationSchema( postTypes, taxonomies ) }
-					onSubmit={ handleSubmit }
-				>
-					<App />
-				</Formik>
-			</HashRouter>
+			<Formik
+				initialValues={ settings }
+				validationSchema={ createValidationSchema( postTypes, taxonomies ) }
+				onSubmit={ handleSubmit }
+			>
+				<App />
+			</Formik>
 		)
 	);
 } );

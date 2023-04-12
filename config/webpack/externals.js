@@ -11,6 +11,7 @@ const additionalPackages  = [
 	"jed",
 	"prop-types",
 	"redux",
+	"react-router-dom",
 ];
 
 const YOAST_PACKAGE_NAMESPACE = "@yoast/";
