@@ -10,7 +10,7 @@ import { Paragraph, Heading } from "../../../parse/structure";
  * @returns {Object[]} The array of sentences retrieved from paragraph and heading nodes.
  */
 export default function( paper ) {
-	const tree = paper.getTree().findAll( treeNode => treeNode instanceof Paragraph || treeNode instanceof Heading );
+	const tree = paper.getTree().findAll( treeNode => !! treeNode.sentences );
 
 	return tree.flatMap( node => node.sentences );
 }
