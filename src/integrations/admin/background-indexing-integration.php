@@ -219,7 +219,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->post_link_indexing_action->index();
 		$this->term_link_indexing_action->index();
 
-		if ( $this->indexing_helper->get_limited_filtered_unindexed_count_background( 1 ) > 0 ) {
+		if ( $this->indexing_helper->get_limited_filtered_unindexed_count_background( 1 ) === 0 ) {
 			// We set this as complete, even though prominent words might not be complete. But that's the way we always treated that.
 			$this->complete_indexation_action->complete();
 		}
@@ -252,7 +252,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 */
 	public function schedule_cron_indexing() {
 		if ( ! \wp_next_scheduled( 'wpseo_indexable_index_batch' ) && $this->should_index_on_cron() ) {
-			\wp_schedule_event( \time(), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
+			\wp_schedule_event( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
 		}
 	}
 
