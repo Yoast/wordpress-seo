@@ -1,59 +1,70 @@
-import { flattenDeep, uniq as unique } from "lodash-es";
+import { flattenDeep, min } from "lodash-es";
 import matchTextWithArray from "../helpers/match/matchTextWithArray";
 import matchWordFormsWithTokens from "../helpers/match/matchWordFormsWithTokens";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { collectMarkingsInSentence, markWordsInASentence } from "../helpers/word/markWordsInSentences";
 import Mark from "../../values/Mark";
 
+function getMatchesInSentence( sentence, matchWordCustomHelper, keyphraseForms, locale ) {
+	if ( matchWordCustomHelper ) {
+		/*
+		* Count the amount of keyphrase occurrences in the sentences.
+		* An occurrence is counted when all keywords of the keyphrase are contained within the sentence.
+		* Each sentence can contain multiple keyphrases.
+		* (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
+		* */
+		return keyphraseForms.map( forms => matchTextWithArray( sentence.text,  forms, locale, matchWordCustomHelper ) );
+	}
+
+	const tokens = sentence.tokens;
+	return keyphraseForms.map( forms => matchWordFormsWithTokens( forms, tokens ) );
+}
+
+function getMarkings( sentence, matchWordCustomHelper, matchesInSentence ) {
+	const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
+
+	if ( matchWordCustomHelper ) {
+		return markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper );
+	}
+
+	const wordTexts = foundWords.map( wordB => wordB.text );
+
+	return  foundWords.map( word =>
+		new Mark(
+			{
+				position: { startOffset: word.sourceCodeRange.startOffset, endOffset: word.sourceCodeRange.endOffset },
+				marked: collectMarkingsInSentence( sentence.text, wordTexts ),
+				original: sentence.text,
+			} ) );
+}
 /**
  *
  * @param sentences
  * @param topicForms
  * @param matchWordCustomHelper
  * @param locale
- * @return {{markings: *[], count: number}}
+ * @returns {{markings: *[], count: number}}
  */
 function countKeyphraseOccurrences( sentences, topicForms, matchWordCustomHelper, locale ) {
-	const result = {
-		count: 0,
-		markings: [],
-	};
-	sentences.forEach( sentence => {
-		const keyphraseForms = topicForms.keyphraseForms;
-		let matchesInSentence;
-		if ( matchWordCustomHelper ) {
-			/*
-			* Count the amount of keyphrase occurrences in the sentences.
-			* An occurrence is counted when all keywords of the keyphrase are contained within the sentence.
-			* Each sentence can contain multiple keyphrases.
-			* (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
-			* */
-			matchesInSentence = keyphraseForms.map( forms => matchTextWithArray( sentence.text,
-				forms, locale, matchWordCustomHelper ) );
-		} else {
-			const tokens = sentence.tokens;
-			matchesInSentence = keyphraseForms.map( forms => matchWordFormsWithTokens( forms, tokens ) );
-		}
+	return sentences.reduce( ( sentence, acc ) => {
+		const matchesInSentence = getMatchesInSentence( sentence, matchWordCustomHelper, topicForms.keyphraseForms, locale );
+
 		const hasAllKeywords = matchesInSentence.every( form => form.count > 0 );
 
-		if ( hasAllKeywords ) {
-			const counts = matchesInSentence.map( match => match.count );
-			const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
-			result.count += Math.min( ...counts );
-			const markings = matchWordCustomHelper
-				? markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper )
-				: foundWords.map( word => {
-					return new Mark(
-						{
-							position: { startOffset: word.sourceCodeRange.startOffset, endOffset: word.sourceCodeRange.endOffset },
-							marked: collectMarkingsInSentence( sentence.text, foundWords.map( wordB => wordB.text ) ),
-							original: sentence.text,
-						} );
-				} );
-			result.markings.push( markings );
+		if ( ! hasAllKeywords ) {
+			return acc;
 		}
+
+		const markings = getMarkings( sentence, matchWordCustomHelper, matchesInSentence );
+
+		return {
+			count: acc.count + min( matchesInSentence.map( match => match.count ) ),
+			markings: acc.markings.concat( markings ),
+		};
+	}, {
+		count: 0,
+		markings: [],
 	} );
-	return result;
 }
 
 /**
