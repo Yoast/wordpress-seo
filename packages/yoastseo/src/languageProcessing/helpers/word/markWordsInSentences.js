@@ -108,6 +108,21 @@ export const collectMarkingsInSentence = function( sentence, wordsFoundInSentenc
 };
 
 /**
+ * Adds marks to a sentence.
+ *
+ * @param {string}      sentence The sentence in which we want to apply highlighting.
+ * @param {Array}       wordsFoundInSentence The words to highlight in a sentence.
+ * @param {function}    matchWordCustomHelper   The language-specific helper function to match word in text.
+ * @returns {Mark}  The mark object of each sentence.
+ */
+export function markWordsInASentence( sentence, wordsFoundInSentence, matchWordCustomHelper ) {
+	return new Mark( {
+		original: sentence,
+		marked: collectMarkingsInSentence( sentence, wordsFoundInSentence, matchWordCustomHelper ),
+	} );
+}
+
+/**
  * Adds marks to an array of sentences.
  *
  * @param {[string]}    wordsToMark The words to mark.
@@ -119,16 +134,13 @@ export const collectMarkingsInSentence = function( sentence, wordsFoundInSentenc
  */
 export function markWordsInSentences( wordsToMark, sentences, locale, matchWordCustomHelper ) {
 	let wordsFoundInSentence = [];
-	let markings = [];
+	const markings = [];
 
 	sentences.forEach( function( sentence ) {
 		wordsFoundInSentence = matchWords( sentence, wordsToMark, locale, matchWordCustomHelper ).matches;
 
 		if ( wordsFoundInSentence.length > 0 ) {
-			markings = markings.concat( new Mark( {
-				original: sentence,
-				marked: collectMarkingsInSentence( sentence, wordsFoundInSentence, matchWordCustomHelper ),
-			} ) );
+			markings.push( markWordsInASentence( sentence, wordsFoundInSentence, matchWordCustomHelper ) );
 		}
 	} );
 
