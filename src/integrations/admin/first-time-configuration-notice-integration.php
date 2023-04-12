@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
@@ -74,6 +73,10 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	 * @return bool
 	 */
 	public function dismiss_first_time_configuration_notice() {
+		// Check for nonce.
+		if ( ! \check_ajax_referer( 'wpseo-dismiss-first-time-configuration-notice', 'nonce', false ) ) {
+			return false;
+		}
 		return $this->options_helper->set( 'dismiss_configuration_workout_notice', true );
 	}
 
@@ -131,19 +134,16 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 
 		// Enable permanently dismissing the notice.
 		echo "<script>
-			function dismiss_first_time_configuration_notice(){
-				var data = {
-				'action': 'dismiss_first_time_configuration_notice',
-				};
-
-				jQuery.post( ajaxurl, data, function( response ) {
-					jQuery( '#yoast-first-time-configuration-notice' ).hide();
-				});
-			}
-
 			jQuery( document ).ready( function() {
 				jQuery( 'body' ).on( 'click', '#yoast-first-time-configuration-notice .notice-dismiss', function() {
-					dismiss_first_time_configuration_notice();
+					var data = {
+						'action': 'dismiss_first_time_configuration_notice',
+						'nonce': '" . \esc_js( \wp_create_nonce( 'wpseo-dismiss-first-time-configuration-notice' ) ) . "'
+						};
+		
+					jQuery.post( ajaxurl, data, function( response ) {
+						jQuery( this ).parent( '#yoast-first-time-configuration-notice' ).hide();
+					});
 				} );
 			} );
 			</script>";
