@@ -408,7 +408,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->expects( 'get_limited_filtered_unindexed_count_background' )
 			->once()
 			->with( 1 )
-			->andReturn( 1 );
+			->andReturn( 0 );
 
 		$this->complete_indexation_action
 			->expects( 'complete' )
@@ -437,9 +437,15 @@ class Background_Indexing_Integration_Test extends TestCase {
 
 		$this->indexing_helper
 			->expects( 'get_limited_filtered_unindexed_count_background' )
-			->times( 2 )
+			->once()
 			->with( 1 )
 			->andReturn( 1 );
+
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count_background' )
+			->once()
+			->with( 1 )
+			->andReturn( 0 );
 
 
 		$this->term_indexation->expects( 'index' )->once();
@@ -572,7 +578,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( true );
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
 		$this->indexing_helper->expects( 'get_limited_filtered_unindexed_count_background' )->once()->andReturn( 1 );
-		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( time(), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
+		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
 
 		$this->instance->schedule_cron_indexing();
 	}
