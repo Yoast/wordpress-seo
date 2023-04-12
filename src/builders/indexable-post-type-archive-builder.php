@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception;
 
 /**
  * Post type archive builder for the indexables.
@@ -30,7 +31,7 @@ class Indexable_Post_Type_Archive_Builder {
 	protected $version;
 
 	/**
-	 * Holds the taxonomy helper instance.
+	 * Holds the post helper instance.
 	 *
 	 * @var Post_Helper
 	 */
@@ -70,8 +71,13 @@ class Indexable_Post_Type_Archive_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return Indexable The extended indexable.
+	 * @throws \Yoast\WP\SEO\Exceptions\Indexable\Post_Type_Not_Built_Exception
 	 */
 	public function build( $post_type, Indexable $indexable ) {
+		if ( ! $this->post_helper->is_post_type_indexable( $post_type ) ) {
+			throw Post_Type_Not_Built_Exception::because_not_indexable( $post_type );
+		}
+
 		$indexable->object_type       = 'post-type-archive';
 		$indexable->object_sub_type   = $post_type;
 		$indexable->title             = $this->options->get( 'title-ptarchive-' . $post_type );

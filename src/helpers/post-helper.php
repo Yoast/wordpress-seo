@@ -177,9 +177,9 @@ class Post_Helper {
 	 */
 	public function is_post_indexable( $post_id ) {
 		// Don't index posts which are not public (i.e. viewable).
-		$post_type    = \get_post_type( $post_id );
-		$public_types = $this->post_type->get_indexable_post_types();
-		if ( ! \in_array( $post_type, $public_types, true ) ) {
+		$post_type = \get_post_type( $post_id );
+
+		if ( ! $this->is_post_type_indexable( $post_type ) ) {
 			return false;
 		}
 
@@ -195,6 +195,22 @@ class Post_Helper {
 
 		// Don't index autosaves that are not caught by the auto-draft check.
 		if ( \wp_is_post_autosave( $post_id ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the given post type should be indexed.
+	 *
+	 * @param string $post_type The post type that is checked.
+	 *
+	 * @return bool
+	 */
+	public function is_post_type_indexable( string $post_type ): bool {
+		$public_types = $this->post_type->get_indexable_post_types();
+		if ( ! \in_array( $post_type, $public_types, true ) ) {
 			return false;
 		}
 
