@@ -1,4 +1,4 @@
-import { flattenDeep, min } from "lodash-es";
+import { flattenDeep, min, flatten } from "lodash-es";
 import matchTextWithArray from "../helpers/match/matchTextWithArray";
 import matchWordFormsWithTokens from "../helpers/match/matchWordFormsWithTokens";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
@@ -89,7 +89,7 @@ export default function( paper, researcher ) {
 
 	return {
 		count: keywordsFound.count,
-		markings: keywordsFound.markings,
+		markings: flatten( keywordsFound.markings ),
 		length: topicForms.keyphraseForms.length,
 	};
 }

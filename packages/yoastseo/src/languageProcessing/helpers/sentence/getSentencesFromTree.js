@@ -1,6 +1,3 @@
-import { flatten } from "lodash-es";
-import { Paragraph, Heading } from "../../../parse/structure";
-
 /**
  * Gets all the sentences from paragraph and heading nodes.
  * These two node types are the nodes that should contain sentences for the analysis.
