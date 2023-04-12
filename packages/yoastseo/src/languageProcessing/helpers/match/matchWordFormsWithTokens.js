@@ -14,7 +14,7 @@ export default function matchWordFormsWithTokens( wordForms, tokens ) {
 	};
 
 	unique( wordForms ).forEach( function( form ) {
-		const foundWord = tokens.filter( token => token === form );
+		const foundWord = tokens.filter( token => token.text === form );
 		if ( foundWord.length  > 0 ) {
 			result.matches.concat( foundWord );
 			result.count += foundWord.length;

@@ -29,10 +29,6 @@ export default function( paper, researcher ) {
 	};
 
 	sentences.forEach( sentence => {
-		const keyphraseForms = topicForms.keyphraseForms;
-		const tokens = sentence.tokens.map( token => token.text );
-		// eslint-disable-next-line no-warning-comments
-
 		if ( matchWordCustomHelper ) {
 			/*
 		     * Count the amount of keyphrase occurrences in the sentences.
@@ -50,9 +46,10 @@ export default function( paper, researcher ) {
 				// eslint-disable-next-line no-warning-comments
 				keywordsFound.count += Math.min( ...counts );
 				keywordsFound.matches.push( foundWords );
-				keywordsFound.markings.push( markWordsInASentence( sentence.text, keyphraseForms, matchWordCustomHelper ) );
+				keywordsFound.markings.push( markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper ) );
 			}
 		} else {
+			const tokens = sentence.tokens;
 			const matchesInSentence = topicForms.keyphraseForms.map( forms => matchWordFormsWithTokens( forms, tokens ) );
 			const hasAllKeywords = matchesInSentence.every( keywordForm => keywordForm.count > 0 );
 
