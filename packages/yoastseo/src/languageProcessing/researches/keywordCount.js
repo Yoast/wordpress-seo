@@ -2,7 +2,59 @@ import { flattenDeep, uniq as unique } from "lodash-es";
 import matchTextWithArray from "../helpers/match/matchTextWithArray";
 import matchWordFormsWithTokens from "../helpers/match/matchWordFormsWithTokens";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
-import { markWordsInASentence } from "../helpers/word/markWordsInSentences";
+import { collectMarkingsInSentence, markWordsInASentence } from "../helpers/word/markWordsInSentences";
+import Mark from "../../values/Mark";
+
+/**
+ *
+ * @param sentences
+ * @param topicForms
+ * @param matchWordCustomHelper
+ * @param locale
+ * @return {{markings: *[], count: number}}
+ */
+function countKeyphraseOccurrences( sentences, topicForms, matchWordCustomHelper, locale ) {
+	const result = {
+		count: 0,
+		markings: [],
+	};
+	sentences.forEach( sentence => {
+		const keyphraseForms = topicForms.keyphraseForms;
+		let matchesInSentence;
+		if ( matchWordCustomHelper ) {
+			/*
+			* Count the amount of keyphrase occurrences in the sentences.
+			* An occurrence is counted when all keywords of the keyphrase are contained within the sentence.
+			* Each sentence can contain multiple keyphrases.
+			* (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
+			* */
+			matchesInSentence = keyphraseForms.map( forms => matchTextWithArray( sentence.text,
+				forms, locale, matchWordCustomHelper ) );
+		} else {
+			const tokens = sentence.tokens;
+			matchesInSentence = keyphraseForms.map( forms => matchWordFormsWithTokens( forms, tokens ) );
+		}
+		const hasAllKeywords = matchesInSentence.every( form => form.count > 0 );
+
+		if ( hasAllKeywords ) {
+			const counts = matchesInSentence.map( match => match.count );
+			const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
+			result.count += Math.min( ...counts );
+			const markings = matchWordCustomHelper
+				? markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper )
+				: foundWords.map( word => {
+					return new Mark(
+						{
+							position: { startOffset: word.sourceCodeRange.startOffset, endOffset: word.sourceCodeRange.endOffset },
+							marked: collectMarkingsInSentence( sentence.text, foundWords.map( wordB => wordB.text ) ),
+							original: sentence.text,
+						} );
+				} );
+			result.markings.push( markings );
+		}
+	} );
+	return result;
+}
 
 /**
  * Calculates the keyphrase count, takes morphology into account.
@@ -22,53 +74,10 @@ export default function( paper, researcher ) {
 
 	const sentences = getSentencesFromTree( paper );
 
-	const keywordsFound = {
-		count: 0,
-		matches: [],
-		markings: [],
-	};
-
-	sentences.forEach( sentence => {
-		if ( matchWordCustomHelper ) {
-			/*
-		     * Count the amount of keyphrase occurrences in the sentences.
-		     * An occurrence is counted when all keywords of the keyphrase are contained within the sentence.
-		     * Each sentence can contain multiple keyphrases.
-		     * (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
-		    */
-			const matchesInSentence = topicForms.keyphraseForms.map( keywordForms => matchTextWithArray( sentence.text,
-				keywordForms, locale, matchWordCustomHelper ) );
-			const hasAllKeywords = matchesInSentence.every( keywordForm => keywordForm.count > 0 );
-
-			if ( hasAllKeywords ) {
-				const counts = matchesInSentence.map( match => match.count );
-				const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
-				// eslint-disable-next-line no-warning-comments
-				keywordsFound.count += Math.min( ...counts );
-				keywordsFound.matches.push( foundWords );
-				keywordsFound.markings.push( markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper ) );
-			}
-		} else {
-			const tokens = sentence.tokens;
-			const matchesInSentence = topicForms.keyphraseForms.map( forms => matchWordFormsWithTokens( forms, tokens ) );
-			const hasAllKeywords = matchesInSentence.every( keywordForm => keywordForm.count > 0 );
-
-			if ( hasAllKeywords ) {
-				const counts = matchesInSentence.map( match => match.count );
-				const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
-				// eslint-disable-next-line no-warning-comments
-				// TODO: create a new helper for adding marking to tokens
-				keywordsFound.count += Math.min( ...counts );
-				keywordsFound.matches.push( foundWords );
-			}
-		}
-	} );
-
-	const matches = unique( flattenDeep( keywordsFound.matches ) ).sort( ( a, b ) => b.length - a.length );
+	const keywordsFound = countKeyphraseOccurrences( sentences, topicForms, matchWordCustomHelper, locale );
 
 	return {
 		count: keywordsFound.count,
-		matches: matches,
 		markings: keywordsFound.markings,
 		length: topicForms.keyphraseForms.length,
 	};
