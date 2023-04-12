@@ -151,6 +151,9 @@ class Cleanup_Integration_Test extends TestCase {
 		/* Clean up of indexables where taxonomy is not publicly viewable */
 		$this->setup_clean_indexables_for_non_publicly_viewable_taxonomies( 50, $query_limit );
 
+		/* Clean up of archive page indexables where the post_type  is not publicly viewable */
+		$this->setup_clean_indexables_for_non_publicly_viewable_post_type_archives( 50, $query_limit );
+
 		/* Clean up of indexables that belong to users while the author archives are disabled */
 		$this->setup_clean_indexables_for_authors_archive_disabled( 50, $query_limit );
 
@@ -570,6 +573,34 @@ class Cleanup_Integration_Test extends TestCase {
 				AND object_sub_type NOT IN ( %s, %s, %s )
 				LIMIT %d',
 				[ 'category', 'post_tag', 'my_custom_tax', $limit ]
+			)
+			->andReturn( 'prepared_clean_query' );
+
+		$this->wpdb->expects( 'query' )
+			->once()
+			->with( 'prepared_clean_query' )
+			->andReturn( $return_value );
+	}
+
+	/**
+	 * Sets up expectations for the clean_indexables_for_non_publicly_viewable_taxonomies cleanup task.
+	 *
+	 * @param int $return_value The number of deleted items to return.
+	 * @param int $limit        The query limit.
+	 *
+	 * @return void
+	 */
+	private function setup_clean_indexables_for_non_publicly_viewable_post_type_archives( $return_value, $limit ) {
+		$this->post_type->expects( 'get_indexable_post_types' )->once()->andReturns( [ 'my_cpt', 'post', 'attachment' ] );
+		$this->wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				'DELETE FROM wp_yoast_indexable
+				WHERE object_type = \'post-type-archive\'
+				AND object_sub_type IS NOT NULL
+				AND object_sub_type NOT IN ( %s, %s, %s )
+				LIMIT %d',
+				[ 'my_cpt', 'post', 'attachment', $limit ]
 			)
 			->andReturn( 'prepared_clean_query' );
 

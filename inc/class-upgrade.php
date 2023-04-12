@@ -87,6 +87,7 @@ class WPSEO_Upgrade {
 			'19.11-RC0'  => 'upgrade_1911',
 			'20.2-RC0'   => 'upgrade_202',
 			'20.5-RC0'   => 'upgrade_205',
+			'20.6-RC0'   => 'upgrade_206',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -988,6 +989,15 @@ class WPSEO_Upgrade {
 	 * Performs the 20.5 upgrade routine.
 	 */
 	private function upgrade_205() {
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
+	}
+
+	/**
+	 * Performs the 20.6 upgrade routine.
+	 */
+	private function upgrade_206() {
 		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
 		}
