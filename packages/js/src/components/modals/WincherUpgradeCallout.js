@@ -162,6 +162,24 @@ const WincherAccountUpgradeLink = makeOutboundLink();
  * @returns {wp.Element | null} The Wincher upgrade callout description.
  */
 const WincherUpgradeCalloutDescription = ( { discount } ) => {
+	const wincherAccountUpgradeLink = (
+		<WincherAccountUpgradeLink href={ wpseoAdminGlobalL10n[ "links.wincher.upgrade" ] } style={ { fontWeight: 600 } }>
+			{
+				sprintf(
+					/* Translators: %s : Expands to "Wincher". */
+					__( "Click here to upgrade your %s plan", "wordpress-seo" ),
+					"Wincher"
+				)
+			}
+		</WincherAccountUpgradeLink>
+	);
+
+	if ( ! discount ) {
+		return <DescriptionContainer>
+			{ wincherAccountUpgradeLink }
+		</DescriptionContainer>;
+	}
+
 	const discountPercentage = discount * 100;
 	const description = sprintf(
 		/* Translators: %1$s expands to upgrade account link.
@@ -180,15 +198,7 @@ const WincherUpgradeCalloutDescription = ( { discount } ) => {
 			interpolateComponents( {
 				mixedString: description,
 				components: {
-					wincherAccountUpgradeLink: <WincherAccountUpgradeLink href={ wpseoAdminGlobalL10n[ "links.wincher.upgrade" ] } style={ { fontWeight: 600 } }>
-						{
-							sprintf(
-								/* Translators: %s : Expands to "Wincher". */
-								__( "Click here to upgrade your %s plan", "wordpress-seo" ),
-								"Wincher"
-							)
-						}
-					</WincherAccountUpgradeLink>,
+					wincherAccountUpgradeLink,
 				},
 			} )
 		}
@@ -234,9 +244,7 @@ const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 
 			<WincherUpgradeCalloutTitle { ...trackingInfo } isTitleShortened={ isTitleShortened } isFreeAccount={ isFreeAccount } />
 
-			{ isFreeAccount && (
-				<WincherUpgradeCalloutDescription discount={ upgradeCampaign.discount } />
-			) }
+			<WincherUpgradeCalloutDescription discount={ upgradeCampaign?.discount } />
 		</CalloutContainer>
 	);
 };
