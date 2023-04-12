@@ -12,6 +12,5 @@ import { Paragraph, Heading } from "../../../parse/structure";
 export default function( paper ) {
 	const tree = paper.getTree().findAll( treeNode => treeNode instanceof Paragraph || treeNode instanceof Heading );
 
-	const sentences = tree.map( node => node.sentences );
-	return flatten( sentences );
+	return tree.flatMap( node => node.sentences );
 }
