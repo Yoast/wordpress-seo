@@ -24,8 +24,8 @@ use Yoast_Notification_Center;
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexing_Helper
  * @covers \Yoast\WP\SEO\Helpers\Indexing_Helper
  *
- * @group  helpers
- * @group  indexing
+ * @group helpers
+ * @group indexing
  */
 class Indexing_Helper_Test extends TestCase {
 
