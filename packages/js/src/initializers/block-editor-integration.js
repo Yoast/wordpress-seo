@@ -1,5 +1,4 @@
 import { updateCategory } from "@wordpress/blocks";
-import { Slot } from "@wordpress/components";
 import { dispatch, select } from "@wordpress/data";
 import {
 	PluginDocumentSettingPanel,
