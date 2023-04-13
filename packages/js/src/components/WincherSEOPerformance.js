@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 
 /* External dependencies */
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
@@ -280,9 +280,6 @@ export default function WincherSEOPerformance( props ) {
 		isLoggedIn,
 	} = props;
 
-	const [ upgradeCallout, setUpgradeCallout ] = useState( true );
-	const closeUpgradeCallout = useCallback( () => setUpgradeCallout( false ), [ setUpgradeCallout ] );
-
 	const onLoginCallback = useCallback( () => {
 		onLoginOpen( props );
 	}, [ onLoginOpen, props ] );
@@ -290,7 +287,7 @@ export default function WincherSEOPerformance( props ) {
 	return (
 		<Wrapper>
 			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
-			{ upgradeCallout && <WincherUpgradeCallout onClose={ closeUpgradeCallout } /> }
+			<WincherUpgradeCallout />
 
 			<Title>
 				{ __( "SEO performance", "wordpress-seo" ) }
