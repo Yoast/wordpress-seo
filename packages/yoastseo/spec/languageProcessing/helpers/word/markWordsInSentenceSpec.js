@@ -93,10 +93,10 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 		expect( markWordsInASentence(
 			"A cat and a turtle and a hamster.",
 			[ "turtle", "hamster" ]
-		) ).toEqual( new Mark( {
+		) ).toEqual( [ new Mark( {
 			marked: "A cat and a <yoastmark class='yoast-text-mark'>turtle</yoastmark> " +
 					"and a <yoastmark class='yoast-text-mark'>hamster</yoastmark>.",
-			original: "A cat and a turtle and a hamster." } ) );
+			original: "A cat and a turtle and a hamster." } ) ] );
 	} );
 } );
 
