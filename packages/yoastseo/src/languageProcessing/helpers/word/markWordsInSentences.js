@@ -131,6 +131,6 @@ export function markWordsInSentences( wordsToMark, sentences, locale, matchWordC
 			} ) );
 		}
 	} );
-
+	console.log(markings);
 	return markings;
 }

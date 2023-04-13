@@ -1,7 +1,7 @@
 import { flattenDeep, max, uniq as unique, zipWith } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-
-const { parseSynonyms, getSentences, mergeListItems, findWordFormsInString, markWordsInSentences } = languageProcessing;
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
+const { parseSynonyms, findWordFormsInString, markWordsInSentences } = languageProcessing;
 
 /**
  * Checks whether at least half of the content words from the topic are found within the sentence.
@@ -197,14 +197,13 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const getContentWordsHelper = researcher.getHelper( "getContentWords" );
 	const wordsCharacterCount = researcher.getResearch( "wordsCharacterCount" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
 	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
 
-	let text = paper.getText();
-	text = mergeListItems( text );
-	const sentences = getSentences( text, memoizedTokenizer );
+	const sentences = getSentencesFromTree( paper );
+	console.log(sentences);
+
 	const topicForms = researcher.getResearch( "morphology" );
 
 	const originalTopic = [];
