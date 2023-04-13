@@ -155,7 +155,6 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
-				{ isPremium && <Slot name="YoastZapierPostPublish" /> }
 				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
