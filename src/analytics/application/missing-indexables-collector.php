@@ -62,7 +62,7 @@ class Missing_Indexables_Collector implements \WPSEO_Collection {
 		$this->indexation_actions = \array_filter(
 			$indexing_actions,
 			function ( $indexing_action ) {
-				return is_a( $indexing_action, Indexation_Action_Interface::class );
+				return \is_a( $indexing_action, Indexation_Action_Interface::class );
 			}
 		);
 	}
