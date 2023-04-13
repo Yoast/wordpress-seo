@@ -166,17 +166,75 @@ class Wincher_Account_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the fetched upgrade campaign.
+	 * Tests that an invalid campaign type is not supported.
 	 *
 	 * @covers ::get_upgrade_campaign
 	 */
-	public function test_get_upgrade_campaign() {
+	public function test_invalid_get_upgrade_campaign_type() {
 		$this->client_instance
 			->expects( 'get' )
 			->with( 'https://api.wincher.com/v1/yoast/upgrade-campaign' )
 			->andReturn(
 				[
+					'type'   => 'INVALID_TYPE',
 					'value'  => 0.9,
+					'months' => 10,
+					'status' => 200,
+				]
+			);
+
+		$this->assertEquals(
+			(object) [
+				'discount' => null,
+				'months'   => null,
+				'status'   => 200,
+			],
+			$this->instance->get_upgrade_campaign()
+		);
+	}
+
+	/**
+	 * Tests that campaign month value need to be more than 0.
+	 *
+	 * @covers ::get_upgrade_campaign
+	 */
+	public function test_invalid_get_upgrade_campaign_months() {
+		$this->client_instance
+			->expects( 'get' )
+			->with( 'https://api.wincher.com/v1/yoast/upgrade-campaign' )
+			->andReturn(
+				[
+					'type'   => 'RATE',
+					'value'  => 0.9,
+					'months' => 0,
+					'status' => 200,
+				]
+			);
+
+		$this->assertEquals(
+			(object) [
+				'discount' => null,
+				'months'   => null,
+				'status'   => 200,
+			],
+			$this->instance->get_upgrade_campaign()
+		);
+	}
+
+	/**
+	 * Tests a valid get upgrade campaign.
+	 *
+	 * @covers ::get_upgrade_campaign
+	 */
+	public function test_valid_get_upgrade_campaign() {
+		$this->client_instance
+			->expects( 'get' )
+			->with( 'https://api.wincher.com/v1/yoast/upgrade-campaign' )
+			->andReturn(
+				[
+					'type'   => 'RATE',
+					'value'  => 0.9,
+					'months' => 10,
 					'status' => 200,
 				]
 			);
@@ -184,6 +242,7 @@ class Wincher_Account_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'discount' => 0.9,
+				'months'   => 10,
 				'status'   => 200,
 			],
 			$this->instance->get_upgrade_campaign()

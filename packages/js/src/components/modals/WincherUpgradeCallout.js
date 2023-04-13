@@ -157,11 +157,12 @@ const WincherAccountUpgradeLink = makeOutboundLink();
 /**
  * Displays the wincher upgrade callout description.
  *
- * @param {number} discount The upgrade discount.
+ * @param {number} discount The upgrade discount value.
+ * @param {number} months The upgrade discount duration.
  *
  * @returns {wp.Element | null} The Wincher upgrade callout description.
  */
-const WincherUpgradeCalloutDescription = ( { discount } ) => {
+const WincherUpgradeCalloutDescription = ( { discount, months } ) => {
 	const wincherAccountUpgradeLink = (
 		<WincherAccountUpgradeLink href={ wpseoAdminGlobalL10n[ "links.wincher.upgrade" ] } style={ { fontWeight: 600 } }>
 			{
@@ -174,7 +175,7 @@ const WincherUpgradeCalloutDescription = ( { discount } ) => {
 		</WincherAccountUpgradeLink>
 	);
 
-	if ( ! discount ) {
+	if ( ! discount || ! months ) {
 		return <DescriptionContainer>
 			{ wincherAccountUpgradeLink }
 		</DescriptionContainer>;
@@ -183,14 +184,16 @@ const WincherUpgradeCalloutDescription = ( { discount } ) => {
 	const discountPercentage = discount * 100;
 	const description = sprintf(
 		/* Translators: %1$s expands to upgrade account link.
-		 * %2$s expands to the upgrade discount.
+		 * %2$s expands to the upgrade discount value.
+		 * %3$s expands to the upgrade discount duration e.g. 2 months.
 		 */
 		__(
-			"%1$s and get an exclusive %2$s discount for the first month.",
+			"%1$s and get an exclusive %2$s discount for %3$s month(s).",
 			"wordpress-seo"
 		),
 		"{{wincherAccountUpgradeLink/}}",
-		discountPercentage + "%"
+		discountPercentage + "%",
+		months
 	);
 
 	return <DescriptionContainer>
@@ -206,7 +209,8 @@ const WincherUpgradeCalloutDescription = ( { discount } ) => {
 };
 
 WincherUpgradeCalloutDescription.propTypes = {
-	discount: PropTypes.number.isRequired,
+	discount: PropTypes.number,
+	months: PropTypes.number,
 };
 
 /**
@@ -244,7 +248,7 @@ const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 
 			<WincherUpgradeCalloutTitle { ...trackingInfo } isTitleShortened={ isTitleShortened } isFreeAccount={ isFreeAccount } />
 
-			<WincherUpgradeCalloutDescription discount={ upgradeCampaign?.discount } />
+			<WincherUpgradeCalloutDescription discount={ upgradeCampaign?.discount } months={ upgradeCampaign?.months } />
 		</CalloutContainer>
 	);
 };

@@ -72,11 +72,24 @@ class Wincher_Account_Action {
 	 */
 	public function get_upgrade_campaign() {
 		try {
-			$result   = $this->client->get( self::UPGRADE_CAMPAIGN_URL );
-			$discount = $result['value'];
+			$result = $this->client->get( self::UPGRADE_CAMPAIGN_URL );
+			$type   = $result['type'];
+			$months = $result['months'];
+
+			// We display upgrade discount only if it's a rate discount and positive months.
+			if ( $type === 'RATE' && $months && $months > 0 ) {
+				$discount = $result['value'];
+
+				return (object) [
+					'discount'  => $discount,
+					'months'    => $months,
+					'status'    => 200,
+				];
+			}
 
 			return (object) [
-				'discount'  => $discount,
+				'discount'  => null,
+				'months'    => null,
 				'status'    => 200,
 			];
 		} catch ( \Exception $e ) {
