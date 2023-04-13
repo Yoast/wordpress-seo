@@ -9,7 +9,7 @@ import { isEmpty, map } from "lodash";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
-import { NewButton } from "@yoast/components";
+import { Alert, NewButton } from "@yoast/components";
 
 /* Internal dependencies */
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
@@ -171,6 +171,56 @@ Row.propTypes = {
 };
 
 /**
+ * Displays info alert when a wincher connect action is successfully made.
+ *
+ * @param {Object} props The component props.
+ *
+ * @returns {wp.Element} The info alert.
+ */
+const WincherConnectSuccessAlert = ( props ) => {
+	const { data } = props;
+
+	if ( ! isEmpty( data ) && isEmpty( data.results ) ) {
+		return (
+			<Alert type="success">
+				{
+					sprintf(
+						/* translators: %1$s and %2$s: Expands to "Wincher". */
+						__(
+							// eslint-disable-next-line max-len
+							"You have successfully connected with %1$s. Your %2$s account does not contain any keyphrases for this website yet. You can track keyphrases by using the \"Track SEO Performance\" button in the post editor.",
+							"wordpress-seo"
+						),
+						"Wincher",
+						"Wincher"
+					)
+				}
+			</Alert>
+		);
+	}
+
+	return (
+		<Alert type="success">
+			{
+				sprintf(
+					/* translators: %s: Expands to "Wincher". */
+					__(
+						// eslint-disable-next-line max-len
+						"You have successfully connected with %s.",
+						"wordpress-seo"
+					),
+					"Wincher"
+				)
+			}
+		</Alert>
+	);
+};
+
+WincherConnectSuccessAlert.propTypes = {
+	data: PropTypes.object.isRequired,
+};
+
+/**
  * Gets the proper user message based on the current login state and presence of data.
  *
  * @param {Object} props The props.
@@ -178,7 +228,11 @@ Row.propTypes = {
  * @returns {wp.Element} The user message.
  */
 const GetUserMessage = ( props ) => {
-	const { data, onConnectAction } = props;
+	const { data, onConnectAction, isConnectSuccess } = props;
+
+	if ( isConnectSuccess ) {
+		return <WincherConnectSuccessAlert data={ data } />;
+	}
 
 	if ( data && [ 401, 403, 404 ].includes( data.status ) ) {
 		return <WincherReconnectAlert
@@ -196,6 +250,7 @@ const GetUserMessage = ( props ) => {
 GetUserMessage.propTypes = {
 	data: PropTypes.object.isRequired,
 	onConnectAction: PropTypes.func.isRequired,
+	isConnectSuccess: PropTypes.bool.isRequired,
 };
 
 /**
@@ -332,7 +387,7 @@ WincherSEOPerformanceTable.propTypes = {
  * @returns {wp.Element} The react component.
  */
 const WincherPerformanceReport = ( props ) => {
-	const { className, websiteId, isLoggedIn, onConnectAction } = props;
+	const { className, websiteId, isLoggedIn, onConnectAction, isConnectSuccess } = props;
 	const data = isLoggedIn ? props.data : fakeWincherPerformanceData;
 	const isBlurred = ! isLoggedIn;
 
@@ -346,7 +401,7 @@ const WincherPerformanceReport = ( props ) => {
 				{ __( "Top performing keyphrases on your site", "wordpress-seo" ) }
 			</WincherSEOPerformanceReportHeader>
 
-			<GetUserMessage { ...props } data={ data } />
+			<GetUserMessage { ...props } data={ data } isConnectSuccess={ isConnectSuccess && isLoggedIn } />
 
 			{ data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
 				<TableExplanation isLoggedIn={ isLoggedIn } />
@@ -413,6 +468,7 @@ WincherPerformanceReport.propTypes = {
 	data: PropTypes.object.isRequired,
 	websiteId: PropTypes.string.isRequired,
 	isLoggedIn: PropTypes.bool.isRequired,
+	isConnectSuccess: PropTypes.bool.isRequired,
 	onConnectAction: PropTypes.func.isRequired,
 };
 

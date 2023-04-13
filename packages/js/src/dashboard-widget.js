@@ -31,11 +31,13 @@ class DashboardWidget extends Component {
 			wincherWebsiteId: wpseoDashboardWidgetL10n.wincher_website_id,
 			wincherIsLoggedIn: wpseoDashboardWidgetL10n.wincher_is_logged_in === "1",
 			isDataFetched: false,
+			isConnectSuccess: false,
 		};
 
 		this.onConnect = this.onConnect.bind( this );
 		this.getWincherData = this.getWincherData.bind( this );
 		this.performAuthenticationRequest = this.performAuthenticationRequest.bind( this );
+		this.onConnectSuccess = this.onConnectSuccess.bind( this );
 	}
 
 	/**
@@ -218,6 +220,21 @@ class DashboardWidget extends Component {
 	 *
 	 * @returns {void}
 	 */
+	async onConnectSuccess( data ) {
+		this.setState( {
+			isConnectSuccess: true,
+		} );
+
+		await this.performAuthenticationRequest( data );
+	}
+
+	/**
+	 * Get the tokens using the provided code after user has granted authorization.
+	 *
+	 * @param {Object} data The message data.
+	 *
+	 * @returns {void}
+	 */
 	async performAuthenticationRequest( data ) {
 		const response = await authenticate( data );
 
@@ -257,7 +274,7 @@ class DashboardWidget extends Component {
 			{
 				success: {
 					type: "wincher:oauth:success",
-					callback: ( data ) => this.performAuthenticationRequest( data ),
+					callback: ( data ) => this.onConnectSuccess( data ),
 				},
 				error: {
 					type: "wincher:oauth:error",
@@ -289,6 +306,7 @@ class DashboardWidget extends Component {
 			data={ this.state.wincherData }
 			websiteId={ this.state.wincherWebsiteId }
 			isLoggedIn={ this.state.wincherIsLoggedIn }
+			isConnectSuccess={ this.state.isConnectSuccess }
 			onConnectAction={ this.onConnect }
 		/>;
 	}
