@@ -43,7 +43,7 @@ describe( "stripTagsFromHtmlString", () => {
 			"removes all but the allowed tags",
 			// eslint-disable-next-line max-len
 			"<ul class=\"text-white pt-3\"><li><a href=\"example.com\" target=\"_blank\" rel=\"noreferrer\">one</a></li><li><span class=\"two\">two</span></li><li><h2 data-three=\"3\">three</h2></li></ul>",
-			"<a>one</a>twothree",
+			"<a href=\"example.com\" target=\"_blank\" rel=\"noreferrer\">one</a>twothree",
 			[ "a" ],
 		],
 		[
@@ -60,39 +60,40 @@ describe( "stripTagsFromHtmlString", () => {
 			{ a: [ "href", "rel" ] },
 		],
 		[
+			"anchor tags can keep the href, target and rel attributes by default",
+			"<a href=\"example.com\" target=\"_blank\" rel=\"noreferrer\">attrs</a>",
+			"<a href=\"example.com\" target=\"_blank\" rel=\"noreferrer\">attrs</a>",
+			[ "a" ],
+		],
+		[
 			"anchor tags can keep the href attributes that have the http protocol",
 			"<a href=\"http://example.com\">http</a>",
 			"<a href=\"http://example.com\">http</a>",
 			[ "a" ],
-			{ a: [ "href" ] },
 		],
 		[
 			"anchor tags can keep the href attributes that have the https protocol",
 			"<a href=\"https://example.com\">https</a>",
 			"<a href=\"https://example.com\">https</a>",
 			[ "a" ],
-			{ a: [ "href" ] },
 		],
 		[
 			"anchor tags can keep the href attributes that have no protocol",
 			"<a href=\"example.com\">no protocol</a>",
 			"<a href=\"example.com\">no protocol</a>",
 			[ "a" ],
-			{ a: [ "href" ] },
 		],
 		[
 			"anchor tags href attributes with invalid protocols are removed",
 			"<a href=\"javascript:alert('foo')\">javascript</a><a href=\"mailto:foo@bar.baz\">mailto</a><a href=\"ftp://example.com\">ftp</a>",
 			"<a>javascript</a><a>mailto</a><a>ftp</a>",
 			[ "a" ],
-			{ a: [ "href" ] },
 		],
 		[
 			"converts uppercase tags and attributes",
-			"<A HREF=\"example.com\" target=\"_blank\" rel=\"noreferrer\">link</A>",
+			"<A HREF=\"example.com\">link</A>",
 			"<a href=\"example.com\">link</a>",
 			[ "a" ],
-			{ a: [ "href" ] },
 		],
 	] )( "%s", ( name, html, expected, allowedTags = [], allowedAttributes = {} ) => {
 		expect( stripTagsFromHtmlString( html, allowedTags, allowedAttributes ) ).toBe( expected );

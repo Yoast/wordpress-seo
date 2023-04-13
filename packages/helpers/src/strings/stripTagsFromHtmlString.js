@@ -1,5 +1,8 @@
 const NEVER_ALLOWED_TAGS = [ "script", "style" ];
 const ALLOWED_HREF_PROTOCOLS = [ ":", "https:", "http:" ];
+const DEFAULT_ALLOWED_ATTRIBUTES = {
+	a: [ "href", "target", "rel" ],
+};
 
 /**
  * Strips attributes from an HTML node.
@@ -50,7 +53,7 @@ const stripHtmlTagsFromNodes = ( nodes, allowedTags, allowedAttributes ) => {
 
 		stripHtmlTagsFromNodes( node.childNodes, allowedTags, allowedAttributes );
 		if ( allowedTags.includes( tag ) ) {
-			stripHtmlAttributesFromNode( node, allowedAttributes[ tag ] || [] );
+			stripHtmlAttributesFromNode( node, allowedAttributes[ tag ] || DEFAULT_ALLOWED_ATTRIBUTES[ tag ] || [] );
 			return;
 		}
 
