@@ -236,6 +236,7 @@ const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 		return null;
 	}
 
+	// Wincher API returns an upgrade campaign only for free accounts.
 	const isFreeAccount = Boolean( upgradeCampaign?.discount );
 
 	return (
