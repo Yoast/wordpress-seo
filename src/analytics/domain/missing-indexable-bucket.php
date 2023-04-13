@@ -18,7 +18,8 @@ class Missing_Indexable_Bucket {
 	 * The constructor.
 	 */
 	public function __construct() {
-		$this->missing_indexable_counts = []; }
+		$this->missing_indexable_counts = [];
+	}
 
 	/**
 	 * Adds a missing indexable count object to this bucket.
@@ -37,7 +38,7 @@ class Missing_Indexable_Bucket {
 	 * @return array
 	 */
 	public function to_array(): array {
-		return array_map(
+		return \array_map(
 			function ( $item ) {
 				return $item->to_array();
 			},

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Analytics\Framework;
+namespace Yoast\WP\SEO\Analytics\Application;
 
 use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Bucket;
 use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count;
@@ -21,11 +21,12 @@ class Missing_Indexables_Collector implements \WPSEO_Collection {
 	/**
 	 * The collector constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface ...$indexation_actions All the Indexation
+	 * @param Indexation_Action_Interface ...$indexation_actions All the Indexation
 	 *                                                                                          actions.
 	 */
 	public function __construct( Indexation_Action_Interface ...$indexation_actions ) {
 		$this->indexation_actions = $indexation_actions;
+		$this->add_additional_indexing_actions();
 	}
 
 	/**
@@ -33,32 +34,36 @@ class Missing_Indexables_Collector implements \WPSEO_Collection {
 	 *
 	 * @return array The list of missing indexables.
 	 */
-	public function get() {
+	public function get(): array {
+
 		$missing_indexable_bucket = new Missing_Indexable_Bucket();
 		foreach ( $this->indexation_actions as $indexation_action ) {
-			$missing_indexable_count = new Missing_Indexable_Count( $indexation_action::UNINDEXED_COUNT_TRANSIENT, $indexation_action->get_total_unindexed() );
+			$missing_indexable_count = new Missing_Indexable_Count( get_class( $indexation_action ), $indexation_action->get_total_unindexed() );
 			$missing_indexable_bucket->add_missing_indexable_count( $missing_indexable_count );
 		}
-
-		$this->get_additional_missing_indexables( $missing_indexable_bucket );
 
 		return $missing_indexable_bucket->to_array();
 	}
 
 	/**
-	 * Gets additional tasks from the 'wpseo_missing_indexed_indexables' filter.
-	 *
-	 * @param \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Bucket $missing_indexable_bucket The current bucket of missing indexable data.
+	 * Adds additional indexing actions to count from the 'wpseo_indexable_collector_add_indexation_actions' filter.
 	 *
 	 * @return void
 	 */
-	private function get_additional_missing_indexables( Missing_Indexable_Bucket $missing_indexable_bucket ): void {
+	private function add_additional_indexing_actions(): void {
 
 		/**
-		 * Filter: Adds the possibility to add additional missing indexable objects.
+		 * Filter: Adds the possibility to add additional indexation actions to be included in the count routine.
 		 *
-		 * @api Missing_Indexable_Bucket An indexable cleanup bucket. New values are instances of Missing_Indexable_Count.
+		 * @api Indexation_Action_Interface This filter expects a list of Indexation_Action_Interface instances and expects only Indexation_Action_Interface implementations to be added to the list.
 		 */
-		\apply_filters( 'wpseo_missing_indexed_indexables', $missing_indexable_bucket );
+		$indexing_actions = (array) \apply_filters( 'wpseo_indexable_collector_add_indexation_actions', $this->indexation_actions );
+
+		$this->indexation_actions = \array_filter(
+			$indexing_actions,
+			function ( $indexing_action ) {
+				return is_a( $indexing_action, Indexation_Action_Interface::class );
+			}
+		);
 	}
 }

@@ -38,7 +38,7 @@ class To_Be_Cleaned_Indexable_Bucket {
 	 * @return array
 	 */
 	public function to_array(): array {
-		return array_map(
+		return \array_map(
 			function ( $item ) {
 				return $item->to_array();
 			},

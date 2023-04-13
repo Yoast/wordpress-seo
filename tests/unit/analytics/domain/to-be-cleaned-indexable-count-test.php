@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Analytics\Domain;
 
-use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count;
+use Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -10,15 +10,15 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group  analytics
  *
- * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count
- * @covers \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count
+ * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count
+ * @covers \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count
  */
-class Missing_Indexable_Count_Test extends TestCase {
+class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
 
 	/**
 	 * The sut.
 	 *
-	 * @var Missing_Indexable_Count
+	 * @var To_Be_Cleaned_Indexable_Count
 	 */
 	private $sut;
 
@@ -30,7 +30,7 @@ class Missing_Indexable_Count_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->sut = new Missing_Indexable_Count( 'indexable_type', 0 );
+		$this->sut = new To_Be_Cleaned_Indexable_Count( 'cleanup_name', 0 );
 	}
 
 	/**
@@ -42,8 +42,8 @@ class Missing_Indexable_Count_Test extends TestCase {
 	public function test_missing_indexable_count_to_array(): void {
 		$this->assertEquals(
 			[
-				'indexable_type' => 'indexable_type',
-				'count'          => 0,
+				'count'        => 0,
+				'cleanup_name' => 'cleanup_name',
 			],
 			$this->sut->to_array()
 		);
@@ -56,7 +56,7 @@ class Missing_Indexable_Count_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_missing_indexable_count_get_indexable_type(): void {
-		$this->assertEquals( 'indexable_type', $this->sut->get_indexable_type() );
+		$this->assertEquals( 'cleanup_name', $this->sut->get_cleanup_name() );
 	}
 
 	/**

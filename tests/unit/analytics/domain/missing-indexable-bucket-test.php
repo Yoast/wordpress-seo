@@ -1,7 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Analytics\Domain;
+namespace Yoast\WP\SEO\Tests\Unit\Analytics\Domain;
 
+use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Bucket;
+use Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -17,7 +19,7 @@ class Missing_Indexable_Bucket_Test extends TestCase {
 	/**
 	 * The sut.
 	 *
-	 * @var \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Bucket
+	 * @var Missing_Indexable_Bucket
 	 */
 	private $sut;
 

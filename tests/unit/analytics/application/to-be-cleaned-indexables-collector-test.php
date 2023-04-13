@@ -1,7 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Analytics\Framework;
+namespace Yoast\WP\SEO\Tests\Unit\Analytics\Application;
 
+use Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Mockery;
@@ -11,8 +12,8 @@ use Mockery;
  *
  * @group  analytics
  *
- * @coversDefaultClass To_Be_Cleaned_Indexables_Collector
- * @covers To_Be_Cleaned_Indexables_Collector
+ * @coversDefaultClass \Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector
+ * @covers \Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector
  */
 class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 
@@ -71,7 +72,7 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 					'count'        => 0,
 				],
 				[
-					'cleanup_name' => 'indexables_with_post_status',
+					'cleanup_name' => 'indexables_with_auto-draft_post_status',
 					'count'        => 0,
 				],
 				[

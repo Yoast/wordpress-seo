@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Analytics\Framework;
+namespace Yoast\WP\SEO\Analytics\Userinterface;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
@@ -56,7 +56,7 @@ class Last_Completed_Indexation_Integration implements Integration_Interface {
 	public function maybe_set_indexables_unindexed_calculated( string $indexable_name, int $count ): void {
 		if ( $count === 0 ) {
 			$no_index                    = $this->options_helper->get( 'last_known_no_unindexed' );
-			$no_index[ $indexable_name ] = time();
+			$no_index[ $indexable_name ] = \time();
 			$this->options_helper->set( 'last_known_no_unindexed', $no_index );
 		}
 	}
