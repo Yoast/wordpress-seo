@@ -5,7 +5,7 @@ import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywor
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../../helpers";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
 
 /**
@@ -101,7 +101,7 @@ class KeywordDensityAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
-		this._keyphraseCount = researcher.getResearch( "keywordCount" );
+		this._keyphraseCount = researcher.getResearch( "keyphraseCount" );
 		const keyphraseLength = this._keyphraseCount.length;
 
 		const assessmentResult = new AssessmentResult();
