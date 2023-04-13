@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Wincher_Account_Action {
 
-	const ACCOUNT_URL = 'https://api.wincher.com/beta/account';
+	const ACCOUNT_URL          = 'https://api.wincher.com/beta/account';
 	const UPGRADE_CAMPAIGN_URL = 'https://api.wincher.com/v1/yoast/upgrade-campaign';
 
 	/**
@@ -72,7 +72,7 @@ class Wincher_Account_Action {
 	 */
 	public function get_upgrade_campaign() {
 		try {
-			$result = $this->client->get( self::UPGRADE_CAMPAIGN_URL );
+			$result   = $this->client->get( self::UPGRADE_CAMPAIGN_URL );
 			$discount = $result['value'];
 
 			return (object) [

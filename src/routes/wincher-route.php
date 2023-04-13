@@ -193,7 +193,7 @@ class Wincher_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::CHECK_LIMIT_ROUTE, $check_limit_route_args );
-		
+
 		$get_upgrade_campaign_route_args = [
 			'methods'             => 'GET',
 			'callback'            => [ $this, 'get_upgrade_campaign' ],

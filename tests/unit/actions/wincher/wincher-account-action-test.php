@@ -176,15 +176,15 @@ class Wincher_Account_Action_Test extends TestCase {
 			->with( 'https://api.wincher.com/v1/yoast/upgrade-campaign' )
 			->andReturn(
 				[
-					'value'	=> 0.9,
-					'status' 	=> 200,
+					'value'  => 0.9,
+					'status' => 200,
 				]
 			);
 
 		$this->assertEquals(
 			(object) [
-				'discount'	=> 0.9,
-				'status' 	=> 200,
+				'discount' => 0.9,
+				'status'   => 200,
 			],
 			$this->instance->get_upgrade_campaign()
 		);
