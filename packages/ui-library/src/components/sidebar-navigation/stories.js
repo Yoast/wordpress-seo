@@ -45,14 +45,14 @@ export default {
 		},
 		openButtonScreenReaderText: {
 			control: "text",
-			description: "Accesability for `Mobile`",
+			description: "Accessibility for `Mobile`",
 			table: {
 				type: { summary: "string" },
 			},
 		},
 		closeButtonScreenReaderText: {
 			control: "text",
-			description: "Accesability for `Mobile`",
+			description: "Accessibility for `Mobile`",
 			table: {
 				type: { summary: "string" },
 			},

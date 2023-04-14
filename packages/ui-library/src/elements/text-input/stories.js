@@ -7,7 +7,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple text input component. Aceept all props of a regular input element.",
+				component: "A simple text input component. Accept all props of a regular input element.",
 			},
 		},
 	},
