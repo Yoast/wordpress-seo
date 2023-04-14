@@ -126,7 +126,7 @@ export default class TextAlignmentAssessment extends Assessment {
 							"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. " +
 							"%2$sWe recommend making them right-aligned%3$s.",
 							numberOfLongCenterAlignedTexts,
-							"wordpress-seo"
+							"wordpress-seo-premium"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
@@ -145,7 +145,7 @@ export default class TextAlignmentAssessment extends Assessment {
 						"%1$sAlignment%3$s: There are %4$s long sections of center-aligned text. " +
 						"%2$sWe recommend making them left-aligned%3$s.",
 						numberOfLongCenterAlignedTexts,
-						"wordpress-seo"
+						"wordpress-seo-premium"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
