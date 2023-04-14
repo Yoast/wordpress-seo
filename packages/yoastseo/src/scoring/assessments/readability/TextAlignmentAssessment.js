@@ -2,7 +2,9 @@ import { _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 import { Assessment, AssessmentResult, helpers, languageProcessing, values, markers } from "yoastseo";
 const { createAnchorOpeningTag } = helpers;
-const { stripHTMLTags } = languageProcessing;
+const {  stripBlockTagsAtStartEnd } = languageProcessing;
+// import {stripBlockTagsAtStartEnd} from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+
 const { Mark } = values;
 const { addMark } = markers;
 
@@ -79,7 +81,7 @@ export default class TextAlignmentAssessment extends Assessment {
 			 * Strip the HTML tags before applying the yoastmark.
 			 * This is because applying yoastmark tags to un-sanitized text could lead to highlighting problem(s).
 			 */
-			const marked = addMark( stripHTMLTags( text ) );
+			const marked = addMark( stripBlockTagsAtStartEnd( text ) );
 
 			return new Mark( {
 				original: text,
