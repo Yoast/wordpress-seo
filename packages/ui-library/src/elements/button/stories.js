@@ -1,4 +1,5 @@
-import { StoryComponent, classNameMap } from ".";
+import { classNameMap, StoryComponent } from ".";
+import { component, sizes, states, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Button",
@@ -8,7 +9,7 @@ export default {
 		as: {
 			options: [ "button", "div", "span", "a" ],
 			table: { type: { summary: [ "button", "div", "span", "a" ].join( "|" ) } },
-		 },
+		},
 		variant: {
 			options: Object.keys( classNameMap.variant ),
 			control: "select",
@@ -20,13 +21,7 @@ export default {
 			table: { type: { summary: Object.keys( classNameMap.size ).join( "|" ) } },
 		},
 	},
-	parameters: {
-		docs: {
-			description: {
-				component: "The button component is used for actions.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = ( { children, ...args } ) => (
@@ -47,6 +42,7 @@ export const Variants = ( args ) => (
 		<StoryComponent variant="upsell">Upsell</StoryComponent>
 	</div>
 );
+Variants.parameters = { docs: { description: { story: variants } } };
 
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
@@ -60,6 +56,7 @@ Sizes.parameters = {
 	actions: { disable: true },
 	docs: { description: { story: "There are three available sizes, please refrain from using custom sizes." } },
 };
+Sizes.parameters = { docs: { description: { story: sizes } } };
 
 export const States = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
@@ -71,5 +68,5 @@ export const States = ( args ) => (
 States.parameters = {
 	controls: { disable: true },
 	actions: { disable: true },
-	docs: { description: { story: "Please note that the disabled state does not remove pointer-events. If you want to remove pointer-events, do it manually using a `className`." } },
+	docs: { description: { story: states } },
 };

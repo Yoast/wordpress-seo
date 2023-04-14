@@ -1,4 +1,5 @@
 import { classNameMap, roleMap, StoryComponent } from ".";
+import { component, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Alert",
@@ -24,7 +25,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple alert component.",
+				component,
 			},
 		},
 	},
@@ -52,3 +53,4 @@ export const Variants = ( args ) => {
 		</div>
 	);
 };
+Variants.parameters = { docs: { description: { story: variants } } };
