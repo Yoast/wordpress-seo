@@ -38,7 +38,7 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	children: "Alert Factory",
+	children: "Alert factory",
 };
 
 export const Variants = ( args ) => {

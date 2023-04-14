@@ -75,6 +75,8 @@ Factory.args = {
 
 export const WithLabel = Template.bind( {} );
 
+WithLabel.storyName = "With label";
+
 WithLabel.parameters = {
 	controls: { disable: false },
 	docs: { description: { story: "An example with a label using `label` prop." } },
@@ -88,6 +90,8 @@ WithLabel.args = {
 
 export const WithPlaceholder = Template.bind( {} );
 
+WithPlaceholder.storyName = "With placeholder";
+
 WithPlaceholder.parameters = {
 	controls: { disable: false },
 	docs: { description: { story: "An example with placeholder using `placeholder` prop." } },
@@ -100,6 +104,8 @@ WithPlaceholder.args = {
 };
 
 export const WithSelectedLabel = Template.bind( {} );
+
+WithSelectedLabel.storyName = "With selected label";
 
 WithSelectedLabel.parameters = {
 	controls: { disable: false },

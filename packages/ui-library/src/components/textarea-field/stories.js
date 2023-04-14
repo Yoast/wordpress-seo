@@ -4,7 +4,7 @@ import { VALIDATION_VARIANTS } from "../../constants";
 import { StoryComponent } from ".";
 
 export default {
-	title: "2) Components/Textarea Field",
+	title: "2) Components/Textarea field",
 	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
@@ -18,7 +18,7 @@ export default {
 	},
 	args: {
 		id: "textarea-field",
-		label: "A Textarea Field",
+		label: "A textarea field",
 	},
 };
 
@@ -31,6 +31,7 @@ export const Factory = {
 
 export const WithLabelAndDescription = {
 	component: Factory.component.bind( {} ),
+	storyName: "With label and description",
 	args: {
 		id: "textarea-field-1",
 		label: "Textarea field with a label",
