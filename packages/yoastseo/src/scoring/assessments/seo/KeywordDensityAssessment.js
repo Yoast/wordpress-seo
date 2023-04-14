@@ -11,7 +11,7 @@ import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFact
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
  */
-class KeywordDensityAssessment extends Assessment {
+class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -65,7 +65,7 @@ class KeywordDensityAssessment extends Assessment {
 			applicableIfTextLongerThan: 100,
 		};
 
-		this.identifier = "keywordDensity";
+		this.identifier = "keyphraseDensity";
 		this._config = merge( defaultConfig, config );
 	}
 
@@ -106,7 +106,7 @@ class KeywordDensityAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		this._keyphraseDensity = researcher.getResearch( "getKeywordDensity" );
+		this._keyphraseDensity = researcher.getResearch( "getKeyphraseDensity" );
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
@@ -334,4 +334,30 @@ class KeywordDensityAssessment extends Assessment {
 	}
 }
 
-export default KeywordDensityAssessment;
+/**
+ * This assessment checks if the keyphrase density is within the recommended range.
+ * KeywordDensityAssessment was the previous name for KeyphraseDensityAssessment (hence the name of this file).
+ * We keep (and expose) this assessment for backwards compatibility.
+ *
+ * @deprecated Since version 18.8 Use KeyphraseDensityAssessment instead.
+ */
+class KeywordDensityAssessment extends KeyphraseDensityAssessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {Object} config   The configuration to use.
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		super( config );
+		this.identifier = "keywordDensity";
+		console.warn( "This object is deprecated, use KeyphraseDensityAssessment instead." );
+	}
+}
+
+export {
+	KeyphraseDensityAssessment,
+	KeywordDensityAssessment,
+};
+
+export default KeyphraseDensityAssessment;

@@ -12,7 +12,7 @@ const { createAnchorOpeningTag } = helpers;
 const {
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
-	KeywordDensityAssessment,
+	KeyphraseDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	TextCompetingLinksAssessment,
 	KeyphraseInSEOTitleAssessment,

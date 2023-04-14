@@ -17,18 +17,11 @@ import Mark from "../../values/Mark";
  */
 function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCustomHelper ) {
 	if ( matchWordCustomHelper ) {
-		/*
-		* Count the amount of keyphrase occurrences in the sentences.
-		* An occurrence is counted when all keywords of the keyphrase are contained within the sentence.
-		* Each sentence can contain multiple keyphrases.
-		* (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
-		* */
 		return keyphraseForms.map( forms => matchTextWithArray( sentence.text,  forms, locale, matchWordCustomHelper ) );
 	}
 
 	return keyphraseForms.map( forms => matchWordFormsWithTokens( forms, sentence.tokens ) );
 }
-
 
 /**
  * Gets the Mark objects of all keyphrase matches.
@@ -62,22 +55,28 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
  *
  * @param {Array} sentences The sentences to check.
  * @param {Array} topicForms The keyphrase forms.
- * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
  * @param {string} locale The locale used in the analysis.
+ * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
  *
  * @returns {{markings: Mark[], count: number}} The number of keyphrase occurrences in the text and the Mark objects of the matches.
  */
-export function countKeyphraseInText( sentences, topicForms, matchWordCustomHelper, locale ) {
+export function countKeyphraseInText( sentences, topicForms, locale, matchWordCustomHelper ) {
 	return sentences.reduce( ( acc, sentence ) => {
-		const matchesInSentence = getMatchesInSentence( sentence, matchWordCustomHelper, topicForms.keyphraseForms, locale );
+		const matchesInSentence = getMatchesInSentence( sentence, topicForms.keyphraseForms, locale, matchWordCustomHelper );
 
+		/*
+		 * Check if all words of the keyphrase are found in the sentence.
+		 * One keyphrase occurrence is counted when all words of the keyphrase are contained within the sentence.
+		 * Each sentence can contain multiple keyphrases.
+	     * (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
+		 */
 		const hasAllKeywords = matchesInSentence.every( form => form.count > 0 );
 
 		if ( ! hasAllKeywords ) {
 			return acc;
 		}
-
-		const markings = getMarkingsInSentence( sentence, matchWordCustomHelper, matchesInSentence );
+		// Get the Mark objects of all keyphrase occurrences in the sentence.
+		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper );
 
 		return {
 			count: acc.count + min( matchesInSentence.map( match => match.count ) ),
@@ -107,11 +106,11 @@ export default function keyphraseCount( paper, researcher ) {
 
 	const sentences = getSentencesFromTree( paper );
 
-	const keywordsFound = countKeyphraseInText( sentences, topicForms, matchWordCustomHelper, locale );
+	const keyphraseFound = countKeyphraseInText( sentences, topicForms, matchWordCustomHelper, locale );
 
 	return {
-		count: keywordsFound.count,
-		markings: flatten( keywordsFound.markings ),
+		count: keyphraseFound.count,
+		markings: flatten( keyphraseFound.markings ),
 		length: topicForms.keyphraseForms.length,
 	};
 }

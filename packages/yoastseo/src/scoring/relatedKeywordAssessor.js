@@ -3,7 +3,7 @@ import { inherits } from "util";
 import Assessor from "./assessor.js";
 import IntroductionKeyword from "./assessments/seo/IntroductionKeywordAssessment.js";
 import KeyphraseLength from "./assessments/seo/KeyphraseLengthAssessment.js";
-import KeywordDensity from "./assessments/seo/KeywordDensityAssessment.js";
+import KeyphraseDensityAssessment from "./assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "./assessments/seo/MetaDescriptionKeywordAssessment.js";
 import ImageKeyphrase from "./assessments/seo/KeyphraseInImageTextAssessment";
 import TextCompetingLinks from "./assessments/seo/TextCompetingLinksAssessment.js";
@@ -25,7 +25,7 @@ const relatedKeywordAssessor = function( researcher, options ) {
 	this._assessments = [
 		new IntroductionKeyword(),
 		new KeyphraseLength( { isRelatedKeyphrase: true } ),
-		new KeywordDensity(),
+		new KeyphraseDensityAssessment(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
 		new FunctionWordsInKeyphrase(),

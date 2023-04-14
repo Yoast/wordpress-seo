@@ -6,7 +6,7 @@ const { createAnchorOpeningTag } = helpers;
 const {
 	IntroductionKeywordAssessment,
 	KeyphraseLengthAssessment,
-	KeywordDensityAssessment,
+	KeyphraseDensityAssessment,
 	MetaDescriptionKeywordAssessment,
 	TextCompetingLinksAssessment,
 	ImageKeyphraseAssessment,
@@ -41,7 +41,7 @@ const ProductCornerStoneRelatedKeywordAssessor = function( researcher, options )
 			urlTitle: createAnchorOpeningTag( options.keyphraseLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseLengthCTAUrl ),
 		}, true ),
-		new KeywordDensityAssessment( {
+		new KeyphraseDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( options.keyphraseDensityUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseDensityCTAUrl ),
 		} ),

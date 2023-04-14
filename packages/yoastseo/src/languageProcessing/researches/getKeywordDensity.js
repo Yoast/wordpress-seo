@@ -1,16 +1,14 @@
-/** @module analyses/getKeywordDensity */
-
 import countWords from "../helpers/word/countWords.js";
 
 /**
- * Calculates the keyword density.
+ * Calculates the keyphrase density.
  *
- * @param {Object} paper        The paper containing keyword and text.
+ * @param {Object} paper        The paper containing keyphrase and text.
  * @param {Object} researcher   The researcher.
  *
- * @returns {Object} The keyword density.
+ * @returns {Object} The keyphrase density.
  */
-export default function( paper, researcher ) {
+export default function getKeyphraseDensity( paper, researcher ) {
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
 	let wordCount = countWords( paper.getText() );
 
@@ -23,7 +21,22 @@ export default function( paper, researcher ) {
 		return 0;
 	}
 
-	const keywordCount = researcher.getResearch( "keywordCount" );
+	const keyphraseCount = researcher.getResearch( "keyphraseCount" );
 
-	return ( keywordCount.count / wordCount ) * 100;
+	return ( keyphraseCount.count / wordCount ) * 100;
+}
+
+/**
+ * Calculates the keyphrase density.
+ *
+ * @deprecated Since version 20.8. Use getKeyphraseDensity instead.
+ *
+ * @param {Object} paper        The paper containing keyphrase and text.
+ * @param {Object} researcher   The researcher.
+ *
+ * @returns {Object} The keyphrase density.
+ */
+export function getKeywordDensity( paper, researcher ) {
+	console.warn( "This function is deprecated, use getKeyphraseDensity instead." );
+	return getKeywordDensity( paper, researcher );
 }
