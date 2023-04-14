@@ -1,3 +1,4 @@
+import { useCallback, useState } from "@wordpress/element";
 import { noop } from "lodash";
 import { StoryComponent } from ".";
 import { component } from "./docs";
@@ -11,9 +12,14 @@ export default {
 	parameters: { docs: { description: { component } } },
 };
 
-export const Factory = ( args ) => (
-	<StoryComponent { ...args } />
-);
+export const Factory = ( args ) => {
+	const [ checked, setChecked ] = useState( args.checked || false );
+	const handleChange = useCallback( setChecked, [ setChecked ] );
+
+	return (
+		<StoryComponent { ...args } checked={ checked } onChange={ handleChange } />
+	);
+};
 
 Factory.parameters = {
 	controls: { disable: false },
