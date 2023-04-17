@@ -1,11 +1,11 @@
 /* eslint-disable complexity */
-import { LockOpenIcon } from "@heroicons/react/outline";
+import { LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Badge, Button, Card, Link, Title, useSvgAria } from "@yoast/ui-library";
 import { useSelectAcademy } from "./hooks";
-
+import { ArrowSmRightIcon } from "@heroicons/react/solid";
 /**
  * @returns {JSX.Element} The app component.
  */
@@ -18,6 +18,28 @@ const App = () => {
 
 	const courses = useMemo( () => ( [
 		{
+			id: "seo_for_beginners",
+			title: __( "SEO for beginners", "wordpress-seo" ),
+			description: __( "In this free course, you'll get quick wins to make your site rank higher in Google, Bing, and Yahoo.", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/seo_for_beginners.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-seo-beginners-start", linkParams ),
+			isPremium: false,
+			hasTrial: true,
+		},
+		{
+			id: "seo_for_wp",
+			title: __( "Yoast SEO for WordPress (block editor)", "wordpress-seo" ),
+			description: sprintf(
+				/* translators: %1$s expands to Yoast SEO. */
+				__( "In this course, you'll learn about how to set up and use the %1$s for WordPress plugin so it makes SEO even easier. This course is meant for users of the block editor.", "wordpress-seo" ),
+				"Yoast SEO"
+			),
+			image: `${ pluginUrl }/images/academy/seo_for_wp.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-seo-wordpress-block-editor-start", linkParams ),
+			isPremium: false,
+			hasTrial: true,
+		},
+		{
 			id: "all_around_seo",
 			title: __( "All-around SEO", "wordpress-seo" ),
 			description: __( "In this course, you'll learn practical SEO skills on every key aspect of SEO, to make your site stand out.", "wordpress-seo" ),
@@ -28,15 +50,34 @@ const App = () => {
 			hasTrial: true,
 		},
 		{
-			id: "multilingual",
-			title: __( "International SEO", "wordpress-seo" ),
-			description: __( "Are you selling in countries all over the world? In this course, you’ll learn all about setting up and managing a site that targets people in different languages and locales.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/multilingual.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-international-seo-start", linkParams ),
-			upsellLink: addQueryArgs( "https://yoa.st/academy-international-seo-unlock", linkParams ),
+			id: "wp_for_beginners",
+			title: __( "WordPress for beginners", "wordpress-seo" ),
+			description: __( "Do you want to set up your own WordPress site? This course will teach you the ins and outs of creating and maintaining a WordPress website!", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/wp_for_beginners.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-wordpress-beginners-start", linkParams ),
+			isPremium: false,
+			hasTrial: true,
+		},
+		{
+			id: "copywriting",
+			title: __( "SEO copywriting", "wordpress-seo" ),
+			description: __( "In this course, you'll learn how to write awesome copy that is optimized for ranking in search engines.", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/copywriting.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-seo-copywriting-start", linkParams ),
+			upsellLink: addQueryArgs( "https://yoa.st/academy-seo-copywriting-unlock", linkParams ),
 			isPremium: true,
 			hasTrial: true,
 		},
+		{
+			id: "structured_data_for_beginners",
+			title: __( "Structured data for beginners", "wordpress-seo" ),
+			description: __( "Learn how to make your site stand out from the crowd by adding structured data!", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/structured_data_for_beginners.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-structured-data-beginners-start", linkParams ),
+			isPremium: false,
+			hasTrial: true,
+		},
+
 		{
 			id: "keyword_research",
 			title: __( "Keyword research", "wordpress-seo" ),
@@ -44,6 +85,25 @@ const App = () => {
 			image: `${ pluginUrl }/images/academy/keyword_research.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-keyword-research-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-keyword-research-unlock", linkParams ),
+			isPremium: true,
+			hasTrial: true,
+		},
+		{
+			id: "block_editor",
+			title: __( "Block editor training", "wordpress-seo" ),
+			description: __( "Start creating block-tastic content with the new WordPress block editor! Learn all about the block editor and what you can do with it.", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/block_editor.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-block-editor-start", linkParams ),
+			isPremium: false,
+			hasTrial: true,
+		},
+		{
+			id: "site_structure",
+			title: __( "Site structure", "wordpress-seo" ),
+			description: __( "A clear site structure benefits your users and is of great importance for SEO. Still, most people seem to forget about this. Get ahead of your competition and learn how to improve your site structure!", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/site_structure.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-site-structure-start", linkParams ),
+			upsellLink: addQueryArgs( "https://yoa.st/academy-site-structure-unlock", linkParams ),
 			isPremium: true,
 			hasTrial: true,
 		},
@@ -68,41 +128,23 @@ const App = () => {
 			hasTrial: true,
 		},
 		{
-			id: "copywriting",
-			title: __( "SEO copywriting", "wordpress-seo" ),
-			description: __( "In this course, you'll learn how to write awesome copy that is optimized for ranking in search engines.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/copywriting.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-seo-copywriting-start", linkParams ),
-			upsellLink: addQueryArgs( "https://yoa.st/academy-seo-copywriting-unlock", linkParams ),
+			id: "understanding_structured_data",
+			title: __( "Understanding structured data", "wordpress-seo" ),
+			description: __( "Do you want to take a deep dive into structured data? In this course, you'll learn the theory related to structured data in detail.", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/understanding_structured_data.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-understanding-structured-data-start", linkParams ),
+			upsellLink: addQueryArgs( "https://yoa.st/academy-understanding-structured-data-unlock", linkParams ),
 			isPremium: true,
-			hasTrial: true,
+			hasTrial: false,
 		},
 		{
-			id: "seo_for_beginners",
-			title: __( "SEO for beginners", "wordpress-seo" ),
-			description: __( "In this free course, you'll get quick wins to make your site rank higher in Google, Bing, and Yahoo.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/seo_for_beginners.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-seo-beginners-start", linkParams ),
-			isPremium: false,
-			hasTrial: true,
-		},
-		{
-			id: "site_structure",
-			title: __( "Site structure", "wordpress-seo" ),
-			description: __( "A clear site structure benefits your users and is of great importance for SEO. Still, most people seem to forget about this. Get ahead of your competition and learn how to improve your site structure!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/site_structure.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-site-structure-start", linkParams ),
-			upsellLink: addQueryArgs( "https://yoa.st/academy-site-structure-unlock", linkParams ),
+			id: "multilingual",
+			title: __( "International SEO", "wordpress-seo" ),
+			description: __( "Are you selling in countries all over the world? In this course, you’ll learn all about setting up and managing a site that targets people in different languages and locales.", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/multilingual.png`,
+			startLink: addQueryArgs( "https://yoa.st/academy-international-seo-start", linkParams ),
+			upsellLink: addQueryArgs( "https://yoa.st/academy-international-seo-unlock", linkParams ),
 			isPremium: true,
-			hasTrial: true,
-		},
-		{
-			id: "structured_data_for_beginners",
-			title: __( "Structured data for beginners", "wordpress-seo" ),
-			description: __( "Learn how to make your site stand out from the crowd by adding structured data!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/structured_data_for_beginners.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-structured-data-beginners-start", linkParams ),
-			isPremium: false,
 			hasTrial: true,
 		},
 		{
@@ -126,47 +168,6 @@ const App = () => {
 			hasTrial: false,
 		},
 		{
-			id: "block_editor",
-			title: __( "Block editor training", "wordpress-seo" ),
-			description: __( "Start creating block-tastic content with the new WordPress block editor! Learn all about the block editor and what you can do with it.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/block_editor.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-block-editor-start", linkParams ),
-			isPremium: false,
-			hasTrial: true,
-		},
-		{
-			id: "wp_for_beginners",
-			title: __( "WordPress for beginners", "wordpress-seo" ),
-			description: __( "Do you want to set up your own WordPress site? This course will teach you the ins and outs of creating and maintaining a WordPress website!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/wp_for_beginners.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-wordpress-beginners-start", linkParams ),
-			isPremium: false,
-			hasTrial: true,
-		},
-		{
-			id: "seo_for_wp",
-			title: __( "Yoast SEO for WordPress (block editor)", "wordpress-seo" ),
-			description: sprintf(
-				/* translators: %1$s expands to Yoast SEO. */
-				__( "In this course, you'll learn about how to set up and use the %1$s for WordPress plugin so it makes SEO even easier. This course is meant for users of the block editor.", "wordpress-seo" ),
-				"Yoast SEO"
-			),
-			image: `${ pluginUrl }/images/academy/seo_for_wp.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-seo-wordpress-block-editor-start", linkParams ),
-			isPremium: false,
-			hasTrial: true,
-		},
-		{
-			id: "understanding_structured_data",
-			title: __( "Understanding structured data", "wordpress-seo" ),
-			description: __( "Do you want to take a deep dive into structured data? In this course, you'll learn the theory related to structured data in detail.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/understanding_structured_data.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-understanding-structured-data-start", linkParams ),
-			upsellLink: addQueryArgs( "https://yoa.st/academy-understanding-structured-data-unlock", linkParams ),
-			isPremium: true,
-			hasTrial: false,
-		},
-		{
 			id: "workshops",
 			title: __( "Workshops", "wordpress-seo" ),
 			description: __( "Learn everything SEO with the free Yoast workshops. Watch the recordings here!", "wordpress-seo" ),
@@ -184,6 +185,7 @@ const App = () => {
 			isPremium: false,
 			hasTrial: false,
 		},
+
 	] ), [ linkParams ] );
 
 	return (
@@ -211,48 +213,52 @@ const App = () => {
 										loading="lazy"
 										decoding="async"
 									/>
-									{ ! course.isPremium && (
-										<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-											<Badge size="small" variant="primary">{ __( "Free", "wordpress-seo" ) }</Badge>
-										</div>
-									) }
+
+									{ course.isPremium && <div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+										 <Badge size="small" variant="medium">{ __( "Premium", "wordpress-seo" ) }</Badge>
+									</div> }
+
 								</Card.Header>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
 									<Title as="h3">{ course.title }</Title>
-									{ course.description }
+
+									{ __( course.description, "wordpress-seo" ) }
+
+									{	( course.isPremium && ! isPremium ) && <Link
+										href={ course.startLink }
+										className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium yst-text-primary-500"
+										target="_blank"
+									>
+										{ __( "Start free trial lesson", "wordpress-seo" ) }
+										<span className="yst-sr-only">
+											{
+												__( "(Opens in a new browser tab)", "wordpress-seo" )
+											}
+										</span>
+										<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+									</Link> }
 								</Card.Content>
 								<Card.Footer>
 									<>
 										{ ( course.isPremium && ! isPremium ) && (
-											<>
-												{ course.hasTrial && (
-													<Link
-														className="yst-block yst-mb-4"
-														href={ course.startLink }
-														target="_blank"
-														rel="noopener noreferrer"
-													>
-														{ __( "Start your free trial lesson now", "wordpress-seo" ) }
-													</Link>
+											<Button
+												as="a"
+												id={ `button-get-course-${ course.id }` }
+												className="yst-gap-2 yst-w-full yst-px-2"
+												variant="upsell"
+												href={ course?.upsellLink }
+												target="_blank"
+												rel="noopener"
+												{ ...premiumUpsellConfig }
+											>
+												<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+												{ sprintf(
+													/* translators: %1$s expands to Premium. */
+													__( "Unlock with %1$s", "wordpress-seo" ),
+													"Premium"
 												) }
-												<Button
-													as="a"
-													id={ `button-get-course-${ course.id }` }
-													className="yst-gap-2 yst-w-full yst-px-2"
-													variant="upsell"
-													href={ course?.upsellLink }
-													target="_blank"
-													rel="noopener"
-													{ ...premiumUpsellConfig }
-												>
-													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
-													{ sprintf(
-														/* translators: %1$s expands to Premium. */
-														__( "Unlock with %1$s", "wordpress-seo" ),
-														"Premium"
-													) }
-												</Button>
-											</>
+											</Button>
+
 										) }
 										{ ( ! course.isPremium || isPremium ) && (
 											<Button
@@ -265,6 +271,7 @@ const App = () => {
 												rel="noopener"
 											>
 												{ __( "Start the course", "wordpress-seo" ) }
+												<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-white" />
 											</Button>
 										) }
 									</>
