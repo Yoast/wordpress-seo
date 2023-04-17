@@ -7,6 +7,7 @@ import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/
 import Paper from "../../../../src/values/Paper.js";
 import Mark from "../../../../src/values/Mark.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import buildTree from "../../../specHelpers/parse/buildTree";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDe = getMorphologyData( "de" );
@@ -23,6 +24,7 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "runs the keywordDensity on the paper without keyword in the text", function() {
 		const paper = new Paper( nonkeyword.repeat( 1000 ), { keyword: "keyword" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 4 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -33,6 +35,7 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "runs the keywordDensity on the paper with a low keyphrase density (0.1%)", function() {
 		const paper = new Paper( nonkeyword.repeat( 999 ) + keyword, { keyword: "keyword" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 4 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -43,6 +46,7 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "runs the keywordDensity on the paper with a good keyphrase density (0.5%)", function() {
 		const paper = new Paper( nonkeyword.repeat( 995 ) + keyword.repeat( 5 ), { keyword: "keyword" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -52,6 +56,8 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "runs the keywordDensity on the paper with a good keyphrase density (2%)", function() {
 		const paper = new Paper( nonkeyword.repeat( 980 ) + keyword.repeat( 20 ), { keyword: "keyword" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -61,6 +67,8 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "runs the keywordDensity on the paper with a slightly too high keyphrase density (3.5%)", function() {
 		const paper = new Paper( nonkeyword.repeat( 965 ) + keyword.repeat( 35 ), { keyword: "keyword" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( -10 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -71,6 +79,8 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "runs the keywordDensity on the paper with a very high keyphrase density (10%)", function() {
 		const paper = new Paper( nonkeyword.repeat( 900 ) + keyword.repeat( 100 ), { keyword: "keyword" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( -50 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -82,6 +92,8 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "adjusts the keyphrase density based on the length of the keyword with the actual density remaining at 2% - short keyphrase", function() {
 		const paper = new Paper( nonkeyword.repeat( 960 ) + "b c, ".repeat( 20 ), { keyword: "b c" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -91,6 +103,9 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "adjusts the keyphrase density based on the length of the keyword with the actual density remaining at 2% - long keyphrase", function() {
 		const paper = new Paper( nonkeyword.repeat( 900 ) + "b c d e f, ".repeat( 20 ), { keyword: "b c d e f" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
+
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( -50 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -101,6 +116,8 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 	it( "returns a bad result if the keyword is only used once, regardless of the density", function() {
 		const paper = new Paper( nonkeyword.repeat( 100 ) + keyword, { keyword: "keyword" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 4 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -112,6 +129,8 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		"the recommended count is smaller than or equal to 2, regardless of the density", function() {
 		const paper = new Paper( nonkeyword.repeat( 100 ) + "a b c, a b c", { keyword: "a b c", locale: "xx_XX" } );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -154,6 +173,7 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 32 ), { keyword: "keyword", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -163,6 +183,8 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 	it( "gives a GOOD result when keyword density is between 3 and 3.5%, also for other languages with morphology support", function() {
 		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 32 ), { keyword: "keyword", locale: "de_DE" } );
 		const researcher = new GermanResearcher( paper );
+		buildTree( paper, researcher );
+
 		researcher.addResearchData( "morphology", morphologyDataDe );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( 9 );
@@ -173,6 +195,8 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 	it( "gives a BAD result when keyword density is between 3 and 3.5%, if morphology support is added, but there is no morphology data", function() {
 		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 32 ), { keyword: "keyword", locale: "de_DE" } );
 		const researcher = new GermanResearcher( paper );
+		buildTree( paper, researcher );
+
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( -10 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
@@ -186,6 +210,7 @@ describe( "A test for marking the keyword", function() {
 		const keywordDensityAssessment = new KeywordDensityAssessment();
 		const paper = new Paper( "This is a very interesting paper with a keyword and another keyword.", { keyword: "keyword" }  );
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
 		keywordDensityAssessment.getResult( paper, researcher );
 		const expected = [
 			new Mark( {
@@ -200,7 +225,10 @@ describe( "A test for marking the keyword", function() {
 	it( "returns markers for a keyphrase containing numbers", function() {
 		const keywordDensityAssessment = new KeywordDensityAssessment();
 		const paper = new Paper( "This is the release of YoastSEO 9.3.", { keyword: "YoastSEO 9.3" }  );
+
 		const researcher = new DefaultResearcher( paper );
+		buildTree( paper, researcher );
+
 		keywordDensityAssessment.getResult( paper, researcher );
 		const expected = [
 			new Mark( { marked: "This is the release of <yoastmark class='yoast-text-mark'>YoastSEO 9.3</yoastmark>.",
@@ -216,11 +244,14 @@ describe( "A test for marking the keyword", function() {
 			"</p>",
 		{ keyword: "cat toy" } );
 		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
 		keywordDensityAssessment.getResult( paper, researcher );
 		const expected = [
 			new Mark( {
-				marked: "A flamboyant <yoastmark class='yoast-text-mark'>cat</yoastmark> with a <yoastmark class='yoast-text-mark'>toy</yoastmark>",
-				original: "A flamboyant cat with a toy" } ) ];
+				marked: " A flamboyant <yoastmark class='yoast-text-mark'>cat</yoastmark> with a <yoastmark class='yoast-text-mark'>" +
+					"toy</yoastmark>\n",
+				original: " A flamboyant cat with a toy\n" } ) ];
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
 
