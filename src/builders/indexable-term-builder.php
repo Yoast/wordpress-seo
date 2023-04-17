@@ -189,20 +189,21 @@ class Indexable_Term_Builder {
 	 */
 	protected function get_indexable_lookup() {
 		return [
-			'wpseo_canonical'             => 'canonical',
-			'wpseo_focuskw'               => 'primary_focus_keyword',
-			'wpseo_title'                 => 'title',
-			'wpseo_desc'                  => 'description',
-			'wpseo_content_score'         => 'readability_score',
-			'wpseo_bctitle'               => 'breadcrumb_title',
-			'wpseo_opengraph-title'       => 'open_graph_title',
-			'wpseo_opengraph-description' => 'open_graph_description',
-			'wpseo_opengraph-image'       => 'open_graph_image',
-			'wpseo_opengraph-image-id'    => 'open_graph_image_id',
-			'wpseo_twitter-title'         => 'twitter_title',
-			'wpseo_twitter-description'   => 'twitter_description',
-			'wpseo_twitter-image'         => 'twitter_image',
-			'wpseo_twitter-image-id'      => 'twitter_image_id',
+			'wpseo_canonical'                => 'canonical',
+			'wpseo_focuskw'                  => 'primary_focus_keyword',
+			'wpseo_title'                    => 'title',
+			'wpseo_desc'                     => 'description',
+			'wpseo_content_score'            => 'readability_score',
+			'wpseo_inclusive_language_score' => 'inclusive_language_score',
+			'wpseo_bctitle'                  => 'breadcrumb_title',
+			'wpseo_opengraph-title'          => 'open_graph_title',
+			'wpseo_opengraph-description'    => 'open_graph_description',
+			'wpseo_opengraph-image'          => 'open_graph_image',
+			'wpseo_opengraph-image-id'       => 'open_graph_image_id',
+			'wpseo_twitter-title'            => 'twitter_title',
+			'wpseo_twitter-description'      => 'twitter_description',
+			'wpseo_twitter-image'            => 'twitter_image',
+			'wpseo_twitter-image-id'         => 'twitter_image_id',
 		];
 	}
 
