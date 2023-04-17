@@ -232,23 +232,24 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->with( $term )
 			->andReturn(
 				[
-					'wpseo_focuskw'               => 'focuskeyword',
-					'wpseo_linkdex'               => '75',
-					'wpseo_noindex'               => 'noindex',
-					'wpseo_meta-robots-adv'       => '',
-					'wpseo_content_score'         => '50',
-					'wpseo_canonical'             => 'https://canonical-term',
-					'wpseo_meta-robots-nofollow'  => '1',
-					'wpseo_title'                 => 'title',
-					'wpseo_desc'                  => 'description',
-					'wpseo_opengraph-title'       => 'open_graph_title',
-					'wpseo_opengraph-image'       => 'open_graph_image',
-					'wpseo_opengraph-image-id'    => 'open_graph_image_id',
-					'wpseo_opengraph-description' => 'open_graph_description',
-					'wpseo_twitter-title'         => 'twitter_title',
-					'wpseo_twitter-image'         => 'twitter_image',
-					'wpseo_twitter-image-id'      => 'twitter_image_id',
-					'wpseo_twitter-description'   => 'twitter_description',
+					'wpseo_focuskw'                  => 'focuskeyword',
+					'wpseo_linkdex'                  => '75',
+					'wpseo_noindex'                  => 'noindex',
+					'wpseo_meta-robots-adv'          => '',
+					'wpseo_content_score'            => '50',
+					'wpseo_inclusive_language_score' => '42',
+					'wpseo_canonical'                => 'https://canonical-term',
+					'wpseo_meta-robots-nofollow'     => '1',
+					'wpseo_title'                    => 'title',
+					'wpseo_desc'                     => 'description',
+					'wpseo_opengraph-title'          => 'open_graph_title',
+					'wpseo_opengraph-image'          => 'open_graph_image',
+					'wpseo_opengraph-image-id'       => 'open_graph_image_id',
+					'wpseo_opengraph-description'    => 'open_graph_description',
+					'wpseo_twitter-title'            => 'twitter_title',
+					'wpseo_twitter-image'            => 'twitter_image',
+					'wpseo_twitter-image-id'         => 'twitter_image_id',
+					'wpseo_twitter-description'      => 'twitter_description',
 				]
 			);
 		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
@@ -304,6 +305,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'primary_focus_keyword'       => 'focuskeyword',
 			'primary_focus_keyword_score' => 75,
 			'readability_score'           => 50,
+			'inclusive_language_score'    => 42,
 			'version'                     => 1,
 		];
 

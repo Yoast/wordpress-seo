@@ -39,6 +39,8 @@ use Yoast\WP\Lib\Model;
  *
  * @property int    $readability_score
  *
+ * @property int    $inclusive_language_score
+ *
  * @property int    $link_count
  * @property int    $incoming_link_count
  * @property int    $number_of_pages
@@ -127,6 +129,7 @@ class Indexable extends Model {
 		'post_parent',
 		'primary_focus_keyword_score',
 		'readability_score',
+		'inclusive_language_score',
 		'link_count',
 		'incoming_link_count',
 		'number_of_pages',
