@@ -39,17 +39,17 @@ class Settings_Integration_Test extends TestCase {
 	 * Runs the setup to prepare the needed instance
 	 */
 	public function set_up() {
-		$asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$replace_vars                 = Mockery::mock( WPSEO_Replace_Vars::class );
-		$schema_types                 = Mockery::mock( Schema_Types::class );
-		$current_page_helper          = Mockery::mock( Current_Page_Helper::class );
-		$post_type_helper             = Mockery::mock( Post_Type_Helper::class );
-		$language_helper              = Mockery::mock( Language_Helper::class );
-		$taxonomy_helper              = Mockery::mock( Taxonomy_Helper::class );
-		$product_helper               = Mockery::mock( Product_Helper::class );
-		$woocommerce_helper           = Mockery::mock( Woocommerce_Helper::class );
-		$article_helper               = Mockery::mock( Article_Helper::class );
-		$user_helper                  = Mockery::mock( User_Helper::class );
+		$asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$replace_vars        = Mockery::mock( WPSEO_Replace_Vars::class );
+		$schema_types        = Mockery::mock( Schema_Types::class );
+		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$post_type_helper    = Mockery::mock( Post_Type_Helper::class );
+		$language_helper     = Mockery::mock( Language_Helper::class );
+		$taxonomy_helper     = Mockery::mock( Taxonomy_Helper::class );
+		$product_helper      = Mockery::mock( Product_Helper::class );
+		$woocommerce_helper  = Mockery::mock( Woocommerce_Helper::class );
+		$article_helper      = Mockery::mock( Article_Helper::class );
+		$user_helper         = Mockery::mock( User_Helper::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -62,7 +62,7 @@ class Settings_Integration_Test extends TestCase {
 			$product_helper,
 			$woocommerce_helper,
 			$article_helper,
-			$user_helper,
+			$user_helper
 		);
 	}
 
