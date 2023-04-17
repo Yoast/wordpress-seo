@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
-use Yoast\WP\SEO\Actions\Settings_Introduction_Action;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -51,7 +50,6 @@ class Settings_Integration_Test extends TestCase {
 		$woocommerce_helper           = Mockery::mock( Woocommerce_Helper::class );
 		$article_helper               = Mockery::mock( Article_Helper::class );
 		$user_helper                  = Mockery::mock( User_Helper::class );
-		$settings_introduction_action = Mockery::mock( Settings_Introduction_Action::class );
 
 		$this->instance = new Settings_Integration(
 			$asset_manager,
@@ -65,7 +63,6 @@ class Settings_Integration_Test extends TestCase {
 			$woocommerce_helper,
 			$article_helper,
 			$user_helper,
-			$settings_introduction_action
 		);
 	}
 
