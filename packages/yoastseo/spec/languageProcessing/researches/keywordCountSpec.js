@@ -1,4 +1,4 @@
-import keyphraseCount from "../../../src/languageProcessing/researches/keyphraseCount.js";
+import keyphraseCount from "../../../src/languageProcessing/researches/keywordCount";
 import Paper from "../../../src/values/Paper.js";
 import factory from "../../specHelpers/factory";
 import Mark from "../../../src/values/Mark";
@@ -64,12 +64,14 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts a string of text with no keyword in it.", function() {
 		const mockPaper = new Paper( "a string of text" );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcher ).count ).toBe( 0 );
 		expect( keyphraseCount( mockPaper, mockResearcher ).markings ).toEqual( [] );
 	} );
 
 	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
 		const mockPaper = new Paper( "a string of text with the key word in it, with more key words." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
 			new Mark( { marked: "a string of text with the <yoastmark class='yoast-text-mark'>key word</yoastmark> in it, " +
@@ -80,6 +82,7 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts a string of text with German diacritics and eszett as the keyword", function() {
 		const mockPaper = new Paper( "Waltz keepin auf mitz auf keepin äöüß weiner blitz deutsch spitzen." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherGermanDiacritics ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherGermanDiacritics ).markings ).toEqual( [
 			new Mark( { marked: "Waltz keepin auf mitz auf keepin <yoastmark class='yoast-text-mark'>äöüß</yoastmark> weiner blitz deutsch spitzen.",
@@ -89,6 +92,7 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts a string with multiple keyword morphological forms", function() {
 		const mockPaper = new Paper( "A string of text with a keyword and multiple keywords in it." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcher ).count ).toBe( 2 );
 		expect( keyphraseCount( mockPaper, mockResearcher ).markings ).toEqual( [
 			new Mark( { marked: "A string of text with a <yoastmark class='yoast-text-mark'>keyword</yoastmark> " +
@@ -99,6 +103,7 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts a string with a keyword with a '-' in it", function() {
 		const mockPaper = new Paper( "A string with a key-word." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherMinus ).markings ).toEqual( [
 			new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key-word</yoastmark>.",
@@ -108,12 +113,14 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts 'key word' in 'key-word'.", function() {
 		const mockPaper = new Paper( "A string with a key-word." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
 		// Note: this behavior might change in the future.
 	} );
 
 	it( "counts a string with a keyword with a '_' in it", function() {
 		const mockPaper = new Paper( "A string with a key_word." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherUnderscore ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherUnderscore ).markings ).toEqual( [
 			new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key_word</yoastmark>.",
@@ -123,6 +130,7 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts a string with with 'kapaklı' as a keyword in it", function() {
 		const mockPaper = new Paper( "A string with kapaklı." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKaplaki ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherKaplaki ).markings ).toEqual( [
 			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>kapaklı</yoastmark>.",
@@ -132,6 +140,7 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts a string with with '&' in the string and the keyword", function() {
 		const mockPaper = new Paper( "A string with key&word." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherAmpersand ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherAmpersand ).markings ).toEqual( [
 			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>key&word</yoastmark>.",
@@ -141,12 +150,14 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "does not count images as keywords.", function() {
 		const mockPaper = new Paper( "<img src='http://image.com/image.png'>" );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherAmpersand ).count ).toBe( 0 );
 		expect( keyphraseCount( mockPaper, mockResearcherAmpersand ).markings ).toEqual( [] );
 	} );
 
 	it( "keyword counting is blind to CApiTal LeTteRs.", function() {
 		const mockPaper = new Paper( "A string with KeY worD." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
 			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>KeY worD</yoastmark>.",
@@ -156,6 +167,7 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "keyword counting is blind to types of apostrophe.", function() {
 		const mockPaper = new Paper( "A string with quotes to match the key'word, even if the quotes differ." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherApostrophe ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherApostrophe ).markings ).toEqual( [
 			new Mark( { marked: "A string with quotes to match the <yoastmark class='yoast-text-mark'>key'word</yoastmark>, " +
@@ -166,24 +178,28 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "counts can count dollar sign as in '$keyword'.", function() {
 		const mockPaper = new Paper( "A string with a $keyword." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherDollarSign ).count ).toBe( 1 );
 		// Markings do not currently work in this condition.
 	} );
 
 	it( "counts 'key word' also in 'key-word'.)", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
 		// Note: this behavior might change in in the future.
 	} );
 
 	it( "doesn't count 'key-word' in 'key word'.", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
 		// Note: this behavior might change in in the future.
 	} );
 
 	it( "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.", function() {
 		const mockPaper = new Paper( "A string with three keys (key and another key) and one word." );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
 			new Mark( { marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
@@ -195,6 +211,7 @@ describe( "Test for counting the keyword in a text", function() {
 
 	it( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.", { locale: "id_ID" } );
+		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcher ).count ).toBe( 1 );
 	} );
 } );
@@ -240,6 +257,7 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 	it( "counts a string of text with no keyword in it.", function() {
 		const mockPaper = new Paper( "私の猫はかわいいです。",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "会い" ] ], wordsCountHelper, matchWordsHelper );
+		buildTree( mockPaper, researcher );
 		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 0 );
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [] );
 	} );
@@ -247,6 +265,7 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
 		const mockPaper = new Paper( "私の猫はかわいいですかわいい。",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "かわいい" ] ], wordsCountHelper, matchWordsHelper );
+		buildTree( mockPaper, researcher );
 		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( {
