@@ -862,10 +862,22 @@ class Indexable_Link_Builder_Test extends TestCase {
 		// Executed in build->create_links->create_internal_link.
 		$this->expect_seo_links_repository_query_create( $indexable, $model );
 
+		Functions\expect( 'wp_get_upload_dir' )
+			->with( 'http://basic.wordpress.test/wp-content/uploads' )
+			->once()
+			->andReturn( [ 'baseurl' => 'http://basic.wordpress.test/wp-content/uploads' ] );
+		// Executed in build->create_links->create_internal_link.
+		Functions\when( 'file_exists' )
+			->justReturn( true );
+
+		// Executed in build->create_links->create_internal_link.
+		Functions\when( 'filesize' )
+			->justReturn( '500' );
 
 		// Executed in build->create_links->create_internal_link.
 		Functions\when( 'get_attached_file' )
 			->justReturn( null );
+
 
 
 		$this->expect_build_permalink( 'http://basic.wordpress.test' );
