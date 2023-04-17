@@ -91,7 +91,7 @@ class Academy_Integration implements Integration_Interface {
 	public function add_page( $pages ) {
 		\array_splice(
 			$pages,
-			1,
+			3,
 			0,
 			[
 				[
