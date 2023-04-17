@@ -93,3 +93,5 @@ export const CustomComponent = {
 		children: "component",
 	},
 };
+
+CustomComponent.storyName = "Custom component";
