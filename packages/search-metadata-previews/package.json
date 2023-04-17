@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "2.24.0",
+  "version": "2.24.1",
   "private": false,
   "main": "src/index.js",
   "repository": {
@@ -27,11 +27,19 @@
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
     "styled-components": "^5.3.6",
-    "yoastseo": "^1.91.1"
+    "yoastseo": "^1.91.2"
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.2",
-    "browserslist": "^4.7.3"
+    "browserslist": "^4.7.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "jest-styled-components": "^7.0.3",
+    "react-test-renderer": "^16.14.0"
+  },
+  "peerDependencies": {
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "jest": {
     "testURL": "http://localhost",

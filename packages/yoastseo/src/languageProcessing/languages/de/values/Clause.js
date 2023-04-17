@@ -6,8 +6,7 @@ const { Clause } = values;
 
 import getParticiples from "../helpers/internal/getParticiples";
 import exceptionsParticiplesActive from "../config/internal/exceptionsParticiplesActive.js";
-import passiveVoiceAuxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
-const participleLikeAuxiliaries = passiveVoiceAuxiliaries.participleLike;
+import { participleLike as participleLikeAuxiliaries } from "../config/internal/passiveVoiceAuxiliaries.js";
 
 const exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;

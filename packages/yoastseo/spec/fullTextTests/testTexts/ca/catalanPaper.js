@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "El terme clàssic fa referència a un conjunt difús i alhora ampli de conceptes estètics que abracen la majoria " +
 		"de disciplines artístiques considerades canòniques. El significat és variable segons el país o l'època. Aquest conjunt " +
 		"té sentit en comparació a moviments estètics més recents.",
+	textTitle: "Clàssic",
 	title: "Clàssic",
 	titleWidth: 450,
 	locale: "ca",
@@ -123,7 +124,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 17.8% of the sentences contain transition words, " +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 18.6% of the sentences contain transition words, " +
 			"which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
@@ -151,6 +152,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

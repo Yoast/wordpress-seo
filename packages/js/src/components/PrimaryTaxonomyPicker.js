@@ -5,7 +5,7 @@ import { sprintf, __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
-import { difference } from "lodash-es";
+import { difference } from "lodash";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";

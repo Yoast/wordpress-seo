@@ -52,8 +52,8 @@ class Yoast_Plugin_Conflict {
 	 */
 	public static function get_instance( $class_name = '' ) {
 
-		if ( \is_null( self::$instance ) ) {
-			if ( ! \is_string( $class_name ) || $class_name === '' ) {
+		if ( is_null( self::$instance ) ) {
+			if ( ! is_string( $class_name ) || $class_name === '' ) {
 				$class_name = __CLASS__;
 			}
 
@@ -67,14 +67,19 @@ class Yoast_Plugin_Conflict {
 	 * Setting instance, all active plugins and search for active plugins.
 	 *
 	 * Protected constructor to prevent creating a new instance of the
-	 * *Singleton* via the `new` operator from outside of this class.
+	 * *Singleton* via the `new` operator from outside this class.
 	 */
 	protected function __construct() {
 		// Set active plugins.
-		$this->all_active_plugins = \get_option( 'active_plugins' );
+		$this->all_active_plugins = get_option( 'active_plugins' );
 
-		if ( \filter_input( INPUT_GET, 'action' ) === 'deactivate' ) {
-			$this->remove_deactivated_plugin();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( isset( $_GET['action'] ) && is_string( $_GET['action'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information and only comparing the variable in a condition.
+			$action = wp_unslash( $_GET['action'] );
+			if ( $action === 'deactivate' ) {
+				$this->remove_deactivated_plugin();
+			}
 		}
 
 		// Search for active plugins.
@@ -103,9 +108,7 @@ class Yoast_Plugin_Conflict {
 
 		if ( ! \in_array( $plugin_section, $sections_checked, true ) ) {
 			$sections_checked[] = $plugin_section;
-			$has_conflicts      = ( ! empty( $this->active_conflicting_plugins[ $plugin_section ] ) );
-
-			return $has_conflicts;
+			return ( ! empty( $this->active_conflicting_plugins[ $plugin_section ] ) );
 		}
 
 		return false;
@@ -144,7 +147,7 @@ class Yoast_Plugin_Conflict {
 
 		// For active sections clear errors for inactive plugins.
 		foreach ( $sections as $section ) {
-			// By default clear errors for all plugins of the section.
+			// By default, clear errors for all plugins of the section.
 			$inactive_plugins = $this->plugins[ $section ];
 
 			// If there are active plugins, filter them from being cleared.
@@ -298,7 +301,13 @@ class Yoast_Plugin_Conflict {
 	 * When being in the deactivation process the currently deactivated plugin has to be removed.
 	 */
 	private function remove_deactivated_plugin() {
-		$deactivated_plugin = \filter_input( INPUT_GET, 'plugin' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: On the deactivation screen the nonce is already checked by WordPress itself.
+		if ( ! isset( $_GET['plugin'] ) || ! is_string( $_GET['plugin'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: On the deactivation screen the nonce is already checked by WordPress itself.
+		$deactivated_plugin = sanitize_text_field( wp_unslash( $_GET['plugin'] ) );
 		$key_to_remove      = \array_search( $deactivated_plugin, $this->all_active_plugins, true );
 
 		if ( $key_to_remove !== false ) {

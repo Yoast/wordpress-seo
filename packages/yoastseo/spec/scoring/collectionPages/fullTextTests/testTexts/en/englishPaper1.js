@@ -79,9 +79,8 @@ const expectedResults = {
 		resultText: "",
 	},
 	keyphraseDistribution: {
+		// Not applicable because the text has less than 15 sentences.
 		isApplicable: false,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
 	subheadingsTooLong: {
 		isApplicable: false,

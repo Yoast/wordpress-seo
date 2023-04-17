@@ -5,7 +5,6 @@ import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initSettingsStore from "./initializers/settings-store";
 import initSettingsHeader from "./initializers/settings-header";
-import initSocialSettings from "./initializers/social-settings";
 
 initAdmin( jQuery );
 
@@ -22,10 +21,5 @@ if ( wpseoScriptData ) {
 	domReady( () => {
 		// Initialize React in settings header.
 		initSettingsHeader();
-
-		// Init social settings on DOM ready because it relies on global WP APIs
-		if ( typeof wpseoScriptData.social !== "undefined" ) {
-			initSocialSettings();
-		}
 	} );
 }

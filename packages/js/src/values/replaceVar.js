@@ -2,7 +2,7 @@ import {
 	isEmpty,
 	indexOf,
 	defaults,
-} from "lodash-es";
+} from "lodash";
 
 var defaultOptions = { source: "wpseoScriptData.analysis.plugins.replaceVars", scope: [], aliases: [] };
 

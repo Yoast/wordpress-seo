@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get } from "lodash";
 import { subscribe, select, dispatch } from "@wordpress/data";
 
 import getL10nObject from "../../analysis/getL10nObject";
@@ -24,7 +24,7 @@ export default function initializeUsedKeywords() {
 	);
 
 	const usedKeywords = new UsedKeywords(
-		"get_focus_keyword_usage",
+		"get_focus_keyword_usage_and_post_types",
 		localizedData,
 		dispatch( "yoast-seo/editor" ).runAnalysis,
 		scriptUrl,

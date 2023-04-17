@@ -1,4 +1,5 @@
 import { StoryComponent } from ".";
+import { component, sizes, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Badge",
@@ -10,7 +11,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple badge component.",
+				component,
 			},
 		},
 	},
@@ -23,7 +24,7 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	children: "Badge Factory",
+	children: "Badge factory",
 };
 
 export const Variants = ( args ) => (
@@ -34,6 +35,7 @@ export const Variants = ( args ) => (
 		<StoryComponent variant="primary">Primary</StoryComponent>
 	</div>
 );
+Variants.parameters = { docs: { description: { story: variants } } };
 
 export const Sizes = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
@@ -42,3 +44,4 @@ export const Sizes = ( args ) => (
 		<StoryComponent size="small">Small</StoryComponent>
 	</div>
 );
+Sizes.parameters = { docs: { description: { story: sizes } } };

@@ -1,6 +1,7 @@
-import getWords from "../helpers/word/getWords.js";
-import getSentences from "../helpers/sentence/getSentences.js";
 import { flatMap } from "lodash-es";
+import { languageProcessing } from "yoastseo";
+
+const { getWords, getSentences } = languageProcessing;
 
 /**
  * An object containing the results of the complex words research for a single sentence.
@@ -28,14 +29,17 @@ import { flatMap } from "lodash-es";
 const getComplexWords = function( currentSentence, researcher ) {
 	const checkIfWordIsComplex = researcher.getHelper( "checkIfWordIsComplex" );
 	const functionWords = researcher.getConfig( "functionWords" );
+	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
+	const checkIfWordIsFunction = researcher.getHelper( "checkIfWordIsFunction" );
 
 	const allWords = getWords( currentSentence );
 	// Filters out function words because function words are not complex.
-	const words = allWords.filter( word => ! functionWords.includes( word ) );
+	// Words are converted to lowercase before processing to avoid excluding function words that start with a capital letter.
+	const words = allWords.filter( word => ! ( checkIfWordIsFunction ? checkIfWordIsFunction( word ) : functionWords.includes( word ) ) );
 	const results = [];
 
 	words.forEach( word => {
-		if ( checkIfWordIsComplex( word ) ) {
+		if ( checkIfWordIsComplex( wordComplexityConfig, word ) ) {
 			results.push( word );
 		}
 	} );
@@ -65,6 +69,7 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 
 /**
  * Gets the complex words from the sentences and calculates the percentage of complex words compared to the total words in the text.
+ * This is a research for the Word Complexity assessment. As such, this research is not part of the AbstractResearcher, and not bundled in Yoast SEO.
  *
  * @param {Paper}       paper       The Paper object to get the text from.
  * @param {Researcher}  researcher  The researcher object.

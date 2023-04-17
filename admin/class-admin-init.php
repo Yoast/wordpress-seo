@@ -107,7 +107,18 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		return $this->pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		if ( ! isset( $_GET['page'] ) || ! is_string( $_GET['page'] ) ) {
+			return false;
+		}
+
+		if ( $this->pagenow !== 'admin.php' ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
+		$current_page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+		return strpos( $current_page, 'wpseo' ) === 0;
 	}
 
 	/**
@@ -194,7 +205,7 @@ class WPSEO_Admin_Init {
 				$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 			}
 
-			// Only register the yoast i18n when the page is a Yoast SEO page.
+			// Only renders Yoast SEO Premium upsells when the page is a Yoast SEO page.
 			if ( $page !== null && WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
 				$this->register_premium_upsell_admin_block();
 			}

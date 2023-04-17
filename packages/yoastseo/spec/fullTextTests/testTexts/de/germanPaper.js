@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Ein Artikel über den größten Flughafen von London, den größten in Europa und den sechstgrößten der Welt. " +
 		"Heathrow wurde 1946 eröffnet.",
 	title: "Heathrow London airport",
+	textTitle: "Heathrow London airport",
 	titleWidth: 450,
 	locale: "de_DE",
 	permalink: "https://de.wikipedia.org/wiki/Flughafen_London_Heathrow",
@@ -127,13 +128,13 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 25.5% of the sentences contain " +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 26% of the sentences contain " +
 			"transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 15.7% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 16% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -165,6 +166,16 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: You are not using too many complex words, " +
 			"which makes your text easy to read. Good job!",
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

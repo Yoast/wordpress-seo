@@ -11,15 +11,14 @@ import syllables from "./config/syllables.json";
 import keyphraseLength from "./config/keyphraseLength";
 import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
 
-
 // All helpers
 import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
-import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
+import checkIfWordIsFunction from "./helpers/checkIfWordIsFunction";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -47,7 +46,7 @@ export default class Researcher extends AbstractResearcher {
 			getStemmer,
 			fleschReadingScore,
 			memoizedTokenizer,
-			checkIfWordIsComplex,
+			checkIfWordIsFunction,
 		} );
 	}
 }

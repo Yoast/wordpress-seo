@@ -27,5 +27,7 @@
 		"testRegex": ".*Test.js$",
 		"testEnvironment": "node"
 	},
-	"devDependencies": {}
+	"devDependencies": {
+		"browserslist": "^4.7.3"
+	}
 }
