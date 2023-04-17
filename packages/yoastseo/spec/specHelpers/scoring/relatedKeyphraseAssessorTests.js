@@ -71,7 +71,7 @@ export function checkAssessmentAvailability( assessor ) {
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
-			"keywordDensity",
+			"keyphraseDensity",
 		] );
 	} );
 }
@@ -111,8 +111,8 @@ export function checkUrls( assessor ) {
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
 	} );
 
-	test( "KeywordDensity", () => {
-		const assessment = assessor.getAssessment( "keywordDensity" );
+	test( "keyphraseDensity", () => {
+		const assessment = assessor.getAssessment( "keyphraseDensity" );
 
 		expect( assessment ).toBeDefined();
 		expect( assessment._config ).toBeDefined();
