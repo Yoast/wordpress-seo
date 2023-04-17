@@ -1,7 +1,7 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywordCount.js";
+import recommendedKeyphraseCount from "../../helpers/assessments/recommendedKeywordCount.js";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
@@ -86,8 +86,8 @@ class KeyphraseDensityAssessment extends Assessment {
 		} else {
 			this._boundaries = this._config.parameters.noWordForms;
 		}
-		this._minRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
-		this._maxRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
+		this._minRecommendedKeyphraseCount = recommendedKeyphraseCount( text, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
+		this._maxRecommendedKeyphraseCount = recommendedKeyphraseCount( text, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
 	}
 
 	/**
@@ -134,8 +134,8 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Checks whether there are too few keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between 0 and the recommended minimum
-	 * or if there there is only 1 keyword match (regardless of the density).
+	 * @returns {boolean} Returns true if the rounded keyphrase density is between 0 and the recommended minimum
+	 * or if there is only 1 keyphrase match (regardless of the density).
 	 */
 	hasTooFewMatches() {
 		return inRangeStartInclusive(
@@ -148,15 +148,15 @@ class KeyphraseDensityAssessment extends Assessment {
 	/**
 	 * Checks whether there is a good number of keyphrase matches in the text.
 	 *
-	 * @returns {boolean} Returns true if the rounded keyword density is between the recommended minimum
-	 * and the recommended maximum or if the keyword count is 2 and the recommended minimum is lower than 2.
+	 * @returns {boolean} Returns true if the rounded keyphrase density is between the recommended minimum
+	 * and the recommended maximum or if the keyphrase count is 2 and the recommended minimum is lower than 2.
 	 */
 	hasGoodNumberOfMatches() {
 		return inRangeStartEndInclusive(
 			this._keyphraseDensity,
 			this._boundaries.minimum,
 			this._boundaries.maximum
-		) || ( this._keyphraseCount.count === 2 && this._minRecommendedKeywordCount <= 2 );
+		) || ( this._keyphraseCount.count === 2 && this._minRecommendedKeyphraseCount <= 2 );
 	}
 
 	/**
@@ -196,7 +196,7 @@ class KeyphraseDensityAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._minRecommendedKeywordCount,
+					this._minRecommendedKeyphraseCount,
 					this._config.urlCallToAction
 				),
 			};
@@ -221,7 +221,7 @@ class KeyphraseDensityAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._minRecommendedKeywordCount,
+					this._minRecommendedKeyphraseCount,
 					this._config.urlCallToAction,
 					this._keyphraseCount.count
 				),
@@ -268,7 +268,7 @@ class KeyphraseDensityAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					"</a>",
-					this._maxRecommendedKeywordCount,
+					this._maxRecommendedKeyphraseCount,
 					this._config.urlCallToAction,
 					this._keyphraseCount.count
 				),
@@ -294,7 +294,7 @@ class KeyphraseDensityAssessment extends Assessment {
 				),
 				this._config.urlTitle,
 				"</a>",
-				this._maxRecommendedKeywordCount,
+				this._maxRecommendedKeyphraseCount,
 				this._config.urlCallToAction,
 				this._keyphraseCount.count
 			),
