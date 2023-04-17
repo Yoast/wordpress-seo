@@ -190,7 +190,7 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Initializes the inclusive languauge analysis.
+	 * Initializes the inclusive language analysis.
 	 *
 	 * @param {Object} activePublishBox The publish box object.
 	 *
