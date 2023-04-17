@@ -105,8 +105,7 @@ export default function keyphraseCount( paper, researcher ) {
 	const locale = paper.getLocale();
 
 	const sentences = getSentencesFromTree( paper );
-
-	const keyphraseFound = countKeyphraseInText( sentences, topicForms, matchWordCustomHelper, locale );
+	const keyphraseFound = countKeyphraseInText( sentences, topicForms, locale, matchWordCustomHelper );
 
 	return {
 		count: keyphraseFound.count,
