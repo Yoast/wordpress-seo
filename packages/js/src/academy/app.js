@@ -167,25 +167,6 @@ const App = () => {
 			isPremium: true,
 			hasTrial: false,
 		},
-		{
-			id: "workshops",
-			title: "Workshops",
-			description: __( "Learn everything SEO with the free Yoast workshops. Watch the recordings here!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/workshops.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-workshops-start", linkParams ),
-			isPremium: false,
-			hasTrial: false,
-		},
-		{
-			id: "news",
-			title: "SEO news",
-			description: __( "Get your latest SEO news right from our experts!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/news.png`,
-			startLink: addQueryArgs( "https://yoa.st/academy-seo-news-start", linkParams ),
-			isPremium: false,
-			hasTrial: false,
-		},
-
 	] ), [ linkParams ] );
 
 	return (
@@ -194,7 +175,34 @@ const App = () => {
 				<header className="yst-p-8 yst-border-b yst-border-slate-200">
 					<div className="yst-max-w-screen-sm">
 						<Title>{ __( "Academy", "wordpress-seo" ) }</Title>
-						<p className="yst-text-tiny yst-mt-3">{ __( "Learn vital SEO skills that you can apply at once!", "wordpress-seo" ) }</p>
+						<p className="yst-text-tiny yst-mt-3">
+							{ isPremium &&
+							sprintf(
+								// translators: %s for Yoast SEO Premium.
+								 __( "Learn vital SEO skills that you can apply at once! Let us take you by the hand and give you practical SEO tips to help you outrank your competitors. Maximize your SEO game! Because your %s subscription gives you unlimited access to all courses.", "wordpress-seo" ),
+								 "Yoast SEO Premium"
+								 )
+							}
+
+							{ ! isPremium && <>
+								{ sprintf(
+								// translators: %s for Yoast SEO.
+									__( "Learn vital SEO skills that you can apply at once! Let us take you by the hand and give you practical SEO tips to help you outrank your competitors. %s comes with five free courses.", "wordpress-seo" ),
+									"Yoast SEO"
+								) }
+								{ " " }
+								<Link href="https://yoa.st/academy-page-upsell/" target="_blank">
+									{ sprintf(
+										// translators: %s for Yoast SEO Premium.
+										__( "Maximize your SEO game by purchasing %s, which grants you unlimited access to all courses.", "wordpress-seo" ),
+										"Yoast SEO Premium"
+									)
+									}
+								</Link>
+							</>
+							}
+
+						</p>
 					</div>
 				</header>
 				<div className="yst-h-full yst-p-8">
