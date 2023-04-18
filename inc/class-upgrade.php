@@ -999,7 +999,7 @@ class WPSEO_Upgrade {
 	 * Removes the metadata related to the settings page introduction modal for all the users.
 	 */
 	private function upgrade_207() {
-		\add_action( 'shutdown', [ $this, 'delete_user_introduction_meta' ] );
+		add_action( 'shutdown', [ $this, 'delete_user_introduction_meta' ] );
 	}
 
 	/**
