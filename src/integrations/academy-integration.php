@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 
 /**
- * Class Settings_Integration.
+ * Class Academy_Integration.
  */
 class Academy_Integration implements Integration_Interface {
 
