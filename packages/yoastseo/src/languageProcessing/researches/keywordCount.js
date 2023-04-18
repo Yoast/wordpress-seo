@@ -1,6 +1,6 @@
 import { flattenDeep, min, flatten } from "lodash-es";
 import matchTextWithArray from "../helpers/match/matchTextWithArray";
-import matchWordFormsWithTokens from "../helpers/match/matchWordFormsWithTokens";
+import matchWordFormsWithTokens, { matchTokensWithWordForms } from "../helpers/match/matchWordFormsWithTokens";
 import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
 import { collectMarkingsInSentence, markWordsInASentence } from "../helpers/word/markWordsInSentences";
 import Mark from "../../values/Mark";
@@ -110,7 +110,6 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 		markings: [],
 	} );
 
-	return keyphraseCount;
 }
 
 /**
