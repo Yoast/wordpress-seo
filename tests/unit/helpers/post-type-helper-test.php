@@ -40,11 +40,6 @@ class Post_Type_Helper_Test extends TestCase {
 	 *
 	 * @covers ::is_post_type_archive_indexable
 	 * @covers ::get_indexable_post_archives
-	 * @covers ::get_indexable_post_type_objects
-	 * @covers ::get_indexable_post_types
-	 * @covers ::get_public_post_types
-	 * @covers ::get_excluded_post_types_for_indexables
-	 * @covers ::filter_included_post_types
 	 *
 	 * @dataProvider post_type_archive_provider
 	 *
@@ -92,12 +87,6 @@ class Post_Type_Helper_Test extends TestCase {
 	 * Tests if a post type has an archive it is returned.
 	 *
 	 * @covers ::get_indexable_post_archives
-	 * @covers ::has_archive
-	 * @covers ::get_indexable_post_type_objects
-	 * @covers ::get_indexable_post_types
-	 * @covers ::get_public_post_types
-	 * @covers ::get_excluded_post_types_for_indexables
-	 * @covers ::filter_included_post_types
 	 *
 	 * @dataProvider post_type_archive_object_provider
 	 *
