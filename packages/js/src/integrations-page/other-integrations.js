@@ -2,7 +2,6 @@ import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 
 import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
-import { ReactComponent as ZapierLogo } from "../../images/zapier-logo.svg";
 import { ReactComponent as WordproofLogo } from "../../images/wordproof-logo.svg";
 import { ReactComponent as MastodonLogo } from "../../images/mastodon-logo.svg";
 import { ToggleableIntegration } from "./toggleable-integration";
@@ -35,33 +34,6 @@ const integrations = [
 		isMultisiteAvailable: false,
 		logo: WordproofLogo,
 
-	},
-	{
-		name: "Zapier",
-		claim: createInterpolateElement(
-			sprintf(
-				/* translators: 1: bold open tag; 2: Zapier; 3: bold close tag. */
-				__( "Upgrade your workflow and automate tasks with %1$s%2$s%3$s", "wordpress-seo" ),
-				"<strong>",
-				"Zapier",
-				"</strong>"
-			), {
-				strong: <strong />,
-			}
-		),
-		learnMoreLink: "https://yoa.st/integrations-about-zapier",
-		logoLink: "https://yoa.st/integrations-logo-zapier",
-		slug: "zapier",
-		description: sprintf(
-			/* translators: 1: Zapier */
-			__( "Send tweets, trigger emails, and integrate with over 5,000 other apps & tools in %s.", "wordpress-seo" ),
-			"Zapier"
-		),
-		isPremium: true,
-		isNew: false,
-		isMultisiteAvailable: true,
-		logo: ZapierLogo,
-		upsellLink: "https://yoa.st/get-zapier-integration",
 	},
 ];
 
