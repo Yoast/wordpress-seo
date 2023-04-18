@@ -57,9 +57,26 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 			foundWords = [];
 		}
 	}
-
-	return keyphraseForms.map( forms => matchWordFormsWithTokens( forms, sentence.tokens ) );
+	return result;
 }
+
+const markStart = "<yoastmark class='yoast-text-mark'>";
+const markEnd = "</yoastmark>";
+
+const createMarksForSentence = ( sentence, matches ) => {
+	const reference = sentence.sourceCodeRange.startOffset;
+	let sentenceText = sentence.text;
+
+	for ( let i = matches.length - 1; i >= 0; i-- ) {
+		const match = matches[ i ];
+		const startmarkPosition = match.slice( 0 )[ 0 ].sourceCodeRange.startOffset - reference;
+		const endmarkPosition = match.slice( -1 )[ 0 ].sourceCodeRange.endOffset - reference;
+		sentenceText = sentenceText.substring( 0, endmarkPosition ) + markEnd + sentenceText.substring( endmarkPosition );
+		sentenceText = sentenceText.substring( 0, startmarkPosition ) + markStart + sentenceText.substring( startmarkPosition );
+	}
+
+	return sentenceText;
+};
 
 /**
  * Gets the Mark objects of all keyphrase matches.
@@ -71,26 +88,24 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
  * @returns {Mark[]}    The array of Mark objects of the keyphrase matches.
  */
 function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper ) {
-	const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
 
-	if ( matchWordCustomHelper ) {
-		return markWordsInASentence( sentence.text, foundWords, matchWordCustomHelper );
-	}
+	const markedSentence = createMarksForSentence( sentence, matchesInSentence );
+	const markings = matchesInSentence.map( match => {
+		return new Mark( {
+			position: {
+				startOffset: match.slice( 0 )[ 0 ].sourceCodeRange.startOffset,
+				endOffset: match.slice( -1 )[ 0 ].sourceCodeRange.endOffset,
+			},
+			marked: markedSentence,
+			original: sentence.text,
 
-	const wordTexts = foundWords.map( wordB => wordB.text );
-
-	return foundWords.map( word =>
-		new Mark(
-			{
-				position: { startOffset: word.sourceCodeRange.startOffset, endOffset: word.sourceCodeRange.endOffset },
-				marked: collectMarkingsInSentence( sentence.text, wordTexts ),
-				original: sentence.text,
-			} ) );
+		} );
+	} );
+	return markings;
 }
 
 const mergeConsecutiveMarkings = ( markings ) => {
 	const newMarkings = [];
-	console.log( ...markings, "TEST1" );
 	markings.forEach( ( marking ) => {
 		let actionDone = false;
 		newMarkings.forEach( ( newMarking, newMarkingIndex ) => {
@@ -123,31 +138,18 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	return sentences.reduce( ( acc, sentence ) => {
 		const matchesInSentence = getMatchesInSentence( sentence, topicForms.keyphraseForms, locale, matchWordCustomHelper );
 
-		/*
-		 * Check if all words of the keyphrase are found in the sentence.
-		 * One keyphrase occurrence is counted when all words of the keyphrase are contained within the sentence.
-		 * Each sentence can contain multiple keyphrases.
-	     * (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
-		 */
-		const hasAllKeywords = matchesInSentence.every( form => form.count > 0 );
-
-		if ( ! hasAllKeywords ) {
-			return acc;
-		}
-		// Get the Mark objects of all keyphrase occurrences in the sentence.
 		let markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper );
 		// console.log(markings);
 		markings = mergeConsecutiveMarkings( markings );
 
 		return {
-			count: acc.count + min( matchesInSentence.map( match => match.count ) ),
+			count: markings.length,
 			markings: acc.markings.concat( markings ),
 		};
 	}, {
 		count: 0,
 		markings: [],
 	} );
-
 }
 
 /**

@@ -28,7 +28,7 @@ const mockResearcher = buildMorphologyMockResearcher( [ [ "keyword", "keywords" 
 const mockResearcherGermanDiacritics = buildMorphologyMockResearcher( [ [ "äöüß" ] ] );
 const mockResearcherMinus = buildMorphologyMockResearcher( [ [ "key-word", "key-words" ] ] );
 const mockResearcherUnderscore = buildMorphologyMockResearcher( [ [ "key_word", "key_words" ] ] );
-const mockResearcherKeyWord = buildMorphologyMockResearcher( [ [ "key", "keys" ], [ "word", "words" ], [ "test" ] ] );
+const mockResearcherKeyWord = buildMorphologyMockResearcher( [ [ "key", "keys" ], [ "word", "words" ] ] );
 const mockResearcherKaplaki = buildMorphologyMockResearcher( [ [ "kapaklı" ] ] );
 const mockResearcherAmpersand = buildMorphologyMockResearcher( [ [ "key&word" ] ] );
 const mockResearcherApostrophe = buildMorphologyMockResearcher( [ [ "key`word" ] ] );
@@ -70,7 +70,7 @@ describe( "Test for counting the keyword in a text", function() {
 	} );
 
 	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
-		const mockPaper = new Paper( "<p>a string of text with the key word key word test word test in it, with more key words test.</p>" );
+		const mockPaper = new Paper( "<p>a string of text with the key word in it, with more key words.</p>" );
 		buildTree( mockPaper, mockResearcher );
 		// console.log(keyphraseCount( mockPaper, mockResearcherKeyWord ).markings.map(mark => mark._properties.position));
 		// expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
