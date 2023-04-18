@@ -215,7 +215,7 @@ const App = () => {
 									<img
 										className="yst-w-full yst-transition yst-duration-200"
 										src={ course.image }
-										alt={ course.imageAlt ?? "" }
+										alt=""
 										width={ 500 }
 										height={ 250 }
 										loading="lazy"
