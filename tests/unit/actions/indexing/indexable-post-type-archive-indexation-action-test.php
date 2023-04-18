@@ -108,27 +108,12 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_indexed_post_type_archives
 	 */
 	public function test_get_total_unindexed() {
-		$public_post_types = [
-			[
-				'name'        => 'movies',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'books',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'posts',
-				'has_archive' => false,
-			],
-		];
-
 		$indexed_post_types = [ 'books' ];
 
 		Monkey\Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_post_type_archives' )->andReturnFalse();
 		Monkey\Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_post_type_archives', 1, \DAY_IN_SECONDS )->andReturnTrue();
 
-		$this->set_expectations_for_post_type_helper( $public_post_types );
+		$this->post_type->expects( 'get_indexable_post_archives' )->andReturn( $this->get_post_type_mocks() );
 		$this->set_expectations_for_repository( $indexed_post_types );
 
 		$this->assertEquals( 1, $this->instance->get_total_unindexed() );
@@ -155,25 +140,10 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_indexed_post_type_archives
 	 */
 	public function test_index() {
-		$public_post_types = [
-			[
-				'name'        => 'movies',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'books',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'posts',
-				'has_archive' => false,
-			],
-		];
-
 		$indexed_post_types   = [ 'movies' ];
 		$unindexed_post_types = [ 'books' ];
 
-		$this->set_expectations_for_post_type_helper( $public_post_types );
+		$this->post_type->expects( 'get_indexable_post_archives' )->andReturn( $this->get_post_type_mocks() );
 		$this->set_expectations_for_repository( $indexed_post_types );
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
@@ -197,25 +167,11 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_indexed_post_type_archives
 	 */
 	public function test_index_when_limit_is_set_to_a_negative_number() {
-		$public_post_types = [
-			[
-				'name'        => 'movies',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'books',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'posts',
-				'has_archive' => false,
-			],
-		];
-
 		$indexed_post_types   = [ 'movies' ];
 		$unindexed_post_types = [ 'books' ];
 
-		$this->set_expectations_for_post_type_helper( $public_post_types );
+		$this->post_type->expects( 'get_indexable_post_archives' )->andReturn( $this->get_post_type_mocks() );
+
 		$this->set_expectations_for_repository( $indexed_post_types );
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
@@ -239,25 +195,12 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_indexed_post_type_archives
 	 */
 	public function test_index_when_limit_is_not_an_integer() {
-		$public_post_types = [
-			[
-				'name'        => 'movies',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'books',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'posts',
-				'has_archive' => false,
-			],
-		];
 
 		$indexed_post_types   = [ 'movies' ];
 		$unindexed_post_types = [ 'books' ];
 
-		$this->set_expectations_for_post_type_helper( $public_post_types );
+		$this->post_type->expects( 'get_indexable_post_archives' )->andReturn( $this->get_post_type_mocks() );
+
 		$this->set_expectations_for_repository( $indexed_post_types );
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
@@ -281,24 +224,10 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_indexed_post_type_archives
 	 */
 	public function test_index_no_indexables_created() {
-		$public_post_types = [
-			[
-				'name'        => 'movies',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'books',
-				'has_archive' => true,
-			],
-			[
-				'name'        => 'posts',
-				'has_archive' => true,
-			],
-		];
-
 		$indexed_post_types = [ 'movies', 'books', 'posts' ];
 
-		$this->set_expectations_for_post_type_helper( $public_post_types );
+		$this->post_type->expects( 'get_indexable_post_archives' )->andReturn( $this->get_post_type_mocks() );
+
 		$this->set_expectations_for_repository( $indexed_post_types );
 
 		Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
@@ -306,27 +235,6 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			->andReturn( 25 );
 
 		$this->assertEquals( [], $this->instance->index() );
-	}
-
-	/**
-	 * Sets the expectations for the post type helper.
-	 *
-	 * @param array $public_post_types The public post types.
-	 */
-	private function set_expectations_for_post_type_helper( $public_post_types ) {
-		$post_type_objects = [];
-		foreach ( $public_post_types as $post_type ) {
-			$post_type_objects[] = (object) $post_type;
-		}
-
-		$this->post_type->expects( 'get_public_post_types' )
-			->andReturn( $post_type_objects );
-
-		foreach ( $post_type_objects as $post_type_object ) {
-			$this->post_type->expects( 'has_archive' )
-				->with( $post_type_object )
-				->andReturn( $post_type_object->has_archive );
-		}
 	}
 
 	/**
@@ -368,5 +276,18 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 		}
 
 		return $indexable_mocks;
+	}
+
+	/**
+	 * Provides an array with 2 objects.
+	 *
+	 * @return \stdClass[]
+	 */
+	private function get_post_type_mocks() {
+		$book         = new \stdClass();
+		$book->name   = 'books';
+		$movies       = new \stdClass();
+		$movies->name = 'movies';
+		return [ $book, $movies ];
 	}
 }
