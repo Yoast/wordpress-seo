@@ -454,7 +454,7 @@ class Cleanup_Integration implements Integration_Interface {
 		global $wpdb;
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$included_post_types = $this->post_type->get_indexable_post_types();
+		$included_post_types = $this->post_type->get_indexable_post_archives();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
