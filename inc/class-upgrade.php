@@ -1648,7 +1648,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function delete_user_introduction_meta() {
+	public function delete_user_introduction_meta() {
 		delete_metadata( 'user', 0, '_yoast_settings_introduction', '', true );
 	}
 }
