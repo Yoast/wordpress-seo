@@ -999,7 +999,7 @@ class WPSEO_Upgrade {
 	 * Removes the metadata related to the settings page introduction modal for all the users.
 	 */
 	private function upgrade_207() {
-		delete_metadata( 'user', 0, '_yoast_settings_introduction', '', true );
+		\add_action( 'shutdown', [ $this, 'delete_user_introduction_meta' ] );
 	}
 
 	/**
@@ -1641,5 +1641,14 @@ class WPSEO_Upgrade {
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);
 		// phpcs:enable
+	}
+
+	/**
+	 * Removes the settings' introduction modal data for users.
+	 *
+	 * @return void
+	 */
+	private function delete_user_introduction_meta() {
+		delete_metadata( 'user', 0, '_yoast_settings_introduction', '', true );
 	}
 }
