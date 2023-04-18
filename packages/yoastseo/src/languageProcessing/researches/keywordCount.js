@@ -20,6 +20,44 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 		return keyphraseForms.map( forms => matchTextWithArray( sentence.text,  forms, locale, matchWordCustomHelper ) );
 	}
 
+	const result = [];
+	const tokens = sentence.tokens;
+	let index = 0;
+	let initailPosition = 0;
+
+	let foundWords = [];
+	// eslint-disable-next-line no-constant-condition
+	while ( true ) {
+		const head = keyphraseForms[ index ];
+		const foundPosition = tokens.slice( initailPosition ).findIndex( t => head.includes( t.text ) );
+
+		if ( foundPosition >= 0 ) {
+			if ( index > 0 ) {
+				if ( tokens.slice( initailPosition, foundPosition + initailPosition ).some( t => t.text.trim() !== "" ) ) {
+					index = 0;
+					foundWords = [];
+					continue;
+				}
+			}
+
+			index += 1;
+			initailPosition += foundPosition;
+			foundWords.push( tokens[ initailPosition ] );
+			initailPosition += 1;
+		} else {
+			if ( index === 0 ) {
+				break;
+			}
+			index = 0;
+		}
+
+		if ( foundWords.length >= keyphraseForms.length ) {
+			result.push( foundWords );
+			index = 0;
+			foundWords = [];
+		}
+	}
+
 	return keyphraseForms.map( forms => matchWordFormsWithTokens( forms, sentence.tokens ) );
 }
 
@@ -52,7 +90,7 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 
 const mergeConsecutiveMarkings = ( markings ) => {
 	const newMarkings = [];
-	console.log(...markings, "TEST1");
+	console.log( ...markings, "TEST1" );
 	markings.forEach( ( marking ) => {
 		let actionDone = false;
 		newMarkings.forEach( ( newMarking, newMarkingIndex ) => {
