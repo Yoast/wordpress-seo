@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Shortlinker;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -38,20 +38,30 @@ class Academy_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * Holds the Short_Link_Helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	private $shortlink_helper;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 * @param Product_Helper            $product_helper      The Product_Helper.
+	 * @param Short_Link_Helper         $shortlink_helper    The Short_Link_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Current_Page_Helper $current_page_helper,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Short_Link_Helper $shortlink_helper
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->current_page_helper = $current_page_helper;
 		$this->product_helper      = $product_helper;
+		$this->shortlink_helper    = $shortlink_helper;
 	}
 
 	/**
@@ -157,7 +167,7 @@ class Academy_Integration implements Integration_Interface {
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 			],
-			'linkParams'  => WPSEO_Shortlinker::get_query_params(),
+			'linkParams'  => $this->shortlink_helper->get_query_params(),
 		];
 	}
 }

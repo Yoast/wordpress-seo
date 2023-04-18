@@ -4,16 +4,15 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Main;
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+
 /**
  * Class Academy_Integration_Test.
  *
@@ -45,18 +44,18 @@ class Academy_Integration_Test extends TestCase {
 	private $product_helper;
 
 	/**
+	 * Holds the Short_Link_Helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	private $shortlink_helper;
+
+	/**
 	 * The class under test.
 	 *
 	 * @var Academy_Integration
 	 */
 	protected $instance;
-
-	/**
-	 * The WPSEO_Shortlinker.
-	 *
-	 * @var WPSEO_Shortlinker
-	 */
-	protected $shortlinker;
 
 	/**
 	 * Runs the setup to prepare the needed instance
@@ -67,12 +66,13 @@ class Academy_Integration_Test extends TestCase {
 		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
-		$this->shortlinker         = Mockery::mock( WPSEO_Shortlinker::class );
+		$this->shortlink_helper    = Mockery::mock( Short_Link_Helper::class );
 
 		$this->instance = new Academy_Integration(
 			$this->asset_manager,
 			$this->current_page_helper,
-			$this->product_helper
+			$this->product_helper,
+			$this->shortlink_helper
 		);
 	}
 
@@ -197,5 +197,94 @@ class Academy_Integration_Test extends TestCase {
 			->once();
 
 		$this->instance->remove_notices();
+	}
+
+	/**
+	 * Test enqueue_assets
+	 *
+	 * @covers ::enqueue_assets
+	 * @covers ::get_script_data
+	 */
+	public function test_enqueue_assets() {
+		Monkey\Functions\expect( 'remove_action' )
+			->with( 'admin_print_scripts', 'print_emoji_detection_script' )
+			->once();
+
+		Monkey\Functions\expect( 'wp_enqueue_media' )->once();
+
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->with( 'academy' )
+			->once();
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->with( 'academy' )
+			->once();
+
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->once();
+
+		$this->expect_get_script_data();
+
+		$this->instance->enqueue_assets();
+	}
+
+	/**
+	 * Expectations for get_script_data.
+	 *
+	 * @return array The expected data.
+	 */
+	public function expect_get_script_data() {
+		$link_params = [
+			'php_version'      => '8.1',
+			'platform'         => 'wordpress',
+			'platform_version' => '6.2',
+			'software'         => 'free',
+			'software_version' => '20.6-RC2',
+			'days_active'      => '6-30',
+			'user_language'    => 'en_US',
+		];
+
+		$this->product_helper
+				->expects( 'is_premium' )
+				->once()
+				->andReturn( false );
+
+		Monkey\Functions\expect( 'is_rtl' )->once()->andReturn( false );
+
+		Monkey\Functions\expect( 'plugins_url' )->once()->andReturn( 'http://basic.wordpress.test/wp-content/worspress-seo' );
+
+		$this->shortlink_helper
+			->expects( 'get_query_params' )
+			->once()
+			->andReturn( $link_params );
+
+		return $link_params;
+	}
+
+	/**
+	 * Test for get_script_data that is used in enqueue_assets.
+	 *
+	 * @covers ::get_script_data
+	 */
+	public function test_get_script_data() {
+		$link_params = $this->expect_get_script_data();
+
+		$expected = [
+			'preferences' => [
+				'isPremium'      => false,
+				'isRtl'          => false,
+				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
+				'upsellSettings' => [
+					'actionId'     => 'load-nfd-ctb',
+					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
+				],
+			],
+			'linkParams'  => $link_params,
+		];
+
+		$this->assertSame( $expected, $this->instance->get_script_data() );
 	}
 }
