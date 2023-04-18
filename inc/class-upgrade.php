@@ -999,7 +999,6 @@ class WPSEO_Upgrade {
 	 * Removes the metadata related to the settings page introduction modal for all the users.
 	 */
 	private function upgrade_207() {
-		global $wpdb;
 		delete_metadata( 'user', 0, '_yoast_settings_introduction', '', true );
 	}
 
