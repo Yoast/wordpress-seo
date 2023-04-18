@@ -50,6 +50,27 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 			} ) );
 }
 
+const mergeConsecutiveMarkings = ( markings ) => {
+	const newMarkings = [];
+	console.log(...markings, "TEST1");
+	markings.forEach( ( marking ) => {
+		let actionDone = false;
+		newMarkings.forEach( ( newMarking, newMarkingIndex ) => {
+			if ( newMarking.getPositionEnd() + 1 === marking.getPositionStart() ) {
+				newMarkings[ newMarkingIndex ]._properties.position.endOffset = marking.getPositionEnd();
+				actionDone = true;
+			} else if ( newMarking.getPositionStart() === marking.getPositionEnd() + 1 ) {
+				newMarkings[ newMarkingIndex ]._properties.position.startOffset = marking.getPositionStart();
+				actionDone = true;
+			}
+		} );
+		if ( ! actionDone ) {
+			newMarkings.push( marking );
+		}
+	} );
+	return newMarkings;
+};
+
 /**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.
  *
@@ -76,7 +97,9 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 			return acc;
 		}
 		// Get the Mark objects of all keyphrase occurrences in the sentence.
-		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper );
+		let markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper );
+		// console.log(markings);
+		markings = mergeConsecutiveMarkings( markings );
 
 		return {
 			count: acc.count + min( matchesInSentence.map( match => match.count ) ),
@@ -86,6 +109,8 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 		count: 0,
 		markings: [],
 	} );
+
+	return keyphraseCount;
 }
 
 /**
