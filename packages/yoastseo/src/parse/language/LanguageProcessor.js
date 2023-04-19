@@ -2,6 +2,9 @@ import Sentence from "../structure/Sentence";
 import Token from "../structure/Token";
 
 const whitespaceRegex = /^\s+$/;
+
+export const tokenizerSplitter = /([\s-_,.!?;:([\]'"¡¿)/])/g;
+
 /**
  * Contains language-specific logic for splitting a text into sentences and tokens.
  */
@@ -56,7 +59,8 @@ class LanguageProcessor {
 		// Retrieve sentence from sentence class
 		const sentenceText = sentence.text;
 		// Split the sentence string into tokens
-		const tokenTexts = sentenceText.split( /([\s,.!?;:([\]'"¡¿)/])/g ).filter( x => x !== "" );
+		const tokenTexts = sentenceText.split( tokenizerSplitter ).filter( x => x !== "" );
+
 		return tokenTexts.map( tokenText => new Token( tokenText ) );
 	}
 }
