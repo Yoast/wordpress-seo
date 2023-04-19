@@ -2,27 +2,27 @@
 
 namespace Yoast\WP\SEO\Analytics\Application;
 
+use WPSEO_Collection;
 use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 use Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count;
 use Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Bucket;
 
 /**
- * Collects data about to be clean indexables.
+ * Collects data about to-be-cleaned indexables.
  */
-class To_Be_Cleaned_Indexables_Collector implements \WPSEO_Collection {
+class To_Be_Cleaned_Indexables_Collector implements WPSEO_Collection {
 
 	/**
 	 * The cleanup query repository.
 	 *
-	 * @var \Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository
+	 * @var Indexable_Cleanup_Repository
 	 */
 	private $indexable_cleanup_repository;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param Indexable_Cleanup_Repository $indexable_cleanup_repository The Indexable
-	 *                                                                                              cleanup repository.
+	 * @param Indexable_Cleanup_Repository $indexable_cleanup_repository The Indexable cleanup repository.
 	 */
 	public function __construct( Indexable_Cleanup_Repository $indexable_cleanup_repository ) {
 		$this->indexable_cleanup_repository = $indexable_cleanup_repository;
@@ -34,7 +34,7 @@ class To_Be_Cleaned_Indexables_Collector implements \WPSEO_Collection {
 	public function get(): array {
 		$to_be_cleaned_indexable_bucket = new To_Be_Cleaned_Indexable_Bucket();
 		$cleanup_tasks                  = [
-			'indexables_with_object_type_and_object_sub_type'   => $this->indexable_cleanup_repository->count_indexables_with_object_type_and_object_sub_type( 'post', 'shop_order' ),
+			'indexables_with_post_object_type_and_shop_order_object_sub_type' => $this->indexable_cleanup_repository->count_indexables_with_object_type_and_object_sub_type( 'post', 'shop_order' ),
 			'indexables_with_auto-draft_post_status'            => $this->indexable_cleanup_repository->count_indexables_with_post_status( 'auto-draft' ),
 			'indexables_for_non_publicly_viewable_post'         => $this->indexable_cleanup_repository->count_indexables_for_non_publicly_viewable_post(),
 			'indexables_for_non_publicly_viewable_taxonomies'   => $this->indexable_cleanup_repository->count_indexables_for_non_publicly_viewable_taxonomies(),
@@ -53,7 +53,7 @@ class To_Be_Cleaned_Indexables_Collector implements \WPSEO_Collection {
 			$to_be_cleaned_indexable_bucket->add_to_be_cleaned_indexable_count( $count_object );
 		}
 
-		$this->get_additional_counts( $to_be_cleaned_indexable_bucket );
+		$this->add_additional_counts( $to_be_cleaned_indexable_bucket );
 
 		return $to_be_cleaned_indexable_bucket->to_array();
 	}
@@ -65,11 +65,11 @@ class To_Be_Cleaned_Indexables_Collector implements \WPSEO_Collection {
 	 *
 	 * @return void
 	 */
-	private function get_additional_counts( To_Be_Cleaned_Indexable_Bucket $to_be_cleaned_indexable_bucket ): void {
-
+	private function add_additional_counts( To_Be_Cleaned_Indexable_Bucket $to_be_cleaned_indexable_bucket ): void {
 		/**
-		 * Filter: Adds the possibility to add additional to be cleaned objects.
+		 * Action: Adds the possibility to add additional to be cleaned objects.
 		 *
+		 * @internal
 		 * @api To_Be_Cleaned_Indexable_Bucket An indexable cleanup bucket. New values are instances of To_Be_Cleaned_Indexable_Count.
 		 */
 		\do_action( 'wpseo_add_cleanup_counts_to_indexable_bucket', $to_be_cleaned_indexable_bucket );

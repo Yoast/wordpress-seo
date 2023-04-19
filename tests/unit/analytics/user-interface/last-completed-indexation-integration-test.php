@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Analytics\Userinterface;
+namespace Yoast\WP\SEO\Tests\Unit\Analytics\UserInterface;
 
-use Yoast\WP\SEO\Analytics\Userinterface\Last_Completed_Indexation_Integration;
+use Yoast\WP\SEO\Analytics\UserInterface\Last_Completed_Indexation_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -11,8 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group   analytics
  *
- * @coversDefaultClass \Yoast\WP\SEO\Analytics\Userinterface\Last_Completed_Indexation_Integration
- * @covers  \Yoast\WP\SEO\Analytics\Userinterface\Last_Completed_Indexation_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Analytics\UserInterface\Last_Completed_Indexation_Integration
  */
 class Last_Completed_Indexation_Integration_Test extends TestCase {
 

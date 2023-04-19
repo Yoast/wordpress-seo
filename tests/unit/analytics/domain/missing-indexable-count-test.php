@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group  analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count
- * @covers \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count
  */
 class Missing_Indexable_Count_Test extends TestCase {
 

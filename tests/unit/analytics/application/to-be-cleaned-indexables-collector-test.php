@@ -13,7 +13,6 @@ use Mockery;
  * @group  analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector
- * @covers \Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector
  */
 class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 
@@ -32,7 +31,7 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$indexable_cleanup_repository_mock = Mockery::mock( Indexable_Cleanup_Repository::class );
-		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_with_object_type_and_object_sub_type' )
+		$indexable_cleanup_repository_mock->expects( 'count_indexables_with_object_type_and_object_sub_type' )
 			->once()
 			->andReturn( 0 );
 		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_with_post_status' )

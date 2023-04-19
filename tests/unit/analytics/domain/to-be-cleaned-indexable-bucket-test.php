@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group  analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Bucket
- * @covers \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Bucket
  */
 class To_Be_Cleaned_Indexable_Bucket_Test extends TestCase {
 

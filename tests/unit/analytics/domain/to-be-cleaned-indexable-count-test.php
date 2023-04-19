@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group  analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count
- * @covers \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count
  */
 class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
 

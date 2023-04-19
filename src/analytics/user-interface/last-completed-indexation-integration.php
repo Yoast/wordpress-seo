@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Analytics\Userinterface;
+namespace Yoast\WP\SEO\Analytics\UserInterface;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
@@ -10,19 +10,20 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  * Handles setting a timestamp when the indexation of a specific indexation action is completed.
  */
 class Last_Completed_Indexation_Integration implements Integration_Interface {
+
 	use No_Conditionals;
 
 	/**
 	 * The options helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Options_Helper $options_helper The options helper.
+	 * @var Options_Helper $options_helper The options helper.
 	 */
 	private $options_helper;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Helpers\Options_Helper $options_helper The options helper.
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->options_helper = $options_helper;
@@ -55,7 +56,7 @@ class Last_Completed_Indexation_Integration implements Integration_Interface {
 	 */
 	public function maybe_set_indexables_unindexed_calculated( string $indexable_name, int $count ): void {
 		if ( $count === 0 ) {
-			$no_index                    = $this->options_helper->get( 'last_known_no_unindexed' );
+			$no_index                    = $this->options_helper->get( 'last_known_no_unindexed', [] );
 			$no_index[ $indexable_name ] = \time();
 			$this->options_helper->set( 'last_known_no_unindexed', $no_index );
 		}
