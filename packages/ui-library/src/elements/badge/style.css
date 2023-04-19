@@ -36,12 +36,6 @@
 			yst-text-slate-900;
 		}
 
-		.yst-badge--primary {
-			@apply
-			yst-bg-primary-500
-			yst-text-white;
-		}
-
 		/* Sizes */
 
 		.yst-badge--small {
