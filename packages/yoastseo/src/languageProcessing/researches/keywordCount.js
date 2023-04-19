@@ -23,7 +23,19 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 	const result = [];
 	const tokens = sentence.tokens;
 	let index = 0;
-	let initailPosition = 0;
+	let initialPosition = 0;
+
+	const newKeyphraseForms = [];
+	keyphraseForms.forEach( word => {
+		// const newWord = []
+		const tokenizedWord = word.map( form => {
+			return form.split( tokenizerSplitter );
+		} );
+
+		const tokenizedWordTransposed = tokenizedWord[ 0 ].map( ( _, index ) => uniq( tokenizedWord.map( row => row[ index ] ) ) );
+
+		tokenizedWordTransposed.forEach( newWord => newKeyphraseForms.push( newWord ) );
+	} );
 
 	let foundWords = [];
 	// eslint-disable-next-line no-constant-condition
