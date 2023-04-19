@@ -192,9 +192,9 @@ describe( "Test for counting the keyword in a text", function() {
 	} );
 
 	it( "keyword counting is blind to types of apostrophe.", function() {
-		const mockPaper = new Paper( "<p>A string with quotes to match the key'word, even if the quotes differ.</p>" );
+		const mockPaper = new Paper( "<p><span>A string with quotes to match the key'word, even if the quotes differ.</span></p>" );
 		buildTree( mockPaper, mockResearcher );
-
+		console.log(mockPaper.getTree());
 		expect( keyphraseCount( mockPaper, mockResearcherApostrophe ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherApostrophe ).markings ).toEqual( [
 			new Mark( { marked: "A string with quotes to match the <yoastmark class='yoast-text-mark'>key'word</yoastmark>, " +
