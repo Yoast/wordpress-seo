@@ -330,12 +330,16 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return false;
 		}
 
+		if ( $this->wp_cron_enabled_conditional->is_met() ) {
+			return false;
+		}
+
 		$total_unindexed = $this->indexing_helper->get_limited_filtered_unindexed_count_background( $shutdown_limit );
 		if ( $total_unindexed === 0 || $total_unindexed > $shutdown_limit ) {
 			return false;
 		}
 
-		return ! $this->wp_cron_enabled_conditional->is_met();
+		return true;
 	}
 
 	/**

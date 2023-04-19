@@ -282,8 +282,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	public function test_register_shutdown_indexing_with_wp_cron_enabled() {
 		$this->indexing_helper
 			->expects( 'get_limited_filtered_unindexed_count_background' )
-			->once()
-			->andReturn( 10 );
+			->never();
 
 		$this->yoast_admin_and_dashboard_conditional
 			->expects( 'is_met' )
