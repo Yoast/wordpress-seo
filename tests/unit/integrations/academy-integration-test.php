@@ -25,7 +25,7 @@ class Academy_Integration_Test extends TestCase {
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
 	 *
-	 * @var WPSEO_Admin_Asset_Manager
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
 	 */
 	private $asset_manager;
 
