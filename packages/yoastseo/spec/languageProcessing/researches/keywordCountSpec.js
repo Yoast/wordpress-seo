@@ -72,8 +72,7 @@ describe( "Test for counting the keyword in a text", function() {
 	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
 		const mockPaper = new Paper( "<p>a string of text with the key word in it, with more key words.</p>" );
 		buildTree( mockPaper, mockResearcher );
-		// console.log(keyphraseCount( mockPaper, mockResearcherKeyWord ).markings.map(mark => mark._properties.position));
-		// expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
+		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
 			new Mark( {
 				marked: "a string of text with the <yoastmark class='yoast-text-mark'>key word</yoastmark> in it, " +
@@ -139,36 +138,38 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "<span>A string with a key-word.</span>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
-		// Note: this behavior might change in the future.
 	} );
 
 	it( "counts a string with a keyword with a '_' in it", function() {
-		const mockPaper = new Paper( "A string with a key_word." );
+		const mockPaper = new Paper( "<p>A string with a key_word.</p>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherUnderscore ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherUnderscore ).markings ).toEqual( [
 			new Mark( { marked: "A string with a <yoastmark class='yoast-text-mark'>key_word</yoastmark>.",
-				original: "A string with a key_word." } ) ]
+				original: "A string with a key_word.",
+				position: { endOffset: 27, startOffset: 19 } } ) ]
 		);
 	} );
 
 	it( "counts a string with with 'kapaklı' as a keyword in it", function() {
-		const mockPaper = new Paper( "A string with kapaklı." );
+		const mockPaper = new Paper( "<p>A string with kapaklı.</p>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKaplaki ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherKaplaki ).markings ).toEqual( [
 			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>kapaklı</yoastmark>.",
-				original: "A string with kapaklı." } ) ]
+				original: "A string with kapaklı.",
+				position: { endOffset: 24, startOffset: 17 } } ) ]
 		);
 	} );
 
 	it( "counts a string with with '&' in the string and the keyword", function() {
-		const mockPaper = new Paper( "A string with key&word." );
+		const mockPaper = new Paper( "<h6>A string with key&word.</h6>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherAmpersand ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherAmpersand ).markings ).toEqual( [
 			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>key&word</yoastmark>.",
-				original: "A string with key&word." } )	]
+				original: "A string with key&word.",
+				position: { endOffset: 26, startOffset: 18 } } )	]
 		);
 	} );
 
@@ -180,23 +181,25 @@ describe( "Test for counting the keyword in a text", function() {
 	} );
 
 	it( "keyword counting is blind to CApiTal LeTteRs.", function() {
-		const mockPaper = new Paper( "A string with KeY worD." );
+		const mockPaper = new Paper( "<h3>A string with KeY worD.</h3>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
 			new Mark( { marked: "A string with <yoastmark class='yoast-text-mark'>KeY worD</yoastmark>.",
-				original: "A string with KeY worD." } )	]
+				original: "A string with KeY worD.",
+				position: { endOffset: 26, startOffset: 18 } } )	]
 		);
 	} );
 
 	it( "keyword counting is blind to types of apostrophe.", function() {
-		const mockPaper = new Paper( "A string with quotes to match the key'word, even if the quotes differ." );
+		const mockPaper = new Paper( "<p>A string with quotes to match the key'word, even if the quotes differ.</p>" );
 		buildTree( mockPaper, mockResearcher );
+
 		expect( keyphraseCount( mockPaper, mockResearcherApostrophe ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherApostrophe ).markings ).toEqual( [
 			new Mark( { marked: "A string with quotes to match the <yoastmark class='yoast-text-mark'>key'word</yoastmark>, " +
 					"even if the quotes differ.",
-			original: "A string with quotes to match the key'word, even if the quotes differ." } ) ]
+			original: "A string with quotes to match the key'word, even if the quotes differ.",  position: { endOffset: 45, startOffset: 37 } } ) ]
 		);
 	} );
 
@@ -231,6 +234,13 @@ describe( "Test for counting the keyword in a text", function() {
 					"class='yoast-text-mark'>word</yoastmark>.",
 			original: "A string with three keys (key and another key) and one word." } ) ]
 		);
+	} );
+
+	it( "counts 'key word' when interjected with a function word.", function() {
+		const mockPaper = new Paper( "<span>A string with a key the word.</span>" );
+		buildTree( mockPaper, mockResearcher );
+		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
+		// Note: this behavior might change in the future.
 	} );
 
 	it( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
