@@ -233,13 +233,13 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return array The schedules containing the fifteen_minutes schedule.
 	 */
 	public function add_cron_schedule( $schedules ) {
-		if ( ! is_array( $schedules ) ) {
+		if ( ! \is_array( $schedules ) ) {
 			return $schedules;
 		}
 
 		$schedules['fifteen_minutes'] = [
 			'interval' => ( 15 * MINUTE_IN_SECONDS ),
-			'display'  => esc_html__( 'Every fifteen minutes', 'wordpress-seo' ),
+			'display'  => \esc_html__( 'Every fifteen minutes', 'wordpress-seo' ),
 		];
 
 		return $schedules;
@@ -307,7 +307,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		}
 
 		// The filter supersedes everything when preventing cron indexation.
-		if ( apply_filters( 'Yoast\WP\SEO\enable_cron_indexing', true ) !== true ) {
+		if ( \apply_filters( 'Yoast\WP\SEO\enable_cron_indexing', true ) !== true ) {
 			return false;
 		}
 
