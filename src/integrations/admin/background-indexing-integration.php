@@ -206,7 +206,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function index() {
-		if ( \wp_doing_cron() && ! $this->should_index_on_cron( true ) ) {
+		if ( \wp_doing_cron() && ! $this->should_index_on_cron() ) {
 			$this->unschedule_cron_indexing();
 
 			return;
