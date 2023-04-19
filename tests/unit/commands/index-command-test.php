@@ -127,6 +127,8 @@ class Index_Command_Test extends TestCase {
 			$this->term_link_indexation_action,
 			$this->indexable_helper
 		);
+
+		$this->stubTranslationFunctions();
 	}
 
 	/**
@@ -197,6 +199,48 @@ class Index_Command_Test extends TestCase {
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 6 );
+
+		$this->instance->index( null, [ 'interval' => 500 ] );
+	}
+
+	/**
+	 * Tests the execute function on a staging site.
+	 *
+	 * @covers ::index
+	 * @covers ::run_indexation_action
+	 */
+	public function test_execute_staging() {
+		$indexation_actions = [
+			$this->post_indexation_action,
+			$this->term_indexation_action,
+			$this->post_type_archive_indexation_action,
+			$this->general_indexation_action,
+			$this->post_link_indexation_action,
+			$this->term_link_indexation_action,
+		];
+
+		foreach ( $indexation_actions as $indexation_action ) {
+			$indexation_action->expects( 'get_total_unindexed' )->never();
+			$indexation_action->expects( 'get_limit' )->never();
+			$indexation_action->expects( 'index' )->never();
+		}
+
+		$this->indexable_helper->expects( 'should_index_indexables' )->once()->andReturn( false );
+
+		$this->prepare_indexing_action->expects( 'prepare' )->never();
+
+		$this->complete_indexation_action->expects( 'complete' )->never();
+
+		$progress_bar_mock = Mockery::mock( Bar::class );
+		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )->never();
+		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )->never();
+		$progress_bar_mock->expects( 'tick' )->never();
+		$progress_bar_mock->expects( 'finish' )->never();
+
+		$cli = Mockery::mock( 'overload:' . WP_CLI::class );
+		$cli->expects( 'log' )
+			->once()
+			->with( 'Your WordPress environment is running on a non-production site. Indexables can only be created on production environments. Please check your `WP_ENVIRONMENT_TYPE` settings.' );
 
 		$this->instance->index( null, [ 'interval' => 500 ] );
 	}
