@@ -317,15 +317,20 @@ class Indexing_Helper {
 	/**
 	 * Returns a limited number of unindexed objects.
 	 *
-	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 * @param int                                                               $limit   Limit the number of unindexed objects that are counted.
+	 * @param Indexation_Action_Interface[]|Limited_Indexing_Action_Interface[] $actions The actions whose counts will be calculated.
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_limited_unindexed_count( $limit ) {
+	public function get_limited_unindexed_count( $limit, $actions = [] ) {
 		$unindexed_count = 0;
 
-		foreach ( $this->indexing_actions as $indexing_action ) {
-			$unindexed_count += $indexing_action->get_limited_unindexed_count( $limit - $unindexed_count + 1 );
+		if ( empty( $actions ) ) {
+			$actions = $this->indexing_actions;
+		}
+
+		foreach ( $actions as $action ) {
+			$unindexed_count += $action->get_limited_unindexed_count( $limit - $unindexed_count + 1 );
 			if ( $unindexed_count > $limit ) {
 				return $unindexed_count;
 			}
@@ -342,7 +347,7 @@ class Indexing_Helper {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_limited_filtered_unindexed_count( $limit ) {
-		$unindexed_count = $this->get_limited_unindexed_count( $limit );
+		$unindexed_count = $this->get_limited_unindexed_count( $limit, $this->indexing_actions );
 
 		if ( $unindexed_count > $limit ) {
 			return $unindexed_count;
@@ -360,26 +365,6 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Returns a limited number of unindexed objects that can be indexed in the background.
-	 *
-	 * @param int $limit Limit the number of unindexed objects that are counted.
-	 *
-	 * @return int The total number of unindexed objects that can be indexed in the background.
-	 */
-	public function get_limited_unindexed_count_background( $limit ) {
-		$unindexed_count = 0;
-
-		foreach ( $this->background_indexing_actions as $background_indexing_action ) {
-			$unindexed_count += $background_indexing_action->get_limited_unindexed_count( $limit - $unindexed_count + 1 );
-			if ( $unindexed_count > $limit ) {
-				return $unindexed_count;
-			}
-		}
-
-		return $unindexed_count;
-	}
-
-	/**
 	 * Returns the total number of unindexed objects that can be indexed in the background and applies a filter for third party integrations.
 	 *
 	 * @param int $limit Limit the number of unindexed objects that are counted.
@@ -387,7 +372,7 @@ class Indexing_Helper {
 	 * @return int The total number of unindexed objects that can be indexed in the background.
 	 */
 	public function get_limited_filtered_unindexed_count_background( $limit ) {
-		$unindexed_count = $this->get_limited_unindexed_count_background( $limit );
+		$unindexed_count = $this->get_limited_unindexed_count( $limit, $this->background_indexing_actions );
 
 		if ( $unindexed_count > $limit ) {
 			return $unindexed_count;
