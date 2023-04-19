@@ -222,7 +222,7 @@ const App = () => {
 										decoding="async"
 									/>
 
-									{ isPremium && <div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+									{ course.isPremium && isPremium && <div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
 										 <Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
 									</div> }
 
