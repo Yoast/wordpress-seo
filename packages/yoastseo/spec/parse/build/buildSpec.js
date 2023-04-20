@@ -565,4 +565,307 @@ describe( "The parse function", () => {
 			} ],
 		} );
 	} );
+	it( "parses an HTML text with a comment", () => {
+		const html = "<div><p><!-- A comment -->Hello, world!</p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [ {
+				name: "div",
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 49,
+					startTag: {
+						startOffset: 0,
+						endOffset: 5,
+					},
+					endTag: {
+						startOffset: 43,
+						endOffset: 49,
+					},
+				},
+				attributes: {},
+				childNodes: [ {
+					name: "p",
+					isImplicit: false,
+					attributes: {},
+					sentences: [ {
+						text: "Hello, world!",
+						tokens: [
+							{ text: "Hello", sourceCodeRange: { startOffset: 8, endOffset: 31 } },
+							{ text: ",", sourceCodeRange: { startOffset: 31, endOffset: 32 } },
+							{ text: " ", sourceCodeRange: { startOffset: 32, endOffset: 33 } },
+							{ text: "world", sourceCodeRange: { startOffset: 33, endOffset: 38 } },
+							{ text: "!", sourceCodeRange: { startOffset: 38, endOffset: 39 } },
+						],
+						sourceCodeRange: { startOffset: 8, endOffset: 39 },
+					} ],
+					childNodes: [
+					{
+						name: "#comment",
+						attributes: {},
+						childNodes: [],
+						sourceCodeLocation: { startOffset: 8, endOffset: 26 },
+					},
+					{
+						name: "#text",
+						value: "Hello, world!",
+					},],
+					sourceCodeLocation: {
+						startOffset: 5,
+						endOffset: 43,
+						startTag: {
+							startOffset: 5,
+							endOffset: 8,
+						},
+						endTag: {
+							startOffset: 39,
+							endOffset: 43,
+						},
+					},
+				} ],
+			} ],
+		} );
+	} );
+	it( "parses an HTML text with a code block inside a paragraph", () => {
+		const html = "<div><p>Hello! <code>array.push( something )</code> World!</p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [ {
+				name: "div",
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 67,
+					startTag: {
+						startOffset: 0,
+						endOffset: 5,
+					},
+					endTag: {
+						startOffset: 61,
+						endOffset: 67,
+					},
+				},
+				attributes: {},
+				childNodes: [ {
+					name: "p",
+					isImplicit: false,
+					attributes: {},
+					sentences: [ {
+						text: "Hello!",
+						tokens: [
+							{ text: "Hello", sourceCodeRange: { startOffset: 8, endOffset: 13 } },
+							{ text: "!", sourceCodeRange: { startOffset: 13, endOffset: 14 } },
+						],
+						sourceCodeRange: { startOffset: 8, endOffset: 14 },
+					},
+					{
+						text: "World!",
+						tokens: [
+							{ text: "World", sourceCodeRange: { startOffset: 51, endOffset: 56 } },
+							{ text: "!", sourceCodeRange: { startOffset: 56, endOffset: 57 } },
+						],
+						sourceCodeRange: { startOffset: 51, endOffset: 57 },
+					} ],
+					childNodes: [
+						{
+							name: "#text",
+							value: "Hello! World!",
+						},
+						{
+							name: "code",
+							attributes: {},
+							childNodes: [],
+							sourceCodeLocation: {
+								startOffset: 14,
+								endOffset: 50,
+								startTag: {
+									startOffset: 14,
+									endOffset: 20,
+								},
+								endTag: {
+									startOffset: 43,
+									endOffset: 50,
+								},
+							}
+						}, ],
+					sourceCodeLocation: {
+						startOffset: 5,
+						endOffset: 61,
+						startTag: {
+							startOffset: 5,
+							endOffset: 8,
+						},
+						endTag: {
+							startOffset: 57,
+							endOffset: 61,
+						},
+					},
+				} ],
+			} ],
+		} );
+	} );
+	it( "parses an HTML text with a code block within a sentence", () => {
+		const html = "<div><p>Hello <code>array.push( something )</code> code!</p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [ {
+				name: "div",
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 68,
+					startTag: {
+						startOffset: 0,
+						endOffset: 5,
+					},
+					endTag: {
+						startOffset: 62,
+						endOffset: 68,
+					},
+				},
+				attributes: {},
+				childNodes: [ {
+					name: "p",
+					isImplicit: false,
+					attributes: {},
+					sentences: [ {
+						text: "Hello code!",
+						tokens: [
+							{ text: "Hello", sourceCodeRange: { startOffset: 8, endOffset: 13 } },
+							{ text: " ", sourceCodeRange: { startOffset: 13, endOffset: 14 } },
+							{ text: " ", sourceCodeRange: { startOffset: 51, endOffset: 52 } },
+							{ text: "code", sourceCodeRange: { startOffset: 52, endOffset: 56 } },
+							{ text: "!", sourceCodeRange: { startOffset: 56, endOffset: 57 } },
+						],
+						sourceCodeRange: { startOffset: 8, endOffset: 57 },
+					} ],
+					childNodes: [
+						{
+							name: "#text",
+							value: "Hello code!",
+						},
+						{
+							name: "code",
+							attributes: {},
+							childNodes: [],
+							sourceCodeLocation: {
+								startOffset: 14,
+								endOffset: 50,
+								startTag: {
+									startOffset: 14,
+									endOffset: 20,
+								},
+								endTag: {
+									startOffset: 43,
+									endOffset: 50,
+								},
+							}
+						}, ],
+					sourceCodeLocation: {
+						startOffset: 5,
+						endOffset: 62,
+						startTag: {
+							startOffset: 5,
+							endOffset: 8,
+						},
+						endTag: {
+							startOffset: 57,
+							endOffset: 62,
+						},
+					},
+				} ],
+			} ],
+		} );
+	} );
+	it( "parses an HTML text with a code block next to a paragraph", () => {
+		const html = "<div><code>array.push( something )</code><p>Hello.</p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [ {
+				name: "div",
+				sourceCodeLocation: {
+					startOffset: 0,
+					endOffset: 60,
+					startTag: {
+						startOffset: 0,
+						endOffset: 5,
+					},
+					endTag: {
+						startOffset: 54,
+						endOffset: 60,
+					},
+				},
+				attributes: {},
+				childNodes: [ {
+					name: "p",
+					isImplicit: false,
+					attributes: {},
+					sentences: [ {
+						text: "Hello code!",
+						tokens: [
+							{ text: "Hello", sourceCodeRange: { startOffset: 44, endOffset: 49 } },
+							{ text: ".", sourceCodeRange: { startOffset: 49, endOffset: 50 } },
+						],
+						sourceCodeRange: { startOffset: 44 , endOffset: 50 },
+					} ],
+					childNodes: [
+						{
+							name: "#text",
+							value: "Hello code!",
+						},
+						{
+							name: "code",
+							attributes: {},
+							childNodes: [],
+							sourceCodeLocation: {
+								startOffset: 5,
+								endOffset: 41,
+								startTag: {
+									startOffset: 5,
+									endOffset: 11,
+								},
+								endTag: {
+									startOffset: 34,
+									endOffset: 41,
+								},
+							}
+						}, ],
+					sourceCodeLocation: {
+						startOffset: 41,
+						endOffset: 54,
+						startTag: {
+							startOffset: 41,
+							endOffset: 44,
+						},
+						endTag: {
+							startOffset: 50,
+							endOffset: 54,
+						},
+					},
+				} ],
+			} ],
+		} );
+	} );
 } );
