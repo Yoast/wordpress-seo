@@ -2,21 +2,36 @@ import { Paragraph } from "../../structure";
 
 /**
  * Gets the start and end positions of all descendant nodes' tags and stores them in an array.
- * Each object in the array represents an opening or closing tag.
- * The startOffset and endOffset properties of the objects correspond to the start and end positions of the tags.
+ * Each object in the array represents an opening or closing tag for nodes that have tags, or the full node for nodes
+ * without tags (such as 'comment' nodes).
+ * The startOffset and endOffset properties of the objects correspond to the start and end positions of the tags, or the
+ * start and end positions of the full node for nodes without tags.
  * Extracting this data into a separate array makes it easier to work with it (e.g. sort it and loop over it).
  *
- * @param {Node[]} descendantNodes	The descendant nodes to get tag positions from.
+ * @param {Node[]} descendantNodes	The descendant nodes to get positions from.
  *
- * @returns {SourceCodeRange[]}	An array of the locations of each start and end tag in the source code.
+ * @returns {SourceCodeRange[]}	An array of the locations of each start and end tag in the source code, or the start and
+ * 								end locations of the full node for nodes without tags.
  *
  */
 function getDescendantPositions( descendantNodes ) {
 	const descendantTagPositions = [];
 	descendantNodes.forEach( ( node ) => {
-		descendantTagPositions.push( node.sourceCodeLocation.startTag );
-		if ( node.sourceCodeLocation.endTag ) {
-			descendantTagPositions.push( node.sourceCodeLocation.endTag );
+		/*
+		 * Some nodes, such as the 'comment' node, don't have start and end tags. In those cases, add the full
+		 * sourceCodeLocation object to the array, which then only contains the startOffset and endOffset properties.
+		 */
+		if( ! node.sourceCodeLocation.hasOwnProperty( "startTag" ) && ! node.sourceCodeLocation.hasOwnProperty( "endTag" ) ) {
+			descendantTagPositions.push( node.sourceCodeLocation );
+		} else {
+			descendantTagPositions.push( node.sourceCodeLocation.startTag );
+			/*
+			 * Check whether node has an end tag before adding it to the array.
+			 * Some nodes, such as the 'img' node, only have a start tag.
+			 */
+			if ( node.sourceCodeLocation.endTag ) {
+				descendantTagPositions.push( node.sourceCodeLocation.endTag );
+			}
 		}
 	} );
 	// Sort the tag position objects by the start tag position in ascending order.
@@ -56,7 +71,8 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
 	 * remove it. We are using the data from the original descendantNodes array for this check, as the
 	 * descendantTagPositions array doesn't specify whether each tag is an opening or closing tag.
 	 */
-	const startTagAtEndOfTextElement = descendantNodes.find( node => node.sourceCodeLocation.startTag.endOffset === textElementEnd );
+	const startTagAtEndOfTextElement = descendantNodes.find( node => node.sourceCodeLocation.startTag
+		&& node.sourceCodeLocation.startTag.endOffset === textElementEnd );
 	if ( startTagAtEndOfTextElement ) {
 		const startTagLocation = startTagAtEndOfTextElement.sourceCodeLocation.startTag;
 		textElementEnd = textElementEnd - ( startTagLocation.endOffset - startTagLocation.startOffset );
