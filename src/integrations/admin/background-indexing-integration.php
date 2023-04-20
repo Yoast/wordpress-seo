@@ -181,7 +181,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 *
 	 * @return void.
 	 */
-	protected function add_limit_filters() {
+	public function add_limit_filters() {
 		\add_filter( 'wpseo_post_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
 		\add_filter( 'wpseo_post_type_archive_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
 		\add_filter( 'wpseo_term_indexation_limit', [ $this, 'throttle_cron_indexing' ] );

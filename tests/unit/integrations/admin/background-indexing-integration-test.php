@@ -158,6 +158,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 				$this->wp_cron_enabled_conditional,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
+
+		$this->stubTranslationFunctions();
 	}
 
 	/**
@@ -229,6 +231,21 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the add limit filters method.
+	 *
+	 * @covers ::add_limit_filters
+	 */
+	public function test_add_limit_filters() {
+		Monkey\Filters\expectAdded( 'wpseo_post_indexation_limit' );
+		Monkey\Filters\expectAdded( 'wpseo_post_type_archive_indexation_limit' );
+		Monkey\Filters\expectAdded( 'wpseo_term_indexation_limit' );
+		Monkey\Filters\expectAdded( 'wpseo_prominent_words_indexation_limit' );
+		Monkey\Filters\expectAdded( 'wpseo_link_indexing_limit' );
+
+		$this->instance->add_limit_filters();
+	}
+
+	/**
 	 * Tests the test_register_shutdown_indexing method.
 	 *
 	 * @covers ::register_shutdown_indexing
@@ -270,6 +287,34 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->with( 'index' );
 
 		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
+	 * Tests the add cron schedule method when malformed schedules are passed.
+	 *
+	 * @covers ::add_cron_schedule
+	 */
+	public function test_add_cron_schedule_malformed() {
+		$added_schedules = $this->instance->add_cron_schedule( 'not array' );
+
+		$this->assertSame( 'not array', $added_schedules );
+	}
+
+	/**
+	 * Tests the add cron schedule method.
+	 *
+	 * @covers ::add_cron_schedule
+	 */
+	public function test_add_cron_schedule() {
+		$added_schedules          = $this->instance->add_cron_schedule( [] );
+		$expected_added_schedules = [
+			'fifteen_minutes' => [
+				'interval' => ( 15 * MINUTE_IN_SECONDS ),
+				'display'  => 'Every fifteen minutes',
+			],
+		];
+
+		$this->assertSame( $expected_added_schedules, $added_schedules );
 	}
 
 	/**
@@ -389,6 +434,46 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the register_shutdown_indexing method with unindexed objects over limits. This should not trigger shutdown background indexing.
+	 *
+	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
+	 * @covers ::get_shutdown_limit
+	 */
+	public function test_register_shutdown_indexing_with_unindexed_objects() {
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->get_request_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->andReturn( true );
+
+		$this->wp_cron_enabled_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count_background' )
+			->once()
+			->andReturn( 26 );
+
+		$this->instance
+			->expects( 'register_shutdown_function' )
+			->never();
+
+		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
 	 * Tests the shutdown indexing method.
 	 *
 	 * @covers ::index
@@ -463,6 +548,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 * @covers ::should_index_on_cron
+	 * @covers ::unschedule_cron_indexing
 	 */
 	public function test_index_with_wp_cron_with_cron_indexing_disabled() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
@@ -667,6 +753,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 	public function test_throttle_cron_indexing() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
 
+		Monkey\Filters\expectApplied( 'wpseo_cron_indexing_limit_size' )->never();
+
 		$this->assertSame( 25, $this->instance->throttle_cron_indexing( 25 ) );
 	}
 
@@ -678,6 +766,40 @@ class Background_Indexing_Integration_Test extends TestCase {
 	public function test_throttle_cron_indexing_while_doing_cron() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
 
+		Monkey\Filters\expectApplied( 'wpseo_cron_indexing_limit_size' )
+			->once()
+			->with( 15 )
+			->andReturn( 15 );
+
 		$this->assertSame( 15, $this->instance->throttle_cron_indexing( 25 ) );
+	}
+
+	/**
+	 * Tests that the background link indexing pace stays untouched when not doing cron.
+	 *
+	 * @covers ::throttle_cron_link_indexing
+	 */
+	public function test_throttle_cron_link_indexing() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
+
+		Monkey\Filters\expectApplied( 'wpseo_cron_link_indexing_limit_size' )->never();
+
+		$this->assertSame( 15, $this->instance->throttle_cron_link_indexing( 15 ) );
+	}
+
+	/**
+	 * Tests that the background link indexing pace is throttled to 15 when doing cron.
+	 *
+	 * @covers ::throttle_cron_link_indexing
+	 */
+	public function test_throttle_cron_link_indexing_while_doing_cron() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'wpseo_cron_link_indexing_limit_size' )
+			->once()
+			->with( 3 )
+			->andReturn( 3 );
+
+		$this->assertSame( 3, $this->instance->throttle_cron_link_indexing( 15 ) );
 	}
 }
