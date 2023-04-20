@@ -93,8 +93,8 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the correct inclusive language label is returned.
 	 *
-	 * @dataProvider provider_get_label
-	 * @covers       WPSEO_Rank::get_label
+	 * @dataProvider provider_get_inclusive_language_label
+	 * @covers       WPSEO_Rank::get_inclusive_language_label
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected label.
