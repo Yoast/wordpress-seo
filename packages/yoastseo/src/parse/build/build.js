@@ -17,6 +17,6 @@ import permanentFilters from "./private/alwaysFilterElements";
  */
 export default function build( htmlString, languageProcessor ) {
 	let tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
-	tree = filterTree( tree, permanentFilters );
-	return tokenize( tree, languageProcessor );
+	tree = tokenize( tree, languageProcessor );
+	return filterTree( tree, permanentFilters );
 }
