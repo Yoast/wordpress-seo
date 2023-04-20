@@ -15,9 +15,3 @@ export const ASYNC_ACTION_STATUS = {
 	success: "success",
 	error: "error",
 };
-
-export const INTRODUCTION_VIDEO_FLOW = {
-	showPlay: "showPlay",
-	askPermission: "askPermission",
-	playing: "playing",
-};

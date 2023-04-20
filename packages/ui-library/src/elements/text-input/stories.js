@@ -2,12 +2,12 @@
 import { StoryComponent } from ".";
 
 export default {
-	title: "1) Elements/Text Input",
+	title: "1) Elements/Text input",
 	component: StoryComponent,
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple text input component. Aceept all props of a regular input element.",
+				component: "A simple text input component. Accept all props of a regular input element.",
 			},
 		},
 	},

@@ -1,4 +1,4 @@
-# Welcome to the Yoast UI Library
+# Welcome to the Yoast UI library
 The Yoast UI library is a React component library for building Yoast user interfaces. This Storybook provides an interactive overview of all available components and examples on how to use them.
 
 [View the changelog here](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/ui-library/changelog.md).

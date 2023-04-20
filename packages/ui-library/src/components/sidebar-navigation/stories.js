@@ -3,7 +3,7 @@ import SidebarNavigation from ".";
 import Table from "../../elements/table";
 
 export default {
-	title: "2) Components/Sidebar Navigation",
+	title: "2) Components/Sidebar navigation",
 	component: SidebarNavigation,
 	argTypes: {
 		children: { control: "text" },
@@ -45,14 +45,14 @@ export default {
 		},
 		openButtonScreenReaderText: {
 			control: "text",
-			description: "Accesability for `Mobile`",
+			description: "Accessibility for `Mobile`",
 			table: {
 				type: { summary: "string" },
 			},
 		},
 		closeButtonScreenReaderText: {
 			control: "text",
-			description: "Accesability for `Mobile`",
+			description: "Accessibility for `Mobile`",
 			table: {
 				type: { summary: "string" },
 			},
@@ -120,7 +120,7 @@ Factory.args = {
 };
 
 export const MenuItem = Template.bind( {} );
-
+MenuItem.storyName = "Menu item";
 MenuItem.parameters = { docs: { description: { story: "The subcomponent `SidebarNavigation.MenuItem` accepts the subcomponents `SidebarNavigation.SubmenuItem` as children." } } };
 
 MenuItem.args = {
@@ -183,7 +183,7 @@ Mobile.args = {
 		openButtonScreenReaderText="Open sidebar"
 		closeButtonScreenReaderText="Close sidebar"
 	>
-		<div className="yst-m-4">MobileMenu</div>
+		<div className="yst-m-4">Mobile menu</div>
 		<SidebarNavigation.MenuItem
 			id={ "submenuitem-mobile" }
 			icon={ AdjustmentsIcon }
@@ -200,7 +200,7 @@ Mobile.args = {
 
 
 export const NavigationContext = Template.bind( {} );
-
+NavigationContext.storyName = "Navigation context";
 NavigationContext.parameters = {
 	docs: {
 		description: {
