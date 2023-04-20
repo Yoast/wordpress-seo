@@ -136,6 +136,19 @@ describe( "tests assessment results in languages written from left to right (LTR
 
 		expect( assessmentResult.hasScore() ).toBe( false );
 	} );
+
+	it( "creates a correct mark if there are multiple spaces between words of a center aligned text", () => {
+		const mockPaperLTR = new Paper( "<p class=\"has-text-align-center\">This      is a paragraph with a bit   more than fifty characters.</p>" );
+		researcher.setPaper( mockPaperLTR );
+
+		expect( textAlignmentAssessment.getMarks( mockPaperLTR, researcher ) ).toEqual( [
+			new Mark( {
+				original: "<p class=\"has-text-align-center\">This      is a paragraph with a bit   more than fifty characters.</p>",
+				marked: "<yoastmark class='yoast-text-mark'>This      is a paragraph with a bit   more than fifty characters.</yoastmark>",
+				fieldsToMark: "paragraph",
+			} ),
+		] );
+	} );
 } );
 
 describe( "tests the feedback strings of the assessment run for languages written from right to left (RTL).", function() {

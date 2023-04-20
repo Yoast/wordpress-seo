@@ -4,7 +4,7 @@ import { VALIDATION_VARIANTS } from "../../constants";
 import { StoryComponent } from ".";
 
 export default {
-	title: "2) Components/Tag Field",
+	title: "2) Components/Tag field",
 	component: StoryComponent,
 	parameters: {
 		docs: {
@@ -44,6 +44,7 @@ Factory.parameters = {
 };
 
 export const WithLabelAndDescription = Template.bind( {} );
+WithLabelAndDescription.storyName = "With label and description";
 WithLabelAndDescription.args = {
 	id: "tag-field-1",
 	label: "Tag field with a label",

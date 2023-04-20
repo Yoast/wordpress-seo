@@ -1,0 +1,1 @@
+Badges are visual elements that convey information to users in a subtle way, often used to draw attention to certain elements such as new, beta, free or premium features.

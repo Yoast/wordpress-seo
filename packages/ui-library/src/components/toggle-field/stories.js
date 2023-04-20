@@ -3,7 +3,7 @@ import { StoryComponent } from ".";
 import Badge from "../../elements/badge";
 
 export default {
-	title: "2) Components/Toggle Field",
+	title: "2) Components/Toggle field",
 	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
@@ -35,10 +35,11 @@ Factory.parameters = {
 
 Factory.args = {
 	id: "factory-id",
-	label: "A Toggle Field",
+	label: "A toggle field",
 };
 
 export const WithLabelAndDescription = Template.bind( {} );
+WithLabelAndDescription.storyName = "With label and description";
 WithLabelAndDescription.args = {
 	id: "id-1",
 	name: "name-1",
@@ -55,6 +56,7 @@ Checked.args = {
 };
 
 export const WithLabelSuffix = Template.bind( {} );
+WithLabelSuffix.storyName = "With label suffix";
 WithLabelSuffix.args = {
 	id: "id-3",
 	name: "name-3",
