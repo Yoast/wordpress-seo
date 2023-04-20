@@ -173,12 +173,12 @@ class Academy_Integration_Test extends TestCase {
 		);
 
 		// Assert that the new page was added at index 3.
-		$this->assertSame( 'wpseo_dashboard', $pages[3][0] );
-		$this->assertSame( '', $pages[3][1] );
-		$this->assertSame( 'Academy', $pages[3][2] );
-		$this->assertSame( 'wpseo_manage_options', $pages[3][3] );
-		$this->assertSame( 'wpseo_page_academy', $pages[3][4] );
-		$this->assertSame( [ $this->instance, 'display_page' ], $pages[3][5] );
+		$this->assertEquals( 'wpseo_dashboard', $pages[3][0] );
+		$this->assertEquals( '', $pages[3][1] );
+		$this->assertEquals( 'Academy', $pages[3][2] );
+		$this->assertEquals( 'wpseo_manage_options', $pages[3][3] );
+		$this->assertEquals( 'wpseo_page_academy', $pages[3][4] );
+		$this->assertEquals( [ $this->instance, 'display_page' ], $pages[3][5] );
 	}
 
 	/**
