@@ -1,10 +1,10 @@
 /**
  * Filter helpers for the html treefilter.
- * Are all functions that return a callback with the element as only argument.
+ * All helpers are functions that return a callback with the element as the only argument.
  */
 
 /**
- * Returns a function that returns true if the element has a specific name.
+ * A function that returns true if the element has a specific name.
  * @param {string} name The name to check.
  * @returns {function(*)} A function that returns true if the element has a specific name.
  */
@@ -27,4 +27,3 @@ export function elementHasClass( className ) {
 		return false;
 	};
 }
-
