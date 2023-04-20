@@ -41,6 +41,8 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const initialPostTypeValues = useMemo( () => initial( postTypeValues ), [ postTypeValues ] );
 	const lastPostTypeValue = useMemo( () => last( postTypeValues ), [ postTypeValues ] );
 
+	console.log( { name, label, postTypeValues, initialPostTypeValues, lastPostTypeValue } );
+
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -132,6 +134,22 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 		/>;
 	}, [ name, stripCategoryBaseDescription ] );
 
+	const taxonomyNameMessage = useMemo( () => {
+		return createInterpolateElement(
+			sprintf(
+				/**
+				 * translators: %1$s expands to the name of the taxonomy.
+				 */
+				__( "The name of this category is %1$s.", "wordpress-seo" ),
+				"<link />"
+			), {
+				link: <Link href={ `edit-tags.php?taxonomy=${ name }` }>
+					{ name }
+				</Link>,
+			}
+		);
+	}, [ label, postTypeValues, name ] );
+
 	return (
 		<RouteLayout
 			title={ label }
@@ -141,12 +159,8 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 					__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 					labelLower
 				) }
-				{ ! isEmpty( postTypeValues ) && (
-					<>
-						<br />
-						{ taxonomyMessage }
-					</>
-				) }
+				<br />
+				{ isEmpty( postTypeValues ) ? taxonomyNameMessage : taxonomyMessage }
 			</> }
 		>
 			<FormLayout>
