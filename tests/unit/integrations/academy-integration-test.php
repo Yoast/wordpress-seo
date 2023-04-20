@@ -77,6 +77,23 @@ class Academy_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests __construct method.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		static::assertInstanceOf(
+			Academy_Integration::class,
+			new Academy_Integration(
+				$this->asset_manager,
+				$this->current_page_helper,
+				$this->product_helper,
+				$this->shortlink_helper
+			)
+		);
+	}
+
+	/**
 	 * Tests the retrieval of the conditionals.
 	 *
 	 * @covers ::get_conditionals
