@@ -110,6 +110,47 @@ describe( "A test for getting positions of sentences", () => {
 		expect( getTextElementPositions( node, sentences ) ).toEqual( sentencesWithPositions );
 	} );
 
+	it( "gets the sentence positions from a node that has a descendant node without opening or closing tags (comment)", function() {
+		// HTML: <p>Hello, world!<!-- A comment --> Hello, yoast!</p>
+		const node = new Paragraph( {}, [ { name: "#text", value: "Hello, world! Hello, yoast!" },
+				{
+					name: "img",
+					attributes: {
+						src: "image.jpg",
+						alt: "this is an image",
+						width: "500",
+						height: "600",
+					},
+					childNodes: [],
+					sourceCodeLocation: {
+						startOffset: 21,
+						endOffset: 90,
+						startTag: {
+							startOffset: 21,
+							endOffset: 90,
+						},
+					},
+				} ],
+			{
+				startOffset: 5,
+				endOffset: 108,
+				startTag: {
+					startOffset: 5,
+					endOffset: 8,
+				},
+				endTag: {
+					startOffset: 104,
+					endOffset: 108,
+				},
+			} );
+
+		const sentences = [ { text: "Hello, world!" }, { text: " Hello, yoast!" } ];
+		const sentencesWithPositions = [ { text: "Hello, world!", sourceCodeRange: { startOffset: 8, endOffset: 21 } },
+			{ text: " Hello, yoast!", sourceCodeRange: { startOffset: 21, endOffset: 104 } } ];
+
+		expect( getTextElementPositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
+
 	it( "gets the sentence positions from a node that has a `span` and an `em` descendant node", function() {
 		// HTML: <p>Hello, <span>world!</span> Hello, <em>yoast!</em></p>.
 		const node = new Paragraph( {}, [ { name: "#text", value: "Hello, world! Hello, yoast!" },
