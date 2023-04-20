@@ -117,11 +117,11 @@ class Academy_Integration_Test extends TestCase {
 		return [
 			'Not on academy page' => [
 				'current_page'          => 'not academy page',
-				'times for each action' => 0,
+				'action_times' => 0,
 			],
 			'On academy page' => [
 				'current_page'          => 'wpseo_page_academy',
-				'times for each action' => 1,
+				'action_times' => 1,
 			],
 		];
 	}
