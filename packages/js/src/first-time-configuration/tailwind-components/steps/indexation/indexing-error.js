@@ -1,8 +1,13 @@
+import { strings } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 import RequestError from "../../../../errors/RequestError";
 import Alert from "../../base/alert";
+
+const { stripTagsFromHtmlString } = strings;
+
+const ALLOWED_TAGS = [ "a", "p" ];
 
 /**
  * Shows a value for in the error details.
@@ -76,7 +81,7 @@ export default function IndexingError( { message, error, className } ) {
 		type={ "error" }
 		className={ className }
 	>
-		<div dangerouslySetInnerHTML={ { __html: message } } />
+		<div dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( message, ALLOWED_TAGS ) } } />
 		<details>
 			<summary>{ __( "Error details", "wordpress-seo" ) }</summary>
 			<div className="yst-mt-2">
