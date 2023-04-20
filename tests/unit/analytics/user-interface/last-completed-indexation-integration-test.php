@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Analytics\UserInterface;
+namespace Yoast\WP\SEO\Tests\Unit\Analytics\User_Interface;
 
-use Yoast\WP\SEO\Analytics\UserInterface\Last_Completed_Indexation_Integration;
+use Yoast\WP\SEO\Analytics\User_Interface\Last_Completed_Indexation_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Last_Completed_Indexation_Integration_Test.
  *
- * @group   analytics
+ * @group analytics
  *
- * @coversDefaultClass \Yoast\WP\SEO\Analytics\UserInterface\Last_Completed_Indexation_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Analytics\User_Interface\Last_Completed_Indexation_Integration
  */
 class Last_Completed_Indexation_Integration_Test extends TestCase {
 
@@ -63,10 +63,8 @@ class Last_Completed_Indexation_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_maybe_set_indexables_unindexed_calculated_with_zero_indexables(): void {
-		$this->options_helper_mock->shouldReceive( 'get' )->with( 'last_known_no_unindexed' )->once();
-		$this->options_helper_mock->shouldReceive( 'set' )
-			->with( 'last_known_no_unindexed', [ 'name' => time() ] )
-			->once();
+		$this->options_helper_mock->expects()->get( 'last_known_no_unindexed', [] );
+		$this->options_helper_mock->expects()->set( 'last_known_no_unindexed', [ 'name' => \time() ] );
 
 		$this->sut->maybe_set_indexables_unindexed_calculated( 'name', 0 );
 	}
@@ -79,7 +77,7 @@ class Last_Completed_Indexation_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_maybe_set_indexables_unindexed_calculated_with_many_indexables(): void {
-		$this->options_helper_mock->shouldReceive( 'set' )->never();
+		$this->options_helper_mock->expects( 'set' )->never();
 
 		$this->sut->maybe_set_indexables_unindexed_calculated( 'name', 100000 );
 	}

@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Missing_Indexable_Bucket_Test.
  *
- * @group  analytics
+ * @group analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Bucket
  */

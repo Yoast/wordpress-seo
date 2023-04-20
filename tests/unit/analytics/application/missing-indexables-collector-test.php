@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Missing_Indexables_Collector_Test.
  *
- * @group  analytics
+ * @group analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Application\Missing_Indexables_Collector
  */
@@ -21,84 +21,67 @@ class Missing_Indexables_Collector_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::add_additional_indexing_actions
+	 *
+	 * @dataProvider collector_get_data
+	 *
+	 * @param array                           $additional_indexation_actions All the indexations actions that are added via the filter.
+	 * @param Abstract_Indexing_Action_Double $initial_indexation_actions The initial indexation actions available in free.
+	 * @param array                           $expected_result The expected result.
+	 *
 	 * @return void
 	 */
-	public function test__contruct_with_added_action() {
-		$indexation_action = new Abstract_Indexing_Action_Double();
-		Monkey\Functions\expect( 'apply_filters' )->once()->andReturn( [ $indexation_action, $indexation_action ] );
+	public function test_collector_get( $additional_indexation_actions, $initial_indexation_actions, $expected_result ) {
+		Monkey\Functions\expect( 'apply_filters' )->once()->andReturn( $additional_indexation_actions );
 
-		$sut = new Missing_Indexables_Collector( $indexation_action );
+		$sut = new Missing_Indexables_Collector( $initial_indexation_actions );
 		$this->assertEquals(
-			[
-				[
-					'indexable_type' => 'Yoast\WP\SEO\Tests\Unit\Doubles\Actions\indexing\Abstract_Indexing_Action_Double',
-					'count'          => 15,
-				],
-				[
-					'indexable_type' => 'Yoast\WP\SEO\Tests\Unit\Doubles\Actions\indexing\Abstract_Indexing_Action_Double',
-					'count'          => 15,
-				],
-			],
+			$expected_result,
 			$sut->get()
 		);
 	}
 
 	/**
-	 * Tests the constructor and filter.
+	 * Data provider for the `test_collector_get()` test.
 	 *
-	 * @covers ::__construct
-	 * @covers ::add_additional_indexing_actions
-	 * @return void
+	 * @return array
 	 */
-	public function test__contruct_without_added_action() {
+	public function collector_get_data() {
 		$indexation_action = new Abstract_Indexing_Action_Double();
-		Monkey\Functions\expect( 'apply_filters' )->once()->andReturn( [ $indexation_action, [ 'somerandomobject' ] ] );
 
-		$sut = new Missing_Indexables_Collector( $indexation_action );
-		$this->assertEquals(
+		return [
 			[
+				[ $indexation_action, $indexation_action ],
+				$indexation_action,
 				[
-					'indexable_type' => 'Yoast\WP\SEO\Tests\Unit\Doubles\Actions\indexing\Abstract_Indexing_Action_Double',
-					'count'          => 15,
+					[
+						'indexable_type' => Abstract_Indexing_Action_Double::class,
+						'count'          => 15,
+					],
+					[
+						'indexable_type' => Abstract_Indexing_Action_Double::class,
+						'count'          => 15,
+					],
 				],
 			],
-			$sut->get()
-		);
-	}
-
-	/**
-	 * Tests the get function
-	 *
-	 * @covers ::get
-	 *
-	 * @return void
-	 */
-	public function test_get_with_data() {
-		$indexation_action = new Abstract_Indexing_Action_Double();
-		$sut               = new Missing_Indexables_Collector( $indexation_action );
-		$this->assertEquals(
 			[
-				[
-					'indexable_type' => 'Yoast\WP\SEO\Tests\Unit\Doubles\Actions\indexing\Abstract_Indexing_Action_Double',
-					'count'          => 15,
-				],
-			],
-			$sut->get()
-		);
-	}
 
-	/**
-	 * Tests the get function
-	 *
-	 * @covers ::get
-	 *
-	 * @return void
-	 */
-	public function test_get_with_no_data() {
-		$sut = new Missing_Indexables_Collector();
-		$this->assertEquals(
-			[],
-			$sut->get()
-		);
+				[ $indexation_action, 'somerandomobject' ],
+				$indexation_action,
+				[
+					[
+						'indexable_type' => Abstract_Indexing_Action_Double::class,
+						'count'          => 15,
+					],
+				],
+
+			],
+			[
+
+				null,
+				$indexation_action,
+				[],
+
+			],
+		];
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Analytics\UserInterface;
+namespace Yoast\WP\SEO\Analytics\User_Interface;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;

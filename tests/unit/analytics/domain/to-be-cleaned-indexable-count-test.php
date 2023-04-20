@@ -6,9 +6,9 @@ use Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Missing_Indexable_Count_Test.
+ * Class To_Be_Cleaned_Indexable_Count_Test.
  *
- * @group  analytics
+ * @group analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count
  */
@@ -38,7 +38,7 @@ class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
 	 * @covers ::to_array
 	 * @return void
 	 */
-	public function test_missing_indexable_count_to_array(): void {
+	public function test_to_be_cleaned_count_to_array(): void {
 		$this->assertEquals(
 			[
 				'count'        => 0,
@@ -49,12 +49,12 @@ class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the get_indexable_type functionality.
+	 * Tests the get_cleanup_name functionality.
 	 *
-	 * @covers ::get_indexable_type
+	 * @covers ::get_cleanup_name
 	 * @return void
 	 */
-	public function test_missing_indexable_count_get_indexable_type(): void {
+	public function test_to_be_cleaned_indexable_name(): void {
 		$this->assertEquals( 'cleanup_name', $this->sut->get_cleanup_name() );
 	}
 
@@ -64,7 +64,7 @@ class To_Be_Cleaned_Indexable_Count_Test extends TestCase {
 	 * @covers ::get_count
 	 * @return void
 	 */
-	public function test_missing_indexable_count_get_count(): void {
+	public function test_to_be_cleaned_count_get_count(): void {
 		$this->assertEquals( 0, $this->sut->get_count() );
 	}
 }

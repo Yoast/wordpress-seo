@@ -10,7 +10,7 @@ use Mockery;
 /**
  * Class To_Be_Cleaned_Indexables_Collector_Test.
  *
- * @group  analytics
+ * @group analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Application\To_Be_Cleaned_Indexables_Collector
  */
@@ -19,44 +19,9 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 	/**
 	 * The sut.
 	 *
-	 * @var \Yoast\WP\SEO\Analytics\Framework\To_Be_Cleaned_Indexables_Collector
+	 * @var To_Be_Cleaned_Indexables_Collector
 	 */
 	private $sut;
-
-	/**
-	 * Set up function.
-	 *
-	 * @return void
-	 */
-	protected function setUp(): void {
-		parent::setUp();
-		$indexable_cleanup_repository_mock = Mockery::mock( Indexable_Cleanup_Repository::class );
-		$indexable_cleanup_repository_mock->expects( 'count_indexables_with_object_type_and_object_sub_type' )
-			->once()
-			->andReturn( 0 );
-		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_with_post_status' )
-			->once()
-			->andReturn( 0 );
-		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_non_publicly_viewable_post' )
-			->once()
-			->andReturn( 0 );
-		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_non_publicly_viewable_taxonomies' )
-			->once()
-			->andReturn( 0 );
-		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_authors_archive_disabled' )
-			->once()
-			->andReturn( 0 );
-		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_authors_without_archive' )
-			->once()
-			->andReturn( 0 );
-		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_object_type_and_source_table' )
-			->times( 3 )
-			->andReturn( 0 );
-		$indexable_cleanup_repository_mock->shouldReceive( 'count_orphaned_from_table' )
-			->times( 3 )
-			->andReturn( 0 );
-		$this->sut = new To_Be_Cleaned_Indexables_Collector( $indexable_cleanup_repository_mock );
-	}
 
 	/**
 	 * Gets the data for the collector.
@@ -64,10 +29,37 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_collector_get(): void {
+		$indexable_cleanup_repository_mock = Mockery::mock( Indexable_Cleanup_Repository::class );
+		$indexable_cleanup_repository_mock->expects( 'count_indexables_with_object_type_and_object_sub_type' )
+				->once()
+					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_with_post_status' )
+				->once()
+					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_non_publicly_viewable_post' )
+				->once()
+					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_non_publicly_viewable_taxonomies' )
+				->once()
+					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_authors_archive_disabled' )
+				->once()
+					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_authors_without_archive' )
+				->once()
+					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_indexables_for_object_type_and_source_table' )
+				->times( 3 )
+					->andReturn( 0 );
+		$indexable_cleanup_repository_mock->shouldReceive( 'count_orphaned_from_table' )
+				->times( 3 )
+					->andReturn( 0 );
+		$this->sut = new To_Be_Cleaned_Indexables_Collector( $indexable_cleanup_repository_mock );
+
 		$this->assertEquals(
 			[
 				[
-					'cleanup_name' => 'indexables_with_object_type_and_object_sub_type',
+					'cleanup_name' => 'indexables_with_post_object_type_and_shop_order_object_sub_type',
 					'count'        => 0,
 				],
 				[

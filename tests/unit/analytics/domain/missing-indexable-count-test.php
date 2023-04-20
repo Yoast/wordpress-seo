@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Missing_Indexable_Count_Test.
  *
- * @group  analytics
+ * @group analytics
  *
  * @coversDefaultClass \Yoast\WP\SEO\Analytics\Domain\Missing_Indexable_Count
  */
@@ -55,7 +55,7 @@ class Missing_Indexable_Count_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_missing_indexable_count_get_indexable_type(): void {
-		$this->assertEquals( 'indexable_type', $this->sut->get_indexable_type() );
+		$this->assertSame( 'indexable_type', $this->sut->get_indexable_type() );
 	}
 
 	/**
@@ -65,6 +65,6 @@ class Missing_Indexable_Count_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_missing_indexable_count_get_count(): void {
-		$this->assertEquals( 0, $this->sut->get_count() );
+		$this->assertSame( 0, $this->sut->get_count() );
 	}
 }

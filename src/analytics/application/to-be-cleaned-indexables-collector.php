@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Analytics\Application;
 
 use WPSEO_Collection;
-use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
-use Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count;
 use Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Bucket;
+use Yoast\WP\SEO\Analytics\Domain\To_Be_Cleaned_Indexable_Count;
+use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
  * Collects data about to-be-cleaned indexables.
