@@ -409,7 +409,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'indexables_page_reading_list':
 				case 'last_known_public_post_types':
 				case 'last_known_public_taxonomies':
-				case 'last_known_no_unindexed':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -453,7 +452,23 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean['wordproof_integration_changed'] = true;
 					}
 					break;
+				case 'last_known_no_unindexed':
+					$clean[ $key ] = $old[ $key ];
 
+					if ( isset( $dirty[ $key ] ) ) {
+						$items = $dirty[ $key ];
+
+						if ( is_array( $items ) ) {
+							foreach ( $items as $item_key => $item ) {
+								if ( ! \is_string( $item_key ) || ! \is_numeric( $item ) ) {
+									unset( $items[ $item_key ] );
+								}
+							}
+							$clean[ $key ] = $items;
+						}
+					}
+
+					break;
 
 				/*
 				 * Boolean (checkbox) fields.
