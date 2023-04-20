@@ -91,6 +91,36 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the correct inclusive language label is returned.
+	 *
+	 * @dataProvider provider_get_label
+	 * @covers       WPSEO_Rank::get_label
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected label.
+	 */
+	public function test_get_inclusive_language_label( $rank, $expected ) {
+		$rank = new WPSEO_Rank( $rank );
+
+		$this->assertEquals( $expected, $rank->get_inclusive_language_label() );
+	}
+
+	/**
+	 * Data provider for test_get_inclusive_language_label().
+	 *
+	 * @return array
+	 */
+	public function provider_get_inclusive_language_label() {
+		return [
+			[ WPSEO_Rank::NO_FOCUS, 'Not available' ],
+			[ WPSEO_Rank::NO_INDEX, 'No index' ],
+			[ WPSEO_Rank::BAD, 'Needs improvement' ],
+			[ WPSEO_Rank::OK, 'Potentially non-inclusive' ],
+			[ WPSEO_Rank::GOOD, 'Good' ],
+		];
+	}
+
+	/**
 	 * Tests whether the correct label for the drop down is returned.
 	 *
 	 * @dataProvider provider_get_drop_down_label
