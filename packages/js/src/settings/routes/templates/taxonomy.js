@@ -41,8 +41,6 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const initialPostTypeValues = useMemo( () => initial( postTypeValues ), [ postTypeValues ] );
 	const lastPostTypeValue = useMemo( () => last( postTypeValues ), [ postTypeValues ] );
 
-	console.log( { name, label, postTypeValues, initialPostTypeValues, lastPostTypeValue } );
-
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
