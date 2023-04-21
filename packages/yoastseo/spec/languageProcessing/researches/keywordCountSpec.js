@@ -300,7 +300,7 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
-				original: "私の猫はかわいいです。" } ) ] );
+				original: "私の猫はかわいいです。", position: { endOffset: 6, startOffset: 5 } } ) ] );
 	} );
 
 	it( "counts/marks a string of text with multiple occurences of the same keyword in it.", function() {
@@ -308,10 +308,13 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 
-		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
-			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
-				original: "私の猫はかわいいです。" } ) ] );
+			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
+				original: "私の猫はかわいい猫です。",
+				position: { endOffset: 6, startOffset: 5 } } ), new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
+				original: "私の猫はかわいい猫です。",
+				position: { endOffset: 12, startOffset: 11 } } ) ] );
 	} );
 
 	it( "counts a string of text with no keyword in it.", function() {

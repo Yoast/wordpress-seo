@@ -142,6 +142,30 @@ const getMatchesInTokens = ( keyphraseForms, tokens ) => {
 	return result;
 };
 
+const getAllIndicesOfWord = ( word, sentence ) => {
+	return sentence.text.split( "" ).map( ( x, i ) => x === word ? i : "" ).filter( Boolean );
+};
+
+const convertToPositionResult = ( matches, sentence ) => {
+	const result = { primaryMatches: [], secondaryMatches: [], position: 0 };
+	matches.forEach( matchObject => {
+		const matchWords = matchObject.matches;
+
+		uniq( matchWords ).forEach( matchWord => {
+			const indices = getAllIndicesOfWord( matchWord, sentence );
+			indices.forEach( index => {
+				const startOffset = sentence.sourceCodeRange.startOffset + index;
+				const endOffset = sentence.sourceCodeRange.startOffset + index + matchWord.length;
+
+				const matchToken = new Token( matchWord, { startOffset: startOffset, endOffset: endOffset } );
+				result.primaryMatches.push( [ matchToken ] );
+			} );
+		} );
+	} );
+
+	return result;
+};
+
 /**
  * Gets the matched keyphrase form(s).
  *
@@ -155,20 +179,12 @@ const getMatchesInTokens = ( keyphraseForms, tokens ) => {
 function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCustomHelper ) {
 	if ( matchWordCustomHelper ) {
 		// TODO: unify return types and forms.
+
 		const matches = keyphraseForms.map( forms => matchTextWithArray( sentence.text,  forms, locale, matchWordCustomHelper ) );
 
-		console.log( { primaryMatches: matches.matches, secondaryMatches: [], position: matches.position } );
-		const matchesAsTokens = matches.map( match => {
-			const count = match.count;
-			const firstPosition = match.position;
+		const result = convertToPositionResult( matches, sentence );
 
-			const moreMatches = match.matches;
-		} );
-		//
-		// }
-
-
-		return { primaryMatches: matches.matches, secondaryMatches: [], position: matches.position };
+		return result;
 	}
 
 	const tokens = sentence.tokens;
