@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "@wordpress/element";
 import { filter, find, includes, toLower, noop, map } from "lodash";
 import Autocomplete, { StoryComponent } from ".";
 import { VALIDATION_VARIANTS } from "../../constants";
+import { component, withLabel, withPlaceholder, withSelectedLabel, validation } from "./docs";
 
 export default {
 	title: "1) Elements/Autocomplete",
@@ -13,7 +14,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple autocomplete select component.",
+				component,
 			},
 		},
 	},
@@ -79,7 +80,7 @@ WithLabel.storyName = "With label";
 
 WithLabel.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "An example with a label using `label` prop." } },
+	docs: { description: { story: withLabel } },
 };
 
 WithLabel.args = {
@@ -94,7 +95,7 @@ WithPlaceholder.storyName = "With placeholder";
 
 WithPlaceholder.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "An example with placeholder using `placeholder` prop." } },
+	docs: { description: { story: withPlaceholder } },
 };
 
 WithPlaceholder.args = {
@@ -109,7 +110,7 @@ WithSelectedLabel.storyName = "With selected label";
 
 WithSelectedLabel.parameters = {
 	controls: { disable: false },
-	docs: { description: { story: "An example with default value using `selectedLabel` prop." } },
+	docs: { description: { story: withSelectedLabel } },
 };
 
 WithSelectedLabel.args = {
@@ -149,3 +150,5 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+Validation.parameters = { docs: { description: { story: validation } } };
