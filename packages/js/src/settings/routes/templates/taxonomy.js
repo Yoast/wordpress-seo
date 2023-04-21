@@ -146,7 +146,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 				</Link>,
 			}
 		);
-	}, [ label, postTypeValues, name ] );
+	}, [ name ] );
 
 	return (
 		<RouteLayout
