@@ -208,18 +208,8 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 			->with( $author_id, 'user', false )
 			->andReturn( false );
 
-		// ensure_indexable.
-		$this->indexable_repository
-			->expects( 'query' )
-			->once()
-			->andReturnSelf();
-
-		// ensure_indexable.
-		$this->indexable_repository
-			->expects( 'create' )
-			->once()
-			->with( $author_defaults )
-			->andReturn( $author_indexable );
+		// The rest of expectation are from build method.
+		$this->expect_ensure_indexable( $author_indexable, $author_defaults );
 
 		$this->author_builder
 			->expects( 'build' )
@@ -227,12 +217,7 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 			->with( $author_indexable->object_id, $author_indexable )
 			->andReturn( $author_indexable );
 
-		// Skiping saving indexable.
-		$this->indexable_helper
-			->expects( 'should_index_indexables' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
+		$this->expect_save_indexable();
 
 		$this->instance->exposed_maybe_build_author_indexable( $author_id );
 	}
@@ -268,22 +253,8 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 			->with( $author_indexable )
 			->andReturnTrue();
 
-		// deep_copy_indexable.
-		$author_indexable->expects( 'as_array' )
-			->once()
-			->andReturn( [] );
-
-		// deep_copy_indexable.
-		$this->indexable_repository
-			->expects( 'create' )
-			->once()
-			->andReturn( $author_indexable );
-
-		// deep_copy_indexable.
-		$this->indexable_repository
-			->expects( 'query' )
-			->once()
-			->andReturnSelf();
+		// The rest of expectation are from build method.
+		$this->expect_deep_copy_indexable( $author_indexable );
 
 		$this->author_builder
 			->expects( 'build' )
@@ -291,12 +262,7 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 			->with( $author_indexable->object_id, $author_indexable )
 			->andReturn( $author_indexable );
 
-		// Skiping saving indexable.
-		$this->indexable_helper
-			->expects( 'should_index_indexables' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
+		$this->expect_save_indexable();
 
 		$this->instance->exposed_maybe_build_author_indexable( $author_id );
 	}
@@ -314,21 +280,6 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 		$needs_upgrade_times = 1;
 		$needs_upgrade       = false;
 
-		$this->expect_maybe_build_author_indexable( $author_id, $author_indexable, $needs_upgrade_times, $needs_upgrade );
-
-		$this->assertEquals( $author_indexable, $this->instance->exposed_maybe_build_author_indexable( $author_id ) );
-	}
-
-	/**
-	 * Expectation for maybe_build_author_indexable method.
-	 *
-	 * @param int            $author_id The author id to expect.
-	 * @param Indexable_Mock $author_indexable The indexable to expect from find_by_id_and_type method.
-	 * @param int            $needs_upgrade_times The times indexable_needs_upgrade method should be executed.
-	 * @param bool           $needs_upgrade The value indexable_needs_upgrade method should return.
-	 * @return void
-	 */
-	public function expect_maybe_build_author_indexable( $author_id, $author_indexable, $needs_upgrade_times = 0, $needs_upgrade = true ) {
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
 			->once()
@@ -340,5 +291,64 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 			->times( $needs_upgrade_times )
 			->with( $author_indexable )
 			->andReturn( $needs_upgrade );
+
+		$this->assertEquals( $author_indexable, $this->instance->exposed_maybe_build_author_indexable( $author_id ) );
+	}
+
+	/**
+	 * Expect save_indexable execution inside build method.
+	 * Skipping saving indexable, outside of testing scope.
+	 *
+	 * @return void
+	 */
+	public function expect_save_indexable() {
+
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+	}
+
+	/**
+	 * Expect deep_copy_indexable execution inside build method.
+	 *
+	 * @param Indexable_Mock $author_indexable The author indexable.
+	 */
+	public function expect_deep_copy_indexable( $author_indexable ) {
+
+		$author_indexable->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->andReturn( $author_indexable );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+	}
+
+	/**
+	 * Expect ensure_indexable execution inside build method.
+	 *
+	 * @param Indexable_Mock $author_indexable The author indexable.
+	 * @param array          $author_defaults  The author defaults.
+	 */
+	public function expect_ensure_indexable( $author_indexable, $author_defaults ) {
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( $author_defaults )
+			->andReturn( $author_indexable );
 	}
 }
