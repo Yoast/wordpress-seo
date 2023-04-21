@@ -12,6 +12,8 @@ import stripSpaces from "../helpers/sanitize/stripSpaces";
 import { punctuationMatcher } from "../helpers/sanitize/removePunctuation";
 import { tokenizerSplitter } from "../../parse/language/LanguageProcessor";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
+import Token from "../../parse/structure/Token";
+import matchTextWithWord from "../helpers/match/matchTextWithWord";
 
 
 /**
@@ -52,7 +54,7 @@ const matchHead = ( head, token ) => {
 		return true;
 	}
 	return head.some( keyword => {
-		return matchTextWithTransliteration( token.text, keyword, "en_US" );
+		return matchTextWithTransliteration( token.text, keyword, "en_US" ); // TODO get locale from params
 	} );
 };
 
@@ -69,6 +71,77 @@ const tokenizeKeyphraseForms = ( keyphraseForms ) => {
 	return tokenizedKeyPhraseForms[ 0 ].map( ( _, index ) => uniq( tokenizedKeyPhraseForms.map( row => row[ index ] ) ) );
 };
 
+// TODO: better descriptor than process
+const processKeyphraseForms = ( keyphraseForms ) => {
+	const newKeyphraseForms = [];
+	keyphraseForms.forEach( word => {
+		// const newWord = []
+		const tokenizedWord = word.map( form => {
+			return form.split( tokenizerSplitter );
+		} );
+
+		const tokenizedWordTransposed = tokenizedWord[ 0 ].map( ( _, index ) => uniq( tokenizedWord.map( row => row[ index ] ) ) );
+
+		tokenizedWordTransposed.forEach( newWord => newKeyphraseForms.push( newWord ) );
+	} );
+	return newKeyphraseForms;
+};
+
+const getMatchesInTokens = ( keyphraseForms, tokens ) => {
+	const result = {
+		primaryMatches: [],
+		secondaryMatches: [],
+	};
+
+	// Index is the ith word from the wordforms. It indicates which word we are currently analyzing.
+	let keyPhraseFormsIndex = 0;
+	// positionInSentence keeps track of what word in the sentence we are currently at.
+	let positionInSentence = 0;  // TODO: rename naar sentencePosition
+
+	let foundWords = [];
+	// eslint-disable-next-line no-constant-condition
+	while ( true ) {
+		const head = keyphraseForms[ keyPhraseFormsIndex ];
+
+		const foundPosition = tokens.slice( positionInSentence ).findIndex( t => matchHead( head, t ) );
+		// If an occurence of a word is found, see if the subsequent word also is find.
+		if ( foundPosition >= 0 ) {
+			if ( keyPhraseFormsIndex > 0 ) {
+				// if there are non keywords between two found keywords reset.
+
+				const previousHead = keyphraseForms[ Math.max( 0, keyPhraseFormsIndex - 1 ) ]; // TODO: better way to extract previoushead.
+				if ( tokens.slice( positionInSentence, foundPosition + positionInSentence ).some(
+					t => {
+						return previousHead.includes( t.text ); // TODO: use matchhead
+					} ) ) {
+					result.secondaryMatches.push(  tokens[ positionInSentence - 1 ] );
+					keyPhraseFormsIndex = 0;
+					foundWords = [];
+					continue;
+				}
+			}
+
+			keyPhraseFormsIndex += 1;
+			positionInSentence += foundPosition;
+			foundWords.push( tokens[ positionInSentence ] );
+			positionInSentence += 1;
+		} else {
+			if ( keyPhraseFormsIndex === 0 ) {
+				break;
+			}
+			keyPhraseFormsIndex = 0;
+		}
+
+		if ( foundWords.length >= keyphraseForms.length ) {
+			result.primaryMatches.push( foundWords );
+			keyPhraseFormsIndex = 0;
+			foundWords = [];
+		}
+	}
+	console.log( result );
+	return result;
+};
+
 /**
  * Gets the matched keyphrase form(s).
  *
@@ -81,63 +154,30 @@ const tokenizeKeyphraseForms = ( keyphraseForms ) => {
  */
 function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCustomHelper ) {
 	if ( matchWordCustomHelper ) {
-		return keyphraseForms.map( forms => matchTextWithArray( sentence.text,  forms, locale, matchWordCustomHelper ) );
-	}
-	const result = [];
-	const tokens = sentence.tokens;
-	let index = 0;
-	let initialPosition = 0;
+		// TODO: unify return types and forms.
+		const matches = keyphraseForms.map( forms => matchTextWithArray( sentence.text,  forms, locale, matchWordCustomHelper ) );
 
-	const newKeyphraseForms = [];
-	keyphraseForms.forEach( word => {
-		// const newWord = []
-		const tokenizedWord = word.map( form => {
-			return form.split( tokenizerSplitter );
+		console.log( { primaryMatches: matches.matches, secondaryMatches: [], position: matches.position } );
+		const matchesAsTokens = matches.map( match => {
+			const count = match.count;
+			const firstPosition = match.position;
+
+			const moreMatches = match.matches;
 		} );
+		//
+		// }
 
-		const tokenizedWordTransposed = tokenizedWord[ 0 ].map( ( _, index ) => uniq( tokenizedWord.map( row => row[ index ] ) ) );
 
-		tokenizedWordTransposed.forEach( newWord => newKeyphraseForms.push( newWord ) );
-	} );
-
-	let foundWords = [];
-	// eslint-disable-next-line no-constant-condition
-	while ( true ) {
-		const head = newKeyphraseForms[ index ];
-
-		const foundPosition = tokens.slice( initialPosition ).findIndex( t => matchHead( head, t ) );
-
-		if ( foundPosition >= 0 ) {
-			if ( index > 0 ) {
-				// if there are non keywords between two found keywords reset.
-
-				if ( tokens.slice( initialPosition, foundPosition + initialPosition ).some(
-					t => ( t.text.trim() !== "" && t.text.trim() !== "-" ) ) ) {
-					index = 0;
-					foundWords = [];
-					continue;
-				}
-			}
-
-			index += 1;
-			initialPosition += foundPosition;
-			foundWords.push( tokens[ initialPosition ] );
-			initialPosition += 1;
-		} else {
-			if ( index === 0 ) {
-				break;
-			}
-			index = 0;
-		}
-
-		if ( foundWords.length >= newKeyphraseForms.length ) {
-			result.push( foundWords );
-			index = 0;
-			foundWords = [];
-		}
+		return { primaryMatches: matches.matches, secondaryMatches: [], position: matches.position };
 	}
 
-	return result;
+	const tokens = sentence.tokens;
+
+	const newKeyphraseForms = processKeyphraseForms( keyphraseForms, locale );
+
+	const matches = getMatchesInTokens( newKeyphraseForms, tokens );
+	console.log( matches );
+	return matches;
 }
 
 const markStart = "<yoastmark class='yoast-text-mark'>";
@@ -147,13 +187,23 @@ const createMarksForSentence = ( sentence, matches ) => {
 	const reference = sentence.sourceCodeRange.startOffset;
 	let sentenceText = sentence.text;
 
-	for ( let i = matches.length - 1; i >= 0; i-- ) {
-		const match = matches[ i ];
-		const startmarkPosition = match.slice( 0 )[ 0 ].sourceCodeRange.startOffset - reference;
-		const endmarkPosition = match.slice( -1 )[ 0 ].sourceCodeRange.endOffset - reference;
-		sentenceText = sentenceText.substring( 0, endmarkPosition ) + markEnd + sentenceText.substring( endmarkPosition );
-		sentenceText = sentenceText.substring( 0, startmarkPosition ) + markStart + sentenceText.substring( startmarkPosition );
+	let allMatches = flatten( matches.primaryMatches );
+	if ( matches.primaryMatches.length > 0 ) {
+		allMatches = allMatches.concat( matches.secondaryMatches ).sort( function( a, b ) {
+			return a.sourceCodeRange.startOffset - b.sourceCodeRange.startOffset;
+		} );
 	}
+
+	for ( let i = allMatches.length - 1; i >= 0; i-- ) {
+		const match = allMatches[ i ];
+
+		sentenceText = sentenceText.substring( 0, match.sourceCodeRange.endOffset - reference ) + markEnd +
+			sentenceText.substring( match.sourceCodeRange.endOffset - reference );
+		sentenceText = sentenceText.substring( 0, match.sourceCodeRange.startOffset - reference ) + markStart +
+			sentenceText.substring( match.sourceCodeRange.startOffset - reference );
+	}
+
+	sentenceText = sentenceText.replace( new RegExp( "</yoastmark>( ?)<yoastmark class='yoast-text-mark'>", "ig" ), "$1" );
 
 	return sentenceText;
 };
@@ -169,7 +219,7 @@ const createMarksForSentence = ( sentence, matches ) => {
  */
 function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper ) {
 	const markedSentence = createMarksForSentence( sentence, matchesInSentence );
-	const markings = matchesInSentence.map( match => {
+	const markings = matchesInSentence.primaryMatches.map( match => {
 		return new Mark( {
 			position: {
 				startOffset: match.slice( 0 )[ 0 ].sourceCodeRange.startOffset,
@@ -180,9 +230,30 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 
 		} );
 	} );
+
+	if ( matchesInSentence.primaryMatches.length > 0 ) {
+		matchesInSentence.secondaryMatches.forEach( match =>{
+			markings.push( new Mark( {
+				position: {
+					startOffset: match.sourceCodeRange.startOffset,
+					endOffset: match.sourceCodeRange.endOffset,
+				},
+				marked: markedSentence,
+				original: sentence.text,
+
+			} ) );
+		}
+		);
+	}
+
 	return markings;
 }
 
+/**
+ * Merges consecutive markings into one marking.
+ * @param {[]} markings
+ * @returns {*[]}
+ */
 const mergeConsecutiveMarkings = ( markings ) => {
 	const newMarkings = [];
 	markings.forEach( ( marking ) => {
@@ -214,20 +285,18 @@ const mergeConsecutiveMarkings = ( markings ) => {
  * @returns {{markings: Mark[], count: number}} The number of keyphrase occurrences in the text and the Mark objects of the matches.
  */
 export function countKeyphraseInText( sentences, topicForms, locale, matchWordCustomHelper ) {
-	return sentences.reduce( ( acc, sentence ) => {
+	const result = { count: 0, markings: [] };
+
+	sentences.forEach( sentence => {
 		const matchesInSentence = getMatchesInSentence( sentence, topicForms.keyphraseForms, locale, matchWordCustomHelper );
-		let markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper );
 
-		markings = mergeConsecutiveMarkings( markings );
+		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper );
 
-		return {
-			count: markings.length,
-			markings: acc.markings.concat( markings ),
-		};
-	}, {
-		count: 0,
-		markings: [],
+		result.markings.push( markings ); // TODO: add test for multiple sentences
+		result.count += matchesInSentence.primaryMatches.length;
 	} );
+
+	return result;
 }
 
 /**
@@ -242,12 +311,7 @@ export default function keyphraseCount( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 
 	topicForms.keyphraseForms = topicForms.keyphraseForms.map( word => word.map( form => normalizeSingle( form ) ) );
-	// console.log(topicForms);
-	// const processedTopicForms = topicForms.map(word => word.map(form => normalizeSingle(form)))
 
-	// console.log(processedTopicForms);
-
-	// A helper to return all the matches for the keyphrase.
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 
 	const locale = paper.getLocale();

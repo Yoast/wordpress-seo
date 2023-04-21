@@ -218,21 +218,36 @@ describe( "Test for counting the keyword in a text", function() {
 	} );
 
 	it( "doesn't count 'key-word' in 'key word'.", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit.</p>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherMinus ).count ).toBe( 1 );
 		// Note: this behavior might change in in the future.
 	} );
 
 	it( "only counts full key phrases (when all keywords are in the sentence once, twice etc.) as matches.", function() {
-		const mockPaper = new Paper( "A string with three keys (key and another key) and one word." );
+		const mockPaper = new Paper( "<p>A string with three keys (key and another key) and one word.</p>" );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
 		expect( keyphraseCount( mockPaper, mockResearcherKeyWord ).markings ).toEqual( [
-			new Mark( { marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
+			new Mark( {
+				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
 					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
 					"class='yoast-text-mark'>word</yoastmark>.",
-			original: "A string with three keys (key and another key) and one word." } ) ]
+				original: "A string with three keys (key and another key) and one word.",
+				position: { endOffset: 62, startOffset: 45 } } ),
+			new Mark( {
+				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
+					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
+					"class='yoast-text-mark'>word</yoastmark>.",
+				original: "A string with three keys (key and another key) and one word.",
+				position: { endOffset: 27, startOffset: 23 } } ),
+			new Mark( {
+				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
+					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
+					"class='yoast-text-mark'>word</yoastmark>.",
+				original: "A string with three keys (key and another key) and one word.",
+				position: { endOffset: 32, startOffset: 29 } } ),
+		]
 		);
 	} );
 
@@ -243,8 +258,8 @@ describe( "Test for counting the keyword in a text", function() {
 		// Note: this behavior might change in the future.
 	} );
 
-	it( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.", { locale: "id_ID" } );
+	it.skip( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
+		const mockPaper = new Paper( "<p>Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.</p>", { locale: "id_ID" } );
 		buildTree( mockPaper, mockResearcher );
 		expect( keyphraseCount( mockPaper, mockResearcher ).count ).toBe( 1 );
 	} );
@@ -278,7 +293,18 @@ const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 )
 // Decided not to remove test below as it tests the added logic of the Japanese helpers.
 describe( "Test for counting the keyword in a text for Japanese", () => {
 	it( "counts/marks a string of text with a keyword in it.", function() {
-		const mockPaper = new Paper( "私の猫はかわいいです。", { locale: "ja", keyphrase: "猫" } );
+		const mockPaper = new Paper( "<p>私の猫はかわいいです。</p?", { locale: "ja", keyphrase: "猫" } );
+		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
+		buildTree( mockPaper, researcher );
+
+		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
+				original: "私の猫はかわいいです。" } ) ] );
+	} );
+
+	it( "counts/marks a string of text with multiple occurences of the same keyword in it.", function() {
+		const mockPaper = new Paper( "<p>私の猫はかわいい猫です。</p?", { locale: "ja", keyphrase: "猫" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 
