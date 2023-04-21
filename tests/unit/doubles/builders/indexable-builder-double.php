@@ -32,6 +32,18 @@ class Indexable_Builder_Double extends Indexable_Builder {
 	public function exposed_is_type_with_no_id( $type ) {
 		return $this->is_type_with_no_id( $type );
 	}
+
+	/**
+	 * Build and author indexable from an author id if it does not exist yet, or if the author indexable needs to be upgraded (on production environments only).
+	 *
+	 * @param int $author_id The author id.
+	 *
+	 * @return Indexable|false The author indexable if it has been built, `false` if it could not be built.
+	 */
+	public function exposed_maybe_build_author_indexable( $author_id ) {
+		return $this->maybe_build_author_indexable( $author_id );
+	}
+
 	/**
 	 * Ensures we have a valid indexable. Creates one if false is passed.(on production environments only).
 	 *
