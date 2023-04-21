@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  YOASTBOT_CI_PAT_DIST: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+  YOASTBOT_CI_PAT_DIST: ${{ secrets.YOASTBOT_CI_PAT_DIST || '' }}
 
 jobs:
   #########################################################################################
