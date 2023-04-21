@@ -19,6 +19,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  YOASTBOT_CI_PAT_DIST: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+
 jobs:
   #########################################################################################
   # For packages in this job, the full test suite is always run.
@@ -91,8 +94,6 @@ jobs:
   # Packages should (only) be moved to this job if the full test run is exceedingly slow.
   #########################################################################################
   yarn-test-onlyChanged:
-    env:
-      YOASTBOT_CI_PAT_DIST: '${{ secrets.YOASTBOT_CI_PAT_DIST }}'
     if: ${{ env.YOASTBOT_CI_PAT_DIST }}
     runs-on: ubuntu-latest
 
