@@ -178,8 +178,6 @@ const convertToPositionResult = ( matches, sentence ) => {
  */
 function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCustomHelper ) {
 	if ( matchWordCustomHelper ) {
-		// TODO: unify return types and forms.
-
 		const matches = keyphraseForms.map( forms => matchTextWithArray( sentence.text,  forms, locale, matchWordCustomHelper ) );
 
 		const result = convertToPositionResult( matches, sentence );
@@ -192,7 +190,7 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 	const newKeyphraseForms = processKeyphraseForms( keyphraseForms, locale );
 
 	const matches = getMatchesInTokens( newKeyphraseForms, tokens );
-	console.log( matches );
+
 	return matches;
 }
 
