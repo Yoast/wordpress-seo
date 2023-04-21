@@ -1,5 +1,6 @@
 import { useCallback, useState } from "@wordpress/element";
 import CheckboxGroup from ".";
+import { component, withLabelAndDescription, withValues, childrenProp, disabled } from "./docs";
 
 export default {
 	title: "2) Components/Checkbox group",
@@ -10,7 +11,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple checkbox group component.",
+				component,
 			},
 		},
 	},
@@ -57,6 +58,8 @@ WithLabelAndDescription.args = {
 	description: "Checkbox group with a description.",
 };
 
+WithLabelAndDescription.parameters = { docs: { description: { story: withLabelAndDescription } } };
+
 export const WithValues = Template.bind( {} );
 WithValues.storyName = "With values";
 WithValues.args = {
@@ -72,6 +75,8 @@ WithValues.args = {
 	],
 };
 
+WithValues.parameters = { docs: { description: { story: withValues } } };
+
 export const ChildrenProp = Template.bind( {} );
 ChildrenProp.storyName = "Children prop";
 ChildrenProp.args = {
@@ -85,7 +90,7 @@ ChildrenProp.args = {
 	</>,
 };
 
-ChildrenProp.parameters = { docs: { description: { story: "The `children` prop can be used to render custom content. The options are rendered using the subcomponent `Checkbox` (`CheckboxGroup.Checkbox` is equal to `Checkbox` element). Default values should be set inside the child component and not the `value` prop." } } };
+ChildrenProp.parameters = { docs: { description: { story: childrenProp } } };
 
 export const Disabled = Template.bind( {} );
 
@@ -103,3 +108,5 @@ Disabled.args = {
 		{ value: "4", label: "Option 4" },
 	],
 };
+
+Disabled.parameters = { docs: { description: { story: disabled } } };
