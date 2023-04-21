@@ -145,8 +145,6 @@ class Save_Indexable_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->stubTranslationFunctions();
-
 		$this->author_builder            = Mockery::mock( Indexable_Author_Builder::class );
 		$this->post_builder              = Mockery::mock( Indexable_Post_Builder::class );
 		$this->term_builder              = Mockery::mock( Indexable_Term_Builder::class );
