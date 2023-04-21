@@ -92,7 +92,7 @@ jobs:
   #########################################################################################
   yarn-test-onlyChanged:
     env:
-      YOASTBOT_CI_PAT_DIST: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+      YOASTBOT_CI_PAT_DIST: '${{ secrets.YOASTBOT_CI_PAT_DIST }}'
     if: ${{ env.YOASTBOT_CI_PAT_DIST }}
     runs-on: ubuntu-latest
 
