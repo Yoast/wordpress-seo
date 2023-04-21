@@ -441,6 +441,7 @@ class Settings_Integration implements Integration_Interface {
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 			'createUserUrl'                 => \admin_url( 'user-new.php' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
+			'editTaxonomyUrl'               => \admin_url( 'edit-tags.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
