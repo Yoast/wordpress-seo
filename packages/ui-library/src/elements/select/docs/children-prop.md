@@ -1,0 +1,1 @@
+Add options as an array of React components with `children` prop, using the exposed option component `Select.Option`. In this case changing the `selectedLabel` should be done manually in the handleChange function.

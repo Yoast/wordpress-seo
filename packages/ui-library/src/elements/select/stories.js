@@ -2,6 +2,7 @@ import { useCallback, useState } from "@wordpress/element";
 import { noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../validation/constants";
 import Select, { StoryComponent } from ".";
+import { component, optionsProp, childrenProp, validation } from "./docs";
 
 export default {
 	title: "1) Elements/Select",
@@ -13,7 +14,7 @@ export default {
 	parameters: {
 		docs: {
 			description: {
-				component: "A simple select component.",
+				component,
 			},
 		},
 	},
@@ -71,7 +72,7 @@ OptionsProp.args = {
 };
 OptionsProp.storyName = "Options prop";
 OptionsProp.parameters = {
-	docs: { description: { story: "Add options as an array of objects with `options` prop. Each object must contain `value` and `label` parameters. The displayed selected label will be updated automatically on change." } },
+	docs: { description: { story: optionsProp } },
 };
 
 export const ChildrenProp = Template.bind( {} );
@@ -86,7 +87,7 @@ ChildrenProp.args = {
 
 
 ChildrenProp.parameters = {
-	docs: { description: { story: "Add options as an array of React components with `children` prop, using the exposed option component `Select.Option`. In this case changing the `selectedLabel` should be done manually in the handleChange function" } },
+	docs: { description: { story: childrenProp } },
 };
 
 export const Validation = () => (
@@ -118,3 +119,5 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+Validation.parameters = { docs: { description: { story: validation } } };
