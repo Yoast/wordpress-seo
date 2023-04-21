@@ -18,7 +18,18 @@ class Indexable_Builder_Double extends Indexable_Builder {
 	 *
 	 * @return Indexable The indexable.
 	 */
-	public function exposed_save_indexable( $indexable, $indexable_before = null ) {
+	public function exposed_save_indexable( $indexable, $indexable_before = null ): Indexable {
 		return $this->save_indexable( $indexable, $indexable_before );
+	}
+
+	/**
+	 * Checks if the indexable type is one that is not supposed to have object ID for.
+	 *
+	 * @param string $type The type of the indexable.
+	 *
+	 * @return bool Whether the indexable type is one that is not supposed to have object ID for.
+	 */
+	public function exposed_is_type_with_no_id( $type ) {
+		return $this->is_type_with_no_id( $type );
 	}
 }

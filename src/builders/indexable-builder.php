@@ -341,7 +341,7 @@ class Indexable_Builder {
 	 *
 	 * @return bool Whether the indexable type is one that is not supposed to have object ID for.
 	 */
-	private function is_type_with_no_id( $type ) {
+	protected function is_type_with_no_id( $type ) {
 		return \in_array( $type, [ 'home-page', 'date-archive', 'post-type-archive', 'system-page' ], true );
 	}
 
