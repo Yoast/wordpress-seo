@@ -144,7 +144,7 @@ class Short_Link_Helper {
 	protected function get_days_active() {
 		$date_activated = $this->options_helper->get( 'first_activated_on' );
 		$datediff       = ( \time() - $date_activated );
-		
+
 		return (int) \round( $datediff / \DAY_IN_SECONDS );
 	}
 }
