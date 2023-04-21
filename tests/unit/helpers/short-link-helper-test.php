@@ -46,7 +46,7 @@ class Short_Link_Helper_Test extends TestCase {
 		parent::set_up();
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
-		
+
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->product_helper = Mockery::mock( Product_Helper::class );
 
@@ -67,14 +67,14 @@ class Short_Link_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider build_dataprovider
 	 *
-	 * @param bool $is_premium Whether the plugin is premium or not.
-	 * @param string $first_activated_on The date the plugin was first activated.
+	 * @param bool   $is_premium Whether the plugin is premium or not.
+	 * @param string $first_activated_on The date (in days) the plugin was first activated.
 	 * @param string $locale The locale of the user.
 	 * @param string $link The link to build upon.
-	 * @param array $args_list The list of arguments to add to the link.
+	 * @param array  $args_list The list of arguments to add to the link.
 	 * @param string $expected The expected url.
 	 */
-	public function test_build( $is_premium, $first_activated_on, $locale, $link, $args_list, $expected) {
+	public function test_build( $is_premium, $first_activated_on, $locale, $link, $args_list, $expected ) {
 		$this->product_helper
 			->expects( 'is_premium' )
 			->once()
@@ -115,20 +115,28 @@ class Short_Link_Helper_Test extends TestCase {
 	public function build_dataprovider() {
 		return [
 			'premium' => [
-				'is_premium' => true,
-				'first_activated_on' => 10,
-				'locale' => 'it_IT',
-				'link' => 'https://yoa.st/abcdefg',
-				'args_list' => ['php_version' => '8.0', 'platform_version' => '6.2', 'software' => 'wordpress' ],	
-				'expected' => 'https://yoa.st/abcdefg?php_version=8.0&platform_version=6.2&software=premium&days_active=10&user_language=it_IT',
+				'is_premium'               => true,
+				'first_activated_on'       => 10,
+				'locale'                   => 'it_IT',
+				'link'                     => 'https://yoa.st/abcdefg',
+				'args_list'                => [
+					'php_version'      => '8.0',
+					'platform_version' => '6.2',
+					'software'         => 'wordpress',
+				],
+				'expected'                 => 'https://yoa.st/abcdefg?php_version=8.0&platform_version=6.2&software=premium&days_active=10&user_language=it_IT',
 			],
 			'not premium' => [
-				'is_premium' => false,
-				'first_activated_on' => 10,
-				'locale' => 'it_IT',
-				'link' => 'https://yoa.st/abcdefg',
-				'args_list' => ['php_version' => '8.0', 'platform_version' => '6.2', 'software' => 'wordpress' ],	
-				'expected' => 'https://yoa.st/abcdefg?php_version=8.0&platform_version=6.2&software=free&days_active=10&user_language=it_IT',
+				'is_premium'               => false,
+				'first_activated_on'       => 10,
+				'locale'                   => 'it_IT',
+				'link'                     => 'https://yoa.st/abcdefg',
+				'args_list'                => [
+					'php_version'      => '8.0',
+					'platform_version' => '6.2',
+					'software'         => 'wordpress',
+				],
+				'expected'                 => 'https://yoa.st/abcdefg?php_version=8.0&platform_version=6.2&software=free&days_active=10&user_language=it_IT',
 			],
 		];
 	}
@@ -140,6 +148,12 @@ class Short_Link_Helper_Test extends TestCase {
 	 * @covers ::collect_additional_shortlink_data
 	 *
 	 * @dataProvider get_query_params_dataprovider
+	 *
+	 * @param bool   $is_premium Whether the plugin is premium or not.
+	 * @param string $first_activated_on The date (in days) the plugin was first activated.
+	 * @param string $locale The locale of the user.
+	 * @param string $page The page to get the query params for.
+	 * @param array  $expected The expected query params values.
 	 */
 	public function test_get_query_params( $is_premium, $first_activated_on, $locale, $page, $expected ) {
 		$_GET['page'] = $page;
@@ -158,8 +172,8 @@ class Short_Link_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_user_locale' )
 			->once()
 			->andReturn( $locale );
-	
-		$query_params = $this->instance->get_query_params();
+
+		$query_params     = $this->instance->get_query_params();
 		$query_param_keys = array_keys( $query_params );
 
 		$this->assertContains( 'php_version', $query_param_keys );
@@ -170,10 +184,9 @@ class Short_Link_Helper_Test extends TestCase {
 		$this->assertEquals( $query_params['software'], $expected['software'] );
 		$this->assertEquals( $query_params['platform'], $expected['platform'] );
 
-		if ( ! is_null($page) ) {
+		if ( ! is_null( $page ) ) {
 			$this->assertContains( 'screen', $query_param_keys );
 		}
-
 	}
 
 	/**
@@ -184,25 +197,25 @@ class Short_Link_Helper_Test extends TestCase {
 	public function get_query_params_dataprovider() {
 		return [
 			'screen' => [
-				'is_premium' => true,
-				'first_activated_on' => \time() - \DAY_IN_SECONDS * 10,
-				'locale' => 'it_IT',
-				'page' => 'wpseo_dashboard',
-				'expected' => [
-					'software' => 'premium',
+				'is_premium'         => true,
+				'first_activated_on' => ( \time() - \DAY_IN_SECONDS * 10 ),
+				'locale'             => 'it_IT',
+				'page'               => 'wpseo_dashboard',
+				'expected'           => [
+					'software'    => 'premium',
 					'days_active' => 10,
-					'platform' => 'wordpress',
+					'platform'    => 'wordpress',
 				],
 			],
 			'not screen' => [
-				'is_premium' => false,
-				'first_activated_on' => \time() - \DAY_IN_SECONDS * 10,
-				'locale' => 'it_IT',
-				'page' => null,
-				'expected' => [
-					'software' => 'free',
+				'is_premium'         => false,
+				'first_activated_on' => ( \time() - \DAY_IN_SECONDS * 10 ),
+				'locale'             => 'it_IT',
+				'page'               => null,
+				'expected'           => [
+					'software'    => 'free',
 					'days_active' => 10,
-					'platform' => 'wordpress',
+					'platform'    => 'wordpress',
 				],
 			],
 		];
