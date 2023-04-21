@@ -23,7 +23,7 @@ class Indexable_Builder_Double extends Indexable_Builder {
 	}
 
 	/**
-	 * Checks if the indexable type is one that is not supposed to have object ID for.
+	 * Checks if the indexable type is one that is not supposed to have object ID for (on production environments only).
 	 *
 	 * @param string $type The type of the indexable.
 	 *
@@ -31,5 +31,16 @@ class Indexable_Builder_Double extends Indexable_Builder {
 	 */
 	public function exposed_is_type_with_no_id( $type ) {
 		return $this->is_type_with_no_id( $type );
+	}
+	/**
+	 * Ensures we have a valid indexable. Creates one if false is passed.(on production environments only).
+	 *
+	 * @param Indexable|false $indexable The indexable.
+	 * @param array           $defaults  The initial properties of the Indexable.
+	 *
+	 * @return Indexable The indexable.
+	 */
+	public function exposed_ensure_indexable( $indexable, $defaults = [] ) {
+		return $this->ensure_indexable( $indexable, $defaults );
 	}
 }
