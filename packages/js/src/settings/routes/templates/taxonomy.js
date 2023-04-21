@@ -34,6 +34,8 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
+	const editTaxonomyUrl = useSelectSettings( "selectPreference", [], "editTaxonomyUrl" );
+
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
 	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
@@ -141,7 +143,7 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 				__( "The name of this category is %1$s.", "wordpress-seo" ),
 				"<link />"
 			), {
-				link: <Link href={ `edit-tags.php?taxonomy=${ name }` }>
+				link: <Link href={ `${ editTaxonomyUrl }?taxonomy=${ name }` }>
 					{ name }
 				</Link>,
 			}
