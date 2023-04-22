@@ -75,14 +75,15 @@
     "@babel/core": "^7.17.9",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/eslint-plugin": "^7.17.7",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
     "@yoast/babel-preset": "^1.0.0",
     "@yoast/browserslist-config": "^1.2.2",
     "@yoast/jest-preset": "^1.0.0",
     "babel-plugin-styled-components": "^2.0.6",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.32.0",
     "eslint-config-yoast": "^6.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -92,10 +93,8 @@
     "jest": "^27.5.1",
     "jest-styled-components": "^7.0.3",
     "raf": "^3.4.1",
-    "react-test-renderer": "^16.14.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
-  "peerDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
-  }
+  "peerDependencies": {}
 }

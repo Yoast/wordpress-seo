@@ -8,7 +8,8 @@ module.exports = {
 		"/tests/setupTests.js",
 		"/tests/decorator/__mocks__/@wordpress/rich-text/index.js",
 	],
-
+	// https://testing-library.com/docs/react-testing-library/setup#jest-27
+	testEnvironment: "jest-environment-jsdom",
 	moduleNameMapper: {
 		"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
 		"\\.(css|less)$": "<rootDir>/tests/__mocks__/styleMock.js",
