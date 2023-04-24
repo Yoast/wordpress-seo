@@ -12,14 +12,14 @@ class Search_Result_Schema_Piece extends Abstract_Schema_Piece {
 	/**
 	 * The search term domain object.
 	 *
-	 * @var \Yoast\WP\SEO\Schema\Domain\Search_Term $search_term
+	 * @var Search_Term $search_term
 	 */
 	private $search_term;
 
 	/**
 	 * Search_Result_Schema_Piece constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Schema\Domain\Search_Term $search_term The search term domain object.
+	 * @param Search_Term $search_term The search term domain object.
 	 */
 	public function __construct( Search_Term $search_term ) {
 		$this->search_term = $search_term;

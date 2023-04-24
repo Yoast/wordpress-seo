@@ -1,13 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Schema\Framework;
+namespace Yoast\WP\SEO\Schema\User_Interface;
 
-use Yoast\WP\SEO\Schema\Domain\Search_Result_Schema_Piece;
-use Yoast\WP\SEO\Schema\Application\Generate_Search_Result_Schema_Piece_Handler;
-use Yoast\WP\SEO\Schema\Application\Generate_Search_Result_Schema_Piece;
-use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Schema\Application\Generate_Search_Result_Schema_Piece;
+use Yoast\WP\SEO\Schema\Application\Generate_Search_Result_Schema_Piece_Handler;
 
 /**
  * Integrates the search action graph piece into the schema graph.
@@ -24,7 +23,7 @@ class Search_Result_Integration implements Integration_Interface {
 	/**
 	 * The Generate_Search_Result_Schema handler.
 	 *
-	 * @var \Yoast\WP\SEO\Schema\Application\Generate_Search_Result_Schema_Piece_Handler
+	 * @var Generate_Search_Result_Schema_Piece_Handler
 	 */
 	private $handler;
 
@@ -38,11 +37,10 @@ class Search_Result_Integration implements Integration_Interface {
 	/**
 	 * Search_Result_Integration constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Helpers\Current_Page_Helper                                    $current_page_helper The current page helper class.
-	 * @param \Yoast\WP\SEO\Schema\Application\Generate_Search_Result_Schema_Piece_Handler $handler The generate command handler.
+	 * @param Current_Page_Helper                         $current_page_helper The current page helper class.
+	 * @param Generate_Search_Result_Schema_Piece_Handler $handler The generate command handler.
 	 */
-	public function __construct( Current_Page_Helper $current_page_helper,
-		Generate_Search_Result_Schema_Piece_Handler $handler ) {
+	public function __construct( Current_Page_Helper $current_page_helper, Generate_Search_Result_Schema_Piece_Handler $handler ) {
 		$this->current_page_helper = $current_page_helper;
 		$this->handler             = $handler;
 	}
@@ -57,8 +55,8 @@ class Search_Result_Integration implements Integration_Interface {
 	/**
 	 * Integrates a new Schema piece into the graph if we are on a search page.
 	 *
-	 * @param array $graph  The current schema graph.
-	 * @param array $context  The schema context.
+	 * @param array $graph The current schema graph.
+	 * @param array $context The schema context.
 	 *
 	 * @return mixed Returns the schema graph
 	 */

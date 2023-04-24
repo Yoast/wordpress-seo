@@ -11,7 +11,7 @@ class Generate_Search_Result_Schema_Piece {
 	/**
 	 * The search term domain object.
 	 *
-	 * @var \Yoast\WP\SEO\Schema\Domain\Search_Term $search_term The search term domain object.
+	 * @var Search_Term $search_term The search term domain object.
 	 */
 	private $search_term;
 
@@ -27,7 +27,7 @@ class Generate_Search_Result_Schema_Piece {
 	/**
 	 * Gets the search term domain object.
 	 *
-	 * @return \Yoast\WP\SEO\Schema\Domain\Search_Term
+	 * @return Search_Term
 	 */
 	public function get_search_term() {
 		return $this->search_term;
