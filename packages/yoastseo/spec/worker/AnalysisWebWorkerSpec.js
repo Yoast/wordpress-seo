@@ -685,7 +685,7 @@ describe( "AnalysisWebWorker", () => {
 
 				// Check if the source code position is correct.
 				expect( paragraphs[ 0 ].sentences ).toEqual( [ {
-					text: "A paragraph",
+					text: "A  paragraph",
 					tokens: [
 						{ text: "A", sourceCodeRange: { startOffset: 8, endOffset: 9 } },
 						{ text: " ", sourceCodeRange: { startOffset: 9, endOffset: 10 } },
@@ -801,7 +801,7 @@ describe( "AnalysisWebWorker", () => {
 				const { startOffset, endOffset } = sentence.sourceCodeRange;
 
 				// Check if the source code position is correct.
-				expect( html.slice( startOffset, endOffset ) ).toEqual( "A paragraph" );
+				expect( html.slice( startOffset, endOffset ) ).toEqual( "A paragraph <code>push()</code>" );
 			} );
 			it( "correctly calculates sentence position in a node containing a code element inside of a paragraph", async() => {
 				// One paragraph, with one sentence.
@@ -820,7 +820,7 @@ describe( "AnalysisWebWorker", () => {
 				const { startOffset, endOffset } = sentence.sourceCodeRange;
 
 				// Check if the source code position is correct.
-				expect( html.slice( startOffset, endOffset ) ).toEqual( "A paragraph with code" );
+				expect( html.slice( startOffset, endOffset ) ).toEqual( "A paragraph <code>push()</code> with code" );
 			} );
 			it( "correctly calculates sentence position in a node containing a pre element", async() => {
 				// One paragraph, with one sentence.
