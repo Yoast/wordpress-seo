@@ -291,7 +291,7 @@ const TableExplanation = ( { isLoggedIn } ) => {
 							)
 						}
 					</WincherAccountLink>,
-					wincherLink: <WincherLink href="https://yoa.st/integrations-about-wincher">
+					wincherLink: <WincherLink href="https://yoa.st/dashboard-about-wincher">
 						{
 							sprintf(
 								/* translators: %s : Expands to "Wincher". */
