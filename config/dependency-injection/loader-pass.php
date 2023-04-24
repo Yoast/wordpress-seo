@@ -70,9 +70,9 @@ class Loader_Pass implements CompilerPassInterface {
 				|| strpos( $path, 'wordpress-seo/src/repositories' )
 				|| strpos( $path, 'wordpress-seo/src/services' )
 				|| strpos( $path, 'wordpress-seo/src/values' )
-				 || strpos( $path, 'wordpress-seo/src/wrappers' )
-				 || strpos( $path, 'wordpress-seo/src/wordpress' )
-				 || strpos( $path, 'wordpress-seo/src/loader' )
+				|| strpos( $path, 'wordpress-seo/src/wrappers' )
+				|| strpos( $path, 'wordpress-seo/src/wordpress' )
+				|| strpos( $path, 'wordpress-seo/src/loader' )
 				) {
 				$definition->setPublic( true );
 			}
