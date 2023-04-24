@@ -1,4 +1,4 @@
-# Contributing to the Yoast UI Library
+# Contributing to the Yoast UI library
 The Yoast UI library is a React component library for building Yoast user interfaces. You can contribute to the UI library by adding more stories or creating new components.
 
 ## Local development

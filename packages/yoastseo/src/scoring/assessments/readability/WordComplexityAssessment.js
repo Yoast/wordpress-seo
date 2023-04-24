@@ -36,7 +36,7 @@ export default class WordComplexityAssessment extends Assessment {
          * It appears before the feedback in the analysis, for example in the feedback string:
          * "Word complexity: You are not using too many complex words, which makes your text easy to read. Good job!"
          */
-		this.name = __( "Word complexity", "wordpress-seo" );
+		this.name = __( "Word complexity", "wordpress-seo-premium" );
 		this.identifier = "wordComplexity";
 		this._config = merge( defaultConfig, config );
 
@@ -85,7 +85,7 @@ export default class WordComplexityAssessment extends Assessment {
 					__(
 						// eslint-disable-next-line max-len
 						"%1$s: You are not using too many complex words, which makes your text easy to read. Good job!",
-						"wordpress-seo"
+						"wordpress-seo-premium"
 					),
 					assessmentLink
 				),
@@ -101,7 +101,7 @@ export default class WordComplexityAssessment extends Assessment {
 				__(
 					// eslint-disable-next-line max-len
 					"%1$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
-					"wordpress-seo"
+					"wordpress-seo-premium"
 				),
 				assessmentLink,
 				complexWordsPercentage + "%",
