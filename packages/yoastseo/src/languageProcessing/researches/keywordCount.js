@@ -197,6 +197,12 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 const markStart = "<yoastmark class='yoast-text-mark'>";
 const markEnd = "</yoastmark>";
 
+/**
+ * Create marks for a sentence. This function creates marks for the (old) search based highlighting.
+ * @param {Sentence[]} sentence The sentence to which to apply the marks.
+ * @param {{}[]} matches The matches to apply.
+ * @returns {string} The sentence with marks applied.
+ */
 const createMarksForSentence = ( sentence, matches ) => {
 	const reference = sentence.sourceCodeRange.startOffset;
 	let sentenceText = sentence.text;
@@ -227,11 +233,10 @@ const createMarksForSentence = ( sentence, matches ) => {
  *
  * @param {string} sentence The sentence to check.
  * @param {Array} matchesInSentence The array of keyphrase matches in the sentence.
- * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
  *
  * @returns {Mark[]}    The array of Mark objects of the keyphrase matches.
  */
-function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper ) {
+function getMarkingsInSentence( sentence, matchesInSentence ) {
 	const markedSentence = createMarksForSentence( sentence, matchesInSentence );
 	const markings = matchesInSentence.primaryMatches.map( match => {
 		return new Mark( {
@@ -265,8 +270,8 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 
 /**
  * Merges consecutive markings into one marking.
- * @param {[]} markings
- * @returns {*[]}
+ * @param {{}[]} markings An array of markings to merge.
+ * @returns {{}[]} An array of markings where consecutive markings are merged.
  */
 const mergeConsecutiveMarkings = ( markings ) => {
 	const newMarkings = [];
@@ -306,7 +311,7 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 
 		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper );
 
-		result.markings.push( markings ); // TODO: add test for multiple sentences
+		result.markings.push( markings );
 		result.count += matchesInSentence.primaryMatches.length;
 	} );
 

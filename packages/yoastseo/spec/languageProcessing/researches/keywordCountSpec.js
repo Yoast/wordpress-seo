@@ -62,6 +62,26 @@ describe( "Test for counting the keyword in a text", function() {
 			] );
 	} );
 
+	it( "counts/marks a string of text consisting of multiple sentences with a keyword in it.", function() {
+		const mockPaper = new Paper( "<p>A sentence with the keyword in it. Another sentence with the keyword in it.</p>", { keyword: "keyword" } );
+		researcher.setPaper( mockPaper );
+		buildTree( mockPaper, researcher );
+		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
+		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual(
+			[ new Mark( {
+				fieldsToMark: [],
+				marked: "A sentence with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> in it.",
+				original: "A sentence with the keyword in it.",
+				position: { endOffset: 30, startOffset: 23 },
+			} ),
+			new Mark( {
+				fieldsToMark: [],
+				marked: " Another sentence with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> in it.",
+				original: " Another sentence with the keyword in it.",
+				position: { endOffset: 37, startOffset: 30 } } ),
+			] );
+	} );
+
 	it( "counts a string of text with no keyword in it.", function() {
 		const mockPaper = new Paper( "a string of text" );
 		buildTree( mockPaper, mockResearcher );
