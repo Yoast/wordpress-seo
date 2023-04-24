@@ -372,7 +372,7 @@ class Indexable_Cleanup_Repository {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
-		return $wpdb->query( $count_query );
+		return $wpdb->get_col( $query )[0];
 		// phpcs:enable
 	}
 
