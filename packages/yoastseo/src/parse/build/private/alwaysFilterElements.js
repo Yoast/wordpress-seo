@@ -8,6 +8,7 @@ const permanentFilters = [
 	elementHasName( "script" ),
 	elementHasName( "style" ),
 	elementHasName( "code" ),
+	elementHasName( "pre" ),
 	elementHasName( "blockquote" ),
 	// Filter yoast TOC blocks
 	elementHasClass( "yoast-table-of-contents" ),
