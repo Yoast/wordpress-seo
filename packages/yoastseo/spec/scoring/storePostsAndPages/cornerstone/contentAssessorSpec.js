@@ -2,26 +2,42 @@ import { forEach } from "lodash-es";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import DutchResearcher from "../../../../src/languageProcessing/languages/nl/Researcher";
+import wordComplexity from "../../../../src/languageProcessing/researches/wordComplexity";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
 import ContentAssessor from "../../../../src/scoring/storePostsAndPages/cornerstone/contentAssessor";
 import AssessmentResult from "../../../../src/values/AssessmentResult";
 import Paper from "../../../../src/values/Paper";
+import getWordComplexityConfig from "../../../specHelpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../../specHelpers/getWordComplexityHelper";
 
-describe( "A content assessor", function() {
-	describe( "calculatePenaltyPoints", function() {
-		let contentAssessor;
-		let results;
-		const paper = new Paper();
-		beforeEach( function() {
-			contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
-			contentAssessor.getValidResults = function() {
-				return results;
-			};
-			contentAssessor.getPaper = function() {
-				return paper;
-			};
-		} );
+describe( "A test for content assessor for English", function() {
+	let contentAssessor, results, researcher, paper;
+	beforeAll( function() {
+		paper = new Paper();
+		researcher = new EnglishResearcher( paper );
+		contentAssessor = new ContentAssessor( researcher );
+		// Also register the assessment, research, helper, and config for Word Complexity for testing purposes.
+		researcher.addResearch( "wordComplexity", wordComplexity );
+		researcher.addHelper( "checkIfWordIsComplex", getWordComplexityHelper( "en" ) );
+		researcher.addConfig( "wordComplexity", getWordComplexityConfig( "en" ) );
+		contentAssessor = new ContentAssessor( researcher );
+		contentAssessor.addAssessment( "wordComplexity", new WordComplexityAssessment( {
+			scores: {
+				acceptableAmount: 3,
+			},
+			urlTitle: "https://yoa.st/shopify77",
+			urlCallToAction: "https://yoa.st/shopify78",
+		} ) );
+		contentAssessor.getValidResults = function() {
+			return results;
+		};
+		contentAssessor.getPaper = function() {
+			return paper;
+		};
+	} );
 
+	describe( "calculatePenaltyPoints for English", function() {
 		it( "should have no points for an empty result set", function() {
 			results = [];
 			const expected = 0;
@@ -98,18 +114,10 @@ describe( "A content assessor", function() {
 	} );
 
 	describe( "calculateOverallScore for English", function() {
-		let points, results, contentAssessor;
-
+		let points;
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( new EnglishResearcher() );
-			contentAssessor.getValidResults = function() {
-				return results;
-			};
 			contentAssessor.calculatePenaltyPoints = function() {
 				return points;
-			};
-			contentAssessor.getPaper = function() {
-				return new Paper();
 			};
 		} );
 
@@ -151,140 +159,182 @@ describe( "A content assessor", function() {
 		} );
 	} );
 
-	describe( "calculateOverallScore for non English with a text containing more than 200 words", function() {
-		let points, results, contentAssessor;
-
-		const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
-			"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
-			"signiferumque duo. At erant expetenda patrioque quo, rebum atqui nam ad, tempor elaboraret interpretaris pri ad. " +
-			"Novum postea sea in. Placerat recteque cu usu. Cu nam sadipscing disputationi, sed labitur elaboraret et. Eu sed " +
-			"accumsan prodesset. Posse integre et nec, usu assum audiam erroribus eu. Ei viris eirmod interesset usu, " +
-			"usu homero liberavisse in, solet disputando ea vim. Mei eu inani nonumes consulatu, ea alterum menandri ius, " +
-			"ne euismod neglegentur sed. Vis te deleniti suscipit, fabellas laboramus pri ei. Te quo aliquip offendit. " +
-			"Vero paulo regione ei eum, sed at atqui meliore copiosae. Has et vocent vivendum. Mundi graeco latine cum ne, " +
-			"no cum laoreet alienum. Quo cu vero utinam constituto. Vis omnium vivendum ea. Eum lorem ludus possim ut. Eu has eius " +
-			"munere explicari, atqui ullamcorper eos no, harum epicuri per ut. Utamur volumus minimum ea vel, duo eu praesent " +
-			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
-			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
-			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "nl_NL" } );
-
-		beforeEach( function() {
-			contentAssessor = new ContentAssessor( new DutchResearcher( paper ) );
-			contentAssessor.getValidResults = function() {
-				return results;
-			};
-			contentAssessor.calculatePenaltyPoints = function() {
-				return points;
-			};
-			contentAssessor.getPaper = function() {
-				return paper;
-			};
-		} );
-
-		it( "should give worse results based on the negative points", function() {
-			results = [
-				new AssessmentResult(),
-				new AssessmentResult(),
-			];
-			const testCases = [
-				{ points: 6, expected: 30 },
-				{ points: 4, expected: 60 },
-				{ points: 3, expected: 60 },
-				{ points: 2, expected: 90 },
-			];
-
-			forEach( testCases, function( testCase ) {
-				points = testCase.points;
-
-				const actual = contentAssessor.calculateOverallScore();
-
-				expect( actual ).toBe( testCase.expected );
-			} );
-		} );
-	} );
-
-	describe( "calculateOverallScore for non English with an empty paper", function() {
-		let points, results, contentAssessor;
-
-		const paper = new Paper( "", { locale: "jv_ID" } );
-
-		beforeEach( function() {
-			contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
-			contentAssessor.getValidResults = function() {
-				return results;
-			};
-			contentAssessor.calculatePenaltyPoints = function() {
-				return points;
-			};
-			contentAssessor.getPaper = function() {
-				return paper;
-			};
-		} );
-
-		it( "should give worse results based on the negative points", function() {
-			results = [
-				new AssessmentResult(),
-				new AssessmentResult(),
-			];
-			const testCases = [
-				{ points: 6, expected: 30 },
-				{ points: 4, expected: 60 },
-				{ points: 3, expected: 60 },
-				{ points: 2, expected: 90 },
-			];
-
-			forEach( testCases, function( testCase ) {
-				points = testCase.points;
-
-				const actual = contentAssessor.calculateOverallScore();
-
-				expect( actual ).toBe( testCase.expected );
-			} );
-		} );
-	} );
-
-	describe( "Checks the applicable assessments", function() {
-		const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
-			"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
-			"signiferumque duo. At erant expetenda patrioque quo, rebum atqui nam ad, tempor elaboraret interpretaris pri ad. " +
-			"Novum postea sea in. Placerat recteque cu usu. Cu nam sadipscing disputationi, sed labitur elaboraret et. Eu sed " +
-			"accumsan prodesset. Posse integre et nec, usu assum audiam erroribus eu. Ei viris eirmod interesset usu, " +
-			"usu homero liberavisse in, solet disputando ea vim. Mei eu inani nonumes consulatu, ea alterum menandri ius, " +
-			"ne euismod neglegentur sed. Vis te deleniti suscipit, fabellas laboramus pri ei. Te quo aliquip offendit. " +
-			"Vero paulo regione ei eum, sed at atqui meliore copiosae. Has et vocent vivendum. Mundi graeco latine cum ne, " +
-			"no cum laoreet alienum. Quo cu vero utinam constituto. Vis omnium vivendum ea. Eum lorem ludus possim ut. Eu has eius " +
-			"munere explicari, atqui ullamcorper eos no, harum epicuri per ut. Utamur volumus minimum ea vel, duo eu praesent " +
-			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
-			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
-			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
-		it( "Should have 8 available assessments for a fully supported language", function() {
-			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
+	describe( "Checks the applicable assessments for English", function() {
+		it( "Should have 8 available assessments for a fully supported language.", function() {
+			paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
+				"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
+				"signiferumque duo. At erant expetenda patrioque quo, rebum atqui nam ad, tempor elaboraret interpretaris pri ad. " +
+				"Novum postea sea in. Placerat recteque cu usu. Cu nam sadipscing disputationi, sed labitur elaboraret et. Eu sed " +
+				"accumsan prodesset. Posse integre et nec, usu assum audiam erroribus eu. Ei viris eirmod interesset usu, " +
+				"usu homero liberavisse in, solet disputando ea vim. Mei eu inani nonumes consulatu, ea alterum menandri ius, " +
+				"ne euismod neglegentur sed. Vis te deleniti suscipit, fabellas laboramus pri ei. Te quo aliquip offendit. " +
+				"Vero paulo regione ei eum, sed at atqui meliore copiosae. Has et vocent vivendum. Mundi graeco latine cum ne, " +
+				"no cum laoreet alienum. Quo cu vero utinam constituto. Vis omnium vivendum ea. Eum lorem ludus possim ut. Eu has eius " +
+				"munere explicari, atqui ullamcorper eos no, harum epicuri per ut. Utamur volumus minimum ea vel, duo eu praesent " +
+				"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
+				"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
+				"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
+			researcher.setPaper( paper );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
-			const actual = contentAssessor.getApplicableAssessments().length;
+			const assessments = contentAssessor.getApplicableAssessments();
 			const expected = 8;
-			expect( actual ).toBe( expected );
+
+			expect( assessments.length ).toBe( expected );
+			expect( assessments.map( ( { identifier } ) => identifier ) ).toEqual(
+				[
+					"subheadingsTooLong",
+					"textParagraphTooLong",
+					"textSentenceLength",
+					"textTransitionWords",
+					"passiveVoice",
+					"textPresence",
+					"sentenceBeginnings",
+					"wordComplexity",
+				]
+			);
 		} );
+	} );
+} );
 
+describe( "A test for content assessor for non-English that has language-specific researcher", function() {
+	let points, results, contentAssessor;
+
+	const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
+		"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
+		"signiferumque duo. At erant expetenda patrioque quo, rebum atqui nam ad, tempor elaboraret interpretaris pri ad. " +
+		"Novum postea sea in. Placerat recteque cu usu. Cu nam sadipscing disputationi, sed labitur elaboraret et. Eu sed " +
+		"accumsan prodesset. Posse integre et nec, usu assum audiam erroribus eu. Ei viris eirmod interesset usu, " +
+		"usu homero liberavisse in, solet disputando ea vim. Mei eu inani nonumes consulatu, ea alterum menandri ius, " +
+		"ne euismod neglegentur sed. Vis te deleniti suscipit, fabellas laboramus pri ei. Te quo aliquip offendit. " +
+		"Vero paulo regione ei eum, sed at atqui meliore copiosae. Has et vocent vivendum. Mundi graeco latine cum ne, " +
+		"no cum laoreet alienum. Quo cu vero utinam constituto. Vis omnium vivendum ea. Eum lorem ludus possim ut. Eu has eius " +
+		"munere explicari, atqui ullamcorper eos no, harum epicuri per ut. Utamur volumus minimum ea vel, duo eu praesent " +
+		"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
+		"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
+		"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "nl_NL" } );
+
+	beforeEach( function() {
+		contentAssessor = new ContentAssessor( new DutchResearcher( paper ) );
+		contentAssessor.addAssessment( "wordComplexity", new WordComplexityAssessment( {
+			scores: {
+				acceptableAmount: 3,
+			},
+			urlTitle: "https://yoa.st/shopify77",
+			urlCallToAction: "https://yoa.st/shopify78",
+		} ) );
+		contentAssessor.getValidResults = function() {
+			return results;
+		};
+		contentAssessor.calculatePenaltyPoints = function() {
+			return points;
+		};
+		contentAssessor.getPaper = function() {
+			return paper;
+		};
+	} );
+
+	it( "should give worse results based on the negative points", function() {
+		results = [
+			new AssessmentResult(),
+			new AssessmentResult(),
+		];
+		const testCases = [
+			{ points: 6, expected: 30 },
+			{ points: 4, expected: 60 },
+			{ points: 3, expected: 60 },
+			{ points: 2, expected: 90 },
+		];
+
+		forEach( testCases, function( testCase ) {
+			points = testCase.points;
+
+			const actual = contentAssessor.calculateOverallScore();
+
+			expect( actual ).toBe( testCase.expected );
+		} );
+	} );
+} );
+
+describe( "calculateOverallScore for non-English that uses Default researcher", function() {
+	let points, results, contentAssessor;
+	let paper = new Paper( "", { locale: "jv_ID" } );
+
+	beforeAll( () => {
+		const researcher = new DefaultResearcher( paper );
+		contentAssessor = new ContentAssessor( researcher );
+		contentAssessor.addAssessment( "wordComplexity", new WordComplexityAssessment( {
+			scores: {
+				acceptableAmount: 3,
+			},
+			urlTitle: "https://yoa.st/shopify77",
+			urlCallToAction: "https://yoa.st/shopify78",
+		} ) );
+		contentAssessor.getValidResults = function() {
+			return results;
+		};
+		contentAssessor.calculatePenaltyPoints = function() {
+			return points;
+		};
+		contentAssessor.getPaper = function() {
+			return paper;
+		};
+	} );
+
+	describe( "calculateOverallScore for non-English that uses Default researcher", function() {
+		it( "should give worse results based on the negative points", function() {
+			results = [
+				new AssessmentResult(),
+				new AssessmentResult(),
+			];
+			const testCases = [
+				{ points: 6, expected: 30 },
+				{ points: 4, expected: 60 },
+				{ points: 3, expected: 60 },
+				{ points: 2, expected: 90 },
+			];
+
+			forEach( testCases, function( testCase ) {
+				points = testCase.points;
+
+				const actual = contentAssessor.calculateOverallScore();
+
+				expect( actual ).toBe( testCase.expected );
+			} );
+		} );
+		paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
+			"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
+			"signiferumque duo. At erant expetenda patrioque quo, rebum atqui nam ad, tempor elaboraret interpretaris pri ad. " +
+			"Novum postea sea in. Placerat recteque cu usu. Cu nam sadipscing disputationi, sed labitur elaboraret et. Eu sed " +
+			"accumsan prodesset. Posse integre et nec, usu assum audiam erroribus eu. Ei viris eirmod interesset usu, " +
+			"usu homero liberavisse in, solet disputando ea vim. Mei eu inani nonumes consulatu, ea alterum menandri ius, " +
+			"ne euismod neglegentur sed. Vis te deleniti suscipit, fabellas laboramus pri ei. Te quo aliquip offendit. " +
+			"Vero paulo regione ei eum, sed at atqui meliore copiosae. Has et vocent vivendum. Mundi graeco latine cum ne, " +
+			"no cum laoreet alienum. Quo cu vero utinam constituto. Vis omnium vivendum ea. Eum lorem ludus possim ut. Eu has eius " +
+			"munere explicari, atqui ullamcorper eos no, harum epicuri per ut. Utamur volumus minimum ea vel, duo eu praesent " +
+			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
+			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
+			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "xx_XX" } );
 		it( "Should have 4 available assessments for a basic supported language", function() {
-			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
-			contentAssessor.getPaper = function() {
-				return paper;
-			};
-
-			const actual = contentAssessor.getApplicableAssessments().length;
+			const assessments = contentAssessor.getApplicableAssessments();
 			const expected = 4;
-			expect( actual ).toBe( expected );
+			expect( assessments.length ).toBe( expected );
+			expect( assessments.map( ( { identifier } ) => identifier ) ).toEqual(
+				[
+					"subheadingsTooLong",
+					"textParagraphTooLong",
+					"textSentenceLength",
+					"textPresence",
+				]
+			);
 		} );
 	} );
 
-	describe( "has configuration overrides", () => {
-		const assessor = new ContentAssessor( new DefaultResearcher() );
-
+	describe( "has configuration overrides for non-English", () => {
 		test( "SubheadingsDistributionTooLong", () => {
-			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+			const assessment = contentAssessor.getAssessment( "subheadingsTooLong" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -296,7 +346,7 @@ describe( "A content assessor", function() {
 		} );
 
 		test( "SentenceLengthAssessment", () => {
-			const assessment = assessor.getAssessment( "textSentenceLength" );
+			const assessment = contentAssessor.getAssessment( "textSentenceLength" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -308,7 +358,7 @@ describe( "A content assessor", function() {
 		} );
 
 		test( "ParagraphTooLong", () => {
-			const assessment = assessor.getAssessment( "textParagraphTooLong" );
+			const assessment = contentAssessor.getAssessment( "textParagraphTooLong" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -319,7 +369,7 @@ describe( "A content assessor", function() {
 		} );
 
 		test( "TransitionWords", () => {
-			const assessment = assessor.getAssessment( "textTransitionWords" );
+			const assessment = contentAssessor.getAssessment( "textTransitionWords" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -328,7 +378,7 @@ describe( "A content assessor", function() {
 		} );
 
 		test( "PassiveVoice", () => {
-			const assessment = assessor.getAssessment( "passiveVoice" );
+			const assessment = contentAssessor.getAssessment( "passiveVoice" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -337,7 +387,7 @@ describe( "A content assessor", function() {
 		} );
 
 		test( "TextPresence", () => {
-			const assessment = assessor.getAssessment( "textPresence" );
+			const assessment = contentAssessor.getAssessment( "textPresence" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
@@ -346,7 +396,7 @@ describe( "A content assessor", function() {
 		} );
 
 		test( "SentenceBeginnings", () => {
-			const assessment = assessor.getAssessment( "sentenceBeginnings" );
+			const assessment = contentAssessor.getAssessment( "sentenceBeginnings" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();

@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.4
+Stable tag: 20.5
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -247,19 +247,30 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 20.6 =
+
+Release date: 2023-04-25
+
+#### Enhancements
+
+* Improves performance when the SEO data optimization has not been completed. Props to @PypWalters.
+
 = 20.5 =
 
 Release date: 2023-04-11
 
+Our latest release, Yoast SEO 20.5, includes enhancements and fixes to elevate your SEO journey. One of the most exciting updates is our improved Google SERP preview, now aligned with Google's current styling for both mobile and desktop. This allows you to see how well your snippets are optimized for the search result pages. Read all about it! Find out more about what's new in Yoast SEO 20.5 in [our release post](https://yoa.st/release-11-4-23)!
+
 #### Enhancements
 
+* Updates mobile and desktop Google snippet previews to be in line with Google's current styling.
+* Improves the recognition of keyphrases starting with a period (e.g., ".net developer") by the _keyphrase in title_ assessment.
 * Cleans up indexables that got orphaned because posts/terms/users got deleted while Yoast SEO was deactivated.
-* Improves the recognition of keyphrases starting with a period (e.g., \".net developer\") by the _keyphrase in title_ assessment.
-* Updates mobile and desktop Google snippet previews to be in line with current Google's styling.
 
 #### Bugfixes
 
-* Fixes a bug where, if a content pertaining to a deleted user is re-assigned to another user, the indexables related to the deleted user are not updated with the new `author_id`
+* Fixes a bug where a fatal error would be thrown when upgrading Yoast SEO while having Local SEO active but never executed.
+* Fixes a bug where, if a content pertaining to a deleted user is re-assigned to another user, the indexables related to the deleted user are not updated with the new `author_id`.
 * Fixes a bug where posts in Elementor would persistently require an update when a related keyphrase was added.
 * Fixes a bug where the Google preview would show a duplicate slug in the breadcrumbs when the slug included encoded characters.
 * Fixes a bug where the highlighting for the _passive voice_, _sentence length_, _transition words_, and _inclusive language_ assessments would not be applied to the first sentence of a paragraph if the paragraph contained a new line character.
@@ -271,28 +282,6 @@ Release date: 2023-04-11
 
 * Changes the last step of the `First-time configuration` to highlight the free webinar availability.
 * Drops compatibility with PHP 5.6, 7.0 and 7.1.
-
-= 20.4 =
-
-Release date: 2023-03-28
-
-With Yoast SEO 20.4, you can reduce your site's carbon footprint and improve your SEO with just a few clicks. The crawl optimization settings let you turn off crawling for certain URLs, scripts, and metadata that WordPress automatically adds. Previously only available in Premium, but now available for all! Find out more about what's new in Yoast SEO 20.4 in [our release post](https://yoa.st/release-28-3-23)!
-
-#### Enhancements
-
-* NEW in Free: Adds the crawl optimization features to Yoast SEO Free, enabling 13M+ users to reduce their website's carbon footprint!
-
-#### Bugfixes
-
-* Adds a hook to adapt the meta query used to filter the post overview based on the focus keyphrase.
-* Fixes a bug where a fatal error related to HelpScout would be thrown when using a version of a Yoast add-on older than 2 years.
-* Fixes a bug where a PHP warning would be thrown when exporting Yoast settings.
-* Fixes a bug where the Google preview in the Block editor would show the post ID in the breadcrumbs when creating a new post, or it would show the slug twice or show `auto-draft` when creating a new page or custom post. This would only happen before (auto-)saving the post.
-* Fixes a bug where the _previously used keyword_ assessment would potentially link to an empty page of results when the focus keyphrase had been used across different post types.
-
-#### Other
-
-* Sets the WordPress tested up to version to 6.2.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

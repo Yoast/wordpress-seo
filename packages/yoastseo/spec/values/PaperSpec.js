@@ -124,6 +124,20 @@ describe( "Paper", function() {
 			expect( paper.hasTextTitle() ).toBe( true );
 			expect( paper.getTextTitle() ).toEqual( "A text title" );
 		} );
+
+		it( "returns the information of the paper's writing direction", function() {
+			const attributes = {
+				writingDirection: "RTL",
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.getWritingDirection() ).toBe( "RTL" );
+		} );
+
+		it( "returns the default value (LTR) for the writing direction when it's not provided during Paper initialization", function() {
+			const attributes = {};
+			const paper = new Paper( "", attributes );
+			expect( paper.getWritingDirection() ).toBe( "LTR" );
+		} );
 	} );
 
 	describe( "hasPermalink", function() {

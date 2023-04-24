@@ -12,7 +12,7 @@ const options = [
 ];
 
 export default {
-	title: "2) Components/Select Field",
+	title: "2) Components/Select field",
 	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
@@ -58,10 +58,11 @@ Factory.args = {
 	name: "name-0",
 	value: "1",
 	children: options.map( option => <SelectField.Option key={ option.value } { ...option } /> ),
-	label: "A Select Field",
+	label: "A select field",
 };
 
 export const WithLabelAndDescription = Template.bind( {} );
+WithLabelAndDescription.storyName = "With label and description";
 WithLabelAndDescription.args = {
 	id: "select-field-1",
 	name: "name-1",
@@ -72,6 +73,7 @@ WithLabelAndDescription.args = {
 };
 
 export const WithError = Template.bind( {} );
+WithError.storyName = "With error";
 WithError.args = {
 	id: "select-field-2",
 	name: "name-2",
@@ -82,6 +84,7 @@ WithError.args = {
 
 
 export const WithLabelSuffix = Template.bind( {} );
+WithLabelSuffix.storyName = "With label suffix";
 WithLabelSuffix.args = {
 	id: "select-field-3",
 	name: "name-3",
@@ -91,6 +94,7 @@ WithLabelSuffix.args = {
 };
 
 export const OptionsProp = Template.bind( {} );
+OptionsProp.storyName = "Options prop";
 OptionsProp.args = {
 	id: "select-field-4",
 	name: "name-4",
@@ -103,6 +107,7 @@ OptionsProp.parameters = {
 };
 
 export const SelectFieldOption = Template.bind( {} );
+SelectFieldOption.storyName = "Select field option";
 SelectFieldOption.args = {
 	id: "select-field-5",
 	name: "name-5",
