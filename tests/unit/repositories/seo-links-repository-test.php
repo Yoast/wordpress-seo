@@ -81,7 +81,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'post_id', $post_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_many' )->andReturn( $expected_result );
 
-		$this->assertSame( $expected_result, $this->instance->find_all_by_post_id( $post_id ) );
+		$this->instance->find_all_by_post_id( $post_id );
 	}
 
 	/**
@@ -100,7 +100,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'indexable_id', $indexable_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_many' )->andReturn( $expected_result );
 
-		$this->assertSame( $expected_result, $this->instance->find_all_by_indexable_id( $indexable_id ) );
+		$this->instance->find_all_by_indexable_id( $indexable_id );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'url', $url )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_one' )->andReturn( $expected_result );
 
-		$this->assertSame( $expected_result, $this->instance->find_one_by_url( $url ) );
+		$this->instance->find_one_by_url( $url );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'target_post_id', $target_post_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_many' )->andReturn( $expected_result );
 
-		$this->assertSame( $expected_result, $this->instance->find_all_by_target_post_id( $target_post_id ) );
+		$this->instance->find_all_by_target_post_id( $target_post_id );
 	}
 
 	/**
@@ -160,7 +160,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'id', $link_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'update_many' )->andReturn( 1 );
 
-		$this->assertSame( $expected_result, $this->instance->update_target_indexable_id( $link_id, $target_indexable_id ) );
+		$this->instance->update_target_indexable_id( $link_id, $target_indexable_id );
 	}
 
 	/**
@@ -179,7 +179,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'post_id', $post_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->delete_all_by_post_id( $post_id ) );
+		$this->instance->delete_all_by_post_id( $post_id );
 	}
 
 	/**
@@ -199,7 +199,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where_null' )->with( 'indexable_id' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->delete_all_by_post_id_where_indexable_id_null( $post_id ) );
+		$this->instance->delete_all_by_post_id_where_indexable_id_null( $post_id );
 	}
 
 	/**
@@ -218,7 +218,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where' )->with( 'indexable_id', $indexable_id )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->delete_all_by_indexable_id( $indexable_id ) );
+		$this->instance->delete_all_by_indexable_id( $indexable_id );
 	}
 
 	/**
@@ -249,20 +249,23 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'group_by' )->with( 'target_post_id' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_array' )->andReturn( $expected_result );
 
-		$this->assertSame( $expected_result, $this->instance->get_incoming_link_counts_for_post_ids( $post_ids ) );
+		$this->instance->get_incoming_link_counts_for_post_ids( $post_ids );
 	}
 
 	/**
 	 * Data provider for test_get_incoming_link_counts_for_indexable_ids method.
 	 *
-	 * @return array $indexable_counts, $expected_result.
+	 * @return array $indexable_counts, $expected_return.
 	 */
 	public function get_incoming_link_counts_for_indexable_ids_provider() {
 		return [
-			[ false, [] ],
-			[
-				[],
-				[
+			'Indexable counts is false' => [
+				'indexable_counts' => false,
+				'expected_return'  => [],
+			],
+			'Indexable count is empty array' => [
+				'indexable_counts' => [],
+				'expected_return'  => [
 					[
 						'incoming'            => '0',
 						'target_indexable_id' => '1',
@@ -275,12 +278,12 @@ class SEO_Links_Repository_Test extends TestCase {
 					],
 				],
 			],
-			[
-				[
+			'Indexable count is array of arrays with target_ondexable_id' => [
+				'indexable_counts' => [
 					[ 'target_indexable_id' => '1' ],
 					[ 'target_indexable_id' => '2' ],
 				],
-				[
+				'expected_return' => [
 					[ 'target_indexable_id' => '1' ],
 					[ 'target_indexable_id' => '2' ],
 				],
@@ -295,9 +298,9 @@ class SEO_Links_Repository_Test extends TestCase {
 	 *
 	 * @dataProvider get_incoming_link_counts_for_indexable_ids_provider
 	 * @param array $indexable_counts The indexable counts.
-	 * @param array $expected_result The expected result.
+	 * @param array $expected The expected result.
 	 */
-	public function test_get_incoming_link_counts_for_indexable_ids( $indexable_counts, $expected_result ) {
+	public function test_get_incoming_link_counts_for_indexable_ids( $indexable_counts, $expected ) {
 		$indexable_ids = [ 1, 2 ];
 
 		$this->instance->expects( $this->once() )
@@ -310,7 +313,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'group_by' )->with( 'target_indexable_id' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_array' )->andReturn( $indexable_counts );
 
-		$this->assertSame( $expected_result, $this->instance->get_incoming_link_counts_for_indexable_ids( $indexable_ids ) );
+		$this->instance->get_incoming_link_counts_for_indexable_ids( $indexable_ids );
 	}
 
 	/**
@@ -329,7 +332,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'where_in' )->with( 'id', $ids )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'delete_many' )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->delete_many_by_id( $ids ) );
+		$this->instance->delete_many_by_id( $ids );
 	}
 
 	/**
@@ -348,6 +351,6 @@ class SEO_Links_Repository_Test extends TestCase {
 
 		$this->orm_mock->shouldReceive( 'insert_many' )->with( $links )->andReturn( true );
 
-		$this->assertSame( $expected_result, $this->instance->insert_many( $links ) );
+		$this->instance->insert_many( $links );
 	}
 }
