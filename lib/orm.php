@@ -2604,6 +2604,7 @@ class ORM implements \ArrayAccess {
 		if ( self::$has_persistent_cache === false || self::$has_persistent_cache === true ) {
 			return self::$has_persistent_cache;
 		}
+
 		// Check if the site is using an external object cache.
 		if ( \function_exists( 'wp_using_ext_object_cache' )
 			&& \wp_using_ext_object_cache()
