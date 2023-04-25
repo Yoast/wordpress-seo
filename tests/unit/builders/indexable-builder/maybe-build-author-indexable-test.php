@@ -187,6 +187,9 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 	 * Test maybe_build_author_indexable.
 	 *
 	 * @covers ::maybe_build_author_indexable
+	 * @covers ::build
+	 * @covers ::ensure_indexable
+	 * @covers ::save_indexable
 	 *
 	 * @return void
 	 */
@@ -222,13 +225,17 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 		$this->instance->exposed_maybe_build_author_indexable( $author_id );
 	}
 
-		/**
-		 * Test maybe_build_author_indexable.
-		 *
-		 * @covers ::maybe_build_author_indexable
-		 *
-		 * @return void
-		 */
+	/**
+	 * Test maybe_build_author_indexable.
+	 *
+	 * @covers ::maybe_build_author_indexable
+	 * @covers ::build
+	 * @covers ::ensure_indexable
+	 * @covers ::save_indexable
+	 * @covers ::deep_copy_indexable
+	 *
+	 * @return void
+	 */
 	public function test_update_author_indexable() {
 		$author_id                     = 2012;
 		$author_indexable              = Mockery::mock( Indexable_Mock::class );
