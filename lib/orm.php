@@ -226,6 +226,13 @@ class ORM implements \ArrayAccess {
 	 */
 	protected static $cache_group_prefix = 'yoast-seo';
 
+	/**
+	 * Whether this site has persistent cache or not.
+	 *
+	 * @var bool
+	 */
+	private static $has_persistent_cache;
+
 	/*
 	 * --- STATIC METHODS ---
 	 */
@@ -2594,10 +2601,14 @@ class ORM implements \ArrayAccess {
 	 * @return bool
 	 */
 	private static function has_persistent_cache() {
+		if ( self::$has_persistent_cache === false || self::$has_persistent_cache === true ) {
+			return self::$has_persistent_cache;
+		}
 		// Check if the site is using an external object cache.
 		if ( \function_exists( 'wp_using_ext_object_cache' )
 			&& \wp_using_ext_object_cache()
 		) {
+			self::$has_persistent_cache = true;
 			return true;
 		}
 
@@ -2611,6 +2622,7 @@ class ORM implements \ArrayAccess {
 		// This _should_ be covered by the `wp_using_ext_object_cache()` check,
 		// but sometimes isn't depending on the timing of the cache.
 		if ( \file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+			self::$has_persistent_cache = true;
 			return true;
 		}
 
@@ -2619,10 +2631,12 @@ class ORM implements \ArrayAccess {
 		if ( \file_exists( WP_CONTENT_DIR . '/advanced-cache.php' )
 			&& \apply_filters( 'enable_loading_advanced_cache_dropin', true )
 		) {
+			self::$has_persistent_cache = true;
 			return true;
 		}
 
 		// No persistent caching was detected.
+		self::$has_persistent_cache = false;
 		return false;
 	}
 
