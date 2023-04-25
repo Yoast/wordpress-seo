@@ -18,24 +18,12 @@ export default function buildTree( paper, researcher ) {
 }
 
 /**
- * Parses the HTML string to a tree representation of
- * the HTML document.
- *
- * @param {string} htmlString The HTML string.
- *
- * @returns {Node} The tree representation of the HTML string.
- */
-function buildWithoutTokenize( htmlString ) {
-	let tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
-	tree = filterTree( tree, permanentFilters );
-	return tree;
-}
-
-/**
  * Builds an HTML tree for a given paper and researcher, and adds it to the paper.
  * @param {Paper} paper The paper to which the tree will be added.
  * @returns {void}
  */
 export function buildTreeNoTokenize( paper ) {
-	paper.setTree( buildWithoutTokenize( paper.getText() ) );
+	let tree = adapt( parseFragment( paper.getText(), { sourceCodeLocationInfo: true } ) );
+	tree = filterTree( tree, permanentFilters );
+	paper.setTree( tree );
 }
