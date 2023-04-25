@@ -257,7 +257,7 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The indexable.
 	 */
-	private function ensure_indexable( $indexable, $defaults = [] ) {
+	protected function ensure_indexable( $indexable, $defaults = [] ) {
 		if ( ! $indexable ) {
 			return $this->indexable_repository->query()->create( $defaults );
 		}
