@@ -2589,6 +2589,44 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
+	 * Whether this site has persistent caching implemented.
+	 *
+	 * @return bool
+	 */
+	private static function has_persistent_cache() {
+		// Check if the site is using an external object cache.
+		if ( \function_exists( 'wp_using_ext_object_cache' )
+			&& \wp_using_ext_object_cache()
+		) {
+			return true;
+		}
+
+		// Defensive coding - cover all bases.
+		// This will prevent errors below if WP_CONTENT_DIR is not defined.
+		if ( ! defined( 'WP_CONTENT_DIR' ) ) {
+			return false;
+		}
+
+		// Check if the site is using a persistent drop-in (object-cache.php).
+		// This _should_ be covered by the `wp_using_ext_object_cache()` check,
+		// but sometimes isn't depending on the timing of the cache.
+		if ( \file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+			return true;
+		}
+
+		// Check if the site is using a persistent drop-in (advanced-cache.php),
+		// and that the drop-in is enabled.
+		if ( \file_exists( WP_CONTENT_DIR . '/advanced-cache.php' )
+			&& \apply_filters( 'enable_loading_advanced_cache_dropin', true )
+		) {
+			return true;
+		}
+
+		// No persistent caching was detected.
+		return false;
+	}
+
+	/**
 	 * Get a cache.
 	 *
 	 * @param string $key      Cache key.
@@ -2597,6 +2635,10 @@ class ORM implements \ArrayAccess {
 	 * @return mixed The cache value.
 	 */
 	public static function get_cache( $key, $group_id = '' ) {
+		// Bail early if the site doesnt have persistent caching.
+		if ( ! self::has_persistent_cache() ) {
+			return false;
+		}
 		$cache_group = self::get_cache_group( $group_id );
 		return \wp_cache_get( $key, $cache_group );
 	}
@@ -2611,6 +2653,10 @@ class ORM implements \ArrayAccess {
 	 * @return void
 	 */
 	private static function set_cache( $key, $value, $group_id = '' ) {
+		// Bail early if the site doesnt have persistent caching.
+		if ( ! self::has_persistent_cache() ) {
+			return;
+		}
 		/**
 		 * Set the cache, with a timeout of 10 minutes.
 		 *
@@ -2630,12 +2676,16 @@ class ORM implements \ArrayAccess {
 	 * @return void
 	 */
 	public static function flush_group_caches( $group_id = '' ) {
+		// Bail early if the site doesnt have persistent caching.
+		if ( ! self::has_persistent_cache() ) {
+			return;
+		}
 		// Bail early if the cache doesn't support group-flushing.
-		if ( function_exists( 'wp_cache_supports' ) && ! wp_cache_supports( 'flush_group' ) ) {
+		if ( \function_exists( 'wp_cache_supports' ) && ! \wp_cache_supports( 'flush_group' ) ) {
 			return;
 		}
 		// Bail early if the `wp_cache_flush_group` function doesn't exist.
-		if ( ! function_exists( 'wp_cache_flush_group' ) ) {
+		if ( ! \function_exists( 'wp_cache_flush_group' ) ) {
 			return;
 		}
 		\wp_cache_flush_group( self::get_cache_group( $group_id ) );
@@ -2649,6 +2699,10 @@ class ORM implements \ArrayAccess {
 	 * @return mixed
 	 */
 	private static function get_cache_group( $id = '' ) {
+		// Bail early if the site doesnt have persistent caching.
+		if ( ! self::has_persistent_cache() ) {
+			return false;
+		}
 		if ( ! $id ) {
 			return static::$cache_group_prefix;
 		}
