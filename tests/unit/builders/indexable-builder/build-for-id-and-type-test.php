@@ -163,11 +163,11 @@ class Build_For_Id_And_Type_Test extends TestCase {
 		$this->version_manager           = Mockery::mock( Indexable_Version_Manager::class );
 		$this->indexable_repository      = Mockery::mock( Indexable_Repository::class );
 
-		$this->indexable                  = Mockery::mock( Indexable_Mock::class );
-		$this->indexable->author_id       = 1999;
-		$this->indexable->version         = 1;
-		$this->indexable->object_type     = 'post';
-		$this->indexable->object_id       = 1337;
+		$this->indexable              = Mockery::mock( Indexable_Mock::class );
+		$this->indexable->author_id   = 1999;
+		$this->indexable->version     = 1;
+		$this->indexable->object_type = 'post';
+		$this->indexable->object_id   = 1337;
 
 		$this->instance = new Indexable_Builder(
 			$this->author_builder,
@@ -195,14 +195,14 @@ class Build_For_Id_And_Type_Test extends TestCase {
 	 * @covers ::build_for_id_and_type
 	 * @covers ::build
 	 * @covers ::ensure_indexable
-     * @covers ::maybe_build_author_indexable
+	 * @covers ::maybe_build_author_indexable
 	 */
 	public function test_build_for_id_and_type_with_post() {
 
-        $defaults = [
-            'object_type' => 'post',
+		$defaults = [
+			'object_type' => 'post',
 			'object_id'   => 1337,
-        ];
+		];
 
 		$this->expect_build( $defaults );
 
@@ -220,7 +220,7 @@ class Build_For_Id_And_Type_Test extends TestCase {
 		$this->post_builder
 			->expects( 'build' )
 			->once()
-			->with( $this->indexable->object_id , $this->indexable )
+			->with( $this->indexable->object_id, $this->indexable )
 			->andReturn( $this->indexable );
 
 		$this->primary_term_builder
@@ -234,7 +234,7 @@ class Build_For_Id_And_Type_Test extends TestCase {
 			->with( $this->indexable )
 			->andReturn( $this->indexable );
 
-        $this->expect_maybe_build_author_indexable();
+		$this->expect_maybe_build_author_indexable();
 
 		// Saving is outside the scope of this test.
 		$this->expect_save_indexable_skip();
@@ -272,12 +272,12 @@ class Build_For_Id_And_Type_Test extends TestCase {
 			->andReturn( $return_indexable );
 	}
 
-    /**
+	/**
 	 * Expectation for maybe_build_author_indexable method.
 	 */
 	public function expect_maybe_build_author_indexable() {
 
-        $author_indexable = Mockery::mock( Indexable_Mock::class );
+		$author_indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
@@ -285,11 +285,10 @@ class Build_For_Id_And_Type_Test extends TestCase {
 			->with( $this->indexable->author_id, 'user', false )
 			->andReturn( $author_indexable );
 
-        $this->version_manager
+		$this->version_manager
 			->expects( 'indexable_needs_upgrade' )
 			->once()
 			->with( $author_indexable )
 			->andReturnFalse();
-
 	}
 }

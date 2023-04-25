@@ -153,7 +153,7 @@ class Build_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-        $this->stubTranslationFunctions();
+		$this->stubTranslationFunctions();
 
 		$this->author_builder            = Mockery::mock( Indexable_Author_Builder::class );
 		$this->post_builder              = Mockery::mock( Indexable_Post_Builder::class );
@@ -169,11 +169,11 @@ class Build_Test extends TestCase {
 		$this->version_manager           = Mockery::mock( Indexable_Version_Manager::class );
 		$this->indexable_repository      = Mockery::mock( Indexable_Repository::class );
 
-		$this->indexable                  = Mockery::mock( Indexable_Mock::class );
-		$this->indexable->author_id       = 1999;
-		$this->indexable->version         = 1;
-		$this->indexable->object_type     = 'post';
-		$this->indexable->object_id       = 1337;
+		$this->indexable              = Mockery::mock( Indexable_Mock::class );
+		$this->indexable->author_id   = 1999;
+		$this->indexable->version     = 1;
+		$this->indexable->object_type = 'post';
+		$this->indexable->object_id   = 1337;
 
 		$this->instance = new Indexable_Builder(
 			$this->author_builder,
@@ -199,23 +199,23 @@ class Build_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
 	 * @covers ::ensure_indexable
-     * @covers ::maybe_build_author_indexable
-     * @covers ::build
+	 * @covers ::maybe_build_author_indexable
+	 * @covers ::build
 	 */
 	public function test_build() {
 
-        $this->expect_deep_copy_indexable( $this->indexable );
+		$this->expect_deep_copy_indexable( $this->indexable );
 
 		$this->expect_build_switch_case_post( $this->indexable );
 
-        $this->expect_maybe_build_author_indexable();
+		$this->expect_maybe_build_author_indexable();
 
 		$this->expect_save_indexable_skip();
 
 		$this->assertSame( $this->indexable, $this->instance->build( $this->indexable ) );
 	}
 
-    /**
+	/**
 	 * Tests building an indexable with object_sub_type = 'attachment'.
 	 *
 	 * @covers ::__construct
@@ -223,7 +223,7 @@ class Build_Test extends TestCase {
 	 * @covers ::build
 	 * @covers ::ensure_indexable
 	 * $covers ::deep_copy_indexable
-     * @covers ::maybe_build_author_indexable
+	 * @covers ::maybe_build_author_indexable
 	 */
 	public function test_build_with_post_attachment() {
 
@@ -239,17 +239,17 @@ class Build_Test extends TestCase {
 			->once()
 			->with( $this->indexable );
 
-        $this->expect_maybe_build_author_indexable();
+		$this->expect_maybe_build_author_indexable();
 
-        // Saving is outside the scope of this test.
-        $this->expect_save_indexable_skip();
+		// Saving is outside the scope of this test.
+		$this->expect_save_indexable_skip();
 
 		$result = $this->instance->build( $this->indexable );
 
 		$this->assertSame( $this->indexable, $result );
 	}
 
-    /**
+	/**
 	 * Tests building an indexable for a term.
 	 *
 	 * @covers ::__construct
@@ -278,7 +278,7 @@ class Build_Test extends TestCase {
 		$this->assertSame( $this->indexable, $this->instance->build( $this->indexable ) );
 	}
 
-    /**
+	/**
 	 * Tests building an indexable for a term.
 	 *
 	 * @covers ::build
@@ -299,12 +299,12 @@ class Build_Test extends TestCase {
 		$this->assertFalse( $this->instance->build( $this->indexable ) );
 	}
 
-    /**
+	/**
 	 * Tests that build returns false when a build returns an exception.
 	 *
 	 * @covers ::build
-     * @covers ::deep_copy_indexable
-     * @covers ::save_indexable
+	 * @covers ::deep_copy_indexable
+	 * @covers ::save_indexable
 	 */
 	public function test_build_with_fake_indexable() {
 		$this->indexable->object_type = 'term';
@@ -337,7 +337,7 @@ class Build_Test extends TestCase {
 		$this->assertEquals( $expected_indexable, $result );
 	}
 
-    /**
+	/**
 	 * Tests building an indexable for an unknown type.
 	 *
 	 * @covers ::__construct
@@ -355,7 +355,7 @@ class Build_Test extends TestCase {
 		$this->assertSame( $this->indexable, $this->instance->build( $this->indexable ) );
 	}
 
-    /**
+	/**
 	 * Tests whether an indexable is not being built when the object id is invalid (0).
 	 *
 	 * @covers ::build
@@ -369,14 +369,14 @@ class Build_Test extends TestCase {
 		$this->assertFalse( $this->instance->build( $this->indexable ) );
 	}
 
-    	/**
-	 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist.
-	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
-	 * @covers ::build_for_id_and_type
-	 * @covers ::ensure_indexable
-	 */
+		/**
+		 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist.
+		 *
+		 * @covers ::__construct
+		 * @covers ::set_indexable_repository
+		 * @covers ::build_for_id_and_type
+		 * @covers ::ensure_indexable
+		 */
 	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
 		$empty_indexable = Mockery::mock( Indexable_Mock::class );
 
@@ -414,7 +414,7 @@ class Build_Test extends TestCase {
 				}
 			);
 
-		$this->expect_save_indexable_skip( );
+		$this->expect_save_indexable_skip();
 
 		$result = $this->instance->build( false, $defaults );
 
@@ -423,7 +423,7 @@ class Build_Test extends TestCase {
 		$this->assertEquals( $empty_indexable, $result );
 	}
 
-    /**
+	/**
 	 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist anymore.
 	 *
 	 * @covers ::__construct
@@ -481,12 +481,12 @@ class Build_Test extends TestCase {
 			->andReturnFalse();
 	}
 
-    /**
+	/**
 	 * Expectation for maybe_build_author_indexable method.
 	 */
 	public function expect_maybe_build_author_indexable() {
 
-        $author_indexable = Mockery::mock( Indexable_Mock::class );
+		$author_indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
@@ -494,14 +494,14 @@ class Build_Test extends TestCase {
 			->with( $this->indexable->author_id, 'user', false )
 			->andReturn( $author_indexable );
 
-        $this->version_manager
+		$this->version_manager
 			->expects( 'indexable_needs_upgrade' )
 			->once()
 			->with( $author_indexable )
 			->andReturnFalse();
 	}
 
-    /**
+	/**
 	 * Partial expectation for build method when switch case is post and no exceptions are thrown.
 	 *
 	 * @param Indexable_Mock $indexable The indexable to expect.
@@ -525,7 +525,7 @@ class Build_Test extends TestCase {
 			->andReturn( $indexable );
 	}
 
-    /**
+	/**
 	 * Expectations for deep_copy_indexable method.
 	 *
 	 * @param array          $defaults  The defaults to expect.
