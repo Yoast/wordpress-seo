@@ -70,22 +70,28 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
  *
  * @param {Paragraph|Heading} 		node  			The paragraph or heading node.
  * @param {Sentence[]|Token[]} 		textElements 	The sentences or tokens in the node.
+ * @param {number} 					startOffset 	The start position of the node in the source code.
+ * Defaults to -1 which signals that it should not be used.
  *
  * @returns {Sentence[]|Token[]} The sentences or tokens, with their positions in the source code.
  */
-export default function getTextElementPositions( node, textElements ) {
+export default function getTextElementPositions( node, textElements, startOffset = -1 ) {
 	// We cannot calculate positions if there are no text elements, or if we don't know the node's source code location.
 	if (  textElements.length === 0 || ! node.sourceCodeLocation ) {
 		return textElements;
 	}
+
 	/*
 	 * Set the start position of the first element. If the node is an implicit paragraph, which don't have start and
 	 * end tags, set the start position to the start of the node. Otherwise, set the start position to the end of the
 	 * node's start tag.
 	 */
-	let textElementStart = node instanceof Paragraph && node.isImplicit
-		? node.sourceCodeLocation.startOffset
-		: node.sourceCodeLocation.startTag.endOffset;
+	let textElementStart;
+	if ( node instanceof Paragraph && node.isImplicit ) {
+		textElementStart = node.sourceCodeLocation.startOffset;
+	} else {
+		textElementStart = startOffset >= 0 ? startOffset : node.sourceCodeLocation.startTag.endOffset;
+	}
 	let textElementEnd;
 	let descendantTagPositions = [];
 
