@@ -78,7 +78,7 @@ describe( "Test for counting the keyword in a text", function() {
 				fieldsToMark: [],
 				marked: " Another sentence with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> in it.",
 				original: " Another sentence with the keyword in it.",
-				position: { endOffset: 37, startOffset: 30 } } ),
+				position: { endOffset: 71, startOffset: 64 } } ),
 			] );
 	} );
 
