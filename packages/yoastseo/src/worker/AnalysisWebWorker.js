@@ -699,8 +699,12 @@ export default class AnalysisWebWorker {
 			this._inclusiveLanguageAssessor
 		);
 
-		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
-			setLocaleData( configuration.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
+		if ( has( configuration, "translations" ) ) {
+			Object.values( configuration.translations ).forEach(
+				( { domain, locale_data: localeData } ) => {
+					setLocaleData( localeData[ domain ], domain );
+				}
+			);
 		}
 
 		if ( has( configuration, "researchData" ) ) {
