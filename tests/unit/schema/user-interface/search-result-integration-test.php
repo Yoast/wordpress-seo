@@ -46,7 +46,7 @@ class Search_Result_Integration_Test extends TestCase {
 
 	/**
 	 * The setup function.
-	 *
+
 	 * @return void
 	 */
 	protected function setUp(): void {
@@ -62,6 +62,7 @@ class Search_Result_Integration_Test extends TestCase {
 	 * Tests the register hooks function.
 	 *
 	 * @covers ::register_hooks
+	 * @covers ::__construct
 	 * @return void
 	 */
 	public function test_register_hooks(): void {

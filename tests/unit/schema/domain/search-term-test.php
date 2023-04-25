@@ -17,30 +17,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Search_Term_Test extends TestCase {
 
 	/**
-	 * The subject of testing.
-	 *
-	 * @var Search_Term $instance
-	 */
-	private $instance;
-
-	/**
-	 * The setup function.
-	 *
-	 * @return void
-	 */
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->instance = new Search_Term( 'the_query' );
-	}
-
-	/**
 	 * Tests the get query method.
 	 *
 	 * @covers ::get_query
+	 * @covers ::__construct
 	 * @return void
 	 */
 	public function test_get_query(): void {
-		$this->assertSame( 'the_query', $this->instance->get_query() );
+		$instance = new Search_Term( 'the_query' );
+		$this->assertSame( 'the_query', $instance->get_query() );
 	}
 }

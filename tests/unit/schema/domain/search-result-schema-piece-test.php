@@ -27,7 +27,7 @@ class Search_Result_Schema_Piece_Test extends TestCase {
 
 	/**
 	 * The setup function.
-	 *
+
 	 * @return void
 	 */
 	protected function setUp(): void {
@@ -43,6 +43,7 @@ class Search_Result_Schema_Piece_Test extends TestCase {
 	/**
 	 * Tests the is needed function, this should always return true for this schema piece.
 	 *
+	 * @covers ::__construct
 	 * @covers ::is_needed
 	 * @return void
 	 */
