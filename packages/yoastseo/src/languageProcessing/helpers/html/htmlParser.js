@@ -10,7 +10,7 @@ let textArray;
 let inIgnorableBlock = false;
 
 // The blocks we filter out of the text that needs to be parsed.
-const ignoredTags = [ "script", "style", "code", "pre", "blockquote" ];
+const ignoredTags = [ "script", "style", "code", "pre", "blockquote", "textarea" ];
 
 /**
  * Parses the text.
