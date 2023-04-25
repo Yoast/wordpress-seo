@@ -223,7 +223,7 @@ class Build_For_Date_Archive_Test extends TestCase {
 
 	/**
 	 * Expectation in save_indexable when indexable is not saved.
-	 * Used for skipping save_indexable method when outside of test scope.
+	 * Used for skipping save_indexable method when outside test scope.
 	 */
 	public function expect_save_indexable_skip() {
 		$this->indexable_helper

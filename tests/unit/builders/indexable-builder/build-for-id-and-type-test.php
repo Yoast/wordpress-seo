@@ -193,6 +193,7 @@ class Build_For_Id_And_Type_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_id_and_type
+	 * @covers ::build
 	 * @covers ::ensure_indexable
      * @covers ::maybe_build_author_indexable
 	 */
@@ -241,7 +242,7 @@ class Build_For_Id_And_Type_Test extends TestCase {
 
 	/**
 	 * Expectation in save_indexable when indexable is not saved.
-	 * Used for skipping save_indexable method when outside of test scope.
+	 * Used for skipping save_indexable method when outside test scope.
 	 */
 	public function expect_save_indexable_skip() {
 		$this->indexable_helper

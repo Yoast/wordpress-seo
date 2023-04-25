@@ -304,7 +304,7 @@ class Maybe_Build_Author_Indexable_Test extends TestCase {
 
 	/**
 	 * Expect save_indexable execution inside build method.
-	 * Skipping saving indexable, outside of testing scope.
+	 * Skipping saving indexable, outside testing scope.
 	 *
 	 * @return void
 	 */

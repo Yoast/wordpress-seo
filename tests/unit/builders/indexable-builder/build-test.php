@@ -193,7 +193,7 @@ class Build_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building an indexable for the post type archive.
+	 * Tests building an indexable for the post type.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -422,20 +422,6 @@ class Build_Test extends TestCase {
 		$this->assertEquals( $empty_indexable, $result );
 	}
 
-	/**
-	 * Expectation in save_indexable when indexable is not saved.
-	 * Used for skipping save_indexable method when outside of test scope.
-	 */
-	public function expect_save_indexable_skip() {
-		$this->indexable_helper
-			->expects( 'should_index_indexables' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-	}
-
-
-
     /**
 	 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist anymore.
 	 *
@@ -482,6 +468,18 @@ class Build_Test extends TestCase {
 		$this->assertEquals( $expected_indexable, $result );
 	}
 
+	/**
+	 * Expectation in save_indexable when indexable is not saved.
+	 * Used for skipping save_indexable method when outside test scope.
+	 */
+	public function expect_save_indexable_skip() {
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+	}
+
     /**
 	 * Expectation for maybe_build_author_indexable method.
 	 */
@@ -503,7 +501,7 @@ class Build_Test extends TestCase {
 	}
 
     /**
-	 * Expectation for build method when switch cas is post and no exceptions are thrown.
+	 * Partial expectation for build method when switch case is post and no exceptions are thrown.
 	 *
 	 * @param Indexable_Mock $indexable The indexable to expect.
 	 */
@@ -546,10 +544,9 @@ class Build_Test extends TestCase {
 			->andReturn( $return_indexable );
 	}
 
-    	/**
+	/**
 	 * Expectations for deep_copy_indexable method.
 	 *
-	 * @covers ::deep_copy_indexable
 	 * @param Indexable_Mock $indexable The indexable to expect.
 	 */
 	public function expect_deep_copy_indexable( $indexable ) {
