@@ -25,6 +25,7 @@ use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 
 /**
  * Build_Test.
+ * Tests cases for system-page, home-page, date-archive and post-type-archive can be found in other tests the directory.
  *
  * @group indexables
  * @group builders
