@@ -4,7 +4,7 @@ import { filter, find, includes, toLower, noop, map } from "lodash";
 import { VALIDATION_VARIANTS } from "../../constants";
 
 export default {
-	title: "2) Components/Autocomplete Field",
+	title: "2) Components/Autocomplete field",
 	component: StoryComponent,
 	argTypes: {
 		description: { control: "text" },
@@ -76,7 +76,7 @@ Factory.args = {
 };
 
 export const WithDescription = Template.bind( {} );
-
+WithDescription.storyName = "With description";
 WithDescription.parameters = {
 	controls: { disable: false },
 	docs: { description: { story: "An exampe with description message using `description`." } },
@@ -89,7 +89,7 @@ WithDescription.args = {
 };
 
 export const WithSelectedLabel = Template.bind( {} );
-
+WithSelectedLabel.storyName = "With selected label";
 WithSelectedLabel.parameters = {
 	controls: { disable: false },
 	docs: { description: { story: "When using `children` prop, `selectedLabel` prop is used to set default/selected value." } },
@@ -108,7 +108,7 @@ WithSelectedLabel.args = {
 };
 
 export const WithPlaceholder = Template.bind( {} );
-
+WithPlaceholder.storyName = "With placeholder";
 WithPlaceholder.parameters = {
 	controls: { disable: false },
 	docs: { description: { story: "An example with placeholder." } },
@@ -122,6 +122,7 @@ WithPlaceholder.args = {
 };
 
 export const ChildrenProp = Template.bind();
+ChildrenProp.storyName = "Children prop";
 ChildrenProp.args = {
 	id: "with-children-prop",
 	name: "with-children-prop",
