@@ -253,7 +253,7 @@ Release date: 2023-04-25
 
 #### Enhancements
 
-* Improves performance when the SEO optimization has not been completed. Props to @PypWalters.
+* Improves performance when the SEO data optimization has not been completed. Props to @PypWalters.
 
 = 20.5 =
 

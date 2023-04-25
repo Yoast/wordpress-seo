@@ -3,7 +3,7 @@ import { Alert, Button } from "../../";
 import { useToggleState } from "../../hooks";
 
 export default {
-	title: "1) Elements/Error Boundary",
+	title: "1) Elements/Error boundary",
 	component: ErrorBoundary,
 	argTypes: {
 		children: { control: "text" },

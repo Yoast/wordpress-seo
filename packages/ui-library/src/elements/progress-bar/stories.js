@@ -1,7 +1,7 @@
 import { StoryComponent } from ".";
 
 export default {
-	title: "1) Elements/Progress Bar",
+	title: "1) Elements/Progress bar",
 	component: StoryComponent,
 	parameters: {
 		docs: {
