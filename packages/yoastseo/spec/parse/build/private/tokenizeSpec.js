@@ -191,4 +191,189 @@ describe( "A test for the tokenize function", function() {
 			name: "#document-fragment",
 		} );
 	} );
+
+	it( "should correctly tokenize an image with a caption", () => {
+		const mockPaper = new Paper( "<p><img class='size-medium wp-image-33' src='http://basic.wordpress.test/wp-content/uploads/2021/08/" +
+			"cat-3957861_1280-211x300.jpeg' alt='a different cat with toy' width='211' height='300'></img> " +
+			"A flamboyant cat with a toy<br></br>\n" +
+			"</p>",
+		{ keyword: "cat toy" } );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		const languageProcessor = new LanguageProcessor( mockResearcher );
+		buildTreeNoTokenize( mockPaper );
+		const x = tokenize( mockPaper.getTree(), languageProcessor );
+		console.log(x);
+		expect( tokenize( mockPaper.getTree(), languageProcessor ) ).toEqual( {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
+				{
+					name: "p",
+					attributes: {},
+					childNodes: [
+						{
+							name: "img",
+							attributes: {
+								"class": {},
+								src: "http://basic.wordpress.test/wp-content/uploads/2021/08/cat-3957861_1280-211x300.jpeg",
+								alt: "a different cat with toy",
+								width: "211",
+								height: "300",
+							},
+							childNodes: [],
+							sourceCodeLocation: {
+								startTag: {
+									startOffset: 3,
+									endOffset: 187,
+								},
+								startOffset: 3,
+								endOffset: 187,
+							},
+						},
+						{
+							name: "#text",
+							value: " A flamboyant cat with a toy",
+						},
+						{
+							name: "br",
+							attributes: {},
+							childNodes: [],
+							sourceCodeLocation: {
+								startTag: {
+									startOffset: 221,
+									endOffset: 225,
+								},
+								startOffset: 221,
+								endOffset: 225,
+							},
+						},
+						{
+							name: "br",
+							attributes: {},
+							childNodes: [],
+						},
+						{
+							name: "#text",
+							value: "\n",
+						},
+					],
+					sourceCodeLocation: {
+						startTag: {
+							startOffset: 0,
+							endOffset: 3,
+						},
+						endTag: {
+							startOffset: 232,
+							endOffset: 236,
+						},
+						startOffset: 0,
+						endOffset: 236,
+					},
+					isImplicit: false,
+					sentences: [
+						{
+							text: " A flamboyant cat with a toy\n",
+							tokens: [
+								{
+									text: " ",
+									sourceCodeRange: {
+										startOffset: 193,
+										endOffset: 194,
+									},
+								},
+								{
+									text: "A",
+									sourceCodeRange: {
+										startOffset: 194,
+										endOffset: 195,
+									},
+								},
+								{
+									text: " ",
+									sourceCodeRange: {
+										startOffset: 195,
+										endOffset: 196,
+									},
+								},
+								{
+									text: "flamboyant",
+									sourceCodeRange: {
+										startOffset: 196,
+										endOffset: 206,
+									},
+								},
+								{
+									text: " ",
+									sourceCodeRange: {
+										startOffset: 206,
+										endOffset: 207,
+									},
+								},
+								{
+									text: "cat",
+									sourceCodeRange: {
+										startOffset: 207,
+										endOffset: 210,
+									},
+								},
+								{
+									text: " ",
+									sourceCodeRange: {
+										startOffset: 210,
+										endOffset: 211,
+									},
+								},
+								{
+									text: "with",
+									sourceCodeRange: {
+										startOffset: 211,
+										endOffset: 215,
+									},
+								},
+								{
+									text: " ",
+									sourceCodeRange: {
+										startOffset: 215,
+										endOffset: 216,
+									},
+								},
+								{
+									text: "a",
+									sourceCodeRange: {
+										startOffset: 216,
+										endOffset: 217,
+									},
+								},
+								{
+									text: " ",
+									sourceCodeRange: {
+										startOffset: 217,
+										endOffset: 218,
+									},
+								},
+								{
+									text: "toy",
+									sourceCodeRange: {
+										startOffset: 218,
+										endOffset: 221,
+									},
+								},
+								{
+									text: "\n",
+									sourceCodeRange: {
+										startOffset: 230,
+										endOffset: 232,
+									},
+								},
+							],
+							sourceCodeRange: {
+								startOffset: 193,
+								endOffset: 232,
+							},
+						},
+					],
+				},
+			],
+		} );
+	} );
 } );
