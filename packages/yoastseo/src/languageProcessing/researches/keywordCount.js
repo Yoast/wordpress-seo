@@ -14,6 +14,7 @@ import { tokenizerSplitter } from "../../parse/language/LanguageProcessor";
 import { normalizeSingle } from "../helpers/sanitize/quotes";
 import Token from "../../parse/structure/Token";
 import matchTextWithWord from "../helpers/match/matchTextWithWord";
+import { getLanguage } from "../index";
 
 
 /**
@@ -199,10 +200,9 @@ const convertToPositionResult = ( matches, sentence, keyPhraseForms ) => {
 			} );
 		} );
 	} );
-	console.log( matchTokens );
+
 	// Sort tokens on startOffset.
 	matchTokens.sort( ( a, b ) => a.sourceCodeRange.startOffset - b.sourceCodeRange.startOffset );
-	console.log( matchTokens );
 
 	const primaryMatches = [];
 	const secondaryMatches = [];
@@ -294,9 +294,6 @@ const createMarksForSentence = ( sentence, matches ) => {
 
 	let allMatches = flatten( matches.primaryMatches );
 	if ( matches.primaryMatches.length > 0 ) {
-		console.log( matches.primaryMatches );
-		console.log( matches.secondaryMatches );
-		console.log( allMatches.concat( matches.secondaryMatches ) );
 		allMatches = allMatches.concat( flatten( matches.secondaryMatches ) ).sort( function( a, b ) {
 			return a.sourceCodeRange.startOffset - b.sourceCodeRange.startOffset;
 		} );
@@ -317,6 +314,39 @@ const createMarksForSentence = ( sentence, matches ) => {
 };
 
 /**
+ * Merges consecutive markings into one marking.
+ * @param {{}[]} markings An array of markings to merge.
+ * @returns {{}[]} An array of markings where consecutive markings are merged.
+ */
+const mergeConsecutiveMarkings = ( markings, isJapanese = false ) => {
+	const newMarkings = [];
+	markings.forEach( ( marking ) => {
+		let actionDone = false;
+		newMarkings.forEach( ( newMarking, newMarkingIndex ) => {
+			// If the markings are consecutive, merge them.
+			if ( newMarking.getPositionEnd() + ( isJapanese ? 0 : 1 ) === marking.getPositionStart() ) {
+				newMarkings[ newMarkingIndex ]._properties.position.endOffset = marking.getPositionEnd();
+				actionDone = true;
+			// if the markings are overlapping, merge them.
+			} else if ( newMarking.getPositionEnd() >= marking.getPositionStart() && newMarking.getPositionStart() <= marking.getPositionEnd() ) {
+				newMarkings[ newMarkingIndex ]._properties.position.startOffset = Math.min( newMarking.getPositionStart(), marking.getPositionStart() );
+				newMarkings[ newMarkingIndex ]._properties.position.endOffset = Math.max( newMarking.getPositionEnd(), marking.getPositionEnd() );
+				actionDone = true;
+			// If the markings are consecutive, merge them.
+			} else if ( newMarking.getPositionStart() === marking.getPositionEnd() + (isJapanese ? 0 : 1 ) ) {
+				newMarkings[ newMarkingIndex ]._properties.position.startOffset = marking.getPositionStart();
+				actionDone = true;
+			}
+		} );
+		if ( ! actionDone ) {
+			newMarkings.push( marking );
+		}
+	} );
+	return newMarkings;
+};
+
+
+/**
  * Gets the Mark objects of all keyphrase matches.
  *
  * @param {string} sentence The sentence to check.
@@ -324,17 +354,18 @@ const createMarksForSentence = ( sentence, matches ) => {
  *
  * @returns {Mark[]}    The array of Mark objects of the keyphrase matches.
  */
-function getMarkingsInSentence( sentence, matchesInSentence ) {
+function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale ) {
 	const markedSentence = createMarksForSentence( sentence, matchesInSentence );
-	const markings = matchesInSentence.primaryMatches.map( match => {
-		return new Mark( {
-			position: {
-				startOffset: match.slice( 0 )[ 0 ].sourceCodeRange.startOffset,
-				endOffset: match.slice( -1 )[ 0 ].sourceCodeRange.endOffset,
-			},
-			marked: markedSentence,
-			original: sentence.text,
-
+	const markings = matchesInSentence.primaryMatches.flatMap( match => {
+		return  match.map( token => {
+			return new Mark( {
+				position: {
+					startOffset: token.sourceCodeRange.startOffset,
+					endOffset: token.sourceCodeRange.endOffset,
+				},
+				marked: markedSentence,
+				original: sentence.text,
+			} );
 		} );
 	} );
 
@@ -352,34 +383,10 @@ function getMarkingsInSentence( sentence, matchesInSentence ) {
 		}
 		);
 	}
-
-	return markings;
+	const mergedMarkings = mergeConsecutiveMarkings( markings, getLanguage( locale ) === "ja" );
+	return mergedMarkings;
 }
 
-/**
- * Merges consecutive markings into one marking.
- * @param {{}[]} markings An array of markings to merge.
- * @returns {{}[]} An array of markings where consecutive markings are merged.
- */
-const mergeConsecutiveMarkings = ( markings ) => {
-	const newMarkings = [];
-	markings.forEach( ( marking ) => {
-		let actionDone = false;
-		newMarkings.forEach( ( newMarking, newMarkingIndex ) => {
-			if ( newMarking.getPositionEnd() + 1 === marking.getPositionStart() ) {
-				newMarkings[ newMarkingIndex ]._properties.position.endOffset = marking.getPositionEnd();
-				actionDone = true;
-			} else if ( newMarking.getPositionStart() === marking.getPositionEnd() + 1 ) {
-				newMarkings[ newMarkingIndex ]._properties.position.startOffset = marking.getPositionStart();
-				actionDone = true;
-			}
-		} );
-		if ( ! actionDone ) {
-			newMarkings.push( marking );
-		}
-	} );
-	return newMarkings;
-};
 
 /**
  * Counts the occurrences of the keyphrase in the text and creates the Mark objects for the matches.
@@ -397,7 +404,7 @@ export function countKeyphraseInText( sentences, topicForms, locale, matchWordCu
 	sentences.forEach( sentence => {
 		const matchesInSentence = getMatchesInSentence( sentence, topicForms.keyphraseForms, locale, matchWordCustomHelper );
 
-		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper );
+		const markings = getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelper, locale );
 
 		result.markings.push( markings );
 		result.count += matchesInSentence.primaryMatches.length;

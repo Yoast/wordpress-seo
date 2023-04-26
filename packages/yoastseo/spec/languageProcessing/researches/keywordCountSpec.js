@@ -46,19 +46,20 @@ describe( "Test for counting the keyword in a text", function() {
 		buildTree( mockPaper, researcher );
 		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 2 );
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual(
-			[ new Mark( {
-				fieldsToMark: [],
-				marked: "a string of text with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> and" +
+			[
+				new Mark( {
+					fieldsToMark: [],
+					marked: "a string of text with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> and" +
 						" another <yoastmark class='yoast-text-mark'>keyword</yoastmark> in it",
-				original: "a string of text with the keyword and another keyword in it",
-				position: { endOffset: 36, startOffset: 29 },
-			} ),
-			new Mark( {
-				fieldsToMark: [],
-				marked: "a string of text with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> " +
+					original: "a string of text with the keyword and another keyword in it",
+					position: { endOffset: 36, startOffset: 29 },
+				} ),
+				new Mark( {
+					fieldsToMark: [],
+					marked: "a string of text with the <yoastmark class='yoast-text-mark'>keyword</yoastmark> " +
 						"and another <yoastmark class='yoast-text-mark'>keyword</yoastmark> in it",
-				original: "a string of text with the keyword and another keyword in it",
-				position: { endOffset: 56, startOffset: 49 } } ),
+					original: "a string of text with the keyword and another keyword in it",
+					position: { endOffset: 56, startOffset: 49 } } ),
 			] );
 	} );
 
@@ -254,7 +255,13 @@ describe( "Test for counting the keyword in a text", function() {
 					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
 					"class='yoast-text-mark'>word</yoastmark>.",
 				original: "A string with three keys (key and another key) and one word.",
-				position: { endOffset: 62, startOffset: 45 } } ),
+				position: { endOffset: 48, startOffset: 45 } } ),
+			new Mark( {
+				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
+					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
+					"class='yoast-text-mark'>word</yoastmark>.",
+				original: "A string with three keys (key and another key) and one word.",
+				position: { endOffset: 62, startOffset: 58 } } ),
 			new Mark( {
 				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
 					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
@@ -263,8 +270,8 @@ describe( "Test for counting the keyword in a text", function() {
 				position: { endOffset: 27, startOffset: 23 } } ),
 			new Mark( {
 				marked: "A string with three <yoastmark class='yoast-text-mark'>keys</yoastmark> (<yoastmark class='yoast-text-mark'>" +
-					"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
-					"class='yoast-text-mark'>word</yoastmark>.",
+						"key</yoastmark> and another <yoastmark class='yoast-text-mark'>key</yoastmark>) and one <yoastmark " +
+						"class='yoast-text-mark'>word</yoastmark>.",
 				original: "A string with three keys (key and another key) and one word.",
 				position: { endOffset: 32, startOffset: 29 } } ),
 		]
