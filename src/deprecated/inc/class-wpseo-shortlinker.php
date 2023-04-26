@@ -56,7 +56,7 @@ class WPSEO_Shortlinker {
 	 * @return string The final URL.
 	 */
 	public function build_shortlink( $url ) {
-		_deprecated_function( __METHOD__, 'WPSEO 20.8', '\Yoast\WP\SEO\Helpers\Short_Link_Helper::build');
+		_deprecated_function( __METHOD__, 'WPSEO 20.8', '\Yoast\WP\SEO\Helpers\Short_Link_Helper::build' );
 
 		return add_query_arg( $this->collect_additional_shortlink_data(), $url );
 	}
@@ -83,7 +83,7 @@ class WPSEO_Shortlinker {
 	 * Echoes a version of the URL with a utm_content with the current version.
 	 *
 	 * @param string $url The URL to build upon.
-	 * 
+	 *
 	 * @deprecated 20.8
 	 * @codeCoverageIgnore
 	 */
