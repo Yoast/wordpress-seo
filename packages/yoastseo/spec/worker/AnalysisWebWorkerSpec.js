@@ -265,7 +265,7 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "creates the i18n", () => {
 				scope.onmessage( createMessage( "initialize", {
-					translations: {
+					messages: {
 						domain: "messages",
 						// eslint-disable-next-line camelcase
 						locale_data: {

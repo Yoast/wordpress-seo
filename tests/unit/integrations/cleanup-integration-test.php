@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
  * Class Cleanup_Integration_Test.
@@ -33,30 +34,9 @@ class Cleanup_Integration_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * A helper for taxonomies.
-	 *
-	 * @var Mockery\MockInterface|Taxonomy_Helper
-	 */
-	private $taxonomy;
-
-	/**
-	 * A helper for post types.
-	 *
-	 * @var Mockery\MockInterface|Post_Type_Helper
-	 */
-	private $post_type;
-
-	/**
-	 * A helper for author archives.
-	 *
-	 * @var Mockery\MockInterface|Author_Archive_Helper
-	 */
-	private $author_archive;
-
-	/**
 	 * The indexables repository.
 	 *
-	 * @var Indexable_Repository
+	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	private $indexable_repository;
 
@@ -73,15 +53,9 @@ class Cleanup_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->taxonomy             = Mockery::mock( Taxonomy_Helper::class );
-		$this->post_type            = Mockery::mock( Post_Type_Helper::class );
-		$this->author_archive       = Mockery::mock( Author_Archive_Helper::class );
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->indexable_repository = Mockery::mock( Indexable_Cleanup_Repository::class );
 
 		$this->instance = new Cleanup_Integration(
-			$this->taxonomy,
-			$this->post_type,
-			$this->author_archive,
 			$this->indexable_repository
 		);
 
@@ -139,48 +113,18 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		/* Clean up of indexables with object_sub_type shop-order */
-		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 50, 'post', 'shop_order', $query_limit );
-
-		/* Clean up of indexables with post_status auto-draft */
-		$this->setup_clean_indexables_with_post_status_mocks( 50, 'auto-draft', $query_limit );
-
-		/* Clean up of indexables where post type is not publicly viewable */
-		$this->setup_clean_indexables_for_non_publicly_viewable_post( 50, $query_limit );
-
-		/* Clean up of indexables where taxonomy is not publicly viewable */
-		$this->setup_clean_indexables_for_non_publicly_viewable_taxonomies( 50, $query_limit );
-
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_non_publicly_viewable_post' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_non_publicly_viewable_taxonomies' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_non_publicly_viewable_post_type_archive_pages' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_authors_archive_disabled' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_authors_without_archive' )->once();
+		$this->indexable_repository->shouldReceive( 'update_indexables_author_to_reassigned' )->once();
+		$this->indexable_repository->shouldReceive( 'clean_indexables_for_object_type_and_source_table' )->times( 3 );
+		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->times( 3 );
 		/* Clean up of archive page indexables where the post_type  is not publicly viewable */
 		$this->setup_clean_indexables_for_non_publicly_viewable_post_type_archives( 50, $query_limit );
-
-		/* Clean up of indexables that belong to users while the author archives are disabled */
-		$this->setup_clean_indexables_for_authors_archive_disabled( 50, $query_limit );
-
-		/* Clean up of indexables of users without an author archive */
-		$this->setup_clean_indexables_for_authors_without_archive( 50, $query_limit );
-
-		$query_return              = new stdClass();
-		$query_return->author_id   = 1;
-		$query_return->post_author = 2;
-
-		/* Update indexables that has been reassigned to another user */
-		$this->setup_update_indexables_author_to_reassigned( [ 1 => $query_return ], $query_limit );
-
-		/* Clean up of seo links target ids for deleted indexables */
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_users', 'ID', 'user', $query_limit );
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_posts', 'ID', 'post', $query_limit );
-		$this->setup_clean_indexables_for_object_type_and_source_table( 50, 'wp_terms', 'term_id', 'term', $query_limit );
-
-
-		/* Clean up of indexable hierarchy for deleted indexables */
-		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'Indexable_Hierarchy', 'indexable_id', $query_limit );
-
-		/* Clean up of seo links ids for deleted indexables */
-		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'indexable_id', $query_limit );
-
-		/* Clean up of seo links target ids for deleted indexables */
-		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'target_indexable_id', $query_limit );
 
 		$this->instance->run_cleanup();
 	}
@@ -211,8 +155,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->andReturn( $query_limit );
 
 		/* Clean up of indexables with object_sub_type shop-order */
-		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( false, 'post', 'shop_order', $query_limit );
-
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn( false );
 		$this->instance->run_cleanup();
 	}
 
@@ -241,8 +184,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 1000, 'post', 'shop_order', $query_limit );
-
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn( 1000 );
 		Monkey\Functions\expect( 'update_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION, 'clean_indexables_with_object_type_and_object_sub_type_shop_order' );
@@ -276,7 +218,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 0, 'post', 'shop_order', $query_limit );
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_object_type_and_object_sub_type' )->once()->andReturn( 0 );
 
 		Monkey\Functions\expect( 'update_option' )
 			->once()
@@ -307,7 +249,8 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->setup_cleanup_orphaned_from_table_mocks( 0, 'SEO_Links', 'target_indexable_id', $query_limit );
+		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->once()->andReturn( 0 );
+
 
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
@@ -366,7 +309,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->setup_clean_indexables_with_post_status_mocks( false, 'auto-draft', 1000 );
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn( false );
 
 		Monkey\Functions\expect( 'delete_option' )
 			->once()
@@ -399,7 +342,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->setup_clean_indexables_with_post_status_mocks( 50, 'auto-draft', 1000 );
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn( 50 );
 
 		$this->instance->run_cleanup_cron();
 	}
@@ -423,358 +366,8 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( null );
 
-		$this->setup_clean_indexables_with_post_status_mocks( 50, 'auto-draft', 1000 );
+		$this->indexable_repository->shouldReceive( 'clean_indexables_with_post_status' )->once()->andReturn( 50 );
 
 		$this->instance->run_cleanup_cron();
-	}
-
-	/**
-	 * Sets up expectations for the clean_indexables_with_object_type_and_object_sub_type cleanup task.
-	 *
-	 * @param int    $return_value    The number of deleted items to return.
-	 * @param string $object_type     The object type.
-	 * @param string $object_sub_type The object sub type.
-	 * @param int    $limit           The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_clean_indexables_with_object_type_and_object_sub_type_mocks( $return_value, $object_type, $object_sub_type, $limit ) {
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				'DELETE FROM wp_yoast_indexable WHERE object_type = %s AND object_sub_type = %s ORDER BY id LIMIT %d',
-				$object_type,
-				$object_sub_type,
-				$limit
-			)
-			->andReturn( 'prepared_shop_order_delete_query' );
-
-		$this->wpdb->shouldReceive( 'query' )
-			->once()
-			->with( 'prepared_shop_order_delete_query' )
-			->andReturn( $return_value );
-	}
-
-	/**
-	 * Sets up expectations for the clean_indexables_with_post_status cleanup task.
-	 *
-	 * @param int    $return_value The number of deleted items to return.
-	 * @param string $post_status  The post status.
-	 * @param int    $limit        The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_clean_indexables_with_post_status_mocks( $return_value, $post_status, $limit ) {
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				'DELETE FROM wp_yoast_indexable WHERE object_type = \'post\' AND post_status = %s ORDER BY id LIMIT %d',
-				$post_status,
-				$limit
-			)
-			->andReturn( 'prepared_auto_draft_delete_query' );
-
-		$this->wpdb->shouldReceive( 'query' )
-			->once()
-			->with( 'prepared_auto_draft_delete_query' )
-			->andReturn( $return_value );
-	}
-
-	/**
-	 * Sets up expectations for the cleanup_orphaned_from_table cleanup task.
-	 *
-	 * @param int    $return_value The number of deleted items to return.
-	 * @param string $model_name   The human-readable model name.
-	 * @param string $column       The column.
-	 * @param int    $limit        The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_cleanup_orphaned_from_table_mocks( $return_value, $model_name, $column, $limit ) {
-		$table = Model::get_table_name( $model_name );
-
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				"
-			SELECT table_to_clean.{$column}
-			FROM {$table} table_to_clean
-			LEFT JOIN wp_yoast_indexable AS indexable_table
-			ON table_to_clean.{$column} = indexable_table.id
-			WHERE indexable_table.id IS NULL
-			AND table_to_clean.{$column} IS NOT NULL
-			LIMIT %d",
-				$limit
-			)
-			->andReturn( 'prepared_indexable_hierarchy_select_query' );
-
-		$ids = \array_fill( 0, $return_value, 1 );
-
-		$this->wpdb->shouldReceive( 'get_col' )
-			->once()
-			->with( 'prepared_indexable_hierarchy_select_query' )
-			->andReturn( $ids );
-
-		if ( $return_value === 0 ) {
-			return;
-		}
-
-		$this->wpdb->shouldReceive( 'query' )
-			->once()
-			->with( "DELETE FROM {$table} WHERE {$column} IN( " . \implode( ',', $ids ) . ' )' )
-			->andReturn( 50 );
-	}
-
-	/**
-	 * Sets up expectations for the clean_indexables_for_non_publicly_viewable_post cleanup task.
-	 *
-	 * @param int $return_value The number of deleted items to return.
-	 * @param int $limit        The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_clean_indexables_for_non_publicly_viewable_post( $return_value, $limit ) {
-		$this->post_type->expects( 'get_indexable_post_types' )->once()->andReturns( [ 'my_cpt', 'post', 'attachment' ] );
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				'DELETE FROM wp_yoast_indexable
-				WHERE object_type = \'post\'
-				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( %s, %s, %s )
-				LIMIT %d',
-				[ 'my_cpt', 'post', 'attachment', $limit ]
-			)
-			->andReturn( 'prepared_clean_query' );
-
-		$this->wpdb->expects( 'query' )
-			->once()
-			->with( 'prepared_clean_query' )
-			->andReturn( $return_value );
-	}
-
-	/**
-	 * Sets up expectations for the clean_indexables_for_non_publicly_viewable_taxonomies cleanup task.
-	 *
-	 * @param int $return_value The number of deleted items to return.
-	 * @param int $limit        The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_clean_indexables_for_non_publicly_viewable_taxonomies( $return_value, $limit ) {
-		$this->taxonomy->expects( 'get_indexable_taxonomies' )->once()->andReturns( [ 'category', 'post_tag', 'my_custom_tax' ] );
-
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				'DELETE FROM wp_yoast_indexable
-				WHERE object_type = \'term\'
-				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( %s, %s, %s )
-				LIMIT %d',
-				[ 'category', 'post_tag', 'my_custom_tax', $limit ]
-			)
-			->andReturn( 'prepared_clean_query' );
-
-		$this->wpdb->expects( 'query' )
-			->once()
-			->with( 'prepared_clean_query' )
-			->andReturn( $return_value );
-	}
-
-	/**
-	 * Sets up expectations for the clean_indexables_for_non_publicly_viewable_taxonomies cleanup task.
-	 *
-	 * @param int $return_value The number of deleted items to return.
-	 * @param int $limit        The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_clean_indexables_for_non_publicly_viewable_post_type_archives( $return_value, $limit ) {
-		$my_cpt                  = new \stdClass();
-		$my_cpt->name            = 'my_cpt';
-		$my_cpt->has_archive     = true;
-		$post                    = new \stdClass();
-		$post->name              = 'post';
-		$post->has_archive       = true;
-		$attachment              = new \stdClass();
-		$attachment->name        = 'attachment';
-		$attachment->has_archive = true;
-
-		$this->post_type->expects( 'get_indexable_post_archives' )->once()->andReturns( [ $my_cpt, $post, $attachment ] );
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				'DELETE FROM wp_yoast_indexable
-				WHERE object_type = \'post-type-archive\'
-				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( %s, %s, %s )
-				LIMIT %d',
-				[ 'my_cpt', 'post', 'attachment', $limit ]
-			)
-			->andReturn( 'prepared_clean_query' );
-
-		$this->wpdb->expects( 'query' )
-			->once()
-			->with( 'prepared_clean_query' )
-			->andReturn( $return_value );
-	}
-
-	/**
-	 * Sets up expectations for the clean_indexables_for_authors_archive_disabled cleanup task.
-	 *
-	 * @param int $return_value The number of deleted items to return.
-	 * @param int $limit        The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_clean_indexables_for_authors_archive_disabled( $return_value, $limit ) {
-		$this->author_archive->expects( 'are_disabled' )->once()->andReturnTrue();
-
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with( 'DELETE FROM wp_yoast_indexable WHERE object_type = \'user\' LIMIT %d', $limit )
-			->andReturn( 'prepared_clean_query' );
-
-		$this->wpdb->expects( 'query' )
-			->once()
-			->with( 'prepared_clean_query' )
-			->andReturn( $return_value );
-	}
-
-	/**
-	 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
-	 *
-	 * @param int $return_value The number of deleted items to return.
-	 * @param int $limit        The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_clean_indexables_for_authors_without_archive( $return_value, $limit ) {
-		$this->author_archive->expects( 'get_author_archive_post_types' )->once()->andReturns( [ 'post' ] );
-
-		Monkey\Functions\expect( 'get_post_stati' )->once()->andReturns( [ 'publish', 'draft' ] );
-		Monkey\Functions\expect( 'is_post_status_viewable' )->twice()->andReturnUsing(
-			static function ( $value ) {
-				return $value === 'publish';
-			}
-		);
-		$this->wpdb->posts = 'wp_posts';
-
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				'DELETE FROM wp_yoast_indexable
-				WHERE object_type = \'user\'
-				AND object_id NOT IN (
-					SELECT DISTINCT post_author
-					FROM wp_posts
-					WHERE post_type IN ( %s )
-					AND post_status IN ( %s )
-				) LIMIT %d',
-				[ 'post', 'publish', $limit ]
-			)
-			->andReturn( 'prepared_clean_query' );
-
-		$this->wpdb->expects( 'query' )
-			->once()
-			->with( 'prepared_clean_query' )
-			->andReturn( $return_value );
-	}
-
-	/**
-	 * Sets up expectations for the clean_indexables_for_authors_without_archive cleanup task.
-	 *
-	 * @param int $select_return_value The number of deleted items to return.
-	 * @param int $limit               The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_update_indexables_author_to_reassigned( $select_return_value, $limit ) {
-		$this->wpdb->posts = 'wp_posts';
-		$this->wpdb->users = 'wp_users';
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- This is a WordPress constant.
-		define( 'OBJECT_K', 'OBJECT_K' );
-
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				"
-			SELECT wp_yoast_indexable.author_id, wp_posts.post_author
-			FROM wp_yoast_indexable JOIN wp_posts on wp_yoast_indexable.object_id = wp_posts.id
-			WHERE object_type='post'
-			AND wp_yoast_indexable.author_id <> wp_posts.post_author
-			ORDER BY wp_yoast_indexable.author_id
-			LIMIT %d",
-				$limit
-			)
-			->andReturn( 'prepared_select_query' );
-
-			$this->wpdb->shouldReceive( 'get_results' )
-				->once()
-				->with( 'prepared_select_query', OBJECT_K )
-				->andReturn( $select_return_value );
-
-			$this->wpdb->shouldReceive( 'prepare' )
-				->once()
-				->with(
-					'
-				UPDATE wp_yoast_indexable
-				SET wp_yoast_indexable.author_id = 2
-				WHERE wp_yoast_indexable.author_id = 1
-				AND object_type=\'post\'
-				LIMIT %d',
-					$limit
-				)
-				->andReturn( 'prepared_update_query' );
-
-			$this->wpdb->shouldReceive( 'query' )
-				->once()
-				->with( 'prepared_update_query' );
-	}
-
-	/**
-	 * Sets up expectations for the setup_clean_indexables_for_object_type_and_source_table cleanup task.
-	 *
-	 * @param int    $return_value      The number of deleted items to return.
-	 * @param string $source_table      The source table which we need to check the indexables against.
-	 * @param string $source_identifier The identifier which the indexables are matched to.
-	 * @param string $object_type       The indexable object type.
-	 * @param int    $limit             The query limit.
-	 *
-	 * @return void
-	 */
-	private function setup_clean_indexables_for_object_type_and_source_table( $return_value, $source_table, $source_identifier, $object_type, $limit ) {
-		$this->wpdb->shouldReceive( 'prepare' )
-			->once()
-			->with(
-				"
-			SELECT indexable_table.object_id
-			FROM wp_yoast_indexable indexable_table
-			LEFT JOIN {$source_table} AS source_table
-			ON indexable_table.object_id = source_table.{$source_identifier}
-			WHERE source_table.{$source_identifier} IS NULL
-			AND indexable_table.object_id IS NOT NULL
-			AND indexable_table.object_type = '{$object_type}'
-			LIMIT %d",
-				$limit
-			)
-			->andReturn( 'prepared_clean_query' );
-
-		$ids = \array_fill( 0, $return_value, 1 );
-
-		$this->wpdb->shouldReceive( 'get_col' )
-			->once()
-			->with( 'prepared_clean_query' )
-			->andReturn( $ids );
-
-		if ( $return_value === 0 ) {
-			return;
-		}
-
-		$this->wpdb->shouldReceive( 'query' )
-			->once()
-			->with( "DELETE FROM wp_yoast_indexable WHERE object_type = '{$object_type}' AND object_id IN( " . \implode( ',', $ids ) . ' )' )
-			->andReturn( 50 );
 	}
 }
