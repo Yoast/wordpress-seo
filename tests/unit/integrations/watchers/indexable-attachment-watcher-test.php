@@ -87,12 +87,10 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-
-		Monkey\Actions\expectAdded( 'update_option_wpseo_titles' )
-			->with( [ $this->instance, 'check_option' ] )
-			->once();
-
+	
 		$this->instance->register_hooks();
+
+		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_option' ] ) );
 	}
 
 	/**
