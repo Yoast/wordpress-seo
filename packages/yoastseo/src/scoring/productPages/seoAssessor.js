@@ -54,7 +54,7 @@ const ProductSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.keyphraseLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseLengthCTAUrl ),
 		}, true ),
-		new KeywordDensityAssessment( {
+		new KeyphraseDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( options.keyphraseDensityUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseDensityCTAUrl ),
 		} ),

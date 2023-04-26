@@ -102,7 +102,7 @@ describe( "has configuration overrides", () => {
 	} );
 
 	test( "KeywordDensityAssessment", () => {
-		const assessment = assessor.getAssessment( "keywordDensity" );
+		const assessment = assessor.getAssessment( "keyphraseDensity" );
 
 		expect( assessment ).toBeDefined();
 		expect( assessment._config ).toBeDefined();
