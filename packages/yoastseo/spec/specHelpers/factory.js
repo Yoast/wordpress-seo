@@ -3,6 +3,13 @@
  *
  * @returns {void}
  */
+import { isUndefined } from "lodash-es";
+
+/**
+ * Factory prototype.
+ *
+ * @constructor
+ */
 const FactoryProto = function() {};
 
 /**
@@ -44,6 +51,26 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			},
 
 			/**
+			 * Return whether the worker has the research.
+			 * @param {string} research The name of the research.
+			 * @returns {boolean} Whether the worker has the research.
+			 */
+			hasResearch: function( research ) {
+				return ! isUndefined( expectedValue[ research ] );
+			},
+
+			/**
+			 * Adds a research.
+			 * @param {string} name The name of the research.
+			 * @param {Object} research The research to register.
+			 *
+			 * @returns {void}
+			 */
+			addResearch: function( name, research ) {
+				expectedValue[ name ] = research;
+			},
+
+			/**
 			 * Check whether morphology data is available.
 			 *
 			 * @returns {boolean} True if the researcher has access to morphology data.
@@ -63,6 +90,30 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			},
 
 			/**
+			 * Checks whether a helper with the given name exists.
+			 * @param {string} name The name to check.
+			 *
+			 * @returns {boolean} Trye if the helper exists.
+			 */
+			hasHelper: function( name ) {
+				return ! isUndefined( helpers[ name ] );
+			},
+
+			/**
+			 * Adds a helper under the given name.
+			 * @param {string} name The name.
+			 * @param {function} helper The helper.
+			 *
+			 * @returns {void}
+			 */
+			addHelper: function( name, helper ) {
+				if ( ! helpers ) {
+					helpers = {};
+				}
+				helpers[ name ] = helper;
+			},
+
+			/**
 			 * Return the config to be used for the assessment.
 			 * @param {string} name The name of the config.
 			 *
@@ -70,6 +121,27 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			 */
 			getConfig: function( name ) {
 				return config[ name ];
+			},
+
+			/**
+			 * Checks if the config exists.
+			 * @param {string} name The name of the config
+			 *
+			 * @returns {boolean} Whether the config exists.
+			 */
+			hasConfig: function( name ) {
+				return ! isUndefined( config[ name ] );
+			},
+
+			/**
+			 * Adds a configuration.
+			 * @param {string} name The name of the config.
+			 * @param {Object} researchConfig The config.
+			 *
+			 * @returns {void}
+			 */
+			addConfig: function( name, researchConfig ) {
+				config[ name ] = researchConfig;
 			},
 		};
 	}
@@ -102,12 +174,30 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		},
 
 		/**
+		 * Return whether the worker has the helper.
+		 *
+		 * @returns {boolean} Whether the worker has the helper.
+		 */
+		hasHelper: function() {
+			return expectedValue;
+		},
+
+		/**
 		 * Return the config to be used for the assessment.
 		 *
 		 * @returns {Object} The config for the assessment results.
 		 */
 		getConfig: function() {
 			return config;
+		},
+
+		/**
+		 * Return whether the worker has the config.
+		 * @param {string} research The name of the config.
+		 * @returns {boolean} Whether the worker has the research.
+		 */
+		hasConfig: function( research ) {
+			return ! isUndefined( expectedValue[ research ] );
 		},
 	};
 };

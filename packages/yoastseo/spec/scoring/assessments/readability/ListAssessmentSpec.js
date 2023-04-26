@@ -1,27 +1,39 @@
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
 
 const listAssessment = new ListAssessment();
 
-describe( "A list assessment", function() {
+describe( "a test for an assessment that checks whether a paper contains a list or not", function() {
 	it( "assesses when there are no lists", function() {
 		const mockPaper = new Paper( "text with no list" );
 
-		const assessment = listAssessment.getResult( mockPaper, Factory.buildMockResearcher( false ) );
+		const assessment = listAssessment.getResult( mockPaper );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
 			"No lists appear on this page. <a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!" );
 	} );
-	it( "assesses when there is a list", function() {
+	it( "assesses when there is an ordered list", function() {
 		const mockPaper = new Paper( "text with a list <ol type=\"i\">\n" +
 			"  <li>Coffee</li>\n" +
 			"  <li>Tea</li>\n" +
 			"  <li>Milk</li>\n" +
 			"</ol>" );
 
-		const assessment = listAssessment.getResult( mockPaper, Factory.buildMockResearcher( true ) );
+		const assessment = listAssessment.getResult( mockPaper );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
+			"There is at least one list on this page. Great!" );
+	} );
+	it( "assesses when there is an unordered list", function() {
+		const mockPaper = new Paper( "This is a text with a list <ul style=\"list-style-type:disc\">\n" +
+			"  <li>Coffee</li>\n" +
+			"  <li>Tea</li>\n" +
+			"  <li>Milk</li>\n" +
+			"</ul> and more text after the list" );
+
+		const assessment = listAssessment.getResult( mockPaper );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +

@@ -1,14 +1,17 @@
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import Assessor from "../../assessor.js";
-import ContentAssessor from "../../contentAssessor";
-import ParagraphTooLong from "../../assessments/readability/ParagraphTooLongAssessment.js";
-import SentenceLengthInText from "../../assessments/readability/SentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "../../assessments/readability/SubheadingDistributionTooLongAssessment.js";
-import TransitionWords from "../../assessments/readability/TransitionWordsAssessment.js";
-import PassiveVoice from "../../assessments/readability/PassiveVoiceAssessment.js";
-import SentenceBeginnings from "../../assessments/readability/SentenceBeginningsAssessment.js";
-import TextPresence from "../../assessments/readability/TextPresenceAssessment.js";
-import WordComplexityAssessment from "../../assessments/readability/WordComplexityAssessment";
+import { inherits } from "util";
+
+import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	ParagraphTooLongAssessment,
+	SentenceLengthInTextAssessment,
+	SubheadingDistributionTooLongAssessment,
+	TransitionWordsAssessment,
+	PassiveVoiceAssessment,
+	TextPresenceAssessment,
+	SentenceBeginningsAssessment,
+} = assessments.readability;
 
 /*
  Temporarily disabled:
@@ -30,7 +33,7 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, optio
 
 	this._assessments = [
 
-		new SubheadingDistributionTooLong( {
+		new SubheadingDistributionTooLongAssessment( {
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
@@ -40,43 +43,36 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, optio
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
 			cornerstoneContent: true,
 		} ),
-		new ParagraphTooLong( {
+		new ParagraphTooLongAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
 		} ),
-		new SentenceLengthInText( {
+		new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
 		}, true ),
-		new TransitionWords( {
+		new TransitionWordsAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
 		} ),
-		new PassiveVoice( {
+		new PassiveVoiceAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
 		} ),
-		new TextPresence( {
+		new TextPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
 		} ),
-		new SentenceBeginnings( {
+		new SentenceBeginningsAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
-		} ),
-		new WordComplexityAssessment( {
-			scores: {
-				acceptableAmount: 3,
-			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
 		} ),
 	];
 };
 
-require( "util" ).inherits( StorePostsAndPagesCornerstoneContentAssessor, ContentAssessor );
+inherits( StorePostsAndPagesCornerstoneContentAssessor, ContentAssessor );
 
 
 export default StorePostsAndPagesCornerstoneContentAssessor;

@@ -1,8 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
+
+import { Assessment, AssessmentResult, helpers } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
@@ -33,15 +34,27 @@ export default class ListAssessment extends Assessment {
 	}
 
 	/**
+	 * Checks whether there is an ordered or unordered list in the text.
+	 *
+	 * @param {Paper}	paper	The paper object to get the text from.
+	 *
+	 * @returns {boolean} Whether there is a list in the paper text.
+	 */
+	findList( paper ) {
+		const regex = /<[uo]l.*>[\s\S]*<\/[uo]l>/;
+
+		return regex.test( paper.getText() );
+	}
+
+	/**
 	 * Execute the Assessment and return a result.
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
-	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
-	getResult( paper, researcher ) {
-		this.textContainsList = researcher.getResearch( "findList" );
+	getResult( paper ) {
+		this.textContainsList = this.findList( paper );
 
 		const calculatedScore = this.calculateResult();
 
@@ -77,7 +90,7 @@ export default class ListAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sLists%2$s: There is at least one list on this page. Great!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -93,7 +106,7 @@ export default class ListAssessment extends Assessment {
 				 * %2$s expands to the anchor end tag. */
 				__(
 					"%1$sLists%3$s: No lists appear on this page. %2$sAdd at least one ordered or unordered list%3$s!",
-					"wordpress-seo"
+					"yoast-woo-seo"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
