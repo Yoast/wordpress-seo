@@ -102,7 +102,6 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 */
 	public function check_option_provider() {
 		return [
-
 			'Old and new values are not arrays' => [
 				'old_value'                => 1,
 				'new_value'                => 2,
@@ -233,9 +232,9 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 			->times( $attachment_cleanup_times )
 			->andReturn( $wp_next_scheduled );
 
-			Monkey\Functions\expect( 'wp_schedule_single_event' )
-				->with( ( time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
-				->times( $schedule_event_times );
+		Monkey\Functions\expect( 'wp_schedule_single_event' )
+			->with( ( time() + ( \MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK )
+			->times( $schedule_event_times );
 
 		$this->instance->check_option( $old_value, $new_value );
 	}
