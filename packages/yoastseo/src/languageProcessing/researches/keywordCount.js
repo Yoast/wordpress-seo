@@ -329,6 +329,7 @@ const mergeConsecutiveMarkings = ( markings, isJapanese = false ) => {
 				actionDone = true;
 			// if the markings are overlapping, merge them.
 			} else if ( newMarking.getPositionEnd() >= marking.getPositionStart() && newMarking.getPositionStart() <= marking.getPositionEnd() ) {
+				// eslint-disable-next-line max-len
 				newMarkings[ newMarkingIndex ]._properties.position.startOffset = Math.min( newMarking.getPositionStart(), marking.getPositionStart() );
 				newMarkings[ newMarkingIndex ]._properties.position.endOffset = Math.max( newMarking.getPositionEnd(), marking.getPositionEnd() );
 				actionDone = true;

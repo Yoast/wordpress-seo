@@ -208,7 +208,7 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 describe( "A test for marking the keyword", function() {
 	it( "returns markers", function() {
 		const keywordDensityAssessment = new KeywordDensityAssessment();
-		const paper = new Paper( "This is a very interesting paper with a keyword and another keyword.", { keyword: "keyword" }  );
+		const paper = new Paper( "<p>This is a very interesting paper with a keyword and another keyword.</p>", { keyword: "keyword" }  );
 		const researcher = new DefaultResearcher( paper );
 		buildTree( paper, researcher );
 
@@ -219,21 +219,19 @@ describe( "A test for marking the keyword", function() {
 					"<yoastmark class='yoast-text-mark'>keyword</yoastmark> and another " +
 					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
 				original: "This is a very interesting paper with a keyword and another keyword.",
-				// eslint-disable-next-line no-undefined
-				position: { endOffset: undefined, startOffset: undefined },
+				position: { endOffset: 50, startOffset: 43 },
 			} ),
 			new Mark( {
 				marked: "This is a very interesting paper with a " +
 					"<yoastmark class='yoast-text-mark'>keyword</yoastmark> and another " +
 					"<yoastmark class='yoast-text-mark'>keyword</yoastmark>.",
 				original: "This is a very interesting paper with a keyword and another keyword.",
-				// eslint-disable-next-line no-undefined
-				position: { endOffset: undefined, startOffset: undefined },
+				position: { endOffset: 70, startOffset: 63 },
 			} ) ];
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
 
-	xit( "returns markers for a keyphrase containing numbers", function() {
+	it( "returns markers for a keyphrase containing numbers", function() {
 		const keywordDensityAssessment = new KeywordDensityAssessment();
 		const paper = new Paper( "This is the release of YoastSEO 9.3.", { keyword: "YoastSEO 9.3" }  );
 
