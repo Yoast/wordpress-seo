@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -32,10 +33,18 @@ class Migration_Error_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )
 			->andReturn( 'https://yoa.st/3-6' );
 
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
 
-		$container = $this->create_container_with( [ Product_Helper::class => $product_helper_mock ] );
+		// We're expecting it to be called twice because also the 'real' implementation in $instance will see the mocked surface.
+		$short_link_mock->expects( 'get' )
+			->twice()
+			->andReturn( 'https://example.org?some=var' );
+
+		$container = $this->create_container_with(
+			[
+				Short_Link_Helper::class => $short_link_mock,
+			]
+		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
 			->twice()

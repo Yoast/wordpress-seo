@@ -8,9 +8,11 @@ use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Shortlinker_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Short_Link_Helper_Double;
+
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Dashboard_Widget;
 
@@ -21,17 +23,47 @@ use Yoast_Dashboard_Widget;
  */
 class Admin_Features_Test extends TestCase {
 
+	private $options_helper;
+
+	private $product_helper;
+
+	/**
+	 * Sets up the class under test and mock objects.
+	 */
+	public function set_up() {
+		parent::set_up();
+
+		$this->options_helper    = Mockery::mock( Options_Helper::class );
+		$this->product_helper  = Mockery::mock( Product_Helper::class );
+
+	}
+
 	/**
 	 * Returns an instance with set expectations for the dependencies.
 	 *
 	 * @return WPSEO_Admin Instance to test against.
 	 */
 	private function get_admin_with_expectations() {
-		$shortlinker = new Shortlinker_Double();
+		$shortlinker = new Short_Link_Helper_Double(
+			$this->options_helper,
+			$this->product_helper
+		);
+
+		$this->product_helper->expects( 'is_premium' )->andReturn( true );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'first_activated_on' )
+			->once()
+			->andReturn( 123321 );
+
+		Monkey\Functions\expect( 'get_user_locale' )
+			->once()
+			->andReturn( 'it_IT' );
 
 		Monkey\Functions\expect( 'add_query_arg' )
 			->times( 3 )
-			->with( $shortlinker->get_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
+			->with( $shortlinker->collect_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'admin_url' )
@@ -78,6 +110,9 @@ class Admin_Features_Test extends TestCase {
 		Monkey\Functions\expect( 'YoastSEO' )
 			->times( 8 )
 			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
+		
+		Monkey\Functions\expect( 'get_user_locale' )
+			->andReturn( 'en_US' );
 	}
 
 	/**
