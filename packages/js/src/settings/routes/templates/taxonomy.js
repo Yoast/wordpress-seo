@@ -34,6 +34,8 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 	const noIndexInfoLink = useSelectSettings( "selectLink", [], "https://yoa.st/show-x" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const userLocale = useSelectSettings( "selectPreference", [], "userLocale" );
+	const editTaxonomyUrl = useSelectSettings( "selectPreference", [], "editTaxonomyUrl" );
+
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 
 	const labelLower = useMemo( () => safeToLocaleLower( label, userLocale ), [ label, userLocale ] );
@@ -132,6 +134,22 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 		/>;
 	}, [ name, stripCategoryBaseDescription ] );
 
+	const taxonomyNameMessage = useMemo( () => {
+		return createInterpolateElement(
+			sprintf(
+				/**
+				 * translators: %1$s expands to the name of the taxonomy.
+				 */
+				__( "The name of this category is %1$s.", "wordpress-seo" ),
+				"<link />"
+			), {
+				link: <Link href={ `${ editTaxonomyUrl }?taxonomy=${ name }` }>
+					{ name }
+				</Link>,
+			}
+		);
+	}, [ name ] );
+
 	return (
 		<RouteLayout
 			title={ label }
@@ -141,12 +159,8 @@ const Taxonomy = ( { name, label, postTypes: postTypeNames, showUi } ) => {
 					__( "Determine how your %1$s should look in search engines and on social media.", "wordpress-seo" ),
 					labelLower
 				) }
-				{ ! isEmpty( postTypeValues ) && (
-					<>
-						<br />
-						{ taxonomyMessage }
-					</>
-				) }
+				<br />
+				{ isEmpty( postTypeValues ) ? taxonomyNameMessage : taxonomyMessage }
 			</> }
 		>
 			<FormLayout>
