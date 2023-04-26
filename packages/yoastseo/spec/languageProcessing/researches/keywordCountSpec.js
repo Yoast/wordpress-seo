@@ -332,9 +332,10 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		expect( keyphraseCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
 				original: "私の猫はかわいい猫です。",
-				position: { endOffset: 6, startOffset: 5 } } ), new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
-				original: "私の猫はかわいい猫です。",
-				position: { endOffset: 12, startOffset: 11 } } ) ] );
+				position: { endOffset: 6, startOffset: 5 } } ), new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいい" +
+					"<yoastmark class='yoast-text-mark'>猫</yoastmark>です。",
+			original: "私の猫はかわいい猫です。",
+			position: { endOffset: 12, startOffset: 11 } } ) ] );
 	} );
 
 	it( "counts a string of text with no keyword in it.", function() {
@@ -346,7 +347,7 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 	} );
 
 	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
-		const mockPaper = new Paper( "私の猫はかわいいですかわいい。",  { locale: "ja" } );
+		const mockPaper = new Paper( "<p>私の猫はかわいいですかわいい。</p>",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "かわいい" ] ], wordsCountHelper, matchWordsHelper );
 		buildTree( mockPaper, researcher );
 		expect( keyphraseCount( mockPaper, researcher ).count ).toBe( 1 );
@@ -355,6 +356,20 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
 					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",
 				original: "私の猫はかわいいですかわいい。",
-			} ) ] );
+				position: { endOffset: 6, startOffset: 5 },
+			} ),
+			new Mark( {
+				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
+					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",
+				original: "私の猫はかわいいですかわいい。",
+				position: { endOffset: 11, startOffset: 7 },
+			} ),
+			new Mark( {
+				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
+					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",
+				original: "私の猫はかわいいですかわいい。",
+				position: { endOffset: 17, startOffset: 13 },
+			} ),
+		] );
 	} );
 } );
