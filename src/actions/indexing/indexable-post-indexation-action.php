@@ -154,12 +154,13 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			"
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
+			LEFT JOIN $indexable_table AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
+				AND I.version = %d
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
 			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
-			AND P.ID not in (
-				SELECT I.object_id from $indexable_table as I
-				WHERE I.object_type = 'post'
-				AND I.version = %d )",
+			AND I.object_id IS NULL",
 			$replacements
 		);
 	}
@@ -194,12 +195,13 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			"
 			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
+			LEFT JOIN $indexable_table AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
+				AND I.version = %d
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
-			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
-			AND P.ID not in (
-				SELECT I.object_id from $indexable_table as I
-				WHERE I.object_type = 'post'
-				AND I.version = %d )
+				AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
+				AND I.object_id IS NULL
 			$limit_query",
 			$replacements
 		);
