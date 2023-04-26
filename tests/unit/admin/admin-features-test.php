@@ -10,6 +10,8 @@ use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Short_Link_Helper_Double;
 
@@ -49,23 +51,6 @@ class Admin_Features_Test extends TestCase {
 			$this->product_helper
 		);
 
-		$this->product_helper->expects( 'is_premium' )->andReturn( true );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'first_activated_on' )
-			->once()
-			->andReturn( 123321 );
-
-		Monkey\Functions\expect( 'get_user_locale' )
-			->once()
-			->andReturn( 'it_IT' );
-
-		Monkey\Functions\expect( 'add_query_arg' )
-			->times( 3 )
-			->with( $shortlinker->collect_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
-			->andReturn( 'https://example.org' );
-
 		Monkey\Functions\expect( 'admin_url' )
 			->once()
 			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
@@ -76,9 +61,8 @@ class Admin_Features_Test extends TestCase {
 			->with( 'https://example.org', 'dismiss-5star-upsell' )
 			->andReturn( 'https://example.org?_wpnonce=test-nonce' );
 
-		// Mock the current user for notifications.
-		Monkey\Functions\expect( 'wp_get_current_user' )
-			->times( 1 )
+			Monkey\Functions\expect( 'wp_get_current_user' )
+			->once()
 			->andReturn( Mockery::mock( WP_User::class ) );
 
 		return new WPSEO_Admin();
@@ -94,7 +78,10 @@ class Admin_Features_Test extends TestCase {
 		$current_page_helper->expects( 'is_yoast_seo_page' )->once()->andReturn( true );
 
 		$product_helper = Mockery::mock( Product_Helper::class );
-		$product_helper->expects( 'is_premium' )->times( 5 )->andReturn( false );
+		$product_helper->expects( 'is_premium' )->once()->andReturn( false );
+
+		$short_link = Mockery::mock( Short_Link_Helper::class );
+		$short_link->expects( 'get' )->times( 3 )->andReturn( 'https://www.example.com?some=var' );
 
 		$url_helper = Mockery::mock( Url_Helper::class );
 		$url_helper->expects( 'is_plugin_network_active' )->twice()->andReturn( false );
@@ -103,12 +90,13 @@ class Admin_Features_Test extends TestCase {
 			[
 				Current_Page_Helper::class => $current_page_helper,
 				Product_Helper::class      => $product_helper,
+				Short_Link_Helper::class   => $short_link,
 				Url_Helper::class          => $url_helper,
 			]
 		);
 
 		Monkey\Functions\expect( 'YoastSEO' )
-			->times( 8 )
+			->times( 7 )
 			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
 		
 		Monkey\Functions\expect( 'get_user_locale' )
