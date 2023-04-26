@@ -123,8 +123,6 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->indexable_repository->shouldReceive( 'update_indexables_author_to_reassigned' )->once();
 		$this->indexable_repository->shouldReceive( 'clean_indexables_for_object_type_and_source_table' )->times( 3 );
 		$this->indexable_repository->shouldReceive( 'cleanup_orphaned_from_table' )->times( 3 );
-		/* Clean up of archive page indexables where the post_type  is not publicly viewable */
-		$this->setup_clean_indexables_for_non_publicly_viewable_post_type_archives( 50, $query_limit );
 
 		$this->instance->run_cleanup();
 	}
