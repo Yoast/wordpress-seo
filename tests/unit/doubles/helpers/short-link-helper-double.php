@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Doubles\Helpers;
 
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 /**
- * Class Shortlinker_Double.
+ * Class Short_Link_Helper_Double.
  */
 class Short_Link_Helper_Double extends Short_Link_Helper {
 

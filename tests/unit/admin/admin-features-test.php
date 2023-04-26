@@ -25,8 +25,18 @@ use Yoast_Dashboard_Widget;
  */
 class Admin_Features_Test extends TestCase {
 
+	/**
+	 * The options helper.
+	 *
+	 * @var Mockery\MockInterface
+	 */
 	private $options_helper;
 
+	/**
+	 * The product helper.
+	 *
+	 * @var Mockery\MockInterface
+	 */
 	private $product_helper;
 
 	/**
@@ -35,9 +45,8 @@ class Admin_Features_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->options_helper    = Mockery::mock( Options_Helper::class );
-		$this->product_helper  = Mockery::mock( Product_Helper::class );
-
+		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->product_helper = Mockery::mock( Product_Helper::class );
 	}
 
 	/**
@@ -62,8 +71,8 @@ class Admin_Features_Test extends TestCase {
 			->andReturn( 'https://example.org?_wpnonce=test-nonce' );
 
 			Monkey\Functions\expect( 'wp_get_current_user' )
-			->once()
-			->andReturn( Mockery::mock( WP_User::class ) );
+				->once()
+				->andReturn( Mockery::mock( WP_User::class ) );
 
 		return new WPSEO_Admin();
 	}
@@ -98,7 +107,7 @@ class Admin_Features_Test extends TestCase {
 		Monkey\Functions\expect( 'YoastSEO' )
 			->times( 7 )
 			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
-		
+
 		Monkey\Functions\expect( 'get_user_locale' )
 			->andReturn( 'en_US' );
 	}
