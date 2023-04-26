@@ -22,5 +22,5 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	label: "Label Factory",
+	label: "Label factory",
 };

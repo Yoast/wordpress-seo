@@ -93,9 +93,9 @@ The `useRootContext` hook returns the root context.
 import { useRootContext } from from "@yoast/ui-library";
 
 const Component = () => {
-    const rootContext = useRootContext();
+    const { isRtl } = useRootContext();
 
-    return <div />
+    return <div className={ isRtl ? "yst-ml-4" : "yst-mr-4" } />
 
 };
 ~~~  

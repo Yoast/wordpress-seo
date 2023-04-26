@@ -80,7 +80,7 @@ export default class TextTitleAssessment extends Assessment {
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sTitle%2$s: Your page has a title. Well done!",
-						"wordpress-seo"
+						"wordpress-seo-premium"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -99,7 +99,7 @@ export default class TextTitleAssessment extends Assessment {
 				__(
 					// eslint-disable-next-line max-len
 					"%1$sTitle%3$s: Your page does not have a title yet. %2$sAdd one%3$s!",
-					"wordpress-seo"
+					"wordpress-seo-premium"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,

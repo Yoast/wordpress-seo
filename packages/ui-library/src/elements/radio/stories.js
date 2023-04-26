@@ -1,15 +1,10 @@
 import { StoryComponent } from ".";
+import { component, dangerousLabel, variants } from "./docs";
 
 export default {
 	title: "1) Elements/Radio",
 	component: StoryComponent,
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple radio component.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = ( args ) => (
@@ -34,16 +29,12 @@ export const Variants = ( args ) => (
 		<StoryComponent id="radio-2" name="option-2" value="2" screenReaderLabel="Option #2" label="2" variant="inline-block" />
 	</div>
 );
-Variants.parameters = {
-	docs: { description: { story: "In the `inline-block` variant example, the `screenReaderLabel` prop is used to provide screen readers with a useful label." } },
-};
-
+Variants.parameters = { docs: { description: { story: variants } } };
 
 export const DangerousLabel = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-4">
 		<StoryComponent id="radio-dangerous" name="option-dangerous" value="D" label={ "&bull; Dangerous label." } isLabelDangerousHtml={ true } />
 	</div>
 );
-DangerousLabel.parameters = {
-	docs: { description: { story: "This Radio element has `isLabelDangerousHtml` prop set to true, the bullet is encoded (&bull;)." } },
-};
+DangerousLabel.storyName = "Dangerous label";
+DangerousLabel.parameters = { docs: { description: { story: dangerousLabel } } };

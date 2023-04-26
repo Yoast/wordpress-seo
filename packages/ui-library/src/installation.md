@@ -1,4 +1,4 @@
-# Installation of the Yoast UI Library
+# Installation of the Yoast UI library
 To install the Yoast UI library, start with installing the package and its peer dependencies from NPM.
 
 ```shell
