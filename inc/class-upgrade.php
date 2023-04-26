@@ -88,6 +88,7 @@ class WPSEO_Upgrade {
 			'20.2-RC0'   => 'upgrade_202',
 			'20.5-RC0'   => 'upgrade_205',
 			'20.7-RC0'   => 'upgrade_207',
+			'20.8-RC0'   => 'upgrade_208',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -1005,6 +1006,16 @@ class WPSEO_Upgrade {
 		}
 
 		add_action( 'shutdown', [ $this, 'delete_user_introduction_meta' ] );
+	}
+
+	/**
+	 * Performs the 20.8 upgrade routine.
+	 * Schedules another cleanup scheduled action.
+	 */
+	private function upgrade_208() {
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
 	}
 
 	/**

@@ -591,7 +591,17 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	private function setup_clean_indexables_for_non_publicly_viewable_post_type_archives( $return_value, $limit ) {
-		$this->post_type->expects( 'get_indexable_post_archives' )->once()->andReturns( [ 'my_cpt', 'post', 'attachment' ] );
+		$my_cpt                  = new \stdClass();
+		$my_cpt->name            = 'my_cpt';
+		$my_cpt->has_archive     = true;
+		$post                    = new \stdClass();
+		$post->name              = 'post';
+		$post->has_archive       = true;
+		$attachment              = new \stdClass();
+		$attachment->name        = 'attachment';
+		$attachment->has_archive = true;
+
+		$this->post_type->expects( 'get_indexable_post_archives' )->once()->andReturns( [ $my_cpt, $post, $attachment ] );
 		$this->wpdb->shouldReceive( 'prepare' )
 			->once()
 			->with(

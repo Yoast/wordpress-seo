@@ -179,7 +179,7 @@ class Post_Helper {
 		// Don't index posts which are not public (i.e. viewable).
 		$post_type = \get_post_type( $post_id );
 
-		if ( ! $this->post_type->is_post_type_indexable( $post_type ) ) {
+		if ( ! $this->post_type->is_of_indexable_post_type( $post_type ) ) {
 			return false;
 		}
 

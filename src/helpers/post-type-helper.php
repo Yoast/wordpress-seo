@@ -203,7 +203,7 @@ class Post_Type_Helper {
 	 *
 	 * @return bool
 	 */
-	public function is_post_type_indexable( string $post_type ) {
+	public function is_of_indexable_post_type( $post_type ) {
 		$public_types = $this->get_indexable_post_types();
 		if ( ! \in_array( $post_type, $public_types, true ) ) {
 			return false;
@@ -219,7 +219,7 @@ class Post_Type_Helper {
 	 *
 	 * @return bool if the archive is indexable.
 	 */
-	public function is_post_type_archive_indexable( string $post_type ) {
+	public function is_post_type_archive_indexable( $post_type ) {
 		$public_type_objects = $this->get_indexable_post_archives();
 		$public_types        = \array_map(
 			static function ( $post_type_object ) {
@@ -228,7 +228,7 @@ class Post_Type_Helper {
 			$public_type_objects
 		);
 
-		return in_array( $post_type, $public_types, true );
+		return \in_array( $post_type, $public_types, true );
 	}
 
 	/**

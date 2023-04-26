@@ -456,6 +456,11 @@ class Cleanup_Integration implements Integration_Interface {
 
 		$included_post_types = $this->post_type->get_indexable_post_archives();
 
+		$post_archives = [];
+
+		foreach ( $included_post_types as $post_type ) {
+			$post_archives[] = $post_type->name;
+		}
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 		if ( empty( $included_post_types ) ) {
 			$delete_query = $wpdb->prepare(
@@ -472,9 +477,9 @@ class Cleanup_Integration implements Integration_Interface {
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'post-type-archive'
 				AND object_sub_type IS NOT NULL
-				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $included_post_types ), '%s' ) ) . ' )
+				AND object_sub_type NOT IN ( " . \implode( ', ', \array_fill( 0, \count( $post_archives ), '%s' ) ) . ' )
 				LIMIT %d',
-				\array_merge( $included_post_types, [ $limit ] )
+				\array_merge( $post_archives, [ $limit ] )
 			);
 		}
 		// phpcs:enable
