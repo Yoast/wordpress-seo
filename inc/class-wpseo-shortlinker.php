@@ -4,25 +4,19 @@
  *
  * @package WPSEO
  */
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 
 /**
  * Helps with creating shortlinks in the plugin.
- *
- * @deprecated 20.8
- * @codeCoverageIgnore
  */
 class WPSEO_Shortlinker {
 
 	/**
 	 * Collects the additional data necessary for the shortlink.
 	 *
-	 * @deprecated 20.8
-	 * @codeCoverageIgnore
-	 *
 	 * @return array The shortlink data.
 	 */
 	protected function collect_additional_shortlink_data() {
-		_deprecated_function( __METHOD__, 'WPSEO 20.8', '\Yoast\WP\SEO\Helpers\Short_Link_Helper::collect_additional_shortlink_data' );
 		$data = [
 			'php_version'      => $this->get_php_version(),
 			'platform'         => 'wordpress',
@@ -50,14 +44,9 @@ class WPSEO_Shortlinker {
 	 *
 	 * @param string $url The URL to build upon.
 	 *
-	 * @deprecated 20.8
-	 * @codeCoverageIgnore
-	 *
 	 * @return string The final URL.
 	 */
 	public function build_shortlink( $url ) {
-		_deprecated_function( __METHOD__, 'WPSEO 20.8', '\Yoast\WP\SEO\Helpers\Short_Link_Helper::build' );
-
 		return add_query_arg( $this->collect_additional_shortlink_data(), $url );
 	}
 
@@ -66,14 +55,9 @@ class WPSEO_Shortlinker {
 	 *
 	 * @param string $url The URL to build upon.
 	 *
-	 * @deprecated 20.8
-	 * @codeCoverageIgnore
-	 *
 	 * @return string The final URL.
 	 */
 	public static function get( $url ) {
-		_deprecated_function( __METHOD__, 'WPSEO 20.8', '\Yoast\WP\SEO\Helpers\Short_Link_Helper::get' );
-
 		$shortlinker = new self();
 
 		return $shortlinker->build_shortlink( $url );
@@ -83,27 +67,17 @@ class WPSEO_Shortlinker {
 	 * Echoes a version of the URL with a utm_content with the current version.
 	 *
 	 * @param string $url The URL to build upon.
-	 *
-	 * @deprecated 20.8
-	 * @codeCoverageIgnore
 	 */
 	public static function show( $url ) {
-		_deprecated_function( __METHOD__, 'WPSEO 20.8', '\Yoast\WP\SEO\Helpers\Short_Link_Helper::show' );
-
 		echo esc_url( self::get( $url ) );
 	}
 
 	/**
 	 * Gets the shortlink's query params.
 	 *
-	 * @deprecated 20.8
-	 * @codeCoverageIgnore
-	 *
 	 * @return array The shortlink's query params.
 	 */
 	public static function get_query_params() {
-		_deprecated_function( __METHOD__, 'WPSEO 20.8', '\Yoast\WP\SEO\Helpers\Short_Link_Helper::get_query_params' );
-
 		$shortlinker = new self();
 
 		return $shortlinker->collect_additional_shortlink_data();
