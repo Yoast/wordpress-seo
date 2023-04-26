@@ -702,7 +702,7 @@ export default class AnalysisWebWorker {
 		if ( has( configuration, "translations" ) ) {
 			Object.values( configuration.translations ).forEach( translation => {
 				// Don't proceed if translation object is null or otherwise falsy.
-				if( translation ) {
+				if ( translation ) {
 					const { domain, locale_data: localeData } = translation;
 					setLocaleData( localeData[ domain ], domain );
 				}
