@@ -78,7 +78,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertSame( [ Migrations_Conditional::class ], $this->instance->get_conditionals() );
+		$this->assertSame( [ Migrations_Conditional::class ], Indexable_Attachment_Watcher::get_conditionals() );
 	}
 
 	/**
