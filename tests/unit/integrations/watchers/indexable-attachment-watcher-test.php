@@ -23,7 +23,6 @@ use Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher;
  * @group watchers
  *
  * @coversDefaultClass Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher
- * @covers Yoast\WP\SEO\Integrations\Watchers\Indexable_Attachment_Watcher
  */
 class Indexable_Attachment_Watcher_Test extends TestCase {
 
