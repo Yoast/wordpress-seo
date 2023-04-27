@@ -258,7 +258,7 @@ class Indexable_Cleanup_Repository {
 			$post_archives[] = $post_type->name;
 		}
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
-		if ( empty( $included_post_types ) ) {
+		if ( empty( $post_archives ) ) {
 			$delete_query = $wpdb->prepare(
 				"DELETE FROM $indexable_table
 				WHERE object_type = 'post-type-archive'
