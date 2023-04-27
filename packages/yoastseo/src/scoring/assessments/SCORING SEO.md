@@ -53,13 +53,13 @@
 
 **Call to action URL**: [https://yoa.st/33w](https://yoast.com/what-is-keyphrase-density-and-why-is-it-important/#utm_source=yoast-seo&utm_medium=software&utm_term=keyworddensity-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
-| Bullet   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| -50	| kd > 4		| **Keyphrase density**: The focus keyphrase was found X times. That's way more than the recommended maximum of X times for a text of this length. **Don't overoptimize!** |
-| Red	| -10	| 3 < kd ≤ 4 (3.5 < kd ≤ 4 for multiple word forms)		| **Keyphrase density**: The focus keyphrase was found X times. That's more than the recommended maximum of X times for a text of this length. **Don't overoptimize!** |
-| Red	| 4	| 0 kd		| **Keyphrase density**: The focus keyphrase was found 0 times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
-| Red	| 4	| 0 < kd ≤ 0.5		| **Keyphrase density**: The focus keyphrase was found X times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
-| green	| 9	| 0.5 < kd ≤ 3 (0.5 < kd ≤ 3.5 for multiple word forms)		| **Keyphrase density**: The focus keyphrase was found X times. This is great! |
+| Bullet   	      | Score	     | Criterion | Feedback                                                                                                                                                      |
+|------------	|------------------	|---------------------	|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Red	| -50	| kd > 4		| **Keyphrase density**: The keyphrase was found X times. That's way more than the recommended maximum of X times for a text of this length. **Don't overoptimize!** |
+| Red	| -10	| 3 < kd ≤ 4 (3.5 < kd ≤ 4 for multiple word forms)		| **Keyphrase density**: The keyphrase was found X times. That's more than the recommended maximum of X times for a text of this length. **Don't overoptimize!** |
+| Red	| 4	| 0 kd		| **Keyphrase density**: The keyphrase was found 0 times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
+| Red	| 4	| 0 < kd ≤ 0.5		| **Keyphrase density**: The keyphrase was found X times. That's less than the recommended minimum of X times for a text of this length. **Focus on your keyphrase!** |
+| green	| 9	| 0.5 < kd ≤ 3 (0.5 < kd ≤ 3.5 for multiple word forms)		| **Keyphrase density**: The keyphrase was found X times. This is great!                                                                                        |
 
 #### More on our minimal keyphrase usage requirements
 A simple model shows that as the text length (in words) goes up, the keyphrase density assessment requires a larger number of keyphrase usages. This happens in steps, which are determined by keyphrase length (shorter step for shorter keyphrases) and which do not depend on text length. The step size for the shortest keyphrase (1 word) is 214 words.
@@ -149,7 +149,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |------------	|------------------	|---------------------	|---------------	|
 | Orange (cornerstone: red)		| 6 (cornerstone: 3)		| No images with keyphrase/synonym in alt-tags		| **Image Keyphrase**: Images on this page do not have alt attributes with at least half of the words from your keyphrase. **Fix that!** |
 | Orange	| 6	| There are at least 5 images and less than 30% have an alt-tag with keyphrase/synonym		| **Image Keyphrase**: Out of X images on this page, only X have an alt attribute that reflects the topic of your text. **Add your keyphrase or synonyms to the alt tags of more relevant images!** |
-| Orange	| 6	| There are at least 5 images and more than 75% have an alt-tag with keyphrase/synonym		| **Image Keyphrase**: Out of X images on this page, X have alt attributes with words from your keyphrase or synonyms. That's a bit much. **Only include the focus keyphrase when it really fits the image**. |
+| Orange	| 6	| There are at least 5 images and more than 75% have an alt-tag with keyphrase/synonym		| **Image Keyphrase**: Out of X images on this page, X have alt attributes with words from your keyphrase or synonyms. That's a bit much. **Only include the keyphrase when it really fits the image**. |
 | Green	| 9	| There are less than 5 images and at least one has an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
 | Green	| 9	| There are at least 5 images and between 30 and 75% have an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
 

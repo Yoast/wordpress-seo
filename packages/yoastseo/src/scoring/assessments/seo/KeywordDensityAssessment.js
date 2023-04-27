@@ -191,7 +191,7 @@ class KeywordDensityAssessment extends Assessment {
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
 					__(
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -213,9 +213,9 @@ class KeywordDensityAssessment extends Assessment {
 					%5$d expands to the number of times the keyphrase occurred in the text. */
 					_n(
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						this._keywordCount.count,
 						"wordpress-seo"
 					),
@@ -237,8 +237,8 @@ class KeywordDensityAssessment extends Assessment {
 					%2$s expands to the anchor end tag,
 					%3$d expands to the number of times the keyphrase occurred in the text. */
 					_n(
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d time. This is great!",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d times. This is great!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d time. This is great!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %3$d times. This is great!",
 						this._keywordCount.count,
 						"wordpress-seo"
 					),
@@ -260,9 +260,9 @@ class KeywordDensityAssessment extends Assessment {
 					%5$d expands to the number of times the keyphrase occurred in the text. */
 					_n(
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 						// eslint-disable-next-line max-len
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+						"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 						this._keywordCount.count,
 						"wordpress-seo"
 					),
@@ -286,9 +286,9 @@ class KeywordDensityAssessment extends Assessment {
 				%5$d expands to the number of times the keyphrase occurred in the text. */
 				_n(
 					// eslint-disable-next-line max-len
-					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 					// eslint-disable-next-line max-len
-					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+					"%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 					this._keywordCount.count,
 					"wordpress-seo"
 				),
