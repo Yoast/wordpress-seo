@@ -291,7 +291,7 @@ const TableExplanation = ( { isLoggedIn } ) => {
 							)
 						}
 					</WincherAccountLink>,
-					wincherLink: <WincherLink href="https://yoa.st/dashboard-about-wincher">
+					wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.about" ] }>
 						{
 							sprintf(
 								/* translators: %s : Expands to "Wincher". */
@@ -380,7 +380,7 @@ WincherSEOPerformanceTable.propTypes = {
 };
 
 /**
- * The Dashboard Wincer SEO Performance component.
+ * The Dashboard Wincher SEO Performance component.
  *
  * @param {Object} props The component props.
  *
