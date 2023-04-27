@@ -27,7 +27,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
- * @covers \Yoast\WP\SEO\Builders\Indexable_Builder
  */
 class Build_For_System_Page_Test extends TestCase {
 

@@ -28,7 +28,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
- * @covers \Yoast\WP\SEO\Builders\Indexable_Builder
  */
 class Is_Type_With_No_Id_Test extends TestCase {
 

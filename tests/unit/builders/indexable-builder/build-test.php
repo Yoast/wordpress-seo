@@ -31,7 +31,6 @@ use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
- * @covers \Yoast\WP\SEO\Builders\Indexable_Builder
  */
 class Build_Test extends TestCase {
 

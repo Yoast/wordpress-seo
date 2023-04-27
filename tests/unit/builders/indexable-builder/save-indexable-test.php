@@ -30,7 +30,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
- * @covers \Yoast\WP\SEO\Builders\Indexable_Builder
  */
 class Save_Indexable_Test extends TestCase {
 
