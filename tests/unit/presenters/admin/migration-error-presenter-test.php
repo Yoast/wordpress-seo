@@ -33,6 +33,24 @@ class Migration_Error_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )
 			->andReturn( 'https://yoa.st/3-6' );
 
+		$this->expect_shortlinker();
+
+		$expected  = '<div class="notice notice-error">';
+		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';
+		$expected .= '<p>Please read <a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';
+		$expected .= '<p>Your site will continue to work normally, but won\'t take full advantage of Yoast SEO.</p>';
+		$expected .= '<details><summary>Show debug information</summary><p>test error</p></details>';
+		$expected .= '</div>';
+
+		$instance = new Migration_Error_Presenter( $migration_error );
+
+		$this->assertSame( $expected, $instance->present() );
+	}
+
+	/**
+	 * Holds expectations for the shortlinker.
+	 */
+	private function expect_shortlinker() {
 		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
 
 		// We're expecting it to be called twice because also the 'real' implementation in $instance will see the mocked surface.
@@ -49,16 +67,5 @@ class Migration_Error_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'YoastSEO' )
 			->twice()
 			->andReturn( (object) [ 'helpers' => $this->create_helper_surface( $container ) ] );
-
-		$expected  = '<div class="notice notice-error">';
-		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';
-		$expected .= '<p>Please read <a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';
-		$expected .= '<p>Your site will continue to work normally, but won\'t take full advantage of Yoast SEO.</p>';
-		$expected .= '<details><summary>Show debug information</summary><p>test error</p></details>';
-		$expected .= '</div>';
-
-		$instance = new Migration_Error_Presenter( $migration_error );
-
-		$this->assertSame( $expected, $instance->present() );
 	}
 }
