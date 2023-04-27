@@ -267,9 +267,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	/**
 	 * Tests the clean_indexables_for_non_publicly_viewable_taxonomies cleanup task.
 	 *
-	 * @param int $return_value The number of deleted items to return.
-	 * @param int $limit        The query limit.
-	 *
+	 * @covers ::clean_indexables_for_non_publicly_viewable_post_type_archive_pages
 	 * @return void
 	 */
 	private function test_clean_indexables_for_non_publicly_viewable_post_type_archives() {
@@ -294,12 +292,12 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 				LIMIT %d',
 					[ 'my_cpt', 'post', 'attachment', $this->limit ]
 				)
-				   ->andReturn( 'prepared_clean_query' );
+				->andReturn( 'prepared_clean_query' );
 
 		$this->wpdb->expects( 'query' )
 				->once()
-				   ->with( 'prepared_clean_query' )
-				   ->andReturn( 50 );
+				->with( 'prepared_clean_query' )
+				->andReturn( 50 );
 
 		$this->instance->clean_indexables_for_non_publicly_viewable_post_type_archive_pages( $this->limit );
 	}
