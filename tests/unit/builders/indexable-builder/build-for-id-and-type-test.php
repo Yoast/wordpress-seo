@@ -43,10 +43,10 @@ class Build_For_Id_And_Type_Test extends Indexable_Builder_Setup {
 	}
 
 		/**
-	 * Expectation for build method.
-	 *
-	 * @param array $defaults The defaults to expect.
-	 */
+		 * Expectation for build method.
+		 *
+		 * @param array $defaults The defaults to expect.
+		 */
 	public function expect_build( $defaults ) {
 		$this->expect_ensure_indexable( $defaults, $this->indexable );
 
