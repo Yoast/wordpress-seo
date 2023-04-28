@@ -98,7 +98,7 @@ class Indexable_Builder_Setup extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Indexable_Link_Builder
 	 */
-	private $link_builder;
+	protected $link_builder;
 
 	/**
 	 * Represents the indexable helper.
@@ -187,37 +187,6 @@ class Indexable_Builder_Setup extends TestCase {
 	}
 
 	/**
-	 * Expectation for build method.
-	 *
-	 * @param array $defaults The defaults to expect.
-	 */
-	public function expect_build( $defaults ) {
-		$this->expect_ensure_indexable( $defaults, $this->indexable );
-
-		$this->post_builder
-			->expects( 'build' )
-			->once()
-			->with( $this->indexable->object_id, $this->indexable )
-			->andReturn( $this->indexable );
-
-		$this->primary_term_builder
-			->expects( 'build' )
-			->once()
-			->with( $this->indexable->object_id );
-
-		$this->hierarchy_builder
-			->expects( 'build' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( $this->indexable );
-
-		$this->expect_maybe_build_author_indexable();
-
-		// Saving is outside the scope of this test.
-		$this->expect_save_indexable_skip();
-	}
-
-	/**
 	 * Expectation in save_indexable when indexable is not saved.
 	 * Used for skipping save_indexable method when outside test scope.
 	 */
@@ -267,5 +236,27 @@ class Indexable_Builder_Setup extends TestCase {
 			->once()
 			->with( $author_indexable )
 			->andReturnFalse();
+	}
+
+    /**
+	 * Expectations for deep_copy_indexable method.
+	 *
+	 * @param Indexable_Mock $indexable The indexable to expect.
+	 */
+	public function expect_deep_copy_indexable( $indexable ) {
+		$indexable->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $indexable );
 	}
 }
