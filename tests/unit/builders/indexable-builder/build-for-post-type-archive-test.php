@@ -31,6 +31,7 @@ class Build_For_Post_Type_Archive_Test extends Indexable_Builder_Setup {
 	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_post_type_archive
 	 * @covers ::ensure_indexable
+	 * @covers ::build
 	 */
 	public function test_build_for_post_type_archive() {
 		$defaults = [
