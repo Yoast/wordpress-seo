@@ -90,6 +90,8 @@ class Build_Test extends Indexable_Builder_Setup {
 	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_id_and_type
 	 * @covers ::ensure_indexable
+	 * @covers ::deep_copy_indexable
+	 * @covers ::build
 	 */
 	public function test_build_with_term_given() {
 		$this->indexable->object_type = 'term';
