@@ -41,4 +41,35 @@ class Build_For_Id_And_Type_Test extends Indexable_Builder_Setup {
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'post' ) );
 	}
+
+		/**
+	 * Expectation for build method.
+	 *
+	 * @param array $defaults The defaults to expect.
+	 */
+	public function expect_build( $defaults ) {
+		$this->expect_ensure_indexable( $defaults, $this->indexable );
+
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( $this->indexable->object_id, $this->indexable )
+			->andReturn( $this->indexable );
+
+		$this->primary_term_builder
+			->expects( 'build' )
+			->once()
+			->with( $this->indexable->object_id );
+
+		$this->hierarchy_builder
+			->expects( 'build' )
+			->once()
+			->with( $this->indexable )
+			->andReturn( $this->indexable );
+
+		$this->expect_maybe_build_author_indexable();
+
+		// Saving is outside the scope of this test.
+		$this->expect_save_indexable_skip();
+	}
 }
