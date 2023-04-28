@@ -12,6 +12,9 @@ use Yoast\WP\SEO\Main;
 
 /**
  * Settings_Introduction_Route class.
+ *
+ * @deprecated 20.7
+ * @codeCoverageIgnore
  */
 class Settings_Introduction_Route implements Route_Interface {
 
@@ -47,33 +50,53 @@ class Settings_Introduction_Route implements Route_Interface {
 	 * Constructs Settings_Introduction_Route.
 	 *
 	 * @param Settings_Introduction_Action $settings_introduction_action The $settings_introduction_action.
+	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
 	 */
 	public function __construct( Settings_Introduction_Action $settings_introduction_action ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		$this->settings_introduction_action = $settings_introduction_action;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		return [ Settings_Conditional::class ];
 	}
 
 	/**
 	 * Permission callback.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True when user has 'wpseo_manage_options' permission.
 	 */
 	public static function permission_manage_options() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		return \current_user_can( 'wpseo_manage_options' );
 	}
 
 	/**
 	 * Registers routes with WordPress.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_routes() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		\register_rest_route(
 			Main::API_V1_NAMESPACE,
 			self::WISTIA_EMBED_PERMISSION,
@@ -124,9 +147,14 @@ class Settings_Introduction_Route implements Route_Interface {
 	/**
 	 * Gets the value of the wistia embed permission.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response|WP_Error The response, or an error.
 	 */
 	public function get_wistia_embed_permission() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		try {
 			$value = $this->settings_introduction_action->get_wistia_embed_permission();
 		} catch ( Exception $exception ) {
@@ -151,9 +179,14 @@ class Settings_Introduction_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function set_wistia_embed_permission( WP_REST_Request $request ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		$params = $request->get_json_params();
 		$value  = \boolval( $params['value'] );
 
@@ -180,9 +213,14 @@ class Settings_Introduction_Route implements Route_Interface {
 	/**
 	 * Gets the value of show.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response|WP_Error The response, or an error.
 	 */
 	public function get_show() {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		try {
 			$value = $this->settings_introduction_action->get_show();
 		} catch ( Exception $exception ) {
@@ -207,9 +245,14 @@ class Settings_Introduction_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
+	 * @deprecated 20.7
+	 * @codeCoverageIgnore
+	 *
 	 * @return WP_REST_Response|WP_Error The success or failure response.
 	 */
 	public function set_show( WP_REST_Request $request ) {
+		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
+
 		$params = $request->get_json_params();
 		$value  = \boolval( $params['value'] );
 
