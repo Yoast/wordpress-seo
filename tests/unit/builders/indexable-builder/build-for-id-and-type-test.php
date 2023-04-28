@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Indexable_Builder_Setup;
 /**
  * Build_For_Id_And_Type_Test.
