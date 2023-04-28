@@ -22,7 +22,7 @@ import * as values from "./values";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
 import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
 import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords";
-import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags";
+import { stripFullTags as stripHTMLTags, stripBlockTagsAtStartEnd } from "./helpers/sanitize/stripHTMLTags";
 import sanitizeString from "./helpers/sanitize/sanitizeString";
 import { unifyAllSpaces } from "./helpers/sanitize/unifyWhitespace";
 import removePunctuation from "./helpers/sanitize/removePunctuation";
@@ -65,6 +65,7 @@ export {
 	getClauses,
 	getClausesSplitOnStopWords,
 	stripHTMLTags,
+	stripBlockTagsAtStartEnd,
 	countMetaDescriptionLength,
 	sanitizeString,
 	removePunctuation,

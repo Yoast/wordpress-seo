@@ -161,8 +161,6 @@ class Integrations_Page implements Integration_Interface {
 			[
 				'semrush_integration_active'         => $this->options_helper->get( 'semrush_integration_active', true ),
 				'allow_semrush_integration'          => $this->options_helper->get( 'allow_semrush_integration_active', true ),
-				'zapier_integration_active'          => $this->options_helper->get( 'zapier_integration_active', false ),
-				'allow_zapier_integration'           => $this->options_helper->get( 'allow_zapier_integration_active', true ),
 				'algolia_integration_active'         => $this->options_helper->get( 'algolia_integration_active', false ),
 				'allow_algolia_integration'          => $this->options_helper->get( 'allow_algolia_integration_active', true ),
 				'wincher_integration_active'         => $this->options_helper->get( 'wincher_integration_active', true ),
@@ -193,7 +191,7 @@ class Integrations_Page implements Integration_Interface {
 				'jetpack-boost_logo_link'            => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-logo-jetpack-boost' ),
 				'jetpack-boost_get_link'             => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-get-jetpack-boost?domain=' . $host ),
 				'jetpack-boost_upgrade_link'         => WPSEO_Shortlinker::get( 'https://yoa.st/integrations-upgrade-jetpack-boost?domain=' . $host ),
-				'jetpack-boost_learn_more_link'      => \admin_url( "admin.php?page=jetpack-boost" )
+				'jetpack-boost_learn_more_link'      => \admin_url( 'admin.php?page=jetpack-boost' ),
 			]
 		);
 	}

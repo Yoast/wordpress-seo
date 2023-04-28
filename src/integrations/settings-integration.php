@@ -13,7 +13,6 @@ use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Sitemaps_Router;
-use Yoast\WP\SEO\Actions\Settings_Introduction_Action;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -165,27 +164,19 @@ class Settings_Integration implements Integration_Interface {
 	protected $user_helper;
 
 	/**
-	 * Holds the Settings_Introduction_Action.
-	 *
-	 * @var Settings_Introduction_Action
-	 */
-	protected $settings_introduction_action;
-
-	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager    $asset_manager                The WPSEO_Admin_Asset_Manager.
-	 * @param WPSEO_Replace_Vars           $replace_vars                 The WPSEO_Replace_Vars.
-	 * @param Schema_Types                 $schema_types                 The Schema_Types.
-	 * @param Current_Page_Helper          $current_page_helper          The Current_Page_Helper.
-	 * @param Post_Type_Helper             $post_type_helper             The Post_Type_Helper.
-	 * @param Language_Helper              $language_helper              The Language_Helper.
-	 * @param Taxonomy_Helper              $taxonomy_helper              The Taxonomy_Helper.
-	 * @param Product_Helper               $product_helper               The Product_Helper.
-	 * @param Woocommerce_Helper           $woocommerce_helper           The Woocommerce_Helper.
-	 * @param Article_Helper               $article_helper               The Article_Helper.
-	 * @param User_Helper                  $user_helper                  The User_Helper.
-	 * @param Settings_Introduction_Action $settings_introduction_action The Settings_Introduction_Action.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager                The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars        $replace_vars                 The WPSEO_Replace_Vars.
+	 * @param Schema_Types              $schema_types                 The Schema_Types.
+	 * @param Current_Page_Helper       $current_page_helper          The Current_Page_Helper.
+	 * @param Post_Type_Helper          $post_type_helper             The Post_Type_Helper.
+	 * @param Language_Helper           $language_helper              The Language_Helper.
+	 * @param Taxonomy_Helper           $taxonomy_helper              The Taxonomy_Helper.
+	 * @param Product_Helper            $product_helper               The Product_Helper.
+	 * @param Woocommerce_Helper        $woocommerce_helper           The Woocommerce_Helper.
+	 * @param Article_Helper            $article_helper               The Article_Helper.
+	 * @param User_Helper               $user_helper                  The User_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -198,21 +189,19 @@ class Settings_Integration implements Integration_Interface {
 		Product_Helper $product_helper,
 		Woocommerce_Helper $woocommerce_helper,
 		Article_Helper $article_helper,
-		User_Helper $user_helper,
-		Settings_Introduction_Action $settings_introduction_action
+		User_Helper $user_helper
 	) {
-		$this->asset_manager                = $asset_manager;
-		$this->replace_vars                 = $replace_vars;
-		$this->schema_types                 = $schema_types;
-		$this->current_page_helper          = $current_page_helper;
-		$this->taxonomy_helper              = $taxonomy_helper;
-		$this->post_type_helper             = $post_type_helper;
-		$this->language_helper              = $language_helper;
-		$this->product_helper               = $product_helper;
-		$this->woocommerce_helper           = $woocommerce_helper;
-		$this->article_helper               = $article_helper;
-		$this->user_helper                  = $user_helper;
-		$this->settings_introduction_action = $settings_introduction_action;
+		$this->asset_manager       = $asset_manager;
+		$this->replace_vars        = $replace_vars;
+		$this->schema_types        = $schema_types;
+		$this->current_page_helper = $current_page_helper;
+		$this->taxonomy_helper     = $taxonomy_helper;
+		$this->post_type_helper    = $post_type_helper;
+		$this->language_helper     = $language_helper;
+		$this->product_helper      = $product_helper;
+		$this->woocommerce_helper  = $woocommerce_helper;
+		$this->article_helper      = $article_helper;
+		$this->user_helper         = $user_helper;
 	}
 
 	/**
@@ -413,7 +402,6 @@ class Settings_Integration implements Integration_Interface {
 			'postTypes'            => $transformed_post_types,
 			'taxonomies'           => $transformed_taxonomies,
 			'fallbacks'            => $this->get_fallbacks(),
-			'introduction'         => $this->get_introduction_data(),
 		];
 	}
 
@@ -453,6 +441,7 @@ class Settings_Integration implements Integration_Interface {
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 			'createUserUrl'                 => \admin_url( 'user-new.php' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
+			'editTaxonomyUrl'               => \admin_url( 'edit-tags.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
@@ -465,25 +454,6 @@ class Settings_Integration implements Integration_Interface {
 			'upsellSettings'                => $this->get_upsell_settings(),
 			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
 		];
-	}
-
-	/**
-	 * Retrieves the preferences.
-	 *
-	 * @return array The preferences.
-	 */
-	protected function get_introduction_data() {
-		$data = [];
-
-		try {
-			$data['wistiaEmbedPermission'] = $this->settings_introduction_action->get_wistia_embed_permission();
-			$data['show']                  = $this->settings_introduction_action->get_show();
-		} catch ( Exception $exception ) {
-			$data['wistiaEmbedPermission'] = false;
-			$data['show']                  = true;
-		}
-
-		return $data;
 	}
 
 	/**
