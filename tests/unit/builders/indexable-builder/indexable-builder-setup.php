@@ -238,7 +238,7 @@ class Indexable_Builder_Setup extends TestCase {
 			->andReturnFalse();
 	}
 
-    /**
+	/**
 	 * Expectations for deep_copy_indexable method.
 	 *
 	 * @param Indexable_Mock $indexable The indexable to expect.
