@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 
-use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Indexable_Builder_Setup;
+use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Abstract_Indexable_Builder_TestCase;
 
 /**
  * Build_For_Post_Type_Archive_Test.
@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Indexable_Builder_Setup;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  */
-class Build_For_Post_Type_Archive_Test extends Indexable_Builder_Setup {
+class Build_For_Post_Type_Archive_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
 	 * Sets up the test.
