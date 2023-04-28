@@ -14,13 +14,6 @@ use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Abstract_Indexable_Builde
 class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
 
 	/**
-	 * Sets up the test.
-	 */
-	protected function set_up() {
-		parent::set_up();
-	}
-
-	/**
 	 * Tests building an indexable for the post type archive.
 	 *
 	 * @covers ::__construct
