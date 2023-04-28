@@ -46,7 +46,7 @@ describe( "Test for counting the keyword density in a text", function() {
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
 		mockPaper = new Paper( "a string of text with the key_word in it, density should be 0.0%", { keyword: "key word" } );
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
-		mockPaper = new Paper( "a string of text with the key-word in it, density should be 7.7%", { keyword: "key word" } );
+		mockPaper = new Paper( "a string of text with the key>word in it, density should be 7.7%", { keyword: "key word" } );
 		// This behavior might change in the future.
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
 		mockPaper = new Paper( "a string of text with the key&word in it, density should be 7.7%", { keyword: "key&word" } );

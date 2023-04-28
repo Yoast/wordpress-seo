@@ -166,9 +166,13 @@ describe( "Counts the occurences of a word in a string", function() {
 		expect( wordMatch( "(keyword)", "keyword", "es_ES" ).count ).toBe( 1 );
 		expect( wordMatch( "(keyword)", "keyword", "es_ES" ).matches ).toEqual( [ "keyword" ] );
 
-		expect( wordMatch( "-keyword", "keyword", "es_ES" ).count ).toBe( 1 );
-		expect( wordMatch( "keyword-", "keyword", "es_ES" ).count ).toBe( 1 );
-		expect( wordMatch( "-keyword-", "keyword", "es_ES" ).count ).toBe( 1 );
+		expect( wordMatch( "『keyword", "keyword", "es_ES" ).count ).toBe( 1 );
+		expect( wordMatch( "keyword』", "keyword", "es_ES" ).count ).toBe( 1 );
+		expect( wordMatch( "『keyword』", "keyword", "es_ES" ).count ).toBe( 1 );
+
+		// expect( wordMatch( "-keyword", "keyword", "es_ES" ).count ).toBe( 0 );
+		// expect( wordMatch( "keyword-", "keyword", "es_ES" ).count ).toBe( 0 );
+		// expect( wordMatch( "-keyword-", "keyword", "es_ES" ).count ).toBe( 0 );
 	} );
 
 	it( "should not match words preceded/followed by a - in Indonesian", function() {

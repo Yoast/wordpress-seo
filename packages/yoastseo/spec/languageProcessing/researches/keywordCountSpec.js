@@ -85,10 +85,9 @@ describe( "Test for counting the keyword in a text", function() {
 		);
 	} );
 
-	it( "counts 'key word' in 'key-word'.", function() {
+	it( "doesn't count 'key word' in 'key-word'.", function() {
 		const mockPaper = new Paper( "A string with a key-word." );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 1 );
-		// Note: this behavior might change in the future.
+		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 0 );
 	} );
 
 	it( "counts a string with a keyword with a '_' in it", function() {
@@ -147,12 +146,6 @@ describe( "Test for counting the keyword in a text", function() {
 		const mockPaper = new Paper( "A string with a $keyword." );
 		expect( keywordCount( mockPaper, mockResearcherDollarSign ).count ).toBe( 1 );
 		// Markings do not currently work in this condition.
-	} );
-
-	it( "counts 'key word' also in 'key-word'.)", function() {
-		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit." );
-		expect( keywordCount( mockPaper, mockResearcherKeyWord ).count ).toBe( 2 );
-		// Note: this behavior might change in in the future.
 	} );
 
 	it( "doesn't count 'key-word' in 'key word'.", function() {
