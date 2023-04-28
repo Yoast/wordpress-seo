@@ -191,7 +191,11 @@ const App = () => {
 									"Yoast SEO"
 								) }
 								{ " " }
-								<Link href="https://yoa.st/academy-page-upsell/" target="_blank">
+								<Link
+									href={ addQueryArgs( "https://yoa.st/academy-page-upsell/", linkParams ) }
+									target="_blank"
+									{ ...premiumUpsellConfig }
+								>
 									{ sprintf(
 										// translators: %s for Yoast SEO Premium.
 										__( "Maximize your SEO game by purchasing %s, which grants you unlimited access to all courses.", "wordpress-seo" ),
