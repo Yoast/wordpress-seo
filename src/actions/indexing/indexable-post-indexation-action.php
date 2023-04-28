@@ -199,8 +199,8 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 				AND I.object_type = 'post'
 				AND I.version = %d
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
-				AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
-				AND I.object_id IS NULL
+			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
+			AND I.object_id IS NULL
 			$limit_query",
 			$replacements
 		);
