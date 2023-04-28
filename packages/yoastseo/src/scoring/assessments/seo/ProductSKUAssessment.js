@@ -103,7 +103,7 @@ export default class ProductSKUAssessment extends Assessment {
 		let feedbackString = "";
 		if ( this._config.addSKULocation === true ) {
 			// Translators: please keep the space at the start of the sentence in your translation unless your language does not use spaces.
-			feedbackString = __( " You can add a SKU via the \"Inventory\" tab in the Product data box.", "wordpress-seo" );
+			feedbackString = __( " You can add a SKU via the \"Inventory\" tab in the Product data box.", "yoast-woo-seo" );
 		}
 
 		// Apply the following scoring conditions to products without variants.
@@ -118,7 +118,7 @@ export default class ProductSKUAssessment extends Assessment {
 						__(
 							"%1$sSKU%3$s: Your product is missing a SKU.%4$s" +
 							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-							"wordpress-seo"
+							"yoast-woo-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
@@ -133,7 +133,7 @@ export default class ProductSKUAssessment extends Assessment {
 					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
 						"%1$sSKU%2$s: Your product has a SKU. Good job!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -151,7 +151,7 @@ export default class ProductSKUAssessment extends Assessment {
 							"%1$sSKU%3$s: Not all your product variants have a SKU. " +
 							"You can add a SKU via the \"Variations\" tab in the Product data box." +
 							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-							"wordpress-seo"
+							"yoast-woo-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
@@ -165,7 +165,7 @@ export default class ProductSKUAssessment extends Assessment {
 					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
 						"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					"</a>"

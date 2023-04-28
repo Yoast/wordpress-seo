@@ -1,8 +1,13 @@
-import PropTypes from "prop-types";
-import { Alert } from "@yoast/components";
 import { __ } from "@wordpress/i18n";
-import RequestError from "../errors/RequestError";
+import { Alert } from "@yoast/components";
+import { strings } from "@yoast/helpers";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import RequestError from "../errors/RequestError";
+
+const { stripTagsFromHtmlString } = strings;
+
+const ALLOWED_TAGS = [ "a", "p" ];
 
 const ErrorDetails = styled.div`
 	margin-top: 8px;
@@ -84,7 +89,7 @@ ErrorBox.defaultProps = {
  */
 export default function IndexingError( { message, error } ) {
 	return <Alert type={ "error" }>
-		<div dangerouslySetInnerHTML={ { __html: message } } />
+		<div dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( message, ALLOWED_TAGS ) } } />
 		<details>
 			<summary>{ __( "Error details", "wordpress-seo" ) }</summary>
 			<ErrorDetails>
