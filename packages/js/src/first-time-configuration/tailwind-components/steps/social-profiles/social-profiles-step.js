@@ -1,7 +1,6 @@
-import { Fragment } from "@wordpress/element";
+import { createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { createInterpolateElement } from "@wordpress/element";
 import SocialInputSection from "./social-input-section";
 import Alert from "../../base/alert";
 

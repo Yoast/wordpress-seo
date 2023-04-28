@@ -299,16 +299,6 @@ class Loader {
 				return null;
 			}
 			throw $e;
-		} catch ( Exception $e ) { // Also catch Exception for PHP 5.6 compatibility.
-			// In production environments do not fatal if the class could not be constructed but log and fail gracefully.
-			if ( \YOAST_ENVIRONMENT === 'production' ) {
-				if ( \defined( 'WP_DEBUG' ) && \WP_DEBUG ) {
-					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-					\error_log( $e->getMessage() );
-				}
-				return null;
-			}
-			throw $e;
 		}
 	}
 }

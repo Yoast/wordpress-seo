@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { select, subscribe } from "@wordpress/data";
 import { actions } from "@yoast/externals/redux";
-import { debounce } from "lodash-es";
+import { debounce } from "lodash";
 import { languageProcessing } from "yoastseo";
 import { reapplyAnnotationsForSelectedBlock } from "../decorator/gutenberg";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";

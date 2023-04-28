@@ -1,15 +1,17 @@
-import { createAnchorOpeningTag } from "../../helpers/shortlinker";
-import WordComplexityAssessment from "../assessments/readability/WordComplexityAssessment";
+import { inherits } from "util";
 
-import Assessor from "../assessor.js";
-import ContentAssessor from "../contentAssessor";
-import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
-import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
-import TransitionWords from "../assessments/readability/TransitionWordsAssessment.js";
-import PassiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
-import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
-import ListsPresence from "../assessments/readability/ListAssessment.js";
+import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
+import ListsPresenceAssessment  from "../assessments/readability/ListAssessment";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	ParagraphTooLongAssessment,
+	SentenceLengthInTextAssessment,
+	SubheadingDistributionTooLongAssessment,
+	TransitionWordsAssessment,
+	PassiveVoiceAssessment,
+	TextPresenceAssessment,
+} = assessments.readability;
 
 /**
  * Creates the Assessor
@@ -24,12 +26,12 @@ const ProductContentAssessor = function( researcher, options ) {
 	this.type = "productContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong( {
+		new SubheadingDistributionTooLongAssessment( {
 			shouldNotAppearInShortText: true,
 			urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
 		} ),
-		new ParagraphTooLong( {
+		new ParagraphTooLongAssessment( {
 			parameters: {
 				recommendedLength: 70,
 				maximumRecommendedLength: 100,
@@ -37,36 +39,32 @@ const ProductContentAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
 		}, true ),
-		new SentenceLengthInText( {
+		new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlTitle: createAnchorOpeningTag( options.sentenceLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.sentenceLengthCTAUrl ),
 		}, false, true ),
-		new TransitionWords( {
+		new TransitionWordsAssessment( {
 			urlTitle: createAnchorOpeningTag( options.transitionWordsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.transitionWordsCTAUrl ),
 		} ),
-		new PassiveVoice( {
+		new PassiveVoiceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.passiveVoiceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.passiveVoiceCTAUrl ),
 		} ),
-		new TextPresence( {
+		new TextPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.textPresenceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textPresenceCTAUrl ),
 		} ),
-		new ListsPresence( {
+		new ListsPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
-		} ),
-		new WordComplexityAssessment( {
-			urlTitle: createAnchorOpeningTag( options.wordComplexityTitleUrl ),
-			urlCallToAction: createAnchorOpeningTag( options.wordComplexityCTAUrl ),
 		} ),
 	];
 };
 
-require( "util" ).inherits( ProductContentAssessor, ContentAssessor );
+inherits( ProductContentAssessor, ContentAssessor );
 
 
 export default ProductContentAssessor;

@@ -33,7 +33,7 @@ const STATE = {
 /**
  * Indexes the site and shows a progress bar indicating the indexing process' progress.
  */
-export class Indexation extends Component {
+class Indexation extends Component {
 	/**
 	 * Indexing constructor.
 	 *

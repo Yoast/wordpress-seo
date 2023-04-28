@@ -11,7 +11,17 @@ import { isNotFollowedAndPrecededByException } from "../helpers/isFollowedAndPre
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
-import disabilityRules from "./disabilityRulesData";
+import {
+	combinationsOfDriveAndObjectPronoun,
+	formsOfToBeAndToBeNotWithOptionalIntensifier,
+	formsOfToBeNotWithOptionalIntensifier,
+	formsOfToBeWithOptionalIntensifier,
+	formsOfToGo,
+	shouldNotFollowStandaloneCrazy,
+	shouldNotFollowStandaloneCrazyWhenPrecededByToBe,
+	shouldNotPrecedeStandaloneCrazy,
+	shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
+} from "./disabilityRulesData";
 import { sprintf } from "@wordpress/i18n";
 
 /*
@@ -408,7 +418,7 @@ const disabilityAssessments =  [
 		// Target only when preceded by a form of "to be", the negation "not", and an an optional intensifier (e.g. "is not so crazy about" ).
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeNotWithOptionalIntensifier ) );
+				.filter( isNotPrecededByException( words, formsOfToBeNotWithOptionalIntensifier ) );
 		},
 	},
 	{
@@ -420,7 +430,7 @@ const disabilityAssessments =  [
 		// Target only when preceded by a form of "to be" and an an optional intensifier (e.g. "am so crazy about")
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeWithOptionalIntensifier ) );
+				.filter( isNotPrecededByException( words, formsOfToBeWithOptionalIntensifier ) );
 		},
 	},
 	{
@@ -440,7 +450,7 @@ const disabilityAssessments =  [
 		// Target only when preceded by a form of "to go" (e.g. 'going crazy').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotPrecededByException( words, disabilityRules.formsOfToGo ) );
+				.filter( isNotPrecededByException( words, formsOfToGo ) );
 		},
 	},
 	{
@@ -453,7 +463,7 @@ const disabilityAssessments =  [
 		// Target only when preceded by a form of 'to drive' and an object pronoun (e.g. 'driving me crazy', 'drove everyone crazy').
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isNotPrecededByException( words, disabilityRules.combinationsOfDriveAndObjectPronoun ) );
+				.filter( isNotPrecededByException( words, combinationsOfDriveAndObjectPronoun ) );
 		},
 	},
 	{
@@ -466,11 +476,11 @@ const disabilityAssessments =  [
 		// Don't target when 'crazy' is part of a more specific phrase that we target.
 		rule: ( words, nonInclusivePhrase ) => {
 			return includesConsecutiveWords( words, nonInclusivePhrase )
-				.filter( isPrecededByException( words, disabilityRules.shouldNotPrecedeStandaloneCrazy ) )
-				.filter( isNotFollowedByException( words, nonInclusivePhrase, disabilityRules.shouldNotFollowStandaloneCrazy ) )
+				.filter( isPrecededByException( words, shouldNotPrecedeStandaloneCrazy ) )
+				.filter( isNotFollowedByException( words, nonInclusivePhrase, shouldNotFollowStandaloneCrazy ) )
 				.filter( isNotFollowedAndPrecededByException( words, nonInclusivePhrase,
-					disabilityRules.shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
-					disabilityRules.shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
+					shouldNotPrecedeStandaloneCrazyWhenFollowedByAbout,
+					shouldNotFollowStandaloneCrazyWhenPrecededByToBe ) );
 		},
 	},
 	{
@@ -580,7 +590,7 @@ const disabilityAssessments =  [
 		// Only target 'OCD' when preceded by a form of 'to be/to get' followed by an optional intensifier.
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isNotPrecededByException( words, disabilityRules.formsOfToBeAndToBeNotWithOptionalIntensifier ) );
+				.filter( isNotPrecededByException( words, formsOfToBeAndToBeNotWithOptionalIntensifier ) );
 		},
 	},
 	{

@@ -1,13 +1,9 @@
 import { shallow } from "enzyme";
-
-import SEMrushCountrySelector
-	from "../../../js/src/components/modals/SEMrushCountrySelector";
-import React from "react";
 import { noop } from "lodash";
+import React from "react";
+import SEMrushCountrySelector from "../../../js/src/components/modals/SEMrushCountrySelector";
 
-window.jQuery = () => ( {
-	on: () => {},
-} );
+window.jQuery = () => ( { on: noop } );
 
 describe( "SEMrushCountrySelector", () => {
 	it( "successfully calls the associated newRequest function when the select country button is clicked", () => {

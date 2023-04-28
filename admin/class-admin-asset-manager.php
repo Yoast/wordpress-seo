@@ -599,10 +599,6 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [ 'wp-edit-blocks' ],
 			],
 			[
-				'name' => 'schema-blocks',
-				'src'  => 'schema-blocks-' . $flat_version,
-			],
-			[
 				'name' => 'elementor',
 				'src'  => 'elementor-' . $flat_version,
 			],
@@ -613,6 +609,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'new-settings',
 				'src'  => 'new-settings-' . $flat_version,
+			],
+			[
+				'name' => 'academy',
+				'src'  => 'academy-' . $flat_version,
 			],
 			[
 				'name' => 'workouts',

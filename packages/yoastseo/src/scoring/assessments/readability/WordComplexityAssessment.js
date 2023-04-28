@@ -1,14 +1,15 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import { collectMarkingsInSentence } from "../../../languageProcessing/helpers/word/markWordsInSentences";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
-import Assessment from "../assessment";
+import { AssessmentResult, helpers, languageProcessing, Assessment, values } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
+const { collectMarkingsInSentence } = languageProcessing;
+const { Mark } = values;
 
 /**
  * Represents the assessment that checks whether there are too many complex words in the text.
+ * This assessment is not bundled in Yoast SEO.
  */
 export default class WordComplexityAssessment extends Assessment {
 	/**
@@ -26,8 +27,8 @@ export default class WordComplexityAssessment extends Assessment {
 				acceptableAmount: 6,
 				goodAmount: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ls" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lt" ),
+			urlTitle: "https://yoa.st/4ls",
+			urlCallToAction: "https://yoa.st/4lt",
 		};
 
 		/*
@@ -35,16 +36,20 @@ export default class WordComplexityAssessment extends Assessment {
          * It appears before the feedback in the analysis, for example in the feedback string:
          * "Word complexity: You are not using too many complex words, which makes your text easy to read. Good job!"
          */
-		this.name = __( "Word complexity", "wordpress-seo" );
+		this.name = __( "Word complexity", "wordpress-seo-premium" );
 		this.identifier = "wordComplexity";
 		this._config = merge( defaultConfig, config );
+
+		// Creates an anchor opening tag for the shortlinks.
+		this._config.urlTitle = createAnchorOpeningTag( this._config.urlTitle );
+		this._config.urlCallToAction = createAnchorOpeningTag( this._config.urlCallToAction );
 	}
 
 	/**
 	 * Scores the percentage of sentences including one or more transition words.
 	 *
-	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Paper} paper        The paper to use for the assessment.
+	 * @param {Researcher} researcher   The researcher used for calling research.
 	 *
 	 * @returns {object} The Assessment result.
 	 */
@@ -80,7 +85,7 @@ export default class WordComplexityAssessment extends Assessment {
 					__(
 						// eslint-disable-next-line max-len
 						"%1$s: You are not using too many complex words, which makes your text easy to read. Good job!",
-						"wordpress-seo"
+						"wordpress-seo-premium"
 					),
 					assessmentLink
 				),
@@ -96,7 +101,7 @@ export default class WordComplexityAssessment extends Assessment {
 				__(
 					// eslint-disable-next-line max-len
 					"%1$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
-					"wordpress-seo"
+					"wordpress-seo-premium"
 				),
 				assessmentLink,
 				complexWordsPercentage + "%",

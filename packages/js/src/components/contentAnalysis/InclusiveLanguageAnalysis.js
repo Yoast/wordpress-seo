@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 /* External components */
 import { withSelect } from "@wordpress/data";
-import { Fragment } from "@wordpress/element";
+import { Fragment, createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { isNil } from "lodash";
 import PropTypes from "prop-types";
@@ -48,11 +48,11 @@ const ScoreIcon = styled( SvgIcon )`
 /**
  * The inclusive language analysis component.
  *
- * @param {Object} props The properties.
+ * @param {Object} props 									The properties.
  *
- * @param {MappedResult[]} props.results The assessment results.
- * @param {number} props.overallScore The overall analysis score.
- * @param {"enabled"|"disabled"} props.marksButtonStatus The status of the mark buttons.
+ * @param {MappedResult[]} props.results 					The assessment results.
+ * @param {number} props.overallScore 						The overall analysis score.
+ * @param {"enabled"|"disabled"} props.marksButtonStatus 	The status of the mark buttons.
  *
  * @returns {JSX.Element} The inclusive language analysis component.
  */
@@ -91,14 +91,19 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		);
 	}
 
-	const goodJobFeedback = sprintf(
-		/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-		__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!",
-			"wordpress-seo"
+	const goodJobFeedback = createInterpolateElement(
+		sprintf(
+			/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+			__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!", "wordpress-seo" ),
+			"<a>",
+			"</a>"
 		),
-		`<a href="${ analysisInfoLink }" target="_blank">`,
-		"</a>"
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a href={ analysisInfoLink } target="_blank" rel="noreferrer" />,
+		}
 	);
+
 
 	/**
 	 * Renders a notice that a multilingual plugin has been
@@ -142,19 +147,19 @@ const InclusiveLanguageAnalysis = ( props ) => {
 						color={ "#7ad03a" }
 						size="13px"
 					/>
-					<span dangerouslySetInnerHTML={ { __html: goodJobFeedback } } />
+					<span>{ goodJobFeedback }</span>
 				</GoodJobAnalysisResult>
 			</Fragment>
 		);
 	}
 
 	/**
-	 * Renders the inclusive language analysis for in the sidebar.
+	 * Renders the inclusive language analysis for the sidebar.
 	 *
-	 * @param {Array} results The inclusive language assessment results.
-	 * @param {number} inclusiveLanguageScore The inclusive language score.
+	 * @param {Array} results 					The inclusive language assessment results.
+	 * @param {number} inclusiveLanguageScore 	The inclusive language score.
 	 *
-	 * @returns {JSX.Element} The inclusive language for in the sidebar.
+	 * @returns {JSX.Element} The inclusive language for the sidebar.
 	 */
 	function renderSidebar( results, inclusiveLanguageScore ) {
 		return (
@@ -172,12 +177,12 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	}
 
 	/**
-	 * Renders the inclusive language analysis for in the metabox.
+	 * Renders the inclusive language analysis for the metabox.
 	 *
-	 * @param {Array} results The inclusive language assessment results.
-	 * @param {number} inclusiveLanguageScore The inclusive language score.
+	 * @param {Array} results 					The inclusive language assessment results.
+	 * @param {number} inclusiveLanguageScore 	The inclusive language score.
 	 *
-	 * @returns {JSX.Element} The inclusive language for in the metabox.
+	 * @returns {JSX.Element} The inclusive language for the metabox.
 	 */
 	function renderMetabox( results, inclusiveLanguageScore ) {
 		return (

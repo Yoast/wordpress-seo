@@ -1,10 +1,14 @@
-import { useEffect } from "@wordpress/element";
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { noop } from "lodash";
 
 import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
+import { strings } from "@yoast/helpers";
+
+const { stripTagsFromHtmlString } = strings;
+
+const ALLOWED_TAGS = [ "a", "b", "strong", "em", "i" ];
 
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
@@ -74,7 +78,7 @@ const createMarkButton = ( {
  *
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
-export const AnalysisResult = ( { markButtonFactory, ...props } ) => {
+const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 	markButtonFactory = markButtonFactory || createMarkButton;
 	const { id, marker, hasMarksButton } = props;
 
@@ -111,7 +115,7 @@ export const AnalysisResult = ( { markButtonFactory, ...props } ) => {
 			/>
 			<AnalysisResultText suppressedText={ props.suppressedText }>
 				{ props.hasBetaBadgeLabel && <BetaBadge /> }
-				<span dangerouslySetInnerHTML={ { __html: props.text } } />
+				<span dangerouslySetInnerHTML={ { __html: stripTagsFromHtmlString( props.text, ALLOWED_TAGS ) } } />
 			</AnalysisResultText>
 			{ marksButton }
 			{

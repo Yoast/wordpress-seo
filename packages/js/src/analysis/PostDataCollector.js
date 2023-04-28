@@ -2,7 +2,7 @@
 
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
-import { get } from "lodash-es";
+import { get } from "lodash";
 import { markers } from "yoastseo";
 import { select } from "@wordpress/data";
 

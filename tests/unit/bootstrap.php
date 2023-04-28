@@ -35,9 +35,9 @@ define( 'YOAST_VENDOR_NS_PREFIX', 'YoastSEO_Vendor' );
 define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
-define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
+define( 'YOAST_SEO_PHP_REQUIRED', '7.2.5' );
 define( 'YOAST_SEO_WP_TESTED', '6.2' );
-define( 'YOAST_SEO_WP_REQUIRED', '6.0' );
+define( 'YOAST_SEO_WP_REQUIRED', '6.1' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );

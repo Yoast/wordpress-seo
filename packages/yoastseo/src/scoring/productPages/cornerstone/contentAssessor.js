@@ -1,14 +1,17 @@
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import WordComplexityAssessment from "../../assessments/readability/WordComplexityAssessment";
-import Assessor from "../../assessor.js";
-import ContentAssessor from "../../contentAssessor";
-import ParagraphTooLong from "../../assessments/readability/ParagraphTooLongAssessment.js";
-import SentenceLengthInText from "../../assessments/readability/SentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "../../assessments/readability/SubheadingDistributionTooLongAssessment.js";
-import TransitionWords from "../../assessments/readability/TransitionWordsAssessment.js";
-import PassiveVoice from "../../assessments/readability/PassiveVoiceAssessment.js";
-import TextPresence from "../../assessments/readability/TextPresenceAssessment.js";
-import ListsPresence from "../../assessments/readability/ListAssessment.js";
+import { inherits } from "util";
+
+import { Assessor, ContentAssessor, assessments, helpers } from "yoastseo";
+import ListsPresenceAssessment  from "../../assessments/readability/ListAssessment";
+const { createAnchorOpeningTag } = helpers;
+
+const {
+	ParagraphTooLongAssessment,
+	SentenceLengthInTextAssessment,
+	SubheadingDistributionTooLongAssessment,
+	TransitionWordsAssessment,
+	PassiveVoiceAssessment,
+	TextPresenceAssessment,
+} = assessments.readability;
 
 /**
  * Creates the Assessor
@@ -23,7 +26,7 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 	this.type = "productCornerstoneContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong( {
+		new SubheadingDistributionTooLongAssessment( {
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
@@ -35,7 +38,7 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
 			cornerstoneContent: true,
 		} ),
-		new ParagraphTooLong( {
+		new ParagraphTooLongAssessment( {
 			parameters: {
 				recommendedLength: 70,
 				maximumRecommendedLength: 100,
@@ -43,39 +46,32 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
 		}, true ),
-		new SentenceLengthInText( {
+		new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 15,
 			farTooMany: 20,
 			urlTitle: createAnchorOpeningTag( options.sentenceLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.sentenceLengthCTAUrl ),
 		}, true, true ),
-		new TransitionWords( {
+		new TransitionWordsAssessment( {
 			urlTitle: createAnchorOpeningTag( options.transitionWordsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.transitionWordsCTAUrl ),
 		} ),
-		new PassiveVoice( {
+		new PassiveVoiceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.passiveVoiceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.passiveVoiceCTAUrl ),
 		} ),
-		new TextPresence( {
+		new TextPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.textPresenceUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textPresenceCTAUrl ),
 		} ),
-		new ListsPresence( {
+		new ListsPresenceAssessment( {
 			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
-		} ),
-		new WordComplexityAssessment( {
-			scores: {
-				acceptableAmount: 3,
-			},
-			urlTitle: createAnchorOpeningTag( options.wordComplexityTitleUrl ),
-			urlCallToAction: createAnchorOpeningTag( options.wordComplexityCTAUrl ),
 		} ),
 	];
 };
 
-require( "util" ).inherits( ProductCornerstoneContentAssessor, ContentAssessor );
+inherits( ProductCornerstoneContentAssessor, ContentAssessor );
 
 
 export default ProductCornerstoneContentAssessor;

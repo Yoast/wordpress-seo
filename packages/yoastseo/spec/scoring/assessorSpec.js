@@ -68,6 +68,14 @@ describe( "an assessor object", function() {
 
 			expect( result ).toEqual( mockAssessment );
 		} );
+		it( "overides the existing assessment if the newly added assessment has the same identifier", function() {
+			var assessor = new Assessor( new DefaultResearcher() );
+			assessor.addAssessment( "testname", mockAssessment );
+
+			assessor.addAssessment( "testname", mockAssessment );
+
+			expect( assessor.getAvailableAssessments().length ).toEqual( 1 );
+		} );
 	} );
 
 	describe( "removing an assessment", function() {

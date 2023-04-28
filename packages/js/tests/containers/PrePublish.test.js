@@ -23,12 +23,6 @@ describe( "The PrePublish container", () => {
 			label: "No focus keyword was entered",
 			score: "bad",
 		} );
-
-		expect( props.checklist ).toContainEqual( {
-			label: "Schema analysis:",
-			score: "bad",
-			scoreValue: "Needs improvement",
-		} );
 	} );
 
 	it( "maps the dispatch function to props", () => {

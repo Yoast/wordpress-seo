@@ -9,8 +9,7 @@ import getAnchorsFromText from "../helpers/link/getAnchorsFromText";
 import matchStringWithRegex from "../helpers/regex/matchStringWithRegex";
 import excludeEstimatedReadingTime from "../helpers/sanitize/excludeEstimatedReadingTime";
 
-import { reject } from "lodash-es";
-import { isEmpty } from "lodash-es";
+import { isEmpty, reject } from "lodash-es";
 
 /**
  * Removes links from text.

@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import { useCallback, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import moment from "moment";
 
 /* Yoast dependencies */

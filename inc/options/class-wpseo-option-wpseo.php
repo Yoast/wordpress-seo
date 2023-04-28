@@ -135,7 +135,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexables_overview_state'                => 'dashboard-not-visited',
 		'last_known_public_post_types'             => [],
 		'last_known_public_taxonomies'             => [],
-		'jetpack_ad_start_date'                    => '1970-01-01 00:00:00', // Date.
+		'last_known_no_unindexed'                  => [],
 	];
 
 	/**
@@ -452,14 +452,23 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean['wordproof_integration_changed'] = true;
 					}
 					break;
+				case 'last_known_no_unindexed':
+					$clean[ $key ] = $old[ $key ];
 
-				// Date fields.
-				case 'jetpack_ad_start_date':
-					if ( isset( $dirty[ $key ] ) && WPSEO_Utils::is_valid_datetime( $dirty[ $key ] ) ) {
-						$clean[ $key ] = $dirty[ $key ];
+					if ( isset( $dirty[ $key ] ) ) {
+						$items = $dirty[ $key ];
+
+						if ( is_array( $items ) ) {
+							foreach ( $items as $item_key => $item ) {
+								if ( ! \is_string( $item_key ) || ! \is_numeric( $item ) ) {
+									unset( $items[ $item_key ] );
+								}
+							}
+							$clean[ $key ] = $items;
+						}
 					}
-					break;
 
+					break;
 
 				/*
 				 * Boolean (checkbox) fields.

@@ -413,9 +413,9 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '5.6',
-							'requires_php' => '5.6',
-							'requires'     => '5.5',
+							'tested'       => '6.1.1',
+							'requires_php' => '7.2.5',
+							'requires'     => '6.0',
 						],
 					],
 				]
@@ -533,20 +533,20 @@ class Addon_Manager_Test extends TestCase {
 				[
 					'wordpress-seo/wp-seo.php' => [
 						'update' => [
-							'tested'       => '6.0',
-							'requires_php' => '5.6',
+							'tested'       => \YOAST_SEO_WP_REQUIRED,
+							'requires_php' => '7.2.5',
 						],
 					],
 				]
 			);
 
 		global $wp_version;
-		$wp_version = '6.0';
+		$wp_version = \YOAST_SEO_WP_REQUIRED;
 		$this->assertEquals( $expected, $this->instance->check_for_updates( $data ), $message );
 
 		// Now check that the Premium plugin won't show updates, if the requirement for the WP version coming from Yoast free, is not met.
 		if ( isset( $addons['wp-seo-premium.php'] ) ) {
-			$wp_version = '5.9';
+			$wp_version = '6.0';
 			$updates    = $this->instance->check_for_updates( $data );
 
 			$this->assertTrue( isset( $updates->no_update['wp-seo-premium.php'] ) );

@@ -1,6 +1,7 @@
 import SnippetEditor from "../src/snippet-editor/SnippetEditor";
 import React from "react";
 import { mount } from "enzyme";
+// eslint-disable-next-line import/named -- this concerns a mock
 import { focus } from "@yoast/replacement-variable-editor";
 
 const defaultData = {

@@ -80,6 +80,39 @@ class WPSEO_Addon_Manager {
 	];
 
 	/**
+	 * The addon data for the shortlinks.
+	 *
+	 * @var array
+	 */
+	private $addon_details = [
+		self::PREMIUM_SLUG     => [
+			'name'                  => 'Yoast SEO Premium',
+			'short_link_activation' => 'https://yoa.st/13j',
+			'short_link_renewal'    => 'https://yoa.st/4ey',
+		],
+		self::NEWS_SLUG        => [
+			'name'                  => 'Yoast News SEO',
+			'short_link_activation' => 'https://yoa.st/4xq',
+			'short_link_renewal'    => 'https://yoa.st/4xv',
+		],
+		self::WOOCOMMERCE_SLUG => [
+			'name'                  => 'Yoast WooCommerce SEO',
+			'short_link_activation' => 'https://yoa.st/4xs',
+			'short_link_renewal'    => 'https://yoa.st/4xx',
+		],
+		self::VIDEO_SLUG       => [
+			'name'                  => 'Yoast Video SEO',
+			'short_link_activation' => 'https://yoa.st/4xr',
+			'short_link_renewal'    => 'https://yoa.st/4xw',
+		],
+		self::LOCAL_SLUG       => [
+			'name'                  => 'Yoast Local SEO',
+			'short_link_activation' => 'https://yoa.st/4xp',
+			'short_link_renewal'    => 'https://yoa.st/4xu',
+		],
+	];
+
+	/**
 	 * Holds the site information data.
 	 *
 	 * @var stdClass
@@ -365,9 +398,16 @@ class WPSEO_Addon_Manager {
 	public function expired_subscription_warning( $plugin_data ) {
 		$subscription = $this->get_subscription( $plugin_data['slug'] );
 		if ( $subscription && $this->has_subscription_expired( $subscription ) ) {
+			$addon_link = ( isset( $this->addon_details[ $plugin_data['slug'] ] ) ) ? $this->addon_details[ $plugin_data['slug'] ]['short_link_renewal'] : $this->addon_details[ self::PREMIUM_SLUG ]['short_link_renewal'];
 			echo '<br><br>';
-			/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
-			echo '<strong><span class="wp-ui-text-notification alert dashicons dashicons-warning"></span> ' . sprintf( esc_html__( 'A new version of %1$s is available. %2$sRenew your subscription%3$s if you want to update to the latest version.', 'wordpress-seo' ), esc_html( $plugin_data['name'] ), '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4ey' ) ) . '">', '</a>' ) . '</strong>';
+			echo '<strong><span class="yoast-dashicons-notice warning dashicons dashicons-warning"></span> ' .
+				sprintf(
+					/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
+					esc_html__( '%1$s can\'t be updated because your product subscription is expired. %2$sRenew your product subscription%3$s to get updates again and use all the features of %1$s.', 'wordpress-seo' ),
+					esc_html( $plugin_data['name'] ),
+					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
+					'</a>'
+				) . '</strong>';
 		}
 	}
 
@@ -415,16 +455,9 @@ class WPSEO_Addon_Manager {
 			return;
 		}
 
-		$addons = [
-			'Yoast SEO Premium'     => static::PREMIUM_SLUG,
-			'News SEO'              => static::NEWS_SLUG,
-			'Yoast WooCommerce SEO' => static::WOOCOMMERCE_SLUG,
-			'Video SEO'             => static::VIDEO_SLUG,
-			'Local SEO'             => static::LOCAL_SLUG,
-		];
 
-		foreach ( $addons as $product_name => $slug ) {
-			$notification = $this->create_notification( $product_name );
+		foreach ( $this->addon_details as $slug => $addon_info ) {
+			$notification = $this->create_notification( $addon_info['name'], $addon_info['short_link_activation'] );
 
 			// Add a notification when the installed plugin isn't activated in My Yoast.
 			if ( $this->is_installed( $slug ) && ! $this->has_valid_subscription( $slug ) ) {
@@ -453,10 +486,11 @@ class WPSEO_Addon_Manager {
 	 * Creates an instance of Yoast_Notification.
 	 *
 	 * @param string $product_name The product to create the notification for.
+	 * @param string $short_link   The short link for the addon notification.
 	 *
 	 * @return Yoast_Notification The created notification.
 	 */
-	protected function create_notification( $product_name ) {
+	protected function create_notification( $product_name, $short_link ) {
 		$notification_options = [
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
@@ -465,10 +499,14 @@ class WPSEO_Addon_Manager {
 
 		return new Yoast_Notification(
 			sprintf(
-			/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
-				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
+			/* translators: %1$s expands to a strong tag, %2$s expands to the product name, %3$s expands to a closing strong tag, %4$s expands to an a tag. %5$s expands to MyYoast with a closing a tag,  %6$s expands to the product name  */
+				__( '%1$s %2$s isn\'t working as expected %3$s and you are not receiving updates or support! Make sure to %4$s activate your product subscription in %5$s to unlock all the features of %6$s.', 'wordpress-seo' ),
+				'<strong>',
 				$product_name,
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">My Yoast</a>'
+				'</strong>',
+				'<a href="' . WPSEO_Shortlinker::get( $short_link ) . '" target="_blank">',
+				' MyYoast</a>',
+				$product_name
 			),
 			$notification_options
 		);

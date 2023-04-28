@@ -7,6 +7,8 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/en
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/en/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/en/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/en/config/syllables.json";
+import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/en/helpers/checkIfWordIsComplex";
+import wordComplexityConfig from "../../../../src/languageProcessing/languages/en/config/wordComplexity";
 const morphologyDataEN = getMorphologyData( "en" );
 
 describe( "a test for the English Researcher", function() {
@@ -78,7 +80,9 @@ describe( "a test for the English Researcher", function() {
 	} );
 
 	it( "checks if a word is complex in English", function() {
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "polygonal" ) ).toEqual( true );
-		expect( researcher.getHelper( "checkIfWordIsComplex" )( "investigations" ) ).toEqual( false );
+		researcher.addHelper( "checkIfWordIsComplex", checkIfWordIsComplex );
+
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "polygonal" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( wordComplexityConfig, "investigations" ) ).toEqual( false );
 	} );
 } );

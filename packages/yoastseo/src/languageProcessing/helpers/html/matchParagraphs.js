@@ -1,6 +1,4 @@
-import { map } from "lodash-es";
-import { flatMap } from "lodash-es";
-import { filter } from "lodash-es";
+import { filter, flatMap, map } from "lodash-es";
 
 import { getBlocks } from "./html";
 

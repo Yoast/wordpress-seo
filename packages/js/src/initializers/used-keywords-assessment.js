@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 import getL10nObject from "../analysis/getL10nObject";
 import UsedKeywords from "../analysis/usedKeywords";

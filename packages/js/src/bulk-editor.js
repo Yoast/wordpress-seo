@@ -122,7 +122,7 @@ import jQuery from "jquery";
 					if ( resp.status === "success" ) {
 						var newValue = resp[ "new_" + bulkType ];
 
-						jQuery( options.existingId + resp.post_id ).html( newValue.replace( /\\(?!\\)/g, "" ) );
+						jQuery( options.existingId + resp.post_id ).text( newValue.replace( /\\(?!\\)/g, "" ) );
 						jQuery( options.newId + resp.post_id ).val( "" );
 					}
 				}

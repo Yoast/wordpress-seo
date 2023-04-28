@@ -136,10 +136,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Utils::retrieve_enabled_features
 	 */
 	public function test_retrieve_enabled_features_with_define() {
-		if ( ! defined( 'YOAST_SEO_SCHEMA_BLOCKS' ) ) {
-			define( 'YOAST_SEO_SCHEMA_BLOCKS', true );
-		}
-		$expected = [ 'SCHEMA_BLOCKS' ];
+		$expected = [];
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
@@ -149,10 +146,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Utils::retrieve_enabled_features
 	 */
 	public function test_retrieve_enabled_features_with_filter() {
-		if ( ! defined( 'YOAST_SEO_SCHEMA_BLOCKS' ) ) {
-			define( 'YOAST_SEO_SCHEMA_BLOCKS', true );
-		}
-		$expected = [ 'SCHEMA_BLOCKS' ];
+		$expected = [];
 
 		// Features we expect to be added by the filter.
 		$added_features = [ 'OTHER_FEATURE', 'ANOTHER_FEATURE' ];

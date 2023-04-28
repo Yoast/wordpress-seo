@@ -3,7 +3,7 @@ import { ExclamationIcon } from "@heroicons/react/outline";
 import { ReactComponent as JetpackBoostLogo } from "../../images/jetpack-boost-integration-logo.svg";
 import { createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Link } from "@yoast/ui-library";
+import { Badge, Link } from "@yoast/ui-library";
 import { Card } from "./tailwind-components/card";
 
 /* eslint-disable complexity */
@@ -120,6 +120,7 @@ export const JetpackBoostIntegration = () => {
 						}
 					</span>
 				</Link>
+				<Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge>
 			</Card.Header>
 			<Card.Content>
 				<div>

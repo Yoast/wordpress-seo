@@ -1,11 +1,11 @@
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
+import { Assessment, AssessmentResult, helpers } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
 
 /**
- * Represents the assessment for the product SKU.
+ * Represents the assessment checks whether the product has a SKU.
  */
 export default class ProductSKUAssessment extends Assessment {
 	/**
@@ -34,7 +34,7 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Tests whether a product has a SKU and returns an assessment result based on the research.
+	 * Executes the assessment and returns an result based on the research.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 *
@@ -114,7 +114,7 @@ export default class ProductSKUAssessment extends Assessment {
 						__(
 							"%1$sSKU%3$s: Your product is missing a SKU." +
 							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-							"wordpress-seo"
+							"yoast-woo-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
@@ -128,7 +128,7 @@ export default class ProductSKUAssessment extends Assessment {
 					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
 						"%1$sSKU%2$s: Your product has a SKU. Good job!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -146,7 +146,7 @@ export default class ProductSKUAssessment extends Assessment {
 							"%1$sSKU%3$s: Not all your product variants have a SKU. " +
 							"You can add a SKU via the \"Variations\" tab in the Product data box." +
 							" %2$sInclude it if you can, as it will help search engines to better understand your content.%3$s",
-							"wordpress-seo"
+							"yoast-woo-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
@@ -160,7 +160,7 @@ export default class ProductSKUAssessment extends Assessment {
 					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
 						"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
