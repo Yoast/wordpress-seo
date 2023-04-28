@@ -21,12 +21,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Indexable_Builder_Setup.
- *
- * @group indexables
- * @group builders
- *
- * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
+ * Indexable_Builder_Setup class for all Indexable_Builder tests.
  */
 class Indexable_Builder_Setup extends TestCase {
 
