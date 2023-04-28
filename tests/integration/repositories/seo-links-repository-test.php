@@ -443,8 +443,8 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 	 */
 	public function data_provider_get_incoming_link_counts_for_post_ids() {
 		return [
-			'The result should be succesful' => [
-				'target_post_id'  => [ 154 ],
+			'One item in post_ids array with result' => [
+				'post_ids'        => [ 154 ],
 				'expected_result' => [
 					[
 						'incoming' => '1',
@@ -452,11 +452,11 @@ class SEO_Links_Repository_Test extends WPSEO_UnitTestCase {
 					],
 				],
 			],
-			'The result should be empty, no post ids' => [
+			'One item in post_ids array without result' => [
 				'post_ids'        => [ 100 ],
 				'expected_result' => [],
 			],
-			'The Result should have two arrays' => [
+			'Two items in post_ids array with result' => [
 				'post_ids'        => [ 112, 154 ],
 				'expected_result' => [
 					[
