@@ -293,7 +293,16 @@ export default function initElementEditorIntegration() {
 	 * Listen for Yoast tab activation from within settings panel to start rendering the Yoast tab React content.
 	 * Note the `.not` in the selector, this is to prevent rendering the React content multiple times.
 	 */
-	jQuery( document ).on( "click", "[data-tab=\"yoast-tab\"]:not(.elementor-active) > a", renderYoastTabReactContent );
+	jQuery( document )
+		.on( "click", "[data-tab=\"yoast-tab\"]:not(.elementor-active)", renderYoastTabReactContent )
+		.on( "keyup", "[data-tab=\"yoast-tab\"]:not(.elementor-active)", ( event ) => {
+			const ENTER_KEY = 13;
+			const SPACE_KEY = 32;
+
+			if ( ENTER_KEY === event.keyCode || SPACE_KEY === event.keyCode ) {
+				event.currentTarget.click();
+			}
+		} );
 
 	yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
 	storeAllValuesAsOldValues();
