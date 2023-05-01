@@ -1,5 +1,3 @@
-/** @module stringProcessing/getImagesInTree */
-
 /**
  * Checks the tree for images.
  *
