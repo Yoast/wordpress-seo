@@ -1,5 +1,3 @@
-/** @module stringProcessing/getAltAttribute */
-
 import stripSpaces from "../sanitize/stripSpaces.js";
 
 /**
