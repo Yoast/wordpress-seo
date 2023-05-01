@@ -28,11 +28,6 @@ const WincherLink = makeOutboundLink();
 const WicnherSEOPerformanceContainer = styled.div`
 `;
 
-const WincherSEOPerformanceReportHeader = styled.h3`
-	margin: 8px 0;
-	font-size: 1em;
-`;
-
 const WincherSEOPerformanceBlurredTable = styled.table`
 	pointer-events: none;
 	user-select: none;
@@ -54,7 +49,7 @@ const WincherSEOPerformanceTableBlurredCell = styled.p`
 `;
 
 const ConnectToWincherWrapper = styled.p`
-	bottom: 49%;
+	top: 47%;
 	left: 50%;
 	position: absolute; 
 `;
@@ -395,12 +390,6 @@ const WincherPerformanceReport = ( props ) => {
 		<WicnherSEOPerformanceContainer
 			className={ className }
 		>
-			<WincherSEOPerformanceReportHeader
-				className={ `${ className }__header` }
-			>
-				{ __( "Top performing keyphrases on your site", "wordpress-seo" ) }
-			</WincherSEOPerformanceReportHeader>
-
 			<GetUserMessage { ...props } data={ data } isConnectSuccess={ isConnectSuccess && isLoggedIn } />
 
 			{ data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
@@ -444,8 +433,8 @@ const WincherPerformanceReport = ( props ) => {
 							}
 						</tbody>
 					</WincherSEOPerformanceTable>
+					<ConnectToWincher isLoggedIn={ isLoggedIn } onConnectAction={ onConnectAction } />
 				</WincherSEOPerformanceTableWrapper>
-				<ConnectToWincher isLoggedIn={ isLoggedIn } onConnectAction={ onConnectAction } />
 				<p style={ { marginBottom: 0, position: "relative" } }>
 					<GetMoreInsightsLink
 						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }

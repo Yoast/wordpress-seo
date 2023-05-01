@@ -243,6 +243,7 @@ class WPSEO_Admin_Asset_Manager {
 			'api-client'               => [ 'wp-api' ],
 			'crawl-settings'           => [ 'jquery' ],
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
 			'elementor'                => [
 				self::PREFIX . 'api-client',
