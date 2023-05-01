@@ -312,6 +312,35 @@ class Indexable_Cleanup_Repository {
 	}
 
 	/**
+	 * Counts indexables for non publicly viewable taxonomies.
+	 *
+	 * @return float|int
+	 */
+	public function count_indexables_for_non_publicly_post_type_archive_pages() {
+		$included_post_types = $this->post_type->get_indexable_post_archives();
+
+		$post_archives = [];
+
+		foreach ( $included_post_types as $post_type ) {
+			$post_archives[] = $post_type->name;
+		}
+		if ( empty( $post_archives ) ) {
+			return $this
+				->query()
+				->where( 'object_type', 'post-type-archive' )
+				->where_not_equal( 'object_sub_type', 'null' )
+				->count();
+		}
+
+		return $this
+			->query()
+			->where( 'object_type', 'post-type-archive' )
+			->where_not_equal( 'object_sub_type', 'null' )
+			->where_not_in( 'object_sub_type', $post_archives )
+			->count();
+	}
+
+	/**
 	 * Cleans up any user indexables when the author archives have been disabled.
 	 *
 	 * @param int $limit The limit we'll apply to the queries.

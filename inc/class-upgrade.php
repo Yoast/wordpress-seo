@@ -1001,10 +1001,6 @@ class WPSEO_Upgrade {
 	 * Also, schedules another cleanup scheduled action.
 	 */
 	private function upgrade_207() {
-		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
-		}
-
 		add_action( 'shutdown', [ $this, 'delete_user_introduction_meta' ] );
 	}
 
