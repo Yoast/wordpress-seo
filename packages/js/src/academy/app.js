@@ -268,56 +268,66 @@ const App = () => {
 
 									{ course.description }
 
-									{ ( ( course.needsPremium && ! isPremium ) && ( ( ! course.needsLocal || ! isLocalActive ) && ( ! course.needsWoo || ! isWooActive ) ) ) && <Link
-										href={ course.startLink }
-										className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium yst-text-primary-500"
-										target="_blank"
-									>
-										{ __( "Start free trial lesson", "wordpress-seo" ) }
-										<span className="yst-sr-only">
-											{
-												__( "(Opens in a new browser tab)", "wordpress-seo" )
-											}
-										</span>
-										<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
-									</Link> }
+									{
+										( ( course.needsPremium && ! isPremium ) &&
+										( ( ! course.needsLocal || ! isLocalActive ) && ( ! course.needsWoo || ! isWooActive ) ) ) &&
+										<Link
+											href={ course.startLink }
+											className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium yst-text-primary-500"
+											target="_blank"
+										>
+											{ __( "Start free trial lesson", "wordpress-seo" ) }
+											<span className="yst-sr-only">
+												{
+													__( "(Opens in a new browser tab)", "wordpress-seo" )
+												}
+											</span>
+											<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+										</Link> }
 								</Card.Content>
 								<Card.Footer>
 									<>
-										{ ( ( course.needsPremium && ! isPremium ) && ( ( ! course.needsLocal || ! isLocalActive ) && ( ! course.needsWoo || ! isWooActive ) ) ) && (
-											<Button
-												as="a"
-												id={ `button-get-course-${ course.id }` }
-												className="yst-gap-2 yst-w-full yst-px-2"
-												variant="upsell"
-												href={ course?.upsellLink }
-												target="_blank"
-												rel="noopener"
-												{ ...premiumUpsellConfig }
-											>
-												<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
-												{ sprintf(
-													/* translators: %1$s expands to Premium. */
-													__( "Unlock with %1$s", "wordpress-seo" ),
-													"Premium"
-												) }
-											</Button>
-
-										) }
-										{ ( ( ! course.needsPremium || isPremium ) || ( ( course.needsLocal && isLocalActive ) || ( course.needsWoo && isWooActive ) ) ) && (
-											<Button
-												as="a"
-												id={ `button-start-course-${ course.id }` }
-												className="yst-gap-2 yst-w-full yst-px-2 yst-leading-5"
-												variant="primary"
-												href={ course.startLink }
-												target="_blank"
-												rel="noopener"
-											>
-												{ __( "Start the course", "wordpress-seo" ) }
-												<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-white" />
-											</Button>
-										) }
+										{
+											( ( course.needsPremium && ! isPremium ) &&
+											( ( ! course.needsLocal || ! isLocalActive ) && ( ! course.needsWoo || ! isWooActive ) ) ) &&
+											(
+												<Button
+													as="a"
+													id={ `button-get-course-${ course.id }` }
+													className="yst-gap-2 yst-w-full yst-px-2"
+													variant="upsell"
+													href={ course?.upsellLink }
+													target="_blank"
+													rel="noopener"
+													{ ...premiumUpsellConfig }
+												>
+													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+													{ sprintf(
+														/* translators: %1$s expands to Premium. */
+														__( "Unlock with %1$s", "wordpress-seo" ),
+														"Premium"
+													) }
+												</Button>
+											)
+										}
+										{
+											( ( ! course.needsPremium || isPremium ) ||
+											( ( course.needsLocal && isLocalActive ) || ( course.needsWoo && isWooActive ) ) ) &&
+											(
+												<Button
+													as="a"
+													id={ `button-start-course-${ course.id }` }
+													className="yst-gap-2 yst-w-full yst-px-2 yst-leading-5"
+													variant="primary"
+													href={ course.startLink }
+													target="_blank"
+													rel="noopener"
+												>
+													{ __( "Start the course", "wordpress-seo" ) }
+													<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-white" />
+												</Button>
+											)
+										}
 									</>
 								</Card.Footer>
 							</Card>
