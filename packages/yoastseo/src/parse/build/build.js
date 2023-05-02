@@ -29,8 +29,8 @@ export default function build( htmlString, languageProcessor ) {
 	tree = tokenize( tree, languageProcessor );
 
 	/*
-	 * 	Filter out elements we don't want to include in the analysis. Only do this after tokenization as we need to
-	 *  have all inline elements in the tree during tokenization to correctly calculate sentence and token positions.
+	 * Filter out elements we don't want to include in the analysis. Only do this after tokenization as we need to
+	 * have all inline elements in the tree during tokenization to correctly calculate sentence and token positions.
 	 */
 	return filterTree( tree, permanentFilters );
 }
