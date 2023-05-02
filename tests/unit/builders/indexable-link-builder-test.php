@@ -395,87 +395,54 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$seo_link_not_empty->target_indexable_id = 3;
 
 		return [
-			// if ( ! empty( $indexable->id ) && ! empty( $indexable->object_id ) ).
-			// Check if indexable->id is empty and indexable->objectId is 1, will not execute other logic.
-			[
-				[
-					'indexable_id'                     => null,
-					'object_id'                        => 1,
-					'links_times'                      => 0,
-					'links'                            => null,
-					'update_target_indexable_id_times' => 0,
-				],
+			'indexable_id is empty but object_id has value' => [
+				'indexable_id'                     => null,
+				'object_id'                        => 1,
+				'links_times'                      => 0,
+				'links'                            => null,
+				'update_target_indexable_id_times' => 0,
 			],
-
-			// if ( ! empty( $indexable->id ) && ! empty( $indexable->object_id ) ).
-			// Check if indexable->id is 1 and indexable->objectId is null, will not execute other logic.
-			[
-				[
-					'indexable_id'                     => 1,
-					'object_id'                        => null,
-					'links_times'                      => 0,
-					'links'                            => null,
-					'update_target_indexable_id_times' => 0,
-				],
+			'indexable_id has value but object_id is empty' => [
+				'indexable_id'                     => 1,
+				'object_id'                        => null,
+				'links_times'                      => 0,
+				'links'                            => null,
+				'update_target_indexable_id_times' => 0,
 			],
-
-			// if ( ! empty( $indexable->id ) && ! empty( $indexable->object_id ) ).
-			// Check if indexable->id is null and indexable->objectId is null, will not execute other logic.
-			[
-				[
-					'indexable_id'                     => null,
-					'object_id'                        => null,
-					'links_times'                      => 0,
-					'links'                            => null,
-					'update_target_indexable_id_times' => 0,
-				],
+			'Both indexable_id and object_id are empty' => [
+				'indexable_id'                     => null,
+				'object_id'                        => null,
+				'links_times'                      => 0,
+				'links'                            => null,
+				'update_target_indexable_id_times' => 0,
 			],
-
-			// if $updated_indexable is false and stays false because $links array is empty.
-			[
-				[
-					'indexable_id'                     => 1,
-					'object_id'                        => 1,
-					'links_times'                      => 1,
-					'links'                            => [],
-					'update_target_indexable_id_times' => 0,
-				],
+			'updated_indexable is false and stays false because $links array is empty' => [
+				'indexable_id'                     => 1,
+				'object_id'                        => 1,
+				'links_times'                      => 1,
+				'links'                            => [],
+				'update_target_indexable_id_times' => 0,
 			],
-
-			// if ( \is_a( $link, SEO_Links::class ) && empty( $link->target_indexable_id ) ).
-			// if $updated_indexable is false and stays false because $links array has an object that is not SEO_Links.
-			[
-				[
-					'indexable_id'                     => 1,
-					'object_id'                        => 1,
-					'links_times'                      => 1,
-					'links'                            => [ $object ],
-					'update_target_indexable_id_times' => 0,
-				],
+			'link is not SEO_links object type' => [
+				'indexable_id'                     => 1,
+				'object_id'                        => 1,
+				'links_times'                      => 1,
+				'links'                            => [ $object ],
+				'update_target_indexable_id_times' => 0,
 			],
-
-			// if ( \is_a( $link, SEO_Links::class ) && empty( $link->target_indexable_id ) ).
-			// if $updated_indexable is false and stays false because $links array has an object that is SEO_Links but has no target_indexable_id.
-			[
-				[
-					'indexable_id'                     => 1,
-					'object_id'                        => 1,
-					'links_times'                      => 1,
-					'links'                            => [ $seo_link_not_empty ],
-					'update_target_indexable_id_times' => 0,
-				],
+			'link is SEO_links object type but updated_indexable is false' => [
+				'indexable_id'                     => 1,
+				'object_id'                        => 1,
+				'links_times'                      => 1,
+				'links'                            => [ $seo_link_not_empty ],
+				'update_target_indexable_id_times' => 0,
 			],
-
-			// if ( \is_a( $link, SEO_Links::class ) && empty( $link->target_indexable_id ) ).
-			// Checks if $updated_indexable becomes true because $links array has an object that is SEO_Links and has target_indexable_id.
-			[
-				[
-					'indexable_id'                     => 1,
-					'object_id'                        => 1,
-					'links_times'                      => 1,
-					'links'                            => [ $seo_link ],
-					'update_target_indexable_id_times' => 1,
-				],
+			'$links array has an object that is SEO_Links and has target_indexable_id' => [
+				'indexable_id'                     => 1,
+				'object_id'                        => 1,
+				'links_times'                      => 1,
+				'links'                            => [ $seo_link ],
+				'update_target_indexable_id_times' => 1,
 			],
 		];
 	}
@@ -487,29 +454,33 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 *
 	 * @dataProvider patch_seo_links_provider
 	 *
-	 * @param array $expected array of indexable_id, object_id, links_times, links, update_target_indexable_id_times.
+	 * @param int|null $indexable_id The indexable id.
+	 * @param int|null $object_id The object id.
+	 * @param int      $links_times The times that find_all_by_target_post_id is executed.
+	 * @param array    $links The links.
+	 * @param int      $update_target_indexable_id_times The times that update_target_indexable_id is executed.
 	 */
-	public function test_patch_seo_links( $expected ) {
+	public function test_patch_seo_links( $indexable_id, $object_id, $links_times, $links, $update_target_indexable_id_times ) {
 		$indexable            = Mockery::mock( Indexable_Mock::class );
-		$indexable->id        = $expected['indexable_id'];
-		$indexable->object_id = $expected['object_id'];
+		$indexable->id        = $indexable_id;
+		$indexable->object_id = $object_id;
 
 		// Executed if indexable has an id and object_id.
 		$this->seo_links_repository
 			->expects( 'find_all_by_target_post_id' )
 			->with( $indexable->object_id )
-			->times( $expected['links_times'] )
-			->andReturn( $expected['links'] );
+			->times( $links_times )
+			->andReturn( $links );
 
 		// Executed when $links has a object that is SEO_Links and has no target_indexable_id.
 		$this->seo_links_repository
 			->expects( 'update_target_indexable_id' )
-			->times( $expected['update_target_indexable_id_times'] );
+			->times( $update_target_indexable_id_times );
 
 		// Executed in update_incoming_links_for_related_indexables inside the patch_seo_links method when $updated_indexable is true.
 		$this->seo_links_repository
 			->expects( 'get_incoming_link_counts_for_indexable_ids' )
-			->times( $expected['update_target_indexable_id_times'] )
+			->times( $update_target_indexable_id_times )
 			->andReturn( [] );
 
 		$this->instance->patch_seo_links( $indexable );
@@ -626,6 +597,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$model       = new SEO_Links_Mock();
 		$model->type = SEO_Links::TYPE_INTERNAL_IMAGE;
 
+
 		Functions\stubs(
 			[
 				// Executed in build->create_links->create_internal_link.
@@ -700,6 +672,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 2;
+		
+
 
 		Functions\stubs(
 			[
@@ -715,9 +689,19 @@ class Indexable_Link_Builder_Test extends TestCase {
 				// Executed in build->create_links->create_internal_link.
 				'get_attached_file'           => 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg',
 
-				'wp_get_attachment_image_src' => [ '55', '200', '300' ],
 			]
 		);
+
+		// Executed in build->create_links->create_internal_link.
+		Functions\expect( 'wp_get_attachment_image_src' )
+			->once()
+			->with( $model->target_post_id, 'full' )
+			->andReturn( [ 'http://basic.wordpress.test/wp-content/uploads/2022/11/WordPress8.jpg', '640', '480' ] );
+
+		$model->width = '640';
+		$model->height = '480';
+
+		//$this->assertSame($model->height, '480');
 
 		// Executed in build->create_links->create_internal_link.
 		$this->url_helper
@@ -771,6 +755,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$model                 = new SEO_Links_Mock();
 		$model->type           = SEO_Links::TYPE_INTERNAL_IMAGE;
 		$model->target_post_id = 5;
+		$model->height = null;
+		$model->width = null;
 
 		Functions\stubs(
 			[
