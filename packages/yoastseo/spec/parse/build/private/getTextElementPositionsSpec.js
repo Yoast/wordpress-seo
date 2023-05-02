@@ -111,42 +111,76 @@ describe( "A test for getting positions of sentences", () => {
 	} );
 
 	it( "gets the sentence positions from a node that has a descendant node without opening or closing tags (comment)", function() {
-		// HTML: <p>Hello, world!<!-- A comment --> Hello, yoast!</p>
-		const node = new Paragraph( {}, [ { name: "#text", value: "Hello, world! Hello, yoast!" },
+		// HTML: <p>Hello, <!-- A comment --> world!</p>
+		const node = new Paragraph( {}, [
 				{
-					name: "img",
-					attributes: {
-						src: "image.jpg",
-						alt: "this is an image",
-						width: "500",
-						height: "600",
-					},
+					name: "#text",
+					value: "Hello, ",
+				},
+				{
+					name: "#comment",
+					attributes: {},
 					childNodes: [],
-					sourceCodeLocation: {
-						startOffset: 21,
-						endOffset: 90,
-						startTag: {
-							startOffset: 21,
-							endOffset: 90,
-						},
-					},
+					sourceCodeLocation: { startOffset: 15, endOffset: 33 },
+				},
+				{
+					name: "#text",
+					value: " world!",
 				} ],
 			{
 				startOffset: 5,
-				endOffset: 108,
+				endOffset: 44,
 				startTag: {
 					startOffset: 5,
 					endOffset: 8,
 				},
 				endTag: {
-					startOffset: 104,
-					endOffset: 108,
+					startOffset: 40,
+					endOffset: 44,
 				},
 			} );
 
-		const sentences = [ { text: "Hello, world!" }, { text: " Hello, yoast!" } ];
-		const sentencesWithPositions = [ { text: "Hello, world!", sourceCodeRange: { startOffset: 8, endOffset: 21 } },
-			{ text: " Hello, yoast!", sourceCodeRange: { startOffset: 21, endOffset: 104 } } ];
+		const sentences = [ { text: "Hello,  world!" } ];
+		const sentencesWithPositions = [ { text: "Hello,  world!", sourceCodeRange: { startOffset: 8, endOffset: 40 } } ];
+
+		expect( getTextElementPositions( node, sentences ) ).toEqual( sentencesWithPositions );
+	} );
+
+	it( "gets the sentence positions from a node that has a code child node", function() {
+		// HTML: <p>Hello <code>array.push( something )</code> code!</p>
+		const node = new Paragraph( {}, [
+				{
+					name: "#text",
+					value: "Hello ",
+				},
+				{
+					"name": "code",
+					"attributes": {},
+					"childNodes": [],
+					"sourceCodeLocation": {
+						"startOffset": 14,
+						"endOffset": 50
+					}
+				},
+				{
+					name: "#text",
+					value: " code!",
+				} ],
+			{
+				startOffset: 5,
+				endOffset: 60,
+				startTag: {
+					startOffset: 5,
+					endOffset: 8,
+				},
+				endTag: {
+					startOffset: 56,
+					endOffset: 60,
+				},
+			} );
+
+		const sentences = [ { text: "Hello  code!" } ];
+		const sentencesWithPositions = [ { text: "Hello  code!", sourceCodeRange: { startOffset: 8, endOffset: 56 } } ];
 
 		expect( getTextElementPositions( node, sentences ) ).toEqual( sentencesWithPositions );
 	} );

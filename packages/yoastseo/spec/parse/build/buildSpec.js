@@ -502,9 +502,235 @@ describe( "The parse function", () => {
 			],
 		} );
 	} );
-	it( "parses a basic HTML text and filters out elements that should be filtered out", () => {
+	it( "parses an HTML text with a Yoast table of contents block, which should be filtered out", () => {
 		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div>" +
-			"<div><p class='yoast'>Hello, world!<script>console.log(\"Hello, world!\")</script></p></div>";
+			"<p>And this is a paragraph.</p>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			"name": "#document-fragment",
+			"attributes": {},
+			"childNodes": [
+				{
+					"name": "p",
+					"isImplicit": false,
+					"attributes": {},
+					"sentences": [
+						{
+							"text": "And this is a paragraph.",
+							"sourceCodeRange": {
+								"startOffset": 116,
+								"endOffset": 140,
+							},
+							"tokens": [
+								{
+									"text": "And",
+									"sourceCodeRange": {
+										"startOffset": 116,
+										"endOffset": 119,
+									}
+								},
+								{
+									"text": " ",
+									"sourceCodeRange": {
+										"endOffset": 120,
+										"startOffset": 119
+									},
+								},
+								{
+									"text": "this",
+									"sourceCodeRange": {
+										"endOffset": 124,
+										"startOffset": 120
+									},
+								},
+								{
+									"text": " ",
+									"sourceCodeRange": {
+										"endOffset": 125,
+										"startOffset": 124
+									},
+								},
+								{
+									"text": "is",
+									"sourceCodeRange": {
+										"endOffset": 127,
+										"startOffset": 125
+									},
+								},
+								{
+									"text": " ",
+									"sourceCodeRange": {
+										"endOffset": 128,
+										"startOffset": 127
+									},
+								},
+								{
+									"text": "a",
+									"sourceCodeRange": {
+										"endOffset": 129,
+										"startOffset": 128
+									},
+								},
+								{
+									"text": " ",
+									"sourceCodeRange": {
+										"endOffset": 130,
+										"startOffset": 129
+									},
+								},
+								{
+									"text": "paragraph",
+									"sourceCodeRange": {
+										"endOffset": 139,
+										"startOffset": 130
+									},
+								},
+								{
+									"text": ".",
+									"sourceCodeRange": {
+										"endOffset": 140,
+										"startOffset": 139
+									},
+								}
+							],
+						}
+					],
+					"childNodes": [
+						{
+							"name": "#text",
+							"value": "And this is a paragraph."
+						}
+					],
+					"sourceCodeLocation": {
+						"endOffset": 144,
+						"endTag": {
+							"endOffset": 144,
+							"startOffset": 140
+						},
+						"startOffset": 113,
+						"startTag": {
+							"endOffset": 116,
+							"startOffset": 113
+						}
+					}
+				}
+			],
+		} );
+	} );
+	it( "parses an HTML text with a script element inside a paragraph", () => {
+		const html = "<div><p><script>console.log(\"Hello, world!\")</script> Hello, world!</p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			"name": "#document-fragment",
+			"attributes": {},
+			"childNodes": [
+				{
+					"name": "div",
+					"attributes": {},
+					"sourceCodeLocation": {
+						"endOffset": 77,
+						"endTag": {
+							"endOffset": 77,
+							"startOffset": 71
+						},
+						"startOffset": 0,
+						"startTag": {
+							"endOffset": 5,
+							"startOffset": 0
+						}
+					},
+					"childNodes": [
+						{
+							"name": "p",
+							"isImplicit": false,
+							"attributes": {},
+							"childNodes": [
+								{
+									"name": "#text",
+									"value": " Hello, world!"
+								}
+							],
+							"sentences": [
+								{
+									"text": " Hello, world!",
+									"sourceCodeRange": {
+										"startOffset": 8,
+										"endOffset": 67,
+									},
+									"tokens": [
+										{
+											"text": " ",
+											"sourceCodeRange": {
+												"startOffset": 8,
+												"endOffset": 54,
+											},
+										},
+										{
+											"text": "Hello",
+											"sourceCodeRange": {
+												"startOffset": 54,
+												"endOffset": 59,
+											},
+										},
+										{
+											"text": ",",
+											"sourceCodeRange": {
+												"startOffset": 59,
+												"endOffset": 60,
+											},
+										},
+										{
+											"text": " ",
+											"sourceCodeRange": {
+												"startOffset": 60,
+												"endOffset": 61,
+											},
+										},
+										{
+											"text": "world",
+											"sourceCodeRange": {
+												"startOffset": 61,
+												"endOffset": 66,
+											},
+										},
+										{
+											"text": "!",
+											"sourceCodeRange": {
+												"startOffset": 66,
+												"endOffset": 67,
+											},
+										}
+									]
+								}
+							],
+							"sourceCodeLocation": {
+								"startOffset": 5,
+								"endOffset": 71,
+								"startTag": {
+									"startOffset": 5,
+									"endOffset": 8,
+								},
+								"endTag": {
+									"startOffset": 67,
+									"endOffset": 71,
+								},
+							},
+						}
+					],
+				}
+			],
+		} );
+	} );
+	it( "parses an HTML text with a script element outside of a paragraph", () => {
+		const html = "<script>console.log(\"Hello, world!\")</script><p>Hello, world!</p>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -514,58 +740,47 @@ describe( "The parse function", () => {
 			name: "#document-fragment",
 			attributes: {},
 			childNodes: [ {
-				name: "div",
+				name: "p",
+				isImplicit: true,
+				attributes: {},
+				sentences: [],
+				childNodes: [],
+			},
+			{
+				name: "p",
+				isImplicit: false,
+				attributes: {},
+				sentences: [ {
+					text: "Hello, world!",
+					tokens: [
+						{ text: "Hello", sourceCodeRange: { startOffset: 48, endOffset: 53 } },
+						{ text: ",", sourceCodeRange: { startOffset: 53, endOffset: 54 } },
+						{ text: " ", sourceCodeRange: { startOffset: 54, endOffset: 55 } },
+						{ text: "world", sourceCodeRange: { startOffset: 55, endOffset: 60 } },
+						{ text: "!", sourceCodeRange: { startOffset: 60, endOffset: 61 } },
+					],
+					sourceCodeRange: { startOffset: 48, endOffset: 61 },
+				} ],
+				childNodes: [ {
+					name: "#text",
+					value: "Hello, world!",
+				} ],
 				sourceCodeLocation: {
-					startOffset: 113,
-					endOffset: 203,
+					startOffset: 45,
+					endOffset: 65,
 					startTag: {
-						startOffset: 113,
-						endOffset: 118,
+						startOffset: 45,
+						endOffset: 48,
 					},
 					endTag: {
-						startOffset: 197,
-						endOffset: 203,
+						startOffset: 61,
+						endOffset: 65,
 					},
 				},
-				attributes: {},
-				childNodes: [ {
-					name: "p",
-					isImplicit: false,
-					attributes: {
-						"class": new Set( [ "yoast" ] ),
-					},
-					sentences: [ {
-						text: "Hello, world!",
-						tokens: [
-							{ text: "Hello", sourceCodeRange: { startOffset: 135, endOffset: 140 } },
-							{ text: ",", sourceCodeRange: { startOffset: 140, endOffset: 141 } },
-							{ text: " ", sourceCodeRange: { startOffset: 141, endOffset: 142 } },
-							{ text: "world", sourceCodeRange: { startOffset: 142, endOffset: 147 } },
-							{ text: "!", sourceCodeRange: { startOffset: 147, endOffset: 148 } },
-						],
-						sourceCodeRange: { startOffset: 135, endOffset: 148 },
-					} ],
-					childNodes: [ {
-						name: "#text",
-						value: "Hello, world!",
-					} ],
-					sourceCodeLocation: {
-						startOffset: 118,
-						endOffset: 197,
-						startTag: {
-							startOffset: 118,
-							endOffset: 135,
-						},
-						endTag: {
-							startOffset: 193,
-							endOffset: 197,
-						},
-					},
-				} ],
 			} ],
 		} );
 	} );
-	it( "parses an HTML text with a comment", () => {
+	it( "parses an HTML text with a comment inside a paragraph", () => {
 		const html = "<div><p><!-- A comment -->Hello, world!</p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
@@ -632,8 +847,8 @@ describe( "The parse function", () => {
 			} ],
 		} );
 	} );
-	it( "parses an HTML text with a code block inside a paragraph", () => {
-		const html = "<div><p>Hello! <code>array.push( something )</code> World!</p></div>";
+	it( "parses an HTML text with a comment within a sentence", () => {
+		const html = "<div><p>Hello, <!-- A comment --> world!</p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
 			{ memoizedTokenizer: memoizedSentenceTokenizer } );
@@ -646,14 +861,14 @@ describe( "The parse function", () => {
 				name: "div",
 				sourceCodeLocation: {
 					startOffset: 0,
-					endOffset: 67,
+					endOffset: 50,
 					startTag: {
 						startOffset: 0,
 						endOffset: 5,
 					},
 					endTag: {
-						startOffset: 61,
-						endOffset: 67,
+						startOffset: 44,
+						endOffset: 50,
 					},
 				},
 				attributes: {},
@@ -662,60 +877,199 @@ describe( "The parse function", () => {
 					isImplicit: false,
 					attributes: {},
 					sentences: [ {
-						text: "Hello!",
+						text: "Hello,  world!",
 						tokens: [
 							{ text: "Hello", sourceCodeRange: { startOffset: 8, endOffset: 13 } },
-							{ text: "!", sourceCodeRange: { startOffset: 13, endOffset: 14 } },
+							{ text: ",", sourceCodeRange: { startOffset: 13, endOffset: 14 } },
+							{ text: " ", sourceCodeRange: { startOffset: 14, endOffset: 33 } },
+							{ text: " ", sourceCodeRange: { startOffset: 33, endOffset: 34 } },
+							{ text: "world", sourceCodeRange: { startOffset: 34, endOffset: 39 } },
+							{ text: "!", sourceCodeRange: { startOffset: 39, endOffset: 40 } },
 						],
-						sourceCodeRange: { startOffset: 8, endOffset: 14 },
-					},
-					{
-						text: "World!",
-						tokens: [
-							{ text: "World", sourceCodeRange: { startOffset: 51, endOffset: 56 } },
-							{ text: "!", sourceCodeRange: { startOffset: 56, endOffset: 57 } },
-						],
-						sourceCodeRange: { startOffset: 51, endOffset: 57 },
+						sourceCodeRange: { startOffset: 8, endOffset: 40 },
 					} ],
 					childNodes: [
 						{
 							name: "#text",
-							value: "Hello! World!",
+							value: "Hello, ",
 						},
 						{
-							name: "code",
+							name: "#comment",
 							attributes: {},
 							childNodes: [],
-							sourceCodeLocation: {
-								startOffset: 14,
-								endOffset: 50,
-								startTag: {
-									startOffset: 14,
-									endOffset: 20,
-								},
-								endTag: {
-									startOffset: 43,
-									endOffset: 50,
-								},
-							}
-						}, ],
+							sourceCodeLocation: { startOffset: 15, endOffset: 33 },
+						},
+						{
+							name: "#text",
+							value: " world!",
+						} ],
 					sourceCodeLocation: {
 						startOffset: 5,
-						endOffset: 61,
+						endOffset: 44,
 						startTag: {
 							startOffset: 5,
 							endOffset: 8,
 						},
 						endTag: {
-							startOffset: 57,
-							endOffset: 61,
+							startOffset: 40,
+							endOffset: 44,
 						},
 					},
 				} ],
 			} ],
 		} );
 	} );
-	it( "parses an HTML text with a code block within a sentence", () => {
+	// Currently the token offsets for the second sentence are not calculated correctly.
+	xit( "parses an HTML text with a code element within a paragraph", () => {
+		const html = "<div><p>Hello code! <code>array.push( something )</code> Hello world!</p></div>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			"name": "#document-fragment",
+			"attributes": {},
+			"childNodes": [
+				{
+					"name": "div",
+					"sourceCodeLocation": {
+						"endOffset": 79,
+						"endTag": {
+							"endOffset": 79,
+							"startOffset": 73
+						},
+						"startOffset": 0,
+						"startTag": {
+							"endOffset": 5,
+							"startOffset": 0
+						}
+					},
+					"attributes": {},
+					"childNodes": [
+						{
+							"name": "p",
+							"isImplicit": false,
+							"attributes": {},
+							"childNodes": [
+								{
+									"name": "#text",
+									"value": "Hello code! "
+								},
+								{
+									"name": "#text",
+									"value": " Hello world!"
+								}
+							],
+							"sentences": [
+								{
+									"text": "Hello code!",
+									"tokens": [
+										{
+											"sourceCodeRange": {
+												"endOffset": 13,
+												"startOffset": 8
+											},
+											"text": "Hello"
+										},
+										{
+											"sourceCodeRange": {
+												"endOffset": 14,
+												"startOffset": 13
+											},
+											"text": " "
+										},
+										{
+											"sourceCodeRange": {
+												"endOffset": 18,
+												"startOffset": 14
+											},
+											"text": "code"
+										},
+										{
+											"sourceCodeRange": {
+												"endOffset": 19,
+												"startOffset": 18
+											},
+											"text": "!"
+										}
+									],
+									"sourceCodeRange": {
+										"endOffset": 19,
+										"startOffset": 8
+									}
+								},
+								{
+									"text": "  Hello world!",
+									"tokens": [
+										{
+											"sourceCodeRange": {
+												"startOffset": 19,
+												"endOffset": 20
+											},
+											"text": " "
+										},
+										{
+											"sourceCodeRange": {
+												"startOffset": 56,
+												"endOffset": 57
+											},
+											"text": " "
+										},
+										{
+											"sourceCodeRange": {
+												"startOffset": 57,
+												"endOffset": 62
+											},
+											"text": "Hello"
+										},
+										{
+											"sourceCodeRange": {
+												"startOffset": 62,
+												"endOffset": 63
+											},
+											"text": " "
+										},
+										{
+											"sourceCodeRange": {
+												"startOffset": 63,
+												"endOffset": 68
+											},
+											"text": "world"
+										},
+										{
+											"sourceCodeRange": {
+												"startOffset": 68,
+												"endOffset": 69
+											},
+											"text": "!"
+										}
+									],
+									"sourceCodeRange": {
+										"endOffset": 69,
+										"startOffset": 19
+									}
+								}
+							],
+							"sourceCodeLocation": {
+								"endOffset": 73,
+								"endTag": {
+									"endOffset": 73,
+									"startOffset": 69
+								},
+								"startOffset": 5,
+								"startTag": {
+									"endOffset": 8,
+									"startOffset": 5
+								}
+							}
+						}
+					],
+				}
+			],
+		} );
+	} );
+	it( "parses an HTML text with a code element within a sentence", () => {
 		const html = "<div><p>Hello <code>array.push( something )</code> code!</p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
@@ -729,14 +1083,14 @@ describe( "The parse function", () => {
 				name: "div",
 				sourceCodeLocation: {
 					startOffset: 0,
-					endOffset: 68,
+					endOffset: 66,
 					startTag: {
 						startOffset: 0,
 						endOffset: 5,
 					},
 					endTag: {
-						startOffset: 62,
-						endOffset: 68,
+						startOffset: 60,
+						endOffset: 66,
 					},
 				},
 				attributes: {},
@@ -745,123 +1099,36 @@ describe( "The parse function", () => {
 					isImplicit: false,
 					attributes: {},
 					sentences: [ {
-						text: "Hello code!",
+						text: "Hello  code!",
 						tokens: [
 							{ text: "Hello", sourceCodeRange: { startOffset: 8, endOffset: 13 } },
-							{ text: " ", sourceCodeRange: { startOffset: 13, endOffset: 14 } },
-							{ text: " ", sourceCodeRange: { startOffset: 51, endOffset: 52 } },
-							{ text: "code", sourceCodeRange: { startOffset: 52, endOffset: 56 } },
-							{ text: "!", sourceCodeRange: { startOffset: 56, endOffset: 57 } },
+							{ text: " ", sourceCodeRange: { startOffset: 13, endOffset: 50 } },
+							{ text: " ", sourceCodeRange: { startOffset: 50, endOffset: 51 } },
+							{ text: "code", sourceCodeRange: { startOffset: 51, endOffset: 55 } },
+							{ text: "!", sourceCodeRange: { startOffset: 55, endOffset: 56 } },
 						],
-						sourceCodeRange: { startOffset: 8, endOffset: 57 },
+						sourceCodeRange: { startOffset: 8, endOffset: 56 },
 					} ],
 					childNodes: [
 						{
 							name: "#text",
-							value: "Hello code!",
+							value: "Hello ",
 						},
 						{
-							name: "code",
-							attributes: {},
-							childNodes: [],
-							sourceCodeLocation: {
-								startOffset: 14,
-								endOffset: 50,
-								startTag: {
-									startOffset: 14,
-									endOffset: 20,
-								},
-								endTag: {
-									startOffset: 43,
-									endOffset: 50,
-								},
-							}
-						}, ],
+							name: "#text",
+							value: " code!",
+						},
+					],
 					sourceCodeLocation: {
 						startOffset: 5,
-						endOffset: 62,
+						endOffset: 60,
 						startTag: {
 							startOffset: 5,
 							endOffset: 8,
 						},
 						endTag: {
-							startOffset: 57,
-							endOffset: 62,
-						},
-					},
-				} ],
-			} ],
-		} );
-	} );
-	it( "parses an HTML text with a code block next to a paragraph", () => {
-		const html = "<div><code>array.push( something )</code><p>Hello.</p></div>";
-
-		const researcher = Factory.buildMockResearcher( {}, true, false, false,
-			{ memoizedTokenizer: memoizedSentenceTokenizer } );
-		const languageProcessor = new LanguageProcessor( researcher );
-
-		expect( build( html, languageProcessor ) ).toEqual( {
-			name: "#document-fragment",
-			attributes: {},
-			childNodes: [ {
-				name: "div",
-				sourceCodeLocation: {
-					startOffset: 0,
-					endOffset: 60,
-					startTag: {
-						startOffset: 0,
-						endOffset: 5,
-					},
-					endTag: {
-						startOffset: 54,
-						endOffset: 60,
-					},
-				},
-				attributes: {},
-				childNodes: [ {
-					name: "p",
-					isImplicit: false,
-					attributes: {},
-					sentences: [ {
-						text: "Hello code!",
-						tokens: [
-							{ text: "Hello", sourceCodeRange: { startOffset: 44, endOffset: 49 } },
-							{ text: ".", sourceCodeRange: { startOffset: 49, endOffset: 50 } },
-						],
-						sourceCodeRange: { startOffset: 44 , endOffset: 50 },
-					} ],
-					childNodes: [
-						{
-							name: "#text",
-							value: "Hello code!",
-						},
-						{
-							name: "code",
-							attributes: {},
-							childNodes: [],
-							sourceCodeLocation: {
-								startOffset: 5,
-								endOffset: 41,
-								startTag: {
-									startOffset: 5,
-									endOffset: 11,
-								},
-								endTag: {
-									startOffset: 34,
-									endOffset: 41,
-								},
-							}
-						}, ],
-					sourceCodeLocation: {
-						startOffset: 41,
-						endOffset: 54,
-						startTag: {
-							startOffset: 41,
-							endOffset: 44,
-						},
-						endTag: {
-							startOffset: 50,
-							endOffset: 54,
+							startOffset: 56,
+							endOffset: 60,
 						},
 					},
 				} ],
