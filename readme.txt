@@ -253,8 +253,9 @@ Release date: 2023-05-09
 
 #### Enhancements
 
-* Adds an academy page in the Yoast menu for easy access to all of Yoast’s e-learning modules.
 * Adds a link to a taxonomy edit page in its settings section when the taxonomy has no public post types associated.
+* Adds an academy page in the Yoast menu.
+* Ensures compatibility with upcoming Elementor accessibility improvements.
 
 #### Bugfixes
 
