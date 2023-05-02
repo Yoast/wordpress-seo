@@ -83,7 +83,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -104,7 +104,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 						"%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
 						"%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
 						imagesNoAlt,
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					imagesNoAlt,
 					this.imageCount,
@@ -123,7 +123,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 				 * %2$s expands to the anchor end tag. */
 				__(
 					"%1$sImage alt tags%2$s: All images have alt attributes. Good job!",
-					"wordpress-seo"
+					"yoast-woo-seo"
 				),
 				this._config.urlTitle,
 				"</a>"

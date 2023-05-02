@@ -4,7 +4,7 @@ import { noop } from "lodash";
 import RadioGroup from ".";
 
 export default {
-	title: "2) Components/Radio Group",
+	title: "2) Components/Radio group",
 	component: RadioGroup,
 	argTypes: {
 		children: { control: "text" },
@@ -57,7 +57,7 @@ export const Variants = ( args ) => (
 				{ value: "3", label: "3", screenReaderLabel: "Option #3" },
 				{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 			] }
-			label="Default Radio Group"
+			label="Default radio group"
 			onChange={ noop }
 		/>
 		<hr />
@@ -65,7 +65,7 @@ export const Variants = ( args ) => (
 			id="radio-group-2"
 			name="name-2"
 			value="2"
-			label="Inline-block Radio Group"
+			label="Inline-block radio group"
 			description="Radio group with a description."
 			options={ [
 				{ value: "1", label: "1", screenReaderLabel: "Option #1" },
@@ -83,6 +83,7 @@ Variants.parameters = {
 };
 
 export const WithLabelAndDescription = Template.bind();
+WithLabelAndDescription.storyName = "With label and description";
 WithLabelAndDescription.args = {
 	id: "radio-group-3",
 	name: "name-3",
@@ -97,6 +98,7 @@ WithLabelAndDescription.args = {
 };
 
 export const WithValue = Template.bind();
+WithValue.storyName = "With value";
 WithValue.args = {
 	id: "radio-group-4",
 	name: "name-4",
@@ -111,6 +113,7 @@ WithValue.args = {
 };
 
 export const ChildrenProp = Template.bind();
+ChildrenProp.storyName = "Children prop";
 ChildrenProp.args = {
 	id: "radio-group-5",
 	name: "name-5",

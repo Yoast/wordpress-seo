@@ -12,7 +12,7 @@ import getTextElementPositions from "./getTextElementPositions";
  */
 function getTokens( node, sentence, splitIntoTokens ) {
 	sentence.tokens = splitIntoTokens( sentence );
-	sentence.tokens = getTextElementPositions( node, sentence.tokens );
+	sentence.tokens = getTextElementPositions( node, sentence.tokens, sentence.sourceCodeRange.startOffset );
 	return sentence;
 }
 

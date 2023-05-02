@@ -5,7 +5,7 @@ import Alert from "../../elements/alert";
 import FileImport, { FILE_IMPORT_STATUS, StoryComponent } from ".";
 
 export default {
-	title: "2) Components/File Import",
+	title: "2) Components/File import",
 	component: StoryComponent,
 	argTypes: {
 		children: { control: "text" },
