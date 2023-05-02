@@ -44,7 +44,9 @@
 	font-weight: 400;
 }
 
-.elementor-panel .elementor-tab-control-yoast-tab a:before, .yoast-element-menu-icon:before {
+.elementor-panel .elementor-tab-control-yoast-tab a:before,
+.elementor-panel .elementor-tab-control-yoast-tab span:before,
+.yoast-element-menu-icon:before {
 	mask-image: var(--yoast-svg-icon-yoast);
 	-webkit-mask-image: var(--yoast-svg-icon-yoast);
 	mask-size: 100% 100%;
@@ -249,7 +251,7 @@
 
 /* All hover effects */
 @media(hover:hover) {
-	
+
 	.yoast a:hover, .yoast a:hover p, .yoast-elementor-panel__fills p a:hover, .button-link:hover {
 		color: var(--yoast-color-primary-darker);
 	}
