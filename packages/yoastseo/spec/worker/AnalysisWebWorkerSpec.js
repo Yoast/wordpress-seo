@@ -496,7 +496,7 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
 			} );
 
-			/*it( "does not assess the tree when it could not be built", done => {
+			it( "does not assess the tree when it could not be built", done => {
 				const paper = new Paper( "<h1>This </ fails." );
 
 				worker.analyzeDone = ( id, result ) => {
@@ -514,7 +514,7 @@ describe( "AnalysisWebWorker", () => {
 
 				scope.onmessage( createMessage( "initialize" ) );
 				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
-			} );*/
+			} );
 
 			test( "skips over researcher set paper and locale when there are no paper changes", done => {
 				const paper = new Paper( "This is the content." );

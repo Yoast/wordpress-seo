@@ -56,36 +56,36 @@ describe( "The adapt function",
 			const adaptedTree = adapt( tree );
 
 			const expected = {
-				"name": "#document-fragment",
-				"attributes": {},
-				"childNodes": [
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
 					{
-						"name": "p",
-						"isImplicit": false,
-						"attributes": {},
-						"childNodes": [
+						name: "p",
+						isImplicit: false,
+						attributes: {},
+						childNodes: [
 							{
-								"name": "#text",
-								"value": "Hello World! "
+								name: "#text",
+								value: "Hello World! ",
 							},
 							{
-								"name": "code",
-								"attributes": {},
-								"childNodes": [
+								name: "code",
+								attributes: {},
+								childNodes: [
 									{
-										"name": "#text",
-										"value": "function()"
-									}
+										name: "#text",
+										value: "function()",
+									},
 								],
 							},
 							{
-								"name": "#text",
-								"value": " Hello Yoast!"
+								name: "#text",
+								value: " Hello Yoast!",
 							},
 						],
-					}
+					},
 				],
-			}
+			};
 			expect( adaptedTree ).toEqual( expected );
 		} );
 
@@ -96,36 +96,36 @@ describe( "The adapt function",
 			const adaptedTree = adapt( tree );
 
 			const expected = {
-				"name": "#document-fragment",
-				"attributes": {},
-				"childNodes": [
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
 					{
-						"name": "p",
-						"isImplicit": false,
-						"attributes": {},
-						"childNodes": [
+						name: "p",
+						isImplicit: false,
+						attributes: {},
+						childNodes: [
 							{
-								"name": "#text",
-								"value": "Hello "
+								name: "#text",
+								value: "Hello ",
 							},
 							{
-								"name": "code",
-								"attributes": {},
-								"childNodes": [
+								name: "code",
+								attributes: {},
+								childNodes: [
 									{
-										"name": "#text",
-										"value": "push()"
-									}
+										name: "#text",
+										value: "push()",
+									},
 								],
 							},
 							{
-								"name": "#text",
-								"value": " World!"
-							}
+								name: "#text",
+								value: " World!",
+							},
 						],
-					}
+					},
 				],
-			}
+			};
 			expect( adaptedTree ).toEqual( expected );
 		} );
 
@@ -136,43 +136,43 @@ describe( "The adapt function",
 			const adaptedTree = adapt( tree );
 
 			const expected = {
-				"name": "#document-fragment",
-				"attributes": {},
-				"childNodes": [
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
 					{
-						"name": "div",
-						"attributes": {},
-						"childNodes": [
+						name: "div",
+						attributes: {},
+						childNodes: [
 							{
-								"name": "p",
-								"isImplicit": true,
-								"attributes": {},
-								"childNodes": [
+								name: "p",
+								isImplicit: true,
+								attributes: {},
+								childNodes: [
 									{
-										"name": "script",
-										"attributes": {},
-										"childNodes": [
+										name: "script",
+										attributes: {},
+										childNodes: [
 											{
-												"name": "#text",
-												"value": "alert(\"Hello World!\");"
-											}
+												name: "#text",
+												value: "alert(\"Hello World!\");",
+											},
 										],
 									},
 								],
 							},
 							{
-								"name": "p",
-								"isImplicit": false,
-								"attributes": {},
-								"childNodes": [
+								name: "p",
+								isImplicit: false,
+								attributes: {},
+								childNodes: [
 									{
-										"name": "#text",
-										"value": "Hello World!"
-									}
+										name: "#text",
+										value: "Hello World!",
+									},
 								],
-							}
+							},
 						],
-					}
+					},
 				],
 			};
 			expect( adaptedTree ).toEqual( expected );
@@ -185,38 +185,38 @@ describe( "The adapt function",
 			const adaptedTree = adapt( tree );
 
 			const expected = {
-				"name": "#document-fragment",
-				"attributes": {},
-				"childNodes": [
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
 					{
-						"name": "div",
-						"attributes": {},
-						"childNodes": [
+						name: "div",
+						attributes: {},
+						childNodes: [
 							{
-								"name": "p",
-								"isImplicit": false,
-								"attributes": {},
-								"childNodes": [
+								name: "p",
+								isImplicit: false,
+								attributes: {},
+								childNodes: [
 									{
-										"name": "script",
-										"attributes": {},
-										"childNodes": [
+										name: "script",
+										attributes: {},
+										childNodes: [
 											{
-												"name": "#text",
-												"value": "alert(\"Hello World!\");"
-											}
+												name: "#text",
+												value: "alert(\"Hello World!\");",
+											},
 										],
 									},
 									{
-										"name": "#text",
-										"value": " Hello World!"
-									}
+										name: "#text",
+										value: " Hello World!",
+									},
 								],
-							}
+							},
 						],
-					}
+					},
 				],
-			}
+			};
 			expect( adaptedTree ).toEqual( expected );
 		} );
 
@@ -227,39 +227,39 @@ describe( "The adapt function",
 			const adaptedTree = adapt( tree );
 
 			const expected = {
-				"name": "#document-fragment",
-				"attributes": {},
-				"childNodes": [
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
 					{
-						"name": "style",
-						"attributes": {},
-						"childNodes": [
+						name: "style",
+						attributes: {},
+						childNodes: [
 							{
-								"name": "p",
-								"isImplicit": true,
-								"attributes": {},
-								"childNodes": [
+								name: "p",
+								isImplicit: true,
+								attributes: {},
+								childNodes: [
 									{
-										"name": "#text",
-										"value": "div { color: #FF00FF}"
-									}
+										name: "#text",
+										value: "div { color: #FF00FF}",
+									},
 								],
-							}
+							},
 						],
 					},
 					{
-						"name": "p",
-						"isImplicit": false,
-						"attributes": {},
-						"childNodes": [
+						name: "p",
+						isImplicit: false,
+						attributes: {},
+						childNodes: [
 							{
-								"name": "#text",
-								"value": "Hello World!"
-							}
+								name: "#text",
+								value: "Hello World!",
+							},
 						],
-					}
+					},
 				],
-			}
+			};
 			expect( adaptedTree ).toEqual( expected );
 		} );
 
@@ -271,43 +271,43 @@ describe( "The adapt function",
 			const adaptedTree = adapt( tree );
 
 			const expected = {
-				"name": "#document-fragment",
-				"attributes": {},
-				"childNodes": [
+				name: "#document-fragment",
+				attributes: {},
+				childNodes: [
 					{
-						"name": "div",
-						"attributes": {},
-						"childNodes": [
+						name: "div",
+						attributes: {},
+						childNodes: [
 							{
-								"name": "p",
-								"isImplicit": false,
-								"attributes": {},
-								"childNodes": [
+								name: "p",
+								isImplicit: false,
+								attributes: {},
+								childNodes: [
 									{
-										"name": "#text",
-										"value": "Hello World!"
-									}
+										name: "#text",
+										value: "Hello World!",
+									},
 								],
 							},
 							{
-								"name": "blockquote",
-								"attributes": {},
-								"childNodes": [
+								name: "blockquote",
+								attributes: {},
+								childNodes: [
 									{
-										"name": "p",
-										"isImplicit": true,
-										"attributes": {},
-										"childNodes": [
+										name: "p",
+										isImplicit: true,
+										attributes: {},
+										childNodes: [
 											{
-												"name": "#text",
-												"value": "Hello Yoast!"
-											}
+												name: "#text",
+												value: "Hello Yoast!",
+											},
 										],
-									}
+									},
 								],
-							}
+							},
 						],
-					}
+					},
 				],
 			};
 			expect( adaptedTree ).toEqual( expected );

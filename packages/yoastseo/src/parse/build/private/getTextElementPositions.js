@@ -21,7 +21,7 @@ function getDescendantPositions( descendantNodes ) {
 		 * Some nodes, such as the 'comment' node, don't have start and end tags. In those cases, add the full
 		 * sourceCodeLocation object to the array, which then only contains the startOffset and endOffset properties.
 		 */
-		if( ! node.sourceCodeLocation.hasOwnProperty( "startTag" ) && ! node.sourceCodeLocation.hasOwnProperty( "endTag" ) ) {
+		if ( ! node.sourceCodeLocation.hasOwnProperty( "startTag" ) && ! node.sourceCodeLocation.hasOwnProperty( "endTag" ) ) {
 			descendantTagPositions.push( node.sourceCodeLocation );
 		} else {
 			descendantTagPositions.push( node.sourceCodeLocation.startTag );
@@ -71,8 +71,8 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
 	 * remove it. We are using the data from the original descendantNodes array for this check, as the
 	 * descendantTagPositions array doesn't specify whether each tag is an opening or closing tag.
 	 */
-	const startTagAtEndOfTextElement = descendantNodes.find( node => node.sourceCodeLocation.startTag
-		&& node.sourceCodeLocation.startTag.endOffset === textElementEnd );
+	const startTagAtEndOfTextElement = descendantNodes.find( node => node.sourceCodeLocation.startTag &&
+		node.sourceCodeLocation.startTag.endOffset === textElementEnd );
 	if ( startTagAtEndOfTextElement ) {
 		const startTagLocation = startTagAtEndOfTextElement.sourceCodeLocation.startTag;
 		textElementEnd = textElementEnd - ( startTagLocation.endOffset - startTagLocation.startOffset );

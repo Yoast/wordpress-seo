@@ -511,113 +511,113 @@ describe( "The parse function", () => {
 		const languageProcessor = new LanguageProcessor( researcher );
 
 		expect( build( html, languageProcessor ) ).toEqual( {
-			"name": "#document-fragment",
-			"attributes": {},
-			"childNodes": [
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
 				{
-					"name": "p",
-					"isImplicit": false,
-					"attributes": {},
-					"sentences": [
+					name: "p",
+					isImplicit: false,
+					attributes: {},
+					sentences: [
 						{
-							"text": "And this is a paragraph.",
-							"sourceCodeRange": {
-								"startOffset": 116,
-								"endOffset": 140,
+							text: "And this is a paragraph.",
+							sourceCodeRange: {
+								startOffset: 116,
+								endOffset: 140,
 							},
-							"tokens": [
+							tokens: [
 								{
-									"text": "And",
-									"sourceCodeRange": {
-										"startOffset": 116,
-										"endOffset": 119,
-									}
-								},
-								{
-									"text": " ",
-									"sourceCodeRange": {
-										"endOffset": 120,
-										"startOffset": 119
+									text: "And",
+									sourceCodeRange: {
+										startOffset: 116,
+										endOffset: 119,
 									},
 								},
 								{
-									"text": "this",
-									"sourceCodeRange": {
-										"endOffset": 124,
-										"startOffset": 120
+									text: " ",
+									sourceCodeRange: {
+										endOffset: 120,
+										startOffset: 119,
 									},
 								},
 								{
-									"text": " ",
-									"sourceCodeRange": {
-										"endOffset": 125,
-										"startOffset": 124
+									text: "this",
+									sourceCodeRange: {
+										endOffset: 124,
+										startOffset: 120,
 									},
 								},
 								{
-									"text": "is",
-									"sourceCodeRange": {
-										"endOffset": 127,
-										"startOffset": 125
+									text: " ",
+									sourceCodeRange: {
+										endOffset: 125,
+										startOffset: 124,
 									},
 								},
 								{
-									"text": " ",
-									"sourceCodeRange": {
-										"endOffset": 128,
-										"startOffset": 127
+									text: "is",
+									sourceCodeRange: {
+										endOffset: 127,
+										startOffset: 125,
 									},
 								},
 								{
-									"text": "a",
-									"sourceCodeRange": {
-										"endOffset": 129,
-										"startOffset": 128
+									text: " ",
+									sourceCodeRange: {
+										endOffset: 128,
+										startOffset: 127,
 									},
 								},
 								{
-									"text": " ",
-									"sourceCodeRange": {
-										"endOffset": 130,
-										"startOffset": 129
+									text: "a",
+									sourceCodeRange: {
+										endOffset: 129,
+										startOffset: 128,
 									},
 								},
 								{
-									"text": "paragraph",
-									"sourceCodeRange": {
-										"endOffset": 139,
-										"startOffset": 130
+									text: " ",
+									sourceCodeRange: {
+										endOffset: 130,
+										startOffset: 129,
 									},
 								},
 								{
-									"text": ".",
-									"sourceCodeRange": {
-										"endOffset": 140,
-										"startOffset": 139
+									text: "paragraph",
+									sourceCodeRange: {
+										endOffset: 139,
+										startOffset: 130,
 									},
-								}
+								},
+								{
+									text: ".",
+									sourceCodeRange: {
+										endOffset: 140,
+										startOffset: 139,
+									},
+								},
 							],
-						}
-					],
-					"childNodes": [
-						{
-							"name": "#text",
-							"value": "And this is a paragraph."
-						}
-					],
-					"sourceCodeLocation": {
-						"endOffset": 144,
-						"endTag": {
-							"endOffset": 144,
-							"startOffset": 140
 						},
-						"startOffset": 113,
-						"startTag": {
-							"endOffset": 116,
-							"startOffset": 113
-						}
-					}
-				}
+					],
+					childNodes: [
+						{
+							name: "#text",
+							value: "And this is a paragraph.",
+						},
+					],
+					sourceCodeLocation: {
+						endOffset: 144,
+						endTag: {
+							endOffset: 144,
+							startOffset: 140,
+						},
+						startOffset: 113,
+						startTag: {
+							endOffset: 116,
+							startOffset: 113,
+						},
+					},
+				},
 			],
 		} );
 	} );
@@ -629,103 +629,103 @@ describe( "The parse function", () => {
 		const languageProcessor = new LanguageProcessor( researcher );
 
 		expect( build( html, languageProcessor ) ).toEqual( {
-			"name": "#document-fragment",
-			"attributes": {},
-			"childNodes": [
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
 				{
-					"name": "div",
-					"attributes": {},
-					"sourceCodeLocation": {
-						"endOffset": 77,
-						"endTag": {
-							"endOffset": 77,
-							"startOffset": 71
+					name: "div",
+					attributes: {},
+					sourceCodeLocation: {
+						endOffset: 77,
+						endTag: {
+							endOffset: 77,
+							startOffset: 71,
 						},
-						"startOffset": 0,
-						"startTag": {
-							"endOffset": 5,
-							"startOffset": 0
-						}
+						startOffset: 0,
+						startTag: {
+							endOffset: 5,
+							startOffset: 0,
+						},
 					},
-					"childNodes": [
+					childNodes: [
 						{
-							"name": "p",
-							"isImplicit": false,
-							"attributes": {},
-							"childNodes": [
+							name: "p",
+							isImplicit: false,
+							attributes: {},
+							childNodes: [
 								{
-									"name": "#text",
-									"value": " Hello, world!"
-								}
-							],
-							"sentences": [
-								{
-									"text": " Hello, world!",
-									"sourceCodeRange": {
-										"startOffset": 8,
-										"endOffset": 67,
-									},
-									"tokens": [
-										{
-											"text": " ",
-											"sourceCodeRange": {
-												"startOffset": 8,
-												"endOffset": 54,
-											},
-										},
-										{
-											"text": "Hello",
-											"sourceCodeRange": {
-												"startOffset": 54,
-												"endOffset": 59,
-											},
-										},
-										{
-											"text": ",",
-											"sourceCodeRange": {
-												"startOffset": 59,
-												"endOffset": 60,
-											},
-										},
-										{
-											"text": " ",
-											"sourceCodeRange": {
-												"startOffset": 60,
-												"endOffset": 61,
-											},
-										},
-										{
-											"text": "world",
-											"sourceCodeRange": {
-												"startOffset": 61,
-												"endOffset": 66,
-											},
-										},
-										{
-											"text": "!",
-											"sourceCodeRange": {
-												"startOffset": 66,
-												"endOffset": 67,
-											},
-										}
-									]
-								}
-							],
-							"sourceCodeLocation": {
-								"startOffset": 5,
-								"endOffset": 71,
-								"startTag": {
-									"startOffset": 5,
-									"endOffset": 8,
+									name: "#text",
+									value: " Hello, world!",
 								},
-								"endTag": {
-									"startOffset": 67,
-									"endOffset": 71,
+							],
+							sentences: [
+								{
+									text: " Hello, world!",
+									sourceCodeRange: {
+										startOffset: 8,
+										endOffset: 67,
+									},
+									tokens: [
+										{
+											text: " ",
+											sourceCodeRange: {
+												startOffset: 8,
+												endOffset: 54,
+											},
+										},
+										{
+											text: "Hello",
+											sourceCodeRange: {
+												startOffset: 54,
+												endOffset: 59,
+											},
+										},
+										{
+											text: ",",
+											sourceCodeRange: {
+												startOffset: 59,
+												endOffset: 60,
+											},
+										},
+										{
+											text: " ",
+											sourceCodeRange: {
+												startOffset: 60,
+												endOffset: 61,
+											},
+										},
+										{
+											text: "world",
+											sourceCodeRange: {
+												startOffset: 61,
+												endOffset: 66,
+											},
+										},
+										{
+											text: "!",
+											sourceCodeRange: {
+												startOffset: 66,
+												endOffset: 67,
+											},
+										},
+									],
+								},
+							],
+							sourceCodeLocation: {
+								startOffset: 5,
+								endOffset: 71,
+								startTag: {
+									startOffset: 5,
+									endOffset: 8,
+								},
+								endTag: {
+									startOffset: 67,
+									endOffset: 71,
 								},
 							},
-						}
+						},
 					],
-				}
+				},
 			],
 		} );
 	} );
@@ -821,16 +821,16 @@ describe( "The parse function", () => {
 						sourceCodeRange: { startOffset: 8, endOffset: 39 },
 					} ],
 					childNodes: [
-					{
-						name: "#comment",
-						attributes: {},
-						childNodes: [],
-						sourceCodeLocation: { startOffset: 8, endOffset: 26 },
-					},
-					{
-						name: "#text",
-						value: "Hello, world!",
-					},],
+						{
+							name: "#comment",
+							attributes: {},
+							childNodes: [],
+							sourceCodeLocation: { startOffset: 8, endOffset: 26 },
+						},
+						{
+							name: "#text",
+							value: "Hello, world!",
+						} ],
 					sourceCodeLocation: {
 						startOffset: 5,
 						endOffset: 43,
@@ -928,144 +928,144 @@ describe( "The parse function", () => {
 		const languageProcessor = new LanguageProcessor( researcher );
 
 		expect( build( html, languageProcessor ) ).toEqual( {
-			"name": "#document-fragment",
-			"attributes": {},
-			"childNodes": [
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
 				{
-					"name": "div",
-					"sourceCodeLocation": {
-						"endOffset": 79,
-						"endTag": {
-							"endOffset": 79,
-							"startOffset": 73
+					name: "div",
+					sourceCodeLocation: {
+						endOffset: 79,
+						endTag: {
+							endOffset: 79,
+							startOffset: 73,
 						},
-						"startOffset": 0,
-						"startTag": {
-							"endOffset": 5,
-							"startOffset": 0
-						}
+						startOffset: 0,
+						startTag: {
+							endOffset: 5,
+							startOffset: 0,
+						},
 					},
-					"attributes": {},
-					"childNodes": [
+					attributes: {},
+					childNodes: [
 						{
-							"name": "p",
-							"isImplicit": false,
-							"attributes": {},
-							"childNodes": [
+							name: "p",
+							isImplicit: false,
+							attributes: {},
+							childNodes: [
 								{
-									"name": "#text",
-									"value": "Hello code! "
+									name: "#text",
+									value: "Hello code! ",
 								},
 								{
-									"name": "#text",
-									"value": " Hello world!"
-								}
+									name: "#text",
+									value: " Hello world!",
+								},
 							],
-							"sentences": [
+							sentences: [
 								{
-									"text": "Hello code!",
-									"tokens": [
+									text: "Hello code!",
+									tokens: [
 										{
-											"sourceCodeRange": {
-												"endOffset": 13,
-												"startOffset": 8
+											sourceCodeRange: {
+												endOffset: 13,
+												startOffset: 8,
 											},
-											"text": "Hello"
+											text: "Hello",
 										},
 										{
-											"sourceCodeRange": {
-												"endOffset": 14,
-												"startOffset": 13
+											sourceCodeRange: {
+												endOffset: 14,
+												startOffset: 13,
 											},
-											"text": " "
+											text: " ",
 										},
 										{
-											"sourceCodeRange": {
-												"endOffset": 18,
-												"startOffset": 14
+											sourceCodeRange: {
+												endOffset: 18,
+												startOffset: 14,
 											},
-											"text": "code"
+											text: "code",
 										},
 										{
-											"sourceCodeRange": {
-												"endOffset": 19,
-												"startOffset": 18
+											sourceCodeRange: {
+												endOffset: 19,
+												startOffset: 18,
 											},
-											"text": "!"
-										}
+											text: "!",
+										},
 									],
-									"sourceCodeRange": {
-										"endOffset": 19,
-										"startOffset": 8
-									}
+									sourceCodeRange: {
+										endOffset: 19,
+										startOffset: 8,
+									},
 								},
 								{
-									"text": "  Hello world!",
-									"tokens": [
+									text: "  Hello world!",
+									tokens: [
 										{
-											"sourceCodeRange": {
-												"startOffset": 19,
-												"endOffset": 20
+											sourceCodeRange: {
+												startOffset: 19,
+												endOffset: 20,
 											},
-											"text": " "
+											text: " ",
 										},
 										{
-											"sourceCodeRange": {
-												"startOffset": 56,
-												"endOffset": 57
+											sourceCodeRange: {
+												startOffset: 56,
+												endOffset: 57,
 											},
-											"text": " "
+											text: " ",
 										},
 										{
-											"sourceCodeRange": {
-												"startOffset": 57,
-												"endOffset": 62
+											sourceCodeRange: {
+												startOffset: 57,
+												endOffset: 62,
 											},
-											"text": "Hello"
+											text: "Hello",
 										},
 										{
-											"sourceCodeRange": {
-												"startOffset": 62,
-												"endOffset": 63
+											sourceCodeRange: {
+												startOffset: 62,
+												endOffset: 63,
 											},
-											"text": " "
+											text: " ",
 										},
 										{
-											"sourceCodeRange": {
-												"startOffset": 63,
-												"endOffset": 68
+											sourceCodeRange: {
+												startOffset: 63,
+												endOffset: 68,
 											},
-											"text": "world"
+											text: "world",
 										},
 										{
-											"sourceCodeRange": {
-												"startOffset": 68,
-												"endOffset": 69
+											sourceCodeRange: {
+												startOffset: 68,
+												endOffset: 69,
 											},
-											"text": "!"
-										}
+											text: "!",
+										},
 									],
-									"sourceCodeRange": {
-										"endOffset": 69,
-										"startOffset": 19
-									}
-								}
+									sourceCodeRange: {
+										endOffset: 69,
+										startOffset: 19,
+									},
+								},
 							],
-							"sourceCodeLocation": {
-								"endOffset": 73,
-								"endTag": {
-									"endOffset": 73,
-									"startOffset": 69
+							sourceCodeLocation: {
+								endOffset: 73,
+								endTag: {
+									endOffset: 73,
+									startOffset: 69,
 								},
-								"startOffset": 5,
-								"startTag": {
-									"endOffset": 8,
-									"startOffset": 5
-								}
-							}
-						}
+								startOffset: 5,
+								startTag: {
+									endOffset: 8,
+									startOffset: 5,
+								},
+							},
+						},
 					],
-				}
+				},
 			],
 		} );
 	} );

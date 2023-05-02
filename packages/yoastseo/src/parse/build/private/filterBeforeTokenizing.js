@@ -18,10 +18,10 @@ import { isEmpty } from "lodash-es";
  *
  * @param {Node} node The node to check.
  *
- * @returns {Node}
+ * @returns {Node} The filtered out node that's ready to be tokenized.
  */
 export function filterBeforeTokenizing( node ) {
-	if( node.name === "code" || node.name === "script" ) {
+	if ( node.name === "code" || node.name === "script" ) {
 		node.childNodes = node.childNodes.filter( childNode => childNode.name !== "#text" );
 		delete node.sourceCodeLocation.startTag;
 		delete node.sourceCodeLocation.endTag;
