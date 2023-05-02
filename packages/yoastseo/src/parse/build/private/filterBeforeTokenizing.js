@@ -1,0 +1,36 @@
+import { isEmpty } from "lodash-es";
+
+/**
+ * Removes the 'text' child nodes from 'code' and 'script' nodes, and the startTag and endTag properties of the
+ * sourceCodeLocation of 'code' and 'script' nodes.
+ *
+ * The text child nodes are removed because we don't want to include text between 'code' and 'script' nodes in the analysis.
+ * If we don't remove them here, the text between 'code' and 'script' nodes will be considered as part of the paragraph's
+ * inner text and will be tokenized.
+ *
+ * The startTag and endTag properties are removed so that when sentence/token positions are calculated, the whole length
+ * of the code/script element is considered when calculating the positions - not just the length of the tags.
+ * For most other child nodes, we only need to add the length of the child nodes tags to the sentence/token positions
+ * because what's in between those tags is part of the sentence/token itself. But in case of nodes like 'code' and 'script'
+ * where the content is not part of the sentence/token, we need to add the length of the whole element to the
+ * sentence/token positions. The way that the current algorithm for calculating positions works is that only if the child
+ * node doesn't have startTag and endTag properties, the length of the whole element instead of just the tags is considered.
+ *
+ * @param {Node} node The node to check.
+ *
+ * @returns {Node}
+ */
+export function filterBeforeTokenizing( node ) {
+	if( node.name === "code" || node.name === "script" ) {
+		node.childNodes = node.childNodes.filter( childNode => childNode.name !== "#text" );
+		delete node.sourceCodeLocation.startTag;
+		delete node.sourceCodeLocation.endTag;
+	}
+
+	// Recursively filters the node's children.
+	if ( ! isEmpty( node.childNodes ) ) {
+		node.childNodes.map( filterBeforeTokenizing );
+	}
+
+	return node;
+}
