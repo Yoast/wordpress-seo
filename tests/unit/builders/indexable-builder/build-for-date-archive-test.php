@@ -2,9 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 
-use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Abstract_Indexable_Builder_TestCase;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
-
 /**
  * Build_For_Date_Archive_Test.
  *
