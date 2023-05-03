@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 
-
 /**
  * Builder for the indexables.
  *
