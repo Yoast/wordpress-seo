@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 
-use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Abstract_Indexable_Builder_TestCase;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
