@@ -59,6 +59,25 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
 }
 
 /**
+ * Adjusts the start position of the text element to account for any descendant node tags that overlap with the text element.
+ * @param {Node[]} descendantNodes The descendant nodes.
+ * @param {SourceCodeRange[]} descendantTagPositions The positions of the descendant nodes' tags.
+ * @param {Number} textElementStart The start position of a text element.
+ */
+function adjustTextElementStart( descendantNodes, descendantTagPositions, textElementStart ) {
+	/*
+	 * If the start position of a descendant's node tag is between the start and end position of the text element, or is
+	 * the same as the start/end position of the text element, add the tag's length to the end position of the text element.
+	 */
+	descendantTagPositions.forEach( ( position ) => {
+		if ( position.startOffset >= textElementStart && position.startOffset <= textElementStart ) {
+			textElementStart += ( position.endOffset - position.startOffset );
+		}
+	} );
+	return textElementStart;
+}
+
+/**
  * Gets the start and end positions of text elements (sentences or tokens) in the source code.
  *
  * @param {Paragraph|Heading} 		node  			The paragraph or heading node.
