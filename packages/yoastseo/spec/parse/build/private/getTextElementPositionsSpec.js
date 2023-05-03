@@ -56,6 +56,28 @@ describe( "A test for getting positions of sentences", () => {
 		expect( yoastSentence.sourceCodeRange ).toEqual( { startOffset: 29, endOffset: 43 } );
 	} );
 
+	it( "should get the correct token and sentence positions when an entire sentence is in between span tags", function() {
+		// HTML: <p><span>Hello, world!</span></p>.
+
+		const html = "<p><span>Hello, world!</span></p>";
+		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		const paragraph = tree.childNodes[ 0 ];
+		const tokens = [ "Hello", ",", " ", "world", "!" ].map( string => new Token( string ) );
+
+		const [ hello, comma, space, world, bang ] = getTextElementPositions( paragraph, tokens );
+
+		expect( hello.sourceCodeRange ).toEqual( { startOffset: 9, endOffset: 14 } );
+		expect( comma.sourceCodeRange ).toEqual( { startOffset: 14, endOffset: 15 } );
+		expect( space.sourceCodeRange ).toEqual( { startOffset: 15, endOffset: 16 } );
+		expect( world.sourceCodeRange ).toEqual( { startOffset: 16, endOffset: 21 } );
+		expect( bang.sourceCodeRange ).toEqual( { startOffset: 21, endOffset: 22 } );
+
+		const sentences = [ { text: "Hello, world!" } ];
+		const [ helloSentence ] = getTextElementPositions( paragraph, sentences );
+
+		expect( helloSentence.sourceCodeRange ).toEqual( { startOffset: 9, endOffset: 22 } );
+	} );
+
 	it( "gets the token and sentence positions from a node that has a descendant node without a closing tag (img)", function() {
 		// HTML: <p>Hello, world!<img src="image.jpg" alt="this is an image" width="500" height="600"> Hello, yoast!</p>
 		const html = "<p>Hello, world!<img src=\"image.jpg\" alt=\"this is an image\" width=\"500\" height=\"600\"> Hello, yoast!</p>";
