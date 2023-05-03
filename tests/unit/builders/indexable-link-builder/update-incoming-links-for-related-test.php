@@ -9,6 +9,9 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Link_Builder_Double;
  * Class Update_Incoming_Links_For_Related_Test.
  * Tests the update_incoming_links_for_related_indexables method.
  *
+ * @group indexables
+ * @group builders
+ *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Link_Builder
  */
 class Update_Incoming_Links_For_Related_Test extends Abstract_Indexable_Link_Builder_TestCase {
