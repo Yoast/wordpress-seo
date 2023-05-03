@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
-use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Abstract_Indexable_Builder_TestCase;
 
 /**
  * Class Save_Indexable_Test.
