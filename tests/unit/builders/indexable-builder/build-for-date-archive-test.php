@@ -33,7 +33,6 @@ class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_for_date_archive_without_indexable() {
-
 		$this->expect_build( [ 'object_type' => 'date-archive' ] );
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_date_archive( false ) );
