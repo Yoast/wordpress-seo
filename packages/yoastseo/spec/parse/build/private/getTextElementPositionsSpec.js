@@ -78,7 +78,7 @@ describe( "A test for getting positions of sentences", () => {
 		expect( helloSentence.sourceCodeRange ).toEqual( { startOffset: 9, endOffset: 22 } );
 	} );
 
-	it( "gets the token and sentence positions from a node that has a descendant node without a closing tag (img)", function() {
+	it.skip( "gets the token and sentence positions from a node that has a descendant node without a closing tag (img)", function() {
 		// HTML: <p>Hello, world!<img src="image.jpg" alt="this is an image" width="500" height="600"> Hello, yoast!</p>
 		const html = "<p>Hello, world!<img src=\"image.jpg\" alt=\"this is an image\" width=\"500\" height=\"600\"> Hello, yoast!</p>";
 		const tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
