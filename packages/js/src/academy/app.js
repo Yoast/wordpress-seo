@@ -258,9 +258,13 @@ const App = () => {
 										decoding="async"
 									/>
 
-									{ ( ( course.needsPremium && isPremium ) || ( course.needsLocal && isLocalActive ) || ( course.needsWoo && isWooActive ) ) && <div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
-										 <Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
-									</div> }
+									{
+										( ( course.needsPremium && isPremium ) ||
+										( course.needsLocal && isLocalActive ) ||
+										( course.needsWoo && isWooActive ) ) &&
+										<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+											<Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
+										</div> }
 
 								</Card.Header>
 								<Card.Content className="yst-flex yst-flex-col yst-gap-3">
