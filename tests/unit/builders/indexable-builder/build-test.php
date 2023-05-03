@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Mockery;
+
 /**
  * Build_Test.
  * Tests cases for system-page, home-page, date-archive and post-type-archive can be found in other tests the directory.
