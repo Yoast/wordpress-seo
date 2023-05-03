@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 /* External components */
 import { withSelect } from "@wordpress/data";
-import { Fragment } from "@wordpress/element";
+import { Fragment, createInterpolateElement } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { isNil } from "lodash";
 import PropTypes from "prop-types";
@@ -91,14 +91,19 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		);
 	}
 
-	const goodJobFeedback = sprintf(
-		/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-		__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!",
-			"wordpress-seo"
+	const goodJobFeedback = createInterpolateElement(
+		sprintf(
+			/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+			__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!", "wordpress-seo" ),
+			"<a>",
+			"</a>"
 		),
-		`<a href="${ analysisInfoLink }" target="_blank">`,
-		"</a>"
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a href={ analysisInfoLink } target="_blank" rel="noreferrer" />,
+		}
 	);
+
 
 	/**
 	 * Renders a notice that a multilingual plugin has been
@@ -142,7 +147,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 						color={ "#7ad03a" }
 						size="13px"
 					/>
-					<span dangerouslySetInnerHTML={ { __html: goodJobFeedback } } />
+					<span>{ goodJobFeedback }</span>
 				</GoodJobAnalysisResult>
 			</Fragment>
 		);

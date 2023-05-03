@@ -22,7 +22,7 @@ export const Factory = {
 		controls: { disable: false },
 	},
 	args: {
-		children: "Code Factory",
+		children: "Code factory",
 		variant: "default",
 	},
 };

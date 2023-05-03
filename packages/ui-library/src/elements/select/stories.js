@@ -69,12 +69,13 @@ OptionsProp.args = {
 		{ value: "4", label: "Option 4" },
 	],
 };
-
+OptionsProp.storyName = "Options prop";
 OptionsProp.parameters = {
 	docs: { description: { story: "Add options as an array of objects with `options` prop. Each object must contain `value` and `label` parameters. The displayed selected label will be updated automatically on change." } },
 };
 
 export const ChildrenProp = Template.bind( {} );
+ChildrenProp.storyName = "Children prop";
 ChildrenProp.args = {
 	id: "select-field-5",
 	name: "name-5",
@@ -82,6 +83,7 @@ ChildrenProp.args = {
 	label: "Select field with options as exposed React components",
 	children: options.map( option => <Select.Option key={ option.value } { ...option } /> ),
 };
+
 
 ChildrenProp.parameters = {
 	docs: { description: { story: "Add options as an array of React components with `children` prop, using the exposed option component `Select.Option`. In this case changing the `selectedLabel` should be done manually in the handleChange function" } },

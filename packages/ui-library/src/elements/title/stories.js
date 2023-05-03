@@ -23,7 +23,7 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	children: "Title Factory",
+	children: "Title factory",
 };
 
 export const As = args => (
@@ -36,7 +36,7 @@ export const As = args => (
 	</div>
 );
 As.parameters = {
-	docs: { description: { story: "Control the Title Component using the `as` prop. Using a heading component without the `size` prop will infer the size from the heading component, ie. `as=\"h1\"` will automagically add size 1." } },
+	docs: { description: { story: "Control the Title component using the `as` prop. Using a heading component without the `size` prop will infer the size from the heading component, ie. `as=\"h1\"` will automagically add size 1." } },
 };
 
 export const Sizes = args => (
