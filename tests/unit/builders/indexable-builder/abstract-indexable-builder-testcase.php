@@ -196,7 +196,7 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	/**
 	 * Expectations for ensure_indexable method.
 	 *
-	 * @param array          $defaults  The defaults to expect.
+	 * @param array          $defaults         The defaults to expect.
 	 * @param Indexable_Mock $return_indexable The indexable to expect.
 	 */
 	public function expect_ensure_indexable( $defaults, $return_indexable ) {
