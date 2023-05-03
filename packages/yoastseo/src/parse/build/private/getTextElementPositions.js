@@ -14,7 +14,9 @@ import { Paragraph } from "../../structure";
 function getDescendantPositions( descendantNodes ) {
 	const descendantTagPositions = [];
 	descendantNodes.forEach( ( node ) => {
-		descendantTagPositions.push( node.sourceCodeLocation.startTag );
+		if ( node.sourceCodeLocation.startTag ) {
+			descendantTagPositions.push( node.sourceCodeLocation.startTag );
+		}
 		if ( node.sourceCodeLocation.endTag ) {
 			descendantTagPositions.push( node.sourceCodeLocation.endTag );
 		}
