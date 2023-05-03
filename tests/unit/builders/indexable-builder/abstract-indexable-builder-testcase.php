@@ -98,7 +98,7 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	/**
 	 * Represents the indexable helper.
 	 *
-	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Helper
+	 * @var Mockery\MockInterface|Indexable_Helper
 	 */
 	protected $indexable_helper;
 
