@@ -53,16 +53,7 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
 			textElementEnd += ( position.endOffset - position.startOffset );
 		}
 	} );
-	/*
-	 * If the length of a start tag at the end of the text element was added to the textElementEnd in the step above,
-	 * remove it. We are using the data from the original descendantNodes array for this check, as the
-	 * descendantTagPositions array doesn't specify whether each tag is an opening or closing tag.
-	 */
-	const startTagAtEndOfTextElement = descendantNodes.find( node => node.sourceCodeLocation.startTag.endOffset === textElementEnd );
-	if ( startTagAtEndOfTextElement ) {
-		const startTagLocation = startTagAtEndOfTextElement.sourceCodeLocation.startTag;
-		textElementEnd = textElementEnd - ( startTagLocation.endOffset - startTagLocation.startOffset );
-	}
+
 
 	return textElementEnd;
 }
