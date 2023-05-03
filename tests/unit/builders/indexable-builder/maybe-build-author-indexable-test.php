@@ -6,7 +6,6 @@ use Mockery;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder\Abstract_Indexable_Builder_TestCase;
 
 /**
  * Class Maybe_Build_Author_Indexable_Test.
