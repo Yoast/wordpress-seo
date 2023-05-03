@@ -200,7 +200,7 @@ class Results extends Component {
 	}
 
 	/**
-	 * Handle focus on Google Preview elements, when an edit button is clicked.
+	 * Handles focus on Google Preview elements, when an edit button is clicked.
 	 *
 	 * @param {string} inputFieldLocation The location of the input field.
 	 * @param {string} id The id of the input field.
