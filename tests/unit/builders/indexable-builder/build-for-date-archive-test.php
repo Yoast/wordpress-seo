@@ -64,7 +64,7 @@ class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
 	 *
 	 * @param array $defaults The defaults to expect.
 	 */
-	public function expect_build( $defaults ) {
+	private function expect_build( $defaults ) {
 		$this->expect_ensure_indexable( $defaults, $this->indexable );
 
 		$this->date_archive_builder
