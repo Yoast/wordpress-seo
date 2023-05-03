@@ -2,7 +2,7 @@
  * A config file that contains filters that should always apply.
  */
 
-import { elementHasName, elementHasClass } from "./filterHelpers";
+import { elementHasName, elementHasClass, elementHasDataType } from "./filterHelpers";
 
 const permanentFilters = [
 	// Filters Yoast TOC block.
@@ -11,6 +11,9 @@ const permanentFilters = [
 	elementHasClass( "yoast-breadcrumbs" ),
 	// Filters Yoast estimated reading time block.
 	elementHasClass( "yoast-reading-time__wrapper" ),
+	elementHasDataType( "yoast-seo/related-links" ),
+	elementHasDataType( "yoast-seo/siblings" ),
+	elementHasDataType( "yoast-seo/subpages" ),
 	// Filters HTML elements.
 	/* Elements are filtered out when they contain content outside of the author's control (incl. quotes and embedded
 	content), when their content isn't natural language (e.g. code), when they contain metadata hidden from the page
@@ -19,6 +22,7 @@ const permanentFilters = [
 	elementHasName( "blockquote" ),
 	elementHasName( "canvas" ),
 	elementHasName( "code" ),
+	// It seems that the head element is filtered out by the parser we employ, but it's included here for completeness.
 	elementHasName( "head" ),
 	elementHasName( "iframe" ),
 	elementHasName( "input" ),
