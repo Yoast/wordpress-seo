@@ -63,6 +63,8 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
  * @param {Node[]} descendantNodes The descendant nodes.
  * @param {SourceCodeRange[]} descendantTagPositions The positions of the descendant nodes' tags.
  * @param {Number} textElementStart The start position of a text element.
+ *
+ * @returns {Number} The adjusted start position of the text element.
  */
 function adjustTextElementStart( descendantNodes, descendantTagPositions, textElementStart ) {
 	/*
