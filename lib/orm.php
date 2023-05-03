@@ -265,7 +265,7 @@ class ORM implements \ArrayAccess {
 	 * @return bool Success.
 	 */
 	public static function raw_execute( $query, $parameters = [] ) {
-		return self::execute( $query, $parameters, false );
+		return self::execute( $query, $parameters );
 	}
 
 	/**
@@ -273,23 +273,10 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param string $query          The query.
 	 * @param array  $parameters     An array of parameters to be bound in to the query.
-	 * @param bool   $cache_query    Whether to cache the query.
-	 * @param string $cache_group_id The cache group ID to use.
 	 *
 	 * @return bool|int Response of wpdb::query
 	 */
-	protected static function execute( $query, $parameters = [], $cache_query = true, $cache_group_id = '' ) {
-		if ( $cache_query ) {
-			// Generate a unique cache key for this query.
-			$cache_key = 'query_' . md5( $query . json_encode( $parameters ) ); // phpcs:ignore Yoast.Yoast.AlternativeFunctions
-
-			// Get the cache and bail early if it's set.
-			$cached = self::get_cache( $cache_key, $cache_group_id );
-			if ( $cached !== false ) {
-				return $cached;
-			}
-		}
-
+	protected static function execute( $query, $parameters = [] ) {
 		/**
 		 * The global WordPress database variable.
 		 *
@@ -310,16 +297,12 @@ class ORM implements \ArrayAccess {
 			}
 		);
 		if ( ! empty( $parameters ) ) {
-			$query = $wpdb->prepare( $query, $parameters ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$query = $wpdb->prepare( $query, $parameters );
 		}
 
-		$result = $wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$result = $wpdb->query( $query );
 
 		$wpdb->show_errors = $show_errors;
-
-		if ( $cache_query ) {
-			self::set_cache( $cache_key, $result, $cache_group_id );
-		}
 
 		return $result;
 	}
@@ -1982,13 +1965,23 @@ class ORM implements \ArrayAccess {
 		global $wpdb;
 
 		$query   = $this->build_select();
-		$success = self::execute( $query, $this->values, true, $this->table_name );
+
+		// Generate a unique cache key for this query.
+		$cache_key = 'query_' . md5( $query . json_encode( $this->values ) ); // phpcs:ignore Yoast.Yoast.AlternativeFunctions
+
+		// Get the cache and bail early if it's set.
+		$cached = self::get_cache( $cache_key, $this->table_name );
+		if ( $cached !== false ) {
+			return $cached;
+		}
+		
+		$success = self::execute( $query, $this->values );
 
 		if ( $success === false ) {
 			// If the query fails run the migrations and try again.
 			// Action is intentionally undocumented and should not be used by third-parties.
 			\do_action( '_yoast_run_migrations' );
-			$success = self::execute( $query, $this->values, true, $this->table_name );
+			$success = self::execute( $query, $this->values );
 		}
 
 		$this->reset_idiorm_state();
@@ -2001,6 +1994,8 @@ class ORM implements \ArrayAccess {
 		foreach ( $wpdb->last_result as $row ) {
 			$rows[] = \get_object_vars( $row );
 		}
+
+		self::set_cache( $cache_key, $rows, $this->table_name );
 
 		return $rows;
 	}
@@ -2208,7 +2203,7 @@ class ORM implements \ArrayAccess {
 			// INSERT.
 			$query = $this->build_insert();
 		}
-		$success = self::execute( $query, $values, false );
+		$success = self::execute( $query, $values );
 		// If we've just inserted a new record, set the ID of this object.
 		if ( $this->is_new ) {
 			$this->is_new = false;
@@ -2320,7 +2315,7 @@ class ORM implements \ArrayAccess {
 
 			// We now have the same set of dirty columns in all our models and also gathered all values.
 			$query   = $this->build_insert_many( $models_chunk, $dirty_column_names );
-			$success = $success && (bool) self::execute( $query, $values, false );
+			$success = $success && (bool) self::execute( $query, $values );
 		}
 
 		if ( $success ) {
@@ -2347,7 +2342,7 @@ class ORM implements \ArrayAccess {
 
 		$query = $this->join_if_not_empty( ' ', [ $this->build_update(), $this->build_where() ] );
 
-		$success            = self::execute( $query, \array_merge( $values, $this->values ), false );
+		$success            = self::execute( $query, \array_merge( $values, $this->values ) );
 		$this->dirty_fields = [];
 		$this->expr_fields  = [];
 
@@ -2470,7 +2465,7 @@ class ORM implements \ArrayAccess {
 		// Flush caches.
 		self::flush_group_caches( $this->table_name );
 
-		return self::execute( \implode( ' ', $query ), \is_array( $id ) ? \array_values( $id ) : [ $id ], false );
+		return self::execute( \implode( ' ', $query ), \is_array( $id ) ? \array_values( $id ) : [ $id ] );
 	}
 
 	/**
@@ -2494,7 +2489,7 @@ class ORM implements \ArrayAccess {
 		self::flush_group_caches( $this->table_name );
 
 		// Execute the query.
-		return self::execute( $query, $this->values, false );
+		return self::execute( $query, $this->values );
 	}
 
 	/*
@@ -2616,8 +2611,8 @@ class ORM implements \ArrayAccess {
 		// Defensive coding - cover all bases.
 		// This will prevent errors below if WP_CONTENT_DIR is not defined.
 		if ( ! defined( 'WP_CONTENT_DIR' ) ) {
-			return false;
-		}
+				return false;
+			}
 
 		// Check if the site is using a persistent drop-in (object-cache.php).
 		// This _should_ be covered by the `wp_using_ext_object_cache()` check,
