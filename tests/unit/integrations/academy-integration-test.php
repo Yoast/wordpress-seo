@@ -264,6 +264,16 @@ class Academy_Integration_Test extends TestCase {
 			'user_language'    => 'en_US',
 		];
 
+		Monkey\Functions\expect( 'is_plugin_active' )
+			->with( 'wpseo-woocommerce/wpseo-woocommerce.php' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_plugin_active' )
+			->with( 'wordpress-seo-local/local-seo.php' )
+			->once()
+			->andReturn( true );
+
 		$this->product_helper
 				->expects( 'is_premium' )
 				->once()
@@ -292,6 +302,8 @@ class Academy_Integration_Test extends TestCase {
 		$expected = [
 			'preferences' => [
 				'isPremium'      => false,
+				'isWooActive'    => false,
+				'isLocalActive'  => true,
 				'isRtl'          => false,
 				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
 				'upsellSettings' => [

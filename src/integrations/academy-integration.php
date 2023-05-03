@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Plugin_Availability;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
@@ -157,9 +158,18 @@ class Academy_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	public function get_script_data() {
+		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
+		$local_seo_file       = 'wordpress-seo-local/local-seo.php';
+
+		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
+		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
+		$local_seo_active                  = $wpseo_plugin_availability_checker->is_active( $local_seo_file );
+
 		return [
 			'preferences' => [
 				'isPremium'      => $this->product_helper->is_premium(),
+				'isWooActive'    => $woocommerce_seo_active,
+				'isLocalActive'  => $local_seo_active,
 				'isRtl'          => \is_rtl(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
 				'upsellSettings' => [
