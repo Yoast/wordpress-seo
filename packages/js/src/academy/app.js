@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import { isEmpty } from "lodash-es";
 import { LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -13,7 +14,7 @@ import { ArrowSmRightIcon } from "@heroicons/react/solid";
  * @returns {boolean} Whether course dependencies are met.
  */
 const areDependenciesMet = ( dependencies, isPremium ) => {
-	if ( ( dependencies.length === 0 ) || isPremium ) {
+	if ( isEmpty( dependencies ) || isPremium ) {
 		return true;
 	}
 
@@ -26,7 +27,7 @@ const areDependenciesMet = ( dependencies, isPremium ) => {
  * @returns {boolean} Whether a premium badge should be shown.
  */
 const shouldShowPremiumBadge = ( dependencies, isPremium ) => {
-	if ( dependencies.length === 0 ) {
+	if ( isEmpty( dependencies ) ) {
 		return false;
 	}
 
@@ -52,7 +53,7 @@ const App = () => {
 			description: __( "In this free course, you'll get quick wins to make your site rank higher in Google, Bing, and Yahoo.", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/seo_for_beginners.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-seo-beginners-start", linkParams ),
-			dependencies: [],
+			dependencies: {},
 			hasTrial: true,
 		},
 		{
@@ -65,7 +66,7 @@ const App = () => {
 			),
 			image: `${ pluginUrl }/images/academy/seo_for_wp.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-seo-wordpress-block-editor-start", linkParams ),
-			dependencies: [],
+			dependencies: {},
 			hasTrial: true,
 		},
 		{
@@ -84,7 +85,7 @@ const App = () => {
 			description: __( "Do you want to set up your own WordPress site? This course will teach you the ins and outs of creating and maintaining a WordPress website!", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/wp_for_beginners.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-wordpress-beginners-start", linkParams ),
-			dependencies: [],
+			dependencies: {},
 			hasTrial: true,
 		},
 		{
@@ -103,7 +104,7 @@ const App = () => {
 			description: __( "Learn how to make your site stand out from the crowd by adding structured data!", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/structured_data_for_beginners.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-structured-data-beginners-start", linkParams ),
-			dependencies: [],
+			dependencies: {},
 			hasTrial: true,
 		},
 
@@ -123,7 +124,7 @@ const App = () => {
 			description: __( "Start creating block-tastic content with the new WordPress block editor! Learn all about the block editor and what you can do with it.", "wordpress-seo" ),
 			image: `${ pluginUrl }/images/academy/block_editor.png`,
 			startLink: addQueryArgs( "https://yoa.st/academy-block-editor-start", linkParams ),
-			dependencies: [],
+			dependencies: {},
 			hasTrial: true,
 		},
 		{
