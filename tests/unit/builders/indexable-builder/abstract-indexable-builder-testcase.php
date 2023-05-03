@@ -216,7 +216,6 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	 * Expectation for maybe_build_author_indexable method.
 	 */
 	public function expect_maybe_build_author_indexable() {
-
 		$author_indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->indexable_repository
