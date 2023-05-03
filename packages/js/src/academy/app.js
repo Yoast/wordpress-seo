@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { isEmpty } from "lodash-es";
+import { isEmpty } from "lodash";
 import { LockOpenIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
