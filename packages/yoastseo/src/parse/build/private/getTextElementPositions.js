@@ -128,7 +128,6 @@ export default function getTextElementPositions( node, textElements, startOffset
 			textElementEnd = adjustElementEnd( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
 
 			textElementStart = adjustTextElementStart( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
-
 		}
 
 		// Add the start and end positions to the textElement object.
