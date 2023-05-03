@@ -94,11 +94,11 @@ class Set_Indexable_Repository_Test extends Abstract_Indexable_Builder_TestCase 
 		);
 	}
 
-	 /**
-	  * Tests setting the indexable repository.
-	  *
-	  * @covers ::set_indexable_repository
-	  */
+	/**
+	 * Tests setting the indexable repository.
+	 *
+	 * @covers ::set_indexable_repository
+	 */
 	public function test_set_indexable_repository() {
 		$indexable_repository = Mockery::mock( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
 		$this->instance->set_indexable_repository( $indexable_repository );
