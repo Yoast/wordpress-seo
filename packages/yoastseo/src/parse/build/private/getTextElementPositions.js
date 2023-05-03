@@ -114,7 +114,7 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
 	 * an array. These positions will have to be taken into account when calculating the position of the text elements.
 	 */
-	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation );
+	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation, true );
 	if ( descendantNodes.length > 0 ) {
 		descendantTagPositions = getDescendantPositions( descendantNodes );
 	}
@@ -126,6 +126,9 @@ export default function getTextElementPositions( node, textElements, startOffset
 		// If there are descendant tags, possibly adjust the textElementEnd to account for tags within/next to the text element.
 		if ( descendantTagPositions.length > 0 ) {
 			textElementEnd = adjustElementEnd( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
+
+			textElementStart = adjustTextElementStart( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
+
 		}
 
 		// Add the start and end positions to the textElement object.
