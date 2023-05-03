@@ -14,7 +14,9 @@ import { Paragraph } from "../../structure";
 function getDescendantPositions( descendantNodes ) {
 	const descendantTagPositions = [];
 	descendantNodes.forEach( ( node ) => {
-		descendantTagPositions.push( node.sourceCodeLocation.startTag );
+		if ( node.sourceCodeLocation.startTag ) {
+			descendantTagPositions.push( node.sourceCodeLocation.startTag );
+		}
 		if ( node.sourceCodeLocation.endTag ) {
 			descendantTagPositions.push( node.sourceCodeLocation.endTag );
 		}
@@ -47,22 +49,34 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
 	 * the same as the start/end position of the text element, add the tag's length to the end position of the text element.
 	 */
 	descendantTagPositions.forEach( ( position ) => {
-		if ( position.startOffset >= textElementStart && position.startOffset <= textElementEnd ) {
+		if ( position.startOffset >= textElementStart && position.startOffset < textElementEnd ) {
 			textElementEnd += ( position.endOffset - position.startOffset );
 		}
 	} );
-	/*
-	 * If the length of a start tag at the end of the text element was added to the textElementEnd in the step above,
-	 * remove it. We are using the data from the original descendantNodes array for this check, as the
-	 * descendantTagPositions array doesn't specify whether each tag is an opening or closing tag.
-	 */
-	const startTagAtEndOfTextElement = descendantNodes.find( node => node.sourceCodeLocation.startTag.endOffset === textElementEnd );
-	if ( startTagAtEndOfTextElement ) {
-		const startTagLocation = startTagAtEndOfTextElement.sourceCodeLocation.startTag;
-		textElementEnd = textElementEnd - ( startTagLocation.endOffset - startTagLocation.startOffset );
-	}
+
 
 	return textElementEnd;
+}
+
+/**
+ * Adjusts the start position of the text element to account for any descendant node tags that overlap with the text element.
+ * @param {Node[]} descendantNodes The descendant nodes.
+ * @param {SourceCodeRange[]} descendantTagPositions The positions of the descendant nodes' tags.
+ * @param {Number} textElementStart The start position of a text element.
+ *
+ * @returns {Number} The adjusted start position of the text element.
+ */
+function adjustTextElementStart( descendantNodes, descendantTagPositions, textElementStart ) {
+	/*
+	 * If the start position of a descendant's node tag is between the start and end position of the text element, or is
+	 * the same as the start/end position of the text element, add the tag's length to the end position of the text element.
+	 */
+	descendantTagPositions.forEach( ( position ) => {
+		if ( position.startOffset >= textElementStart && position.startOffset <= textElementStart ) {
+			textElementStart += ( position.endOffset - position.startOffset );
+		}
+	} );
+	return textElementStart;
 }
 
 /**
@@ -100,7 +114,7 @@ export default function getTextElementPositions( node, textElements, startOffset
 	 * should have this property). If such nodes exist, store the positions of each node's opening and closing tags in
 	 * an array. These positions will have to be taken into account when calculating the position of the text elements.
 	 */
-	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation );
+	const descendantNodes = node.findAll( descendantNode => descendantNode.sourceCodeLocation, true );
 	if ( descendantNodes.length > 0 ) {
 		descendantTagPositions = getDescendantPositions( descendantNodes );
 	}
@@ -112,6 +126,8 @@ export default function getTextElementPositions( node, textElements, startOffset
 		// If there are descendant tags, possibly adjust the textElementEnd to account for tags within/next to the text element.
 		if ( descendantTagPositions.length > 0 ) {
 			textElementEnd = adjustElementEnd( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
+
+			textElementStart = adjustTextElementStart( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
 		}
 
 		// Add the start and end positions to the textElement object.

@@ -32,12 +32,12 @@ export default {
 		title: { control: "text", type: "string" },
 		description: { control: "text", type: "string" },
 		onDismiss: { control: { disable: false } },
-		autoDismiss: { type: "number", description: "Miliseconds for Notification to dissapear." },
+		autoDismiss: { type: "number", description: "Milliseconds for Notification to disappear." },
 		dismissScreenReaderLabel: { control: "text", type: "string" },
 	},
 	args: {
 		title: "Notification title",
-		description: "Notifiation description",
+		description: "Notification description",
 		dismissScreenReaderLabel: "Dismiss",
 	},
 	parameters: {
@@ -92,6 +92,7 @@ Error.args = {
 };
 
 export const DescriptionList = Template.bind( {} );
+DescriptionList.storyName = "Description list";
 DescriptionList.args = {
 	variant: "info",
 	id: "notification-info",
@@ -101,7 +102,7 @@ DescriptionList.args = {
 DescriptionList.parameters = { docs: { description: { story: "Description can be an array of strings." } } };
 
 export const ChildrenNotification = Template.bind( {} );
-
+ChildrenNotification.storyName = "Children notification";
 const DescriptionChild = () => <b>Notification description as a component.</b>;
 
 ChildrenNotification.args = {
