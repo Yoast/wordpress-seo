@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Link_Builder;
 
-use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\Lib\ORM;
@@ -14,12 +13,10 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\SEO_Links_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Abstract_Indexable_Link_Builder_TestCase.
+ * Abstract_Indexable_Link_Builder_TestCase class for all Indexable_Link_Builder tests.
  */
 class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 
@@ -121,16 +118,14 @@ class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 	 * @param array $insert_links The links to insert.
 	 * @param array $links_by_indexable_id The links by indexable id.
 	 */
-	public function expect_update_related_indexables( $indexable_id, $insert_links, $links_by_indexable_id = [] ) {
+	public function expect_update_related_indexables_with_links_to_add( $indexable_id, $insert_links, $links_by_indexable_id = [] ) {
 
-		// Executed in build->update_related_indexables.
 		$this->seo_links_repository
 			->expects( 'find_all_by_indexable_id' )
 			->once()
 			->with( $indexable_id )
 			->andReturn( $links_by_indexable_id );
 
-		// Executed in build->update_related_indexables.
 		$this->seo_links_repository
 			->expects( 'insert_many' )
 			->once()
@@ -148,13 +143,11 @@ class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 		Functions\when( 'set_url_scheme' )
 		->justReturn( 'http://basic.wordpress.test' );
 
-		// Executed in build->create_links->create_internal_link->build_permalink.
 		$this->url_helper
 			->expects( 'is_relative' )
 			->once()
 			->andReturn( true );
 
-		// Executed in build->create_links->create_internal_link->build_permalink.
 		$this->url_helper
 			->expects( 'ensure_absolute_url' )
 			->once()
