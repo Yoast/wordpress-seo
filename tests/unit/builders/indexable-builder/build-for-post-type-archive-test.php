@@ -25,8 +25,6 @@ class Build_For_Post_Type_Archive_Test extends Abstract_Indexable_Builder_TestCa
 	/**
 	 * Tests building an indexable for the post type archive.
 	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_post_type_archive
 	 * @covers ::ensure_indexable
 	 * @covers ::build

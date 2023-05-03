@@ -31,8 +31,6 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	/**
 	 * Tests building an indexable for the post type.
 	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
 	 * @covers ::ensure_indexable
 	 * @covers ::maybe_build_author_indexable
 	 * @covers ::build
@@ -53,8 +51,6 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	/**
 	 * Tests building an indexable with object_sub_type = 'attachment'.
 	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
 	 * @covers ::build
 	 * @covers ::ensure_indexable
 	 * $covers ::deep_copy_indexable
@@ -87,8 +83,6 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	/**
 	 * Tests building an indexable for a term.
 	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_id_and_type
 	 * @covers ::ensure_indexable
 	 * @covers ::deep_copy_indexable
@@ -177,8 +171,6 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	/**
 	 * Tests building an indexable for an unknown type.
 	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
 	 * @covers ::build
 	 * @covers ::deep_copy_indexable
 	 */
@@ -209,8 +201,6 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 		/**
 		 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist.
 		 *
-		 * @covers ::__construct
-		 * @covers ::set_indexable_repository
 		 * @covers ::build_for_id_and_type
 		 * @covers ::ensure_indexable
 		 */
@@ -263,8 +253,6 @@ class Build_Test extends Abstract_Indexable_Builder_TestCase {
 	/**
 	 * Tests building an indexable for a post when the post builder throws an exception because the post does not exist anymore.
 	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_id_and_type
 	 * @covers ::ensure_indexable
 	 */

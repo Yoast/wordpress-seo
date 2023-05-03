@@ -15,8 +15,6 @@ class Build_For_Id_And_Type_Test extends Abstract_Indexable_Builder_TestCase {
 	/**
 	 * Tests building an indexable for the post type archive.
 	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_id_and_type
 	 * @covers ::build
 	 * @covers ::ensure_indexable

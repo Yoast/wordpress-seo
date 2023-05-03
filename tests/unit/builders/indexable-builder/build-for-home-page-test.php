@@ -25,8 +25,6 @@ class Build_For_Home_Page_Test extends Abstract_Indexable_Builder_TestCase {
 	/**
 	 * Tests building an indexable for the post type archive.
 	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
 	 * @covers ::build_for_home_page
 	 * @covers ::build
 	 * @covers ::ensure_indexable
