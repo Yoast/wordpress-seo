@@ -48,7 +48,6 @@ class Build_For_Date_Archive_Test extends Abstract_Indexable_Builder_TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_for_date_archive_with_indexable() {
-
 		$this->expect_deep_copy_indexable( $this->indexable );
 
 		$this->date_archive_builder
