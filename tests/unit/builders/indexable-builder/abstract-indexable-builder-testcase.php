@@ -133,7 +133,7 @@ abstract class Abstract_Indexable_Builder_TestCase extends TestCase {
 	/**
 	 * The version manager.
 	 *
-	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Version_Manager
+	 * @var Mockery\MockInterface|Indexable_Version_Manager
 	 */
 	protected $version_manager;
 
