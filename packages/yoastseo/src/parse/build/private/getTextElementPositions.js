@@ -49,7 +49,7 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
 	 * the same as the start/end position of the text element, add the tag's length to the end position of the text element.
 	 */
 	descendantTagPositions.forEach( ( position ) => {
-		if ( position.startOffset >= textElementStart && position.startOffset <= textElementEnd ) {
+		if ( position.startOffset >= textElementStart && position.startOffset < textElementEnd ) {
 			textElementEnd += ( position.endOffset - position.startOffset );
 		}
 	} );
