@@ -103,6 +103,7 @@ function isSkipField( input ) {
 	const skipFields = [
 		"yoast_wpseo_linkdex",
 		"yoast_wpseo_content_score",
+		"yoast_wpseo_inclusive_language_score",
 		"yoast_wpseo_words_for_linking",
 		"yoast_wpseo_estimated-reading-time-minutes",
 	];
