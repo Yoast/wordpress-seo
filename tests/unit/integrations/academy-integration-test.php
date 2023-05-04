@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -264,16 +265,6 @@ class Academy_Integration_Test extends TestCase {
 			'user_language'    => 'en_US',
 		];
 
-		Monkey\Functions\expect( 'is_plugin_active' )
-			->with( 'wpseo-woocommerce/wpseo-woocommerce.php' )
-			->once()
-			->andReturn( false );
-
-		Monkey\Functions\expect( 'is_plugin_active' )
-			->with( 'wordpress-seo-local/local-seo.php' )
-			->once()
-			->andReturn( true );
-
 		$this->product_helper
 				->expects( 'is_premium' )
 				->once()
@@ -297,13 +288,14 @@ class Academy_Integration_Test extends TestCase {
 	 * @covers ::get_script_data
 	 */
 	public function test_get_script_data() {
-		$link_params = $this->expect_get_script_data();
+		$link_params   = $this->expect_get_script_data();
+		$addon_manager = new WPSEO_Addon_Manager();
 
 		$expected = [
 			'preferences' => [
 				'isPremium'      => false,
-				'isWooActive'    => false,
-				'isLocalActive'  => true,
+				'isWooActive'    => $addon_manager->is_installed( WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ),
+				'isLocalActive'  => $addon_manager->is_installed( WPSEO_Addon_Manager::LOCAL_SLUG ),
 				'isRtl'          => false,
 				'pluginUrl'      => 'http://basic.wordpress.test/wp-content/worspress-seo',
 				'upsellSettings' => [
