@@ -1,7 +1,7 @@
 /* global wpseoScriptData */
 
 /* External dependencies */
-import { get } from "lodash-es";
+import { get } from "lodash";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";

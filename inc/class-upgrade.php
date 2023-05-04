@@ -86,7 +86,9 @@ class WPSEO_Upgrade {
 			'19.6-RC0'   => 'upgrade_196',
 			'19.11-RC0'  => 'upgrade_1911',
 			'20.2-RC0'   => 'upgrade_202',
-			'20.4-RC0'   => 'upgrade_204',
+			'20.5-RC0'   => 'upgrade_205',
+			'20.7-RC0'   => 'upgrade_207',
+			'20.8-RC0'   => 'upgrade_208',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -985,19 +987,31 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 20.4 upgrade routine.
-	 * The routine initializes the jetpack_ad_start_date option to a random date between 1 and MAX_DELAY_IN_DAYS.
-	 * This option will then be used to determine when the Jetpack Ad should be shown.
+	 * Performs the 20.5 upgrade routine.
 	 */
-	private function upgrade_204() {
-		$max_delay_in_days = 3;
-		$now               = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+	private function upgrade_205() {
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
+	}
 
-		$days     = random_int( 0, $max_delay_in_days );
-		$interval = DateInterval::createFromDateString( "$days days" );
+	/**
+	 * Performs the 20.7 upgrade routine.
+	 * Removes the metadata related to the settings page introduction modal for all the users.
+	 * Also, schedules another cleanup scheduled action.
+	 */
+	private function upgrade_207() {
+		add_action( 'shutdown', [ $this, 'delete_user_introduction_meta' ] );
+	}
 
-		$start_date = date_add( $now, $interval );
-		WPSEO_Options::set( 'jetpack_ad_start_date', $start_date->format( 'Y-m-d H:i:s' ) );
+	/**
+	 * Performs the 20.8 upgrade routine.
+	 * Schedules another cleanup scheduled action.
+	 */
+	private function upgrade_208() {
+		if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), Cleanup_Integration::START_HOOK );
+		}
 	}
 
 	/**
@@ -1639,5 +1653,14 @@ class WPSEO_Upgrade {
 			array_merge( array_values( $object_ids ), array_values( $newest_indexable_ids ), [ $object_type ] )
 		);
 		// phpcs:enable
+	}
+
+	/**
+	 * Removes the settings' introduction modal data for users.
+	 *
+	 * @return void
+	 */
+	public function delete_user_introduction_meta() {
+		delete_metadata( 'user', 0, '_yoast_settings_introduction', '', true );
 	}
 }

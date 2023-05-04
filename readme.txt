@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.2
-Stable tag: 20.3
+Stable tag: 20.6
 Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -36,8 +36,8 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
-* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
 * **[Premium]** **New!** Yoast SEO Premium comes with an IndexNow integration to ping search engines like Microsoft Bing whenever you publish or update content.
+* **New!** Yoast SEO comes with wide-ranging crawl settings that help you improve how search engines crawl your site, lowering its carbon footprint.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -247,55 +247,37 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 20.4 =
+= 20.7 =
 
-Release date: 2023-03-28
-
-#### Enhancements
-
-* NEW in Free: Adds the crawl optimization features to Yoast SEO Free, enabling 13M+ users to reduce their website's carbon footprint!
-
-#### Bugfixes
-
-* Adds a hook to adapt the meta query used to filter the post overview based on the focus keyphrase.
-* Fixes a bug where a fatal error related to HelpScout would be thrown when using a more-than-2-year-old Yoast addon.
-* Fixes a bug where a PHP warning would be thrown when exporting Yoast settings.
-* Fixes a bug where the Google preview in the Block editor would show the post ID in the breadcrumbs when creating a new post, or it would show the slug twice or show `auto-draft` when creating a new page or custom post. This would only happen before (auto-)saving the post.
-* Fixes a bug where the _previously used keyword_ assessment would potentially link to an empty page of results when the focus keyphrase had been used across different post types.
-
-#### Other
-
-* Adds Jetpack Boost to the recommended integrations.
-* Sets the WordPress tested up to version to 6.2.
-
-= 20.3 =
-
-Release date: 2023-03-14
-
-Yoast SEO 20.3 is out and comes with several enhancements, fixes, and improvements. With an improved highlighting feature and enhanced support for the Portuguese language, Yoast SEO 20.3 helps you find where you need to make SEO edits quickly and easily. Upgrade now and take your website's SEO to the next level! Find out more about what's new in Yoast SEO 20.3 in [our release post](https://yoa.st/release-14-3-23)!
+Release date: 2023-05-09
 
 #### Enhancements
 
-* Allows the highlighting feature to highlight content in captions of _Audio_, _Embed_, _Gallery_, _Image_, _Table_, and _Video_ blocks in the Block editor.
-* Allows the highlighting feature to highlight content in _FAQ_ and _How-to_ blocks in the Block editor.
-* Improves the detection of participles in the _passive voice_ assessment for Portuguese.
-* Improves the _transition words_ assessment for Portuguese by adding new transition words. Props to [mathiasribeiro](https://github.com/mathiasribeiro).
+* Adds a link to a taxonomy edit page in its settings section when the taxonomy has no public post types associated.
+* Adds an academy page in the Yoast menu for easy access to all of Yoast’s e-learning modules.
+* Ensures compatibility with upcoming Elementor accessibility improvements.
 
 #### Bugfixes
 
-* Fixes a bug where a fatal error would appear in oEmbed pages for media pages when those were disabled from Yoast settings.
-* Fixes a bug where editing text in Classic editor while the highlighting feature is enabled would make the text unfocused and the cursor jump to the beginning of the text.
-* Fixes a bug where self-closing break tags (`</br>`) would not be removed when analyzing content.
-* Fixes a bug where shortcodes in the Block editor would be treated as words when analyzing content.
-* Fixes a bug where the color and line height in the _Google preview_ modal would be shown incorrectly when editing in Elementor.
-* Fixes a bug where the `fetchpriority` attribute of the rating stars image was mistyped. Props to [fellyph](https://github.com/fellyph).
-* Fixes a bug where the `get_head` REST endpoint would return wrong values for some meta tags when called with the homepage URL as an argument.
-* Fixes a bug where the query parameters would be added in the middle of canonical and previous and next links in paginated pages. Props to [andreas-pa](https://github.com/andreas-pa).
+* Fixes a bug where a fatal error would be thrown when visiting Yoast SEO admin pages while Yoast SEO for WooCommerce is active but never executed.
 
 #### Other
 
-* Avoids issuing a PHP warning because of a wrong variable type.
-* Removes the beta badge for the _inclusive language_ assessment.
+* Removes the introductory modal for the settings page.
+* Removes the Zapier integration card.
+* Removes the Zapier post-publish slot and network admin integration toggle.
+* Sets the minimum supported WooCommerce version to 7.1.
+* Sets the minimum supported WordPress version to 6.1
+
+= 20.6 =
+
+Release date: 2023-04-26
+
+Today's release of Yoast SEO 20.6 has enhancements and fixes to improve your SEO work. The update features a new readability analysis — a helpful addition alerting you whenever you use too much center-aligned text. Check out more details now! Find out more about what's new in Yoast SEO 20.6 in [our release post](https://yoa.st/release-26-4-23)!
+
+#### Enhancements
+
+* Improves performance when the SEO data optimization has not been completed. Props to @PypWalters.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

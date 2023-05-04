@@ -79,7 +79,6 @@ export default function SidebarFill( { settings } ) {
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="sidebar" /> }
 					</Fragment>
@@ -87,7 +86,6 @@ export default function SidebarFill( { settings } ) {
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
-						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
 				</SidebarItem> }
 				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>

@@ -3,7 +3,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { getInitialState, getIsMultisiteAvailable, getIsNetworkControlEnabled, updateIntegrationState } from "./helper";
-import { JetpackBoostIntegration } from "./jetpack-boost-integration";
 
 import { ToggleableIntegration } from "./toggleable-integration";
 
@@ -76,5 +75,4 @@ export const RecommendedIntegrations = [
 			/>
 		);
 	} ),
-	<JetpackBoostIntegration key={ integrations.length } />,
 ];

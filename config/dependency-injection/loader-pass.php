@@ -53,12 +53,25 @@ class Loader_Pass implements CompilerPassInterface {
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
+		try {
+			$reflect = new ReflectionClass( $class );
+			$path    = $reflect->getFileName();
+			if ( strpos( $path, 'src' . DIRECTORY_SEPARATOR . 'analytics' ) && ! strpos( $path, 'missing-indexables-collector' ) && ! strpos( $path, 'to-be-cleaned-indexables-collector' )
+			) {
+				$definition->setPublic( false );
+			}
+		} catch ( \Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// Catch all for non-existing classes.
+		}
+
+
 		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
 		}
 
 		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
+			$definition->setPublic( true );
 		}
 
 		if ( \is_subclass_of( $class, Route_Interface::class ) ) {

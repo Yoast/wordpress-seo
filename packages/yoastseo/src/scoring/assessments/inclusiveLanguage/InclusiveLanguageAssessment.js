@@ -1,5 +1,5 @@
 import { sprintf } from "@wordpress/i18n";
-import { isString } from "lodash-es";
+import { isString, isUndefined } from "lodash-es";
 
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
@@ -8,7 +8,6 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getWords, sanitizeString } from "../../../languageProcessing";
 
 import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
-import { isUndefined } from "lodash";
 
 /**
  * An inclusive language assessment.

@@ -15,6 +15,7 @@ const paper = new Paper( content, {
 	description: "Зелёная книга - краткое название ежегодного путеводителя для чернокожих автомобилистов, который издавался в США с 1936 по 1966 год",
 	title: "Зелёная книга (путеводитель)",
 	titleWidth: 450,
+	textTitle: "Зелёная книга (путеводитель)",
 	locale: "es_ES",
 	permalink: "https://ru.wikipedia.org/wiki/Зелёная_книга_(путеводитель)",
 	slug: "Зелёная_книга_(путеводитель)",
@@ -35,7 +36,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 5 times. " +
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 5 times. " +
 			"That's less than the recommended minimum of 6 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>" +
 			"Focus on your keyphrase</a>!",
 	},
@@ -161,6 +162,16 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 28.06% of the words in your text are considered complex." +
 			" <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

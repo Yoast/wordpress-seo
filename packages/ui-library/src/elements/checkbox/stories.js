@@ -1,16 +1,11 @@
 import { StoryComponent } from ".";
+import { component, disabled } from "./docs";
 
 export default {
 	title: "1) Elements/Checkbox",
 	component: StoryComponent,
 	argTypes: {},
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple checkbox component.",
-			},
-		},
-	},
+	parameters: { docs: { description: { component } } },
 };
 
 export const Factory = ( args ) => (
@@ -32,9 +27,10 @@ export const Disabled = ( args ) => (
 );
 Disabled.parameters = {
 	controls: { disable: true },
+	docs: { description: { story: disabled } },
 };
 Disabled.args = {
-	id: "checkbox",
+	id: "checkbox-disabled",
 	name: "name",
 	value: "value",
 	label: "I am a checkbox.",

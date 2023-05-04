@@ -6,7 +6,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import {
 	isUndefined,
 	debounce,
-} from "lodash-es";
+} from "lodash";
 
 // Internal dependencies.
 import { termsTmceId } from "../lib/tinymce";
@@ -26,7 +26,13 @@ import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
-import snippetEditorHelpers from "../analysis/snippetEditor";
+import {
+	getDataFromCollector,
+	getDataFromStore,
+	getDataWithoutTemplates,
+	getDataWithTemplates,
+	getTemplatesFromL10n,
+} from "../analysis/snippetEditor";
 import TermDataCollector from "../analysis/TermDataCollector";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
@@ -34,6 +40,7 @@ import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
 import { actions } from "@yoast/externals/redux";
+import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 
 const {
 	refreshSnippetEditor,
@@ -175,6 +182,20 @@ export default function initTermScraper( $, store, editorData ) {
 		var savedContentScore = $( "#hidden_wpseo_content_score" ).val();
 
 		var indicator = getIndicatorForScore( savedContentScore );
+
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	/**
+	 * Initializes the inclusive language analysis.
+	 *
+	 * @returns {void}
+	 */
+	function initializeInclusiveLanguageAnalysis() {
+		const savedContentScore = $( "#hidden_wpseo_inclusive_language_score" ).val();
+
+		const indicator = getIndicatorForScore( savedContentScore );
 
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
@@ -378,6 +399,10 @@ export default function initTermScraper( $, store, editorData ) {
 			initializeContentAnalysis();
 		}
 
+		if ( isInclusiveLanguageAnalysisActive() ) {
+			initializeInclusiveLanguageAnalysis();
+		}
+
 		// Initialize the analysis worker.
 		window.YoastSEO.analysis.worker.initialize( getAnalysisConfiguration( { useTaxonomy: true } ) )
 			.then( () => {
@@ -394,10 +419,10 @@ export default function initTermScraper( $, store, editorData ) {
 		};
 
 		// Initialize the snippet editor data.
-		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
+		let snippetEditorData = getDataFromCollector( termScraper );
 		initializeCornerstoneContentAnalysis( app );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
-		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
+		const snippetEditorTemplates = getTemplatesFromL10n( wpseoScriptData.metabox );
+		snippetEditorData = getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
@@ -423,8 +448,8 @@ export default function initTermScraper( $, store, editorData ) {
 				refreshAfterFocusKeywordChange();
 			}
 
-			const data = snippetEditorHelpers.getDataFromStore( store );
-			const dataWithoutTemplates = snippetEditorHelpers.getDataWithoutTemplates( data, snippetEditorTemplates );
+			const data = getDataFromStore( store );
+			const dataWithoutTemplates = getDataWithoutTemplates( data, snippetEditorTemplates );
 
 			if ( snippetEditorData.title !== data.title ) {
 				termScraper.setDataFromSnippet( dataWithoutTemplates.title, "snippet_title" );

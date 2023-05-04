@@ -137,7 +137,7 @@
 |-------|------	|----- |------- |
 |Red	|3	|< 50 characters	|**Not enough content**: **please add some content to enable a good analysis**.|
 
-## 8) Word complexity (only in Premium)
+## 9) Word complexity (only in Premium)
 **What it does**: Checks whether the text contains complex words
 
 **When applies**: When there is at least 50 characters in the text
@@ -152,3 +152,26 @@
 |-------|------	|----- |--------------------------------------------------------------------------------------------------------------------------------------------------|
 |Orange	(cornerstone: red) |6 (cornerstone: 3) |	If the complex words are more than 10% in the text | **Word complexity**: X% of the words in your text are considered complex. **Try to use shorter and more familiar words to improve readability**. |
 |Green	|9 |	If the complex words are less than 10% in the text              | **Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job!                                     |
+
+## 10) Text alignment (only in Premium)
+**What it does**: Checks whether there is an over-use of center-alignment in the text.
+
+**When applies**: When there is at least 50 characters in the text and has at least one element with center-alignment.
+
+**Name in code**: TextAlignmentAssessment
+
+**Title URL**: https://yoa.st/assessment-alignment (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/assessment-alignment-cta (link placement is in bold in the feedback strings)
+
+
+| Bullet         | Score 	| Criterion    | Feedback	|
+|----------------|-------	|-------- |---------------------------------	|
+| Red     | 2     	| There is one element with `.has-text-align-center` that is over 50 characters long                 	| LTR: **Alignment**: There is a long section of center-aligned text. **We recommend making it left-aligned**. |
+|      |     	|  	| RTL: **Alignment**: There is a long section of center-aligned text. **We recommend making it right-aligned**. 	|
+| Red     | 2     	| There are multiple elements with <br>`.has-text-align-center`<br> that are over 50 characters long 	| LTR: **Alignment**: There are X long sections of center-aligned text. **We recommend making them left-aligned**. 	|
+|      |     	| 	| RTL: **Alignment**: There are X long sections of center-aligned text. **We recommend making them right-aligned**. 	|
+
+**Notes**:
+* LTR: The feedback shown for languages written from left to right.
+* RTL: The feedback shown for languages written from right to left.

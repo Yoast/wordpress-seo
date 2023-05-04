@@ -1,5 +1,3 @@
-import wordComplexityConfig from "../config/internal/wordComplexity";
-
 const vowels = "aeiuoyáéíóúñ";
 const consonants = "bcdfghjklmnpqrstvwxzñ";
 
@@ -12,17 +10,19 @@ const consonantSuffixRegex = new RegExp( consonantSuffix );
 const suffixes = "(s|es)$";
 const suffixesRegex = new RegExp( suffixes );
 
-const lengthLimit = wordComplexityConfig.wordLength;
-const frequencyList = wordComplexityConfig.frequencyList;
-
 /**
  * Checks if a word is complex.
+ * This is a helper for the Word Complexity assessment. As such, this helper is not bundled in Yoast SEO.
  *
+ * @param {object} config The configuration needed for assessing the word's complexity, e.g., the frequency list.
  * @param {string} word The word to check.
  *
  * @returns {boolean} Whether or not a word is complex.
  */
-export default function checkIfWordIsComplex( word ) {
+export default function checkIfWordIsComplex( config, word ) {
+	const lengthLimit = config.wordLength;
+	const frequencyList = config.frequencyList;
+
 	// The Spanish word is not complex if its length is 7 characters or fewer.
 	if ( word.length <= lengthLimit ) {
 		return false;

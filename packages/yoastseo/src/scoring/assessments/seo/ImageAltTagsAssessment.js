@@ -1,9 +1,9 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
+import { Assessment, AssessmentResult, helpers } from "yoastseo";
+
+const { createAnchorOpeningTag } = helpers;
 
 /**
  * Represents the assessment that checks if all images have alt tags (only applicable for product pages).
@@ -33,7 +33,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	}
 
 	/**
-	 * Execute the Assessment and return a result.
+	 * Executes the Assessment and return a result.
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
@@ -67,7 +67,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculate the result based on the availability of images in the text, including videos in product pages.
+	 * Calculates the result based on the availability of images in the text, including videos in product pages.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
@@ -83,7 +83,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
 						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -104,7 +104,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 						"%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
 						"%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
 						imagesNoAlt,
-						"wordpress-seo"
+						"yoast-woo-seo"
 					),
 					imagesNoAlt,
 					this.imageCount,
@@ -123,7 +123,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 				 * %2$s expands to the anchor end tag. */
 				__(
 					"%1$sImage alt tags%2$s: All images have alt attributes. Good job!",
-					"wordpress-seo"
+					"yoast-woo-seo"
 				),
 				this._config.urlTitle,
 				"</a>"

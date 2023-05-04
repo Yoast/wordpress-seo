@@ -3,7 +3,7 @@ import {
 	get,
 	isUndefined,
 	merge,
-} from "lodash-es";
+} from "lodash";
 import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 
 // Internal dependencies.

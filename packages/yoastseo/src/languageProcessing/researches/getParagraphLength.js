@@ -1,3 +1,4 @@
+import { imageRegex } from "../helpers/image/imageInText";
 import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
 import excludeEstimatedReadingTime from "../helpers/sanitize/excludeEstimatedReadingTime";
 import sanitizeLineBreakTag from "../helpers/sanitize/sanitizeLineBreakTag";
@@ -15,9 +16,13 @@ import { filter } from "lodash-es";
  */
 export default function( paper, researcher ) {
 	let text = excludeTableOfContentsTag( paper.getText() );
-	// Excludes the Estimated Reading time text from the research
+	// Exclude the Estimated Reading time text from the research
 	text = excludeEstimatedReadingTime( text );
-	// Replaces line break tags containing attribute(s) with paragraph tag.
+	// Remove images from text before retrieving the paragraphs.
+	// This step is done here so that applying highlight in captions is possible for ParagraphTooLongAssessment.
+	text = text.replace( imageRegex, "" );
+
+	// Replace line break tags containing attribute(s) with paragraph tag.
 	text = sanitizeLineBreakTag( text );
 	const paragraphs = matchParagraphs( text );
 	const paragraphsLength = [];

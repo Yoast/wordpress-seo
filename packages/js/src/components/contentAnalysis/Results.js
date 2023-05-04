@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
-import { isUndefined } from "lodash-es";
+import { isUndefined } from "lodash";
 import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";

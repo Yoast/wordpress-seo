@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
+import { getDirectionalStyle as getRtlStyle, makeOutboundLink } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 import { SvgIcon, UpsellLinkButton } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
 
 const TextContainer = styled.p`
 	color: ${ colors.$color_upsell_text };

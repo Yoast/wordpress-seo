@@ -77,28 +77,6 @@ describe( "a test for getting paragraph length", function() {
 		expect( getParagraphLength( mockPaper, new EnglishResearcher() ).length ).toBe( 2 );
 	} );
 
-	it( "returns the paragraph length, with paragraph with only image", function() {
-		const mockPaper = new Paper( "<p>test</p><p><img src='image.com/image.png' /></p><p>more text</p>" );
-		expect( getParagraphLength( mockPaper, new EnglishResearcher() ).length ).toBe( 2 );
-	} );
-
-	it( "returns the paragraph length, with paragraph with only image", function() {
-		const mockPaper = new Paper( "<p><img src='image.com/image.png' /></p><p><img src='image.com/image.png' /></p>" );
-		expect( getParagraphLength( mockPaper, new EnglishResearcher() ).length ).toBe( 0 );
-	} );
-
-	it( "returns the paragraph length, with paragraph with only image", function() {
-		const mockPaper = new Paper( "<p><img src='image.com/image.png' />test</p><p><img src='image.com/image.png' /> test </p>" );
-		expect( getParagraphLength( mockPaper, new EnglishResearcher() ).length ).toBe( 2 );
-		expect( getParagraphLength( mockPaper, new EnglishResearcher() )[ 0 ].countLength ).toBe( 1 );
-	} );
-
-	it( "returns the paragraph length, with paragraph with only image", function() {
-		const mockPaper = new Paper( "<p><img src='image.com/image.png' />test</p><p><img src='image.com/image.png' /> </p>" );
-		expect( getParagraphLength( mockPaper, new EnglishResearcher() ).length ).toBe( 1 );
-		expect( getParagraphLength( mockPaper, new EnglishResearcher() )[ 0 ].countLength ).toBe( 1 );
-	} );
-
 	it( "returns the paragraph length of paragraph without p tags or double linebreaks, but with h2 tags", function() {
 		const mockPaper = new Paper( "<h2>Lorem ipsum dolor sit amet</h2>" );
 		expect( getParagraphLength( mockPaper, new EnglishResearcher() )[ 0 ].countLength ).toBe( 5 );
@@ -117,5 +95,24 @@ describe( "a test for getting paragraph length", function() {
 	xit( "returns the paragraph length of an empty paragraph without p tags or double line breaks", function() {
 		const mockPaper = new Paper( "" );
 		expect( getParagraphLength( mockPaper, new EnglishResearcher() ).countLength ).not.toContain( 0 );
+	} );
+} );
+
+describe( "a test for getting paragraph length of a text with image(s)", () => {
+	it( "should not count a paragraph containing only an image", function() {
+		// The paper contains 3 paragraphs: 2 paragraphs with text and one paragraph with only an image.
+		const mockPaper = new Paper( "<p>test</p><p><img src='image.com/image.png' /></p><p>more text</p>" );
+		expect( getParagraphLength( mockPaper, new EnglishResearcher( mockPaper ) ).length ).toBe( 2 );
+	} );
+
+	it( "should return 0 for paragraphs count when all paragraphs only contain images", function() {
+		const mockPaper = new Paper( "<p><img src='image.com/image.png' /></p><p><img src='image.com/image.png' /></p>" );
+		expect( getParagraphLength( mockPaper, new EnglishResearcher( mockPaper ) ).length ).toBe( 0 );
+	} );
+
+	it( "should not include the image in the paragraph length calculation", function() {
+		const mockPaper = new Paper( "<p><img src='image.com/image.png' />test</p><p><img src='image.com/image.png' /> test </p>" );
+		expect( getParagraphLength( mockPaper, new EnglishResearcher( mockPaper ) ).length ).toBe( 2 );
+		expect( getParagraphLength( mockPaper, new EnglishResearcher( mockPaper ) )[ 0 ].countLength ).toBe( 1 );
 	} );
 } );

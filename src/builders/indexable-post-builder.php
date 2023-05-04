@@ -126,6 +126,8 @@ class Indexable_Post_Builder {
 
 		$indexable->readability_score = (int) $this->meta->get_value( 'content_score', $post_id );
 
+		$indexable->inclusive_language_score = (int) $this->meta->get_value( 'inclusive_language_score', $post_id );
+
 		$indexable->is_cornerstone    = ( $this->meta->get_value( 'is_cornerstone', $post_id ) === '1' );
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
 			(int) $this->meta->get_value( 'meta-robots-noindex', $post_id )

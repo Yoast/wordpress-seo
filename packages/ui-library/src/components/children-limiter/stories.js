@@ -4,7 +4,7 @@ import ChildrenLimiter from ".";
 import { Button } from "../../";
 
 export default {
-	title: "2) Components/Children Limiter",
+	title: "2) Components/Children limiter",
 	component: ChildrenLimiter,
 	parameters: {
 		docs: {

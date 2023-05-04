@@ -12,7 +12,7 @@ import { getPostFeed } from "@yoast/helpers";
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
 import { authenticate, getAuthorizationUrl, getKeyphrases } from "./helpers/wincherEndpoints";
 import LoginPopup from "./helpers/loginPopup";
-import { isEmpty, filter, sortBy } from "lodash-es";
+import { isEmpty, filter, sortBy } from "lodash";
 
 /**
  * The Yoast dashboard widget component used on the WordPress admin dashboard.

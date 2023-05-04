@@ -8,6 +8,7 @@ const paper = new Paper( content, {
 	synonyms: "Nikifor Romanovič Černigovskij",
 	description: "Nikifor Romanovič Černigovskij (rusky Никифор Романович Черниговский; † 1675) byl ruský sibiřský kozák, " +
 		"původem z polsko-litevského státu.",
+	textTitle: "Nikifor Černigovskij",
 	title: "Nikifor Černigovskij",
 	titleWidth: 450,
 	locale: "cs_CZ",
@@ -31,7 +32,7 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 9 times. " +
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The keyphrase was found 9 times. " +
 			"That's less than the recommended minimum of 12 times for a text of this length. <a href='https://yoa.st/33w' " +
 			"target='_blank'>Focus on your keyphrase</a>!",
 	},
@@ -155,6 +156,16 @@ const expectedResults = {
 	},
 	wordComplexity: {
 		isApplicable: false,
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 

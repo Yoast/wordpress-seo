@@ -33,6 +33,7 @@
 			<directory>./src</directory>
 			<exclude>
 				<directory suffix=".php">./src/deprecated</directory>
+				<directory suffix=".php">./src/generated</directory>
 				<file>./inc/wpseo-functions-deprecated.php</file>
 			</exclude>
 		</whitelist>

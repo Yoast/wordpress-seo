@@ -9,6 +9,7 @@ const paper = new Paper( content, {
 	description: "Voice search is gaining popularity. But what will the future bring? Joost and Marieke discuss the pros and cons of " +
 		"voice and describe a possible future scenario.",
 	title: "Voice search: what will the future bring?",
+	textTitle: "Voice search: what will the future bring?",
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://yoast.com/future-of-voice-search/",
@@ -30,7 +31,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 11 times. This is great!",
+			"The keyphrase was found 11 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -154,6 +155,18 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: " +
 			"You are not using too many complex words, which makes your text easy to read. Good job!",
+	},
+	textAlignment: {
+		isApplicable: true,
+		score: 2,
+		resultText: "<a href='https://yoa.st/assessment-alignment' target='_blank'>Alignment</a>: " +
+			"There is a long section of center-aligned text. <a href='https://yoa.st/assessment-alignment-cta'" +
+			" target='_blank'>We recommend making it left-aligned</a>.",
+	},
+	textTitleAssessment: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4nh' target='_blank'>Title</a>: Your page has a title. Well done!",
 	},
 };
 
