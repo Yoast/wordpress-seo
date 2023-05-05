@@ -251,6 +251,10 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function schedule_cron_indexing() {
+		if ( ! $this->yoast_admin_and_dashboard_conditional->is_met() || ! $this->get_request_conditional->is_met() ) {
+			return;
+		}
+
 		if ( ! \wp_next_scheduled( 'wpseo_indexable_index_batch' ) && $this->should_index_on_cron() ) {
 			\wp_schedule_event( ( \time() + \HOUR_IN_SECONDS ), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
 		}
