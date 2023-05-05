@@ -53,13 +53,15 @@ class Missing_Indexables_Collector_Test extends TestCase {
 				[ $indexation_action, $indexation_action ],
 				$indexation_action,
 				[
-					[
-						'indexable_type' => Abstract_Indexing_Action_Double::class,
-						'count'          => 15,
-					],
-					[
-						'indexable_type' => Abstract_Indexing_Action_Double::class,
-						'count'          => 15,
+					'missing_indexables' => [
+						[
+							'indexable_type' => Abstract_Indexing_Action_Double::class,
+							'count'          => 15,
+						],
+						[
+							'indexable_type' => Abstract_Indexing_Action_Double::class,
+							'count'          => 15,
+						],
 					],
 				],
 			],
@@ -68,9 +70,11 @@ class Missing_Indexables_Collector_Test extends TestCase {
 				[ $indexation_action, 'somerandomobject' ],
 				$indexation_action,
 				[
-					[
-						'indexable_type' => Abstract_Indexing_Action_Double::class,
-						'count'          => 15,
+					'missing_indexables' => [
+						[
+							'indexable_type' => Abstract_Indexing_Action_Double::class,
+							'count'          => 15,
+						],
 					],
 				],
 
@@ -79,7 +83,7 @@ class Missing_Indexables_Collector_Test extends TestCase {
 
 				null,
 				$indexation_action,
-				[],
+				[ 'missing_indexables' => [] ],
 
 			],
 		];
