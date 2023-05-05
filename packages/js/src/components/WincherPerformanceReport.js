@@ -166,6 +166,27 @@ Row.propTypes = {
 };
 
 /**
+ * Displays error alert if a network error happened when connecting to Wincher.
+ *
+ * @returns {wp.Element} The error alert.
+ */
+const WincherNetworkErrorAlert = () => {
+	return (
+		<Alert type="error">
+			{
+				sprintf(
+					__(
+						// eslint-disable-next-line max-len
+						"Network Error: Unable to connect to the server. Please check your internet connection and try again later.",
+						"wordpress-seo"
+					)
+				)
+			}
+		</Alert>
+	);
+};
+
+/**
  * Displays info alert when a wincher connect action is successfully made.
  *
  * @param {Object} props The component props.
@@ -216,14 +237,18 @@ WincherConnectSuccessAlert.propTypes = {
 };
 
 /**
- * Gets the proper user message based on the current login state and presence of data.
+ * Gets a connection alert based on the passed props and the data status.
  *
  * @param {Object} props The props.
  *
- * @returns {wp.Element} The user message.
+ * @returns {null|wp.Element} The connection alert.
  */
-const GetUserMessage = ( props ) => {
-	const { data, onConnectAction, isConnectSuccess } = props;
+const GetConnectionAlert = ( props ) => {
+	const { data, onConnectAction, isConnectSuccess, isNetworkError } = props;
+
+	if ( isNetworkError ) {
+		return <WincherNetworkErrorAlert data={ data } />;
+	}
 
 	if ( isConnectSuccess ) {
 		return <WincherConnectSuccessAlert data={ data } />;
@@ -233,6 +258,32 @@ const GetUserMessage = ( props ) => {
 		return <WincherReconnectAlert
 			onReconnect={ onConnectAction }
 		/>;
+	}
+
+	return null;
+};
+
+GetConnectionAlert.propTypes = {
+	data: PropTypes.object.isRequired,
+	onConnectAction: PropTypes.func.isRequired,
+	isConnectSuccess: PropTypes.bool.isRequired,
+	isNetworkError: PropTypes.bool.isRequired,
+};
+
+/**
+ * Gets the proper user message based on the current login state and presence of data.
+ *
+ * @param {Object} props The props.
+ *
+ * @returns {wp.Element} The user message.
+ */
+const GetUserMessage = ( props ) => {
+	const { data } = props;
+
+	const connectionAlert = <GetConnectionAlert { ...props } />;
+
+	if ( connectionAlert ) {
+		return connectionAlert;
 	}
 
 	if ( ! data || isEmpty( data.results ) ) {
@@ -246,6 +297,7 @@ GetUserMessage.propTypes = {
 	data: PropTypes.object.isRequired,
 	onConnectAction: PropTypes.func.isRequired,
 	isConnectSuccess: PropTypes.bool.isRequired,
+	isNetworkError: PropTypes.bool.isRequired,
 };
 
 /**
@@ -458,6 +510,7 @@ WincherPerformanceReport.propTypes = {
 	websiteId: PropTypes.string.isRequired,
 	isLoggedIn: PropTypes.bool.isRequired,
 	isConnectSuccess: PropTypes.bool.isRequired,
+	isNetworkError: PropTypes.bool.isRequired,
 	onConnectAction: PropTypes.func.isRequired,
 };
 
