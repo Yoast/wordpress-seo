@@ -56,7 +56,7 @@ class To_Be_Cleaned_Indexables_Collector_Test extends TestCase {
 					->andReturn( 0 );
 		$this->sut = new To_Be_Cleaned_Indexables_Collector( $indexable_cleanup_repository_mock );
 
-		$this->assertEquals(
+		$this->assertSame(
 			[
 				'to_be_cleaned_indexables' => [
 					[
