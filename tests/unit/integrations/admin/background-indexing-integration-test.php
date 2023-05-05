@@ -668,13 +668,14 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @param bool $next_scheduled_result              Whether there's a scheduled action already.
 	 * @param int  $should_index_times                 Times we'll check whether indexing is enabled on the site.
 	 * @param bool $should_index_result                Whether indexing is enabled on the site.
-	 * @param int  $filter_times                       Times we'll check whether indexing is disabled via filter.
-	 * @param bool $filter_result                      Whether indexing is disabled via filter.
+	 * @param bool $query_filter_result                Whether queries have ran via filter.
+	 * @param int  $enable_filter_times                Times we'll check whether indexing is disabled via filter.
+	 * @param bool $enable_filter_result               Whether indexing is disabled via filter.
 	 * @param int  $get_unindexed_count_times          Times we'll calculate the unindexed objects count.
 	 * @param int  $get_unindexed_count_result         The unindexed objects count.
 	 * @param int  $schedule_event_times               Times we'll schedule a cron event.
 	 */
-	public function test_schedule_cron_indexing( $admin_dashboard_conditional_result, $get_conditional_times, $get_conditional_result, $next_scheduled_times, $next_scheduled_result, $should_index_times, $should_index_result, $filter_times, $filter_result, $get_unindexed_count_times, $get_unindexed_count_result, $schedule_event_times ) {
+	public function test_schedule_cron_indexing( $admin_dashboard_conditional_result, $get_conditional_times, $get_conditional_result, $next_scheduled_times, $next_scheduled_result, $should_index_times, $should_index_result, $query_filter_result, $enable_filter_times, $enable_filter_result, $get_unindexed_count_times, $get_unindexed_count_result, $schedule_event_times ) {
 		$this->yoast_admin_and_dashboard_conditional
 			->expects( 'is_met' )
 			->once()
@@ -695,10 +696,15 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->times( $should_index_times )
 			->andReturn( $should_index_result );
 
+		Monkey\Filters\expectApplied( 'wpseo_unindexed_count_queries_ran' )
+			->once()
+			->with( false )
+			->andReturn( $query_filter_result );
+
 		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
-			->times( $filter_times )
+			->times( $enable_filter_times )
 			->with( true )
-			->andReturn( $filter_result );
+			->andReturn( $enable_filter_result );
 
 		$this->indexing_helper
 			->expects( 'get_limited_filtered_unindexed_count_background' )
@@ -728,8 +734,9 @@ class Background_Indexing_Integration_Test extends TestCase {
 				'next_scheduled_result'              => 'irrelevant',
 				'should_index_times'                 => 0,
 				'should_index_result'                => 'irrelevant',
-				'filter_times'                       => 0,
-				'filter_result'                      => 'irrelevant',
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
 				'get_unindexed_count_times'          => 0,
 				'get_unindexed_count_result'         => 'irrelevant',
 				'schedule_event_times'               => 0,
@@ -742,8 +749,9 @@ class Background_Indexing_Integration_Test extends TestCase {
 				'next_scheduled_result'              => 'irrelevant',
 				'should_index_times'                 => 0,
 				'should_index_result'                => 'irrelevant',
-				'filter_times'                       => 0,
-				'filter_result'                      => 'irrelevant',
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
 				'get_unindexed_count_times'          => 0,
 				'get_unindexed_count_result'         => 'irrelevant',
 				'schedule_event_times'               => 0,
@@ -756,8 +764,9 @@ class Background_Indexing_Integration_Test extends TestCase {
 				'next_scheduled_result'              => true,
 				'should_index_times'                 => 0,
 				'should_index_result'                => 'irrelevant',
-				'filter_times'                       => 0,
-				'filter_result'                      => 'irrelevant',
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
 				'get_unindexed_count_times'          => 0,
 				'get_unindexed_count_result'         => 'irrelevant',
 				'schedule_event_times'               => 0,
@@ -770,8 +779,9 @@ class Background_Indexing_Integration_Test extends TestCase {
 				'next_scheduled_result'              => false,
 				'should_index_times'                 => 1,
 				'should_index_result'                => true,
-				'filter_times'                       => 1,
-				'filter_result'                      => false,
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => false,
 				'get_unindexed_count_times'          => 0,
 				'get_unindexed_count_result'         => 'irrelevant',
 				'schedule_event_times'               => 0,
@@ -784,8 +794,9 @@ class Background_Indexing_Integration_Test extends TestCase {
 				'next_scheduled_result'              => false,
 				'should_index_times'                 => 1,
 				'should_index_result'                => false,
-				'filter_times'                       => 0,
-				'filter_result'                      => 'irrelevant',
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 0,
+				'enable_filter_result'               => 'irrelevant',
 				'get_unindexed_count_times'          => 0,
 				'get_unindexed_count_result'         => 'irrelevant',
 				'schedule_event_times'               => 0,
@@ -798,11 +809,27 @@ class Background_Indexing_Integration_Test extends TestCase {
 				'next_scheduled_result'              => false,
 				'should_index_times'                 => 1,
 				'should_index_result'                => true,
-				'filter_times'                       => 1,
-				'filter_result'                      => true,
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => true,
 				'get_unindexed_count_times'          => 1,
 				'get_unindexed_count_result'         => 0,
 				'schedule_event_times'               => 0,
+			],
+			'Cron job is scheduled even if we are not on the right page, because queries have ran' => [
+				'admin_dashboard_conditional_result' => false,
+				'get_conditional_times'              => 0,
+				'get_conditional_result'             => 'irrelevant',
+				'next_scheduled_times'               => 1,
+				'next_scheduled_result'              => false,
+				'should_index_times'                 => 1,
+				'should_index_result'                => true,
+				'query_filter_result'                => true,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => true,
+				'get_unindexed_count_times'          => 1,
+				'get_unindexed_count_result'         => 1,
+				'schedule_event_times'               => 1,
 			],
 			'Cron job is scheduled when on the right pages and the indexing process is not complete yet' => [
 				'admin_dashboard_conditional_result' => true,
@@ -812,8 +839,9 @@ class Background_Indexing_Integration_Test extends TestCase {
 				'next_scheduled_result'              => false,
 				'should_index_times'                 => 1,
 				'should_index_result'                => true,
-				'filter_times'                       => 1,
-				'filter_result'                      => true,
+				'query_filter_result'                => false,
+				'enable_filter_times'                => 1,
+				'enable_filter_result'               => true,
 				'get_unindexed_count_times'          => 1,
 				'get_unindexed_count_result'         => 1,
 				'schedule_event_times'               => 1,

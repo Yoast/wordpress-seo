@@ -251,7 +251,15 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function schedule_cron_indexing() {
-		if ( ! $this->yoast_admin_and_dashboard_conditional->is_met() || ! $this->get_request_conditional->is_met() ) {
+		/**
+		 * Filter:  'wpseo_unindexed_count_queries_ran' - Informs whether the expensive unindexed count queries have been ran already.
+		 *
+		 * @internal
+		 * @api bool
+		 */
+		$have_queries_ran = \apply_filters( 'wpseo_unindexed_count_queries_ran', false );
+
+		if ( ( ! $this->yoast_admin_and_dashboard_conditional->is_met() || ! $this->get_request_conditional->is_met() ) && ! $have_queries_ran ) {
 			return;
 		}
 

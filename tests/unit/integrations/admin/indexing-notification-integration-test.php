@@ -324,6 +324,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->expects( 'get_started' )
 			->andReturn( 0 );
 
+		Monkey\Filters\expectAdded( 'wpseo_unindexed_count_queries_ran' )
+			->once()
+			->with( '__return_true' );
+
 		$this->indexing_helper
 			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
