@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import { ASYNC_ACTION_STATUS } from "../constants";
 import { useDispatchSettings, useSelectSettings } from "../hooks";
 
+let abortController;
 
 /**
  * @param {JSX.node} children The children.
@@ -42,6 +43,7 @@ const FormikPostSelectField = ( { name, id, className = "", ...props } ) => {
 	const { addManyPosts } = useDispatchSettings();
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( { type: "select", name, id, ...props } );
 	const [ status, setStatus ] = useState( ASYNC_ACTION_STATUS.idle );
+	const [ queriedPostIds, setQueriedPostIds ] = useState( [] );
 	const canCreatePosts = useSelectSettings( "selectPreference", [], "canCreatePosts", false );
 	const createPostUrl = useSelectSettings( "selectPreference", [], "createPostUrl", "" );
 
@@ -50,6 +52,36 @@ const FormikPostSelectField = ( { name, id, className = "", ...props } ) => {
 		return find( postObjects, [ "id", value ] );
 	}, [ value, posts ] );
 
+	const debouncedFetchPosts = useCallback( debounce( async search => {
+		try {
+			setStatus( ASYNC_ACTION_STATUS.loading );
+			// Cleanup previous running request.
+			if ( abortController ) {
+				abortController?.abort();
+			}
+			abortController = new AbortController();
+
+			const response = await apiFetch( {
+				// eslint-disable-next-line camelcase
+				path: `/wp/v2/posts?${ buildQueryString( { search, per_page: 21 } ) }`,
+				signal: abortController?.signal,
+			} );
+
+
+			setQueriedPostIds( map( response, "id" ) );
+			addManyPosts( response );
+			setStatus( ASYNC_ACTION_STATUS.success );
+		} catch ( error ) {
+			if ( error instanceof DOMException && error.name === "AbortError" ) {
+				// Expected abort errors can be ignored.
+				return;
+			}
+			setQueriedPostIds( [] );
+			setStatus( ASYNC_ACTION_STATUS.error );
+
+			console.error( error.message );
+		}
+	}, 200 ), [ setQueriedPostIds, addManyPosts, setStatus ] );
 
 	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
