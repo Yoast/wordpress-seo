@@ -252,7 +252,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 */
 	public function schedule_cron_indexing() {
 		/**
-		 * Filter:  'wpseo_unindexed_count_queries_ran' - Informs whether the expensive unindexed count queries have been ran already.
+		 * Filter: 'wpseo_unindexed_count_queries_ran' - Informs whether the expensive unindexed count queries have been ran already.
 		 *
 		 * @internal
 		 * @api bool
@@ -278,7 +278,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	public function throttle_cron_indexing( $indexation_limit ) {
 		if ( \wp_doing_cron() ) {
 			/**
-			 * Filter: Adds the possibility to limit the number of items that are indexed when in cron action.
+			 * Filter: 'wpseo_cron_indexing_limit_size' - Adds the possibility to limit the number of items that are indexed when in cron action.
 			 *
 			 * @api int $limit Maximum number of indexables to be indexed per indexing action.
 			 */
@@ -298,7 +298,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	public function throttle_cron_link_indexing( $link_indexation_limit ) {
 		if ( \wp_doing_cron() ) {
 			/**
-			 * Filter: Adds the possibility to limit the number of links that are indexed when in cron action.
+			 * Filter: 'wpseo_cron_link_indexing_limit_size' - Adds the possibility to limit the number of links that are indexed when in cron action.
 			 *
 			 * @api int $limit Maximum number of link indexables to be indexed per link indexing action.
 			 */
