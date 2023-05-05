@@ -23,6 +23,7 @@ import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from
 import search, { createInitialSearchState, searchActions, searchSelectors } from "./search";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
 import users, { createInitialUsersState, usersActions, usersControls, usersSelectors } from "./users";
+import posts, {createInitialPostsState, postsActions, postsControls, postsSelectors} from "./posts";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -45,6 +46,7 @@ const createStore = ( { initialState } ) => {
 			...searchActions,
 			...taxonomiesActions,
 			...usersActions,
+			...postsActions,
 		},
 		selectors: {
 			...breadcrumbsSelectors,
@@ -60,6 +62,7 @@ const createStore = ( { initialState } ) => {
 			...searchSelectors,
 			...taxonomiesSelectors,
 			...usersSelectors,
+			...postsSelectors,
 		},
 		initialState: merge(
 			{},
@@ -76,6 +79,7 @@ const createStore = ( { initialState } ) => {
 				search: createInitialSearchState(),
 				taxonomies: createInitialTaxonomiesState(),
 				users: createInitialUsersState(),
+				posts: createInitialPostsState(),
 			},
 			initialState
 		),
@@ -92,10 +96,12 @@ const createStore = ( { initialState } ) => {
 			search,
 			taxonomies,
 			users,
+			posts,
 		} ),
 		controls: {
 			...mediaControls,
 			...usersControls,
+			...postsControls,
 		},
 	} );
 };

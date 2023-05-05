@@ -422,6 +422,7 @@ class Settings_Integration implements Integration_Interface {
 			$page_on_front = $page_for_posts;
 		}
 
+
 		return [
 			'isPremium'                     => $this->product_helper->is_premium(),
 			'isRtl'                         => \is_rtl(),
@@ -440,12 +441,14 @@ class Settings_Integration implements Integration_Interface {
 			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
 			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 			'createUserUrl'                 => \admin_url( 'user-new.php' ),
+			'createPostUrl'                 => \admin_url( 'post-new.php' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
 			'editTaxonomyUrl'               => \admin_url( 'edit-tags.php' ),
 			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
 			'canCreateUsers'                => \current_user_can( 'create_users' ),
+			'canCreatePosts'                => \current_user_can( 'edit_posts' ),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
 			'canManageOptions'              => \current_user_can( 'manage_options' ),
 			'userLocale'                    => \str_replace( '_', '-', \get_user_locale() ),

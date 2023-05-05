@@ -12,6 +12,7 @@ import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikUserSelectField, FormikWithErrorField, FormLayout, RouteLayout } from "../components";
 import { withFormikDummyField } from "../hocs";
 import { useSelectSettings } from "../hooks";
+import FormikPostSelectField from "../components/formik-post-select-field";
 
 const FormikWithErrorFieldWithDummy = withFormikDummyField( FormikWithErrorField );
 
@@ -336,6 +337,87 @@ const SiteRepresentation = () => {
 									mediaIdName="wpseo_titles.person_logo_id"
 									fallbackMediaId={ siteLogoId }
 									disabled={ ! companyOrPersonId }
+								/>
+							</FieldsetLayout>
+						</AnimateHeight>
+						<hr className="yst-my-8" />
+						<AnimateHeight
+							easing="ease-out"
+							duration={ 300 }
+							delay={ 300 }
+							height={ "auto"}
+							animateOpacity={ true }
+						>
+							<FieldsetLayout
+								title={ __( "General information", "wordpress-seo" ) }
+								description={ __( "Description needed", "wordpress-seo" ) }
+							>
+								<FormikPostSelectField
+									name="wpseo_titles.publishing_principles_id"
+									id="input-wpseo_titles-publishing_principles_id"
+									label={ __( "Publishing principles", "wordpress-seo" ) }
+									className="yst-max-w-sm"
+									description={ __( "Description needed", "wordpress-seo" ) }
+								/>
+								<FormikPostSelectField
+									name="wpseo_titles.ownership_funding_info_id"
+									id="input-wpseo_titles-ownership_funding_info_id"
+									label={ __( "Ownership / Funding info", "wordpress-seo" ) }
+									className="yst-max-w-sm"
+									description={ __( "Description needed", "wordpress-seo" ) }
+
+								/>
+
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								title={ __( "Feedback policies", "wordpress-seo" ) }
+								description={ __( "Description needed", "wordpress-seo" ) }
+							>
+								<FormikPostSelectField
+									name="wpseo_titles.actionable_feedback_policy_id"
+									id="input-wpseo_titles-actionable_feedback_policy_id"
+									label={ __( "Actionable feedback policy", "wordpress-seo" ) }
+									className="yst-max-w-sm"
+									description={ __( "Description needed", "wordpress-seo" ) }
+								/>
+								<FormikPostSelectField
+									name="wpseo_titles.corrections_policy_id"
+									id="input-wpseo_titles-corrections_policy_id"
+									label={ __( "Corrections policy", "wordpress-seo" ) }
+									className="yst-max-w-sm"
+									description={ __( "Description needed", "wordpress-seo" ) }
+
+								/>
+
+							</FieldsetLayout>
+							<hr className="yst-my-8" />
+							<FieldsetLayout
+								title={ __( "Organization policies and reports", "wordpress-seo" ) }
+								description={ __( "Setting the diversity & ethics reports for your company makes it possible for crawlers to easily recognize these important pages.", "wordpress-seo" ) }
+							>
+								<FormikPostSelectField
+									name="wpseo_titles.ethics_policy_id"
+									id="input-wpseo_titles-ethics_policy_id"
+									label={ __( "Ethics policy", "wordpress-seo" ) }
+									className="yst-max-w-sm"
+									description={ __( "Describe your company's ethics, for instance, journalistic practices, or where you're sourcing your raw materials etc.", "wordpress-seo" ) }
+								/>
+								<FormikPostSelectField
+									name="wpseo_titles.diversity_policy_id"
+									id="input-wpseo_titles-diversity_policy_id"
+									label={ __( "Diversity policy", "wordpress-seo" ) }
+									className="yst-max-w-sm"
+									description={ __( "Statement on your company's diversity policy, often linking to the staffing report as well.", "wordpress-seo" ) }
+
+								/>
+								<FormikPostSelectField
+									name="wpseo_titles.diversity_staffing_report_id"
+									id="input-wpseo_titles-diversity_staffing_report_id"
+									label={ __( "Diversity staffing report", "wordpress-seo" ) }
+									className="yst-max-w-sm"
+									description={ __( "A report on staffing diversity, including any issues.", "wordpress-seo" ) }
+
 								/>
 							</FieldsetLayout>
 						</AnimateHeight>
