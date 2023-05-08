@@ -262,18 +262,7 @@ function InlineLinkUI( {
 		}
 
 		actionCompleteMessage( newUrl );
-			speak(
-				__(
-					"Warning: the link has been inserted but may have errors. Please test it.",
-					"wordpress-seo"
-				),
-				"assertive"
-			);
-		} else if ( isActive ) {
-			speak( __( "Link edited.", "wordpress-seo" ), "assertive" );
-		} else {
-			speak( __( "Link inserted.", "wordpress-seo" ), "assertive" );
-		}
+	}, [] );
 	}
 
 	const NoFollowHelpLink = <HelpLink
