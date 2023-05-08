@@ -232,7 +232,6 @@ const getAllIndicesOfWord = ( word, sentence ) => {
  * @returns {{primaryMatches: *[], secondaryMatches: *[], position: number}} The matches in the format that is used in the assessment.
  */
 const convertToPositionResult = ( matches, sentence, keyPhraseForms ) => {
-	const result = { primaryMatches: [], secondaryMatches: [], position: 0 };
 	const matchTokens = [];
 	matches.forEach( matchObject => {
 		const matchWords = matchObject.matches;
