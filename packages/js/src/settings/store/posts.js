@@ -2,7 +2,7 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import apiFetch from "@wordpress/api-fetch";
 import {buildQueryString} from "@wordpress/url";
-import {map, trim} from "lodash";
+import {get, map, trim} from "lodash";
 import {ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS} from "../constants";
 
 const postsAdapter = createEntityAdapter();
@@ -77,19 +77,13 @@ const postsSlice = createSlice({
 
 // Prefix selectors
 const postAdapterSelectors = postsAdapter.getSelectors(state => state.posts);
+
 export const postsSelectors = {
 	selectPostIds: postAdapterSelectors.selectIds,
 	selectPostById: postAdapterSelectors.selectById,
 	selectPosts: postAdapterSelectors.selectEntities,
+	selectPostsFetchStatus: state => get( state, "posts.status", {} ),
 };
-postsSelectors.selectPostsWith = createSelector(
-	[
-		postsSelectors.selectPosts,
-	],
-	(posts) => {
-		return posts;
-	}
-);
 
 export const postsActions = {
 	...postsSlice.actions,
