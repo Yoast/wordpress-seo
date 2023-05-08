@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 /**
  * WordPress dependencies
  */
-import { useMemo, useState } from "@wordpress/element";
+import { useMemo, useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { withSpokenMessages, Popover } from "@wordpress/components";
 import { prependHTTP } from "@wordpress/url";
@@ -204,6 +204,7 @@ function InlineLinkUI( {
 		}
 	};
 
+	const onChangeLink = useCallback( ( nextValue ) =>{
 		/*
 		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
 		 * the link is ready to be applied.
@@ -270,7 +271,6 @@ function InlineLinkUI( {
 
 		actionCompleteMessage( newUrl );
 	}, [] );
-	}
 
 	const NoFollowHelpLink = <HelpLink
 		href={ window.wpseoAdminL10n[ "shortlinks.nofollow_sponsored" ] }
