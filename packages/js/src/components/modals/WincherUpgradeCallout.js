@@ -58,7 +58,7 @@ const CalloutContainer = styled.div`
  *
  * @returns {object} The Wincher account tracking info.
  */
-const useTrackingInfo = () => {
+export const useTrackingInfo = () => {
 	const [ trackingInfo, setTrackingInfo ] = useState( null );
 
 	useEffect( ()=>{
@@ -221,8 +221,7 @@ WincherUpgradeCalloutDescription.propTypes = {
  *
  * @returns {wp.Element | null} The Wincher upgrade callout.
  */
-const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
-	const trackingInfo = useTrackingInfo();
+const WincherUpgradeCallout = ( { onClose, isTitleShortened, trackingInfo } ) => {
 	const upgradeCampaign = useUpgradeCampaign();
 
 	if ( trackingInfo === null ) {
@@ -257,6 +256,7 @@ const WincherUpgradeCallout = ( { onClose, isTitleShortened } ) => {
 WincherUpgradeCallout.propTypes = {
 	onClose: PropTypes.func,
 	isTitleShortened: PropTypes.bool,
+	trackingInfo: PropTypes.object,
 };
 
 export default WincherUpgradeCallout;

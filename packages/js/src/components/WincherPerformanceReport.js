@@ -16,7 +16,7 @@ import { Alert, NewButton } from "@yoast/components";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, PositionOverTimeChart } from "./WincherTableRow";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
-import WincherUpgradeCallout from "./modals/WincherUpgradeCallout";
+import WincherUpgradeCallout, { useTrackingInfo } from "./modals/WincherUpgradeCallout";
 
 const ViewLink = makeOutboundLink();
 const GetMoreInsightsLink = makeOutboundLink();
@@ -465,12 +465,13 @@ const WincherPerformanceReport = ( props ) => {
 	const data = isLoggedIn ? props.data : fakeWincherPerformanceData;
 	const isBlurred = ! isLoggedIn;
 	const hasResults = checkHasResults( data );
+	const trackingInfo = useTrackingInfo();
 
 	return (
 		<WicnherSEOPerformanceContainer
 			className={ className }
 		>
-			{ isLoggedIn && <WincherUpgradeCallout isTitleShortened={ true } /> }
+			{ isLoggedIn && <WincherUpgradeCallout isTitleShortened={ true } trackingInfo={ trackingInfo } /> }
 
 			<GetUserMessage { ...props } data={ data } isConnectSuccess={ isConnectSuccess && isLoggedIn } />
 
