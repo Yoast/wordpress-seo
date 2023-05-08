@@ -163,7 +163,7 @@ const getMatchesInTokens = ( keyphraseForms, tokens ) => {
 				const previousHead = keyphraseForms[ Math.max( 0, keyPhraseFormsIndex - 1 ) ]; // TODO: better way to extract previoushead.
 				if ( tokens.slice( positionInSentence, foundPosition + positionInSentence ).some(
 					t => {
-						return previousHead.includes( t.text ); // TODO: use matchhead
+						return matchHead( previousHead, t );
 					} ) ) {
 					result.secondaryMatches.push(  tokens[ positionInSentence - 1 ] );
 					keyPhraseFormsIndex = 0;
