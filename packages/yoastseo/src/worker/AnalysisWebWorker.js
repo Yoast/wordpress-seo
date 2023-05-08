@@ -1081,6 +1081,10 @@ export default class AnalysisWebWorker {
 
 			const languageProcessor = new LanguageProcessor( this._researcher );
 			this._paper.setTree( build( this._paper.getText(), languageProcessor ) );
+			/*
+			 * We only remove the unwanted elements from the Paper after the HTML tree is built. Removing these elements
+			 * before can lead to incorrectly calculating the positions of sentence and tokens in the tree.
+			 */
 			paper._text = removeHtmlBlocks( paper._text );
 
 			// Update the configuration locale to the paper locale.

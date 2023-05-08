@@ -16,6 +16,11 @@ import { isEmpty } from "lodash-es";
  * sentence/token positions. The way that the current algorithm for calculating positions works is that only if the child
  * node doesn't have startTag and endTag properties, the length of the whole element instead of just the tags is considered.
  *
+ * These changes are only necessary for elements that can be children of paragraphs or headings. For example, we also
+ * don't want to analyze content in between `blockquote` tags, but these cannot be children of paragraphs/headings.
+ * Because of that, they wouldn't interfere with tokenizing the text inside paragraphs and headings and calculating
+ * the positions.
+ *
  * @param {Node} node The node to check.
  *
  * @returns {Node} The filtered out node that's ready to be tokenized.

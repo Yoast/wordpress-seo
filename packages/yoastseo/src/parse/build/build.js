@@ -20,8 +20,8 @@ export default function build( htmlString, languageProcessor ) {
 	let tree = adapt( parseFragment( htmlString, { sourceCodeLocationInfo: true } ) );
 	/*
 	 * Filter out some content from the tree so that it can be correctly tokenized. We don't want to tokenize text in
-	 * between 'code' and 'script' tags, but we do want to take into account the length of those elements when calculating
-	 * sentence and token positions.
+	 * between tags such as 'code' and 'script', but we do want to take into account the length of those elements when
+	 * calculating sentence and token positions.
 	 */
 	tree = filterBeforeTokenizing( tree );
 
