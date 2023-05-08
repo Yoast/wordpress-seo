@@ -130,6 +130,17 @@ function InlineLinkUI( {
 		return isToggleSetting( nextValue ) && nextValue.sponsored === true && linkValue.Sponsored !== true;
 	};
 
+	/**
+	 * Checks if link rel should be sponsored.
+	 * This handler is called when the user changes the link URL.
+	 * LinkControl calls `onChange` immediately upon the toggling a setting.
+	 * @param {boolean} nextValue The next link URL.
+	 * @returns {boolean} Whether the link rel should be sponsored.
+	 */
+	const isSponsored = ( nextValue ) => {
+		return isToggleSetting( nextValue ) && nextValue.noFollow === false && linkValue.noFollow !== false;
+	};
+
 	 *
 	 * @returns {boolean} Whether the link rel should be nofollow.
 	 */
@@ -160,7 +171,7 @@ function InlineLinkUI( {
 		if ( isLinkNoFollow( nextValue ) ) {
 			nextValue.noFollow = true;
 		}
-		if ( didToggleSetting && nextValue.noFollow === false && linkValue.noFollow !== false ) {
+		if ( isSponsored( nextValue ) ) {
 			nextValue.sponsored = false;
 		}
 
