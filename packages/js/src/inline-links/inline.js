@@ -107,6 +107,20 @@ function InlineLinkUI( {
 	};
 
 	/**
+	 * LinkControl calls `onChange` immediately upon the toggling a setting.
+	 *
+	 * @param {object} nextValue The next link URL.
+	 *
+	 * @returns {boolean} Whether the link rel should be sponsored.
+	 */
+	const isToggleSetting = ( nextValue ) =>{
+		return linkValue.url === nextValue.url &&
+		linkValue.opensInNewTab !== nextValue.opensInNewTab ||
+		linkValue.noFollow !== nextValue.noFollow ||
+		linkValue.sponsored !== nextValue.sponsored;
+	};
+
+	/**
 	 * Checks if link rel should be nofollow.
 	 *
 	 * @param {boolean} didToggleSetting Whether the user toggled a setting.
@@ -130,11 +144,7 @@ function InlineLinkUI( {
 		};
 
 		/* LinkControl calls `onChange` immediately upon the toggling a setting. */
-		const didToggleSetting =
-			linkValue.url === nextValue.url &&
-			linkValue.opensInNewTab !== nextValue.opensInNewTab ||
-			linkValue.noFollow !== nextValue.noFollow ||
-			linkValue.sponsored !== nextValue.sponsored;
+		const didToggleSetting = isToggleSetting( linkValue, nextValue );
 
 		/*
 		 * A link rel can only be one of three combinations:
