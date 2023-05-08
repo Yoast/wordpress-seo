@@ -184,6 +184,14 @@ function InlineLinkUI( {
 		return nextValue.title ? nextValue.title : newUrl;
 	};
 
+	/**
+	 * Should insert new link.
+	 * @returns {boolean} Whether the link rel should be sponsored.
+	 */
+	const shouldInsertLink = () => {
+		return isCollapsed( value ) && ! isActive;
+	};
+
 		/*
 		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
 		 * the link is ready to be applied.
@@ -232,7 +240,7 @@ function InlineLinkUI( {
 			sponsored: nextValue.sponsored,
 		} );
 
-		if ( isCollapsed( value ) && ! isActive ) {
+		if ( shouldInsertLink() ) {
 			const newText = getNewText( nextValue.title, newUrl );
 			const toInsert = applyFormat(
 				create( { text: newText } ),
