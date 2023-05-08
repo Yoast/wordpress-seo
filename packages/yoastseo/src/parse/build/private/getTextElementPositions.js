@@ -28,13 +28,11 @@ function getDescendantPositions( descendantNodes ) {
 }
 
 /**
- *
- * Adjusts the end position of the text element to account for any descendant node tags that overlap with the text element.
- * We want to add the length of any tags that are within the text element, as well as start tags at the beginning of the
- * text element and end tags at the end of the text element, to the end position of the text element.
- * We don't want to include start tags at the end of the text element in order to reduce the risk of invalid HTML after
- * adding mark tags around the text element. (Same goes for end tags at the start of the text element, but this should already
- * never happen, as these tags should be added to the end position of the previous text element).
+ * Adjusts the end position of the text element to account for descendant node tags that overlap with the text element.
+ * We want to add the length of tags that are directly preceding the start of the text, or that are between the start
+ * and end of the text, to the end position of the text element.
+ * For example, if the text is "<span><em>Hello</em>, world!</span>", the length of all tags except for the closing
+ * </span> tag should be added to the end position of the sentence.
  *
  * @param {Node[]}				descendantNodes			The descendant nodes.
  * @param {SourceCodeRange[]}	descendantTagPositions	The positions of the descendant nodes' tags.
@@ -53,7 +51,6 @@ function adjustElementEnd( descendantNodes, descendantTagPositions, textElementS
 			textElementEnd += ( position.endOffset - position.startOffset );
 		}
 	} );
-
 
 	return textElementEnd;
 }
@@ -76,6 +73,7 @@ function adjustTextElementStart( descendantNodes, descendantTagPositions, textEl
 			textElementStart += ( position.endOffset - position.startOffset );
 		}
 	} );
+
 	return textElementStart;
 }
 
@@ -123,7 +121,13 @@ export default function getTextElementPositions( node, textElements, startOffset
 		// Set the end position to the start position + the length of the textElement.
 		textElementEnd = textElementStart + textElement.text.length;
 
-		// If there are descendant tags, possibly adjust the textElementEnd to account for tags within/next to the text element.
+		/*
+		 * If there are descendant tags, possibly adjust the textElementEnd and textElementStart.
+		 * The textElementEnd should be adjusted to include the length of any descendant tags until the end of the text, in
+		 * addition to the length of the text itself. Descendant tags AFTER the end of the text should not be included.
+		 * The textElementStart should be adjusted so that it is where the actual text starts, not including any descendant
+		 * tags preceding the text.
+		 */
 		if ( descendantTagPositions.length > 0 ) {
 			textElementEnd = adjustElementEnd( descendantNodes, descendantTagPositions, textElementStart, textElementEnd );
 
