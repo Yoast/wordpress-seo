@@ -106,6 +106,19 @@ function InlineLinkUI( {
 		...nextLinkValue,
 	};
 
+	/**
+	 * Checks if link rel should be nofollow.
+	 *
+	 * @param {boolean} didToggleSetting Whether the user toggled a setting.
+	 * @param {boolean} nextValueSponsored Whether the next link is sponsored.
+	 * @param {boolean} linkValueSponsored Whether the current link is sponsored.
+	 *
+	 * @returns {boolean} Whether the link rel should be nofollow.
+	 */
+	const isLinkNoFollow = ( didToggleSetting, nextValueSponsored, linkValueSponsored ) => {
+		return didToggleSetting && nextValueSponsored === true && linkValueSponsored !== true;
+	};
+
 	function onChangeLink( nextValue ) {
 		/*
 		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
@@ -130,7 +143,7 @@ function InlineLinkUI( {
 		 * - neither nofollow or sponsored
 		 * On first toggle there is no linkValue. We need to compare with what it should be instead of what it is.
 		 */
-		if ( didToggleSetting && nextValue.sponsored === true && linkValue.sponsored !== true ) {
+		if ( isLinkNoFollow( didToggleSetting, nextValue.sponsored, linkValue.sponsored ) ) {
 			nextValue.noFollow = true;
 		}
 		if ( didToggleSetting && nextValue.noFollow === false && linkValue.noFollow !== false ) {
