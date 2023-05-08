@@ -55,7 +55,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		if ( assessmentResult.getScore() < 9  ) {
 			assessmentResult.setHasJumps( true );
-			assessmentResult.setEditFieldName( __( "Product identifiers", "wordpress-seo" ) );
+			assessmentResult.setEditFieldName( __( "Product identifiers", "yoast-woo-seo" ) );
 		}
 
 		return assessmentResult;
