@@ -19,6 +19,22 @@ import { createLinkFormat, isValidHref } from "./utils";
 import HelpLink from "../components/HelpLink";
 import createInterpolateElement from "../helpers/createInterpolateElement";
 
+/**
+ * Component to render the inline link UI.
+ * This component is rendered when adding or editing a
+ * link.
+ *
+ * @param {Object} props Component props.
+ * @param {boolean} props.isActive Whether a link is active.
+ * @param {Object} props.activeAttributes The attributes of the active link.
+ * @param {boolean} props.addingLink Whether a link is being added or edited.
+ * @param {object} props.value The current value of the rich text.
+ * @param {Function} props.onChange The rich text change handler.
+ * @param {Function} props.speak The speak function.
+ * @param {Function} props.stopAddingLink The stop adding link handler.
+ *
+ * @returns {WPElement} The inline link UI.
+ */
 function InlineLinkUI( {
 	isActive,
 	activeAttributes,
