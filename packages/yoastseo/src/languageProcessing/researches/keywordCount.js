@@ -43,12 +43,12 @@ const matchTextWithTransliteration = function( text, keyword, locale ) {
 };
 
 
-const matchHead = ( head, token ) => {
+const matchHead = ( head, token, locale ) => {
 	if ( head.includes( token.text ) ) {
 		return true;
 	}
 	return head.some( keyword => {
-		return matchTextWithTransliteration( token.text, keyword, "en_US" ); // TODO get locale from params
+		return matchTextWithTransliteration( token.text, keyword, locale ); // TODO get locale from params
 	} );
 };
 
@@ -138,7 +138,7 @@ const removeConsecutiveKeyphraseFromResult = ( result ) => {
  * @param {Token[]} tokens The tokens to match the keyphrase forms in.
  * @returns {{primaryMatches: *[], secondaryMatches: *[]}} The matches.
  */
-const getMatchesInTokens = ( keyphraseForms, tokens ) => {
+const getMatchesInTokens = ( keyphraseForms, tokens, locale ) => {
 	const result = {
 		primaryMatches: [],
 		secondaryMatches: [],
@@ -155,7 +155,7 @@ const getMatchesInTokens = ( keyphraseForms, tokens ) => {
 		// The head of the keyphrase form we are currently analyzing.
 		const head = keyphraseForms[ keyPhraseFormsIndex ];
 
-		const foundPosition = tokens.slice( positionInSentence ).findIndex( t => matchHead( head, t ) );
+		const foundPosition = tokens.slice( positionInSentence ).findIndex( t => matchHead( head, t, locale ) );
 		// If an occurence of a word is found, see if the subsequent word also is find.
 		if ( foundPosition >= 0 ) {
 			if ( keyPhraseFormsIndex > 0 ) {
@@ -164,7 +164,7 @@ const getMatchesInTokens = ( keyphraseForms, tokens ) => {
 				const previousHead = keyphraseForms[ Math.max( 0, keyPhraseFormsIndex - 1 ) ]; // TODO: better way to extract previoushead.
 				if ( tokens.slice( positionInSentence, foundPosition + positionInSentence ).some(
 					t => {
-						return matchHead( previousHead, t );
+						return matchHead( previousHead, t, locale );
 					} ) ) {
 					result.secondaryMatches.push(  tokens[ positionInSentence - 1 ] );
 					keyPhraseFormsIndex = 0;
@@ -231,7 +231,7 @@ const getAllIndicesOfWord = ( word, sentence ) => {
  * @param {Sentence} sentence The sentence.
  * @returns {{primaryMatches: *[], secondaryMatches: *[], position: number}} The matches in the format that is used in the assessment.
  */
-const convertToPositionResult = ( matches, sentence, keyPhraseForms ) => {
+const convertToPositionResult = ( matches, sentence, keyPhraseForms, locale ) => {
 	const matchTokens = [];
 	matches.forEach( matchObject => {
 		const matchWords = matchObject.matches;
@@ -262,7 +262,7 @@ const convertToPositionResult = ( matches, sentence, keyPhraseForms ) => {
 	// A secondary match is any other match.
 	matchTokens.forEach( ( token ) => {
 		const head = keyPhraseForms[ keyPhraseFormsIndex ];
-		if ( head && matchHead( head, token ) ) {
+		if ( head && matchHead( head, token, locale ) ) {
 			currentMatch.push( token );
 			keyPhraseFormsIndex += 1;
 			if ( currentMatch.length === keyPhraseForms.length ) {
@@ -313,7 +313,7 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 			return { primaryMatches: [], secondaryMatches: [], position: -1 };
 		}
 
-		result = convertToPositionResult( matches, sentence, keyphraseForms );
+		result = convertToPositionResult( matches, sentence, keyphraseForms, locale );
 
 		return result;
 	}
@@ -322,7 +322,7 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 
 	const newKeyphraseForms = tokenizeKeyphraseForms( keyphraseForms, locale );
 
-	matches = getMatchesInTokens( newKeyphraseForms, tokens );
+	matches = getMatchesInTokens( newKeyphraseForms, tokens, locale );
 
 	return matches;
 }
