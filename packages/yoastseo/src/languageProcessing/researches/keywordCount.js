@@ -260,7 +260,7 @@ const convertToPositionResult = ( matches, sentence, keyPhraseForms ) => {
 
 	// A primary match is a match that contains all the keyphrase forms in the same order as they occur in the keyphrase.
 	// A secondary match is any other match.
-	matchTokens.forEach( ( token, index ) => {
+	matchTokens.forEach( ( token ) => {
 		const head = keyPhraseForms[ keyPhraseFormsIndex ];
 		if ( head && matchHead( head, token ) ) {
 			currentMatch.push( token );
@@ -320,7 +320,7 @@ function getMatchesInSentence( sentence, keyphraseForms, locale,  matchWordCusto
 
 	const tokens = sentence.tokens;
 
-	const newKeyphraseForms = processKeyphraseForms( keyphraseForms, locale );
+	const newKeyphraseForms = tokenizeKeyphraseForms( keyphraseForms, locale );
 
 	matches = getMatchesInTokens( newKeyphraseForms, tokens );
 
@@ -384,7 +384,7 @@ const mergeConsecutiveMarkings = ( markings, isJapanese = false ) => {
 				newMarkings[ newMarkingIndex ]._properties.position.endOffset = Math.max( newMarking.getPositionEnd(), marking.getPositionEnd() );
 				actionDone = true;
 			// If the markings are consecutive, merge them.
-			} else if ( newMarking.getPositionStart() === marking.getPositionEnd() + (isJapanese ? 0 : 1 ) ) {
+			} else if ( newMarking.getPositionStart() === marking.getPositionEnd() + ( isJapanese ? 0 : 1 ) ) {
 				newMarkings[ newMarkingIndex ]._properties.position.startOffset = marking.getPositionStart();
 				actionDone = true;
 			}
