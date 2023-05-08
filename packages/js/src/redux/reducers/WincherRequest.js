@@ -19,6 +19,7 @@ const INITIAL_STATE = {
 	limit: 10,
 	trackAll: false,
 	automaticallyTrack: false,
+	historyDaysLimit: 0,
 };
 /**
  * A reducer for the Wincher request.
