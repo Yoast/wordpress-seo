@@ -1,6 +1,20 @@
 import { isEmpty } from "lodash-es";
 
 /**
+ * Filters out 'text' child nodes and startTag and endTag properties of the sourceCodeLocation property of a node.
+ *
+ * @param {Node}	node	The node to filter.
+ *
+ * @returns {Node} The node without a `text` child node and without startTag and endTag properties.
+ */
+function filterNode( node ) {
+	node.childNodes = node.childNodes.filter( childNode => childNode.name !== "#text" );
+	delete node.sourceCodeLocation.startTag;
+	delete node.sourceCodeLocation.endTag;
+
+	return node;
+}
+/**
  * Removes the 'text' child nodes from 'code' and 'script' nodes, and the startTag and endTag properties of the
  * sourceCodeLocation of 'code' and 'script' nodes.
  *
@@ -27,9 +41,12 @@ import { isEmpty } from "lodash-es";
  */
 export function filterBeforeTokenizing( node ) {
 	if ( node.name === "code" || node.name === "script" ) {
-		node.childNodes = node.childNodes.filter( childNode => childNode.name !== "#text" );
-		delete node.sourceCodeLocation.startTag;
-		delete node.sourceCodeLocation.endTag;
+		node = filterNode( node );
+
+		// Also delete the 'text' node and startTag and endTag properties of any of the node's children.
+		if ( ! isEmpty( node.childNodes ) ) {
+			node.childNodes.map( filterNode );
+		}
 	}
 
 	// Recursively filters the node's children.

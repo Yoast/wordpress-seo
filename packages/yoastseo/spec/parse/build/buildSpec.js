@@ -1135,4 +1135,108 @@ describe( "The parse function", () => {
 			} ],
 		} );
 	} );
+	it( "parses an HTML text with a code element with a child node within a sentence", () => {
+		const html = "<p>Some text and code <code><strong>console.log</strong>( code )</code></p>";
+
+		const researcher = Factory.buildMockResearcher( {}, true, false, false,
+			{ memoizedTokenizer: memoizedSentenceTokenizer } );
+		const languageProcessor = new LanguageProcessor( researcher );
+
+		expect( build( html, languageProcessor ) ).toEqual( {
+			attributes: {},
+			childNodes: [
+				{
+					name: "p",
+					isImplicit: false,
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "Some text and code ",
+						},
+					],
+					sentences: [
+						{
+							text: "Some text and code ",
+							tokens: [
+								{
+									sourceCodeRange: {
+										startOffset: 3,
+										endOffset: 7,
+									},
+									text: "Some",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 7,
+										endOffset: 8,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 8,
+										endOffset: 12,
+									},
+									text: "text",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 12,
+										endOffset: 13,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 13,
+										endOffset: 16,
+									},
+									text: "and",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 16,
+										endOffset: 17,
+									},
+									text: " ",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 17,
+										endOffset: 21,
+									},
+									text: "code",
+								},
+								{
+									sourceCodeRange: {
+										startOffset: 21,
+										endOffset: 71,
+									},
+									text: " ",
+								},
+							],
+							sourceCodeRange: {
+								startOffset: 3,
+								endOffset: 71,
+							},
+						},
+					],
+					sourceCodeLocation: {
+						startOffset: 0,
+						endOffset: 75,
+						startTag: {
+							startOffset: 0,
+							endOffset: 3,
+						},
+						endTag: {
+							startOffset: 71,
+							endOffset: 75,
+						},
+					},
+				},
+			],
+			name: "#document-fragment",
+		} );
+	} );
 } );

@@ -126,4 +126,61 @@ describe( "A test for filterBeforeTokenizing", () => {
 
 		expect( tree ).toEqual( expectedTree );
 	} );
+	it( "should filter the text child node and the startTag and endTag properties of also from code's child node", () => {
+		const html = "<p>Some text and code <code><strong>console.log</strong>( code )</code></p>";
+
+		let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		tree = filterBeforeTokenizing( tree );
+
+		const expectedTree = {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
+				{
+					name: "p",
+					isImplicit: false,
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "Some text and code ",
+						},
+						{
+							name: "code",
+							attributes: {},
+							childNodes: [
+								{
+									name: "strong",
+									attributes: {},
+									childNodes: [],
+									sourceCodeLocation: {
+										endOffset: 56,
+										startOffset: 28,
+									},
+								},
+							],
+							sourceCodeLocation: {
+								endOffset: 71,
+								startOffset: 22,
+							},
+						},
+					],
+					sourceCodeLocation: {
+						endOffset: 75,
+						endTag: {
+							endOffset: 75,
+							startOffset: 71,
+						},
+						startOffset: 0,
+						startTag: {
+							endOffset: 3,
+							startOffset: 0,
+						},
+					},
+				},
+			],
+		};
+
+		expect( tree ).toEqual( expectedTree );
+	} );
 } );
