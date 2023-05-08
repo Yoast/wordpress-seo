@@ -1,5 +1,5 @@
 /**
- * Filter helpers for the html treefilter.
+ * Filter helpers for the html tree filter.
  * All helpers are functions that return a callback with the element as the only argument.
  */
 
@@ -16,29 +16,15 @@ export function elementHasName( name ) {
 }
 
 /**
- * Creates a callback that checks the class of an element.
- * @param {string} className The classname to filter out.
- * @returns {function(*): boolean} A function that returns true if a Node has a certain class.
- */
-export function elementHasClass( className ) {
-	return ( elementThing ) => {
-		if ( elementThing.attributes.class ) {
-			return elementThing.attributes.class.has( className );
-		}
-		return false;
-	};
-}
-
-/**
  * Creates a callback that checks the data type of an element that is a Yoast block.
- * It is used to filter out related links blocks and siblings blocks.
+ * The reason why we filter by the data-type attribute and not by the class attribute is that not all Yoast blocks have class attributes.
  * @param {string} blockName The Yoast block type to filter out.
  * @returns {function(*): boolean} A function that returns true if a Node has a certain attribute.
  */
 export function elementHasDataType( blockName ) {
-	return ( elementThing ) => {
-		if ( elementThing.attributes[ "data-type" ] ) {
-			return elementThing.attributes[ "data-type" ] === blockName;
+	return ( blockElement ) => {
+		if ( blockElement.attributes[ "data-type" ] ) {
+			return blockElement.attributes[ "data-type" ] === blockName;
 		}
 		return false;
 	};

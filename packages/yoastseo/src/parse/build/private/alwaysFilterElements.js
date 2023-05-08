@@ -2,27 +2,26 @@
  * A config file that contains filters that should always apply.
  */
 
-import { elementHasName, elementHasClass, elementHasDataType } from "./filterHelpers";
+import { elementHasName, elementHasDataType } from "./filterHelpers";
 
 const permanentFilters = [
-	// Filters Yoast TOC block.
-	elementHasClass( "yoast-table-of-contents" ),
-	// Filters Yoast breadcrumbs block.
-	elementHasClass( "yoast-breadcrumbs" ),
-	// Filters Yoast estimated reading time block.
-	elementHasClass( "yoast-reading-time__wrapper" ),
+	// Filters out Yoast blocks that don't need to be part of the analysis.
+	// The only Yoast blocks that are not filtered out are the FAQ and the How-to block.
+	elementHasDataType( "yoast-seo/table-of-contents" ),
+	elementHasDataType( "yoast-seo/breadcrumbs" ),
+	elementHasDataType( "yoast-seo/estimated-reading-time" ),
 	elementHasDataType( "yoast-seo/related-links" ),
 	elementHasDataType( "yoast-seo/siblings" ),
 	elementHasDataType( "yoast-seo/subpages" ),
-	// Filters HTML elements.
-	/* Elements are filtered out when they contain content outside of the author's control (incl. quotes and embedded
-	content), when their content isn't natural language (e.g. code), when they contain metadata hidden from the page
-	visitor (e.g. style) or they are used to accept input from the visitor. Deprecated elements are not included.*/
+	// Filters out HTML elements.
+	/* Elements are filtered out when: they contain content outside of the author's control (incl. quotes and embedded
+	content); their content isn't natural language (e.g. code); they contain metadata hidden from the page visitor
+	(e.g. <style>); they are used to accept input from the visitor. Deprecated HTML elements are not included.*/
 	elementHasName( "base" ),
 	elementHasName( "blockquote" ),
 	elementHasName( "canvas" ),
 	elementHasName( "code" ),
-	// It seems that the head element is filtered out by the parser we employ, but it's included here for completeness.
+	// It seems that the <head> element is filtered out by the parser we employ, but it's included here for completeness.
 	elementHasName( "head" ),
 	elementHasName( "iframe" ),
 	elementHasName( "input" ),
