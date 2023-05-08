@@ -153,7 +153,27 @@ function InlineLinkUI( {
 		return isToggleSetting( nextValue ) && ! nextValue.url;
 	};
 
-	function onChangeLink( nextValue ) {
+	/**
+	 * Speaks a message after a link is inserted or edited.
+	 * @param {string} newUrl The new link URL.
+	 * @returns {void}
+	 */
+	const actionCompleteMessage = ( newUrl ) => {
+		if ( ! isValidHref( newUrl ) ) {
+			speak(
+				__(
+					"Warning: the link has been inserted but may have errors. Please test it.",
+					"wordpress-seo"
+				),
+				"assertive"
+			);
+		} else if ( isActive ) {
+			speak( __( "Link edited.", "wordpress-seo" ), "assertive" );
+		} else {
+			speak( __( "Link inserted.", "wordpress-seo" ), "assertive" );
+		}
+	};
+
 		/*
 		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
 		 * the link is ready to be applied.
@@ -223,7 +243,7 @@ function InlineLinkUI( {
 			stopAddingLink();
 		}
 
-		if ( ! isValidHref( newUrl ) ) {
+		actionCompleteMessage( newUrl );
 			speak(
 				__(
 					"Warning: the link has been inserted but may have errors. Please test it.",
