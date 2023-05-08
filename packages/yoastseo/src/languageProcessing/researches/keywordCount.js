@@ -200,7 +200,7 @@ const getMatchesInTokens = ( keyphraseForms, tokens ) => {
 		}
 	}
 
-	return result;
+	return removeConsecutiveKeyphraseFromResult( result );
 };
 
 /**
