@@ -503,7 +503,7 @@ describe( "The parse function", () => {
 		} );
 	} );
 	it( "parses a basic HTML text and filters out elements that should be filtered out", () => {
-		const html = "<div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'>Hey, this is a table of contents.</div>" +
+		const html = "<div data-type=\"yoast-seo/table-of-contents\">Hey, this is a table of contents.</div>" +
 			"<div><p class='yoast'>Hello, world!<script>console.log(\"Hello, world!\")</script></p></div>";
 
 		const researcher = Factory.buildMockResearcher( {}, true, false, false,
@@ -516,15 +516,15 @@ describe( "The parse function", () => {
 			childNodes: [ {
 				name: "div",
 				sourceCodeLocation: {
-					startOffset: 113,
-					endOffset: 203,
+					startOffset: 84,
+					endOffset: 174,
 					startTag: {
-						startOffset: 113,
-						endOffset: 118,
+						startOffset: 84,
+						endOffset: 89,
 					},
 					endTag: {
-						startOffset: 197,
-						endOffset: 203,
+						startOffset: 168,
+						endOffset: 174,
 					},
 				},
 				attributes: {},
@@ -537,28 +537,28 @@ describe( "The parse function", () => {
 					sentences: [ {
 						text: "Hello, world!",
 						tokens: [
-							{ text: "Hello", sourceCodeRange: { startOffset: 135, endOffset: 140 } },
-							{ text: ",", sourceCodeRange: { startOffset: 140, endOffset: 141 } },
-							{ text: " ", sourceCodeRange: { startOffset: 141, endOffset: 142 } },
-							{ text: "world", sourceCodeRange: { startOffset: 142, endOffset: 147 } },
-							{ text: "!", sourceCodeRange: { startOffset: 147, endOffset: 148 } },
+							{ text: "Hello", sourceCodeRange: { startOffset: 106, endOffset: 111 } },
+							{ text: ",", sourceCodeRange: { startOffset: 111, endOffset: 112 } },
+							{ text: " ", sourceCodeRange: { startOffset: 112, endOffset: 113 } },
+							{ text: "world", sourceCodeRange: { startOffset: 113, endOffset: 118 } },
+							{ text: "!", sourceCodeRange: { startOffset: 118, endOffset: 119 } },
 						],
-						sourceCodeRange: { startOffset: 135, endOffset: 148 },
+						sourceCodeRange: { startOffset: 106, endOffset: 119 },
 					} ],
 					childNodes: [ {
 						name: "#text",
 						value: "Hello, world!",
 					} ],
 					sourceCodeLocation: {
-						startOffset: 118,
-						endOffset: 197,
+						startOffset: 89,
+						endOffset: 168,
 						startTag: {
-							startOffset: 118,
-							endOffset: 135,
+							startOffset: 89,
+							endOffset: 106,
 						},
 						endTag: {
-							startOffset: 193,
-							endOffset: 197,
+							startOffset: 164,
+							endOffset: 168,
 						},
 					},
 				} ],
