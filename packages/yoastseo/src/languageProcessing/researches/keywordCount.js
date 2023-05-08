@@ -365,6 +365,8 @@ const createMarksForSentence = ( sentence, matches ) => {
 /**
  * Merges consecutive markings into one marking.
  * @param {{}[]} markings An array of markings to merge.
+ * @param {boolean} isJapanese Whether the text is Japanese.
+ *
  * @returns {{}[]} An array of markings where consecutive markings are merged.
  */
 const mergeConsecutiveMarkings = ( markings, isJapanese = false ) => {
@@ -401,6 +403,8 @@ const mergeConsecutiveMarkings = ( markings, isJapanese = false ) => {
  *
  * @param {string} sentence The sentence to check.
  * @param {Array} matchesInSentence The array of keyphrase matches in the sentence.
+ * @param {function} matchWordCustomHelper  A custom helper to match words with a text.
+ * @param {string} locale The locale used in the analysis.
  *
  * @returns {Mark[]}    The array of Mark objects of the keyphrase matches.
  */
