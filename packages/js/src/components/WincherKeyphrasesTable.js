@@ -87,6 +87,7 @@ const WincherKeyphrasesTable = ( props ) => {
 		websiteId,
 		focusKeyphrase,
 		newRequest,
+		startAt,
 	} = props;
 
 	const interval = useRef();
@@ -124,7 +125,7 @@ const WincherKeyphrasesTable = ( props ) => {
 					abortController.current.abort();
 				}
 				abortController.current = typeof AbortController === "undefined" ? null : new AbortController();
-				return debouncedGetKeyphrases( keyphrases, permalink, abortController.current.signal );
+				return debouncedGetKeyphrases( keyphrases, startAt, permalink, abortController.current.signal );
 			},
 			( response ) => {
 				setRequestSucceeded( response );
@@ -227,8 +228,10 @@ const WincherKeyphrasesTable = ( props ) => {
 	// Fetch initial data and re-fetch if the permalink or keyphrases change.
 	const prevPermalink = usePrevious( permalink );
 	const prevKeyphrases = usePrevious( keyphrases );
+	const prevStartAt = usePrevious( startAt );
 	useEffect( () => {
-		if ( isLoggedIn && permalink && ( permalink !== prevPermalink || difference( keyphrases, prevKeyphrases ).length ) ) {
+		if ( isLoggedIn && permalink &&
+			( permalink !== prevPermalink || difference( keyphrases, prevKeyphrases ).length || startAt !== prevStartAt ) ) {
 			getTrackedKeyphrases();
 		}
 	}, [
@@ -391,6 +394,7 @@ WincherKeyphrasesTable.propTypes = {
 	websiteId: PropTypes.string,
 	permalink: PropTypes.string.isRequired,
 	focusKeyphrase: PropTypes.string,
+	startAt: PropTypes.string,
 };
 
 WincherKeyphrasesTable.defaultProps = {

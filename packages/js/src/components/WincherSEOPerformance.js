@@ -1,11 +1,12 @@
 /* global wpseoAdminL10n */
 
 /* External dependencies */
-import { useCallback } from "@wordpress/element";
+import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { isEmpty } from "lodash";
+import { isEmpty, orderBy } from "lodash";
 import styled from "styled-components";
+import moment from "moment";
 
 /* Yoast dependencies */
 import { NewButton, HelpIcon } from "@yoast/components";
@@ -13,7 +14,7 @@ import { NewButton, HelpIcon } from "@yoast/components";
 /* Internal dependencies */
 import WincherLimitReached from "./modals/WincherLimitReached";
 import WincherRequestFailed from "./modals/WincherRequestFailed";
-import WincherUpgradeCallout from "./modals/WincherUpgradeCallout";
+import WincherUpgradeCallout, { useTrackingInfo } from "./modals/WincherUpgradeCallout";
 import WincherConnectedAlert from "./modals/WincherConnectedAlert";
 import WincherCurrentlyTrackingAlert from "./modals/WincherCurrentlyTrackingAlert";
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
@@ -228,6 +229,81 @@ const Title = styled.div`
 	font-size: var(--yoast-font-size-default);
 `;
 
+const START_OF_TODAY = moment().startOf( "day" );
+
+const WINCHER_PERIOD_OPTIONS = [
+	{
+		name: __( "Last day", "wordpress-seo" ),
+		value: moment( START_OF_TODAY ).subtract( 1, "days" ).format(),
+		defaultIndex: 1,
+	},
+	{
+		name: __( "Last week", "wordpress-seo" ),
+		value: moment( START_OF_TODAY ).subtract( 1, "week" ).format(),
+		defaultIndex: 2,
+	},
+	{
+		name: __( "Last month", "wordpress-seo" ),
+		value: moment( START_OF_TODAY ).subtract( 1, "month" ).format(),
+		defaultIndex: 3,
+	},
+	{
+		name: __( "Last year", "wordpress-seo" ),
+		value: moment( START_OF_TODAY ).subtract( 1, "year" ).format(),
+		defaultIndex: 0,
+	},
+];
+
+/**
+ * Displays the Wincher period picker.
+ *
+ * @param {Object} props The component props.
+ *
+ * @returns {null|wp.Element} The Wincher period picker.
+ */
+const WincherPeriodPicker = ( props ) => {
+	const { onSelect, selected, options, isLoggedIn } = props;
+
+	if ( ! isLoggedIn ) {
+		return null;
+	}
+
+	if ( options.length < 1 ) {
+		return null;
+	}
+
+	return (
+		<div className="yoast-field-group">
+			<select
+				className="components-select-control__input"
+				id="wincher-period-picker"
+				value={ selected?.value || options[ 0 ].value }
+				onChange={ onSelect }
+			>
+				{
+					options.map( opt => {
+						return (
+							<option
+								key={ opt.name }
+								value={ opt.value }
+							>
+								{ opt.name }
+							</option>
+						);
+					} )
+				}
+			</select>
+		</div>
+	);
+};
+
+WincherPeriodPicker.propTypes = {
+	onSelect: PropTypes.func.isRequired,
+	selected: PropTypes.object,
+	options: PropTypes.array.isRequired,
+	isLoggedIn: PropTypes.bool.isRequired,
+};
+
 /**
  * Creates the table content.
  *
@@ -241,6 +317,7 @@ const TableContent = ( props ) => {
 		keyphrases,
 		shouldTrackAll,
 		permalink,
+		historyDaysLimit,
 	} = props;
 
 	if ( ! permalink && isLoggedIn ) {
@@ -251,12 +328,35 @@ const TableContent = ( props ) => {
 		return <WincherNoKeyphraseSet />;
 	}
 
+	const historyLimitDate = moment().subtract( historyDaysLimit, "days" );
+
+	const periodOptions = WINCHER_PERIOD_OPTIONS.filter(
+		opt => moment( opt.value ).isSameOrAfter( historyLimitDate )
+	);
+
+	const defaultPeriod = orderBy( periodOptions, opt => opt.defaultIndex, "desc" )[ 0 ];
+
+	const [ period, setPeriod ] = useState( defaultPeriod );
+
+	useEffect( () => {
+		setPeriod( defaultPeriod );
+	}, [ defaultPeriod?.name ] );
+
+	const onSelect = useCallback( ( event ) => {
+		const option = WINCHER_PERIOD_OPTIONS.find( opt => opt.value === event.target.value );
+		if ( option ) {
+			setPeriod( option );
+		}
+	}, [ setPeriod ] );
+
 	return <TableWrapper isDisabled={ ! isLoggedIn }>
 		<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
 		{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
 
-		<WincherKeyphrasesTable />
+		<WincherPeriodPicker selected={ period } onSelect={ onSelect } options={ periodOptions } isLoggedIn={ isLoggedIn } />
+
+		<WincherKeyphrasesTable startAt={ period?.value } />
 	</TableWrapper>;
 };
 
@@ -265,6 +365,7 @@ TableContent.propTypes = {
 	isLoggedIn: PropTypes.bool.isRequired,
 	shouldTrackAll: PropTypes.bool.isRequired,
 	permalink: PropTypes.string.isRequired,
+	historyDaysLimit: PropTypes.number,
 };
 
 /**
@@ -283,11 +384,12 @@ export default function WincherSEOPerformance( props ) {
 	const onLoginCallback = useCallback( () => {
 		onLoginOpen( props );
 	}, [ onLoginOpen, props ] );
+	const trackingInfo = useTrackingInfo();
 
 	return (
 		<Wrapper>
 			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
-			{ isLoggedIn && <WincherUpgradeCallout /> }
+			{ isLoggedIn && <WincherUpgradeCallout trackingInfo={ trackingInfo }  /> }
 
 			<Title>
 				{ __( "SEO performance", "wordpress-seo" ) }
@@ -302,7 +404,7 @@ export default function WincherSEOPerformance( props ) {
 
 			<ConnectToWincher isLoggedIn={ isLoggedIn } onLogin={ onLoginCallback } />
 			<GetUserMessage { ...props } onLogin={ onLoginCallback } />
-			<TableContent { ...props } />
+			<TableContent { ...props } historyDaysLimit={ trackingInfo?.historyDays || 0 } />
 		</Wrapper>
 	);
 }
@@ -315,6 +417,7 @@ WincherSEOPerformance.propTypes = {
 	response: PropTypes.object,
 	shouldTrackAll: PropTypes.bool,
 	permalink: PropTypes.string,
+	historyDaysLimit: PropTypes.number,
 };
 
 WincherSEOPerformance.defaultProps = {
@@ -324,4 +427,5 @@ WincherSEOPerformance.defaultProps = {
 	response: {},
 	shouldTrackAll: false,
 	permalink: "",
+	historyDaysLimit: 0,
 };
