@@ -141,11 +141,16 @@ function InlineLinkUI( {
 		return isToggleSetting( nextValue ) && nextValue.noFollow === false && linkValue.noFollow !== false;
 	};
 
+	/**
+	 * Checks if toggle setting for new link is valid.
+	 * If change handler was called as a result of a settings change during link insertion,
+	 * it must be held in state until the link is ready to be applied.
 	 *
-	 * @returns {boolean} Whether the link rel should be nofollow.
+	 * @param {boolean} nextValue The next link URL.
+	 * @returns {boolean} Whether the link rel should be sponsored.
 	 */
-	const isLinkNoFollow = ( didToggleSetting, nextValueSponsored, linkValueSponsored ) => {
-		return didToggleSetting && nextValueSponsored === true && linkValueSponsored !== true;
+	const didToggleSettingForNewLink = ( nextValue ) => {
+		return isToggleSetting( nextValue ) && ! nextValue.url;
 	};
 
 	function onChangeLink( nextValue ) {
@@ -175,19 +180,9 @@ function InlineLinkUI( {
 			nextValue.sponsored = false;
 		}
 
-		/*
-		 * If change handler was called as a result of a settings change during link insertion, it must be held in state until the link is ready to
-		 * be applied.
- 		 */
-		const didToggleSettingForNewLink =
-			// eslint-disable-next-line no-undefined
-			didToggleSetting && nextValue.url === undefined;
-
-		/* If link will be assigned, the state value can be considered flushed. Otherwise, persist the pending changes. */
-		// eslint-disable-next-line no-undefined
-		setNextLinkValue( didToggleSettingForNewLink ? nextValue : undefined );
-
-		if ( didToggleSettingForNewLink ) {
+		if ( didToggleSettingForNewLink( nextValue ) ) {
+			/* If link will be assigned, the state value can be considered flushed. Otherwise, persist the pending changes. */
+			setNextLinkValue( nextValue );
 			return;
 		}
 
