@@ -99,6 +99,25 @@ describe( "Test for counting the keyword density in a text with an English resea
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 20 );
 	} );
 
+	it( "should only keep the first two keyphrases if there more than three consecutive", function() {
+		// Consecutive keywords are skipped, so this will match 2 times.
+		const mockPaper = new Paper( "<p>This is a nice string with a keyword keyword keyword keyword keyword keyword keyword keyword keyword.</p>",
+			{ keyword: "keyword" } );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		buildTree( mockPaper, mockResearcher );
+		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 12.5 );
+	} );
+
+	it( "should not skip a keyphrase in case of consecutive keyphrases with morphology sss", function() {
+		// Consecutive keywords are skipped, so this will match 2 times.
+		const mockPaper = new Paper( "<p>This is a nice string with a keyword keyword keywords.</p>", { keyword: "keyword" } );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		mockResearcher.addResearchData( "morphology", morphologyDataEN );
+		buildTree( mockPaper, mockResearcher );
+		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 30 );
+	} );
+
+
 	it( "should recognize a keyphrase with a '$' in it", function() {
 		const mockPaper = new Paper( "a string of text with the $keyword in it, density should be 7.7%", { keyword: "$keyword" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
