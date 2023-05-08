@@ -250,6 +250,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 Release date: 2023-05-09
 
+Yoast SEO 20.7 is out now! With this release, our team has rolled out essential fixes and improvements to help you improve your SEO work. Upgrade today to benefit from the latest and greatest! Find out more about what's new in Yoast SEO 20.7 in [our release post](https://yoa.st/release-9-5-23)!
+
 #### Enhancements
 
 * Adds a link to a taxonomy edit page in its settings section when the taxonomy has no public post types associated.
