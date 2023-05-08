@@ -52,26 +52,14 @@ const matchHead = ( head, token ) => {
 	} );
 };
 
-const tokenizeKeyphraseForms = ( keyphraseForms ) => {
-	let tokenizedKeyPhraseForms = keyphraseForms.map( keyphraseForm => {
-		return keyphraseForm.map( word => {
-			return word.split( tokenizerSplitter ).filter( x => x !== "" );
-		} );
-	} );
-	tokenizedKeyPhraseForms = tokenizedKeyPhraseForms.map( x => x[ 0 ] );
-
-
-	// source: https://stackoverflow.com/questions/17428587/transposing-a-2d-array-in-javascript
-	return tokenizedKeyPhraseForms[ 0 ].map( ( _, index ) => uniq( tokenizedKeyPhraseForms.map( row => row[ index ] ) ) );
-};
-
-// TODO: better descriptor than `process`
 /**
- * Processes the keyphrase forms to make sure that they are tokenized in the same way as the text.
- * @param {array[]} keyphraseForms The keyphrase forms to process.
- * @returns {*[]} The processed keyphrase forms.
+ * (re-)Tokenizes the keyphrase forms in the same way that the tokens in the text are splitted.
+ * This solves the problem that "key-word" would not match with "key-word" in the text,
+ * because it would occur like ["key-word"] in the keyphraseForms and in ["key", "-", "word"] in the tokenized text.
+ * @param {array[]} keyphraseForms The keyphrase forms to tokenize.
+ * @returns {array[]} The tokenized keyphrase forms.
  */
-const processKeyphraseForms = ( keyphraseForms ) => {
+const tokenizeKeyphraseForms = ( keyphraseForms ) => {
 	const newKeyphraseForms = [];
 	keyphraseForms.forEach( word => {
 		// const newWord = []
