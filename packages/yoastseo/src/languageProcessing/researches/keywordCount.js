@@ -152,6 +152,7 @@ const getMatchesInTokens = ( keyphraseForms, tokens ) => {
 	let foundWords = [];
 	// eslint-disable-next-line no-constant-condition
 	while ( true ) {
+		// The head of the keyphrase form we are currently analyzing.
 		const head = keyphraseForms[ keyPhraseFormsIndex ];
 
 		const foundPosition = tokens.slice( positionInSentence ).findIndex( t => matchHead( head, t ) );
