@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Abstract_Indexable_Link_Builder_TestCase class for all Indexable_Link_Builder tests.
  */
-class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
+abstract class Abstract_Indexable_Link_Builder_TestCase extends TestCase {
 
 	/**
 	 * The SEO links repository.
