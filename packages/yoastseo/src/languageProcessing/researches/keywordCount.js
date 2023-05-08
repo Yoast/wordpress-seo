@@ -171,6 +171,15 @@ const getMatchesInTokens = ( keyphraseForms, tokens ) => {
 					foundWords = [];
 					continue;
 				}
+
+				const previousToken = tokens[ Math.max( positionInSentence + foundPosition - 1, 0 ) ]; // TODO: better way to extract previous token.
+				// if the previous token is an underscore and the previous head is not an underscore, reset.
+				if ( previousToken.text === "_" && ! previousHead.includes( "_" ) ) {
+					// result.secondaryMatches.push(  tokens[ positionInSentence - 1 ] );
+					keyPhraseFormsIndex = 0;
+					foundWords = [];
+					continue;
+				}
 			}
 
 			keyPhraseFormsIndex += 1;
