@@ -2,6 +2,7 @@
  * External dependencies
  */
 import { uniqueId } from "lodash";
+import PropTypes from "prop-types";
 
 /**
  * WordPress dependencies
@@ -283,5 +284,15 @@ function InlineLinkUI( {
 		</Popover>
 	);
 }
+
+InlineLinkUI.propTypes = {
+	isActive: PropTypes.bool,
+	activeAttributes: PropTypes.object,
+	addingLink: PropTypes.bool,
+	value: PropTypes.object,
+	onChange: PropTypes.func,
+	speak: PropTypes.func.isRequired,
+	stopAddingLink: PropTypes.func.isRequired,
+};
 
 export default withSpokenMessages( InlineLinkUI );
