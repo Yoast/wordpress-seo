@@ -91,9 +91,9 @@ describe( "Test for counting the keyword density in a text with an English resea
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 0 );
 	} );
 
-	it( "should skip a keyphrase in case of consecutive keyphrases", function() {
+	it( "should skip a keyphrase in case of three consecutive keyphrases", function() {
 		// Consecutive keywords are skipped, so this will match 2 times.
-		const mockPaper = new Paper( "This is a nice string with a keyword keyword keyword.", { keyword: "keyword" } );
+		const mockPaper = new Paper( "<p>This is a nice string with a keyword keyword keyword.</p>", { keyword: "keyword" } );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		buildTree( mockPaper, mockResearcher );
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 20 );
