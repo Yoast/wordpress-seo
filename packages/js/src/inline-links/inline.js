@@ -174,6 +174,16 @@ function InlineLinkUI( {
 		}
 	};
 
+	/**
+	 * Gets the new text for the link.
+	 * @param {object} nextValue The next link URL.
+	 * @param {string} newUrl The new link URL.
+	 * @returns {string} The new text for the link.
+	 */
+	const getNewText = ( nextValue, newUrl ) =>{
+		return nextValue.title ? nextValue.title : newUrl;
+	};
+
 		/*
 		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
 		 * the link is ready to be applied.
@@ -223,7 +233,7 @@ function InlineLinkUI( {
 		} );
 
 		if ( isCollapsed( value ) && ! isActive ) {
-			const newText = nextValue.title || newUrl;
+			const newText = getNewText( nextValue.title, newUrl );
 			const toInsert = applyFormat(
 				create( { text: newText } ),
 				format,
