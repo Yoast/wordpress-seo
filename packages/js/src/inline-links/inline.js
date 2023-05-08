@@ -192,6 +192,18 @@ function InlineLinkUI( {
 		return isCollapsed( value ) && ! isActive;
 	};
 
+	/**
+	 * Validates the link id is not null or undefined and cast it to string.
+	 *
+	 * @param {string} id The link id.
+	 * @returns {string} The validated link id.
+	 */
+	const validateLinkId = ( id ) => {
+		if ( typeof id === "number" || typeof id === "string" ) {
+			return String( id );
+		}
+	};
+
 		/*
 		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
 		 * the link is ready to be applied.
@@ -229,12 +241,7 @@ function InlineLinkUI( {
 		const format = createLinkFormat( {
 			url: newUrl,
 			type: nextValue.type,
-			id:
-			// eslint-disable-next-line no-undefined
-				nextValue.id !== undefined && nextValue.id !== null
-					? String( nextValue.id )
-					// eslint-disable-next-line no-undefined
-					: undefined,
+			id: validateLinkId( nextValue.id ),
 			opensInNewWindow: nextValue.opensInNewTab,
 			noFollow: nextValue.noFollow,
 			sponsored: nextValue.sponsored,
