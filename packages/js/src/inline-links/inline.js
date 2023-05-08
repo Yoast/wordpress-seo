@@ -255,6 +255,8 @@ function InlineLinkUI( {
 			focusOnMount={ addingLink ? "firstElement" : false }
 			onClose={ stopAddingLink }
 			position="bottom center"
+			placement="bottom"
+			shift={ true }
 		>
 			<LinkControl
 				value={ linkValue }
