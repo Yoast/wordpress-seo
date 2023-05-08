@@ -6,7 +6,7 @@ import { Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { KeywordInput as KeywordInputComponent } from "yoast-components";
+import KeywordInputComponent from "./KeywordInputComponent";
 import SEMrushModal from "../../containers/SEMrushRelatedKeyphrasesModal";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
