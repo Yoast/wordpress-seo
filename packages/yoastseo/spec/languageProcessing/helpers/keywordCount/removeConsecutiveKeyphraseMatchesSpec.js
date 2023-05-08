@@ -23,7 +23,7 @@ This is a nice string with a keyword keyword nonkeyword keyword.
 /* eslint-disable max-len */
 const testCases = [
 	[
-		"keyphrases are onsecutive when they have length one and occur after each other 3 or more times",
+		"keyphrases are consecutive when they have length one and occur after each other 3 or more times",
 		"keyword",
 		{ primaryMatches: [
 			[ { text: "keyword", sourceCodeRange: { startOffset: 0, endOffset: 7 } } ],
