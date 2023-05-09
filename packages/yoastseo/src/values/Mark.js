@@ -69,6 +69,24 @@ Mark.prototype.getPositionEnd = function() {
 };
 
 /**
+ * Sets the start position.
+ * @param {number} positionStart The new start position.
+ * @returns {void}
+ */
+Mark.prototype.setPositionStart = function( positionStart ) {
+	this._properties.position.startOffset = positionStart;
+};
+
+/**
+ * Sets the end position.
+ * @param {number} positionEnd The new end position.
+ * @returns {void}
+ */
+Mark.prototype.setPositionEnd = function( positionEnd ) {
+	this._properties.position.endOffset = positionEnd;
+};
+
+/**
  * Applies this mark to the given text with replacement-based highlighting.
  *
  * @param {string} text The original text without the mark applied.
