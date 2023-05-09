@@ -6,6 +6,41 @@ const markStart = "<yoastmark class='yoast-text-mark'>";
 const markEnd = "</yoastmark>";
 
 /**
+ * Merges consecutive and overlapping markings into one marking.
+ * This is a helper for position based highlighting.
+ * @param {Object[]} matches An array of markings to merge.
+ * @param {Boolean} useSpace Whether words are separated by a space. In Japanese, for example, words are not separated by a space.
+ * @returns {Mark[]} An array of markings where consecutive and overlapping markings are merged.
+ */
+const mergeConsecutiveAndOverlappingMatches = ( matches, useSpace = true ) => {
+	const newMatches = [];
+
+	// Sort matches by start offset. This is probably redundant, but for extra safety.
+	matches.sort( function( a, b ) {
+		return a.sourceCodeRange.startOffset - b.sourceCodeRange.startOffset;
+	} );
+
+	matches.forEach( ( match ) => {
+		if ( newMatches.length === 0 ) {
+			newMatches.push( match );
+			return;
+		}
+
+		const lastMatch = newMatches[ newMatches.length - 1 ];
+		if ( lastMatch.sourceCodeRange.endOffset + ( useSpace ? 1 : 0 ) === match.sourceCodeRange.startOffset ) {
+			lastMatch.sourceCodeRange.endOffset = match.sourceCodeRange.endOffset;
+		} else if ( match.sourceCodeRange.startOffset <= lastMatch.sourceCodeRange.endOffset ) {
+			// The match overlaps with the last match, so we extend the last match to include the new match.
+			lastMatch.sourceCodeRange.endOffset = match.sourceCodeRange.endOffset;
+		} else {
+			newMatches.push( match );
+		}
+	} );
+
+	return newMatches;
+};
+
+/**
  * This function creates the old style marked sentence for search based highlighting.
  * Ideally this function becomes obsolete when position based highlighting is implemented everywhere.
  * @param {Sentence} sentence The sentence to which to apply the marks.
@@ -22,6 +57,9 @@ const createMarksForSentence = ( sentence, matches ) => {
 			return a.sourceCodeRange.startOffset - b.sourceCodeRange.startOffset;
 		} );
 	}
+
+	// Merge consecutive and overlapping matches.
+	allMatches = mergeConsecutiveAndOverlappingMatches( allMatches );
 
 	const sentenceStartOffset = sentence.sourceCodeRange.startOffset;
 	// Loop through the matches backwards, so that the reference is not affected by the changes.
@@ -130,7 +168,7 @@ function getMarkingsInSentence( sentence, matchesInSentence, matchWordCustomHelp
 		}
 		);
 	}
-	return mergeConsecutiveMarkings( markings, getLanguage( locale ) !== "ja" );
+	return mergeConsecutiveAndOverlappingMarkings( markings, getLanguage( locale ) !== "ja" );
 }
 
 export default getMarkingsInSentence;
