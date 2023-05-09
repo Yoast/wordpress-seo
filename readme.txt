@@ -254,7 +254,12 @@ Release date: 2023-05-09
 #### Enhancements
 
 * Adds a link to a taxonomy edit page in its settings section when the taxonomy has no public post types associated.
-* Adds an academy page in the Yoast menu.
+* Adds an academy page in the Yoast menu for easy access to all of Yoast’s e-learning modules.
+* Ensures compatibility with upcoming Elementor accessibility improvements.
+
+#### Bugfixes
+
+* Fixes a bug where a fatal error would be thrown when visiting Yoast SEO admin pages while Yoast SEO for WooCommerce is active but never executed.
 
 #### Other
 

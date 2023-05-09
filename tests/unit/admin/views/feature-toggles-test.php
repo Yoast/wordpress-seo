@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin\Views;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
-use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Feature_Toggle;
 use Yoast_Feature_Toggles;
@@ -108,10 +108,17 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 		Functions\expect( 'wp_enqueue_style' )->andReturn( '' );
 		Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
 
-		$container = $this->create_container_with( [ Product_Helper::class => $product_helper_mock ] );
+		$short_link_mock->expects( 'get' )
+			->once()
+			->andReturn( 'https://example.org?some=var' );
+
+		$container = $this->create_container_with(
+			[
+				Short_Link_Helper::class => $short_link_mock,
+			]
+		);
 
 		Functions\expect( 'YoastSEO' )
 			->once()
@@ -175,10 +182,17 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 		Functions\expect( 'wp_enqueue_style' )->andReturn( '' );
 		Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$short_link_mock = Mockery::mock( Short_Link_Helper::class );
 
-		$container = $this->create_container_with( [ Product_Helper::class => $product_helper_mock ] );
+		$short_link_mock->expects( 'get' )
+			->once()
+			->andReturn( 'https://example.org?some=var' );
+
+		$container = $this->create_container_with(
+			[
+				Short_Link_Helper::class => $short_link_mock,
+			]
+		);
 
 		Functions\expect( 'YoastSEO' )
 			->once()

@@ -116,11 +116,11 @@ class Academy_Integration_Test extends TestCase {
 	public function register_hooks_provider() {
 		return [
 			'Not on academy page' => [
-				'current_page'          => 'not academy page',
+				'current_page' => 'not academy page',
 				'action_times' => 0,
 			],
 			'On academy page' => [
-				'current_page'          => 'wpseo_page_academy',
+				'current_page' => 'wpseo_page_academy',
 				'action_times' => 1,
 			],
 		];
