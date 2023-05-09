@@ -26,7 +26,7 @@ export default class AnalysisFields {
 	 * @returns {HTMLElement|null} The SEO score hidden field.
 	 */
 	static get seoScoreElement() {
-		return document.getElementById( "yoast_wpseo_linkdex" );
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_linkdex" : "hidden_wpseo_linkdex" );
 	}
 
 	/**
@@ -35,7 +35,7 @@ export default class AnalysisFields {
 	 * @returns {HTMLElement|null} The Readability score hidden field.
 	 */
 	static get readabilityScoreElement() {
-		return document.getElementById( "yoast_wpseo_content_score" );
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_content_score" : "hidden_wpseo_content_score" );
 	}
 
 	/**
@@ -44,7 +44,7 @@ export default class AnalysisFields {
 	 * @returns {HTMLElement|null} The inclusive language score hidden field.
 	 */
 	static get inclusiveLanguageScoreElement() {
-		return document.getElementById( "yoast_wpseo_inclusive_language_score" );
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_inclusive_language_score" : "hidden_wpseo_inclusive_language_score" );
 	}
 
 	/**

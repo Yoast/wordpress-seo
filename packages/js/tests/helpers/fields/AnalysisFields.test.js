@@ -188,19 +188,42 @@ describe( "isCornerstone", () => {
 } );
 
 describe( "seoScore", () => {
-	const id = "yoast_wpseo_linkdex";
+	const id = {
+		terms: "hidden_wpseo_linkdex",
+		posts: "yoast_wpseo_linkdex",
+	};
 
 	describe( "get seoScoreElement", () => {
 		it( "returns null when no element is present", () => {
 			expect( AnalysisFields.seoScoreElement ).toBeNull();
 		} );
 
-		it( "gets the element", () => {
-			const inputElement = createInputElement( id );
+		it( "gets the element for non-posts by default", () => {
+			const inputElement = createInputElement( id.terms );
 
 			expect( AnalysisFields.seoScoreElement ).toBe( inputElement );
 
 			inputElement.remove();
+		} );
+
+		it( "gets the element for posts", () => {
+			const inputElement = createInputElement( id.posts );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
+
+			expect( AnalysisFields.seoScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
+		} );
+
+		it( "gets the element for non-posts", () => {
+			const inputElement = createInputElement( id.terms );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: false } } );
+
+			expect( AnalysisFields.seoScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
 		} );
 	} );
 
@@ -210,7 +233,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "gets the seoScore", () => {
-			const inputElement = createInputElement( id );
+			const inputElement = createInputElement( id.terms );
 			inputElement.value = "9";
 
 			expect( AnalysisFields.seoScore ).toBe( "9" );
@@ -226,7 +249,7 @@ describe( "seoScore", () => {
 		} );
 
 		it( "sets the seoScore", () => {
-			const inputElement = createInputElement( id );
+			const inputElement = createInputElement( id.terms );
 
 			AnalysisFields.seoScore = "9";
 			expect( AnalysisFields.seoScore ).toBe( "9" );
@@ -237,19 +260,42 @@ describe( "seoScore", () => {
 } );
 
 describe( "readabilityScore", () => {
-	const id = "yoast_wpseo_content_score";
+	const id = {
+		terms: "hidden_wpseo_content_score",
+		posts: "yoast_wpseo_content_score",
+	};
 
 	describe( "get readabilityScoreElement", () => {
 		it( "returns null when no element is present", () => {
 			expect( AnalysisFields.readabilityScoreElement ).toBeNull();
 		} );
 
-		it( "gets the element", () => {
-			const inputElement = createInputElement( id );
+		it( "gets the element for non-posts by default", () => {
+			const inputElement = createInputElement( id.terms );
 
 			expect( AnalysisFields.readabilityScoreElement ).toBe( inputElement );
 
 			inputElement.remove();
+		} );
+
+		it( "gets the element for posts", () => {
+			const inputElement = createInputElement( id.posts );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
+
+			expect( AnalysisFields.readabilityScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
+		} );
+
+		it( "gets the element for non-posts", () => {
+			const inputElement = createInputElement( id.terms );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: false } } );
+
+			expect( AnalysisFields.readabilityScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
 		} );
 	} );
 
@@ -258,8 +304,8 @@ describe( "readabilityScore", () => {
 			expect( AnalysisFields.readabilityScore ).toBe( "" );
 		} );
 
-		it( "gets the seoScore", () => {
-			const inputElement = createInputElement( id );
+		it( "gets the readabilityScore", () => {
+			const inputElement = createInputElement( id.terms );
 			inputElement.value = "9";
 
 			expect( AnalysisFields.readabilityScore ).toBe( "9" );
@@ -275,7 +321,7 @@ describe( "readabilityScore", () => {
 		} );
 
 		it( "sets the readabilityScore", () => {
-			const inputElement = createInputElement( id );
+			const inputElement = createInputElement( id.terms );
 
 			AnalysisFields.readabilityScore = "9";
 			expect( AnalysisFields.readabilityScore ).toBe( "9" );
@@ -286,19 +332,42 @@ describe( "readabilityScore", () => {
 } );
 
 describe( "inclusiveLanguageScore", () => {
-	const id = "yoast_wpseo_inclusive_language_score";
+	const id = {
+		terms: "hidden_wpseo_inclusive_language_score",
+		posts: "yoast_wpseo_inclusive_language_score",
+	};
 
 	describe( "get inclusiveLanguageScoreElement", () => {
 		it( "returns null when no element is present", () => {
 			expect( AnalysisFields.inclusiveLanguageScoreElement ).toBeNull();
 		} );
 
-		it( "gets the element", () => {
-			const inputElement = createInputElement( id );
+		it( "gets the element for non-posts by default", () => {
+			const inputElement = createInputElement( id.terms );
 
 			expect( AnalysisFields.inclusiveLanguageScoreElement ).toBe( inputElement );
 
 			inputElement.remove();
+		} );
+
+		it( "gets the element for posts", () => {
+			const inputElement = createInputElement( id.posts );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: true } } );
+
+			expect( AnalysisFields.inclusiveLanguageScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
+		} );
+
+		it( "gets the element for non-posts", () => {
+			const inputElement = createInputElement( id.terms );
+			const windowSpy = mockWindow( { wpseoScriptData: { isPost: false } } );
+
+			expect( AnalysisFields.inclusiveLanguageScoreElement ).toBe( inputElement );
+
+			inputElement.remove();
+			windowSpy.mockRestore();
 		} );
 	} );
 
@@ -307,8 +376,8 @@ describe( "inclusiveLanguageScore", () => {
 			expect( AnalysisFields.inclusiveLanguageScore ).toBe( "" );
 		} );
 
-		it( "gets the seoScore", () => {
-			const inputElement = createInputElement( id );
+		it( "gets the inclusiveLanguageScore", () => {
+			const inputElement = createInputElement( id.terms );
 			inputElement.value = "9";
 
 			expect( AnalysisFields.inclusiveLanguageScore ).toBe( "9" );
@@ -324,7 +393,7 @@ describe( "inclusiveLanguageScore", () => {
 		} );
 
 		it( "sets the inclusiveLanguageScore", () => {
-			const inputElement = createInputElement( id );
+			const inputElement = createInputElement( id.terms );
 
 			AnalysisFields.inclusiveLanguageScore = "9";
 			expect( AnalysisFields.inclusiveLanguageScore ).toBe( "9" );
