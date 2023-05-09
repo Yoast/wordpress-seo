@@ -313,7 +313,7 @@ class SEO_Links_Repository_Test extends TestCase {
 		$this->orm_mock->shouldReceive( 'group_by' )->with( 'target_indexable_id' )->andReturn( $this->orm_mock );
 		$this->orm_mock->shouldReceive( 'find_array' )->andReturn( $indexable_counts );
 
-		$this->instance->get_incoming_link_counts_for_indexable_ids( $indexable_ids );
+		$this->assertSame( $expected, $this->instance->get_incoming_link_counts_for_indexable_ids( $indexable_ids ) );
 	}
 
 	/**
