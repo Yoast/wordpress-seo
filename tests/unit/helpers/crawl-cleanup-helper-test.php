@@ -2,14 +2,14 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
+use Brain\Monkey;
 use Mockery;
 use WP_Query;
-use Brain\Monkey;
+use Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 

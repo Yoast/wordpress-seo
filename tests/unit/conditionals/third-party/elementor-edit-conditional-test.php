@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals\Third_Party;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Brain\Monkey;
 
 /**
  * Class Elementor_Edit_Conditional_Test.

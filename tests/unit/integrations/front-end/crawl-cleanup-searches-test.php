@@ -4,12 +4,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Query;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Crawl_Cleanup_Searches;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
-use WP_Query;
 
 /**
  * Class Crawl_Cleanup_Searches_Test.

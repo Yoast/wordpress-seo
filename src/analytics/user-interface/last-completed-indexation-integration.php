@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Analytics\User_Interface;
 
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Handles setting a timestamp when the indexation of a specific indexation action is completed.

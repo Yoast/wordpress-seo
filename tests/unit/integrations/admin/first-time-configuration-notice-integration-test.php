@@ -6,10 +6,10 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 use Yoast\WP\SEO\Helpers\First_Time_Configuration_Notice_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\First_Time_Configuration_Notice_Integration;
+use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 

@@ -5,11 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 use Brain\Monkey;
 use Mockery;
 use wpdb;
-
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
+use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 
 /**
  * Class Cleanup_Integration_Test.

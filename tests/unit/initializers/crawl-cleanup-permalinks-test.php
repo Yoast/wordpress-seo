@@ -2,15 +2,15 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 
-use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Mockery;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Initializers\Crawl_Cleanup_Permalinks;
-use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
-use Yoast\WP\SEO\Helpers\Crawl_Cleanup_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 
 /**

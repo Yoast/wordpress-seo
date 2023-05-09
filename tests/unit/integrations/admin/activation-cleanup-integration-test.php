@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
-use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Activation_Cleanup_Integration;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Admin_Columns_Cache_Integration_Test.

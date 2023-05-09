@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Builders\Indexable_Builder;
 
-use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
+use Mockery;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
+use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
-use Mockery;
 
 /**
  * Build_Test.

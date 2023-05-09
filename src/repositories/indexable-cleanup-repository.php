@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Lib\ORM;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
  * Repository containing all cleanup queries.

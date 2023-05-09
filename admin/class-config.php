@@ -5,8 +5,8 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Integrations\Settings_Integration;
 use Yoast\WP\SEO\Integrations\Academy_Integration;
+use Yoast\WP\SEO\Integrations\Settings_Integration;
 
 /**
  * Class WPSEO_Admin_Pages.

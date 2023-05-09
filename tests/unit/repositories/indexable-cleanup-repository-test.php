@@ -4,15 +4,15 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Brain\Monkey;
 use Mockery;
-use wpdb;
-use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
 use stdClass;
+use wpdb;
+use Yoast\WP\Lib\Model;
+use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Cleanup_Repository;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Cleanup_Repository_Test.
