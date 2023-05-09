@@ -24,6 +24,19 @@ import {
 	updateSeoResult,
 } from "../../../src/redux/actions/contentAnalysis";
 
+/**
+ * Creates an input element.
+ * @param {string} id The ID.
+ * @returns {HTMLInputElement} The input element.
+ */
+const createInputElement = ( id ) => {
+	const inputElement = document.createElement( "input" );
+	inputElement.id = id;
+	document.body.appendChild( inputElement );
+
+	return inputElement;
+};
+
 describe( "SEO", () => {
 	describe( "setSeoResultsForKeyword action creator", () => {
 		it( "creates the setSeoResultsForKeyword action", () => {
@@ -108,13 +121,13 @@ describe( "SEO", () => {
 			const keyword = "keyword1";
 			const overallScore = 3;
 
-			const element = document.createElement( "input" );
-			element.id = "yoast_wpseo_linkdex";
-			document.body.appendChild( element );
+			const inputElement = createInputElement( "hidden_wpseo_linkdex" );
 
 			setOverallSeoScore( overallScore, keyword );
 			expect( AnalysisFields.seoScore ).toEqual( "3" );
-			expect( element.value ).toEqual( "3" );
+			expect( inputElement.value ).toEqual( "3" );
+
+			inputElement.remove();
 		} );
 	} );
 } );
@@ -161,13 +174,13 @@ describe( "Readability", () => {
 		it( "updates the readability score element's value", () => {
 			const overallScore = 3;
 
-			const element = document.createElement( "input" );
-			element.id = "yoast_wpseo_content_score";
-			document.body.appendChild( element );
+			const inputElement = createInputElement( "hidden_wpseo_content_score" );
 
 			setOverallReadabilityScore( overallScore );
 			expect( AnalysisFields.readabilityScore ).toEqual( "3" );
-			expect( element.value ).toEqual( "3" );
+			expect( inputElement.value ).toEqual( "3" );
+
+			inputElement.remove();
 		} );
 	} );
 } );
@@ -214,13 +227,13 @@ describe( "Inclusive language", () => {
 		it( "updates the inclusive language score element's value", () => {
 			const overallScore = 3;
 
-			const element = document.createElement( "input" );
-			element.id = "yoast_wpseo_inclusive_language_score";
-			document.body.appendChild( element );
+			const inputElement = createInputElement( "hidden_wpseo_inclusive_language_score" );
 
 			setOverallInclusiveLanguageScore( overallScore );
 			expect( AnalysisFields.inclusiveLanguageScore ).toEqual( "3" );
-			expect( element.value ).toEqual( "3" );
+			expect( inputElement.value ).toEqual( "3" );
+
+			inputElement.remove();
 		} );
 	} );
 } );
