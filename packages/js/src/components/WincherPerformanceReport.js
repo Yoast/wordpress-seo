@@ -26,6 +26,9 @@ const WincherLink = makeOutboundLink();
  * Wincher SEO Performance container.
  */
 const WicnherSEOPerformanceContainer = styled.div`
+	& .wincher-performance-report-alert {
+		margin-bottom: 1em;
+	}
 `;
 
 const WincherSEOPerformanceBlurredTable = styled.table`
@@ -172,7 +175,7 @@ Row.propTypes = {
  */
 const WincherNetworkErrorAlert = () => {
 	return (
-		<Alert type="error">
+		<Alert type="error" className={ "wincher-performance-report-alert" }>
 			{
 				sprintf(
 					__(
@@ -198,7 +201,7 @@ const WincherConnectSuccessAlert = ( props ) => {
 
 	if ( ! isEmpty( data ) && isEmpty( data.results ) ) {
 		return (
-			<Alert type="success">
+			<Alert type="success" className={ "wincher-performance-report-alert" }>
 				{
 					sprintf(
 						/* translators: %1$s and %2$s: Expands to "Wincher". */
@@ -216,7 +219,7 @@ const WincherConnectSuccessAlert = ( props ) => {
 	}
 
 	return (
-		<Alert type="success">
+		<Alert type="success" className={ "wincher-performance-report-alert" }>
 			{
 				sprintf(
 					/* translators: %s: Expands to "Wincher". */
@@ -257,6 +260,7 @@ const GetConnectionAlert = ( props ) => {
 	if ( data && [ 401, 403, 404 ].includes( data.status ) ) {
 		return <WincherReconnectAlert
 			onReconnect={ onConnectAction }
+			className={ "wincher-performance-report-alert" }
 		/>;
 	}
 
@@ -287,7 +291,7 @@ const GetUserMessage = ( props ) => {
 	}
 
 	if ( ! data || isEmpty( data.results ) ) {
-		return <WincherNoTrackedKeyphrasesAlert />;
+		return <WincherNoTrackedKeyphrasesAlert className={ "wincher-performance-report-alert" } />;
 	}
 
 	return null;
