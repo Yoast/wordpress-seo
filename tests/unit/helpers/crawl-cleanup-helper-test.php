@@ -59,8 +59,6 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 
 	/**
 	 * Sets up the tests.
-	 *
-	 * @covers ::__construct
 	 */
 	protected function set_up() {
 		parent::set_up();
