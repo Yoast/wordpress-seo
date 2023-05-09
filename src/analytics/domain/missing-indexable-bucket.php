@@ -39,7 +39,7 @@ class Missing_Indexable_Bucket {
 	 */
 	public function to_array(): array {
 		return \array_map(
-			function ( $item ) {
+			static function ( $item ) {
 				return $item->to_array();
 			},
 			$this->missing_indexable_counts
