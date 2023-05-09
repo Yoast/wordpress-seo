@@ -126,7 +126,7 @@ describe( "A test for filterBeforeTokenizing", () => {
 
 		expect( tree ).toEqual( expectedTree );
 	} );
-	it( "should filter the text child node and the startTag and endTag properties of also from code's child node", () => {
+	it( "should filter the text child node and the startTag and endTag properties also from code's child node", () => {
 		const html = "<p>Some text and code <code><strong>console.log</strong>( code )</code></p>";
 
 		let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
@@ -175,6 +175,73 @@ describe( "A test for filterBeforeTokenizing", () => {
 						startTag: {
 							endOffset: 3,
 							startOffset: 0,
+						},
+					},
+				},
+			],
+		};
+
+		expect( tree ).toEqual( expectedTree );
+	} );
+	it( "should filter the text child node and the startTag and endTag properties also from code's grandchild node", () => {
+		const html = "<p>Some text and code <code><strong><span>console</span>.log</strong>( code )</code></p>";
+
+		let tree = adapt( parseFragment( html, { sourceCodeLocationInfo: true } ) );
+		tree = filterBeforeTokenizing( tree );
+
+		const expectedTree = {
+			name: "#document-fragment",
+			attributes: {},
+			childNodes: [
+				{
+					name: "p",
+					isImplicit: false,
+					attributes: {},
+					childNodes: [
+						{
+							name: "#text",
+							value: "Some text and code ",
+						},
+						{
+							name: "code",
+							attributes: {},
+							childNodes: [
+								{
+									name: "strong",
+									attributes: {},
+									childNodes: [
+										{
+											name: "span",
+											attributes: {},
+											childNodes: [],
+											sourceCodeLocation: {
+												startOffset: 36,
+												endOffset: 56,
+											},
+										},
+									],
+									sourceCodeLocation: {
+										startOffset: 28,
+										endOffset: 69,
+									},
+								},
+							],
+							sourceCodeLocation: {
+								startOffset: 22,
+								endOffset: 84,
+							},
+						},
+					],
+					sourceCodeLocation: {
+						startOffset: 0,
+						endOffset: 88,
+						startTag: {
+							startOffset: 0,
+							endOffset: 3,
+						},
+						endTag: {
+							startOffset: 84,
+							endOffset: 88,
 						},
 					},
 				},

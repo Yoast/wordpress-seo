@@ -12,6 +12,11 @@ function filterNode( node ) {
 	delete node.sourceCodeLocation.startTag;
 	delete node.sourceCodeLocation.endTag;
 
+	// Also delete the 'text' node and startTag and endTag properties of any of the node's children.
+	if ( ! isEmpty( node.childNodes ) ) {
+		node.childNodes.map( filterNode );
+	}
+
 	return node;
 }
 /**
@@ -42,11 +47,6 @@ function filterNode( node ) {
 export function filterBeforeTokenizing( node ) {
 	if ( node.name === "code" || node.name === "script" ) {
 		node = filterNode( node );
-
-		// Also delete the 'text' node and startTag and endTag properties of any of the node's children.
-		if ( ! isEmpty( node.childNodes ) ) {
-			node.childNodes.map( filterNode );
-		}
 	}
 
 	// Recursively filters the node's children.
