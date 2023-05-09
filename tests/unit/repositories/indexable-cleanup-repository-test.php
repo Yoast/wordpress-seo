@@ -401,7 +401,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 
 		$this->wpdb->shouldReceive( 'get_results' )
 			->once()
-			->with( 'prepared_select_query', OBJECT_K )
+			->with( 'prepared_select_query', \OBJECT_K )
 			->andReturn( [ 1 => $query_return ] );
 
 		$this->wpdb->shouldReceive( 'prepare' )

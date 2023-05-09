@@ -141,7 +141,7 @@ final class Cleanup_Command implements Command_Interface {
 		$site_url      = \site_url();
 		$total_removed = 0;
 
-		if ( ! \is_plugin_active( WPSEO_BASENAME ) ) {
+		if ( ! \is_plugin_active( \WPSEO_BASENAME ) ) {
 			/* translators: %1$s is the site url of the site that is skipped. %2$s is Yoast SEO. */
 			WP_CLI::warning( \sprintf( \__( 'Skipping %1$s. %2$s is not active on this site.', 'wordpress-seo' ), $site_url, 'Yoast SEO' ) );
 

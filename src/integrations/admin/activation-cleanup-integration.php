@@ -49,9 +49,9 @@ class Activation_Cleanup_Integration implements Integration_Interface {
 	public function register_cleanup_routine() {
 		$first_activated_on = $this->options_helper->get( 'first_activated_on', false );
 
-		if ( ! $first_activated_on || time() > ( $first_activated_on + ( MINUTE_IN_SECONDS * 5 ) ) ) {
+		if ( ! $first_activated_on || time() > ( $first_activated_on + ( \MINUTE_IN_SECONDS * 5 ) ) ) {
 			if ( ! \wp_next_scheduled( Cleanup_Integration::START_HOOK ) ) {
-				\wp_schedule_single_event( ( time() + DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
+				\wp_schedule_single_event( ( time() + \DAY_IN_SECONDS ), Cleanup_Integration::START_HOOK );
 			}
 		}
 	}
