@@ -252,10 +252,8 @@ Release date: 2023-05-23
 
 #### Enhancements
 
-* Fixes a bug where indexables were created when using the `wp yoast index` WP CLI command on a staging site
-* Improves feedback strings for _keyphrase density_ assessment by referring to the keyphrase in general instead of the focus keyphrase.
+* Improves feedback strings for the _keyphrase density_ assessment by referring to the keyphrase in general instead of the focus keyphrase.
 * Improves the accuracy of the content analysis by excluding texts within textarea tags from the analysis.
-* Sets up background indexation via WP Cron
 
 #### Bugfixes
 
