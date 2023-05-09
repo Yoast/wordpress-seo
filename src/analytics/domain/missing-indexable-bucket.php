@@ -10,7 +10,7 @@ class Missing_Indexable_Bucket {
 	/**
 	 * All the missing indexable count objects.
 	 *
-	 * @var array<Missing_Indexable_Count> $missing_indexable_counts
+	 * @var array<Missing_Indexable_Count>
 	 */
 	private $missing_indexable_counts;
 

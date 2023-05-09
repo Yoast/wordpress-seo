@@ -26,7 +26,7 @@ class Last_Completed_Indexation_Integration_Test extends TestCase {
 	/**
 	 * The options helper mock.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper $options_helper_mock
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper_mock;
 

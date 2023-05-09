@@ -16,7 +16,7 @@ class Last_Completed_Indexation_Integration implements Integration_Interface {
 	/**
 	 * The options helper.
 	 *
-	 * @var Options_Helper $options_helper The options helper.
+	 * @var Options_Helper The options helper.
 	 */
 	private $options_helper;
 

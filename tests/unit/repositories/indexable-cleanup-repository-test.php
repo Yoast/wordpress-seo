@@ -62,7 +62,7 @@ class Indexable_Cleanup_Repository_Test extends TestCase {
 	/**
 	 * The query limit.
 	 *
-	 * @var int $limit
+	 * @var int
 	 */
 	private $limit = 1000;
 

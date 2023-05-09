@@ -10,7 +10,7 @@ class To_Be_Cleaned_Indexable_Bucket {
 	/**
 	 * All the to be cleaned indexable count objects.
 	 *
-	 * @var array<To_Be_Cleaned_Indexable_Count> $to_be_cleaned_indexable_counts
+	 * @var array<To_Be_Cleaned_Indexable_Count>
 	 */
 	private $to_be_cleaned_indexable_counts;
 

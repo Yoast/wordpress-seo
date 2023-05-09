@@ -10,14 +10,14 @@ class To_Be_Cleaned_Indexable_Count {
 	/**
 	 * The cleanup task that is represented by this.
 	 *
-	 * @var string $cleanup_name
+	 * @var string
 	 */
 	private $cleanup_name;
 
 	/**
 	 * The amount of missing indexables.
 	 *
-	 * @var int $count
+	 * @var int
 	 */
 	private $count;
 
