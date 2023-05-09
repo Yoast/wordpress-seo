@@ -95,7 +95,7 @@ class Indexable_Attachment_Watcher_Test extends TestCase {
 	/**
 	 * Data provider for test_check_option.
 	 *
-	 * @return array $old_value,$new_value, $delete_transient_times, $set_reason_times, $attachment_cleanup_times, wp_next_scheduled, $schedule_event_times.
+	 * @return array
 	 */
 	public function check_option_provider() {
 		return [

@@ -112,7 +112,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	/**
 	 * Data provider for test_clean_permalinks_avoid_redirect.
 	 *
-	 * @return array is_robots, get_query_var( 'sitemap' ), $_GET, is_user_logged_in(), $expected.
+	 * @return array
 	 */
 	public function should_avoid_redirect_provider() {
 		return [
@@ -163,7 +163,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	/**
 	 * Data provider for test_clean_permalinks.
 	 *
-	 * @return array avoid_redirect, expected.
+	 * @return array
 	 */
 	public function get_allowed_extravars_provider() {
 		return [
@@ -217,7 +217,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	/**
 	 * Provider for test_front_page_url.
 	 *
-	 * @return array is_home_posts_page, is_home_static_page, static_times, home_url_times,permalink_times, expected.
+	 * @return array
 	 */
 	public function front_page_url_provider() {
 		return [
@@ -277,7 +277,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	/**
 	 * Data provider for test_page_not_found_url.
 	 *
-	 * @return array is_multisite,is_subdomain_install,is_main_site,home_url,is_home_static_page,home_static_page_times,get_permalink_times,page_for_posts_times, current_url, expected.
+	 * @return array
 	 */
 	public function page_not_found_url_provider() {
 		return [
@@ -342,7 +342,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	/**
 	 * Data provider for test_taxonomy_url.
 	 *
-	 * @return array $is_feed, $get_term_feed_link_times, $get_term_link_times, $expected
+	 * @return array
 	 */
 	public function taxonomy_url_provider() {
 		return [
@@ -405,7 +405,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	/**
 	 * Data provider for test_query_var_page_url.
 	 *
-	 * @return array $is_search, $expected
+	 * @return array
 	 */
 	public function query_var_page_url_provider() {
 		$proper_url = 'http://basic.wordpress.test';
@@ -443,7 +443,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	/**
 	 * Data provider for test_is_query_var_page.
 	 *
-	 * @return array $is_search, $expected
+	 * @return array
 	 */
 	public function is_query_var_page_provider() {
 		$proper_url = 'http://basic.wordpress.test';
@@ -518,7 +518,7 @@ class Crawl_Cleanup_Helper_Test extends TestCase {
 	/**
 	 * Data provider for test_get_url_type.
 	 *
-	 * @return array $singular,$front,$category,$tag,$tax,$search,$is404,$post_page,$post_page_times, $expected
+	 * @return array
 	 */
 	public function get_url_type_provider() {
 		return [

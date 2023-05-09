@@ -196,7 +196,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	/**
 	 * Data provider for utm_redirect.
 	 *
-	 * @return array $_SERVER['REQUEST_URI'], wp_parse_url return value, is wp_safe_redirect.
+	 * @return array
 	 */
 	public function utm_redirect_provider() {
 		return [
@@ -268,7 +268,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 * 1. If avoid_redirect is true then do_clean_redirect shouldn't be called.
 	 * 2. If avoid_redirect is false and 'query' is empty then do_clean_redirect shouldn't be called.
 	 *
-	 * @return array avoid_redirect, recreate_current_url_times, current_url, allowed_params, expected.
+	 * @return array
 	 */
 	public function clean_permalinks_no_redirect_provider() {
 		return [
@@ -345,7 +345,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 * 4. If url type is search, then search_url should be called and do_clean_redirect should be called.
 	 * 5. If url type is page_not_found_url, then page_not_found_url should be called and do_clean_redirect should be called.
 	 *
-	 * @return array avoid_redirect, recreate_current_url_times, allowed_params, current_url,$url_type,$proper_url,get_url_type_times, expected.
+	 * @return array
 	 */
 	public function clean_permalinks_provider() {
 		$allowed_params = [
@@ -457,7 +457,7 @@ class Crawl_Cleanup_Permalinks_Test extends TestCase {
 	 * 2. If $proper_url is empty, then do_clean_redirect should not be called.
 	 * 3. If $proper_url is equal to $current_url, then do_clean_redirect should not be called.
 	 *
-	 * @return array  current_url, allowed_params, $proper_url, expected.
+	 * @return array
 	 */
 	public function clean_permalinks_with_page_var_provider() {
 		$allowed_params = [
