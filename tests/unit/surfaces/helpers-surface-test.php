@@ -65,7 +65,7 @@ class Helpers_Surface_Test extends TestCase {
 	/**
 	 * The get method should rethrow exceptions from the container.
 	 *
-	 * @covers ::get
+	 * @covers ::__get
 	 * @dataProvider provide_classes
 	 *
 	 * @param string $helper_name Helper name.
